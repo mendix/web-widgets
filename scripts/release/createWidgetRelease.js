@@ -21,14 +21,8 @@ async function main() {
         throw new Error(`${widgetScope} is not a valid widget package.`);
     }
 
-    const {
-        releaseMpkPath,
-        repositoryUrl,
-        unreleasedChangelogs,
-        version,
-        widgetName,
-        changelogPath
-    } = await getWidgetReleaseInformation(widgetScope);
+    const { releaseMpkPath, repositoryUrl, unreleasedChangelogs, version, widgetName, changelogPath } =
+        await getWidgetReleaseInformation(widgetScope);
 
     if (!unreleasedChangelogs) {
         throw new Error(`No unreleased changes found in the CHANGELOG.md for ${widgetName} ${version}.`);

@@ -1,4 +1,9 @@
-import { DropZoneProps, RowLayoutProps, StructurePreviewProps, TextProps } from "@mendix/pluggable-widgets-commons/dist";
+import {
+    DropZoneProps,
+    RowLayoutProps,
+    StructurePreviewProps,
+    TextProps
+} from "@mendix/pluggable-widgets-commons/dist";
 import { FieldsetPreviewProps } from "../typings/FieldsetProps";
 
 export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {

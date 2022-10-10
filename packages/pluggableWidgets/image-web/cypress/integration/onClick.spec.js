@@ -1,6 +1,6 @@
 describe("Image viewer", () => {
     const dynamicImage =
-      "https://www.learningcontainer.com/wp-content/uploads/2020/08/Sample-png-Image-for-Testing.png";
+        "https://www.learningcontainer.com/wp-content/uploads/2020/08/Sample-png-Image-for-Testing.png";
     const staticImage = "ImageViewer$Images$landscape_2.png";
     const cleanMendixSession = () => {
         cy.window().then(window => {

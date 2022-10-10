@@ -1,6 +1,11 @@
 import "@testing-library/jest-dom";
 import { Alert, FilterContextValue } from "@mendix/pluggable-widgets-commons/components/web";
-import { actionValue, dynamicValue, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/pluggable-widgets-commons";
+import {
+    actionValue,
+    dynamicValue,
+    EditableValueBuilder,
+    ListAttributeValueBuilder
+} from "@mendix/pluggable-widgets-commons";
 import { mount } from "enzyme";
 import { render, fireEvent, screen, act } from "@testing-library/react";
 import { createContext, createElement } from "react";
