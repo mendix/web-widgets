@@ -1,0 +1,4 @@
+packages:
+  - "packages/*/*"
+  - "!packages/customWidgets/*"
+  - "!packages/tools/custom-widgets-utils-internal"
