@@ -7,12 +7,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc --watch",
-    "prebuild": "rimraf ./dist",
-    "build": "tsc",
+    "precompile": "rimraf ./dist",
+    "compile": "tsc",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
-    "build:parser:widget": "peggy -o ./dist/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
-    "build:parser:module": "peggy -o ./dist/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-    "prepare": "npm run build && npm run build:parser:widget && npm run build:parser:module"
+    "compile:parser:widget": "peggy -o ./dist/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
+    "compile:parser:module": "peggy -o ./dist/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
+    "prepare": "npm run compile && npm run compile:parser:widget && npm run compile:parser:module"
   },
   "devDependencies": {
     "@types/node-fetch": "2.6.1",
