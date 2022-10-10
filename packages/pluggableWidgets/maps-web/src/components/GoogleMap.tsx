@@ -101,7 +101,10 @@ export function GoogleMap(props: GoogleMapsProps): ReactElement {
                         onLoad={setMap}
                         onCenterChanged={() => {
                             if (map) {
-                                center.current = map.getCenter().toJSON();
+                                const latLang = map.getCenter()?.toJSON();
+                                if (latLang) {
+                                    center.current = latLang;
+                                }
                             }
                         }}
                         zoom={autoZoom ? translateZoom("city") : zoomLevel}
