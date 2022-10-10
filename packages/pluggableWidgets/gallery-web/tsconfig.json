@@ -1,7 +1,7 @@
 {
-    "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base",
+    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
+    "include": ["./src", "./typings"],
     "compilerOptions": {
         "baseUrl": "./"
-    },
-    "include": ["./src"]
+    }
 }

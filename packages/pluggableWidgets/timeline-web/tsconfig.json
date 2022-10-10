@@ -1,6 +1,7 @@
 {
-    "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base",
-    "baseUrl": "./",
-    "types": ["mendix-client"],
-    "include": ["node_modules/@mendix/pluggable-widgets-tools/typings", "./src", "./typings"]
+    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
+    "include": ["./src", "./typings"],
+    "compilerOptions": {
+        "baseUrl": "./"
+    }
 }
