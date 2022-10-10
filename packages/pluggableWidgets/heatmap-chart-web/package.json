@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@mendix/shared-charts": "^1.0.0",
+    "@mendix/shared-charts": "workspace:*",
     "classnames": "^2.2.6",
     "date-fns": "^2.24.0"
   }
