@@ -31,6 +31,7 @@
     "@types/react-test-renderer": "<18.0.0",
     "@types/testing-library__jest-dom": "^5.14.1",
     "@types/testing-library__react-hooks": "^3.4.0",
+    "ansi-colors": "^4.1.3",
     "copy-and-watch": "^0.1.5",
     "eslint": "^7.20.0",
     "mendix": "^9.18.53394",
@@ -38,6 +39,7 @@
     "react-dom": "~17.0.2",
     "react-test-renderer": "~17.0.2",
     "rimraf": "^2.7.1",
+    "rollup": "^2.68.0",
     "typescript": "4.5.4"
   },
   "dependencies": {
