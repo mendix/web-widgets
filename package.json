@@ -1,5 +1,5 @@
 {
-  "name": "widgets-resources",
+  "name": "web-widgets",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
     "type": "git",
@@ -8,99 +8,83 @@
   "license": "Apache-2.0",
   "scripts": {
     "prepare": "npx husky install",
-    "postinstall": "lerna bootstrap --hoist --strict",
-    "reinstall": "git clean -dfx && npx lerna clean --yes && npm i",
     "prettier": "prettier --config \"./prettier.config.js\" --write \"**/*.{js,jsx,ts,tsx,scss,html,xml,yml,yaml}\"",
     "format": "pretty-quick --staged --config \"./prettier.config.js\" --pattern \"**/{src,script,typings,test,**}/**/*.{js,jsx,ts,tsx,scss,html,xml,md,json}\"",
     "clean-all-screenshots-mac": "find . -name 'screenshot-baseline' -type d -prune -exec rm -rf '{}' +",
-    "information:githubrelease": "lerna run information:githubrelease",
     "lint": "npm run lint:src && lerna run lint --stream",
     "lint:src": "eslint --config .eslintrc.js --ext .jsx,.js,.ts,.tsx packages/*/*/src --no-error-on-unmatched-pattern",
     "lint:scripts": "eslint --fix --config .eslintrc.js --ext .jsx,.js,.ts,.tsx scripts",
-    "lint:detox": "eslint --fix --config .eslintrc.js --ext .jsx,.js,.ts,.tsx detox",
     "lint:configs": "eslint --fix --config .eslintrc.js --ext .jsx,.js,.ts,.tsx configs",
     "test": "lerna run test --ignore @mendix/custom-widgets-utils-internal --stream",
-    "start:native-tests-ci": "node ./scripts/test/e2e-native.js",
-    "test:scripts": "lerna run test:scripts --stream",
-    "test:scripts:cross-platform": "lerna run test:scripts:cross-platform --stream",
     "test:e2e": "lerna-parallelism run --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --split 3 test:e2e",
     "test:e2e:local": "lerna run test:e2e --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --no-bail",
-    "test:e2e:local:android": "lerna run test:e2e:local:android --stream --concurrency 1 --scope '*-native'",
-    "test:e2e:local:ios": "lerna run test:e2e:local:ios --stream --concurrency 1 --scope '*-native'",
     "build": "lerna run build --ignore '@mendix/custom-widgets-utils-internal'",
-    "build:native": "npm run build -- --scope '*-native'",
     "build:web": "npm run build -- --scope '*-web'",
     "release": "lerna run release --ignore '@mendix/custom-widgets-utils-internal'",
     "release:marketplace": "lerna run release:marketplace",
     "release:hybrid": "npm run release -- --scope '*-hybrid'",
-    "release:native": "npm run release -- --scope '*-native'",
     "release:web": "npm run release -- --scope '*-web'",
     "release-github:widget": "node ./scripts/release/createWidgetRelease.js",
-    "release:pwt:ts": "ts-node --project ./scripts/tsconfig.json ./scripts/release/createPWTRelease.ts",
-    "create-modules:native": "node ./scripts/release/createNativeModules.js",
     "create-modules:web": "node ./scripts/release/createWebModules.js",
     "version": "ts-node --project ./scripts/tsconfig.json ./scripts/release/BumpVersion.ts",
-    "validate-staged-widget-versions": "node scripts/validation/validate-versions-staged-files.js",
-    "setup-mobile": "npm run setup-android && npm run setup-ios",
-    "setup-android": "node ./detox/scripts/setup-android.js",
-    "setup-ios": "node ./detox/scripts/setup-ios.js",
-    "content-overview:data": "lerna run generate-data --scope data",
-    "content-overview:site:build": "lerna run build --scope data",
-    "content-overview:site:export": "lerna run export --scope data"
+    "validate-staged-widget-versions": "node scripts/validation/validate-versions-staged-files.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
-    "@commitlint/config-lerna-scopes": "^15.0.0",
-    "@testing-library/react-native": "^7.2.0",
+    "@mendix/pluggable-widgets-tools": "^9.17.0",
     "@types/big.js": "^6.0.2",
     "@types/concurrently": "^6.3.0",
     "@types/enzyme": "^3.10.8",
-    "@types/jasmine": "^3.6.0",
     "@types/jest": "^26.0.24",
     "@types/jest-image-snapshot": "^4.3.1",
     "@types/mime": "^2.0.3",
     "@types/node": "^16.11.19",
-    "@types/react": "~17.0.1",
-    "@types/react-dom": "~17.0.1",
-    "@types/react-native": "0.63.30",
-    "@types/react-native-vector-icons": "^6.4.9",
-    "@types/react-test-renderer": "~17.0.1",
     "@types/shelljs": "^0.8.9",
     "@types/xml2js": "^0.4.5",
     "cross-env": "^7.0.2",
     "deepmerge": "^4.2.2",
-    "detox": "^19.7.1",
     "husky": "^7.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "image-js": "^0.33.0",
-    "jest-canvas-mock": "^2.3.0",
-    "jest-image-snapshot": "^5.1.0",
-    "lerna": "^4.0.0",
-    "lerna-parallelism": "^0.3.0",
     "lint-staged": "^10.5.0",
     "mendix-client": "^7.15.8",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.0",
     "recursive-copy": "^2.0.11",
-    "ts-node": "^9.0.0"
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4",
+    "xml2js": "^0.4.23"
   },
   "commitlint": {
     "extends": [
-      "@commitlint/config-lerna-scopes",
       "@commitlint/config-conventional"
     ]
   },
   "engines": {
     "node": ">=16"
   },
-  "overrides": {
-    "@testing-library/react-native": {
-      "react-test-renderer": "17.0.2",
-      "react-native": "0.68.2"
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "react-native",
+        "rollup"
+      ]
     },
-    "react-native": {
-      "use-subscription": "1.5.1"
+    "overrides": {
+      "@testing-library/dom": "^8.1.0",
+      "@testing-library/jest-dom": "^5.14.1",
+      "@testing-library/react": "^12.0.0",
+      "@testing-library/user-event": "^13.2.1",
+      "@testing-library/react-hooks": "^3.4.2",
+      "@types/testing-library__jest-dom": "^5.14.1",
+      "@types/testing-library__react-hooks": "^3.4.0",
+      "@types/react": "<18.0.0",
+      "@types/react-dom": "<18.0.0",
+      "@types/react-test-renderer": "<18.0.0",
+      "react": "~17.0.2",
+      "react-dom": "~17.0.2",
+      "react-test-renderer": "~17.0.2",
+      "typescript": "4.5.4"
     }
   }
 }
