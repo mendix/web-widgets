@@ -40,16 +40,17 @@
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
     "@types/deep-equal": "^1.0.1",
-    "@types/googlemaps": "^3.39.2",
     "@types/faker": "^4.1.0",
+    "@types/googlemaps": "^3.39.2",
     "@types/react-leaflet": "^2.5.1",
     "cross-env": "^7.0.2",
     "eslint": "^7.20.0",
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "mendix": "^9.18.53394"
   },
   "dependencies": {
-    "@react-google-maps/api": "^1.8.6",
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@react-google-maps/api": "^1.8.6",
     "classnames": "^2.2.6",
     "deep-equal": "^2.0.2",
     "leaflet": "^1.6.0",

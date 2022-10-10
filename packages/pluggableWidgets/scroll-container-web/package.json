@@ -28,7 +28,8 @@
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
-    "eslint": "^7.20.0"
+    "eslint": "^7.20.0",
+    "mendix": "^9.18.53394"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

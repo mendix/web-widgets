@@ -39,8 +39,9 @@
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
     "@types/react-color": "^2.13.5",
+    "cross-env": "^7.0.2",
     "eslint": "^7.20.0",
-    "cross-env": "^7.0.2"
+    "mendix": "^9.18.53394"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

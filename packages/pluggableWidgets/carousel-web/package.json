@@ -40,9 +40,10 @@
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
     "@types/swiper": "^6.0.0",
+    "cross-env": "^7.0.2",
     "eslint": "^7.20.0",
     "jest": "^26.6.1",
-    "cross-env": "^7.0.2"
+    "mendix": "^9.18.53394"
   },
   "dependencies": {
     "classnames": "^2.2.6",
