@@ -8,17 +8,7 @@ import { DynamicValue, WebIcon } from "mendix";
 
 export type RenderModeEnum = "button" | "link";
 
-export type RoleEnum =
-    | "button"
-    | "link"
-    | "checkbox"
-    | "tab"
-    | "menu_item"
-    | "menu_item_checkbox"
-    | "menu_item_radio"
-    | "option"
-    | "switch"
-    | "tree_item";
+export type RoleEnum = "button" | "link" | "checkbox" | "tab" | "menu_item" | "menu_item_checkbox" | "menu_item_radio" | "option" | "switch" | "tree_item";
 
 export interface SidebarToggleContainerProps {
     name: string;
@@ -39,7 +29,7 @@ export interface SidebarTogglePreviewProps {
     readOnly: boolean;
     caption: string;
     tooltip: string;
-    icon: { type: "glyph"; iconClass: string } | { type: "image"; imageUrl: string } | null;
+    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
     renderMode: RenderModeEnum;
     role: RoleEnum;
 }

@@ -45,7 +45,7 @@ export interface TreeNodePreviewProps {
     children: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     animate: boolean;
     showIcon: ShowIconEnum;
-    expandedIcon: { type: "glyph"; iconClass: string } | { type: "image"; imageUrl: string } | null;
-    collapsedIcon: { type: "glyph"; iconClass: string } | { type: "image"; imageUrl: string } | null;
+    expandedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
+    collapsedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
     animateIcon: boolean;
 }

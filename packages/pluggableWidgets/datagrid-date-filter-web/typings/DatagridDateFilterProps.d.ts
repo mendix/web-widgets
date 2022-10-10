@@ -6,16 +6,7 @@
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
-export type DefaultFilterEnum =
-    | "between"
-    | "greater"
-    | "greaterEqual"
-    | "equal"
-    | "notEqual"
-    | "smaller"
-    | "smallerEqual"
-    | "empty"
-    | "notEmpty";
+export type DefaultFilterEnum = "between" | "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
 
 export interface DatagridDateFilterContainerProps {
     name: string;

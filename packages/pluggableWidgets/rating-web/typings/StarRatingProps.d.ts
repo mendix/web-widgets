@@ -26,8 +26,8 @@ export interface StarRatingPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     rateAttribute: string;
-    emptyIcon: { type: "glyph"; iconClass: string } | { type: "image"; imageUrl: string } | null;
-    icon: { type: "glyph"; iconClass: string } | { type: "image"; imageUrl: string } | null;
+    emptyIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
+    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
     maximumStars: number | null;
     animation: boolean;
     onChange: {} | null;

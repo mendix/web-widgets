@@ -7,18 +7,7 @@ import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
 export type ModeEnum = "popover" | "input" | "inline";
 
-export type TypeEnum =
-    | "block"
-    | "chrome"
-    | "circle"
-    | "compact"
-    | "github"
-    | "hue"
-    | "material"
-    | "sketch"
-    | "slider"
-    | "swatches"
-    | "twitter";
+export type TypeEnum = "block" | "chrome" | "circle" | "compact" | "github" | "hue" | "material" | "sketch" | "slider" | "swatches" | "twitter";
 
 export type FormatEnum = "hex" | "rgb" | "rgba";
 

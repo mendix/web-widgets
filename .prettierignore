@@ -1,5 +1,6 @@
 packages/tools/generator-widget/generators/app/templates
 packages/tools/pluggable-widgets-tools/tests/projects
+packages/pluggableWidgets/*/typings
 *.png
 *.svg
 *.snap
@@ -7,3 +8,4 @@ packages/tools/pluggable-widgets-tools/tests/projects
 .idea
 .husky
 .vscode
+pnpm-lock.yaml
