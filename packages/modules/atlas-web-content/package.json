@@ -23,7 +23,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=8.9.2",
+    "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
     "ts-node": "^9.0.0"

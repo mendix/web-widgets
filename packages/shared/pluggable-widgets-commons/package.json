@@ -1,13 +1,13 @@
 {
-  "name": "@mendix/piw-utils-internal",
+  "name": "@mendix/pluggable-widgets-commons",
   "version": "1.0.0",
-  "description": "Tools and helper functions for PIW",
+  "description": "Place for shared widgets code",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
-  "homepage": "https://github.com/mendix/widgets-resources/tree/master/packages/tools/piw-utils-internal",
+  "homepage": "https://github.com/mendix/web-widgets",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mendix/widgets-resources/"
+    "url": "https://github.com/mendix/web-widgets.git"
   },
   "private": true,
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
     "test": "pluggable-widgets-tools test:unit:web"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=8.9.2",
+    "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "eslint": "^7.20.0",
     "typescript": "4.5.4",
     "rimraf": "^2.7.1"

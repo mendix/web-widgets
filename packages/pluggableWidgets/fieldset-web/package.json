@@ -36,10 +36,10 @@
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
   },
   "dependencies": {
-    "@mendix/piw-utils-internal": "^1.0.0"
+    "@mendix/pluggable-widgets-commons": "workspace:*"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=8.9.2",
+    "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.20.0"
   }

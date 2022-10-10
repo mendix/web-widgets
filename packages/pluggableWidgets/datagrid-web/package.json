@@ -34,11 +34,11 @@
     "release": "pluggable-widgets-tools release:ts"
   },
   "dependencies": {
-    "@mendix/piw-utils-internal": "^1.0.0",
+    "@mendix/pluggable-widgets-commons": "workspace:*",
     "deep-equal": "^2.0.2"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=8.9.2",
+    "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@testing-library/react-hooks": "^3.4.2",
     "eslint": "^7.20.0"
   }

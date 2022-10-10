@@ -36,12 +36,12 @@
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=8.9.2",
+    "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
     "eslint": "^7.20.0"
   },
   "dependencies": {
-    "@mendix/piw-utils-internal": "^1.0.0",
+    "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.2.6"
   }
 }
