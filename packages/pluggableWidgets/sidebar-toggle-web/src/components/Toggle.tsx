@@ -1,7 +1,7 @@
 import { createElement, CSSProperties, HTMLAttributes, ReactElement } from "react";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
-import { Icon } from "@mendix/piw-utils-internal/components/web";
+import { Icon } from "@mendix/pluggable-widgets-commons/components/web";
 
 interface ToggleProps {
     caption?: string;

@@ -6,7 +6,7 @@ import {
     CKEditorEventAction,
     CKEditorInstance
 } from "ckeditor4-react";
-import { getDimensions, Dimensions } from "@mendix/piw-utils-internal";
+import { getDimensions, Dimensions } from "@mendix/pluggable-widgets-commons";
 import { defineEnterMode, addPlugin, PluginName } from "../utils/ckeditorConfigs";
 import sanitizeHtml from "sanitize-html";
 import classNames from "classnames";

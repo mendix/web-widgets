@@ -1,4 +1,4 @@
-import { parseStyle, dynamicValue } from "@mendix/piw-utils-internal";
+import { parseStyle, dynamicValue } from "@mendix/pluggable-widgets-commons";
 import { createElement } from "react";
 import { PopupMenu as PopupMenuComponent } from "./components/PopupMenu";
 

@@ -1,5 +1,5 @@
-import { Alert, SortContextValue, SortInstruction } from "@mendix/piw-utils-internal/components/web";
-import { ListAttributeValueBuilder } from "@mendix/piw-utils-internal";
+import { Alert, SortContextValue, SortInstruction } from "@mendix/pluggable-widgets-commons/components/web";
+import { ListAttributeValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { createContext, createElement } from "react";
 import { DropdownSort } from "../../DropdownSort";
 import { render } from "@testing-library/react";

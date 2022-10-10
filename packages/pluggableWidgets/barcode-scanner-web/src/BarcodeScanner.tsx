@@ -1,4 +1,4 @@
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ValueStatus } from "mendix";
 import { createElement, FunctionComponent, useCallback } from "react";
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";

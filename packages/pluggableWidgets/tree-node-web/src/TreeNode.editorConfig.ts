@@ -4,7 +4,7 @@ import {
     RowLayoutProps,
     StructurePreviewProps,
     TextProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { HeaderTypeEnum, TreeNodePreviewProps } from "../typings/TreeNodeProps";

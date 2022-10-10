@@ -1,7 +1,7 @@
 import { createElement, ReactElement, useEffect, useState } from "react";
 import { Map, Marker as MarkerComponent, Popup, TileLayer } from "react-leaflet";
 import classNames from "classnames";
-import { getDimensions } from "@mendix/piw-utils-internal";
+import { getDimensions } from "@mendix/pluggable-widgets-commons";
 import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";

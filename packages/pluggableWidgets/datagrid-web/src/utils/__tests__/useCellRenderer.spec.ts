@@ -7,7 +7,7 @@ import {
     buildWidgetValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { ColumnsType } from "../../../typings/DatagridProps";
 
 const col: ColumnsType = {

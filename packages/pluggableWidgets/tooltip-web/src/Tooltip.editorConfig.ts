@@ -5,7 +5,7 @@ import {
     RowLayoutProps,
     ContainerProps,
     TextProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(values: TooltipPreviewProps, defaultValues: Properties): Properties {

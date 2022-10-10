@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 import { FilterComponent } from "./components/FilterComponent";
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 
 export function preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
     return (

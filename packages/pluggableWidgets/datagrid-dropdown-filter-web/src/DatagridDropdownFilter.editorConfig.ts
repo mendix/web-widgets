@@ -6,7 +6,7 @@ import {
     ImageProps,
     StructurePreviewProps,
     TextProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(

@@ -1,4 +1,4 @@
-import { ContainerProps, DropZoneProps, RowLayoutProps, StructurePreviewProps } from "@mendix/piw-utils-internal";
+import { ContainerProps, DropZoneProps, RowLayoutProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import {
     changePropertyIn,
     hideNestedPropertiesIn,

@@ -3,7 +3,7 @@ import { ListActionValue } from "mendix";
 import { CellRenderer } from "../components/Table";
 import { ColumnsType } from "../../typings/DatagridProps";
 import classNames from "classnames";
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 
 interface CellRendererHookProps {
     columns: ColumnsType[];

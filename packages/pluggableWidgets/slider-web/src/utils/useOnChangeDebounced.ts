@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { useMemo } from "react";
-import { debounce, executeAction } from "@mendix/piw-utils-internal";
+import { debounce, executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue, EditableValue } from "mendix";
 
 type ChangeHandler = (value: number) => void;

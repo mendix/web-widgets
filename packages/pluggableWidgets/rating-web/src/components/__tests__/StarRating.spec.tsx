@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { actionValue, EditableValueBuilder } from "@mendix/piw-utils-internal";
+import { actionValue, EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { StarRatingContainerProps } from "../../../typings/StarRatingProps";
 import { Big } from "big.js";
 import { mount, shallow } from "enzyme";

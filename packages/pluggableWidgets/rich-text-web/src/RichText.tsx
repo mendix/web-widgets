@@ -2,7 +2,7 @@ import { ReactNode, createElement, useCallback } from "react";
 import { RichTextEditor as RichTextComponent } from "./components/RichText";
 import { RichTextContainerProps } from "../typings/RichTextProps";
 import { GroupType, createCustomToolbar, ToolbarItems } from "./utils/ckeditorPresets";
-import { debounce, executeAction } from "@mendix/piw-utils-internal";
+import { debounce, executeAction } from "@mendix/pluggable-widgets-commons";
 import { getPreset, defineAdvancedGroups } from "./utils/ckeditorConfigs";
 import { CKEditorConfig } from "ckeditor4-react";
 import loadingCircleSvg from "./ui/loading-circle.svg";

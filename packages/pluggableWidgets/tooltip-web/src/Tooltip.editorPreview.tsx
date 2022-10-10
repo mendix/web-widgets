@@ -3,7 +3,7 @@ import { createElement, ReactElement } from "react";
 import { Tooltip } from "./components/Tooltip";
 import { TooltipPreviewProps } from "../typings/TooltipProps";
 import { translatePosition } from "./utils";
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 
 export const preview = (props: TooltipPreviewProps): ReactElement => {
     return (

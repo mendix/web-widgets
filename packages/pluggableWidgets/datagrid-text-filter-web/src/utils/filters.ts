@@ -1,4 +1,4 @@
-import { FilterValue } from "@mendix/piw-utils-internal/components/web";
+import { FilterValue } from "@mendix/pluggable-widgets-commons/components/web";
 import { DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
 
 export type DefaultFilterValue = {

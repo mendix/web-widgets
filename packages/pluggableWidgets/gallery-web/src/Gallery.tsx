@@ -8,11 +8,11 @@ import {
     useFilterContext,
     useMultipleFiltering,
     useSortContext
-} from "@mendix/piw-utils-internal/components/web";
+} from "@mendix/pluggable-widgets-commons/components/web";
 import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";
 import { and } from "mendix/filters/builders";
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);

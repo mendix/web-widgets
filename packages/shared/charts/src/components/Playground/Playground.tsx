@@ -11,7 +11,7 @@ import {
     useState
 } from "react";
 import classNames from "classnames";
-import { Alert, useOnClickOutside } from "@mendix/piw-utils-internal/components/web";
+import { Alert, useOnClickOutside } from "@mendix/pluggable-widgets-commons/components/web";
 import { Sidebar, SidebarHeader, SidebarHeaderTools, SidebarPanel, Select } from "./Sidebar";
 import { emptyObjectString, ifNonEmptyStringElseEmptyObjectString } from "./utils";
 import { ChartProps } from "../Chart";

@@ -5,7 +5,7 @@ import {
     ImageProps,
     StructurePreviewProps,
     TextProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
 
 import AscIcon from "./assets/asc.svg";

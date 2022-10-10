@@ -1,6 +1,6 @@
 import { useEffect, useRef, RefObject } from "react";
 import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType } from "@zxing/library/cjs";
-import { useEventCallback } from "@mendix/piw-utils-internal";
+import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
 const hints = new Map();
 // RSS_Expanded is not production ready yet.

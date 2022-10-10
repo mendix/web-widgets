@@ -7,7 +7,7 @@ import {
     SortContextValue,
     SortDirection,
     SortInstruction
-} from "@mendix/piw-utils-internal/components/web";
+} from "@mendix/pluggable-widgets-commons/components/web";
 
 import { DropdownSortContainerProps } from "../typings/DropdownSortProps";
 import { SortComponent, SortOption } from "./components/SortComponent";

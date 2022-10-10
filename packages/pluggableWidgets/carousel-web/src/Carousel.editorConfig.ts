@@ -5,7 +5,7 @@ import {
     ContainerProps,
     RowLayoutProps,
     ImageProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import { Properties, transformGroupsIntoTabs, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
 
 import { CarouselPreviewProps } from "../typings/CarouselProps";

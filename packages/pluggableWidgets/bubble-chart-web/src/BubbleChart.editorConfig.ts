@@ -1,4 +1,4 @@
-import { ContainerProps, ImageProps, StructurePreviewProps } from "@mendix/piw-utils-internal";
+import { ContainerProps, ImageProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,

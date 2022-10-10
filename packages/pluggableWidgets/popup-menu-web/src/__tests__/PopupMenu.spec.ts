@@ -2,7 +2,7 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { PopupMenu } from "../components/PopupMenu";
-import { actionValue, dynamicValue } from "@mendix/piw-utils-internal";
+import { actionValue, dynamicValue } from "@mendix/pluggable-widgets-commons";
 import { ValueStatus } from "mendix";
 
 jest.useFakeTimers();

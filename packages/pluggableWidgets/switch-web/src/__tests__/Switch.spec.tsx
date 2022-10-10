@@ -1,5 +1,5 @@
-import { Alert, AlertProps } from "@mendix/piw-utils-internal/components/web";
-import { actionValue, EditableValueBuilder } from "@mendix/piw-utils-internal";
+import { Alert, AlertProps } from "@mendix/pluggable-widgets-commons/components/web";
+import { actionValue, EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { mount, ReactWrapper } from "enzyme";
 import { createElement } from "react";
 

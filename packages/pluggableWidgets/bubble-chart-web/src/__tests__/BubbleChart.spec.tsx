@@ -5,7 +5,7 @@ import {
     ListAttributeValueBuilder,
     ListValueBuilder,
     dynamicValue
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
 import { BubbleChart } from "../BubbleChart";

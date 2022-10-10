@@ -1,5 +1,5 @@
 import { LinesType } from "../../typings/BubbleChartProps";
-import { Dimensions } from "@mendix/piw-utils-internal";
+import { Dimensions } from "@mendix/pluggable-widgets-commons";
 
 export const getMarkerSizeReference = (props: LinesType, markerSize: number[], dimensions?: Dimensions): number => {
     if (props.autosize) {

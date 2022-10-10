@@ -4,7 +4,7 @@ import { ensure } from "@mendix/pluggable-widgets-tools";
 import Big from "big.js";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
 import { ChartProps } from "@mendix/shared-charts/dist/components/Chart";
-import { executeAction, valueAttributeCompareFn } from "@mendix/piw-utils-internal";
+import { executeAction, valueAttributeCompareFn } from "@mendix/pluggable-widgets-commons";
 
 type PieChartDataSeriesHooks = Pick<
     PieChartContainerProps,

@@ -1,4 +1,4 @@
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 import { WebIcon } from "mendix";
 import { createElement, ReactElement } from "react";
 import { ImagePreviewProps } from "../typings/ImageProps";

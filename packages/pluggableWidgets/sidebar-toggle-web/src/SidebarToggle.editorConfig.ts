@@ -1,5 +1,5 @@
 import { SidebarTogglePreviewProps } from "../typings/SidebarToggleProps";
-import { ImageProps, StructurePreviewProps, TextProps } from "@mendix/piw-utils-internal";
+import { ImageProps, StructurePreviewProps, TextProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import HamburgerIcon from "./assets/hamburger.svg";

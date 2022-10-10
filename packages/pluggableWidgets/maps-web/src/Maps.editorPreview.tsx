@@ -1,7 +1,7 @@
 import { createElement, ReactNode } from "react";
 import { MapsPreviewProps } from "../typings/MapsProps";
-import { Alert } from "@mendix/piw-utils-internal/components/web";
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 
 export const preview = (props: MapsPreviewProps): ReactNode => {
     return (

@@ -5,7 +5,7 @@ import {
     SelectableProps,
     StructurePreviewProps,
     TextProps
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import {
     changePropertyIn,
     hidePropertyIn,

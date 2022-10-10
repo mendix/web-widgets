@@ -1,6 +1,6 @@
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
-import { FilterSelector } from "@mendix/piw-utils-internal/components/web";
-import { debounce } from "@mendix/piw-utils-internal";
+import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
+import { debounce } from "@mendix/pluggable-widgets-commons";
 
 import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";

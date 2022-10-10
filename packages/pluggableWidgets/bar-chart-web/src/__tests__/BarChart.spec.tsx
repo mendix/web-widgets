@@ -5,7 +5,7 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder,
     ListValueBuilder
-} from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
 import { SeriesType } from "../../typings/BarChartProps";

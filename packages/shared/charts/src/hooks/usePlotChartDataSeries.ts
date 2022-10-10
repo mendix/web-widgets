@@ -3,7 +3,7 @@ import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttribute
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { MendixChartDataProps } from "../components/Chart";
 
 type PlotChartDataPoints = {

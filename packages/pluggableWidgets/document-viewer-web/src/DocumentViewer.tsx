@@ -4,7 +4,7 @@ import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { useFileURL } from "./utils/useFileURL";
 import { useStyle } from "./utils/useStyle";
 import "./ui/DocumentViewer.scss";
-import { Alert } from "@mendix/piw-utils-internal/components/web";
+import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
 
 export function DocumentViewer(props: DocumentViewerContainerProps): ReactNode {
     const result = useFileURL(props);

@@ -1,5 +1,5 @@
 import { ColumnChartPreviewProps, BarmodeEnum } from "../typings/ColumnChartProps";
-import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/piw-utils-internal";
+import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,

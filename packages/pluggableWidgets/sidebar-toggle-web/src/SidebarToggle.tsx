@@ -1,6 +1,6 @@
 import { createElement, ReactElement } from "react";
 import { SidebarToggleContainerProps } from "../typings/SidebarToggleProps";
-import { isAvailable } from "@mendix/piw-utils-internal";
+import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { Toggle } from "./components/Toggle";
 
 export function SidebarToggle(props: SidebarToggleContainerProps): ReactElement {

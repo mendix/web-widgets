@@ -1,4 +1,4 @@
-import { DropZoneProps, RowLayoutProps, StructurePreviewProps } from "@mendix/piw-utils-internal";
+import { DropZoneProps, RowLayoutProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { SidebarPreviewProps } from "../typings/SidebarProps";

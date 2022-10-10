@@ -1,5 +1,5 @@
-import { parseStyle } from "@mendix/piw-utils-internal";
-import { mapPreviewIconToWebIcon } from "@mendix/piw-utils-internal/components/web";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { mapPreviewIconToWebIcon } from "@mendix/pluggable-widgets-commons/components/web";
 import { GUID } from "mendix";
 import { createElement, ReactElement } from "react";
 import { TreeNodePreviewProps } from "../typings/TreeNodeProps";

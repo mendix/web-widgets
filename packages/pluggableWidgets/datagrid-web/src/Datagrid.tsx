@@ -10,8 +10,8 @@ import {
     generateUUID,
     useFilterContext,
     useMultipleFiltering
-} from "@mendix/piw-utils-internal/components/web";
-import { isAvailable } from "@mendix/piw-utils-internal";
+} from "@mendix/pluggable-widgets-commons/components/web";
+import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./utils/filters";
 import { useCellRenderer } from "./utils/useCellRenderer";
 

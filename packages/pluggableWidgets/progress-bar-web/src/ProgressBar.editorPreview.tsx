@@ -1,4 +1,4 @@
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 import { createElement, ReactElement } from "react";
 import { ProgressBarPreviewProps } from "../typings/ProgressBarProps";
 import { ProgressBar } from "./components/ProgressBar";

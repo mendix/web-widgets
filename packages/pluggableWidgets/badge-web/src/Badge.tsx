@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, createElement, KeyboardEvent } from "react";
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 
 import { BadgeContainerProps } from "../typings/BadgeProps";
 import { Badge as DisplayBadge } from "./components/Badge";

@@ -1,5 +1,5 @@
 import { createElement, KeyboardEvent, MouseEvent, useCallback } from "react";
-import { executeAction, isAvailable } from "@mendix/piw-utils-internal";
+import { executeAction, isAvailable } from "@mendix/pluggable-widgets-commons";
 import SwitchComponent from "./components/Switch";
 
 import { SwitchContainerProps } from "../typings/SwitchProps";

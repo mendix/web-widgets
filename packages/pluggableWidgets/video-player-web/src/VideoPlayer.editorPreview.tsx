@@ -1,4 +1,4 @@
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 import { Component, createElement } from "react";
 import classNames from "classnames";
 

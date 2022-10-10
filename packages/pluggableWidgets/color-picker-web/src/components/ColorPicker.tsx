@@ -1,5 +1,5 @@
 import { createElement, ReactElement, useEffect, useState, useCallback } from "react";
-import { Alert } from "@mendix/piw-utils-internal/components/web";
+import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
 import { ModeEnum, TypeEnum, DefaultColorsType, FormatEnum } from "../../typings/ColorPickerProps";
 import {
     ColorState,

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { ChartWidgetProps } from "@mendix/shared-charts";
-import { executeAction, valueAttributeCompareFn } from "@mendix/piw-utils-internal";
+import { executeAction, valueAttributeCompareFn } from "@mendix/pluggable-widgets-commons";
 import Big from "big.js";
 
 type HeatMapDataSeriesHooks = Pick<

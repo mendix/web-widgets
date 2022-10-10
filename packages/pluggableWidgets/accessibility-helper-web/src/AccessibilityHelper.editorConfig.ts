@@ -1,4 +1,4 @@
-import { StructurePreviewProps, DropZoneProps, RowLayoutProps, TextProps } from "@mendix/piw-utils-internal";
+import { StructurePreviewProps, DropZoneProps, RowLayoutProps, TextProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertyIn, Properties, Problem } from "@mendix/pluggable-widgets-tools";
 import { AttributesListPreviewType, AccessibilityHelperPreviewProps } from "../typings/AccessibilityHelperProps";
 

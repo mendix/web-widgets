@@ -15,7 +15,7 @@ import {
     useState
 } from "react";
 import classNames from "classnames";
-import { Icon } from "@mendix/piw-utils-internal/components/web";
+import { Icon } from "@mendix/pluggable-widgets-commons/components/web";
 import { ShowIconEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 import {
     TreeNodeBranchContextProps,

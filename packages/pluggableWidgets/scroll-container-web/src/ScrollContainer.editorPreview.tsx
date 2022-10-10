@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import { ScrollContainerPreviewProps } from "../typings/ScrollContainerProps";
 import { ScrollContainer as ScrollContainerComponent } from "./components/ScrollContainer";
-import { parseStyle } from "@mendix/piw-utils-internal";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
 
 export function getPreviewCss(): string {
     return require("./ui/scroll-container.scss");

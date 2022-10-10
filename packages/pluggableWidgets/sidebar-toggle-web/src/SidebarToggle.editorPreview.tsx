@@ -2,8 +2,8 @@ import { createElement, ReactElement } from "react";
 
 import { SidebarTogglePreviewProps } from "../typings/SidebarToggleProps";
 import { Toggle } from "./components/Toggle";
-import { parseStyle } from "@mendix/piw-utils-internal";
-import { mapPreviewIconToWebIcon } from "@mendix/piw-utils-internal/components/web";
+import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { mapPreviewIconToWebIcon } from "@mendix/pluggable-widgets-commons/components/web";
 
 export function preview(props: SidebarTogglePreviewProps): ReactElement | null {
     return (

@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/piw-utils-internal";
+import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import { Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";

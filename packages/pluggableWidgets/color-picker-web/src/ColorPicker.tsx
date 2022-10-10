@@ -1,5 +1,5 @@
 import { createElement, ReactNode, useCallback } from "react";
-import { executeAction } from "@mendix/piw-utils-internal";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ColorPicker as ColorPickerComponent } from "./components/ColorPicker";
 import { ColorPickerContainerProps } from "../typings/ColorPickerProps";
 import "./ui/ColorPicker.scss";

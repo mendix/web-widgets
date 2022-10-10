@@ -16,7 +16,7 @@ import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
 import { SortingRule, useSettings } from "../utils/settings";
 import { ColumnResizer } from "./ColumnResizer";
-import { InfiniteBody, Pagination } from "@mendix/piw-utils-internal/components/web";
+import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
 
 export type TableColumn = Omit<
     ColumnsPreviewType,
