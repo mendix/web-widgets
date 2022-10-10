@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "classnames": "^2.2.6",
     "deep-equal": "^2.0.2"
   },
   "devDependencies": {

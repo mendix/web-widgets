@@ -35,7 +35,8 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "deep-equal": "^2.0.2"
+    "classnames": "^2.2.6",
+    "deep-equal": "^2.0.5"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
@@ -44,6 +45,7 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
+    "@types/deep-equal": "^1.0.1",
     "@types/react": "<18.0.0",
     "@types/react-dom": "<18.0.0",
     "@types/react-test-renderer": "<18.0.0",

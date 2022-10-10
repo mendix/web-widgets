@@ -18,7 +18,6 @@
     "test": "lerna run test --ignore @mendix/custom-widgets-utils-internal --stream",
     "test:e2e": "lerna-parallelism run --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --split 3 test:e2e",
     "test:e2e:local": "lerna run test:e2e --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --no-bail",
-    "build": "lerna run build --ignore '@mendix/custom-widgets-utils-internal'",
     "build:web": "npm run build -- --scope '*-web'",
     "release": "lerna run release --ignore '@mendix/custom-widgets-utils-internal'",
     "release:marketplace": "lerna run release:marketplace",

@@ -732,12 +732,14 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/deep-equal': ^1.0.1
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      deep-equal: ^2.0.2
+      classnames: ^2.2.6
+      deep-equal: ^2.0.5
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -745,6 +747,7 @@ importers:
       react-test-renderer: ~17.0.2
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+      classnames: 2.3.2
       deep-equal: 2.0.5
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
@@ -753,6 +756,7 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/deep-equal': 1.0.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -778,6 +782,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      big.js: ^6.0.2
       classnames: ^2.2.6
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -786,6 +791,7 @@ importers:
       react-test-renderer: ~17.0.2
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+      big.js: 6.2.1
       classnames: 2.3.2
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
@@ -860,6 +866,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      classnames: ^2.2.6
       deep-equal: ^2.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -868,6 +875,7 @@ importers:
       react-test-renderer: ~17.0.2
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+      classnames: 2.3.2
       deep-equal: 2.0.5
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
