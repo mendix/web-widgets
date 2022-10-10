@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@react-google-maps/api": "^1.8.6",
+    "@react-google-maps/api": "~2.13.1",
     "classnames": "^2.2.6",
     "deep-equal": "^2.0.2",
     "leaflet": "^1.6.0",
