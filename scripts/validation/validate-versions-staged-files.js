@@ -13,12 +13,13 @@ preCommit().catch(error => {
 
 async function preCommit() {
     const [{ stdout: lernaPackages }, { stdout: stagedFiles }] = await Promise.all([
-        execAsync("npx lerna ls --json --all"),
+        execAsync("pnpm list -r --json"),
         execAsync("git diff --staged --name-only")
     ]);
     const packages = JSON.parse(lernaPackages.trim());
     const staged = stagedFiles.trim().split("\n");
     const changedWidgetPackages = packages
+        .map(pkg => ({ ...pkg, location: pkg.path }))
         .filter(({ location }) => location.match(/(pluggable|custom)Widgets/))
         .filter(({ location }) =>
             staged.some(
