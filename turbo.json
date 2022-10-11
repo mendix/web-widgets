@@ -8,6 +8,11 @@
         "release": {
             "dependsOn": ["^release"],
             "outputs": ["dist/**", "!dist/tmp/**"]
+        },
+        "test": {
+            "dependsOn": [],
+            "outputs": [],
+            "inputs": ["src/**", "tyupings/**", "package.json", "tsconfig.json"]
         }
     }
 }

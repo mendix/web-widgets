@@ -15,7 +15,7 @@
     "lint:src": "eslint --config .eslintrc.js --ext .jsx,.js,.ts,.tsx packages/*/*/src --no-error-on-unmatched-pattern",
     "lint:scripts": "eslint --fix --config .eslintrc.js --ext .jsx,.js,.ts,.tsx scripts",
     "lint:configs": "eslint --fix --config .eslintrc.js --ext .jsx,.js,.ts,.tsx configs",
-    "test": "lerna run test --ignore @mendix/custom-widgets-utils-internal --stream",
+    "test": "turbo run test",
     "test:e2e": "lerna-parallelism run --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --split 3 test:e2e",
     "test:e2e:local": "lerna run test:e2e --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --no-bail",
     "build": "turbo run build",
