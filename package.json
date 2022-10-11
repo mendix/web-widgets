@@ -18,8 +18,9 @@
     "test": "lerna run test --ignore @mendix/custom-widgets-utils-internal --stream",
     "test:e2e": "lerna-parallelism run --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --split 3 test:e2e",
     "test:e2e:local": "lerna run test:e2e --ignore @mendix/custom-widgets-utils-internal --stream --concurrency 1 --no-bail",
+    "build": "turbo run build",
     "build:web": "npm run build -- --scope '*-web'",
-    "release": "lerna run release --ignore '@mendix/custom-widgets-utils-internal'",
+    "release": "turbo run release",
     "release:marketplace": "lerna run release:marketplace",
     "release:hybrid": "npm run release -- --scope '*-hybrid'",
     "release:web": "npm run release -- --scope '*-web'",
@@ -51,6 +52,7 @@
     "pretty-quick": "^3.1.0",
     "recursive-copy": "^2.0.11",
     "ts-node": "^9.0.0",
+    "turbo": "^1.5.5",
     "typescript": "4.5.4",
     "xml2js": "^0.4.23"
   },

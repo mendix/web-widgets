@@ -27,3 +27,4 @@ mendixProject
 **/cypress-visual-screenshots/diff
 
 tests
+.turbo

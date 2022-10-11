@@ -12,7 +12,6 @@
   },
   "scripts": {
     "prebuild": "rimraf ./dist/tsc",
-    "build": "rollup --config ../../../configs/jsactions/rollup.config.js --configProject webactions --configEnv web",
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
   },
   "dependencies": {},
