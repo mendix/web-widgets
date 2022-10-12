@@ -11,13 +11,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  setup-options:
+    name: Setup options for jobs and steps
+    runs-on: ubuntu-latest
+    outputs:
+      since-flag: ${{ steps.set-since-flag.output.SINCE_FLAG }}
+    steps:
+      - if: github.event_name == 'pull_request'
+        id: set-since-flag
+        run: echo "SINCE_FLAG=--filter '...[origin/${{ github.base_ref }}]'" >> $GITHUB_OUTPUT
   build:
     name: Run ${{ matrix.target }} script on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: [setup-options]
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         target: [build, release]
     
     steps:
@@ -44,6 +54,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} script 
-        run: pnpm run ${{ matrix.target }}
+        run: pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
           NODE_OPTIONS: --max_old_space_size=3072 # TODO: Find why we need memory limit
