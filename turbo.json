@@ -13,6 +13,9 @@
             "dependsOn": [],
             "outputs": [],
             "inputs": ["src/**", "tyupings/**", "package.json", "tsconfig.json"]
+        },
+        "lint": {
+            "outputs": []
         }
     }
 }

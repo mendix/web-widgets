@@ -11,27 +11,56 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  harden-security:
+    name: Check SHA in GH Actions
+    runs-on: ubuntu-latest
+
+    setps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@6ca5574367befbc9efdb2fa25978084159c5902d # v1.3.0
+
   setup-options:
     name: Setup options for jobs and steps
     runs-on: ubuntu-latest
+    needs: [harden-security]
     outputs:
       since-flag: ${{ steps.set-since-flag.output.SINCE_FLAG }}
+
     steps:
       - if: github.event_name == 'pull_request'
         id: set-since-flag
         run: echo "SINCE_FLAG=--filter '...[origin/${{ github.base_ref }}]'" >> $GITHUB_OUTPUT
 
-  harden-security:
-    name: Check SHA in GH Actions
+  check:
+    name: Code quality check
     runs-on: ubuntu-latest
+    needs: [setup-options]
+
     setps:
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@6ca5574367befbc9efdb2fa25978084159c5902d # v1.3.0
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@537643d491d20c2712d11533497cb47b2d0eb9d5 # v2.2.3
+        with:
+          version: ^7.13.4
+      - name: Setup node
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # v3.5.0
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint code
+        run: pnpm run lint ${{ needs.setup-options.outputs.since-flag }}
+      - name: Run unit tests
+        run: pnpm run test ${{ needs.setup-options.outputs.since-flag }}
 
   build:
-    name: Run ${{ matrix.target }} script on ${{ matrix.os }}
+    name: Run ${{ matrix.target }} task on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: [setup-options]
+    needs: [setup-options, check]
 
     strategy:
       matrix:
@@ -56,12 +85,14 @@ jobs:
         uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # v3.0.10
         with:
           path: node_modules/.cache/turbo
-          key: ${{ runner.os }}-turbo-cache-${{ hashFiles('pnpm-lock.yaml') }}
+          # NOTE: build & release tasks should have their own cache
+          # this is why we include matrix.target param in key
+          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-turbo-cache
+            turbo-cache-${{ runner.os }}
       - name: Install dependencies
         run: pnpm install
-      - name: Run ${{ matrix.target }} script 
+      - name: Run ${{ matrix.target }} task 
         run: pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
           NODE_OPTIONS: --max_old_space_size=3072 # TODO: Find why we need memory limit
