@@ -22,7 +22,6 @@ jobs:
   setup-options:
     name: Setup options for jobs and steps
     runs-on: ubuntu-latest
-    needs: [harden-security]
     outputs:
       since-flag: ${{ steps.set-since-flag.output.SINCE_FLAG }}
 
@@ -95,4 +94,5 @@ jobs:
       - name: Run ${{ matrix.target }} task 
         run: pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
-          NODE_OPTIONS: --max_old_space_size=3072 # TODO: Find why we need memory limit
+          # Limit memory to avoid out of memory issues
+          NODE_OPTIONS: --max-old-space-size=3072
