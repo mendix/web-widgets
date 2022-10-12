@@ -49,6 +49,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Restore Turbo Cache
+        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # v3.0.10
+        with:
+          path: node_modules/.cache/turbo
+          # NOTE: To make sure we store new cache item whenever 
+          # turbo cache changes we compute hash on *meta.json 
+          key: turbo-cache-${{ runner.os }}-lint-test-${{ hashFiles('node_modules/.cache/turbo/*-meta.json') }}
+          restore-keys: |
+            turbo-cache-${{ runner.os }}-lint-test
+
       - name: Install dependencies
         run: pnpm install
       - name: Lint code
@@ -86,13 +96,17 @@ jobs:
           path: node_modules/.cache/turbo
           # NOTE: build & release tasks should have their own cache
           # this is why we include matrix.target param in key
-          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('pnpm-lock.yaml') }}
+          # NOTE: To make sure we store new cache item whenever 
+          # turbo cache changes we compute hash on *meta.json
+          # NOTE: Restore key should not include "hashFiles"
+          # part as in other way we will never restore cached items
+          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('node_modules/.cache/turbo/*-meta.json') }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-${{ matrix.target }}
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} task 
-        run: pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
+        run: env && pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
           # Limit memory to avoid out of memory issues
-          NODE_OPTIONS: --max-old-space-size=3072
+          NODE_OPTIONS: '--max-old-space-size=3072'
