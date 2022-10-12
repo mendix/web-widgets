@@ -88,7 +88,7 @@ jobs:
           # this is why we include matrix.target param in key
           key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            turbo-cache-${{ runner.os }}
+            turbo-cache-${{ runner.os }}-${{ matrix.target }}
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} task 
