@@ -2,57 +2,40 @@ name: Run build
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    name: "Build (${{ matrix.os }})"
+  build:
+    name: Run ${{ matrix.target }} target on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: [scope, check]
+
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-
+        os: [ubuntu-latest]
+        target: [build, release]
+    
     steps:
-      - name: "Checking changed files"
-        id: files
-        uses: softprops/diffset@3aeca0719d5043522e155012d3c9f7470fdd2dc6 # v1
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
-          global_files: |
-            !{packages/**/*,configs/e2e/*.json,scripts/**/*,data/**/*}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Checking-out code"
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@537643d491d20c2712d11533497cb47b2d0eb9d5 # v2.2.3
         with:
-          submodules: false
-      - name: "Fetching master to compare"
-        if: github.event_name == 'pull_request' && steps.files.outputs.global_files == ''
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-      - name: "Defining environment variables"
-        if: startsWith(matrix.os, 'ubuntu')
-        id: variablesLinux
-        run: echo "::set-output name=arg::$(if [ "${{ steps.files.outputs.global_files }}" = "" ] && ${{ github.event_name == 'pull_request' }}; then echo '--since origin/${{ github.base_ref }}'; else echo ''; fi)"
-      - name: "Defining environment variables"
-        if: startsWith(matrix.os, 'windows')
-        id: variablesWindows
-        run: echo "::set-output name=arg::$(If ('${{ steps.files.outputs.global_files }}' -eq '' -AND '${{ github.event_name == 'pull_request' }}' -eq 'true'){ echo '--since origin/${{ github.base_ref }}' } Else { echo '' })"
-      - name: "Defining cache"
-        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: "Defining node version"
-        uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # v2
+          version: ^7.13.4
+      - name: Setup node
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # v3.5.0
         with:
           node-version-file: ".nvmrc"
-      - name: "Installing dependencies"
-        run: npm install
-      - name: "Running build for development"
-        run: npm run build -- ${{ steps.variablesLinux.outputs.arg }} ${{ steps.variablesWindows.outputs.arg }}
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run ${{ matrix.target }} script 
+        run: pnpm run ${{ matrix.target }}
