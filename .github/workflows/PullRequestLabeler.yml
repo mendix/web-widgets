@@ -8,5 +8,5 @@ jobs:
     steps:
       - uses: actions/labeler@69da01b8e0929f147b8943611bee75ee4175a49e # v3.0.2
         with:
-          repo-token: ${{ secrets.GH_PAT }}
+          repo-token: ${{ github.token }}
           configuration-path: ".github/configs/labeler.yml"
