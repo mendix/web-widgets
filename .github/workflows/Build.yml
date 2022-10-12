@@ -1,4 +1,4 @@
-name: Run build
+name: Build packages
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build:
-    name: Run ${{ matrix.target }} target on ${{ matrix.os }}
+    name: Run ${{ matrix.target }} script on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -34,7 +34,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Restore Turbo Cache
+        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # v3.0.10
+        with:
+          path: node_modules/.cache/turbo
+          key: ${{ runner.os }}-turbo-cache-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-cache
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} script 
         run: pnpm run ${{ matrix.target }}
+        env:
+          NODE_OPTIONS: --max_old_space_size=3072 # TODO: Find why we need memory limit
