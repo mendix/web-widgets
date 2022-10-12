@@ -73,7 +73,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         target: [build, release]
     
     steps:
@@ -107,4 +107,4 @@ jobs:
         run: env && pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
           # Limit memory to avoid out of memory issues
-          NODE_OPTIONS: '--max-old-space-size=2048 --max_old_space_size=2048'
+          NODE_OPTIONS: '--max-old-space-size=5120 --max_old_space_size=5120'
