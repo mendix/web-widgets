@@ -104,7 +104,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} task 
-        run: env && pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
+        run: pnpm run ${{ matrix.target }} ${{ needs.setup-options.outputs.since-flag }}
         env:
           # Limit memory to avoid out of memory issues
-          NODE_OPTIONS: '--max-old-space-size=5120 --max_old_space_size=5120'
+          NODE_OPTIONS: '--max-old-space-size=6144 --max_old_space_size=6144'
