@@ -14,7 +14,6 @@ jobs:
   build:
     name: Run ${{ matrix.target }} target on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: [scope, check]
 
     strategy:
       matrix:
