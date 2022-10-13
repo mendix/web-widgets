@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Create ${{ github.event.inputs.package }} widget release
-        run: pnpm run create-gh-release --filter=$PACKAGE'
+        run: pnpm run create-gh-release --filter=$PACKAGE
         env:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
