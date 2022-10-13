@@ -28,12 +28,17 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
-      - name: Verify package name (fail if package not found)
-        run: test -n "$(pnpm ls --json --filter='${{ github.event.inputs.package }}')"
+      - name: Search for package in workspace
+        run: >
+          if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
+          then
+            echo "::error::Package $PACKAGE not found in workspace.";
+            exit 1;
+          fi
       - name: Install dependencies
         run: pnpm install
       - name: Create ${{ github.event.inputs.package }} widget release
-        run: pnpm run create-gh-release --filter='${{ github.event.inputs.package }}'
+        run: pnpm run create-gh-release --filter=$PACKAGE'
         env:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
