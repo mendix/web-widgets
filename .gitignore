@@ -19,6 +19,7 @@ mendixProject
 **/screenshot-results
 **/tests/testProject
 **/pluggableWidgets/**/artifacts
+**/gh-*/release-notes.txt
 
 **/release-utils-internal/**/parser/module/module.js
 **/release-utils-internal/**/parser/widget/widget.js
