@@ -20,6 +20,9 @@ mendixProject
 **/tests/testProject
 **/pluggableWidgets/**/artifacts
 
+**/release-utils-internal/**/parser/module/module.js
+**/release-utils-internal/**/parser/widget/widget.js
+
 **/cypress/videos
 **/cypress/screenshots
 **/cypress-visual-report

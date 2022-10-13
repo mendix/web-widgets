@@ -3,7 +3,7 @@ import { access } from "fs/promises";
 import { Version, VersionString } from "./version";
 // FIXME: Uncomment when md parser is 100% ready.
 // Disable changelog parser for now
-// import { WidgetChangelogFileWrapper } from "./changelog-parser";
+import { WidgetChangelogFileWrapper } from "./changelog-parser";
 
 export interface PackageJsonFileContent {
     name?: string;
@@ -37,7 +37,7 @@ export interface PackageInfo {
 
     repositoryUrl: string;
 
-    changelog: string;
+    changelog: WidgetChangelogFileWrapper;
 }
 
 export interface WidgetPackageInfo extends PackageInfo {
@@ -46,6 +46,7 @@ export interface WidgetPackageInfo extends PackageInfo {
     repositoryUrl: string;
     testProjectUrl: string | undefined;
     testProjectBranchName: string | undefined;
+    changelog: WidgetChangelogFileWrapper;
 }
 
 export interface ModuleInfo extends WidgetPackageInfo {
@@ -79,10 +80,8 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
             version: ensureVersion(version),
 
             repositoryUrl: ensureString(repository?.url, "repository.url"),
-
-            // FIXME: Uncomment when md parser is 100% ready.
-            // changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
-            changelog: "[Parsed Changelog]"
+            changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
+            // changelog: "[Parsed Changelog]"
         };
     } catch (error) {
         console.log(error);
@@ -107,7 +106,7 @@ export async function getWidgetPackageInfo(path: string): Promise<WidgetPackageI
             minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
             repositoryUrl: ensureString(repository?.url, "repository.url"),
             // FIXME: Replace with md parser when md parser is 100% ready.
-            changelog: "[Parsed Changelog]",
+            changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`),
 
             testProjectUrl: testProject?.githubUrl,
             testProjectBranchName: testProject?.branchName
@@ -138,7 +137,7 @@ export async function getModulePackageInfo(pkgDir: string): Promise<ModuleInfo> 
         minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
         repositoryUrl: ensureString(repository?.url, "repository.url"),
         // FIXME: Replace with md parser when md parser is 100% ready.
-        changelog: "[Parsed Changelog]",
+        changelog: WidgetChangelogFileWrapper.fromFile(`${pkgDir}/CHANGELOG.md`),
         testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
         testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
     };
