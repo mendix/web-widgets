@@ -2,23 +2,23 @@
 
 ## Prerequisites
 
-See [Prerequisites](https://github.com/mendix/widgets-resources/blob/master/README.md#prerequisites) section of README.md.
+See [Prerequisites](https://github.com/mendix/web-widgets/blob/main/README.md#prerequisites) section of README.md.
 
 ## Getting started
 
 1. Clone this repository
 
 ```sh
-$ git clone https://github.com/mendix/widgets-resources.git
-$ cd widgets-resources
+$ git clone https://github.com/mendix/web-widgets.git
+$ cd web-widgets
 ```
 
-2. Install and link dependencies
+2. Install dependencies
 
 ```sh
-$ npm install
+$ pnpm install
 ```
 
-1. Go make it!
+3. Go make it!
 
-Open the folder of the package you want to change and use `npm run build` to bundle it, or `npm start` for watch mode.
+Open the folder of the package you want to change and use `pnpm run build` to bundle it, or `pnpm start` for watch mode.
