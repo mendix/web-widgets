@@ -101,10 +101,10 @@ jobs:
           key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ github.sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-${{ matrix.target }}
-      - if: ${{ runner.os == "Windows" }}
+      - if: runner.os == 'Windows'
         name: Set concurrency on Windows
         run: echo "task_concurrency=1" >> $GITHUB_ENV
-      - if: ${{ runner.os == "Linux" }}
+      - if: runner.os == 'Linux'
         name: Set concurrency on Linux
         run: echo "task_concurrency=4" >> $GITHUB_ENV 
       - name: Install dependencies
