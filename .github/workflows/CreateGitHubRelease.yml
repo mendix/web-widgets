@@ -13,13 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Checking-out code"
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
-          submodules: false
+          fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@537643d491d20c2712d11533497cb47b2d0eb9d5 # v2.2.3
         with:
           version: ^7.13.4
+      - name: Setup node
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # v3.5.0
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
       - name: Verify package name (fail if package not found)
         run: test -n "$(pnpm ls --json --filter='${{ github.event.inputs.package }}')"
+      - name: Creating ${{ github.event.inputs.package }} widget release
+        run: pnpm run create-gh-release --filter='${{ github.event.inputs.package }}'
