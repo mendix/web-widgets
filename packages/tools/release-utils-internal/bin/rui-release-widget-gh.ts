@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node-script
+import { find } from "shelljs";
 import { getWidgetPackageInfo } from "../src/package-info";
 import { gh } from "../src/github";
 import { addRemoteWithAuthentication } from "../src/git";
@@ -32,7 +33,7 @@ async function main(): Promise<void> {
     }
 
     // 3. Do release
-    console.log("Preparing pluggable-widget-tools release...");
+    console.log(`Preparing ${packageInfo.packageName} release...`);
 
     const remoteName = `origin-${packageInfo.packageName}-v${packageInfo.version.format()}-${Date.now()}`;
 
@@ -45,6 +46,12 @@ async function main(): Promise<void> {
 
     // 3.3 Create release
     console.log("Creating Github release...");
+
+    const mpk = find("dist/*/*.mpk").toString();
+    if (!mpk) {
+        throw new Error("MPK file not found");
+    }
+
     await gh.createGithubReleaseFrom({
         title: `${packageInfo.packageFullName} v${packageInfo.version.format()}`,
         notes: packageInfo.changelog.changelog.content[0].sections
@@ -53,7 +60,8 @@ async function main(): Promise<void> {
         tag: releaseTag,
         target: "HEAD",
         isDraft: true,
-        repo: packageInfo.repositoryUrl
+        repo: packageInfo.repositoryUrl,
+        filesToRelease: mpk
     });
 }
 

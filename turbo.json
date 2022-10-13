@@ -15,6 +15,10 @@
         },
         "lint": {
             "outputs": []
+        },
+        "create-gh-release": {
+            "cache": false,
+            "dependsOn": ["release"]
         }
     }
 }

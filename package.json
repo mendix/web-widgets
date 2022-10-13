@@ -21,6 +21,7 @@
     "build": "turbo run build",
     "build:web": "npm run build -- --scope '*-web'",
     "release": "turbo run release",
+    "create-gh-release": "turbo run create-gh-release",
     "release:marketplace": "lerna run release:marketplace",
     "release:hybrid": "npm run release -- --scope '*-hybrid'",
     "release:web": "npm run release -- --scope '*-web'",
