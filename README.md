@@ -1,10 +1,8 @@
-# Web widgets
-
-```
-NOTE: Please, keep in mind that this repo is still in process of migration. Some of the scripts, CI actions or other tools may not work or be unstable. We hardly working on fixing all this issues. Please, if you find some problem with `pnpm`, testing, running or building, let us know about the problem by submitting issue on GitHub.
-```
+**NOTE**: Please, keep in mind that this repo is still in process of migration. Some of the scripts, CI actions or other tools may not work or be unstable. We hardly working on fixing all this issues. Please, if you find some problem with `pnpm`, testing, running or building, let us know about the problem by submitting issue on GitHub.
 
 ---
+
+# Web widgets
 
 A bundle of R&D Platform supported widgets & nanoflow actions for building web apps.
 
