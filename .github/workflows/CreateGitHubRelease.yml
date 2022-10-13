@@ -28,5 +28,10 @@ jobs:
           cache: "pnpm"
       - name: Verify package name (fail if package not found)
         run: test -n "$(pnpm ls --json --filter='${{ github.event.inputs.package }}')"
-      - name: Creating ${{ github.event.inputs.package }} widget release
+      - name: Create ${{ github.event.inputs.package }} widget release
         run: pnpm run create-gh-release --filter='${{ github.event.inputs.package }}'
+        env:
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_PAT: ${{ secrets.GH_PAT }}
