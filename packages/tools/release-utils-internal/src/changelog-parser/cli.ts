@@ -49,7 +49,7 @@ function reformatModuleChangelog(filePath: string): void {
 // processChangelogsWith(resolve(__dirname, "..", "..", "..", "..", "packages", "modules"), reformatModuleChangelog);
 // processChangelogsWith(resolve(__dirname, "..", "..", "..", "..", "packages", "jsActions"), reformatModuleChangelog);
 
-function reformat(path: string, type: "module" | "package") {
+function reformat(path: string, type: "module" | "package"): void {
     if (type === "module") {
         return reformatModuleChangelog(path);
     }
@@ -57,7 +57,7 @@ function reformat(path: string, type: "module" | "package") {
     return reformatPackageChangelog(path);
 }
 
-function main() {
+function main(): void {
     switch (process.argv[2]) {
         case "reformat":
             return reformat(resolve(process.argv[4]), process.argv[3] as "module" | "package");

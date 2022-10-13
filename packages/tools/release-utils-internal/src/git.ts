@@ -27,7 +27,7 @@ export async function cloneRepo(githubUrl: string, localFolder: string): Promise
     await setLocalGitUserInfo(localFolder);
 }
 
-export async function cloneRepoShallow(remoteUrl: string, branch: string, localFolder: string) {
+export async function cloneRepoShallow(remoteUrl: string, branch: string, localFolder: string): Promise<void> {
     await execSync(
         `git clone ${getGHRepoAuthUrl(remoteUrl)} --branch=${branch} --depth=1 --single-branch ${localFolder}`,
         { stdio: "inherit" }
@@ -43,7 +43,7 @@ export async function setLocalGitUserInfo(workingDirectory?: string): Promise<vo
     await execShellCommand(`git config user.email "${GH_EMAIL}"`, workingDirectory);
 }
 
-export async function addRemoteWithAuthentication(repoUrl: string, remoteName: string) {
+export async function addRemoteWithAuthentication(repoUrl: string, remoteName: string): Promise<void> {
     await setLocalGitUserInfo();
 
     await execShellCommand(`git remote add "${remoteName}" "${getGHRepoAuthUrl(repoUrl)}"`);

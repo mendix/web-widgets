@@ -30,7 +30,7 @@ export class Version {
         return withBuild ? `${v}.${this.build}` : v;
     }
 
-    equals(anotherVersion: Version) {
+    equals(anotherVersion: Version): boolean {
         return (
             this.major === anotherVersion.major &&
             this.minor === anotherVersion.minor &&

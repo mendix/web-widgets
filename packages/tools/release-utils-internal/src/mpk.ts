@@ -9,7 +9,7 @@ import { Version } from "./version";
 import { readFile, writeFile } from "fs/promises";
 import { execSync } from "child_process";
 
-async function ensureMxBuildDockerImageExists(mendixVersion: Version) {
+async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<void> {
     const version = mendixVersion.format(true);
 
     const existingImages = (await execShellCommand(`docker image ls -q mxbuild:${version}`)).toString().trim();
