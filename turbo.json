@@ -9,6 +9,10 @@
             "dependsOn": ["^release"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
+        "release:module": {
+            "dependsOn": ["^release"],
+            "outputs": ["dist/**", "!dist/tmp/**"]
+        },
         "test": {
             "outputs": [],
             "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"]
@@ -18,7 +22,7 @@
         },
         "create-gh-release": {
             "cache": false,
-            "dependsOn": ["release"]
+            "dependsOn": ["release", "release:module"]
         }
     }
 }
