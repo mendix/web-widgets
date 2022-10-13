@@ -23,9 +23,10 @@ jobs:
         uses: pnpm/action-setup@537643d491d20c2712d11533497cb47b2d0eb9d5 # v2.2.3
         with:
           version: ^7.13.4
-      - name: Search for $PACKAGE in workspace
+      - name: Search for ${{ env.PACKAGE }} in workspace
         run: >
           if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
           then
             echo "::error::Package $PACKAGE not found in workspace.";
+            exit;
           fi
