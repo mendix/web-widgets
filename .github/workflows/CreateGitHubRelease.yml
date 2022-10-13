@@ -28,6 +28,8 @@ jobs:
           cache: "pnpm"
       - name: Verify package name (fail if package not found)
         run: test -n "$(pnpm ls --json --filter='${{ github.event.inputs.package }}')"
+      - name: Install dependencies
+        run: pnpm install
       - name: Create ${{ github.event.inputs.package }} widget release
         run: pnpm run create-gh-release --filter='${{ github.event.inputs.package }}'
         env:
