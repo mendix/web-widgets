@@ -1,4 +1,4 @@
-name: Create GitHub release Sandbox
+name: Create GitHub release
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   create-release:
-    name: "Create web widget/module release on GitHub"
+    name: "Create widget/module release on GitHub"
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +21,5 @@ jobs:
         uses: pnpm/action-setup@537643d491d20c2712d11533497cb47b2d0eb9d5 # v2.2.3
         with:
           version: ^7.13.4
-      - name: Verify package name
+      - name: Verify package name (fail if package not found)
         run: test -n "$(pnpm ls --json --filter='${{ github.event.inputs.package }}')"
-      - if: ${{ failure() }}
-        name: Package not found
-        run: echo "::error::Package with name ${{ github.event.inputs.package }} not found"
