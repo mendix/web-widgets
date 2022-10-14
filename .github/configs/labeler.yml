@@ -2,26 +2,20 @@ Atlas:
   - packages/**/*atlas*/**/*
 documentation:
   - all: ["*.md"]
-Cross-Platform:
-  - packages/tools/pluggable-widgets-tools/**/*
-  - packages/tools/generator/**/*
-  - packages/modules/atlas-core/**/*
-  - .github/**/*
-  - .husky/**/*
-  - data/**/*
-  - scripts/**/*
+WebActions:
+  - packages/*/web-actions/**/*
+  - packages/*/nanoflow-actions-web/**/*
+Charts:
+  - packages/*/charts/**/*
+  - packages/*/*-chart-web/**/*
+DataGrid:
+  - packages/*/data-widgets/**/*
+  - packages/*/datagrid-*/**/*
+  - packages/*/dropdown-sort-web/**/*
+  - packages/*/gallery-web/**/*
+  - packages/*/tree-node-web/**/*
 Hybrid:
   - packages/jsActions/*-hybrid/**/*
-Native:
-  - packages/**/*-native*/**/*
-  - packages/**/*_native*/**/*
-  - detox/**/*
-Web:
-  - packages/**/*-web*/**/*
-  - packages/shared/charts/**/*
-  - packages/**/*_web*/**/*
-  - packages/modules/data-widgets/**/*
-  - configs/e2e/**/*
 PWA:
   - packages/**/barcode-scanner-web/**/*
   - packages/**/nanoflow-actions-web/**/*
