@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 113922
+    "marketplaceId": 113922,
+    "appName": "Fieldset"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

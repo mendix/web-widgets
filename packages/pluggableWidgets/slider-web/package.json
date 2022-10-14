@@ -15,7 +15,8 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 48786
+    "marketplaceId": 48786,
+    "appName": "Slider"
   },
   "packagePath": "com.mendix.widget.custom",
   "scripts": {

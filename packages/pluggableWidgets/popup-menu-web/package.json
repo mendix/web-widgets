@@ -14,7 +14,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 115826
+    "marketplaceId": 115826,
+    "appName": "Pop-up Menu"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

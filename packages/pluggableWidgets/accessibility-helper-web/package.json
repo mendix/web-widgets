@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 114803
+    "marketplaceId": 114803,
+    "appName": "Accessibility Helper"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

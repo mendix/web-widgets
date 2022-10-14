@@ -15,7 +15,8 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 107044
+    "marketplaceId": 107044,
+    "appName": "Color Picker"
   },
   "packagePath": "com.mendix.widget.custom",
   "scripts": {

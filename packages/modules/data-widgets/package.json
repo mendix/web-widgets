@@ -10,7 +10,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
-    "marketplaceId": 116540
+    "marketplaceId": 116540,
+    "appName": "Data Widgets"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/DataWidgets-module",

@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 47783
+    "marketplaceId": 47783,
+    "appName": "Progress Circle"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

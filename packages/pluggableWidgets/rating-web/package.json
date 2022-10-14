@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 54611
+    "marketplaceId": 54611,
+    "appName": "Rating"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

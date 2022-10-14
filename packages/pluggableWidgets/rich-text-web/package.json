@@ -15,7 +15,8 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 74889
+    "marketplaceId": 74889,
+    "appName": "Rich Text"
   },
   "packagePath": "com.mendix.widget.custom",
   "scripts": {

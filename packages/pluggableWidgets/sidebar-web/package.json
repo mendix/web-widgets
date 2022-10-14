@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 0
+    "marketplaceId": 0,
+    "appName": "Sidebar"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

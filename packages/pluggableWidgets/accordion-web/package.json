@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 117895
+    "marketplaceId": 117895,
+    "appName": "Accordion"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

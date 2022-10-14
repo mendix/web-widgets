@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 52705
+    "marketplaceId": 52705,
+    "appName": "Badge Button"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

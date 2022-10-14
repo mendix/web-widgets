@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.0",
-    "marketplaceId": 0
+    "marketplaceId": 0,
+    "appName": "HTML Element"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

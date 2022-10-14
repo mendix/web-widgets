@@ -15,7 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 119160
+    "marketplaceId": 119160,
+    "appName": "Tooltip"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

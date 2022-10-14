@@ -10,7 +10,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.10.0.36429",
-    "marketplaceId": 114337
+    "marketplaceId": 114337,
+    "appName": "Web Actions"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/Web-Actions",
