@@ -1,9 +1,11 @@
 import { join } from "path";
 import { access } from "fs/promises";
-import { Version, VersionString } from "./version";
-// FIXME: Uncomment when md parser is 100% ready.
-// Disable changelog parser for now
+import { Version, VersionString, ensureVersion } from "./version";
 import { WidgetChangelogFileWrapper } from "./changelog-parser";
+import { z } from "zod";
+
+export const appNumberSchema = z.number().positive().int();
+export const appNameSchema = z.string().min(1);
 
 export interface PackageJsonFileContent {
     name?: string;
@@ -18,7 +20,9 @@ export interface PackageJsonFileContent {
 
     marketplace?: {
         minimumMXVersion: VersionString;
-        marketplaceId?: string;
+        marketplaceId?: number;
+        appName?: string;
+        appNumber?: number;
     };
 
     testProject?: {
@@ -31,25 +35,26 @@ export interface PackageJsonFileContent {
 
 export interface PackageInfo {
     packageName: string;
-    packageFullName: string;
-
+    appName?: string;
+    appNumber?: number;
     version: Version;
-
     repositoryUrl: string;
-
-    changelog: WidgetChangelogFileWrapper;
 }
 
-export interface WidgetPackageInfo extends PackageInfo {
-    packageFullName: string;
+export interface PublishedPackageInfo extends PackageInfo {
+    appName: z.infer<typeof appNameSchema>;
+    appNumber: z.infer<typeof appNumberSchema>;
     minimumMXVersion: Version;
     repositoryUrl: string;
     testProjectUrl: string | undefined;
     testProjectBranchName: string | undefined;
+}
+
+export interface WidgetInfo extends PublishedPackageInfo {
     changelog: WidgetChangelogFileWrapper;
 }
 
-export interface ModuleInfo extends WidgetPackageInfo {
+export interface ModuleInfo extends PublishedPackageInfo {
     testProjectUrl: string;
     testProjectBranchName: string;
     moduleNameInModeler: string;
@@ -73,15 +78,13 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
     const pkgPath = join(path, `package.json`);
     try {
         await access(pkgPath);
-        const { name, version, repository } = (await import(pkgPath)) as PackageJsonFileContent;
+        const { name, version, repository, marketplace } = (await import(pkgPath)) as PackageJsonFileContent;
         return {
             packageName: ensureString(name, "name"),
-            packageFullName: "",
+            appName: marketplace?.appName,
+            appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
             version: ensureVersion(version),
-
-            repositoryUrl: ensureString(repository?.url, "repository.url"),
-            changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
-            // changelog: "[Parsed Changelog]"
+            repositoryUrl: ensureString(repository?.url, "repository.url")
         };
     } catch (error) {
         console.log(error);
@@ -90,32 +93,37 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
     }
 }
 
-export async function getWidgetPackageInfo(path: string): Promise<WidgetPackageInfo> {
+export async function getPublishedPackageInfo(path: string): Promise<PublishedPackageInfo> {
     const pkgPath = join(path, `package.json`);
     try {
         await access(pkgPath);
-        const { name, widgetName, moduleName, version, marketplace, testProject, repository } = (await import(
+        const { name, version, repository, marketplace, testProject } = (await import(
             pkgPath
         )) as PackageJsonFileContent;
+
         return {
             packageName: ensureString(name, "name"),
-            packageFullName: ensureString(moduleName ?? widgetName, "moduleName or widgetName"),
-
+            appName: appNameSchema.parse(marketplace?.appName),
+            appNumber: appNumberSchema.parse(marketplace?.appNumber),
             version: ensureVersion(version),
-
-            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
             repositoryUrl: ensureString(repository?.url, "repository.url"),
-            // FIXME: Replace with md parser when md parser is 100% ready.
-            changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`),
-
+            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
             testProjectUrl: testProject?.githubUrl,
             testProjectBranchName: testProject?.branchName
         };
     } catch (error) {
         console.log(error);
         console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading widget info at " + path);
+        throw new Error("Error while reading package info at " + path);
     }
+}
+
+export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
+    const info = await getPublishedPackageInfo(path);
+    return {
+        ...info,
+        changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
+    };
 }
 
 export async function getModulePackageInfo(pkgDir: string): Promise<ModuleInfo> {
@@ -130,14 +138,13 @@ export async function getModulePackageInfo(pkgDir: string): Promise<ModuleInfo> 
     const moduleName = ensureString(moduleNameRaw, "moduleName");
     return {
         packageName: ensureString(name, "name"),
-        packageFullName: moduleName,
+        appName: appNameSchema.parse(marketplace?.appName),
+        appNumber: appNumberSchema.parse(marketplace?.appNumber),
         moduleNameInModeler: moduleName,
         moduleFolderNameInModeler: moduleName.toLowerCase(),
         version: ensureVersion(version),
         minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
         repositoryUrl: ensureString(repository?.url, "repository.url"),
-        // FIXME: Replace with md parser when md parser is 100% ready.
-        changelog: WidgetChangelogFileWrapper.fromFile(`${pkgDir}/CHANGELOG.md`),
         testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
         testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
     };
@@ -149,12 +156,4 @@ function ensureString(str: string | undefined, fieldName: string): string {
     }
 
     return str;
-}
-
-function ensureVersion(version: VersionString | undefined): Version {
-    if (version && /\d+\.\d+\.\d+/.test(version)) {
-        return Version.fromString(version);
-    }
-
-    throw new Error(`Unknown version format, cant parse: '${version}'`);
 }

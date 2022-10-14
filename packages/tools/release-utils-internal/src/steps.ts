@@ -27,7 +27,7 @@ export async function updateChangelogsAndCreatePR(
 
     console.log(`Creating pull request for '${releaseBranchName}'`);
     await gh.createGithubPRFrom({
-        title: `${packageInfo.packageFullName} v${packageInfo.version.format()}: Update changelog`,
+        title: `${packageInfo.appName} v${packageInfo.version.format()}: Update changelog`,
         body: "This is an automated PR that merges changelog update to master.",
         base: "main",
         head: releaseBranchName,

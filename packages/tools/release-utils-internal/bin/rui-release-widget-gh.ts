@@ -50,7 +50,7 @@ async function main(): Promise<void> {
     }
 
     await gh.createGithubReleaseFrom({
-        title: `${packageInfo.packageFullName} v${version}`,
+        title: `${packageInfo.appName} v${version}`,
         notes: packageInfo.changelog.changelog.content[0].sections
             .map(s => `## ${s.type}\n\n${s.logs.map(l => `- ${l}`).join("\n\n")}`)
             .join("\n\n"),

@@ -1,4 +1,27 @@
+import { z } from "zod";
 export type VersionString = `${number}.${number}.${number}` | `${number}.${number}.${number}.${number}`;
+export type VersionTuple = [number, number, number, number?];
+
+const g1 = "(?<major>0|[1-9]\\d*)";
+const g2 = "(?<minor>0|[1-9]\\d*)";
+const g3 = "(?<patch>0|[1-9]\\d*)";
+const g4 = "(?<build>0|[1-9]\\d*)";
+
+export const versionRegex = new RegExp(`^${g1}\\.${g2}\\.${g3}(?:\\.${g4})?$`, "m");
+
+const versionSchemaBase = z.string().regex(versionRegex);
+
+export const versionSchema = versionSchemaBase.transform(str => <VersionString>str);
+export const versionTuple = versionSchemaBase.transform(str => <VersionTuple>str.split(".").map(p => parseInt(p, 10)));
+
+export function ensureVersion(version: VersionString | undefined): Version {
+    try {
+        const fineVersion = versionSchema.parse(version);
+        return Version.fromString(fineVersion);
+    } catch {
+        throw new Error(`Unknown version format, cant parse: '${version}'`);
+    }
+}
 
 export class Version {
     constructor(
@@ -38,13 +61,16 @@ export class Version {
         );
     }
 
+    toTuple(): VersionTuple {
+        return [this.major, this.minor, this.patch, this.build];
+    }
+
     static fromParts(major: number, minor: number, patch: number, build: number | undefined): Version {
         return new Version(major, minor, patch, build);
     }
 
-    static fromString(version: VersionString): Version {
-        const [major, minor, patch, build] = version.split(".").map(p => parseInt(p, 10));
-
+    static fromString(version: string): Version {
+        const [major, minor, patch, build] = versionTuple.parse(version);
         return new Version(major, minor, patch, build);
     }
 }
