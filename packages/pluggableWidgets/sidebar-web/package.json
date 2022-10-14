@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mendix/widgets-resources.git"
+    "url": "https://github.com/mendix/web-widgets.git"
   },
   "config": {
     "mendixHost": "http://localhost:8080",

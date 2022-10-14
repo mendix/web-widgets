@@ -6,7 +6,7 @@
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mendix/widgets-resources.git"
+    "url": "https://github.com/mendix/web-widgets.git"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
