@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
-import { getPublishedPackageInfo, gh } from "../src";
+import { getPackageFileContent, getPublishedPackageInfo, gh } from "../src";
 import { createDraft, publishDraft } from "../src/api/contributor";
 
 async function main(): Promise<void> {
     console.log(`Getting package information...`);
-    const packageInfo = await getPublishedPackageInfo(process.cwd());
+    const content = await getPackageFileContent(process.cwd());
+    const packageInfo = await getPublishedPackageInfo(content);
     const tag = process.env.TAG;
 
     assert.ok(tag, "env.TAG is empty");
@@ -26,7 +27,9 @@ async function main(): Promise<void> {
         artifactUrl: mpk.browser_download_url
     });
 
-    await publishDraft({ draftUUID: draft.UUID });
+    console.dir(draft, { depth: 10 });
+
+    console.log(typeof publishDraft);
 }
 
 main().catch(error => {

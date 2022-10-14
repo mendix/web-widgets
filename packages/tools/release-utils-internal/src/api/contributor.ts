@@ -109,7 +109,7 @@ const CreateDraftParams = z.object({
 
 type CreateDraftParams = z.infer<typeof CreateDraftParams>;
 
-export async function createDraft(params: CreateDraftParams): Promise<CreateDraftSuccessResponse> {
+export async function createDraft(params: CreateDraftParams): Promise<void> {
     const { appName, appNumber, version, studioProVersion, artifactUrl } = CreateDraftParams.parse(params);
     console.log(`Creating draft in the Mendix Marketplace...`);
     console.log(`AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version} - StudioPro: ${studioProVersion}`);
@@ -119,6 +119,7 @@ export async function createDraft(params: CreateDraftParams): Promise<CreateDraf
             VersionMajor: major,
             VersionMinor: minor,
             VersionPatch: patch,
+            Name: appName,
             StudioProVersion: studioProVersion.format(),
             IsSourceGitHub: true,
             GithubRepo: {
@@ -127,7 +128,9 @@ export async function createDraft(params: CreateDraftParams): Promise<CreateDraf
             }
         };
 
-        return fetchContributor("POST", `packages/${appNumber}/versions`, JSON.stringify(body));
+        console.dir(body, { depth: 10 });
+
+        // return fetchContributor("POST", `packages/${appNumber}/versions`, JSON.stringify(body));
     } catch (error) {
         if (error instanceof Error) {
             error.message = `Failed creating draft in the appstore with error: ${error.message}`;

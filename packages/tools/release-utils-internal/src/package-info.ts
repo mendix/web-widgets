@@ -10,7 +10,8 @@ export const appNameSchema = z.string().min(1);
 export interface PackageJsonFileContent {
     name?: string;
     widgetName?: string;
-    moduleName?: string;
+    moduleNameInModeler?: string;
+    moduleFolderNameInModeler?: string;
     version?: VersionString;
 
     repository?: {
@@ -93,58 +94,55 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
     }
 }
 
-export async function getPublishedPackageInfo(path: string): Promise<PublishedPackageInfo> {
-    const pkgPath = join(path, `package.json`);
-    try {
-        await access(pkgPath);
-        const { name, version, repository, marketplace, testProject } = (await import(
-            pkgPath
-        )) as PackageJsonFileContent;
+export async function getPublishedPackageInfo(content: PackageJsonFileContent): Promise<PublishedPackageInfo> {
+    const { name, version, repository, marketplace, testProject } = content;
 
-        return {
-            packageName: ensureString(name, "name"),
-            appName: appNameSchema.parse(marketplace?.appName),
-            appNumber: appNumberSchema.parse(marketplace?.appNumber),
-            version: ensureVersion(version),
-            repositoryUrl: ensureString(repository?.url, "repository.url"),
-            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
-            testProjectUrl: testProject?.githubUrl,
-            testProjectBranchName: testProject?.branchName
-        };
-    } catch (error) {
-        console.log(error);
-        console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading package info at " + path);
+    let appName: string;
+    let appNumber: number;
+
+    try {
+        appName = appNameSchema.parse(marketplace?.appName);
+    } catch {
+        throw new Error("marketplace.appName is missing");
     }
+
+    try {
+        appNumber = appNumberSchema.parse(marketplace?.appNumber);
+    } catch {
+        throw new Error("marketplace.appNumber is missing, package is not published yet.");
+    }
+
+    return {
+        packageName: ensureString(name, "name"),
+        appName,
+        appNumber,
+        version: ensureVersion(version),
+        repositoryUrl: ensureString(repository?.url, "repository.url"),
+        minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
+        testProjectUrl: testProject?.githubUrl,
+        testProjectBranchName: testProject?.branchName
+    };
 }
 
 export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
-    const info = await getPublishedPackageInfo(path);
+    const content = await getPackageFileContent(path);
+    const info = await getPublishedPackageInfo(content);
     return {
         ...info,
         changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
     };
 }
 
-export async function getModulePackageInfo(pkgDir: string): Promise<ModuleInfo> {
-    const {
-        name,
-        moduleName: moduleNameRaw,
-        version,
-        marketplace,
-        testProject,
-        repository
-    } = await getPackageFileContent(pkgDir);
-    const moduleName = ensureString(moduleNameRaw, "moduleName");
+export async function getModulePackageInfo(path: string): Promise<ModuleInfo> {
+    const content = await getPackageFileContent(path);
+    const info = await getPublishedPackageInfo(content);
+
+    const { testProject } = content;
+
     return {
-        packageName: ensureString(name, "name"),
-        appName: appNameSchema.parse(marketplace?.appName),
-        appNumber: appNumberSchema.parse(marketplace?.appNumber),
-        moduleNameInModeler: moduleName,
-        moduleFolderNameInModeler: moduleName.toLowerCase(),
-        version: ensureVersion(version),
-        minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
-        repositoryUrl: ensureString(repository?.url, "repository.url"),
+        ...info,
+        moduleNameInModeler: ensureString(content.moduleNameInModeler, "moduleNameInModeler"),
+        moduleFolderNameInModeler: ensureString(content.moduleFolderNameInModeler, "moduleFolderNameInModeler"),
         testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
         testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
     };
