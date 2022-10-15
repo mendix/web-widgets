@@ -4,6 +4,7 @@
   "version": "2.2.3",
   "description": "",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"

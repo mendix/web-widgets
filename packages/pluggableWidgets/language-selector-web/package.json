@@ -15,8 +15,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.6",
-    "appNumber": 0,
-    "appName": "Language Selector"
+    "appName": "Language Selector",
+    "appNumber": 202738
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
