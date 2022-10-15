@@ -1,0 +1,32 @@
+name: "Publishes a package to marketplace"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-new-version:
+    name: "Publish a new package version from GitHub release"
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.ref }}
+
+    steps:
+      - name: Check release tag
+        run: |
+          tag=$(echo -n $TAG | grep -E "^[a-z0-9-]+-v\d\.\d\.\d$");
+          if [ -z tag ];
+          then
+            echo "::error::Invalid tag format."
+            exit 1;
+          fi
+      - run: echo "PACKAGE=${TAG%-v*}" >> $GITHUB_ENV
+      - name: Search for package in workspace
+        run: >
+          if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
+          then
+            echo "::error::Package $PACKAGE not found in workspace.";
+            exit 1;
+          fi
+      - name: Run publish script
+        run: echo $PACKAGE
