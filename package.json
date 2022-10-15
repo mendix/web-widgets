@@ -18,6 +18,7 @@
     "build": "turbo run build",
     "release": "turbo run release",
     "create-gh-release": "turbo run create-gh-release",
+    "publish-marketplace": "turbo run publish-marketplace --concurrency=1 --continue",
     "version": "ts-node --project ./scripts/tsconfig.json ./scripts/release/BumpVersion.ts",
     "validate-staged-widget-versions": "node scripts/validation/validate-versions-staged-files.js"
   },

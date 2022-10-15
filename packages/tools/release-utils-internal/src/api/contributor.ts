@@ -112,7 +112,9 @@ type CreateDraftParams = z.infer<typeof CreateDraftParams>;
 export async function createDraft(params: CreateDraftParams): Promise<void> {
     const { appName, appNumber, version, studioProVersion, artifactUrl } = CreateDraftParams.parse(params);
     console.log(`Creating draft in the Mendix Marketplace...`);
-    console.log(`AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version} - StudioPro: ${studioProVersion}`);
+    console.log(
+        `AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version.format()} - StudioPro: ${studioProVersion.format()}`
+    );
     const [major, minor, patch] = version.toTuple();
     try {
         const body = {

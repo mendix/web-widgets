@@ -23,6 +23,9 @@
         "create-gh-release": {
             "cache": false,
             "dependsOn": ["release", "release:module"]
+        },
+        "publish-marketplace": {
+            "cache": false
         }
     }
 }
