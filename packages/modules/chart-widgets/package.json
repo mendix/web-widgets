@@ -3,6 +3,7 @@
   "moduleName": "ChartWidgets",
   "version": "1.0.0",
   "license": "Apache-2.0",
+  "private": true,
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
     "type": "git",
