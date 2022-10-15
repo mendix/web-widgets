@@ -94,7 +94,7 @@ export class GitHub {
     }
 
     async getReleaseArtifacts(releaseTag: string): Promise<Array<{ name: string; browser_download_url: string }>> {
-        const releaseId = this.getReleaseIdByReleaseTag(releaseTag);
+        const releaseId = await this.getReleaseIdByReleaseTag(releaseTag);
 
         if (!releaseId) {
             throw new Error(`Could not find release with tag '${releaseTag}' on GitHub`);
