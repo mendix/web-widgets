@@ -9,7 +9,7 @@ jobs:
     name: "Publish a new package version from GitHub release"
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ github.ref }}
+      TAG: ${{ github.ref_name }}
 
     steps:
       - name: Check release tag
