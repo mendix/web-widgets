@@ -10,7 +10,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.11.42323",
-    "marketplaceId": 117183,
+    "appNumber": 117183,
     "appName": "Atlas Web Content"
   },
   "testProject": {

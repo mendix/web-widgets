@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.0",
-    "marketplaceId": 0,
+    "appNumber": 0,
     "appName": "HTML Element"
   },
   "testProject": {

@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 47783,
+    "appNumber": 47783,
     "appName": "Progress Circle"
   },
   "testProject": {

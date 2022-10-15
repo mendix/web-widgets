@@ -10,7 +10,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
-    "marketplaceId": 116540,
+    "appNumber": 116540,
     "appName": "Data Widgets"
   },
   "testProject": {

@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 54611,
+    "appNumber": 54611,
     "appName": "Rating"
   },
   "testProject": {

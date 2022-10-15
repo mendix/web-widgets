@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 117895,
+    "appNumber": 117895,
     "appName": "Accordion"
   },
   "testProject": {

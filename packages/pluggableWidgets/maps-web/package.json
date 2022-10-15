@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 108261,
+    "appNumber": 108261,
     "appName": "Maps"
   },
   "testProject": {

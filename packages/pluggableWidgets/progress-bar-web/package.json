@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 48910,
+    "appNumber": 48910,
     "appName": "Progress Bar"
   },
   "testProject": {

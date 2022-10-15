@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 52704,
+    "appNumber": 52704,
     "appName": "Range Slider"
   },
   "packagePath": "com.mendix.widget.custom",

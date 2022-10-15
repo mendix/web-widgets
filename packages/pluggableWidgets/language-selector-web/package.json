@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.6",
-    "marketplaceId": 0,
+    "appNumber": 0,
     "appName": "Language Selector"
   },
   "testProject": {

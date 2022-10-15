@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 115852,
+    "appNumber": 115852,
     "appName": "Timeline"
   },
   "testProject": {

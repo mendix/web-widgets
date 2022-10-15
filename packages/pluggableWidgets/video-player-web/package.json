@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 110700,
+    "appNumber": 110700,
     "appName": "Video Player"
   },
   "testProject": {

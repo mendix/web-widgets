@@ -10,7 +10,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
-    "marketplaceId": 999999
+    "appNumber": 999999
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/Charts-module",

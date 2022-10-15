@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 117627,
+    "appNumber": 117627,
     "appName": "Barcode Scanner"
   },
   "testProject": {

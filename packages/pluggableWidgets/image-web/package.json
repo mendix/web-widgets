@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 118579,
+    "appNumber": 118579,
     "appName": "Image"
   },
   "testProject": {

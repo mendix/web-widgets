@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "7.14.1",
-    "marketplaceId": 107954
+    "appNumber": 107954
   },
   "scripts": {
     "start": "utils-react-widgets start",

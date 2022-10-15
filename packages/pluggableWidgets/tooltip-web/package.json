@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 119160,
+    "appNumber": 119160,
     "appName": "Tooltip"
   },
   "testProject": {

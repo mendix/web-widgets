@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 52705,
+    "appNumber": 52705,
     "appName": "Badge Button"
   },
   "testProject": {

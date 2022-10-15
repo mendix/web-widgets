@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 50325,
+    "appNumber": 50325,
     "appName": "Badge"
   },
   "testProject": {

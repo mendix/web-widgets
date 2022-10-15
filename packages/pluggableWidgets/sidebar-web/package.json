@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 0,
+    "appNumber": 0,
     "appName": "Sidebar"
   },
   "testProject": {

@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 113922,
+    "appNumber": 113922,
     "appName": "Fieldset"
   },
   "testProject": {

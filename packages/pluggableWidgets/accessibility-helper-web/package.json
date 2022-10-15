@@ -15,7 +15,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "marketplaceId": 114803,
+    "appNumber": 114803,
     "appName": "Accessibility Helper"
   },
   "testProject": {

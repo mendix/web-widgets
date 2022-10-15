@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "marketplace": {
     "minimumMXVersion": "8.4.0.63076",
-    "marketplaceId": 112063
+    "appNumber": 112063
   },
   "scripts": {
     "start": "concurrently \"npm:watch-*\"",

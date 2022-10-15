@@ -10,7 +10,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.6.53361",
-    "marketplaceId": 117187
+    "appNumber": 117187
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/Atlas-Design-System",
