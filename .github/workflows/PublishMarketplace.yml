@@ -20,7 +20,8 @@ jobs:
             echo "::error::Invalid tag format."
             exit 1
           fi
-      - run: echo "PACKAGE=${TAG%-v*}" >> $GITHUB_ENV
+      - name: "Set PACKAGE env var"
+        run: echo "PACKAGE=${TAG%-v*}" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
@@ -35,11 +36,16 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - name: Search for package in workspace
-        run: >
+        run: |
           if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
           then
             echo "::error::Package $PACKAGE not found in workspace.";
             exit 1;
           fi
       - name: Run publish script
-        run: echo $PACKAGE
+        run: pnpm run publish-marketplace --filter=$PACKAGE
+        env:
+          CPAPI_URL: ${{ secrets.CPAPI_URL }}
+          CPAPI_USER: ${{ secrets.CPAPI_USER }}
+          CPAPI_USER_OPENID: ${{ secrets.CPAPI_USER_OPENID }}
+          CPAPI_PASS: ${{ secrets.CPAPI_PASS }}
