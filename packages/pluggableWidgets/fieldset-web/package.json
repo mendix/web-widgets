@@ -34,7 +34,8 @@
     "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress",
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "pluggable-widgets-tools release:web",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "create-gh-release": "rui-release-widget-gh",
+    "publish-marketplace": "rui-publish-marketplace"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*"
@@ -56,6 +57,9 @@
     "mendix": "^9.18.53394",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
-    "react-test-renderer": "~17.0.2"
+    "react-test-renderer": "~17.0.2",
+    "@mendix/release-utils-internal": "workspace:*",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4"
   }
 }

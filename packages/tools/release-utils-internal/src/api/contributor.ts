@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { fetch, BodyInit } from "../fetch";
 import { z } from "zod";
 import { Version } from "../version";
+import { fgGreen } from "../ansi-colors";
 
 export interface CreateDraftSuccessResponse {
     App: App;
@@ -109,11 +110,13 @@ const CreateDraftParams = z.object({
 
 type CreateDraftParams = z.infer<typeof CreateDraftParams>;
 
-export async function createDraft(params: CreateDraftParams): Promise<void> {
+export async function createDraft(params: CreateDraftParams): Promise<CreateDraftSuccessResponse> {
     const { appName, appNumber, version, studioProVersion, artifactUrl } = CreateDraftParams.parse(params);
     console.log(`Creating draft in the Mendix Marketplace...`);
     console.log(
-        `AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version.format()} - StudioPro: ${studioProVersion.format()}`
+        fgGreen(
+            `AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version.format()} - StudioPro: ${studioProVersion.format()}`
+        )
     );
     const [major, minor, patch] = version.toTuple();
     try {
@@ -130,12 +133,10 @@ export async function createDraft(params: CreateDraftParams): Promise<void> {
             }
         };
 
-        console.dir(body, { depth: 10 });
-
-        // return fetchContributor("POST", `packages/${appNumber}/versions`, JSON.stringify(body));
+        return fetchContributor("POST", `packages/${appNumber}/versions`, JSON.stringify(body));
     } catch (error) {
         if (error instanceof Error) {
-            error.message = `Failed creating draft in the appstore with error: ${error.message}`;
+            error.message = `Failed to create draft in the appstore with error: ${error.message}`;
         }
         throw error;
     }
