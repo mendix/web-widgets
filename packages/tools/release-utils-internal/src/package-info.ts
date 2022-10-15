@@ -13,6 +13,7 @@ export interface PackageJsonFileContent {
     moduleNameInModeler?: string;
     moduleFolderNameInModeler?: string;
     version?: VersionString;
+    private?: boolean;
 
     repository?: {
         type: "git";
@@ -95,10 +96,14 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
 }
 
 export async function getPublishedPackageInfo(content: PackageJsonFileContent): Promise<PublishedPackageInfo> {
-    const { name, version, repository, marketplace, testProject } = content;
+    const { name, version, repository, marketplace, testProject, private: privatePackage } = content;
 
     let appName: string;
     let appNumber: number;
+
+    if (privatePackage) {
+        throw new Error("Package is marked as private");
+    }
 
     try {
         appName = appNameSchema.parse(marketplace?.appName);
