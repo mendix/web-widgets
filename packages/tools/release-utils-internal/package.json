@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "rui-release-widget-gh": "bin/rui-release-widget-gh.ts"
+    "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
+    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
   },
   "scripts": {
     "start": "tsc --watch",
