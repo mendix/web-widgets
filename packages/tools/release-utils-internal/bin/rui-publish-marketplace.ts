@@ -1,14 +1,13 @@
 #!/usr/bin/env ts-node-script
 
 import assert from "node:assert/strict";
-import { getPackageFileContent, getPublishedPackageInfo, gh } from "../src";
+import { getPackageInfo, ensurePublished, gh } from "../src";
 import { fgGreen } from "../src/ansi-colors";
 import { createDraft, publishDraft } from "../src/api/contributor";
 
 async function main(): Promise<void> {
     console.log(`Getting package information...`);
-    const content = await getPackageFileContent(process.cwd());
-    const packageInfo = await getPublishedPackageInfo(content);
+    const packageInfo = ensurePublished(await getPackageInfo(process.cwd()));
     const tag = process.env.TAG;
 
     assert.ok(tag, "env.TAG is empty");

@@ -37,30 +37,40 @@ export interface PackageJsonFileContent {
 
 export interface PackageInfo {
     packageName: string;
+    version: Version;
+    minimumMXVersion: Version;
+    repositoryUrl: string;
+    private?: boolean;
     appName?: string;
     appNumber?: number;
-    version: Version;
-    repositoryUrl: string;
+    testProjectUrl?: string;
+    testProjectBranchName?: string;
+}
+
+export interface WidgetInfo extends PackageInfo {
+    changelog: WidgetChangelogFileWrapper;
+}
+
+export interface ModuleInfo extends PackageInfo {
+    testProjectUrl: string;
+    testProjectBranchName: string;
+    moduleNameInModeler: string;
+    moduleFolderNameInModeler: string;
 }
 
 export interface PublishedPackageInfo extends PackageInfo {
     appName: z.infer<typeof appNameSchema>;
     appNumber: z.infer<typeof appNumberSchema>;
-    minimumMXVersion: Version;
-    repositoryUrl: string;
-    testProjectUrl: string | undefined;
-    testProjectBranchName: string | undefined;
 }
 
-export interface WidgetInfo extends PublishedPackageInfo {
-    changelog: WidgetChangelogFileWrapper;
+export interface PublishedModuleInfo extends ModuleInfo {
+    appName: string;
+    appNumber: number;
 }
 
-export interface ModuleInfo extends PublishedPackageInfo {
-    testProjectUrl: string;
-    testProjectBranchName: string;
-    moduleNameInModeler: string;
-    moduleFolderNameInModeler: string;
+export interface PublishedWidgetInfo extends WidgetInfo {
+    appName: string;
+    appNumber: number;
 }
 
 export async function getPackageFileContent(dirPath: string): Promise<PackageJsonFileContent> {
@@ -80,13 +90,24 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
     const pkgPath = join(path, `package.json`);
     try {
         await access(pkgPath);
-        const { name, version, repository, marketplace } = (await import(pkgPath)) as PackageJsonFileContent;
+        const {
+            name,
+            version,
+            repository,
+            marketplace,
+            testProject,
+            private: privatePackage
+        } = (await import(pkgPath)) as PackageJsonFileContent;
         return {
             packageName: ensureString(name, "name"),
+            version: ensureVersion(version),
+            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
+            repositoryUrl: ensureString(repository?.url, "repository.url"),
+            private: privatePackage,
             appName: marketplace?.appName,
             appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
-            version: ensureVersion(version),
-            repositoryUrl: ensureString(repository?.url, "repository.url")
+            testProjectUrl: testProject?.githubUrl,
+            testProjectBranchName: testProject?.branchName
         };
     } catch (error) {
         console.log(error);
@@ -95,43 +116,37 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
     }
 }
 
-export async function getPublishedPackageInfo(content: PackageJsonFileContent): Promise<PublishedPackageInfo> {
-    const { name, version, repository, marketplace, testProject, private: privatePackage } = content;
-
-    let appName: string;
-    let appNumber: number;
-
-    if (privatePackage) {
+export function ensurePublished(packageInfo: ModuleInfo): PublishedModuleInfo;
+export function ensurePublished(packageInfo: WidgetInfo): PublishedWidgetInfo;
+export function ensurePublished(packageInfo: PackageInfo): PublishedPackageInfo;
+export function ensurePublished<T extends PackageInfo>(packageInfo: T): T {
+    if (packageInfo.private) {
         throw new Error("Package is marked as private");
     }
 
+    let appName: string;
+    let appNumber: number;
     try {
-        appName = appNameSchema.parse(marketplace?.appName);
+        appName = appNameSchema.parse(packageInfo.appName);
     } catch {
         throw new Error("marketplace.appName is missing");
     }
 
     try {
-        appNumber = appNumberSchema.parse(marketplace?.appNumber);
+        appNumber = appNumberSchema.parse(packageInfo.appNumber);
     } catch {
         throw new Error("marketplace.appNumber is missing, package is not published yet.");
     }
 
     return {
-        packageName: ensureString(name, "name"),
+        ...packageInfo,
         appName,
-        appNumber,
-        version: ensureVersion(version),
-        repositoryUrl: ensureString(repository?.url, "repository.url"),
-        minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
-        testProjectUrl: testProject?.githubUrl,
-        testProjectBranchName: testProject?.branchName
+        appNumber
     };
 }
 
 export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
-    const content = await getPackageFileContent(path);
-    const info = await getPublishedPackageInfo(content);
+    const info = await getPackageInfo(path);
     return {
         ...info,
         changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
@@ -140,9 +155,8 @@ export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
 
 export async function getModulePackageInfo(path: string): Promise<ModuleInfo> {
     const content = await getPackageFileContent(path);
-    const info = await getPublishedPackageInfo(content);
-
     const { testProject } = content;
+    const info = await getPackageInfo(path);
 
     return {
         ...info,
