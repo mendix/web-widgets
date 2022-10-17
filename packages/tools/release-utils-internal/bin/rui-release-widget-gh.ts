@@ -3,7 +3,7 @@ import { find } from "../src/shell";
 import { getWidgetPackageInfo } from "../src/package-info";
 import { gh } from "../src/github";
 import { addRemoteWithAuthentication } from "../src/git";
-import { updateChangelogsAndCreatePR } from "../src/steps";
+import { updateChangelogsAndCreatePR } from "../src/changelog";
 
 async function main(): Promise<void> {
     // 1. Get widget info

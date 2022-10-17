@@ -40,12 +40,12 @@ export interface PackageInfo {
     version: Version;
     minimumMXVersion: Version;
     repositoryUrl: string;
+    testProjectUrl: string;
+    testProjectBranchName: string;
     widgetName?: string;
     private?: boolean;
     appName: string;
     appNumber?: number;
-    testProjectUrl?: string;
-    testProjectBranchName?: string;
 }
 
 export interface WidgetInfo extends PackageInfo {
@@ -54,8 +54,6 @@ export interface WidgetInfo extends PackageInfo {
 }
 
 export interface ModuleInfo extends PackageInfo {
-    testProjectUrl: string;
-    testProjectBranchName: string;
     moduleNameInModeler: string;
     moduleFolderNameInModeler: string;
 }
@@ -107,8 +105,8 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
             private: privatePackage,
             appName: ensureString(marketplace?.appName, "appName"),
             appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
-            testProjectUrl: testProject?.githubUrl,
-            testProjectBranchName: testProject?.branchName
+            testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
+            testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
         };
     } catch (error) {
         console.log(error);

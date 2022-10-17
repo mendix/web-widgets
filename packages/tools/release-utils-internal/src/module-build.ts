@@ -33,18 +33,6 @@
 //     await Promise.all([updateTestProjectWidgets(config), updateTestProjectStyles(config)]);
 // }
 
-<<<<<<< HEAD
-// Build module dependencies.
-// After this step we can be sure that module deps are build successfuly.
-export async function stepBuildDeps(config: DepsBuildConfig): Promise<void> {
-    console.info("Changing cwd...");
-    pushd(config.repoRootPath);
-    console.info("Start building dependencies...");
-    await exec(`npm run release -- ${config.scope} --include-dependencies --concurrency 1`);
-    console.info("Changing cwd...");
-    popd();
-}
-=======
 // // Build module dependencies.
 // // After this step we can be sure that module deps are build successfuly.
 // export async function stepBuildDeps(config: DepsBuildConfig): Promise<void> {
@@ -55,7 +43,6 @@ export async function stepBuildDeps(config: DepsBuildConfig): Promise<void> {
 //     console.info("Changing cwd...");
 //     popd();
 // }
->>>>>>> 9a3b532a4 (refactor(release-utils-internal): update module build scripts)
 
 // // Build module contents only, which skips packing and other steps.
 // // This type of build is mainly exists for developing purposes.

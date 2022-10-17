@@ -1,4 +1,4 @@
-import { exec } from "./shell";
+import { exec, find, mkdir, cp } from "./shell";
 
 type DependencyName = string;
 
@@ -24,4 +24,16 @@ export async function listPackages(packageNames: string[]): Promise<PackageListi
     const result = (await exec(command)).stdout.trim();
     const data = <PackageListing[]>JSON.parse(result !== "" ? result : "[]");
     return data;
+}
+
+export async function getMpkPaths(packageNames: string[]): Promise<string[]> {
+    const packages = await listPackages(packageNames);
+    const paths = [...find(packages.map(p => `${p.path}/dist/${p.version}/*.mpk`))];
+    return paths;
+}
+
+export async function copyMpkFiles(packageNames: string[], dest: string): Promise<void> {
+    const paths = await getMpkPaths(packageNames);
+    mkdir("-p", dest);
+    cp(paths, dest);
 }

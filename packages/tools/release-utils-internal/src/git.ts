@@ -1,4 +1,3 @@
-import { mkdir, rm } from "fs/promises";
 import { exec } from "./shell";
 
 function getGHRepoAuthUrl(repoUrl: string): string {
@@ -14,20 +13,33 @@ function getGHRepoAuthUrl(repoUrl: string): string {
     return url.toString();
 }
 
-export async function cloneRepo(githubUrl: string, localFolder: string): Promise<void> {
-    // clean up local folder
-    await rm(localFolder, { recursive: true, force: true });
-    await mkdir(localFolder, { recursive: true });
+type CloneParams = {
+    remoteUrl: string;
+    localFolder: string;
+    branch?: string;
+};
 
-    // clone and set local credentials
-    await exec(`git clone ${getGHRepoAuthUrl(githubUrl)} ${localFolder}`);
-
-    // set credentials
-    await setLocalGitUserInfo(localFolder);
+export async function clean(): Promise<void> {
+    await exec(`git clean -fd`);
 }
 
-export async function cloneRepoShallow(remoteUrl: string, branch: string, localFolder: string): Promise<void> {
-    await exec(`git clone ${getGHRepoAuthUrl(remoteUrl)} --branch=${branch} --depth=1 --single-branch ${localFolder}`);
+export async function cloneRepo({ remoteUrl, localFolder, branch }: CloneParams): Promise<void> {
+    const options = [getGHRepoAuthUrl(remoteUrl), branch ? `--branch=${branch}` : "", localFolder].filter(Boolean);
+
+    await exec(`git clone ${options.join(" ")}`);
+    await setLocalGitUserInfo(localFolder);
+}
+export async function cloneRepoShallow({ remoteUrl, localFolder, branch }: CloneParams): Promise<void> {
+    const options = [
+        getGHRepoAuthUrl(remoteUrl),
+        branch ? `--branch=${branch}` : "",
+        `--depth=1`,
+        `--single-branch`,
+        localFolder
+    ].filter(Boolean);
+
+    await exec(`git clone ${options.join(" ")}`);
+    await setLocalGitUserInfo(localFolder);
 }
 
 export async function setLocalGitUserInfo(workingDirectory?: string): Promise<void> {
