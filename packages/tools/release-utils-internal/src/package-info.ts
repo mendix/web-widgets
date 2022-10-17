@@ -40,14 +40,16 @@ export interface PackageInfo {
     version: Version;
     minimumMXVersion: Version;
     repositoryUrl: string;
+    widgetName?: string;
     private?: boolean;
-    appName?: string;
+    appName: string;
     appNumber?: number;
     testProjectUrl?: string;
     testProjectBranchName?: string;
 }
 
 export interface WidgetInfo extends PackageInfo {
+    widgetName: string;
     changelog: WidgetChangelogFileWrapper;
 }
 
@@ -59,17 +61,14 @@ export interface ModuleInfo extends PackageInfo {
 }
 
 export interface PublishedPackageInfo extends PackageInfo {
-    appName: z.infer<typeof appNameSchema>;
-    appNumber: z.infer<typeof appNumberSchema>;
+    appNumber: number;
 }
 
 export interface PublishedModuleInfo extends ModuleInfo {
-    appName: string;
     appNumber: number;
 }
 
 export interface PublishedWidgetInfo extends WidgetInfo {
-    appName: string;
     appNumber: number;
 }
 
@@ -92,6 +91,7 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
         await access(pkgPath);
         const {
             name,
+            widgetName,
             version,
             repository,
             marketplace,
@@ -100,11 +100,12 @@ export async function getPackageInfo(path: string): Promise<PackageInfo> {
         } = (await import(pkgPath)) as PackageJsonFileContent;
         return {
             packageName: ensureString(name, "name"),
+            widgetName,
             version: ensureVersion(version),
             minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
             repositoryUrl: ensureString(repository?.url, "repository.url"),
             private: privatePackage,
-            appName: marketplace?.appName,
+            appName: ensureString(marketplace?.appName, "appName"),
             appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
             testProjectUrl: testProject?.githubUrl,
             testProjectBranchName: testProject?.branchName
@@ -149,6 +150,7 @@ export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
     const info = await getPackageInfo(path);
     return {
         ...info,
+        widgetName: ensureString(info.widgetName, "widgetName"),
         changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
     };
 }

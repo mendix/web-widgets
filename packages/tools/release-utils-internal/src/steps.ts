@@ -1,7 +1,8 @@
 import { WidgetChangelogFileWrapper } from "./changelog-parser";
 import { PackageInfo } from "./package-info";
-import { exec } from "./shell";
+import { exec, find, mkdir, cp } from "./shell";
 import { gh } from "./github";
+import { listPackages } from "./monorepo";
 
 export async function updateChangelogsAndCreatePR(
     packageInfo: PackageInfo,
@@ -33,4 +34,11 @@ export async function updateChangelogsAndCreatePR(
     });
 
     console.log("Created PR for changelog updates.");
+}
+
+export async function copyMpkFiles(packageNames: string[], dest: string): Promise<void> {
+    const packages = await listPackages(packageNames);
+    const paths = [...find(packages.map(p => `${p.path}/dist/${p.version}/*.mpk`))];
+    mkdir("-p", dest);
+    cp(paths, dest);
 }
