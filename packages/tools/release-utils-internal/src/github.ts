@@ -43,7 +43,7 @@ export class GitHub {
             `'${repoArgument}'`
         ].join(" ");
 
-        await exec(command, { stdio: "inherit" });
+        await exec(command);
     }
 
     async createGithubReleaseFrom({
@@ -59,7 +59,7 @@ export class GitHub {
 
         const notesFilePath = await this.createReleaseNotesFile(notes);
 
-        const targetHash = (await exec(`git rev-parse --verify ${target}`)).stdout.trim();
+        const targetHash = (await exec(`git rev-parse --verify ${target}`, { silent: true })).stdout.trim();
         const command = [
             `gh release create`,
             `--title '${title}'`,
@@ -73,7 +73,7 @@ export class GitHub {
             .filter(str => str !== "")
             .join(" ");
 
-        await exec(command, { stdio: "inherit" });
+        await exec(command);
     }
 
     async getReleaseIdByReleaseTag(releaseTag: string): Promise<string | undefined> {

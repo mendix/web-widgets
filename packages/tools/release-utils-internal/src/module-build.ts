@@ -39,7 +39,7 @@ export async function stepBuildDeps(config: DepsBuildConfig): Promise<void> {
     console.info("Changing cwd...");
     pushd(config.repoRootPath);
     console.info("Start building dependencies...");
-    await exec(`npm run release -- ${config.scope} --include-dependencies --concurrency 1`, { stdio: "inherit" });
+    await exec(`npm run release -- ${config.scope} --include-dependencies --concurrency 1`);
     console.info("Changing cwd...");
     popd();
 }

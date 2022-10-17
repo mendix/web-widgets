@@ -12,7 +12,7 @@ export async function updateChangelogsAndCreatePR(
     const releaseBranchName = `${releaseTag}-update-changelog`;
 
     console.log(`Creating branch '${releaseBranchName}'...`);
-    await exec(`git checkout -b ${releaseBranchName}`, { stdio: "inherit" });
+    await exec(`git checkout -b ${releaseBranchName}`);
 
     console.log("Updating CHANGELOG.md...");
     const updatedChangelog = changelog.moveUnreleasedToVersion(packageInfo.version);

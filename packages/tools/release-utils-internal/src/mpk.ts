@@ -16,8 +16,7 @@ async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<v
         await exec(
             `docker build -f ${dockerfilePath} ` +
                 `--build-arg MENDIX_VERSION=${version} ` +
-                `mxbuild:${version} ${process.cwd()}`,
-            { stdio: "inherit" }
+                `mxbuild:${version} ${process.cwd()}`
         );
     }
 }
@@ -51,11 +50,11 @@ export async function createModuleMpkInDocker(
         moduleName
     ].join(" ");
 
-    await exec(`docker run -v ${sourceDir}:/source --rm mxbuild:${version} bash -c "${args}"`, { stdio: "inherit" });
+    await exec(`docker run -v ${sourceDir}:/source --rm mxbuild:${version} bash -c "${args}"`);
     console.log(`Module ${moduleName} created successfully.`);
     if (process.env.CI) {
         console.info("Changing sourceDir ownership...");
-        await exec(`sudo chown -R "$(id -u):$(id -g)" ${sourceDir}`, { stdio: "inherit" });
+        await exec(`sudo chown -R "$(id -u):$(id -g)" ${sourceDir}`);
     }
 }
 

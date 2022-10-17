@@ -20,16 +20,14 @@ export async function cloneRepo(githubUrl: string, localFolder: string): Promise
     await mkdir(localFolder, { recursive: true });
 
     // clone and set local credentials
-    await exec(`git clone ${getGHRepoAuthUrl(githubUrl)} ${localFolder}`, { stdio: "inherit" });
+    await exec(`git clone ${getGHRepoAuthUrl(githubUrl)} ${localFolder}`);
 
     // set credentials
     await setLocalGitUserInfo(localFolder);
 }
 
 export async function cloneRepoShallow(remoteUrl: string, branch: string, localFolder: string): Promise<void> {
-    await exec(`git clone ${getGHRepoAuthUrl(remoteUrl)} --branch=${branch} --depth=1 --single-branch ${localFolder}`, {
-        stdio: "inherit"
-    });
+    await exec(`git clone ${getGHRepoAuthUrl(remoteUrl)} --branch=${branch} --depth=1 --single-branch ${localFolder}`);
 }
 
 export async function setLocalGitUserInfo(workingDirectory?: string): Promise<void> {
@@ -44,5 +42,5 @@ export async function setLocalGitUserInfo(workingDirectory?: string): Promise<vo
 export async function addRemoteWithAuthentication(repoUrl: string, remoteName: string): Promise<void> {
     await setLocalGitUserInfo();
 
-    await exec(`git remote add "${remoteName}" "${getGHRepoAuthUrl(repoUrl)}"`, { stdio: "inherit" });
+    await exec(`git remote add "${remoteName}" "${getGHRepoAuthUrl(repoUrl)}"`);
 }
