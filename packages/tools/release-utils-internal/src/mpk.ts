@@ -1,7 +1,7 @@
 import { basename, join, parse, format } from "path";
 import { z } from "zod";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { exec, getFiles, unzip, zip, cp, rm, mkdir } from "./shell";
+import { exec, find, unzip, zip, cp, rm, mkdir } from "./shell";
 import { ModuleInfo } from "./package-info";
 import { Version } from "./version";
 import { readFile, writeFile } from "fs/promises";
@@ -33,7 +33,8 @@ export async function createModuleMpkInDocker(
 
     console.log(`Creating module ${moduleName} using mxbuild:${version}...`);
     // Build testProject via mxbuild
-    const projectFile = basename((await getFiles(sourceDir, [`.mpr`]))[0]);
+    const mprPath = find(`${sourceDir}/*.mpr`)[0];
+    const projectFile = basename(mprPath);
     const args = [
         // update widgets
         "mx",
@@ -69,7 +70,7 @@ export async function createMPK(
         moduleInfo.minimumMXVersion,
         excludeFilesRegExp
     );
-    return (await getFiles(tmpFolder, [`.mpk`]))[0];
+    return find(`${tmpFolder}/*.mpk`)[0];
 }
 
 const EmptyTag = z.literal("");
