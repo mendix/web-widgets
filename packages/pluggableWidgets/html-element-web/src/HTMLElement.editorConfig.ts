@@ -25,7 +25,7 @@ const disabledElements = ["script"];
 
 function isValidHtmlTagName(name: string): boolean {
     // rather naive approach that works in most cases
-    return /^[a-z_][\w.-]*$/i.test(name);
+    return /^[a-z][\w.-]*$/i.test(name);
 }
 
 function attributeValuePropsExcept(valueName: TagAttributeValuePropName): TagAttributeValuePropName[] {
