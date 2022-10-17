@@ -1,9 +1,8 @@
 import { dirname, join, relative } from "node:path";
-import { cp, mkdir, mv, popd, pushd, rm } from "shelljs";
 import { BuildOptions, BuildParams, DepsBuildConfig, getBuildConfig, getDepsConfig, ModuleBuildConfig } from "./config";
 import { cloneRepoShallow } from "./git";
 import { createMPK, exportModuleWithWidgets } from "./mpk";
-import { exec } from "./shell";
+import { exec, cp, mkdir, mv, popd, pushd, rm } from "./shell";
 
 export async function cleanup(config: ModuleBuildConfig): Promise<void> {
     console.info("Removing dist...");

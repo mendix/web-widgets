@@ -1,5 +1,5 @@
 #!/usr/bin/env ts-node-script
-import { find } from "shelljs";
+import { find } from "../src/shell";
 import { getWidgetPackageInfo } from "../src/package-info";
 import { gh } from "../src/github";
 import { addRemoteWithAuthentication } from "../src/git";

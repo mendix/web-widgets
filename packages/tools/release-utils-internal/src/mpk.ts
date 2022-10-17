@@ -1,9 +1,7 @@
 import { basename, join, parse, format } from "path";
 import { z } from "zod";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { cp, rm, mkdir } from "shelljs";
-
-import { exec, getFiles, unzip, zip } from "./shell";
+import { exec, getFiles, unzip, zip, cp, rm, mkdir } from "./shell";
 import { ModuleInfo } from "./package-info";
 import { Version } from "./version";
 import { readFile, writeFile } from "fs/promises";
