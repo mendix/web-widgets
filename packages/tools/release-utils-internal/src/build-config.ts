@@ -1,6 +1,5 @@
 import { join } from "node:path";
-import { fgYellow } from "./ansi-colors";
-// import { find } from "shelljs";
+import { fgGreen } from "./ansi-colors";
 
 import { getWidgetPackageInfo, WidgetInfo, ModuleInfo, getModulePackageInfo } from "./package-info";
 
@@ -16,24 +15,26 @@ export interface BuildConfig<Paths, OutputDirs, OutputFiles> {
     output: Output<OutputDirs, OutputFiles>;
 }
 
-export interface WidgetPaths {
+export interface CommonPaths {
     package: string;
     dist: string;
     tmp: string;
     targetProject: string;
 }
 
-export interface WidgetOutputFiles {
+export interface CommonOutputFiles {
     mpk: string;
 }
 
-export interface WidgetOutputDirs {
+export interface CommonOutputDirs {
     widgets: string;
 }
 
-export interface WidgetBuildConfig extends BuildConfig<WidgetPaths, WidgetOutputDirs, WidgetOutputFiles> {}
+export interface CommonBuildConfig extends BuildConfig<CommonPaths, CommonOutputDirs, CommonOutputFiles> {}
 
-export interface ModulePaths extends WidgetPaths {
+export interface WidgetBuildConfig extends CommonBuildConfig {}
+
+export interface ModulePaths extends CommonPaths {
     themesource: string;
 }
 
@@ -42,7 +43,7 @@ export interface ModuleOutputFiles {
     modulePackage: string;
 }
 
-export interface ModuleOutputDirs extends WidgetOutputDirs {
+export interface ModuleOutputDirs extends CommonOutputDirs {
     themesource: string;
     javascriptsource: string;
 }
@@ -66,7 +67,7 @@ export async function getWidgetBuildConfig({
     console.info(`Creating build config for ${appName}...`);
 
     if (MX_PROJECT_PATH) {
-        console.warn(fgYellow(`targetProject: using project path from MX_PROJECT_PATH.`));
+        console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
     }
 
     const paths = {
@@ -130,7 +131,7 @@ export async function getModuleBuildConfig({
     console.info(`Creating build config for ${appName}...`);
 
     if (MX_PROJECT_PATH) {
-        console.warn(fgYellow(`targetProject: using project path from MX_PROJECT_PATH.`));
+        console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
     }
 
     const paths = {
@@ -143,7 +144,7 @@ export async function getModuleBuildConfig({
 
     const output = {
         dirs: {
-            themesource: join(paths.themesource, "themesource", moduleFolderNameInModeler),
+            themesource: join(paths.targetProject, "themesource", moduleFolderNameInModeler),
             javascriptsource: join(paths.targetProject, "javascriptsource", moduleFolderNameInModeler),
             widgets: join(paths.targetProject, "widgets")
         },
