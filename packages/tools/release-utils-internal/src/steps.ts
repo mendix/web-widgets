@@ -1,8 +1,4 @@
-import { WidgetChangelogFileWrapper } from "./changelog-parser";
-import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
-import { exec, find, mkdir, cp, rm } from "./shell";
-import { gh } from "./github";
-import { listPackages } from "./monorepo";
+import { join, parse } from "path";
 import {
     CommonBuildConfig,
     getModuleConfigs,
@@ -10,45 +6,13 @@ import {
     ModuleBuildConfig,
     WidgetBuildConfig
 } from "./build-config";
+import { cloneRepo, cloneRepoShallow } from "./git";
+import { getMpkPaths, copyMpkFiles } from "./monorepo";
+import { addFilesToPackageXml, createModuleMpkInDocker } from "./mpk";
+import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
+import { cp, echo, mkdir, rm, unzip, zip } from "./shell";
 
-export async function updateChangelogsAndCreatePR(
-    packageInfo: PackageInfo,
-    changelog: WidgetChangelogFileWrapper,
-    releaseTag: string,
-    remoteName: string
-): Promise<void> {
-    const releaseBranchName = `${releaseTag}-update-changelog`;
-
-    console.log(`Creating branch '${releaseBranchName}'...`);
-    await exec(`git checkout -b ${releaseBranchName}`);
-
-    console.log("Updating CHANGELOG.md...");
-    const updatedChangelog = changelog.moveUnreleasedToVersion(packageInfo.version);
-    updatedChangelog.save();
-
-    console.log(`Committing CHANGELOG.md to '${releaseBranchName}' and pushing to remote...`);
-    await exec(`git add ${changelog.changelogPath}`);
-    await exec(`git commit -m "chore(${packageInfo.packageName}): update changelog"`);
-    await exec(`git push ${remoteName} ${releaseBranchName}`);
-
-    console.log(`Creating pull request for '${releaseBranchName}'`);
-    await gh.createGithubPRFrom({
-        title: `${packageInfo.appName} v${packageInfo.version.format()}: Update changelog`,
-        body: "This is an automated PR that merges changelog update to master.",
-        base: "main",
-        head: releaseBranchName,
-        repo: packageInfo.repositoryUrl
-    });
-
-    console.log("Created PR for changelog updates.");
-}
-
-export async function copyMpkFiles(packageNames: string[], dest: string): Promise<void> {
-    const packages = await listPackages(packageNames);
-    const paths = [...find(packages.map(p => `${p.path}/dist/${p.version}/*.mpk`))];
-    mkdir("-p", dest);
-    cp(paths, dest);
-}
+type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
 type CommonStepParams = {
     info: PackageInfo;
@@ -60,17 +24,36 @@ type ModuleStepParams = {
     config: ModuleBuildConfig;
 };
 
+// Common steps
+
 export async function removeDist({ config }: CommonStepParams): Promise<void> {
     console.info("Remove dist");
     rm("-rf", config.paths.dist);
 }
 
-export async function copyThemesourceToProject({ config }: ModuleStepParams): Promise<void> {
+export async function cloneTestProject({ info, config }: CommonStepParams): Promise<void> {
+    const { testProjectUrl, testProjectBranchName } = info;
+
+    console.info("Clone project from remote repository");
+    const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
+    await clone({
+        remoteUrl: testProjectUrl,
+        branch: testProjectBranchName,
+        localFolder: config.paths.targetProject
+    });
+}
+
+// Module steps
+
+export async function copyThemesourceToProject({ config, info }: ModuleStepParams): Promise<void> {
+    const { output, paths } = config;
     console.info("Remove module themesource in targetProject");
-    rm("-rf", config.output.dirs.themesource);
+    rm("-rf", output.dirs.themesource);
     console.info("Copy module themesource to targetProject");
-    mkdir("-p", config.output.dirs.themesource);
-    cp("-R", `${config.paths.themesource}/*`, config.output.dirs.themesource);
+    mkdir("-p", output.dirs.themesource);
+    cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
+    console.info("Write themesouce version");
+    echo(info.version.format()).to(join(output.dirs.themesource, ".version"));
 }
 
 export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
@@ -78,7 +61,51 @@ export async function copyWidgetsToProject({ config }: ModuleStepParams): Promis
     await copyMpkFiles(config.dependencies, config.output.dirs.widgets);
 }
 
-type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
+export async function createModuleMpk({ info, config }: ModuleStepParams): Promise<void> {
+    await createModuleMpkInDocker(
+        config.paths.targetProject,
+        info.moduleNameInModeler,
+        info.minimumMXVersion,
+        "^(resources|userlib)/.*"
+    );
+}
+
+export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<void> {
+    const mpk = config.output.files.modulePackage;
+    const widgets = await getMpkPaths(config.dependencies);
+    const mpkEntry = parse(mpk);
+    const target = join(mpkEntry.dir, "tmp");
+    const widgetsOut = join(target, "widgets");
+    const packageXml = join(target, "package.xml");
+    const packageFilePaths = widgets.map(path => `widgets/${parse(path).base}`);
+
+    rm("-rf", target);
+
+    console.info("Unzip module mpk");
+    await unzip(mpk, target);
+    mkdir("-p", widgetsOut);
+
+    console.info(`Add ${widgets.length} widgets to ${mpkEntry.base}`);
+    cp(widgets, widgetsOut);
+
+    console.info(`Add file entries to package.xml`);
+    await addFilesToPackageXml(packageXml, packageFilePaths);
+    rm(mpk);
+
+    console.info("Create module zip archive");
+    await zip(target, mpk);
+    rm("-rf", target);
+}
+
+export async function moveModuleToDist({ info, config }: ModuleStepParams): Promise<void> {
+    const { output, paths } = config;
+
+    console.info(`Move ${info.moduleNameInModeler}.mpk to dist`);
+    mkdir("-p", join(paths.dist, info.version.format()));
+    // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
+    cp(output.files.modulePackage, output.files.mpk);
+    rm(output.files.modulePackage);
+}
 
 export async function runSteps<Info, Config>(params: {
     packageInfo: Info;
@@ -115,8 +142,10 @@ type RunModuleStepsParams = {
 export async function runModuleSteps(params: RunModuleStepsParams): Promise<void> {
     const [packageInfo, config] = await getModuleConfigs(params);
 
-    // console.dir(packageInfo, { depth: 10 });
-    // console.dir(config, { depth: 10 });
+    if (process.env.DEBUG) {
+        console.dir(packageInfo, { depth: 10 });
+        console.dir(config, { depth: 10 });
+    }
 
     await runSteps({
         packageInfo,

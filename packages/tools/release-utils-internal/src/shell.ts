@@ -6,6 +6,8 @@ config.fatal = true;
 export { config as shelljsConfig };
 
 // Export all except exec as we will execa to execute commands
+// KNOWN ISSUES:
+// - mv don't throw error  https://github.com/shelljs/shelljs/issues/878
 export {
     cat,
     cd,

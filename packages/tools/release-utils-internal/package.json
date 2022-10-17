@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Set of helpers for release processes",
   "private": true,
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "index.ts",
+  "types": "index.ts",
   "bin": {
     "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
     "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
@@ -32,6 +32,9 @@
     "zod": "^3.11.6"
   },
   "files": [
+    "shell.ts",
+    "steps.ts",
+    "utils.ts",
     "tsconfig.json"
   ]
 }
