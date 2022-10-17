@@ -1,6 +1,6 @@
 {
-  "name": "html-node-web",
-  "widgetName": "HTMLNode",
+  "name": "html-element-web",
+  "widgetName": "HTMLElement",
   "version": "1.0.0",
   "description": "Displays custom HTML",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
@@ -20,7 +20,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "html-node-web"
+    "branchName": "html-element-web"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {

@@ -1,7 +1,7 @@
 import { CSSProperties, DOMAttributes, HTMLAttributes, ReactNode, SyntheticEvent } from "react";
 import { ObjectItem } from "mendix";
 
-import { AttributesType, EventsType, HTMLNodeContainerProps, TagNameEnum } from "../../typings/HTMLNodeProps";
+import { AttributesType, EventsType, HTMLElementContainerProps, TagNameEnum } from "../../typings/HTMLElementProps";
 import { convertInlineCssToReactStyle } from "./style-utils";
 
 export function prepareTag(tag: TagNameEnum, customTag: string): keyof JSX.IntrinsicElements {
@@ -82,13 +82,13 @@ export function prepareAttributes<T>(
     );
 
     result.style = { ...style, ...result.style };
-    result.className = `html-node-widget ${cls ?? ""} ${result.className ?? ""}`.trim();
+    result.className = `html-element-widget ${cls ?? ""} ${result.className ?? ""}`.trim();
 
     return result;
 }
 
 export function prepareHtml(
-    props: Pick<HTMLNodeContainerProps, "tagContentMode" | "tagContentHTML" | "tagContentRepeatHTML">,
+    props: Pick<HTMLElementContainerProps, "tagContentMode" | "tagContentHTML" | "tagContentRepeatHTML">,
     item?: ObjectItem
 ): string | undefined {
     if (props.tagContentMode !== "innerHTML") {
@@ -103,7 +103,7 @@ export function prepareHtml(
 }
 
 export function prepareChildren(
-    props: Pick<HTMLNodeContainerProps, "tagContentMode" | "tagContentContainer" | "tagContentRepeatContainer">,
+    props: Pick<HTMLElementContainerProps, "tagContentMode" | "tagContentContainer" | "tagContentRepeatContainer">,
     item?: ObjectItem
 ): ReactNode | undefined {
     if (props.tagContentMode !== "container") {

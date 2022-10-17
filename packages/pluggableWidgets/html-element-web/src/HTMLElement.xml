@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.htmlnode.HTMLNode" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.web.htmlelement.HTMLElement" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>HTML Element</name>
     <description>Displays custom HTML</description>
     <icon />
@@ -37,7 +37,7 @@
                     <caption>Attributes</caption>
                     <description />
                     <properties>
-                        <propertyGroup caption="Html node attributes">
+                        <propertyGroup caption="Attributes">
                             <property key="attributeName" type="string" required="true">
                                 <caption>Name</caption>
                                 <description />
@@ -77,8 +77,8 @@
             </propertyGroup>
             <propertyGroup caption="Repeat">
                 <property key="tagUseRepeat" type="boolean" defaultValue="false">
-                    <caption>Repeat node</caption>
-                    <description>Repeat node for each item in data source.</description>
+                    <caption>Repeat element</caption>
+                    <description>Repeat element for each item in data source.</description>
                 </property>
 
                 <!-- Data source for repeating content -->

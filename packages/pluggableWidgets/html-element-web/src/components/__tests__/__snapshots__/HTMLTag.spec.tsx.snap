@@ -3,7 +3,7 @@
 exports[`HTMLTag renders correctly with content 1`] = `
 <DocumentFragment>
   <div
-    class="html-node-root my-another-class"
+    class="html-element-root my-another-class"
     style="color: red;"
   >
     <div>
@@ -16,7 +16,7 @@ exports[`HTMLTag renders correctly with content 1`] = `
 exports[`HTMLTag renders correctly with innerHTML 1`] = `
 <DocumentFragment>
   <div
-    class="html-node-root my-class"
+    class="html-element-root my-class"
   >
     <p>
       Lorem ipsum

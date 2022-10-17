@@ -1160,7 +1160,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
 
-  packages/pluggableWidgets/html-node-web:
+  packages/pluggableWidgets/html-element-web:
     specifiers:
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.0.0

@@ -1,7 +1,7 @@
-import { AttributeValueTypeEnum, HTMLNodePreviewProps } from "../typings/HTMLNodeProps";
+import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
-type TagAttributeValuePropName = keyof HTMLNodePreviewProps["attributes"][number];
+type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];
 
 const voidElements = [
     "area",
@@ -40,7 +40,7 @@ function attributeValuePropsExcept(valueName: TagAttributeValuePropName): TagAtt
 }
 
 function attributeValuePropNameFor(
-    values: HTMLNodePreviewProps,
+    values: HTMLElementPreviewProps,
     attributeValueType: AttributeValueTypeEnum
 ): TagAttributeValuePropName {
     switch (true) {
@@ -57,13 +57,13 @@ function attributeValuePropNameFor(
     }
 }
 
-function hideAttributeValueProps(values: HTMLNodePreviewProps, defaultProperties: Properties): void {
+function hideAttributeValueProps(values: HTMLElementPreviewProps, defaultProperties: Properties): void {
     values.attributes.forEach((_v, i) => {
         const valuePropToKeep = attributeValuePropNameFor(values, _v.attributeValueType);
         hideNestedPropertiesIn(defaultProperties, values, "attributes", i, attributeValuePropsExcept(valuePropToKeep));
     });
 }
-function hideEventValueProps(values: HTMLNodePreviewProps, defaultProperties: Properties): void {
+function hideEventValueProps(values: HTMLElementPreviewProps, defaultProperties: Properties): void {
     values.events.forEach((_v, i) => {
         hideNestedPropertiesIn(defaultProperties, values, "events", i, [
             values.tagUseRepeat ? "eventAction" : "eventActionRepeat"
@@ -71,8 +71,8 @@ function hideEventValueProps(values: HTMLNodePreviewProps, defaultProperties: Pr
     });
 }
 
-export function getProperties(values: HTMLNodePreviewProps, defaultProperties: Properties): Properties {
-    const propsToHide: Array<keyof HTMLNodePreviewProps> = [];
+export function getProperties(values: HTMLElementPreviewProps, defaultProperties: Properties): Properties {
+    const propsToHide: Array<keyof HTMLElementPreviewProps> = [];
 
     if (values.tagName !== "__customTag__") {
         propsToHide.push("tagNameCustom");
@@ -120,7 +120,7 @@ export function getProperties(values: HTMLNodePreviewProps, defaultProperties: P
     return defaultProperties;
 }
 
-export function check(values: HTMLNodePreviewProps): Problem[] {
+export function check(values: HTMLElementPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
     if (values.tagName === "__customTag__") {
