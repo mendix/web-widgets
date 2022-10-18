@@ -82,7 +82,7 @@ export function prepareAttributes<T>(
     );
 
     result.style = { ...style, ...result.style };
-    result.className = `html-element-widget ${cls ?? ""} ${result.className ?? ""}`.trim();
+    result.className = `widget-html-element ${cls ?? ""} ${result.className ?? ""}`.trim();
 
     return result;
 }
