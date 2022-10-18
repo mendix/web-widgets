@@ -44,7 +44,16 @@
     "release:module": "scripts/release.ts",
     "start": "scripts/start.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "datagrid-date-filter-web": "workspace:*",
+    "datagrid-dropdown-filter-web": "workspace:*",
+    "datagrid-number-filter-web": "workspace:*",
+    "datagrid-text-filter-web": "workspace:*",
+    "datagrid-web": "workspace:*",
+    "dropdown-sort-web": "workspace:*",
+    "gallery-web": "workspace:*",
+    "tree-node-web": "workspace:*"
+  },
   "devDependencies": {
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
