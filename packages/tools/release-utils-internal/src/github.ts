@@ -59,7 +59,7 @@ export class GitHub {
 
         const notesFilePath = await this.createReleaseNotesFile(notes);
 
-        const targetHash = (await exec(`git rev-parse --verify ${target}`, { silent: true })).stdout.trim();
+        const targetHash = (await exec(`git rev-parse --verify ${target}`, { stdio: "pipe" })).stdout.trim();
         const command = [
             `gh release create`,
             `--title '${title}'`,

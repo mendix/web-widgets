@@ -38,23 +38,18 @@ export {
     env
 } from "shelljs";
 
-interface ExecOptions extends execa.Options {
-    silent?: boolean;
-}
-
-export function exec(command: string, options?: ExecOptions): execa.ExecaChildProcess {
-    const { silent, ...execaOptions } = options ?? {};
-    const stdio: execa.Options["stdio"] = silent ? "pipe" : "inherit";
+export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess {
+    const { stdio = "inherit", ...execaOptions } = options ?? {};
 
     return execa(command, { shell: true, stdio, ...execaOptions });
 }
 
 export async function zip(src: string, fileName: string): Promise<string> {
-    const { stdout } = await exec(`cd "${src}" && zip -r ${fileName} .`);
+    const { stdout } = await exec(`cd "${src}" && zip -r ${fileName} .`, { stdio: "pipe" });
     return stdout.trim();
 }
 
 export async function unzip(src: string, dest: string): Promise<string> {
-    const { stdout } = await exec(`unzip "${src}" -d "${dest}"`);
+    const { stdout } = await exec(`unzip "${src}" -d "${dest}"`, { stdio: "pipe" });
     return stdout.trim();
 }

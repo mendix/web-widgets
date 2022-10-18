@@ -9,7 +9,7 @@ import { readFile, writeFile } from "fs/promises";
 async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<void> {
     const version = mendixVersion.format(true);
 
-    const existingImages = (await exec(`docker image ls -q mxbuild:${version}`)).stdout.trim();
+    const existingImages = (await exec(`docker image ls -q mxbuild:${version}`, { stdio: "pipe" })).stdout.trim();
     if (!existingImages) {
         console.log(`Creating new mxbuild:${version} docker image...`);
         const dockerfilePath = join(process.cwd(), "packages/tools/pluggable-widgets-tools/scripts/mxbuild.Dockerfile");
