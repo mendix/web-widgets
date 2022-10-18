@@ -3,13 +3,14 @@
 import {
     addWidgetsToMpk,
     cloneTestProject,
-    copyFilesToMpk,
+    copyModuleLicense,
     copyThemesourceToProject,
     copyWidgetsToProject,
     createModuleMpk,
     moveModuleToDist,
     removeDist,
-    runModuleSteps
+    runModuleSteps,
+    writeModuleVersion
 } from "@mendix/release-utils-internal/steps";
 import { dependencies } from "./dependencies";
 
@@ -22,10 +23,11 @@ async function main(): Promise<void> {
             cloneTestProject,
             copyWidgetsToProject,
             copyThemesourceToProject,
+            writeModuleVersion,
+            copyModuleLicense,
             createModuleMpk,
             addWidgetsToMpk,
-            moveModuleToDist,
-            copyFilesToMpk([{ filePath: "LICENSE", pkgPath: "LICENSE" }])
+            moveModuleToDist
         ]
     });
 }

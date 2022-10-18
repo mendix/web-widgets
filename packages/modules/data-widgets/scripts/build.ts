@@ -1,13 +1,19 @@
 #!/usr/bin/env ts-node-script
 
+import {
+    copyModuleLicense,
+    copyThemesourceToProject,
+    copyWidgetsToProject,
+    runModuleSteps,
+    writeModuleVersion
+} from "@mendix/release-utils-internal/steps";
 import { dependencies } from "./dependencies";
-import { runModuleSteps, copyThemesourceToProject, copyWidgetsToProject } from "@mendix/release-utils-internal/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
         dependencies,
-        steps: [copyThemesourceToProject, copyWidgetsToProject]
+        steps: [copyThemesourceToProject, copyWidgetsToProject, writeModuleVersion, copyModuleLicense]
     });
 }
 
