@@ -1,4 +1,5 @@
-import { join, parse } from "path";
+import { dirname, join, parse, relative, resolve } from "path";
+import { fgYellow } from "./ansi-colors";
 import {
     CommonBuildConfig,
     getModuleConfigs,
@@ -6,11 +7,11 @@ import {
     ModuleBuildConfig,
     WidgetBuildConfig
 } from "./build-config";
-import { cloneRepo, cloneRepoShallow } from "./git";
+import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git";
 import { getMpkPaths, copyMpkFiles } from "./monorepo";
 import { addFilesToPackageXml, createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
-import { cp, echo, mkdir, rm, unzip, zip } from "./shell";
+import { cp, echo, mkdir, rm, unzip, zip, pushd, popd, exec, ensureFileExists } from "./shell";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -24,17 +25,20 @@ type ModuleStepParams = {
     config: ModuleBuildConfig;
 };
 
+const logStep = (name: string): void => console.info(`[step]: ${name}`);
+
 // Common steps
 
 export async function removeDist({ config }: CommonStepParams): Promise<void> {
-    console.info("Remove dist");
+    logStep("Remove dist");
+
     rm("-rf", config.paths.dist);
 }
 
 export async function cloneTestProject({ info, config }: CommonStepParams): Promise<void> {
-    const { testProjectUrl, testProjectBranchName } = info;
+    logStep("Clone test project");
 
-    console.info("Clone project from remote repository");
+    const { testProjectUrl, testProjectBranchName } = info;
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
     await clone({
         remoteUrl: testProjectUrl,
@@ -46,6 +50,8 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
 // Module steps
 
 export async function copyThemesourceToProject({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Copy module themesource to project");
+
     const { output, paths } = config;
     console.info("Remove module themesource in targetProject");
     rm("-rf", output.dirs.themesource);
@@ -57,11 +63,14 @@ export async function copyThemesourceToProject({ config, info }: ModuleStepParam
 }
 
 export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
-    console.info("Copy module widgets to targetProject");
+    logStep("Copy module widgets to project");
+
     await copyMpkFiles(config.dependencies, config.output.dirs.widgets);
 }
 
 export async function createModuleMpk({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Create module mpk");
+
     await createModuleMpkInDocker(
         config.paths.targetProject,
         info.moduleNameInModeler,
@@ -71,6 +80,8 @@ export async function createModuleMpk({ info, config }: ModuleStepParams): Promi
 }
 
 export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<void> {
+    logStep("Add widgets to mpk");
+
     const mpk = config.output.files.modulePackage;
     const widgets = await getMpkPaths(config.dependencies);
     const mpkEntry = parse(mpk);
@@ -98,6 +109,8 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
 }
 
 export async function moveModuleToDist({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Move module to dist");
+
     const { output, paths } = config;
 
     console.info(`Move ${info.moduleNameInModeler}.mpk to dist`);
@@ -105,6 +118,91 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
     // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
     cp(output.files.modulePackage, output.files.mpk);
     rm(output.files.modulePackage);
+}
+
+export async function pushUpdateToTestProject({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Push update to test project");
+
+    const { paths } = config;
+    pushd(paths.targetProject);
+
+    console.info("Remove untracked files");
+    await exec(`git clean -fd`);
+
+    const status = (await exec(`git status --porcelain`)).stdout;
+
+    if (status === "") {
+        console.warn(fgYellow("Nothing to commit"));
+    } else {
+        await setLocalGitUserInfo();
+        await exec(`git add .`);
+        await exec(`git commit -m "Automated update for ${info.moduleNameInModeler} module"`);
+        if (!process.env.CI) {
+            console.warn(fgYellow("You run script in non CI env - skipping push"));
+            console.warn(fgYellow("Set CI=1 in your env if you want to push changes to remote test project"));
+        } else {
+            await exec(`git push origin`);
+        }
+    }
+    popd();
+}
+
+type CopyFileEntry = {
+    /** File path relative to project root */
+    filePath: string;
+    /** Path relative to package (will be included in package.xml) */
+    pkgPath: string;
+};
+
+/**
+ * Copy files to mpk
+ *
+ * Example:
+ *  copyFilesToMpk([
+ *      { filePath: "LICENSE", pkgPath: "LICENSE" },
+ *      { filePath: "src/index.js", pkgPath: "some/deep/data.js" },
+ *      { filePath: "package.json", pkgPath: "boba/zuza/out.json" }
+ *  ])
+ */
+export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Copy files to mpk");
+
+        const { paths, output } = config;
+        const mpk = output.files.mpk;
+        const target = join(paths.tmp, "copyfiles_tmp");
+        const packageXml = join(target, "package.xml");
+
+        console.log(`Input MPK: ${relative(paths.package, mpk)}`);
+
+        ensureFileExists(output.files.mpk);
+
+        rm("-rf", target);
+        mkdir("-p", target);
+
+        console.info("Unzip module mpk");
+        await unzip(mpk, target);
+
+        for (const file of files) {
+            const source = resolve(paths.package, file.filePath);
+            const dest = resolve(target, file.pkgPath);
+
+            console.info(`Copy ${join(file.filePath)} to ${join(file.pkgPath)}`);
+            mkdir("-p", dirname(dest));
+            cp(source, dest);
+        }
+
+        console.info(`Update file entries in package.xml`);
+        await addFilesToPackageXml(
+            packageXml,
+            files.map(f => f.pkgPath)
+        );
+
+        console.info("Create module zip archive");
+        rm(mpk);
+        await zip(target, mpk);
+        rm("-rf", target);
+    };
 }
 
 export async function runSteps<Info, Config>(params: {
