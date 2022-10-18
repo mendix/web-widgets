@@ -38,11 +38,11 @@ export async function removeDist({ config }: CommonStepParams): Promise<void> {
 export async function cloneTestProject({ info, config }: CommonStepParams): Promise<void> {
     logStep("Clone test project");
 
-    const { testProjectUrl, testProjectBranchName } = info;
+    const { testProject } = info;
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
     await clone({
-        remoteUrl: testProjectUrl,
-        branch: testProjectBranchName,
+        remoteUrl: testProject.githubUrl,
+        branch: testProject.branchName,
         localFolder: config.paths.targetProject
     });
 }
@@ -73,8 +73,8 @@ export async function createModuleMpk({ info, config }: ModuleStepParams): Promi
 
     await createModuleMpkInDocker(
         config.paths.targetProject,
-        info.moduleNameInModeler,
-        info.minimumMXVersion,
+        info.mxpackage.name,
+        info.marketplace.minimumMXVersion,
         "^(resources|userlib)/.*"
     );
 }
@@ -113,7 +113,7 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
 
     const { output, paths } = config;
 
-    console.info(`Move ${info.moduleNameInModeler}.mpk to dist`);
+    console.info(`Move ${info.mpkName} to dist`);
     mkdir("-p", join(paths.dist, info.version.format()));
     // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
     cp(output.files.modulePackage, output.files.mpk);
@@ -136,7 +136,7 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
     } else {
         await setLocalGitUserInfo();
         await exec(`git add .`);
-        await exec(`git commit -m "Automated update for ${info.moduleNameInModeler} module"`);
+        await exec(`git commit -m "Automated update for ${info.mxpackage.mpkName} module"`);
         if (!process.env.CI) {
             console.warn(fgYellow("You run script in non CI env - skipping push"));
             console.warn(fgYellow("Set CI=1 in your env if you want to push changes to remote test project"));

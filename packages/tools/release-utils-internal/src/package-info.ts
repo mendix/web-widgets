@@ -1,7 +1,6 @@
 import { join } from "path";
 import { access } from "fs/promises";
 import { versionSchema } from "./version";
-import { WidgetChangelogFileWrapper } from "./changelog-parser";
 import { z } from "zod";
 
 export interface PackageJsonFileContent {
