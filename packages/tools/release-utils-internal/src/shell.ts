@@ -1,48 +1,55 @@
-import { exec } from "child_process";
-import { readdir } from "fs/promises";
-import { extname, resolve } from "path";
+import execa from "execa";
+import { config } from "shelljs";
 
-export function execShellCommand(cmd: string | string[], workingDirectory: string = process.cwd()): Promise<string> {
-    const command = Array.isArray(cmd) ? cmd.join(" && ") : cmd;
-    return new Promise<string>((resolve, reject) => {
-        exec(command, { cwd: workingDirectory }, (error, stdout, stderr) => {
-            if (error) {
-                console.warn(stderr);
-                console.warn(stdout);
-                reject(error);
-            }
-            if (stderr) {
-                console.warn(stderr);
-            }
-            resolve(stdout);
-        });
-    });
+// Enable fast fail for all shelljs commands
+config.fatal = true;
+export { config as shelljsConfig };
+
+// Export all except exec as we will execa to execute commands
+export {
+    cat,
+    cd,
+    chmod,
+    cp,
+    dirs,
+    pushd,
+    popd,
+    echo,
+    tempdir,
+    pwd,
+    ls,
+    find,
+    grep,
+    head,
+    ln,
+    mkdir,
+    rm,
+    mv,
+    sed,
+    set,
+    sort,
+    tail,
+    test,
+    touch,
+    uniq,
+    which,
+    exit,
+    error,
+    env
+} from "shelljs";
+
+export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess {
+    const { stdio = "inherit", ...execaOptions } = options ?? {};
+
+    return execa(command, { shell: true, stdio, ...execaOptions });
 }
 
 export async function zip(src: string, fileName: string): Promise<string> {
-    return execShellCommand(`cd "${src}" && zip -r ${fileName} .`);
+    const { stdout } = await exec(`cd "${src}" && zip -r ${fileName} .`, { stdio: "pipe" });
+    return stdout.trim();
 }
 
 export async function unzip(src: string, dest: string): Promise<string> {
-    return execShellCommand(`unzip "${src}" -d "${dest}"`);
-}
-
-export async function getFiles(dir: string, includeExtension: string[] = []): Promise<string[]> {
-    const dirents = await readdir(dir, { withFileTypes: true });
-    const files = await Promise.all(
-        dirents
-            .filter(dirent => !dirent.name.startsWith("."))
-            .map(dirent => {
-                const res = resolve(dir, dirent.name);
-                return dirent.isDirectory() ? getFiles(res, includeExtension) : res;
-            })
-    );
-
-    const f = files.flat();
-
-    if (!includeExtension.length) {
-        return f;
-    }
-
-    return f.filter(file => extname(file) && includeExtension.includes(extname(file)));
+    const { stdout } = await exec(`unzip "${src}" -d "${dest}"`, { stdio: "pipe" });
+    return stdout.trim();
 }
