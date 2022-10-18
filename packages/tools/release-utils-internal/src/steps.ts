@@ -123,16 +123,24 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
 export async function pushUpdateToTestProject({ info, config }: ModuleStepParams): Promise<void> {
     logStep("Push update to test project");
 
+    if (!process.env.CI) {
+        console.warn(fgYellow("You run script in non CI env"));
+        console.warn(fgYellow("Set CI=1 in your env if you want to push changes to remote test project"));
+        console.warn(fgYellow("Skip push step"));
+        return;
+    }
+
     const { paths } = config;
     pushd(paths.targetProject);
 
     console.info("Remove untracked files");
     await exec(`git clean -fd`);
 
-    const status = (await exec(`git status --porcelain`)).stdout;
+    const status = (await exec(`git status --porcelain`, { stdio: "pipe" })).stdout.trim();
 
     if (status === "") {
         console.warn(fgYellow("Nothing to commit"));
+<<<<<<< HEAD
     } else {
         await setLocalGitUserInfo();
         await exec(`git add .`);
@@ -143,7 +151,16 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
         } else {
             await exec(`git push origin`);
         }
+=======
+        console.warn(fgYellow("Skip push step"));
+        return;
+>>>>>>> 72b2b25a5 (refactor(release-utils-internal): push step - add CI check)
     }
+
+    await setLocalGitUserInfo();
+    await exec(`git add .`);
+    await exec(`git commit -m "Automated update for ${info.moduleNameInModeler} module"`);
+    await exec(`git push origin`);
     popd();
 }
 
