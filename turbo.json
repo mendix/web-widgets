@@ -10,8 +10,12 @@
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release:module": {
-            "dependsOn": ["^release"],
-            "outputs": ["dist/**", "!dist/tmp/**"]
+            "cache": false,
+            "dependsOn": ["^release"]
+        },
+        "push-update": {
+            "cache": false,
+            "dependsOn": ["release:module"]
         },
         "test": {
             "outputs": [],
@@ -22,7 +26,7 @@
         },
         "create-gh-release": {
             "cache": false,
-            "dependsOn": ["release", "release:module"]
+            "dependsOn": ["release", "release:module", "push-update"]
         },
         "publish-marketplace": {
             "cache": false

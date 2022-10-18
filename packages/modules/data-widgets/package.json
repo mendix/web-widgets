@@ -1,6 +1,8 @@
 {
   "name": "data-widgets",
   "moduleName": "Data Widgets",
+  "moduleNameInModeler": "DataWidgets",
+  "moduleFolderNameInModeler": "datawidgets",
   "version": "2.5.6",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
@@ -19,15 +21,19 @@
     "branchName": "main"
   },
   "scripts": {
-    "build:module": "node ./scripts/build.js",
-    "start": "node ./scripts/build.js start",
-    "release:module": "node ./scripts/build.js release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "build:module": "scripts/build.ts",
+    "create-gh-release": "echo create release",
+    "push-update": "scripts/push-update.ts",
+    "release:module": "scripts/release.ts",
+    "start": "scripts/start.ts"
   },
   "dependencies": {},
   "devDependencies": {
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }
