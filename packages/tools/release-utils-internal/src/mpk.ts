@@ -16,7 +16,7 @@ async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<v
         await exec(
             `docker build -f ${dockerfilePath} ` +
                 `--build-arg MENDIX_VERSION=${version} ` +
-                `mxbuild:${version} ${process.cwd()}`
+                `-t mxbuild:${version} ${process.cwd()}`
         );
     }
 }
