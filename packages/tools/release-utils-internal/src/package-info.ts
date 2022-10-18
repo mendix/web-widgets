@@ -1,18 +1,20 @@
 import { join } from "path";
 import { access } from "fs/promises";
-import { Version, VersionString, ensureVersion } from "./version";
+import { versionSchema } from "./version";
 import { WidgetChangelogFileWrapper } from "./changelog-parser";
 import { z } from "zod";
 
-export const appNumberSchema = z.number().positive().int();
-export const appNameSchema = z.string().min(1);
-
 export interface PackageJsonFileContent {
     name?: string;
-    widgetName?: string;
-    moduleNameInModeler?: string;
+    mxpackage?: {
+        name: string;
+        type: "module" | "widget" | "jsactoins";
+        mpkName?: string;
+        dependencies?: string[];
+    };
+    license: string;
     moduleFolderNameInModeler?: string;
-    version?: VersionString;
+    version?: string;
     private?: boolean;
 
     repository?: {
@@ -21,8 +23,7 @@ export interface PackageJsonFileContent {
     };
 
     marketplace?: {
-        minimumMXVersion: VersionString;
-        marketplaceId?: number;
+        minimumMXVersion: string;
         appName?: string;
         appNumber?: number;
     };
@@ -35,40 +36,77 @@ export interface PackageJsonFileContent {
     packagePath?: string;
 }
 
-export interface PackageInfo {
-    packageName: string;
-    version: Version;
-    minimumMXVersion: Version;
-    repositoryUrl: string;
-    testProjectUrl: string;
-    testProjectBranchName: string;
-    widgetName?: string;
-    private?: boolean;
-    appName: string;
-    appNumber?: number;
-}
+export const appNumberSchema = z.number().positive().int();
+export const appNameSchema = z.string().min(1);
 
-export interface WidgetInfo extends PackageInfo {
-    widgetName: string;
-    changelog: WidgetChangelogFileWrapper;
-}
+export const MxPackageNameSchema = z
+    .string()
+    .min(3)
+    .regex(/^[A-Z][a-zA-Z]+$/m, "Expected MxPackageName to be writtern in CamelCase, (eg. TreeNode)");
 
-export interface ModuleInfo extends PackageInfo {
-    moduleNameInModeler: string;
-    moduleFolderNameInModeler: string;
-}
+export const MxPackageTypeSchema = z.enum(["module", "widget", "jsaction"]);
 
-export interface PublishedPackageInfo extends PackageInfo {
-    appNumber: number;
-}
+export const MxPackageSchema = z.object({
+    name: MxPackageNameSchema,
+    type: MxPackageTypeSchema,
+    artifact: z.string().optional(),
+    dependencies: z.string().array().optional().default([])
+});
 
-export interface PublishedModuleInfo extends ModuleInfo {
-    appNumber: number;
-}
+export const MarketplaceSchema = z.object({
+    minimumMXVersion: versionSchema,
+    appName: appNameSchema.optional(),
+    appNumber: appNumberSchema.optional()
+});
 
-export interface PublishedWidgetInfo extends WidgetInfo {
-    appNumber: number;
-}
+export const TestProjectSchema = z.object({
+    githubUrl: z.string().url(),
+    branchName: z.string().min(3)
+});
+
+export const RepositorySchema = z.object({
+    type: z.literal("git"),
+    url: z.string().url()
+});
+
+export const PackageSchema = z.object({
+    name: z.string().min(1),
+    version: versionSchema,
+    private: z.boolean().optional(),
+    license: z.literal("Apache-2.0"),
+    mxpackage: MxPackageSchema,
+    marketplace: MarketplaceSchema,
+    repository: RepositorySchema,
+    testProject: TestProjectSchema
+});
+
+export const WidgetPackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal("widget")
+    }),
+    packagePath: z.string().startsWith("com.mendix.")
+});
+
+export const ModulePackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal("module")
+    }),
+    moduleFolderNameInModeler: z.string().min(3)
+});
+
+export const JSActionsPackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal("jsactoins")
+    })
+});
+
+export interface PackageInfo extends z.infer<typeof PackageSchema> {}
+
+export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {}
+
+export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {}
+
+export interface JSActionsInfo extends z.infer<typeof JSActionsPackageSchema> {}
 
 export async function getPackageFileContent(dirPath: string): Promise<PackageJsonFileContent> {
     const pkgPath = join(dirPath, `package.json`);
@@ -84,93 +122,21 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
 }
 
 export async function getPackageInfo(path: string): Promise<PackageInfo> {
-    const pkgPath = join(path, `package.json`);
-    try {
-        await access(pkgPath);
-        const {
-            name,
-            widgetName,
-            version,
-            repository,
-            marketplace,
-            testProject,
-            private: privatePackage
-        } = (await import(pkgPath)) as PackageJsonFileContent;
-        return {
-            packageName: ensureString(name, "name"),
-            widgetName,
-            version: ensureVersion(version),
-            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
-            repositoryUrl: ensureString(repository?.url, "repository.url"),
-            private: privatePackage,
-            appName: ensureString(marketplace?.appName, "appName"),
-            appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
-            testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
-            testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
-        };
-    } catch (error) {
-        console.log(error);
-        console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading package info at " + path);
-    }
+    const packageJson = await getPackageFileContent(path);
+    return PackageSchema.parse(packageJson);
 }
 
-export function ensurePublished(packageInfo: ModuleInfo): PublishedModuleInfo;
-export function ensurePublished(packageInfo: WidgetInfo): PublishedWidgetInfo;
-export function ensurePublished(packageInfo: PackageInfo): PublishedPackageInfo;
-export function ensurePublished<T extends PackageInfo>(packageInfo: T): T {
-    if (packageInfo.private) {
-        throw new Error("Package is marked as private");
-    }
-
-    let appName: string;
-    let appNumber: number;
-    try {
-        appName = appNameSchema.parse(packageInfo.appName);
-    } catch {
-        throw new Error("marketplace.appName is missing");
-    }
-
-    try {
-        appNumber = appNumberSchema.parse(packageInfo.appNumber);
-    } catch {
-        throw new Error("marketplace.appNumber is missing, package is not published yet.");
-    }
-
-    return {
-        ...packageInfo,
-        appName,
-        appNumber
-    };
+export async function getWidgetInfo(path: string): Promise<WidgetInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return WidgetPackageSchema.parse(packageJson);
 }
 
-export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
-    const info = await getPackageInfo(path);
-    return {
-        ...info,
-        widgetName: ensureString(info.widgetName, "widgetName"),
-        changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
-    };
+export async function getModuleInfo(path: string): Promise<ModuleInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return ModulePackageSchema.parse(packageJson);
 }
 
-export async function getModulePackageInfo(path: string): Promise<ModuleInfo> {
-    const content = await getPackageFileContent(path);
-    const { testProject } = content;
-    const info = await getPackageInfo(path);
-
-    return {
-        ...info,
-        moduleNameInModeler: ensureString(content.moduleNameInModeler, "moduleNameInModeler"),
-        moduleFolderNameInModeler: ensureString(content.moduleFolderNameInModeler, "moduleFolderNameInModeler"),
-        testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
-        testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
-    };
-}
-
-function ensureString(str: string | undefined, fieldName: string): string {
-    if (typeof str === "undefined") {
-        throw new Error(`Expected to be string got undefined for '${fieldName}'`);
-    }
-
-    return str;
+export async function getJSActionsInfo(path: string): Promise<JSActionsInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return JSActionsPackageSchema.parse(packageJson);
 }
