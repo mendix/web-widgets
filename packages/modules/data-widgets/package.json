@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build:module": "scripts/build.ts",
-    "create-gh-release": "echo create release",
+    "create-gh-release": "rui-release-module-gh",
     "push-update": "scripts/push-update.ts",
     "release:module": "scripts/release.ts",
     "start": "scripts/start.ts"

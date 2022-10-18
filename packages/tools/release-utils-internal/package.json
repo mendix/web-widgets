@@ -7,6 +7,7 @@
   "types": "index.ts",
   "bin": {
     "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
+    "rui-release-module-gh": "bin/rui-release-module-gh.ts",
     "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
   },
   "scripts": {
