@@ -44,7 +44,7 @@ interface ExecOptions extends execa.Options {
 
 export function exec(command: string, options?: ExecOptions): execa.ExecaChildProcess {
     const { silent, ...execaOptions } = options ?? {};
-    const stdio: execa.Options["stdio"] = silent ? ["pipe"] : ["inherit"];
+    const stdio: execa.Options["stdio"] = silent ? "pipe" : "inherit";
 
     return execa(command, { shell: true, stdio, ...execaOptions });
 }
