@@ -179,11 +179,15 @@ importers:
       concurrently: ^6.0.0
       copy-and-watch: ^0.1.5
       cross-env: ^7.0.2
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     devDependencies:
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       concurrently: 6.5.1
       copy-and-watch: 0.1.6
       cross-env: 7.0.3
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/modules/web-actions:
     specifiers:
