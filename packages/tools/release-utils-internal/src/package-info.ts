@@ -49,7 +49,7 @@ export const MxPackageTypeSchema = z.enum(["module", "widget", "jsaction"]);
 export const MxPackageSchema = z.object({
     name: MxPackageNameSchema,
     type: MxPackageTypeSchema,
-    artifact: z.string().optional(),
+    mpkName: z.string().endsWith(".mpk").optional(),
     dependencies: z.string().array().optional().default([])
 });
 
@@ -111,9 +111,13 @@ export interface PackageInfo extends z.infer<typeof PackageSchema> {}
 
 export interface PublishedInfo extends z.infer<typeof PublishedPackageSchema> {}
 
-export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {}
+export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {
+    mpkName: string;
+}
 
-export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {}
+export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {
+    mpkName: string;
+}
 
 export interface JSActionsInfo extends z.infer<typeof JSActionsPackageSchema> {}
 
@@ -142,12 +146,24 @@ export async function getPublishedInfo(path: string): Promise<PublishedInfo> {
 
 export async function getWidgetInfo(path: string): Promise<WidgetInfo> {
     const packageJson = await getPackageFileContent(path);
-    return WidgetPackageSchema.parse(packageJson);
+    const info = WidgetPackageSchema.parse(packageJson);
+    const mpkName = info.mxpackage.mpkName ?? `${info.packagePath}.${info.mxpackage.name}.mpk`;
+
+    return {
+        ...info,
+        mpkName
+    };
 }
 
 export async function getModuleInfo(path: string): Promise<ModuleInfo> {
     const packageJson = await getPackageFileContent(path);
-    return ModulePackageSchema.parse(packageJson);
+    const info = ModulePackageSchema.parse(packageJson);
+    const mpkName = info.mxpackage.mpkName ?? `${info.mxpackage.name}.mpk`;
+
+    return {
+        ...info,
+        mpkName
+    };
 }
 
 export async function getJSActionsInfo(path: string): Promise<JSActionsInfo> {

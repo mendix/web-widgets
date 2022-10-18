@@ -1,7 +1,6 @@
 import { join } from "node:path";
 import { fgGreen } from "./ansi-colors";
-
-import { getWidgetPackageInfo, WidgetInfo, ModuleInfo, getModulePackageInfo } from "./package-info";
+import { getModuleInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
 
 export interface Output<Dirs, Files> {
     dirs: Dirs;
@@ -58,13 +57,13 @@ type GetWidgetBuildConfigParams = {
 
 export async function getWidgetBuildConfig({
     info,
-    packagePath,
-    dependencies
+    packagePath
 }: GetWidgetBuildConfigParams): Promise<WidgetBuildConfig> {
     const MX_PROJECT_PATH = process.env.MX_PROJECT_PATH;
-    const { version, appName, widgetName } = info;
+    const { name: packageName, version, mxpackage, mpkName } = info;
+    const name = mxpackage.name;
 
-    console.info(`Creating build config for ${appName}...`);
+    console.info(`Creating build config for ${name}...`);
 
     if (MX_PROJECT_PATH) {
         console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
@@ -82,13 +81,13 @@ export async function getWidgetBuildConfig({
             widgets: join(paths.targetProject, "widgets")
         },
         files: {
-            mpk: join(paths.dist, version.format(), widgetName)
+            mpk: join(paths.dist, version.format(), mpkName)
         }
     };
 
     const result = {
-        name: info.packageName,
-        dependencies,
+        name: packageName,
+        dependencies: mxpackage.dependencies,
         paths,
         output
     };
@@ -107,7 +106,7 @@ export async function getWidgetConfigs({
     packagePath,
     dependencies
 }: WidgetBuildConfigParams): Promise<WidgetBuildConfigResult> {
-    const info = await getWidgetPackageInfo(packagePath);
+    const info = await getWidgetInfo(packagePath);
     const config = await getWidgetBuildConfig({ packagePath, dependencies, info });
 
     return [info, config];
@@ -121,14 +120,13 @@ type GetModuleBuildConfigParams = {
 
 export async function getModuleBuildConfig({
     info,
-    packagePath,
-    dependencies
+    packagePath
 }: GetModuleBuildConfigParams): Promise<ModuleBuildConfig> {
     const MX_PROJECT_PATH = process.env.MX_PROJECT_PATH;
-    const { version, appName, moduleNameInModeler, moduleFolderNameInModeler } = info;
-    const mpkName = `${moduleNameInModeler}.mpk`;
+    const { name: packageName, version, moduleFolderNameInModeler, mpkName, mxpackage } = info;
+    const name = mxpackage;
 
-    console.info(`Creating build config for ${appName}...`);
+    console.info(`Creating build config for ${name}...`);
 
     if (MX_PROJECT_PATH) {
         console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
@@ -155,8 +153,8 @@ export async function getModuleBuildConfig({
     };
 
     const result = {
-        name: info.packageName,
-        dependencies,
+        name: packageName,
+        dependencies: mxpackage.dependencies,
         paths,
         output
     };
@@ -174,7 +172,7 @@ export async function getModuleConfigs({
     packagePath,
     dependencies
 }: ModuleBuildConfigParams): Promise<ModuleBuildConfigsResult> {
-    const info = await getModulePackageInfo(packagePath);
+    const info = await getModuleInfo(packagePath);
     const config = await getModuleBuildConfig({ packagePath, info, dependencies });
 
     return [info, config];
