@@ -47,9 +47,67 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
     });
 }
 
+type CopyFileEntry = {
+    /** File path relative to project root */
+    filePath: string;
+    /** Path relative to package (will be included in package.xml) */
+    pkgPath: string;
+};
+
+/**
+ * Copy files to mpk
+ *
+ * Example:
+ *  copyFilesToMpk([
+ *      { filePath: "LICENSE", pkgPath: "themesource/mymodule/LICENSE" },
+ *      { filePath: "src/index.js", pkgPath: "some/deep/data.js" },
+ *      { filePath: "package.json", pkgPath: "boba/zuza/out.json" }
+ *  ])
+ */
+export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Copy files to mpk");
+
+        const { paths, output } = config;
+        const mpk = output.files.mpk;
+        const target = join(paths.tmp, "copyfiles_tmp");
+        const packageXml = join(target, "package.xml");
+
+        console.log(`Input MPK: ${relative(paths.package, mpk)}`);
+
+        ensureFileExists(output.files.mpk);
+
+        rm("-rf", target);
+        mkdir("-p", target);
+
+        console.info("Unzip module mpk");
+        await unzip(mpk, target);
+
+        for (const file of files) {
+            const source = resolve(paths.package, file.filePath);
+            const dest = resolve(target, file.pkgPath);
+
+            console.info(`Copy ${join(file.filePath)} to ${join(file.pkgPath)}`);
+            mkdir("-p", dirname(dest));
+            cp(source, dest);
+        }
+
+        console.info(`Update file entries in package.xml`);
+        await addFilesToPackageXml(
+            packageXml,
+            files.map(f => f.pkgPath)
+        );
+
+        console.info("Create module zip archive");
+        rm(mpk);
+        await zip(target, mpk);
+        rm("-rf", target);
+    };
+}
+
 // Module steps
 
-export async function copyThemesourceToProject({ config, info }: ModuleStepParams): Promise<void> {
+export async function copyThemesourceToProject({ config }: ModuleStepParams): Promise<void> {
     logStep("Copy module themesource to project");
 
     const { output, paths } = config;
@@ -58,8 +116,6 @@ export async function copyThemesourceToProject({ config, info }: ModuleStepParam
     console.info("Copy module themesource to targetProject");
     mkdir("-p", output.dirs.themesource);
     cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
-    console.info("Write themesouce version");
-    echo(info.version.format()).to(join(output.dirs.themesource, ".version"));
 }
 
 export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
@@ -151,62 +207,21 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
     popd();
 }
 
-type CopyFileEntry = {
-    /** File path relative to project root */
-    filePath: string;
-    /** Path relative to package (will be included in package.xml) */
-    pkgPath: string;
-};
+export async function writeModuleVersion({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Write module version");
 
-/**
- * Copy files to mpk
- *
- * Example:
- *  copyFilesToMpk([
- *      { filePath: "LICENSE", pkgPath: "LICENSE" },
- *      { filePath: "src/index.js", pkgPath: "some/deep/data.js" },
- *      { filePath: "package.json", pkgPath: "boba/zuza/out.json" }
- *  ])
- */
-export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParams) => Promise<void> {
-    return async ({ config }) => {
-        logStep("Copy files to mpk");
+    echo(info.version.format()).to(join(config.output.dirs.themesource, ".version"));
+}
 
-        const { paths, output } = config;
-        const mpk = output.files.mpk;
-        const target = join(paths.tmp, "copyfiles_tmp");
-        const packageXml = join(target, "package.xml");
+export async function copyModuleLicense({ config }: ModuleStepParams): Promise<void> {
+    logStep("Copy module license");
 
-        console.log(`Input MPK: ${relative(paths.package, mpk)}`);
+    const { paths, output } = config;
+    const license = join(paths.package, "LICENSE");
 
-        ensureFileExists(output.files.mpk);
-
-        rm("-rf", target);
-        mkdir("-p", target);
-
-        console.info("Unzip module mpk");
-        await unzip(mpk, target);
-
-        for (const file of files) {
-            const source = resolve(paths.package, file.filePath);
-            const dest = resolve(target, file.pkgPath);
-
-            console.info(`Copy ${join(file.filePath)} to ${join(file.pkgPath)}`);
-            mkdir("-p", dirname(dest));
-            cp(source, dest);
-        }
-
-        console.info(`Update file entries in package.xml`);
-        await addFilesToPackageXml(
-            packageXml,
-            files.map(f => f.pkgPath)
-        );
-
-        console.info("Create module zip archive");
-        rm(mpk);
-        await zip(target, mpk);
-        rm("-rf", target);
-    };
+    ensureFileExists(license);
+    mkdir("-p", output.dirs.themesource);
+    cp(license, output.dirs.themesource);
 }
 
 export async function runSteps<Info, Config>(params: {
