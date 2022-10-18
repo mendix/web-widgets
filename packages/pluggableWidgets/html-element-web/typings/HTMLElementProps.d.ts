@@ -1,5 +1,5 @@
 /**
- * This file was generated from HTMLNode.xml
+ * This file was generated from HTMLElement.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix UI Content Team
  */
@@ -48,7 +48,7 @@ export interface EventsPreviewType {
     eventPreventDefault: boolean;
 }
 
-export interface HTMLNodeContainerProps {
+export interface HTMLElementContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -66,7 +66,7 @@ export interface HTMLNodeContainerProps {
     events: EventsType[];
 }
 
-export interface HTMLNodePreviewProps {
+export interface HTMLElementPreviewProps {
     className: string;
     style: string;
     styleObject?: CSSProperties;

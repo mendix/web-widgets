@@ -313,7 +313,7 @@ describe("props-utils", () => {
                 );
 
                 expect(result).toEqual({
-                    className: "html-node-widget mx-name-hello dynamic-class",
+                    className: "widget-html-element mx-name-hello dynamic-class",
                     style: { border: "1px solid green", fontSize: "25px", borderRadius: "2px" },
                     "data-test": "test-data-attr-value"
                 });

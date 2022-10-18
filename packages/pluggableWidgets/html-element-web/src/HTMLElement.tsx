@@ -1,6 +1,6 @@
 import { ReactElement, createElement, Fragment } from "react";
 
-import { HTMLNodeContainerProps } from "../typings/HTMLNodeProps";
+import { HTMLElementContainerProps } from "../typings/HTMLElementProps";
 import {
     createAttributeResolver,
     createEventResolver,
@@ -12,7 +12,7 @@ import {
 } from "./utils/props-utils";
 import { HTMLTag } from "./components/HTMLTag";
 
-export function HTMLNode(props: HTMLNodeContainerProps): ReactElement | null {
+export function HTMLElement(props: HTMLElementContainerProps): ReactElement | null {
     const tag = prepareTag(props.tagName, props.tagNameCustom);
     const items = props.tagUseRepeat ? props.tagContentRepeatDataSource?.items : [undefined];
 

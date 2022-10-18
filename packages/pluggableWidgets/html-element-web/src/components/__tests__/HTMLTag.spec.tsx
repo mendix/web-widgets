@@ -10,7 +10,7 @@ describe("HTMLTag", () => {
                 tagName="div"
                 unsafeHTML="<p>Lorem ipsum</p>"
                 attributes={{
-                    className: "html-node-root my-class"
+                    className: "html-element-root my-class"
                 }}
             >
                 {undefined}
@@ -26,7 +26,7 @@ describe("HTMLTag", () => {
                 tagName="div"
                 unsafeHTML={undefined}
                 attributes={{
-                    className: "html-node-root my-another-class",
+                    className: "html-element-root my-another-class",
                     style: { color: "red" }
                 }}
             >
@@ -44,7 +44,7 @@ describe("HTMLTag", () => {
                 tagName="div"
                 unsafeHTML={undefined}
                 attributes={{
-                    "data-testid": "html-node",
+                    "data-testid": "html-element",
                     onClick: _e => {
                         cbFn();
                     }
@@ -54,7 +54,7 @@ describe("HTMLTag", () => {
             </HTMLTag>
         );
 
-        fireEvent.click(getByTestId("html-node"));
+        fireEvent.click(getByTestId("html-element"));
 
         expect(cbFn).toHaveBeenCalled();
     });
