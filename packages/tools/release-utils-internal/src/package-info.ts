@@ -55,8 +55,8 @@ export const MxPackageSchema = z.object({
 
 export const MarketplaceSchema = z.object({
     minimumMXVersion: versionSchema,
-    appName: appNameSchema.optional(),
-    appNumber: appNumberSchema.optional()
+    appName: appNameSchema,
+    appNumber: appNumberSchema
 });
 
 export const TestProjectSchema = z.object({
@@ -75,9 +75,16 @@ export const PackageSchema = z.object({
     private: z.boolean().optional(),
     license: z.literal("Apache-2.0"),
     mxpackage: MxPackageSchema,
-    marketplace: MarketplaceSchema,
+    marketplace: MarketplaceSchema.partial({
+        appName: true,
+        appNumber: true
+    }),
     repository: RepositorySchema,
     testProject: TestProjectSchema
+});
+
+export const PublishedPackageSchema = PackageSchema.extend({
+    marketplace: MarketplaceSchema
 });
 
 export const WidgetPackageSchema = PackageSchema.extend({
@@ -102,6 +109,8 @@ export const JSActionsPackageSchema = PackageSchema.extend({
 
 export interface PackageInfo extends z.infer<typeof PackageSchema> {}
 
+export interface PublishedInfo extends z.infer<typeof PublishedPackageSchema> {}
+
 export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {}
 
 export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {}
@@ -124,6 +133,11 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
 export async function getPackageInfo(path: string): Promise<PackageInfo> {
     const packageJson = await getPackageFileContent(path);
     return PackageSchema.parse(packageJson);
+}
+
+export async function getPublishedInfo(path: string): Promise<PublishedInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return PublishedPackageSchema.parse(packageJson);
 }
 
 export async function getWidgetInfo(path: string): Promise<WidgetInfo> {
