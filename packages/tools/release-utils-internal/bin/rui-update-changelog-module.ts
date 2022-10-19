@@ -1,17 +1,22 @@
 #!/usr/bin/env ts-node-script
 
+import { writeFile } from "fs/promises";
 import { getPackageInfo, listPackages, Version } from "../src";
 import { getModuleChangelog, getWidgetChangelog } from "../src/changelog-parser";
 import { SubComponentEntry } from "../src/changelog-parser/types";
 
 function alreadyReleased(name: string, version: Version): string {
-    return `Failed to update changelog in ${name}: version ${version.format()} already released`;
+    return `[${name}] Failed to update changelog: version ${version.format()} already released`;
 }
 
 async function main(): Promise<void> {
     const info = await getPackageInfo(process.cwd());
     const moduleChangelog = await getModuleChangelog(process.cwd(), info.mxpackage.name);
     const dependencies = await listPackages(info.mxpackage.dependencies);
+
+    if (moduleChangelog.hasVersion(info.version)) {
+        throw new Error(alreadyReleased(info.name, info.version));
+    }
 
     console.info("Reading components changelog...");
     const childChangelogs = await Promise.all(
@@ -34,18 +39,14 @@ async function main(): Promise<void> {
     console.info("Updating components changelog...");
     for (const [compInfo, wrapper] of subcomponents) {
         if (wrapper.hasVersion(compInfo.version)) {
-            throw new Error(alreadyReleased(compInfo.mxpackage.name, info.version));
+            throw new Error(alreadyReleased(compInfo.name, info.version));
         }
 
         wrapper.moveUnreleasedToVersion(compInfo.version).save();
     }
 
-    if (moduleChangelog.hasVersion(info.version)) {
-        throw new Error(alreadyReleased(info.mxpackage.name, info.version));
-    }
-
     console.info("Updateing module changelog...");
-    moduleChangelog
+    const updated = moduleChangelog
         .addUnreleasedSubcomponents(
             subcomponents.map(([compInfo, comp]) => {
                 const [unreleased] = comp.changelog.content;
@@ -58,8 +59,14 @@ async function main(): Promise<void> {
                 return entry;
             })
         )
-        .moveUnreleasedToVersion(info.version)
-        .save();
+        .moveUnreleasedToVersion(info.version);
+
+    updated.save();
+
+    if (process.env.RELEASE_NOTES_FILE) {
+        const content = updated.getLatestReleaseContent({ header: false });
+        await writeFile(process.env.RELEASE_NOTES_FILE, content);
+    }
 }
 
 main().catch(e => {
