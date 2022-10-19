@@ -16,22 +16,6 @@ import {
 } from "./types";
 import { join } from "path";
 
-export function readModuleChangelog(filePath: string, moduleName: string): ModuleChangelogFile {
-    const fileContent = readFileSync(filePath);
-
-    return Object.freeze(parseModuleChangelogFile(fileContent.toString(), { Version, moduleName }));
-}
-
-export function writeModuleChangelog(filePath: string, content: ModuleChangelogFile): void {
-    const fileContent =
-        [
-            ...formatHeader(content.header),
-            ...content.content.flatMap(v => formatModuleVersionEntry(v, content.moduleName))
-        ].join("\n\n") + "\n";
-
-    writeFileSync(filePath, fileContent);
-}
-
 function formatHeader(header: string): string[] {
     return [
         "# Changelog",

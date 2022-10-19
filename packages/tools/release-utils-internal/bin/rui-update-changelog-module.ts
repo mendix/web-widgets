@@ -13,7 +13,7 @@ async function main(): Promise<void> {
     const moduleChangelog = await getModuleChangelog(process.cwd(), info.mxpackage.name);
     const dependencies = await listPackages(info.mxpackage.dependencies);
 
-    console.info("Read components changelog");
+    console.info("Reading components changelog...");
     const childChangelogs = await Promise.all(
         dependencies.map(async ({ path }) => {
             const pkgInfo = await getPackageInfo(path);
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
         throw new Error("No unreleased entires found in module or it's components");
     }
 
-    console.info("Update components changelog");
+    console.info("Updating components changelog...");
     for (const [compInfo, wrapper] of subcomponents) {
         if (wrapper.hasVersion(compInfo.version)) {
             throw new Error(alreadyReleased(compInfo.mxpackage.name, info.version));
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
         throw new Error(alreadyReleased(info.mxpackage.name, info.version));
     }
 
-    console.info("Update module changelog");
+    console.info("Updateing module changelog...");
     moduleChangelog
         .addUnreleasedSubcomponents(
             subcomponents.map(([compInfo, comp]) => {
