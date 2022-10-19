@@ -34,18 +34,30 @@
     "branchName": "main"
   },
   "scripts": {
-    "build:module": "node ./scripts/build.js",
-    "start": "node ./scripts/build.js start",
-    "release:module": "node ./scripts/build.js release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module"
+    "update-changelog": "rui-update-changelog-module",
+    "build:module": "scripts/build.ts",
+    "create-gh-release": "rui-create-gh-release",
+    "push-update": "scripts/push-update.ts",
+    "release:module": "scripts/release.ts",
+    "start": "scripts/start.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "datagrid-date-filter-web": "workspace:*",
+    "datagrid-dropdown-filter-web": "workspace:*",
+    "datagrid-number-filter-web": "workspace:*",
+    "datagrid-text-filter-web": "workspace:*",
+    "datagrid-web": "workspace:*",
+    "dropdown-sort-web": "workspace:*",
+    "gallery-web": "workspace:*",
+    "tree-node-web": "workspace:*"
+  },
   "devDependencies": {
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.2",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4",
     "@mendix/release-utils-internal": "workspace:*"
   }
 }
