@@ -202,7 +202,7 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
 
     await setLocalGitUserInfo();
     await exec(`git add .`);
-    await exec(`git commit -m "Automated update for ${info.mxpackage.mpkName} module"`);
+    await exec(`git commit -m "Automated update for ${info.mxpackage.name} module"`);
     await exec(`git push origin`);
     popd();
 }
