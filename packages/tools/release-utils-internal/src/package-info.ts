@@ -41,7 +41,7 @@ export const appNameSchema = z.string().min(1);
 export const MxPackageNameSchema = z
     .string()
     .min(3)
-    .regex(/^[A-Z][a-zA-Z]+$/m, "Expected to be writtern in CamelCase, (eg. TreeNode)");
+    .regex(/^[a-zA-Z_]+$/m, "Spaces not allowed");
 
 const MODULE = "module" as const;
 const WIDGET = "widget" as const;
