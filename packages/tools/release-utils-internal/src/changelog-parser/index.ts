@@ -96,6 +96,13 @@ export class WidgetChangelogFileWrapper {
         writeFileSync(this.changelogPath, fileContent);
     }
 
+    getLatestReleaseContent({ header }: { header: boolean } = { header: true }): string {
+        const [, recent] = this.changelog.content;
+        const entries = formatVersionEntry(recent).slice(header ? 0 : 1);
+
+        return entries.join("\n\n") + "\n";
+    }
+
     hasVersion(version: Version): boolean {
         return this.changelog.content.some(c => "version" in c && c.version.equals(version));
     }

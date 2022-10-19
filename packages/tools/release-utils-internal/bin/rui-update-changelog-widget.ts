@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node-script
 
+import { writeFile } from "fs/promises";
 import { getPackageInfo } from "../src";
 import { getWidgetChangelog } from "../src/changelog-parser";
 
@@ -18,8 +19,14 @@ async function main(): Promise<void> {
         throw new Error(`[${info.name}] No unreleased changes found in the CHANGELOG.md file.`);
     }
 
-    console.log("Updating changelog...");
-    changelog.moveUnreleasedToVersion(info.version).save();
+    // console.log("Updating changelog...");
+    const updated = changelog.moveUnreleasedToVersion(info.version);
+    updated.save();
+
+    if (process.env.RELEASE_NOTES_FILE) {
+        const content = updated.getLatestReleaseContent({ header: false });
+        await writeFile(process.env.RELEASE_NOTES_FILE, content);
+    }
 }
 
 main().catch(e => {

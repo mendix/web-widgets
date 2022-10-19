@@ -1,5 +1,5 @@
 #!/usr/bin/env ts-node-script
-import { join } from "path";
+import { join, resolve } from "path";
 import { addRemoteWithAuthentication } from "../src";
 import { updateChangelogsAndCreatePR } from "../src/changelog";
 import { gh } from "../src/github";
@@ -13,7 +13,8 @@ async function main(): Promise<void> {
     const appName = pkg.marketplace.appName;
     const version = pkg.version.format();
     const releaseTag = `${pkg.name}-v${version}`;
-    const notesFile = await gh.createTempFile();
+    const notesFile = resolve(await gh.createTempFile());
+    console.log(notesFile);
 
     // Check there is no release of that version on GitHub
     console.info("Checking existing releases...");
