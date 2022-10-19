@@ -2,18 +2,16 @@
 import { find } from "../src/shell";
 import { getPublishedInfo } from "../src/package-info";
 import { gh } from "../src/github";
-// import { addRemoteWithAuthentication } from "../src/git";
 import { updateChangelogsAndCreatePR } from "../src/changelog";
 import { join } from "path";
 
 async function main(): Promise<void> {
     console.info(`Getting package information...`);
     const path = process.cwd();
-    const info = await getPublishedInfo(path);
-    const name = info.mxpackage.name;
-    const appName = info.marketplace.appName;
-    const version = info.version.format();
-    const releaseTag = `${name}-v${version}`;
+    const pkg = await getPublishedInfo(path);
+    const appName = pkg.marketplace.appName;
+    const version = pkg.version.format();
+    const releaseTag = `${pkg.name}-v${version}`;
     const notesFile = await gh.createTempFile();
 
     // Check there is no release of that version on GitHub
@@ -25,15 +23,15 @@ async function main(): Promise<void> {
     }
 
     // Do release
-    console.log(`Preparing ${appName} release...`);
-    const remoteName = `origin-${name}-v${version}-${Date.now()}`;
+    console.log(`Preparing ${pkg.name} release...`);
+    const remoteName = `origin-${pkg.name}-v${version}-${Date.now()}`;
     // Set remote repo as origin
     // await addRemoteWithAuthentication(info.repository.url, remoteName);
 
     // Update CHANGELOG.md and create PR
     console.log("Creating PR with updated CHANGELOG.md file...");
     process.env.RELEASE_NOTES_FILE = notesFile;
-    await updateChangelogsAndCreatePR(info, releaseTag, remoteName);
+    await updateChangelogsAndCreatePR(pkg, releaseTag, remoteName);
 
     // Create release
     console.log("Creating Github release...");
@@ -49,7 +47,7 @@ async function main(): Promise<void> {
         tag: releaseTag,
         target: "HEAD",
         isDraft: true,
-        repo: info.repository.url,
+        repo: pkg.repository.url,
         filesToRelease: mpk
     });
 }

@@ -13,7 +13,7 @@ export async function updateChangelogsAndCreatePR(
     console.log(remoteName);
 
     console.log(`Creating branch '${releaseBranchName}'...`);
-    await exec(`git checkout -b ${releaseBranchName}`);
+    // await exec(`git checkout -b ${releaseBranchName}`);
 
     console.log("Updating CHANGELOG.md...");
     await exec(`pnpm run update-changelog --filter=${info.name}`);

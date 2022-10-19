@@ -10,7 +10,7 @@ async function main(): Promise<void> {
 
     // Check if current version is already in CHANGELOG
     if (changelog.hasVersion(version)) {
-        throw new Error(`[${info.name}] Version ${version} already exists in CHANGELOG.md file.`);
+        throw new Error(`[${info.name}] Version ${version.format()} already exists in CHANGELOG.md file.`);
     }
 
     // Check if there is something to release (entries under "Unreleased" section)
