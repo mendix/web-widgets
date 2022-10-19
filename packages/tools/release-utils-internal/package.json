@@ -3,19 +3,21 @@
   "version": "1.0.0",
   "description": "Set of helpers for release processes",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.ts",
+  "types": "index.ts",
   "bin": {
     "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
-    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
+    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
+    "rui-verify-package-format": "bin/rui-verify-package-format.ts"
   },
   "scripts": {
     "start": "tsc --watch",
+    "precompile": "npm run compile:parser:widget && npm run compile:parser:module",
     "compile": "tsc",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
     "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-    "prepare": "npm run compile && npm run compile:parser:widget && npm run compile:parser:module"
+    "prepare": "npm run compile"
   },
   "devDependencies": {
     "@types/node-fetch": "2.6.1",
@@ -31,6 +33,9 @@
     "zod": "^3.11.6"
   },
   "files": [
-    "dist"
+    "shell.ts",
+    "steps.ts",
+    "utils.ts",
+    "tsconfig.json"
   ]
 }

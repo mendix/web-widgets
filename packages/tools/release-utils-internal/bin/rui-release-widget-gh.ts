@@ -1,26 +1,30 @@
 #!/usr/bin/env ts-node-script
 import { find } from "../src/shell";
-import { getWidgetPackageInfo } from "../src/package-info";
+import { appNameSchema, getWidgetInfo } from "../src/package-info";
 import { gh } from "../src/github";
 import { addRemoteWithAuthentication } from "../src/git";
-import { updateChangelogsAndCreatePR } from "../src/steps";
+import { updateChangelogsAndCreatePR } from "../src/changelog";
+import { getWidgetChangelog } from "../src/changelog-parser";
 
 async function main(): Promise<void> {
     // 1. Get widget info
     console.log(`Getting the widget release information...`);
-    const packageInfo = await getWidgetPackageInfo(process.cwd());
-    const version = packageInfo.version.format();
-    const releaseTag = `${packageInfo.packageName}-v${version}`;
+    const info = await getWidgetInfo(process.cwd());
+    const changelog = await getWidgetChangelog(process.cwd());
+    const name = info.mxpackage.name;
+    const appName = appNameSchema.parse(info.marketplace.appName);
+    const version = info.version.format();
+    const releaseTag = `${name}-v${version}`;
 
     // 2. Check prerequisites
     // 2.1. Check if current version is already in CHANGELOG
-    if (packageInfo.changelog.hasVersion(packageInfo.version)) {
+    if (changelog.hasVersion(info.version)) {
         throw new Error(`Version ${version} already exists in CHANGELOG.md file.`);
     }
 
     // 2.2. Check if there is something to release (entries under "Unreleased" section)
-    if (!packageInfo.changelog.hasUnreleasedLogs()) {
-        throw new Error(`No unreleased changes found in the CHANGELOG.md for ${packageInfo.packageName} ${version}.`);
+    if (!changelog.hasUnreleasedLogs()) {
+        throw new Error(`No unreleased changes found in the CHANGELOG.md for ${name} ${version}.`);
     }
 
     // 2.3. Check there is no release of that version on GitHub
@@ -30,16 +34,16 @@ async function main(): Promise<void> {
     }
 
     // 3. Do release
-    console.log(`Preparing ${packageInfo.packageName} release...`);
+    console.log(`Preparing ${name} release...`);
 
-    const remoteName = `origin-${packageInfo.packageName}-v${version}-${Date.now()}`;
+    const remoteName = `origin-${name}-v${version}-${Date.now()}`;
 
     // 3.1 Set remote repo as origin
-    await addRemoteWithAuthentication(packageInfo.repositoryUrl, remoteName);
+    await addRemoteWithAuthentication(info.repository.url, remoteName);
 
     // 3.2 Update CHANGELOG.md and create PR
     console.log("Creating PR with updated CHANGELOG.md file...");
-    await updateChangelogsAndCreatePR(packageInfo, packageInfo.changelog, releaseTag, remoteName);
+    await updateChangelogsAndCreatePR(info, changelog, releaseTag, remoteName);
 
     // 3.3 Create release
     console.log("Creating Github release...");
@@ -50,14 +54,14 @@ async function main(): Promise<void> {
     }
 
     await gh.createGithubReleaseFrom({
-        title: `${packageInfo.appName} v${version}`,
-        notes: packageInfo.changelog.changelog.content[0].sections
+        title: `${appName} v${version}`,
+        notes: changelog.changelog.content[0].sections
             .map(s => `## ${s.type}\n\n${s.logs.map(l => `- ${l}`).join("\n\n")}`)
             .join("\n\n"),
         tag: releaseTag,
         target: "HEAD",
         isDraft: true,
-        repo: packageInfo.repositoryUrl,
+        repo: info.repository.url,
         filesToRelease: mpk
     });
 }

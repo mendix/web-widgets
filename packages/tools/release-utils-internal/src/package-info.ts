@@ -1,18 +1,19 @@
 import { join } from "path";
 import { access } from "fs/promises";
-import { Version, VersionString, ensureVersion } from "./version";
-import { WidgetChangelogFileWrapper } from "./changelog-parser";
+import { versionSchema } from "./version";
 import { z } from "zod";
-
-export const appNumberSchema = z.number().positive().int();
-export const appNameSchema = z.string().min(1);
 
 export interface PackageJsonFileContent {
     name?: string;
-    widgetName?: string;
-    moduleNameInModeler?: string;
+    mxpackage?: {
+        name: string;
+        type: "module" | "widget" | "jsactoins";
+        mpkName?: string;
+        dependencies?: string[];
+    };
+    license: string;
     moduleFolderNameInModeler?: string;
-    version?: VersionString;
+    version?: string;
     private?: boolean;
 
     repository?: {
@@ -21,8 +22,7 @@ export interface PackageJsonFileContent {
     };
 
     marketplace?: {
-        minimumMXVersion: VersionString;
-        marketplaceId?: number;
+        minimumMXVersion: string;
         appName?: string;
         appNumber?: number;
     };
@@ -35,43 +35,97 @@ export interface PackageJsonFileContent {
     packagePath?: string;
 }
 
-export interface PackageInfo {
-    packageName: string;
-    version: Version;
-    minimumMXVersion: Version;
-    repositoryUrl: string;
-    private?: boolean;
-    appName?: string;
-    appNumber?: number;
-    testProjectUrl?: string;
-    testProjectBranchName?: string;
+export const appNumberSchema = z.number().positive().int();
+export const appNameSchema = z.string().min(1);
+
+export const MxPackageNameSchema = z
+    .string()
+    .min(3)
+    .regex(/^[a-zA-Z_]+$/m, "Spaces not allowed");
+
+const MODULE = "module" as const;
+const WIDGET = "widget" as const;
+const JSACTIONS = "jsactions" as const;
+
+export const MxPackageTypeSchema = z.enum([MODULE, WIDGET, JSACTIONS]);
+
+export const MxPackageSchema = z.object({
+    name: MxPackageNameSchema,
+    type: MxPackageTypeSchema,
+    mpkName: z.string().endsWith(".mpk").optional(),
+    dependencies: z.string().array().optional().default([])
+});
+
+export const MarketplaceSchema = z.object({
+    minimumMXVersion: versionSchema,
+    appName: appNameSchema,
+    appNumber: appNumberSchema
+});
+
+export const TestProjectSchema = z.object({
+    githubUrl: z.string().url(),
+    branchName: z.string().min(3)
+});
+
+export const RepositorySchema = z.object({
+    type: z.literal("git"),
+    url: z.string().url()
+});
+
+export const PackageSchema = z.object({
+    name: z.string().min(1),
+    version: versionSchema,
+    private: z.boolean().optional(),
+    license: z.literal("Apache-2.0"),
+    mxpackage: MxPackageSchema,
+    marketplace: MarketplaceSchema.partial({
+        appName: true,
+        appNumber: true
+    }),
+    repository: RepositorySchema,
+    testProject: TestProjectSchema
+});
+
+export const PublishedPackageSchema = PackageSchema.extend({
+    marketplace: MarketplaceSchema
+});
+
+export const WidgetPackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal(WIDGET)
+    }),
+    packagePath: z.string().startsWith("com.mendix.")
+});
+
+export const ModulePackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal(MODULE)
+    }),
+    moduleFolderNameInModeler: z
+        .string()
+        .min(3)
+        .regex(/^[a-z_]+$/m, "Expected to be writtern in snakecase (eg. data_stack)")
+});
+
+export const JSActionsPackageSchema = PackageSchema.extend({
+    mxpackage: MxPackageSchema.extend({
+        type: z.literal(JSACTIONS)
+    })
+});
+
+export interface PackageInfo extends z.infer<typeof PackageSchema> {}
+
+export interface PublishedInfo extends z.infer<typeof PublishedPackageSchema> {}
+
+export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {
+    mpkName: string;
 }
 
-export interface WidgetInfo extends PackageInfo {
-    changelog: WidgetChangelogFileWrapper;
+export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {
+    mpkName: string;
 }
 
-export interface ModuleInfo extends PackageInfo {
-    testProjectUrl: string;
-    testProjectBranchName: string;
-    moduleNameInModeler: string;
-    moduleFolderNameInModeler: string;
-}
-
-export interface PublishedPackageInfo extends PackageInfo {
-    appName: z.infer<typeof appNameSchema>;
-    appNumber: z.infer<typeof appNumberSchema>;
-}
-
-export interface PublishedModuleInfo extends ModuleInfo {
-    appName: string;
-    appNumber: number;
-}
-
-export interface PublishedWidgetInfo extends WidgetInfo {
-    appName: string;
-    appNumber: number;
-}
+export interface JSActionsInfo extends z.infer<typeof JSActionsPackageSchema> {}
 
 export async function getPackageFileContent(dirPath: string): Promise<PackageJsonFileContent> {
     const pkgPath = join(dirPath, `package.json`);
@@ -87,90 +141,38 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
 }
 
 export async function getPackageInfo(path: string): Promise<PackageInfo> {
-    const pkgPath = join(path, `package.json`);
-    try {
-        await access(pkgPath);
-        const {
-            name,
-            version,
-            repository,
-            marketplace,
-            testProject,
-            private: privatePackage
-        } = (await import(pkgPath)) as PackageJsonFileContent;
-        return {
-            packageName: ensureString(name, "name"),
-            version: ensureVersion(version),
-            minimumMXVersion: ensureVersion(marketplace?.minimumMXVersion),
-            repositoryUrl: ensureString(repository?.url, "repository.url"),
-            private: privatePackage,
-            appName: marketplace?.appName,
-            appNumber: marketplace?.appNumber ?? marketplace?.marketplaceId,
-            testProjectUrl: testProject?.githubUrl,
-            testProjectBranchName: testProject?.branchName
-        };
-    } catch (error) {
-        console.log(error);
-        console.error(`ERROR: Path does not exist: ${pkgPath}`);
-        throw new Error("Error while reading package info at " + path);
-    }
+    const packageJson = await getPackageFileContent(path);
+    return PackageSchema.parse(packageJson);
 }
 
-export function ensurePublished(packageInfo: ModuleInfo): PublishedModuleInfo;
-export function ensurePublished(packageInfo: WidgetInfo): PublishedWidgetInfo;
-export function ensurePublished(packageInfo: PackageInfo): PublishedPackageInfo;
-export function ensurePublished<T extends PackageInfo>(packageInfo: T): T {
-    if (packageInfo.private) {
-        throw new Error("Package is marked as private");
-    }
-
-    let appName: string;
-    let appNumber: number;
-    try {
-        appName = appNameSchema.parse(packageInfo.appName);
-    } catch {
-        throw new Error("marketplace.appName is missing");
-    }
-
-    try {
-        appNumber = appNumberSchema.parse(packageInfo.appNumber);
-    } catch {
-        throw new Error("marketplace.appNumber is missing, package is not published yet.");
-    }
-
-    return {
-        ...packageInfo,
-        appName,
-        appNumber
-    };
+export async function getPublishedInfo(path: string): Promise<PublishedInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return PublishedPackageSchema.parse(packageJson);
 }
 
-export async function getWidgetPackageInfo(path: string): Promise<WidgetInfo> {
-    const info = await getPackageInfo(path);
-    return {
-        ...info,
-        changelog: WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`)
-    };
-}
-
-export async function getModulePackageInfo(path: string): Promise<ModuleInfo> {
-    const content = await getPackageFileContent(path);
-    const { testProject } = content;
-    const info = await getPackageInfo(path);
+export async function getWidgetInfo(path: string): Promise<WidgetInfo> {
+    const packageJson = await getPackageFileContent(path);
+    const info = WidgetPackageSchema.parse(packageJson);
+    const mpkName = info.mxpackage.mpkName ?? `${info.packagePath}.${info.mxpackage.name}.mpk`;
 
     return {
         ...info,
-        moduleNameInModeler: ensureString(content.moduleNameInModeler, "moduleNameInModeler"),
-        moduleFolderNameInModeler: ensureString(content.moduleFolderNameInModeler, "moduleFolderNameInModeler"),
-        testProjectUrl: ensureString(testProject?.githubUrl, "testProject.githubUrl"),
-        testProjectBranchName: ensureString(testProject?.branchName, "testProject.branchName")
+        mpkName
     };
 }
 
-function ensureString(str: string | undefined, fieldName: string): string {
-    if (typeof str === "undefined") {
-        throw new Error(`Expected to be string got undefined for '${fieldName}'`);
-    }
+export async function getModuleInfo(path: string): Promise<ModuleInfo> {
+    const packageJson = await getPackageFileContent(path);
+    const info = ModulePackageSchema.parse(packageJson);
+    const mpkName = info.mxpackage.mpkName ?? `${info.mxpackage.name}.mpk`;
 
-    return str;
+    return {
+        ...info,
+        mpkName
+    };
+}
+
+export async function getJSActionsInfo(path: string): Promise<JSActionsInfo> {
+    const packageJson = await getPackageFileContent(path);
+    return JSActionsPackageSchema.parse(packageJson);
 }

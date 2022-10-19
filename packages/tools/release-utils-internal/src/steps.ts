@@ -1,36 +1,253 @@
-import { WidgetChangelogFileWrapper } from "./changelog-parser";
-import { PackageInfo } from "./package-info";
-import { exec } from "./shell";
-import { gh } from "./github";
+import { dirname, join, parse, relative, resolve } from "path";
+import { fgYellow } from "./ansi-colors";
+import {
+    CommonBuildConfig,
+    getModuleConfigs,
+    getWidgetConfigs,
+    ModuleBuildConfig,
+    WidgetBuildConfig
+} from "./build-config";
+import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git";
+import { getMpkPaths, copyMpkFiles } from "./monorepo";
+import { addFilesToPackageXml, createModuleMpkInDocker } from "./mpk";
+import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
+import { cp, echo, mkdir, rm, unzip, zip, pushd, popd, exec, ensureFileExists } from "./shell";
 
-export async function updateChangelogsAndCreatePR(
-    packageInfo: PackageInfo,
-    changelog: WidgetChangelogFileWrapper,
-    releaseTag: string,
-    remoteName: string
-): Promise<void> {
-    const releaseBranchName = `${releaseTag}-update-changelog`;
+type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
-    console.log(`Creating branch '${releaseBranchName}'...`);
-    await exec(`git checkout -b ${releaseBranchName}`);
+type CommonStepParams = {
+    info: PackageInfo;
+    config: CommonBuildConfig;
+};
 
-    console.log("Updating CHANGELOG.md...");
-    const updatedChangelog = changelog.moveUnreleasedToVersion(packageInfo.version);
-    updatedChangelog.save();
+type ModuleStepParams = {
+    info: ModuleInfo;
+    config: ModuleBuildConfig;
+};
 
-    console.log(`Committing CHANGELOG.md to '${releaseBranchName}' and pushing to remote...`);
-    await exec(`git add ${changelog.changelogPath}`);
-    await exec(`git commit -m "chore(${packageInfo.packageName}): update changelog"`);
-    await exec(`git push ${remoteName} ${releaseBranchName}`);
+const logStep = (name: string): void => console.info(`[step]: ${name}`);
 
-    console.log(`Creating pull request for '${releaseBranchName}'`);
-    await gh.createGithubPRFrom({
-        title: `${packageInfo.appName} v${packageInfo.version.format()}: Update changelog`,
-        body: "This is an automated PR that merges changelog update to master.",
-        base: "main",
-        head: releaseBranchName,
-        repo: packageInfo.repositoryUrl
+// Common steps
+
+export async function removeDist({ config }: CommonStepParams): Promise<void> {
+    logStep("Remove dist");
+
+    rm("-rf", config.paths.dist);
+}
+
+export async function cloneTestProject({ info, config }: CommonStepParams): Promise<void> {
+    logStep("Clone test project");
+
+    const { testProject } = info;
+    const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
+    await clone({
+        remoteUrl: testProject.githubUrl,
+        branch: testProject.branchName,
+        localFolder: config.paths.targetProject
     });
+}
 
-    console.log("Created PR for changelog updates.");
+// Module steps
+
+export async function copyThemesourceToProject({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Copy module themesource to project");
+
+    const { output, paths } = config;
+    console.info("Remove module themesource in targetProject");
+    rm("-rf", output.dirs.themesource);
+    console.info("Copy module themesource to targetProject");
+    mkdir("-p", output.dirs.themesource);
+    cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
+    console.info("Write themesouce version");
+    echo(info.version.format()).to(join(output.dirs.themesource, ".version"));
+}
+
+export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
+    logStep("Copy module widgets to project");
+
+    await copyMpkFiles(config.dependencies, config.output.dirs.widgets);
+}
+
+export async function createModuleMpk({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Create module mpk");
+
+    await createModuleMpkInDocker(
+        config.paths.targetProject,
+        info.mxpackage.name,
+        info.marketplace.minimumMXVersion,
+        "^(resources|userlib)/.*"
+    );
+}
+
+export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<void> {
+    logStep("Add widgets to mpk");
+
+    const mpk = config.output.files.modulePackage;
+    const widgets = await getMpkPaths(config.dependencies);
+    const mpkEntry = parse(mpk);
+    const target = join(mpkEntry.dir, "tmp");
+    const widgetsOut = join(target, "widgets");
+    const packageXml = join(target, "package.xml");
+    const packageFilePaths = widgets.map(path => `widgets/${parse(path).base}`);
+
+    rm("-rf", target);
+
+    console.info("Unzip module mpk");
+    await unzip(mpk, target);
+    mkdir("-p", widgetsOut);
+
+    console.info(`Add ${widgets.length} widgets to ${mpkEntry.base}`);
+    cp(widgets, widgetsOut);
+
+    console.info(`Add file entries to package.xml`);
+    await addFilesToPackageXml(packageXml, packageFilePaths);
+    rm(mpk);
+
+    console.info("Create module zip archive");
+    await zip(target, mpk);
+    rm("-rf", target);
+}
+
+export async function moveModuleToDist({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Move module to dist");
+
+    const { output, paths } = config;
+
+    console.info(`Move ${info.mpkName} to dist`);
+    mkdir("-p", join(paths.dist, info.version.format()));
+    // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
+    cp(output.files.modulePackage, output.files.mpk);
+    rm(output.files.modulePackage);
+}
+
+export async function pushUpdateToTestProject({ info, config }: ModuleStepParams): Promise<void> {
+    logStep("Push update to test project");
+
+    const { paths } = config;
+    pushd(paths.targetProject);
+
+    console.info("Remove untracked files");
+    await exec(`git clean -fd`);
+
+    const status = (await exec(`git status --porcelain`)).stdout;
+
+    if (status === "") {
+        console.warn(fgYellow("Nothing to commit"));
+    } else {
+        await setLocalGitUserInfo();
+        await exec(`git add .`);
+        await exec(`git commit -m "Automated update for ${info.mxpackage.mpkName} module"`);
+        if (!process.env.CI) {
+            console.warn(fgYellow("You run script in non CI env - skipping push"));
+            console.warn(fgYellow("Set CI=1 in your env if you want to push changes to remote test project"));
+        } else {
+            await exec(`git push origin`);
+        }
+    }
+    popd();
+}
+
+type CopyFileEntry = {
+    /** File path relative to project root */
+    filePath: string;
+    /** Path relative to package (will be included in package.xml) */
+    pkgPath: string;
+};
+
+/**
+ * Copy files to mpk
+ *
+ * Example:
+ *  copyFilesToMpk([
+ *      { filePath: "LICENSE", pkgPath: "LICENSE" },
+ *      { filePath: "src/index.js", pkgPath: "some/deep/data.js" },
+ *      { filePath: "package.json", pkgPath: "boba/zuza/out.json" }
+ *  ])
+ */
+export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Copy files to mpk");
+
+        const { paths, output } = config;
+        const mpk = output.files.mpk;
+        const target = join(paths.tmp, "copyfiles_tmp");
+        const packageXml = join(target, "package.xml");
+
+        console.log(`Input MPK: ${relative(paths.package, mpk)}`);
+
+        ensureFileExists(output.files.mpk);
+
+        rm("-rf", target);
+        mkdir("-p", target);
+
+        console.info("Unzip module mpk");
+        await unzip(mpk, target);
+
+        for (const file of files) {
+            const source = resolve(paths.package, file.filePath);
+            const dest = resolve(target, file.pkgPath);
+
+            console.info(`Copy ${join(file.filePath)} to ${join(file.pkgPath)}`);
+            mkdir("-p", dirname(dest));
+            cp(source, dest);
+        }
+
+        console.info(`Update file entries in package.xml`);
+        await addFilesToPackageXml(
+            packageXml,
+            files.map(f => f.pkgPath)
+        );
+
+        console.info("Create module zip archive");
+        rm(mpk);
+        await zip(target, mpk);
+        rm("-rf", target);
+    };
+}
+
+export async function runSteps<Info, Config>(params: {
+    packageInfo: Info;
+    config: Config;
+    steps: Array<Step<Info, Config>>;
+}): Promise<void> {
+    for (const step of params.steps) {
+        await step({ info: params.packageInfo, config: params.config });
+    }
+}
+
+type RunWidgetStepsParams = {
+    dependencies: string[];
+    packagePath: string;
+    steps: Array<Step<WidgetInfo, WidgetBuildConfig>>;
+};
+
+export async function runWidgetSteps(params: RunWidgetStepsParams): Promise<void> {
+    const [packageInfo, config] = await getWidgetConfigs(params);
+
+    await runSteps({
+        packageInfo,
+        config,
+        steps: params.steps
+    });
+}
+
+type RunModuleStepsParams = {
+    dependencies: string[];
+    packagePath: string;
+    steps: Array<Step<ModuleInfo, ModuleBuildConfig>>;
+};
+
+export async function runModuleSteps(params: RunModuleStepsParams): Promise<void> {
+    const [packageInfo, config] = await getModuleConfigs(params);
+
+    if (process.env.DEBUG) {
+        console.dir(packageInfo, { depth: 10 });
+        console.dir(config, { depth: 10 });
+    }
+
+    await runSteps({
+        packageInfo,
+        config,
+        steps: params.steps
+    });
 }

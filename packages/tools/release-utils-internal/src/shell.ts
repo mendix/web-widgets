@@ -1,11 +1,13 @@
 import execa from "execa";
-import { config } from "shelljs";
+import { config, ls } from "shelljs";
 
 // Enable fast fail for all shelljs commands
 config.fatal = true;
 export { config as shelljsConfig };
 
 // Export all except exec as we will execa to execute commands
+// KNOWN ISSUES:
+// - mv don't throw error  https://github.com/shelljs/shelljs/issues/878
 export {
     cat,
     cd,
@@ -42,6 +44,13 @@ export function exec(command: string, options?: execa.Options): execa.ExecaChild
     const { stdio = "inherit", ...execaOptions } = options ?? {};
 
     return execa(command, { shell: true, stdio, ...execaOptions });
+}
+
+export function ensureFileExists(file: string): void {
+    const silentState = config.silent;
+    config.silent = true;
+    ls(file);
+    config.silent = silentState;
 }
 
 export async function zip(src: string, fileName: string): Promise<string> {

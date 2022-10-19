@@ -154,3 +154,7 @@ export class WidgetChangelogFileWrapper {
         );
     }
 }
+
+export async function getWidgetChangelog(path: string): Promise<WidgetChangelogFileWrapper> {
+    return WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`);
+}

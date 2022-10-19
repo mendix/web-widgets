@@ -58,18 +58,14 @@ export async function createModuleMpkInDocker(
     }
 }
 
-export async function createMPK(
-    tmpFolder: string,
-    moduleInfo: ModuleInfo,
-    excludeFilesRegExp: string
-): Promise<string> {
+export async function createMPK(tmpFolder: string, info: ModuleInfo, excludeFilesRegExp: string): Promise<string> {
     await createModuleMpkInDocker(
         tmpFolder,
-        moduleInfo.moduleNameInModeler,
-        moduleInfo.minimumMXVersion,
+        info.mxpackage.name,
+        info.marketplace.minimumMXVersion,
         excludeFilesRegExp
     );
-    return find(`${tmpFolder}/*.mpk`)[0];
+    return find(join(tmpFolder, info.mpkName))[0];
 }
 
 const EmptyTag = z.literal("");

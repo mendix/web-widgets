@@ -1,13 +1,13 @@
 #!/usr/bin/env ts-node-script
 
 import assert from "node:assert/strict";
-import { getPackageInfo, ensurePublished, gh } from "../src";
+import { getPublishedInfo, gh } from "../src";
 import { fgGreen } from "../src/ansi-colors";
 import { createDraft, publishDraft } from "../src/api/contributor";
 
 async function main(): Promise<void> {
     console.log(`Getting package information...`);
-    const packageInfo = ensurePublished(await getPackageInfo(process.cwd()));
+    const { marketplace, version } = await getPublishedInfo(process.cwd());
     const tag = process.env.TAG;
 
     assert.ok(tag, "env.TAG is empty");
@@ -22,10 +22,10 @@ async function main(): Promise<void> {
     }
 
     const draft = await createDraft({
-        appName: packageInfo.appName,
-        appNumber: packageInfo.appNumber,
-        version: packageInfo.version,
-        studioProVersion: packageInfo.minimumMXVersion,
+        appName: marketplace.appName,
+        appNumber: marketplace.appNumber,
+        version,
+        studioProVersion: marketplace.minimumMXVersion,
         artifactUrl: mpk.browser_download_url
     });
 

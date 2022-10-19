@@ -11,17 +11,9 @@ export const versionRegex = new RegExp(`^${g1}\\.${g2}\\.${g3}(?:\\.${g4})?$`, "
 
 const versionSchemaBase = z.string().regex(versionRegex);
 
-export const versionSchema = versionSchemaBase.transform(str => <VersionString>str);
+export const versionStringSchema = versionSchemaBase.transform(str => <VersionString>str);
 export const versionTuple = versionSchemaBase.transform(str => <VersionTuple>str.split(".").map(p => parseInt(p, 10)));
-
-export function ensureVersion(version: VersionString | undefined): Version {
-    try {
-        const fineVersion = versionSchema.parse(version);
-        return Version.fromString(fineVersion);
-    } catch {
-        throw new Error(`Unknown version format, cant parse: '${version}'`);
-    }
-}
+export const versionSchema = versionSchemaBase.transform(str => Version.fromString(str as VersionString));
 
 export class Version {
     constructor(
