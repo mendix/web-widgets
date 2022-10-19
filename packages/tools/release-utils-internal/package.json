@@ -7,7 +7,8 @@
   "types": "index.ts",
   "bin": {
     "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
-    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
+    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
+    "rui-verify-package-format": "bin/rui-verify-package-format.ts"
   },
   "scripts": {
     "start": "tsc --watch",

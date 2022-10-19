@@ -41,9 +41,13 @@ export const appNameSchema = z.string().min(1);
 export const MxPackageNameSchema = z
     .string()
     .min(3)
-    .regex(/^[A-Z][a-zA-Z]+$/m, "Expected MxPackageName to be writtern in CamelCase, (eg. TreeNode)");
+    .regex(/^[A-Z][a-zA-Z]+$/m, "Expected to be writtern in CamelCase, (eg. TreeNode)");
 
-export const MxPackageTypeSchema = z.enum(["module", "widget", "jsaction"]);
+const MODULE = "module" as const;
+const WIDGET = "widget" as const;
+const JSACTIONS = "jsactions" as const;
+
+export const MxPackageTypeSchema = z.enum([MODULE, WIDGET, JSACTIONS]);
 
 export const MxPackageSchema = z.object({
     name: MxPackageNameSchema,
@@ -88,21 +92,24 @@ export const PublishedPackageSchema = PackageSchema.extend({
 
 export const WidgetPackageSchema = PackageSchema.extend({
     mxpackage: MxPackageSchema.extend({
-        type: z.literal("widget")
+        type: z.literal(WIDGET)
     }),
     packagePath: z.string().startsWith("com.mendix.")
 });
 
 export const ModulePackageSchema = PackageSchema.extend({
     mxpackage: MxPackageSchema.extend({
-        type: z.literal("module")
+        type: z.literal(MODULE)
     }),
-    moduleFolderNameInModeler: z.string().min(3)
+    moduleFolderNameInModeler: z
+        .string()
+        .min(3)
+        .regex(/^[a-z_]+$/m, "Expected to be writtern in snakecase (eg. data_stack)")
 });
 
 export const JSActionsPackageSchema = PackageSchema.extend({
     mxpackage: MxPackageSchema.extend({
-        type: z.literal("jsactoins")
+        type: z.literal(JSACTIONS)
     })
 });
 
