@@ -61,9 +61,8 @@ export async function getWidgetBuildConfig({
 }: GetWidgetBuildConfigParams): Promise<WidgetBuildConfig> {
     const MX_PROJECT_PATH = process.env.MX_PROJECT_PATH;
     const { name: packageName, version, mxpackage, mpkName } = info;
-    const name = mxpackage.name;
 
-    console.info(`Creating build config for ${name}...`);
+    console.info(`Creating build config for ${packageName}...`);
 
     if (MX_PROJECT_PATH) {
         console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
@@ -124,9 +123,8 @@ export async function getModuleBuildConfig({
 }: GetModuleBuildConfigParams): Promise<ModuleBuildConfig> {
     const MX_PROJECT_PATH = process.env.MX_PROJECT_PATH;
     const { name: packageName, version, moduleFolderNameInModeler, mpkName, mxpackage } = info;
-    const name = mxpackage;
 
-    console.info(`Creating build config for ${name}...`);
+    console.info(`Creating build config for ${packageName}...`);
 
     if (MX_PROJECT_PATH) {
         console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
