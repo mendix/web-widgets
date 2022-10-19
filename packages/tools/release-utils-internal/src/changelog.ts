@@ -10,8 +10,6 @@ export async function updateChangelogsAndCreatePR(
     const releaseBranchName = `${releaseTag}-update-changelog`;
     const appName = info.marketplace.appName;
 
-    console.log(remoteName);
-
     console.log(`Creating branch '${releaseBranchName}'...`);
     await exec(`git checkout -b ${releaseBranchName}`);
 
@@ -28,7 +26,7 @@ export async function updateChangelogsAndCreatePR(
     const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
     pushd(root.trim());
     await exec(`git add '*/CHANGELOG.md'`);
-    await exec(`git commit -m "chore(${info.mxpackage.name}): update changelog"`);
+    await exec(`git commit -m "chore(${info.name}): update changelog"`);
     await exec(`git push ${remoteName} ${releaseBranchName}`);
     popd();
 

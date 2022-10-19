@@ -44,14 +44,14 @@ export class GitHub {
     async createGithubPRFrom(pr: GitHubPRInfo): Promise<void> {
         await this.ensureAuth();
 
-        const repoArgument = pr.repo ? `-R "${pr.repo}"` : "";
+        const repoArgument = pr.repo ? `--repo '${pr.repo}'` : "";
         const command = [
             `gh pr create`,
             `--title '${pr.title}'`,
             `--body '${pr.body}'`,
             `--base '${pr.base}'`,
             `--head '${pr.head}'`,
-            `'${repoArgument}'`
+            repoArgument
         ].join(" ");
 
         await exec(command);
