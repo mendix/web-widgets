@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] DataWidgets - 2022-10-19
+
 ### Fixed
 
 -   We fixed an issue with DateFilter causing poor page performance (#166116)
@@ -35,6 +37,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 #### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+### [2.5.2] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with DateFilter causing poor page performance (#166116)
+
+-   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+#### Added
+
+-   We added the options to filter for empty and non-empty values.
+
+-   We fixed a bug that was causing errors in Safari when using DateFilter in Datagrid. (Ticket #144874)
+
+-   We added the possibility to apply filter between dates.
+
+-   We fixed an issue with locale date format when typing it manually.
+
+### [2.3.3] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+-   We fixed this widget to be compatible with strict CSP mode.
+
+#### Added
+
+-   We added dark mode to Structure mode preview.
+
+-   We added dark icons for Tile and List view.
+
+### [2.4.1] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+#### Added
+
+-   We added the options to filter for empty and non-empty values.
+
+-   We added dark mode to Structure mode preview.
+
+-   We added dark icons for Tile and List view.
 
 ## [2.5.3] DataWidgets - 2022-07-05
 
