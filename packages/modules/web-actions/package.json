@@ -9,6 +9,11 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
+  "mxpackage": {
+    "type": "module",
+    "name": "WebActions"
+  },
+  "moduleFolderNameInModeler": "webactions",
   "marketplace": {
     "minimumMXVersion": "9.10.0.36429",
     "appNumber": 114337,
@@ -19,10 +24,12 @@
     "branchName": "main"
   },
   "scripts": {
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format"
   },
   "dependencies": {},
   "devDependencies": {
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

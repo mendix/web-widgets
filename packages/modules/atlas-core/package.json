@@ -9,6 +9,11 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
+  "mxpackage": {
+    "type": "module",
+    "name": "Atlas_Core"
+  },
+  "moduleFolderNameInModeler": "atlas_core",
   "marketplace": {
     "minimumMXVersion": "9.12.6.53361",
     "appNumber": 117187
@@ -20,7 +25,8 @@
   "scripts": {
     "build:module": "ts-node ./scripts/build.ts build",
     "release:module": "ts-node ./scripts/build.ts release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format"
   },
   "dependencies": {},
   "devDependencies": {
@@ -28,6 +34,7 @@
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
     "ts-node": "^9.0.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

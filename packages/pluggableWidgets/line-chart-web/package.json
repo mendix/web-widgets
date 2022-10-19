@@ -14,6 +14,10 @@
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
+  "mxpackage": {
+    "name": "LineChart",
+    "type": "widget"
+  },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
     "appName": "Line Chart"
@@ -36,7 +40,8 @@
     "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress",
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "pluggable-widgets-tools release:web",
-    "release:with-deps": "lerna run release --scope 'line-chart-web' --include-dependencies"
+    "release:with-deps": "lerna run release --scope 'line-chart-web' --include-dependencies",
+    "verify": "rui-verify-package-format"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
@@ -55,7 +60,8 @@
     "mendix": "^9.18.53394",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
-    "react-test-renderer": "~17.0.2"
+    "react-test-renderer": "~17.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
