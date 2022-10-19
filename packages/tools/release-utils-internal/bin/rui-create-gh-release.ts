@@ -1,9 +1,10 @@
 #!/usr/bin/env ts-node-script
-import { find } from "../src/shell";
-import { getPublishedInfo } from "../src/package-info";
-import { gh } from "../src/github";
-import { updateChangelogsAndCreatePR } from "../src/changelog";
 import { join } from "path";
+import { addRemoteWithAuthentication } from "../src";
+import { updateChangelogsAndCreatePR } from "../src/changelog";
+import { gh } from "../src/github";
+import { getPublishedInfo } from "../src/package-info";
+import { find } from "../src/shell";
 
 async function main(): Promise<void> {
     console.info(`Getting package information...`);
@@ -26,7 +27,7 @@ async function main(): Promise<void> {
     console.log(`Preparing ${pkg.name} release...`);
     const remoteName = `origin-${pkg.name}-v${version}-${Date.now()}`;
     // Set remote repo as origin
-    // await addRemoteWithAuthentication(info.repository.url, remoteName);
+    await addRemoteWithAuthentication(pkg.repository.url, remoteName);
 
     // Update CHANGELOG.md and create PR
     console.log("Creating PR with updated CHANGELOG.md file...");

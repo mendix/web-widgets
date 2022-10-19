@@ -77,8 +77,7 @@ export class GitHub {
             .filter(str => str !== "")
             .join(" ");
 
-        // await exec(command);
-        console.log(command);
+        await exec(command);
     }
 
     async getReleaseIdByReleaseTag(releaseTag: string): Promise<string | undefined> {

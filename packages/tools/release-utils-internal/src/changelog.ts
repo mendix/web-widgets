@@ -13,20 +13,23 @@ export async function updateChangelogsAndCreatePR(
     console.log(remoteName);
 
     console.log(`Creating branch '${releaseBranchName}'...`);
-    // await exec(`git checkout -b ${releaseBranchName}`);
+    await exec(`git checkout -b ${releaseBranchName}`);
 
     console.log("Updating CHANGELOG.md...");
     await exec(`pnpm run update-changelog --filter=${info.name}`);
+    const { stdout: changed } = await exec(`git status --porcelain`, { stdio: "pipe" });
+    const hasChangelogUpdats = changed.split("\n").some(file => file.endsWith("CHANGELOG.md"));
+
+    if (!hasChangelogUpdats) {
+        throw new Error(`[${info.name}] CHANGELOG.md has no changes, nothing to commit.`);
+    }
 
     console.log(`Committing changes and pushing '${releaseBranchName}' to remote...`);
     const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
-
     pushd(root.trim());
     await exec(`git add '*/CHANGELOG.md'`);
-    const { stdout: changed } = await exec(`git status --porcelain`, { stdio: "pipe" });
-    console.dir(changed.split("\n"));
-    // await exec(`git commit -m "chore(${info.mxpackage.name}): update changelog"`);
-    // await exec(`git push ${remoteName} ${releaseBranchName}`);
+    await exec(`git commit -m "chore(${info.mxpackage.name}): update changelog"`);
+    await exec(`git push ${remoteName} ${releaseBranchName}`);
     popd();
 
     console.log(`Creating pull request for '${releaseBranchName}'`);
