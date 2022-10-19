@@ -36,7 +36,8 @@
     "release": "cross-env MPKOUTPUT=RangeSlider.mpk pluggable-widgets-tools release:web",
     "create-gh-release": "rui-release-widget-gh",
     "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "config": {
     "mendixHost": "http://localhost:8080",

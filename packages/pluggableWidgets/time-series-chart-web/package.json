@@ -41,7 +41,8 @@
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "pluggable-widgets-tools release:web",
     "release:with-deps": "lerna run release --scope 'time-series-chart-web' --include-dependencies",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",

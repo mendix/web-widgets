@@ -35,7 +35,8 @@
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
     "release": "pluggable-widgets-tools release:web",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",

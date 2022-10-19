@@ -26,7 +26,8 @@
     "build:module": "ts-node ./scripts/build.ts",
     "build:content-only": "ts-node ./scripts/build-content.ts",
     "release:module": "ts-node ./scripts/release.ts",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
   },
   "dependencies": {
     "@mendix/release-utils-internal": ">=1.0.0",

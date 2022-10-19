@@ -41,7 +41,8 @@
     "test:e2e:local": "echo 'Skipping e2e tests'",
     "release": "pluggable-widgets-tools release:web",
     "release:with-deps": "lerna run release --scope 'bubble-chart-web' --include-dependencies",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",

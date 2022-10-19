@@ -40,7 +40,8 @@
     "release": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools release:web",
     "create-gh-release": "rui-release-widget-gh",
     "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",

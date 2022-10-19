@@ -28,7 +28,8 @@
     "start": "node ./scripts/build.js start",
     "release:module": "node ./scripts/build.js release",
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
   },
   "dependencies": {},
   "devDependencies": {

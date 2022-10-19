@@ -38,7 +38,8 @@
     "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress --remove-atlas-files",
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "pluggable-widgets-tools release:ts",
-    "verify": "rui-verify-package-format"
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

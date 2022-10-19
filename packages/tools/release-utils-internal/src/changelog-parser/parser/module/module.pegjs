@@ -3,7 +3,7 @@
 //
 
 ChangelogFile
-  = header:ChangelogHead _ content:(ModuleVersionEntry / OtherNotes)+ _ { return { header, content, moduleName: content.find(v => v.type === "normal")?.name } }
+  = header:ChangelogHead _ content:(ModuleVersionEntry / OtherNotes)+ _ { return { header, content, moduleName: options.moduleName } }
 
 ModuleVersionEntry
   = header:(VersionHeader/UnreleasedVersionHeader) _ sections:WidgetSection* _ subcomponents:SubWidgetEntry* _ { return { ...header, sections,subcomponents  } }
