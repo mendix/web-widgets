@@ -235,13 +235,12 @@ export async function runSteps<Info, Config>(params: {
 }
 
 type RunWidgetStepsParams = {
-    dependencies: string[];
     packagePath: string;
     steps: Array<Step<WidgetInfo, WidgetBuildConfig>>;
 };
 
 export async function runWidgetSteps(params: RunWidgetStepsParams): Promise<void> {
-    const [packageInfo, config] = await getWidgetConfigs(params);
+    const [packageInfo, config] = await getWidgetConfigs(params.packagePath);
 
     await runSteps({
         packageInfo,
@@ -257,7 +256,7 @@ type RunModuleStepsParams = {
 };
 
 export async function runModuleSteps(params: RunModuleStepsParams): Promise<void> {
-    const [packageInfo, config] = await getModuleConfigs(params);
+    const [packageInfo, config] = await getModuleConfigs(params.packagePath);
 
     if (process.env.DEBUG) {
         console.dir(packageInfo, { depth: 10 });
