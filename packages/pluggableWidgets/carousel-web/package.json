@@ -16,7 +16,7 @@
   "mxpackage": {
     "name": "Carousel",
     "type": "widget",
-    "mpkName": "Badge.mpk"
+    "mpkName": "Carousel.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
