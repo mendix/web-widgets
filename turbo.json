@@ -5,19 +5,19 @@
             "outputs": []
         },
         "verify": {
-            "outputs": []
+            "cache": false
         },
         "build": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release": {
-            "dependsOn": ["^release"],
+            "dependsOn": ["^release", "verify"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release:module": {
             "cache": false,
-            "dependsOn": ["^release"]
+            "dependsOn": ["^release", "verify"]
         },
         "push-update": {
             "cache": false,
@@ -32,7 +32,7 @@
         },
         "create-gh-release": {
             "cache": false,
-            "dependsOn": ["release", "release:module", "push-update"]
+            "dependsOn": ["release", "release:module", "push-update", "verify"]
         },
         "publish-marketplace": {
             "cache": false
