@@ -1,7 +1,7 @@
 import { basename, join, parse, format } from "path";
 import { z } from "zod";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { exec, find, unzip, zip, cp, rm, mkdir } from "./shell";
+import { exec, find, cp, rm } from "./shell";
 import { ModuleInfo } from "./package-info";
 import { Version } from "./version";
 import { readFile, writeFile } from "fs/promises";
@@ -140,24 +140,4 @@ export async function addFilesToPackageXml(filePath: string, paths: string[]): P
     cp("-n", filePath, format(backup));
     await writeFile(filePath, builder.build(meta));
     rm(format(backup));
-}
-
-export async function exportModuleWithWidgets(mpk: string, widgets: string[]): Promise<void> {
-    const mpkEntry = parse(mpk);
-    const target = join(mpkEntry.dir, "tmp");
-    const widgetsOut = join(target, "widgets");
-    const packageXml = join(target, "package.xml");
-    const packageFilePaths = widgets.map(path => `widgets/${parse(path).base}`);
-    rm("-rf", target);
-    console.info("Unzip module mpk...");
-    await unzip(mpk, target);
-    mkdir("-p", widgetsOut);
-    console.info(`Adding ${widgets.length} widgets to ${mpkEntry.base}...`);
-    cp(widgets, widgetsOut);
-    console.info(`Adding file entries to package.xml...`);
-    await addFilesToPackageXml(packageXml, packageFilePaths);
-    rm(mpk);
-    console.info("Create module zip archive...");
-    await zip(target, mpk);
-    rm("-rf", target);
 }

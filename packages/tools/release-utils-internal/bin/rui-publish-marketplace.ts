@@ -14,19 +14,14 @@ async function main(): Promise<void> {
 
     console.log(`Starting release process for tag ${fgGreen(tag)}`);
 
-    const artifacts = await gh.getReleaseArtifacts(tag);
-    const mpk = artifacts.find(item => item.name.endsWith(".mpk"));
-
-    if (!mpk) {
-        throw new Error(`Could not retrieve MPK url from GitHub release with tag ${tag}`);
-    }
+    const artifactUrl = await gh.getMPKReleaseArtifactUrl(tag);
 
     const draft = await createDraft({
         appName: marketplace.appName,
         appNumber: marketplace.appNumber,
         version,
         studioProVersion: marketplace.minimumMXVersion,
-        artifactUrl: mpk.browser_download_url
+        artifactUrl
     });
 
     await publishDraft({ draftUUID: draft.UUID });
