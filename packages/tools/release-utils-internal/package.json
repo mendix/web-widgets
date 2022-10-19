@@ -6,16 +6,11 @@
   "main": "index.ts",
   "types": "index.ts",
   "bin": {
-    "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
-<<<<<<< HEAD
+    "rui-create-gh-release": "bin/rui-create-gh-release.ts",
     "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
-    "rui-verify-package-format": "bin/rui-verify-package-format.ts",
     "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
-    "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts"
-=======
-    "rui-release-module-gh": "bin/rui-release-module-gh.ts",
-    "rui-publish-marketplace": "bin/rui-publish-marketplace.ts"
->>>>>>> f754a8ba3 (build(data-widgets): add gh release script for modules)
+    "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
+    "rui-verify-package-format": "bin/rui-verify-package-format.ts"
   },
   "scripts": {
     "start": "tsc --watch",

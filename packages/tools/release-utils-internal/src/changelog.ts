@@ -1,28 +1,33 @@
-import { WidgetChangelogFileWrapper } from "./changelog-parser";
 import { gh } from "./github";
-import { appNameSchema, PackageInfo } from "./package-info";
-import { exec } from "./shell";
+import { PublishedInfo } from "./package-info";
+import { exec, pushd, popd } from "./shell";
 
 export async function updateChangelogsAndCreatePR(
-    info: PackageInfo,
-    changelog: WidgetChangelogFileWrapper,
+    info: PublishedInfo,
     releaseTag: string,
     remoteName: string
 ): Promise<void> {
     const releaseBranchName = `${releaseTag}-update-changelog`;
-    const appName = appNameSchema.parse(info.marketplace.appName);
+    const appName = info.marketplace.appName;
+
+    console.log(remoteName);
 
     console.log(`Creating branch '${releaseBranchName}'...`);
     await exec(`git checkout -b ${releaseBranchName}`);
 
     console.log("Updating CHANGELOG.md...");
-    const updatedChangelog = changelog.moveUnreleasedToVersion(info.version);
-    updatedChangelog.save();
+    await exec(`pnpm run update-changelog --filter=${info.name}`);
 
-    console.log(`Committing CHANGELOG.md to '${releaseBranchName}' and pushing to remote...`);
-    await exec(`git add ${changelog.changelogPath}`);
-    await exec(`git commit -m "chore(${info.mxpackage.name}): update changelog"`);
-    await exec(`git push ${remoteName} ${releaseBranchName}`);
+    console.log(`Committing changes and pushing '${releaseBranchName}' to remote...`);
+    const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
+
+    pushd(root.trim());
+    await exec(`git add '*/CHANGELOG.md'`);
+    const { stdout: changed } = await exec(`git status --porcelain`, { stdio: "pipe" });
+    console.dir(changed.split("\n"));
+    // await exec(`git commit -m "chore(${info.mxpackage.name}): update changelog"`);
+    // await exec(`git push ${remoteName} ${releaseBranchName}`);
+    popd();
 
     console.log(`Creating pull request for '${releaseBranchName}'`);
     await gh.createGithubPRFrom({

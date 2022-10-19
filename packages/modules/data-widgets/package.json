@@ -39,7 +39,7 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module",
     "build:module": "scripts/build.ts",
-    "create-gh-release": "rui-release-module-gh",
+    "create-gh-release": "rui-create-gh-release",
     "push-update": "scripts/push-update.ts",
     "release:module": "scripts/release.ts",
     "start": "scripts/start.ts"
