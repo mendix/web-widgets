@@ -250,7 +250,6 @@ export async function runWidgetSteps(params: RunWidgetStepsParams): Promise<void
 }
 
 type RunModuleStepsParams = {
-    dependencies: string[];
     packagePath: string;
     steps: Array<Step<ModuleInfo, ModuleBuildConfig>>;
 };
