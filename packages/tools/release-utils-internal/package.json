@@ -36,8 +36,5 @@
     "steps.ts",
     "utils.ts",
     "tsconfig.json"
-  ],
-  "dependencies": {
-    "package.json": "^2.0.1"
-  }
+  ]
 }
