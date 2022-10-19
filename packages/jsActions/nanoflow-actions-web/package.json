@@ -15,6 +15,10 @@
     "minimumMXVersion": "9.0.5.17836",
     "appNumber": 114337
   },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "nanoflow-actions-hybrid"
+  },
   "scripts": {
     "prebuild": "rimraf ./dist/tsc",
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",

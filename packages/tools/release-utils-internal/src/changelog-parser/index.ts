@@ -188,7 +188,7 @@ export class ModuleChangelogFileWrapper {
     moveUnreleasedToVersion(newVersion: Version): ModuleChangelogFileWrapper {
         const [unreleased, ...releasedContent] = this.changelog.content;
 
-        if (unreleased.sections.length === 0) {
+        if (unreleased.sections.length === 0 && unreleased.subcomponents.length === 0) {
             throw new Error("Unreleased section is empty");
         }
 
@@ -211,6 +211,25 @@ export class ModuleChangelogFileWrapper {
             {
                 header: this.changelog.header,
                 content: [emptyUnreleased, newRelease, ...releasedContent],
+                moduleName: this.moduleName
+            },
+            this.changelogPath
+        );
+    }
+
+    addUnreleasedSubcomponents(subcomponents: SubComponentEntry[]): ModuleChangelogFileWrapper {
+        const [unreleased, ...releasedContent] = this.changelog.content;
+
+        const newUnreleased: ModuleUnreleasedVersionEntry = {
+            type: "unreleased",
+            sections: unreleased.sections,
+            subcomponents: unreleased.subcomponents.concat(subcomponents)
+        };
+
+        return new ModuleChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [newUnreleased, ...releasedContent],
                 moduleName: this.moduleName
             },
             this.changelogPath
