@@ -121,7 +121,7 @@ export class WidgetChangelogFileWrapper {
     }
 
     moveUnreleasedToVersion(newVersion: Version): WidgetChangelogFileWrapper {
-        const unreleased = this.changelog.content[0];
+        const [unreleased, ...releasedContent] = this.changelog.content;
 
         if (unreleased.sections.length === 0) {
             throw new Error("Unreleased section is empty");
@@ -142,7 +142,7 @@ export class WidgetChangelogFileWrapper {
         return new WidgetChangelogFileWrapper(
             {
                 header: this.changelog.header,
-                content: [emptyUnreleased, newRelease, ...(this.changelog.content.slice(1) as ReleasedVersionEntry[])]
+                content: [emptyUnreleased, newRelease, ...releasedContent]
             },
             this.changelogPath
         );
@@ -167,9 +167,12 @@ export class ModuleChangelogFileWrapper {
 
     save(): void {
         const fileContent =
-            [...formatHeader(this.changelog.header), ...this.changelog.content.flatMap(formatVersionEntry)].join(
-                "\n\n"
-            ) + "\n";
+            [
+                ...formatHeader(this.changelog.header),
+                ...this.changelog.content.flatMap(entry => {
+                    return formatModuleVersionEntry(entry, this.moduleName);
+                })
+            ].join("\n\n") + "\n";
 
         writeFileSync(this.changelogPath, fileContent);
     }
@@ -182,33 +185,37 @@ export class ModuleChangelogFileWrapper {
         return this.changelog.content[0].sections.length !== 0;
     }
 
-    // moveUnreleasedToVersion(newVersion: Version): ModuleChangelogFileWrapper {
-    //     const unreleased = this.changelog.content[0];
+    moveUnreleasedToVersion(newVersion: Version): ModuleChangelogFileWrapper {
+        const [unreleased, ...releasedContent] = this.changelog.content;
 
-    //     if (unreleased.sections.length === 0) {
-    //         throw new Error("Unreleased section is empty");
-    //     }
+        if (unreleased.sections.length === 0) {
+            throw new Error("Unreleased section is empty");
+        }
 
-    //     const emptyUnreleased: UnreleasedVersionEntry = {
-    //         type: "unreleased",
-    //         sections: []
-    //     };
+        const emptyUnreleased: ModuleUnreleasedVersionEntry = {
+            type: "unreleased",
+            sections: [],
+            subcomponents: []
+        };
 
-    //     const newRelease: ReleasedVersionEntry = {
-    //         type: "normal",
-    //         version: newVersion,
-    //         date: new Date(),
-    //         sections: unreleased.sections
-    //     };
+        const newRelease: ModuleReleasedVersionEntry = {
+            type: "normal",
+            version: newVersion,
+            date: new Date(),
+            name: this.moduleName,
+            sections: unreleased.sections,
+            subcomponents: unreleased.subcomponents
+        };
 
-    //     return new ModuleChangelogFileWrapper(
-    //         {
-    //             header: this.changelog.header,
-    //             content: [emptyUnreleased, newRelease, ...(this.changelog.content.slice(1) as ReleasedVersionEntry[])]
-    //         },
-    //         this.changelogPath
-    //     );
-    // }
+        return new ModuleChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [emptyUnreleased, newRelease, ...releasedContent],
+                moduleName: this.moduleName
+            },
+            this.changelogPath
+        );
+    }
 
     static fromFile(filePath: string, moduleName: string): ModuleChangelogFileWrapper {
         return new ModuleChangelogFileWrapper(

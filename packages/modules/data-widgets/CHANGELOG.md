@@ -6,145 +6,147 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.5.6] Data Widgets - 2022-9-29
+## [2.5.6] DataWidgets - 2022-09-29
 
-## [2.4.2] DatagridDateFilter
+### [2.4.2] DatagridDateFilter
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue with DateFilter causing poor page performance (#166116)
 
-## [2.5.5] Data Widgets - 2022-9-1
+## [2.5.5] DataWidgets - 2022-09-01
 
-## [2.4.2] Datagrid
+### [2.4.2] Datagrid
 
-### Fixed
+#### Fixed
 
 -   We fixed the issue with column selector, where the list would go out of the screen, making part of it inaccessible. (Ticket(s) #162255 and #163129)
 
-## [2.5.4] Data Widgets - 2022-8-11
+## [2.5.4] DataWidgets - 2022-08-11
 
-## [2.4.1] DatagridDateFilter
+### [2.4.1] DatagridDateFilter
 
-### Fixed
-
--   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
-
-## [2.2.3] DatagridDropdownFilter
-
-### Fixed
+#### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 
-## [2.3.1] DatagridNumberFilter
+### [2.2.3] DatagridDropdownFilter
 
-### Fixed
-
--   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
-
-## [2.3.2] DatagridTextFilter
-
-### Fixed
+#### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 
-## [2.5.3] Data Widgets - 2022-7-5
+### [2.3.1] DatagridNumberFilter
 
-## [2.4.1] Datagrid
+#### Fixed
 
-### Fixed
+-   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+### [2.3.2] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
+
+## [2.5.3] DataWidgets - 2022-07-05
+
+### [2.4.1] Datagrid
+
+#### Fixed
 
 -   We fixed the issue with filtering widgets rendered outside of header cells.
 
-## [2.5.2] Data Widgets - 2022-6-29
+## [2.5.2] DataWidgets - 2022-06-29
 
 ### Fixed
 
 -   We fixed an issue with incorrect wrap text being applied. (Ticket #150083)
 
-## [2.4.0] Datagrid
+### [2.4.0] Datagrid
 
-### Fixed
+#### Fixed
 
 -   We fixed the issue with datagrid widget not respecting layout sizing if content is too big.
 
-## [2.5.0] Data Widgets - 2022-5-11
+## [2.5.0] DataWidgets - 2022-05-11
 
-## [2.4.0] DatagridDateFilter
+### [2.4.0] DatagridDateFilter
 
-### Added
-
--   We added the options to filter for empty and non-empty values.
-
-## [2.3.0] DatagridNumberFilter
-
-### Added
+#### Added
 
 -   We added the options to filter for empty and non-empty values.
 
-## [2.3.0] DatagridTextFilter
+### [2.3.0] DatagridNumberFilter
 
-### Added
+#### Added
 
 -   We added the options to filter for empty and non-empty values.
 
-## [2.4.0] Data Widgets - 2022-4-22
+### [2.3.0] DatagridTextFilter
 
-## [2.3.0] Datagrid
+#### Added
 
-### Added
+-   We added the options to filter for empty and non-empty values.
+
+## [2.4.0] DataWidgets - 2022-04-22
+
+### [2.3.0] Datagrid
+
+#### Added
 
 -   We added a new CSS class to the datagrid widget. That makes it easier to create CSS selector for the custom styling.
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue with widgets not rendering on full width in datagrid cells. (Ticket #143363)
 
-## [2.3.1] Data Widgets - 2022-4-13
+## [2.3.1] DataWidgets - 2022-04-13
 
-## [2.3.1] DatagridDateFilter
+### [2.3.1] DatagridDateFilter
 
-### Fixed
+#### Fixed
 
 -   We fixed a bug that was causing errors in Safari when using DateFilter in Datagrid. (Ticket #144874)
 
-## [2.2.2] DatagridDropdownFilter
+### [2.2.2] DatagridDropdownFilter
 
-### Fixed
+#### Fixed
 
 -   We fixed this widget to be compatible with strict CSP mode.
 
-## [2.2.3] Datagrid
+### [2.2.3] Datagrid
+
+#### Fixed
 
 -   We fixed an issue with column hiding behaviour. Now user can't uncheck last visible column in the datagrid. (Ticket #144500)
 
-## [2.3.0] Data Widgets - 2022-2-10
+## [2.3.0] DataWidgets - 2022-02-10
 
-## [2.3.0] DatagridDateFilter
+### [2.3.0] DatagridDateFilter
 
-### Added
+#### Added
 
 -   We added the possibility to apply filter between dates.
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue with locale date format when typing it manually.
 
-## [2.2.2] Data Widgets - 2022-1-19
+## [2.2.2] DataWidgets - 2022-01-19
 
-## [2.2.1] DatagridDropdownFilter
+### [2.2.1] DatagridDropdownFilter
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue when selecting an invalid value for an attribute was cleaning the filter if used in Gallery or Data grid 2 header. Now it will match the correct attribute and apply the filter anyway (Ticket #138870).
 
-## [2.2.2] Datagrid
+### [2.2.2] Datagrid
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue with column selector on Windows machines (Ticket #139234).
 
-## [2.2.1] Data Widgets - 2022-1-6
+## [2.2.1] DataWidgets - 2022-01-06
 
 ### Fixed
 
@@ -154,104 +156,113 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We changed style variables to use `!default` to allow value overriding with Atlas.
 
-## [2.2.1] DatagridDateFilter
+### [2.2.1] DatagridDateFilter
 
-### Added
+#### Added
 
 -   We added a class `date-filter-container` to the main container for the date picker calendar.
 
-## [2.2.1] Datagrid
+### [2.2.1] Datagrid
 
-### Changed
+#### Changed
 
 -   We changed the icons from front-awesome to be pure SVG.
 
-## [2.2.0] Data Widgets - 2021-12-23
+## [2.2.0] DataWidgets - 2021-12-23
 
-## [2.2.0] DatagridDateFilter
+### [2.2.0] DatagridDateFilter
 
-### Added
-
--   We added dark mode to Structure mode preview.
--   We added dark icons for Tile and List view.
-
-## [2.2.0] DatagridDropdownFilter
-
-### Added
+#### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [2.2.0] DatagridNumberFilter
+### [2.2.0] DatagridDropdownFilter
 
-### Added
+#### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [2.2.0] DatagridTextFilter
+### [2.2.0] DatagridNumberFilter
 
-### Added
+#### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [2.2.0] Datagrid
+### [2.2.0] DatagridTextFilter
 
-### Added
+#### Added
+
+-   We added dark mode to Structure mode preview.
+
+-   We added dark icons for Tile and List view.
+
+### [2.2.0] Datagrid
+
+#### Added
 
 -   We added "Tooltip" property for column, which allow you to control text that will be seen when hovering cell.
--   We added dark mode to Structure mode preview.
--   We added dark icons for Tile and List view.
-
-## [1.1.0] DropdownSort
-
-### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [1.1.0] Gallery
+### [1.1.0] DropdownSort
 
-### Added
+#### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [1.1.0] TreeNode
+### [1.1.0] Gallery
 
-### Added
+#### Added
 
 -   We added dark mode to Structure mode preview.
+
 -   We added dark icons for Tile and List view.
 
-## [2.1.1] Data Widgets - 2021-12-10
+### [1.1.0] TreeNode
 
-## [2.1.1] DatagridDateFilter
+#### Added
 
-### Fixed
+-   We added dark mode to Structure mode preview.
+
+-   We added dark icons for Tile and List view.
+
+## [2.1.1] DataWidgets - 2021-12-10
+
+### [2.1.1] DatagridDateFilter
+
+#### Fixed
 
 -   We fixed an issue with week start day not respecting current app settings (Ticket #136173).
 
-### Changed
+#### Changed
 
 -   We aligned week days names with date picker widget from Studio Pro.
 
-## [2.1.0] Data Widgets - 2021-12-3
+## [2.1.0] DataWidgets - 2021-12-03
 
-## [2.1.0] Datagrid
+### [2.1.0] Datagrid
 
-### Added
+#### Added
 
 -   We added a property to wrap texts in the columns.
 
-## [1.0.2] TreeNode
+### [1.0.2] TreeNode
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue that causes design properties and styles to not be applied to the widget in Design mode & Studio.
 
-## [2.0.3] Data Widgets - 2021-11-16
+## [2.0.3] DataWidgets - 2021-11-16
 
 ### Changed
 
@@ -261,26 +272,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added a .version file inside themesource/datawidgets containing the module version.
 
-## [2.0.3] Datagrid
+### [2.0.3] Datagrid
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue causing a content inside rows to be re-rendered while using sorting or filtering.
 
-## [1.0.3] Gallery
+### [1.0.3] Gallery
 
-### Fixed
+#### Fixed
 
 -   We fixed an issue causing a content inside rows to be re-rendered while using filtering.
--
 
-## [2.0.2] - 2021-10-13
+## [2.0.2] DataWidgets - 2021-10-13
 
 ### Filter widgets
 
 #### Added
 
 -   We added the possibility to store the filter value in an attribute and trigger an onChange event on every filter change.
+
 -   We added a "Enable advanced options" toggle for Studio users.
 
 ### Data Grid 2, Gallery & Tree Node
@@ -289,7 +300,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We made the "Enable advanced options" available only for Studio users, keeping all the advanced features available by default in Studio Pro.
 
-## [2.0.1] - 2021-10-07
+## [2.0.1] DataWidgets - 2021-10-07
 
 ### Filter widgets
 
@@ -313,18 +324,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added a check to prevent actions to be triggered while being executed
 
-## [2.0.0] - 2021-09-28
+## [2.0.0] DataWidgets - 2021-09-28
 
 ### Added
 
 -   We added the possibility to reuse all data grid filters with Gallery widget.
+
 -   We added Gallery widget.
+
 -   We added Tree-node widget.
+
 -   We added Drop-down sort widget.
 
 ### Changed
 
 -   We renamed Datagrid date filter to Date filter.
+
 -   We renamed Datagrid drop-down filter to Drop-down filter.
+
 -   We renamed Datagrid number filter to Number filter.
+
 -   We renamed Datagrid text filter to Text filter.
