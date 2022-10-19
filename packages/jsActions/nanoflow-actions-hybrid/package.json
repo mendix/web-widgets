@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "private": true,
+  "mxpackage": {
+    "type": "jsactions",
+    "name": "HybridMobileActions"
+  },
   "marketplace": {
     "minimumMXVersion": "8.4.0.63076",
     "appNumber": 112063
