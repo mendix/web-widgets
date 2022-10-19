@@ -23,6 +23,7 @@
   "dependencies": {},
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.3",
+    "@mendix/release-utils-internal": "workspace:*",
     "rimraf": "^2.7.1",
     "rollup": "^2.68.0"
   }

@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
+    "@mendix/release-utils-internal": "workspace:*",
     "@types/cordova": "^0.0.34",
     "@types/cordova-plugin-app-version": "^0.1.35",
     "concurrently": "^6.0.0",

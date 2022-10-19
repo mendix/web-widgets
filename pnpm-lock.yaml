@@ -75,6 +75,7 @@ importers:
   packages/jsActions/nanoflow-actions-hybrid:
     specifiers:
       '@mendix/pluggable-widgets-tools': '>=9.0.0'
+      '@mendix/release-utils-internal': workspace:*
       '@types/cordova': ^0.0.34
       '@types/cordova-plugin-app-version': ^0.1.35
       concurrently: ^6.0.0
@@ -97,6 +98,7 @@ importers:
       cordova-plugin-statusbar: 2.4.3
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0
+      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@types/cordova': 0.0.34
       '@types/cordova-plugin-app-version': 0.1.36
       concurrently: 6.5.1
@@ -108,10 +110,12 @@ importers:
   packages/jsActions/nanoflow-actions-web:
     specifiers:
       '@mendix/pluggable-widgets-tools': '>=9.0.3'
+      '@mendix/release-utils-internal': workspace:*
       rimraf: ^2.7.1
       rollup: ^2.68.0
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0
+      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       rimraf: 2.7.1
       rollup: 2.79.1
 

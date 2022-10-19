@@ -6,19 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.4.2] - 2022-9-29
+## [2.4.2] - 2022-09-29
 
 ### Fixed
 
 -   We fixed an issue with DateFilter causing poor page performance (#166116)
 
-## [2.4.1] - 2022-8-11
+## [2.4.1] - 2022-08-11
 
 ### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 
-## [2.4.0] - 2022-5-11
+## [2.4.0] - 2022-05-11
 
 ### Added
 

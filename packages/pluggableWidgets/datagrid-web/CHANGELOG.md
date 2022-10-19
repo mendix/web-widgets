@@ -6,19 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.4.2] - 2022-9-1
+## [2.4.2] - 2022-09-01
 
 ### Fixed
 
 -   We fixed the issue with column selector, where the list would go out of the screen, making part of it inaccessible. (Ticket(s) #162255 and #163129)
 
-## [2.4.1] - 2022-7-5
+## [2.4.1] - 2022-07-05
 
 ### Fixed
 
 -   We fixed the issue with filtering widgets rendered outside of header cells.
 
-## [2.4.0] - 2022-6-29
+## [2.4.0] - 2022-06-29
 
 ### Fixed
 
