@@ -6,25 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.2.3] - 2022-08-11
-
 ### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 
-## [2.2.2] - 2022-04-13
-
-### Fixed
-
 -   We fixed this widget to be compatible with strict CSP mode.
-
-## [2.2.1] - 2022-01-19
-
-### Fixed
-
--   We fixed an issue when selecting an invalid value for an attribute was cleaning the filter if used in Gallery or Data grid 2 header. Now it will match the correct attribute and apply the filter anyway (Ticket #138870).
-
-## [2.2.0] - 2021-12-23
 
 ### Added
 

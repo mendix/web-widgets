@@ -6,21 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.3.1] - 2022-08-11
-
 ### Fixed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 
-## [2.3.0] - 2022-05-11
-
 ### Added
 
 -   We added the options to filter for empty and non-empty values.
-
-## [2.2.0] - 2021-12-23
-
-### Added
 
 -   We added dark mode to Structure mode preview.
 

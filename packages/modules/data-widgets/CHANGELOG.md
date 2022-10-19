@@ -6,27 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.5.6] DataWidgets - 2022-09-29
-
-### [2.4.2] DatagridDateFilter
-
-#### Fixed
+### Fixed
 
 -   We fixed an issue with DateFilter causing poor page performance (#166116)
 
-## [2.5.5] DataWidgets - 2022-09-01
-
-### [2.4.2] Datagrid
-
-#### Fixed
+### Added
 
 -   We fixed the issue with column selector, where the list would go out of the screen, making part of it inaccessible. (Ticket(s) #162255 and #163129)
 
-## [2.5.4] DataWidgets - 2022-08-11
-
-### [2.4.1] DatagridDateFilter
-
-#### Fixed
+### Changed
 
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
 

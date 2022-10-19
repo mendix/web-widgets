@@ -6,37 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.4.2] - 2022-09-29
-
 ### Fixed
 
 -   We fixed an issue with DateFilter causing poor page performance (#166116)
 
-## [2.4.1] - 2022-08-11
-
-### Fixed
-
 -   We fixed an issue with sync of widget defaultValue property and current filter value (#151789)
-
-## [2.4.0] - 2022-05-11
 
 ### Added
 
 -   We added the options to filter for empty and non-empty values.
 
-## [2.3.1] - 2022-04-13
-
-### Fixed
-
 -   We fixed a bug that was causing errors in Safari when using DateFilter in Datagrid. (Ticket #144874)
 
-## [2.3.0] - 2022-02-10
-
-### Added
-
 -   We added the possibility to apply filter between dates.
-
-### Fixed
 
 -   We fixed an issue with locale date format when typing it manually.
 

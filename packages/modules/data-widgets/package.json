@@ -1,9 +1,7 @@
 {
   "name": "data-widgets",
   "moduleName": "Data Widgets",
-  "moduleNameInModeler": "DataWidgets",
-  "moduleFolderNameInModeler": "datawidgets",
-  "version": "2.5.6",
+  "version": "2.6.0",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "private": true,
