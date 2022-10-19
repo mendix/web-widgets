@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 -   Changed the confirmation screen to hide the control buttons after confirmation while the picture is loading in the "Take a picture" action.
+
 -   Changed the "Take a picture" action to hide the action buttons after taking a picture while waiting for the picture to be processed.
 
 ## [2.1.1] - 2021-07-01

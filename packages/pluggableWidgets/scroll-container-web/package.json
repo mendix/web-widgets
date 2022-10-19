@@ -14,9 +14,17 @@
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
+  "mxpackage": {
+    "name": "ScrollContainer",
+    "type": "widget"
+  },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
     "appName": "Scroll Container"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "scroll-container-web"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
@@ -26,7 +34,9 @@
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
-    "release": "pluggable-widgets-tools release:web"
+    "release": "pluggable-widgets-tools release:web",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
@@ -44,7 +54,8 @@
     "mendix": "^9.18.53394",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
-    "react-test-renderer": "~17.0.2"
+    "react-test-renderer": "~17.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

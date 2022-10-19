@@ -3,9 +3,17 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "private": true,
+  "mxpackage": {
+    "type": "jsactions",
+    "name": "HybridMobileActions"
+  },
   "marketplace": {
     "minimumMXVersion": "8.4.0.63076",
     "appNumber": 112063
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "nanoflow-actions-hybrid"
   },
   "scripts": {
     "start": "concurrently \"npm:watch-*\"",
@@ -17,7 +25,8 @@
     "lint": "eslint --config ../../../.eslintrc.js --parser-options=project:src/tsconfig.json --ext .ts src/",
     "lint:scripts": "eslint --config ../../../.eslintrc.js --parser-options=project:scripts/tsconfig.json --ext .ts scripts/",
     "lint:fix": "npm run lint -- --fix",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "config": {
     "moduleName": "HybridMobileActions",
@@ -48,6 +57,7 @@
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
+    "@mendix/release-utils-internal": "workspace:*",
     "@types/cordova": "^0.0.34",
     "@types/cordova-plugin-app-version": "^0.1.35",
     "concurrently": "^6.0.0",

@@ -9,6 +9,11 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
+  "mxpackage": {
+    "type": "module",
+    "name": "Charts"
+  },
+  "moduleFolderNameInModeler": "charts",
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
     "appNumber": 105695,
@@ -21,10 +26,13 @@
   "scripts": {
     "build:module": "node ./scripts/build.js",
     "release:module": "node ./scripts/build.js release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
   },
   "dependencies": {},
   "devDependencies": {
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

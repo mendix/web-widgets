@@ -9,6 +9,11 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
+  "mxpackage": {
+    "type": "module",
+    "name": "Atlas_Web_Content"
+  },
+  "moduleFolderNameInModeler": "atlas_web_content",
   "marketplace": {
     "minimumMXVersion": "9.6.11.42323",
     "appNumber": 117183,
@@ -21,13 +26,16 @@
   "scripts": {
     "build:module": "ts-node ./scripts/build.ts build",
     "release:module": "ts-node ./scripts/build.ts release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "concurrently": "^6.0.0",
     "copy-and-watch": "^0.1.5",
     "ts-node": "^9.0.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

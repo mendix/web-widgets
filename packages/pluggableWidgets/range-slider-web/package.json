@@ -13,6 +13,10 @@
     "branchName": "range-slider-web"
   },
   "license": "Apache-2.0",
+  "mxpackage": {
+    "name": "RangeSlider",
+    "type": "widget"
+  },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
     "appNumber": 52704,
@@ -31,7 +35,9 @@
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "cross-env MPKOUTPUT=RangeSlider.mpk pluggable-widgets-tools release:web",
     "create-gh-release": "rui-release-widget-gh",
-    "publish-marketplace": "rui-publish-marketplace"
+    "publish-marketplace": "rui-publish-marketplace",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "config": {
     "mendixHost": "http://localhost:8080",

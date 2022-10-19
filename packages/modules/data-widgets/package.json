@@ -9,6 +9,21 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
+  "mxpackage": {
+    "name": "DataWidgets",
+    "type": "module",
+    "dependencies": [
+      "datagrid-date-filter-web",
+      "datagrid-dropdown-filter-web",
+      "datagrid-number-filter-web",
+      "datagrid-text-filter-web",
+      "datagrid-web",
+      "dropdown-sort-web",
+      "gallery-web",
+      "tree-node-web"
+    ]
+  },
+  "moduleFolderNameInModeler": "datawidgets",
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
     "appNumber": 116540,
@@ -22,12 +37,15 @@
     "build:module": "node ./scripts/build.js",
     "start": "node ./scripts/build.js start",
     "release:module": "node ./scripts/build.js release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
   },
   "dependencies": {},
   "devDependencies": {
     "copy-and-watch": "^0.1.5",
     "concurrently": "^6.0.0",
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

@@ -14,6 +14,10 @@
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
+  "mxpackage": {
+    "name": "HTMLElement",
+    "type": "widget"
+  },
   "marketplace": {
     "minimumMXVersion": "9.12.0",
     "appName": "HTML Element"
@@ -31,7 +35,9 @@
     "test": "pluggable-widgets-tools test:unit:web",
     "prerelease": "npm run lint",
     "release": "pluggable-widgets-tools release:web",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js"
+    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
@@ -50,6 +56,7 @@
     "mendix": "^9.18.53394",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
-    "react-test-renderer": "~17.0.2"
+    "react-test-renderer": "~17.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
   }
 }

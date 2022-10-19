@@ -14,22 +14,7 @@ import {
     VersionEntry,
     WidgetChangelogFile
 } from "./types";
-
-export function readModuleChangelog(filePath: string): ModuleChangelogFile {
-    const fileContent = readFileSync(filePath);
-
-    return Object.freeze(parseModuleChangelogFile(fileContent.toString(), { Version }));
-}
-
-export function writeModuleChangelog(filePath: string, content: ModuleChangelogFile): void {
-    const fileContent =
-        [
-            ...formatHeader(content.header),
-            ...content.content.flatMap(v => formatModuleVersionEntry(v, content.moduleName))
-        ].join("\n\n") + "\n";
-
-    writeFileSync(filePath, fileContent);
-}
+import { join } from "path";
 
 function formatHeader(header: string): string[] {
     return [
@@ -120,7 +105,7 @@ export class WidgetChangelogFileWrapper {
     }
 
     moveUnreleasedToVersion(newVersion: Version): WidgetChangelogFileWrapper {
-        const unreleased = this.changelog.content[0];
+        const [unreleased, ...releasedContent] = this.changelog.content;
 
         if (unreleased.sections.length === 0) {
             throw new Error("Unreleased section is empty");
@@ -141,7 +126,7 @@ export class WidgetChangelogFileWrapper {
         return new WidgetChangelogFileWrapper(
             {
                 header: this.changelog.header,
-                content: [emptyUnreleased, newRelease, ...(this.changelog.content.slice(1) as ReleasedVersionEntry[])]
+                content: [emptyUnreleased, newRelease, ...releasedContent]
             },
             this.changelogPath
         );
@@ -155,6 +140,98 @@ export class WidgetChangelogFileWrapper {
     }
 }
 
+export class ModuleChangelogFileWrapper {
+    changelog: ModuleChangelogFile;
+    moduleName: string;
+
+    private constructor(changelog: ModuleChangelogFile, public changelogPath: string) {
+        this.changelog = Object.freeze(changelog);
+        this.moduleName = changelog.moduleName;
+    }
+
+    save(): void {
+        const fileContent =
+            [
+                ...formatHeader(this.changelog.header),
+                ...this.changelog.content.flatMap(entry => {
+                    return formatModuleVersionEntry(entry, this.moduleName);
+                })
+            ].join("\n\n") + "\n";
+
+        writeFileSync(this.changelogPath, fileContent);
+    }
+
+    hasVersion(version: Version): boolean {
+        return this.changelog.content.some(c => "version" in c && c.version.equals(version));
+    }
+
+    hasUnreleasedLogs(): boolean {
+        return this.changelog.content[0].sections.length !== 0;
+    }
+
+    moveUnreleasedToVersion(newVersion: Version): ModuleChangelogFileWrapper {
+        const [unreleased, ...releasedContent] = this.changelog.content;
+
+        if (unreleased.sections.length === 0 && unreleased.subcomponents.length === 0) {
+            throw new Error("Unreleased section is empty");
+        }
+
+        const emptyUnreleased: ModuleUnreleasedVersionEntry = {
+            type: "unreleased",
+            sections: [],
+            subcomponents: []
+        };
+
+        const newRelease: ModuleReleasedVersionEntry = {
+            type: "normal",
+            version: newVersion,
+            date: new Date(),
+            name: this.moduleName,
+            sections: unreleased.sections,
+            subcomponents: unreleased.subcomponents
+        };
+
+        return new ModuleChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [emptyUnreleased, newRelease, ...releasedContent],
+                moduleName: this.moduleName
+            },
+            this.changelogPath
+        );
+    }
+
+    addUnreleasedSubcomponents(subcomponents: SubComponentEntry[]): ModuleChangelogFileWrapper {
+        const [unreleased, ...releasedContent] = this.changelog.content;
+
+        const newUnreleased: ModuleUnreleasedVersionEntry = {
+            type: "unreleased",
+            sections: unreleased.sections,
+            subcomponents: unreleased.subcomponents.concat(subcomponents)
+        };
+
+        return new ModuleChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [newUnreleased, ...releasedContent],
+                moduleName: this.moduleName
+            },
+            this.changelogPath
+        );
+    }
+
+    static fromFile(filePath: string, moduleName: string): ModuleChangelogFileWrapper {
+        return new ModuleChangelogFileWrapper(
+            parseModuleChangelogFile(readFileSync(filePath).toString(), { Version, moduleName }),
+            filePath
+        );
+    }
+}
+
 export async function getWidgetChangelog(path: string): Promise<WidgetChangelogFileWrapper> {
-    return WidgetChangelogFileWrapper.fromFile(`${path}/CHANGELOG.md`);
+    return WidgetChangelogFileWrapper.fromFile(join(path, "CHANGELOG.md"));
+}
+
+export async function getModuleChangelog(path: string, moduleName: string): Promise<ModuleChangelogFileWrapper> {
+    return ModuleChangelogFileWrapper.fromFile(join(path, "CHANGELOG.md"), moduleName);
 }
