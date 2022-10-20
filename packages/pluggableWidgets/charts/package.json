@@ -1,19 +1,30 @@
 {
   "name": "charts",
-  "moduleName": "Charts",
-  "version": "3.0.0",
+  "version": "4.0.0",
+  "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
-  "private": true,
+  "private": false,
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "mxpackage": {
-    "type": "module",
-    "name": "Charts"
+    "name": "Charts",
+    "type": "widget",
+    "mpkName": "Charts.mpk",
+    "dependencies": [
+      "area-chart-web",
+      "bar-chart-web",
+      "bubble-chart-web",
+      "column-chart-web",
+      "heatmap-chart-web",
+      "line-chart-web",
+      "pie-doughnut-chart-web",
+      "time-series-chart-web"
+    ]
   },
-  "moduleFolderNameInModeler": "charts",
+  "packagePath": "com.mendix.widget.web",
   "marketplace": {
     "minimumMXVersion": "9.6.0.27784",
     "appNumber": 105695,
@@ -30,7 +41,16 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module"
   },
-  "dependencies": {},
+  "dependencies": {
+    "area-chart-web": "workspace:*",
+    "bar-chart-web": "workspace:*",
+    "bubble-chart-web": "workspace:*",
+    "column-chart-web": "workspace:*",
+    "heatmap-chart-web": "workspace:*",
+    "line-chart-web": "workspace:*",
+    "pie-doughnut-chart-web": "workspace:*",
+    "time-series-chart-web": "workspace:*"
+  },
   "devDependencies": {
     "cross-env": "^7.0.2",
     "@mendix/release-utils-internal": "workspace:*"
