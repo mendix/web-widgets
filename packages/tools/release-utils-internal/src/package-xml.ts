@@ -125,6 +125,8 @@ export async function overrideFilesInPackageXml(
 ): Promise<void> {
     const files = paths.map(path => ({ "@_path": path }));
     const xml = await readXml(filePath);
+    // Parse xml just to make sure have valid xml
+    dataParsers[packageType](xml);
     const emptyContent: Content = {
         files: ""
     };
