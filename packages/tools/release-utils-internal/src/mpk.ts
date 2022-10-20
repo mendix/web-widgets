@@ -1,10 +1,7 @@
-import { basename, join, parse, format } from "path";
-import { z } from "zod";
-import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { exec, find, cp, rm } from "./shell";
+import { basename, join } from "path";
 import { ModuleInfo } from "./package-info";
+import { exec, find } from "./shell";
 import { Version } from "./version";
-import { readFile, writeFile } from "fs/promises";
 
 async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<void> {
     const version = mendixVersion.format(true);
@@ -66,78 +63,4 @@ export async function createMPK(tmpFolder: string, info: ModuleInfo, excludeFile
         excludeFilesRegExp
     );
     return find(join(tmpFolder, info.mpkName))[0];
-}
-
-const EmptyTag = z.literal("");
-
-const FileTag = z.object({
-    "@_path": z.string()
-});
-
-const FileTagArray = FileTag.array();
-
-type FileTagArray = z.infer<typeof FileTagArray>;
-
-const PackageFiles = z.union([FileTagArray, FileTag, EmptyTag]);
-
-type PackageFiles = z.infer<typeof PackageFiles>;
-
-const ModelerProjectPackageFile = z.object({
-    package: z.object({
-        modelerProject: z.object({
-            files: z.object({
-                file: PackageFiles
-            })
-        })
-    })
-});
-
-type ModelerProjectPackageFile = z.infer<typeof ModelerProjectPackageFile>;
-
-function joinPackageFiles(files: PackageFiles, items: FileTagArray): PackageFiles {
-    if (items.length < 1) {
-        return files;
-    }
-
-    // return items if files empty
-    if (files === "") {
-        return [...items];
-    }
-
-    if (Array.isArray(files)) {
-        return [...files, ...items];
-    }
-
-    // at this point we know that files is single object
-    return [files, ...items];
-}
-
-// We can't use `.parse` method as it drop all properties
-// that not included in schema. Instead, we check that
-// data shape match our schema and return data back as schema type.
-function ensureModlerProjectPackageFile(data): ModelerProjectPackageFile {
-    const result = ModelerProjectPackageFile.safeParse(data);
-
-    if (!result.success) {
-        throw result.error;
-    }
-
-    return data as ModelerProjectPackageFile;
-}
-
-export async function addFilesToPackageXml(filePath: string, paths: string[]): Promise<void> {
-    const parser = new XMLParser({ ignoreAttributes: false });
-    const builder = new XMLBuilder({ ignoreAttributes: false, format: true, suppressEmptyNode: true });
-    const source = parse(filePath);
-    const backup = { ...source, base: source.base + ".backup" };
-    const fileContent = await readFile(filePath);
-    const rawData = parser.parse(fileContent);
-    const meta = ensureModlerProjectPackageFile(rawData);
-    const currentFiles = meta.package.modelerProject.files.file;
-    const newFiles = paths.map(path => ({ "@_path": path }));
-
-    meta.package.modelerProject.files.file = joinPackageFiles(currentFiles, newFiles);
-    cp("-n", filePath, format(backup));
-    await writeFile(filePath, builder.build(meta));
-    rm(format(backup));
 }
