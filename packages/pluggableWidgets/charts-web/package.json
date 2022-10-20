@@ -1,5 +1,5 @@
 {
-  "name": "charts",
+  "name": "charts-web",
   "version": "4.0.0",
   "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
@@ -37,8 +37,10 @@
   "scripts": {
     "build": "scripts/build.ts development",
     "release": "scripts/build.ts production",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module"
+    "update-changelog": "rui-update-changelog-widget"
   },
   "dependencies": {
     "area-chart-web": "workspace:*",
