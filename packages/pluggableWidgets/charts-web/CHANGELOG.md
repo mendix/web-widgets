@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.0.0] Charts - 2022-10-20
+
 ### Added
 
 -   We converted all charts to Pluggable. Now you can combine them with Data grid 2, Gallery, Tree node and much more.
