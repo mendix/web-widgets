@@ -1,10 +1,9 @@
+import crossZip from "cross-zip";
 import execa from "execa";
-import { config, ls } from "shelljs";
+import { config, ls, popd, pushd } from "shelljs";
 
 // Enable fast fail for all shelljs commands
 config.fatal = true;
-export { config as shelljsConfig };
-
 // Export all except exec as we will execa to execute commands
 // KNOWN ISSUES:
 // - mv don't throw error  https://github.com/shelljs/shelljs/issues/878
@@ -14,31 +13,32 @@ export {
     chmod,
     cp,
     dirs,
-    pushd,
-    popd,
     echo,
-    tempdir,
-    pwd,
-    ls,
+    env,
+    error,
+    exit,
     find,
     grep,
     head,
     ln,
+    ls,
     mkdir,
-    rm,
     mv,
+    popd,
+    pushd,
+    pwd,
+    rm,
     sed,
     set,
     sort,
     tail,
+    tempdir,
     test,
     touch,
     uniq,
-    which,
-    exit,
-    error,
-    env
+    which
 } from "shelljs";
+export { config as shelljsConfig };
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess {
     const { stdio = "inherit", ...execaOptions } = options ?? {};
@@ -53,12 +53,22 @@ export function ensureFileExists(file: string): void {
     config.silent = silentState;
 }
 
-export async function zip(src: string, fileName: string): Promise<string> {
-    const { stdout } = await exec(`cd "${src}" && zip -r ${fileName} .`, { stdio: "pipe" });
-    return stdout.trim();
+export async function zip(dir: string, fileName: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        pushd("-q", dir);
+        crossZip.zip(".", fileName, err => {
+            if (err) {
+                reject(err);
+            } else {
+                popd("-q");
+                resolve();
+            }
+        });
+    });
 }
 
-export async function unzip(src: string, dest: string): Promise<string> {
-    const { stdout } = await exec(`unzip "${src}" -d "${dest}"`, { stdio: "pipe" });
-    return stdout.trim();
+export async function unzip(fileName: string, dir: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        crossZip.unzip(fileName, dir, err => (err ? reject(err) : resolve()));
+    });
 }

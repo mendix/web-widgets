@@ -10,23 +10,29 @@ import {
 } from "./build-config";
 import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git";
 import { copyMpkFiles, getMpkPaths } from "./monorepo";
-import { addFilesToPackageXml, createModuleMpkInDocker } from "./mpk";
+import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
+import { addFilesToPackageXml, PackageType } from "./package-xml";
 import { cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
-type CommonStepParams = {
+export type CommonStepParams = {
     info: PackageInfo;
     config: CommonBuildConfig;
 };
 
-type ModuleStepParams = {
+export type WidgetStepParams = {
+    info: WidgetInfo;
+    config: WidgetBuildConfig;
+};
+
+export type ModuleStepParams = {
     info: ModuleInfo;
     config: ModuleBuildConfig;
 };
 
-const logStep = (name: string): void => console.info(`[step]: ${name}`);
+export const logStep = (name: string): void => console.info(`[step]: ${name}`);
 
 // Common steps
 
@@ -65,7 +71,10 @@ type CopyFileEntry = {
  *      { filePath: "package.json", pkgPath: "boba/zuza/out.json" }
  *  ])
  */
-export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParams) => Promise<void> {
+export function copyFilesToMpk(
+    files: CopyFileEntry[],
+    packageType: PackageType
+): (params: CommonStepParams) => Promise<void> {
     return async ({ config }) => {
         logStep("Copy files to mpk");
 
@@ -96,7 +105,8 @@ export function copyFilesToMpk(files: CopyFileEntry[]): (params: CommonStepParam
         console.info(`Update file entries in package.xml`);
         await addFilesToPackageXml(
             packageXml,
-            files.map(f => f.pkgPath)
+            files.map(f => f.pkgPath),
+            packageType
         );
 
         console.info("Create module zip archive");
@@ -157,7 +167,7 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
     cp(widgets, widgetsOut);
 
     console.info(`Add file entries to package.xml`);
-    await addFilesToPackageXml(packageXml, packageFilePaths);
+    await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
     rm(mpk);
 
     console.info("Create module zip archive");
