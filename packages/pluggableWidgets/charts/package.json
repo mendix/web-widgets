@@ -35,9 +35,8 @@
     "branchName": "main"
   },
   "scripts": {
-    "build:module": "node ./scripts/build.js",
-    "release:module": "node ./scripts/build.js release",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "build": "scripts/build.ts development",
+    "release": "scripts/build.ts production",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module"
   },
