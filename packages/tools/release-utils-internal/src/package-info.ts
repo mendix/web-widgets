@@ -119,6 +119,7 @@ export interface PublishedInfo extends z.infer<typeof PublishedPackageSchema> {}
 
 export interface WidgetInfo extends z.infer<typeof WidgetPackageSchema> {
     mpkName: string;
+    mpk: string;
 }
 
 export interface ModuleInfo extends z.infer<typeof ModulePackageSchema> {
@@ -154,10 +155,12 @@ export async function getWidgetInfo(path: string): Promise<WidgetInfo> {
     const packageJson = await getPackageFileContent(path);
     const info = WidgetPackageSchema.parse(packageJson);
     const mpkName = info.mxpackage.mpkName ?? `${info.packagePath}.${info.mxpackage.name}.mpk`;
+    const mpk = join(path, "dist", info.version.format(), mpkName);
 
     return {
         ...info,
-        mpkName
+        mpkName,
+        mpk
     };
 }
 
@@ -175,4 +178,8 @@ export async function getModuleInfo(path: string): Promise<ModuleInfo> {
 export async function getJSActionsInfo(path: string): Promise<JSActionsInfo> {
     const packageJson = await getPackageFileContent(path);
     return JSActionsPackageSchema.parse(packageJson);
+}
+
+export function getWidgetXmlPath({ mxpackage, packagePath }: WidgetInfo): string {
+    return [...packagePath.split("."), mxpackage.name.toLowerCase()].join("/");
 }

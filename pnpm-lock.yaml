@@ -2430,7 +2430,9 @@ importers:
 
   packages/tools/release-utils-internal:
     specifiers:
+      '@types/cross-zip': ^4.0.0
       '@types/node-fetch': 2.6.1
+      cross-zip: ^4.0.0
       eslint: ^7.20.0
       execa: ^5.1.1
       fast-xml-parser: ^4.0.1
@@ -2441,7 +2443,9 @@ importers:
       typescript: 4.5.4
       zod: ^3.11.6
     devDependencies:
+      '@types/cross-zip': 4.0.0
       '@types/node-fetch': 2.6.1
+      cross-zip: 4.0.0
       eslint: 7.32.0
       execa: 5.1.1
       fast-xml-parser: 4.0.11
@@ -5087,6 +5091,10 @@ packages:
     resolution: {integrity: sha512-rkiiTuf/z2wTd4RxFOb+clE7PF4AEJU0hsczbUdkHHBtkUmpWQpEddynNfJYKYtZFJKbq4F+brfekt1kx85IZA==}
     dev: true
 
+  /@types/cross-zip/4.0.0:
+    resolution: {integrity: sha512-jZRaaM3aib7qgVhCWeo76vVNJW+8+ujJzP/JHPPA4WUp5YBNMsqiyu5uYWg2eS05+jgSfb5NN8eqrAG72Ab2kA==}
+    dev: true
+
   /@types/deep-equal/1.0.1:
     resolution: {integrity: sha512-mMUu4nWHLBlHtxXY17Fg6+ucS/MnndyOWyOe7MmwkoMYxvfQU2ajtRaEvqSUv+aVkMqH/C0NCI8UoVfRNQ10yg==}
     dev: true
@@ -7161,6 +7169,11 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: true
+
+  /cross-zip/4.0.0:
+    resolution: {integrity: sha512-MEzGfZo0rqE10O/B+AEcCSJLZsrWuRUvmqJTqHNqBtALhaJc3E3ixLGLJNTRzEA2K34wbmOHC4fwYs9sVsdcCA==}
+    engines: {node: '>=12.10'}
     dev: true
 
   /crypto-random-string/1.0.0:
