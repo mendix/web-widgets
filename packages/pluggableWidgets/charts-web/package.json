@@ -40,7 +40,7 @@
     "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget"
+    "update-changelog": "rui-update-changelog-module"
   },
   "dependencies": {
     "area-chart-web": "workspace:*",
