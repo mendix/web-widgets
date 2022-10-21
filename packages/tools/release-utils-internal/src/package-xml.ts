@@ -118,26 +118,6 @@ async function writeXml(filePath: string, xml: any): Promise<void> {
  * @pararm filePath - package.xml path
  * @param paths - relative package paths
  */
-export async function overrideFilesInPackageXml(
-    filePath: string,
-    paths: string[],
-    packageType: PackageType
-): Promise<void> {
-    const files = paths.map(path => ({ "@_path": path }));
-    const xml = await readXml(filePath);
-    // Parse xml just to make sure have valid xml
-    dataParsers[packageType](xml);
-    const emptyContent: Content = {
-        files: ""
-    };
-    const updatedXml = mergeContent(packageType, xml, concatFiles(emptyContent, files));
-    await writeXml(filePath, updatedXml);
-}
-
-/**
- * @pararm filePath - package.xml path
- * @param paths - relative package paths
- */
 export async function addFilesToPackageXml(filePath: string, paths: string[], packageType: PackageType): Promise<void> {
     const files = paths.map(path => ({ "@_path": path }));
     const xml = await readXml(filePath);
