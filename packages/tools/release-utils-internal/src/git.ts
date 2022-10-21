@@ -19,10 +19,6 @@ type CloneParams = {
     branch?: string;
 };
 
-export async function clean(): Promise<void> {
-    await exec(`git clean -fd`);
-}
-
 export async function cloneRepo({ remoteUrl, localFolder, branch }: CloneParams): Promise<void> {
     const options = [getGHRepoAuthUrl(remoteUrl), branch ? `--branch=${branch}` : "", localFolder].filter(Boolean);
 

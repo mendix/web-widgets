@@ -5,14 +5,19 @@ import { join } from "path";
 
 interface GitHubReleaseInfo {
     title: string;
-    notes: string;
     tag: string;
     target: string;
+    notes:
+        | {
+              text: string;
+          }
+        | {
+              file: string;
+          };
     filesToRelease?: string;
     isDraft?: boolean;
     repo?: string;
 }
-
 interface GitHubPRInfo {
     title: string;
     body: string;
@@ -23,6 +28,7 @@ interface GitHubPRInfo {
 
 export class GitHub {
     authSet = false;
+    tmpPrefix = "gh-";
 
     private async ensureAuth(): Promise<void> {
         if (!this.authSet) {
@@ -30,34 +36,32 @@ export class GitHub {
         }
     }
 
+    async createTempFile(): Promise<string> {
+        const dir = await mkdtemp(this.tmpPrefix);
+        return join(dir, "release-notes.txt");
+    }
+
     async createGithubPRFrom(pr: GitHubPRInfo): Promise<void> {
         await this.ensureAuth();
 
-        const repoArgument = pr.repo ? `-R "${pr.repo}"` : "";
+        const repoArgument = pr.repo ? `--repo '${pr.repo}'` : "";
         const command = [
             `gh pr create`,
             `--title '${pr.title}'`,
             `--body '${pr.body}'`,
             `--base '${pr.base}'`,
             `--head '${pr.head}'`,
-            `'${repoArgument}'`
+            repoArgument
         ].join(" ");
 
         await exec(command);
     }
 
-    async createGithubReleaseFrom({
-        title,
-        notes,
-        tag,
-        filesToRelease = "",
-        target,
-        isDraft = false,
-        repo
-    }: GitHubReleaseInfo): Promise<void> {
+    async createGithubReleaseFrom(params: GitHubReleaseInfo): Promise<void> {
+        const { notes, title, tag, filesToRelease = "", target, isDraft = false, repo } = params;
         await this.ensureAuth();
 
-        const notesFilePath = await this.createReleaseNotesFile(notes);
+        const notesFilePath = "file" in notes ? notes.file : await this.createReleaseNotesFile(notes.text);
 
         const targetHash = (await exec(`git rev-parse --verify ${target}`, { stdio: "pipe" })).stdout.trim();
         const command = [
@@ -127,8 +131,7 @@ export class GitHub {
     }
 
     async createReleaseNotesFile(releaseNotesText: string): Promise<string> {
-        const folderPath = await mkdtemp("gh-");
-        const filePath = join(folderPath, "release-notes.txt");
+        const filePath = await this.createTempFile();
         await writeFile(filePath, releaseNotesText);
 
         return filePath;

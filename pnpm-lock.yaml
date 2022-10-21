@@ -2445,7 +2445,6 @@ importers:
       fast-xml-parser: ^4.0.1
       node-fetch: ^2.6.1
       peggy: ^1.2.0
-      rimraf: ^2.7.1
       shelljs: ^0.8.4
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -2457,7 +2456,6 @@ importers:
       fast-xml-parser: 4.0.11
       node-fetch: 2.6.7
       peggy: 1.2.0
-      rimraf: 2.7.1
       shelljs: 0.8.5
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4

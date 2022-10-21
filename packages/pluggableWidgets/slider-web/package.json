@@ -15,7 +15,8 @@
   "license": "Apache-2.0",
   "mxpackage": {
     "name": "Slider",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "Slider.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
@@ -34,7 +35,7 @@
     "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress",
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "cross-env MPKOUTPUT=Slider.mpk pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-release-widget-gh",
+    "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget"

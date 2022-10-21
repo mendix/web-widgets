@@ -6,20 +6,18 @@
   "main": "index.ts",
   "types": "index.ts",
   "bin": {
-    "rui-release-widget-gh": "bin/rui-release-widget-gh.ts",
+    "rui-create-gh-release": "bin/rui-create-gh-release.ts",
     "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
-    "rui-verify-package-format": "bin/rui-verify-package-format.ts",
     "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
-    "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts"
+    "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
+    "rui-verify-package-format": "bin/rui-verify-package-format.ts"
   },
   "scripts": {
     "start": "tsc --watch",
-    "precompile": "npm run compile:parser:widget && npm run compile:parser:module",
-    "compile": "tsc",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
     "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-    "prepare": "npm run compile"
+    "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc"
   },
   "devDependencies": {
     "@types/node-fetch": "2.6.1",
@@ -28,7 +26,6 @@
     "fast-xml-parser": "^4.0.1",
     "node-fetch": "^2.6.1",
     "peggy": "^1.2.0",
-    "rimraf": "^2.7.1",
     "shelljs": "^0.8.4",
     "ts-node": "^9.0.0",
     "typescript": "4.5.4",
