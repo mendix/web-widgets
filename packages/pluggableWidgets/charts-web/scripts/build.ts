@@ -1,13 +1,8 @@
 #!/usr/bin/env ts-node-script
 
-import {
-    listPackages,
-    getWidgetInfo,
-    overrideFilesInPackageXml,
-    getWidgetXmlPath
-} from "@mendix/release-utils-internal/utils";
-import { runWidgetSteps, removeDist, WidgetStepParams, logStep } from "@mendix/release-utils-internal/steps";
-import { mkdir, unzip, cp, rm, zip } from "@mendix/release-utils-internal/shell";
+import { cp, mkdir, rm, unzip, zip } from "@mendix/release-utils-internal/shell";
+import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix/release-utils-internal/steps";
+import { getWidgetInfo, listPackages } from "@mendix/release-utils-internal/utils";
 import { dirname, join } from "node:path";
 
 // Charts specific steps
@@ -36,13 +31,8 @@ async function repackChartWidgets({ config }: WidgetStepParams): Promise<void> {
         rm(pkgXml);
     }
 
-    console.info("Reading new file tree...");
-    const relativePaths = widgets.map(getWidgetXmlPath);
-
-    console.log("Updating package.xml...");
-    const packageXml = join(paths.tmp, "package.xml");
-    cp(join(paths.package, "src", "package.xml"), packageXml);
-    await overrideFilesInPackageXml(packageXml, relativePaths, "clientModule");
+    console.log("Copying package.xml...");
+    cp(join(paths.package, "src", "package.xml"), join(paths.tmp, "package.xml"));
     console.log("Creating mpk...");
     await zip(paths.tmp, output.files.mpk);
 }

@@ -11,7 +11,15 @@
             <widgetFile path="PieChart/PieChart.xml" />
             <widgetFile path="TimeSeries/TimeSeries.xml" />
         </widgetFiles>
-        <!-- Please leave files empty, file entries will be generated as part of build -->
-        <files />
+        <files>
+            <file path="com/mendix/widget/web/areachart" />
+            <file path="com/mendix/widget/web/barchart" />
+            <file path="com/mendix/widget/web/bubblechart" />
+            <file path="com/mendix/widget/web/columnchart" />
+            <file path="com/mendix/widget/web/heatmap" />
+            <file path="com/mendix/widget/web/linechart" />
+            <file path="com/mendix/widget/web/piechart" />
+            <file path="com/mendix/widget/web/timeseries" />
+        </files>
     </clientModule>
 </package>
