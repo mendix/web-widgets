@@ -64,7 +64,7 @@ async function main(): Promise<void> {
     updated.save();
 
     if (process.env.RELEASE_NOTES_FILE) {
-        const content = updated.getLatestReleaseContent({ header: false });
+        const content = updated.getLatestReleaseContent();
         await writeFile(process.env.RELEASE_NOTES_FILE, content);
     }
 }

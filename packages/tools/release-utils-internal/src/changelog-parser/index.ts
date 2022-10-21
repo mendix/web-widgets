@@ -96,9 +96,9 @@ export class WidgetChangelogFileWrapper {
         writeFileSync(this.changelogPath, fileContent);
     }
 
-    getLatestReleaseContent({ header }: { header: boolean } = { header: true }): string {
+    getLatestReleaseContent(): string {
         const [, recent] = this.changelog.content;
-        const entries = formatVersionEntry(recent).slice(header ? 0 : 1);
+        const entries = formatVersionEntry(recent).slice(1);
 
         return entries.join("\n\n") + "\n";
     }
@@ -168,9 +168,9 @@ export class ModuleChangelogFileWrapper {
         writeFileSync(this.changelogPath, fileContent);
     }
 
-    getLatestReleaseContent({ header }: { header: boolean } = { header: true }): string {
+    getLatestReleaseContent(): string {
         const [, recent] = this.changelog.content;
-        const entries = formatModuleVersionEntry(recent, this.moduleName).slice(header ? 0 : 1);
+        const entries = formatModuleVersionEntry(recent, this.moduleName).slice(1);
 
         return entries.join("\n\n") + "\n";
     }
