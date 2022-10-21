@@ -1,3 +1,4 @@
+import { writeFile } from "fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
 import { fgYellow } from "./ansi-colors";
 import {
@@ -8,10 +9,10 @@ import {
     WidgetBuildConfig
 } from "./build-config";
 import { cloneRepo, cloneRepoShallow, setLocalGitUserInfo } from "./git";
-import { getMpkPaths, copyMpkFiles } from "./monorepo";
+import { copyMpkFiles, getMpkPaths } from "./monorepo";
 import { addFilesToPackageXml, createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
-import { cp, echo, mkdir, rm, unzip, zip, pushd, popd, exec, ensureFileExists } from "./shell";
+import { cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -210,7 +211,8 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
 export async function writeModuleVersion({ config, info }: ModuleStepParams): Promise<void> {
     logStep("Write module version");
 
-    echo(info.version.format()).to(join(config.output.dirs.themesource, ".version"));
+    mkdir("-p", config.output.dirs.themesource);
+    await writeFile(join(config.output.dirs.themesource, ".version"), info.version.format());
 }
 
 export async function copyModuleLicense({ config }: ModuleStepParams): Promise<void> {
