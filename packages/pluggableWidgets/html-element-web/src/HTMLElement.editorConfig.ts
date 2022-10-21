@@ -1,5 +1,7 @@
 import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { container, datasource, dropzone, StructurePreviewProps, text } from "@mendix/pluggable-widgets-commons";
+import { prepareTag } from "./utils/props-utils";
 
 type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];
 
@@ -182,4 +184,25 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
     }
 
     return errors;
+}
+
+export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean): StructurePreviewProps | null {
+    const tagName = prepareTag(values.tagName, values.tagNameCustom);
+
+    return container({ grow: 1, borders: true, borderWidth: 1 })(
+        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+        values.tagContentMode === "innerHTML"
+            ? container({ padding: 4 })(
+                  text()(
+                      `<${tagName}>${
+                          values.tagUseRepeat ? values.tagContentRepeatHTML : values.tagContentHTML
+                      }</${tagName}>`
+                  )
+              )
+            : container({ padding: 0 })(
+                  text()(`<${tagName}>`),
+                  dropzone(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
+                  text()(`</${tagName}>`)
+              )
+    );
 }
