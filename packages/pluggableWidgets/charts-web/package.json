@@ -1,0 +1,59 @@
+{
+  "name": "charts-web",
+  "version": "4.0.0",
+  "description": "Chart widgets collection for data visualization",
+  "license": "Apache-2.0",
+  "private": false,
+  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "mxpackage": {
+    "name": "Charts",
+    "type": "widget",
+    "mpkName": "Charts.mpk",
+    "dependencies": [
+      "area-chart-web",
+      "bar-chart-web",
+      "bubble-chart-web",
+      "column-chart-web",
+      "heatmap-chart-web",
+      "line-chart-web",
+      "pie-doughnut-chart-web",
+      "time-series-chart-web"
+    ]
+  },
+  "packagePath": "com.mendix.widget.web",
+  "marketplace": {
+    "minimumMXVersion": "9.6.0.27784",
+    "appNumber": 105695,
+    "appName": "Charts"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/Charts-module",
+    "branchName": "main"
+  },
+  "scripts": {
+    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-module"
+  },
+  "dependencies": {
+    "area-chart-web": "workspace:*",
+    "bar-chart-web": "workspace:*",
+    "bubble-chart-web": "workspace:*",
+    "column-chart-web": "workspace:*",
+    "heatmap-chart-web": "workspace:*",
+    "line-chart-web": "workspace:*",
+    "pie-doughnut-chart-web": "workspace:*",
+    "time-series-chart-web": "workspace:*"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "@mendix/release-utils-internal": "workspace:*"
+  }
+}
