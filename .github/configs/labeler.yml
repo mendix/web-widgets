@@ -1,23 +1,85 @@
-Atlas:
-  - packages/**/*atlas*/**/*
+# Common
 documentation:
   - all: ["*.md"]
-WebActions:
-  - packages/*/web-actions/**/*
-  - packages/*/nanoflow-actions-web/**/*
-Charts:
-  - packages/*/charts/**/*
-  - packages/*/*-chart-web/**/*
-DataGrid:
+
+test:
+  - all: ["*.spec.*"]
+
+# Modules
+atlas-web-content:
+  - packages/**/atlas-web-content/**/*
+data-widgets:
   - packages/*/data-widgets/**/*
   - packages/*/datagrid-*/**/*
   - packages/*/dropdown-sort-web/**/*
   - packages/*/gallery-web/**/*
   - packages/*/tree-node-web/**/*
-Hybrid:
-  - packages/jsActions/*-hybrid/**/*
-PWA:
-  - packages/**/barcode-scanner-web/**/*
-  - packages/**/nanoflow-actions-web/**/*
-test:
-  - all: ["*.spec.*"]
+web-actions:
+  - packages/*/web-actions/**/*
+  - packages/*/nanoflow-actions-web/**/*
+
+# Widgets
+accessibility-helper-web:
+  - packages/*/accessibility-helper-web/**/*
+accordion-web:
+  - packages/*/accordion-web/**/*
+badge-button-web:
+  - packages/*/badge-button-web/**/*
+badge-web:
+  - packages/*/badge-web/**/*
+barcode-scanner-web:
+  - packages/*/barcode-scanner-web/**/*
+carousel-web:
+  - packages/*/carousel-web/**/*
+charts-web:
+  - packages/shared/charts/**/*
+  - packages/*/*-chart-web/**/*
+  - packages/*/charts-web/**/*
+color-picker-web:
+  - packages/*/color-picker-web/**/*
+document-viewer-web:
+  - packages/*/document-viewer-web/**/*
+fieldset-web:
+  - packages/*/fieldset-web/**/*
+html-element-web:
+  - packages/*/html-element-web/**/*
+image-web:
+  - packages/*/image-web/**/*
+language-selector-web:
+  - packages/*/language-selector-web/**/*
+maps-web:
+  - packages/*/maps-web/**/*
+popup-menu-web:
+  - packages/*/popup-menu-web/**/*
+progress-bar-web:
+  - packages/*/progress-bar-web/**/*
+progress-circle-web:
+  - packages/*/progress-circle-web/**/*
+range-slider-web:
+  - packages/*/range-slider-web/**/*
+rating-web:
+  - packages/*/rating-web/**/*
+rich-text-web:
+  - packages/*/rich-text-web/**/*
+scroll-container-web:
+  - packages/*/scroll-container-web/**/*
+sidebar-toggle-web:
+  - packages/*/sidebar-toggle-web/**/*
+sidebar-web:
+  - packages/*/sidebar-web/**/*
+slider-web:
+  - packages/*/slider-web/**/*
+switch-web:
+  - packages/*/switch-web/**/*
+timeline-web:
+  - packages/*/timeline-web/**/*
+tooltip-web:
+  - packages/*/tooltip-web/**/*
+video-player-web:
+  - packages/*/video-player-web/**/*
+
+# Internals
+pluggable-widgets-commons:
+  - packages/*/pluggable-widgets-commons/**/*
+release-utils-internal:
+  - packages/*/release-utils-internal/**/*
