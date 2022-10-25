@@ -35,8 +35,8 @@
     "branchName": "main"
   },
   "scripts": {
-    "build": "scripts/build.ts development",
-    "release": "scripts/build.ts production",
+    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
     "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace",
     "verify": "rui-verify-package-format",

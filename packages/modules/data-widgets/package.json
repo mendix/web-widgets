@@ -36,11 +36,11 @@
   "scripts": {
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module",
-    "build:module": "scripts/build.ts",
+    "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
     "create-gh-release": "rui-create-gh-release",
-    "push-update": "scripts/push-update.ts",
-    "release:module": "scripts/release.ts",
-    "start": "scripts/start.ts"
+    "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+    "start": "ts-node --project scripts/tsconfig.json scripts/start.ts"
   },
   "dependencies": {
     "datagrid-date-filter-web": "workspace:*",
