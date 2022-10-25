@@ -21,7 +21,7 @@
     "precompile": "rimraf ./dist",
     "compile": "tsc",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
-    "prepare": "npm run compile",
+    "prepare": "pnpm run compile",
     "test": "pluggable-widgets-tools test:unit:web"
   },
   "devDependencies": {
