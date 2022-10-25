@@ -37,7 +37,6 @@
     "pretest:e2e": "npm run release && node ../../../scripts/test/updateAtlas.js --latest-atlas",
     "test:e2e": "echo 'Skipping e2e'",
     "release": "pluggable-widgets-tools release:web",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget"
   },
