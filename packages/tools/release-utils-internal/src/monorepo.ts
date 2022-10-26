@@ -19,7 +19,7 @@ export interface PackageListing {
 
 export async function listPackages(packageNames: string[]): Promise<PackageListing[]> {
     const pnpmCommand = `pnpm ls --json`;
-    const filters = packageNames.map(name => `--filter '${name}'`);
+    const filters = packageNames.map(name => `--filter ${name}`);
     const command = [pnpmCommand, ...filters].join(" ");
     const result = (await exec(command, { stdio: "pipe" })).stdout.trim();
     const data = <PackageListing[]>JSON.parse(result !== "" ? result : "[]");
