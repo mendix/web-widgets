@@ -1,5 +1,5 @@
 import { useEffect, useRef, RefObject } from "react";
-import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType } from "@zxing/library/cjs";
+import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType, NotFoundException } from "@zxing/library/cjs";
 import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
 const hints = new Map();
@@ -30,47 +30,48 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
 
-    function setup(): (() => void) | void {
-        if (!videoRef.current) {
-            return;
-        }
-        let isCanceled = false;
-        let reader: BrowserMultiFormatReader | null = null;
-        const elt = videoRef.current;
+    useEffect(() => {
+        let stopped = false;
+        const reader = new BrowserMultiFormatReader(hints, 2000);
 
-        const cleanup = (): void => {
-            if (!isCanceled && reader) {
-                reader.reset();
-                reader = null;
-                isCanceled = true;
+        const stop = (): void => {
+            stopped = true;
+            reader.stopAsyncDecode();
+            reader.reset();
+        };
+
+        const start = async (): Promise<void> => {
+            let stream;
+            try {
+                stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+                if (!stopped && videoRef.current) {
+                    const result = await reader.decodeOnceFromStream(stream, videoRef.current);
+                    if (!stopped) {
+                        onSuccess(result.getText());
+                    }
+                }
+            } catch (error) {
+                // Suppress not found error if widget is closed normally (eg. leaving page);
+                const isNotFound = stopped && error instanceof NotFoundException;
+                if (!isNotFound) {
+                    if (error instanceof Error) {
+                        console.error(error.message);
+                    }
+                    if (onError) {
+                        onError(error);
+                    }
+                }
+            } finally {
+                stop();
+                stream?.getVideoTracks().forEach(track => track.stop());
             }
         };
 
-        const decodeFromReader = (): void => {
-            const fn = async (): Promise<void> => {
-                reader = new BrowserMultiFormatReader(hints, 2000);
-                try {
-                    const result = await reader.decodeOnceFromConstraints(mediaStreamConstraints, elt);
-                    onSuccess(result.getText());
-                } catch (e) {
-                    console.log(e.message);
-                    if (!isCanceled && onError) {
-                        onError(e);
-                    }
-                } finally {
-                    cleanup();
-                }
-            };
-            fn();
-        };
+        start();
 
-        decodeFromReader();
-
-        return cleanup;
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(setup, []);
+        return stop;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return videoRef;
 };
