@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, waitFor } from "@testing-library/react";
+import { act, render, waitFor, screen } from "@testing-library/react";
 import { createElement } from "react";
 import { Dimensions } from "@mendix/pluggable-widgets-commons";
 import { NotFoundException } from "@zxing/library/cjs";
@@ -66,51 +66,16 @@ describe("Barcode scanner", () => {
     describe("shows an appropriate error to the user", () => {
         it("in the form of text when a generic error occurs", async () => {
             useReaderMock.mockImplementationOnce((args: any) => {
-                setTimeout(() => args.onError(new Error("this is unexpected error")), 100);
+                setTimeout(() => args.onError(new Error("some error message")), 100);
             });
             mockGetUserMedia(jest.fn());
 
-            const { container } = render(<BarcodeScanner class="" showMask {...dimensions} />);
-
+            await act(async () => {
+                render(<BarcodeScanner class="" showMask {...dimensions} />);
+            });
             await waitFor(() =>
-                expect(container).toHaveTextContent(
-                    "Error in barcode scanner: an unexpected error occurred while retrieving the camera media stream."
-                )
+                expect(screen.getByText(/Error/i)).toHaveTextContent("Error in barcode scanner: some error message")
             );
-        });
-
-        it("in the form of text when no device was found", async () => {
-            useReaderMock.mockImplementationOnce((args: any) => {
-                setTimeout(() => {
-                    const error = new Error("This is an error message");
-                    error.name = "NotFoundError";
-                    args.onError(error);
-                }, 100);
-            });
-
-            mockGetUserMedia(jest.fn());
-
-            const { container } = render(<BarcodeScanner class="" showMask {...dimensions} />);
-
-            await waitFor(() =>
-                expect(container).toHaveTextContent("Error in barcode scanner: no camera media devices were found.")
-            );
-        });
-
-        it("not in the form of text since that is handled by the design when the users denies access to the camera", async () => {
-            useReaderMock.mockImplementationOnce((args: any) => {
-                setTimeout(() => {
-                    const error = new Error("This is an error message");
-                    error.name = "NotAllowedError";
-                    args.onError(error);
-                }, 100);
-            });
-
-            mockGetUserMedia(jest.fn());
-
-            const { container } = render(<BarcodeScanner class="" showMask {...dimensions} />);
-
-            await waitFor(() => expect(container).not.toHaveTextContent(/Error in barcode scanner:/));
         });
 
         it("in the form of text when the code scanner unexpectedly fails", async () => {
@@ -122,11 +87,12 @@ describe("Barcode scanner", () => {
 
             mockGetUserMedia(jest.fn());
 
-            const { container } = render(<BarcodeScanner class="" showMask {...dimensions} />);
-
+            await act(async () => {
+                render(<BarcodeScanner class="" showMask {...dimensions} />);
+            });
             await waitFor(() =>
-                expect(container).toHaveTextContent(
-                    "Error in barcode scanner: an unexpected error occurred while detecting a barcode in the camera media stream."
+                expect(screen.getByText(/Error/i)).toHaveTextContent(
+                    "Error in barcode scanner: Unable to decode from stream"
                 )
             );
         });
