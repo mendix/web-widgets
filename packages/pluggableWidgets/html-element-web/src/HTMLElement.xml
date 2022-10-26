@@ -82,7 +82,7 @@
                 </property>
 
                 <!-- Data source for repeating content -->
-                <property key="tagContentRepeatDataSource" type="datasource" required="false" isList="true">
+                <property key="tagContentRepeatDataSource" type="datasource" required="true" isList="true">
                     <caption>Data source</caption>
                     <description />
                 </property>

@@ -141,47 +141,38 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
         }
     }
 
-    if (values.tagUseRepeat && values.tagContentRepeatDataSource === null) {
-        // make date source required if set to repeat
-        errors.push({
-            severity: "error",
-            property: "tagContentRepeatDataSource",
-            message: "Property 'Data source' is required."
-        });
-    } else {
-        const existingAttributeNames = new Set();
-        values.attributes.forEach((attr, i) => {
-            if (existingAttributeNames.has(attr.attributeName)) {
-                errors.push({
-                    severity: "error",
-                    property: `attributes/${i + 1}/attributeName`,
-                    message: `Attribute with name '${attr.attributeName}' already exists.`
-                });
-            }
-            existingAttributeNames.add(attr.attributeName);
+    const existingAttributeNames = new Set();
+    values.attributes.forEach((attr, i) => {
+        if (existingAttributeNames.has(attr.attributeName)) {
+            errors.push({
+                severity: "error",
+                property: `attributes/${i + 1}/attributeName`,
+                message: `Attribute with name '${attr.attributeName}' already exists.`
+            });
+        }
+        existingAttributeNames.add(attr.attributeName);
 
-            const attributePropName = attributeValuePropNameFor(values, attr.attributeValueType);
-            if (!attr[attributePropName].length) {
-                errors.push({
-                    severity: "warning",
-                    property: `attributes/${i + 1}/${attributePropName}`,
-                    message: `Value is not specified for attribute '${attr.attributeName}'.`
-                });
-            }
-        });
+        const attributePropName = attributeValuePropNameFor(values, attr.attributeValueType);
+        if (!attr[attributePropName].length) {
+            errors.push({
+                severity: "warning",
+                property: `attributes/${i + 1}/${attributePropName}`,
+                message: `Value is not specified for attribute '${attr.attributeName}'.`
+            });
+        }
+    });
 
-        const existingEventNames = new Set();
-        values.events.forEach((attr, i) => {
-            if (existingEventNames.has(attr.eventName)) {
-                errors.push({
-                    severity: "error",
-                    property: `attributes/${i + 1}/eventName`,
-                    message: `Event with name '${attr.eventName}' already exists.`
-                });
-            }
-            existingEventNames.add(attr.eventName);
-        });
-    }
+    const existingEventNames = new Set();
+    values.events.forEach((attr, i) => {
+        if (existingEventNames.has(attr.eventName)) {
+            errors.push({
+                severity: "error",
+                property: `attributes/${i + 1}/eventName`,
+                message: `Event with name '${attr.eventName}' already exists.`
+            });
+        }
+        existingEventNames.add(attr.eventName);
+    });
 
     return errors;
 }

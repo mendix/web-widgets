@@ -57,7 +57,7 @@ export interface HTMLElementContainerProps {
     tagNameCustom: string;
     attributes: AttributesType[];
     tagUseRepeat: boolean;
-    tagContentRepeatDataSource?: ListValue;
+    tagContentRepeatDataSource: ListValue;
     tagContentMode: TagContentModeEnum;
     tagContentHTML?: DynamicValue<string>;
     tagContentContainer?: ReactNode;
