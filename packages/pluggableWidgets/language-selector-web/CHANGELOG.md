@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We changed the way how arrow is renderd.
+
 ## [1.0.0] - 2022-09-26
 
 ### Added
