@@ -2,10 +2,10 @@
     "$schema": "https://turborepo.org/schema.json",
     "pipeline": {
         "update-changelog": {
-            "outputs": []
+            "cache": false
         },
         "verify": {
-            "cache": false
+            "inputs": ["package.json", "**/package.xml"]
         },
         "build": {
             "dependsOn": ["^build"],
@@ -37,5 +37,6 @@
         "publish-marketplace": {
             "cache": false
         }
-    }
+    },
+    "globalDependencies": ["packages/tools/release-utils-internal/**"]
 }
