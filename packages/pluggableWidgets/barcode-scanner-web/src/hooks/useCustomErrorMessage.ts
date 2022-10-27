@@ -6,10 +6,10 @@ type UseCustomErrorMessageHook = () => [string | null, ErrorCb];
 
 function getErrorMessage<E extends Error>(error: E): string | null {
     if (error instanceof Error) {
-        return `Error in barcode scanner: ${error.message}`;
+        return error.message;
     }
 
-    return "Error in barcode scanner: an unexpected error.";
+    return "Unexpected error in barcode scanner.";
 }
 
 export const useCustomErrorMessage: UseCustomErrorMessageHook = () => {

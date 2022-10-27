@@ -73,9 +73,7 @@ describe("Barcode scanner", () => {
             await act(async () => {
                 render(<BarcodeScanner class="" showMask {...dimensions} />);
             });
-            await waitFor(() =>
-                expect(screen.getByText(/Error/i)).toHaveTextContent("Error in barcode scanner: some error message")
-            );
+            await waitFor(() => expect(screen.getByText(/some error message/i)).toBeVisible());
         });
 
         it("in the form of text when the code scanner unexpectedly fails", async () => {
@@ -90,11 +88,7 @@ describe("Barcode scanner", () => {
             await act(async () => {
                 render(<BarcodeScanner class="" showMask {...dimensions} />);
             });
-            await waitFor(() =>
-                expect(screen.getByText(/Error/i)).toHaveTextContent(
-                    "Error in barcode scanner: Unable to decode from stream"
-                )
-            );
+            await waitFor(() => expect(screen.getByText(/Unable to decode from stream/i)).toBeVisible());
         });
     });
 });
