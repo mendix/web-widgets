@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.2] - 2022-10-27
+
 ### Fixed
 
 -   We fixed an issue where the camera kept capturing after the widget was closed.
