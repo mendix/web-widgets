@@ -236,7 +236,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -279,13 +279,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -303,7 +302,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -325,13 +323,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -351,7 +348,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -376,13 +372,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -402,7 +397,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -428,13 +422,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -452,7 +445,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -475,14 +467,13 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@zxing/library': ~0.18.4
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -503,7 +494,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -528,13 +518,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -552,7 +541,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -574,14 +562,13 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/swiper': ^6.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       jest: ^26.6.1
@@ -604,7 +591,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -656,14 +642,13 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-color': ^2.13.5
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -685,7 +670,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-color': 2.17.6
       '@types/react-dom': 17.0.17
@@ -712,13 +696,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -736,7 +719,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -764,7 +746,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -815,7 +797,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       deep-equal: ^2.0.5
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -862,7 +844,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       big.js: ^6.0.2
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -906,7 +888,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -949,7 +931,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       deep-equal: ^2.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -989,13 +971,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1012,7 +993,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1039,7 +1019,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1129,7 +1109,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1170,13 +1150,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1196,7 +1175,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1258,13 +1236,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1285,7 +1262,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1309,13 +1285,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1334,7 +1309,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1359,13 +1333,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1383,7 +1356,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1407,7 +1379,6 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/deep-equal': ^1.0.1
       '@types/faker': ^4.1.0
       '@types/googlemaps': ^3.39.2
@@ -1418,7 +1389,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       deep-equal: ^2.0.2
       eslint: ^7.20.0
@@ -1447,7 +1418,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/deep-equal': 1.0.1
       '@types/faker': 4.1.12
       '@types/googlemaps': 3.43.3
@@ -1479,13 +1449,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1505,7 +1474,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1527,13 +1495,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1552,7 +1519,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1576,13 +1542,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1602,7 +1567,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1627,13 +1591,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1655,7 +1618,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1680,7 +1642,6 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
       '@types/react': <18.0.0
@@ -1688,7 +1649,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1712,7 +1673,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
       '@types/react': 17.0.50
@@ -1739,13 +1699,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1765,7 +1724,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1792,7 +1750,6 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/ckeditor4': ^4.16.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1801,7 +1758,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       ckeditor4: ~4.17.1
       ckeditor4-react: ^2.1.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -1828,7 +1785,6 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/ckeditor4': 4.16.3
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -1860,7 +1816,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1903,7 +1859,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1946,7 +1902,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -1984,7 +1940,6 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
       '@types/react': <18.0.0
@@ -1992,7 +1947,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -2016,7 +1971,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
       '@types/react': 17.0.50
@@ -2043,13 +1997,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -2069,7 +2022,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -2095,13 +2047,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -2119,7 +2070,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -2141,13 +2091,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       jest: ^26.6.1
       mendix: ^9.18.53394
@@ -2167,7 +2116,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -2193,14 +2141,13 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/popper.js': ^1.11.0
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -2222,7 +2169,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/popper.js': 1.11.0
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
@@ -2247,13 +2193,12 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -2270,7 +2215,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-test-renderer': 17.0.2
@@ -2292,14 +2236,13 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/classnames': ^2.2.6
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-resize-detector': ^5.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.18.53394
       react: ~17.0.2
@@ -2318,7 +2261,6 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/classnames': 2.3.1
       '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       '@types/react-resize-detector': 5.0.0
@@ -2351,7 +2293,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       ace-builds: ^1.4.13
       ansi-colors: ^4.1.3
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       copy-and-watch: ^0.1.5
       eslint: ^7.20.0
       fast-json-patch: ^3.1.0
@@ -2413,7 +2355,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.2.6
+      classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
       mendix: ^9.18.53394
@@ -5086,13 +5028,6 @@ packages:
     resolution: {integrity: sha512-cNTC2pYA4YFN+uPdoSxGWC2UXx03OVV0EhDLJx0PPrdyoILsVnJdrQy8Su0JJi7PYSZZQORqZmcp5LlIbKpNmw==}
     dev: true
 
-  /@types/classnames/2.3.1:
-    resolution: {integrity: sha512-zeOWb0JGBoVmlQoznvqXbE0tEC/HONsnoUNH19Hc96NFsTAwTXbTqb8FMYkru1F/iqp7a18Ws3nWJvtA1sHD1A==}
-    deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
-    dependencies:
-      classnames: 2.3.2
-    dev: true
-
   /@types/concurrently/6.4.0:
     resolution: {integrity: sha512-CYU1eyFHsIa2IZIsb8gfUOdiewfnZcyM2Hg1Zaq95xnmB0Ix/bTRM8SttqZ2Cjy6JGPZLttHjZewVsDg1yvnJg==}
     dependencies:
@@ -6718,6 +6653,7 @@ packages:
 
   /classnames/2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+    dev: false
 
   /clean-stack/2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -9356,7 +9292,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.17.3
+      uglify-js: 3.17.4
     dev: true
 
   /hard-rejection/2.1.0:
@@ -14989,8 +14925,8 @@ packages:
     hasBin: true
     dev: true
 
-  /uglify-js/3.17.3:
-    resolution: {integrity: sha512-JmMFDME3iufZnBpyKL+uS78LRiC+mK55zWfM5f/pWBJfpOttXAqYfdDGRukYhJuyRinvPVAtUhvy7rlDybNtFg==}
+  /uglify-js/3.17.4:
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
