@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.0.0] Charts - 2022-10-27
+
 ### Breaking changes
 
 -   We removed all deprecated chart widgets. If your app uses deprecated chart widgets, you must manually replace them with new ones.
