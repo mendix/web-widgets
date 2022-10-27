@@ -21,7 +21,6 @@
   },
   "scripts": {
     "prebuild": "rimraf ./dist/tsc",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
     "update-changelog": "rui-update-changelog-widget"
   },
   "dependencies": {},

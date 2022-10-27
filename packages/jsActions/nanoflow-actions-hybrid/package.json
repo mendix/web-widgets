@@ -21,11 +21,10 @@
     "watch-copy": "npm-watch",
     "prebuild:tsc": "rimraf dist/tsc",
     "build:tsc": "tsc --project src/tsconfig.json",
-    "postbuild": "node ../../../scripts/modules/copyActionsToTestProject.js",
+    "postbuild": "node ./scripts/copyActionsToTestProject.js",
     "lint": "eslint --config ../../../.eslintrc.js --parser-options=project:src/tsconfig.json --ext .ts src/",
     "lint:scripts": "eslint --config ../../../.eslintrc.js --parser-options=project:scripts/tsconfig.json --ext .ts scripts/",
     "lint:fix": "npm run lint -- --fix",
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
     "update-changelog": "rui-update-changelog-widget"
   },
   "config": {
