@@ -5,7 +5,7 @@
     <icon />
     <properties>
         <propertyGroup caption="General">
-            <propertyGroup caption="Tag">
+            <propertyGroup caption="HTML Element">
                 <property key="tagName" type="enumeration" defaultValue="div" required="true">
                     <caption>Tag name</caption>
                     <description />
@@ -27,15 +27,61 @@
                         <enumerationValue key="__customTag__">Use custom name</enumerationValue>
                     </enumerationValues>
                 </property>
-
                 <property key="tagNameCustom" type="string" defaultValue="div" required="false">
                     <caption>Custom tag</caption>
                     <description />
                 </property>
-                <!-- **************************** TAG ATTRIBUTES ****************************** -->
+
+                <property key="tagUseRepeat" type="boolean" defaultValue="false">
+                    <caption>Repeat element</caption>
+                    <description>Repeat element for each item in data source.</description>
+                </property>
+
+                <property key="tagContentRepeatDataSource" type="datasource" required="true" isList="true">
+                    <caption>Data source</caption>
+                    <description />
+                </property>
+
+                <!-- **************************** TAG CONTENT ****************************** -->
+                <!-- Content mode -->
+                <property key="tagContentMode" type="enumeration" defaultValue="container">
+                    <caption>Content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="container">Container for widgets</enumerationValue>
+                        <enumerationValue key="innerHTML">HTML</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <!-- HTML content, non-repeating -->
+                <property key="tagContentHTML" type="textTemplate" multiline="true" required="false">
+                    <caption>HTML</caption>
+                    <description />
+                </property>
+
+                <!-- Container content, non-repeating -->
+                <property key="tagContentContainer" type="widgets" required="false">
+                    <caption>Content</caption>
+                    <description />
+                </property>
+
+                <!-- HTML content, repeating -->
+                <property key="tagContentRepeatHTML" type="textTemplate" multiline="true" required="false" dataSource="tagContentRepeatDataSource">
+                    <caption>HTML</caption>
+                    <description />
+                </property>
+
+                <!-- Container content, repeating -->
+                <property key="tagContentRepeatContainer" type="widgets" required="false" dataSource="tagContentRepeatDataSource">
+                    <caption>Content</caption>
+                    <description />
+                </property>
+                <!-- **************************** END TAG CONTENT ****************************** -->
+            </propertyGroup>
+            <propertyGroup caption="HTML Attributes">
                 <property key="attributes" type="object" isList="true" required="false">
                     <caption>Attributes</caption>
-                    <description />
+                    <description>The HTML attributes that are added to the HTML element. For example: ‘title‘, ‘href‘. If ‘class’ or ‘style’ is added as attribute this is merged with the widget class/style property. For events (e.g. onClick) use the Events section.</description>
                     <properties>
                         <propertyGroup caption="Attributes">
                             <property key="attributeName" type="string" required="true">
@@ -73,55 +119,6 @@
                         </propertyGroup>
                     </properties>
                 </property>
-                <!-- **************************** END TAG ATTRIBUTES ****************************** -->
-            </propertyGroup>
-            <propertyGroup caption="Repeat">
-                <property key="tagUseRepeat" type="boolean" defaultValue="false">
-                    <caption>Repeat element</caption>
-                    <description>Repeat element for each item in data source.</description>
-                </property>
-
-                <!-- Data source for repeating content -->
-                <property key="tagContentRepeatDataSource" type="datasource" required="true" isList="true">
-                    <caption>Data source</caption>
-                    <description />
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Content">
-                <property key="tagContentMode" type="enumeration" defaultValue="container">
-                    <caption>Content</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="container">Container for widgets</enumerationValue>
-                        <enumerationValue key="innerHTML">HTML</enumerationValue>
-                    </enumerationValues>
-                </property>
-
-                <!-- **************************** TAG CONTENT ****************************** -->
-                <!-- HTML content, non-repeating -->
-                <property key="tagContentHTML" type="textTemplate" multiline="true" required="false">
-                    <caption>HTML</caption>
-                    <description />
-                </property>
-
-                <!-- Container content, non-repeating -->
-                <property key="tagContentContainer" type="widgets" required="false">
-                    <caption>Content</caption>
-                    <description />
-                </property>
-
-                <!-- HTML content, repeating -->
-                <property key="tagContentRepeatHTML" type="textTemplate" multiline="true" required="false" dataSource="tagContentRepeatDataSource">
-                    <caption>HTML</caption>
-                    <description />
-                </property>
-
-                <!-- Container content, repeating -->
-                <property key="tagContentRepeatContainer" type="widgets" required="false" dataSource="tagContentRepeatDataSource">
-                    <caption>Content</caption>
-                    <description />
-                </property>
-                <!-- **************************** END TAG CONTENT ****************************** -->
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
