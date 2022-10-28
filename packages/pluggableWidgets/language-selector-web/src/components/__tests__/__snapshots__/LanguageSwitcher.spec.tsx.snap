@@ -15,9 +15,8 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
         aria-hidden="true"
         class="language-arrow"
       >
-        <img
-          alt=""
-          class="arrow-down"
+        <div
+          class="arrow-image arrow-down"
         />
       </span>
     </div>
@@ -45,9 +44,8 @@ exports[`Language switcher renders the structure with language list and selected
         aria-hidden="true"
         class="language-arrow"
       >
-        <img
-          alt=""
-          class="arrow-down"
+        <div
+          class="arrow-image arrow-down"
         />
       </span>
     </div>

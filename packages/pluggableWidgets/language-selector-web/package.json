@@ -1,7 +1,7 @@
 {
   "name": "language-selector-web",
   "widgetName": "LanguageSelector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Display a list of available languages",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "license": "Apache-2.0",

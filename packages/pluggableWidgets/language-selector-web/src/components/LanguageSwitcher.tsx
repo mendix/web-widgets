@@ -14,7 +14,6 @@ import {
 } from "../utils/document";
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "../LanguageSelector";
-import ArrowIcon from "../assets/arrow_black.svg";
 
 export interface LanguageSwitcherProps {
     preview: boolean;
@@ -68,7 +67,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
             <div className={"popupmenu-trigger popupmenu-trigger-alignment"} {...onClick}>
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
-                    <img className={`${visibility ? "arrow-up" : "arrow-down"}`} src={ArrowIcon} alt="" />
+                    <div className={`arrow-image ${visibility ? "arrow-up" : "arrow-down"}`} />
                 </span>
             </div>
             <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>
