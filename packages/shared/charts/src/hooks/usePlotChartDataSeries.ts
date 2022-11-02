@@ -206,8 +206,16 @@ function extractDataPoints(
         const x = xValue.get(item);
         const y = yValue.get(item);
 
-        xData.push(x.value instanceof Big ? Number(x.value.toString()) : x.value);
-        yData.push(y.value instanceof Big ? Number(y.value.toString()) : y.value);
+        if (!x.value) {
+            xData.push(null);
+        } else {
+            xData.push(x.value instanceof Big ? Number(x.value.toString()) : x.value);
+        }
+        if (!y.value) {
+            yData.push(null);
+        } else {
+            yData.push(y.value instanceof Big ? Number(y.value.toString()) : y.value);
+        }
 
         const tooltipHoverTextSource =
             series.dataSet === "dynamic" ? series.dynamicTooltipHoverText : series.staticTooltipHoverText;
