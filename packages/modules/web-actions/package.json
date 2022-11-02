@@ -24,13 +24,14 @@
     "branchName": "main"
   },
   "scripts": {
+    "lint": "eslint javascriptsource/",
     "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@mendix/release-utils-internal": "workspace:*",
     "cross-env": "^7.0.2",
-    "@mendix/release-utils-internal": "workspace:*"
+    "eslint": "^7.20.0"
   }
 }

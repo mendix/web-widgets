@@ -119,22 +119,6 @@ importers:
       rimraf: 2.7.1
       rollup: 2.79.1
 
-  packages/modules/atlas-web-content:
-    specifiers:
-      '@mendix/pluggable-widgets-tools': '>=9.0.0'
-      '@mendix/release-utils-internal': workspace:*
-      concurrently: ^6.0.0
-      copy-and-watch: ^0.1.5
-      ts-node: ^9.0.0
-      typescript: 4.5.4
-    devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
-      concurrently: 6.5.1
-      copy-and-watch: 0.1.6
-      ts-node: 9.1.1_typescript@4.5.4
-      typescript: 4.5.4
-
   packages/modules/data-widgets:
     specifiers:
       '@mendix/release-utils-internal': workspace:*
@@ -172,9 +156,11 @@ importers:
     specifiers:
       '@mendix/release-utils-internal': workspace:*
       cross-env: ^7.0.2
+      eslint: ^7.20.0
     devDependencies:
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       cross-env: 7.0.3
+      eslint: 7.32.0
 
   packages/pluggableWidgets/accessibility-helper-web:
     specifiers:
@@ -942,49 +928,6 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
       deep-equal: 2.0.5
-    devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
-      '@types/react-test-renderer': 17.0.2
-      '@types/testing-library__jest-dom': 5.14.5
-      '@types/testing-library__react-hooks': 3.4.1
-      eslint: 7.32.0
-      mendix: 9.18.53394
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-test-renderer: 17.0.2_react@17.0.2
-
-  packages/pluggableWidgets/document-viewer-web:
-    specifiers:
-      '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': '>=9.0.0'
-      '@mendix/release-utils-internal': workspace:*
-      '@testing-library/dom': ^8.1.0
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^3.4.2
-      '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
-      '@types/react-test-renderer': <18.0.0
-      '@types/testing-library__jest-dom': ^5.14.1
-      '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.3.2
-      eslint: ^7.20.0
-      mendix: ^9.18.53394
-      react: ~17.0.2
-      react-dom: ~17.0.2
-      react-test-renderer: ~17.0.2
-    dependencies:
-      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      classnames: 2.3.2
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
@@ -1800,135 +1743,6 @@ importers:
       through2: 4.0.2
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
-
-  packages/pluggableWidgets/scroll-container-web:
-    specifiers:
-      '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': '>=9.0.0'
-      '@mendix/release-utils-internal': workspace:*
-      '@testing-library/dom': ^8.1.0
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^3.4.2
-      '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
-      '@types/react-test-renderer': <18.0.0
-      '@types/testing-library__jest-dom': ^5.14.1
-      '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.3.2
-      eslint: ^7.20.0
-      mendix: ^9.18.53394
-      react: ~17.0.2
-      react-dom: ~17.0.2
-      react-test-renderer: ~17.0.2
-    dependencies:
-      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      classnames: 2.3.2
-    devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
-      '@types/react-test-renderer': 17.0.2
-      '@types/testing-library__jest-dom': 5.14.5
-      '@types/testing-library__react-hooks': 3.4.1
-      eslint: 7.32.0
-      mendix: 9.18.53394
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-test-renderer: 17.0.2_react@17.0.2
-
-  packages/pluggableWidgets/sidebar-toggle-web:
-    specifiers:
-      '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': '>=9.0.0'
-      '@mendix/release-utils-internal': workspace:*
-      '@testing-library/dom': ^8.1.0
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^3.4.2
-      '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
-      '@types/react-test-renderer': <18.0.0
-      '@types/testing-library__jest-dom': ^5.14.1
-      '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.3.2
-      eslint: ^7.20.0
-      mendix: ^9.18.53394
-      react: ~17.0.2
-      react-dom: ~17.0.2
-      react-test-renderer: ~17.0.2
-    dependencies:
-      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      classnames: 2.3.2
-    devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
-      '@types/react-test-renderer': 17.0.2
-      '@types/testing-library__jest-dom': 5.14.5
-      '@types/testing-library__react-hooks': 3.4.1
-      eslint: 7.32.0
-      mendix: 9.18.53394
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-test-renderer: 17.0.2_react@17.0.2
-
-  packages/pluggableWidgets/sidebar-web:
-    specifiers:
-      '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': '>=9.0.0'
-      '@mendix/release-utils-internal': workspace:*
-      '@testing-library/dom': ^8.1.0
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^3.4.2
-      '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
-      '@types/react-test-renderer': <18.0.0
-      '@types/testing-library__jest-dom': ^5.14.1
-      '@types/testing-library__react-hooks': ^3.4.0
-      classnames: ^2.3.2
-      eslint: ^7.20.0
-      mendix: ^9.18.53394
-      react: ~17.0.2
-      react-dom: ~17.0.2
-      react-test-renderer: ~17.0.2
-    dependencies:
-      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      classnames: 2.3.2
-    devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
-      '@types/react-test-renderer': 17.0.2
-      '@types/testing-library__jest-dom': 5.14.5
-      '@types/testing-library__react-hooks': 3.4.1
-      eslint: 7.32.0
-      mendix: 9.18.53394
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-test-renderer: 17.0.2_react@17.0.2
 
   packages/pluggableWidgets/slider-web:
     specifiers:
