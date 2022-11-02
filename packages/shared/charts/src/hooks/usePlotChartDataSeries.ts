@@ -209,12 +209,12 @@ function extractDataPoints(
         if (!x.value) {
             xData.push(null);
         } else {
-            xData.push(x.value instanceof Big ? Number(x.value.toString()) : x.value);
+            xData.push(x.value instanceof Big ? x.value.toNumber() : x.value);
         }
         if (!y.value) {
             yData.push(null);
         } else {
-            yData.push(y.value instanceof Big ? Number(y.value.toString()) : y.value);
+            yData.push(y.value instanceof Big ? y.value.toNumber() : y.value);
         }
 
         const tooltipHoverTextSource =
