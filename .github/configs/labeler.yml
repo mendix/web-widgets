@@ -57,12 +57,6 @@ rating-web:
   - packages/*/rating-web/**/*
 rich-text-web:
   - packages/*/rich-text-web/**/*
-scroll-container-web:
-  - packages/*/scroll-container-web/**/*
-sidebar-toggle-web:
-  - packages/*/sidebar-toggle-web/**/*
-sidebar-web:
-  - packages/*/sidebar-web/**/*
 slider-web:
   - packages/*/slider-web/**/*
 switch-web:
