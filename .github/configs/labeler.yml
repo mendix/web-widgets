@@ -6,8 +6,6 @@ test:
   - all: ["*.spec.*"]
 
 # Modules
-atlas-web-content:
-  - packages/**/atlas-web-content/**/*
 data-widgets:
   - packages/*/data-widgets/**/*
   - packages/*/datagrid-*/**/*
@@ -37,8 +35,6 @@ charts-web:
   - packages/*/charts-web/**/*
 color-picker-web:
   - packages/*/color-picker-web/**/*
-document-viewer-web:
-  - packages/*/document-viewer-web/**/*
 fieldset-web:
   - packages/*/fieldset-web/**/*
 html-element-web:
