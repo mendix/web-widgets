@@ -7,8 +7,8 @@ import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { MendixChartDataProps } from "../components/Chart";
 
 type PlotChartDataPoints = {
-    x: Array<Datum>;
-    y: Array<Datum>;
+    x: Datum[];
+    y: Datum[];
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
     // We want this optional.
