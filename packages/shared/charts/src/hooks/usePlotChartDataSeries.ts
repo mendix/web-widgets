@@ -7,8 +7,8 @@ import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { MendixChartDataProps } from "../components/Chart";
 
 type PlotChartDataPoints = {
-    x: Array<NonNullable<Datum>>;
-    y: Array<NonNullable<Datum>>;
+    x: Array<Datum>;
+    y: Array<Datum>;
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
     // We want this optional.
@@ -237,11 +237,14 @@ export function getPlotChartDataTransforms(
     return [
         {
             type: "aggregate",
-            groups: dataPoints.x.map(dataPoint =>
-                typeof dataPoint === "string" || typeof dataPoint === "number"
+            groups: dataPoints.x.map(dataPoint => {
+                if (!dataPoint) {
+                    return "";
+                }
+                return typeof dataPoint === "string" || typeof dataPoint === "number"
                     ? dataPoint.toLocaleString()
-                    : dataPoint.toLocaleDateString()
-            ),
+                    : dataPoint.toLocaleDateString();
+            }),
             aggregations: [
                 {
                     target: "y",
