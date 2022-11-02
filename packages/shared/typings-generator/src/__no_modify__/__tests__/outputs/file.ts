@@ -1,7 +1,7 @@
 export const fileWebOutput = `/**
  * This file was generated from MyWidget.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { ActionValue, DynamicValue, EditableValue, FileValue } from "mendix";
 

@@ -1,7 +1,7 @@
 export const nativeResult = `/**
  * This file was generated from MyWidget.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue, FileValue, NativeImage } from "mendix";
@@ -71,7 +71,7 @@ export interface MyWidgetPreviewProps {
 export const webResult = `/**
  * This file was generated from MyWidget.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue, FileValue, WebImage } from "mendix";
@@ -143,7 +143,7 @@ export interface MyWidgetPreviewProps {
 export const webResultGroup = `/**
  * This file was generated from MyWidget.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { ActionValue, DynamicValue, EditableValue, FileValue, WebImage } from "mendix";
 import { Big } from "big.js";

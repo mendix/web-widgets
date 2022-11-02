@@ -57,7 +57,7 @@ export function generateForWidget(widgetXml: WidgetXml, widgetName: string) {
     return `/**
  * This file was generated from ${widgetName}.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 ${imports.length ? imports + "\n\n" : ""}${generatedTypesCode}
 `;
