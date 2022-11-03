@@ -25,7 +25,7 @@
   "scripts": {
     "lint": "eslint src/javascriptsource/",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module",
+    "update-changelog": "rui-update-changelog-widget",
     "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
     "create-gh-release": "rui-create-gh-release",
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
