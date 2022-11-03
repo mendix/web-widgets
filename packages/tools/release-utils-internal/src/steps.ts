@@ -236,6 +236,27 @@ export async function copyModuleLicense({ config }: ModuleStepParams): Promise<v
     cp(license, output.dirs.themesource);
 }
 
+export async function copyJSActions({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Copy js actions");
+
+    const { paths, output } = config;
+    const source = join(paths.package, "src/javascriptsource", info.moduleFolderNameInModeler, "actions");
+    mkdir("-p", output.dirs.javascriptsource);
+    cp("-R", source, output.dirs.javascriptsource);
+}
+
+export async function writeVersionAndLicenseToJSActions({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Write module version & LICENSE");
+    const { paths, output } = config;
+    const license = join(paths.package, "LICENSE");
+
+    ensureFileExists(license);
+
+    mkdir("-p", output.dirs.javascriptsource);
+    cp(license, output.dirs.javascriptsource);
+    await writeFile(join(config.output.dirs.javascriptsource, ".version"), info.version.format());
+}
+
 export async function runSteps<Info, Config>(params: {
     packageInfo: Info;
     config: Config;

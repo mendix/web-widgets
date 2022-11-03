@@ -12,5 +12,10 @@ module.exports = {
     globals: {
         mx: "readonly"
     },
-    rules: {}
+    rules: {
+        "no-unused-vars": [
+            "error",
+            { vars: "all", args: "after-used", ignoreRestSiblings: false, varsIgnorePattern: "Big" }
+        ]
+    }
 };

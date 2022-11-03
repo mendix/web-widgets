@@ -1,0 +1,3 @@
+{
+    "extends": "@mendix/release-utils-internal/tsconfig"
+}

@@ -157,10 +157,14 @@ importers:
       '@mendix/release-utils-internal': workspace:*
       cross-env: ^7.0.2
       eslint: ^7.20.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     devDependencies:
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       cross-env: 7.0.3
       eslint: 7.32.0
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/accessibility-helper-web:
     specifiers:

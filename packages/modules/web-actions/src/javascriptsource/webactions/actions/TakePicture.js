@@ -5,6 +5,11 @@
 // - the code between BEGIN USER CODE and END USER CODE
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
+import { Big } from "big.js";
+
+// BEGIN EXTRA CODE
+// END EXTRA CODE
+
 /**
  * Take a picture using the device's camera.
  * @param {MxObject} picture - This is required.
@@ -14,8 +19,8 @@
  * @param {Big} maximumHeight - The picture will be scaled to this maximum pixel height, while maintaining the aspect ratio.
  * @returns {Promise.<boolean>}
  */
-export async function TakePicture(picture, showConfirmationScreen, pictureQuality, maximumHeight, maximumWidth) {
-    // BEGIN USER CODE
+export async function TakePicture(picture, showConfirmationScreen, pictureQuality, maximumWidth, maximumHeight) {
+	// BEGIN USER CODE
     const CAMERA_POSITION = {
         BACK_CAMERA: "environment",
         FRONT_CAMERA: "user"
@@ -609,5 +614,5 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
         }
         return videoDevices.length > 1;
     }
-    // END USER CODE
+	// END USER CODE
 }

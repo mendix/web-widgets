@@ -5,19 +5,19 @@
 // - the code between BEGIN USER CODE and END USER CODE
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
+import { Big } from "big.js";
+
 // BEGIN EXTRA CODE
 // END EXTRA CODE
+
 /**
  * @param {string} key
- * @param {string} value
- * @returns {Promise.<void>}
+ * @returns {Promise.<string>}
  */
-export async function SetCookie(key, value) {
-    // BEGIN USER CODE
-    try {
-        document.cookie = key + "=" + value + ";";
-    } catch (e) {
-        console.error(e);
-    }
-    // END USER CODE
+export async function ReadCookie(key) {
+	// BEGIN USER CODE
+    const entry = document.cookie.split("; ").find(row => row.startsWith(`${key}=`));
+    const value = entry ? entry.split("=")[1] : undefined;
+    return value ? value : "";
+	// END USER CODE
 }

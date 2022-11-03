@@ -1,7 +1,7 @@
 packages/tools/generator-widget/generators/app/templates
 packages/tools/pluggable-widgets-tools/tests/projects
 packages/pluggableWidgets/*/typings
-packages/modules/web-actions/javascriptsource/**/*.js
+packages/modules/web-actions/src/javascriptsource/**/*.js
 *.png
 *.svg
 *.snap

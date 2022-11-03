@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed issue with CRLF line endings.
+
 ## [2.5.0] WebActions - 2022-08-31
 
 ### Added
@@ -46,13 +50,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [2.1.1] WebActions - 2021-07-01
 
-## Changed
+### Changed
 
 -   We changed the category of 'Take picture' action to 'Web camera'
 
 ## [2.1.0] WebActions - 2021-05-28
 
-## Added
+### Added
 
 -   We've added a JavaScript action to allow take picture in PWA and web apps
 
