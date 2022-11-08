@@ -139,6 +139,38 @@ export class WidgetChangelogFileWrapper {
         );
     }
 
+    addUnreleasedSections(sections: LogSection[]): WidgetChangelogFileWrapper {
+        const [unreleased, ...rest] = this.changelog.content;
+        const currentTypes = unreleased.sections.map(s => s.type);
+        const incomingTypes = sections.map(s => s.type);
+        const uniqueTypes = new Set([...currentTypes, ...incomingTypes]);
+
+        const nextSections = Array.from(uniqueTypes).map(type => {
+            const section = unreleased.sections.find(s => s.type === type) ?? {
+                type,
+                logs: []
+            };
+
+            const incomingLogs = sections.flatMap(s => (s.type === type ? s.logs : []));
+
+            return { type: section.type, logs: [...section.logs, ...incomingLogs] };
+        });
+
+        return new WidgetChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [
+                    {
+                        type: "unreleased",
+                        sections: nextSections
+                    },
+                    ...rest
+                ]
+            },
+            this.changelogPath
+        );
+    }
+
     static fromFile(filePath: string): WidgetChangelogFileWrapper {
         return new WidgetChangelogFileWrapper(
             parseWidgetChangelogFile(readFileSync(filePath).toString(), { Version }),

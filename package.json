@@ -20,6 +20,7 @@
     "create-gh-release": "turbo run create-gh-release",
     "publish-marketplace": "turbo run publish-marketplace",
     "version": "ts-node --project ./scripts/tsconfig.json ./scripts/release/BumpVersion.ts",
+    "changelog": "pnpm --filter release-utils-internal run changelog",
     "validate-staged-widget-versions": "node scripts/validation/validate-versions-staged-files.js"
   },
   "devDependencies": {
