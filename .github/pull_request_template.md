@@ -1,52 +1,31 @@
-## Checklist
+### Description
 
--   Contains unit tests ✅ ❌
--   Contains breaking changes ✅ ❌
--   Contains Atlas changes ✅ ❌
--   Compatible with: MX 7️⃣, 8️⃣, 9️⃣
--   Did you update version and changelog? ✅ ❌
--   PR title properly formatted (`[XX-000]: description`)? ✅ ❌
+<!--- Describe your changes in detail -->
 
-#### Web specific
+### Pull request checklist
 
--   Contains e2e tests ✅ ❌
--   Is accessible ✅ ❌
--   Compatible with Studio ✅ ❌
--   Cross-browser compatible ✅ ❌
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-#### Native specific
+-   [ ] All new and existing tests passed
+-   [ ] I run `lint` command locally and it doesn’t give errors
+-   [ ] PR title properly formatted `[XX-000]: description`
+-   [ ] Added record to packages' CHANGELOG.md
+-   [ ] Bumped package version in `package.json` and `package.xml`
+-   [ ] Added a link to related project PRs (atlas, pluggable-widgets-tools, testProject, etc.) (optional)
+-   [ ] Created docs PR to [mendix/docs](https://github.com/mendix/docs.git) and added a link (optional)
 
--   Works in Android ✅ ❌
--   Works in iOS ✅ ❌
--   Works in Tablet ✅ ❌
+### Pull request type
 
-#### Feature specific
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
 
--   Comply with designs ✅ ❌
--   Comply with PM's requirements ✅ ❌
+-   [ ] No code changes (changes to documentation, CI, metadata, etc)
+-   [ ] Dependency changes (any modification to dependencies in `package.json`)
+-   [ ] Bug fix (non-breaking change which fixes an issue)
+-   [ ] New feature (non-breaking change which adds functionality)
+-   [ ] Breaking change (fix or feature that would cause existing functionality to change)
+-   [ ] Test related change (New E2E test, test automation, etc.)
 
-**_Please remove unnecessary emojis and sections and this comment before proceeding_**
+### What should be covered while testing?
 
-## This PR contains
-
--   [ ] Bug fix
--   [ ] Feature
--   [ ] Refactor
--   [ ] Documentation
--   [ ] Other (describe)
-
-## What is the purpose of this PR?
-
-_..._
-
-## Relevant changes
-
-_Please add a high level explanation of what was changed and how the initial problem was solved_
-
-## What should be covered while testing?
-
-_..._
-
-## Extra comments (optional)
-
-_Please add extra comments or delete the section if not required_
+<!--- Describe what part of pacakge need to be tested and more important - how -->
