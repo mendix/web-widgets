@@ -1,9 +1,8 @@
 {
   "name": "web-actions",
   "moduleName": "Web Actions",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "license": "Apache-2.0",
-  "private": true,
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
     "type": "git",
@@ -24,13 +23,19 @@
     "branchName": "main"
   },
   "scripts": {
-    "release:marketplace": "node ../../../scripts/release/marketplaceRelease.js",
+    "lint": "eslint src/javascriptsource/",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module"
+    "update-changelog": "rui-update-changelog-widget",
+    "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+    "create-gh-release": "rui-create-gh-release",
+    "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@mendix/release-utils-internal": "workspace:*",
     "cross-env": "^7.0.2",
-    "@mendix/release-utils-internal": "workspace:*"
+    "eslint": "^7.20.0",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4"
   }
 }
