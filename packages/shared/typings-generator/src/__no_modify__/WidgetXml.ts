@@ -81,7 +81,8 @@ export interface AssociationTypes {
 
 export interface ReturnType {
     $: {
-        type: string;
+        type?: string;
+        assignableTo?: string;
     };
 }
 

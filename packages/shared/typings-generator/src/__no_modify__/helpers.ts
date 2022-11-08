@@ -17,3 +17,7 @@ function extractProps<P>(props: Properties, extractor: (props: Properties) => P[
 export function capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+export function commasAnd(arr: string[]) {
+    return arr.slice(0, -1).join(", ") + (arr.length > 1 ? " and " : "") + arr[arr.length - 1];
+}

@@ -1,5 +1,5 @@
-import { Property, SystemProperty } from "./WidgetXml";
-import { capitalizeFirstLetter, extractProperties } from "./helpers";
+import { Property, SystemProperty, ReturnType } from "./WidgetXml";
+import { capitalizeFirstLetter, commasAnd, extractProperties } from "./helpers";
 
 export function generateClientTypes(
     widgetName: string,
@@ -138,7 +138,7 @@ function toClientPropType(
             if (!prop.returnType || prop.returnType.length === 0) {
                 throw new Error("[XML] Expression property requires returnType element");
             }
-            const type = toAttributeClientType(prop.returnType[0].$.type);
+            const type = toExpressionClientType(prop.returnType[0], resolveProp);
             return prop.$.dataSource ? `ListExpressionValue<${type}>` : `DynamicValue<${type}>`;
         case "enumeration":
             const typeName = capitalizeFirstLetter(prop.$.key) + "Enum";
@@ -193,6 +193,62 @@ export function toAttributeClientType(xmlType: string): string {
         default:
             return "any";
     }
+}
+
+export function toExpressionClientType(
+    returnTypeProp: ReturnType,
+    resolveProp: (key: string) => Property | undefined
+): string {
+    const { type, assignableTo } = returnTypeProp.$ ?? {};
+
+    if ((type && assignableTo) || (!type && !assignableTo)) {
+        throw new Error(
+            "[XML] Invalid return type for expression property: either type or assignableTo must be specified."
+        );
+    }
+
+    if (type) {
+        return toAttributeClientType(type);
+    }
+
+    const resolvedProperty = resolveProp(assignableTo!);
+    if (!resolvedProperty) {
+        throw new Error(
+            `[XML] Invalid return type for expression property: invalid property path '${assignableTo}' in assignableTo attribute.`
+        );
+    }
+
+    if (resolvedProperty.$.type !== "attribute") {
+        throw new Error(
+            `[XML] Invalid return type for expression property: assignableTo property '${assignableTo}' must be of type Attribute.`
+        );
+    }
+
+    const { attributeTypes } = resolvedProperty;
+    if (!attributeTypes?.[0]?.attributeType) {
+        throw new Error(
+            `[XML] Invalid return type for expression property: assignableTo property '${assignableTo}' must have attribute types.`
+        );
+    }
+
+    const allowedTypes = ["Boolean", "DateTime", "Enum", "Integer", "Long", "String", "Decimal"];
+    const types = attributeTypes
+        .map(ats => ats.attributeType)
+        .reduce((a, i) => a.concat(i), [])
+        .map(at => at.$.name);
+
+    const unsupportedTypes = types.filter(t => !allowedTypes.includes(t));
+    if (unsupportedTypes.length !== 0) {
+        throw new Error(
+            `[XML] Invalid return type for expression property: assignableTo property '${assignableTo}' has unsupported attribute type ${commasAnd(
+                unsupportedTypes
+            )}.`
+        );
+    }
+
+    const clientTypes = types.map(at => toAttributeClientType(at));
+    const uniqueTypes = Array.from(new Set(clientTypes));
+    return uniqueTypes.join(" | ");
 }
 
 export function toAssociationOutputType(xmlType: string, linkedToDataSource: boolean) {

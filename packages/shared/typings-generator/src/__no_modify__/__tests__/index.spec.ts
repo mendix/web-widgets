@@ -25,6 +25,8 @@ import { attributeLinkedActionInput, attributeNestedLinkedActionInput } from "./
 import { attributeLinkedActionOutput, attributeNestedLinkedActionOutput } from "./outputs/atribute-linked-action";
 import { associationInput, associationInputNative } from "./inputs/association";
 import { associationNativeOutput, associationWebOutput } from "./outputs/association";
+import { expressionInput, expressionInputNative } from "./inputs/expression";
+import { expressionWebOutput, expressionNativeOutput } from "./outputs/expression";
 
 describe("Generating tests", () => {
     it("Generates a parsed typing from XML for native", () => {
@@ -145,6 +147,16 @@ describe("Generating tests", () => {
     it("Generates a parsed typing from XML for native using linked association", () => {
         const newContent = generateNativeTypesFor(listAssociationNativeInput);
         expect(newContent).toBe(listAssociationNativeOutput);
+    });
+
+    it("Generates a parsed typing from XML for web using expression", () => {
+        const newContent = generateFullTypesFor(expressionInput);
+        expect(newContent).toBe(expressionWebOutput);
+    });
+
+    it("Generates a parsed typing from XML for native using expression", () => {
+        const newContent = generateNativeTypesFor(expressionInputNative);
+        expect(newContent).toBe(expressionNativeOutput);
     });
 });
 
