@@ -2209,6 +2209,7 @@ importers:
     specifiers:
       '@types/cross-zip': ^4.0.0
       '@types/node-fetch': 2.6.1
+      chalk: ^4.1.2
       cross-zip: ^4.0.0
       enquirer: ^2.3.6
       eslint: ^7.20.0
@@ -2224,6 +2225,7 @@ importers:
     devDependencies:
       '@types/cross-zip': 4.0.0
       '@types/node-fetch': 2.6.1
+      chalk: 4.1.2
       cross-zip: 4.0.0
       enquirer: 2.3.6
       eslint: 7.32.0

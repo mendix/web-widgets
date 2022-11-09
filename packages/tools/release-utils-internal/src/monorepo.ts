@@ -1,3 +1,5 @@
+import { prompt } from "enquirer";
+import { oraPromise } from "./cli-utils";
 import { exec, find, mkdir, cp } from "./shell";
 
 type DependencyName = string;
@@ -36,4 +38,23 @@ export async function copyMpkFiles(packageNames: string[], dest: string): Promis
     const paths = await getMpkPaths(packageNames);
     mkdir("-p", dest);
     cp(paths, dest);
+}
+
+export async function selectPackage(): Promise<PackageListing> {
+    const pkgs = await oraPromise(listPackages(["'*'", "!web-widgets"]), "Loading packages...");
+
+    const { packageName } = await prompt<{ packageName: string }>({
+        type: "autocomplete",
+        name: "packageName",
+        message: "Please select package",
+        choices: pkgs.map(pkg => pkg.name)
+    });
+
+    const pkg = pkgs.find(p => p.name === packageName);
+
+    if (!pkg) {
+        throw new Error(`Unable to find package meta for ${packageName}`);
+    }
+
+    return pkg;
 }

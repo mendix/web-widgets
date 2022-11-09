@@ -80,6 +80,28 @@ function formatDate(date: Date): string {
         .padStart(2, "0")}`;
 }
 
+function mergeUnreleased<T extends UnreleasedVersionEntry>(unreleased: T, sections: LogSection[]): T {
+    const currentTypes = unreleased.sections.map(s => s.type);
+    const incomingTypes = sections.map(s => s.type);
+    const uniqueTypes = new Set([...currentTypes, ...incomingTypes]);
+
+    const nextSections = Array.from(uniqueTypes).map(type => {
+        const section = unreleased.sections.find(s => s.type === type) ?? {
+            type,
+            logs: []
+        };
+
+        const incomingLogs = sections.flatMap(s => (s.type === type ? s.logs : []));
+
+        return { type: section.type, logs: [...section.logs, ...incomingLogs] };
+    });
+
+    return {
+        ...unreleased,
+        sections: nextSections
+    };
+}
+
 export class WidgetChangelogFileWrapper {
     changelog: WidgetChangelogFile;
 
@@ -141,31 +163,11 @@ export class WidgetChangelogFileWrapper {
 
     addUnreleasedSections(sections: LogSection[]): WidgetChangelogFileWrapper {
         const [unreleased, ...rest] = this.changelog.content;
-        const currentTypes = unreleased.sections.map(s => s.type);
-        const incomingTypes = sections.map(s => s.type);
-        const uniqueTypes = new Set([...currentTypes, ...incomingTypes]);
-
-        const nextSections = Array.from(uniqueTypes).map(type => {
-            const section = unreleased.sections.find(s => s.type === type) ?? {
-                type,
-                logs: []
-            };
-
-            const incomingLogs = sections.flatMap(s => (s.type === type ? s.logs : []));
-
-            return { type: section.type, logs: [...section.logs, ...incomingLogs] };
-        });
 
         return new WidgetChangelogFileWrapper(
             {
                 header: this.changelog.header,
-                content: [
-                    {
-                        type: "unreleased",
-                        sections: nextSections
-                    },
-                    ...rest
-                ]
+                content: [mergeUnreleased(unreleased, sections), ...rest]
             },
             this.changelogPath
         );
@@ -241,6 +243,19 @@ export class ModuleChangelogFileWrapper {
             {
                 header: this.changelog.header,
                 content: [emptyUnreleased, newRelease, ...releasedContent],
+                moduleName: this.moduleName
+            },
+            this.changelogPath
+        );
+    }
+
+    addUnreleasedSections(sections: LogSection[]): ModuleChangelogFileWrapper {
+        const [unreleased, ...rest] = this.changelog.content;
+
+        return new ModuleChangelogFileWrapper(
+            {
+                header: this.changelog.header,
+                content: [mergeUnreleased(unreleased, sections), ...rest],
                 moduleName: this.moduleName
             },
             this.changelogPath
