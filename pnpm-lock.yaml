@@ -164,8 +164,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -209,8 +209,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -257,8 +257,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -301,8 +301,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -350,8 +350,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -400,8 +400,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -445,8 +445,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -496,8 +496,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -540,8 +540,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/swiper': ^6.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -620,9 +620,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
+      '@types/react': <18.0.0
       '@types/react-color': ^2.13.5
-      '@types/react-dom': ^17.0.18
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -674,8 +674,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -718,9 +718,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
+      '@types/react': <18.0.0
       '@types/react-datepicker': ^4.3.4
-      '@types/react-dom': ^17.0.18
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -770,8 +770,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/deep-equal': ^1.0.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -816,8 +816,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -861,8 +861,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -904,8 +904,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -949,8 +949,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -992,8 +992,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1039,8 +1039,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1085,8 +1085,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1132,8 +1132,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/big.js': ^6.0.2
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1171,8 +1171,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1220,8 +1220,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1268,8 +1268,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1318,8 +1318,8 @@ importers:
       '@types/faker': ^4.1.0
       '@types/googlemaps': ^3.39.2
       '@types/leaflet': ^1.8.0
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-leaflet': ^2.5.1
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -1384,8 +1384,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1430,8 +1430,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1477,8 +1477,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1526,8 +1526,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1579,8 +1579,8 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1634,8 +1634,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1685,8 +1685,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/ckeditor4': ^4.16.4
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/sanitize-html': ^1.18.2
       '@types/testing-library__jest-dom': ^5.14.1
@@ -1748,8 +1748,8 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1803,8 +1803,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1853,8 +1853,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1897,8 +1897,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1948,8 +1948,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/popper.js': ^1.11.0
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1999,8 +1999,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -2042,8 +2042,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-resize-detector': ^5.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -2091,8 +2091,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/plotly.js': ^2.12.8
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-plotly.js': ^2.5.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -2156,8 +2156,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': ^17.0.52
-      '@types/react-dom': ^17.0.18
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
