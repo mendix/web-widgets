@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@googlemaps/jest-mocks": "^0.0.3",
-    "@mendix/pluggable-widgets-tools": ">=9.0.0",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix/release-utils-internal": "workspace:*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -56,7 +56,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/faker": "^4.1.0",
     "@types/googlemaps": "^3.39.2",
-    "@types/leaflet": "^1.8.0",
+    "@types/leaflet": "^1.9.0",
     "@types/react": "^17.0.52",
     "@types/react-dom": "^17.0.18",
     "@types/react-leaflet": "^2.5.1",
@@ -66,7 +66,7 @@
     "cross-env": "^7.0.2",
     "eslint": "^7.20.0",
     "faker": "^4.1.0",
-    "mendix": "^9.18.53394",
+    "mendix": "^9.19.55544",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
     "react-test-renderer": "~17.0.2",
@@ -77,7 +77,7 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "@react-google-maps/api": "~2.13.1",
     "classnames": "^2.3.2",
-    "deep-equal": "^2.0.2",
+    "deep-equal": "^2.1.0",
     "leaflet": "^1.6.0",
     "react-leaflet": "^2.6.3"
   }
