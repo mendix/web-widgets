@@ -17,16 +17,21 @@
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
     "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-    "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc"
+    "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
+    "changelog": "ts-node bin/rui-changelog-helper.ts",
+    "version": "ts-node bin/rui-bump-version.ts"
   },
   "devDependencies": {
     "@types/cross-zip": "^4.0.0",
     "@types/node-fetch": "2.6.1",
+    "chalk": "^4.1.2",
     "cross-zip": "^4.0.0",
+    "enquirer": "^2.3.6",
     "eslint": "^7.20.0",
     "execa": "^5.1.1",
     "fast-xml-parser": "^4.0.1",
     "node-fetch": "^2.6.1",
+    "ora": "^5.4.1",
     "peggy": "^1.2.0",
     "shelljs": "^0.8.4",
     "ts-node": "^9.0.0",
