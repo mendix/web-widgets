@@ -55,14 +55,14 @@
     "cordova-plugin-statusbar": "^2.4.3"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=9.0.0",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix/release-utils-internal": "workspace:*",
     "@types/cordova": "^0.0.34",
     "@types/cordova-plugin-app-version": "^0.1.35",
     "concurrently": "^6.0.0",
     "eslint": "^7.20.0",
     "npm-watch": "^0.6.0",
-    "typescript": "4.5.4",
-    "rimraf": "^2.7.1"
+    "rimraf": "^2.7.1",
+    "typescript": "4.5.4"
   }
 }

@@ -49,7 +49,7 @@
     "string.prototype.replaceall": "^1.0.7"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=9.0.0",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix/release-utils-internal": "workspace:*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -57,13 +57,13 @@
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
     "@types/react": "^17.0.52",
-    "@types/react-datepicker": "^4.3.4",
+    "@types/react-datepicker": "^4.8.0",
     "@types/react-dom": "^17.0.18",
     "@types/react-test-renderer": "<18.0.0",
     "@types/testing-library__jest-dom": "^5.14.1",
     "@types/testing-library__react-hooks": "^3.4.0",
     "eslint": "^7.20.0",
-    "mendix": "^9.18.53394",
+    "mendix": "^9.19.55544",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
     "react-test-renderer": "~17.0.2"

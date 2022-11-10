@@ -23,9 +23,8 @@
     "prebuild": "rimraf ./dist/tsc",
     "update-changelog": "rui-update-changelog-widget"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": ">=9.0.3",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix/release-utils-internal": "workspace:*",
     "rimraf": "^2.7.1",
     "rollup": "^2.68.0"
