@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Data series that have null values now handled correctly.
+
 ## [4.0.0] Charts - 2022-10-27
 
 ### Breaking changes
