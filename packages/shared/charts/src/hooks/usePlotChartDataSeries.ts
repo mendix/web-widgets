@@ -7,8 +7,8 @@ import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { MendixChartDataProps } from "../components/Chart";
 
 type PlotChartDataPoints = {
-    x: Array<NonNullable<Datum>>;
-    y: Array<NonNullable<Datum>>;
+    x: Datum[];
+    y: Datum[];
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
     // We want this optional.
@@ -206,12 +206,16 @@ function extractDataPoints(
         const x = xValue.get(item);
         const y = yValue.get(item);
 
-        if (!x.value || !y.value) {
-            return null;
+        if (!x.value) {
+            xData.push(null);
+        } else {
+            xData.push(x.value instanceof Big ? x.value.toNumber() : x.value);
         }
-
-        xData.push(x.value instanceof Big ? Number(x.value.toString()) : x.value);
-        yData.push(y.value instanceof Big ? Number(y.value.toString()) : y.value);
+        if (!y.value) {
+            yData.push(null);
+        } else {
+            yData.push(y.value instanceof Big ? y.value.toNumber() : y.value);
+        }
 
         const tooltipHoverTextSource =
             series.dataSet === "dynamic" ? series.dynamicTooltipHoverText : series.staticTooltipHoverText;
@@ -241,11 +245,14 @@ export function getPlotChartDataTransforms(
     return [
         {
             type: "aggregate",
-            groups: dataPoints.x.map(dataPoint =>
-                typeof dataPoint === "string" || typeof dataPoint === "number"
+            groups: dataPoints.x.map(dataPoint => {
+                if (!dataPoint) {
+                    return "";
+                }
+                return typeof dataPoint === "string" || typeof dataPoint === "number"
                     ? dataPoint.toLocaleString()
-                    : dataPoint.toLocaleDateString()
-            ),
+                    : dataPoint.toLocaleDateString();
+            }),
             aggregations: [
                 {
                     target: "y",
