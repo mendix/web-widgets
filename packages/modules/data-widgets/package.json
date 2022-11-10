@@ -40,7 +40,8 @@
     "create-gh-release": "rui-create-gh-release",
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-    "start": "ts-node --project scripts/tsconfig.json scripts/start.ts"
+    "start": "ts-node --project scripts/tsconfig.json scripts/start.ts",
+    "publish-marketplace": "rui-publish-marketplace"
   },
   "dependencies": {
     "datagrid-date-filter-web": "workspace:*",

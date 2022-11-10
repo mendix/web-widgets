@@ -29,7 +29,8 @@
     "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
     "create-gh-release": "rui-create-gh-release",
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts"
+    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+    "publish-marketplace": "rui-publish-marketplace"
   },
   "devDependencies": {
     "@mendix/release-utils-internal": "workspace:*",
