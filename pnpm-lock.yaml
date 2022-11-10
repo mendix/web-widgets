@@ -176,8 +176,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -191,15 +191,15 @@ importers:
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -221,8 +221,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -238,15 +238,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -269,8 +269,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -285,15 +285,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -313,8 +313,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -331,15 +331,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -362,8 +362,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -380,15 +380,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -412,8 +412,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -428,15 +428,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -457,8 +457,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -476,7 +476,7 @@ importers:
       '@zxing/library': 0.18.6
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@rollup/plugin-replace': 2.4.2
       '@testing-library/dom': 8.19.0
@@ -484,8 +484,8 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -508,8 +508,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -524,15 +524,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -552,8 +552,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/swiper': ^6.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -574,15 +574,15 @@ importers:
       swiper: 6.8.4
     devDependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/swiper': 6.0.0
       '@types/testing-library__jest-dom': 5.14.5
@@ -632,9 +632,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
+      '@types/react': ^17.0.52
       '@types/react-color': ^2.13.5
-      '@types/react-dom': <18.0.0
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -653,16 +653,16 @@ importers:
       classnames: 2.3.2
       react-color: 2.19.3_react@17.0.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       '@types/react-color': 2.17.6
-      '@types/react-dom': 17.0.17
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -686,8 +686,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -702,15 +702,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -730,9 +730,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
+      '@types/react': ^17.0.52
       '@types/react-datepicker': ^4.3.4
-      '@types/react-dom': <18.0.0
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -744,24 +744,24 @@ importers:
       react-datepicker: ^4.6.0
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      string.prototype.replaceall: ^1.0.6
+      string.prototype.replaceall: ^1.0.7
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
       date-fns: 2.29.3
       react-datepicker: 4.8.0_sfoxds7t5ydpegc3knd667wn6m
-      string.prototype.replaceall: 1.0.6
+      string.prototype.replaceall: 1.0.7
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       '@types/react-datepicker': 4.4.2_sfoxds7t5ydpegc3knd667wn6m
-      '@types/react-dom': 17.0.17
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -782,8 +782,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/deep-equal': ^1.0.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -799,7 +799,7 @@ importers:
       classnames: 2.3.2
       deep-equal: 2.0.5
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -807,8 +807,8 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/deep-equal': 1.0.1
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -828,8 +828,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -845,15 +845,15 @@ importers:
       big.js: 6.2.1
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -873,8 +873,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -888,15 +888,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -916,8 +916,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -933,15 +933,15 @@ importers:
       classnames: 2.3.2
       deep-equal: 2.0.5
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -961,8 +961,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -976,15 +976,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1004,8 +1004,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1020,15 +1020,15 @@ importers:
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1051,8 +1051,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1067,15 +1067,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1097,8 +1097,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1115,15 +1115,15 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1144,8 +1144,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/big.js': ^6.0.2
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1155,7 +1155,7 @@ importers:
       react-test-renderer: ~17.0.2
     devDependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1163,8 +1163,8 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/big.js': 6.1.6
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1183,8 +1183,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1202,15 +1202,15 @@ importers:
       classnames: 2.3.2
       react-overlays: 5.2.1_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1232,8 +1232,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1249,15 +1249,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1280,8 +1280,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1296,15 +1296,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1330,8 +1330,8 @@ importers:
       '@types/faker': ^4.1.0
       '@types/googlemaps': ^3.39.2
       '@types/leaflet': ^1.8.0
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-leaflet': ^2.5.1
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -1358,7 +1358,7 @@ importers:
       react-leaflet: 2.8.0_myoalt2qegmhvac3qx3wpc3ki4
     devDependencies:
       '@googlemaps/jest-mocks': 0.0.3
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1369,8 +1369,8 @@ importers:
       '@types/faker': 4.1.12
       '@types/googlemaps': 3.43.3
       '@types/leaflet': 1.8.0
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-leaflet': 2.8.2
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
@@ -1396,8 +1396,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1414,15 +1414,15 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1442,8 +1442,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1459,15 +1459,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1489,8 +1489,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1507,15 +1507,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1538,8 +1538,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1558,15 +1558,15 @@ importers:
       classnames: 2.3.2
       progressbar.js: 1.1.0
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1591,8 +1591,8 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1613,7 +1613,7 @@ importers:
       rc-slider: 8.7.1_sfoxds7t5ydpegc3knd667wn6m
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1622,8 +1622,8 @@ importers:
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1646,8 +1646,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1664,15 +1664,15 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1696,9 +1696,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/ckeditor4': ^4.16.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/ckeditor4': ^4.16.4
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/sanitize-html': ^1.18.2
       '@types/testing-library__jest-dom': ^5.14.1
@@ -1712,7 +1712,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      sanitize-html: ^2.6.0
+      sanitize-html: ^2.7.3
       through2: ^4.0.2
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -1720,10 +1720,10 @@ importers:
       ckeditor4: 4.17.2
       ckeditor4-react: 2.1.1_knq4646ck5ouw64ncyya6rfvu4
       classnames: 2.3.2
-      sanitize-html: 2.7.2
+      sanitize-html: 2.7.3
     devDependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@rollup/plugin-json': 4.1.0
       '@testing-library/dom': 8.19.0
@@ -1731,9 +1731,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/ckeditor4': 4.16.3
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/ckeditor4': 4.16.4
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/sanitize-html': 1.27.2
       '@types/testing-library__jest-dom': 5.14.5
@@ -1760,8 +1760,8 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1782,7 +1782,7 @@ importers:
       rc-slider: 8.7.1_sfoxds7t5ydpegc3knd667wn6m
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1791,8 +1791,8 @@ importers:
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1815,8 +1815,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1833,15 +1833,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1865,8 +1865,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1881,15 +1881,15 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1909,8 +1909,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1927,15 +1927,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -1960,8 +1960,8 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/popper.js': ^1.11.0
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -1980,7 +1980,7 @@ importers:
       classnames: 2.3.2
       react-popper: 2.3.0_vov5yimr6vvxyufd6uigwwkst4
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1988,8 +1988,8 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/popper.js': 1.11.0
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -2011,8 +2011,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -2026,15 +2026,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -2054,8 +2054,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-resize-detector': ^5.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -2072,15 +2072,15 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-resize-detector': 5.0.0
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
@@ -2102,9 +2102,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/plotly.js': ^2.12.5
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/plotly.js': ^2.12.8
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-plotly.js': ^2.5.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
@@ -2136,15 +2136,15 @@ importers:
       react-ace: 9.5.0_sfoxds7t5ydpegc3knd667wn6m
       react-plotly.js: 2.6.0_ddzmxkikd7pkrocvtq56ts57h4
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/plotly.js': 2.12.5
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/plotly.js': 2.12.8
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-plotly.js': 2.5.2
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
@@ -2168,8 +2168,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
+      '@types/react': ^17.0.52
+      '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
@@ -2186,14 +2186,14 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.50
+      '@mendix/pluggable-widgets-tools': 9.17.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
@@ -4290,7 +4290,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@mendix/pluggable-widgets-tools/9.17.0_@types+react@17.0.50:
+  /@mendix/pluggable-widgets-tools/9.17.0_@types+react@17.0.52:
     resolution: {integrity: sha512-u7LGST2iSd3IrPczMfSx8lYn7SzetQmlBIWRAyCmbCOWYcaOS3GtVcwudMz23yLFvok0nLfyzwBo9FWAj5KDjQ==}
     engines: {node: '>=16'}
     hasBin: true
@@ -4355,7 +4355,7 @@ packages:
       prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-hot-loader: 4.13.0_hiunvzosbwliizyirxfy6hjyim
+      react-hot-loader: 4.13.0_gzv7pa6nrbev3fs6gyzn7sadkq
       react-test-renderer: 17.0.2_react@17.0.2
       recursive-copy: 2.0.14
       resolve: 1.22.1
@@ -4745,7 +4745,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.19.4
       '@testing-library/dom': 8.19.0
-      '@types/react-dom': 17.0.17
+      '@types/react-dom': 17.0.18
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: true
@@ -4848,8 +4848,8 @@ packages:
       '@types/node': 18.8.3
     dev: true
 
-  /@types/ckeditor4/4.16.3:
-    resolution: {integrity: sha512-cNTC2pYA4YFN+uPdoSxGWC2UXx03OVV0EhDLJx0PPrdyoILsVnJdrQy8Su0JJi7PYSZZQORqZmcp5LlIbKpNmw==}
+  /@types/ckeditor4/4.16.4:
+    resolution: {integrity: sha512-/ikSPGoSDcXM11QLsPxlhNy6GCtMMV8OsmJWJkHbARaF6OvvJpQPduGvdMdXrLMWLQGBuebogOrY7T/nEdvuRA==}
     dev: true
 
   /@types/concurrently/6.4.0:
@@ -4883,7 +4883,7 @@ packages:
     resolution: {integrity: sha512-xryQlOEIe1TduDWAOphR0ihfebKFSWOXpIsk+70JskCfRfW+xALdnJ0r1ZOTo85F9Qsjk6vtlU7edTYHbls9tA==}
     dependencies:
       '@types/cheerio': 0.22.31
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/estree/0.0.39:
@@ -5027,8 +5027,8 @@ packages:
       '@types/node': 18.8.3
     dev: true
 
-  /@types/plotly.js/2.12.5:
-    resolution: {integrity: sha512-DZydmPSYTrJw5gVQViJCsYNS0pBfkqQ+nXTxmaMD5q6GhvM0ckKo3rRhskwAcJfO9booBGiX/z0njUNXfrLPxA==}
+  /@types/plotly.js/2.12.8:
+    resolution: {integrity: sha512-h7gkIDxjC7ZgAZTActvrMJNDFsEPIAOr6kvMIhTOgxOrXTnXH3ywnmjtfoUViuKFNhos3zhhTtcT5QQT/bH/2w==}
     dev: true
 
   /@types/popper.js/1.11.0:
@@ -5049,19 +5049,19 @@ packages:
     resolution: {integrity: sha512-2Q3vwKrSm3PbgiMNwzxMkOaMtcAGi0xQ8WPeVKoabk1vNYHiVR44DMC3mr9jC2lhbxCBgGBJWF9sBhmnSDQ8Bg==}
     dependencies:
       '@types/rc-tooltip': 3.7.7
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/rc-tooltip/3.7.7:
     resolution: {integrity: sha512-oTcXDJ9hSug+8MZgotVcfXlPmw5K0XiLwuGKkL7lsf12jGLsYAGez3KIRxuxR0icfZkmNN4JQLsScbrBQnJlkg==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-color/2.17.6:
     resolution: {integrity: sha512-5CEKnrpvgZz8v5UYbpLgBeK+V6K7KdszksSDK6mNjL/8wrsqQfIyKB45CQOAEYtRgn+tWqTeqbUtvFWjXDpURQ==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       '@types/reactcss': 1.2.6
     dev: true
 
@@ -5069,7 +5069,7 @@ packages:
     resolution: {integrity: sha512-g8DhWvYmaIMLzVrIEVLXncylyImyBaoPsEUr3yR13JDaaHoebhDorqnVv4tLkNGa8SjBB8SAOQvxD5jaPNBX8A==}
     dependencies:
       '@popperjs/core': 2.11.6
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       date-fns: 2.29.3
       react-popper: 2.3.0_vov5yimr6vvxyufd6uigwwkst4
     transitivePeerDependencies:
@@ -5077,46 +5077,46 @@ packages:
       - react-dom
     dev: true
 
-  /@types/react-dom/17.0.17:
-    resolution: {integrity: sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==}
+  /@types/react-dom/17.0.18:
+    resolution: {integrity: sha512-rLVtIfbwyur2iFKykP2w0pl/1unw26b5td16d5xMgp7/yjTHomkyxPYChFoCr/FtEX1lN9wY6lFj1qvKdS5kDw==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-leaflet/2.8.2:
     resolution: {integrity: sha512-Iel8Vd1bSCD38Yhiqcmm/+9hjPEdd39LFE3tBMbOytq3QAQsC3LDrbo6ifoh8JbpqPbCsQPo9Wx5OELHixEShg==}
     dependencies:
       '@types/leaflet': 1.8.0
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-native/0.64.28:
     resolution: {integrity: sha512-2ZMLNH7f3cDQQWt7WWirXJCArZ0RXF3qBVALCw0MBU/ObPcCNs6+1GXZGehdmFGDspWaqHFd7MF7TtZoC6QdYA==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-plotly.js/2.5.2:
     resolution: {integrity: sha512-hsCEdgGTEkeEXI8ZlB0qOgXCcDjq3NGsi/mlxOasAclScvk1i4b+ajaOj+J/j2Ay86I2a7eDxpuTHrBdVyUrkg==}
     dependencies:
-      '@types/plotly.js': 2.12.5
-      '@types/react': 17.0.50
+      '@types/plotly.js': 2.12.8
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-resize-detector/5.0.0:
     resolution: {integrity: sha512-JTqR0G+RcC6Guqi/JXQBq3jewflumUGd4fDUucmZN9L1d8TZuRHzDTtrmgYWrgLvRTBTV6FjegmLeV1UnrIuzw==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/react-test-renderer/17.0.2:
     resolution: {integrity: sha512-+F1KONQTBHDBBhbHuT2GNydeMpPuviduXIVJRB7Y4nma4NR5DrTJfMMZ+jbhEHbpwL+Uqhs1WXh4KHiyrtYTPg==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
-  /@types/react/17.0.50:
-    resolution: {integrity: sha512-ZCBHzpDb5skMnc1zFXAXnL3l1FAdi+xZvwxK+PkglMmBrwjpp9nKaWuEvrGnSifCJmBFGxZOOFuwC6KH/s0NuA==}
+  /@types/react/17.0.52:
+    resolution: {integrity: sha512-vwk8QqVODi0VaZZpDXQCmEmiOuyjEFPY7Ttaw5vjM112LOq37yz1CDJGrRJwA1fYEq4Iitd5rnjd1yWAc/bT+A==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -5125,7 +5125,7 @@ packages:
   /@types/reactcss/1.2.6:
     resolution: {integrity: sha512-qaIzpCuXNWomGR1Xq8SCFTtF4v8V27Y6f+b9+bzHiv087MylI/nTCqqdChNeWS7tslgROmYB7yeiruWX7WnqNg==}
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
     dev: true
 
   /@types/resolve/1.17.1:
@@ -11103,7 +11103,7 @@ packages:
     resolution: {integrity: sha512-692lBn0VavdjOlE+4B8SZOKLoVrw154d4vTRSagWWbd/FrfPRi4JgDMqYfvqWo3IqSejkD9yax40bCK0wR4O2A==}
     dependencies:
       '@types/big.js': 6.1.6
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       '@types/react-native': 0.64.28
     dev: true
 
@@ -12887,7 +12887,7 @@ packages:
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
 
-  /react-hot-loader/4.13.0_hiunvzosbwliizyirxfy6hjyim:
+  /react-hot-loader/4.13.0_gzv7pa6nrbev3fs6gyzn7sadkq:
     resolution: {integrity: sha512-JrLlvUPqh6wIkrK2hZDfOyq/Uh/WeVEr8nc7hkn2/3Ul0sx1Kr5y4kOGNacNRoj7RhwLNcQ3Udf1KJXrqc0ZtA==}
     engines: {node: '>= 6'}
     peerDependencies:
@@ -12898,7 +12898,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       fast-levenshtein: 2.0.6
       global: 4.4.0
       hoist-non-react-statics: 3.3.2
@@ -13632,8 +13632,8 @@ packages:
       - supports-color
     dev: true
 
-  /sanitize-html/2.7.2:
-    resolution: {integrity: sha512-DggSTe7MviO+K4YTCwprG6W1vsG+IIX67yp/QY55yQqKCJYSWzCA1rZbaXzkjoKeL9+jqwm56wD6srYLtUNivg==}
+  /sanitize-html/2.7.3:
+    resolution: {integrity: sha512-jMaHG29ak4miiJ8wgqA1849iInqORgNv7SLfSw9LtfOhEUQ1C0YHKH73R+hgyufBW9ZFeJrb057k9hjlfBCVlw==}
     dependencies:
       deepmerge: 4.2.2
       escape-string-regexp: 4.0.0
@@ -14112,8 +14112,8 @@ packages:
       side-channel: 1.0.4
     dev: true
 
-  /string.prototype.replaceall/1.0.6:
-    resolution: {integrity: sha512-OA8VDhE7ssNFlyoDXUHxw6V5cjgPrtosyJKqJX5i1P5tV9eUynsbhx1yz0g+Ye4fjFwAxhKLxt8GSRx2Aqc+Sw==}
+  /string.prototype.replaceall/1.0.7:
+    resolution: {integrity: sha512-xB2WV2GlSCSJT5dMGdhdH1noMPiAB91guiepwTYyWY9/0Vq/TZ7RPmnOSUGAEvry08QIK7EMr28aAii+9jC6kw==}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
@@ -14807,7 +14807,7 @@ packages:
       react: '>=15.0.0'
     dependencies:
       '@babel/runtime': 7.19.4
-      '@types/react': 17.0.50
+      '@types/react': 17.0.52
       invariant: 2.2.4
       react: 17.0.2
       react-lifecycles-compat: 3.0.4
