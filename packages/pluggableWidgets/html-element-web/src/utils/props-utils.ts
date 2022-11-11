@@ -116,3 +116,26 @@ export function prepareChildren(
 
     return props.tagContentRepeatContainer?.get(item);
 }
+
+const voidElements = [
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "link",
+    "meta",
+    "source",
+    "track",
+    "wbr",
+    "textarea"
+] as const;
+
+export type VoidElement = typeof voidElements[number];
+
+export function isVoidElement(tag: unknown): tag is VoidElement {
+    return voidElements.includes(tag as VoidElement);
+}

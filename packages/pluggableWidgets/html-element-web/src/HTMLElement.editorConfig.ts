@@ -1,27 +1,16 @@
 import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
-import { container, datasource, dropzone, StructurePreviewProps, text } from "@mendix/pluggable-widgets-commons";
-import { prepareTag } from "./utils/props-utils";
+import {
+    container,
+    ContainerProps,
+    datasource,
+    dropzone,
+    StructurePreviewProps,
+    text
+} from "@mendix/pluggable-widgets-commons";
+import { isVoidElement, prepareTag } from "./utils/props-utils";
 
 type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];
-
-const voidElements = [
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "link",
-    "meta",
-    "source",
-    "track",
-    "wbr",
-    // react specific, it uses `value` prop
-    "textarea"
-];
 
 const disabledElements = ["script"];
 
@@ -86,7 +75,7 @@ export function getProperties(values: HTMLElementPreviewProps, defaultProperties
 
     const tagName = values.tagName === "__customTag__" ? values.tagNameCustom : values.tagName;
 
-    if (voidElements.includes(tagName)) {
+    if (isVoidElement(tagName)) {
         // void elements don't allow children, hide all content props and the content mode switch
         propsToHide.push(
             "tagContentMode",
@@ -180,8 +169,10 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
 export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean): StructurePreviewProps | null {
     const tagName = prepareTag(values.tagName, values.tagNameCustom);
 
-    return container({ grow: 1, borders: true, borderWidth: 1 })(
-        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+    const voidElementPreview = (tagName: keyof JSX.IntrinsicElements): ContainerProps =>
+        container({ padding: 4 })(text()(`<${tagName} />`));
+
+    const flowElementPreview = (): ContainerProps =>
         values.tagContentMode === "innerHTML"
             ? container({ padding: 4 })(
                   text()(
@@ -194,6 +185,10 @@ export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean
                   text()(`<${tagName}>`),
                   dropzone(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
                   text()(`</${tagName}>`)
-              )
+              );
+
+    return container({ grow: 1, borders: true, borderWidth: 1 })(
+        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+        isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
     );
 }
