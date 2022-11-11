@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node-script
 
 import { prompt } from "enquirer";
-import { getModuleInfo, PackageListing, selectPackage } from "../src";
+import { getPackageInfo, PackageListing, selectPackage } from "../src";
 import { getNextVersion, writeVersion } from "../src/bump-version";
 import {
     getModuleChangelog,
@@ -75,7 +75,7 @@ async function writeChanges(pkg: PackageListing, sections: LogSection[], nextVer
     try {
         changelog = await getWidgetChangelog(pkg.path);
     } catch {
-        const module = await getModuleInfo(pkg.path);
+        const module = await getPackageInfo(pkg.path);
         changelog = await getModuleChangelog(pkg.path, module.mxpackage.name);
     }
 
