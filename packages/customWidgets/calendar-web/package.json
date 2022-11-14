@@ -1,7 +1,7 @@
 {
   "name": "calendar-web",
   "widgetName": "Calendar",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Display and manage calendar events",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {
