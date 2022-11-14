@@ -1,25 +1,16 @@
 import { AttributeValueTypeEnum, HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import {
+    container,
+    ContainerProps,
+    datasource,
+    dropzone,
+    StructurePreviewProps,
+    text
+} from "@mendix/pluggable-widgets-commons";
+import { isVoidElement, prepareTag } from "./utils/props-utils";
 
 type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];
-
-const voidElements = [
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "link",
-    "meta",
-    "source",
-    "track",
-    "wbr",
-    // react specific, it uses `value` prop
-    "textarea"
-];
 
 const disabledElements = ["script"];
 
@@ -84,7 +75,7 @@ export function getProperties(values: HTMLElementPreviewProps, defaultProperties
 
     const tagName = values.tagName === "__customTag__" ? values.tagNameCustom : values.tagName;
 
-    if (voidElements.includes(tagName)) {
+    if (isVoidElement(tagName)) {
         // void elements don't allow children, hide all content props and the content mode switch
         propsToHide.push(
             "tagContentMode",
@@ -139,47 +130,65 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
         }
     }
 
-    if (values.tagUseRepeat && values.tagContentRepeatDataSource === null) {
-        // make date source required if set to repeat
-        errors.push({
-            severity: "error",
-            property: "tagContentRepeatDataSource",
-            message: "Property 'Data source' is required."
-        });
-    } else {
-        const existingAttributeNames = new Set();
-        values.attributes.forEach((attr, i) => {
-            if (existingAttributeNames.has(attr.attributeName)) {
-                errors.push({
-                    severity: "error",
-                    property: `attributes/${i + 1}/attributeName`,
-                    message: `Attribute with name '${attr.attributeName}' already exists.`
-                });
-            }
-            existingAttributeNames.add(attr.attributeName);
+    const existingAttributeNames = new Set();
+    values.attributes.forEach((attr, i) => {
+        if (existingAttributeNames.has(attr.attributeName)) {
+            errors.push({
+                severity: "error",
+                property: `attributes/${i + 1}/attributeName`,
+                message: `Attribute with name '${attr.attributeName}' already exists.`
+            });
+        }
+        existingAttributeNames.add(attr.attributeName);
 
-            const attributePropName = attributeValuePropNameFor(values, attr.attributeValueType);
-            if (!attr[attributePropName].length) {
-                errors.push({
-                    severity: "warning",
-                    property: `attributes/${i + 1}/${attributePropName}`,
-                    message: `Value is not specified for attribute '${attr.attributeName}'.`
-                });
-            }
-        });
+        const attributePropName = attributeValuePropNameFor(values, attr.attributeValueType);
+        if (!attr[attributePropName].length) {
+            errors.push({
+                severity: "warning",
+                property: `attributes/${i + 1}/${attributePropName}`,
+                message: `Value is not specified for attribute '${attr.attributeName}'.`
+            });
+        }
+    });
 
-        const existingEventNames = new Set();
-        values.events.forEach((attr, i) => {
-            if (existingEventNames.has(attr.eventName)) {
-                errors.push({
-                    severity: "error",
-                    property: `attributes/${i + 1}/eventName`,
-                    message: `Event with name '${attr.eventName}' already exists.`
-                });
-            }
-            existingEventNames.add(attr.eventName);
-        });
-    }
+    const existingEventNames = new Set();
+    values.events.forEach((attr, i) => {
+        if (existingEventNames.has(attr.eventName)) {
+            errors.push({
+                severity: "error",
+                property: `attributes/${i + 1}/eventName`,
+                message: `Event with name '${attr.eventName}' already exists.`
+            });
+        }
+        existingEventNames.add(attr.eventName);
+    });
 
     return errors;
+}
+
+export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean): StructurePreviewProps | null {
+    const tagName = prepareTag(values.tagName, values.tagNameCustom);
+
+    const voidElementPreview = (tagName: keyof JSX.IntrinsicElements): ContainerProps =>
+        container({ padding: 4 })(text()(`<${tagName} />`));
+
+    const flowElementPreview = (): ContainerProps =>
+        values.tagContentMode === "innerHTML"
+            ? container({ padding: 4 })(
+                  text()(
+                      `<${tagName}>${
+                          values.tagUseRepeat ? values.tagContentRepeatHTML : values.tagContentHTML
+                      }</${tagName}>`
+                  )
+              )
+            : container({ padding: 0 })(
+                  text()(`<${tagName}>`),
+                  dropzone(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
+                  text()(`</${tagName}>`)
+              );
+
+    return container({ grow: 1, borders: true, borderWidth: 1 })(
+        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+        isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
+    );
 }
