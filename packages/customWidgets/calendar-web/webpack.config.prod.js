@@ -1,5 +1,5 @@
 const { merge } = require("webpack-merge");
-const baseConfig = require("@mendix/custom-widgets-utils-internal/configs/webpack.config.dev");
+const baseConfig = require("./webpack.base.dev");
 
 const overridingConfig = {
     module: {
