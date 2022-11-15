@@ -18,13 +18,13 @@ export function preview(props: HTMLElementPreviewProps): ReactElement {
                     <HTMLTag
                         key={i}
                         tagName={tag}
+                        unsafeHTML={props.tagContentRepeatHTML ? undefined : props.tagContentHTML}
                         attributes={{
                             className: props.className,
                             style: props.styleObject
                         }}
                     >
                         {props.tagContentRepeatHTML}
-                        {props.tagContentHTML}
                         <props.tagContentRepeatContainer.renderer>
                             <div />
                         </props.tagContentRepeatContainer.renderer>
