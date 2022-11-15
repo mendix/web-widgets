@@ -12,7 +12,9 @@ import {
     unBlockAbsoluteElementTop
 } from "../utils/document";
 import { ReactElement, useState, createElement, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
 import { ActionValue } from "mendix";
 
 import { PopupMenuContainerProps, PositionEnum, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
@@ -25,6 +27,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
     const ref = useRef<HTMLDivElement>(null);
+    const position = usePositionObserver(ref.current, visibility);
     if (!preview) {
         handleOnClickOutsideElement(ref, () => setVisibility(false));
     }
@@ -59,7 +62,8 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             : {};
 
     useEffect(() => {
-        const element = ref.current?.querySelector(".popupmenu-menu") as HTMLDivElement | null;
+        const element = document.querySelector(".popupmenu-menu") as HTMLDivElement | null;
+
         if (element) {
             element.style.display = visibility ? "flex" : "none";
             if (visibility) {
@@ -71,12 +75,22 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
 
+    const PopupMenu = createPortal(
+        <div
+            style={{ position: "fixed", top: position?.top, left: position?.left }}
+            className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
+        >
+            {menuOptions}
+        </div>,
+        document.body
+    );
+
     return (
         <div ref={ref} className={classNames("popupmenu", props.class)} {...onHover}>
             <div className={"popupmenu-trigger"} {...onClick}>
                 {props.menuTrigger}
             </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>{menuOptions}</div>
+            {PopupMenu}
         </div>
     );
 }
