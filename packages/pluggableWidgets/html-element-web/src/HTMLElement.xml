@@ -2,7 +2,7 @@
 <widget id="com.mendix.widget.web.htmlelement.HTMLElement" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>HTML Element</name>
     <description>Displays custom HTML</description>
-    <icon />
+    <helpUrl>https://docs.mendix.com/appstore/widgets/htmlelement</helpUrl>
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="HTML Element">
