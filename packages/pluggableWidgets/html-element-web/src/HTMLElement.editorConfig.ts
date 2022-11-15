@@ -204,3 +204,8 @@ export function getPreview(
         isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
     );
 }
+
+export function getCustomCaption(values: HTMLElementPreviewProps, _platform = "desktop"): string {
+    const tagName = prepareTag(values.tagName, values.tagNameCustom);
+    return `<${tagName} />`;
+}
