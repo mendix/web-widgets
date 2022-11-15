@@ -15,6 +15,8 @@ overrides:
   react-dom: ~17.0.2
   react-test-renderer: ~17.0.2
   typescript: 4.5.4
+  d3-color@<3.1.0: '>=3.1.0'
+  loader-utils@<1.4.1: '>=1.4.1'
 
 importers:
 
@@ -1662,7 +1664,7 @@ importers:
       '@types/sanitize-html': ^1.18.2
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      ckeditor4: ~4.17.1
+      ckeditor4: ^4.20.0
       ckeditor4-react: ^2.1.0
       classnames: ^2.3.2
       cross-env: ^7.0.2
@@ -1676,8 +1678,8 @@ importers:
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
-      ckeditor4: 4.17.2
-      ckeditor4-react: 2.1.1_knq4646ck5ouw64ncyya6rfvu4
+      ckeditor4: 4.20.0
+      ckeditor4-react: 2.1.1_wfibr7i4wddb4aczdbn3c2xfwu
       classnames: 2.3.2
       sanitize-html: 2.7.3
     devDependencies:
@@ -6157,20 +6159,20 @@ packages:
     resolution: {integrity: sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==}
     dev: false
 
-  /ckeditor4-react/2.1.1_knq4646ck5ouw64ncyya6rfvu4:
+  /ckeditor4-react/2.1.1_wfibr7i4wddb4aczdbn3c2xfwu:
     resolution: {integrity: sha512-q8WGsTaigP5OG34WFZUlkPpR2zJPCav5mgB6zdq58+tY0UJwnweVAammfZQJpQHF5UqTpdjq0dlsqxae8Tg4Rw==}
     peerDependencies:
       ckeditor4: ^4.17.2
       react: ^16.9 || ^17
     dependencies:
-      ckeditor4: 4.17.2
+      ckeditor4: 4.20.0
       ckeditor4-integrations-common: 1.0.0
       prop-types: 15.8.1
       react: 17.0.2
     dev: false
 
-  /ckeditor4/4.17.2:
-    resolution: {integrity: sha512-YgBaKNJbWvYbgTNhKDLTjsqCLBNwzDbN5OhsMm+I/mtDCuO/Nu6S/jAvlwHozy12uFPMCeOM7n4rGZ4gEJgOgg==}
+  /ckeditor4/4.20.0:
+    resolution: {integrity: sha512-Wa7OzaRXN6qRQ0IxIcX4CjZ5qxNlNqIbdQnBf9sxVEx22kTTsAaE5ePT+TpME0rJhLdCwAIRnbjRCJoGcp05oA==}
     dev: false
 
   /clamp/1.0.1:
@@ -6793,8 +6795,9 @@ packages:
     resolution: {integrity: sha512-ii0/r5f4sjKNTfh84Di+DpztYwqKhEyUlKoPrzUFfeSkWxjW49xU2QzO9qrPrNkpdI0XJkfzvmTu8V2Zylln6A==}
     dev: false
 
-  /d3-color/1.4.1:
-    resolution: {integrity: sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q==}
+  /d3-color/3.1.0:
+    resolution: {integrity: sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==}
+    engines: {node: '>=12'}
     dev: false
 
   /d3-dispatch/1.0.6:
@@ -6837,7 +6840,7 @@ packages:
   /d3-interpolate/1.4.0:
     resolution: {integrity: sha512-V9znK0zc3jOPV4VD2zZn0sDhZU3WAE2bmlxdIwwQPPzPjvyLkd8B3JUVdS1IDUFDkWZ72c9qnv1GK2ZagTZ8EA==}
     dependencies:
-      d3-color: 1.4.1
+      d3-color: 3.1.0
     dev: false
 
   /d3-path/1.0.9:
@@ -9911,8 +9914,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /loader-utils/1.4.0:
-    resolution: {integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==}
+  /loader-utils/1.4.2:
+    resolution: {integrity: sha512-I5d00Pd/jwMD2QCduo657+YM/6L3KZu++pmX9VFncxaxvHcru9jx1lBaFft+r4Mt2jK0Yhp41XlRAihzPxHNCg==}
     engines: {node: '>=4.0.0'}
     dependencies:
       big.js: 5.2.2
@@ -11799,7 +11802,7 @@ packages:
       fast-levenshtein: 2.0.6
       global: 4.4.0
       hoist-non-react-statics: 3.3.2
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -11822,7 +11825,7 @@ packages:
       fast-levenshtein: 2.0.6
       global: 4.4.0
       hoist-non-react-statics: 3.3.2
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
