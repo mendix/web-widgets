@@ -5,7 +5,7 @@
     <helpUrl>https://docs.mendix.com/appstore/widgets/htmlelement</helpUrl>
     <properties>
         <propertyGroup caption="General">
-            <propertyGroup caption="HTML Element">
+            <propertyGroup caption="HTML element">
                 <property key="tagName" type="enumeration" defaultValue="div" required="true">
                     <caption>Tag name</caption>
                     <description />
@@ -78,7 +78,7 @@
                 </property>
                 <!-- **************************** END TAG CONTENT ****************************** -->
             </propertyGroup>
-            <propertyGroup caption="HTML Attributes">
+            <propertyGroup caption="HTML attributes">
                 <property key="attributes" type="object" isList="true" required="false">
                     <caption>Attributes</caption>
                     <description>The HTML attributes that are added to the HTML element. For example: ‘title‘, ‘href‘. If ‘class’ or ‘style’ is added as attribute this is merged with the widget class/style property. For events (e.g. onClick) use the Events section.</description>
