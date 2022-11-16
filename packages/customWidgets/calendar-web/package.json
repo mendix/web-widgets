@@ -40,7 +40,7 @@
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
     "@types/date-arithmetic": "^3.1.2",
-    "@types/react-big-calendar": "0.20.20",
+    "@types/react-big-calendar": "0.38.2",
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "eslint": "^7.20.0",
