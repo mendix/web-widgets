@@ -27,6 +27,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
     const ref = useRef<HTMLDivElement>(null);
+    const popupRef = useRef<HTMLDivElement>(null);
     const position = usePositionObserver(ref.current, visibility);
     if (!preview) {
         handleOnClickOutsideElement(ref, () => setVisibility(false));
@@ -62,12 +63,10 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             : {};
 
     useEffect(() => {
-        const element = document.querySelector(".popupmenu-menu") as HTMLDivElement | null;
-
-        if (element) {
-            element.style.display = visibility ? "flex" : "none";
+        if (popupRef.current) {
+            popupRef.current.style.display = visibility ? "flex" : "none";
             if (visibility) {
-                correctPosition(element, props.position);
+                correctPosition(popupRef.current, props.position);
             }
         }
     }, [props.position, visibility]);
@@ -75,8 +74,9 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
 
-    const PopupMenu = createPortal(
+    const PopupPortal = createPortal(
         <div
+            ref={popupRef}
             style={{ position: "fixed", top: position?.top, left: position?.left }}
             className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
         >
@@ -90,7 +90,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             <div className={"popupmenu-trigger"} {...onClick}>
                 {props.menuTrigger}
             </div>
-            {PopupMenu}
+            {PopupPortal}
         </div>
     );
 }
