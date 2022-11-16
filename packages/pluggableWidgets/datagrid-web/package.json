@@ -51,7 +51,7 @@
     "@mendix/release-utils-internal": "workspace:*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
     "@types/react": "^17.0.52",
