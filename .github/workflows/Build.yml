@@ -50,7 +50,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - name: Restore Turbo Cache
-        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # v3.0.10
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
           # NOTE: We create new cache record for every new github.sha 
@@ -91,7 +91,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - name: Restore Turbo Cache
-        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # v3.0.10
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
           # NOTE: build & release tasks should have their own cache

@@ -44,7 +44,7 @@ jobs:
         id: variables
         run: echo ::set-output name=arg::$(if [ "${{ steps.files.outputs.global_files }}" = "" ] && ${{ github.event_name == 'pull_request' }}; then echo '--since origin/${{ github.base_ref }}'; else echo ''; fi)
       - name: "Defining cache"
-        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # v2
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v2
         env:
           cache-name: cache-node-modules
         with:
