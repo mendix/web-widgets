@@ -38,7 +38,7 @@
     "@mendix/custom-widgets-utils-internal": "workspace:*",
     "@mendix/pluggable-widgets-tools": ">=9.0.0",
     "@types/classnames": "^2.2.6",
-    "@types/react-resize-detector": "^5.0.0",
+    "@types/react-resize-detector": "^6.1.0",
     "eslint": "^7.20.0",
     "jest": "^26.6.1"
   },
