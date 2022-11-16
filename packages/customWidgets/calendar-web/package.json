@@ -52,6 +52,6 @@
     "moment": "^2.24.0",
     "react-big-calendar": "0.19.2",
     "react-dnd": "2.6.0",
-    "react-dnd-html5-backend": "^5.0.1"
+    "react-dnd-html5-backend": "^16.0.1"
   }
 }
