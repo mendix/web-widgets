@@ -2161,7 +2161,7 @@ importers:
   packages/tools/release-utils-internal:
     specifiers:
       '@types/cross-zip': ^4.0.0
-      '@types/node-fetch': 2.6.1
+      '@types/node-fetch': 2.6.2
       chalk: ^4.1.2
       cross-zip: ^4.0.0
       enquirer: ^2.3.6
@@ -2177,7 +2177,7 @@ importers:
       zod: ^3.11.6
     devDependencies:
       '@types/cross-zip': 4.0.0
-      '@types/node-fetch': 2.6.1
+      '@types/node-fetch': 2.6.2
       chalk: 4.1.2
       cross-zip: 4.0.0
       enquirer: 2.3.6
@@ -4887,8 +4887,8 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: true
 
-  /@types/node-fetch/2.6.1:
-    resolution: {integrity: sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==}
+  /@types/node-fetch/2.6.2:
+    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
       '@types/node': 18.8.3
       form-data: 3.0.1
