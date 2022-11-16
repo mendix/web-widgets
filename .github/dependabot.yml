@@ -20,6 +20,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/customWidgets/signature-web"
     schedule:
@@ -27,6 +28,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/modules/data-widgets"
     schedule:
@@ -34,6 +36,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/modules/web-actions"
     schedule:
@@ -41,6 +44,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/accessibility-helper-web"
     schedule:
@@ -48,6 +52,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/accordion-web"
     schedule:
@@ -55,6 +60,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/area-chart-web"
     schedule:
@@ -62,6 +68,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/badge-button-web"
     schedule:
@@ -69,6 +76,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/badge-web"
     schedule:
@@ -76,6 +84,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/bar-chart-web"
     schedule:
@@ -83,6 +92,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/barcode-scanner-web"
     schedule:
@@ -90,6 +100,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/bubble-chart-web"
     schedule:
@@ -97,6 +108,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/carousel-web"
     schedule:
@@ -104,6 +116,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/charts-web"
     schedule:
@@ -111,6 +124,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/color-picker-web"
     schedule:
@@ -118,6 +132,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/column-chart-web"
     schedule:
@@ -125,6 +140,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/datagrid-date-filter-web"
     schedule:
@@ -132,6 +148,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/datagrid-dropdown-filter-web"
     schedule:
@@ -139,6 +156,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/datagrid-number-filter-web"
     schedule:
@@ -146,6 +164,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/datagrid-text-filter-web"
     schedule:
@@ -153,6 +172,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/datagrid-web"
     schedule:
@@ -160,6 +180,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/dropdown-sort-web"
     schedule:
@@ -167,6 +188,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/fieldset-web"
     schedule:
@@ -174,6 +196,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/gallery-web"
     schedule:
@@ -181,6 +204,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/heatmap-chart-web"
     schedule:
@@ -188,6 +212,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/html-element-web"
     schedule:
@@ -195,6 +220,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/image-web"
     schedule:
@@ -202,6 +228,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/language-selector-web"
     schedule:
@@ -209,6 +236,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/line-chart-web"
     schedule:
@@ -216,6 +244,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/maps-web"
     schedule:
@@ -223,6 +252,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/pie-doughnut-chart-web"
     schedule:
@@ -230,6 +260,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/popup-menu-web"
     schedule:
@@ -237,6 +268,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/progress-bar-web"
     schedule:
@@ -244,6 +276,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/progress-circle-web"
     schedule:
@@ -251,6 +284,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/range-slider-web"
     schedule:
@@ -258,6 +292,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/rating-web"
     schedule:
@@ -265,6 +300,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/rich-text-web"
     schedule:
@@ -272,6 +308,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/slider-web"
     schedule:
@@ -279,6 +316,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/switch-web"
     schedule:
@@ -286,6 +324,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/time-series-chart-web"
     schedule:
@@ -293,6 +332,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/timeline-web"
     schedule:
@@ -300,6 +340,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/tooltip-web"
     schedule:
@@ -307,6 +348,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/tree-node-web"
     schedule:
@@ -314,6 +356,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/pluggableWidgets/video-player-web"
     schedule:
@@ -321,6 +364,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/shared/charts"
     schedule:
@@ -328,6 +372,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/shared/pluggable-widgets-commons"
     schedule:
@@ -335,6 +380,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
   - package-ecosystem: "npm"
     directory: "/packages/tools/release-utils-internal"
     schedule:
@@ -342,3 +388,4 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
