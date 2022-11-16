@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "date-arithmetic": "^3.1.0",
+    "date-arithmetic": "^4.1.0",
     "moment": "^2.24.0",
     "react-big-calendar": "0.19.2",
     "react-dnd": "2.6.0",
