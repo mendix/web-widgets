@@ -103,10 +103,10 @@ jobs:
             turbo-cache-${{ runner.os }}-${{ matrix.target }}
       - if: runner.os == 'Windows'
         name: Set concurrency on Windows
-        run: echo "task_concurrency=1" >> $env:GITHUB_ENV
+        run: echo "task_concurrency=3" >> $env:GITHUB_ENV
       - if: runner.os == 'Linux'
         name: Set concurrency on Linux
-        run: echo "task_concurrency=4" >> $GITHUB_ENV 
+        run: echo "task_concurrency=5" >> $GITHUB_ENV 
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} task 
