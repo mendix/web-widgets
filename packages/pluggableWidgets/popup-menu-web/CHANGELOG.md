@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We fixed an issue with DataGrid2 where adding a pop-up in a column would cause a rendering bug. (Ticket(s) #165858, #166376, #167745)
+
 ## [3.2.2] - 2022-02-01
 
 ### Fixed
