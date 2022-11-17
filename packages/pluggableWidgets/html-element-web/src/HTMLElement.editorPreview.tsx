@@ -4,10 +4,10 @@ import { HTMLTag } from "./components/HTMLTag";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
 
 export function preview(props: HTMLElementPreviewProps): ReactElement {
-    console.dir(props, { depth: 4 });
     const tag = prepareTag(props.tagName, props.tagNameCustom);
 
     const items = props.tagUseRepeat ? [1, 2, 3] : [1];
+    const canUseUnsafeHTML = !props.tagUseRepeat && props.tagContentHTML;
 
     return (
         <Fragment>
@@ -18,7 +18,7 @@ export function preview(props: HTMLElementPreviewProps): ReactElement {
                     <HTMLTag
                         key={i}
                         tagName={tag}
-                        unsafeHTML={props.tagContentRepeatHTML ? undefined : props.tagContentHTML}
+                        unsafeHTML={canUseUnsafeHTML ? props.tagContentHTML : undefined}
                         attributes={{
                             className: props.className,
                             style: props.styleObject
