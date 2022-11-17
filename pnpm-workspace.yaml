@@ -1,4 +1,5 @@
 packages:
   - "packages/*/*"
+  - "automation/*"
   - "!packages/customWidgets/*"
   - "!packages/tools/custom-widgets-utils-internal"
