@@ -24,15 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       since-flag: ${{ steps.set-since-flag.outputs.SINCE_FLAG }}
-      main_sha: ${{ steps.main_sha.outputs.MAIN_SHA }}
 
     steps:
       - if: github.event_name == 'pull_request'
         id: set-since-flag
         run: echo "SINCE_FLAG=--filter '...[origin/${{ github.base_ref }}]'" >> $GITHUB_OUTPUT
-      - name: Get sha of main
-        id: main_sha
-        run: echo "MAIN_SHA=`git rev-parse origin/main`" >> $GITHUB_OUTPUT
 
   check:
     name: Code quality check
@@ -53,13 +49,15 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ env.GITHUB_OUTPUT }}
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
           # NOTE: We create new cache record for every new github.sha 
           # but fallback to latest entry 
-          key: turbo-cache-${{ runner.os }}-lint-test-${{ needs.setup-options.outputs.main_sha }}
+          key: turbo-cache-${{ runner.os }}-lint-test-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-lint-test
 
@@ -94,6 +92,8 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ env.GITHUB_OUTPUT }}
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
@@ -102,7 +102,7 @@ jobs:
           # this is why we include matrix.target param in key
           # NOTE: We create new cache record for every new github.sha 
           # but fallback to latest entry 
-          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ needs.setup-options.outputs.main_sha }}
+          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-${{ matrix.target }}
       - if: runner.os == 'Windows'
