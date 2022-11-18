@@ -50,7 +50,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - name: Get sha of main
-        run: echo "main_sha=$(git rev-parse origin/main)" >> $GITHUB_OUTPUT
+        run: echo "main_sha=$(git rev-parse origin/main)" >> $GITHUB_ENV
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
@@ -93,7 +93,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - name: Get sha of main
-        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$GITHUB_OUTPUT' || '$env:GITHUB_OUTPUT' }}
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$GITHUB_ENV' || '$env:GITHUB_ENV' }}
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
