@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Security
+
+-   Updade d3-color library to 3.1.0 to prevent ReDoS
+
 ## [4.0.1] Charts - 2022-11-10
 
 ### Changed
