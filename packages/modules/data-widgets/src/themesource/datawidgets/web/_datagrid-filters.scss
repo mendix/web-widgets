@@ -4,7 +4,7 @@ $selected-color: #dadcde !default;
 $border-color: #ced0d3 !default;
 $arrow: "resources/dropdown-arrow.svg";
 
-@import "DatePicker";
+@import "date-picker";
 
 @font-face {
     font-family: "datagrid-filters";
