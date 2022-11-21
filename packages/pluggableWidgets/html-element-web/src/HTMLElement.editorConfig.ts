@@ -166,8 +166,14 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
     return errors;
 }
 
-export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean): StructurePreviewProps | null {
+export function getPreview(
+    values: HTMLElementPreviewProps,
+    _isDarkMode: boolean,
+    spVersion: number[] = [0, 0, 0]
+): StructurePreviewProps | null {
     const tagName = prepareTag(values.tagName, values.tagNameCustom);
+    const [x, y] = spVersion;
+    const canHideDataSourceHeader = x >= 9 && y >= 20;
 
     const voidElementPreview = (tagName: keyof JSX.IntrinsicElements): ContainerProps =>
         container({ padding: 4 })(text()(`<${tagName} />`));
@@ -183,7 +189,13 @@ export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean
               )
             : container({ padding: 0 })(
                   text()(`<${tagName}>`),
-                  dropzone(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
+                  dropzone(
+                      canHideDataSourceHeader
+                          ? {
+                                showDataSourceHeader: false
+                            }
+                          : {}
+                  )(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
                   text()(`</${tagName}>`)
               );
 
@@ -191,4 +203,9 @@ export function getPreview(values: HTMLElementPreviewProps, _isDarkMode: boolean
         values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
         isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
     );
+}
+
+export function getCustomCaption(values: HTMLElementPreviewProps, _platform = "desktop"): string {
+    const tagName = prepareTag(values.tagName, values.tagNameCustom);
+    return `<${tagName} />`;
 }

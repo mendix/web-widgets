@@ -92,18 +92,21 @@ export function text(style?: TextStylingProps): (content: string) => TextProps {
     };
 }
 
-export interface DropZoneProps extends BaseStylingProps {
+export interface DropZoneStylingProps extends BaseStylingProps {
+    placeholder?: string;
+    showDataSourceHeader?: boolean;
+}
+export interface DropZoneProps extends DropZoneStylingProps {
     type: "DropZone";
     property: object;
-    placeholder?: string;
 }
 
-export function dropzone(property: object, placeholder?: string): DropZoneProps {
-    return {
+export function dropzone(style: DropZoneStylingProps): (prop: object) => DropZoneProps {
+    return (property: object) => ({
         type: "DropZone",
-        placeholder,
-        property
-    };
+        property,
+        ...style
+    });
 }
 
 export interface SelectableProps extends BaseStylingProps {
