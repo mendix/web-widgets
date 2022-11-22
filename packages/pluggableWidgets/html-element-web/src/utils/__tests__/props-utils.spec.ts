@@ -1,4 +1,5 @@
-import { ObjectItem, ListActionValue, ActionValue, DynamicValue, ListExpressionValue, ListWidgetValue } from "mendix";
+import { ActionValue, DynamicValue, ListActionValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
+import { ReactNode } from "react";
 import {
     createAttributeResolver,
     createEventResolver,
@@ -6,9 +7,9 @@ import {
     prepareChildren,
     prepareEvents,
     prepareHtml,
-    prepareTag
+    prepareTag,
+    createSanitize
 } from "../props-utils";
-import { ReactNode } from "react";
 
 describe("props-utils", () => {
     describe("prepareTag", () => {
@@ -318,6 +319,23 @@ describe("props-utils", () => {
                     "data-test": "test-data-attr-value"
                 });
             });
+        });
+    });
+
+    describe("sanitizeHtml", () => {
+        it("apply html sanitizing", () => {
+            const sanitize = createSanitize();
+            expect(
+                sanitize(`<img src="nonexistent.png" onerror="alert('This restaurant got voted worst in town!');" />`)
+            ).toBe(`<img src="nonexistent.png">`);
+
+            expect(sanitize(`<div><script>destroyWebsite();</script></div>`)).toBe(`<div></div>`);
+
+            expect(sanitize(`<body onload=alert(‘something’)>`)).toBe("");
+
+            expect(sanitize(`<a href="javascript:alert('Don't laugh, this is not a joke!')">hello</a>`)).toBe(
+                `<a>hello</a>`
+            );
         });
     });
 });

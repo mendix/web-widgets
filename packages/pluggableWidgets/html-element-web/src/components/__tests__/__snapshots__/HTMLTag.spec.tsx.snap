@@ -24,3 +24,52 @@ exports[`HTMLTag renders correctly with innerHTML 1`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`HTMLTag with innerHTML apply html sanitizing 1`] = `
+<DocumentFragment>
+  <div
+    class="html-element-root my-class"
+  >
+    <p>
+      Lorem ipsum 
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`HTMLTag with innerHTML apply html sanitizing 2`] = `
+<DocumentFragment>
+  <div
+    class="html-element-root my-class"
+  >
+    <img
+      src="x"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`HTMLTag with innerHTML apply html sanitizing 3`] = `
+<DocumentFragment>
+  <div
+    class="html-element-root my-class"
+  >
+    <b>
+      ok
+    </b>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`HTMLTag with innerHTML apply html sanitizing 4`] = `
+<DocumentFragment>
+  <div
+    class="html-element-root my-class"
+  >
+    <a>
+      123
+    </a>
+    <option />
+  </div>
+</DocumentFragment>
+`;
