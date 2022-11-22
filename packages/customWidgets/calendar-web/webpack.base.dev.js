@@ -119,7 +119,7 @@ const widgetConfig = {
                 {
                     from: join(cwd, "src/**/*.xml").replace(/\\/g, "/"),
                     toType: "template",
-                    to: "widgets/[name].[ext]"
+                    to: "widgets/[name][ext]"
                 }
             ]
         })
