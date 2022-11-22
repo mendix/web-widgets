@@ -1,5 +1,6 @@
-import { CSSProperties, DOMAttributes, HTMLAttributes, ReactNode, SyntheticEvent } from "react";
+import { CSSProperties, DOMAttributes, HTMLAttributes, ReactNode, SyntheticEvent, useState } from "react";
 import { ObjectItem } from "mendix";
+import DOMPurify from "dompurify";
 
 import { AttributesType, EventsType, HTMLElementContainerProps, TagNameEnum } from "../../typings/HTMLElementProps";
 import { convertInlineCssToReactStyle } from "./style-utils";
@@ -138,4 +139,16 @@ export type VoidElement = typeof voidElements[number];
 
 export function isVoidElement(tag: unknown): tag is VoidElement {
     return voidElements.includes(tag as VoidElement);
+}
+
+type Sanitize = (html: string) => string;
+
+export function createSanitize(): Sanitize {
+    const purify = DOMPurify(window);
+    return html => purify.sanitize(html);
+}
+
+export function useSanitize(): ReturnType<typeof createSanitize> {
+    const [sanitize] = useState(createSanitize);
+    return sanitize;
 }
