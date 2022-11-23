@@ -1,55 +1,73 @@
 {
   "name": "calendar-web",
   "widgetName": "Calendar",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Display and manage calendar events",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "mxpackage": {
+    "name": "Calendar",
+    "type": "widget",
+    "mpkName": "Calendar.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "7.14.1",
+    "appNumber": 107954,
+    "appName": "Calendar"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
     "branchName": "calendar-web"
   },
-  "license": "Apache-2.0",
-  "marketplace": {
-    "minimumMXVersion": "7.14.1",
-    "appNumber": 107954
-  },
+  "packagePath": "com.mendix.widget.custom",
   "scripts": {
-    "start": "utils-react-widgets start",
-    "dev": "utils-react-widgets dev",
-    "format": "prettier --config \"../../prettier.config.js\" --write \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "test": "npm run test:unit",
-    "test:unit": "jest --config ../../../scripts/test/jest.web.config.js",
-    "pretest:e2e": "npm run release && node ../../../scripts/test/updateAtlas.js --latest-atlas",
-    "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress --remove-atlas-files",
-    "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
+    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+    "create-gh-release": "rui-create-gh-release",
+    "format": "pluggable-widgets-tools format",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
-    "lint:fix": "npm run lint -- --fix",
-    "build": "utils-react-widgets build",
-    "release": "utils-react-widgets release"
+    "publish-marketplace": "rui-publish-marketplace",
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+    "update-changelog": "rui-update-changelog-widget",
+    "verify": "rui-verify-package-format"
   },
   "config": {
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
   "devDependencies": {
-    "@mendix/custom-widgets-utils-internal": "workspace:*",
-    "@mendix/pluggable-widgets-tools": ">=9.0.0",
-    "@types/classnames": "^2.2.6",
+    "@babel/core": "^7.20.2",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
+    "@mendix/release-utils-internal": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
+    "@types/react": "^17.0.52",
     "@types/react-big-calendar": "0.20.20",
-    "@types/react-dnd": "^3.0.2",
-    "@types/react-dnd-html5-backend": "^3.0.2",
+    "@types/react-dom": "^17.0.18",
+    "babel-loader": "^8.2.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.2",
     "eslint": "^7.20.0",
-    "jest": "^26.6.1"
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "jest": "^26.6.1",
+    "mendix-client": "^7.15.8",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "to-string-loader": "^1.1.6",
+    "ts-loader": "^9.4.1",
+    "typescript": "4.5.4",
+    "webpack": "^5.3.2",
+    "webpack-cli": "^4.1.0"
   },
   "dependencies": {
     "classnames": "^2.2.6",
     "date-arithmetic": "^3.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react-big-calendar": "0.19.2",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "^5.0.1"

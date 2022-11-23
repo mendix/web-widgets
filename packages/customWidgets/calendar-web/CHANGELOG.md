@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Update moment.js to version 2.29.4
+
 ## [1.0.13] - 2021-06-24
 
 ### Removed
