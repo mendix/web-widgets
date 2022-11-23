@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.7] DataWidgets - 2022-11-23
+
 ### Fixed
 
 -   We renamed scss files to avoid duplication (Ticket #169499)
