@@ -5,7 +5,6 @@
   "description": "Displays custom HTML",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "license": "Apache-2.0",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
@@ -20,7 +19,8 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.12.0",
-    "appName": "HTML Element"
+    "appName": "HTML Element",
+    "appNumber": 204843
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
@@ -28,15 +28,16 @@
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:web",
     "build": "pluggable-widgets-tools build:web",
+    "create-gh-release": "rui-create-gh-release",
+    "dev": "pluggable-widgets-tools start:web",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
-    "prerelease": "npm run lint",
+    "publish-marketplace": "rui-publish-marketplace",
     "release": "pluggable-widgets-tools release:web",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget"
+    "start": "pluggable-widgets-tools start:server",
+    "test": "pluggable-widgets-tools test:unit:web",
+    "update-changelog": "rui-update-changelog-widget",
+    "verify": "rui-verify-package-format"
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
