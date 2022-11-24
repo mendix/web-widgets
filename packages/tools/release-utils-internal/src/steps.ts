@@ -200,9 +200,6 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
     const { paths } = config;
     pushd(paths.targetProject);
 
-    console.info("Remove untracked files");
-    await exec(`git clean -fd`);
-
     const status = (await exec(`git status --porcelain`, { stdio: "pipe" })).stdout.trim();
 
     if (status === "") {
