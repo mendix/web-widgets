@@ -49,13 +49,15 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> $GITHUB_ENV
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
           # NOTE: We create new cache record for every new github.sha 
           # but fallback to latest entry 
-          key: turbo-cache-${{ runner.os }}-lint-test-${{ github.sha }}
+          key: turbo-cache-${{ runner.os }}-lint-test-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-lint-test
 
@@ -90,6 +92,8 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
       - name: Restore Turbo Cache
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
@@ -98,7 +102,7 @@ jobs:
           # this is why we include matrix.target param in key
           # NOTE: We create new cache record for every new github.sha 
           # but fallback to latest entry 
-          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ github.sha }}
+          key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-${{ matrix.target }}
       - if: runner.os == 'Windows'
