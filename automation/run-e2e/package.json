@@ -1,0 +1,28 @@
+{
+  "name": "@web-widgets/run-e2e",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "type": "module",
+  "bin": "run-e2e.mjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "scripts": {
+    "lint": "eslint **/*.mjs"
+  },
+  "dependencies": {
+    "find-free-port": "^2.0.0",
+    "ip": "^1.1.8",
+    "node-fetch": "^2.6.1",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0"
+  }
+}
