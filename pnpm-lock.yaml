@@ -74,9 +74,6 @@ importers:
       typescript: 4.5.4
       xml2js: 0.4.23
 
-  automation/e2e:
-    specifiers: {}
-
   automation/scripts:
     specifiers:
       yaml: ^2.1.3
