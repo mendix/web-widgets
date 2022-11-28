@@ -6,7 +6,7 @@
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "type": "module",
   "bin": {
-    "run-e2e": "run-e2e.mjs"
+    "run-e2e": "bin/run-e2e.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -16,7 +16,7 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "scripts": {
-    "lint": "eslint **/*.mjs"
+    "lint": "eslint --ext .mjs ."
   },
   "dependencies": {
     "cypress": "^10.11.0",

@@ -9,6 +9,10 @@ async function main() {
         "no-widget-update": {
             type: "boolean",
             default: false
+        },
+        browser: {
+            type: "string",
+            default: "chrome"
         }
     };
 
