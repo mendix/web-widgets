@@ -2,10 +2,12 @@ module.exports = {
     root: true,
     env: {
         node: true,
-        es2021: true
+        es2021: true,
     },
-    extends: ["eslint:recommended"],
+    extends: ["eslint:recommended", "plugin:cypress/recommended"],
     parserOptions: {
-        sourceType: "module"
+        sourceType: "module",
+        ecmaVersion: 2021
     }
+
 };

@@ -5,7 +5,9 @@
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "type": "module",
-  "bin": "run-e2e.mjs",
+  "bin": {
+    "run-e2e": "run-e2e.mjs"
+  },
   "engines": {
     "node": ">=18"
   },
@@ -17,12 +19,16 @@
     "lint": "eslint **/*.mjs"
   },
   "dependencies": {
+    "cypress": "^10.11.0",
     "find-free-port": "^2.0.0",
     "ip": "^1.1.8",
     "node-fetch": "^2.6.1",
     "shelljs": "^0.8.5"
   },
   "devDependencies": {
-    "eslint": "^7.20.0"
+    "cypress-image-diff-js": "^1.22.0",
+    "cypress-terminal-report": "^4.1.2",
+    "eslint": "^7.20.0",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }
