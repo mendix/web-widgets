@@ -23,9 +23,7 @@
     "find-free-port": "^2.0.0",
     "ip": "^1.1.8",
     "node-fetch": "^2.6.1",
-    "shelljs": "^0.8.5"
-  },
-  "devDependencies": {
+    "shelljs": "^0.8.5",
     "cross-zip": "^4.0.0",
     "cypress-image-diff-js": "^1.22.0",
     "cypress-terminal-report": "^4.1.2",
