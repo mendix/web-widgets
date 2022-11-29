@@ -76,6 +76,7 @@ importers:
 
   automation/run-e2e:
     specifiers:
+      cross-zip: ^4.0.0
       cypress: ^10.11.0
       cypress-image-diff-js: ^1.22.0
       cypress-terminal-report: ^4.1.2
@@ -85,6 +86,7 @@ importers:
       ip: ^1.1.8
       node-fetch: ^2.6.1
       shelljs: ^0.8.5
+      yargs-parser: ^21.1.1
     dependencies:
       cypress: 10.11.0
       find-free-port: 2.0.0
@@ -92,10 +94,12 @@ importers:
       node-fetch: 2.6.7
       shelljs: 0.8.5
     devDependencies:
+      cross-zip: 4.0.0
       cypress-image-diff-js: 1.22.0_cypress@10.11.0
       cypress-terminal-report: 4.1.2_cypress@10.11.0
       eslint: 7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
+      yargs-parser: 21.1.1
 
   automation/scripts:
     specifiers:

@@ -1,31 +1,19 @@
 #!/usr/bin/env node
 
-import { parseArgs } from "node:util";
+import parseArgs from "yargs-parser";
 import { ci } from "../commands/ci.mjs";
 import { dev } from "../commands/dev.mjs";
 
 async function main() {
-    const parseArgsOptions = {
-        "no-widget-update": {
-            type: "boolean",
-            default: false
-        },
-        browser: {
-            type: "string",
-            default: "chrome"
-        }
-    };
-
-    const { positionals, values } = parseArgs({ options: parseArgsOptions, allowPositionals: true });
-    const [command] = positionals;
+    const { _: [command] } = parseArgs(process.argv.slice(2))
 
     switch (command) {
         case "ci": {
-            await ci(values);
+            await ci();
             break;
         }
         case "dev": {
-            await dev(values);
+            await dev();
             break;
         }
         default: {
