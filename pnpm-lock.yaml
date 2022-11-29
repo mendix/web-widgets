@@ -81,6 +81,7 @@ importers:
       cypress: ^10.11.0
       cypress-image-diff-js: ^1.22.0
       cypress-terminal-report: ^4.1.2
+      enquirer: ^2.3.6
       eslint: ^7.20.0
       eslint-plugin-cypress: ^2.12.1
       find-free-port: ^2.0.0
@@ -94,6 +95,7 @@ importers:
       cypress: 10.11.0
       cypress-image-diff-js: 1.22.0_cypress@10.11.0
       cypress-terminal-report: 4.1.2_cypress@10.11.0
+      enquirer: 2.3.6
       eslint: 7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
       find-free-port: 2.0.0
