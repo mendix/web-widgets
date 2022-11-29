@@ -11,17 +11,26 @@ export async function dev() {
 
     const parseArgsOptions = {
         string: ["browser"],
-        boolean: ["skip-project-setup"],
+        boolean: ["skip-project-setup", "interactive"],
         default: {
             browser: "chrome",
-            "skip-project-setup": false
+            "skip-project-setup": false,
+            interactive: true
+        },
+        configuration: {
+            // https://github.com/yargs/yargs-parser#boolean-negation
+            "boolean-negation": true,
+            // https://github.com/yargs/yargs-parser#boolean-negation
+            "camel-case-expansion": true
         }
     };
     const packageBinariesPath = fileURLToPath(new URL("../node_modules/.bin", import.meta.url));
     process.env.PATH += `${delimiter}${packageBinariesPath}`;
     const options = parseArgs(process.argv.slice(2), parseArgsOptions);
 
-    if (!options["skip-project-setup"]) {
+    console.log(options);
+
+    if (options.interactive && !options.skipProjectSetup) {
         const { needSetup } = await enquirer.prompt({
             type: "confirm",
             name: "needSetup",
@@ -31,7 +40,9 @@ export async function dev() {
         if (needSetup) {
             await setupTestProject();
         }
+    }
 
+    if (options.interactive) {
         console.log(
             c.yellow(
                 [
