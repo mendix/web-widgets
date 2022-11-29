@@ -77,8 +77,6 @@ async function updateAtlas() {
         const [{ browser_download_url }] = release.assets;
         const downloadedPath = join(await usetmp(), `StarterAppRelease.zip`);
         const outPath = await usetmp();
-        console.log("dp", downloadedPath);
-        console.log("op", outPath);
         try {
             await streamPipe((await fetch(browser_download_url)).body, createWriteStream(downloadedPath));
             crossZip.unzipSync(downloadedPath, outPath);
