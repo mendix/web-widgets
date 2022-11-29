@@ -20,5 +20,5 @@ export async function dev() {
     
     const command = "cypress";
     const args = ["open", "--browser", browser, "--e2e", "--config-file", "cypress.config.cjs"];
-    // spawnSync(command, args, { stdio: "inherit", shell: true });
+    spawnSync(command, args, { stdio: "inherit", shell: true });
 }
