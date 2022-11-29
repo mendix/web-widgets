@@ -31,6 +31,23 @@ export async function dev() {
         if (needSetup) {
             await setupTestProject();
         }
+
+        console.log(
+            c.yellow(
+                [
+                    "Please open and run tests/testProject/<name>.mpr in Studio Pro.",
+                    "If project contains errors, then you have to resolve them manually.",
+                    "Once project is running, press Enter to continue."
+                ].join("\n")
+            )
+        );
+
+        await enquirer.prompt({
+            type: "confirm",
+            name: "__ingore__",
+            result: () => "continue",
+            message: "Press Enter to continue"
+        });
     }
 
     console.log(c.cyan("Launch cypress"));
