@@ -19,16 +19,17 @@
     "lint": "eslint --ext .mjs ."
   },
   "dependencies": {
-    "cypress": "^10.11.0",
-    "find-free-port": "^2.0.0",
-    "ip": "^1.1.8",
-    "node-fetch": "^2.6.1",
-    "shelljs": "^0.8.5",
+    "chalk": "^5.1.2",
     "cross-zip": "^4.0.0",
+    "cypress": "^10.11.0",
     "cypress-image-diff-js": "^1.22.0",
     "cypress-terminal-report": "^4.1.2",
     "eslint": "^7.20.0",
     "eslint-plugin-cypress": "^2.12.1",
+    "find-free-port": "^2.0.0",
+    "ip": "^1.1.8",
+    "node-fetch": "^2.6.1",
+    "shelljs": "^0.8.5",
     "yargs-parser": "^21.1.1"
   }
 }
