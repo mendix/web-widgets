@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { tmpdir } from "node:os";
 import { createWriteStream } from "node:fs";
-import { readFile, mkdtemp } from "node:fs/promises";
+import { mkdtemp } from "node:fs/promises";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
 import { join } from "node:path";
 import fetch from "node-fetch";
 import sh from "shelljs";
 import crossZip from "cross-zip";
+import { packageMeta } from "./utils.mjs";
 
 const { cp, ls, mkdir, rm, mv } = sh;
 const streamPipe = promisify(pipeline);
@@ -15,7 +16,6 @@ const usetmp = async () => mkdtemp(join(tmpdir(), "run_e2e_files_"));
 
 export async function setupTestProject() {
     console.log("Copying test project from GitHub repository");
-    const packageConf = JSON.parse(await readFile("package.json"));
 
     sh.config.silent = true;
     const testsFiles = ls("tests");
@@ -26,8 +26,8 @@ export async function setupTestProject() {
     }
 
     const archivePath = await downloadTestProject(
-        packageConf.testProject.githubUrl,
-        packageConf.testProject.branchName
+        packageMeta.testProject.githubUrl,
+        packageMeta.testProject.branchName
     );
 
     try {
