@@ -17,6 +17,14 @@ export async function setupTestProject() {
     console.log("Copying test project from GitHub repository");
     const packageConf = JSON.parse(await readFile("package.json"));
 
+    sh.config.silent = true;
+    const testsFiles = ls("tests");
+    sh.config.silent = false;
+
+    if (testsFiles.length !== 0) {
+        throw new Error("tests dir is not empty");
+    }
+
     const archivePath = await downloadTestProject(
         packageConf.testProject.githubUrl,
         packageConf.testProject.branchName
