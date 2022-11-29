@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { tmpdir } from "node:os";
 import { createWriteStream } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readFile, mkdtemp } from "node:fs/promises";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
 import { join } from "node:path";
@@ -11,15 +11,17 @@ import crossZip from "cross-zip";
 
 const { cp, ls, mkdir, rm, mv } = sh;
 const streamPipe = promisify(pipeline);
+const usetmp = async () => mkdtemp(join(tmpdir(), "run_e2e_files_"));
 
 export async function setupTestProject() {
-    console.log("Copying test project from GitHub repository...");
+    console.log("Copying test project from GitHub repository");
     const packageConf = JSON.parse(await readFile("package.json"));
 
     const archivePath = await downloadTestProject(
         packageConf.testProject.githubUrl,
         packageConf.testProject.branchName
     );
+
     try {
         mkdir("-p", "tests");
         crossZip.unzipSync(archivePath, "tests");
@@ -29,6 +31,7 @@ export async function setupTestProject() {
         if (ls(`tests/testProject/*.mpr`).length === 0) {
             throw new Error('Invalid test project retrieved from GitHub: "mpr" file is missing.');
         }
+
         await updateAtlas();
     } catch (e) {
         throw new Error("Failed to unzip the test project into tests/testProject", e.message);
@@ -36,7 +39,8 @@ export async function setupTestProject() {
 }
 
 async function downloadTestProject(repository, branch) {
-    const downloadedArchivePath = join(tmpdir(), `testProject.zip`);
+    const tmp = await usetmp();
+    const downloadedArchivePath = join(tmp, `testProject.zip`);
 
     if (!repository.includes("github.com")) {
         throw new Error("githubUrl is not a valid github repository!");
@@ -67,35 +71,26 @@ async function updateAtlas() {
         "tests/testProject/themesource/atlas_web_content"
     );
 
-    const releasesResponse = await fetch('https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest');
+    const releasesResponse = await fetch("https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest");
     if (releasesResponse.ok) {
         const release = await releasesResponse.json();
         const [{ browser_download_url }] = release.assets;
-        const downloadedPath = join(tmpdir(), `StarterAppRelease.zip`);
-        const outPath = tmpdir();
+        const downloadedPath = join(await usetmp(), `StarterAppRelease.zip`);
+        const outPath = await usetmp();
+        console.log("dp", downloadedPath);
+        console.log("op", outPath);
         try {
-            await streamPipe(
-                (
-                    await fetch(browser_download_url)
-                ).body,
-                createWriteStream(downloadedPath)
-            );
+            await streamPipe((await fetch(browser_download_url)).body, createWriteStream(downloadedPath));
             crossZip.unzipSync(downloadedPath, outPath);
             cp("-r", join(outPath, "theme"), "tests/testProject");
             cp("-r", join(outPath, "themesource"), "tests/testProject");
-            rm("-rf", outPath);
         } catch (e) {
+            throw new Error("Unable to download StarterApp mpk");
+        } finally {
             rm("-f", downloadedPath);
-            throw new Error("Unable to download StarterApp mpk")
+            rm("-rf", outPath);
         }
-
     } else {
         throw new Error("Can't fetch latest StarterApp release");
     }
-
-
-    
-        
-
-    
 }
