@@ -2,6 +2,7 @@ import {
     container,
     DropZoneProps,
     RowLayoutProps,
+    selectable,
     StructurePreviewProps,
     text
 } from "@mendix/pluggable-widgets-commons";
@@ -259,12 +260,9 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                     : [])
             );
             return values.columns.length > 0
-                ? {
-                      type: "Selectable",
-                      object: column,
-                      grow: column.width === "manual" && column.size ? column.size : 1,
-                      child: container()(content)
-                  }
+                ? selectable(column, { grow: column.width === "manual" && column.size ? column.size : 1 })(
+                      container()(content)
+                  )
                 : content;
         })
     };

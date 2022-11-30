@@ -126,12 +126,16 @@ export interface SelectableProps extends BaseStylingProps {
     child: StructurePreviewProps;
 }
 
-export function selectable(object: object): (child: StructurePreviewProps) => SelectableProps {
+export function selectable(
+    object: object,
+    style?: BaseStylingProps
+): (child: StructurePreviewProps) => SelectableProps {
     return (child: StructurePreviewProps) => {
         return {
             type: "Selectable",
             object,
-            child
+            child,
+            ...style
         };
     };
 }
