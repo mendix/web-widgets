@@ -1,8 +1,9 @@
-import fetch from "node-fetch";
 import c from "chalk";
 import { spawnSync } from "child_process";
-import assert from "node:assert/strict";
 import { readFileSync } from "fs";
+import fetch from "node-fetch";
+import assert from "node:assert/strict";
+import sh from "shelljs";
 
 export const packageMeta = JSON.parse(readFileSync("package.json", { encoding: "utf-8" }));
 
@@ -17,9 +18,31 @@ export async function runReleaseScript() {
     // To pass flags to turbo, we pass --filter AFTER command (`release` in our case).
     // Check https://pnpm.io/cli/run#options for more details.
     const command = "pnpm";
-    const args = ["run", "--workspace-root", "release", `--filter ${packageName}`];
+    const args = [
+        // <- prevent format in one line
+        "run",
+        "--workspace-root",
+        "release",
+        `--filter ${packageName}`
+    ];
 
     spawnSync(command, args, { stdio: "inherit", shell: true });
+}
+
+export async function updateWidget() {
+    const { mkdir, cp, ls } = sh;
+    const { version } = packageMeta;
+    const mpkPath = `dist/${version}/*.mpk`;
+    const outDir = "tests/testProject/widgets";
+
+    if (ls(mpkPath).length) {
+        console.log(c.yellow("Widget mpk exists, skip release"));
+    } else {
+        await runReleaseScript();
+    }
+
+    mkdir("-p", outDir);
+    cp("-f", mpkPath, outDir);
 }
 
 export async function await200(url = "http://localhost:8080", attempts = 50) {

@@ -5,8 +5,7 @@ import parseArgs from "yargs-parser";
 import c from "chalk";
 import enquirer from "enquirer";
 import { setupTestProject } from "./setup-test-project.mjs";
-import { updateWidget } from "./update-widget.mjs";
-import { await200 } from "./utils.mjs";
+import { await200, updateWidget } from "./utils.mjs";
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
