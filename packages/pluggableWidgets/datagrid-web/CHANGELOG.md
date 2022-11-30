@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We improved structure preview of the widget in Studio Pro 9.20 and above.
+
 ## [2.4.2] - 2022-09-01
 
 ### Fixed
