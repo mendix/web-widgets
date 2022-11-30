@@ -1,7 +1,7 @@
 import {
     container,
     dropzone,
-    RowLayoutProps,
+    rowLayout,
     selectable,
     StructurePreviewProps,
     text
@@ -133,6 +133,8 @@ export function getProperties(
 }
 
 export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
+    const modeColor = (colorDark: string, colorLight: string) => (isDarkMode ? colorDark : colorLight);
+
     const hasColumns = values.columns && values.columns.length > 0;
     const columnProps: ColumnsPreviewType[] = hasColumns
         ? values.columns
@@ -156,19 +158,15 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                   wrapText: false
               }
           ];
-    const columns: RowLayoutProps = {
-        type: "RowLayout",
-        columnSize: "fixed",
-        children: columnProps.map(column =>
+    const columns = rowLayout({
+        columnSize: "fixed"
+    })(
+        ...columnProps.map(column =>
             container({
                 borders: true,
                 grow: column.width === "manual" && column.size ? column.size : 1,
                 backgroundColor:
-                    values.columnsHidable && column.hidable === "hidden"
-                        ? isDarkMode
-                            ? "#3E3E3E"
-                            : "#F5F5F5"
-                        : undefined
+                    values.columnsHidable && column.hidable === "hidden" ? modeColor("#3E3E3E", "#F5F5F5") : undefined
             })(
                 column.showContentAs === "customContent"
                     ? dropzone()(column.content)
@@ -183,29 +181,26 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                       )
             )
         )
-    };
-    const titleHeader: RowLayoutProps = {
-        type: "RowLayout",
+    );
+    const titleHeader = rowLayout({
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#3B5C8F" : "#DAEFFB",
+        backgroundColor: modeColor("#3B5C8F", "#DAEFFB"),
         borders: true,
-        borderWidth: 1,
-        children: [
-            container({
-                padding: 4
-            })(text({ fontColor: isDarkMode ? "#6DB1FE" : "#2074C8" })("Data grid 2"))
-        ]
-    };
-    const headerFilters = {
-        type: "RowLayout",
+        borderWidth: 1
+    })(
+        container({
+            padding: 4
+        })(text({ fontColor: modeColor("#6DB1FE", "#2074C8") })("Data grid 2"))
+    );
+    const headerFilters = rowLayout({
         columnSize: "fixed",
-        borders: true,
-        children: [dropzone(dropzone.placeholder("Place filter widget(s) here"))(values.filtersPlaceholder)]
-    } as RowLayoutProps;
-    const headers: RowLayoutProps = {
-        type: "RowLayout",
-        columnSize: "fixed",
-        children: columnProps.map(column => {
+        borders: true
+    })(dropzone(dropzone.placeholder("Place filter widget(s) here"))(values.filtersPlaceholder));
+
+    const headers = rowLayout({
+        columnSize: "fixed"
+    })(
+        ...columnProps.map(column => {
             const isColumnHidden = values.columnsHidable && column.hidable === "hidden";
             const content = container({
                 borders: true,
@@ -215,13 +210,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                             ? column.size
                             : 1
                         : undefined,
-                backgroundColor: isColumnHidden
-                    ? isDarkMode
-                        ? "#4F4F4F"
-                        : "#DCDCDC"
-                    : isDarkMode
-                    ? "#3E3E3E"
-                    : "#F5F5F5"
+                backgroundColor: isColumnHidden ? modeColor("#4F4F4F", "#DCDCDC") : modeColor("#3E3E3E", "#F5F5F5")
             })(
                 container({
                     padding: 8
@@ -232,12 +221,8 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                         fontColor: column.header
                             ? undefined
                             : isColumnHidden
-                            ? isDarkMode
-                                ? "#4F4F4F"
-                                : "#DCDCDC"
-                            : isDarkMode
-                            ? "#3E3E3E"
-                            : "#F5F5F5"
+                            ? modeColor("#4F4F4F", "#DCDCDC")
+                            : modeColor("#3E3E3E", "#F5F5F5")
                     })(column.header ? column.header : "Header")
                 ),
                 ...(hasColumns && values.columnsFilterable
@@ -250,22 +235,17 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                   )
                 : content;
         })
-    };
+    );
     const footer =
         values.showEmptyPlaceholder === "custom"
             ? [
-                  {
-                      type: "RowLayout",
+                  rowLayout({
                       columnSize: "fixed",
-                      borders: true,
-                      children: [
-                          dropzone(dropzone.placeholder("Empty list message: Place widgets here"))(
-                              values.emptyPlaceholder
-                          )
-                      ]
-                  } as RowLayoutProps
+                      borders: true
+                  })(dropzone(dropzone.placeholder("Empty list message: Place widgets here"))(values.emptyPlaceholder))
               ]
             : [];
+
     return container()(
         titleHeader,
         ...(values.showHeaderFilters && values.filterList.length > 0 ? [headerFilters] : []),
