@@ -5,10 +5,8 @@ import parseArgs from "yargs-parser";
 import c from "chalk";
 import enquirer from "enquirer";
 import { setupTestProject } from "./setup-test-project.mjs";
-import { runReleaseScript, packageMeta, await200 } from "./utils.mjs";
-import sh from "shelljs";
-
-const { cp, mkdir } = sh;
+import { updateWidget } from "./update-widget.mjs";
+import { await200 } from "./utils.mjs";
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
@@ -38,9 +36,7 @@ export async function dev() {
         // Download test project from github
         await setupTestProject();
         // Run release script and copy widget to testProject
-        await runReleaseScript();
-        mkdir("-p", "tests/testProject/widgets");
-        cp("-f", `dist/${packageMeta.version}/*.mpk`, "tests/testProject/widgets/");
+        await updateWidget();
 
         console.log(
             c.yellow(
