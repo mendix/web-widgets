@@ -1,6 +1,6 @@
 import {
     container,
-    DropZoneProps,
+    dropzone,
     RowLayoutProps,
     selectable,
     StructurePreviewProps,
@@ -171,10 +171,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                         : undefined
             })(
                 column.showContentAs === "customContent"
-                    ? {
-                          type: "DropZone",
-                          property: column.content
-                      }
+                    ? dropzone()(column.content)
                     : container({
                           padding: 8
                       })(
@@ -203,13 +200,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
         type: "RowLayout",
         columnSize: "fixed",
         borders: true,
-        children: [
-            {
-                type: "DropZone",
-                property: values.filtersPlaceholder,
-                placeholder: "Place filter widget(s) here"
-            } as DropZoneProps
-        ]
+        children: [dropzone(dropzone.placeholder("Place filter widget(s) here"))(values.filtersPlaceholder)]
     } as RowLayoutProps;
     const headers: RowLayoutProps = {
         type: "RowLayout",
@@ -250,13 +241,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                     })(column.header ? column.header : "Header")
                 ),
                 ...(hasColumns && values.columnsFilterable
-                    ? [
-                          {
-                              type: "DropZone",
-                              property: column.filter,
-                              placeholder: "Place filter widget here"
-                          } as DropZoneProps
-                      ]
+                    ? [dropzone(dropzone.placeholder("Place filter widget here"))(column.filter)]
                     : [])
             );
             return values.columns.length > 0
@@ -274,11 +259,9 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                       columnSize: "fixed",
                       borders: true,
                       children: [
-                          {
-                              type: "DropZone",
-                              property: values.emptyPlaceholder,
-                              placeholder: "Empty list message: Place widgets here"
-                          } as DropZoneProps
+                          dropzone(dropzone.placeholder("Empty list message: Place widgets here"))(
+                              values.emptyPlaceholder
+                          )
                       ]
                   } as RowLayoutProps
               ]
