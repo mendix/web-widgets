@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import parseArgs from "yargs-parser";
-import { ci } from "../commands/ci.mjs";
-import { dev } from "../commands/dev.mjs";
+import { ci } from "../lib/ci.mjs";
+import { dev } from "../lib/dev.mjs";
 
 async function main() {
     const { _: [command] } = parseArgs(process.argv.slice(2))
