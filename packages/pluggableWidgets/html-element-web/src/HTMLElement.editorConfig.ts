@@ -189,13 +189,9 @@ export function getPreview(
               )
             : container({ padding: 0 })(
                   text()(`<${tagName}>`),
-                  dropzone(
-                      canHideDataSourceHeader
-                          ? {
-                                showDataSourceHeader: false
-                            }
-                          : {}
-                  )(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
+                  dropzone(dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader))(
+                      values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer
+                  ),
                   text()(`</${tagName}>`)
               );
 
