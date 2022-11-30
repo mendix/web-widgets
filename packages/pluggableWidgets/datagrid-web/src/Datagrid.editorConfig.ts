@@ -2,7 +2,8 @@ import {
     ContainerProps,
     DropZoneProps,
     RowLayoutProps,
-    StructurePreviewProps
+    StructurePreviewProps,
+    text
 } from "@mendix/pluggable-widgets-commons";
 import {
     changePropertyIn,
@@ -179,16 +180,11 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                                   type: "Container",
                                   padding: 8,
                                   children: [
-                                      {
-                                          type: "Text",
-                                          content:
-                                              column.showContentAs === "dynamicText"
-                                                  ? column.dynamicText ?? "Dynamic text"
-                                                  : `[${
-                                                        column.attribute ? column.attribute : "No attribute selected"
-                                                    }]`,
-                                          fontSize: 10
-                                      }
+                                      text({ fontSize: 10 })(
+                                          column.showContentAs === "dynamicText"
+                                              ? column.dynamicText ?? "Dynamic text"
+                                              : `[${column.attribute ? column.attribute : "No attribute selected"}]`
+                                      )
                                   ]
                               }
                     ]
@@ -205,13 +201,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
             {
                 type: "Container",
                 padding: 4,
-                children: [
-                    {
-                        type: "Text",
-                        content: "Data grid 2",
-                        fontColor: isDarkMode ? "#6DB1FE" : "#2074C8"
-                    }
-                ]
+                children: [text({ fontColor: isDarkMode ? "#6DB1FE" : "#2074C8" })("Data grid 2")]
             }
         ]
     };
@@ -253,11 +243,9 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                         type: "Container",
                         padding: 8,
                         children: [
-                            {
-                                type: "Text",
+                            text({
                                 bold: true,
                                 fontSize: 10,
-                                content: column.header ? column.header : "Header",
                                 fontColor: column.header
                                     ? undefined
                                     : isColumnHidden
@@ -267,7 +255,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                                     : isDarkMode
                                     ? "#3E3E3E"
                                     : "#F5F5F5"
-                            }
+                            })(column.header ? column.header : "Header")
                         ]
                     },
                     ...(hasColumns && values.columnsFilterable
