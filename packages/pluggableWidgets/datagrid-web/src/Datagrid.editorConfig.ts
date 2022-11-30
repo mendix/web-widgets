@@ -1,5 +1,6 @@
 import {
     container,
+    datasource,
     dropzone,
     rowLayout,
     selectable,
@@ -132,7 +133,14 @@ export function getProperties(
     return defaultProperties;
 }
 
-export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
+export const getPreview = (
+    values: DatagridPreviewProps,
+    isDarkMode: boolean,
+    spVersion: number[] = [0, 0, 0]
+): StructurePreviewProps => {
+    const [x, y] = spVersion;
+    const canHideDataSourceHeader = x >= 9 && y >= 20;
+
     const modeColor = (colorDark: string, colorLight: string) => (isDarkMode ? colorDark : colorLight);
 
     const hasColumns = values.columns && values.columns.length > 0;
@@ -169,7 +177,7 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                     values.columnsHidable && column.hidable === "hidden" ? modeColor("#3E3E3E", "#F5F5F5") : undefined
             })(
                 column.showContentAs === "customContent"
-                    ? dropzone()(column.content)
+                    ? dropzone(dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader))(column.content)
                     : container({
                           padding: 8
                       })(
@@ -195,7 +203,12 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
     const headerFilters = rowLayout({
         columnSize: "fixed",
         borders: true
-    })(dropzone(dropzone.placeholder("Place filter widget(s) here"))(values.filtersPlaceholder));
+    })(
+        dropzone(
+            dropzone.placeholder("Place filter widget(s) here"),
+            dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+        )(values.filtersPlaceholder)
+    );
 
     const headers = rowLayout({
         columnSize: "fixed"
@@ -226,7 +239,12 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                     })(column.header ? column.header : "Header")
                 ),
                 ...(hasColumns && values.columnsFilterable
-                    ? [dropzone(dropzone.placeholder("Place filter widget here"))(column.filter)]
+                    ? [
+                          dropzone(
+                              dropzone.placeholder("Place filter widget here"),
+                              dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                          )(column.filter)
+                      ]
                     : [])
             );
             return values.columns.length > 0
@@ -242,12 +260,18 @@ export const getPreview = (values: DatagridPreviewProps, isDarkMode: boolean): S
                   rowLayout({
                       columnSize: "fixed",
                       borders: true
-                  })(dropzone(dropzone.placeholder("Empty list message: Place widgets here"))(values.emptyPlaceholder))
+                  })(
+                      dropzone(
+                          dropzone.placeholder("Empty list message: Place widgets here"),
+                          dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                      )(values.emptyPlaceholder)
+                  )
               ]
             : [];
 
     return container()(
         titleHeader,
+        datasource(values.datasource)(),
         ...(values.showHeaderFilters && values.filterList.length > 0 ? [headerFilters] : []),
         headers,
         ...Array.from({ length: 5 }).map(() => columns),
