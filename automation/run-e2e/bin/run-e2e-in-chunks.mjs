@@ -42,7 +42,10 @@ function main() {
         ...filters
     ].join(" ");
 
-    execSync(command, { stdio: "inherit" });
+    // Run e2e only we have packages in chunk
+    if (filters.length > 0) {
+        execSync(command, { stdio: "inherit" });
+    }
 }
 
 main();
