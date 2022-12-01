@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   IS_NOT_FORK_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
 
