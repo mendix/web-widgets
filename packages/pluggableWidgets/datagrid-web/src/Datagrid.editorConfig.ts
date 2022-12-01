@@ -271,7 +271,7 @@ export const getPreview = (
 
     return container()(
         titleHeader,
-        datasource(values.datasource)(),
+        ...(canHideDataSourceHeader ? [datasource(values.datasource)()] : []),
         ...(values.showHeaderFilters && values.filterList.length > 0 ? [headerFilters] : []),
         headers,
         ...Array.from({ length: 5 }).map(() => columns),
