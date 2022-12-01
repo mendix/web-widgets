@@ -30,13 +30,15 @@ function main() {
     const start = index * chunkSize;
     const end = start + chunkSize;
     const sorted = [...packages].sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()));
-    const filters = sorted.slice(start, end).map(pkg => `--filter ${pkg.name}`);
+    const filters = sorted.slice(start, end).map(pkg => `--filter=${pkg.name}`);
     const command = [
         // <- prevent format in one line
         `pnpm`,
         `--workspace-root`,
         `exec`,
         `turbo run e2e`,
+        // turbo options
+        `--concurrency=1`,
         ...filters
     ].join(" ");
 
