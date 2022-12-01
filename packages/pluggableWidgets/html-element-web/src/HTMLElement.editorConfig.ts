@@ -196,7 +196,9 @@ export function getPreview(
               );
 
     return container({ grow: 1, borders: true, borderWidth: 1 })(
-        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+        values.tagContentRepeatDataSource && canHideDataSourceHeader
+            ? datasource(values.tagContentRepeatDataSource)()
+            : container()(),
         isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
     );
 }
