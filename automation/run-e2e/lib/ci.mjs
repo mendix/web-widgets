@@ -1,4 +1,4 @@
-import c from "chalk";
+import c from "ansi-colors";
 import findFreePort from "find-free-port";
 import nodeIp from "ip";
 import fetch from "node-fetch";

@@ -76,7 +76,7 @@ importers:
 
   automation/run-e2e:
     specifiers:
-      chalk: ^5.1.2
+      ansi-colors: ^4.1.3
       cross-zip: ^4.0.0
       cypress: ^10.11.0
       cypress-image-diff-js: ^1.22.0
@@ -90,7 +90,7 @@ importers:
       shelljs: ^0.8.5
       yargs-parser: ^21.1.1
     dependencies:
-      chalk: 5.1.2
+      ansi-colors: 4.1.3
       cross-zip: 4.0.0
       cypress: 10.11.0
       cypress-image-diff-js: 1.22.0_cypress@10.11.0
@@ -7130,11 +7130,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-
-  /chalk/5.1.2:
-    resolution: {integrity: sha512-E5CkT4jWURs1Vy5qGJye+XwCkNj7Od3Af7CP6SujMetSMkLs8Do2RWJK5yx1wamHV/op8Rz+9rltjaTQWDnEFQ==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: false
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}

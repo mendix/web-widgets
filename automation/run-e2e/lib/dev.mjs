@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { delimiter } from "node:path";
 import { fileURLToPath } from "node:url";
 import parseArgs from "yargs-parser";
-import c from "chalk";
+import c from "ansi-colors";
 import enquirer from "enquirer";
 import { setupTestProject } from "./setup-test-project.mjs";
 import { await200, updateWidget } from "./utils.mjs";

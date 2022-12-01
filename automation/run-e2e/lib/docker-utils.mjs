@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import p from "node:path";
 import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
-import c from "chalk";
+import c from "ansi-colors";
 
 const REGISTRY = "ghcr.io/mendix/web-widgets";
 

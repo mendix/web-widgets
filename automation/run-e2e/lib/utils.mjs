@@ -1,4 +1,4 @@
-import c from "chalk";
+import c from "ansi-colors";
 import { spawnSync } from "child_process";
 import { readFileSync } from "fs";
 import fetch from "node-fetch";

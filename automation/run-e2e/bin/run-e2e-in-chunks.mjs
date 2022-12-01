@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import c from "ansi-colors";
 import { execSync } from "node:child_process";
 import parseArgs from "yargs-parser";
 import assert from "node:assert/strict";
@@ -45,6 +46,8 @@ function main() {
     // Run e2e only we have packages in chunk
     if (filters.length > 0) {
         execSync(command, { stdio: "inherit" });
+    } else {
+        console.log(c.cyan("No packages in chunk, skip e2e."));
     }
 }
 
