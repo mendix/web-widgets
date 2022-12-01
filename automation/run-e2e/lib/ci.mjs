@@ -6,7 +6,8 @@ import { execSync } from "node:child_process";
 import sh from "shelljs";
 import parseArgs from "yargs-parser";
 import { createDeploymentBundle, prepareImage, startCypress, startRuntime } from "./docker-utils.mjs";
-import { setupTestProject, updateWidget } from "./setup-test-project.mjs";
+import { setupTestProject } from "./setup-test-project.mjs";
+import { updateWidget } from "./utils.mjs";
 
 const MX_VERSION_MAP_URL =
     "https://raw.githubusercontent.com/mendix/widgets-resources/master/configs/e2e/mendix-versions.json";
