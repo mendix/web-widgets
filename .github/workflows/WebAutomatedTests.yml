@@ -41,10 +41,6 @@ jobs:
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
           fetch-depth: 0
-      # REVIEW: Not sure what this step does, comment it
-      # - name: "Fetching master to compare"
-      #   if: github.event_name == 'pull_request' && (steps.files.outputs.global_files == '' || github.event.pull_request.head.repo.full_name != github.repository)
-      #   run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
       - name: Setup pnpm
         uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
         with:
@@ -56,15 +52,6 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
-        # REVIEW: I'm really confused -- why we login only on 'pull_request'? I checked
-        # widgets-resources action logs and indeed, we skip this step for push. WTF?
-      - name: Login to GitHub Container Registry
-        if: github.event_name == 'pull_request' && env.IS_NOT_FORK_PR
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2.1.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: "Executing E2E tests"
         run: >-
           node 
