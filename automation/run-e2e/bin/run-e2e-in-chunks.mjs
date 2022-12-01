@@ -47,7 +47,7 @@ function main() {
     if (filters.length > 0) {
         execSync(command, { stdio: "inherit" });
     } else {
-        console.log(c.cyan("No packages in chunk, skip e2e."));
+        console.log(c.yellow("No packages in chunk, skip e2e."));
     }
 }
 

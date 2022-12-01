@@ -10,15 +10,14 @@ import { setupTestProject } from "./setup-test-project.mjs";
 import { updateWidget } from "./utils.mjs";
 
 const MX_VERSION_MAP_URL =
+    // Remove after merge
     "https://raw.githubusercontent.com/mendix/widgets-resources/master/configs/e2e/mendix-versions.json";
-
-// const MX_VERSION_MAP_URL =
-//     "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
+// Uncomment after merge
+// "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
 
 const { ls, cat } = sh;
 
 export async function ci() {
-    // assert.ok(process.env.CI, "This command meant to run in CI env");
     console.log(c.cyan("Run e2e tests in CI environment"));
 
     const parseArgsOptions = {
@@ -31,7 +30,7 @@ export async function ci() {
         configuration: {
             // https://github.com/yargs/yargs-parser#boolean-negation
             "boolean-negation": true,
-            // https://github.com/yargs/yargs-parser#boolean-negation
+            // https://github.com/yargs/yargs-parser#camel-case-expansion
             "camel-case-expansion": true
         }
     };
@@ -94,19 +93,16 @@ async function getMendixVersion(options) {
         return process.env.MENDIX_VERSION;
     }
 
-    try {
-        const versionMapResponse = await fetch(MX_VERSION_MAP_URL);
-        if (versionMapResponse.ok) {
-            const { mxVersion } = options;
-            const versionMap = await versionMapResponse.json();
-            if (mxVersion in versionMap) {
-                return versionMap[mxVersion];
-            }
-
-            return versionMap.latest;
+    const versionMapResponse = await fetch(MX_VERSION_MAP_URL);
+    if (versionMapResponse.ok) {
+        const { mxVersion } = options;
+        const versionMap = await versionMapResponse.json();
+        if (mxVersion in versionMap) {
+            return versionMap[mxVersion];
         }
-    } catch (err) {
-        console.err(err);
-        throw new Error("Couldn't fetch mendix-versions.json");
+
+        return versionMap.latest;
+    } else {
+        throw new Error(`Couldn't fetch mendix-versions.json: ${versionMapResponse.statusText}`);
     }
 }

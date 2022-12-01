@@ -11,9 +11,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  IS_NOT_FORK_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
-
 jobs:
   harden-security:
     name: Check SHA in GH Actions
@@ -24,6 +21,7 @@ jobs:
       - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@570fff1eb64d52ffae87990c117c2748c317b58c # v2.0.0
 
   test:
+    # Run job only if it's push to main or PR from web-widgets, don't run for fork PRs
     if: >-
       ${{ github.event_name == 'push' ||
           github.event_name == 'pull_request' && 

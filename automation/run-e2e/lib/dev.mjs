@@ -20,7 +20,7 @@ export async function dev() {
         configuration: {
             // https://github.com/yargs/yargs-parser#boolean-negation
             "boolean-negation": true,
-            // https://github.com/yargs/yargs-parser#boolean-negation
+            // https://github.com/yargs/yargs-parser#camel-case-expansion
             "camel-case-expansion": true
         }
     };
