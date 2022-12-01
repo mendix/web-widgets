@@ -65,7 +65,7 @@ jobs:
           path: node_modules/.cache/turbo
           key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
           restore-keys: |
-            turbo-cache-${{ runner.os }}--e2e-chunk-${{ matrix.index }}
+            turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
       - name: Install dependencies
         run: pnpm install
       - name: "Executing E2E tests"
