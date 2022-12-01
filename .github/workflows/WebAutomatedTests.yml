@@ -60,9 +60,9 @@ jobs:
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
-          key: turbo-cache-${{ runner.os }}-e2e-${{ env.main_sha }}
+          key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
           restore-keys: |
-            turbo-cache-${{ runner.os }}-e2e
+            turbo-cache-${{ runner.os }}--e2e-chunk-${{ matrix.index }}
       - name: Install dependencies
         run: pnpm install
       - name: "Executing E2E tests"
