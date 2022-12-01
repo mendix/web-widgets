@@ -5,7 +5,9 @@ import { ci } from "../lib/ci.mjs";
 import { dev } from "../lib/dev.mjs";
 
 async function main() {
-    const { _: [command] } = parseArgs(process.argv.slice(2))
+    const {
+        _: [command]
+    } = parseArgs(process.argv.slice(2));
 
     switch (command) {
         case "ci": {

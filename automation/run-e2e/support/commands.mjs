@@ -1,5 +1,5 @@
 import compareSnapshotCommand from "cypress-image-diff-js";
-import installLogsCollector from "cypress-terminal-report/src/installLogsCollector"
+import installLogsCollector from "cypress-terminal-report/src/installLogsCollector";
 
 console.log("support/commands loaded");
 installLogsCollector();
@@ -21,37 +21,37 @@ Cypress.Commands.add("dragAndDrop", (subject, target, dragIndex, dropIndex) => {
     const BUTTON_INDEX = 0;
     const SLOPPY_CLICK_THRESHOLD = 10;
     cy.get(target)
-    .eq(dropIndex)
-    .then($target => {
-        const coordsDrop = $target[0].getBoundingClientRect();
-        cy.get(subject)
-        .eq(dragIndex)
-        .then(subject => {
-            const coordsDrag = subject[0].getBoundingClientRect();
-            cy.wrap(subject)
-            .trigger("mousedown", {
-                button: BUTTON_INDEX,
-                clientX: coordsDrag.x,
-                clientY: coordsDrag.y,
-                force: true
-            })
-            .trigger("mousemove", {
-                button: BUTTON_INDEX,
-                clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,
-                clientY: coordsDrag.y,
-                force: true
-            })
-            .wait(1000);
-            cy.get("body")
-            .trigger("mousemove", {
-                button: BUTTON_INDEX,
-                clientX: coordsDrop.x,
-                clientY: coordsDrop.y,
-                force: true
-            })
-            .trigger("mouseup");
+        .eq(dropIndex)
+        .then($target => {
+            const coordsDrop = $target[0].getBoundingClientRect();
+            cy.get(subject)
+                .eq(dragIndex)
+                .then(subject => {
+                    const coordsDrag = subject[0].getBoundingClientRect();
+                    cy.wrap(subject)
+                        .trigger("mousedown", {
+                            button: BUTTON_INDEX,
+                            clientX: coordsDrag.x,
+                            clientY: coordsDrag.y,
+                            force: true
+                        })
+                        .trigger("mousemove", {
+                            button: BUTTON_INDEX,
+                            clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,
+                            clientY: coordsDrag.y,
+                            force: true
+                        })
+                        .wait(1000);
+                    cy.get("body")
+                        .trigger("mousemove", {
+                            button: BUTTON_INDEX,
+                            clientX: coordsDrop.x,
+                            clientY: coordsDrop.y,
+                            force: true
+                        })
+                        .trigger("mouseup");
+                });
         });
-    });
 });
 /*eslint-disable cypress/no-unnecessary-waiting*/
 
