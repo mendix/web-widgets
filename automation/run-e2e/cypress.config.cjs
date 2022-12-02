@@ -1,3 +1,5 @@
+// Once cypress-image-diff-js and cypress-terminal-report will be published as ES Modules, we finally
+// can convert config to ES Module.
 const { defineConfig } = require("cypress");
 const getCompareSnapshotsPlugin = require("cypress-image-diff-js/dist/plugin");
 const installLogsPrinter = require("cypress-terminal-report/src/installLogsPrinter");

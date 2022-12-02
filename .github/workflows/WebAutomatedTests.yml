@@ -2,79 +2,84 @@ name: Run automated end-to-end tests
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
   pull_request:
-    branches: [master]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    name: "Automated tests"
+  harden-security:
+    name: Check SHA in GH Actions
     runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@570fff1eb64d52ffae87990c117c2748c317b58c # v2.0.0
+
+  test:
+    # Run job only if it's push to main or PR from web-widgets, don't run for fork PRs
+    if: >-
+      ${{ github.event_name == 'push' ||
+          github.event_name == 'pull_request' && 
+          github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
+    name: Automated tests
+    runs-on: ubuntu-latest
+    needs: [harden-security]
+
     permissions:
       packages: read
       contents: read
+
     strategy:
       # when one test fails, DO NOT cancel the other
       fail-fast: false
       matrix:
         # run 3 copies of the current job in parallel
-        containers: [0, 1, 2]
+        index: [0, 1, 2]
 
     steps:
-      - name: "Checking changed files"
-        id: files
-        uses: softprops/diffset@d5947696689a571f7a984a52505e2649eead5c22 # v1
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
-          global_files: |
-            !{packages/**/*,configs/e2e/*.json,detox/**/*,scripts/**/*,data/**/*}
-          not_atlas_native_files: |
-            !packages/theming/atlas/src/**/native/**
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Checking-out code"
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
         with:
-          submodules: false
-      - name: "Fetching master to compare"
-        if: github.event_name == 'pull_request' && (steps.files.outputs.global_files == '' || github.event.pull_request.head.repo.full_name != github.repository)
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-      - name: "Defining environment variables"
-        id: variables
-        run: echo ::set-output name=arg::$(if [ "${{ steps.files.outputs.global_files }}" = "" ] && ${{ github.event_name == 'pull_request' }}; then echo '--since origin/${{ github.base_ref }}'; else echo ''; fi)
-      - name: "Defining cache"
-        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
-      - name: "Defining node version"
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v2
+          version: ^7.13.4
+      - name: Setup node
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
         with:
           node-version-file: ".nvmrc"
-      - name: "Installing dependencies"
-        run: npm install
-      - name: Login to GitHub Container Registry
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2.1.0
+          cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
+      - name: Restore Turbo Cache
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          path: node_modules/.cache/turbo
+          key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
+          restore-keys: |
+            turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
+      - name: Install dependencies
+        run: pnpm install
       - name: "Executing E2E tests"
-        if: github.event_name == 'push' || steps.files.outputs.not_atlas_native_files != '' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-        run: CIRCLE_NODE_INDEX=${{ matrix.containers }} npm run test:e2e -- ${{ steps.variables.outputs.arg }}
-        env:
-          FORKED: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: >-
+          node 
+          ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
+          --chunks 3
+          --index ${{ matrix.index }}
+          --event-name ${{ github.event_name }}
       - name: "Fixing files permissions"
         if: failure()
         run: |
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
       - name: "Archive test screenshot diff results"
-        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # v3.1.1
         if: failure()
         with:
           name: test-screenshot-results

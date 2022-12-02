@@ -1,8 +1,11 @@
-import compareSnapshotCommand from "cypress-image-diff-js/dist/command";
-require("cypress-terminal-report/src/installLogsCollector")();
+import compareSnapshotCommand from "cypress-image-diff-js";
+import installLogsCollector from "cypress-terminal-report/src/installLogsCollector";
 
+console.log("support/commands loaded");
+installLogsCollector();
 compareSnapshotCommand();
 
+/*eslint-disable cypress/no-unnecessary-waiting*/
 Cypress.Commands.add("dragAndDrop", (subject, target, dragIndex, dropIndex) => {
     cy.get(subject).should("be.visible", { timeout: 20000 });
     Cypress.log({
@@ -50,6 +53,7 @@ Cypress.Commands.add("dragAndDrop", (subject, target, dragIndex, dropIndex) => {
                 });
         });
 });
+/*eslint-disable cypress/no-unnecessary-waiting*/
 
 const logCommand = ({ options, originalOptions }) => {
     if (options.log) {

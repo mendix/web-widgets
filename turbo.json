@@ -36,6 +36,19 @@
         },
         "publish-marketplace": {
             "cache": false
+        },
+        "e2e": {
+            "inputs": [
+                "assets/**",
+                "src/**",
+                "cypress/**",
+                "cypress-visual-screenshots/**",
+                "cypress.config.*",
+                "package.json",
+                "!src/*.{editorConfig,editorPreview,icon,tile,xml}*",
+                "!**/__tests__/**"
+            ],
+            "outputs": []
         }
     },
     "globalDependencies": ["packages/tools/release-utils-internal/**"]
