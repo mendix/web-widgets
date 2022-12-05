@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@570fff1eb64d52ffae87990c117c2748c317b58c # v2.0.0
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
 
   test:
     # Run job only if it's push to main or PR from web-widgets, don't run for fork PRs
