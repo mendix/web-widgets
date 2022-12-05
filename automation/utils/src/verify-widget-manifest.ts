@@ -1,5 +1,5 @@
 import { ClientModulePackageFile, readPackageXml } from "./package-xml";
-import { WidgetPackageSchema, WidgetPackage, PackageInfo } from "./package-info";
+import { WidgetPackageSchema, WidgetPackage } from "./package-info";
 
 type ParsedManifests = [WidgetPackage, ClientModulePackageFile];
 
