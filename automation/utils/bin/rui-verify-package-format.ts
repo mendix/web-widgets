@@ -4,11 +4,11 @@ import { ZodError } from "zod";
 import {
     getPackageFileContent,
     PackageSchema,
-    WidgetPackageSchema,
     ModulePackageSchema,
     JSActionsPackageSchema,
     PublishedPackageSchema
 } from "../src";
+import { verify as verifyWidget } from "../src/verify-widget-manifest";
 import { fgCyan, fgGreen, fgYellow } from "../src/ansi-colors";
 
 async function main(): Promise<void> {
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
 
         switch (info.mxpackage.type) {
             case "widget": {
-                WidgetPackageSchema.parse(target);
+                await verifyWidget(path, target);
                 break;
             }
             case "module": {
