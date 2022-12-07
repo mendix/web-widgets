@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.timeline.Timeline" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.web.timeline.Timeline" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Timeline</name>
     <description>Shows vertical timeline with events</description>
     <studioProCategory>Display</studioProCategory>
@@ -61,7 +61,7 @@
                     <description>Format group header with current language's format</description>
                     <enumerationValues>
                         <enumerationValue key="dayName">Day name</enumerationValue>
-                        <enumerationValue key="dayMonth">Day &amp; month</enumerationValue>
+                        <enumerationValue key="dayMonth">Day and month</enumerationValue>
                         <enumerationValue key="fullDate">Day, month, year</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -70,12 +70,12 @@
                     <description />
                     <enumerationValues>
                         <enumerationValue key="month">Month</enumerationValue>
-                        <enumerationValue key="monthYear">Month &amp; year</enumerationValue>
+                        <enumerationValue key="monthYear">Month and year</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="ungroupedEventsPosition" type="enumeration" defaultValue="end">
                     <caption>Ungrouped events position</caption>
-                    <description>Position in the list of events without a date &amp; time</description>
+                    <description>Position in the list of events without a date and time</description>
                     <enumerationValues>
                         <enumerationValue key="beginning">Beginning of the timeline</enumerationValue>
                         <enumerationValue key="end">End of the timeline</enumerationValue>
