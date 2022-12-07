@@ -54,6 +54,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             data-focusindex={0}
             role="menu"
             style={{
+                zIndex: 999,
                 position: "fixed",
                 top: position?.bottom,
                 right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined

@@ -5,13 +5,12 @@ import {
     isElementPartiallyOffScreen,
     isElementVisibleByUser,
     moveAbsoluteElementOnScreen,
-    handleOnClickOutsideElement,
     unBlockAbsoluteElementLeft,
     unBlockAbsoluteElementBottom,
     unBlockAbsoluteElementRight,
     unBlockAbsoluteElementTop
 } from "../utils/document";
-import { ReactElement, useState, createElement, useCallback, useEffect, useRef } from "react";
+import { ReactElement, useState, createElement, useCallback, useEffect, useRef, SyntheticEvent } from "react";
 import { createPortal } from "react-dom";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
@@ -26,27 +25,43 @@ export interface PopupMenuProps extends PopupMenuContainerProps {
 export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
-    const ref = useRef<HTMLDivElement>(null);
+    const [isClickedInside, setIsClickedInside] = useState<boolean>(false);
+    const triggerRef = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
-    const position = usePositionObserver(ref.current, visibility);
-    if (!preview) {
-        handleOnClickOutsideElement(ref, () => setVisibility(false));
-    }
+    const position = usePositionObserver(triggerRef.current, visibility);
     const handleOnClickTrigger = useCallback(
-        (e): void => {
+        (e: SyntheticEvent<HTMLElement>): void => {
             e.preventDefault();
             e.stopPropagation();
+            console.log("onClickTrigger");
             setVisibility(prev => !prev);
         },
         [setVisibility]
     );
-    const handleOnClickItem = useCallback(
-        (itemAction?: ActionValue): void => {
-            setVisibility(false);
-            executeAction(itemAction);
-        },
-        [setVisibility]
-    );
+    const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
+        setVisibility(false);
+        executeAction(itemAction);
+    }, []);
+
+    function clickDocumentHandler(): void {
+        console.log("clickDocumentHandler");
+
+        if (isClickedInside) {
+            console.log("click inside");
+
+            console.log("isClickedInside");
+            setIsClickedInside(false);
+            return;
+        }
+
+        console.log("click outside");
+        setVisibility(false);
+    }
+
+    function handleClick(): void {
+        setIsClickedInside(true);
+    }
     const menuOptions = createMenuOptions(props, handleOnClickItem);
     const onHover =
         props.trigger === "onhover" && !preview
@@ -73,24 +88,36 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     useEffect(() => {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
+    useEffect(() => {
+        if (!preview) {
+            document.addEventListener("mousedown", clickDocumentHandler);
+            document.addEventListener("touchstart", clickDocumentHandler);
+        }
+        return () => {
+            document.removeEventListener("mousedown", clickDocumentHandler);
+            document.removeEventListener("touchstart", clickDocumentHandler);
+        };
+    }, []);
 
     const PopupPortal = createPortal(
-        <div
-            ref={popupRef}
-            style={{ position: "fixed", top: position?.top, left: position?.left }}
-            className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
-        >
-            {menuOptions}
+        <div className="widget-popupmenu-root">
+            <div
+                ref={popupRef}
+                style={{ position: "fixed", top: position?.top, left: position?.left }}
+                className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
+            >
+                {menuOptions}
+            </div>
         </div>,
         document.body
     );
 
     return (
-        <div ref={ref} className={classNames("popupmenu", props.class)} {...onHover}>
-            <div className={"popupmenu-trigger"} {...onClick}>
-                {props.menuTrigger}
+        <div ref={wrapperRef} onMouseDownCapture={handleClick} onTouchStartCapture={handleClick}>
+            <div ref={triggerRef} className={classNames("popupmenu", props.class)} {...onHover} {...onClick}>
+                <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
+                {PopupPortal}
             </div>
-            {PopupPortal}
         </div>
     );
 }

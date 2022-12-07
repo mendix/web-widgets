@@ -246,19 +246,28 @@ export function moveAbsoluteElementOnScreen(
     return boundingRect;
 }
 
-export function handleOnClickOutsideElement(ref: RefObject<HTMLDivElement>, handler: () => void): void {
+export function handleOnClickOutsideElement(
+    ref: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
+    handler: () => void
+): void {
     useEffect(() => {
         const listener = (event: MouseEvent & { target: Node | null }): void => {
-            if (!ref.current || ref.current.contains(event.target)) {
+            if (Array.isArray(ref)) {
+                if (ref.some(r => !r.current || r.current.contains(event.target))) {
+                    return;
+                }
+            } else if (!ref.current || ref.current.contains(event.target)) {
                 return;
             }
+            console.log("OUTSIDE");
+
             handler();
         };
-        ref.current?.ownerDocument.addEventListener("mousedown", listener);
-        ref.current?.ownerDocument.addEventListener("touchstart", listener);
+        document.addEventListener("mousedown", listener);
+        document.addEventListener("touchstart", listener);
         return () => {
-            ref.current?.ownerDocument.removeEventListener("mousedown", listener);
-            ref.current?.ownerDocument.removeEventListener("touchstart", listener);
+            document.removeEventListener("mousedown", listener);
+            document.removeEventListener("touchstart", listener);
         };
     }, [ref, handler]);
 }
