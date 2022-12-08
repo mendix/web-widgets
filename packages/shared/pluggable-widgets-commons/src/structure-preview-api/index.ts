@@ -101,13 +101,24 @@ export interface DropZoneProps extends DropZoneStylingProps {
     property: object;
 }
 
-export function dropzone(style: DropZoneStylingProps): (prop: object) => DropZoneProps {
+export function dropzone(...options: Array<Partial<DropZoneStylingProps>>): (prop: object) => DropZoneProps {
+    const params = Object.assign({}, ...options) as Partial<DropZoneStylingProps>;
+
     return (property: object) => ({
         type: "DropZone",
         property,
-        ...style
+        ...params
     });
 }
+
+dropzone.placeholder = (placeholder: string) => {
+    return {
+        placeholder
+    };
+};
+dropzone.hideDataSourceHeaderIf = (hideCondition: boolean) => {
+    return hideCondition ? { showDataSourceHeader: false } : {};
+};
 
 export interface SelectableProps extends BaseStylingProps {
     type: "Selectable";
@@ -115,12 +126,16 @@ export interface SelectableProps extends BaseStylingProps {
     child: StructurePreviewProps;
 }
 
-export function selectable(object: object): (child: StructurePreviewProps) => SelectableProps {
+export function selectable(
+    object: object,
+    style?: BaseStylingProps
+): (child: StructurePreviewProps) => SelectableProps {
     return (child: StructurePreviewProps) => {
         return {
             type: "Selectable",
             object,
-            child
+            child,
+            ...style
         };
     };
 }

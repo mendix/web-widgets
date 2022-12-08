@@ -189,18 +189,16 @@ export function getPreview(
               )
             : container({ padding: 0 })(
                   text()(`<${tagName}>`),
-                  dropzone(
-                      canHideDataSourceHeader
-                          ? {
-                                showDataSourceHeader: false
-                            }
-                          : {}
-                  )(values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer),
+                  dropzone(dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader))(
+                      values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer
+                  ),
                   text()(`</${tagName}>`)
               );
 
     return container({ grow: 1, borders: true, borderWidth: 1 })(
-        values.tagContentRepeatDataSource ? datasource(values.tagContentRepeatDataSource)() : container()(),
+        values.tagContentRepeatDataSource && canHideDataSourceHeader
+            ? datasource(values.tagContentRepeatDataSource)()
+            : container()(),
         isVoidElement(tagName) ? voidElementPreview(tagName) : flowElementPreview()
     );
 }
