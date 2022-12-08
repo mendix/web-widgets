@@ -13,11 +13,12 @@ const normalizePath = (pkgs, root) =>
 
 function main() {
     const root = execSync("git rev-parse --show-toplevel", { encoding: "utf-8" }).trim();
-    const listing = execSync("pnpm -r ls --json", {
+    const listing = execSync("pnpm ls --recursive --json --depth -1", {
         encoding: "utf-8"
     }).trim();
 
     const packages = normalizePath(JSON.parse(listing !== "" ? listing : "[]"), root);
+    packages.sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()));
 
     const dependabotConfig = {
         version: 2,
