@@ -94,6 +94,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
