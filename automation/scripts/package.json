@@ -1,5 +1,5 @@
 {
-  "name": "@mendix/web-widgets-scripts",
+  "name": "@web-widgets/scripts",
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
