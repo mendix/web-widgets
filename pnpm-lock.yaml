@@ -108,9 +108,14 @@ importers:
 
   automation/scripts:
     specifiers:
+      eslint: ^7.20.0
+      prettier: ^2.5.1
       yaml: ^2.1.3
     dependencies:
       yaml: 2.1.3
+    devDependencies:
+      eslint: 7.32.0
+      prettier: 2.7.1
 
   packages/customWidgets/calendar-web:
     specifiers:
