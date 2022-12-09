@@ -2,7 +2,7 @@ import React from "react";
 
 // We need regexp to split rows in prop/value pairs
 // split by : not work for all cases, eg "background-image: url(http://localhost:8080);"
-const cssPropRegex = /(?<prop>[^:]+):\s+?(?<value>[^;]+);?/m;
+const cssPropRegex = /(?<prop>[^:]+):\s*(?<value>[^;]+);?/m;
 
 export function convertInlineCssToReactStyle(inlineStyle: string): React.CSSProperties {
     return Object.fromEntries(
