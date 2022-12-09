@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We added _Refresh time_ setting to Datagrid, this allows automatic data refresh.
+
 ### Changed
 
 -   We improved structure preview of the widget in Studio Pro 9.20 and above.

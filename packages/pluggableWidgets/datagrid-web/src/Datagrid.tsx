@@ -42,6 +42,14 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         }
     }, [props.datasource, props.configurationAttribute, filtered]);
 
+    useEffect(() => {
+        if (props.refreshInterval > 0) {
+            setTimeout(() => {
+                props.datasource.reload();
+            }, props.refreshInterval * 1000);
+        }
+    }, [props.datasource, props.refreshInterval]);
+
     const setPage = useCallback(
         computePage => {
             const newPage = computePage(currentPage);

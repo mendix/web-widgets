@@ -74,6 +74,7 @@ export interface DatagridContainerProps {
     tabIndex?: number;
     advanced: boolean;
     datasource: ListValue;
+    refreshInterval: number;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     pageSize: number;
@@ -105,6 +106,7 @@ export interface DatagridPreviewProps {
     readOnly: boolean;
     advanced: boolean;
     datasource: {} | { type: string } | null;
+    refreshInterval: number | null;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     pageSize: number | null;
