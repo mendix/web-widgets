@@ -34,12 +34,11 @@
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
-    "pretest:e2e": "npm run release && node ../../../scripts/test/updateAtlas.js --latest-atlas && node ../../../scripts/test/updateDataWidgets.js",
-    "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress --remove-atlas-files",
-    "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
     "release": "pluggable-widgets-tools release:ts",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget"
+    "update-changelog": "rui-update-changelog-widget",
+    "e2e": "run-e2e ci",
+    "e2edev": "run-e2e dev --with-preps"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
@@ -59,6 +58,7 @@
     "@types/react-test-renderer": "<18.0.0",
     "@types/testing-library__jest-dom": "^5.14.1",
     "@types/testing-library__react-hooks": "^3.4.0",
+    "@web-widgets/run-e2e": "workspace:*",
     "eslint": "^7.20.0",
     "mendix": "^9.19.55544",
     "react": "~17.0.2",

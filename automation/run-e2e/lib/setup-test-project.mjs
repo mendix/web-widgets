@@ -76,7 +76,8 @@ async function updateAtlas() {
         "tests/testProject/themesource/atlas_ui_resources",
         "tests/testProject/themesource/atlas_core",
         "tests/testProject/themesource/atlas_nativemobile_content",
-        "tests/testProject/themesource/atlas_web_content"
+        "tests/testProject/themesource/atlas_web_content",
+        "tests/testProject/themesource/datawidgets"
     );
 
     const releasesResponse = await fetch("https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest");
