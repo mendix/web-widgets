@@ -1,4 +1,4 @@
-import { TimelineContainerProps } from "../../typings/TimelineProps";
+import { GroupByKeyEnum, GroupByMonthOptionsEnum, TimelineContainerProps } from "../../typings/TimelineProps";
 
 export type GroupHeaderConfig = Pick<
     TimelineContainerProps,
@@ -7,4 +7,12 @@ export type GroupHeaderConfig = Pick<
 
 export function getHeaderOption({ groupByKey, groupByDayOptions, groupByMonthOptions }: GroupHeaderConfig) {
     return groupByKey === "day" ? groupByDayOptions : groupByKey === "month" ? groupByMonthOptions : "year";
+}
+
+export function getGroupByMethodForCustomMode(groupByKey: GroupByKeyEnum): GroupByMonthOptionsEnum | GroupByKeyEnum {
+    if (groupByKey === "month") {
+        return "monthYear";
+    }
+
+    return groupByKey;
 }

@@ -3,7 +3,7 @@ import { TimelineContainerProps } from "../typings/TimelineProps";
 import "./ui/Timeline.scss";
 import { ActionValue, WebIcon } from "mendix";
 import TimelineComponent, { getGroupHeaderByType } from "./components/TimelineComponent";
-import { getHeaderOption } from "./utils/utils";
+import { getGroupByMethodForCustomMode, getHeaderOption } from "./utils/utils";
 
 export interface BasicItemType {
     icon?: WebIcon;
@@ -44,7 +44,11 @@ export default function Timeline(props: TimelineContainerProps): ReactElement {
                     action: props.onClick?.get(item)
                 };
             } else {
-                groupKey = getGroupHeaderByType(groupAttribute?.formatter, props.groupByKey, date);
+                groupKey = getGroupHeaderByType(
+                    groupAttribute?.formatter,
+                    getGroupByMethodForCustomMode(props.groupByKey),
+                    date
+                );
                 constructedItem = {
                     icon: props.customIcon?.get(item),
                     groupHeader: props.customGroupHeader?.get(item),
