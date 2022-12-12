@@ -63,6 +63,27 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      # This step is meant to update pnpm-lock.yaml file on Dependabot
+      # pull requests. Right now dependabot not work fine with monorepos
+      # so we have to do extra work to automatically update lock file.
+      # This step is part of "check" job, but could be part of any other job.
+      # We put it here just because previous `Install dependencies` step is just
+      # first "install" in this workflow.
+      # The idea of this step - if install fails, try to fix lock file, commit and
+      # push changes.
+      # NOTE: we use magic string ([dependabot skip]) to allow branch rebase,
+      # read more at link below
+      # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
+      - name: Update pnpm-lock.yaml on Dependabot pull request
+        if: ${{ failure() && github.actor == 'dependabot[bot]' }}
+        # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+        run: |
+          pnpm install --no-frozen-lockfile
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add pnpm-lock.yaml
+          git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
+          git push
       - name: Lint code
         run: pnpm run lint ${{ needs.setup-options.outputs.since-flag }}
       - name: Run unit tests
