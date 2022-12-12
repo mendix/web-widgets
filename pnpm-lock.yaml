@@ -527,7 +527,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      '@zxing/library': ~0.19.1
+      '@zxing/library': ~0.18.4
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -538,7 +538,7 @@ importers:
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@zxing/library': 0.19.1
+      '@zxing/library': 0.18.6
       classnames: 2.3.2
     devDependencies:
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
@@ -6227,8 +6227,8 @@ packages:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
     dev: true
 
-  /@zxing/library/0.19.1:
-    resolution: {integrity: sha512-rKwvl3Uuqs8yf364iU9l3HDDaIx8yPv+CH6DbtQaQr67VdKLG22G1ukEp9fOdDefE6tpLtRAdMnTrgtpiaKAZw==}
+  /@zxing/library/0.18.6:
+    resolution: {integrity: sha512-bulZ9JHoLFd9W36pi+7e7DnEYNJhljYjZ1UTsKPOoLMU3qtC+REHITeCRNx40zTRJZx18W5TBRXt5pq2Uopjsw==}
     engines: {node: '>= 10.4.0'}
     dependencies:
       ts-custom-error: 3.2.2
