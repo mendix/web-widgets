@@ -4,21 +4,41 @@ import path from "node:path";
 import yaml from "yaml";
 
 // Dependabot config uses posix path, so normalize.
-const normalizePath = (pkgs, root) =>
-    pkgs.map(p => {
+function normalizePath(pkgs, root) {
+    return pkgs.map(p => {
         const pkgPath = path.relative(root, p.path);
         p.path = path.posix.resolve("/", pkgPath.split(path.sep).join(path.posix.sep));
         return p;
     });
+}
+
+function isWorkspaceDependency(localPackages, dependencyName, dependencyMeta) {
+    return localPackages.has(dependencyName) && dependencyMeta.version.startsWith("link");
+}
+
+function getWorkspaceDependencies(localPackages, pkg) {
+    const { dependencies = {}, devDependencies = {} } = pkg;
+
+    const filterWorkspaceDeps = ([dependencyName, dependencyMeta]) => {
+        return isWorkspaceDependency(localPackages, dependencyName, dependencyMeta) ? [dependencyName] : [];
+    };
+
+    const deps = Object.entries(dependencies).flatMap(filterWorkspaceDeps);
+
+    const devDeps = Object.entries(devDependencies).flatMap(filterWorkspaceDeps);
+
+    return [...deps, ...devDeps];
+}
 
 function main() {
     const root = execSync("git rev-parse --show-toplevel", { encoding: "utf-8" }).trim();
-    const listing = execSync("pnpm ls --recursive --json --depth -1", {
+    const listing = execSync("pnpm ls --recursive --json --depth 0", {
         encoding: "utf-8"
     }).trim();
 
     const packages = normalizePath(JSON.parse(listing !== "" ? listing : "[]"), root);
     packages.sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()));
+    const localPackages = new Set(packages.map(pkg => pkg.name));
 
     const dependabotConfig = {
         version: 2,
@@ -30,17 +50,23 @@ function main() {
                     interval: "weekly"
                 }
             },
-            ...packages.map(pkg => ({
-                "package-ecosystem": "npm",
-                directory: pkg.path,
-                schedule: { interval: "weekly" },
-                ignore: [
-                    // Disable updates for typescript as we will update it manually.
-                    { "dependency-name": "typescript" },
-                    // Disable major updates for all dependencies
-                    { "dependency-name": "*", "update-types": ["version-update:semver-major"] }
-                ]
-            }))
+            ...packages.map(pkg => {
+                const localDeps = getWorkspaceDependencies(localPackages, pkg);
+                return {
+                    "package-ecosystem": "npm",
+                    directory: pkg.path,
+                    schedule: { interval: "weekly" },
+                    ignore: [
+                        // Disable updates for typescript as we will update it manually.
+                        { "dependency-name": "typescript" },
+                        // We also ignore local dependencies as dependabot have errors when query this
+                        // packages in npm registry.
+                        ...localDeps.map(name => ({ "dependency-name": name })),
+                        // Disable major updates for all dependencies
+                        { "dependency-name": "*", "update-types": ["version-update:semver-major"] }
+                    ]
+                };
+            })
         ]
     };
 
