@@ -78,7 +78,7 @@ jobs:
         if: ${{ failure() && github.actor == 'dependabot[bot]' }}
         # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
         run: |
-          git checkout -t origin/${{ github.ref_name }}
+          git checkout -t origin/${{ github.head_ref }}
           pnpm install --no-frozen-lockfile
           git config user.name github-actions
           git config user.email github-actions@github.com
