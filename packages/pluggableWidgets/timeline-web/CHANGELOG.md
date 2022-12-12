@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.1.1] - 2022-12-12
+
 ### Fixed
 
 -   We fixed incorrect month grouping in custom visualization mode
