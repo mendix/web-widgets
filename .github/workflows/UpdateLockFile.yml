@@ -1,0 +1,53 @@
+name: Update lock file
+# The goal of this workflow is to update pnpm-lock.yaml file on Dependabot pull requests.
+# Right now dependabot not work fine with monorepos
+# so we have to do extra work to automatically update lock file.
+# NOTE: we use magic string ([dependabot skip]) to allow branch rebase,
+# read more at link below
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
+
+on:
+  pull_request:
+    branches:
+      - "dependabot/**"
+
+permissions:
+  pull-requests: write
+  actions: read
+  checks: read
+  contents: read
+  deployments: read
+  id-token: read
+  issues: read
+  discussions: read
+  packages: read
+  pages: read
+  repository-projects: read
+  security-events: read
+  statuses: read
+
+jobs:
+  update-lock-file:
+    name: Update lockfile, commit and push
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
+      - uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
+        with:
+          node-version-file: ".nvmrc"
+      - name: Fix lockfile and push to branch created by dependabot
+        # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+        run: |
+          git checkout -t origin/${{ github.head_ref }}
+          pnpm install --lockfile-only
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add pnpm-lock.yaml
+          git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
+          git push
+      
+
+
