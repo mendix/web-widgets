@@ -111,11 +111,6 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
               }
             : { position: "fixed", top: position?.top, left: position?.left };
 
-    if (position && popupRef.current) {
-        const rect = popupRef.current.getBoundingClientRect();
-        console.log("was dis", Math.max(rect.width, position.width));
-    }
-
     const PopupPortal = createPortal(
         <div className="widget-popupmenu-root">
             <div

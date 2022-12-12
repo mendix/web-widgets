@@ -3,10 +3,10 @@
 exports[`Popup menu renders popup menu 1`] = `
 <div
   className="popupmenu mx-popup-menu"
+  onClick={[Function]}
 >
   <div
     className="popupmenu-trigger"
-    onClick={[Function]}
   >
     <button>
       Trigger
@@ -16,26 +16,30 @@ exports[`Popup menu renders popup menu 1`] = `
     containerInfo={<body />}
   >
     <div
-      className="popupmenu-menu popupmenu-position-bottom"
-      style={
-        Object {
-          "left": undefined,
-          "position": "fixed",
-          "top": undefined,
-        }
-      }
+      className="widget-popupmenu-root"
     >
       <div
-        className="popupmenu-basic-item"
-        key="0"
-        onClick={[Function]}
+        className="popupmenu-menu popupmenu-position-bottom"
+        style={
+          Object {
+            "left": undefined,
+            "position": "fixed",
+            "top": undefined,
+          }
+        }
       >
-        Caption
+        <div
+          className="popupmenu-basic-item"
+          key="0"
+          onClick={[Function]}
+        >
+          Caption
+        </div>
+        <div
+          className="popupmenu-basic-divider"
+          key="1"
+        />
       </div>
-      <div
-        className="popupmenu-basic-divider"
-        key="1"
-      />
     </div>
   </Portal>
 </div>
