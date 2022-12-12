@@ -9,7 +9,7 @@ name: Update lock file
 on:
   pull_request:
     branches:
-      - "dependabot/**"
+      - "main"
 
 permissions:
   pull-requests: write
@@ -28,6 +28,7 @@ permissions:
 
 jobs:
   update-lock-file:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     name: Update lockfile, commit and push
     runs-on: ubuntu-latest
 
