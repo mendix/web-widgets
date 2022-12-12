@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from "react";
 
-function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.top < blockingRect.bottom &&
         srcRect.bottom >= blockingRect.bottom &&
@@ -8,17 +8,17 @@ function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRe
     );
 }
 
-function isElementBlockedBottom(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedBottom(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return srcRect.bottom > blockingRect.top && srcRect.top <= blockingRect.top && srcRect.y - srcRect.height > 0;
 }
 
-function isElementBlockedLeft(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedLeft(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.left < blockingRect.right && srcRect.right >= blockingRect.right && srcRect.left >= blockingRect.left
     );
 }
 
-function isElementBlockedRight(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedRight(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.right > blockingRect.left && srcRect.left <= blockingRect.left && srcRect.right <= blockingRect.right
     );
@@ -42,7 +42,6 @@ export function unBlockAbsoluteElementBottom(
     blockingElementRect: DOMRect
 ): void {
     if (isElementBlockedBottom(boundingRect, blockingElementRect)) {
-        element.style.top = "unset"; // Unset top defined in PopupMenu.scss
         element.style.bottom =
             getPixelValueAsNumber(element, "bottom") + blockingElementRect.top - boundingRect.bottom + "px";
     }
@@ -81,7 +80,7 @@ function isBehindRandomElementCheck(
     blockingElement: HTMLElement,
     excludeElements: HTMLElement[],
     excludeElementWithClass: string
-) {
+): boolean {
     return (
         blockingElement &&
         blockingElement !== element &&
@@ -239,14 +238,13 @@ export function moveAbsoluteElementOnScreen(
             getPixelValueAsNumber(element, "bottom") +
                 (boundingRect.y + boundingRect.height - dynamicWindow.document.documentElement.clientHeight)
         );
-        element.style.top = "unset"; // Unset top defined in PopupMenu.scss
         element.style.bottom = bottomValue + "px";
         boundingRect.y -= bottomValue;
     }
     return boundingRect;
 }
 
-export function handleOnClickOutsideElement(
+export function useHandleOnClickOutsideElement(
     ref: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
     handler: () => void
 ): void {
@@ -259,7 +257,6 @@ export function handleOnClickOutsideElement(
             } else if (!ref.current || ref.current.contains(event.target)) {
                 return;
             }
-            console.log("OUTSIDE");
 
             handler();
         };
