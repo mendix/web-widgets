@@ -119,21 +119,19 @@ jobs:
           # Limit memory to avoid out of memory issues
           NODE_OPTIONS: '--max-old-space-size=5120 --max_old_space_size=5120'
 
-  update-lock-file:
+  update-lockfile:
     # The goal of this job is to update pnpm-lock.yaml file on Dependabot pull requests.
     # Right now dependabot not work fine with monorepos
     # so we have to do extra work to automatically update lock file.
     # NOTE: we use magic string ([dependabot skip]) to allow branch rebase,
     # read more at link below
     # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
-    name: Update lockfile, commit and push
+    name: Update lockfile
     # failure - run job only if "check" or "harden-security" job failed
     if: >-
-      ${{
-        failure() &&
-        github.event_name == 'pull_request' &&
-        github.actor == 'dependabot[bot]'
-      }}
+      ${{ failure() &&
+          github.event_name == 'pull_request' &&
+          github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     needs: [check, harden-security]
 
