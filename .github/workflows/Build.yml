@@ -119,52 +119,37 @@ jobs:
           # Limit memory to avoid out of memory issues
           NODE_OPTIONS: '--max-old-space-size=5120 --max_old_space_size=5120'
 
-  update-lock-file:
+  update-lockfile:
     # The goal of this job is to update pnpm-lock.yaml file on Dependabot pull requests.
     # Right now dependabot not work fine with monorepos
     # so we have to do extra work to automatically update lock file.
     # NOTE: we use magic string ([dependabot skip]) to allow branch rebase,
     # read more at link below
     # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
-    name: Update lockfile, commit and push
+    name: Update lockfile
     # failure - run job only if "check" or "harden-security" job failed
-    if: >-
-      ${{
-        failure() &&
-        github.event_name == 'pull_request' &&
-        github.actor == 'dependabot[bot]'
-      }}
+    if: ${{ failure() && github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     needs: [check, harden-security]
 
-    permissions:
-      pull-requests: write
-      actions: read
-      checks: read
-      contents: read
-      deployments: read
-      id-token: read
-      issues: read
-      discussions: read
-      packages: read
-      pages: read
-      repository-projects: read
-      security-events: read
-      statuses: read
-
     steps:
       - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        with:
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT }}
       - uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
+        with:
+          version: ^7.13.4
       - uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
         with:
           node-version-file: ".nvmrc"
       - name: Fix lockfile and push to branch created by dependabot
         # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
         run: |
-          git checkout -t origin/${{ github.head_ref }}
           pnpm install --lockfile-only
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name ${{ secrets.GH_NAME }}
+          git config user.email ${{ secrets.GH_EMAIL }}
           git add pnpm-lock.yaml
           git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
           git push
