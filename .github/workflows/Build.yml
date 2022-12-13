@@ -128,7 +128,7 @@ jobs:
     # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
     name: Update lockfile
     # failure - run job only if "check" or "harden-security" job failed
-    if: ${{ failure() && github.event_name == 'pull_request' }}
+    if: ${{ failure() && github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     needs: [check, harden-security]
 
