@@ -9,6 +9,27 @@ describe("style-utils", () => {
             borderRadius: "20px"
         });
     });
+    it("converts properties with no space between props and names", () => {
+        const style = convertInlineCssToReactStyle("background-color:#FF00FF");
+
+        expect(style).toEqual({
+            backgroundColor: "#FF00FF"
+        });
+    });
+    it("converts properties with multiple spaces and newlines between props and names", () => {
+        const style = convertInlineCssToReactStyle("background-color \n\n : \n    #FF00FF");
+
+        expect(style).toEqual({
+            backgroundColor: "#FF00FF"
+        });
+    });
+    it("converts properties with colons inside", () => {
+        const style = convertInlineCssToReactStyle("background-image: url(http://localhost:8080/img.png)");
+
+        expect(style).toEqual({
+            backgroundImage: "url(http://localhost:8080/img.png)"
+        });
+    });
     it("ignores broken properties", () => {
         const style = convertInlineCssToReactStyle("background-color: red; ; foo-bar");
 
