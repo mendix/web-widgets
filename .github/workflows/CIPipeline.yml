@@ -27,6 +27,6 @@ jobs:
     secrets: inherit
 
   ci:
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     needs: [harden-security]
     uses: ./.github/workflows/CIJobs.yml
