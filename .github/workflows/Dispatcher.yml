@@ -20,12 +20,13 @@ jobs:
       - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
       - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
 
-  run-dependabot-workflow:
+  bot:
     if: ${{ startsWith(github.head_ref, 'dependabot/') }}
     needs: [harden-security]
     uses: ./.github/workflows/Dependabot.yml
+    secrets: inherit
 
-  run-main-workflow:
+  main:
     if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
     needs: [harden-security]
     uses: ./.github/workflows/Main.yml
