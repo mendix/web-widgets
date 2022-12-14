@@ -28,6 +28,7 @@ jobs:
   lockfile:
     name: Check lockfile
     runs-on: ubuntu-latest
+    if: ${{ env.is_dependabot }}
 
     outputs:
       can_run: ${{ !env.is_dependabot || steps.lockfile_status.output.is_updated }}
