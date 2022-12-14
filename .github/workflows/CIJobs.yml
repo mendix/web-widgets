@@ -8,7 +8,7 @@ env:
 
 jobs:
   check:
-    name: Code quality check
+    name: Run code quality check
     runs-on: ubuntu-latest
 
     steps:
