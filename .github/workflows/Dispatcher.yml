@@ -11,11 +11,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # is_dependabot: ${{ github.actor == 'dependabot[bot]' }}
-  is_dependabot: ${{ startsWith(github.head_ref, 'dependabot/') }}
-  is_fork: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != 'mendix/web-widgets' }}
-
 jobs:
   harden-security:
     name: Check SHA in GH Actions
@@ -25,49 +20,14 @@ jobs:
       - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
       - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
 
-  lockfile:
-    name: Check lockfile
-    runs-on: ubuntu-latest
+  run-dependabot-workflow:
     if: ${{ startsWith(github.head_ref, 'dependabot/') }}
+    needs: [harden-security]
+    uses: ./.github/workflows/Dependabot.yml
 
-    outputs:
-      can_run: ${{ !env.is_dependabot || steps.lockfile_status.output.is_updated }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-        with:
-          fetch-depth: 1
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GH_PAT }}
-      - name: Get diff
-        run: echo "GIT_DIFF=$(git diff --name-only origin/main pnpm-lock.yaml)" >> $GITHUB_ENV
-      - name: Get lockfile status
-        id: lockfile_status
-        run: echo "is_updated=${{ env.GIT_DIFF == 'pnpm-lock.yaml' }}" >> $GITHUB_OUTPUT
-      - if: ${{ !steps.lockfile_status.output.is_updated }}
-        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
-        with:
-          version: ^7.13.4
-      - uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
-        with:
-          node-version-file: ".nvmrc"
-      - name: Fix lockfile and push to branch created by dependabot
-        # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
-        run: |
-          pnpm install --lockfile-only
-          git config user.name ${{ secrets.GH_NAME }}
-          git config user.email ${{ secrets.GH_EMAIL }}
-          git add pnpm-lock.yaml
-          git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
-          git push
-
-  tests-workflow:
-    name: Run automated e2e
-    runs-on: ubuntu-latest
-    needs: [lockfile]
-    if: ${{ needs.lockfile.outputs.can_run }}
-    steps:
-      - run: env 
+  run-main-workflow:
+    if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
+    needs: [harden-security]
+    uses: ./.github/workflows/Main.yml
 
 

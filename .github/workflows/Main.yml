@@ -1,0 +1,16 @@
+name: Main workflow
+
+on:
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  since_flag: ${{ github.event_name == 'pull_request' && '...[origin/${{ github.base_ref }}]' || '' }}
+
+jobs:
+  simple:
+    steps:
+      - run: env
