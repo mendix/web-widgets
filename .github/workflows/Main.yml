@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  since_flag: ${{ github.event_name == 'pull_request' && '...[origin/${{ github.base_ref }}]' || '' }}
+  since_flag: ${{ github.event_name == 'pull_request' && format('...[origin/{0}]', github.base_ref) || '' }}
 
 jobs:
   simple:

@@ -78,7 +78,7 @@
     "@react-google-maps/api": "~2.13.1",
     "classnames": "^2.3.2",
     "deep-equal": "^2.1.0",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.9.3",
     "react-leaflet": "^2.6.3"
   }
 }
