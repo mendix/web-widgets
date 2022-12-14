@@ -39,9 +39,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     const popupRef = useRef<HTMLDivElement>(null);
     const position = usePositionObserver(triggerRef.current, visibility);
 
-    if (!preview) {
-        useHandleOnClickOutsideElement(triggerRef, () => setVisibility(false));
-    }
+    useHandleOnClickOutsideElement(triggerRef, () => setVisibility(false));
 
     const handleOnClickTrigger = useCallback(
         (e: SyntheticEvent<HTMLElement>): void => {
@@ -70,7 +68,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     const onHover =
         props.trigger === "onhover" && !preview
             ? {
-                  onMouseEnter: handleOnHoverTrigger
+                  onPointerEnter: handleOnHoverTrigger
               }
             : {};
     const onClick =
