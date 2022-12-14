@@ -33,7 +33,10 @@ jobs:
           node-version-file: ".nvmrc"
       - if: ${{ steps.lockfile_status.outputs.updated == 'no' }}
         name: Fix lockfile and push to branch created by dependabot
-        # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+        # NOTE: Commit example https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+        # NOTE: Github use separate secrets store for dependabot
+        # So, secrets should be added explicitly
+        # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-encrypted-secrets-for-dependabot
         run: |
           pnpm install --lockfile-only
           git config user.name "${{ secrets.GH_NAME }}"
