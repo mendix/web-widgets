@@ -36,8 +36,8 @@ jobs:
         # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
         run: |
           pnpm install --lockfile-only
-          git config user.name ${{ secrets.GH_NAME }}
-          git config user.email ${{ secrets.GH_EMAIL }}
+          git config user.name "${{ secrets.GH_NAME }}"
+          git config user.email "${{ secrets.GH_EMAIL }}"
           git add pnpm-lock.yaml
           git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
           git push
