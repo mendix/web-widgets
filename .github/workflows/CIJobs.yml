@@ -1,36 +1,15 @@
-name: Build packages
+name: CI Jobs
 
 on:
   workflow_call:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+env:
+  since_flag: ${{ github.event_name == 'pull_request' && format('--filter "...[origin/{0}]"', github.base_ref) || '' }}
 
 jobs:
-  harden-security:
-    name: Check SHA in GH Actions
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
-
-  setup-options:
-    name: Setup options for jobs and steps
-    runs-on: ubuntu-latest
-    outputs:
-      since-flag: ${{ steps.set-since-flag.outputs.SINCE_FLAG }}
-
-    steps:
-      - if: github.event_name == 'pull_request'
-        id: set-since-flag
-        run: echo "SINCE_FLAG=--filter '...[origin/${{ github.base_ref }}]'" >> $GITHUB_OUTPUT
-
   check:
     name: Code quality check
     runs-on: ubuntu-latest
-    needs: [setup-options]
 
     steps:
       - name: Checkout
@@ -61,14 +40,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Lint code
-        run: pnpm run lint ${{ needs.setup-options.outputs.since-flag }}
+        run: pnpm run lint ${{ env.since_flag }}
       - name: Run unit tests
-        run: pnpm run test ${{ needs.setup-options.outputs.since-flag }}
+        run: pnpm run test ${{ env.since_flag }}
 
   build:
     name: Run ${{ matrix.target }} task on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: [setup-options, check]
+    needs: [check]
 
     strategy:
       matrix:
@@ -111,42 +90,77 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run ${{ matrix.target }} task 
-        run: pnpm run ${{ matrix.target }} --concurrency=${{ env.task_concurrency }} ${{ needs.setup-options.outputs.since-flag }}
+        run: pnpm run ${{ matrix.target }} --concurrency=${{ env.task_concurrency }} ${{ env.since_flag }}
         env:
           # Limit memory to avoid out of memory issues
           NODE_OPTIONS: '--max-old-space-size=5120 --max_old_space_size=5120'
 
-  update-lockfile:
-    # The goal of this job is to update pnpm-lock.yaml file on Dependabot pull requests.
-    # Right now dependabot not work fine with monorepos
-    # so we have to do extra work to automatically update lock file.
-    # NOTE: we use magic string ([dependabot skip]) to allow branch rebase,
-    # read more at link below
-    # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/managing-pull-requests-for-dependency-updates#allowing-dependabot-to-rebase-and-force-push-over-extra-commits
-    name: Update lockfile
-    # failure - run job only if "check" or "harden-security" job failed
-    if: ${{ failure() && github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' }}
+  e2e:
+    name: Run automated end-to-end tests
+    # Run job only if it's push to main or PR from web-widgets, don't run for fork PRs
+    if: >-
+      ${{ github.event_name == 'push' ||
+          github.event_name == 'pull_request' && 
+          github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
     runs-on: ubuntu-latest
-    needs: [check, harden-security]
+
+    permissions:
+      packages: read
+      contents: read
+
+    strategy:
+      # when one test fails, DO NOT cancel the other
+      fail-fast: false
+      matrix:
+        # run 3 copies of the current job in parallel
+        index: [0, 1, 2]
 
     steps:
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
         with:
-          fetch-depth: 1
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GH_PAT }}
-      - uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
         with:
           version: ^7.13.4
-      - uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
+      - name: Setup node
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
         with:
           node-version-file: ".nvmrc"
-      - name: Fix lockfile and push to branch created by dependabot
-        # https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+          cache: "pnpm"
+      - name: Get sha of main
+        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
+      - name: Restore Turbo Cache
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
+        with:
+          path: node_modules/.cache/turbo
+          key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
+          restore-keys: |
+            turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
+      - name: Install dependencies
+        run: pnpm install
+      - name: "Executing E2E tests"
+        run: >-
+          node 
+          ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
+          --chunks 3
+          --index ${{ matrix.index }}
+          --event-name ${{ github.event_name }}
+      - name: "Fixing files permissions"
+        if: failure()
         run: |
-          pnpm install --lockfile-only
-          git config user.name ${{ secrets.GH_NAME }}
-          git config user.email ${{ secrets.GH_EMAIL }}
-          git add pnpm-lock.yaml
-          git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
-          git push
+          sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
+          sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
+      - name: "Archive test screenshot diff results"
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # v3.1.1
+        if: failure()
+        with:
+          name: test-screenshot-results
+          path: |
+            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/diff/**/*.png
+            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/TESTFAIL_*.png
+            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
+            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
+            ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
+          if-no-files-found: error
