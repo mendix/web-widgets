@@ -30,5 +30,3 @@ jobs:
     if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
     needs: [harden-security]
     uses: ./.github/workflows/Main.yml
-
-
