@@ -42,7 +42,7 @@ jobs:
           git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
           git push
 
-  run-main-workflow:
+  ci-jobs:
     if: ${{ needs.lockfile.outputs.updated == 'yes' }}
     needs: [lockfile]
-    uses: ./.github/workflows/Main.yml
+    uses: ./.github/workflows/CIJobs.yml

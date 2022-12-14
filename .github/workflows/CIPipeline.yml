@@ -1,4 +1,4 @@
-name: Workflow dispatcher
+name: Main CI Pipeline
 
 on:
   push:
@@ -21,12 +21,12 @@ jobs:
       - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
 
   bot:
-    if: ${{ startsWith(github.head_ref, 'dependabot/') }}
+    if: ${{ github.actor == 'dependabot[bot]' }}
     needs: [harden-security]
     uses: ./.github/workflows/Dependabot.yml
     secrets: inherit
 
-  main:
-    if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
+  ci:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     needs: [harden-security]
-    uses: ./.github/workflows/Main.yml
+    uses: ./.github/workflows/CIJobs.yml
