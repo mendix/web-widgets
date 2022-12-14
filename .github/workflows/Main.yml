@@ -12,5 +12,6 @@ env:
 
 jobs:
   simple:
+    runs-on: [ubuntu-latest]
     steps:
       - run: env
