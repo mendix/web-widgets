@@ -52,7 +52,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
             <Menu
                 {...props}
-                triggerRef={triggerRef}
+                anchorElement={triggerRef.current}
                 visibility={visibility}
                 setVisibility={(visibility: boolean) => {
                     setVisibility(visibility);

@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { useEffect } from "react";
 
 function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
@@ -244,19 +244,19 @@ export function moveAbsoluteElementOnScreen(
     return boundingRect;
 }
 
-export function useHandleOnClickOutsideElement(ref: RefObject<HTMLDivElement>, handler: () => void): void {
+export function useHandleOnClickOutsideElement(ref: HTMLElement | null, handler: () => void): void {
     useEffect(() => {
         const listener = (event: MouseEvent & { target: Node | null }): void => {
-            if (!ref.current || ref.current.contains(event.target)) {
+            if (!ref || ref.contains(event.target)) {
                 return;
             }
             handler();
         };
-        ref.current?.ownerDocument.addEventListener("mousedown", listener);
-        ref.current?.ownerDocument.addEventListener("touchstart", listener);
+        ref?.ownerDocument.addEventListener("mousedown", listener);
+        ref?.ownerDocument.addEventListener("touchstart", listener);
         return () => {
-            ref.current?.ownerDocument.removeEventListener("mousedown", listener);
-            ref.current?.ownerDocument.removeEventListener("touchstart", listener);
+            ref?.ownerDocument.removeEventListener("mousedown", listener);
+            ref?.ownerDocument.removeEventListener("touchstart", listener);
         };
     }, [ref, handler]);
 }

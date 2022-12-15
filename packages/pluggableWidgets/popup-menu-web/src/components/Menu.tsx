@@ -11,58 +11,37 @@ import {
     unBlockAbsoluteElementRight,
     unBlockAbsoluteElementTop
 } from "../utils/document";
-import { ReactElement, createElement, useCallback, useEffect, useRef, CSSProperties, RefObject } from "react";
+import { ReactElement, createElement, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
 import { ActionValue } from "mendix";
 import { PopupMenuContainerProps, PositionEnum, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
+import { useMenuPlacement } from "src/utils/useMenuPlacement";
 
 export interface MenuProps extends PopupMenuContainerProps {
-    triggerRef: RefObject<HTMLDivElement>;
+    anchorElement: HTMLDivElement | null;
     visibility: boolean;
     setVisibility: (visibility: boolean) => void;
 }
 export function Menu(props: MenuProps): ReactElement {
     const popupRef = useRef<HTMLDivElement>(null);
-    const triggerRef = props.triggerRef;
-    const visibility = props.visibility;
-    const triggerPosition = usePositionObserver(triggerRef.current, visibility);
-
+    const anchorElement = props.anchorElement;
+    const popupStyles = useMenuPlacement(anchorElement, props.position);
     const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
         props.setVisibility(false);
         executeAction(itemAction);
     }, []);
 
-    useHandleOnClickOutsideElement(triggerRef, () => props.setVisibility(false));
+    useHandleOnClickOutsideElement(anchorElement, () => props.setVisibility(false));
 
     useEffect(() => {
-        if (popupRef.current && triggerRef.current) {
-            popupRef.current.style.display = visibility ? "flex" : "none";
-            if (visibility) {
+        if (popupRef.current && anchorElement) {
+            popupRef.current.style.display = props.visibility ? "flex" : "none";
+            if (props.visibility) {
                 correctPosition(popupRef.current, props.position);
             }
         }
-    }, [props.position, visibility, triggerRef]);
-
-    const popupStyles: CSSProperties =
-        props.position === "bottom" && triggerPosition
-            ? {
-                  position: "fixed",
-                  top: triggerPosition.height + triggerPosition.top,
-                  left: triggerPosition.left,
-                  transform: "none",
-                  bottom: "initial"
-              }
-            : props.position === "right" && triggerPosition
-            ? {
-                  position: "fixed",
-                  top: triggerPosition.top,
-                  left: triggerPosition.left + triggerPosition.width,
-                  transform: "none",
-                  bottom: "initial"
-              }
-            : { position: "fixed", top: triggerPosition?.top, left: triggerPosition?.left };
+    }, [props.position, anchorElement, props.visibility]);
 
     const menuOptions = createMenuOptions(props, handleOnClickItem);
 
