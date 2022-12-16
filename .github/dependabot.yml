@@ -8,6 +8,15 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: npm
+    directory: /automation/scripts
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: typescript
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+  - package-ecosystem: npm
     directory: /packages/shared/pluggable-widgets-commons
     schedule:
       interval: weekly
@@ -31,6 +40,7 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -44,20 +54,13 @@ updates:
         update-types:
           - version-update:semver-major
   - package-ecosystem: npm
-    directory: /automation/scripts
-    schedule:
-      interval: weekly
-    ignore:
-      - dependency-name: typescript
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
-  - package-ecosystem: npm
     directory: /packages/pluggableWidgets/accessibility-helper-web
     schedule:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -67,6 +70,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -76,6 +81,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -85,6 +93,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -106,6 +116,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -115,6 +128,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -124,6 +139,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -133,6 +151,7 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -142,6 +161,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -151,6 +172,15 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: area-chart-web
+      - dependency-name: bar-chart-web
+      - dependency-name: bubble-chart-web
+      - dependency-name: column-chart-web
+      - dependency-name: heatmap-chart-web
+      - dependency-name: line-chart-web
+      - dependency-name: pie-doughnut-chart-web
+      - dependency-name: time-series-chart-web
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -160,6 +190,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -169,6 +201,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -178,6 +213,15 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: datagrid-date-filter-web
+      - dependency-name: datagrid-dropdown-filter-web
+      - dependency-name: datagrid-number-filter-web
+      - dependency-name: datagrid-text-filter-web
+      - dependency-name: datagrid-web
+      - dependency-name: dropdown-sort-web
+      - dependency-name: gallery-web
+      - dependency-name: tree-node-web
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -187,6 +231,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -196,6 +243,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -205,6 +255,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -214,6 +267,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -223,6 +279,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -232,6 +291,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -241,6 +303,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -250,6 +314,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -259,6 +326,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -268,6 +338,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -277,6 +349,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -286,6 +360,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -295,6 +371,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -304,6 +383,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -313,6 +394,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -322,6 +406,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -331,6 +417,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -340,6 +428,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -349,6 +439,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -358,6 +450,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -367,6 +461,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -376,6 +472,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -385,6 +483,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -394,6 +494,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/shared-charts"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -403,6 +506,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -412,6 +517,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -421,6 +528,9 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
+      - dependency-name: "@web-widgets/run-e2e"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -430,6 +540,8 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/pluggable-widgets-commons"
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
@@ -439,6 +551,7 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: typescript
+      - dependency-name: "@mendix/release-utils-internal"
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
