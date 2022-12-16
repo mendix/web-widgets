@@ -1,0 +1,35 @@
+name: Run build on event
+# This workflow is triggered for push and pull_request events.
+# After event occurs, we trigger one of the workflows,
+# either build or dependabot.
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  harden-security:
+    name: Check SHA in GH Actions
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
+
+  bot:
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    needs: [harden-security]
+    uses: ./.github/workflows/Dependabot.yml
+    secrets: inherit
+
+  build:
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    needs: [harden-security]
+    uses: ./.github/workflows/BuildJobs.yml
