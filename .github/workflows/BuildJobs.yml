@@ -1,4 +1,7 @@
-name: CI Jobs
+name: Run build jobs
+# This workflow is main place for build jobs.
+# If you need add job that will run as part of github check
+# you need add it in this file.
 
 on:
   workflow_call:
@@ -31,8 +34,8 @@ jobs:
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
         with:
           path: node_modules/.cache/turbo
-          # NOTE: We create new cache record for every new github.sha 
-          # but fallback to latest entry 
+          # NOTE: We create new cache record for every new commit on main
+          # but fallback to latest entry
           key: turbo-cache-${{ runner.os }}-lint-test-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-lint-test
@@ -76,8 +79,8 @@ jobs:
           path: node_modules/.cache/turbo
           # NOTE: build & release tasks should have their own cache
           # this is why we include matrix.target param in key
-          # NOTE: We create new cache record for every new github.sha 
-          # but fallback to latest entry 
+          # NOTE: We create new cache record for every new commit on main
+          # but fallback to latest entry
           key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ env.main_sha }}
           restore-keys: |
             turbo-cache-${{ runner.os }}-${{ matrix.target }}

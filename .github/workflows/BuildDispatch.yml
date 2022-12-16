@@ -1,4 +1,7 @@
-name: Main CI Pipeline
+name: Run build on event
+# This workflow is triggered for push and pull_request events.
+# After event occurs, we trigger one of the workflows,
+# either build or dependabot.
 
 on:
   push:
@@ -26,7 +29,7 @@ jobs:
     uses: ./.github/workflows/Dependabot.yml
     secrets: inherit
 
-  ci:
+  build:
     if: ${{ github.actor != 'dependabot[bot]' }}
     needs: [harden-security]
-    uses: ./.github/workflows/CIJobs.yml
+    uses: ./.github/workflows/BuildJobs.yml

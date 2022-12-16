@@ -1,4 +1,9 @@
 name: Workflow for dependabot pull requests
+# This workflow is meant to handle Dependabot RPs.
+# Main problem right now is that dependabot don't
+# update lockfile (as we using monorepo).
+# To handle this case we doing it ourselves.
+# If lockfile is updated we just trigger build jobs.
 
 on:
   workflow_call:
@@ -45,7 +50,7 @@ jobs:
           git commit -m "build: update pnpm-lock.yaml [dependabot skip]"
           git push
 
-  ci-jobs:
+  build:
     if: ${{ needs.lockfile.outputs.updated == 'yes' }}
     needs: [lockfile]
-    uses: ./.github/workflows/CIJobs.yml
+    uses: ./.github/workflows/BuildJobs.yml
