@@ -22,5 +22,6 @@ export function useMenuPlacement(anchorElement: HTMLElement | null, position: Po
                   bottom: "initial"
               }
             : { position: "fixed", top: triggerPosition?.top, left: triggerPosition?.left };
+
     return popupStyles;
 }

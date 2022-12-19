@@ -12,35 +12,49 @@ exports[`Popup menu renders popup menu 1`] = `
       Trigger
     </button>
   </div>
-  <Portal
-    containerInfo={<body />}
-  >
-    <div
-      className="widget-popupmenu-root"
-    >
-      <div
-        className="popupmenu-menu popupmenu-position-bottom popup-portal"
-        style={
-          Object {
-            "left": undefined,
-            "position": "fixed",
-            "top": undefined,
-          }
-        }
-      >
-        <div
-          className="popupmenu-basic-item"
-          key="0"
-          onClick={[Function]}
-        >
-          Caption
-        </div>
-        <div
-          className="popupmenu-basic-divider"
-          key="1"
-        />
-      </div>
-    </div>
-  </Portal>
+  <Menu
+    advancedMode={false}
+    anchorElement={null}
+    basicItems={
+      Array [
+        Object {
+          "caption": Object {
+            "status": "available",
+            "value": "Caption",
+          },
+          "itemType": "item",
+          "styleClass": "defaultStyle",
+        },
+        Object {
+          "caption": Object {
+            "status": "available",
+            "value": "Caption",
+          },
+          "itemType": "divider",
+          "styleClass": "defaultStyle",
+        },
+      ]
+    }
+    class="mx-popup-menu"
+    customItems={
+      Array [
+        Object {
+          "content": <div />,
+        },
+      ]
+    }
+    menuToggle={false}
+    menuTrigger={
+      <button>
+        Trigger
+      </button>
+    }
+    name="popup-menu"
+    position="bottom"
+    setVisibility={[Function]}
+    tabIndex={-1}
+    trigger="onclick"
+    visibility={false}
+  />
 </div>
 `;

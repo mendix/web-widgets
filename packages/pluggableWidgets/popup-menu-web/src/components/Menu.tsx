@@ -16,7 +16,7 @@ import { createPortal } from "react-dom";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue } from "mendix";
 import { PopupMenuContainerProps, PositionEnum, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
-import { useMenuPlacement } from "src/utils/useMenuPlacement";
+import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 export interface MenuProps extends PopupMenuContainerProps {
     anchorElement: HTMLDivElement | null;
@@ -44,7 +44,6 @@ export function Menu(props: MenuProps): ReactElement {
     }, [props.position, anchorElement, props.visibility]);
 
     const menuOptions = createMenuOptions(props, handleOnClickItem);
-
     return createPortal(
         <div className="widget-popupmenu-root">
             <div
