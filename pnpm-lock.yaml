@@ -1406,7 +1406,7 @@ importers:
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
       '@mendix/release-utils-internal': workspace:*
-      '@react-google-maps/api': ~2.13.1
+      '@react-google-maps/api': ~2.17.1
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1438,7 +1438,7 @@ importers:
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@react-google-maps/api': 2.13.1_sfoxds7t5ydpegc3knd667wn6m
+      '@react-google-maps/api': 2.17.1_sfoxds7t5ydpegc3knd667wn6m
       classnames: 2.3.2
       deep-equal: 2.1.0
       leaflet: 1.9.2
@@ -4412,14 +4412,14 @@ packages:
     resolution: {integrity: sha512-b9KZ+7j1IUciRA+QdgKm4dPhqDy/IkNJNQIIOZMkri29TfytsRTTT938UgJWR9rywMgFkU4cnJcH4HholDLoSQ==}
     dev: true
 
-  /@googlemaps/js-api-loader/1.14.3:
-    resolution: {integrity: sha512-6iIb+qpGgQpgIHmIFO44WhE1rDUxPVHuezNFL30wRJnkvhwFm94tD291UvNg9L05hLDSoL16jd0lbqqmdy4C5g==}
+  /@googlemaps/js-api-loader/1.15.1:
+    resolution: {integrity: sha512-AsnEgNsB7S/VdrHGEQUaUM2e5tmjFGKBAfzR/AqO8O7TPq/jQGvoRw5liPBw4EMF38RDsHmKDV89q/X+qiUREQ==}
     dependencies:
       fast-deep-equal: 3.1.3
     dev: false
 
-  /@googlemaps/markerclusterer/2.0.10:
-    resolution: {integrity: sha512-3UdPE2XH+DkFRTWIxEOcKdTqb3O9dMMxBn5jlhSae//uBGPqv9iHv9dz4l6/0Mwt7YcYmkwSpQZMc61WvZI/Qg==}
+  /@googlemaps/markerclusterer/2.0.13:
+    resolution: {integrity: sha512-302GjQ9gsHOK/ef6hif+rJDv+AB3THst02iDCbXH2PS9GFwb/5yuytaLpuzJiqGNG+k2zvTAWTsGY/fQN5DZ7w==}
     dependencies:
       fast-deep-equal: 3.1.3
       supercluster: 7.1.5
@@ -5082,28 +5082,28 @@ packages:
       prettier: 2.7.1
     dev: true
 
-  /@react-google-maps/api/2.13.1_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-5P8H3GJpCy9th5u6OUzw36WD5NUAl3hDmcPDaVvowRb9Cn2Zf7b1wLCZ4If+k+gX4o2apsSjD+JtWiRogLOMdQ==}
+  /@react-google-maps/api/2.17.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-XesubSCFfyMtilqljF2kU5zdPru4nks4I4O0HH6H2xOw51wQXs26btJKlRac2/jbJ/gIiGZ/l14q0xaL/6OaBg==}
     peerDependencies:
       react: ^16.8 || ^17 || ^18
       react-dom: ^16.8 || ^17 || ^18
     dependencies:
-      '@googlemaps/js-api-loader': 1.14.3
-      '@googlemaps/markerclusterer': 2.0.10
-      '@react-google-maps/infobox': 2.11.8
-      '@react-google-maps/marker-clusterer': 2.11.8
-      '@types/google.maps': 3.49.2
+      '@googlemaps/js-api-loader': 1.15.1
+      '@googlemaps/markerclusterer': 2.0.13
+      '@react-google-maps/infobox': 2.16.0
+      '@react-google-maps/marker-clusterer': 2.16.1
+      '@types/google.maps': 3.50.5
       invariant: 2.2.4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /@react-google-maps/infobox/2.11.8:
-    resolution: {integrity: sha512-15y3dniys1Op5HREyLwiJI2pAdeeHRJT5b4WPrS+vyL5KF6iXK1P3y/9bXtnxHiKe2v6iPreaEhR3VgvfRA50Q==}
+  /@react-google-maps/infobox/2.16.0:
+    resolution: {integrity: sha512-ZojiMS25388RcUHQPycUAerSqdHDom+3dHczVcXHdT/i8fka3O8InkHxXwMhvBoM143ips7mv2BPaYOAJ5f4Nw==}
     dev: false
 
-  /@react-google-maps/marker-clusterer/2.11.8:
-    resolution: {integrity: sha512-OEcdbTXEgPwdpGvVuSrhIhjcZPhlzPz2TvaKCBLraf1PKiDyLOPhlTVRlbIziLiu0xN89pJcill1w9UVIVFF+Q==}
+  /@react-google-maps/marker-clusterer/2.16.1:
+    resolution: {integrity: sha512-jOuyqzWLeXvQcoAu6TCVWHAuko+sDt0JjawNHBGqUNLywMtTCvYP0L0PiqJZOUCUeRYGdUy0AKxQ+30vAkvwag==}
     dev: false
 
   /@restart/hooks/0.4.7_react@17.0.2:
@@ -5554,8 +5554,8 @@ packages:
       '@types/node': 18.8.3
     dev: true
 
-  /@types/google.maps/3.49.2:
-    resolution: {integrity: sha512-ZO1qWciukqED9qcUNW7OaPXWnTlT+tO3WcYkmudZyQW2BqD7TlMFRrdqSCoqfwKhERCwBA5A/YZt/g5A3BqgLQ==}
+  /@types/google.maps/3.50.5:
+    resolution: {integrity: sha512-RuZf1MJtctGlpW+Gd4a/eGtAufUDjMf+eyN1l+B3fbe2YLScJbg8KEljJfb+6vnSPFAeM1/48geVIEg3vqOkxw==}
     dev: false
 
   /@types/googlemaps/3.43.3:
