@@ -13,13 +13,11 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "scripts": {
-    "lint": "eslint . --ext .mjs",
-    "format": "prettier --write .",
-    "update-dependabot-config": "node generate-dependabot-config.mjs"
+    "lint": "echo 'Lint disabled for now, please update package scripts'",
+    "lint:enableme": "eslint . --ext .mjs",
+    "format": "prettier --write ."
   },
-  "dependencies": {
-    "yaml": "^2.1.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^7.20.0",
     "prettier": "^2.5.1"
