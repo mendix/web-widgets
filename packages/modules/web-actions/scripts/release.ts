@@ -6,7 +6,7 @@ import {
     removeDist,
     runModuleSteps,
     writeVersionAndLicenseToJSActions
-} from "@mendix/release-utils-internal/steps";
+} from "@mendix-internal/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
