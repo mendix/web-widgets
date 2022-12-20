@@ -9,11 +9,7 @@ import { createDeploymentBundle, prepareImage, startCypress, startRuntime } from
 import { setupTestProject } from "./setup-test-project.mjs";
 import { updateWidget } from "./utils.mjs";
 
-const MX_VERSION_MAP_URL =
-    // Remove after merge
-    "https://raw.githubusercontent.com/mendix/widgets-resources/master/configs/e2e/mendix-versions.json";
-// Uncomment after merge
-// "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
+const MX_VERSION_MAP_URL = "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
 
 const { ls, cat } = sh;
 

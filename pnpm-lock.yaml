@@ -78,9 +78,9 @@ importers:
     specifiers:
       ansi-colors: ^4.1.3
       cross-zip: ^4.0.0
-      cypress: ^10.11.0
+      cypress: ^12.1.0
       cypress-image-diff-js: ^1.22.0
-      cypress-terminal-report: ^4.1.2
+      cypress-terminal-report: ^5.0.0
       enquirer: ^2.3.6
       eslint: ^7.20.0
       eslint-plugin-cypress: ^2.12.1
@@ -93,9 +93,9 @@ importers:
     dependencies:
       ansi-colors: 4.1.3
       cross-zip: 4.0.0
-      cypress: 10.11.0
-      cypress-image-diff-js: 1.22.0_cypress@10.11.0
-      cypress-terminal-report: 4.1.2_cypress@10.11.0
+      cypress: 12.1.0
+      cypress-image-diff-js: 1.22.0_cypress@12.1.0
+      cypress-terminal-report: 5.0.0_cypress@12.1.0
       enquirer: 2.3.6
       eslint: 7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
@@ -7918,7 +7918,7 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
-  /cypress-image-diff-js/1.22.0_cypress@10.11.0:
+  /cypress-image-diff-js/1.22.0_cypress@12.1.0:
     resolution: {integrity: sha512-ugCXZF6mVcp+TQQBrb2xARgFsnS5Mt3MCVpAr/fiF/GG7usuuiJWbHqQ+98H0kIoPIvFJzC5Nzf6VZ1+zycHLw==}
     hasBin: true
     peerDependencies:
@@ -7927,7 +7927,7 @@ packages:
       '@babel/runtime': 7.19.4
       arg: 4.1.3
       colors: 1.4.0
-      cypress: 10.11.0
+      cypress: 12.1.0
       cypress-recurse: 1.24.0
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -7941,21 +7941,21 @@ packages:
       humanize-duration: 3.27.3
     dev: false
 
-  /cypress-terminal-report/4.1.2_cypress@10.11.0:
-    resolution: {integrity: sha512-UyCR7AJXMJYt87JXBAxdZxWC+FXG1S7+ePVACcumUQZq5lH490pXPPg47KY/7J6yyFatT6da+Mb1/J6E7K8sLg==}
+  /cypress-terminal-report/5.0.0_cypress@12.1.0:
+    resolution: {integrity: sha512-X5JVRB2fs/KbZJU19qLjzcLidA2TO4g5dm4ya4XDXLoGvtEDI9XWSX+E8CFC25wzbvczIboWGBxLKSsDRZrTBw==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 10.11.0
+      cypress: 12.1.0
       fs-extra: 10.1.0
       semver: 7.3.8
       tv4: 1.3.0
     dev: false
 
-  /cypress/10.11.0:
-    resolution: {integrity: sha512-lsaE7dprw5DoXM00skni6W5ElVVLGAdRUUdZjX2dYsGjbY/QnpzWZ95Zom1mkGg0hAaO/QVTZoFVS7Jgr/GUPA==}
-    engines: {node: '>=12.0.0'}
+  /cypress/12.1.0:
+    resolution: {integrity: sha512-7fz8N84uhN1+ePNDsfQvoWEl4P3/VGKKmAg+bJQFY4onhA37Ys+6oBkGbNdwGeC7n2QqibNVPhk8x3YuQLwzfw==}
+    engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     requiresBuild: true
     dependencies:
