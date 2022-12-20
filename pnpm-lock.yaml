@@ -114,11 +114,45 @@ importers:
       eslint: 7.32.0
       prettier: 2.7.1
 
+  automation/utils:
+    specifiers:
+      '@types/cross-zip': ^4.0.0
+      '@types/node-fetch': 2.6.2
+      chalk: ^4.1.2
+      cross-zip: ^4.0.0
+      enquirer: ^2.3.6
+      eslint: ^7.20.0
+      execa: ^5.1.1
+      fast-xml-parser: ^4.0.1
+      node-fetch: ^2.6.1
+      ora: ^5.4.1
+      peggy: ^1.2.0
+      shelljs: ^0.8.4
+      ts-node: ^9.0.0
+      typescript: 4.5.4
+      zod: ^3.11.6
+    devDependencies:
+      '@types/cross-zip': 4.0.0
+      '@types/node-fetch': 2.6.2
+      chalk: 4.1.2
+      cross-zip: 4.0.0
+      enquirer: 2.3.6
+      eslint: 7.32.0
+      execa: 5.1.1
+      fast-xml-parser: 4.0.11
+      node-fetch: 2.6.7
+      ora: 5.4.1
+      peggy: 1.2.0
+      shelljs: 0.8.5
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
+      zod: 3.19.1
+
   packages/customWidgets/calendar-web:
     specifiers:
       '@babel/core': ^7.20.2
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@types/date-arithmetic': ^3.1.2
       '@types/react': <18.0.0
       '@types/react-big-calendar': 0.20.20
@@ -155,8 +189,8 @@ importers:
       react-dnd-html5-backend: 5.0.1
     devDependencies:
       '@babel/core': 7.20.2
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@types/date-arithmetic': 3.1.2
       '@types/react': 17.0.52
       '@types/react-big-calendar': 0.20.20
@@ -181,7 +215,7 @@ importers:
 
   packages/modules/data-widgets:
     specifiers:
-      '@mendix/release-utils-internal': workspace:*
+      '@mendix-internal/automation-utils': workspace:*
       concurrently: ^6.0.0
       copy-and-watch: ^0.1.5
       cross-env: ^7.0.2
@@ -205,7 +239,7 @@ importers:
       gallery-web: link:../../pluggableWidgets/gallery-web
       tree-node-web: link:../../pluggableWidgets/tree-node-web
     devDependencies:
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       concurrently: 6.5.1
       copy-and-watch: 0.1.6
       cross-env: 7.0.3
@@ -214,13 +248,13 @@ importers:
 
   packages/modules/web-actions:
     specifiers:
-      '@mendix/release-utils-internal': workspace:*
+      '@mendix-internal/automation-utils': workspace:*
       cross-env: ^7.0.2
       eslint: ^7.20.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     devDependencies:
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       cross-env: 7.0.3
       eslint: 7.32.0
       ts-node: 9.1.1_typescript@4.5.4
@@ -228,9 +262,9 @@ importers:
 
   packages/pluggableWidgets/accessibility-helper-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -251,8 +285,8 @@ importers:
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -273,9 +307,9 @@ importers:
 
   packages/pluggableWidgets/accordion-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -298,8 +332,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -320,9 +354,9 @@ importers:
 
   packages/pluggableWidgets/area-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -345,8 +379,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -365,9 +399,9 @@ importers:
 
   packages/pluggableWidgets/badge-button-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -391,8 +425,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -414,9 +448,9 @@ importers:
 
   packages/pluggableWidgets/badge-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -441,8 +475,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -465,9 +499,9 @@ importers:
 
   packages/pluggableWidgets/bar-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -490,8 +524,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -510,9 +544,9 @@ importers:
 
   packages/pluggableWidgets/barcode-scanner-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@rollup/plugin-replace': ^2.4.1
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -539,8 +573,8 @@ importers:
       '@zxing/library': 0.18.6
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@rollup/plugin-replace': 2.4.2
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -563,9 +597,9 @@ importers:
 
   packages/pluggableWidgets/bubble-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -588,8 +622,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -608,9 +642,9 @@ importers:
 
   packages/pluggableWidgets/carousel-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -637,9 +671,9 @@ importers:
       classnames: 2.3.2
       swiper: 6.8.4
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -663,7 +697,7 @@ importers:
 
   packages/pluggableWidgets/charts-web:
     specifiers:
-      '@mendix/release-utils-internal': workspace:*
+      '@mendix-internal/automation-utils': workspace:*
       area-chart-web: workspace:*
       bar-chart-web: workspace:*
       bubble-chart-web: workspace:*
@@ -683,14 +717,14 @@ importers:
       pie-doughnut-chart-web: link:../pie-doughnut-chart-web
       time-series-chart-web: link:../time-series-chart-web
     devDependencies:
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       cross-env: 7.0.3
 
   packages/pluggableWidgets/color-picker-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -717,8 +751,8 @@ importers:
       classnames: 2.3.2
       react-color: 2.19.3_react@17.0.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -741,9 +775,9 @@ importers:
 
   packages/pluggableWidgets/column-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -766,8 +800,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -786,9 +820,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -817,8 +851,8 @@ importers:
       react-datepicker: 4.8.0_sfoxds7t5ydpegc3knd667wn6m
       string.prototype.replaceall: 1.0.7
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -839,9 +873,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -866,8 +900,8 @@ importers:
       classnames: 2.3.2
       deep-equal: 2.1.0
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -888,9 +922,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -914,8 +948,8 @@ importers:
       big.js: 6.2.1
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -935,9 +969,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-text-filter-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -959,8 +993,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -980,9 +1014,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1006,8 +1040,8 @@ importers:
       classnames: 2.3.2
       deep-equal: 2.1.0
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1027,9 +1061,9 @@ importers:
 
   packages/pluggableWidgets/dropdown-sort-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1051,8 +1085,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1072,9 +1106,9 @@ importers:
 
   packages/pluggableWidgets/fieldset-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1096,8 +1130,8 @@ importers:
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1119,9 +1153,9 @@ importers:
 
   packages/pluggableWidgets/gallery-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1144,8 +1178,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1166,9 +1200,9 @@ importers:
 
   packages/pluggableWidgets/heatmap-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1193,8 +1227,8 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1213,9 +1247,9 @@ importers:
 
   packages/pluggableWidgets/html-element-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1236,9 +1270,9 @@ importers:
     dependencies:
       dompurify: 2.4.1
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1258,9 +1292,9 @@ importers:
 
   packages/pluggableWidgets/image-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1285,8 +1319,8 @@ importers:
       classnames: 2.3.2
       react-overlays: 5.2.1_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1307,9 +1341,9 @@ importers:
 
   packages/pluggableWidgets/language-selector-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1332,8 +1366,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1354,9 +1388,9 @@ importers:
 
   packages/pluggableWidgets/line-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1379,8 +1413,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1400,9 +1434,9 @@ importers:
   packages/pluggableWidgets/maps-web:
     specifiers:
       '@googlemaps/jest-mocks': ^0.0.3
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@react-google-maps/api': ~2.17.1
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1442,8 +1476,8 @@ importers:
       react-leaflet: 2.8.0_myoalt2qegmhvac3qx3wpc3ki4
     devDependencies:
       '@googlemaps/jest-mocks': 0.0.3
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1472,9 +1506,9 @@ importers:
 
   packages/pluggableWidgets/pie-doughnut-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1499,8 +1533,8 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1519,9 +1553,9 @@ importers:
 
   packages/pluggableWidgets/popup-menu-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1544,8 +1578,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1566,9 +1600,9 @@ importers:
 
   packages/pluggableWidgets/progress-bar-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1592,8 +1626,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1615,9 +1649,9 @@ importers:
 
   packages/pluggableWidgets/progress-circle-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1643,8 +1677,8 @@ importers:
       classnames: 2.3.2
       progressbar.js: 1.1.0
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1666,9 +1700,9 @@ importers:
 
   packages/pluggableWidgets/range-slider-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1698,8 +1732,8 @@ importers:
       rc-slider: 8.7.1_sfoxds7t5ydpegc3knd667wn6m
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1723,9 +1757,9 @@ importers:
 
   packages/pluggableWidgets/rating-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1748,9 +1782,9 @@ importers:
     dependencies:
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1772,9 +1806,9 @@ importers:
 
   packages/pluggableWidgets/rich-text-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@rollup/plugin-json': ^4.1.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1807,9 +1841,9 @@ importers:
       classnames: 2.3.2
       sanitize-html: 2.7.3
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@rollup/plugin-json': 4.1.0
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1835,9 +1869,9 @@ importers:
 
   packages/pluggableWidgets/slider-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1867,8 +1901,8 @@ importers:
       rc-slider: 8.7.1_sfoxds7t5ydpegc3knd667wn6m
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1892,9 +1926,9 @@ importers:
 
   packages/pluggableWidgets/switch-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1918,8 +1952,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1941,9 +1975,9 @@ importers:
 
   packages/pluggableWidgets/time-series-chart-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1966,8 +2000,8 @@ importers:
       '@mendix/shared-charts': link:../../shared/charts
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1986,9 +2020,9 @@ importers:
 
   packages/pluggableWidgets/timeline-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2012,8 +2046,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2035,9 +2069,9 @@ importers:
 
   packages/pluggableWidgets/tooltip-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@popperjs/core': ^2.10.2
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -2065,8 +2099,8 @@ importers:
       classnames: 2.3.2
       react-popper: 2.3.0_vov5yimr6vvxyufd6uigwwkst4
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2088,9 +2122,9 @@ importers:
 
   packages/pluggableWidgets/tree-node-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2112,8 +2146,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2133,9 +2167,9 @@ importers:
 
   packages/pluggableWidgets/video-player-web:
     specifiers:
+      '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@mendix/release-utils-internal': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2159,8 +2193,8 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
     devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
-      '@mendix/release-utils-internal': link:../../tools/release-utils-internal
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2291,40 +2325,6 @@ importers:
       react-test-renderer: 17.0.2_react@17.0.2
       rimraf: 2.7.1
       typescript: 4.5.4
-
-  packages/tools/release-utils-internal:
-    specifiers:
-      '@types/cross-zip': ^4.0.0
-      '@types/node-fetch': 2.6.2
-      chalk: ^4.1.2
-      cross-zip: ^4.0.0
-      enquirer: ^2.3.6
-      eslint: ^7.20.0
-      execa: ^5.1.1
-      fast-xml-parser: ^4.0.1
-      node-fetch: ^2.6.1
-      ora: ^5.4.1
-      peggy: ^1.2.0
-      shelljs: ^0.8.4
-      ts-node: ^9.0.0
-      typescript: 4.5.4
-      zod: ^3.11.6
-    devDependencies:
-      '@types/cross-zip': 4.0.0
-      '@types/node-fetch': 2.6.2
-      chalk: 4.1.2
-      cross-zip: 4.0.0
-      enquirer: 2.3.6
-      eslint: 7.32.0
-      execa: 5.1.1
-      fast-xml-parser: 4.0.11
-      node-fetch: 2.6.7
-      ora: 5.4.1
-      peggy: 1.2.0
-      shelljs: 0.8.5
-      ts-node: 9.1.1_typescript@4.5.4
-      typescript: 4.5.4
-      zod: 3.19.1
 
 packages:
 

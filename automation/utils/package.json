@@ -1,5 +1,5 @@
 {
-  "name": "@mendix/release-utils-internal",
+  "name": "@mendix-internal/automation-utils",
   "version": "1.0.0",
   "description": "Set of helpers for release processes",
   "private": true,
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "tsc --watch",
-    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "eslint --config ../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
     "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
     "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",

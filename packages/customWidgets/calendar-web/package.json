@@ -41,7 +41,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@mendix/pluggable-widgets-tools": "^9.18.0",
-    "@mendix/release-utils-internal": "workspace:*",
+    "@mendix-internal/automation-utils": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
     "@types/react": "^17.0.52",
     "@types/react-big-calendar": "0.20.20",
