@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": "^9.18.0",
-    "@mendix/release-utils-internal": "workspace:*",
+    "@mendix-internal/automation-utils": "workspace:*",
     "@rollup/plugin-replace": "^2.4.1",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",

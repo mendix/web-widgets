@@ -1,5 +1,5 @@
 {
-  "name": "@mendix/release-utils-internal",
+  "name": "@mendix-internal/automation-utils",
   "version": "1.0.0",
   "description": "Set of helpers for release processes",
   "private": true,

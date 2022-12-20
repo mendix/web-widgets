@@ -21,8 +21,8 @@ mendixProject
 **/pluggableWidgets/**/artifacts
 **/gh-*/release-notes.txt
 
-**/release-utils-internal/**/parser/module/module.js
-**/release-utils-internal/**/parser/widget/widget.js
+**/automation/utils/**/parser/module/module.js
+**/automation/utils/**/parser/widget/widget.js
 
 **/cypress/videos
 **/cypress/screenshots
