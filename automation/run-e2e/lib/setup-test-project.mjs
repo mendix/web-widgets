@@ -42,7 +42,8 @@ export async function setupTestProject() {
 
         await updateAtlas();
     } catch (e) {
-        throw new Error("Failed to unzip the test project into tests/testProject", e.message);
+        console.error(e);
+        throw new Error("Failed to unzip the test project into tests/testProject");
     }
 }
 
