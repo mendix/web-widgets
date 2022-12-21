@@ -29,7 +29,7 @@ importers:
       '@types/concurrently': ^6.3.0
       '@types/enzyme': ^3.10.8
       '@types/jest': ^26.0.24
-      '@types/jest-image-snapshot': ^4.3.1
+      '@types/jest-image-snapshot': ^4.3.2
       '@types/mime': ^2.0.3
       '@types/node': ^16.18.3
       '@types/shelljs': ^0.8.9
