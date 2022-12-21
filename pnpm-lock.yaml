@@ -547,7 +547,7 @@ importers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
-      '@rollup/plugin-replace': ^2.4.1
+      '@rollup/plugin-replace': ^2.4.2
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -14168,6 +14168,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: true
 
   /spawn-command/0.0.2-1:
