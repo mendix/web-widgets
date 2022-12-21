@@ -2,26 +2,27 @@ import { usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/comp
 import { CSSProperties } from "react";
 import { PositionEnum } from "../../typings/PopupMenuProps";
 
-export function useMenuPlacement(anchorElement: HTMLElement | null, position: PositionEnum) {
+export function useMenuPlacement(anchorElement: HTMLElement | null, position: PositionEnum): CSSProperties | undefined {
     const triggerPosition = usePositionObserver(anchorElement, true);
+    if (!triggerPosition) {
+        return undefined;
+    }
     const popupStyles: CSSProperties =
-        position === "bottom" && triggerPosition
+        position === "bottom"
             ? {
-                  position: "fixed",
                   top: triggerPosition.height + triggerPosition.top,
                   left: triggerPosition.left,
                   transform: "none",
                   bottom: "initial"
               }
-            : position === "right" && triggerPosition
+            : position === "right"
             ? {
-                  position: "fixed",
                   top: triggerPosition.top,
                   left: triggerPosition.left + triggerPosition.width,
                   transform: "none",
                   bottom: "initial"
               }
-            : { position: "fixed", top: triggerPosition?.top, left: triggerPosition?.left };
+            : { top: triggerPosition?.top, left: triggerPosition?.left };
 
-    return popupStyles;
+    return { ...popupStyles, zIndex: 0, position: "fixed", display: "flex" };
 }

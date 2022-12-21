@@ -1,49 +1,27 @@
 import classNames from "classnames";
-import {
-    isBehindElement,
-    isBehindRandomElement,
-    isElementPartiallyOffScreen,
-    isElementVisibleByUser,
-    moveAbsoluteElementOnScreen,
-    useHandleOnClickOutsideElement,
-    unBlockAbsoluteElementLeft,
-    unBlockAbsoluteElementBottom,
-    unBlockAbsoluteElementRight,
-    unBlockAbsoluteElementTop
-} from "../utils/document";
-import { ReactElement, createElement, useCallback, useEffect, useRef } from "react";
+import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
+import { ReactElement, createElement, useRef, Fragment } from "react";
 import { createPortal } from "react-dom";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue } from "mendix";
-import { PopupMenuContainerProps, PositionEnum, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
+import { PopupMenuContainerProps, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 export interface MenuProps extends PopupMenuContainerProps {
-    anchorElement: HTMLDivElement | null;
-    visibility: boolean;
-    setVisibility: (visibility: boolean) => void;
+    anchorElement: HTMLDivElement;
+    onCloseRequest: () => void;
+    onItemClick: (itemAction: ActionValue) => void;
 }
 export function Menu(props: MenuProps): ReactElement {
     const popupRef = useRef<HTMLDivElement>(null);
     const anchorElement = props.anchorElement;
     const popupStyles = useMenuPlacement(anchorElement, props.position);
-    const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
-        props.setVisibility(false);
-        executeAction(itemAction);
-    }, []);
 
-    useHandleOnClickOutsideElement(anchorElement, () => props.setVisibility(false));
+    useHandleOnClickOutsideElement(anchorElement, props.onCloseRequest);
 
-    useEffect(() => {
-        if (popupRef.current && anchorElement) {
-            popupRef.current.style.display = props.visibility ? "flex" : "none";
-            if (props.visibility) {
-                correctPosition(popupRef.current, props.position);
-            }
-        }
-    }, [props.position, anchorElement, props.visibility]);
-
-    const menuOptions = createMenuOptions(props, handleOnClickItem);
+    if (!popupStyles) {
+        return <Fragment></Fragment>;
+    }
+    const menuOptions = createMenuOptions(props, props.onItemClick);
     return createPortal(
         <div className="widget-popupmenu-root">
             <div
@@ -56,33 +34,6 @@ export function Menu(props: MenuProps): ReactElement {
         </div>,
         document.body
     );
-}
-
-function correctPosition(element: HTMLElement, position: PositionEnum): void {
-    const dynamicDocument: Document = element.ownerDocument;
-    const dynamicWindow = dynamicDocument.defaultView as Window;
-    let boundingRect: DOMRect = element.getBoundingClientRect();
-    const isOffScreen = isElementPartiallyOffScreen(dynamicWindow, boundingRect);
-    if (isOffScreen) {
-        moveAbsoluteElementOnScreen(dynamicWindow, element, boundingRect);
-    }
-
-    boundingRect = element.getBoundingClientRect();
-    const blockingElement = isBehindRandomElement(dynamicDocument, element, boundingRect, 3, "popupmenu");
-    if (blockingElement && isElementVisibleByUser(dynamicDocument, dynamicWindow, blockingElement)) {
-        unBlockAbsoluteElement(element, boundingRect, blockingElement.getBoundingClientRect(), position);
-    } else if (blockingElement) {
-        let node = blockingElement;
-        do {
-            if (isBehindElement(element, node, 3) && isElementVisibleByUser(dynamicDocument, dynamicWindow, node)) {
-                return unBlockAbsoluteElement(element, boundingRect, node.getBoundingClientRect(), position);
-            } else if (node.parentElement) {
-                node = node.parentElement as HTMLElement;
-            } else {
-                break;
-            }
-        } while (node.parentElement);
-    }
 }
 
 function checkVisibility(item: BasicItemsType | CustomItemsType): boolean {
@@ -138,29 +89,5 @@ function createMenuOptions(
                     {item.content}
                 </div>
             ));
-    }
-}
-
-function unBlockAbsoluteElement(
-    element: HTMLElement,
-    boundingRect: DOMRect,
-    blockingElementRect: DOMRect,
-    position: PositionEnum
-): void {
-    switch (position) {
-        case "left":
-            unBlockAbsoluteElementLeft(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "right":
-            unBlockAbsoluteElementRight(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "top":
-            unBlockAbsoluteElementTop(element, boundingRect, blockingElementRect);
-            break;
-        case "bottom":
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
     }
 }

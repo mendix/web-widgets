@@ -1,6 +1,7 @@
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 import classNames from "classnames";
-
-import { ReactElement, useState, createElement, useCallback, useEffect, useRef, SyntheticEvent } from "react";
+import { ActionValue } from "mendix";
+import { createElement, ReactElement, SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { Menu } from "./Menu";
 
@@ -30,6 +31,15 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         [setVisibility]
     );
 
+    const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
+        setVisibility(false);
+        executeAction(itemAction);
+    }, []);
+
+    const handleCloseRequest = useCallback(() => {
+        setVisibility(false);
+    }, []);
+
     const onHover =
         props.trigger === "onhover" && !preview
             ? {
@@ -46,18 +56,18 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     useEffect(() => {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
-
+    const open = visibility && triggerRef.current;
     return (
         <div ref={triggerRef} className={classNames("popupmenu", props.class)} {...onHover} {...onClick}>
             <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
-            <Menu
-                {...props}
-                anchorElement={triggerRef.current}
-                visibility={visibility}
-                setVisibility={(visibility: boolean) => {
-                    setVisibility(visibility);
-                }}
-            />
+            {open ? (
+                <Menu
+                    {...props}
+                    onItemClick={handleOnClickItem}
+                    anchorElement={triggerRef.current}
+                    onCloseRequest={handleCloseRequest}
+                />
+            ) : null}
         </div>
     );
 }
