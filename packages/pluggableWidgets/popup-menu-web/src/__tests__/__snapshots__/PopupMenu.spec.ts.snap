@@ -12,49 +12,5 @@ exports[`Popup menu renders popup menu 1`] = `
       Trigger
     </button>
   </div>
-  <Menu
-    advancedMode={false}
-    anchorElement={null}
-    basicItems={
-      Array [
-        Object {
-          "caption": Object {
-            "status": "available",
-            "value": "Caption",
-          },
-          "itemType": "item",
-          "styleClass": "defaultStyle",
-        },
-        Object {
-          "caption": Object {
-            "status": "available",
-            "value": "Caption",
-          },
-          "itemType": "divider",
-          "styleClass": "defaultStyle",
-        },
-      ]
-    }
-    class="mx-popup-menu"
-    customItems={
-      Array [
-        Object {
-          "content": <div />,
-        },
-      ]
-    }
-    menuToggle={false}
-    menuTrigger={
-      <button>
-        Trigger
-      </button>
-    }
-    name="popup-menu"
-    position="bottom"
-    setVisibility={[Function]}
-    tabIndex={-1}
-    trigger="onclick"
-    visibility={false}
-  />
 </div>
 `;

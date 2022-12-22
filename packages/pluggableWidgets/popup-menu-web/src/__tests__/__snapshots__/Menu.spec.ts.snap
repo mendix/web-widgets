@@ -11,9 +11,13 @@ exports[`Popup menu renders popup menu 1`] = `
       className="popupmenu-menu popupmenu-position-bottom popup-portal"
       style={
         Object {
-          "left": undefined,
+          "bottom": "initial",
+          "display": "flex",
+          "left": 30,
           "position": "fixed",
-          "top": undefined,
+          "top": 11,
+          "transform": "none",
+          "zIndex": 0,
         }
       }
     >

@@ -15,6 +15,8 @@ describe("Menu Placement", () => {
 
         expect(result.current).toStrictEqual({
             position: "fixed",
+            display: "flex",
+            zIndex: 0,
             top: positionObserverValues.top,
             left: positionObserverValues.left
         });
@@ -26,6 +28,8 @@ describe("Menu Placement", () => {
 
         expect(result.current).toStrictEqual({
             position: "fixed",
+            display: "flex",
+            zIndex: 0,
             top: positionObserverValues.top,
             left: positionObserverValues.left + positionObserverValues.width,
             transform: "none",
@@ -39,6 +43,8 @@ describe("Menu Placement", () => {
 
         expect(result.current).toStrictEqual({
             position: "fixed",
+            display: "flex",
+            zIndex: 0,
             top: positionObserverValues.height + positionObserverValues.top,
             left: positionObserverValues.left,
             transform: "none",
@@ -52,6 +58,8 @@ describe("Menu Placement", () => {
 
         expect(result.current).toStrictEqual({
             position: "fixed",
+            display: "flex",
+            zIndex: 0,
             top: positionObserverValues.top,
             left: positionObserverValues.left
         });

@@ -7,6 +7,12 @@ import { ValueStatus } from "mendix";
 
 jest.useFakeTimers();
 
+const positionObserverValues = { top: 10, bottom: 20, left: 30, height: 1, width: 2 };
+const usePositionMock = jest.fn(() => positionObserverValues);
+jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
+    usePositionObserver: () => usePositionMock()
+}));
+
 describe("Popup menu", () => {
     const createPopupMenu = (props: MenuProps): ShallowWrapper<MenuProps, {}> => shallow(createElement(Menu, props));
     const basicItemProps: BasicItemsType = {
@@ -31,8 +37,8 @@ describe("Popup menu", () => {
         ],
         customItems: [customItemProps],
         anchorElement: document.createElement("div"),
-        visibility: false,
-        setVisibility: jest.fn()
+        onItemClick: jest.fn(),
+        onCloseRequest: jest.fn()
     };
 
     it("renders popup menu", () => {
@@ -62,7 +68,7 @@ describe("Popup menu", () => {
 
             expect(stopPropagationAction).toHaveBeenCalled();
             expect(preventDefaultAction).toHaveBeenCalled();
-            expect(basicItemProps.action.execute).toHaveBeenCalledTimes(1);
+            expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
 
         it("renders basic items without hidden items", () => {
@@ -149,7 +155,6 @@ describe("Popup menu", () => {
         });
 
         it("triggers action", () => {
-            const action = (customItemProps.action = actionValue());
             const popupMenu = createPopupMenu(defaultProps);
             const preventDefaultAction = jest.fn();
             const stopPropagationAction = jest.fn();
@@ -162,7 +167,7 @@ describe("Popup menu", () => {
 
             expect(stopPropagationAction).toHaveBeenCalled();
             expect(preventDefaultAction).toHaveBeenCalled();
-            expect(action.execute).toHaveBeenCalledTimes(1);
+            expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
     });
 });
