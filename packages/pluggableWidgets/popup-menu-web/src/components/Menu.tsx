@@ -1,10 +1,22 @@
 import classNames from "classnames";
-import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
-import { ReactElement, createElement, useRef, Fragment } from "react";
-import { createPortal } from "react-dom";
 import { ActionValue } from "mendix";
-import { PopupMenuContainerProps, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
+import { createElement, Fragment, ReactElement, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
+import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
+
+import {
+    isBehindElement,
+    isBehindRandomElement,
+    isElementPartiallyOffScreen,
+    isElementVisibleByUser,
+    moveAbsoluteElementOnScreen,
+    unBlockAbsoluteElementBottom,
+    unBlockAbsoluteElementLeft,
+    unBlockAbsoluteElementRight,
+    unBlockAbsoluteElementTop
+} from "../utils/document";
 
 export interface MenuProps extends PopupMenuContainerProps {
     anchorElement: HTMLDivElement;
@@ -18,10 +30,17 @@ export function Menu(props: MenuProps): ReactElement {
 
     useHandleOnClickOutsideElement(anchorElement, props.onCloseRequest);
 
+    useEffect(() => {
+        if (popupRef.current) {
+            correctPosition(popupRef.current, props.position);
+        }
+    }, [props.position, anchorElement]);
+
     if (!popupStyles) {
         return <Fragment></Fragment>;
     }
     const menuOptions = createMenuOptions(props, props.onItemClick);
+
     return createPortal(
         <div className="widget-popupmenu-root">
             <div
@@ -89,5 +108,56 @@ function createMenuOptions(
                     {item.content}
                 </div>
             ));
+    }
+}
+
+function correctPosition(element: HTMLElement, position: PositionEnum): void {
+    const dynamicDocument: Document = element.ownerDocument;
+    const dynamicWindow = dynamicDocument.defaultView as Window;
+    let boundingRect: DOMRect = element.getBoundingClientRect();
+    const isOffScreen = isElementPartiallyOffScreen(dynamicWindow, boundingRect);
+    if (isOffScreen) {
+        moveAbsoluteElementOnScreen(dynamicWindow, element, boundingRect);
+    }
+
+    boundingRect = element.getBoundingClientRect();
+    const blockingElement = isBehindRandomElement(dynamicDocument, element, boundingRect, 3, "popupmenu");
+    if (blockingElement && isElementVisibleByUser(dynamicDocument, dynamicWindow, blockingElement)) {
+        unBlockAbsoluteElement(element, boundingRect, blockingElement.getBoundingClientRect(), position);
+    } else if (blockingElement) {
+        let node = blockingElement;
+        do {
+            if (isBehindElement(element, node, 3) && isElementVisibleByUser(dynamicDocument, dynamicWindow, node)) {
+                return unBlockAbsoluteElement(element, boundingRect, node.getBoundingClientRect(), position);
+            } else if (node.parentElement) {
+                node = node.parentElement as HTMLElement;
+            } else {
+                break;
+            }
+        } while (node.parentElement);
+    }
+}
+
+function unBlockAbsoluteElement(
+    element: HTMLElement,
+    boundingRect: DOMRect,
+    blockingElementRect: DOMRect,
+    position: PositionEnum
+): void {
+    switch (position) {
+        case "left":
+            unBlockAbsoluteElementLeft(element, boundingRect, blockingElementRect);
+            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
+            break;
+        case "right":
+            unBlockAbsoluteElementRight(element, boundingRect, blockingElementRect);
+            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
+            break;
+        case "top":
+            unBlockAbsoluteElementTop(element, boundingRect, blockingElementRect);
+            break;
+        case "bottom":
+            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
+            break;
     }
 }
