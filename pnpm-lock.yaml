@@ -275,6 +275,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       eslint: ^7.20.0
       mendix: ^9.19.55544
       react: ~17.0.2
@@ -297,6 +298,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -320,6 +322,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -344,6 +347,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -412,6 +416,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -437,6 +442,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -656,6 +662,7 @@ importers:
       '@types/swiper': ^6.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -685,6 +692,7 @@ importers:
       '@types/swiper': 6.0.0
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       jest: 26.6.3_ts-node@9.1.1
@@ -736,6 +744,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -764,6 +773,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -789,6 +799,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -812,6 +823,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1119,6 +1131,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       cross-env: ^7.0.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -1142,6 +1155,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1214,6 +1228,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
@@ -1239,6 +1254,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1305,6 +1321,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -1331,6 +1348,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1354,6 +1372,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -1378,6 +1397,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1402,6 +1422,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -1425,6 +1446,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1520,6 +1542,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
@@ -1545,6 +1568,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1566,6 +1590,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -1590,6 +1615,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -1613,6 +1639,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1638,6 +1665,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1662,6 +1690,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1689,6 +1718,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1715,6 +1745,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1746,6 +1777,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1770,6 +1802,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1795,6 +1828,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1822,6 +1856,7 @@ importers:
       '@types/sanitize-html': ^1.18.2
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       ckeditor4: ^4.20.0
       ckeditor4-react: ^2.1.0
       classnames: ^2.3.2
@@ -1857,6 +1892,7 @@ importers:
       '@types/sanitize-html': 1.27.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1884,6 +1920,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1915,6 +1952,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1939,6 +1977,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.2
       eslint: ^7.20.0
@@ -1964,6 +2003,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
       mendix: 9.19.55544
@@ -1989,6 +2029,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -2012,6 +2053,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -2033,6 +2075,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       jest: ^26.6.1
@@ -2058,6 +2101,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.19.55544
@@ -2084,6 +2128,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -2112,6 +2157,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -2181,6 +2227,7 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -2206,6 +2253,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
       mendix: 9.19.55544
       react: 17.0.2
@@ -4484,7 +4532,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.5
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11356,6 +11404,52 @@ packages:
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
+    dev: true
+
+  /metro-react-native-babel-preset/0.63.0:
+    resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    dependencies:
+      '@babel/core': 7.20.5
+      '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-proposal-export-default-from': 7.18.10_@babel+core@7.20.5
+      '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-proposal-object-rest-spread': 7.19.4_@babel+core@7.20.5
+      '@babel/plugin-proposal-optional-catch-binding': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-proposal-optional-chaining': 7.18.9_@babel+core@7.20.5
+      '@babel/plugin-syntax-dynamic-import': 7.8.3_@babel+core@7.20.5
+      '@babel/plugin-syntax-export-default-from': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3_@babel+core@7.20.5
+      '@babel/plugin-syntax-optional-chaining': 7.8.3_@babel+core@7.20.5
+      '@babel/plugin-transform-arrow-functions': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-block-scoping': 7.19.4_@babel+core@7.20.5
+      '@babel/plugin-transform-classes': 7.19.0_@babel+core@7.20.5
+      '@babel/plugin-transform-computed-properties': 7.18.9_@babel+core@7.20.5
+      '@babel/plugin-transform-destructuring': 7.19.4_@babel+core@7.20.5
+      '@babel/plugin-transform-exponentiation-operator': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-flow-strip-types': 7.19.0_@babel+core@7.20.5
+      '@babel/plugin-transform-for-of': 7.18.8_@babel+core@7.20.5
+      '@babel/plugin-transform-function-name': 7.18.9_@babel+core@7.20.5
+      '@babel/plugin-transform-literals': 7.18.9_@babel+core@7.20.5
+      '@babel/plugin-transform-modules-commonjs': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-object-assign': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-parameters': 7.18.8_@babel+core@7.20.5
+      '@babel/plugin-transform-react-display-name': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-react-jsx': 7.19.0_@babel+core@7.20.5
+      '@babel/plugin-transform-react-jsx-self': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-react-jsx-source': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-regenerator': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-runtime': 7.19.1_@babel+core@7.20.5
+      '@babel/plugin-transform-shorthand-properties': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-spread': 7.19.0_@babel+core@7.20.5
+      '@babel/plugin-transform-sticky-regex': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-transform-template-literals': 7.18.9_@babel+core@7.20.5
+      '@babel/plugin-transform-typescript': 7.19.3_@babel+core@7.20.5
+      '@babel/plugin-transform-unicode-regex': 7.18.6_@babel+core@7.20.5
+      '@babel/template': 7.18.10
+      react-refresh: 0.4.3
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.5:
