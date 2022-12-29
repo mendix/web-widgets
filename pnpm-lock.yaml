@@ -565,7 +565,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
-      '@zxing/library': ~0.18.4
+      '@zxing/library': ~0.19.1
       classnames: ^2.3.2
       eslint: ^7.20.0
       mendix: ^9.19.55544
@@ -576,7 +576,7 @@ importers:
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@zxing/library': 0.18.6
+      '@zxing/library': 0.19.1
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
@@ -5791,11 +5791,11 @@ packages:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
     dev: true
 
-  /@zxing/library/0.18.6:
-    resolution: {integrity: sha512-bulZ9JHoLFd9W36pi+7e7DnEYNJhljYjZ1UTsKPOoLMU3qtC+REHITeCRNx40zTRJZx18W5TBRXt5pq2Uopjsw==}
+  /@zxing/library/0.19.1:
+    resolution: {integrity: sha512-rKwvl3Uuqs8yf364iU9l3HDDaIx8yPv+CH6DbtQaQr67VdKLG22G1ukEp9fOdDefE6tpLtRAdMnTrgtpiaKAZw==}
     engines: {node: '>= 10.4.0'}
     dependencies:
-      ts-custom-error: 3.2.2
+      ts-custom-error: 3.3.1
     optionalDependencies:
       '@zxing/text-encoding': 0.9.0
     dev: false
@@ -14916,8 +14916,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /ts-custom-error/3.2.2:
-    resolution: {integrity: sha512-u0YCNf2lf6T/vHm+POKZK1yFKWpSpJitcUN3HxqyEcFuNnHIDbyuIQC7QDy/PsBX3giFyk9rt6BFqBAh2lsDZQ==}
+  /ts-custom-error/3.3.1:
+    resolution: {integrity: sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==}
     engines: {node: '>=14.0.0'}
     dev: false
 

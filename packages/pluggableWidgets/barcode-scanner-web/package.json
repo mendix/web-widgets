@@ -1,7 +1,7 @@
 {
   "name": "barcode-scanner-web",
   "widgetName": "BarcodeScanner",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Displays a barcode scanner",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "license": "Apache-2.0",
@@ -43,8 +43,8 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@rollup/plugin-replace": "^2.4.2",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@zxing/library": "~0.18.4",
+    "@zxing/library": "~0.19.1",
     "classnames": "^2.3.2"
   }
 }
