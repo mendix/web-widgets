@@ -40,6 +40,7 @@ export function unBlockAbsoluteElementBottom(
     blockingElementRect: DOMRect
 ): void {
     if (isElementBlockedBottom(boundingRect, blockingElementRect)) {
+        element.style.top = "unset"; // Unset top defined in PopupMenu.scss
         element.style.bottom =
             getPixelValueAsNumber(element, "bottom") + blockingElementRect.top - boundingRect.bottom + "px";
     }
@@ -236,6 +237,7 @@ export function moveAbsoluteElementOnScreen(
             getPixelValueAsNumber(element, "bottom") +
                 (boundingRect.y + boundingRect.height - dynamicWindow.document.documentElement.clientHeight)
         );
+        element.style.top = "unset"; // Unset top defined in PopupMenu.scss
         element.style.bottom = bottomValue + "px";
         boundingRect.y -= bottomValue;
     }

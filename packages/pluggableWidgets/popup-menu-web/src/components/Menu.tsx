@@ -34,7 +34,7 @@ export function Menu(props: MenuProps): ReactElement {
         if (popupRef.current) {
             correctPosition(popupRef.current, props.position);
         }
-    }, [props.position, anchorElement]);
+    }, [popupRef.current, props.position]);
 
     const menuOptions = createMenuOptions(props, props.onItemClick);
 
