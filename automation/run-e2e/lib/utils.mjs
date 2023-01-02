@@ -56,7 +56,7 @@ export async function fetchWithReport(url, init) {
     throw new Error("HTTP Error");
 }
 
-export async function fetchGithubRestAPI(url, init) {
+export async function fetchGithubRestAPI(url, init = {}) {
     return fetchWithReport(url, {
         ...init,
         headers: {
