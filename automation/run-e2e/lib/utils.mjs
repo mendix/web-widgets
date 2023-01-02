@@ -45,6 +45,17 @@ export async function updateWidget() {
     cp("-f", mpkPath, outDir);
 }
 
+export async function fetchWithReport(url, init) {
+    const response = await fetch(url, init);
+    if (response.ok) {
+        return response;
+    }
+    console.error(`HTTP Error Response: ${response.status} ${response.statusText}`);
+    const errorBody = await response.text();
+    console.error(`Error body: ${errorBody}`);
+    throw new Error("HTTP Error");
+}
+
 export async function await200(url = "http://localhost:8080", attempts = 50) {
     let n = 0;
     while (++n <= attempts) {
