@@ -56,6 +56,18 @@ export async function fetchWithReport(url, init) {
     throw new Error("HTTP Error");
 }
 
+export async function fetchGithubRestAPI(url, init) {
+    return fetchWithReport(url, {
+        ...init,
+        headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            ...init.headers
+        }
+    });
+}
+
 export async function await200(url = "http://localhost:8080", attempts = 50) {
     let n = 0;
     while (++n <= attempts) {
