@@ -162,6 +162,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: "Executing E2E tests"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           node 
           ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
