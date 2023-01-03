@@ -22,7 +22,7 @@ describe("RichText", () => {
     });
 
     before(() => {
-        cy.visit("/");
+        cy.visit("index.html");
         cy.contains("Generate Data").click();
     });
 
