@@ -2,7 +2,7 @@
 
 exports[`Popup menu renders popup menu 1`] = `
 <div
-  className="popupmenu mx-popup-menu"
+  className="popupmenu"
   onClick={[Function]}
 >
   <div
