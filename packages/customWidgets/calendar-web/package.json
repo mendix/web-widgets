@@ -39,7 +39,7 @@
     "developmentPort": 3000
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/core": "^7.20.7",
     "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix-internal/automation-utils": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
