@@ -8,7 +8,7 @@ describe("Popup-menu-web", () => {
     };
 
     beforeEach(() => {
-        cy.visit("/"); // resets page
+        cy.visit("index.html"); // resets page
     });
 
     afterEach(() => cleanMendixSession());
@@ -64,7 +64,7 @@ describe("Popup-menu-web", () => {
             cy.get(".mx-name-text42").should("contain.text", "Gooooooo");
         });
         it("shows a message when one item is clicked", () => {
-            cy.get(".mx-name-pop_upMenu18").should("be.visible");
+            cy.get(".mx-name-actionButton10").should("be.visible");
             cy.get(".mx-name-actionButton10").click();
             cy.get(".popup-portal .popupmenu-basic-item").first().click();
             cy.get(".modal-dialog").should("be.visible").should("contain.text", "hello");
@@ -103,7 +103,7 @@ describe("Popup-menu-web", () => {
             cy.get(".mx-name-container15").compareSnapshot(`customPopUpMenuBottom-${browserName}`, 0.1);
         });
         it("shows a message when one item is clicked", () => {
-            cy.get(".mx-name-pop_upMenu13").should("be.visible");
+            cy.get(".mx-name-actionButton11").should("be.visible");
             cy.get(".mx-name-actionButton11").click();
             cy.get(".popup-portal .mx-name-text35").first().click();
             cy.get(".modal-dialog").should("be.visible").should("contain.text", "hello");
