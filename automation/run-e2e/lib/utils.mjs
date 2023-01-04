@@ -45,18 +45,38 @@ export async function updateWidget() {
     cp("-f", mpkPath, outDir);
 }
 
-export async function await200(url = "http://localhost:8080", attempts = 50) {
+export async function fetchWithReport(url, init) {
+    const response = await fetch(url, init);
+    if (response.ok) {
+        return response;
+    }
+    console.error(`HTTP Error Response: ${response.status} ${response.statusText}`);
+    const errorBody = await response.text();
+    console.error(`Error body: ${errorBody}`);
+    throw new Error("HTTP Error");
+}
+
+export async function fetchGithubRestAPI(url, init = {}) {
+    const token = process.env.GITHUB_TOKEN;
+    assert.ok(typeof token === "string" && token.length > 0, "GITHUB_TOKEN is missing");
+
+    return fetchWithReport(url, {
+        ...init,
+        headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            ...init.headers
+        }
+    });
+}
+
+export async function await200(url = "http://127.0.0.1:8080", attempts = 50) {
     let n = 0;
     while (++n <= attempts) {
         console.log(c.cyan(`GET ${url} ${n}`));
-        let response;
-        try {
-            response = await fetch(url);
-        } catch {
-            // ignore
-        }
-
-        const { ok, status } = response ?? {};
+        const response = await fetch(url);
+        const { ok, status } = response;
 
         if (ok && status === 200) {
             console.log(c.green(`200 OK, continue`));

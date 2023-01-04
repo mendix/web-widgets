@@ -1,15 +1,15 @@
 import c from "ansi-colors";
 import findFreePort from "find-free-port";
 import nodeIp from "ip";
-import fetch from "node-fetch";
 import { execSync } from "node:child_process";
 import sh from "shelljs";
 import parseArgs from "yargs-parser";
 import { createDeploymentBundle, prepareImage, startCypress, startRuntime } from "./docker-utils.mjs";
 import { setupTestProject } from "./setup-test-project.mjs";
-import { updateWidget } from "./utils.mjs";
+import { fetchWithReport, updateWidget } from "./utils.mjs";
 
-const MX_VERSION_MAP_URL = "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
+const MX_VERSION_MAP_URL =
+    "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
 
 const { ls, cat } = sh;
 
@@ -89,7 +89,7 @@ async function getMendixVersion(options) {
         return process.env.MENDIX_VERSION;
     }
 
-    const versionMapResponse = await fetch(MX_VERSION_MAP_URL);
+    const versionMapResponse = await fetchWithReport(MX_VERSION_MAP_URL);
     if (versionMapResponse.ok) {
         const { mxVersion } = options;
         const versionMap = await versionMapResponse.json();

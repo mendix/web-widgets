@@ -5,10 +5,9 @@ import { mkdtemp } from "node:fs/promises";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
 import { join } from "node:path";
-import fetch from "node-fetch";
 import sh from "shelljs";
 import crossZip from "cross-zip";
-import { packageMeta } from "./utils.mjs";
+import { packageMeta, fetchGithubRestAPI, fetchWithReport } from "./utils.mjs";
 
 const { cp, ls, mkdir, rm, mv } = sh;
 const streamPipe = promisify(pipeline);
@@ -58,7 +57,7 @@ async function downloadTestProject(repository, branch) {
     try {
         await streamPipe(
             (
-                await fetch(`${repository}/archive/refs/heads/${branch}.zip`)
+                await fetchWithReport(`${repository}/archive/refs/heads/${branch}.zip`)
             ).body,
             createWriteStream(downloadedArchivePath)
         );
@@ -81,14 +80,16 @@ async function updateAtlas() {
         "tests/testProject/themesource/datawidgets"
     );
 
-    const releasesResponse = await fetch("https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest");
+    const releasesResponse = await fetchGithubRestAPI(
+        "https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest"
+    );
     if (releasesResponse.ok) {
         const release = await releasesResponse.json();
         const [{ browser_download_url }] = release.assets;
         const downloadedPath = join(await usetmp(), `StarterAppRelease.zip`);
         const outPath = await usetmp();
         try {
-            await streamPipe((await fetch(browser_download_url)).body, createWriteStream(downloadedPath));
+            await streamPipe((await fetchWithReport(browser_download_url)).body, createWriteStream(downloadedPath));
             crossZip.unzipSync(downloadedPath, outPath);
             cp("-r", join(outPath, "theme"), "tests/testProject");
             cp("-r", join(outPath, "themesource"), "tests/testProject");
