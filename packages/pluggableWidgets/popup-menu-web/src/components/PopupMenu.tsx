@@ -1,54 +1,49 @@
-import classNames from "classnames";
-import {
-    isBehindElement,
-    isBehindRandomElement,
-    isElementPartiallyOffScreen,
-    isElementVisibleByUser,
-    moveAbsoluteElementOnScreen,
-    handleOnClickOutsideElement,
-    unBlockAbsoluteElementLeft,
-    unBlockAbsoluteElementBottom,
-    unBlockAbsoluteElementRight,
-    unBlockAbsoluteElementTop
-} from "../utils/document";
-import { ReactElement, useState, createElement, useCallback, useEffect, useRef } from "react";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
+import classNames from "classnames";
 import { ActionValue } from "mendix";
-
-import { PopupMenuContainerProps, PositionEnum, BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
+import { createElement, ReactElement, SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
+import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
+import { Menu } from "./Menu";
 
 export interface PopupMenuProps extends PopupMenuContainerProps {
     preview?: boolean;
 }
-
 export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
-    const ref = useRef<HTMLDivElement>(null);
-    if (!preview) {
-        handleOnClickOutsideElement(ref, () => setVisibility(false));
-    }
+    const triggerRef = useRef<HTMLDivElement>(null);
+
     const handleOnClickTrigger = useCallback(
-        (e): void => {
+        (e: SyntheticEvent<HTMLElement>): void => {
             e.preventDefault();
             e.stopPropagation();
             setVisibility(prev => !prev);
         },
         [setVisibility]
     );
-    const handleOnClickItem = useCallback(
-        (itemAction?: ActionValue): void => {
-            setVisibility(false);
-            executeAction(itemAction);
+
+    const handleOnHoverTrigger = useCallback(
+        (e: SyntheticEvent<HTMLElement>): void => {
+            e.preventDefault();
+            e.stopPropagation();
+            setVisibility(true);
         },
         [setVisibility]
     );
-    const menuOptions = createMenuOptions(props, handleOnClickItem);
+
+    const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
+        setVisibility(false);
+        executeAction(itemAction);
+    }, []);
+
+    const handleCloseRequest = useCallback(() => {
+        setVisibility(false);
+    }, []);
+
     const onHover =
         props.trigger === "onhover" && !preview
             ? {
-                  onMouseEnter: handleOnClickTrigger,
-                  onMouseLeave: handleOnClickTrigger
+                  onPointerEnter: handleOnHoverTrigger
               }
             : {};
     const onClick =
@@ -59,131 +54,20 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             : {};
 
     useEffect(() => {
-        const element = ref.current?.querySelector(".popupmenu-menu") as HTMLDivElement | null;
-        if (element) {
-            element.style.display = visibility ? "flex" : "none";
-            if (visibility) {
-                correctPosition(element, props.position);
-            }
-        }
-    }, [props.position, visibility]);
-    useEffect(() => {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
-
+    const open = visibility && triggerRef.current;
     return (
-        <div ref={ref} className={classNames("popupmenu", props.class)} {...onHover}>
-            <div className={"popupmenu-trigger"} {...onClick}>
-                {props.menuTrigger}
-            </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>{menuOptions}</div>
+        <div ref={triggerRef} className={classNames("popupmenu")} {...onHover} {...onClick}>
+            <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
+            {open ? (
+                <Menu
+                    {...props}
+                    onItemClick={handleOnClickItem}
+                    anchorElement={triggerRef.current}
+                    onCloseRequest={handleCloseRequest}
+                />
+            ) : null}
         </div>
     );
-}
-
-function checkVisibility(item: BasicItemsType | CustomItemsType): boolean {
-    if (Object.prototype.hasOwnProperty.call(item, "visible")) {
-        return !!item.visible?.value;
-    }
-    return true;
-}
-
-function createMenuOptions(
-    props: PopupMenuContainerProps,
-    handleOnClickItem: (itemAction?: ActionValue) => void
-): ReactElement[] {
-    if (!props.advancedMode) {
-        return props.basicItems
-            .filter(item => checkVisibility(item))
-            .map((item, index) => {
-                if (item.itemType === "divider") {
-                    return <div key={index} className={"popupmenu-basic-divider"} />;
-                } else {
-                    const pickedStyle =
-                        item.styleClass !== "defaultStyle"
-                            ? "popupmenu-basic-item-" + item.styleClass.replace("Style", "")
-                            : "";
-                    return (
-                        <div
-                            key={index}
-                            className={classNames("popupmenu-basic-item", pickedStyle)}
-                            onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleOnClickItem(item.action);
-                            }}
-                        >
-                            {item.caption?.value ?? ""}
-                        </div>
-                    );
-                }
-            });
-    } else {
-        return props.customItems
-            .filter(item => checkVisibility(item))
-            .map((item, index) => (
-                <div
-                    key={index}
-                    className={"popupmenu-custom-item"}
-                    onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleOnClickItem(item.action);
-                    }}
-                >
-                    {item.content}
-                </div>
-            ));
-    }
-}
-
-function correctPosition(element: HTMLElement, position: PositionEnum): void {
-    const dynamicDocument: Document = element.ownerDocument;
-    const dynamicWindow = dynamicDocument.defaultView as Window;
-    let boundingRect: DOMRect = element.getBoundingClientRect();
-    const isOffScreen = isElementPartiallyOffScreen(dynamicWindow, boundingRect);
-    if (isOffScreen) {
-        moveAbsoluteElementOnScreen(dynamicWindow, element, boundingRect);
-    }
-
-    boundingRect = element.getBoundingClientRect();
-    const blockingElement = isBehindRandomElement(dynamicDocument, element, boundingRect, 3, "popupmenu");
-    if (blockingElement && isElementVisibleByUser(dynamicDocument, dynamicWindow, blockingElement)) {
-        unBlockAbsoluteElement(element, boundingRect, blockingElement.getBoundingClientRect(), position);
-    } else if (blockingElement) {
-        let node = blockingElement;
-        do {
-            if (isBehindElement(element, node, 3) && isElementVisibleByUser(dynamicDocument, dynamicWindow, node)) {
-                return unBlockAbsoluteElement(element, boundingRect, node.getBoundingClientRect(), position);
-            } else if (node.parentElement) {
-                node = node.parentElement as HTMLElement;
-            } else {
-                break;
-            }
-        } while (node.parentElement);
-    }
-}
-
-function unBlockAbsoluteElement(
-    element: HTMLElement,
-    boundingRect: DOMRect,
-    blockingElementRect: DOMRect,
-    position: PositionEnum
-): void {
-    switch (position) {
-        case "left":
-            unBlockAbsoluteElementLeft(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "right":
-            unBlockAbsoluteElementRight(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "top":
-            unBlockAbsoluteElementTop(element, boundingRect, blockingElementRect);
-            break;
-        case "bottom":
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-    }
 }

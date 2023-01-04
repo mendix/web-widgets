@@ -35,8 +35,9 @@
     }
 
     &.popupmenu-position-bottom {
-        bottom: 0;
-        transform: translateY(100%);
+        bottom: initial;
+        top: 0;
+        transform: none;
     }
 
     .popupmenu-basic-item:first-child,
