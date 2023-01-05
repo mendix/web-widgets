@@ -21,7 +21,8 @@ export async function setupTestProject() {
     sh.config.silent = false;
 
     if (testsFiles.length !== 0) {
-        throw new Error("tests dir is not empty");
+        console.log("Test project directory already exists, cleaning up...");
+        rm("-rf", "tests");
     }
 
     const archivePath = await downloadTestProject(
