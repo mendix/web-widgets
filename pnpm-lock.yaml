@@ -217,7 +217,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       concurrently: ^6.0.0
-      copy-and-watch: ^0.1.5
+      copy-and-watch: ^0.1.6
       cross-env: ^7.0.2
       datagrid-date-filter-web: workspace:*
       datagrid-dropdown-filter-web: workspace:*
@@ -2281,7 +2281,7 @@ importers:
       ace-builds: ^1.4.13
       ansi-colors: ^4.1.3
       classnames: ^2.3.2
-      copy-and-watch: ^0.1.5
+      copy-and-watch: ^0.1.6
       eslint: ^7.20.0
       fast-json-patch: ^3.1.0
       json-source-map: ^0.6.1
@@ -4440,7 +4440,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.7
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4533,7 +4533,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.7
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11413,8 +11413,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.7:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.7
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.7

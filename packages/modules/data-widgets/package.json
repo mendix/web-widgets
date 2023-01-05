@@ -54,7 +54,7 @@
     "tree-node-web": "workspace:*"
   },
   "devDependencies": {
-    "copy-and-watch": "^0.1.5",
+    "copy-and-watch": "^0.1.6",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.2",
     "ts-node": "^9.0.0",
