@@ -10,9 +10,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  since_flag: ${{ github.event_name == 'pull_request' && format('--filter "...[origin/{0}]"', github.base_ref) || '' }}
-
 jobs:
   e2e:
     name: Run automated end-to-end tests on Firefox
@@ -43,15 +40,6 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
-      - name: Get sha of main
-        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
-      - name: Restore Turbo Cache
-        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
-        with:
-          path: node_modules/.cache/turbo
-          key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
-          restore-keys: |
-            turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
       - name: Install dependencies
         run: pnpm install
       - name: "Executing E2E tests"
