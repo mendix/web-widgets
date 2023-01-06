@@ -14,6 +14,7 @@ import {
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./utils/filters";
 import { useCellRenderer } from "./utils/useCellRenderer";
+import { getColumnReferenceProps } from "./utils/columnSettings";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -129,9 +130,11 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const { attribute, filter } = props.columns[columnIndex];
+                    const column = props.columns[columnIndex];
+                    const { attribute, filter } = column;
                     const [, filterDispatcher] = customFiltersState[columnIndex];
                     const initialFilters = extractFilters(attribute, viewStateFilters.current);
+                    console.log("filterRenderer");
 
                     if (!attribute) {
                         return renderWrapper(filter);
@@ -146,7 +149,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                                     return prev;
                                 },
                                 singleAttribute: attribute,
-                                singleInitialFilter: initialFilters
+                                singleInitialFilter: initialFilters,
+                                referenceProperties: getColumnReferenceProps(column)
                             }}
                         >
                             {filter}

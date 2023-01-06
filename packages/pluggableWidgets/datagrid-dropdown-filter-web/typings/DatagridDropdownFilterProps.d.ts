@@ -21,6 +21,7 @@ export interface DatagridDropdownFilterContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    useReference: boolean;
     advanced: boolean;
     defaultValue?: DynamicValue<string>;
     auto: boolean;
@@ -33,10 +34,15 @@ export interface DatagridDropdownFilterContainerProps {
 }
 
 export interface DatagridDropdownFilterPreviewProps {
+    /**
+     * @deprecated Deprecated since version 9.18.0. Please use class property instead.
+     */
     className: string;
+    class: string;
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    useReference: boolean;
     advanced: boolean;
     defaultValue: string;
     auto: boolean;

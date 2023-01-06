@@ -163,7 +163,11 @@ export const getPreview = (
                   size: 1,
                   sortable: false,
                   alignment: "left",
-                  wrapText: false
+                  wrapText: false,
+                  enableAssociationFilter: false,
+                  referenceToMatch: "",
+                  referenceOptionsSource: {},
+                  referenceAttribute: ""
               }
           ];
     const columns = rowLayout({
