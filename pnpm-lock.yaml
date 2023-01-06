@@ -2283,7 +2283,7 @@ importers:
       classnames: ^2.3.2
       copy-and-watch: ^0.1.5
       eslint: ^7.20.0
-      fast-json-patch: ^3.1.0
+      fast-json-patch: ^3.1.1
       json-source-map: ^0.6.1
       mendix: ^9.19.55544
       plotly.js: ^2.14.0
