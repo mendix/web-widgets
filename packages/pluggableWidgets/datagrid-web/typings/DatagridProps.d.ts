@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue } from "mendix";
+import { DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue } from "mendix";
 import { Big } from "big.js";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
@@ -23,6 +23,10 @@ export interface ColumnsType {
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
+    enableAssociationFilter: boolean;
+    referenceToMatch?: ListReferenceValue | ListReferenceSetValue;
+    referenceOptionsSource?: ListValue;
+    referenceAttribute?: ListAttributeValue<string>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -52,6 +56,10 @@ export interface ColumnsPreviewType {
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    enableAssociationFilter: boolean;
+    referenceToMatch: string;
+    referenceOptionsSource: {} | { type: string } | null;
+    referenceAttribute: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;

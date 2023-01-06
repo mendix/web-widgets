@@ -1,13 +1,14 @@
+import { Alert, FilterType, generateUUID, getFilterDispatcher } from "@mendix/pluggable-widgets-commons/components/web";
+import { ListAttributeValue, ValueStatus } from "mendix";
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
-import { ValueStatus, ListAttributeValue } from "mendix";
 import { FilterComponent, FilterOption } from "./components/FilterComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
 
-import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { FilterCondition } from "mendix/filters";
+import { attribute, equals, literal, or } from "mendix/filters/builders";
+import { ReferenceFilter } from "./components/ReferenceFilter";
 
-export default function DatagridDropdownFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
+function AttributeFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
     const id = useRef(`DropdownFilter${generateUUID()}`);
 
     const FilterContext = getFilterDispatcher();
@@ -113,6 +114,12 @@ export default function DatagridDropdownFilter(props: DatagridDropdownFilterCont
     ) : (
         alertMessage
     );
+}
+
+export default function DatagridDropdownFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
+    const Filter = props.useReference ? ReferenceFilter : AttributeFilter;
+
+    return createElement(Filter, props);
 }
 
 function findAttributesByType(multipleAttributes?: {

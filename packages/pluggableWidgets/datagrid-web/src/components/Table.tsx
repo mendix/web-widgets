@@ -20,7 +20,17 @@ import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/comp
 
 export type TableColumn = Omit<
     ColumnsPreviewType,
-    "attribute" | "columnClass" | "content" | "dynamicText" | "filter" | "showContentAs" | "tooltip"
+    | "attribute"
+    | "columnClass"
+    | "content"
+    | "dynamicText"
+    | "filter"
+    | "showContentAs"
+    | "tooltip"
+    | "enableAssociationFilter"
+    | "referenceToMatch"
+    | "referenceOptionsSource"
+    | "referenceAttribute"
 >;
 
 export type CellRenderer<T extends ObjectItem = ObjectItem> = (
