@@ -31,7 +31,11 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                       size: 1,
                       sortable: false,
                       alignment: "left",
-                      wrapText: false
+                      wrapText: false,
+                      enableAssociationFilter: false,
+                      referenceToMatch: "",
+                      referenceOptionsSource: {},
+                      referenceAttribute: ""
                   }
               ];
 
