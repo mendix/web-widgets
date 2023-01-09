@@ -42,12 +42,16 @@ declare global {
     }
 }
 
-/** @deprecated */
+/**
+ * @deprecated Please use getGlobalFilterContextObject
+ */
 export function getFilterDispatcher(): Context<FilterContextValue> | undefined {
     return (window as any)[CONTEXT_OBJECT_PATH] as Context<FilterContextValue>;
 }
 
-/** @deprecated */
+/**
+ * @deprecated Please use getGlobalFilterContextObject
+ */
 export function useFilterContext(): { FilterContext: Context<FilterContextValue> } {
     const globalFilterContext = getFilterDispatcher();
     if (globalFilterContext) {

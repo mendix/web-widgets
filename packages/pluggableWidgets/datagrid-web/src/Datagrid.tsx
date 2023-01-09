@@ -134,7 +134,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                     const { attribute, filter } = column;
                     const [, filterDispatcher] = customFiltersState[columnIndex];
                     const initialFilters = extractFilters(attribute, viewStateFilters.current);
-                    console.log("filterRenderer");
 
                     if (!attribute) {
                         return renderWrapper(filter);
