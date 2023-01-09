@@ -1,6 +1,6 @@
 {
   "name": "@mendix/shared-charts",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Shared components for charts",
   "private": true,
   "main": "dist/index.js",
@@ -46,7 +46,7 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "ace-builds": "^1.4.13",
     "classnames": "^2.3.2",
-    "fast-json-patch": "^3.1.0",
+    "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1",
     "plotly.js": "^2.14.0",
     "react-ace": "^9.4.4",
