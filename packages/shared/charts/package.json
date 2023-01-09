@@ -1,6 +1,6 @@
 {
   "name": "@mendix/shared-charts",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Shared components for charts",
   "private": true,
   "main": "dist/index.js",
