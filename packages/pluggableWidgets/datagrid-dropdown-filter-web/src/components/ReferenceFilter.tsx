@@ -12,7 +12,7 @@ import {
 import { DatagridDropdownFilterContainerProps } from "typings/DatagridDropdownFilterProps";
 import { ObjectSelector } from "./ObjectSelector";
 import { ObjectItem } from "mendix";
-import { useDropdownId } from "src/hooks/useDropdownId";
+import { useDropdownId } from "../hooks/useDropdownId";
 
 interface ReferenceFilterProps extends DatagridDropdownFilterContainerProps {
     filterDispatch: Dispatch<FilterFunction>;
