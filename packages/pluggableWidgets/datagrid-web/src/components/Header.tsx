@@ -116,7 +116,6 @@ export function Header(props: HeaderProps): ReactElement {
             >
                 <div
                     className={classNames("column-header", canSort ? "clickable" : "", props.className)}
-                    id={props.column.id}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
                     {...(canSort ? sortProps : undefined)}
                 >
