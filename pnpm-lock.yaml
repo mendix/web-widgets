@@ -164,7 +164,7 @@ importers:
       date-arithmetic: ^3.1.0
       eslint: ^7.20.0
       fork-ts-checker-webpack-plugin: ^7.2.14
-      jest: ^26.6.1
+      jest: ^26.6.3
       mendix-client: ^7.15.8
       moment: ^2.29.4
       react: ~17.0.2
@@ -666,7 +666,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
-      jest: ^26.6.1
+      jest: ^26.6.3
       mendix: ^9.19.55544
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2078,7 +2078,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
-      jest: ^26.6.1
+      jest: ^26.6.3
       mendix: ^9.19.55544
       react: ~17.0.2
       react-dom: ~17.0.2
