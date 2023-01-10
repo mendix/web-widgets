@@ -163,7 +163,7 @@ importers:
       css-loader: ^6.7.2
       date-arithmetic: ^3.1.0
       eslint: ^7.20.0
-      fork-ts-checker-webpack-plugin: ^7.2.13
+      fork-ts-checker-webpack-plugin: ^7.2.14
       jest: ^26.6.1
       mendix-client: ^7.15.8
       moment: ^2.29.4
@@ -199,7 +199,7 @@ importers:
       copy-webpack-plugin: 11.0.0_webpack@5.75.0
       css-loader: 6.7.2_webpack@5.75.0
       eslint: 7.32.0
-      fork-ts-checker-webpack-plugin: 7.2.13_leot54mpvtrbhlmxtuzvyiidqe
+      fork-ts-checker-webpack-plugin: 7.2.14_leot54mpvtrbhlmxtuzvyiidqe
       jest: 26.6.3
       mendix-client: 7.15.8
       react: 17.0.2
@@ -8812,8 +8812,8 @@ packages:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: false
 
-  /fork-ts-checker-webpack-plugin/7.2.13_leot54mpvtrbhlmxtuzvyiidqe:
-    resolution: {integrity: sha512-fR3WRkOb4bQdWB/y7ssDUlVdrclvwtyCUIHCfivAoYxq9dF7XfrDKbMdZIfwJ7hxIAqkYSGeU7lLJE6xrxIBdg==}
+  /fork-ts-checker-webpack-plugin/7.2.14_leot54mpvtrbhlmxtuzvyiidqe:
+    resolution: {integrity: sha512-Tg2feh/n8k486KX0EbXVUfJj3j0xnnbKYTJw0fnIb2QdV0+lblOYZSal5ed9hARoWVwKeOC7sYE2EakSRLo5ZA==}
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
       typescript: '>3.6.0'
