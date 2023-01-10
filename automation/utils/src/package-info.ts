@@ -97,6 +97,8 @@ export const WidgetPackageSchema = PackageSchema.extend({
     packagePath: z.string().startsWith("com.mendix.")
 });
 
+export type WidgetPackage = z.infer<typeof WidgetPackageSchema>;
+
 export const ModulePackageSchema = PackageSchema.extend({
     mxpackage: MxPackageSchema.extend({
         type: z.literal(MODULE)
