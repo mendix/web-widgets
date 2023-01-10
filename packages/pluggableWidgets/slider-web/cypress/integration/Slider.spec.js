@@ -9,7 +9,7 @@ describe("Slider widget", () => {
 
     describe("Slider", () => {
         it("renders with context", () => {
-            cy.visit("/");
+            cy.visit("index.html");
             cy.get(".mx-name-textBoxMinimumValue")
                 .find("input")
                 .then($minimumValue => {

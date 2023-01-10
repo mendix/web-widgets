@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.3.0] - 2023-01-04
+
+### Changed
+
+-   We fixed an issue with widget rendering where pop-up in a column would cause a bug. (Ticket(s) #165858, #166376, #167745)
+
 ## [3.2.2] - 2022-02-01
 
 ### Fixed

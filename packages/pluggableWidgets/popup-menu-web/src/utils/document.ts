@@ -1,6 +1,4 @@
-import { RefObject, useEffect } from "react";
-
-function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.top < blockingRect.bottom &&
         srcRect.bottom >= blockingRect.bottom &&
@@ -8,17 +6,17 @@ function isElementBlockedTop(dynamicWindow: Window, srcRect: DOMRect, blockingRe
     );
 }
 
-function isElementBlockedBottom(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedBottom(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return srcRect.bottom > blockingRect.top && srcRect.top <= blockingRect.top && srcRect.y - srcRect.height > 0;
 }
 
-function isElementBlockedLeft(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedLeft(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.left < blockingRect.right && srcRect.right >= blockingRect.right && srcRect.left >= blockingRect.left
     );
 }
 
-function isElementBlockedRight(srcRect: DOMRect, blockingRect: DOMRect) {
+function isElementBlockedRight(srcRect: DOMRect, blockingRect: DOMRect): boolean {
     return (
         srcRect.right > blockingRect.left && srcRect.left <= blockingRect.left && srcRect.right <= blockingRect.right
     );
@@ -81,7 +79,7 @@ function isBehindRandomElementCheck(
     blockingElement: HTMLElement,
     excludeElements: HTMLElement[],
     excludeElementWithClass: string
-) {
+): boolean {
     return (
         blockingElement &&
         blockingElement !== element &&
@@ -231,7 +229,7 @@ export function moveAbsoluteElementOnScreen(
             getPixelValueAsNumber(element, "right") +
                 (boundingRect.x + boundingRect.width - dynamicWindow.document.documentElement.clientWidth)
         );
-        element.style.right = rightValue + "px";
+        element.style.left = boundingRect.x - rightValue + "px";
         boundingRect.x -= rightValue;
     }
     if (boundingRect.y + boundingRect.height > dynamicWindow.document.documentElement.clientHeight) {
@@ -244,21 +242,4 @@ export function moveAbsoluteElementOnScreen(
         boundingRect.y -= bottomValue;
     }
     return boundingRect;
-}
-
-export function handleOnClickOutsideElement(ref: RefObject<HTMLDivElement>, handler: () => void): void {
-    useEffect(() => {
-        const listener = (event: MouseEvent & { target: Node | null }): void => {
-            if (!ref.current || ref.current.contains(event.target)) {
-                return;
-            }
-            handler();
-        };
-        ref.current?.ownerDocument.addEventListener("mousedown", listener);
-        ref.current?.ownerDocument.addEventListener("touchstart", listener);
-        return () => {
-            ref.current?.ownerDocument.removeEventListener("mousedown", listener);
-            ref.current?.ownerDocument.removeEventListener("touchstart", listener);
-        };
-    }, [ref, handler]);
 }

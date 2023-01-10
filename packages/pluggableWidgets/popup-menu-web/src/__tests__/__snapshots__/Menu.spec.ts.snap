@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Popup menu renders popup menu 1`] = `
+<Portal
+  containerInfo={<body />}
+>
+  <div
+    className="widget-popupmenu-root"
+  >
+    <div
+      className="popupmenu-menu popupmenu-position-bottom popup-portal mx-popup-menu"
+      style={
+        Object {
+          "bottom": "initial",
+          "display": "flex",
+          "left": 30,
+          "position": "fixed",
+          "top": 11,
+          "transform": "none",
+          "zIndex": 0,
+        }
+      }
+    >
+      <div
+        className="popupmenu-basic-item"
+        key="0"
+        onClick={[Function]}
+      >
+        Caption
+      </div>
+      <div
+        className="popupmenu-basic-divider"
+        key="1"
+      />
+    </div>
+  </div>
+</Portal>
+`;

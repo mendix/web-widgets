@@ -1,5 +1,5 @@
-import { cp, mkdir, zip, exec } from "@mendix/release-utils-internal/shell";
-import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix/release-utils-internal/steps";
+import { cp, mkdir, zip, exec } from "@mendix-internal/automation-utils/shell";
+import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix-internal/automation-utils/steps";
 import { dirname, join } from "node:path";
 
 const [, , env] = process.argv;

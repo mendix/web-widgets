@@ -71,5 +71,6 @@ video-player-web:
 # Internals
 pluggable-widgets-commons:
   - packages/*/pluggable-widgets-commons/**/*
-release-utils-internal:
-  - packages/*/release-utils-internal/**/*
+automation:
+  - automation/**/*
+  - .github/**/*

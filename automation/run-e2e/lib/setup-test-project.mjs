@@ -5,10 +5,9 @@ import { mkdtemp } from "node:fs/promises";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
 import { join } from "node:path";
-import fetch from "node-fetch";
 import sh from "shelljs";
 import crossZip from "cross-zip";
-import { packageMeta } from "./utils.mjs";
+import { packageMeta, fetchGithubRestAPI, fetchWithReport } from "./utils.mjs";
 
 const { cp, ls, mkdir, rm, mv } = sh;
 const streamPipe = promisify(pipeline);
@@ -22,7 +21,8 @@ export async function setupTestProject() {
     sh.config.silent = false;
 
     if (testsFiles.length !== 0) {
-        throw new Error("tests dir is not empty");
+        console.log("Test project directory already exists, cleaning up...");
+        rm("-rf", "tests");
     }
 
     const archivePath = await downloadTestProject(
@@ -42,7 +42,8 @@ export async function setupTestProject() {
 
         await updateAtlas();
     } catch (e) {
-        throw new Error("Failed to unzip the test project into tests/testProject", e.message);
+        console.error(e);
+        throw new Error("Failed to unzip the test project into tests/testProject");
     }
 }
 
@@ -57,7 +58,7 @@ async function downloadTestProject(repository, branch) {
     try {
         await streamPipe(
             (
-                await fetch(`${repository}/archive/refs/heads/${branch}.zip`)
+                await fetchWithReport(`${repository}/archive/refs/heads/${branch}.zip`)
             ).body,
             createWriteStream(downloadedArchivePath)
         );
@@ -80,14 +81,16 @@ async function updateAtlas() {
         "tests/testProject/themesource/datawidgets"
     );
 
-    const releasesResponse = await fetch("https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest");
+    const releasesResponse = await fetchGithubRestAPI(
+        "https://api.github.com/repos/mendix/StarterApp_Blank/releases/latest"
+    );
     if (releasesResponse.ok) {
         const release = await releasesResponse.json();
         const [{ browser_download_url }] = release.assets;
         const downloadedPath = join(await usetmp(), `StarterAppRelease.zip`);
         const outPath = await usetmp();
         try {
-            await streamPipe((await fetch(browser_download_url)).body, createWriteStream(downloadedPath));
+            await streamPipe((await fetchWithReport(browser_download_url)).body, createWriteStream(downloadedPath));
             crossZip.unzipSync(downloadedPath, outPath);
             cp("-r", join(outPath, "theme"), "tests/testProject");
             cp("-r", join(outPath, "themesource"), "tests/testProject");

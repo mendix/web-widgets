@@ -1,0 +1,42 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "username": "uicontent",
+    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+    "platform": "github",
+    "repositories": ["mendix/web-widgets"],
+    "extends": ["config:base", ":disablePrControls"],
+    "labels": ["dependencies"],
+    "rebaseLabel": "renovate-rebase",
+    "branchPrefix": "deps/",
+    "prHourlyLimit": 5,
+    "prConcurrentLimit": 5,
+    "prCreation": "immediate",
+    "includeForks": false,
+    "onboarding": true,
+    "dependencyDashboard": true,
+    "reviewersFromCodeOwners": true,
+    "stabilityDays": 5,
+    "docker": {
+        "enabled": false
+    },
+    "docker-compose": {
+        "enabled": false
+    },
+    "major": {
+        "description": "Disable major updates",
+        "enabled": false
+    },
+    "separateMajorMinor": true,
+    "lockFileMaintenance": {
+        "enabled": true
+    },
+    "allowScripts": true,
+    "ignoreScripts": false,
+    "ignoreDeps": ["typescript"],
+    "packageRules": [
+        {
+            "matchPackagePatterns": ["*"],
+            "rangeStrategy": "bump"
+        }
+    ]
+}

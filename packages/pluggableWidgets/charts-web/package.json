@@ -1,6 +1,6 @@
 {
   "name": "charts-web",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
   "private": false,
@@ -53,7 +53,7 @@
     "time-series-chart-web": "workspace:*"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
-    "@mendix/release-utils-internal": "workspace:*"
+    "cross-env": "^7.0.3",
+    "@mendix-internal/automation-utils": "workspace:*"
   }
 }
