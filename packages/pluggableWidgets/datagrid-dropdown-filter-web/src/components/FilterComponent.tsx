@@ -9,7 +9,7 @@ export interface FilterOption {
     value: string;
 }
 
-interface FilterComponentProps {
+export interface FilterComponentProps {
     ariaLabel?: string;
     className?: string;
     defaultValue?: string;
