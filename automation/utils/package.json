@@ -30,7 +30,7 @@
     "eslint": "^7.20.0",
     "execa": "^5.1.1",
     "fast-xml-parser": "^4.0.12",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "ora": "^5.4.1",
     "peggy": "^1.2.0",
     "shelljs": "^0.8.4",
