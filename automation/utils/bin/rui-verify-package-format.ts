@@ -26,7 +26,7 @@ async function main(): Promise<void> {
             ...raw
         };
 
-        // First, chech common fields
+        // First, check common fields
         const info = PackageSchema.parse(target);
 
         switch (info.mxpackage.type) {
