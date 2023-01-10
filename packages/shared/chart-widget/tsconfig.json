@@ -1,0 +1,15 @@
+{
+    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
+    "include": ["src", "typings"],
+    "exclude": ["@types"],
+    "compilerOptions": {
+        "target": "ES2021",
+        "baseUrl": ".",
+        "outDir": "dist",
+        "types": ["mendix-client", "big.js", "jest", "node"],
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "declaration": false,
+        "sourceMap": false
+    }
+}
