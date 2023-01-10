@@ -19,8 +19,8 @@
     "release": "turbo run release",
     "create-gh-release": "turbo run create-gh-release",
     "publish-marketplace": "turbo run publish-marketplace",
-    "version": "pnpm --filter release-utils-internal run version",
-    "changelog": "pnpm --filter release-utils-internal run changelog",
+    "version": "pnpm --filter @mendix-internal/automation-utils run version",
+    "changelog": "pnpm --filter @mendix-internal/automation-utils run changelog",
     "validate-staged-widget-versions": "node scripts/validation/validate-versions-staged-files.js"
   },
   "devDependencies": {
