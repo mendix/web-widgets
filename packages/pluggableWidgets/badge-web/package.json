@@ -57,7 +57,7 @@
     "@types/testing-library__jest-dom": "^5.14.5",
     "@types/testing-library__react-hooks": "^3.4.0",
     "@web-widgets/run-e2e": "workspace:^*",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
     "mendix": "^9.19.55544",
     "react": "~17.0.2",
