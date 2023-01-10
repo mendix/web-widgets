@@ -44,8 +44,8 @@
     "e2edev": "run-e2e dev --with-preps"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^9.20.0",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",

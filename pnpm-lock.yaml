@@ -24,7 +24,7 @@ importers:
     specifiers:
       '@commitlint/cli': ^15.0.0
       '@commitlint/config-conventional': ^15.0.0
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@types/big.js': ^6.0.2
       '@types/concurrently': ^6.3.0
       '@types/enzyme': ^3.10.12
@@ -50,7 +50,7 @@ importers:
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
-      '@mendix/pluggable-widgets-tools': 9.18.0
+      '@mendix/pluggable-widgets-tools': 9.20.0
       '@types/big.js': 6.1.6
       '@types/concurrently': 6.4.0
       '@types/enzyme': 3.10.12
@@ -152,7 +152,7 @@ importers:
     specifiers:
       '@babel/core': ^7.20.7
       '@mendix-internal/automation-utils': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@types/date-arithmetic': ^3.1.2
       '@types/react': <18.0.0
       '@types/react-big-calendar': 0.20.20
@@ -190,7 +190,7 @@ importers:
     devDependencies:
       '@babel/core': 7.20.7
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@types/date-arithmetic': 3.1.2
       '@types/react': 17.0.52
       '@types/react-big-calendar': 0.20.20
@@ -264,7 +264,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -287,7 +287,7 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -311,7 +311,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -336,7 +336,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -360,7 +360,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -384,7 +384,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -405,7 +405,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -431,7 +431,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -456,7 +456,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -482,7 +482,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -507,7 +507,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -531,7 +531,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -552,7 +552,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@rollup/plugin-replace': ^2.4.2
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -580,7 +580,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@rollup/plugin-replace': 2.4.2
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -605,7 +605,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -629,7 +629,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -650,7 +650,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -680,7 +680,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -732,7 +732,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -761,7 +761,7 @@ importers:
       react-color: 2.19.3_react@17.0.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -787,7 +787,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -812,7 +812,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -834,7 +834,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -864,7 +864,7 @@ importers:
       string.prototype.replaceall: 1.0.7
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -887,7 +887,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -913,7 +913,7 @@ importers:
       deep-equal: 2.1.0
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -936,7 +936,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -961,7 +961,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -983,7 +983,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1006,7 +1006,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1028,7 +1028,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1053,7 +1053,7 @@ importers:
       deep-equal: 2.1.0
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1075,7 +1075,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1098,7 +1098,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1120,7 +1120,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1144,7 +1144,7 @@ importers:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1169,7 +1169,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1193,7 +1193,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1216,7 +1216,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1243,7 +1243,7 @@ importers:
       date-fns: 2.29.3
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1265,7 +1265,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1288,7 +1288,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1310,7 +1310,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1337,7 +1337,7 @@ importers:
       react-overlays: 5.2.1_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1361,7 +1361,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1386,7 +1386,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1410,7 +1410,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1435,7 +1435,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1458,7 +1458,7 @@ importers:
       '@googlemaps/jest-mocks': ^0.0.3
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@react-google-maps/api': ~2.17.1
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1499,7 +1499,7 @@ importers:
     devDependencies:
       '@googlemaps/jest-mocks': 0.0.3
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1530,7 +1530,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1557,7 +1557,7 @@ importers:
       date-fns: 2.29.3
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1579,7 +1579,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1604,7 +1604,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1628,7 +1628,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1654,7 +1654,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1679,7 +1679,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1707,7 +1707,7 @@ importers:
       progressbar.js: 1.1.0
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1732,7 +1732,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1764,7 +1764,7 @@ importers:
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1791,7 +1791,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1817,7 +1817,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1842,7 +1842,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@rollup/plugin-json': ^4.1.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -1878,7 +1878,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@rollup/plugin-json': 4.1.0
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -1907,7 +1907,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1939,7 +1939,7 @@ importers:
       rc-tooltip: 3.7.3_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1966,7 +1966,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -1992,7 +1992,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2017,7 +2017,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/shared-charts': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -2042,7 +2042,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2064,7 +2064,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2090,7 +2090,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2115,7 +2115,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@popperjs/core': ^2.10.2
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -2145,7 +2145,7 @@ importers:
       react-popper: 2.3.0_vov5yimr6vvxyufd6uigwwkst4
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2170,7 +2170,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2193,7 +2193,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2215,7 +2215,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2241,7 +2241,7 @@ importers:
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2265,7 +2265,7 @@ importers:
   packages/shared/charts:
     specifiers:
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2305,7 +2305,7 @@ importers:
       react-ace: 9.5.0_sfoxds7t5ydpegc3knd667wn6m
       react-plotly.js: 2.6.0_ddzmxkikd7pkrocvtq56ts57h4
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2331,7 +2331,7 @@ importers:
 
   packages/shared/pluggable-widgets-commons:
     specifiers:
-      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -2355,7 +2355,7 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
-      '@mendix/pluggable-widgets-tools': 9.18.0_@types+react@17.0.52
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -4386,8 +4386,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /@mendix/pluggable-widgets-tools/9.18.0:
-    resolution: {integrity: sha512-dRV3PEcGLTTWAv6DvRvf2TkmcSvMVtyOewmcAHZAWfT1+f5fZ/FAKjl23D31+6rZR8Kqy7+0nRUAUKZiX2gpaA==}
+  /@mendix/pluggable-widgets-tools/9.20.0:
+    resolution: {integrity: sha512-0f7UPRYkgeSTAqQDjvc3CnZDprMzQhlkrS3/lLSH0jepFyHtOAUzyUZUB5BKfpfjuOKHEtpUxFJGDuH87Ol0Sw==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
@@ -4440,7 +4440,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.7
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4479,8 +4479,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@mendix/pluggable-widgets-tools/9.18.0_@types+react@17.0.52:
-    resolution: {integrity: sha512-dRV3PEcGLTTWAv6DvRvf2TkmcSvMVtyOewmcAHZAWfT1+f5fZ/FAKjl23D31+6rZR8Kqy7+0nRUAUKZiX2gpaA==}
+  /@mendix/pluggable-widgets-tools/9.20.0_@types+react@17.0.52:
+    resolution: {integrity: sha512-0f7UPRYkgeSTAqQDjvc3CnZDprMzQhlkrS3/lLSH0jepFyHtOAUzyUZUB5BKfpfjuOKHEtpUxFJGDuH87Ol0Sw==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
@@ -4533,7 +4533,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.7
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11413,10 +11413,8 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.7:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.7
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.7
