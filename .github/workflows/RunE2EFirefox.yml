@@ -3,8 +3,8 @@ name: Run E2E test on Firefox
 
 on:
   schedule:
-    # At 03:00 on Tuesday.
-    - cron: "0 03 * * 2"
+    # At 03:00 on every day-of-week.
+    - cron: "0 03 * * 1-5"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
