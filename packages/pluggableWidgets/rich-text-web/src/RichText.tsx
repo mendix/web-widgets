@@ -1,4 +1,4 @@
-import { ReactNode, createElement, useCallback } from "react";
+import { ReactNode, createElement, useCallback, useMemo } from "react";
 import { RichTextEditor as RichTextComponent } from "./components/RichText";
 import { RichTextContainerProps } from "../typings/RichTextProps";
 import { GroupType, createCustomToolbar, ToolbarItems } from "./utils/ckeditorPresets";
@@ -11,6 +11,7 @@ import "./ui/RichText.scss";
 export default function RichText(props: RichTextContainerProps): ReactNode {
     const onKeyChange = useCallback(() => executeAction(props.onChange), [props.onChange]);
     const onKeyPress = useCallback(() => executeAction(props.onKeyPress), [props.onKeyPress]);
+    const key = useMemo(() => Date.now(), [props.stringAttribute]);
     const onChangeFn = useCallback(
         debounce((value: string) => props.stringAttribute.setValue(value), 500),
         [props.stringAttribute]
@@ -46,6 +47,7 @@ export default function RichText(props: RichTextContainerProps): ReactNode {
     }
     return (
         <RichTextComponent
+            key={key}
             advancedConfig={props.advancedConfig}
             advancedContentFilter={
                 props.advancedContentFilter === "custom"
