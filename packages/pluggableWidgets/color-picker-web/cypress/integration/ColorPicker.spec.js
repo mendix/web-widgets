@@ -40,7 +40,7 @@ describe("color-picker-web", () => {
             cy.get(".mx-name-colorPicker3 .widget-color-picker-inner").should(
                 "have.css",
                 "background",
-                "rgb(76, 175, 80) none repeat scroll 0% 0%"
+                "rgb(76, 175, 80)"
             );
         });
         it("input box", () => {
