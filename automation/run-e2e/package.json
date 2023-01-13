@@ -30,7 +30,7 @@
     "eslint-plugin-cypress": "^2.12.1",
     "find-free-port": "^2.0.0",
     "ip": "^1.1.8",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "prettier": "^2.5.1",
     "shelljs": "^0.8.5",
     "yargs-parser": "^21.1.1"
