@@ -6,10 +6,9 @@ import sh from "shelljs";
 import parseArgs from "yargs-parser";
 import { createDeploymentBundle, prepareImage, startCypress, startRuntime } from "./docker-utils.mjs";
 import { setupTestProject } from "./setup-test-project.mjs";
-import { fetchWithReport, updateWidget } from "./utils.mjs";
-
-const MX_VERSION_MAP_URL =
-    "https://raw.githubusercontent.com/mendix/web-widgets/main/automation/run-e2e/mendix-versions.json";
+import { updateTestProject } from "./update-test-project.mjs";
+import { fetchWithReport } from "./utils.mjs";
+import * as config from "./config.mjs";
 
 const { ls, cat } = sh;
 
@@ -18,9 +17,9 @@ export async function ci() {
 
     const parseArgsOptions = {
         string: ["mx-version"],
-        boolean: ["update-widget", "setup-project"],
+        boolean: ["update-project", "setup-project"],
         default: {
-            "update-widget": true,
+            "update-project": true,
             "setup-project": true
         },
         configuration: {
@@ -51,8 +50,8 @@ export async function ci() {
         await setupTestProject();
     }
 
-    if (options.updateWidget) {
-        await updateWidget();
+    if (options.updateProject) {
+        await updateTestProject();
     }
 
     let runtimeContainerId;
@@ -61,7 +60,7 @@ export async function ci() {
         const mxruntimeImage = await prepareImage("mxruntime", mendixVersion);
 
         // Build testProject via mxbuild
-        const projectFile = ls("tests/testProject/*.mpr").toString();
+        const projectFile = ls(config.mprFileGlob).toString();
         createDeploymentBundle(mxbuildImage, projectFile);
 
         // Spin up the runtime and run testProject
@@ -89,7 +88,7 @@ async function getMendixVersion(options) {
         return process.env.MENDIX_VERSION;
     }
 
-    const versionMapResponse = await fetchWithReport(MX_VERSION_MAP_URL);
+    const versionMapResponse = await fetchWithReport(config.mxVersionMapUrl);
     if (versionMapResponse.ok) {
         const { mxVersion } = options;
         const versionMap = await versionMapResponse.json();
