@@ -4,11 +4,12 @@ import { Big } from "big.js";
 type Writable<T> = {
     -readonly [K in keyof T]: T[K];
 };
-
+/* eslint-disable no-unused-vars */
 export enum FormatterType {
     Number = "number",
     DateTime = "datetime"
 }
+/* eslint-enable no-unused-vars */
 
 export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     private readonly editableValue: Writable<EditableValue<T>> = {

@@ -1,21 +1,28 @@
-import { ReferenceProperties } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { AssociationProperties } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { ensure } from "@mendix/pluggable-widgets-commons/dist/utils/ensure";
 import { ColumnsType } from "typings/DatagridProps";
 
-export function columnSettingsToReferenceProps(settings: ColumnsType): ReferenceProperties {
-    const msg = (propName: string): string => `Can't map ColumnsType to ReferenceProperties: ${propName} is undefined`;
+export function getAssociationProps(columnProps: ColumnsType): AssociationProperties {
+    const msg = (propName: string): string =>
+        `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
 
-    return {
-        referenceToMatch: ensure(settings.referenceToMatch, msg("referenceToMatch")),
-        referenceAttribute: ensure(settings.referenceAttribute, msg("referenceAttribute")),
-        referenceOptionsSource: ensure(settings.referenceOptionsSource, msg("referenceOptionsSource"))
+    const association = ensure(columnProps.filterAssociation, msg("filterAssociation"));
+    const optionsSource = ensure(columnProps.filterAssociationOptions, msg("filterAssociationOptions"));
+    const labelSource = ensure(columnProps.filterAssociationOptionLabel, msg("filterAssociationOptionLabel"));
+
+    const props: AssociationProperties = {
+        association,
+        optionsSource,
+        getOptionLabel: item => labelSource.get(item).value ?? "unable to get label"
     };
+
+    return props;
 }
 
-export function getColumnReferenceProps(settings: ColumnsType): ReferenceProperties | undefined {
+export function getColumnAssociationProps(settings: ColumnsType): AssociationProperties | undefined {
     if (!settings.enableAssociationFilter) {
         return;
     }
 
-    return columnSettingsToReferenceProps(settings);
+    return getAssociationProps(settings);
 }

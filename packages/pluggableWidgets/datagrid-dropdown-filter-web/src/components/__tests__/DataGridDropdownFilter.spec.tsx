@@ -48,7 +48,7 @@ describe("Dropdown Filter", () => {
                 it("loads correct values from universe", () => {
                     const filter = mount(
                         <DatagridDropdownFilter
-                            useReference={false}
+                            optionsPageSize={100}
                             {...commonProps}
                             auto
                             multiSelect={false}
@@ -73,7 +73,7 @@ describe("Dropdown Filter", () => {
                 it("renders correctly", () => {
                     const { asFragment } = render(
                         <DatagridDropdownFilter
-                            useReference={false}
+                            optionsPageSize={100}
                             {...commonProps}
                             auto
                             multiSelect={false}
@@ -91,7 +91,7 @@ describe("Dropdown Filter", () => {
                 render(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto
                         multiSelect={false}
                         filterOptions={[]}
@@ -112,7 +112,7 @@ describe("Dropdown Filter", () => {
                     render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -127,7 +127,7 @@ describe("Dropdown Filter", () => {
                     const { rerender } = render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -143,7 +143,7 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -153,7 +153,7 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -171,7 +171,7 @@ describe("Dropdown Filter", () => {
                     const { rerender } = render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -185,7 +185,7 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -195,7 +195,7 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -248,7 +248,7 @@ describe("Dropdown Filter", () => {
                     const filter = mount(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            useReference={false}
+                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -293,7 +293,7 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto
                         multiSelect={false}
                         filterOptions={[]}
@@ -301,7 +301,7 @@ describe("Dropdown Filter", () => {
                 );
 
                 expect(filter.find(Alert).text()).toBe(
-                    "The attribute type being used for Drop-down filter is not 'Boolean or Enumeration'"
+                    `Error: The attribute type being used for Drop-down filter is not 'Boolean or Enumeration'.`
                 );
             });
 
@@ -333,7 +333,7 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto
                         multiSelect={false}
                         filterOptions={[]}
@@ -341,7 +341,7 @@ describe("Dropdown Filter", () => {
                 );
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Drop-down filter widget can\'t be used with the filters options you have selected. It requires a "Boolean or Enumeration" attribute to be selected.'
+                    `Error: Missing required attribute(s): the Drop-down filter widget can't be used with the filters options you have selected. It requires a 'Boolean or Enumeration' attribute to be selected.`
                 );
             });
 
@@ -359,7 +359,7 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto
                         multiSelect={false}
                         filterOptions={[]}
@@ -367,7 +367,7 @@ describe("Dropdown Filter", () => {
                 );
 
                 expect(filter.find(Alert).text()).toBe(
-                    "The Drop-down filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
+                    "Error: The Drop-down filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
                 );
             });
         });
@@ -388,7 +388,7 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto={false}
                         multiSelect={false}
                         filterOptions={[
@@ -400,7 +400,9 @@ describe("Dropdown Filter", () => {
                     />
                 );
 
-                expect(filter.find(Alert).text()).toBe("There are invalid values available in the Drop-down filter");
+                expect(filter.find(Alert).text()).toBe(
+                    "Error: Invalid option (wrong value): option has invalid value and can't be used with attribute(s)"
+                );
             });
         });
 
@@ -427,7 +429,7 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        useReference={false}
+                        optionsPageSize={100}
                         auto={false}
                         multiSelect={false}
                         filterOptions={[
@@ -443,7 +445,9 @@ describe("Dropdown Filter", () => {
                     />
                 );
 
-                expect(filter.find(Alert).text()).toBe("There are invalid values available in the Drop-down filter");
+                expect(filter.find(Alert).text()).toBe(
+                    "Error: Invalid option (wrong enum value): option has invalid value and can't be used with attribute(s)"
+                );
             });
         });
     });
@@ -468,7 +472,7 @@ describe("Dropdown Filter", () => {
             const { asFragment: fragment1 } = render(
                 <DatagridDropdownFilter
                     {...commonProps}
-                    useReference={false}
+                    optionsPageSize={100}
                     auto
                     multiSelect={false}
                     filterOptions={[]}
@@ -477,7 +481,7 @@ describe("Dropdown Filter", () => {
             const { asFragment: fragment2 } = render(
                 <DatagridDropdownFilter
                     {...commonProps}
-                    useReference={false}
+                    optionsPageSize={100}
                     auto
                     multiSelect={false}
                     filterOptions={[]}

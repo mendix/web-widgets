@@ -2,7 +2,7 @@ import { useSettings } from "../settings";
 import { ColumnWidth, TableColumn } from "../../components/Table";
 import { EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { HidableEnum } from "../../../typings/DatagridProps";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
 import { EditableValue } from "mendix";
 import { act } from "react-dom/test-utils";
 
@@ -208,8 +208,8 @@ describe("useSettings Hook", () => {
         );
     });
 });
-//
-function renderUseSettingsHook(initialProps: {
+
+type InitProps = {
     settings: EditableValue<string>;
     hiddenColumns: any[];
     columnOrder: string[];
@@ -220,7 +220,9 @@ function renderUseSettingsHook(initialProps: {
     setSortBy: any;
     setWidths: any;
     setColumnOrder: any;
-}) {
+};
+
+function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<InitProps, { updateSettings: () => void }> {
     return renderHook(
         ({
             settings,

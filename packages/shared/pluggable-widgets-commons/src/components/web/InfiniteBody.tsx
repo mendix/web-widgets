@@ -20,6 +20,7 @@ interface InfiniteBodyProps {
 }
 
 export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
+    const { setPage, hasMoreItems, isInfinite } = props;
     const [bodySize, setBodySize] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -30,19 +31,19 @@ export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): React
              */
             const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === Math.floor(e.target.clientHeight);
             if (bottom) {
-                if (props.hasMoreItems && props.setPage) {
-                    props.setPage(prev => prev + 1);
+                if (hasMoreItems && setPage) {
+                    setPage(prev => prev + 1);
                 }
             }
         },
-        [props.hasMoreItems, props.setPage]
+        [hasMoreItems, setPage]
     );
 
     const calculateBodyHeight = useCallback((): void => {
-        if (props.isInfinite && props.hasMoreItems && bodySize <= 0 && containerRef.current) {
+        if (isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
             setBodySize(containerRef.current.clientHeight - 30);
         }
-    }, [props.isInfinite, props.hasMoreItems, bodySize]);
+    }, [isInfinite, hasMoreItems, bodySize]);
 
     useLayoutEffect(() => {
         setTimeout(() => calculateBodyHeight(), 100);
@@ -51,10 +52,10 @@ export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): React
     return (
         <div
             ref={containerRef}
-            className={classNames(props.className, props.isInfinite ? "infinite-loading" : "")}
-            onScroll={props.isInfinite ? trackScrolling : undefined}
+            className={classNames(props.className, isInfinite ? "infinite-loading" : "")}
+            onScroll={isInfinite ? trackScrolling : undefined}
             role={props.role}
-            style={props.isInfinite && bodySize > 0 ? { ...props.style, maxHeight: bodySize } : props.style}
+            style={isInfinite && bodySize > 0 ? { ...props.style, maxHeight: bodySize } : props.style}
         >
             {props.children}
         </div>

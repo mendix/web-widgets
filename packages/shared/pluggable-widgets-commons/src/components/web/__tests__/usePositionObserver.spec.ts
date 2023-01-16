@@ -8,13 +8,15 @@ describe("Position Observer", () => {
         let hookValue = { top: 0, right: 0, bottom: 0, left: 0 };
         const setHookValue = jest.fn(value => (hookValue = value));
 
-        // @ts-ignore
-        jest.spyOn(target, "getBoundingClientRect").mockImplementation(() => ({
-            top: 1,
-            right: 2,
-            bottom: 3,
-            left: 4
-        }));
+        jest.spyOn(target, "getBoundingClientRect").mockImplementation(
+            () =>
+                ({
+                    top: 1,
+                    right: 2,
+                    bottom: 3,
+                    left: 4
+                } as DOMRect)
+        );
         jest.spyOn(React, "useState").mockImplementation(() => [hookValue, setHookValue]);
         jest.spyOn(window, "requestAnimationFrame").mockImplementation(() => {
             setHookValue({ top: 1, right: 2, bottom: 3, left: 4 });

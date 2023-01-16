@@ -1,35 +1,41 @@
 import { Context, createContext, Dispatch, SetStateAction, useState, useContext } from "react";
-import { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
+import { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { OutOfContextError, ValueIsMissingError } from "./errors";
+import { ValueMeta, value, error } from "../../../utils/valueStatus";
 
 export type FilterValue = { type: string; value: any };
 
+/* eslint-disable no-unused-vars */
 export const enum FilterType {
     STRING = "string",
     NUMBER = "number",
     ENUMERATION = "enum",
-    DATE = "date"
+    DATE = "date",
+    ASSOCIATION = "association"
 }
+/* eslint-enable no-unused-vars */
 
 export interface FilterFunction {
     getFilterCondition: () => FilterCondition | undefined;
     filterType?: FilterType;
 }
 
-export interface ReferenceProperties {
-    referenceToMatch: ListReferenceValue | ListReferenceSetValue;
-    referenceOptionsSource: ListValue;
-    referenceAttribute: ListAttributeValue<string>;
+export interface AssociationProperties {
+    association: ListReferenceValue | ListReferenceSetValue;
+    optionsSource: ListValue;
+    getOptionLabel: (item: ObjectItem) => string;
 }
 
+export type ConditionDispatch = Dispatch<FilterFunction>;
+
 export interface FilterContextValue {
-    filterDispatcher: Dispatch<FilterFunction>;
+    filterDispatcher: ConditionDispatch;
     singleAttribute?: ListAttributeValue;
     multipleAttributes?: { [id: string]: ListAttributeValue };
     singleInitialFilter?: FilterValue[];
     multipleInitialFilters?: { [id: string]: FilterValue[] };
-    referenceProperties?: ReferenceProperties;
+    associationProperties?: AssociationProperties;
 }
 
 type FilterContextObject = Context<FilterContextValue | undefined>;
@@ -74,39 +80,25 @@ export function getGlobalFilterContextObject(): FilterContextObject {
     return contextObject;
 }
 
-type ContextValueMeta =
-    | {
-          hasError: true;
-          error: OutOfContextError;
-      }
-    | { hasError: false; value: FilterContextValue };
-
-export function useFilterContextValue(): ContextValueMeta {
+export function useFilterContextValue(): ValueMeta<FilterContextValue, OutOfContextError> {
     const context = getGlobalFilterContextObject();
-    const value = useContext(context);
+    const contextValue = useContext(context);
 
-    if (value === undefined) {
-        return { hasError: true, error: new OutOfContextError() };
+    if (contextValue == null) {
+        return error(new OutOfContextError());
     }
 
-    return { hasError: false, value };
+    return value(contextValue);
 }
 
-type ReferencePropertiesValueMeta =
-    | {
-          hasError: true;
-          error: ValueIsMissingError;
-      }
-    | {
-          hasError: false;
-          value: ReferenceProperties;
-      };
-export function readReferenceProperties(contextValue: FilterContextValue): ReferencePropertiesValueMeta {
-    if (!contextValue.referenceProperties) {
-        return { hasError: true, error: new ValueIsMissingError("referenceProperties is undefined") };
+export function getFilterAssociationProps(
+    contextValue: FilterContextValue
+): ValueMeta<AssociationProperties, ValueIsMissingError> {
+    if (contextValue.associationProperties == null) {
+        return error(new ValueIsMissingError("referenceProperties is undefined"));
     }
 
-    return { hasError: false, value: contextValue.referenceProperties };
+    return value(contextValue.associationProperties);
 }
 
 export function useMultipleFiltering(): {

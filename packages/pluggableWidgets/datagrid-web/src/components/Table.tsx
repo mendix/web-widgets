@@ -28,9 +28,9 @@ export type TableColumn = Omit<
     | "showContentAs"
     | "tooltip"
     | "enableAssociationFilter"
-    | "referenceToMatch"
-    | "referenceOptionsSource"
-    | "referenceAttribute"
+    | "filterAssociation"
+    | "filterAssociationOptions"
+    | "filterAssociationOptionLabel"
 >;
 
 export type CellRenderer<T extends ObjectItem = ObjectItem> = (
