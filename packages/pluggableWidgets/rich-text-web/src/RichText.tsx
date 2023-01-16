@@ -46,7 +46,6 @@ export default function RichText(props: RichTextContainerProps): ReactNode {
     }
     return (
         <RichTextComponent
-            advancedConfig={props.advancedConfig}
             advancedContentFilter={
                 props.advancedContentFilter === "custom"
                     ? {

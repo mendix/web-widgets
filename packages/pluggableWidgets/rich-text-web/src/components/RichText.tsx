@@ -10,7 +10,7 @@ import { getDimensions, Dimensions } from "@mendix/pluggable-widgets-commons";
 import { defineEnterMode, addPlugin, PluginName } from "../utils/ckeditorConfigs";
 import sanitizeHtml from "sanitize-html";
 import classNames from "classnames";
-import { ReadOnlyStyleEnum, EnterModeEnum, ShiftEnterModeEnum, AdvancedConfigType } from "../../typings/RichTextProps";
+import { ReadOnlyStyleEnum, EnterModeEnum, ShiftEnterModeEnum } from "../../typings/RichTextProps";
 import { MainEditor } from "./MainEditor";
 
 export interface RichTextProps {
@@ -19,7 +19,6 @@ export interface RichTextProps {
     spellChecker: boolean;
     sanitizeContent?: boolean;
     value: string | undefined;
-    advancedConfig: AdvancedConfigType[] | null;
     plugins?: string[];
     readOnlyStyle: ReadOnlyStyleEnum;
     toolbar: CKEditorConfig;
