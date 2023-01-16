@@ -25,10 +25,10 @@ export const parseStyle = (style = ""): { [key: string]: string } => {
     }
 };
 
-export const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: number) => {
+export const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: number): F => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
 
-    const debounced = (...args: Parameters<F>) => {
+    const debounced = (...args: Parameters<F>): void => {
         if (timeout !== null) {
             clearTimeout(timeout);
             timeout = null;
@@ -36,5 +36,5 @@ export const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: nu
         timeout = setTimeout(() => func(...args), waitFor);
     };
 
-    return debounced as (...args: Parameters<F>) => ReturnType<F>;
+    return debounced as F;
 };

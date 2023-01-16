@@ -1,6 +1,15 @@
 import { ListValue, ObjectItem, ValueStatus } from "mendix";
 
-export function ListValueBuilder() {
+// eslint-disable-next-line no-unused-vars
+type ListValueBuilder = {
+    withItems(items: ObjectItem[]): ListValue;
+    withAmountOfItems(amount: number): ListValue;
+    isLoading(): ListValue;
+    isUnavailable(): ListValue;
+    simple(): ListValue;
+};
+
+export function ListValueBuilder(): ListValueBuilder {
     const listValue: ListValue = {
         status: ValueStatus.Available,
         offset: 0,

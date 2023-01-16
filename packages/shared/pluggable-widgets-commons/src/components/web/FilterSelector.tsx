@@ -13,7 +13,9 @@ interface FilterSelectorProps<T extends string> {
 }
 
 export function FilterSelector<T extends string>(props: FilterSelectorProps<T>): ReactElement {
-    const [value, setValue] = useState(props.defaultFilter);
+    const defaultFilter = props.defaultFilter;
+    const onChange = props.onChange;
+    const [value, setValue] = useState(defaultFilter);
     const [show, setShow] = useState(false);
     const componentRef = useRef<HTMLDivElement>(null);
     const filterSelectorsRef = useRef<HTMLUListElement>(null);
@@ -23,16 +25,16 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
     const onClick = useCallback(
         (value: T) => {
             setValue(value);
-            props.onChange(value);
+            onChange(value);
             setShow(false);
         },
-        [props.onChange]
+        [onChange]
     );
 
     useEffect(() => {
-        setValue(props.defaultFilter);
-        props.onChange(props.defaultFilter);
-    }, [props.defaultFilter, props.onChange]);
+        setValue(defaultFilter);
+        onChange(defaultFilter);
+    }, [defaultFilter, onChange]);
 
     const filterSelectors = createPortal(
         <ul

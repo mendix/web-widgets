@@ -64,6 +64,16 @@ export function getProperties(
                 "hidable"
             ]);
         }
+
+        hideNestedPropertiesIn(
+            defaultProperties,
+            values,
+            "columns",
+            index,
+            !column.enableAssociationFilter
+                ? ["filterAssociation", "filterAssociationOptions", "filterAssociationOptionLabel"]
+                : ["sortable"]
+        );
     });
     if (values.pagination !== "buttons") {
         hidePropertyIn(defaultProperties, values, "pagingPosition");
@@ -141,7 +151,7 @@ export const getPreview = (
     const [x, y] = spVersion;
     const canHideDataSourceHeader = x >= 9 && y >= 20;
 
-    const modeColor = (colorDark: string, colorLight: string) => (isDarkMode ? colorDark : colorLight);
+    const modeColor = (colorDark: string, colorLight: string): string => (isDarkMode ? colorDark : colorLight);
 
     const hasColumns = values.columns && values.columns.length > 0;
     const columnProps: ColumnsPreviewType[] = hasColumns
@@ -165,9 +175,9 @@ export const getPreview = (
                   alignment: "left",
                   wrapText: false,
                   enableAssociationFilter: false,
-                  referenceToMatch: "",
-                  referenceOptionsSource: {},
-                  referenceAttribute: ""
+                  filterAssociation: "",
+                  filterAssociationOptions: {},
+                  filterAssociationOptionLabel: ""
               }
           ];
     const columns = rowLayout({
@@ -285,21 +295,70 @@ export const getPreview = (
 
 export function check(values: DatagridPreviewProps): Problem[] {
     const errors: Problem[] = [];
-    values.columns.forEach((column: ColumnsPreviewType, index) => {
-        if (column.showContentAs === "attribute" && !column.attribute) {
-            errors.push({
-                property: `columns/${index + 1}/attribute`,
-                message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column ${column.header}`
-            });
-        } else if (!column.attribute && ((values.columnsSortable && column.sortable) || values.columnsFilterable)) {
-            errors.push({
-                property: `columns/${index + 1}/attribute`,
-                message: `An attribute is required when filtering or sorting is enabled. Select the 'Attribute' property for column ${column.header}`
-            });
+
+    const columnPropPath = (prop: string, index: number): string => `columns/${index + 1}/${prop}`;
+
+    const checkAssociationSettings = (column: ColumnsPreviewType, index: number): Problem | undefined => {
+        if (!column.enableAssociationFilter) {
+            return undefined;
         }
+
+        // filterAssociationOptions - it will be checked by studio pro.
+        const props = ["filterAssociation", "filterAssociationOptionLabel"] as const;
+        const propMessage: Record<typeof props[number], string> = {
+            filterAssociation: "association is not configured.",
+            filterAssociationOptionLabel: "label template is not configured."
+        };
+
+        for (const prop of props) {
+            if (!column[prop]) {
+                return {
+                    property: columnPropPath(prop, index),
+                    message: `Column error (${column.header}): ${propMessage[prop]}`
+                };
+            }
+        }
+    };
+
+    const checkColumnAttribute = (
+        values: DatagridPreviewProps,
+        column: ColumnsPreviewType,
+        index: number
+    ): Problem | undefined => {
+        if (column.attribute) {
+            return;
+        }
+
+        const canSort = values.columnsSortable && column.sortable;
+        if (column.showContentAs === "attribute") {
+            return {
+                property: columnPropPath("attribute", index),
+                message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column ${column.header}`
+            };
+        }
+
+        if (!column.enableAssociationFilter && (canSort || values.columnsFilterable)) {
+            return {
+                property: columnPropPath("attribute", index),
+                message: `An attribute is required when filtering or sorting is enabled. Select the 'Attribute' property for column ${column.header}`
+            };
+        }
+    };
+
+    values.columns.forEach((column: ColumnsPreviewType, index) => {
+        const associationError = checkAssociationSettings(column, index);
+        if (associationError) {
+            errors.push(associationError);
+        }
+
+        const attributeError = checkColumnAttribute(values, column, index);
+        if (attributeError) {
+            errors.push(attributeError);
+        }
+
         if (values.columnsHidable && column.hidable !== "no" && !column.header) {
             errors.push({
-                property: `columns/${index + 1}/hidable`,
+                property: columnPropPath("hidable", index),
                 message:
                     "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
             });

@@ -76,7 +76,7 @@
                                 <caption>Enable association filter</caption>
                                 <description />
                             </property>
-                            <property key="referenceToMatch" type="association" selectableObjects="referenceOptionsSource" required="false" dataSource="../datasource">
+                            <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
                                 <caption>Reference</caption>
                                 <description />
                                 <associationTypes>
@@ -84,16 +84,13 @@
                                     <associationType name="ReferenceSet" />
                                 </associationTypes>
                             </property>
-                            <property key="referenceOptionsSource" type="datasource" isList="true" required="false">
+                            <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
                                 <caption>Options data source</caption>
-                                <description/>
-                            </property>
-                            <property key="referenceAttribute" type="attribute" dataSource="referenceOptionsSource" required="false">
-                                <caption>Option label attribute</caption>
                                 <description />
-                                <attributeTypes>
-                                    <attributeType name="String" />
-                                </attributeTypes>
+                            </property>
+                            <property key="filterAssociationOptionLabel" type="textTemplate" dataSource="filterAssociationOptions" required="false">
+                                <caption>Option label template</caption>
+                                <description />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">

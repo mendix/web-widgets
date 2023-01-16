@@ -1,3 +1,5 @@
+// Disable warning that hooks can be used only in components
+/* eslint-disable react-hooks/rules-of-hooks */
 import { createElement, ReactElement, useCallback } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
@@ -7,37 +9,36 @@ import { Selectable } from "mendix/preview/Selectable";
 import { ObjectItem, GUID } from "mendix";
 import classNames from "classnames";
 
+const dummyColumns: ColumnsPreviewType[] = [
+    {
+        header: "Column",
+        tooltip: "",
+        attribute: "[No attribute selected]",
+        width: "autoFill",
+        columnClass: "",
+        filter: { renderer: () => <div />, widgetCount: 0 },
+        resizable: false,
+        showContentAs: "attribute",
+        content: { renderer: () => <div />, widgetCount: 0 },
+        dynamicText: "Dynamic Text",
+        draggable: false,
+        hidable: "no",
+        size: 1,
+        sortable: false,
+        alignment: "left",
+        wrapText: false,
+        enableAssociationFilter: false,
+        filterAssociation: "",
+        filterAssociationOptions: {},
+        filterAssociationOptionLabel: ""
+    }
+];
+
 export function preview(props: DatagridPreviewProps): ReactElement {
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
-    const columns: ColumnsPreviewType[] =
-        props.columns.length > 0
-            ? props.columns
-            : [
-                  {
-                      header: "Column",
-                      tooltip: "",
-                      attribute: "[No attribute selected]",
-                      width: "autoFill",
-                      columnClass: "",
-                      filter: { renderer: () => <div />, widgetCount: 0 },
-                      resizable: false,
-                      showContentAs: "attribute",
-                      content: { renderer: () => <div />, widgetCount: 0 },
-                      dynamicText: "Dynamic Text",
-                      draggable: false,
-                      hidable: "no",
-                      size: 1,
-                      sortable: false,
-                      alignment: "left",
-                      wrapText: false,
-                      enableAssociationFilter: false,
-                      referenceToMatch: "",
-                      referenceOptionsSource: {},
-                      referenceAttribute: ""
-                  }
-              ];
+    const columns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : dummyColumns;
 
     const selectableWrapperRenderer = useCallback(
         (columnIndex: number, header: ReactElement) => {
@@ -54,6 +55,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         },
         [columns]
     );
+
+    const EmptyPlaceholder = props.emptyPlaceholder.renderer;
 
     return (
         <Table
@@ -84,7 +87,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
 
                     return selectableWrapperRenderer(columnIndex, content);
                 },
-                [columns]
+                [columns, selectableWrapperRenderer]
             )}
             className={props.className}
             columns={transformColumnProps(columns)}
@@ -96,11 +99,11 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 renderWrapper => (
-                    <props.emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
+                    <EmptyPlaceholder caption="Empty list message: Place widgets here">
                         {renderWrapper(null)}
-                    </props.emptyPlaceholder.renderer>
+                    </EmptyPlaceholder>
                 ),
-                [props.emptyPlaceholder]
+                [EmptyPlaceholder]
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {

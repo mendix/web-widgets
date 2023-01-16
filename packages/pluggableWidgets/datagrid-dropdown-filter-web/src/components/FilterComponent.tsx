@@ -4,25 +4,49 @@ import classNames from "classnames";
 import deepEqual from "deep-equal";
 import { createPortal } from "react-dom";
 
+const PreventReactErrorsAboutReadOnly = (): void => {
+    return undefined;
+};
+
 export interface FilterOption {
     caption: string;
     value: string;
 }
 
+export type FilterValueChangeCallback = (values: FilterOption[]) => void;
+
 export interface FilterComponentProps {
     ariaLabel?: string;
     className?: string;
     defaultValue?: string;
+    status?: JSX.Element;
+    footer?: JSX.Element;
     emptyOptionCaption?: string;
     multiSelect?: boolean;
     id?: string;
     options: FilterOption[];
     tabIndex?: number;
     styles?: CSSProperties;
-    updateFilters?: (values: FilterOption[]) => void;
+    updateFilters?: FilterValueChangeCallback;
+    onTriggerClick?: () => void;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
+    const {
+        ariaLabel,
+        className,
+        defaultValue,
+        status,
+        footer,
+        emptyOptionCaption,
+        multiSelect,
+        id,
+        options: optionsProp,
+        tabIndex,
+        styles,
+        updateFilters,
+        onTriggerClick
+    } = props;
     const [valueInput, setValueInput] = useState("");
     const [options, setOptions] = useState<FilterOption[]>([]);
     const [selectedFilters, setSelectedFilters] = useState<FilterOption[]>([]);
@@ -31,14 +55,14 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const defaultValuesLoaded = useRef<boolean>(false);
 
     const componentRef = useRef<HTMLDivElement>(null);
-    const optionsRef = useRef<HTMLUListElement>(null);
+    const optionsRef = useRef<HTMLDivElement>(null);
 
     const position = usePositionObserver(componentRef.current, show);
 
     const setMultiSelectFilters = useCallback(
         (selectedOptions: FilterOption[]) => {
             if (selectedOptions?.length === 0) {
-                setValueInput(props.emptyOptionCaption ?? "");
+                setValueInput(emptyOptionCaption ?? "");
                 setSelectedFilters([]);
             } else {
                 setValueInput(selectedOptions.map(option => option.caption).join(","));
@@ -50,12 +74,12 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 });
             }
         },
-        [props.emptyOptionCaption]
+        [emptyOptionCaption]
     );
 
     const onClick = useCallback(
         (option: FilterOption) => {
-            if (props.multiSelect) {
+            if (multiSelect) {
                 setMultiSelectFilters(toggleFilter(selectedFilters, option));
             } else {
                 setValueInput(option.caption);
@@ -63,7 +87,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 setShow(false);
             }
         },
-        [selectedFilters, props.multiSelect]
+        [selectedFilters, multiSelect, setMultiSelectFilters]
     );
 
     useOnClickOutside([componentRef, optionsRef], () => setShow(false));
@@ -71,9 +95,9 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     // Select the first option Or default option on load
     useEffect(() => {
         if (!defaultValuesLoaded.current && options.length > 0) {
-            if (props.multiSelect) {
-                if (props.defaultValue) {
-                    const initialOptions = props.defaultValue
+            if (multiSelect) {
+                if (defaultValue) {
+                    const initialOptions = defaultValue
                         .split(",")
                         .map(value => options.find(option => option.value === value))
                         .filter(Boolean) as FilterOption[];
@@ -81,11 +105,11 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     // User can set anything, but it could not match so we have to set to empty or ""
                     setMultiSelectFilters(initialOptions);
                 } else {
-                    setValueInput(props.emptyOptionCaption ?? "");
+                    setValueInput(emptyOptionCaption ?? "");
                 }
             } else {
                 // We want to add empty option caption
-                const initialOption = options.find(option => option.value === props.defaultValue) ?? options[0];
+                const initialOption = options.find(option => option.value === defaultValue) ?? options[0];
 
                 setValueInput(initialOption?.caption ?? "");
                 setSelectedFilters(prev => {
@@ -98,18 +122,18 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             }
             defaultValuesLoaded.current = true;
         }
-    }, [props.defaultValue, props.emptyOptionCaption, props.multiSelect, options]);
+    }, [defaultValue, emptyOptionCaption, multiSelect, options, setMultiSelectFilters]);
 
     useEffect(() => {
-        const emptyOption = props.multiSelect
+        const emptyOption = multiSelect
             ? []
             : [
                   {
-                      caption: props.emptyOptionCaption ?? "",
+                      caption: emptyOptionCaption ?? "",
                       value: ""
                   }
               ];
-        const options = [...emptyOption, ...props.options];
+        const options = [...emptyOption, ...optionsProp];
         setOptions(prev => {
             if (deepEqual(prev, options, { strict: true })) {
                 return prev;
@@ -119,90 +143,118 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
 
         // Resets the option to reload default values
         defaultValuesLoaded.current = false;
-    }, [props.emptyOptionCaption, props.multiSelect, props.options, props.defaultValue]);
+    }, [emptyOptionCaption, multiSelect, optionsProp, defaultValue]);
 
+    // This side effect meant to sync filter value with parents
+    // But, because updateFilters is might be "unstable" function
+    // we don't pass it to deps array, as then it may produce
+    // infinite loop
     useEffect(() => {
-        props.updateFilters?.(selectedFilters);
+        updateFilters?.(selectedFilters);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedFilters]);
 
-    const showPlaceholder = selectedFilters.length === 0 || valueInput === props.emptyOptionCaption;
+    const showPlaceholder = selectedFilters.length === 0 || valueInput === emptyOptionCaption;
 
-    const optionsComponent = createPortal(
-        <ul
-            ref={optionsRef}
-            id={`${props.id}-dropdown-list`}
-            className="dropdown-list"
-            role="menu"
-            data-focusindex={0}
-            style={{ position: "fixed", width: dropdownWidth, top: position?.bottom, left: position?.left }}
-        >
-            {options.map((option, index) => (
-                <li
-                    className={classNames({
-                        "filter-selected": !props.multiSelect && selectedFilters.includes(option)
-                    })}
-                    key={index}
-                    onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        onClick(option);
-                    }}
-                    onKeyDown={e => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onClick(option);
-                        } else if (
-                            (e.key === "Tab" && (index + 1 === options.length || (e.shiftKey && index === 0))) ||
-                            e.key === "Escape"
-                        ) {
-                            e.preventDefault();
-                            setShow(false);
-                            componentRef.current?.querySelector("input")?.focus();
-                        }
-                    }}
-                    role="menuitem"
-                    tabIndex={0}
-                >
-                    {props.multiSelect ? (
-                        <Fragment>
-                            <input
-                                id={`${props.id}_checkbox_toggle_${index}`}
-                                type="checkbox"
-                                checked={selectedFilters.includes(option)}
-                            />
-                            <label htmlFor={`${props.id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
-                                {option.caption}
-                            </label>
-                        </Fragment>
-                    ) : (
-                        <div className="filter-label">{option.caption}</div>
-                    )}
-                </li>
-            ))}
-        </ul>,
-        document.body
-    );
+    const renderContent = (): JSX.Element => {
+        const hasOptions = options.length > (multiSelect ? 0 : 1);
+        const optionsList = hasOptions ? (
+            <ul
+                id={`${id}-dropdown-list`}
+                className="dropdown-list dropdown-content-section"
+                role="menu"
+                data-focusindex={0}
+            >
+                {hasOptions &&
+                    options.map((option, index) => (
+                        <li
+                            className={classNames({
+                                "filter-selected": !multiSelect && selectedFilters.includes(option)
+                            })}
+                            key={index}
+                            onClick={e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onClick(option);
+                            }}
+                            onKeyDown={e => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onClick(option);
+                                } else if (
+                                    (e.key === "Tab" &&
+                                        (index + 1 === options.length || (e.shiftKey && index === 0))) ||
+                                    e.key === "Escape"
+                                ) {
+                                    e.preventDefault();
+                                    setShow(false);
+                                    componentRef.current?.querySelector("input")?.focus();
+                                }
+                            }}
+                            role="menuitem"
+                            tabIndex={0}
+                        >
+                            {multiSelect ? (
+                                <Fragment>
+                                    <input
+                                        id={`${id}_checkbox_toggle_${index}`}
+                                        type="checkbox"
+                                        checked={selectedFilters.includes(option)}
+                                        onChange={PreventReactErrorsAboutReadOnly}
+                                    />
+                                    <label htmlFor={`${id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
+                                        {option.caption}
+                                    </label>
+                                </Fragment>
+                            ) : (
+                                <div className="filter-label">{option.caption}</div>
+                            )}
+                        </li>
+                    ))}
+            </ul>
+        ) : null;
 
+        return createPortal(
+            <div
+                className="dropdown-content"
+                ref={optionsRef}
+                style={{
+                    position: "fixed",
+                    width: dropdownWidth,
+                    top: position?.bottom,
+                    left: position?.left,
+                    zIndex: 102
+                }}
+            >
+                {optionsList}
+                {footer}
+            </div>,
+            document.body
+        );
+    };
     const containerClick = useCallback(() => {
         setShow(show => !show);
         setTimeout(() => {
             (optionsRef.current?.querySelector("li.filter-selected") as HTMLElement)?.focus();
         }, 10);
-    }, []);
+        if (onTriggerClick) {
+            onTriggerClick();
+        }
+    }, [onTriggerClick]);
 
-    return (
-        <div
-            className={classNames("dropdown-container", props.className)}
-            data-focusindex={props.tabIndex ?? 0}
-            ref={componentRef}
-            style={props.styles}
-        >
+    const renderFormControl = (): ReactElement => {
+        if (status) {
+            return status;
+        }
+
+        return (
             <input
                 value={!showPlaceholder ? valueInput : ""}
-                placeholder={showPlaceholder ? props.emptyOptionCaption : undefined}
+                placeholder={showPlaceholder ? emptyOptionCaption : undefined}
                 className="form-control dropdown-triggerer"
                 onClick={containerClick}
+                onChange={PreventReactErrorsAboutReadOnly}
                 onKeyDown={e => {
                     if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
@@ -217,10 +269,21 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     }
                 }}
                 aria-expanded={show}
-                aria-controls={`${props.id}-dropdown-list`}
-                aria-label={props.ariaLabel}
+                aria-controls={`${id}-dropdown-list`}
+                aria-label={ariaLabel}
             />
-            {show && optionsComponent}
+        );
+    };
+
+    return (
+        <div
+            className={classNames("dropdown-container", className)}
+            data-focusindex={tabIndex ?? 0}
+            ref={componentRef}
+            style={styles}
+        >
+            {renderFormControl()}
+            {show ? renderContent() : null}
         </div>
     );
 }

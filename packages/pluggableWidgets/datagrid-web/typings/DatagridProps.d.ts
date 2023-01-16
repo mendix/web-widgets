@@ -24,9 +24,9 @@ export interface ColumnsType {
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
     enableAssociationFilter: boolean;
-    referenceToMatch?: ListReferenceValue | ListReferenceSetValue;
-    referenceOptionsSource?: ListValue;
-    referenceAttribute?: ListAttributeValue<string>;
+    filterAssociation?: ListReferenceValue | ListReferenceSetValue;
+    filterAssociationOptions?: ListValue;
+    filterAssociationOptionLabel?: ListExpressionValue<string>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -57,9 +57,9 @@ export interface ColumnsPreviewType {
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     enableAssociationFilter: boolean;
-    referenceToMatch: string;
-    referenceOptionsSource: {} | { type: string } | null;
-    referenceAttribute: string;
+    filterAssociation: string;
+    filterAssociationOptions: {} | { type: string } | null;
+    filterAssociationOptionLabel: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;

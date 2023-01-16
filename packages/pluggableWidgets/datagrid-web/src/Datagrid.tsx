@@ -14,7 +14,7 @@ import {
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./utils/filters";
 import { useCellRenderer } from "./utils/useCellRenderer";
-import { getColumnReferenceProps } from "./utils/columnSettings";
+import { getColumnAssociationProps } from "./utils/columnSettings";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -109,7 +109,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 }),
                 {}
             ),
-        [props.filterList, viewStateFilters.current]
+        [props.filterList]
     );
 
     return (
@@ -132,10 +132,11 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 (renderWrapper, columnIndex) => {
                     const column = props.columns[columnIndex];
                     const { attribute, filter } = column;
+                    const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
                     const initialFilters = extractFilters(attribute, viewStateFilters.current);
 
-                    if (!attribute) {
+                    if (!attribute && !associationProps) {
                         return renderWrapper(filter);
                     }
 
@@ -149,7 +150,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                                 },
                                 singleAttribute: attribute,
                                 singleInitialFilter: initialFilters,
-                                referenceProperties: getColumnReferenceProps(column)
+                                associationProperties: associationProps
                             }}
                         >
                             {filter}
@@ -181,7 +182,14 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                             {props.filtersPlaceholder}
                         </FilterContext.Provider>
                     ) : null,
-                [FilterContext, customFiltersState, filterList, multipleInitialFilters, props.filtersPlaceholder]
+                [
+                    FilterContext,
+                    filterList,
+                    multipleInitialFilters,
+                    props.filtersPlaceholder,
+                    multipleFilteringState,
+                    props.showHeaderFilters
+                ]
             )}
             id={id.current}
             numberOfItems={props.datasource.totalCount}
@@ -209,6 +217,6 @@ function transformColumnProps(props: ColumnsType[]): TableColumn[] {
     return props.map(prop => ({
         ...prop,
         header: prop.header && isAvailable(prop.header) ? prop.header.value ?? "" : "",
-        sortable: prop.sortable && (prop.attribute?.sortable ?? false)
+        sortable: !prop.enableAssociationFilter && prop.sortable && (prop.attribute?.sortable ?? false)
     }));
 }

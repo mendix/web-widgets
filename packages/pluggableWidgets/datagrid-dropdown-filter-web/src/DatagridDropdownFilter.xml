@@ -8,10 +8,10 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="General">
-                <property key="useReference" type="boolean" defaultValue="false">
-                    <caption>Use reference</caption>
-                    <description />
-                </property>   
+                <property key="auto" type="boolean" defaultValue="true">
+                    <caption>Automatic options</caption>
+                    <description>Create options based on the enumeration values and captions</description>
+                </property>
                 <property key="advanced" type="boolean" defaultValue="false">
                     <caption>Enable advanced options</caption>
                     <description />
@@ -20,10 +20,6 @@
                     <caption>Default value</caption>
                     <description>Empty option caption will be shown by default or if configured default value matches none of the options</description>
                     <returnType type="String" />
-                </property>
-                <property key="auto" type="boolean" defaultValue="false">
-                    <caption>Automatic options</caption>
-                    <description>Create options based on the enumeration values and captions</description>
                 </property>
                 <property key="filterOptions" type="object" isList="true" required="false">
                     <caption>Options</caption>
@@ -50,11 +46,15 @@
                     <caption>Multiselect</caption>
                     <description />
                 </property>
+                <property key="optionsPageSize" type="integer" required="true" defaultValue="100">
+                    <caption>Options page size</caption>
+                    <description>Define how meny option should be loaded when widget used with associations (should be greater then 0)</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Configurations">
                 <property key="valueAttribute" type="attribute" required="false">
                     <caption>Saved attribute</caption>
-                    <description>Attribute used to store the last value of the filter.</description>
+                    <description>Attribute used to store the last value of the filter. This function don't work with associations.</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>

@@ -1,9 +1,10 @@
 import { useLayoutEffect, useState } from "react";
 
 export const useIsElementInViewport = (ref: React.RefObject<HTMLElement>): boolean => {
+    const element = ref.current;
     const [isInViewport, setIsInViewport] = useState(true);
     useLayoutEffect(() => {
-        const rect = ref.current?.getBoundingClientRect();
+        const rect = element?.getBoundingClientRect();
         const inViewport = rect
             ? rect.top >= 0 &&
               rect.left >= 0 &&
@@ -12,6 +13,6 @@ export const useIsElementInViewport = (ref: React.RefObject<HTMLElement>): boole
             : true;
 
         setIsInViewport(inViewport);
-    }, [ref.current]);
+    }, [element]);
     return isInViewport;
 };
