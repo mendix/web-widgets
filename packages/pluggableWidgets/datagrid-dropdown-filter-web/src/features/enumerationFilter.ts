@@ -41,7 +41,7 @@ function attributeToOptions(attribute: ListAttributeValue): FilterOption[] {
     }));
 }
 
-function universeValue(type: string, value: string): boolean | string {
+function universeValue(type: ListAttributeValue["type"], value: string): boolean | string {
     if (type === "Boolean") {
         if (value !== "true" && value !== "false") {
             return value;
@@ -79,8 +79,8 @@ function getFilterCondition(
     const filterAttribute = attribute(id);
 
     const filters = values
-        .filter(filterOption => listAttribute.universe?.includes(universeValue(filterOption.value, listAttribute.type)))
-        .map(filter => equals(filterAttribute, literal(universeValue(filter.value, type))));
+        .filter(filterOption => listAttribute.universe?.includes(universeValue(listAttribute.type, filterOption.value)))
+        .map(filter => equals(filterAttribute, literal(universeValue(type, filter.value))));
 
     if (filters.length > 1) {
         return or(...filters);
