@@ -50,6 +50,26 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
               width: "100%",
               height: "100%"
           };
+
+    const dispatchEvent = ({ type, payload }: { type: string; payload: any }): void => {
+        if (type === CKEditorEventAction.key) {
+            if (props.onKeyPress) {
+                props.onKeyPress();
+            }
+        }
+        if (type === CKEditorEventAction.change) {
+            const value = payload.editor.getData();
+            if (props.onKeyChange) {
+                props.onKeyChange();
+            }
+            if (props?.onValueChange) {
+                const content = props.sanitizeContent ? sanitizeHtml(value) : value;
+                localEditorValueRef.current = content;
+                props?.onValueChange(content);
+            }
+        }
+    };
+
     const [ckeditorConfig, setCkeditorConfig] = useState<CKEditorHookProps<"change" | "key">>({
         element,
         editorUrl: `${window.mx.remoteUrl}widgets/ckeditor/ckeditor.js`,
@@ -67,24 +87,7 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
             readOnly: props.readOnly
         },
         initContent: value,
-        dispatchEvent: ({ type, payload }) => {
-            if (type === CKEditorEventAction.key) {
-                if (props.onKeyPress) {
-                    props.onKeyPress();
-                }
-            }
-            if (type === CKEditorEventAction.change) {
-                const value = payload.editor.getData();
-                if (props.onKeyChange) {
-                    props.onKeyChange();
-                }
-                if (props?.onValueChange) {
-                    const content = props.sanitizeContent ? sanitizeHtml(value) : value;
-                    localEditorValueRef.current = content;
-                    props?.onValueChange(content);
-                }
-            }
-        },
+        dispatchEvent,
         subscribeTo: ["change", "key"]
     });
 
@@ -103,13 +106,14 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
             ...ckeditorConfig,
             initContent: value,
             element,
+            dispatchEvent,
             config: {
                 ...ckeditorConfig.config,
                 ...config,
-                readOnly: props.readOnly
+                readOnly
             }
         });
-    }, [element]);
+    }, [element, readOnly]);
 
     useEffect(() => {
         const editor = editorInstanceRef.current;
