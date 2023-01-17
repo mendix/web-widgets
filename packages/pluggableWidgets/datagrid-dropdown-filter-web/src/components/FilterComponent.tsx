@@ -1,4 +1,14 @@
-import { createElement, CSSProperties, Fragment, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import {
+    createElement,
+    CSSProperties,
+    Fragment,
+    ReactElement,
+    UIEventHandler,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
 import classNames from "classnames";
 import deepEqual from "deep-equal";
@@ -29,6 +39,7 @@ export interface FilterComponentProps {
     styles?: CSSProperties;
     updateFilters?: FilterValueChangeCallback;
     onTriggerClick?: () => void;
+    onContentScroll?: UIEventHandler<HTMLDivElement>;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
@@ -45,7 +56,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         tabIndex,
         styles,
         updateFilters,
-        onTriggerClick
+        onTriggerClick,
+        onContentScroll
     } = props;
     const [valueInput, setValueInput] = useState("");
     const [options, setOptions] = useState<FilterOption[]>([]);
@@ -218,6 +230,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         return createPortal(
             <div
                 className="dropdown-content"
+                onScroll={onContentScroll}
                 ref={optionsRef}
                 style={{
                     position: "fixed",
