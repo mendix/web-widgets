@@ -1,0 +1,73 @@
+{
+  "name": "dropdown-web",
+  "widgetName": "Dropdown",
+  "version": "1.0.0",
+  "description": "Shows a value inside a colored badge or label",
+  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "config": {
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3000
+  },
+  "mxpackage": {
+    "name": "Dropdown",
+    "type": "widget",
+    "mpkName": "Dropdown.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "9.6.0",
+    "appNumber": 50325,
+    "appName": "Dropdown"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "dropdown-web"
+  },
+  "packagePath": "com.mendix.widget.custom",
+  "scripts": {
+    "start": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools start:server",
+    "dev": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools start:web",
+    "build": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools build:web",
+    "format": "pluggable-widgets-tools format",
+    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "test": "pluggable-widgets-tools test:unit:web",
+    "e2e": "run-e2e ci",
+    "e2edev": "run-e2e dev --with-preps",
+    "release": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools release:web",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
+  },
+  "devDependencies": {
+    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@testing-library/dom": "^8.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/react": "^17.0.52",
+    "@types/react-dom": "^17.0.18",
+    "@types/react-test-renderer": "<18.0.0",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "@types/testing-library__react-hooks": "^3.4.1",
+    "@web-widgets/run-e2e": "workspace:^*",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.20.0",
+    "mendix": "^9.19.55544",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
+    "react-test-renderer": "~17.0.2",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4"
+  },
+  "dependencies": {
+    "@mendix/pluggable-widgets-commons": "workspace:*",
+    "classnames": "^2.3.2"
+  }
+}
