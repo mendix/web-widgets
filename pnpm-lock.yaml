@@ -45,7 +45,7 @@ importers:
       mendix-client: ^7.15.8
       prettier: ^2.5.1
       pretty-quick: ^3.1.0
-      recursive-copy: ^2.0.11
+      recursive-copy: ^2.0.14
       ts-node: ^9.0.0
       turbo: ^1.6.3
       typescript: 4.5.4
@@ -4443,7 +4443,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4536,7 +4536,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11416,8 +11416,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
