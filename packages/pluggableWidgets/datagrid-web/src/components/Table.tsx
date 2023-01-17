@@ -14,7 +14,7 @@ import { AlignmentEnum, ColumnsPreviewType, WidthEnum } from "../../typings/Data
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
-import { SortingRule, useSettings } from "../utils/settings";
+import { SortingRule, useSettings } from "../features/settings";
 import { ColumnResizer } from "./ColumnResizer";
 import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
 
