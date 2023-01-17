@@ -40,7 +40,7 @@ export default function RichText(props: RichTextContainerProps): ReactNode {
             return createCustomToolbar(groupItems, toolbarConfig === "basic");
         }
     };
-    const plugins = ["openlink"];
+    const plugins = ["openlink", "indent", "indentlist"];
     if (props.codeHighlight) {
         plugins.push("codesnippet");
     }
