@@ -1662,6 +1662,25 @@ importers:
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
+  packages/pluggableWidgets/google-tag-web:
+    specifiers:
+      '@mendix-internal/automation-utils': workspace:*
+      '@mendix/pluggable-widgets-commons': workspace:*
+      '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@types/big.js': ^6.0.2
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
+      eslint: ^7.20.0
+    dependencies:
+      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+    devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
+      '@types/big.js': 6.1.6
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
+      eslint: 7.32.0
+
   packages/pluggableWidgets/heatmap-chart-web:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.googletag.GoogleTag" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Google Tag</name>
+    <description>gtag.js integration widget</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="General">
+            <property key="command" type="enumeration" required="true" defaultValue="config">
+                <caption>Command</caption>
+                <description />
+                <enumerationValues>
+                    <enumerationValue key="config">config</enumerationValue>
+                    <enumerationValue key="event">event</enumerationValue>
+                    <enumerationValue key="set">set</enumerationValue>
+                </enumerationValues>
+            </property>
+
+            <property key="targetId" required="false" type="expression">
+                <caption>Tag ID</caption>
+                <description>Examples of tag IDs include GT-XXXXXXXXX, G-XXXXXXXXX, and AW-XXXXXXXXX</description>
+                <returnType type="String" />
+            </property>
+
+            <property key="eventName" required="false" type="string">
+                <caption>Event name</caption>
+                <description />
+            </property>
+
+            <property key="parameters" type="object" isList="true" required="false">
+                <caption>Parameters</caption>
+                <description />
+                <properties>
+                    <propertyGroup caption="General">
+                        <property key="name" type="string" required="true">
+                            <caption>Name</caption>
+                            <description />
+                        </property>
+                        <property key="value" type="expression" required="true">
+                            <caption>Value</caption>
+                            <description />
+                            <returnType type="String" />
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
+            <property key="sendEventsOn" type="enumeration" required="true" defaultValue="onRender">
+                <caption>Send command</caption>
+                <description />
+                <enumerationValues>
+                    <enumerationValue key="onRender">Immediately</enumerationValue>
+                    <enumerationValue key="onNavigation">On Page Changes</enumerationValue>
+                </enumerationValues>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
