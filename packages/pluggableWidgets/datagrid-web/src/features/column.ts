@@ -13,7 +13,7 @@ export function getAssociationProps(columnProps: ColumnsType): AssociationProper
     const props: AssociationProperties = {
         association,
         optionsSource,
-        getOptionLabel: item => labelSource.get(item).value ?? "unable to get label"
+        getOptionLabel: item => labelSource.get(item).value ?? "Error: unable to get caption"
     };
 
     return props;

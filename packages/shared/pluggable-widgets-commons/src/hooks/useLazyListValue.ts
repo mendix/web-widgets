@@ -26,7 +26,7 @@ const incLimit = (setLimit: SetLimit, list: ListValue, pageSize: number): void =
 
 export function useLazyListValue(
     list: ListValue,
-    pageSize: number,
+    pageSize = 100,
     loadDelayTime = 1000
 ): [GetItems, LoadMore, LazyListValue] {
     const desiredNumberOfItems = useRef<number>(0);

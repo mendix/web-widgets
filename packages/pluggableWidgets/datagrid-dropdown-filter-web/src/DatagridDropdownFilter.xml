@@ -10,7 +10,7 @@
             <propertyGroup caption="General">
                 <property key="auto" type="boolean" defaultValue="true">
                     <caption>Automatic options</caption>
-                    <description>Create options based on the enumeration values and captions</description>
+                    <description>Show options based on the references or the enumeration values and captions.</description>
                 </property>
                 <property key="advanced" type="boolean" defaultValue="false">
                     <caption>Enable advanced options</caption>
@@ -46,15 +46,11 @@
                     <caption>Multiselect</caption>
                     <description />
                 </property>
-                <property key="optionsPageSize" type="integer" required="true" defaultValue="100">
-                    <caption>Options page size</caption>
-                    <description>Define how meny option should be loaded when widget used with associations (should be greater then 0)</description>
-                </property>
             </propertyGroup>
             <propertyGroup caption="Configurations">
                 <property key="valueAttribute" type="attribute" required="false">
                     <caption>Saved attribute</caption>
-                    <description>Attribute used to store the last value of the filter. This function don't work with associations.</description>
+                    <description>Attribute used to store the last value of the filter. Associations are not supported.</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>

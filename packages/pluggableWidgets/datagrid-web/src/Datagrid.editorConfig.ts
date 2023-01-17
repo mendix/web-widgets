@@ -307,7 +307,7 @@ export function check(values: DatagridPreviewProps): Problem[] {
         const props = ["filterAssociation", "filterAssociationOptionLabel"] as const;
         const propMessage: Record<typeof props[number], string> = {
             filterAssociation: "association is not configured.",
-            filterAssociationOptionLabel: "label template is not configured."
+            filterAssociationOptionLabel: "caption expression is not configured."
         };
 
         for (const prop of props) {

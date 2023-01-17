@@ -76,18 +76,8 @@ export const getPreview = (values: DatagridDropdownFilterPreviewProps, isDarkMod
     };
 };
 
-export function check(props: DatagridDropdownFilterPreviewProps): Problem[] {
+export function check(_props: DatagridDropdownFilterPreviewProps): Problem[] {
     const errors: Problem[] = [];
-
-    const pageSize = props.optionsPageSize;
-
-    if (!pageSize || pageSize < 1) {
-        errors.push({
-            severity: "error",
-            property: "optionsPageSize",
-            message: `Invalid page size value (${pageSize}). Page size should be greater then 0.`
-        });
-    }
 
     return errors;
 }
