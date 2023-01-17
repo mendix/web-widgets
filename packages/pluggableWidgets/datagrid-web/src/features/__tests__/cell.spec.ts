@@ -1,6 +1,6 @@
 import { GUID } from "mendix";
 import { renderHook } from "@testing-library/react-hooks";
-import { useCellRenderer } from "../useCellRenderer";
+import { useCellRenderer } from "../../features/cell";
 import {
     dynamicValue,
     buildListExpression,

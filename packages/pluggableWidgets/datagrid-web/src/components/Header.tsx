@@ -15,7 +15,7 @@ import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { ColumnProperty } from "./Table";
 import { ColumnResizerProps } from "./ColumnResizer";
-import { SortingRule } from "../utils/settings";
+import { SortingRule } from "../features/settings";
 
 export interface HeaderProps {
     className?: string;

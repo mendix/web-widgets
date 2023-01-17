@@ -12,9 +12,9 @@ import {
     useMultipleFiltering
 } from "@mendix/pluggable-widgets-commons/components/web";
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
-import { extractFilters } from "./utils/filters";
-import { useCellRenderer } from "./utils/useCellRenderer";
-import { getColumnAssociationProps } from "./utils/columnSettings";
+import { extractFilters } from "./features/filters";
+import { useCellRenderer } from "./features/cell";
+import { getColumnAssociationProps } from "./features/column";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);

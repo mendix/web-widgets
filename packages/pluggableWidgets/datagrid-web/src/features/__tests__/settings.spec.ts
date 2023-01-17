@@ -1,4 +1,4 @@
-import { useSettings } from "../settings";
+import { useSettings } from "../../features/settings";
 import { ColumnWidth, TableColumn } from "../../components/Table";
 import { EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { HidableEnum } from "../../../typings/DatagridProps";
