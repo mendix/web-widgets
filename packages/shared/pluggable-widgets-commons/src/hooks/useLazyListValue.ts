@@ -1,5 +1,5 @@
 import { ListValue, ObjectItem, ValueStatus } from "mendix";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { tuple } from "../utils/tuple";
 import { throttle } from "../utils/throttle";
 
@@ -41,16 +41,15 @@ export function useLazyListValue(
         }
     };
 
-    // Prevent list to load items (on initialization)
-    if (list.limit !== desiredNumberOfItems.current) {
-        setLimit(() => 0);
-    }
-
     const getItems: GetItems = () => setLimit(n => (n === 0 ? pageSize : n));
 
     const incLimitThrottled = useMemo(() => throttle(incLimit, loadDelayTime), [loadDelayTime]);
 
     const loadMore: LoadMore = () => incLimitThrottled(setLimit, list, pageSize);
+
+    // Prevent list data fetching on first mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => setLimit(() => 0), []);
 
     return tuple(getItems, loadMore, {
         isFetched,
