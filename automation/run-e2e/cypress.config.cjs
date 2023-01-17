@@ -18,6 +18,7 @@ module.exports = defineConfig({
         videoUploadOnPasses: false,
         viewportHeight: 1080,
         viewportWidth: 1280,
+        testIsolation: false,
         chromeWebSecurity: false,
         specPattern: "cypress/integration/**/*.js",
         supportFile: "cypress/support/e2e.js"

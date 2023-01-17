@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.0.3] Charts - 2023-01-09
+
+### Changed
+
+-   Update `fast-json-patch` dependency.
+
 ## [4.0.2] Charts - 2022-11-22
 
 ### Security

@@ -30,7 +30,7 @@ describe("color-picker-web", () => {
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner", { timeout: 10000 }).should(
                     "have.css",
                     "background",
-                    "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+                    "rgb(76, 175, 80) none repeat scroll 0% 0% / auto padding-box border-box"
                 );
             }
         );
@@ -40,7 +40,7 @@ describe("color-picker-web", () => {
             cy.get(".mx-name-colorPicker3 .widget-color-picker-inner").should(
                 "have.css",
                 "background",
-                "rgb(76, 175, 80) none repeat scroll 0% 0%"
+                "rgb(76, 175, 80)"
             );
         });
         it("input box", () => {

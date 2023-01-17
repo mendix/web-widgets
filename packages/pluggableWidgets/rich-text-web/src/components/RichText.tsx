@@ -10,7 +10,7 @@ import { getDimensions, Dimensions } from "@mendix/pluggable-widgets-commons";
 import { defineEnterMode, addPlugin, PluginName } from "../utils/ckeditorConfigs";
 import sanitizeHtml from "sanitize-html";
 import classNames from "classnames";
-import { ReadOnlyStyleEnum, EnterModeEnum, ShiftEnterModeEnum, AdvancedConfigType } from "../../typings/RichTextProps";
+import { ReadOnlyStyleEnum, EnterModeEnum, ShiftEnterModeEnum } from "../../typings/RichTextProps";
 import { MainEditor } from "./MainEditor";
 
 export interface RichTextProps {
@@ -19,7 +19,6 @@ export interface RichTextProps {
     spellChecker: boolean;
     sanitizeContent?: boolean;
     value: string | undefined;
-    advancedConfig: AdvancedConfigType[] | null;
     plugins?: string[];
     readOnlyStyle: ReadOnlyStyleEnum;
     toolbar: CKEditorConfig;
@@ -34,9 +33,25 @@ export interface RichTextProps {
     tabIndex: number | undefined;
 }
 
-export const RichTextEditor = (props: RichTextProps): ReactElement => {
-    const { editorType, plugins, enterMode, shiftEnterMode, value, readOnly, readOnlyStyle, advancedContentFilter } =
-        props;
+export const RichTextEditor = ({
+    name,
+    readOnly,
+    spellChecker,
+    sanitizeContent,
+    value,
+    plugins,
+    readOnlyStyle,
+    toolbar,
+    enterMode,
+    shiftEnterMode,
+    editorType,
+    dimensions,
+    advancedContentFilter,
+    onValueChange,
+    onKeyChange,
+    onKeyPress,
+    tabIndex
+}: RichTextProps): ReactElement => {
     const [element, setElement] = useState<HTMLElement | null>(null);
     const localEditorValueRef = useRef("");
     const editorInstanceRef = useRef<null | CKEditorInstance>(null);
@@ -44,12 +59,32 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
         (editor: null | CKEditorInstance) => (editorInstanceRef.current = editor),
         []
     );
-    const { width, height } = props.dimensions
-        ? getDimensions({ ...props.dimensions })
+    const { width, height } = dimensions
+        ? getDimensions({ ...dimensions })
         : {
               width: "100%",
               height: "100%"
           };
+
+    const dispatchEvent = ({ type, payload }: { type: string; payload: any }): void => {
+        if (type === CKEditorEventAction.key) {
+            if (onKeyPress) {
+                onKeyPress();
+            }
+        }
+        if (type === CKEditorEventAction.change) {
+            const value = payload.editor.getData();
+            if (onKeyChange) {
+                onKeyChange();
+            }
+            if (onValueChange) {
+                const content = sanitizeContent ? sanitizeHtml(value) : value;
+                localEditorValueRef.current = content;
+                onValueChange(content);
+            }
+        }
+    };
+
     const [ckeditorConfig, setCkeditorConfig] = useState<CKEditorHookProps<"change" | "key">>({
         element,
         editorUrl: `${window.mx.remoteUrl}widgets/ckeditor/ckeditor.js`,
@@ -60,37 +95,20 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
             autoGrow_onStartup: true,
             width,
             height,
-            tabIndex: props.tabIndex,
+            tabIndex,
             enterMode: defineEnterMode(enterMode || ""),
             shiftEnterMode: defineEnterMode(shiftEnterMode || ""),
-            disableNativeSpellChecker: !props.spellChecker,
-            readOnly: props.readOnly
+            disableNativeSpellChecker: !spellChecker,
+            readOnly
         },
         initContent: value,
-        dispatchEvent: ({ type, payload }) => {
-            if (type === CKEditorEventAction.key) {
-                if (props.onKeyPress) {
-                    props.onKeyPress();
-                }
-            }
-            if (type === CKEditorEventAction.change) {
-                const value = payload.editor.getData();
-                if (props.onKeyChange) {
-                    props.onKeyChange();
-                }
-                if (props?.onValueChange) {
-                    const content = props.sanitizeContent ? sanitizeHtml(value) : value;
-                    localEditorValueRef.current = content;
-                    props?.onValueChange(content);
-                }
-            }
-        },
+        dispatchEvent,
         subscribeTo: ["change", "key"]
     });
 
     const key = useMemo(() => Date.now(), [ckeditorConfig]);
     useEffect(() => {
-        const config = { ...props.toolbar };
+        const config = { ...toolbar };
         if (plugins?.length) {
             plugins.forEach((plugin: PluginName) => addPlugin(plugin, config));
         }
@@ -103,13 +121,14 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
             ...ckeditorConfig,
             initContent: value,
             element,
+            dispatchEvent,
             config: {
                 ...ckeditorConfig.config,
                 ...config,
-                readOnly: props.readOnly
+                readOnly
             }
         });
-    }, [element]);
+    }, [element, readOnly]);
 
     useEffect(() => {
         const editor = editorInstanceRef.current;
@@ -126,7 +145,7 @@ export const RichTextEditor = (props: RichTextProps): ReactElement => {
             className={classNames("widget-rich-text", `${readOnly ? `editor-${readOnlyStyle}` : ""}`)}
             style={{ width, height }}
         >
-            <div ref={setElement} id={props.name} />
+            <div ref={setElement} id={name} />
             <MainEditor key={key} config={ckeditorConfig} editorRef={editorRefCallback} />
         </div>
     );

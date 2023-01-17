@@ -33,8 +33,8 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "devDependencies": {
-    "@mendix/release-utils-internal": "workspace:*",
-    "cross-env": "^7.0.2",
+    "@mendix-internal/automation-utils": "workspace:*",
+    "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
     "ts-node": "^9.0.0",
     "typescript": "4.5.4"

@@ -1,0 +1,35 @@
+name: Renovate
+
+on:
+  workflow_dispatch:
+
+  # run workflow when PR labeled
+  # renovate will rebase PR when "renovate-rebase" label is added
+  pull_request:
+    types: [labeled]
+
+  schedule:
+    # At minute 0 past hour 8, 14, and 20 on every day-of-week from Monday through Friday.
+    - cron: '0 8,14,20 * * 1-5'
+
+jobs:
+  renovate:
+    name: Run self-hosted Renovate
+    runs-on:  ubuntu-latest
+    if: >-
+      ${{ contains(fromJson('["workflow_dispatch", "schedule"]'), github.event_name) ||
+          github.event.label.name == 'renovate-rebase' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        with:
+          fetch-depth: 0
+
+      - name: Check SHA in GH Actions
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@1d7bf6c77525c98076b1048507192146a793fa8c # v34.63.1
+        with:
+          configurationFile: .github/renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}

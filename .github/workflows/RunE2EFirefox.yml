@@ -1,34 +1,19 @@
-name: Run automated end-to-end tests
+name: Run E2E test on Firefox
+# This workflow is used to test our widgets against the Firefox browser weekly.
 
 on:
-  push:
-    branches: [main]
-
-  pull_request:
-    branches: [main]
+  schedule:
+    # At 03:00 on every day-of-week.
+    - cron: "0 03 * * 1-5"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  harden-security:
-    name: Check SHA in GH Actions
+  e2e:
+    name: Run automated end-to-end tests on Firefox
     runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
-
-  test:
-    # Run job only if it's push to main or PR from web-widgets, don't run for fork PRs
-    if: >-
-      ${{ github.event_name == 'push' ||
-          github.event_name == 'pull_request' && 
-          github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
-    name: Automated tests
-    runs-on: ubuntu-latest
-    needs: [harden-security]
 
     permissions:
       packages: read
@@ -55,18 +40,12 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
-      - name: Get sha of main
-        run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
-      - name: Restore Turbo Cache
-        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # v3.0.11
-        with:
-          path: node_modules/.cache/turbo
-          key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
-          restore-keys: |
-            turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
       - name: Install dependencies
         run: pnpm install
       - name: "Executing E2E tests"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BROWSER_CYPRESS: firefox
         run: >-
           node 
           ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
@@ -79,7 +58,7 @@ jobs:
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
       - name: "Archive test screenshot diff results"
-        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # v3.1.1
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         if: failure()
         with:
           name: test-screenshot-results
