@@ -4,6 +4,7 @@ import {
     getFilterAssociationProps
 } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { useLazyListValue } from "@mendix/pluggable-widgets-commons/dist/hooks/useLazyListValue";
+import { useOnScrollBottom } from "@mendix/pluggable-widgets-commons/dist/hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";
 import { getOnChange, getOptions } from "../features/referenceFilter";
 import { FilterProps } from "../utils/types";
@@ -18,27 +19,19 @@ function StatusNoFilterable(): JSX.Element {
 
 interface DropdownFooterProps {
     loading: boolean;
-    hasMore: boolean;
-    onLoadMore?: () => void;
 }
 
 function DropdownFooter(props: DropdownFooterProps): JSX.Element | null {
-    const { loading, hasMore, onLoadMore } = props;
+    const { loading } = props;
 
-    if (!loading && !hasMore) {
+    if (!loading) {
         return null;
     }
 
     return (
         <div className="dropdown-footer dropdown-content-section">
             <div className="dropdown-footer-item">
-                {loading ? (
-                    <div className="dropdown-loading">Loading...</div>
-                ) : (
-                    <button className="btn btn-block btn-sm" onClick={onLoadMore}>
-                        Load more
-                    </button>
-                )}
+                <div className="dropdown-loading">Loading...</div>
             </div>
         </div>
     );
@@ -51,6 +44,7 @@ interface DropdownProps {
 }
 function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): ReactElement {
     const { association, optionsSource, getOptionLabel } = associationProps;
+
     const id = useDropdownId();
 
     const filterable = association.filterable;
@@ -62,6 +56,10 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
     const [options, objectMap] = getOptions(items, getOptionLabel);
 
     const onChange = getOnChange(dispatch, association, objectMap);
+
+    const onContentScroll = useOnScrollBottom(loadMore, {
+        triggerZoneHeight: 100
+    });
 
     return (
         <FilterComponent
@@ -75,14 +73,9 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
             styles={widgetProps.style}
             tabIndex={widgetProps.tabIndex}
             status={filterable ? undefined : <StatusNoFilterable />}
-            footer={
-                <DropdownFooter
-                    loading={lazyList.isLoading}
-                    hasMore={lazyList.isFetched && lazyList.hasMore}
-                    onLoadMore={loadMore}
-                />
-            }
+            footer={<DropdownFooter loading={lazyList.isLoading} />}
             onTriggerClick={getItems}
+            onContentScroll={lazyList.hasMore ? onContentScroll : undefined}
         />
     );
 }
