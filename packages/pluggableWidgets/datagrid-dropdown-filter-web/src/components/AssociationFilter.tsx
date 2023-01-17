@@ -55,7 +55,7 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
 
     const filterable = association.filterable;
 
-    const [getItems, loadMore, lazyList] = useLazyListValue(optionsSource, widgetProps.optionsPageSize);
+    const [getItems, loadMore, lazyList] = useLazyListValue(optionsSource);
 
     const items = filterable ? lazyList.items : [];
 

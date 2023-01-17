@@ -74,7 +74,7 @@
                         <propertyGroup caption="Association filter">
                             <property key="enableAssociationFilter" type="boolean" defaultValue="false">
                                 <caption>Enable association filter</caption>
-                                <description />
+                                <description>Use the Drop-down filter widget to filter on associations.</description>
                             </property>
                             <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
                                 <caption>Reference</caption>
@@ -85,12 +85,13 @@
                                 </associationTypes>
                             </property>
                             <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
-                                <caption>Options data source</caption>
-                                <description />
+                                <caption>Data source</caption>
+                                <description>The options to show in the Drop-down filter widget.</description>
                             </property>
-                            <property key="filterAssociationOptionLabel" type="textTemplate" dataSource="filterAssociationOptions" required="false">
-                                <caption>Option label template</caption>
-                                <description />
+                            <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
+                                <caption>Caption</caption>
+                                <description>The caption of the option.</description>
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">

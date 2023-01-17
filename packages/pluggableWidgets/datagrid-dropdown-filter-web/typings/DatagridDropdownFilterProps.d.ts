@@ -27,7 +27,6 @@ export interface DatagridDropdownFilterContainerProps {
     filterOptions: FilterOptionsType[];
     emptyOptionCaption?: DynamicValue<string>;
     multiSelect: boolean;
-    optionsPageSize: number;
     valueAttribute?: EditableValue<string>;
     onChange?: ActionValue;
     ariaLabel?: DynamicValue<string>;
@@ -48,7 +47,6 @@ export interface DatagridDropdownFilterPreviewProps {
     filterOptions: FilterOptionsPreviewType[];
     emptyOptionCaption: string;
     multiSelect: boolean;
-    optionsPageSize: number | null;
     valueAttribute: string;
     onChange: {} | null;
     ariaLabel: string;
