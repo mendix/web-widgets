@@ -8,6 +8,7 @@ import { parseStyle } from "@mendix/pluggable-widgets-commons";
 import { Selectable } from "mendix/preview/Selectable";
 import { ObjectItem, GUID } from "mendix";
 import classNames from "classnames";
+import { isSortable } from "./features/column";
 
 const dummyColumns: ColumnsPreviewType[] = [
     {
@@ -147,6 +148,7 @@ function transformColumnProps(props: ColumnsPreviewType[]): TableColumn[] {
     return props.map(prop => ({
         ...prop,
         header: (prop.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : prop.header,
+        sortable: isSortable(prop),
         draggable: false,
         resizable: false
     }));

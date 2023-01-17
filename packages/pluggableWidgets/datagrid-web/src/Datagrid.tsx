@@ -14,7 +14,7 @@ import {
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
-import { getColumnAssociationProps } from "./features/column";
+import { getColumnAssociationProps, isSortable } from "./features/column";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -217,6 +217,6 @@ function transformColumnProps(props: ColumnsType[]): TableColumn[] {
     return props.map(prop => ({
         ...prop,
         header: prop.header && isAvailable(prop.header) ? prop.header.value ?? "" : "",
-        sortable: !prop.enableAssociationFilter && prop.sortable && (prop.attribute?.sortable ?? false)
+        sortable: isSortable(prop)
     }));
 }
