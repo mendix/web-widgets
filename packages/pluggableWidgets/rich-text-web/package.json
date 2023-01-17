@@ -1,7 +1,7 @@
 {
   "name": "rich-text-web",
   "widgetName": "RichText",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Rich inline or toolbar text editing",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "repository": {

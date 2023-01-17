@@ -14,7 +14,6 @@ describe("RichText", () => {
         remoteUrl: ""
     };
     const defaultRichTextProps: RichTextProps = {
-        advancedConfig: null,
         dimensions: {
             width: 100,
             height: 100,
