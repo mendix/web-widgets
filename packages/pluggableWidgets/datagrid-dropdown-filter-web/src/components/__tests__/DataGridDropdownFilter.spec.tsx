@@ -47,13 +47,7 @@ describe("Dropdown Filter", () => {
             describe("with auto options", () => {
                 it("loads correct values from universe", () => {
                     const filter = mount(
-                        <DatagridDropdownFilter
-                            optionsPageSize={100}
-                            {...commonProps}
-                            auto
-                            multiSelect={false}
-                            filterOptions={[]}
-                        />
+                        <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
                     expect(filter.find(FilterComponent).prop("options")).toStrictEqual([
@@ -72,13 +66,7 @@ describe("Dropdown Filter", () => {
             describe("DOM structure", () => {
                 it("renders correctly", () => {
                     const { asFragment } = render(
-                        <DatagridDropdownFilter
-                            optionsPageSize={100}
-                            {...commonProps}
-                            auto
-                            multiSelect={false}
-                            filterOptions={[]}
-                        />
+                        <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
                     expect(asFragment()).toMatchSnapshot();
@@ -91,7 +79,6 @@ describe("Dropdown Filter", () => {
                 render(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        optionsPageSize={100}
                         auto
                         multiSelect={false}
                         filterOptions={[]}
@@ -112,7 +99,6 @@ describe("Dropdown Filter", () => {
                     render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -127,7 +113,6 @@ describe("Dropdown Filter", () => {
                     const { rerender } = render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -143,7 +128,6 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -153,7 +137,6 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -171,7 +154,6 @@ describe("Dropdown Filter", () => {
                     const { rerender } = render(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -185,7 +167,6 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -195,7 +176,6 @@ describe("Dropdown Filter", () => {
                     rerender(
                         <DatagridDropdownFilter
                             {...commonProps}
-                            optionsPageSize={100}
                             auto
                             multiSelect={false}
                             filterOptions={[]}
@@ -246,13 +226,7 @@ describe("Dropdown Filter", () => {
             describe("with auto options", () => {
                 it("loads correct values from universes", () => {
                     const filter = mount(
-                        <DatagridDropdownFilter
-                            {...commonProps}
-                            optionsPageSize={100}
-                            auto
-                            multiSelect={false}
-                            filterOptions={[]}
-                        />
+                        <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
                     expect(filter.find(FilterComponent).prop("options")).toStrictEqual([
@@ -291,13 +265,7 @@ describe("Dropdown Filter", () => {
 
             it("renders error message", () => {
                 const filter = mount(
-                    <DatagridDropdownFilter
-                        {...commonProps}
-                        optionsPageSize={100}
-                        auto
-                        multiSelect={false}
-                        filterOptions={[]}
-                    />
+                    <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
                 expect(filter.find(Alert).text()).toBe(
@@ -331,13 +299,7 @@ describe("Dropdown Filter", () => {
 
             it("renders error message", () => {
                 const filter = mount(
-                    <DatagridDropdownFilter
-                        {...commonProps}
-                        optionsPageSize={100}
-                        auto
-                        multiSelect={false}
-                        filterOptions={[]}
-                    />
+                    <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
                 expect(filter.find(Alert).text()).toBe(
@@ -357,13 +319,7 @@ describe("Dropdown Filter", () => {
 
             it("renders error message", () => {
                 const filter = mount(
-                    <DatagridDropdownFilter
-                        {...commonProps}
-                        optionsPageSize={100}
-                        auto
-                        multiSelect={false}
-                        filterOptions={[]}
-                    />
+                    <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
                 expect(filter.find(Alert).text()).toBe(
@@ -388,7 +344,6 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        optionsPageSize={100}
                         auto={false}
                         multiSelect={false}
                         filterOptions={[
@@ -429,7 +384,6 @@ describe("Dropdown Filter", () => {
                 const filter = mount(
                     <DatagridDropdownFilter
                         {...commonProps}
-                        optionsPageSize={100}
                         auto={false}
                         multiSelect={false}
                         filterOptions={[
@@ -470,22 +424,10 @@ describe("Dropdown Filter", () => {
 
         it("renders with a unique id", () => {
             const { asFragment: fragment1 } = render(
-                <DatagridDropdownFilter
-                    {...commonProps}
-                    optionsPageSize={100}
-                    auto
-                    multiSelect={false}
-                    filterOptions={[]}
-                />
+                <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
             );
             const { asFragment: fragment2 } = render(
-                <DatagridDropdownFilter
-                    {...commonProps}
-                    optionsPageSize={100}
-                    auto
-                    multiSelect={false}
-                    filterOptions={[]}
-                />
+                <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
             );
 
             expect(fragment1().querySelector("input")?.getAttribute("aria-controls")).not.toBe(
