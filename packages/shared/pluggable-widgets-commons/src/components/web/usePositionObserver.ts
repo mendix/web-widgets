@@ -1,42 +1,33 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export function usePositionObserver(target: HTMLElement | null, active: boolean): ClientRect | undefined {
-    const [position, setPosition] = useState<ClientRect>();
+type Fn = () => void;
+type Cancel = () => void;
+
+export function usePositionObserver(target: HTMLElement | null, active: boolean): DOMRect | undefined {
+    const [position, setPosition] = useState<DOMRect | undefined>();
 
     const onAnimationFrameHandler = useCallback(() => {
-        const newPosition: ClientRect | undefined = target?.getBoundingClientRect();
+        setPosition(prev => {
+            const next = target?.getBoundingClientRect();
 
-        if (shouldUpdatePosition(newPosition, position)) {
-            setPosition(newPosition);
-        }
-    }, [position, target]);
+            if (shouldUpdatePosition(prev, next)) {
+                return next;
+            }
+
+            return prev;
+        });
+    }, [target]);
 
     useAnimationFrameEffect(active ? onAnimationFrameHandler : undefined);
 
     return position;
 }
 
-function useAnimationFrameEffect(callback?: () => void): void {
-    const requestId = useRef<number | undefined>();
-
-    const onAnimationFrame = useCallback(() => {
-        callback!();
-        requestId.current = window.requestAnimationFrame(onAnimationFrame);
-    }, [callback]);
-
-    useEffect(() => {
-        if (!callback) {
-            return;
-        }
-
-        requestId.current = window.requestAnimationFrame(onAnimationFrame);
-        return () => {
-            window.cancelAnimationFrame(requestId.current!);
-        };
-    }, [callback, onAnimationFrame]);
+function useAnimationFrameEffect(callback?: Fn): void {
+    useEffect(() => (callback ? animationLoop(callback) : undefined), [callback]);
 }
 
-function shouldUpdatePosition(a?: ClientRect, b?: ClientRect): boolean {
+function shouldUpdatePosition(a?: DOMRect, b?: DOMRect): boolean {
     return (
         !a ||
         !b ||
@@ -47,4 +38,21 @@ function shouldUpdatePosition(a?: ClientRect, b?: ClientRect): boolean {
         a.left !== b.left ||
         a.right !== b.right
     );
+}
+
+function animationLoop(callback: Fn): Cancel {
+    let requestId: number;
+
+    const requestFrame: Fn = () => {
+        requestId = window.requestAnimationFrame(() => {
+            callback();
+            requestFrame();
+        });
+    };
+
+    const cancel: Cancel = () => window.cancelAnimationFrame(requestId);
+
+    requestFrame();
+
+    return cancel;
 }
