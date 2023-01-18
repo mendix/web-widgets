@@ -89,25 +89,52 @@ export interface ColumnProperty {
 }
 
 export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement {
-    const isInfinite = !props.paging;
+    const {
+        cellRenderer,
+        className,
+        columns,
+        columnsDraggable,
+        columnsFilterable,
+        columnsHidable,
+        columnsResizable,
+        columnsSortable,
+        data,
+        emptyPlaceholderRenderer,
+        filterRenderer: filterRendererProp,
+        filtersTitle,
+        hasMoreItems,
+        headerFilters,
+        headerWrapperRenderer,
+        id,
+        numberOfItems,
+        page,
+        pageSize,
+        paging,
+        pagingPosition,
+        preview,
+        rowClass,
+        setPage,
+        setSortParameters,
+        settings,
+        styles
+    } = props;
+    const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
     const [columnOrder, setColumnOrder] = useState<string[]>([]);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>(
-        (props.columns
-            .map((c, i) =>
-                props.columnsHidable && c.hidable === "hidden" && !props.preview ? i.toString() : undefined
-            )
+        (columns
+            .map((c, i) => (columnsHidable && c.hidable === "hidden" && !preview ? i.toString() : undefined))
             .filter(Boolean) as string[]) ?? []
     );
     const [sortBy, setSortBy] = useState<SortingRule[]>([]);
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidth>(
-        Object.fromEntries(props.columns.map((_c, index) => [index.toString(), undefined]))
+        Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
     );
 
     const { updateSettings } = useSettings(
-        props.settings,
-        props.columns,
+        settings,
+        columns,
         columnOrder,
         setColumnOrder,
         hiddenColumns,
@@ -118,19 +145,19 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         setColumnsWidth
     );
 
-    useEffect(() => updateSettings(), [columnOrder, hiddenColumns, sortBy]);
+    useEffect(() => updateSettings(), [columnOrder, hiddenColumns, sortBy, updateSettings]);
 
     useEffect(() => {
         const [sortProperties] = sortBy;
         if (sortProperties && "id" in sortProperties && "desc" in sortProperties) {
-            props.setSortParameters?.({
+            setSortParameters?.({
                 columnIndex: Number(sortProperties.id),
                 desc: sortProperties.desc ?? false
             });
         } else {
-            props.setSortParameters?.(undefined);
+            setSortParameters?.(undefined);
         }
-    }, [sortBy, props.setSortParameters]);
+    }, [sortBy, setSortParameters]);
 
     const filterRenderer = useCallback(
         (children: ReactNode) => (
@@ -143,7 +170,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
 
     const tableColumns: ColumnProperty[] = useMemo(
         () =>
-            props.columns.map((column, index) => ({
+            columns.map((column, index) => ({
                 id: index.toString(),
                 accessor: "item",
                 alignment: column.alignment,
@@ -153,11 +180,11 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                 canDrag: column.draggable,
                 canResize: column.resizable,
                 canSort: column.sortable,
-                customFilter: props.columnsFilterable ? props.filterRenderer(filterRenderer, index) : null,
+                customFilter: columnsFilterable ? filterRendererProp(filterRenderer, index) : null,
                 width: column.width,
                 weight: column.size ?? 1
             })),
-        [props.columns, props.filterRenderer, props.columnsFilterable, filterRenderer]
+        [columns, filterRendererProp, columnsFilterable, filterRenderer]
     );
 
     const visibleColumns = useMemo(
@@ -167,15 +194,15 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
 
     const renderCell = useCallback(
         (column: ColumnProperty, value: T, rowIndex: number) =>
-            visibleColumns.find(c => c.id === column.id) || props.preview
-                ? props.cellRenderer(
+            visibleColumns.find(c => c.id === column.id) || preview
+                ? cellRenderer(
                       (children, className, onClick) => {
                           return (
                               <div
                                   key={`row_${value.id}_cell_${column.id}`}
                                   className={classNames("td", { "td-borders": rowIndex === 0 }, className, {
                                       clickable: !!onClick,
-                                      "hidden-column-preview": props.preview && props.columnsHidable && column.hidden
+                                      "hidden-column-preview": preview && columnsHidable && column.hidden
                                   })}
                                   onClick={onClick}
                                   onKeyDown={
@@ -199,21 +226,21 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                       Number(column.id)
                   )
                 : null,
-        [props.cellRenderer, props.columnsHidable, props.preview, visibleColumns]
+        [cellRenderer, columnsHidable, preview, visibleColumns]
     );
 
-    const rows = useMemo(() => props.data.map(item => ({ item })), [props.data]);
+    const rows = useMemo(() => data.map(item => ({ item })), [data]);
 
-    const pagination = props.paging ? (
+    const pagination = paging ? (
         <Pagination
-            canNextPage={props.hasMoreItems}
-            canPreviousPage={props.page !== 0}
-            gotoPage={(page: number) => props.setPage && props.setPage(() => page)}
-            nextPage={() => props.setPage && props.setPage(prev => prev + 1)}
-            numberOfItems={props.numberOfItems}
-            page={props.page}
-            pageSize={props.pageSize}
-            previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
+            canNextPage={hasMoreItems}
+            canPreviousPage={page !== 0}
+            gotoPage={(page: number) => setPage && setPage(() => page)}
+            nextPage={() => setPage && setPage(prev => prev + 1)}
+            numberOfItems={numberOfItems}
+            page={page}
+            pageSize={pageSize}
+            previousPage={() => setPage && setPage(prev => prev - 1)}
         />
     ) : null;
 
@@ -235,44 +262,44 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             })
             .join(" ");
         return {
-            gridTemplateColumns: columnSizes + (props.columnsHidable ? " fit-content(50px)" : "")
+            gridTemplateColumns: columnSizes + (columnsHidable ? " fit-content(50px)" : "")
         };
-    }, [columnsWidth, visibleColumns, props.columnsHidable]);
+    }, [columnsWidth, visibleColumns, columnsHidable]);
 
     return (
-        <div className={classNames(props.className, "widget-datagrid")} style={props.styles}>
+        <div className={classNames(className, "widget-datagrid")} style={styles}>
             <div className="table" role="table">
                 <div className="table-header" role="rowgroup">
-                    {props.pagingPosition === "top" && pagination}
+                    {pagingPosition === "top" && pagination}
                 </div>
-                {props.headerFilters && (
-                    <div className="header-filters" role="rowgroup" aria-label={props.filtersTitle}>
-                        {props.headerFilters}
+                {headerFilters && (
+                    <div className="header-filters" role="rowgroup" aria-label={filtersTitle}>
+                        {headerFilters}
                     </div>
                 )}
                 <InfiniteBody
                     className="table-content"
-                    hasMoreItems={props.hasMoreItems}
+                    hasMoreItems={hasMoreItems}
                     isInfinite={isInfinite}
                     role="rowgroup"
-                    setPage={props.setPage}
+                    setPage={setPage}
                     style={cssGridStyles}
                 >
                     <div className="tr" role="row">
                         {visibleColumns.map(column =>
-                            props.headerWrapperRenderer(
+                            headerWrapperRenderer(
                                 Number(column.id),
                                 <Header
                                     key={`headers_column_${column.id}`}
                                     className={`align-column-${column.alignment}`}
                                     column={column}
-                                    draggable={props.columnsDraggable}
+                                    draggable={columnsDraggable}
                                     dragOver={dragOver}
-                                    filterable={props.columnsFilterable}
-                                    hidable={props.columnsHidable}
+                                    filterable={columnsFilterable}
+                                    hidable={columnsHidable}
                                     isDragging={isDragging}
-                                    preview={props.preview}
-                                    resizable={props.columnsResizable}
+                                    preview={preview}
+                                    resizable={columnsResizable}
                                     resizer={
                                         <ColumnResizer
                                             onResizeEnds={updateSettings}
@@ -288,17 +315,17 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                     setDragOver={setDragOver}
                                     setIsDragging={setIsDragging}
                                     setSortBy={setSortBy}
-                                    sortable={props.columnsSortable}
+                                    sortable={columnsSortable}
                                     sortBy={sortBy}
                                     visibleColumns={visibleColumns}
                                 />
                             )
                         )}
-                        {props.columnsHidable && (
+                        {columnsHidable && (
                             <ColumnSelector
                                 columns={tableColumns}
                                 hiddenColumns={hiddenColumns}
-                                id={props.id}
+                                id={id}
                                 setHiddenColumns={setHiddenColumns}
                             />
                         )}
@@ -307,11 +334,11 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         return (
                             <div
                                 key={`row_${row.item.id}`}
-                                className={classNames("tr", props.rowClass?.(row.item))}
+                                className={classNames("tr", rowClass?.(row.item))}
                                 role="row"
                             >
                                 {visibleColumns.map(cell => renderCell(cell, row.item, rowIndex))}
-                                {props.columnsHidable && (
+                                {columnsHidable && (
                                     <div
                                         aria-hidden
                                         className={classNames("td column-selector", { "td-borders": rowIndex === 0 })}
@@ -320,13 +347,13 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             </div>
                         );
                     })}
-                    {(props.data.length === 0 || props.preview) &&
-                        props.emptyPlaceholderRenderer &&
-                        props.emptyPlaceholderRenderer(children => (
+                    {(data.length === 0 || preview) &&
+                        emptyPlaceholderRenderer &&
+                        emptyPlaceholderRenderer(children => (
                             <div
                                 className={classNames("td", "td-borders")}
                                 style={{
-                                    gridColumn: `span ${props.columns.length + (props.columnsHidable ? 1 : 0)}`
+                                    gridColumn: `span ${columns.length + (columnsHidable ? 1 : 0)}`
                                 }}
                             >
                                 <div className="empty-placeholder">{children}</div>
@@ -334,7 +361,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         ))}
                 </InfiniteBody>
                 <div className="table-footer" role="rowgroup">
-                    {props.pagingPosition === "bottom" && pagination}
+                    {pagingPosition === "bottom" && pagination}
                 </div>
             </div>
         </div>

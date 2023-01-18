@@ -1,3 +1,4 @@
+import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 import { createElement, ReactElement, useCallback, useEffect, useRef, useState, MouseEvent, TouchEvent } from "react";
 
 export interface ColumnResizerProps {
@@ -12,18 +13,15 @@ export function ColumnResizer({ minWidth = 50, setColumnWidth, onResizeEnds }: C
     const [currentWidth, setCurrentWidth] = useState(0);
     const resizerReference = useRef<HTMLDivElement>(null);
 
-    const onStartDrag = useCallback(
-        (e: TouchEvent<HTMLDivElement> & MouseEvent<HTMLDivElement>): void => {
-            const mouseX = e.touches ? e.touches[0].screenX : e.screenX;
-            setStartPosition(mouseX);
-            setIsResizing(true);
-            if (resizerReference.current) {
-                const column = resizerReference.current.parentElement as HTMLDivElement;
-                setCurrentWidth(column.clientWidth);
-            }
-        },
-        [resizerReference.current]
-    );
+    const onStartDrag = useCallback((e: TouchEvent<HTMLDivElement> & MouseEvent<HTMLDivElement>): void => {
+        const mouseX = e.touches ? e.touches[0].screenX : e.screenX;
+        setStartPosition(mouseX);
+        setIsResizing(true);
+        if (resizerReference.current) {
+            const column = resizerReference.current.parentElement!;
+            setCurrentWidth(column.clientWidth);
+        }
+    }, []);
     const onEndDrag = useCallback((): void => {
         if (!isResizing) {
             return;
@@ -32,6 +30,7 @@ export function ColumnResizer({ minWidth = 50, setColumnWidth, onResizeEnds }: C
         setCurrentWidth(0);
         onResizeEnds?.();
     }, [onResizeEnds, isResizing]);
+    const setColumnWidthStable = useEventCallback(setColumnWidth);
     const onMouseMove = useCallback(
         (e: TouchEvent & MouseEvent & Event): void => {
             if (!isResizing) {
@@ -45,10 +44,10 @@ export function ColumnResizer({ minWidth = 50, setColumnWidth, onResizeEnds }: C
                 if (newWidth < minWidth) {
                     newWidth = minWidth;
                 }
-                setColumnWidth(newWidth);
+                setColumnWidthStable(newWidth);
             }
         },
-        [isResizing, currentWidth, startPosition]
+        [isResizing, currentWidth, startPosition, minWidth, setColumnWidthStable]
     );
 
     useEffect(() => {
