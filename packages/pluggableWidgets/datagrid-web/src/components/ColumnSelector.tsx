@@ -14,6 +14,7 @@ export interface ColumnSelectorProps {
 }
 
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
+    const { setHiddenColumns } = props;
     const [show, setShow] = useState(false);
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -31,7 +32,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
         (isVisible: boolean, id: string) => {
             const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
             if (!isLastVisibleColumn) {
-                props.setHiddenColumns(prev => {
+                setHiddenColumns(prev => {
                     if (!isVisible) {
                         return prev.filter(v => v !== id);
                     } else {
@@ -40,7 +41,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 });
             }
         },
-        [props.setHiddenColumns, isOnlyOneColumnVisible]
+        [setHiddenColumns, isOnlyOneColumnVisible]
     );
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
