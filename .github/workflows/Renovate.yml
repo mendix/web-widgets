@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check SHA in GH Actions
-        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@af2eb3226618e2494e3d9084f515ad6dcf16e229 # v2.0.1
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@afbf9b485669c7ad13347734c9f146175e83cb43 # v2.0.4
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@1d7bf6c77525c98076b1048507192146a793fa8c # v34.63.1
