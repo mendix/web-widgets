@@ -35,7 +35,7 @@ importers:
       '@types/jest-image-snapshot': ^4.3.2
       '@types/mime': ^2.0.3
       '@types/node': ^16.18.3
-      '@types/shelljs': ^0.8.9
+      '@types/shelljs': ^0.8.11
       '@types/xml2js': ^0.4.11
       cross-env: ^7.0.3
       deepmerge: ^4.2.2
@@ -130,7 +130,7 @@ importers:
       node-fetch: ^2.6.7
       ora: ^5.4.1
       peggy: ^1.2.0
-      shelljs: ^0.8.4
+      shelljs: ^0.8.5
       ts-node: ^9.0.0
       typescript: 4.5.4
       zod: ^3.11.6
@@ -4443,7 +4443,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4536,7 +4536,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.19.55544
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11416,8 +11416,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
