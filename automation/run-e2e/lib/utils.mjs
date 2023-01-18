@@ -1,49 +1,15 @@
 import c from "ansi-colors";
-import { spawnSync } from "child_process";
 import { readFileSync } from "fs";
 import fetch from "node-fetch";
 import assert from "node:assert/strict";
-import sh from "shelljs";
+import { mkdtemp } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pipeline } from "node:stream";
+import { promisify } from "node:util";
+import * as config from "./config.mjs";
 
 export const packageMeta = JSON.parse(readFileSync("package.json", { encoding: "utf-8" }));
-
-export async function runReleaseScript() {
-    const { name: packageName } = packageMeta;
-    assert.ok(typeof packageName === "string", "missing package.name");
-
-    // Please keep in mind that order of args matters.
-    // Our goal is to run `turbo run --filter <widget>`
-    // as then we can make sure that widget build with dependencies.
-    // But both, pnpm and turbo have `--filter` flag (which may be confusing).
-    // To pass flags to turbo, we pass --filter AFTER command (`release` in our case).
-    // Check https://pnpm.io/cli/run#options for more details.
-    const command = "pnpm";
-    const args = [
-        // <- prevent format in one line
-        "run",
-        "--workspace-root",
-        "release",
-        `--filter ${packageName}`
-    ];
-
-    spawnSync(command, args, { stdio: "inherit", shell: true });
-}
-
-export async function updateWidget() {
-    const { mkdir, cp, ls } = sh;
-    const { version } = packageMeta;
-    const mpkPath = `dist/${version}/*.mpk`;
-    const outDir = "tests/testProject/widgets";
-
-    if (ls(mpkPath).length) {
-        console.log(c.yellow("Widget mpk exists, skip release"));
-    } else {
-        await runReleaseScript();
-    }
-
-    mkdir("-p", outDir);
-    cp("-f", mpkPath, outDir);
-}
 
 export async function fetchWithReport(url, init) {
     const response = await fetch(url, init);
@@ -88,3 +54,9 @@ export async function await200(url = "http://127.0.0.1:8080", attempts = 50) {
 
     throw new Error(`Max attempts (${attempts}) exceeded`);
 }
+
+export async function usetmp() {
+    return mkdtemp(join(tmpdir(), config.tmpDirPrefix));
+}
+
+export const streamPipe = promisify(pipeline);

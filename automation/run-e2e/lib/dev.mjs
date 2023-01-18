@@ -5,7 +5,9 @@ import parseArgs from "yargs-parser";
 import c from "ansi-colors";
 import enquirer from "enquirer";
 import { setupTestProject } from "./setup-test-project.mjs";
-import { await200, updateWidget } from "./utils.mjs";
+import { updateTestProject } from "./update-test-project.mjs";
+import { await200 } from "./utils.mjs";
+import * as config from "./config.mjs";
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
@@ -34,13 +36,13 @@ export async function dev() {
     if (options.withPreps) {
         // Download test project from github
         await setupTestProject();
-        // Run release script and copy widget to testProject
-        await updateWidget();
+        // Run update project hook
+        await updateTestProject();
 
         console.log(
             c.yellow(
                 [
-                    "Please open and run tests/testProject/<name>.mpr in Studio Pro.",
+                    `Please open and run ${config.mprFileGlob} in Studio Pro.`,
                     "If project contains errors, then you have to resolve them manually.",
                     "Once project is running, press Enter to continue."
                 ].join("\n")
