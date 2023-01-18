@@ -1850,7 +1850,7 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
-      '@types/ckeditor4': ^4.16.4
+      '@types/ckeditor4': ^4.16.5
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1858,7 +1858,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
-      ckeditor4: ^4.20.0
+      ckeditor4: ^4.20.1
       ckeditor4-react: ^2.1.0
       classnames: ^2.3.2
       cross-env: ^7.0.3
@@ -1872,8 +1872,8 @@ importers:
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
-      ckeditor4: 4.20.0
-      ckeditor4-react: 2.1.1_wfibr7i4wddb4aczdbn3c2xfwu
+      ckeditor4: 4.20.1
+      ckeditor4-react: 2.1.1_zs3l3ster2jyplq65nkqdajphy
       classnames: 2.3.2
       sanitize-html: 2.7.3
     devDependencies:
@@ -1886,7 +1886,7 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/ckeditor4': 4.16.4
+      '@types/ckeditor4': 4.16.5
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -5035,8 +5035,8 @@ packages:
       '@types/node': 18.8.3
     dev: true
 
-  /@types/ckeditor4/4.16.4:
-    resolution: {integrity: sha512-/ikSPGoSDcXM11QLsPxlhNy6GCtMMV8OsmJWJkHbARaF6OvvJpQPduGvdMdXrLMWLQGBuebogOrY7T/nEdvuRA==}
+  /@types/ckeditor4/4.16.5:
+    resolution: {integrity: sha512-tUN9EUWwGvc1WoTKxDs17KSw3G+ZWWNQ0eTbKh9YDucllN1eEcudVcJcKDK7gytcb+1IFF0JkYKpK1Qpz3+wEg==}
     dev: true
 
   /@types/concurrently/6.4.0:
@@ -6724,20 +6724,20 @@ packages:
     resolution: {integrity: sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==}
     dev: false
 
-  /ckeditor4-react/2.1.1_wfibr7i4wddb4aczdbn3c2xfwu:
+  /ckeditor4-react/2.1.1_zs3l3ster2jyplq65nkqdajphy:
     resolution: {integrity: sha512-q8WGsTaigP5OG34WFZUlkPpR2zJPCav5mgB6zdq58+tY0UJwnweVAammfZQJpQHF5UqTpdjq0dlsqxae8Tg4Rw==}
     peerDependencies:
       ckeditor4: ^4.17.2
       react: ^16.9 || ^17
     dependencies:
-      ckeditor4: 4.20.0
+      ckeditor4: 4.20.1
       ckeditor4-integrations-common: 1.0.0
       prop-types: 15.8.1
       react: 17.0.2
     dev: false
 
-  /ckeditor4/4.20.0:
-    resolution: {integrity: sha512-Wa7OzaRXN6qRQ0IxIcX4CjZ5qxNlNqIbdQnBf9sxVEx22kTTsAaE5ePT+TpME0rJhLdCwAIRnbjRCJoGcp05oA==}
+  /ckeditor4/4.20.1:
+    resolution: {integrity: sha512-OywaO5CC6n5NcY98Fi4Llc/h9rgmn8uHwEIfWxulVKpu0UCdL8x9p6xCfo/ZfgQN6FTS/eZcP7XzKMuokRN+mQ==}
     dev: false
 
   /clamp/1.0.1:
