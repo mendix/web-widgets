@@ -99,7 +99,8 @@ export const RichTextEditor = ({
             enterMode: defineEnterMode(enterMode || ""),
             shiftEnterMode: defineEnterMode(shiftEnterMode || ""),
             disableNativeSpellChecker: !spellChecker,
-            readOnly
+            readOnly,
+            removeButtons: ""
         },
         initContent: value,
         dispatchEvent,
