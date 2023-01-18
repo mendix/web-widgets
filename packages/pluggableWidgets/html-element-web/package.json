@@ -61,6 +61,6 @@
     "react-test-renderer": "~17.0.2"
   },
   "dependencies": {
-    "dompurify": "^2.4.1"
+    "dompurify": "^2.4.3"
   }
 }
