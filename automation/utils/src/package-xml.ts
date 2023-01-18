@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import { readFile, writeFile } from "fs/promises";
+import path from "node:path";
 
 const EmptyTagWithoutAttributes = z.literal("");
 
@@ -36,13 +37,25 @@ const ModelerProjectPackageFile = z.object({
 
 type ModelerProjectPackageFile = z.infer<typeof ModelerProjectPackageFile>;
 
-const ClientModulePackageFile = z.object({
+const ClientModuleContent = Content.extend({
+    "@_name": z.string({
+        required_error: "name attribute is required"
+    }),
+    "@_version": z.string({
+        required_error: "version attribute is required"
+    }),
+    "@_xmlns": z.literal("http://www.mendix.com/clientModule/1.0/")
+});
+
+type ClientModuleContent = z.infer<typeof ClientModuleContent>;
+
+export const ClientModulePackageFile = z.object({
     package: z.object({
-        clientModule: Content
+        clientModule: ClientModuleContent
     })
 });
 
-type ClientModulePackageFile = z.infer<typeof ClientModulePackageFile>;
+export type ClientModulePackageFile = z.infer<typeof ClientModulePackageFile>;
 
 type DataParser = (data: unknown) => Content;
 
@@ -99,12 +112,12 @@ function mergeContent(packageType: PackageType, xml: any, content: Content): unk
     };
 }
 
-async function readXml(filePath: string): Promise<unknown> {
+export async function readXml(filePath: string): Promise<unknown> {
     const parser = new XMLParser({ ignoreAttributes: false });
     return parser.parse(await readFile(filePath));
 }
 
-async function writeXml(filePath: string, xml: any): Promise<void> {
+export async function writeXml(filePath: string, xml: any): Promise<void> {
     const builder = new XMLBuilder({
         ignoreAttributes: false,
         format: true,
@@ -124,4 +137,8 @@ export async function addFilesToPackageXml(filePath: string, paths: string[], pa
     const content = dataParsers[packageType](xml);
     const updatedXml = mergeContent(packageType, xml, concatFiles(content, files));
     await writeXml(filePath, updatedXml);
+}
+
+export async function readPackageXml(cwd: string): Promise<unknown> {
+    return readXml(path.join(cwd, "src", "package.xml"));
 }
