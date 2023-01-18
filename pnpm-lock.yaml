@@ -177,7 +177,7 @@ importers:
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
       to-string-loader: ^1.1.6
-      ts-loader: ^9.4.1
+      ts-loader: ^9.4.2
       typescript: 4.5.4
       webpack: ^5.3.2
       webpack-cli: ^4.1.0
@@ -209,7 +209,7 @@ importers:
       sass-loader: 13.2.0_sass@1.56.1+webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
       to-string-loader: 1.2.0
-      ts-loader: 9.4.1_leot54mpvtrbhlmxtuzvyiidqe
+      ts-loader: 9.4.2_leot54mpvtrbhlmxtuzvyiidqe
       typescript: 4.5.4
       webpack: 5.75.0_webpack-cli@4.10.0
       webpack-cli: 4.10.0_webpack@5.75.0
@@ -4441,7 +4441,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4534,7 +4534,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.7
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -11414,8 +11414,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -14903,8 +14905,8 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-loader/9.4.1_leot54mpvtrbhlmxtuzvyiidqe:
-    resolution: {integrity: sha512-384TYAqGs70rn9F0VBnh6BPTfhga7yFNdC5gXbQpDrBj9/KsT4iRkGqKXhziofHOlE2j6YEaiTYVGKKvPhGWvw==}
+  /ts-loader/9.4.2_leot54mpvtrbhlmxtuzvyiidqe:
+    resolution: {integrity: sha512-OmlC4WVmFv5I0PpaxYb+qGeGOdm5giHU7HwDDUjw59emP2UYMHy9fFSDcYgSNoH8sXcj4hGCSEhlDZ9ULeDraA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
