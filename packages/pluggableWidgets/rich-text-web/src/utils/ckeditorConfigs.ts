@@ -10,7 +10,8 @@ const PLUGIN_CONFIGS = {
         name: "OpenLink",
         config: {
             openlink_enableReadOnly: true,
-            openlink_target: "_blank"
+            openlink_target: "_blank",
+            openlink_modifier: 0
         }
     },
     codesnippet: {
