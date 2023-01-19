@@ -1,46 +1,63 @@
 import { createElement } from "react";
 import "@testing-library/jest-dom";
-import { RichTextEditor, RichTextProps } from "../RichText";
+import { RichText } from "../RichText";
 import { CKEditorConfig } from "ckeditor4-react";
 import { getPreset, defineEnterMode, getToolbarGroupByName, defineAdvancedGroups } from "../../utils/ckeditorConfigs";
 import { mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
-import { getDimensions, Dimensions } from "@mendix/pluggable-widgets-commons";
+import { getDimensions, EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { TOOLBAR_GROUP, ToolbarGroup } from "../../utils/ckeditorPresets";
-import { AdvancedConfigType } from "../../../typings/RichTextProps";
+import { AdvancedConfigType, RichTextContainerProps } from "../../../typings/RichTextProps";
+
+const defaultRichTextProps: RichTextContainerProps = {
+    stringAttribute: new EditableValueBuilder<string>().withValue("Rich text default value").build(),
+    sanitizeContent: false,
+    advancedContentFilter: "auto",
+    name: "RichText_Div",
+    spellChecker: false,
+    readOnlyStyle: "text",
+    editorType: "classic",
+    enterMode: "paragraph",
+    shiftEnterMode: "paragraph",
+    tabIndex: 1,
+    advancedMode: false,
+    preset: "basic",
+    widthUnit: "percentage",
+    width: 100,
+    heightUnit: "percentageOfWidth",
+    height: 75,
+    toolbarConfig: "basic",
+    documentGroup: true,
+    clipboardGroup: true,
+    editingGroup: true,
+    formsGroup: true,
+    separatorGroup: true,
+    basicStylesGroup: true,
+    paragraphGroup: true,
+    linksGroup: true,
+    separator2Group: true,
+    stylesGroup: true,
+    colorsGroup: true,
+    toolsGroup: true,
+    othersGroup: true,
+    advancedConfig: [],
+    codeHighlight: false,
+    allowedContent: "",
+    disallowedContent: "",
+    id: "1.Dev.Test_ListenTo.richText1_x_1"
+};
 
 describe("RichText", () => {
     window.mx = {
-        remoteUrl: ""
-    };
-    const defaultRichTextProps: RichTextProps = {
-        dimensions: {
-            width: 100,
-            height: 100,
-            heightUnit: "percentageOfWidth",
-            widthUnit: "percentage"
-        },
-        plugins: [],
-        value: "Simple Text",
-        sanitizeContent: false,
-        advancedContentFilter: null,
-        readOnly: false,
-        name: "RichText_Div",
-        spellChecker: false,
-        readOnlyStyle: "text",
-        editorType: "classic",
-        enterMode: "paragraph",
-        shiftEnterMode: "paragraph",
-        toolbar: getPreset("basic"),
-        tabIndex: 1
+        remoteUrl: "https://example.com"
     };
 
     function renderRichText(props = defaultRichTextProps): ReactWrapper {
-        return mount(<RichTextEditor {...props} />);
+        return mount(<RichText {...props} />);
     }
 
     it("render DOM structure", () => {
-        const richText = renderer.create(<RichTextEditor {...defaultRichTextProps} />).toJSON();
+        const richText = renderer.create(<RichText {...defaultRichTextProps} />).toJSON();
         expect(richText).toMatchSnapshot();
     });
 
@@ -53,7 +70,7 @@ describe("RichText", () => {
         expect(richTextElement?.getElements().length).toBeGreaterThan(0);
 
         const styleProps = richTextElement.getElements()[0].props.style;
-        const dimensions = getDimensions(defaultRichTextProps.dimensions as Dimensions);
+        const dimensions = getDimensions(defaultRichTextProps);
         expect(styleProps.width).toEqual(dimensions.width);
         expect(styleProps.height).toEqual(dimensions.height);
 
@@ -65,9 +82,8 @@ describe("RichText", () => {
         const mainEditor = richText.find("MainEditor");
         expect(mainEditor).toBeDefined();
         const props = mainEditor.props() as CKEditorConfig;
-        const dimensions = getDimensions(defaultRichTextProps.dimensions as Dimensions);
+        const dimensions = getDimensions(defaultRichTextProps);
         const toolbar = getPreset("basic");
-        expect(props.config.initContent).toEqual(defaultRichTextProps.value);
         expect(props.config.config).toMatchObject({
             autoGrow_minHeight: 300,
             toolbarCanCollapse: true,
@@ -82,7 +98,13 @@ describe("RichText", () => {
     });
 
     it("renders editor in read only mode with specified style", () => {
-        const containerProps = { ...defaultRichTextProps, readOnly: true };
+        const containerProps: RichTextContainerProps = {
+            ...defaultRichTextProps,
+            stringAttribute: new EditableValueBuilder<string>()
+                .withValue("Rich text default value")
+                .isReadOnly()
+                .build()
+        };
         const richText = renderRichText(containerProps);
         expect(richText.find(`.editor-${containerProps.readOnlyStyle}`).getElements().length).toBeGreaterThan(0);
     });
@@ -113,7 +135,7 @@ describe("CKEditor configuration", () => {
             { ctItemType: "About", ctItemToolbar: "toolbar1" },
             { ctItemType: "Anchor", ctItemToolbar: "toolbar2" }
         ];
-        const grouped = defineAdvancedGroups(input);
+        const grouped = defineAdvancedGroups({ ...defaultRichTextProps, advancedConfig: input });
         const result = [
             {
                 name: "toolbar1",
