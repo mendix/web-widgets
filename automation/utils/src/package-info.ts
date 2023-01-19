@@ -59,7 +59,7 @@ export const MxPackageSchema = z.object({
 export const MarketplaceSchema = z.object({
     minimumMXVersion: versionSchema,
     appName: appNameSchema,
-    appNumber: appNumberSchema
+    appNumber: appNumberSchema.or(z.literal(-1))
 });
 
 export const TestProjectSchema = z.object({
