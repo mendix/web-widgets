@@ -3,6 +3,7 @@
 exports[`RichText render DOM structure 1`] = `
 <div
   className="widget-rich-text"
+  id="1.Dev.Test_ListenTo.richText1_x_1"
   style={
     Object {
       "height": "auto",
