@@ -48,7 +48,7 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
     "@testing-library/dom": "^8.19.1",
-    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
