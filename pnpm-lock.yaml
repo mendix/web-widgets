@@ -1456,7 +1456,7 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     specifiers:
-      '@googlemaps/jest-mocks': ^0.0.3
+      '@googlemaps/jest-mocks': ^0.2.0
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
@@ -1498,7 +1498,7 @@ importers:
       leaflet: 1.9.2
       react-leaflet: 2.8.0_myoalt2qegmhvac3qx3wpc3ki4
     devDependencies:
-      '@googlemaps/jest-mocks': 0.0.3
+      '@googlemaps/jest-mocks': 0.2.0
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
@@ -3970,8 +3970,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@googlemaps/jest-mocks/0.0.3:
-    resolution: {integrity: sha512-b9KZ+7j1IUciRA+QdgKm4dPhqDy/IkNJNQIIOZMkri29TfytsRTTT938UgJWR9rywMgFkU4cnJcH4HholDLoSQ==}
+  /@googlemaps/jest-mocks/0.2.0:
+    resolution: {integrity: sha512-8EvZH8VNL1tmpKbH0rUDXXCiKlqMLCQ7OKkzcewWM+5XzqmTo8xP59QX0afGpvcJ2qza9bKh2gEv+oAgiBmucg==}
+    dependencies:
+      rollup: 2.79.1
     dev: true
 
   /@googlemaps/js-api-loader/1.15.1:
