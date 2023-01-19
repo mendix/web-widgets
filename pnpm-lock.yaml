@@ -1279,13 +1279,13 @@ importers:
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
-      dompurify: ^2.4.1
+      dompurify: ^2.4.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
     dependencies:
-      dompurify: 2.4.1
+      dompurify: 2.4.3
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -7913,8 +7913,8 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
-  /dompurify/2.4.1:
-    resolution: {integrity: sha512-ewwFzHzrrneRjxzmK6oVz/rZn9VWspGFRDb4/rRtIsM1n36t9AKma/ye8syCpcw+XJ25kOK/hOG7t1j2I2yBqA==}
+  /dompurify/2.4.3:
+    resolution: {integrity: sha512-q6QaLcakcRjebxjg8/+NP+h0rPfatOgOzc46Fst9VAA3jF2ApfKBNKMzdP4DYTqtUMXSCd5pRS/8Po/OmoCHZQ==}
     dev: false
 
   /domutils/2.8.0:
