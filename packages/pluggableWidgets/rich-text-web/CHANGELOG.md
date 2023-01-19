@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.1] - 2023-01-19
+
 ### Fixed
 
 -   Using editable settings, when switch from readonly state to editable then it is possible to change the text
