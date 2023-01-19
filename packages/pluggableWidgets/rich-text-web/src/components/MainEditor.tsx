@@ -1,24 +1,17 @@
-import { useCKEditor, CKEditorHookProps, CKEditorInstance } from "ckeditor4-react";
+import { memo } from "react";
+import { useCKEditor, CKEditorHookProps } from "ckeditor4-react";
 
-export interface MainEditoProps {
-    config: CKEditorHookProps<string>;
-    editorRef?: (editor: CKEditorInstance | null) => void;
+export interface MainEditorProps {
+    config: CKEditorHookProps<never>;
 }
-export const MainEditor = ({ config, editorRef }: MainEditoProps): null => {
-    Object.assign(config.config, {
-        on: {
-            instanceReady() {
-                if (editorRef) {
-                    editorRef(this);
-                }
-            },
-            destroy() {
-                if (editorRef) {
-                    editorRef(null);
-                }
-            }
-        }
-    });
-    useCKEditor(config);
-    return null;
-};
+
+// Main idea of this component is to make sure it's never rerenders.
+// This is why we pass function that always returns true.
+export const MainEditor = memo(
+    // eslint-disable-next-line prefer-arrow-callback
+    function MainEditor({ config }: MainEditorProps): null {
+        useCKEditor(config);
+        return null;
+    },
+    () => true
+);

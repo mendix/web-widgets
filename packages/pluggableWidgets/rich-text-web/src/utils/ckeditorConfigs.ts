@@ -1,8 +1,16 @@
+import { getDimensions } from "@mendix/pluggable-widgets-commons";
 import { CKEditorConfig } from "ckeditor4-react";
-import { PresetEnum, AdvancedConfigType, CtItemTypeEnum } from "../../typings/RichTextProps";
-import { createPreset, TOOLBAR_GROUP, ToolbarGroup, ToolbarItems } from "./ckeditorPresets";
+import { PresetEnum, CtItemTypeEnum, RichTextContainerProps } from "../../typings/RichTextProps";
+import {
+    createPreset,
+    TOOLBAR_GROUP,
+    ToolbarGroup,
+    ToolbarItems,
+    GroupType,
+    createCustomToolbar
+} from "./ckeditorPresets";
 
-export type PluginName = "codesnippet";
+export type PluginName = "codesnippet" | "openlink" | "indent" | "indentlist";
 
 const PLUGIN_CONFIGS = {
     openlink: {
@@ -20,7 +28,9 @@ const PLUGIN_CONFIGS = {
         config: {
             codeSnippet_theme: "idea"
         }
-    }
+    },
+    indent: null,
+    indentlist: null
 };
 
 export function getToolbarGroupByName(name: string): ToolbarGroup | undefined {
@@ -66,7 +76,18 @@ export function addPlugin(name: PluginName, config: CKEditorConfig): CKEditorCon
     return config;
 }
 
-export function defineAdvancedGroups(items: AdvancedConfigType[]): ToolbarItems[] {
+export function defineBasicGroups(widgetProps: RichTextContainerProps): string[] {
+    const enabledGroups = Object.entries(widgetProps).flatMap(([prop, enabled]) =>
+        prop.includes("Group") && enabled ? [prop] : []
+    );
+
+    return enabledGroups.map((groupName: GroupType) =>
+        groupName.includes("separator") ? "/" : groupName.replace("Group", "").toLowerCase()
+    );
+}
+
+export function defineAdvancedGroups(widgetProps: RichTextContainerProps): ToolbarItems[] {
+    const { advancedConfig: items } = widgetProps;
     const toolbarObj: {
         [key: string]: Array<CtItemTypeEnum | "-">;
     } = {};
@@ -89,4 +110,79 @@ export function defineAdvancedGroups(items: AdvancedConfigType[]): ToolbarItems[
         })
     );
     return toolbarArray;
+}
+
+export function getToolbarConfig(widgetProps: RichTextContainerProps): CKEditorConfig {
+    const { preset, toolbarConfig } = widgetProps;
+
+    if (preset !== "custom") {
+        return getPreset(preset);
+    }
+
+    const isBasic = toolbarConfig === "basic";
+    const groupItems = isBasic ? defineBasicGroups(widgetProps) : defineAdvancedGroups(widgetProps);
+
+    return createCustomToolbar(groupItems, isBasic);
+}
+
+export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditorConfig {
+    const {
+        codeHighlight,
+        advancedContentFilter,
+        allowedContent,
+        disallowedContent,
+        spellChecker,
+        enterMode,
+        shiftEnterMode,
+        tabIndex,
+        stringAttribute,
+        width,
+        widthUnit,
+        height,
+        heightUnit
+    } = widgetProps;
+
+    const dimensions = getDimensions({
+        width,
+        widthUnit,
+        height,
+        heightUnit
+    });
+
+    const config: CKEditorConfig = {
+        autoGrow_minHeight: 300,
+        toolbarCanCollapse: true,
+        autoGrow_onStartup: true,
+        width: dimensions.width,
+        height: dimensions.height,
+        tabIndex,
+        enterMode: defineEnterMode(enterMode || ""),
+        shiftEnterMode: defineEnterMode(shiftEnterMode || ""),
+        disableNativeSpellChecker: !spellChecker,
+        readOnly: stringAttribute.readOnly,
+        removeButtons: "",
+        ...getToolbarConfig(widgetProps)
+    };
+
+    const plugins: PluginName[] = ["openlink", "indent", "indentlist"];
+
+    if (codeHighlight) {
+        plugins.push("codesnippet");
+    }
+
+    for (const plugin of plugins) {
+        addPlugin(plugin, config);
+    }
+
+    if (advancedContentFilter === "custom") {
+        if (allowedContent) {
+            config.allowedContent = allowedContent;
+        }
+
+        if (disallowedContent) {
+            config.disallowedContent = disallowedContent;
+        }
+    }
+
+    return config;
 }
