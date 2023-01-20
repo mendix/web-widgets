@@ -3,11 +3,6 @@ name: Renovate
 on:
   workflow_dispatch:
 
-  # run workflow when PR labeled
-  # renovate will rebase PR when "renovate-rebase" label is added
-  pull_request:
-    types: [labeled]
-
   schedule:
     # At minute 0 past hour 8, 14, and 20 on every day-of-week from Monday through Friday.
     - cron: '0 8,14,20 * * 1-5'
