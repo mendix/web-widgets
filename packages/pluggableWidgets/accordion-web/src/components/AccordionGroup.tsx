@@ -1,7 +1,6 @@
 import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
-
 import classNames from "classnames";
-
+import { MountOnceReady } from "./MountOnceReady";
 import "../ui/accordion-main.scss";
 
 export const enum Target {
@@ -179,7 +178,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 aria-labelledby={`${props.id}HeaderButton`}
             >
                 <div ref={contentRef} className={"widget-accordion-group-content"}>
-                    {props.content}
+                    <MountOnceReady ready={!renderCollapsed}>{props.content}</MountOnceReady>
                 </div>
             </div>
         </section>
