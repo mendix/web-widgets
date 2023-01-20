@@ -47,7 +47,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.4.2",
-    "@testing-library/user-event": "^13.2.1",
+    "@testing-library/user-event": "^13.5.0",
     "@types/big.js": "^6.0.2",
     "@types/dompurify": "^2.4.0",
     "@types/react": "^17.0.52",
