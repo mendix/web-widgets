@@ -44,7 +44,7 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@googlemaps/jest-mocks": "^0.0.3",
+    "@googlemaps/jest-mocks": "^2.7.5",
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
     "@testing-library/dom": "^8.19.1",
@@ -53,8 +53,6 @@
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
     "@types/deep-equal": "^1.0.1",
-    "@types/faker": "^4.1.12",
-    "@types/googlemaps": "^3.39.2",
     "@types/leaflet": "^1.9.0",
     "@types/react": "^17.0.52",
     "@types/react-dom": "^17.0.18",
@@ -65,7 +63,6 @@
     "@web-widgets/run-e2e": "workspace:*",
     "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
-    "faker": "^4.1.0",
     "mendix": "^9.21.59661",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
@@ -78,7 +75,7 @@
     "@react-google-maps/api": "~2.17.1",
     "classnames": "^2.3.2",
     "deep-equal": "^2.1.0",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.9.3",
     "react-leaflet": "^2.6.3"
   }
 }

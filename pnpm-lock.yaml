@@ -1456,7 +1456,7 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     specifiers:
-      '@googlemaps/jest-mocks': ^0.0.3
+      '@googlemaps/jest-mocks': ^2.7.5
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
@@ -1467,8 +1467,6 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/deep-equal': ^1.0.1
-      '@types/faker': ^4.1.12
-      '@types/googlemaps': ^3.39.2
       '@types/leaflet': ^1.9.0
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
@@ -1481,8 +1479,7 @@ importers:
       cross-env: ^7.0.3
       deep-equal: ^2.1.0
       eslint: ^7.20.0
-      faker: ^4.1.0
-      leaflet: ^1.6.0
+      leaflet: ^1.9.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1495,10 +1492,10 @@ importers:
       '@react-google-maps/api': 2.17.1_sfoxds7t5ydpegc3knd667wn6m
       classnames: 2.3.2
       deep-equal: 2.1.0
-      leaflet: 1.9.2
-      react-leaflet: 2.8.0_myoalt2qegmhvac3qx3wpc3ki4
+      leaflet: 1.9.3
+      react-leaflet: 2.8.0_edkpibxfdppewbyunodyehmvmq
     devDependencies:
-      '@googlemaps/jest-mocks': 0.0.3
+      '@googlemaps/jest-mocks': 2.7.5
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@testing-library/dom': 8.19.0
@@ -1507,8 +1504,6 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/deep-equal': 1.0.1
-      '@types/faker': 4.1.12
-      '@types/googlemaps': 3.43.3
       '@types/leaflet': 1.9.0
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
@@ -1519,7 +1514,6 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
-      faker: 4.1.0
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -3970,8 +3964,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@googlemaps/jest-mocks/0.0.3:
-    resolution: {integrity: sha512-b9KZ+7j1IUciRA+QdgKm4dPhqDy/IkNJNQIIOZMkri29TfytsRTTT938UgJWR9rywMgFkU4cnJcH4HholDLoSQ==}
+  /@googlemaps/jest-mocks/2.7.5:
+    resolution: {integrity: sha512-fdHN/sN0Cpz+Acqe9Yhzvhqg/bhN4oMBoKToVIZgFhxafMXtUbQvfL12HiE9AmpvZgge2gBKTu11ImGRm3e2wg==}
     dev: true
 
   /@googlemaps/js-api-loader/1.15.1:
@@ -4441,7 +4435,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.8
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -4534,7 +4528,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.8
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -5101,10 +5095,6 @@ packages:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
 
-  /@types/faker/4.1.12:
-    resolution: {integrity: sha512-0MEyzJrLLs1WaOCx9ULK6FzdCSj2EuxdSP9kvuxxdBEGujZYUOZ4vkPXdgu3dhyg/pOdn7VCatelYX7k0YShlA==}
-    dev: true
-
   /@types/geojson/7946.0.10:
     resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
     dev: true
@@ -5119,11 +5109,6 @@ packages:
   /@types/google.maps/3.50.5:
     resolution: {integrity: sha512-RuZf1MJtctGlpW+Gd4a/eGtAufUDjMf+eyN1l+B3fbe2YLScJbg8KEljJfb+6vnSPFAeM1/48geVIEg3vqOkxw==}
     dev: false
-
-  /@types/googlemaps/3.43.3:
-    resolution: {integrity: sha512-ZWNoz/O8MPEpiajvj7QiqCY8tTLFNqNZ/a+s+zTV58wFVNAvvqV4bdGfnsjTb5Cs4V6wEsLrX8XRhmnyYJ2Tdg==}
-    deprecated: 'Types for the Google Maps browser API have moved to @types/google.maps. Note: these types are not for the googlemaps npm package, which is a Node API.'
-    dev: true
 
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
@@ -8632,10 +8617,6 @@ packages:
     engines: {'0': node >=0.6.0}
     dev: false
 
-  /faker/4.1.0:
-    resolution: {integrity: sha512-ILKg69P6y/D8/wSmDXw35Ly0re8QzQ8pMfBCflsGiZG2ZjMUNLYNexA6lz5pkmJlepVdsiDFUxYAzPQ9/+iGLA==}
-    dev: true
-
   /falafel/2.2.5:
     resolution: {integrity: sha512-HuC1qF9iTnHDnML9YZAdCDQwT0yKl/U55K4XSUXqGAA2GLoafFgWRqdAbhWJxXaYD4pyoVxAJ8wH670jMpI9DQ==}
     engines: {node: '>=0.4.0'}
@@ -11011,8 +10992,8 @@ packages:
       readable-stream: 2.3.7
     dev: true
 
-  /leaflet/1.9.2:
-    resolution: {integrity: sha512-Kc77HQvWO+y9y2oIs3dn5h5sy2kr3j41ewdqCMEUA4N89lgfUUfOBy7wnnHEstDpefiGFObq12FdopGRMx4J7g==}
+  /leaflet/1.9.3:
+    resolution: {integrity: sha512-iB2cR9vAkDOu5l3HAay2obcUHZ7xwUBBjph8+PGtmW/2lYhbLizWtG7nTeYht36WfOslixQF9D/uSIzhZgGMfQ==}
     dev: false
 
   /leven/3.1.0:
@@ -11414,10 +11395,8 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -13189,7 +13168,7 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
 
-  /react-leaflet/2.8.0_myoalt2qegmhvac3qx3wpc3ki4:
+  /react-leaflet/2.8.0_edkpibxfdppewbyunodyehmvmq:
     resolution: {integrity: sha512-Y7oHtNrrlRH8muDttXf+jZ2Ga/X7jneSGi1GN8uEdeCfLProTqgG2Zoa5TfloS3ZnY20v7w+DIenMG59beFsQw==}
     peerDependencies:
       leaflet: ^1.6.0
@@ -13199,7 +13178,7 @@ packages:
       '@babel/runtime': 7.19.4
       fast-deep-equal: 3.1.3
       hoist-non-react-statics: 3.3.2
-      leaflet: 1.9.2
+      leaflet: 1.9.3
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       warning: 4.0.3
