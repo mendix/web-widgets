@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@afbf9b485669c7ad13347734c9f146175e83cb43 # v2.0.4
+      - uses: zgosalvez/github-actions-ensure-sha-pinned-actions@bd2868d14a756969608c618665394415a238de69 # v2.0.5
 
   check:
     name: Run code quality check
