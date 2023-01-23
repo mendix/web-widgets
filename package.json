@@ -25,7 +25,6 @@
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
-    "@mendix/pluggable-widgets-tools": "^9.20.0",
     "@types/big.js": "^6.0.2",
     "@types/concurrently": "^6.4.0",
     "@types/enzyme": "^3.10.12",
@@ -82,7 +81,8 @@
       "loader-utils@<1.4.1": ">=1.4.1",
       "loader-utils@>=3.0.0 <3.2.1": ">=3.2.1",
       "decode-uri-component@<0.2.1": ">=0.2.1",
-      "json5@<1.0.2": ">=1.0.2"
+      "json5@1.x": ">=1.0.2",
+      "json5@0.x": ">=1.0.2"
     }
   }
 }

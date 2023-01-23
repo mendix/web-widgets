@@ -19,7 +19,8 @@ overrides:
   loader-utils@<1.4.1: '>=1.4.1'
   loader-utils@>=3.0.0 <3.2.1: '>=3.2.1'
   decode-uri-component@<0.2.1: '>=0.2.1'
-  json5@<1.0.2: '>=1.0.2'
+  json5@1.x: '>=1.0.2'
+  json5@0.x: '>=1.0.2'
 
 importers:
 
@@ -27,7 +28,6 @@ importers:
     specifiers:
       '@commitlint/cli': ^15.0.0
       '@commitlint/config-conventional': ^15.0.0
-      '@mendix/pluggable-widgets-tools': ^9.20.0
       '@types/big.js': ^6.0.2
       '@types/concurrently': ^6.4.0
       '@types/enzyme': ^3.10.12
@@ -52,7 +52,6 @@ importers:
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
-      '@mendix/pluggable-widgets-tools': 9.20.0
       '@types/big.js': 6.1.6
       '@types/concurrently': 6.4.0
       '@types/enzyme': 3.10.12
@@ -165,7 +164,6 @@ importers:
       date-arithmetic: ^3.1.0
       eslint: ^7.20.0
       fork-ts-checker-webpack-plugin: ^7.2.14
-      jest: ^26.6.3
       mendix-client: ^7.15.8
       moment: ^2.29.4
       react: ~17.0.2
@@ -201,7 +199,6 @@ importers:
       css-loader: 6.7.3_webpack@5.75.0
       eslint: 7.32.0
       fork-ts-checker-webpack-plugin: 7.2.14_leot54mpvtrbhlmxtuzvyiidqe
-      jest: 26.6.3
       mendix-client: 7.15.8
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -278,6 +275,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -301,6 +299,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -326,6 +325,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -350,6 +350,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -375,6 +376,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -397,6 +399,7 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -421,6 +424,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -446,6 +450,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -472,6 +477,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -497,6 +503,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -522,6 +529,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -544,6 +552,7 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -569,6 +578,7 @@ importers:
       '@zxing/library': ~0.19.1
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -595,6 +605,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -620,6 +631,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -642,6 +654,7 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -749,6 +762,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-color: ^2.19.3
@@ -777,6 +791,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -803,6 +818,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -826,6 +842,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -851,6 +868,7 @@ importers:
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-datepicker: ^4.6.0
@@ -879,6 +897,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -904,6 +923,7 @@ importers:
       classnames: ^2.3.2
       deep-equal: ^2.1.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -928,6 +948,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -952,6 +973,7 @@ importers:
       big.js: ^6.0.2
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -975,6 +997,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -998,6 +1021,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1020,6 +1044,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1044,6 +1069,7 @@ importers:
       classnames: ^2.3.2
       deep-equal: ^2.1.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1067,6 +1093,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1090,6 +1117,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1112,6 +1140,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1135,6 +1164,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1159,6 +1189,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1185,6 +1216,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1208,6 +1240,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1233,6 +1266,7 @@ importers:
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1257,6 +1291,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1280,6 +1315,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       dompurify: ^2.4.3
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1302,6 +1338,7 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1325,6 +1362,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1351,6 +1389,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1376,6 +1415,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1400,6 +1440,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1426,6 +1467,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1449,6 +1491,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1479,6 +1522,7 @@ importers:
       cross-env: ^7.0.3
       deep-equal: ^2.1.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       leaflet: ^1.9.3
       mendix: ^9.21.59661
       react: ~17.0.2
@@ -1514,6 +1558,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1541,6 +1586,7 @@ importers:
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1565,6 +1611,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1588,6 +1635,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1612,6 +1660,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1638,6 +1687,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1663,6 +1713,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1689,6 +1740,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       progressbar.js: ^1.0.1
       react: ~17.0.2
@@ -1716,6 +1768,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1744,6 +1797,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
@@ -1775,6 +1829,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1801,6 +1856,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1826,6 +1882,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1859,6 +1916,7 @@ importers:
       cross-env: ^7.0.3
       dompurify: ^2.4.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -1892,6 +1950,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1921,6 +1980,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
@@ -1952,6 +2012,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1978,6 +2039,7 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2003,6 +2065,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2029,6 +2092,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2052,6 +2116,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2128,6 +2193,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2156,6 +2222,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2181,6 +2248,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2203,6 +2271,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2227,6 +2296,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2252,6 +2322,7 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       eslint: 7.32.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2281,6 +2352,7 @@ importers:
       copy-and-watch: ^0.1.6
       eslint: ^7.20.0
       fast-json-patch: ^3.1.1
+      jest: ^26.6.3
       json-source-map: ^0.6.1
       mendix: ^9.21.59661
       plotly.js: ^2.14.0
@@ -2318,6 +2390,7 @@ importers:
       ansi-colors: 4.1.3
       copy-and-watch: 0.1.6
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2342,6 +2415,7 @@ importers:
       classnames: ^2.3.2
       date-fns: ^2.24.0
       eslint: ^7.20.0
+      jest: ^26.6.3
       mendix: ^9.21.59661
       react: ~17.0.2
       react-dom: ~17.0.2
@@ -2364,6 +2438,7 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       eslint: 7.32.0
+      jest: 26.6.3
       mendix: 9.21.59661
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2674,7 +2749,6 @@ packages:
   /@babel/parser/7.20.7:
     resolution: {integrity: sha512-T3Z9oHybU+0vZlY9CiDSJQTD5ZapcW18ZctFMi0MOAl/4BjFF4ul7NVSARLdbGO5vDqy9eQiGTV0LtKfvCYvcg==}
     engines: {node: '>=6.0.0'}
-    hasBin: true
     dependencies:
       '@babel/types': 7.20.7
     dev: true
@@ -3735,7 +3809,6 @@ packages:
 
   /@choojs/findup/0.2.1:
     resolution: {integrity: sha512-YstAqNb0MCN8PjdLCDfRsBcGVRN41f3vgLvaI0IrIcBp4AqILRSS0DeWNGkicC+f/zRIPJLc+9RURVSepwvfBw==}
-    hasBin: true
     dependencies:
       commander: 2.20.3
     dev: false
@@ -3743,7 +3816,6 @@ packages:
   /@cnakazawa/watch/1.0.4:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
-    hasBin: true
     dependencies:
       exec-sh: 0.3.6
       minimist: 1.2.6
@@ -3759,7 +3831,6 @@ packages:
   /@commitlint/cli/15.0.0:
     resolution: {integrity: sha512-Y5xmDCweytqzo4N4lOI2YRiuX35xTjcs8n5hUceBH8eyK0YbwtgWX50BJOH2XbkwEmII9blNhlBog6AdQsqicg==}
     engines: {node: '>=v12'}
-    hasBin: true
     dependencies:
       '@commitlint/format': 15.0.0
       '@commitlint/lint': 15.0.0
@@ -4337,7 +4408,6 @@ packages:
 
   /@mapbox/geojson-rewind/0.5.2:
     resolution: {integrity: sha512-tJaT+RbYGJYStt7wI3cq4Nl4SXxG8W7JDG5DMJu97V25RnbNg3QtQtf+KD+VLjNpWKYsRvXDNmNrBgEETr1ifA==}
-    hasBin: true
     dependencies:
       get-stream: 6.0.1
       minimist: 1.2.6
@@ -4383,103 +4453,9 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /@mendix/pluggable-widgets-tools/9.20.0:
-    resolution: {integrity: sha512-0f7UPRYkgeSTAqQDjvc3CnZDprMzQhlkrS3/lLSH0jepFyHtOAUzyUZUB5BKfpfjuOKHEtpUxFJGDuH87Ol0Sw==}
-    engines: {node: '>=16'}
-    hasBin: true
-    dependencies:
-      '@babel/core': 7.20.12
-      '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
-      '@babel/preset-env': 7.19.4_@babel+core@7.20.12
-      '@babel/preset-react': 7.18.6_@babel+core@7.20.12
-      '@prettier/plugin-xml': 1.2.0
-      '@rollup/plugin-alias': 3.1.9_rollup@2.79.1
-      '@rollup/plugin-babel': 5.3.1_3dsfpkpoyvuuxyfgdbpn4j4uzm
-      '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
-      '@rollup/plugin-image': 2.1.1_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@rollup/plugin-typescript': 8.5.0_4rftqlfd5be2n7naerwk23djyy
-      '@rollup/plugin-url': 6.1.0_rollup@2.79.1
-      '@rollup/pluginutils': 4.2.1
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/testing-library__jest-dom': 5.14.5
-      '@typescript-eslint/eslint-plugin': 5.39.0_t4vefkid55jlyyzfonpshrjmbm
-      '@typescript-eslint/parser': 5.39.0_ek2rpc4knwwiwkb7dlup4o3xyy
-      '@wojtekmaj/enzyme-adapter-react-17': 0.6.7_7ltvq4e2railvf5uya4ffxpe2a
-      ansi-colors: 4.1.1
-      babel-eslint: 10.1.0_eslint@7.32.0
-      babel-jest: 26.6.3_@babel+core@7.20.12
-      big.js: 6.2.1
-      concurrently: 6.5.1
-      core-js: 3.25.5
-      dotenv: 8.6.0
-      enzyme: 3.11.0
-      enzyme-to-json: 3.6.2_enzyme@3.11.0
-      eslint: 7.32.0
-      eslint-config-prettier: 8.5.0_eslint@7.32.0
-      eslint-plugin-jest: 24.7.0_kflwomtjv4gawai4p3m2ym7bku
-      eslint-plugin-prettier: 3.4.1_7gsvg5lgwpfdww3i7smtqxamuy
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-react: 7.28.0_eslint@7.32.0
-      eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
-      fast-glob: 3.2.12
-      find-free-port: 2.0.0
-      fs-extra: 9.1.0
-      identity-obj-proxy: 3.0.0
-      jasmine: 3.99.0
-      jasmine-core: 3.99.1
-      jest: 26.6.3_ts-node@9.1.1
-      jest-junit: 13.2.0
-      jest-react-hooks-shallow: 1.5.1
-      jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
-      mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0
-      node-fetch: 2.6.7
-      postcss: 8.4.17
-      postcss-import: 14.1.0_postcss@8.4.17
-      postcss-url: 10.1.3_postcss@8.4.17
-      prettier: 2.7.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-hot-loader: 4.13.0_sfoxds7t5ydpegc3knd667wn6m
-      react-test-renderer: 17.0.2_react@17.0.2
-      recursive-copy: 2.0.14
-      resolve: 1.22.1
-      rollup: 2.79.1
-      rollup-plugin-clear: 2.0.7
-      rollup-plugin-command: 1.1.3
-      rollup-plugin-license: 2.8.1_rollup@2.79.1
-      rollup-plugin-livereload: 2.0.5
-      rollup-plugin-postcss: 4.0.2_hmn4uwjmj2tco6fs55wts3jqwy
-      rollup-plugin-re: 1.0.7
-      rollup-plugin-terser: 7.0.2_rollup@2.79.1
-      sass: 1.55.0
-      semver: 7.3.8
-      shelljs: 0.8.5
-      ts-jest: 26.5.6_hoj6rh37du6uxub6buv3fchqgy
-      ts-node: 9.1.1_typescript@4.5.4
-      typescript: 4.5.4
-      xml2js: 0.4.23
-      zip-a-folder: 0.0.12
-    transitivePeerDependencies:
-      - '@types/babel__core'
-      - '@types/react'
-      - bufferutil
-      - canvas
-      - encoding
-      - supports-color
-      - tslib
-      - utf-8-validate
-    dev: true
-
   /@mendix/pluggable-widgets-tools/9.20.0_@types+react@17.0.52:
     resolution: {integrity: sha512-0f7UPRYkgeSTAqQDjvc3CnZDprMzQhlkrS3/lLSH0jepFyHtOAUzyUZUB5BKfpfjuOKHEtpUxFJGDuH87Ol0Sw==}
     engines: {node: '>=16'}
-    hasBin: true
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -4530,8 +4506,8 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0
-      node-fetch: 2.6.7
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
+      node-fetch: 2.6.8
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
       postcss-url: 10.1.3_postcss@8.4.17
@@ -5219,7 +5195,6 @@ packages:
 
   /@types/popper.js/1.11.0:
     resolution: {integrity: sha512-1SDEDA6VacGAqDOmwbMcJD39bg0sHbM8y6LHOV3CMxyDBRrwTodRyIIj5f4eR/nlgpeyPoG1fKXqbkRmg+5yRg==}
-    deprecated: This is a stub types definition for popper.js (https://github.com/FezVrasta/popper.js/). popper.js provides its own type definitions, so you don't need @types/popper.js installed!
     dependencies:
       popper.js: 1.16.1
     dev: true
@@ -5357,7 +5332,6 @@ packages:
 
   /@types/swiper/6.0.0:
     resolution: {integrity: sha512-QPZRgxZ+ivXXtzV43B3LxpXUIC7FE/EoKM+rtxngmgt2M7eeUYypZhyqZD8UxJtlBcUDw/ATGoVeSNpvBBrz2w==}
-    deprecated: This is a stub types definition. swiper provides its own type definitions, so you do not need this installed.
     dependencies:
       swiper: 6.8.4
     dev: true
@@ -5795,7 +5769,6 @@ packages:
 
   /JSONStream/1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
-    hasBin: true
     dependencies:
       jsonparse: 1.3.1
       through: 2.3.8
@@ -5843,12 +5816,10 @@ packages:
   /acorn/7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
 
   /acorn/8.8.0:
     resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
     dev: true
 
   /add-dom-event-listener/1.1.0:
@@ -6189,7 +6160,6 @@ packages:
   /atob/2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
-    hasBin: true
     dev: true
 
   /autobind-decorator/2.4.0:
@@ -6213,7 +6183,6 @@ packages:
   /babel-eslint/10.1.0_eslint@7.32.0:
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
-    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
     peerDependencies:
       eslint: '>= 4.12.1'
     dependencies:
@@ -6479,7 +6448,6 @@ packages:
   /browserslist/4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
-    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001418
       electron-to-chromium: 1.4.276
@@ -7001,7 +6969,6 @@ packages:
   /concurrently/6.5.1:
     resolution: {integrity: sha512-FlSwNpGjWQfRwPLXvJ/OgysbBxPkWpiVjy1042b0U7on7S7qwwMIILRj7WTN1mTgqa582bG6NFuScOoh6Zgdag==}
     engines: {node: '>=10.0.0'}
-    hasBin: true
     dependencies:
       chalk: 4.1.2
       date-fns: 2.29.3
@@ -7041,7 +7008,6 @@ packages:
   /conventional-commits-parser/3.2.4:
     resolution: {integrity: sha512-nK7sAtfi+QXbxHCYfhpZsfRtaitZLIA6889kFIouLvz6repszQDgxBu7wf2WbU+Dco7sAnNCJYERCwt54WPC2Q==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       JSONStream: 1.3.5
       is-text-path: 1.0.1
@@ -7060,7 +7026,6 @@ packages:
   /copy-and-watch/0.1.6:
     resolution: {integrity: sha512-lTdQK2V/7T3fsRXwiG9CORZMtiTgjIW1SMUdWctV1CagV4bzXgjXz0WS+/zpeotZ27RJvoPeR21T4pZEnUzAUQ==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       chokidar: 3.5.2
       colors: 1.4.0
@@ -7096,7 +7061,6 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -7148,7 +7112,6 @@ packages:
   /cross-env/7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
     dependencies:
       cross-spawn: 7.0.3
     dev: true
@@ -7291,7 +7254,6 @@ packages:
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
-    hasBin: true
     dev: true
 
   /cssnano-preset-default/5.2.12_postcss@8.4.17:
@@ -7384,7 +7346,6 @@ packages:
 
   /cypress-image-diff-js/1.23.0_cypress@12.3.0:
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
-    hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
@@ -7420,7 +7381,6 @@ packages:
   /cypress/12.3.0:
     resolution: {integrity: sha512-ZQNebibi6NBt51TRxRMYKeFvIiQZ01t50HSy7z/JMgRVqBUey3cdjog5MYEbzG6Ktti5ckDt1tfcC47lmFwXkw==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
-    hasBin: true
     requiresBuild: true
     dependencies:
       '@cypress/request': 2.88.10
@@ -7506,7 +7466,6 @@ packages:
 
   /d3-geo-projection/2.9.0:
     resolution: {integrity: sha512-ZULvK/zBn87of5rWAfFMc9mJOipeSo57O+BBitsKIXmU4rTVAnX1kSsJkE0R+TxY8pGNoM1nbyRRE7GYHhdOEQ==}
-    hasBin: true
     dependencies:
       commander: 2.20.3
       d3-array: 1.2.4
@@ -7665,8 +7624,8 @@ packages:
     resolution: {integrity: sha512-F29o+vci4DodHYT9UrR5IEbfBw9pE5eSapIJdTqXK5+6hq+t8VRxwQyKlW2i+KDKFkkJQRvFyI/QXD83h8LyQw==}
     dev: true
 
-  /decode-uri-component/0.2.0:
-    resolution: {integrity: sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==}
+  /decode-uri-component/0.2.2:
+    resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
     dev: true
 
@@ -7906,10 +7865,6 @@ packages:
     resolution: {integrity: sha512-q6QaLcakcRjebxjg8/+NP+h0rPfatOgOzc46Fst9VAA3jF2ApfKBNKMzdP4DYTqtUMXSCd5pRS/8Po/OmoCHZQ==}
     dev: false
 
-  /dompurify/2.4.3:
-    resolution: {integrity: sha512-q6QaLcakcRjebxjg8/+NP+h0rPfatOgOzc46Fst9VAA3jF2ApfKBNKMzdP4DYTqtUMXSCd5pRS/8Po/OmoCHZQ==}
-    dev: false
-
   /domutils/2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
     dependencies:
@@ -8032,7 +7987,6 @@ packages:
   /envinfo/7.8.1:
     resolution: {integrity: sha512-/o+BXHmB7ocbHEAs6F2EnG0ogybVVUdkRunTT2glZU9XAaGmhqskrvKwqXuDfNjEO0LZKWdejEEpnq8aM0tOaw==}
     engines: {node: '>=4'}
-    hasBin: true
     dev: true
 
   /enzyme-shallow-equal/1.0.4:
@@ -8083,7 +8037,6 @@ packages:
 
   /errno/0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}
-    hasBin: true
     dependencies:
       prr: 1.0.1
     dev: true
@@ -8213,7 +8166,6 @@ packages:
   /escodegen/1.14.3:
     resolution: {integrity: sha512-qFcX0XJkdg+PB3xjZZG/wKSuT1PnQWx57+TVSjIMmILd2yC/6ByYElPwJnslDsuWuSAp4AwJGumarAAmJch5Kw==}
     engines: {node: '>=4.0'}
-    hasBin: true
     dependencies:
       esprima: 4.0.1
       estraverse: 4.3.0
@@ -8226,7 +8178,6 @@ packages:
   /escodegen/2.0.0:
     resolution: {integrity: sha512-mmHKys/C8BFUGI+MAWNcSYoORYLMdPzjrknd2Vc+bUsjN5bXcr8EhrNB+UTqfL1y3I9c4fw2ihgtMPQLBRiQxw==}
     engines: {node: '>=6.0'}
-    hasBin: true
     dependencies:
       esprima: 4.0.1
       estraverse: 5.3.0
@@ -8238,7 +8189,6 @@ packages:
 
   /eslint-config-prettier/8.5.0_eslint@7.32.0:
     resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
-    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -8365,7 +8315,6 @@ packages:
   /eslint/7.32.0:
     resolution: {integrity: sha512-VHZ8gX+EDfz+97jGcgyGCyRia/dPOd6Xh9yPv8Bl1+SoaIwD+a/vlrOmGRUyOYu7MwUhc7CxqeaDZU13S4+EpA==}
     engines: {node: ^10.12.0 || >=12.0.0}
-    hasBin: true
     dependencies:
       '@babel/code-frame': 7.12.11
       '@eslint/eslintrc': 0.4.3
@@ -8421,7 +8370,6 @@ packages:
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
-    hasBin: true
 
   /esquery/1.4.0:
     resolution: {integrity: sha512-cCDispWt5vHHtwMY2YrAQ4ibFkAL8RbH5YGBnZBc90MolvvfkkQcJro/aZiAQUlQ3qgrYS6D6v8Gc5G5CQsc9w==}
@@ -8611,7 +8559,6 @@ packages:
   /extract-zip/2.0.1_supports-color@8.1.1:
     resolution: {integrity: sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==}
     engines: {node: '>= 10.17.0'}
-    hasBin: true
     dependencies:
       debug: 4.3.4_supports-color@8.1.1
       get-stream: 5.2.0
@@ -8671,7 +8618,6 @@ packages:
 
   /fast-xml-parser/4.0.13:
     resolution: {integrity: sha512-g+OboAw8ol1FgTHhKLR7ZHcItNudceiY04BBrvqa0JBWoPhi/+e5r4H5AeW+EsQCroJLJwsuOP3dD3c6cc5uOg==}
-    hasBin: true
     dependencies:
       strnum: 1.0.5
     dev: true
@@ -8919,7 +8865,7 @@ packages:
   /generic-names/4.0.0:
     resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}
     dependencies:
-      loader-utils: 3.2.0
+      loader-utils: 3.2.1
     dev: true
 
   /gensync/1.0.0-beta.2:
@@ -9000,7 +8946,6 @@ packages:
   /git-raw-commits/2.0.11:
     resolution: {integrity: sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       dargs: 7.0.0
       lodash: 4.17.21
@@ -9237,7 +9182,6 @@ packages:
 
   /glslify/7.1.1:
     resolution: {integrity: sha512-bud98CJ6kGZcP9Yxcsi7Iz647wuDz3oN+IZsjCRi5X1PI7t/xPKeL0mOwXJjo+CRZMqvq0CkSJiywCcY7kVYog==}
-    hasBin: true
     dependencies:
       bl: 2.2.1
       concat-stream: 1.6.2
@@ -9271,7 +9215,6 @@ packages:
   /handlebars/4.7.7:
     resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
     engines: {node: '>=0.4.7'}
-    hasBin: true
     dependencies:
       minimist: 1.2.6
       neo-async: 2.6.2
@@ -9471,7 +9414,6 @@ packages:
   /husky/7.0.4:
     resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
     engines: {node: '>=12'}
-    hasBin: true
     dev: true
 
   /iconv-lite/0.4.24:
@@ -9557,7 +9499,6 @@ packages:
   /import-local/3.1.0:
     resolution: {integrity: sha512-ASB07uLtnDs1o6EHjKpX34BKYDSqnFerfTOJL2HvMqF70LnxpjkzDB8J44oT9pu4AMPkQwf8jl6szgvNd2tRIg==}
     engines: {node: '>=8'}
-    hasBin: true
     dependencies:
       pkg-dir: 4.2.0
       resolve-cwd: 3.0.0
@@ -9696,14 +9637,12 @@ packages:
 
   /is-ci/2.0.0:
     resolution: {integrity: sha512-YfJT7rkpQB0updsdHLGWrvhBJfcfzNNawYDNIyQXJz0IViGf75O8EBPKSdvw2rF+LGCsX4FZ8tcr3b19LcZq4w==}
-    hasBin: true
     dependencies:
       ci-info: 2.0.0
     dev: true
 
   /is-ci/3.0.1:
     resolution: {integrity: sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==}
-    hasBin: true
     dependencies:
       ci-info: 3.5.0
     dev: false
@@ -9754,7 +9693,6 @@ packages:
   /is-docker/2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
-    hasBin: true
     dev: true
     optional: true
 
@@ -10092,7 +10030,6 @@ packages:
 
   /jasmine/3.99.0:
     resolution: {integrity: sha512-YIThBuHzaIIcjxeuLmPD40SjxkEcc8i//sGMDKCgkRMVgIwRJf5qyExtlJpQeh7pkeoBSOe6lQEdg+/9uKg9mw==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
       jasmine-core: 3.99.1
@@ -10110,7 +10047,6 @@ packages:
   /jest-cli/26.6.3:
     resolution: {integrity: sha512-GF9noBSa9t08pSyl3CY4frMrqp+aQXFGFkf5hEPbh/pIUFYWMK6ZLTfbmadxJVcJrdRoChlWQsA2VkJcDFK8hg==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/core': 26.6.3
       '@jest/test-result': 26.6.2
@@ -10136,7 +10072,6 @@ packages:
   /jest-cli/26.6.3_ts-node@9.1.1:
     resolution: {integrity: sha512-GF9noBSa9t08pSyl3CY4frMrqp+aQXFGFkf5hEPbh/pIUFYWMK6ZLTfbmadxJVcJrdRoChlWQsA2VkJcDFK8hg==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/core': 26.6.3_ts-node@9.1.1
       '@jest/test-result': 26.6.2
@@ -10580,7 +10515,6 @@ packages:
   /jest-runtime/26.6.3:
     resolution: {integrity: sha512-lrzyR3N8sacTAMeonbqpnSka1dHNux2uk0qqDXVkMv2c/A3wYnvQ4EXuI013Y6+gSKSCxdaczvf4HF0mVXHRdw==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/console': 26.6.2
       '@jest/environment': 26.6.2
@@ -10620,7 +10554,6 @@ packages:
   /jest-runtime/26.6.3_ts-node@9.1.1:
     resolution: {integrity: sha512-lrzyR3N8sacTAMeonbqpnSka1dHNux2uk0qqDXVkMv2c/A3wYnvQ4EXuI013Y6+gSKSCxdaczvf4HF0mVXHRdw==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/console': 26.6.2
       '@jest/environment': 26.6.2
@@ -10769,7 +10702,6 @@ packages:
   /jest/26.6.3:
     resolution: {integrity: sha512-lGS5PXGAzR4RF7V5+XObhqz2KZIDUA1yD0DG6pBVmy10eh0ZIXQImRuzocsI/N2XZ1GrLFwTS27In2i2jlpq1Q==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/core': 26.6.3
       import-local: 3.1.0
@@ -10785,7 +10717,6 @@ packages:
   /jest/26.6.3_ts-node@9.1.1:
     resolution: {integrity: sha512-lGS5PXGAzR4RF7V5+XObhqz2KZIDUA1yD0DG6pBVmy10eh0ZIXQImRuzocsI/N2XZ1GrLFwTS27In2i2jlpq1Q==}
     engines: {node: '>= 10.14.2'}
-    hasBin: true
     dependencies:
       '@jest/core': 26.6.3_ts-node@9.1.1
       import-local: 3.1.0
@@ -10803,7 +10734,6 @@ packages:
 
   /js-yaml/3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
-    hasBin: true
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
@@ -10856,13 +10786,11 @@ packages:
 
   /jsesc/0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
-    hasBin: true
     dev: true
 
   /jsesc/2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
-    hasBin: true
     dev: true
 
   /json-parse-even-better-errors/2.3.1:
@@ -10890,17 +10818,9 @@ packages:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
     dev: false
 
-  /json5/1.0.1:
-    resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.6
-    dev: true
-
   /json5/2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
-    hasBin: true
     dev: true
 
   /jsonfile/6.1.0:
@@ -11022,7 +10942,6 @@ packages:
 
   /lint-staged/10.5.4:
     resolution: {integrity: sha512-EechC3DdFic/TdOPgj/RB3FicqE6932LTHCUm0Y2fsD9KGlLB+RwJl2q1IYBIvEsKzDOgn0D4gll+YxG5RsrKg==}
-    hasBin: true
     dependencies:
       chalk: 4.1.2
       cli-truncate: 2.1.0
@@ -11069,7 +10988,6 @@ packages:
   /livereload/0.9.3:
     resolution: {integrity: sha512-q7Z71n3i4X0R9xthAryBdNGVGAO2R5X+/xXpmKeuPMrteg+W2U8VusTKV3YiJbXZwKsOlFlHe+go6uSNjfxrZw==}
     engines: {node: '>=8.0.0'}
-    hasBin: true
     dependencies:
       chokidar: 3.5.3
       livereload-js: 3.4.1
@@ -11091,7 +11009,7 @@ packages:
     dependencies:
       big.js: 5.2.2
       emojis-list: 3.0.0
-      json5: 1.0.1
+      json5: 2.2.3
     dev: true
 
   /loader-utils/2.0.4:
@@ -11103,8 +11021,8 @@ packages:
       json5: 2.2.3
     dev: true
 
-  /loader-utils/3.2.0:
-    resolution: {integrity: sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==}
+  /loader-utils/3.2.1:
+    resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
     engines: {node: '>= 12.13.0'}
     dev: true
 
@@ -11207,7 +11125,6 @@ packages:
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
-    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 
@@ -11225,7 +11142,6 @@ packages:
 
   /lz-string/1.4.4:
     resolution: {integrity: sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==}
-    hasBin: true
     dev: true
 
   /magic-string/0.16.0:
@@ -11391,8 +11307,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -11479,13 +11397,11 @@ packages:
   /mime/2.5.2:
     resolution: {integrity: sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==}
     engines: {node: '>=4.0.0'}
-    hasBin: true
     dev: true
 
   /mime/2.6.0:
     resolution: {integrity: sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==}
     engines: {node: '>=4.0.0'}
-    hasBin: true
     dev: true
 
   /mimic-fn/2.1.0:
@@ -11505,7 +11421,6 @@ packages:
 
   /mini-svg-data-uri/1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
-    hasBin: true
     dev: true
 
   /minimatch/3.0.8:
@@ -11541,7 +11456,6 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
-    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -11549,7 +11463,6 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
-    hasBin: true
     dev: true
 
   /moment/2.29.4:
@@ -11609,7 +11522,6 @@ packages:
 
   /mumath/3.3.4:
     resolution: {integrity: sha512-VAFIOG6rsxoc7q/IaY3jdjmrsuX9f15KlRLYTHmixASBZkZEKC1IFqE2BC5CdhXmK6WLM1Re33z//AGmeRI6FA==}
-    deprecated: Redundant dependency in your project.
     dependencies:
       almost-equal: 1.1.0
     dev: false
@@ -11621,7 +11533,6 @@ packages:
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
     dev: true
 
   /nanomatch/1.2.13:
@@ -11652,7 +11563,6 @@ packages:
 
   /nearley/2.20.1:
     resolution: {integrity: sha512-+Mc8UaAebFzgV+KpI5n7DasuuQCHA89dmwm7JXw3TV43ukfNQ9DnBH3Mdb2g/I4Fdxc26pwimBWvjIw0UAILSQ==}
-    hasBin: true
     dependencies:
       commander: 2.20.3
       moo: 0.5.2
@@ -11663,7 +11573,6 @@ packages:
   /needle/2.9.1:
     resolution: {integrity: sha512-6R9fqJ5Zcmf+uYaFgdIHmLwNldn5HbK8L5ybn7Uz+ylX/rnOsSp1AHcvQSrCaFN+qNM1wpymHqD7mVasEOlHGQ==}
     engines: {node: '>= 4.4.x'}
-    hasBin: true
     dependencies:
       debug: 3.2.7
       iconv-lite: 0.4.24
@@ -11685,18 +11594,6 @@ packages:
 
   /node-abort-controller/3.0.1:
     resolution: {integrity: sha512-/ujIVxthRs+7q6hsdjHMaj8hRG9NuWmwrz+JdRwZ14jdFoKSkm+vDsCbF9PLpnSqjaWQJuTmVtcWHNLr+vrOFw==}
-    dev: true
-
-  /node-fetch/2.6.7:
-    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
-    dependencies:
-      whatwg-url: 5.0.0
     dev: true
 
   /node-fetch/2.6.8:
@@ -12106,7 +12003,6 @@ packages:
 
   /pbf/3.2.1:
     resolution: {integrity: sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==}
-    hasBin: true
     dependencies:
       ieee754: 1.2.1
       resolve-protobuf-schema: 2.1.0
@@ -12115,7 +12011,6 @@ packages:
   /peggy/1.2.0:
     resolution: {integrity: sha512-PQ+NKpAobImfMprYQtc4Egmyi29bidRGEX0kKjCU5uuW09s0Cthwqhfy7mLkwcB4VcgacE5L/ZjruD/kOPCUUw==}
     engines: {node: '>=10'}
-    hasBin: true
     dev: true
 
   /pend/1.2.0:
@@ -12154,7 +12049,6 @@ packages:
 
   /pixelmatch/5.3.0:
     resolution: {integrity: sha512-o8mkY4E/+LNUf6LzX96ht6k6CEDi65k9G2rjMtBe9Oo+VPKSvl+0GKHuH/AlG+GA5LPG/i5hrekkxUc3s2HU+Q==}
-    hasBin: true
     dependencies:
       pngjs: 6.0.0
     dev: false
@@ -12248,7 +12142,6 @@ packages:
 
   /popper.js/1.16.1:
     resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
-    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
     dev: true
 
   /posix-character-classes/0.1.1:
@@ -12731,7 +12624,6 @@ packages:
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -12769,7 +12661,6 @@ packages:
   /pretty-quick/3.1.3_prettier@2.7.1:
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
     engines: {node: '>=10.13'}
-    hasBin: true
     peerDependencies:
       prettier: '>=2.0.0'
     dependencies:
@@ -13141,29 +13032,6 @@ packages:
       source-map: 0.7.4
     dev: true
 
-  /react-hot-loader/4.13.0_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-JrLlvUPqh6wIkrK2hZDfOyq/Uh/WeVEr8nc7hkn2/3Ul0sx1Kr5y4kOGNacNRoj7RhwLNcQ3Udf1KJXrqc0ZtA==}
-    engines: {node: '>= 6'}
-    peerDependencies:
-      '@types/react': '^15.0.0 || ^16.0.0 || ^17.0.0 '
-      react: '^15.0.0 || ^16.0.0 || ^17.0.0 '
-      react-dom: '^15.0.0 || ^16.0.0 || ^17.0.0 '
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      fast-levenshtein: 2.0.6
-      global: 4.4.0
-      hoist-non-react-statics: 3.3.2
-      loader-utils: 1.4.2
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-lifecycles-compat: 3.0.4
-      shallowequal: 1.1.0
-      source-map: 0.7.4
-    dev: true
-
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -13494,7 +13362,6 @@ packages:
 
   /regjsparser/0.9.1:
     resolution: {integrity: sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==}
-    hasBin: true
     dependencies:
       jsesc: 0.5.0
     dev: true
@@ -13634,7 +13501,6 @@ packages:
 
   /resolve-url/0.2.1:
     resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}
-    deprecated: https://github.com/lydell/resolve-url#deprecated
     dev: true
 
   /resolve/0.6.3:
@@ -13643,7 +13509,6 @@ packages:
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
-    hasBin: true
     dependencies:
       is-core-module: 2.10.0
       path-parse: 1.0.7
@@ -13651,7 +13516,6 @@ packages:
 
   /resolve/2.0.0-next.4:
     resolution: {integrity: sha512-iMDbmAWtfU+MHpxt/I5iWI7cY6YVEZUQ3MBgPQ++XD1PELuJHIl82xBmObyP2KyQmkNB2dsqF7seoQQiAn5yDQ==}
-    hasBin: true
     dependencies:
       is-core-module: 2.10.0
       path-parse: 1.0.7
@@ -13684,14 +13548,12 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
     dev: true
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
 
@@ -13791,7 +13653,6 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
-    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -13859,8 +13720,6 @@ packages:
   /sane/4.1.0:
     resolution: {integrity: sha512-hhbzAgTIX8O7SHfp2c8/kREfEn4qO/9q8C9beyY6+tvZ87EpoZ3i1RIEvp27YBswnNbY9mWd6paKVmKbAgLfZA==}
     engines: {node: 6.* || 8.* || >= 10.*}
-    deprecated: some dependency vulnerabilities fixed, support for node < 10 dropped, and newer ECMAScript syntax/features added
-    hasBin: true
     dependencies:
       '@cnakazawa/watch': 1.0.4
       anymatch: 2.0.0
@@ -13903,7 +13762,6 @@ packages:
   /sass/1.55.0:
     resolution: {integrity: sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==}
     engines: {node: '>=12.0.0'}
-    hasBin: true
     dependencies:
       chokidar: 3.5.3
       immutable: 4.1.0
@@ -13913,7 +13771,6 @@ packages:
   /sass/1.56.1:
     resolution: {integrity: sha512-VpEyKpyBPCxE7qGDtOcdJ6fFbcpOM+Emu7uZLxVrkX8KVU/Dp5UF7WLvzqRuUhB6mqqQt1xffLoG+AndxTZrCQ==}
     engines: {node: '>=12.0.0'}
-    hasBin: true
     dependencies:
       chokidar: 3.5.3
       immutable: 4.1.0
@@ -13970,18 +13827,15 @@ packages:
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
-    hasBin: true
     dev: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
-    hasBin: true
     dev: true
 
   /semver/7.3.5:
     resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       lru-cache: 6.0.0
     dev: true
@@ -13989,7 +13843,6 @@ packages:
   /semver/7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
@@ -14058,7 +13911,6 @@ packages:
   /shelljs/0.8.5:
     resolution: {integrity: sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==}
     engines: {node: '>=4'}
-    hasBin: true
     dependencies:
       glob: 7.2.3
       interpret: 1.4.0
@@ -14163,10 +14015,9 @@ packages:
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
-    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
-      decode-uri-component: 0.2.0
+      decode-uri-component: 0.2.2
       resolve-url: 0.2.1
       source-map-url: 0.4.1
       urix: 0.1.0
@@ -14181,7 +14032,6 @@ packages:
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
-    deprecated: See https://github.com/lydell/source-map-url#deprecated
     dev: true
 
   /source-map/0.5.7:
@@ -14200,7 +14050,6 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: true
 
   /spawn-command/0.0.2-1:
@@ -14274,7 +14123,6 @@ packages:
   /sshpk/1.17.0:
     resolution: {integrity: sha512-/9HIEs1ZXGhSPE8X6Ccm7Nam1z8KcoCqPdI7ecm1N33EzAetWahvQWVqLZtaZQ+IDKX4IyA2o0gBzqIMkAagHQ==}
     engines: {node: '>=0.10.0'}
-    hasBin: true
     dependencies:
       asn1: 0.2.6
       assert-plus: 1.0.0
@@ -14296,7 +14144,6 @@ packages:
 
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
-    deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
     dev: true
 
   /stack-trace/0.0.9:
@@ -14574,7 +14421,6 @@ packages:
   /svgo/2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
     dependencies:
       '@trysound/sax': 0.2.0
       commander: 7.2.0
@@ -14663,7 +14509,6 @@ packages:
   /terser/5.15.1:
     resolution: {integrity: sha512-K1faMUvpm/FBxjBXud0LWVAGxmvoPbZbfTCYbSgaaYQaIXI3/TdI7a7ZGA73Zrou6Q8Zmz3oeUTsp/dj+ag2Xw==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.2
       acorn: 8.8.0
@@ -14811,7 +14656,6 @@ packages:
 
   /topojson-client/3.1.0:
     resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
-    hasBin: true
     dependencies:
       commander: 2.20.3
     dev: false
@@ -14846,7 +14690,6 @@ packages:
 
   /tree-kill/1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
-    hasBin: true
     dev: true
 
   /trim-newlines/3.0.1:
@@ -14862,7 +14705,6 @@ packages:
   /ts-jest/26.5.6_hoj6rh37du6uxub6buv3fchqgy:
     resolution: {integrity: sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==}
     engines: {node: '>= 10'}
-    hasBin: true
     peerDependencies:
       jest: '>=26 <27'
       typescript: '>=3.8 <5.0'
@@ -14899,7 +14741,6 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
-    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -14985,7 +14826,6 @@ packages:
 
   /turbo/1.6.3:
     resolution: {integrity: sha512-FtfhJLmEEtHveGxW4Ye/QuY85AnZ2ZNVgkTBswoap7UMHB1+oI4diHPNyqrQLG4K1UFtCkjOlVoLsllUh/9QRw==}
-    hasBin: true
     requiresBuild: true
     optionalDependencies:
       turbo-darwin-64: 1.6.3
@@ -15077,13 +14917,11 @@ packages:
   /typescript/4.5.4:
     resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
     engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: true
 
   /uglify-js/3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
-    hasBin: true
     requiresBuild: true
     dev: false
     optional: true
@@ -15178,7 +15016,6 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
-    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -15198,7 +15035,6 @@ packages:
 
   /urix/0.1.0:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
-    deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
 
   /url-parse/1.5.10:
@@ -15253,7 +15089,6 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
@@ -15356,7 +15191,6 @@ packages:
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
-    deprecated: Use your platform's native performance.now() and performance.timeOrigin.
     dependencies:
       browser-process-hrtime: 1.0.0
     dev: true
@@ -15431,7 +15265,6 @@ packages:
   /webpack-cli/4.10.0_webpack@5.75.0:
     resolution: {integrity: sha512-NLhDfH/h4O6UOy+0LSso42xvYypClINuMNBVVzX4vX98TmTaTUxwRbXdhucbFMd2qLaCTcLq/PdYrvi8onw90w==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
       '@webpack-cli/migrate': '*'
@@ -15479,7 +15312,6 @@ packages:
   /webpack/5.75.0_webpack-cli@4.10.0:
     resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
@@ -15578,7 +15410,6 @@ packages:
 
   /which/1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
-    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
@@ -15586,7 +15417,6 @@ packages:
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
-    hasBin: true
     dependencies:
       isexe: 2.0.0
 
