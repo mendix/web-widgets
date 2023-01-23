@@ -19,7 +19,7 @@
     "copy-webpack-plugin": "^6.2.1",
     "core-js": "^3.27.1",
     "cross-env": "^7.0.3",
-    "css-loader": "^5.0.0",
+    "css-loader": "^5.2.7",
     "del": "^6.0.0",
     "eslint": "^7.20.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
