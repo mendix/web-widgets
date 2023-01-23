@@ -54,6 +54,11 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
-    "cross-env": "^7.0.3"
+    "@types/enzyme": "^3.10.12",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^18.8.3",
+    "cross-env": "^7.0.3",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4"
   }
 }
