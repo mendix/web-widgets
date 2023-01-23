@@ -8,7 +8,7 @@ import {
 } from "ckeditor4-react";
 import { getDimensions, Dimensions } from "@mendix/pluggable-widgets-commons";
 import { defineEnterMode, addPlugin, PluginName } from "../utils/ckeditorConfigs";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import classNames from "classnames";
 import { ReadOnlyStyleEnum, EnterModeEnum, ShiftEnterModeEnum } from "../../typings/RichTextProps";
 import { MainEditor } from "./MainEditor";
@@ -78,7 +78,7 @@ export const RichTextEditor = ({
                 onKeyChange();
             }
             if (onValueChange) {
-                const content = sanitizeContent ? sanitizeHtml(value) : value;
+                const content = sanitizeContent ? DOMPurify.sanitize(value) : value;
                 localEditorValueRef.current = content;
                 onValueChange(content);
             }
@@ -114,7 +114,7 @@ export const RichTextEditor = ({
             plugins.forEach((plugin: PluginName) => addPlugin(plugin, config));
         }
         if (advancedContentFilter) {
-            config.allowedContent = advancedContentFilter.allowedContent;
+            config.extraAllowedContent = advancedContentFilter.allowedContent;
             config.disallowedContent = advancedContentFilter.disallowedContent;
         }
 
