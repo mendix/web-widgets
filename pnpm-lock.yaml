@@ -136,15 +136,18 @@ importers:
       copy-webpack-plugin: ^11.0.0
       css-loader: ^6.7.3
       date-arithmetic: ^3.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       fork-ts-checker-webpack-plugin: ^7.2.14
       mendix-client: ^7.15.8
       moment: ^2.29.4
+      prettier: ^2.5.1
       react: ~17.0.2
       react-big-calendar: 0.19.2
       react-dnd: 2.6.0
       react-dnd-html5-backend: ^5.0.1
       react-dom: ~17.0.2
+      rollup: ^2.68.0
       sass: ^1.56.1
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
@@ -174,11 +177,14 @@ importers:
       babel-loader: 8.3.0_la66t7xldg4uecmyawueag5wkm
       copy-webpack-plugin: 11.0.0_webpack@5.75.0
       css-loader: 6.7.3_webpack@5.75.0
+      enzyme: 3.11.0
       eslint: 7.32.0
       fork-ts-checker-webpack-plugin: 7.2.14_leot54mpvtrbhlmxtuzvyiidqe
       mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       sass: 1.56.1
       sass-loader: 13.2.0_sass@1.56.1+webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
@@ -259,13 +265,16 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -287,13 +296,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -317,13 +329,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -346,13 +361,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -377,13 +395,16 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -407,13 +428,16 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -438,13 +462,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -468,13 +495,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -499,13 +529,16 @@ importers:
       '@web-widgets/run-e2e': workspace:^*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -529,13 +562,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -560,13 +596,16 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -590,13 +629,16 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -622,13 +664,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       '@zxing/library': ~0.19.1
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -638,7 +683,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
-      '@rollup/plugin-replace': 2.4.2
+      '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -653,13 +698,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -684,13 +732,16 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -714,13 +765,16 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -746,13 +800,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       swiper: ~6.8.4
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -779,13 +836,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -800,9 +860,12 @@ importers:
       bubble-chart-web: workspace:*
       column-chart-web: workspace:*
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       heatmap-chart-web: workspace:*
       line-chart-web: workspace:*
       pie-doughnut-chart-web: workspace:*
+      prettier: ^2.5.1
+      rollup: ^2.68.0
       time-series-chart-web: workspace:*
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -821,6 +884,9 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 18.8.3
       cross-env: 7.0.3
+      enzyme: 3.11.0
+      prettier: 2.7.1
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -846,14 +912,17 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-color: ^2.19.3
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -879,13 +948,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -911,13 +983,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -942,13 +1017,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -974,14 +1052,17 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-datepicker: ^4.6.0
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       string.prototype.replaceall: ^1.0.7
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -1009,13 +1090,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1041,13 +1125,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1072,13 +1159,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1104,13 +1194,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       big.js: ^6.0.2
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1135,13 +1228,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1165,13 +1261,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1194,13 +1293,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1226,13 +1328,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1257,13 +1362,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1287,13 +1395,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1316,13 +1427,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1346,13 +1460,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1375,13 +1492,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1406,13 +1526,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1436,13 +1559,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1469,13 +1595,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1501,13 +1630,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1532,12 +1664,15 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       dompurify: ^2.4.3
+      enzyme: ^3.11.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1561,12 +1696,15 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1590,14 +1728,17 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-overlays: ^5.0.1
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1621,13 +1762,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1651,13 +1795,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1680,13 +1827,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1712,13 +1862,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1743,13 +1896,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1780,15 +1936,18 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       leaflet: ^1.9.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-leaflet: ^2.6.3
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1820,13 +1979,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1853,13 +2015,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1885,13 +2050,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1915,13 +2083,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1944,13 +2115,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1975,13 +2149,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2005,13 +2182,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2036,14 +2216,17 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       progressbar.js: ^1.0.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2068,13 +2251,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2102,15 +2288,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2139,13 +2328,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2171,13 +2363,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2202,13 +2397,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2240,14 +2438,17 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       dompurify: ^2.4.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       recursive-copy: ^2.0.14
+      rollup: ^2.68.0
       through2: ^4.0.2
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -2261,7 +2462,7 @@ importers:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
-      '@rollup/plugin-json': 4.1.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -2279,14 +2480,17 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
       recursive-copy: 2.0.14
+      rollup: 2.79.1
       through2: 4.0.2
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
@@ -2315,15 +2519,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2352,13 +2559,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2383,13 +2593,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2413,13 +2626,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2445,13 +2661,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2476,13 +2695,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2506,13 +2728,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2535,13 +2760,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2567,14 +2795,17 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-popper: ^2.2.5
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2600,13 +2831,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2630,13 +2864,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2659,13 +2896,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2690,13 +2930,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2720,13 +2963,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2756,6 +3002,7 @@ importers:
       classnames: ^2.3.2
       copy-and-watch: ^0.1.6
       deepmerge: ^4.2.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       fast-json-patch: ^3.1.1
       identity-obj-proxy: ^3.0.0
@@ -2764,13 +3011,14 @@ importers:
       mendix: ^9.21.59661
       mendix-client: ^7.15.8
       plotly.js: ^2.14.0
+      prettier: ^2.5.1
       react: ~17.0.2
       react-ace: ^9.4.4
       react-dom: ~17.0.2
       react-plotly.js: ^2.5.1
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2804,11 +3052,13 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       ansi-colors: 4.1.3
       copy-and-watch: 0.1.6
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
       mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -2834,15 +3084,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
       mendix-client: ^7.15.8
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
+      rollup: ^2.68.0
       typescript: 4.5.4
     dependencies:
       classnames: 2.3.2
@@ -2861,15 +3114,18 @@ importers:
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
       identity-obj-proxy: 3.0.0
       jest: 26.6.3
       mendix: 9.21.59661
       mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
       rimraf: 2.7.1
+      rollup: 2.79.1
       typescript: 4.5.4
 
 packages:
@@ -5080,9 +5336,6 @@ packages:
     engines: {node: '>=8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       rollup: 2.79.1
       slash: 3.0.0
@@ -5098,8 +5351,6 @@ packages:
     peerDependenciesMeta:
       '@types/babel__core':
         optional: true
-      rollup:
-        optional: true
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.18.6
@@ -5112,9 +5363,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     peerDependencies:
       rollup: ^2.68.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       commondir: 1.0.1
@@ -5131,33 +5379,16 @@ packages:
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       mini-svg-data-uri: 1.4.4
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-json/4.1.0:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 3.1.0
-    dev: true
-
   /@rollup/plugin-json/4.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       rollup: 2.79.1
@@ -5168,9 +5399,6 @@ packages:
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       '@types/resolve': 1.17.1
@@ -5181,16 +5409,14 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-replace/2.4.2:
+  /@rollup/plugin-replace/2.4.2_rollup@2.79.1:
     resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
-      '@rollup/pluginutils': 3.1.0
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       magic-string: 0.25.9
+      rollup: 2.79.1
     dev: true
 
   /@rollup/plugin-typescript/8.5.0_4rftqlfd5be2n7naerwk23djyy:
@@ -5201,8 +5427,6 @@ packages:
       tslib: '*'
       typescript: '>=3.7.0'
     peerDependenciesMeta:
-      rollup:
-        optional: true
       tslib:
         optional: true
     dependencies:
@@ -5217,9 +5441,6 @@ packages:
     engines: {node: '>=10.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       make-dir: 3.1.0
@@ -5227,28 +5448,11 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/pluginutils/3.1.0:
-    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 0.0.39
-      estree-walker: 1.0.1
-      picomatch: 2.3.1
-    dev: true
-
   /@rollup/pluginutils/3.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
@@ -11980,6 +12184,7 @@ packages:
 
   /nearley/2.20.1:
     resolution: {integrity: sha512-+Mc8UaAebFzgV+KpI5n7DasuuQCHA89dmwm7JXw3TV43ukfNQ9DnBH3Mdb2g/I4Fdxc26pwimBWvjIw0UAILSQ==}
+    hasBin: true
     dependencies:
       commander: 2.20.3
       moo: 0.5.2
@@ -13041,6 +13246,7 @@ packages:
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -13994,9 +14200,6 @@ packages:
     engines: {node: '>=10.0.0'}
     peerDependencies:
       rollup: ^1.0.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       commenting: 1.1.0
       glob: 7.2.3
@@ -14055,9 +14258,6 @@ packages:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
     peerDependencies:
       rollup: ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       jest-worker: 26.6.2
@@ -14075,6 +14275,7 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
