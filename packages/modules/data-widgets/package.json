@@ -1,7 +1,7 @@
 {
   "name": "data-widgets",
   "moduleName": "Data Widgets",
-  "version": "2.5.9",
+  "version": "2.6.0",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "private": true,
@@ -25,7 +25,7 @@
   },
   "moduleFolderNameInModeler": "datawidgets",
   "marketplace": {
-    "minimumMXVersion": "9.6.0.27784",
+    "minimumMXVersion": "9.17.0.51380",
     "appNumber": 116540,
     "appName": "Data Widgets"
   },
