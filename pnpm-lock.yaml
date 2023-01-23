@@ -29,7 +29,7 @@ importers:
       '@commitlint/config-conventional': ^15.0.0
       '@mendix/pluggable-widgets-tools': ^9.20.0
       '@types/big.js': ^6.0.2
-      '@types/concurrently': ^6.3.0
+      '@types/concurrently': ^6.4.0
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
       '@types/jest-image-snapshot': ^4.3.2
@@ -217,7 +217,7 @@ importers:
   packages/modules/data-widgets:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
-      concurrently: ^6.0.0
+      concurrently: ^6.5.1
       copy-and-watch: ^0.1.6
       cross-env: ^7.0.3
       datagrid-date-filter-web: workspace:*
