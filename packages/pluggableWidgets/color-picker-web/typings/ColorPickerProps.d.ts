@@ -1,7 +1,7 @@
 /**
  * This file was generated from ColorPicker.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 

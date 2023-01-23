@@ -1,7 +1,7 @@
 /**
  * This file was generated from Switch.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { ActionValue, EditableValue } from "mendix";
 
