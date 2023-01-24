@@ -1,0 +1,22 @@
+{
+  "name": "@mendix/prettier-config-web-widgets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "prettier config for web widgets",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write ."
+  },
+  "peerDependencies": {
+    "prettier": ">= 2.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0"
+  },
+  "dependencies": {
+    "@prettier/plugin-xml": "^2.2.0"
+  }
+}
