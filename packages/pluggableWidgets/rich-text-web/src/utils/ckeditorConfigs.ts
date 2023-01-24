@@ -175,13 +175,8 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
     }
 
     if (advancedContentFilter === "custom") {
-        if (allowedContent) {
-            config.allowedContent = allowedContent;
-        }
-
-        if (disallowedContent) {
-            config.disallowedContent = disallowedContent;
-        }
+        config.extraAllowedContent = allowedContent;
+        config.disallowedContent = disallowedContent;
     }
 
     return config;

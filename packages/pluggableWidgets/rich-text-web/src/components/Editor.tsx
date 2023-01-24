@@ -1,10 +1,10 @@
 import { debounce } from "@mendix/pluggable-widgets-commons";
 import { CKEditorEventPayload, CKEditorHookProps, CKEditorInstance } from "ckeditor4-react";
 import { Component, createElement } from "react";
-import sanitizeHtml from "sanitize-html";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
+import DOMPurify from "dompurify";
 
 interface EditorProps {
     element: HTMLElement;
@@ -120,7 +120,7 @@ export class Editor extends Component<EditorProps> {
     onChange(_event: CKEditorEventPayload<"change">): void {
         if (this.editor) {
             const editorData = this.editor.getData();
-            const content = this.widgetProps.sanitizeContent ? sanitizeHtml(editorData) : editorData;
+            const content = this.widgetProps.sanitizeContent ? DOMPurify.sanitize(editorData) : editorData;
             this.lastSentValue = content;
             this.widgetProps.stringAttribute.setValue(content);
         }
