@@ -1,8 +1,17 @@
-const base = require("@mendix/pluggable-widgets-tools/configs/prettier.base.json");
-
 module.exports = {
-    ...base,
-    plugins: [require.resolve("@prettier/plugin-xml")],
+    trailingComma: "none",
+    useTabs: false,
+    tabWidth: 4,
+    semi: true,
+    singleQuote: false,
+    printWidth: 120,
+    bracketSpacing: true,
+    bracketSameLine: false,
+    arrowParens: "avoid",
+    proseWrap: "always",
+    xmlSelfClosingSpace: true,
+    xmlWhitespaceSensitivity: "ignore",
+    plugins: ["@prettier/plugin-xml"],
     overrides: [
         {
             files: ["CHANGELOG.md"],

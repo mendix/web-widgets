@@ -1,0 +1,35 @@
+{
+  "name": "@mendix/eslint-config-web-widgets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "eslint config for web widgets",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "scripts": {
+    "lint": "eslint . --ext .json,.js",
+    "format": "prettier --write ."
+  },
+  "peerDependencies": {
+    "eslint": ">= 7.20.0",
+    "prettier": ">= 1.13.0",
+    "typescript": ">= 2.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-plugin-json": "^3.1.0"
+  },
+  "dependencies": {
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint-config-prettier": "^8.0.0",
+    "eslint-plugin-jest": "^24.1.5",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "~7.28.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.5.1",
+    "typescript": "4.5.4"
+  }
+}
