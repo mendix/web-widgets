@@ -15,7 +15,10 @@ import { AccordionContainerProps } from "../../typings/AccordionProps";
 import classNames from "classnames";
 
 export type AccordionGroups = Array<
-    Pick<AccordionGroupProps, "header" | "content" | "visible" | "dynamicClassName" | "onToggleCompletion"> & {
+    Pick<
+        AccordionGroupProps,
+        "header" | "content" | "visible" | "dynamicClassName" | "onToggleCompletion" | "loadContent"
+    > & {
         collapsed?: boolean;
         initiallyCollapsed?: boolean;
     }
@@ -165,6 +168,7 @@ function AccordionGroupWrapper(props: AccordionGroupWrapperProps): ReactElement 
             animateContent={props.animateContent}
             generateHeaderIcon={props.generateHeaderIcon}
             showHeaderIcon={props.showHeaderIcon}
+            loadContent={props.loadContent}
         />
     );
 }
