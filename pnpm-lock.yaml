@@ -28,51 +28,21 @@ importers:
     specifiers:
       '@commitlint/cli': ^15.0.0
       '@commitlint/config-conventional': ^15.0.0
-      '@types/big.js': ^6.0.2
-      '@types/concurrently': ^6.4.0
-      '@types/enzyme': ^3.10.12
-      '@types/jest': ^26.0.24
-      '@types/jest-image-snapshot': ^4.3.2
-      '@types/mime': ^2.0.3
-      '@types/node': ^16.18.3
-      '@types/shelljs': ^0.8.11
-      '@types/xml2js': ^0.4.11
-      cross-env: ^7.0.3
       deepmerge: ^4.2.2
       husky: ^7.0.4
-      identity-obj-proxy: ^3.0.0
       lint-staged: ^10.5.4
-      mendix-client: ^7.15.8
       prettier: ^2.5.1
       pretty-quick: ^3.1.3
-      recursive-copy: ^2.0.14
-      ts-node: ^9.0.0
       turbo: ^1.6.3
-      typescript: 4.5.4
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
-      '@types/big.js': 6.1.6
-      '@types/concurrently': 6.4.0
-      '@types/enzyme': 3.10.12
-      '@types/jest': 26.0.24
-      '@types/jest-image-snapshot': 4.3.2
-      '@types/mime': 2.0.3
-      '@types/node': 16.18.3
-      '@types/shelljs': 0.8.11
-      '@types/xml2js': 0.4.11
-      cross-env: 7.0.3
       deepmerge: 4.2.2
       husky: 7.0.4
-      identity-obj-proxy: 3.0.0
       lint-staged: 10.5.4
-      mendix-client: 7.15.8
       prettier: 2.7.1
       pretty-quick: 3.1.3_prettier@2.7.1
-      recursive-copy: 2.0.14
-      ts-node: 9.1.1_typescript@4.5.4
       turbo: 1.6.3
-      typescript: 4.5.4
 
   automation/run-e2e:
     specifiers:
@@ -117,6 +87,7 @@ importers:
   automation/utils:
     specifiers:
       '@types/cross-zip': ^4.0.0
+      '@types/node': ^18.8.3
       '@types/node-fetch': 2.6.2
       chalk: ^4.1.2
       cross-zip: ^4.0.0
@@ -133,6 +104,7 @@ importers:
       zod: ^3.11.6
     devDependencies:
       '@types/cross-zip': 4.0.0
+      '@types/node': 18.8.3
       '@types/node-fetch': 2.6.2
       chalk: 4.1.2
       cross-zip: 4.0.0
@@ -154,6 +126,8 @@ importers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
       '@types/date-arithmetic': ^3.1.2
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-big-calendar': 0.20.20
       '@types/react-dom': <18.0.0
@@ -162,20 +136,24 @@ importers:
       copy-webpack-plugin: ^11.0.0
       css-loader: ^6.7.3
       date-arithmetic: ^3.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       fork-ts-checker-webpack-plugin: ^7.2.14
       mendix-client: ^7.15.8
       moment: ^2.29.4
+      prettier: ^2.5.1
       react: ~17.0.2
       react-big-calendar: 0.19.2
       react-dnd: 2.6.0
       react-dnd-html5-backend: ^5.0.1
       react-dom: ~17.0.2
+      rollup: ^2.68.0
       sass: ^1.56.1
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
       to-string-loader: ^1.1.6
       ts-loader: ^9.4.2
+      ts-node: ^9.0.0
       typescript: 4.5.4
       webpack: ^5.3.2
       webpack-cli: ^4.1.0
@@ -191,22 +169,28 @@ importers:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
       '@types/date-arithmetic': 3.1.2
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-big-calendar': 0.20.20
       '@types/react-dom': 17.0.18
       babel-loader: 8.3.0_la66t7xldg4uecmyawueag5wkm
       copy-webpack-plugin: 11.0.0_webpack@5.75.0
       css-loader: 6.7.3_webpack@5.75.0
+      enzyme: 3.11.0
       eslint: 7.32.0
       fork-ts-checker-webpack-plugin: 7.2.14_leot54mpvtrbhlmxtuzvyiidqe
       mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       sass: 1.56.1
       sass-loader: 13.2.0_sass@1.56.1+webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
       to-string-loader: 1.2.0
       ts-loader: 9.4.2_leot54mpvtrbhlmxtuzvyiidqe
+      ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
       webpack: 5.75.0_webpack-cli@4.10.0
       webpack-cli: 4.10.0_webpack@5.75.0
@@ -214,6 +198,7 @@ importers:
   packages/modules/data-widgets:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@types/node': ^18.8.3
       concurrently: ^6.5.1
       copy-and-watch: ^0.1.6
       cross-env: ^7.0.3
@@ -238,6 +223,7 @@ importers:
       tree-node-web: link:../../pluggableWidgets/tree-node-web
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@types/node': 18.8.3
       concurrently: 6.5.1
       copy-and-watch: 0.1.6
       cross-env: 7.0.3
@@ -247,12 +233,14 @@ importers:
   packages/modules/web-actions:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@types/node': ^18.8.3
       cross-env: ^7.0.3
       eslint: ^7.20.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@types/node': 18.8.3
       cross-env: 7.0.3
       eslint: 7.32.0
       ts-node: 9.1.1_typescript@4.5.4
@@ -268,18 +256,25 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -292,18 +287,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -317,6 +319,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -324,12 +329,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -343,18 +352,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -369,18 +385,28 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -393,17 +419,27 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/badge-button-web:
     specifiers:
@@ -415,6 +451,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -423,12 +462,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -442,6 +485,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -449,12 +495,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -468,6 +518,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -476,12 +529,16 @@ importers:
       '@web-widgets/run-e2e': workspace:^*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -495,6 +552,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -502,12 +562,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -522,18 +586,28 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -546,17 +620,27 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/barcode-scanner-web:
     specifiers:
@@ -569,6 +653,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -577,12 +664,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       '@zxing/library': ~0.19.1
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -592,24 +683,31 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
-      '@rollup/plugin-replace': 2.4.2
+      '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -624,18 +722,28 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -648,17 +756,27 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/carousel-web:
     specifiers:
@@ -670,6 +788,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -679,12 +800,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       swiper: ~6.8.4
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -700,6 +825,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -708,27 +836,39 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
   packages/pluggableWidgets/charts-web:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       area-chart-web: workspace:*
       bar-chart-web: workspace:*
       bubble-chart-web: workspace:*
       column-chart-web: workspace:*
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       heatmap-chart-web: workspace:*
       line-chart-web: workspace:*
       pie-doughnut-chart-web: workspace:*
+      prettier: ^2.5.1
+      rollup: ^2.68.0
       time-series-chart-web: workspace:*
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       area-chart-web: link:../area-chart-web
       bar-chart-web: link:../bar-chart-web
@@ -740,7 +880,15 @@ importers:
       time-series-chart-web: link:../time-series-chart-web
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       cross-env: 7.0.3
+      enzyme: 3.11.0
+      prettier: 2.7.1
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/color-picker-web:
     specifiers:
@@ -752,6 +900,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-color': ^2.17.6
       '@types/react-dom': <18.0.0
@@ -761,13 +912,17 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-color: ^2.19.3
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -782,6 +937,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-color': 2.17.6
       '@types/react-dom': 17.0.18
@@ -790,12 +948,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -810,6 +972,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -817,12 +983,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -835,18 +1007,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     specifiers:
@@ -858,6 +1040,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-datepicker': ^4.8.0
       '@types/react-dom': <18.0.0
@@ -867,14 +1052,20 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-datepicker: ^4.6.0
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       string.prototype.replaceall: ^1.0.7
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -889,6 +1080,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-datepicker': 4.8.0_sfoxds7t5ydpegc3knd667wn6m
       '@types/react-dom': 17.0.18
@@ -896,12 +1090,18 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     specifiers:
@@ -914,6 +1114,9 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/deep-equal': ^1.0.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -922,12 +1125,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -941,18 +1150,27 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/deep-equal': 1.0.1
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     specifiers:
@@ -964,6 +1182,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -972,12 +1194,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       big.js: ^6.0.2
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       big.js: 6.2.1
@@ -990,18 +1218,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/datagrid-text-filter-web:
     specifiers:
@@ -1013,6 +1251,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1020,12 +1261,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -1037,18 +1284,27 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/datagrid-web:
     specifiers:
@@ -1060,6 +1316,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1068,12 +1328,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -1086,18 +1352,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/dropdown-sort-web:
     specifiers:
@@ -1109,6 +1385,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1116,12 +1395,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -1133,18 +1418,27 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/fieldset-web:
     specifiers:
@@ -1156,6 +1450,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1163,12 +1460,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1181,6 +1482,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1188,12 +1492,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1207,6 +1515,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1215,12 +1526,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       classnames: 2.3.2
@@ -1232,6 +1549,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1239,12 +1559,18 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/heatmap-chart-web:
     specifiers:
@@ -1257,6 +1583,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1265,12 +1595,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -1284,18 +1620,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/html-element-web:
     specifiers:
@@ -1309,17 +1655,26 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/big.js': ^6.0.2
       '@types/dompurify': ^2.4.0
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       dompurify: ^2.4.3
+      enzyme: ^3.11.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       dompurify: 2.4.3
     devDependencies:
@@ -1333,16 +1688,25 @@ importers:
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/big.js': 6.1.6
       '@types/dompurify': 2.4.0
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
-      jest: 26.6.3
+      enzyme: 3.11.0
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/image-web:
     specifiers:
@@ -1354,6 +1718,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1361,13 +1728,17 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-overlays: ^5.0.1
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1382,18 +1753,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1407,6 +1785,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1414,12 +1795,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1433,18 +1818,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1459,6 +1851,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1466,12 +1862,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -1484,18 +1886,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/maps-web:
     specifiers:
@@ -1510,7 +1922,10 @@ importers:
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
       '@types/deep-equal': ^1.0.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
       '@types/leaflet': ^1.9.0
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-leaflet': ^2.5.1
@@ -1521,14 +1936,18 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       deep-equal: ^2.1.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       leaflet: ^1.9.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-leaflet: ^2.6.3
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1548,7 +1967,10 @@ importers:
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/deep-equal': 1.0.1
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
       '@types/leaflet': 1.9.0
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-leaflet': 2.8.2
@@ -1557,12 +1979,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1577,6 +2003,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1585,12 +2015,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -1604,18 +2040,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/popup-menu-web:
     specifiers:
@@ -1627,6 +2073,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1634,12 +2083,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1653,18 +2106,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1678,6 +2138,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1686,12 +2149,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1705,6 +2172,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1712,12 +2182,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1731,6 +2205,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1739,13 +2216,17 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       progressbar.js: ^1.0.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1760,6 +2241,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1767,12 +2251,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1786,6 +2274,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.7
       '@types/react': <18.0.0
@@ -1796,14 +2288,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1819,6 +2315,10 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
       '@types/react': 17.0.52
@@ -1828,12 +2328,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1847,6 +2351,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1855,12 +2363,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1874,6 +2386,10 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1881,12 +2397,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -1903,6 +2423,9 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/ckeditor4': ^4.16.5
       '@types/dompurify': ^2.4.0
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -1915,12 +2438,17 @@ importers:
       classnames: ^2.3.2
       cross-env: ^7.0.3
       dompurify: ^2.4.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      recursive-copy: ^2.0.14
+      rollup: ^2.68.0
       through2: ^4.0.2
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -1934,13 +2462,16 @@ importers:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
-      '@rollup/plugin-json': 4.1.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
       '@types/ckeditor4': 4.16.5
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1949,12 +2480,17 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      recursive-copy: 2.0.14
+      rollup: 2.79.1
       through2: 4.0.2
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
@@ -1969,6 +2505,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.7
       '@types/react': <18.0.0
@@ -1979,14 +2519,18 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       rc-slider: ^8.6.6
       rc-tooltip: ^3.7.3
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2002,6 +2546,10 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/rc-slider': 8.6.6
       '@types/rc-tooltip': 3.7.7
       '@types/react': 17.0.52
@@ -2011,12 +2559,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2030,6 +2582,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -2038,12 +2593,16 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2057,6 +2616,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -2064,12 +2626,16 @@ importers:
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2084,6 +2650,10 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -2091,12 +2661,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts': link:../../shared/charts
@@ -2109,18 +2685,28 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
 
   packages/pluggableWidgets/timeline-web:
     specifiers:
@@ -2132,6 +2718,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -2139,12 +2728,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2158,18 +2751,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2184,6 +2784,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/popper.js': ^1.11.0
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
@@ -2192,13 +2795,17 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-popper: ^2.2.5
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2214,6 +2821,9 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/popper.js': 1.11.0
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
@@ -2221,12 +2831,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2240,6 +2854,9 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -2247,60 +2864,16 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-    dependencies:
-      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      classnames: 2.3.2
-    devDependencies:
-      '@mendix-internal/automation-utils': link:../../../automation/utils
-      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
-      '@testing-library/dom': 8.19.0
-      '@testing-library/jest-dom': 5.16.5
-      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
-      '@types/react': 17.0.52
-      '@types/react-dom': 17.0.18
-      '@types/react-test-renderer': 17.0.2
-      '@types/testing-library__jest-dom': 5.14.5
-      '@types/testing-library__react-hooks': 3.4.1
-      '@web-widgets/run-e2e': link:../../../automation/run-e2e
-      eslint: 7.32.0
-      jest: 26.6.3
-      mendix: 9.21.59661
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-test-renderer: 17.0.2_react@17.0.2
-
-  packages/pluggableWidgets/video-player-web:
-    specifiers:
-      '@mendix-internal/automation-utils': workspace:*
-      '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.20.0
-      '@testing-library/dom': ^8.1.0
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^3.4.2
-      '@testing-library/user-event': ^13.2.1
-      '@types/react': <18.0.0
-      '@types/react-dom': <18.0.0
-      '@types/react-resize-detector': ^5.0.0
-      '@types/react-test-renderer': <18.0.0
-      '@types/testing-library__jest-dom': ^5.14.1
-      '@types/testing-library__react-hooks': ^3.4.0
-      '@web-widgets/run-e2e': workspace:*
-      classnames: ^2.3.2
-      eslint: ^7.20.0
-      jest: ^26.6.3
-      mendix: ^9.21.59661
-      react: ~17.0.2
-      react-dom: ~17.0.2
-      react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2314,6 +2887,75 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
+      '@types/react': 17.0.52
+      '@types/react-dom': 17.0.18
+      '@types/react-test-renderer': 17.0.2
+      '@types/testing-library__jest-dom': 5.14.5
+      '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
+      eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
+      mendix: 9.21.59661
+      prettier: 2.7.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
+
+  packages/pluggableWidgets/video-player-web:
+    specifiers:
+      '@mendix-internal/automation-utils': workspace:*
+      '@mendix/pluggable-widgets-commons': workspace:*
+      '@mendix/pluggable-widgets-tools': ^9.20.0
+      '@testing-library/dom': ^8.1.0
+      '@testing-library/jest-dom': ^5.14.1
+      '@testing-library/react': ^12.0.0
+      '@testing-library/react-hooks': ^3.4.2
+      '@testing-library/user-event': ^13.2.1
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
+      '@types/react': <18.0.0
+      '@types/react-dom': <18.0.0
+      '@types/react-resize-detector': ^5.0.0
+      '@types/react-test-renderer': <18.0.0
+      '@types/testing-library__jest-dom': ^5.14.1
+      '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:*
+      classnames: ^2.3.2
+      enzyme: ^3.11.0
+      eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
+      jest: ^26.6.3
+      mendix: ^9.21.59661
+      prettier: ^2.5.1
+      react: ~17.0.2
+      react-dom: ~17.0.2
+      react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
+    dependencies:
+      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+      classnames: 2.3.2
+    devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.52
+      '@testing-library/dom': 8.19.0
+      '@testing-library/jest-dom': 5.16.5
+      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
+      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-resize-detector': 5.0.0
@@ -2321,12 +2963,16 @@ importers:
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -2339,35 +2985,47 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.0.2
+      '@types/enzyme': ^3.10.12
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/plotly.js': ^2.12.8
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-plotly.js': ^2.5.0
       '@types/react-test-renderer': <18.0.0
+      '@types/shelljs': ^0.8.11
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       ace-builds: ^1.4.13
       ansi-colors: ^4.1.3
       classnames: ^2.3.2
       copy-and-watch: ^0.1.6
+      deepmerge: ^4.2.2
+      enzyme: ^3.11.0
       eslint: ^7.20.0
       fast-json-patch: ^3.1.1
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       json-source-map: ^0.6.1
       mendix: ^9.21.59661
+      mendix-client: ^7.15.8
       plotly.js: ^2.14.0
+      prettier: ^2.5.1
       react: ~17.0.2
       react-ace: ^9.4.4
       react-dom: ~17.0.2
       react-plotly.js: ^2.5.1
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
-      rollup: ^2.68.0
+      rollup: ^2.79.1
+      ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../pluggable-widgets-commons
       ace-builds: 1.11.2
       classnames: 2.3.2
+      deepmerge: 4.2.2
       fast-json-patch: 3.1.1
       json-source-map: 0.6.1
       plotly.js: 2.14.0
@@ -2380,23 +3038,33 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
+      '@types/jest': 26.0.24
+      '@types/node': 18.8.3
       '@types/plotly.js': 2.12.8
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-plotly.js': 2.5.2
       '@types/react-test-renderer': 17.0.2
+      '@types/shelljs': 0.8.11
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
       ansi-colors: 4.1.3
       copy-and-watch: 0.1.6
+      enzyme: 3.11.0
       eslint: 7.32.0
-      jest: 26.6.3
+      identity-obj-proxy: 3.0.0
+      jest: 26.6.3_ts-node@9.1.1
       mendix: 9.21.59661
+      mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
       rimraf: 2.7.1
       rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
   packages/shared/pluggable-widgets-commons:
@@ -2407,6 +3075,8 @@ importers:
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/big.js': ^6.1.6
+      '@types/enzyme': ^3.10.12
       '@types/react': <18.0.0
       '@types/react-dom': <18.0.0
       '@types/react-test-renderer': <18.0.0
@@ -2414,13 +3084,18 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
       date-fns: ^2.24.0
+      enzyme: ^3.11.0
       eslint: ^7.20.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       mendix: ^9.21.59661
+      mendix-client: ^7.15.8
+      prettier: ^2.5.1
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
+      rollup: ^2.68.0
       typescript: 4.5.4
     dependencies:
       classnames: 2.3.2
@@ -2432,18 +3107,25 @@ importers:
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/big.js': 6.1.6
+      '@types/enzyme': 3.10.12
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
       '@types/testing-library__jest-dom': 5.14.5
       '@types/testing-library__react-hooks': 3.4.1
+      enzyme: 3.11.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3
       mendix: 9.21.59661
+      mendix-client: 7.15.8
+      prettier: 2.7.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
       rimraf: 2.7.1
+      rollup: 2.79.1
       typescript: 4.5.4
 
 packages:
@@ -4654,9 +5336,6 @@ packages:
     engines: {node: '>=8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       rollup: 2.79.1
       slash: 3.0.0
@@ -4672,8 +5351,6 @@ packages:
     peerDependenciesMeta:
       '@types/babel__core':
         optional: true
-      rollup:
-        optional: true
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.18.6
@@ -4686,9 +5363,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     peerDependencies:
       rollup: ^2.68.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       commondir: 1.0.1
@@ -4705,33 +5379,16 @@ packages:
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       mini-svg-data-uri: 1.4.4
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-json/4.1.0:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 3.1.0
-    dev: true
-
   /@rollup/plugin-json/4.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       rollup: 2.79.1
@@ -4742,9 +5399,6 @@ packages:
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       '@types/resolve': 1.17.1
@@ -4755,16 +5409,14 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-replace/2.4.2:
+  /@rollup/plugin-replace/2.4.2_rollup@2.79.1:
     resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
-      '@rollup/pluginutils': 3.1.0
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       magic-string: 0.25.9
+      rollup: 2.79.1
     dev: true
 
   /@rollup/plugin-typescript/8.5.0_4rftqlfd5be2n7naerwk23djyy:
@@ -4775,8 +5427,6 @@ packages:
       tslib: '*'
       typescript: '>=3.7.0'
     peerDependenciesMeta:
-      rollup:
-        optional: true
       tslib:
         optional: true
     dependencies:
@@ -4791,9 +5441,6 @@ packages:
     engines: {node: '>=10.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       make-dir: 3.1.0
@@ -4801,28 +5448,11 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/pluginutils/3.1.0:
-    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 0.0.39
-      estree-walker: 1.0.1
-      picomatch: 2.3.1
-    dev: true
-
   /@rollup/pluginutils/3.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
@@ -5011,13 +5641,6 @@ packages:
     resolution: {integrity: sha512-tUN9EUWwGvc1WoTKxDs17KSw3G+ZWWNQ0eTbKh9YDucllN1eEcudVcJcKDK7gytcb+1IFF0JkYKpK1Qpz3+wEg==}
     dev: true
 
-  /@types/concurrently/6.4.0:
-    resolution: {integrity: sha512-CYU1eyFHsIa2IZIsb8gfUOdiewfnZcyM2Hg1Zaq95xnmB0Ix/bTRM8SttqZ2Cjy6JGPZLttHjZewVsDg1yvnJg==}
-    dependencies:
-      '@types/node': 18.8.3
-      chalk: 4.1.2
-    dev: true
-
   /@types/cross-zip/4.0.0:
     resolution: {integrity: sha512-jZRaaM3aib7qgVhCWeo76vVNJW+8+ujJzP/JHPPA4WUp5YBNMsqiyu5uYWg2eS05+jgSfb5NN8eqrAG72Ab2kA==}
     dev: true
@@ -5076,8 +5699,8 @@ packages:
     resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
     dev: true
 
-  /@types/glob/8.0.0:
-    resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
+  /@types/glob/8.0.1:
+    resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==}
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 18.8.3
@@ -5109,14 +5732,6 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest-image-snapshot/4.3.2:
-    resolution: {integrity: sha512-bJCAD1KO8bzdSmHfN+sGy6LIoHcNFA9/zRyzjQ+gJ5CZRcp9F9I5Sjl3/v1ndnyFpH22XCGVj+CUCteaXRwl3A==}
-    dependencies:
-      '@types/jest': 29.1.2
-      '@types/pixelmatch': 5.2.4
-      ssim.js: 3.5.0
-    dev: true
-
   /@types/jest/26.0.24:
     resolution: {integrity: sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==}
     dependencies:
@@ -5139,10 +5754,6 @@ packages:
     resolution: {integrity: sha512-7LeOSj7EloC5UcyOMo+1kc3S1UT3MjJxwqsMT1d2PTyvQz53w0Y0oSSk9nwZnOZubCmBvpSNGceucxiq+ZPEUw==}
     dependencies:
       '@types/geojson': 7946.0.10
-    dev: true
-
-  /@types/mime/2.0.3:
-    resolution: {integrity: sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==}
     dev: true
 
   /@types/minimatch/3.0.5:
@@ -5168,10 +5779,6 @@ packages:
     resolution: {integrity: sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==}
     dev: false
 
-  /@types/node/16.18.3:
-    resolution: {integrity: sha512-jh6m0QUhIRcZpNv7Z/rpN+ZWXOicUUQbSoWks7Htkbb9IjFQj4kzcX/xFCkjstCj5flMsN8FiSvt+q+Tcs4Llg==}
-    dev: true
-
   /@types/node/18.8.3:
     resolution: {integrity: sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==}
 
@@ -5181,12 +5788,6 @@ packages:
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
-    dev: true
-
-  /@types/pixelmatch/5.2.4:
-    resolution: {integrity: sha512-HDaSHIAv9kwpMN7zlmwfTv6gax0PiporJOipcrGsVNF3Ba+kryOZc0Pio5pn6NhisgWr7TaajlPEKTbTAypIBQ==}
-    dependencies:
-      '@types/node': 18.8.3
     dev: true
 
   /@types/plotly.js/2.12.8:
@@ -5314,7 +5915,7 @@ packages:
   /@types/shelljs/0.8.11:
     resolution: {integrity: sha512-x9yaMvEh5BEaZKeVQC4vp3l+QoFj3BXcd4aYfuKSzIIyihjdVARAadYy3SMNIz0WCCdS2vB9JL/U6GQk5PaxQw==}
     dependencies:
-      '@types/glob': 8.0.0
+      '@types/glob': 8.0.1
       '@types/node': 18.8.3
     dev: true
 
@@ -5354,12 +5955,6 @@ packages:
   /@types/warning/3.0.0:
     resolution: {integrity: sha512-t/Tvs5qR47OLOr+4E9ckN8AmP2Tf16gWq+/qA4iUGS/OOyHVO8wv2vjJuX8SNOUTJyWb+2t7wJm6cXILFnOROA==}
     dev: false
-
-  /@types/xml2js/0.4.11:
-    resolution: {integrity: sha512-JdigeAKmCyoJUiQljjr7tQG3if9NkqGUgwEUqBvV0N7LM4HyQk7UXCnusRa1lnvXAEYJ8mw8GtZWioagNztOwA==}
-    dependencies:
-      '@types/node': 18.8.3
-    dev: true
 
   /@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
@@ -5816,10 +6411,12 @@ packages:
   /acorn/7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
 
   /acorn/8.8.0:
     resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: true
 
   /add-dom-event-listener/1.1.0:
@@ -6160,6 +6757,7 @@ packages:
   /atob/2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
+    hasBin: true
     dev: true
 
   /autobind-decorator/2.4.0:
@@ -6448,6 +7046,7 @@ packages:
   /browserslist/4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001418
       electron-to-chromium: 1.4.276
@@ -7112,6 +7711,7 @@ packages:
   /cross-env/7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
     dependencies:
       cross-spawn: 7.0.3
     dev: true
@@ -7254,6 +7854,7 @@ packages:
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
+    hasBin: true
     dev: true
 
   /cssnano-preset-default/5.2.12_postcss@8.4.17:
@@ -7346,6 +7947,7 @@ packages:
 
   /cypress-image-diff-js/1.23.0_cypress@12.3.0:
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
+    hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
@@ -7659,7 +8261,6 @@ packages:
   /deepmerge/4.2.2:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /defaults/1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
@@ -7987,6 +8588,7 @@ packages:
   /envinfo/7.8.1:
     resolution: {integrity: sha512-/o+BXHmB7ocbHEAs6F2EnG0ogybVVUdkRunTT2glZU9XAaGmhqskrvKwqXuDfNjEO0LZKWdejEEpnq8aM0tOaw==}
     engines: {node: '>=4'}
+    hasBin: true
     dev: true
 
   /enzyme-shallow-equal/1.0.4:
@@ -8037,6 +8639,7 @@ packages:
 
   /errno/0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}
+    hasBin: true
     dependencies:
       prr: 1.0.1
     dev: true
@@ -8189,6 +8792,7 @@ packages:
 
   /eslint-config-prettier/8.5.0_eslint@7.32.0:
     resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -8315,6 +8919,7 @@ packages:
   /eslint/7.32.0:
     resolution: {integrity: sha512-VHZ8gX+EDfz+97jGcgyGCyRia/dPOd6Xh9yPv8Bl1+SoaIwD+a/vlrOmGRUyOYu7MwUhc7CxqeaDZU13S4+EpA==}
     engines: {node: ^10.12.0 || >=12.0.0}
+    hasBin: true
     dependencies:
       '@babel/code-frame': 7.12.11
       '@eslint/eslintrc': 0.4.3
@@ -8370,6 +8975,7 @@ packages:
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
+    hasBin: true
 
   /esquery/1.4.0:
     resolution: {integrity: sha512-cCDispWt5vHHtwMY2YrAQ4ibFkAL8RbH5YGBnZBc90MolvvfkkQcJro/aZiAQUlQ3qgrYS6D6v8Gc5G5CQsc9w==}
@@ -9499,6 +10105,7 @@ packages:
   /import-local/3.1.0:
     resolution: {integrity: sha512-ASB07uLtnDs1o6EHjKpX34BKYDSqnFerfTOJL2HvMqF70LnxpjkzDB8J44oT9pu4AMPkQwf8jl6szgvNd2tRIg==}
     engines: {node: '>=8'}
+    hasBin: true
     dependencies:
       pkg-dir: 4.2.0
       resolve-cwd: 3.0.0
@@ -10734,6 +11341,7 @@ packages:
 
   /js-yaml/3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
+    hasBin: true
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
@@ -10818,9 +11426,17 @@ packages:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
     dev: false
 
+  /json5/1.0.2:
+    resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
+    hasBin: true
+    dependencies:
+      minimist: 1.2.6
+    dev: true
+
   /json5/2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
+    hasBin: true
     dev: true
 
   /jsonfile/6.1.0:
@@ -11009,7 +11625,7 @@ packages:
     dependencies:
       big.js: 5.2.2
       emojis-list: 3.0.0
-      json5: 2.2.3
+      json5: 1.0.2
     dev: true
 
   /loader-utils/2.0.4:
@@ -11125,6 +11741,7 @@ packages:
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 
@@ -11402,6 +12019,7 @@ packages:
   /mime/2.6.0:
     resolution: {integrity: sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==}
     engines: {node: '>=4.0.0'}
+    hasBin: true
     dev: true
 
   /mimic-fn/2.1.0:
@@ -11456,6 +12074,7 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
+    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -11463,6 +12082,7 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
+    hasBin: true
     dev: true
 
   /moment/2.29.4:
@@ -11533,6 +12153,7 @@ packages:
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
     dev: true
 
   /nanomatch/1.2.13:
@@ -11563,6 +12184,7 @@ packages:
 
   /nearley/2.20.1:
     resolution: {integrity: sha512-+Mc8UaAebFzgV+KpI5n7DasuuQCHA89dmwm7JXw3TV43ukfNQ9DnBH3Mdb2g/I4Fdxc26pwimBWvjIw0UAILSQ==}
+    hasBin: true
     dependencies:
       commander: 2.20.3
       moo: 0.5.2
@@ -12624,6 +13246,7 @@ packages:
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -12661,6 +13284,7 @@ packages:
   /pretty-quick/3.1.3_prettier@2.7.1:
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
     engines: {node: '>=10.13'}
+    hasBin: true
     peerDependencies:
       prettier: '>=2.0.0'
     dependencies:
@@ -13501,6 +14125,7 @@ packages:
 
   /resolve-url/0.2.1:
     resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}
+    deprecated: https://github.com/lydell/resolve-url#deprecated
     dev: true
 
   /resolve/0.6.3:
@@ -13509,6 +14134,7 @@ packages:
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
+    hasBin: true
     dependencies:
       is-core-module: 2.10.0
       path-parse: 1.0.7
@@ -13548,12 +14174,14 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    hasBin: true
     dependencies:
       glob: 7.2.3
     dev: true
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
     dependencies:
       glob: 7.2.3
 
@@ -13572,9 +14200,6 @@ packages:
     engines: {node: '>=10.0.0'}
     peerDependencies:
       rollup: ^1.0.0 || ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       commenting: 1.1.0
       glob: 7.2.3
@@ -13633,9 +14258,6 @@ packages:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
     peerDependencies:
       rollup: ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       jest-worker: 26.6.2
@@ -13653,6 +14275,7 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -13771,6 +14394,7 @@ packages:
   /sass/1.56.1:
     resolution: {integrity: sha512-VpEyKpyBPCxE7qGDtOcdJ6fFbcpOM+Emu7uZLxVrkX8KVU/Dp5UF7WLvzqRuUhB6mqqQt1xffLoG+AndxTZrCQ==}
     engines: {node: '>=12.0.0'}
+    hasBin: true
     dependencies:
       chokidar: 3.5.3
       immutable: 4.1.0
@@ -13827,10 +14451,12 @@ packages:
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+    hasBin: true
     dev: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+    hasBin: true
     dev: true
 
   /semver/7.3.5:
@@ -13843,6 +14469,7 @@ packages:
   /semver/7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
@@ -14015,6 +14642,7 @@ packages:
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
       decode-uri-component: 0.2.2
@@ -14032,6 +14660,7 @@ packages:
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
+    deprecated: See https://github.com/lydell/source-map-url#deprecated
     dev: true
 
   /source-map/0.5.7:
@@ -14123,6 +14752,7 @@ packages:
   /sshpk/1.17.0:
     resolution: {integrity: sha512-/9HIEs1ZXGhSPE8X6Ccm7Nam1z8KcoCqPdI7ecm1N33EzAetWahvQWVqLZtaZQ+IDKX4IyA2o0gBzqIMkAagHQ==}
     engines: {node: '>=0.10.0'}
+    hasBin: true
     dependencies:
       asn1: 0.2.6
       assert-plus: 1.0.0
@@ -14134,10 +14764,6 @@ packages:
       safer-buffer: 2.1.2
       tweetnacl: 0.14.5
     dev: false
-
-  /ssim.js/3.5.0:
-    resolution: {integrity: sha512-Aj6Jl2z6oDmgYFFbQqK7fght19bXdOxY7Tj03nF+03M9gCBAjeIiO8/PlEGMfKDwYpw4q6iBqVq2YuREorGg/g==}
-    dev: true
 
   /ssr-window/3.0.0:
     resolution: {integrity: sha512-q+8UfWDg9Itrg0yWK7oe5p/XRCJpJF9OBtXfOPgSJl+u3Xd5KI328RUEvUqSMVM9CiQUEf1QdBzJMkYGErj9QA==}
@@ -14509,6 +15135,7 @@ packages:
   /terser/5.15.1:
     resolution: {integrity: sha512-K1faMUvpm/FBxjBXud0LWVAGxmvoPbZbfTCYbSgaaYQaIXI3/TdI7a7ZGA73Zrou6Q8Zmz3oeUTsp/dj+ag2Xw==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.2
       acorn: 8.8.0
@@ -14705,6 +15332,7 @@ packages:
   /ts-jest/26.5.6_hoj6rh37du6uxub6buv3fchqgy:
     resolution: {integrity: sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==}
     engines: {node: '>= 10'}
+    hasBin: true
     peerDependencies:
       jest: '>=26 <27'
       typescript: '>=3.8 <5.0'
@@ -14741,6 +15369,7 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -14917,6 +15546,7 @@ packages:
   /typescript/4.5.4:
     resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
 
   /uglify-js/3.17.4:
@@ -15016,6 +15646,7 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -15035,6 +15666,7 @@ packages:
 
   /urix/0.1.0:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
+    deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
 
   /url-parse/1.5.10:
@@ -15089,6 +15721,7 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
@@ -15265,6 +15898,7 @@ packages:
   /webpack-cli/4.10.0_webpack@5.75.0:
     resolution: {integrity: sha512-NLhDfH/h4O6UOy+0LSso42xvYypClINuMNBVVzX4vX98TmTaTUxwRbXdhucbFMd2qLaCTcLq/PdYrvi8onw90w==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
       '@webpack-cli/migrate': '*'
@@ -15312,6 +15946,7 @@ packages:
   /webpack/5.75.0_webpack-cli@4.10.0:
     resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
@@ -15410,6 +16045,7 @@ packages:
 
   /which/1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
@@ -15417,6 +16053,7 @@ packages:
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
 
