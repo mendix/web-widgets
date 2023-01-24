@@ -25,10 +25,11 @@
     "pretest:e2e": "npm run release && node ../../../scripts/test/updateAtlas.js --latest-atlas",
     "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress --no-widget-update --remove-atlas-files",
     "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
-    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "lint:fix": "npm run lint -- --fix",
     "build": "utils-react-widgets build",
-    "release": "utils-react-widgets release"
+    "release": "utils-react-widgets release",
+    "format": "prettier --write ."
   },
   "config": {
     "mendixHost": "http://localhost:8080",

@@ -14,7 +14,7 @@
     "build": "ts-node ./scripts/build.ts",
     "release:externals": "rollup --config rollup.config.js --configProduction",
     "release": "ts-node ./scripts/release.ts",
-    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "echo 'Please run eslint --init to configure eslint for this project'",
     "test": "pluggable-widgets-tools test:unit:web"
   },
   "devDependencies": {
