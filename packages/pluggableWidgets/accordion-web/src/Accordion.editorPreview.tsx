@@ -58,6 +58,7 @@ export function preview(props: AccordionPreviewProps): ReactElement {
     const expandIcon = mapPreviewIconToWebIcon(props.expandIcon);
     const collapseIcon = mapPreviewIconToWebIcon(props.collapseIcon);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const generateIcon = useIconGenerator(
         props.animateIcon,
         {

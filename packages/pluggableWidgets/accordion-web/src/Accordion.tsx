@@ -62,7 +62,8 @@ function translateGroups(groups: AccordionContainerProps["groups"]): AccordionGr
                     : group.initialCollapsedState === "collapsed",
             visible: group.visible.value!,
             dynamicClassName: group.dynamicClass?.value,
-            onToggleCompletion: group.collapsed?.setValue
+            onToggleCompletion: group.collapsed?.setValue,
+            loadContent: group.loadContent
         };
     });
 }

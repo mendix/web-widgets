@@ -3,12 +3,14 @@ import classNames from "classnames";
 import { MountOnceReady } from "./MountOnceReady";
 import "../ui/accordion-main.scss";
 
+/* eslint-disable no-unused-vars */
 export const enum Target {
     FIRST = "first",
     LAST = "last",
     PREVIOUS = "previous",
     NEXT = "next"
 }
+/* eslint-enable no-unused-vars */
 
 export type AccordionGroupIcon = { icon: ReactNode } | { expandIcon: ReactNode; collapseIcon: ReactNode };
 
@@ -26,10 +28,18 @@ export interface AccordionGroupProps {
     animateContent?: boolean;
     generateHeaderIcon?: (collapsed: boolean) => ReactElement;
     showHeaderIcon?: "right" | "left" | "no";
+    loadContent?: "always" | "whenExpanded";
 }
 
 export function AccordionGroup(props: AccordionGroupProps): ReactElement | null {
-    const { animateContent, changeFocus, showHeaderIcon, toggleCollapsed, onToggleCompletion } = props;
+    const {
+        animateContent,
+        changeFocus,
+        showHeaderIcon,
+        toggleCollapsed,
+        onToggleCompletion,
+        loadContent = "always"
+    } = props;
 
     const [renderCollapsed, setRenderCollapsed] = useState(props.collapsed);
     const previousRenderCollapsed = useRef(renderCollapsed);
@@ -38,6 +48,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const rootRef = useRef<HTMLDivElement>(null);
     const contentWrapperRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const lazyRender = loadContent === "whenExpanded";
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
@@ -178,7 +189,11 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 aria-labelledby={`${props.id}HeaderButton`}
             >
                 <div ref={contentRef} className={"widget-accordion-group-content"}>
-                    <MountOnceReady ready={!renderCollapsed}>{props.content}</MountOnceReady>
+                    {lazyRender ? (
+                        <MountOnceReady ready={!renderCollapsed}>{props.content}</MountOnceReady>
+                    ) : (
+                        props.content
+                    )}
                 </div>
             </div>
         </section>
