@@ -28,6 +28,5 @@
         "baseUrl": ".",
         "rootDir": "./",
         "outDir": "dist/tsc/"
-    },
-    "exclude": ["dist/", "tests/", "**/*.spec.ts", "**/*.specs.ts", "node_modules/"]
+    }
 }

@@ -54,6 +54,8 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.8.3",

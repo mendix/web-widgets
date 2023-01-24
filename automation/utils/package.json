@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "tsc --watch",
-    "lint": "eslint --config ../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "format": "prettier --write .",
     "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
     "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
     "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
@@ -22,6 +23,8 @@
     "version": "ts-node bin/rui-bump-version.ts"
   },
   "devDependencies": {
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/cross-zip": "^4.0.0",
     "@types/node": "^18.8.3",
     "@types/node-fetch": "2.6.2",
