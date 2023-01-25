@@ -1,32 +1,36 @@
 import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
-import { BadgePreviewProps } from "../typings/BadgeProps";
+import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { DropdownPreviewProps } from "../typings/DropdownProps";
 
-export function getPreview(values: BadgePreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getProperties(values: DropdownPreviewProps, defaultProperties: Properties): Properties {
+    if (values.optionCaption === "custom") {
+        hidePropertiesIn(defaultProperties, values, ["optionTextTemplate"]);
+    }
+    if (!values.showLabel) {
+        hidePropertiesIn(defaultProperties, values, ["labelCaption"]);
+    }
+    return defaultProperties;
+}
+
+export function getPreview(_values: DropdownPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     return {
         type: "RowLayout",
-        columnSize: "grow",
+        columnSize: "fixed",
+        backgroundColor: isDarkMode ? "#4F4F4F" : "#F5F5F5",
+        borders: true,
+        borderWidth: 1,
         children: [
             {
                 type: "Container",
+                padding: 4,
                 children: [
                     {
-                        type: "Container",
-                        children: [
-                            {
-                                type: "Text",
-                                content: values.value,
-                                fontColor: "#FFF",
-                                bold: true,
-                                fontSize: 8
-                            }
-                        ],
-                        padding: values.value ? 8 : 18
+                        type: "Text",
+                        content: "Dropdown",
+                        fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
                     }
-                ],
-                backgroundColor: isDarkMode ? "#579BF9" : "#264AE5",
-                borderRadius: values.type === "badge" ? 22 : 8
-            },
-            { type: "Container", grow: 2 }
+                ]
+            }
         ]
     };
 }
