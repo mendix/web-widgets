@@ -32,6 +32,7 @@
     "create-gh-release": "rui-create-gh-release",
     "dev": "pluggable-widgets-tools start:web",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "format": "prettier --write .",
     "publish-marketplace": "rui-publish-marketplace",
     "release": "pluggable-widgets-tools release:web",
     "start": "pluggable-widgets-tools start:server",
