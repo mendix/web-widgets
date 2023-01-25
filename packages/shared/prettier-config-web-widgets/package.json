@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "scripts": {
-    "lint": "eslint . --ext .js",
+    "lint": "eslint --ext .js .",
     "format": "prettier --write ."
   },
   "peerDependencies": {
