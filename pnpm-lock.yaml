@@ -204,6 +204,7 @@ importers:
   packages/modules/data-widgets:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
       '@types/node': ^18.8.3
       concurrently: ^6.5.1
       copy-and-watch: ^0.1.6
@@ -215,6 +216,7 @@ importers:
       datagrid-web: workspace:*
       dropdown-sort-web: workspace:*
       gallery-web: workspace:*
+      prettier: ^2.5.1
       tree-node-web: workspace:*
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -229,10 +231,12 @@ importers:
       tree-node-web: link:../../pluggableWidgets/tree-node-web
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
       '@types/node': 18.8.3
       concurrently: 6.5.1
       copy-and-watch: 0.1.6
       cross-env: 7.0.3
+      prettier: 2.7.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -5426,7 +5430,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0
+      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
       node-fetch: 2.6.8
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -8207,6 +8211,7 @@ packages:
 
   /cypress-image-diff-js/1.23.0_cypress@12.3.0:
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
+    hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
@@ -12154,8 +12159,10 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset/0.63.0:
+  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -13493,6 +13500,7 @@ packages:
   /pretty-quick/3.1.3_prettier@2.7.1:
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
     engines: {node: '>=10.13'}
+    hasBin: true
     peerDependencies:
       prettier: '>=2.0.0'
     dependencies:
@@ -13755,8 +13763,8 @@ packages:
   /react-big-calendar/0.19.2_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-cuGfM211IGM54qaOUod0IaqGQh7iBYvjeNoP2DlfLQy+oLTBtZ8y+AFwBKqGsZT2gEyBOlrgNfIBLGltlrEicA==}
     peerDependencies:
-      react: ^15.3.0 || ^16.0.0
-      react-dom: ^15.3.0 || ^16.0.0
+      react: ^15.3.0 || ^16.0.0 || ^17.0.0
+      react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0
     dependencies:
       classnames: 2.3.2
       date-arithmetic: 3.1.0
@@ -15518,6 +15526,7 @@ packages:
 
   /ts-node/10.9.1_7ecanfael6zktuygsj6z563j5a:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -16100,6 +16109,7 @@ packages:
   /webpack-cli/4.10.0_webpack@5.75.0:
     resolution: {integrity: sha512-NLhDfH/h4O6UOy+0LSso42xvYypClINuMNBVVzX4vX98TmTaTUxwRbXdhucbFMd2qLaCTcLq/PdYrvi8onw90w==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
       '@webpack-cli/migrate': '*'
@@ -16147,6 +16157,7 @@ packages:
   /webpack/5.75.0_webpack-cli@4.10.0:
     resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
