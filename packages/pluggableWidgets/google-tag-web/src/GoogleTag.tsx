@@ -79,7 +79,7 @@ export default function GoogleTag(props: GoogleTagContainerProps): ReactElement 
 }
 
 function replaceFullPathToken(value: string): string {
-    const formPath = (window as any).mx.ui.getContentForm().path;
+    const formPath = window.mx.ui.getContentForm().path;
 
     return value.replace("{{__ModuleAndPageName__}}", formPath.substring(0, formPath.length - 9));
 }

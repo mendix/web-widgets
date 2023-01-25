@@ -1,20 +1,13 @@
-interface DocumentMxGtag extends Document {
-    mxGtag?: {
-        ensureGtagIncluded: (tagId: string) => void;
-        getGtag: () => (...args: any[]) => void;
-    };
-}
-
-if ((document as DocumentMxGtag).mxGtag === undefined) {
+if (document.mxGtag === undefined) {
     // init data layer
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    const gtagMethod = function () {
+    window.dataLayer = window.dataLayer || [];
+    const gtagMethod: (...args: any[]) => void = function () {
         // eslint-disable-next-line prefer-rest-params
-        (window as any).dataLayer.push(arguments);
-    } as (...args: any[]) => void;
+        window.dataLayer.push(arguments);
+    };
 
     let isGtagIncluded = false;
-    (document as DocumentMxGtag).mxGtag = {
+    document.mxGtag = {
         getGtag() {
             return gtagMethod;
         },
@@ -36,4 +29,4 @@ if ((document as DocumentMxGtag).mxGtag === undefined) {
     };
 }
 
-export default (document as DocumentMxGtag).mxGtag;
+export default document.mxGtag;
