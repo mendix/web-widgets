@@ -1,6 +1,6 @@
 {
     "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
-    "include": ["./src", "./typings", "./scripts"],
+    "include": ["./src", "./typings"],
     "ts-node": {
         "compilerOptions": {
             "module": "commonjs"
