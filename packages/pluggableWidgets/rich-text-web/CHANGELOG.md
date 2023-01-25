@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added an indent plugin.
 
+### Changed
+
+-   We changed openlink action to open links just on mouse click (without ctrl).
+
 ## [2.1.1] - 2023-01-19
 
 ### Fixed
