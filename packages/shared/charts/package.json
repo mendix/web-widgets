@@ -14,11 +14,14 @@
     "build": "ts-node ./scripts/build.ts",
     "release:externals": "rollup --config rollup.config.js --configProduction",
     "release": "ts-node ./scripts/release.ts",
-    "lint": "echo 'Please run eslint --init to configure eslint for this project'",
+    "format": "prettier --write .",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
     "test": "pluggable-widgets-tools test:unit:web"
   },
   "devDependencies": {
+    "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@testing-library/dom": "^8.19.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
