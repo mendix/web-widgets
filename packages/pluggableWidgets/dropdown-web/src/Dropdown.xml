@@ -1,9 +1,133 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.custom.dropdown.Dropdown" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.custom.dropdown.Dropdown" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Dropdown</name>
     <description />
     <studioProCategory>Display</studioProCategory>
     <studioCategory>Display</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/dropdown</helpUrl>
-    <properties />
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="General">
+                <property key="captionText" type="textTemplate">
+                    <caption>Caption</caption>
+                    <description />
+                </property>
+
+                <property key="emptyOptionText" type="textTemplate">
+                    <caption>Empty option</caption>
+                    <description />
+                </property>
+
+                <property key="typeahead" type="enumeration" defaultValue="typeaheadContains">
+                    <caption>Typeahead</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="typeaheadNo">No</enumerationValue>
+                        <enumerationValue key="typeaheadStartWith">Starts-with</enumerationValue>
+                        <enumerationValue key="typeaheadContains">Contains</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <property key="clearable" type="boolean" defaultValue="true">
+                    <caption>Clearable</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Label">
+                <property key="showLabel" type="boolean" defaultValue="true">
+                    <caption>Show Label</caption>
+                    <description />
+                </property>
+
+                <property key="labelCaption" type="textTemplate">
+                    <caption>Label caption</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+
+            <propertyGroup caption="Data source">
+                <property key="type" type="enumeration" required="true" defaultValue="typeEnumeration">
+                    <caption>Type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="typeEnumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="typeAssociation">Association</enumerationValue>
+                        <enumerationValue key="typeCustom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <property key="customAttribute" type="association" selectableObjects="dataSource" required="false">
+                    <caption>Attribute</caption>
+                    <description />
+                    <associationTypes>
+                        <associationType name="Reference" />
+                        <associationType name="ReferenceSet" />
+                    </associationTypes>
+                </property>
+
+                <property key="customCaption" type="enumeration" defaultValue="captionEnumeration">
+                    <caption>Caption</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="captionEnumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="captionAssociation">Expression</enumerationValue>
+                        <enumerationValue key="captionCustom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <property key="dataSource" type="datasource" isList="true" required="false">
+                    <caption>Data Source</caption>
+                    <description />
+                </property>
+
+                <property key="customName" type="string" required="false" defaultValue="Chuck">
+                    <caption>Name</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+
+        <propertyGroup caption="Option">
+            <propertyGroup caption="Option">
+                <property key="optionCaption" type="enumeration" defaultValue="textTemplate">
+                    <caption>Caption</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="textTemplate">Text template</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionTextTemplate" type="textTemplate">
+                    <caption>Caption</caption>
+                    <description />
+                </property>
+                <property key="optionCustom" type="widgets" required="false">
+                    <caption>Empty placeholder</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+
+        <propertyGroup caption="Events">
+            <property key="onClickEvent" type="action" required="false">
+                <caption>On Click action</caption>
+                <description />
+            </property>
+            <property key="onEnterEvent" type="action" required="false">
+                <caption>On Enter action</caption>
+                <description />
+            </property>
+            <property key="onLeaveEvent" type="action" required="false">
+                <caption>On Leave action</caption>
+                <description />
+            </property>
+        </propertyGroup>
+
+        <propertyGroup caption="Accesibility">
+            <property key="ariaRequired" type="boolean" defaultValue="false">
+                <caption>Aria Required</caption>
+                <description />
+            </property>
+        </propertyGroup>
+    </properties>
 </widget>

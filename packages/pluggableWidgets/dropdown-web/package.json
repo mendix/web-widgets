@@ -69,6 +69,7 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "downshift": "^7.2.0"
+    "downshift": "^7.2.0",
+    "match-sorter": "^6.3.1"
   }
 }
