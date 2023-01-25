@@ -1,6 +1,6 @@
 import {
-    referenceEqualsCondition,
-    referenceSetContainsCondition
+    referenceEqualsOneOf,
+    referenceSetContainsOneOf
 } from "@mendix/pluggable-widgets-commons/dist/builders/ConditionUtils";
 import { ConditionDispatch } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { tuple } from "@mendix/pluggable-widgets-commons/dist/utils/tuple";
@@ -44,9 +44,9 @@ export function getOnChange(
                     return undefined;
                 }
                 if (association.type === "Reference") {
-                    return referenceEqualsCondition(association, values[0]);
+                    return referenceEqualsOneOf(association, values);
                 }
-                return referenceSetContainsCondition(association, values);
+                return referenceSetContainsOneOf(association, values);
             }
         });
 
