@@ -24,6 +24,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js src/",
+    "format": "echo 'Skip as actions use special format'",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
     "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
