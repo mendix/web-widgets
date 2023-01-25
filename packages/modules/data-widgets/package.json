@@ -41,7 +41,9 @@
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
     "start": "ts-node --project scripts/tsconfig.json scripts/start.ts",
-    "publish-marketplace": "rui-publish-marketplace"
+    "publish-marketplace": "rui-publish-marketplace",
+    "format": "prettier --write .",
+    "lint": "tsc --project scripts/tsconfig.json"
   },
   "dependencies": {
     "datagrid-date-filter-web": "workspace:*",
@@ -55,10 +57,12 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/node": "^18.8.3",
     "concurrently": "^6.5.1",
     "copy-and-watch": "^0.1.6",
     "cross-env": "^7.0.3",
+    "prettier": "^2.5.1",
     "ts-node": "^9.0.0",
     "typescript": "4.5.4"
   }
