@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with attribute value override when Data view update widget props.
+
+-   We fixed the issue with underline toolbar not showing after setting 'Custom toolbar' property.
+
+-   We fixed an issue with image tag being removed on content sanitization.
+
+### Added
+
+-   We added an indent plugin.
+
 ## [2.1.1] - 2023-01-19
 
 ### Fixed
