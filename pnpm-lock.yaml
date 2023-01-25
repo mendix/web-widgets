@@ -3266,7 +3266,9 @@ importers:
 
   packages/shared/pluggable-widgets-commons:
     specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
+      '@mendix/prettier-config-web-widgets': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -3300,7 +3302,9 @@ importers:
       classnames: 2.3.2
       date-fns: 2.29.3
     devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -5418,7 +5422,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.21.59661
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.20.12
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.8
       postcss: 8.4.17
       postcss-import: 14.1.0_postcss@8.4.17
@@ -9029,6 +9033,7 @@ packages:
 
   /eslint-config-prettier/8.5.0_eslint@7.32.0:
     resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -12145,10 +12150,8 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.20.12:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -15475,6 +15478,7 @@ packages:
   /ts-jest/26.5.6_hoj6rh37du6uxub6buv3fchqgy:
     resolution: {integrity: sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==}
     engines: {node: '>= 10'}
+    hasBin: true
     peerDependencies:
       jest: '>=26 <27'
       typescript: '>=3.8 <5.0'
@@ -15541,6 +15545,7 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -15812,6 +15817,7 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
