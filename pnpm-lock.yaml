@@ -3144,8 +3144,10 @@ importers:
 
   packages/shared/charts:
     specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
+      '@mendix/prettier-config-web-widgets': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
@@ -3198,7 +3200,9 @@ importers:
       react-ace: 9.5.0_sfoxds7t5ydpegc3knd667wn6m
       react-plotly.js: 2.6.0_ddzmxkikd7pkrocvtq56ts57h4
     devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
