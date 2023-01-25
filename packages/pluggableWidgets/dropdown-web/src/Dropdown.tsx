@@ -27,8 +27,7 @@ export default function Dropdown(props: DropdownContainerProps): ReactNode {
                     </div>
                     <ul {...getMenuProps()}>
                         {isOpen
-                            ? // @ts-ignore
-                              matchSorter(items, inputValue, { keys: ["value"] }).map((item, index) => (
+                            ? matchSorter(items, inputValue || "", { keys: ["value"] }).map((item, index) => (
                                   // eslint-disable-next-line react/jsx-key
                                   <li
                                       {...getItemProps({
