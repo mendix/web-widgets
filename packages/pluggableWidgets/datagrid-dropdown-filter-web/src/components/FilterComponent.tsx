@@ -181,9 +181,9 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     options.map((option, index) => (
                         <li
                             className={classNames({
-                                "filter-selected": !multiSelect && selectedFilters.includes(option)
+                                "filter-selected": !multiSelect && isSelected(selectedFilters, option)
                             })}
-                            key={index}
+                            key={`val:${option.value}`}
                             onClick={e => {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -212,7 +212,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                                     <input
                                         id={`${id}_checkbox_toggle_${index}`}
                                         type="checkbox"
-                                        checked={selectedFilters.includes(option)}
+                                        checked={isSelected(selectedFilters, option)}
                                         onChange={PreventReactErrorsAboutReadOnly}
                                     />
                                     <label htmlFor={`${id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
@@ -301,9 +301,13 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     );
 }
 
+function hasSameValue(a: FilterOption): (b: FilterOption) => boolean {
+    return b => a.value === b.value;
+}
+
 function toggleFilter(filters: FilterOption[], filterToToggle: FilterOption): FilterOption[] {
     const alteredFilters = [...filters];
-    const index = filters.indexOf(filterToToggle);
+    const index = filters.findIndex(hasSameValue(filterToToggle));
     if (index > -1) {
         alteredFilters.splice(index, 1);
     } else {
@@ -311,4 +315,8 @@ function toggleFilter(filters: FilterOption[], filterToToggle: FilterOption): Fi
     }
 
     return alteredFilters;
+}
+
+function isSelected(selected: FilterOption[], option: FilterOption): boolean {
+    return !!selected.find(hasSameValue(option));
 }
