@@ -1,6 +1,5 @@
 import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { MountOnceReady } from "./MountOnceReady";
 import "../ui/accordion-main.scss";
 
 /* eslint-disable no-unused-vars */
@@ -49,6 +48,9 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const contentWrapperRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const lazyRender = loadContent === "whenExpanded";
+    const renderContent = useRef(false);
+
+    renderContent.current ||= !lazyRender || !renderCollapsed;
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
@@ -189,11 +191,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 aria-labelledby={`${props.id}HeaderButton`}
             >
                 <div ref={contentRef} className={"widget-accordion-group-content"}>
-                    {lazyRender ? (
-                        <MountOnceReady ready={!renderCollapsed}>{props.content}</MountOnceReady>
-                    ) : (
-                        props.content
-                    )}
+                    {renderContent.current ? props.content : null}
                 </div>
             </div>
         </section>
