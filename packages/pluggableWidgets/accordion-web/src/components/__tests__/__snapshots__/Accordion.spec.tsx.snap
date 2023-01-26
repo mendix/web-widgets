@@ -76,6 +76,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -84,6 +85,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
     ]
@@ -186,6 +188,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -346,6 +349,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -468,6 +472,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -628,6 +633,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -702,6 +708,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
     index={0}
     initiallyCollapsed={true}
     key="0"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -725,6 +732,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
     index={1}
     initiallyCollapsed={true}
     key="1"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -833,6 +841,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -841,6 +850,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
     ]
@@ -964,6 +974,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -1145,6 +1156,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -1288,6 +1300,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -1469,6 +1482,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -1558,6 +1572,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -1566,6 +1581,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -1633,6 +1649,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -1723,6 +1740,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -1810,6 +1828,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -1900,6 +1919,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -1935,6 +1955,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     index={0}
     initiallyCollapsed={false}
     key="0"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -1958,6 +1979,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     index={1}
     initiallyCollapsed={false}
     key="1"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -1981,6 +2003,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     index={2}
     initiallyCollapsed={true}
     key="2"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -2019,6 +2042,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -2027,6 +2051,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -2080,6 +2105,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -2156,6 +2182,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -2229,6 +2256,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -2305,6 +2333,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -2397,6 +2426,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -2405,6 +2435,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
     ]
@@ -2514,6 +2545,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -2681,6 +2713,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -2810,6 +2843,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -2977,6 +3011,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -3080,6 +3115,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -3088,6 +3124,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -3169,6 +3206,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -3273,6 +3311,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -3374,6 +3413,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -3478,6 +3518,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -3528,6 +3569,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -3536,6 +3578,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -3603,6 +3646,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -3693,6 +3737,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -3780,6 +3825,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -3870,6 +3916,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -3905,6 +3952,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
     index={0}
     initiallyCollapsed={false}
     key="0"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -3928,6 +3976,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
     index={1}
     initiallyCollapsed={true}
     key="1"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -3965,6 +4014,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
     index={0}
     initiallyCollapsed={false}
     key="0"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -3988,6 +4038,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
     index={1}
     initiallyCollapsed={false}
     key="1"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -4026,6 +4077,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -4034,6 +4086,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -4087,6 +4140,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -4163,6 +4217,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -4236,6 +4291,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -4312,6 +4368,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -4334,6 +4391,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
         </span>,
         "header": "header",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": true,
       },
       Object {
@@ -4342,6 +4400,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
         </span>,
         "header": "header2",
         "initiallyCollapsed": true,
+        "loadContent": "always",
         "visible": false,
       },
     ]
@@ -4380,6 +4439,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
       index={0}
       initiallyCollapsed={true}
       key="0"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -4441,6 +4501,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
         header="header"
         id="idAccordionGroup0"
         key="0"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={true}
@@ -4497,6 +4558,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
       index={1}
       initiallyCollapsed={true}
       key="1"
+      loadContent="always"
       parent={
         Object {
           "current": <div
@@ -4558,6 +4620,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
         header="header2"
         id="idAccordionGroup1"
         key="1"
+        loadContent="always"
         showHeaderIcon="right"
         toggleCollapsed={[Function]}
         visible={false}
@@ -4593,6 +4656,7 @@ exports[`Accordion renders correctly without tabindex 1`] = `
     index={0}
     initiallyCollapsed={true}
     key="0"
+    loadContent="always"
     parent={
       Object {
         "current": null,
@@ -4616,6 +4680,7 @@ exports[`Accordion renders correctly without tabindex 1`] = `
     index={1}
     initiallyCollapsed={true}
     key="1"
+    loadContent="always"
     parent={
       Object {
         "current": null,

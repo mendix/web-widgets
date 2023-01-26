@@ -12,8 +12,20 @@ describe("Accordion", () => {
             style: { height: "500px" },
             tabIndex: 1,
             groups: [
-                { header: "header", content: <span>content</span>, initiallyCollapsed: true, visible: true },
-                { header: "header2", content: <span>content2</span>, initiallyCollapsed: true, visible: false }
+                {
+                    header: "header",
+                    content: <span>content</span>,
+                    initiallyCollapsed: true,
+                    visible: true,
+                    loadContent: "always"
+                },
+                {
+                    header: "header2",
+                    content: <span>content2</span>,
+                    initiallyCollapsed: true,
+                    visible: false,
+                    loadContent: "always"
+                }
             ],
             collapsible,
             singleExpandedGroup,
@@ -84,7 +96,7 @@ describe("Accordion", () => {
         it("gives the first accordion group button focus on Home key down", () => {
             const groups = [
                 ...defaultProps.groups,
-                { header: "header3", content: <span>content3</span>, visible: true }
+                { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
@@ -109,7 +121,7 @@ describe("Accordion", () => {
         it("gives the last accordion group button focus on End key down", () => {
             const groups = [
                 ...defaultProps.groups,
-                { header: "header3", content: <span>content3</span>, visible: true }
+                { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
@@ -134,7 +146,7 @@ describe("Accordion", () => {
         it("remains focus on the last accordion group button on arrow down key down", () => {
             const groups = [
                 ...defaultProps.groups,
-                { header: "header3", content: <span>content3</span>, visible: true }
+                { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
@@ -253,7 +265,13 @@ describe("Accordion", () => {
 
         it("inits with group initially collapsed settings", () => {
             const groups = [...defaultProps.groups].map(group => ({ ...group, initiallyCollapsed: false }));
-            groups.push({ header: "header3", content: <span>content3</span>, initiallyCollapsed: true, visible: true });
+            groups.push({
+                header: "header3",
+                content: <span>content3</span>,
+                initiallyCollapsed: true,
+                visible: true,
+                loadContent: "always" as const
+            });
 
             const accordion = shallow(<Accordion {...defaultProps} groups={groups} />);
             expect(accordion).toMatchSnapshot();
