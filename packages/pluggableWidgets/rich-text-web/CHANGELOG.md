@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Added 1MB file size limit for pasted and dropped images.
+
 ## [2.1.2] - 2023-01-25
 
 ### Fixed
