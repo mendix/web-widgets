@@ -1,6 +1,7 @@
 import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import "../ui/accordion-main.scss";
+import { LoadContentEnum } from "typings/AccordionProps";
 
 /* eslint-disable no-unused-vars */
 export const enum Target {
@@ -27,7 +28,7 @@ export interface AccordionGroupProps {
     animateContent?: boolean;
     generateHeaderIcon?: (collapsed: boolean) => ReactElement;
     showHeaderIcon?: "right" | "left" | "no";
-    loadContent?: "always" | "whenExpanded";
+    loadContent: LoadContentEnum;
 }
 
 export function AccordionGroup(props: AccordionGroupProps): ReactElement | null {
@@ -47,10 +48,9 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const rootRef = useRef<HTMLDivElement>(null);
     const contentWrapperRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-    const lazyRender = loadContent === "whenExpanded";
-    const renderContent = useRef(false);
+    const renderContent = useRef(loadContent === "always");
 
-    renderContent.current ||= !lazyRender || !renderCollapsed;
+    renderContent.current ||= !renderCollapsed;
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
@@ -191,7 +191,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
                 aria-labelledby={`${props.id}HeaderButton`}
             >
                 <div ref={contentRef} className={"widget-accordion-group-content"}>
-                    {renderContent.current ? props.content : null}
+                    {renderContent.current && props.content}
                 </div>
             </div>
         </section>

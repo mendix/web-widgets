@@ -32,7 +32,8 @@ export function preview(props: AccordionPreviewProps): ReactElement {
                           renderer: ({}: { caption: string; children: ReactElement }) => (
                               <div>Add groups in order to place widgets here.</div>
                           )
-                      }
+                      },
+                      loadContent: "always"
                   } as GroupsPreviewType
               ];
 
@@ -50,6 +51,7 @@ export function preview(props: AccordionPreviewProps): ReactElement {
                 <div />
             </group.content.renderer>
         ),
+        loadContent: group.loadContent,
         visible: group.visible as unknown as boolean,
         dynamicClassName: group.dynamicClass.slice(1, -1) // expression result is surrounded by single quotes
     }));

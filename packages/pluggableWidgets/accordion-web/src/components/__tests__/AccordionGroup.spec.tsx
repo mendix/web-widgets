@@ -16,7 +16,8 @@ describe("AccordionGroup", () => {
             collapsible: false,
             animateContent: false, // testing animations with Enzyme doesn't work
             generateHeaderIcon: jest.fn(),
-            showHeaderIcon: "right"
+            showHeaderIcon: "right",
+            loadContent: "always"
         };
     });
 
