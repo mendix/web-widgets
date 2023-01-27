@@ -11,7 +11,7 @@ export function getPreviewCss(): string {
     return require("./ui/accordion-main.scss");
 }
 
-export function preview(props: AccordionPreviewProps): ReactElement {
+export function PreviewComponent(props: AccordionPreviewProps): ReactElement {
     const style = parseStyle(props.style);
 
     const groups =
@@ -60,7 +60,6 @@ export function preview(props: AccordionPreviewProps): ReactElement {
     const expandIcon = mapPreviewIconToWebIcon(props.expandIcon);
     const collapseIcon = mapPreviewIconToWebIcon(props.collapseIcon);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const generateIcon = useIconGenerator(
         props.animateIcon,
         {
@@ -88,4 +87,8 @@ export function preview(props: AccordionPreviewProps): ReactElement {
             previewMode
         />
     );
+}
+
+export function preview(props: AccordionPreviewProps): ReactElement {
+    return <PreviewComponent {...props} />;
 }
