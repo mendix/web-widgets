@@ -32,14 +32,7 @@ export interface AccordionGroupProps {
 }
 
 export function AccordionGroup(props: AccordionGroupProps): ReactElement | null {
-    const {
-        animateContent,
-        changeFocus,
-        showHeaderIcon,
-        toggleCollapsed,
-        onToggleCompletion,
-        loadContent = "always"
-    } = props;
+    const { animateContent, changeFocus, showHeaderIcon, toggleCollapsed, onToggleCompletion, loadContent } = props;
 
     const [renderCollapsed, setRenderCollapsed] = useState(props.collapsed);
     const previousRenderCollapsed = useRef(renderCollapsed);
