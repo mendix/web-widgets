@@ -65,15 +65,14 @@ export function getProperties(
             ]);
         }
 
-        hideNestedPropertiesIn(
-            defaultProperties,
-            values,
-            "columns",
-            index,
-            !column.enableAssociationFilter
-                ? ["filterAssociation", "filterAssociationOptions", "filterAssociationOptionLabel"]
-                : ["sortable"]
-        );
+        if (!column.filterAssociation) {
+            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
+                "filterAssociationOptions",
+                "filterAssociationOptionLabel"
+            ]);
+        } else {
+            hidePropertyIn(defaultProperties, values, "columns", index, "sortable");
+        }
     });
     if (values.pagination !== "buttons") {
         hidePropertyIn(defaultProperties, values, "pagingPosition");
