@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Property change: Filtering tab renamed to Grid wide filtering
+
+-   Property change: Show header filters property renamed to Grid wide filters and now have a description
+
+-   Property change: Filters property now have a description
+
 ## [2.4.4] - 2023-01-09
 
 ### Fixed
