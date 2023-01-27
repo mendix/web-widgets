@@ -70,8 +70,6 @@ export function getProperties(
                 "filterAssociationOptions",
                 "filterAssociationOptionLabel"
             ]);
-        } else {
-            hidePropertyIn(defaultProperties, values, "columns", index, "sortable");
         }
     });
     if (values.pagination !== "buttons") {
@@ -297,62 +295,84 @@ export function check(values: DatagridPreviewProps): Problem[] {
 
     const columnPropPath = (prop: string, index: number): string => `columns/${index + 1}/${prop}`;
 
-    const checkAssociationSettings = (column: ColumnsPreviewType, index: number): Problem | undefined => {
-        if (!column.enableAssociationFilter) {
-            return undefined;
-        }
-
-        // filterAssociationOptions - it will be checked by studio pro.
-        const props = ["filterAssociation", "filterAssociationOptionLabel"] as const;
-        const propMessage: Record<typeof props[number], string> = {
-            filterAssociation: "association is not configured.",
-            filterAssociationOptionLabel: "caption expression is not configured."
-        };
-
-        for (const prop of props) {
-            if (!column[prop]) {
-                return {
-                    property: columnPropPath(prop, index),
-                    message: `Column error (${column.header}): ${propMessage[prop]}`
-                };
-            }
-        }
-    };
-
-    const checkColumnAttribute = (
+    const checkAssociationSettings = (
         values: DatagridPreviewProps,
         column: ColumnsPreviewType,
         index: number
     ): Problem | undefined => {
-        if (column.attribute) {
+        if (!values.columnsFilterable) {
             return;
         }
 
-        const canSort = values.columnsSortable && column.sortable;
-        if (column.showContentAs === "attribute") {
-            return {
-                property: columnPropPath("attribute", index),
-                message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column ${column.header}`
-            };
+        if (!column.filterAssociation) {
+            return;
         }
 
-        if (!column.enableAssociationFilter && (canSort || values.columnsFilterable)) {
+        // filterAssociationOptions - it will be checked by studio pro.
+
+        if (!column.filterAssociationOptionLabel) {
             return {
-                property: columnPropPath("attribute", index),
-                message: `An attribute is required when filtering or sorting is enabled. Select the 'Attribute' property for column ${column.header}`
+                property: columnPropPath("filterAssociationOptionLabel", index),
+                message: `A Caption is required when using associations. Please set 'Caption' property for column (${column.header})`
             };
         }
     };
 
-    values.columns.forEach((column: ColumnsPreviewType, index) => {
-        const associationError = checkAssociationSettings(column, index);
-        if (associationError) {
-            errors.push(associationError);
+    const checkFilteringSettings = (
+        values: DatagridPreviewProps,
+        column: ColumnsPreviewType,
+        index: number
+    ): Problem | undefined => {
+        if (!values.columnsFilterable) {
+            return;
         }
 
-        const attributeError = checkColumnAttribute(values, column, index);
-        if (attributeError) {
-            errors.push(attributeError);
+        if (!column.attribute && !column.filterAssociation) {
+            return {
+                property: columnPropPath("attribute", index),
+                message: `An attribute or reference is required when filtering is enabled. Please select 'Attribute' or 'Reference' property for column (${column.header})`
+            };
+        }
+    };
+
+    const checkDisplaySettings = (
+        _values: DatagridPreviewProps,
+        column: ColumnsPreviewType,
+        index: number
+    ): Problem | undefined => {
+        if (column.showContentAs === "attribute" && !column.attribute) {
+            return {
+                property: columnPropPath("attribute", index),
+                message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column (${column.header})`
+            };
+        }
+    };
+
+    const checkSortingSettings = (
+        values: DatagridPreviewProps,
+        column: ColumnsPreviewType,
+        index: number
+    ): Problem | undefined => {
+        if (!values.columnsSortable) {
+            return;
+        }
+
+        if (column.sortable && !column.attribute) {
+            return {
+                property: columnPropPath("attribute", index),
+                message: `An attribute is required when column sorting is enabled. Select the 'Attribute' property for column (${column.header}) or disable sorting in column settings`
+            };
+        }
+    };
+
+    const columnChecks = [checkAssociationSettings, checkFilteringSettings, checkDisplaySettings, checkSortingSettings];
+
+    values.columns.forEach((column: ColumnsPreviewType, index) => {
+        for (const check of columnChecks) {
+            const error = check(values, column, index);
+            if (error) {
+                errors.push(error);
+            }
         }
 
         if (values.columnsHidable && column.hidable !== "no" && !column.header) {
