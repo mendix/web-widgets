@@ -41,16 +41,17 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*"
+    "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@types/node": "^18.8.3"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@mendix-internal/automation-utils": "workspace:*",
-    "eslint": "^7.20.0",
+    "@mendix/pluggable-widgets-tools": "^9.18.0",
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/react": "~17.0.1",
     "@types/react-dom": "~17.0.1",
+    "eslint": "^7.20.0",
     "ts-node": "^9.0.0",
     "typescript": "4.5.4"
   }
