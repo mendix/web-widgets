@@ -14,14 +14,14 @@
     "developmentPort": 3000
   },
   "mxpackage": {
-    "name": "Drop-down",
+    "name": "Dropdown",
     "type": "widget",
     "mpkName": "com.mendix.widget.web.Dropdwon.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",
     "appNumber": -1,
-    "appName": "Dropdown"
+    "appName": "Drop-down"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
