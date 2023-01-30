@@ -1,1 +1,1 @@
-Please see [Badge](https://docs.mendix.com/appstore/widgets/badge) in the Mendix documentation for details.
+Please see [Drop-down](https://docs.mendix.com/appstore/widgets/) in the Mendix documentation for details.

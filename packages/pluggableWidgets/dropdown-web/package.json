@@ -2,7 +2,7 @@
   "name": "dropdown-web",
   "widgetName": "Dropdown",
   "version": "1.0.0",
-  "description": "Shows a value inside a colored badge or label",
+  "description": "Configurable drop-down widget with suggestions and autocomplete.",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -14,30 +14,30 @@
     "developmentPort": 3000
   },
   "mxpackage": {
-    "name": "Dropdown",
+    "name": "Drop-down",
     "type": "widget",
-    "mpkName": "Dropdown.mpk"
+    "mpkName": "com.mendix.widget.web.Dropdwon.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 50325,
+    "minimumMXVersion": "9.17.0",
+    "appNumber": -1,
     "appName": "Dropdown"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
     "branchName": "dropdown-web"
   },
-  "packagePath": "com.mendix.widget.custom",
+  "packagePath": "com.mendix.widget.web",
   "scripts": {
-    "start": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools start:server",
-    "dev": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools start:web",
-    "build": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools build:web",
+    "start": "cross-env pluggable-widgets-tools start:server",
+    "dev": "cross-env pluggable-widgets-tools start:web",
+    "build": "cross-env pluggable-widgets-tools build:web",
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
     "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps",
-    "release": "cross-env MPKOUTPUT=Dropdown.mpk pluggable-widgets-tools release:web",
+    "release": "cross-env pluggable-widgets-tools release:web",
     "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace",
     "verify": "rui-verify-package-format",
