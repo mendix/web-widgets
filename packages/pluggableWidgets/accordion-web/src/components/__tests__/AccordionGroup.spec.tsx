@@ -335,7 +335,7 @@ describe("AccordionGroup", () => {
         expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(1);
     });
 
-    it("keep widgets rendered when 'loadContent' is 'whenExpanded' and 'collapsed' prop became false", () => {
+    it("keep widgets rendered when 'loadContent' is 'whenExpanded' and 'collapsed' prop becomes true", () => {
         const accordionGroup = mount(
             <AccordionGroup
                 {...defaultAccordionGroupProps}
