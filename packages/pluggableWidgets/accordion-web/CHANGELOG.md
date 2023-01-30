@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.0] - 2023-01-30
+
 ### Added
 
 -   We added new group property ("Load content") which controls how widgets should be rendered. Use this prop if you have problems with page load time.
