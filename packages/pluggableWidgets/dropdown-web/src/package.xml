@@ -5,7 +5,7 @@
             <widgetFile path="Dropdown.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/dropdown" />
+            <file path="com/mendix/widget/web/dropdown" />
         </files>
     </clientModule>
 </package>
