@@ -6,6 +6,8 @@ import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
 import DOMPurify from "dompurify";
 
+const FILE_SIZE_LIMIT = 1000000;
+
 interface EditorProps {
     element: HTMLElement;
     widgetProps: RichTextContainerProps;
@@ -131,9 +133,7 @@ export class Editor extends Component<EditorProps> {
     onPasteContent(event: CKEditorEvent): void {
         if (event.data.dataTransfer.isFileTransfer()) {
             for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
-                console.log("paste", event.data.dataTransfer.getFile(i));
-
-                if (event.data.dataTransfer.getFile(i).size > 1000000) {
+                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
                     this.editor.showNotification(
                         `The image ${
                             event.data.dataTransfer.getFile(i).name
@@ -149,8 +149,7 @@ export class Editor extends Component<EditorProps> {
     onDropContent(event: CKEditorEvent): void {
         if (event.data.dataTransfer.isFileTransfer()) {
             for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
-                console.log("drop", event.data.dataTransfer.getFile(i));
-                if (event.data.dataTransfer.getFile(i).size > 1000000) {
+                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
                     this.editor.showNotification(
                         `The image ${
                             event.data.dataTransfer.getFile(i).name
@@ -189,6 +188,8 @@ export class Editor extends Component<EditorProps> {
     removeListeners(): void {
         this.editor?.removeListener("change", this.onChange);
         this.editor?.removeListener("key", this.onKeyPress);
+        this.editor?.removeListener("paste", this.onPasteContent);
+        this.editor?.removeListener("drop", this.onDropContent);
     }
 
     updateEditorState(
