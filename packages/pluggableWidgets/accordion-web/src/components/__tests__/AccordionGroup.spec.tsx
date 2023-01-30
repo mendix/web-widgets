@@ -295,4 +295,62 @@ describe("AccordionGroup", () => {
             expect(accordionGroup).toMatchSnapshot();
         });
     });
+
+    it("render widgets when 'loadContent' is 'always'", () => {
+        const accordionGroup = mount(
+            <AccordionGroup
+                {...defaultAccordionGroupProps}
+                collapsible
+                content={<div>Widgets</div>}
+                loadContent={"always"}
+            />
+        );
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(1);
+        expect(accordionGroup).toMatchSnapshot();
+    });
+
+    it("doesn't render widgets when 'loadContent' is 'whenExpanded'", () => {
+        const accordionGroup = mount(
+            <AccordionGroup
+                {...defaultAccordionGroupProps}
+                collapsible
+                content={<div>Widgets</div>}
+                loadContent={"whenExpanded"}
+            />
+        );
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(0);
+        expect(accordionGroup).toMatchSnapshot();
+    });
+
+    it("render widgets when 'loadContent' is 'whenExpanded' and 'collapsed' is false", () => {
+        const accordionGroup = mount(
+            <AccordionGroup
+                {...defaultAccordionGroupProps}
+                collapsible
+                content={<div>Widgets</div>}
+                loadContent={"whenExpanded"}
+                collapsed={false}
+            />
+        );
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(1);
+    });
+
+    it("keep widgets rendered when 'loadContent' is 'whenExpanded' and 'collapsed' prop became false", () => {
+        const accordionGroup = mount(
+            <AccordionGroup
+                {...defaultAccordionGroupProps}
+                collapsible
+                content={<div>Widgets</div>}
+                loadContent={"whenExpanded"}
+                collapsed
+            />
+        );
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(0);
+
+        accordionGroup.setProps({ collapsed: false });
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(1);
+
+        accordionGroup.setProps({ collapsed: true });
+        expect(accordionGroup.find({ children: "Widgets" })).toHaveLength(1);
+    });
 });
