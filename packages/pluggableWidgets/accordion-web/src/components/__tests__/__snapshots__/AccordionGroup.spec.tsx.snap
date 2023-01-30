@@ -289,6 +289,74 @@ exports[`AccordionGroup collapsible renders correctly when the group is visible 
 
 exports[`AccordionGroup doesn't render when the group isn't visible 1`] = `""`;
 
+exports[`AccordionGroup doesn't render widgets when 'loadContent' is 'whenExpanded' 1`] = `
+<AccordionGroup
+  animateContent={false}
+  collapsed={true}
+  collapsible={true}
+  content={
+    <div>
+      Widgets
+    </div>
+  }
+  dynamicClassName="class-name"
+  generateHeaderIcon={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          true,
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  header="header"
+  id="id"
+  loadContent="whenExpanded"
+  showHeaderIcon="right"
+  visible={true}
+>
+  <section
+    className="widget-accordion-group widget-accordion-group-collapsed class-name"
+  >
+    <header
+      className="widget-accordion-group-header"
+    >
+      <div
+        aria-controls="idContentWrapper"
+        aria-disabled={false}
+        aria-expanded={false}
+        className="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
+        data-focusindex={0}
+        id="idHeaderButton"
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        header
+      </div>
+    </header>
+    <div
+      aria-labelledby="idHeaderButton"
+      className="widget-accordion-group-content-wrapper"
+      data-focusindex={0}
+      id="idContentWrapper"
+      onTransitionEnd={[Function]}
+      role="region"
+    >
+      <div
+        className="widget-accordion-group-content"
+      />
+    </div>
+  </section>
+</AccordionGroup>
+`;
+
 exports[`AccordionGroup not collapsible displays the content when the group becomes visible 1`] = `
 <section
   className="widget-accordion-group class-name"
@@ -363,4 +431,76 @@ exports[`AccordionGroup not collapsible displays the content when the group is v
     </div>
   </div>
 </section>
+`;
+
+exports[`AccordionGroup render widgets when 'loadContent' is 'always' 1`] = `
+<AccordionGroup
+  animateContent={false}
+  collapsed={true}
+  collapsible={true}
+  content={
+    <div>
+      Widgets
+    </div>
+  }
+  dynamicClassName="class-name"
+  generateHeaderIcon={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          true,
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  header="header"
+  id="id"
+  loadContent="always"
+  showHeaderIcon="right"
+  visible={true}
+>
+  <section
+    className="widget-accordion-group widget-accordion-group-collapsed class-name"
+  >
+    <header
+      className="widget-accordion-group-header"
+    >
+      <div
+        aria-controls="idContentWrapper"
+        aria-disabled={false}
+        aria-expanded={false}
+        className="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
+        data-focusindex={0}
+        id="idHeaderButton"
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        header
+      </div>
+    </header>
+    <div
+      aria-labelledby="idHeaderButton"
+      className="widget-accordion-group-content-wrapper"
+      data-focusindex={0}
+      id="idContentWrapper"
+      onTransitionEnd={[Function]}
+      role="region"
+    >
+      <div
+        className="widget-accordion-group-content"
+      >
+        <div>
+          Widgets
+        </div>
+      </div>
+    </div>
+  </section>
+</AccordionGroup>
 `;
