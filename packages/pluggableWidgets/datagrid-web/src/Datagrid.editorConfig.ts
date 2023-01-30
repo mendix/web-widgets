@@ -171,7 +171,6 @@ export const getPreview = (
                   sortable: false,
                   alignment: "left",
                   wrapText: false,
-                  enableAssociationFilter: false,
                   filterAssociation: "",
                   filterAssociationOptions: {},
                   filterAssociationOptionLabel: ""

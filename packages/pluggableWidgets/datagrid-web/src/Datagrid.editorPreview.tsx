@@ -28,7 +28,6 @@ const dummyColumns: ColumnsPreviewType[] = [
         sortable: false,
         alignment: "left",
         wrapText: false,
-        enableAssociationFilter: false,
         filterAssociation: "",
         filterAssociationOptions: {},
         filterAssociationOptionLabel: ""

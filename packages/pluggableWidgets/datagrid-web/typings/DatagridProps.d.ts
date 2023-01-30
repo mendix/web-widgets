@@ -26,7 +26,6 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
-    enableAssociationFilter: boolean;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -59,7 +58,6 @@ export interface ColumnsPreviewType {
     filterAssociation: string;
     filterAssociationOptions: {} | { type: string } | null;
     filterAssociationOptionLabel: string;
-    enableAssociationFilter: boolean;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;

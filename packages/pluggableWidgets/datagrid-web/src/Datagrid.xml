@@ -88,12 +88,6 @@
                                 <returnType type="String" />
                             </property>
                         </propertyGroup>
-                        <propertyGroup caption="Association filter">
-                            <property key="enableAssociationFilter" type="boolean" defaultValue="false">
-                                <caption>Enable association filter</caption>
-                                <description>Use the Drop-down filter widget to filter on associations.</description>
-                            </property>
-                        </propertyGroup>
                         <propertyGroup caption="Column capabilities">
                             <property key="sortable" type="boolean" defaultValue="true">
                                 <caption>Can sort</caption>

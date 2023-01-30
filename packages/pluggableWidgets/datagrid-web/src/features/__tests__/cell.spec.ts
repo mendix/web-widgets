@@ -20,8 +20,7 @@ const col: ColumnsType = {
     width: "autoFill" as const,
     size: 1,
     alignment: "left" as const,
-    wrapText: false,
-    enableAssociationFilter: false
+    wrapText: false
 };
 
 describe("Datagrid useCellRenderer hook", () => {

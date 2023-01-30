@@ -27,7 +27,6 @@ export type TableColumn = Omit<
     | "filter"
     | "showContentAs"
     | "tooltip"
-    | "enableAssociationFilter"
     | "filterAssociation"
     | "filterAssociationOptions"
     | "filterAssociationOptionLabel"

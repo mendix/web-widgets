@@ -20,7 +20,7 @@ export function getAssociationProps(columnProps: ColumnsType): AssociationProper
 }
 
 export function getColumnAssociationProps(settings: ColumnsType): AssociationProperties | undefined {
-    if (!settings.enableAssociationFilter) {
+    if (!settings.filterAssociation) {
         return;
     }
 
