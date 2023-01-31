@@ -6,18 +6,28 @@
 import { CSSProperties } from "react";
 import { DynamicValue } from "mendix";
 
-export type CommandEnum = "config" | "event" | "set";
+export type WidgetModeEnum = "basic" | "advanced";
+
+export type ValueTypeEnum = "predefined" | "custom";
+
+export type PredefinedValueEnum = "pageTitle" | "pageUrl" | "pageName" | "moduleName" | "pageAndModuleName" | "sessionId" | "userLocale";
 
 export interface ParametersType {
     name: string;
-    value: DynamicValue<string>;
+    valueType: ValueTypeEnum;
+    predefinedValue: PredefinedValueEnum;
+    customValue?: DynamicValue<string>;
 }
+
+export type CommandEnum = "config" | "event";
 
 export type SendEventsOnEnum = "onRender" | "onNavigation";
 
 export interface ParametersPreviewType {
     name: string;
-    value: string;
+    valueType: ValueTypeEnum;
+    predefinedValue: PredefinedValueEnum;
+    customValue: string;
 }
 
 export interface GoogleTagContainerProps {
@@ -25,10 +35,11 @@ export interface GoogleTagContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    command: CommandEnum;
+    widgetMode: WidgetModeEnum;
     targetId?: DynamicValue<string>;
-    eventName: string;
     parameters: ParametersType[];
+    command: CommandEnum;
+    eventName: string;
     sendEventsOn: SendEventsOnEnum;
 }
 
@@ -41,9 +52,10 @@ export interface GoogleTagPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    command: CommandEnum;
+    widgetMode: WidgetModeEnum;
     targetId: string;
-    eventName: string;
     parameters: ParametersPreviewType[];
+    command: CommandEnum;
+    eventName: string;
     sendEventsOn: SendEventsOnEnum;
 }

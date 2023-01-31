@@ -11,7 +11,7 @@ if (document.mxGtag === undefined) {
         getGtag() {
             return gtagMethod;
         },
-        ensureGtagIncluded(tagId: string) {
+        ensureGtagIncluded(tagId: string): boolean {
             if (!isGtagIncluded) {
                 // include script
                 const scriptTag = document.createElement("script");
@@ -24,7 +24,11 @@ if (document.mxGtag === undefined) {
                 gtagMethod("js", new Date());
 
                 isGtagIncluded = true;
+
+                return true;
             }
+
+            return false;
         }
     };
 }

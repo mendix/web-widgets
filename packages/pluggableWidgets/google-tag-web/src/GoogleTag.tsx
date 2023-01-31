@@ -1,85 +1,88 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, createElement } from "react";
 import { GoogleTagContainerProps } from "../typings/GoogleTagProps";
-import commonGtag from "./commonGtag";
+import {
+    areParametersReady,
+    executeCommand,
+    getPredefinedValue,
+    prepareParameters,
+    useDojoOnNavigation,
+    useOnAfterRenderExecution
+} from "./utils";
 
-function executeCommand(
-    command: string,
-    eventName: string,
-    params: Record<string, string | boolean>,
-    tagId: string
-): void {
-    const gtag = commonGtag!.getGtag();
-
-    switch (command) {
-        case "config": {
-            commonGtag!.ensureGtagIncluded(tagId);
-            gtag(command, tagId, params);
-            break;
-        }
-        case "event": {
-            gtag(command, eventName, params);
-            break;
-        }
-        case "set": {
-            gtag(command, params);
-            break;
-        }
+export default function GoogleTag(props: GoogleTagContainerProps): ReactElement | null {
+    if (props.widgetMode === "basic") {
+        return <GoogleTagBasicPageView {...props} />;
+    } else {
+        return <GoogleTagAdvancedMode {...props} />;
     }
 }
 
-export default function GoogleTag(props: GoogleTagContainerProps): ReactElement | null {
-    const [needsExecution, setNeedsExecution] = useState<boolean>(props.sendEventsOn !== "onNavigation");
-
-    useEffect(() => {
-        if (props.sendEventsOn === "onNavigation") {
-            const handle = (window as any).dojo.connect((window as any).mx.ui.getContentForm(), "onNavigation", () => {
-                setNeedsExecution(true);
-            });
-
-            return () => {
-                (window as any).dojo.disconnect(handle);
-            };
-        }
-    }, [props.sendEventsOn]);
-
-    if (needsExecution) {
+function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | null {
+    const runCommands = useOnAfterRenderExecution(false, () => {
         if (props.targetId && props.targetId.status !== "available") {
             return null;
         }
-
-        for (const p of props.parameters) {
-            if (p.value.status !== "available") {
-                return null;
-            }
+        if (!areParametersReady(props.parameters)) {
+            return null;
         }
 
-        // at this point we have everything ready
-        const command = props.command;
-        const tagId = props.targetId && props.targetId.value;
-        const eventName = props.eventName;
-        const params = Object.fromEntries(
-            props.parameters.map(p => {
-                return [
-                    p.name,
-                    p.value.value === "false"
-                        ? false
-                        : p.value.value === "true"
-                        ? true
-                        : replaceFullPathToken(p.value.value)
-                ];
-            })
+        // execute config if not yet executed
+        executeCommand(
+            "config",
+            "",
+            {
+                send_page_view: false
+            },
+            props.targetId && props.targetId.value
         );
 
-        executeCommand(command, eventName, params, tagId);
+        // execute event page_view
+        executeCommand(
+            "event",
+            "page_view",
+            {
+                page_location: getPredefinedValue("pageUrl"),
+                client_id: getPredefinedValue("sessionId"),
+                language: getPredefinedValue("userLocale"),
+                page_title: getPredefinedValue("pageTitle"),
+                mx_page_name: getPredefinedValue("pageName"),
+                mx_module_name: getPredefinedValue("moduleName"),
+                ...prepareParameters(props.parameters)
+            },
+            ""
+        );
+    });
 
-        setNeedsExecution(false);
-    }
+    useDojoOnNavigation(() => {
+        runCommands();
+    });
 
     return null;
 }
 
-function replaceFullPathToken(value: string): string {
-    const formPath = window.mx.ui.getContentForm().path;
+function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | null {
+    const runCommands = useOnAfterRenderExecution(props.sendEventsOn === "onRender", () => {
+        if (props.targetId && props.targetId.status !== "available") {
+            return null;
+        }
+        if (!areParametersReady(props.parameters)) {
+            return null;
+        }
 
-    return value.replace("{{__ModuleAndPageName__}}", formPath.substring(0, formPath.length - 9));
+        // at this point we have everything ready
+        executeCommand(
+            props.command,
+            props.eventName,
+            prepareParameters(props.parameters),
+            props.targetId && props.targetId.value
+        );
+    });
+
+    useDojoOnNavigation(() => {
+        if (props.sendEventsOn === "onNavigation") {
+            runCommands();
+        }
+    });
+
+    return null;
 }
