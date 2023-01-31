@@ -6,7 +6,7 @@ import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
 import DOMPurify from "dompurify";
 
-const FILE_SIZE_LIMIT = 1000000;
+const FILE_SIZE_LIMIT = 1048576; // Binary bytes for 1MB
 
 interface EditorProps {
     element: HTMLElement;
