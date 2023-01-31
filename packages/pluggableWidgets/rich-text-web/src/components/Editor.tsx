@@ -6,12 +6,25 @@ import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
 import DOMPurify from "dompurify";
 
+const FILE_SIZE_LIMIT = 1048576; // Binary bytes for 1MB
+
 interface EditorProps {
     element: HTMLElement;
     widgetProps: RichTextContainerProps;
 }
 
 type EditorHookProps = CKEditorHookProps<never>;
+
+interface CKEditorEvent {
+    data: any;
+    listenerData: any;
+    name: string;
+    sender: { [key: string]: any };
+
+    cancel(): void;
+    removeListener(): void;
+    stop(): void;
+}
 
 export class Editor extends Component<EditorProps> {
     widgetProps: RichTextContainerProps;
@@ -31,6 +44,8 @@ export class Editor extends Component<EditorProps> {
         this.editorHookProps = this.getNewEditorHookProps();
         this.onChange = debounce(this.onChange.bind(this), 500);
         this.onKeyPress = this.onKeyPress.bind(this);
+        this.onPasteContent = this.onPasteContent.bind(this);
+        this.onDropContent = this.onDropContent.bind(this);
     }
 
     setNewRenderProps(): void {
@@ -115,6 +130,39 @@ export class Editor extends Component<EditorProps> {
         this.widgetProps.onKeyPress?.execute();
     }
 
+    onPasteContent(event: CKEditorEvent): void {
+        if (event.data.dataTransfer.isFileTransfer()) {
+            for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
+                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
+                    this.editor.showNotification(
+                        `The image ${
+                            event.data.dataTransfer.getFile(i).name
+                        } is larger than the 1MB limit. Please choose a smaller image and try again.`,
+                        "warning"
+                    );
+                    event.cancel();
+                    break;
+                }
+            }
+        }
+    }
+    onDropContent(event: CKEditorEvent): void {
+        if (event.data.dataTransfer.isFileTransfer()) {
+            for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
+                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
+                    this.editor.showNotification(
+                        `The image ${
+                            event.data.dataTransfer.getFile(i).name
+                        } is larger than the 1MB limit. Please choose a smaller image and try again.`,
+                        "warning"
+                    );
+                    event.cancel();
+                    break;
+                }
+            }
+        }
+    }
+
     // onChange is wrapped in debounce, so, we always need to check
     // weather we sill have editor.
     onChange(_event: CKEditorEventPayload<"change">): void {
@@ -132,12 +180,16 @@ export class Editor extends Component<EditorProps> {
         if (this.editor && !this.editor.readOnly) {
             this.editor.on("change", this.onChange);
             this.editor.on("key", this.onKeyPress);
+            this.editor.on("paste", this.onPasteContent);
+            this.editor.on("drop", this.onDropContent);
         }
     }
 
     removeListeners(): void {
         this.editor?.removeListener("change", this.onChange);
         this.editor?.removeListener("key", this.onKeyPress);
+        this.editor?.removeListener("paste", this.onPasteContent);
+        this.editor?.removeListener("drop", this.onDropContent);
     }
 
     updateEditorState(
