@@ -1,6 +1,5 @@
 describe("RichText", () => {
     const browserName = Cypress.browser.name;
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const getIframeBody = () => {
         // get the iframe > document > body
         // and retry until the body element is not empty
@@ -15,7 +14,7 @@ describe("RichText", () => {
                 .then(cy.wrap)
         );
     };
-    Cypress.on("uncaught:exception", (err, runnable, promise) => {
+    Cypress.on("uncaught:exception", () => {
         if (getIframeBody()) {
             return false;
         }
@@ -95,7 +94,7 @@ describe("RichText", () => {
         // For checking a different page, which is out of the localhost this test need to disable cross-origin security setting, and that's only possible when using Chrome
         // https://docs.cypress.io/guides/guides/web-security#Disabling-Web-Security
         cy.window().then(win => {
-            cy.stub(win, "open", url => {
+            cy.stub(win, "open", () => {
                 win.location.href = "https://mendix.com/";
             }).as("popup");
         });

@@ -29,7 +29,6 @@ describe("Range Slider", () => {
             const lowerBoundSizes = lowerBound.getBoundingClientRect();
             const upperBoundSizes = upperBound.getBoundingClientRect();
 
-            // eslint-disable-next-line jest/valid-expect
             expect(upperBoundSizes.x).to.be.greaterThan(lowerBoundSizes.x);
         });
     });
