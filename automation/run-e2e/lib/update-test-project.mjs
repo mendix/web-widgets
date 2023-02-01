@@ -80,8 +80,10 @@ export async function updateTestProject() {
     process.env.MX_PROJECT_PATH = resolve(process.cwd(), config.testProjectDir);
 
     if (packageMeta.scripts["e2e-update-project"]) {
+        console.log("Run e2e-update-project script");
         await runUpdateProjectScript();
     } else {
+        console.log("Run release script");
         await runReleaseScript();
     }
 }

@@ -6,8 +6,10 @@ describe("datagrid-dropdown-filter-web", () => {
     });
 
     describe("visual testing:", () => {
-        xit("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
-            cy.wait(3000);
+        it("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
+            // Waiting for snapshot setup
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid21").should("be.visible");
             cy.get(".mx-name-dataGrid21").compareSnapshot(`dataGridDropDownFilter-${browserName}`, 0.1);
         });
