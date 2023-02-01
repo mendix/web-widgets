@@ -8,23 +8,23 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="General">
-                <property key="captionText" type="textTemplate">
+                <property key="captionText" type="textTemplate" required="false">
                     <caption>Caption</caption>
                     <description />
                 </property>
 
-                <property key="emptyOptionText" type="textTemplate">
+                <property key="emptyOptionText" type="textTemplate" required="false">
                     <caption>Empty option</caption>
                     <description />
                 </property>
 
-                <property key="typeahead" type="enumeration" defaultValue="typeaheadContains">
+                <property key="typeahead" type="enumeration" defaultValue="contains">
                     <caption>Typeahead</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="typeaheadNo">No</enumerationValue>
-                        <enumerationValue key="typeaheadStartWith">Starts-with</enumerationValue>
-                        <enumerationValue key="typeaheadContains">Contains</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                        <enumerationValue key="startsWith">Starts-with</enumerationValue>
+                        <enumerationValue key="contains">Contains</enumerationValue>
                     </enumerationValues>
                 </property>
 
@@ -46,18 +46,31 @@
             </propertyGroup>
 
             <propertyGroup caption="Data source">
-                <property key="type" type="enumeration" required="true" defaultValue="typeEnumeration">
+                <property key="refValueObjects" type="datasource" isList="true" required="false">
+                    <caption>Data Source</caption>
+                    <description />
+                </property>
+
+                <property key="enumAttribute" type="attribute" required="false">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+
+                <property key="type" type="enumeration" required="true" defaultValue="enumeration">
                     <caption>Type</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="typeEnumeration">Enumeration</enumerationValue>
-                        <enumerationValue key="typeAssociation">Association</enumerationValue>
-                        <enumerationValue key="typeCustom">Custom</enumerationValue>
+                        <enumerationValue key="enumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="association">Association</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
 
-                <property key="customAttribute" type="association" selectableObjects="dataSource" required="false">
-                    <caption>Attribute</caption>
+                <property key="refValue" type="association" selectableObjects="refValueObjects" required="false">
+                    <caption>Reference</caption>
                     <description />
                     <associationTypes>
                         <associationType name="Reference" />
@@ -65,24 +78,14 @@
                     </associationTypes>
                 </property>
 
-                <property key="customCaption" type="enumeration" defaultValue="captionEnumeration">
+                <property key="customCaption" type="enumeration" defaultValue="enumeration">
                     <caption>Caption</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="captionEnumeration">Enumeration</enumerationValue>
-                        <enumerationValue key="captionAssociation">Expression</enumerationValue>
-                        <enumerationValue key="captionCustom">Custom</enumerationValue>
+                        <enumerationValue key="enumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="association">Expression</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
-                </property>
-
-                <property key="dataSource" type="datasource" isList="true" required="false">
-                    <caption>Data Source</caption>
-                    <description />
-                </property>
-
-                <property key="customName" type="string" required="false" defaultValue="Chuck">
-                    <caption>Name</caption>
-                    <description />
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -97,7 +100,7 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="optionTextTemplate" type="textTemplate">
+                <property key="optionTextTemplate" type="textTemplate" required="false">
                     <caption>Caption</caption>
                     <description />
                 </property>
