@@ -85,9 +85,7 @@ export function useDojoOnNavigation(cb: () => void): void {
     if (window.dojo) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useEffect(() => {
-            const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", () => {
-                cb();
-            });
+            const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", cb);
 
             return () => {
                 window.dojo.disconnect(handle);
@@ -96,13 +94,14 @@ export function useDojoOnNavigation(cb: () => void): void {
     }
 }
 
-export function useOnAfterRenderExecution(executeImmediately: boolean, cb: () => void): () => void {
+export function useOnAfterRenderExecution(executeImmediately: boolean, cb: () => boolean): () => void {
     const [needsExecution, setNeedsExecution] = useState<boolean>(executeImmediately);
 
     useEffect(() => {
         if (needsExecution) {
-            cb();
-            setNeedsExecution(false);
+            if (cb()) {
+                setNeedsExecution(false);
+            }
         }
     }, [needsExecution, cb]);
 

@@ -20,10 +20,10 @@ export default function GoogleTag(props: GoogleTagContainerProps): ReactElement 
 function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | null {
     const runCommands = useOnAfterRenderExecution(false, () => {
         if (props.targetId && props.targetId.status !== "available") {
-            return null;
+            return false;
         }
         if (!areParametersReady(props.parameters)) {
-            return null;
+            return false;
         }
 
         // execute config if not yet executed
@@ -51,6 +51,8 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
             },
             ""
         );
+
+        return true;
     });
 
     useDojoOnNavigation(() => {
@@ -63,10 +65,10 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
 function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | null {
     const runCommands = useOnAfterRenderExecution(props.sendEventsOn === "onRender", () => {
         if (props.targetId && props.targetId.status !== "available") {
-            return null;
+            return false;
         }
         if (!areParametersReady(props.parameters)) {
-            return null;
+            return false;
         }
 
         // at this point we have everything ready
@@ -76,6 +78,8 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
             prepareParameters(props.parameters),
             props.targetId && props.targetId.value
         );
+
+        return true;
     });
 
     if (props.sendEventsOn === "onNavigation") {
