@@ -71,16 +71,29 @@ export function executeCommand(
     }
 }
 
+let checkedDojo = false;
 export function useDojoOnNavigation(cb: () => void): void {
-    useEffect(() => {
-        const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", () => {
-            cb();
-        });
+    if (!checkedDojo) {
+        if (!window.dojo) {
+            console.error(
+                "GoogleTagWidget: `window.dojo` is not found. Listening to page navigation events is disabled."
+            );
+        }
+        checkedDojo = true;
+    }
 
-        return () => {
-            window.dojo.disconnect(handle);
-        };
-    }, [cb]);
+    if (window.dojo) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+            const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", () => {
+                cb();
+            });
+
+            return () => {
+                window.dojo.disconnect(handle);
+            };
+        }, [cb]);
+    }
 }
 
 export function useOnAfterRenderExecution(executeImmediately: boolean, cb: () => void): () => void {

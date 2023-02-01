@@ -78,11 +78,12 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
         );
     });
 
-    useDojoOnNavigation(() => {
-        if (props.sendEventsOn === "onNavigation") {
+    if (props.sendEventsOn === "onNavigation") {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useDojoOnNavigation(() => {
             runCommands();
-        }
-    });
+        });
+    }
 
     return null;
 }
