@@ -1665,8 +1665,10 @@ importers:
   packages/pluggableWidgets/google-tag-web:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.18.0
+      '@mendix/prettier-config-web-widgets': workspace:*
       '@types/big.js': ^6.0.2
       '@types/jest': ^26.0.24
       '@types/node': ^18.8.3
@@ -1680,7 +1682,9 @@ importers:
       '@types/node': 18.11.18
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
+      '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
       '@types/big.js': 6.1.6
       '@types/jest': 26.0.24
       '@types/react': 17.0.53

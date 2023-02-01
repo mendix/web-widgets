@@ -39,9 +39,9 @@ export function getPredefinedValue(
         case "pageUrl":
             return window.mx.ui.getContentForm().url ?? window.location.origin;
         case "pageName":
-            return getPathAndModule()?.[1];
+            return getPathAndModule().split("/")?.[1];
         case "moduleName":
-            return getPathAndModule()?.[0];
+            return getPathAndModule().split("/")?.[0];
         case "pageAndModuleName":
             return getPathAndModule();
         case "sessionId":
@@ -94,8 +94,8 @@ export function useDojoOnNavigation(cb: () => void): void {
     }
 }
 
-export function useOnAfterRenderExecution(executeImmediately: boolean, cb: () => boolean): () => void {
-    const [needsExecution, setNeedsExecution] = useState<boolean>(executeImmediately);
+export function useOnAfterRenderExecution(cb: () => boolean): () => void {
+    const [needsExecution, setNeedsExecution] = useState<boolean>(true);
 
     useEffect(() => {
         if (needsExecution) {

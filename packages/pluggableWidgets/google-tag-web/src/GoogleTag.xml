@@ -62,12 +62,12 @@
             <!-- / Common config options -->
 
             <!-- Advanced config options -->
-            <property key="command" type="enumeration" required="true" defaultValue="config">
-                <caption>Command type</caption>
-                <description />
+            <property key="command" type="enumeration" required="true" defaultValue="event">
+                <caption>Command</caption>
+                <description>Event can be used to send an event. Config can be used to configure advanced configuration parameters and can only be used once.</description>
                 <enumerationValues>
-                    <enumerationValue key="config">Config</enumerationValue>
                     <enumerationValue key="event">Event</enumerationValue>
+                    <enumerationValue key="config">Config</enumerationValue>
                 </enumerationValues>
             </property>
 
@@ -76,13 +76,9 @@
                 <description />
             </property>
 
-            <property key="sendEventsOn" type="enumeration" required="true" defaultValue="onRender">
-                <caption>Send command</caption>
-                <description />
-                <enumerationValues>
-                    <enumerationValue key="onRender">Immediately</enumerationValue>
-                    <enumerationValue key="onNavigation">On Page Changes</enumerationValue>
-                </enumerationValues>
+            <property key="trackPageChanges" type="boolean" required="true" defaultValue="false">
+                <caption>Track page changes</caption>
+                <description>Send the event when the page is changed.</description>
             </property>
             <!-- / Advanced config options -->
         </propertyGroup>

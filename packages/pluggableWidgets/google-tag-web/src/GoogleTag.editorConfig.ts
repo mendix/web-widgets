@@ -1,13 +1,21 @@
 import { GoogleTagPreviewProps } from "../typings/GoogleTagProps";
-import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(values: GoogleTagPreviewProps, defaultProperties: Properties): Properties {
     if (values.widgetMode === "basic") {
-        hidePropertiesIn(defaultProperties, values, ["eventName", "command", "sendEventsOn"]);
+        hidePropertiesIn(defaultProperties, values, ["command", "eventName", "trackPageChanges"]);
     } else {
         switch (values.command) {
             case "config": {
-                hidePropertiesIn(defaultProperties, values, ["eventName"]);
+                // disable predefined properties for config command
+                values.parameters.forEach((_p, index) =>
+                    hideNestedPropertiesIn(defaultProperties, values, "parameters", index, [
+                        "valueType",
+                        "predefinedValue"
+                    ])
+                );
+
+                hidePropertiesIn(defaultProperties, values, ["eventName", "trackPageChanges"]);
                 break;
             }
             case "event": {

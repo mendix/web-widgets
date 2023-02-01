@@ -18,7 +18,7 @@ export default function GoogleTag(props: GoogleTagContainerProps): ReactElement 
 }
 
 function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | null {
-    const runCommands = useOnAfterRenderExecution(false, () => {
+    const runCommands = useOnAfterRenderExecution(() => {
         if (props.targetId && props.targetId.status !== "available") {
             return false;
         }
@@ -63,7 +63,7 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
 }
 
 function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | null {
-    const runCommands = useOnAfterRenderExecution(props.sendEventsOn === "onRender", () => {
+    const runCommands = useOnAfterRenderExecution(() => {
         if (props.targetId && props.targetId.status !== "available") {
             return false;
         }
@@ -82,7 +82,7 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
         return true;
     });
 
-    if (props.sendEventsOn === "onNavigation") {
+    if (props.trackPageChanges) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useDojoOnNavigation(() => {
             runCommands();

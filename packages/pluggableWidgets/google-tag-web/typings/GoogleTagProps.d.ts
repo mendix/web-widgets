@@ -19,9 +19,7 @@ export interface ParametersType {
     customValue?: DynamicValue<string>;
 }
 
-export type CommandEnum = "config" | "event";
-
-export type SendEventsOnEnum = "onRender" | "onNavigation";
+export type CommandEnum = "event" | "config";
 
 export interface ParametersPreviewType {
     name: string;
@@ -40,7 +38,7 @@ export interface GoogleTagContainerProps {
     parameters: ParametersType[];
     command: CommandEnum;
     eventName: string;
-    sendEventsOn: SendEventsOnEnum;
+    trackPageChanges: boolean;
 }
 
 export interface GoogleTagPreviewProps {
@@ -57,5 +55,5 @@ export interface GoogleTagPreviewProps {
     parameters: ParametersPreviewType[];
     command: CommandEnum;
     eventName: string;
-    sendEventsOn: SendEventsOnEnum;
+    trackPageChanges: boolean;
 }

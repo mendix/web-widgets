@@ -34,7 +34,7 @@
     "build": "pluggable-widgets-tools build:web",
     "prerelease": "npm run lint",
     "release": "pluggable-widgets-tools release:web",
-    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
     "create-gh-release": "rui-create-gh-release",
@@ -46,7 +46,9 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.18.0",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/react": "~17.0.1",
