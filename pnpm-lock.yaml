@@ -3248,6 +3248,7 @@ importers:
       '@typescript-eslint/parser': ^5.8.1
       eslint: ^7.20.0
       eslint-config-prettier: ^8.0.0
+      eslint-plugin-cypress: ^2.12.1
       eslint-plugin-jest: ^24.1.5
       eslint-plugin-json: ^3.1.0
       eslint-plugin-prettier: ^3.3.1
@@ -3261,6 +3262,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.39.0_t4vefkid55jlyyzfonpshrjmbm
       '@typescript-eslint/parser': 5.39.0_ek2rpc4knwwiwkb7dlup4o3xyy
       eslint-config-prettier: 8.5.0_eslint@7.32.0
+      eslint-plugin-cypress: 2.12.1_eslint@7.32.0
       eslint-plugin-jest: 24.7.0_kflwomtjv4gawai4p3m2ym7bku
       eslint-plugin-prettier: 3.4.1_7gsvg5lgwpfdww3i7smtqxamuy
       eslint-plugin-promise: 4.3.1

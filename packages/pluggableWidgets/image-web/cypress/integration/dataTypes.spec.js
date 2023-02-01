@@ -18,14 +18,12 @@ describe("Image viewer", () => {
         cy.get(".mx-name-imageRender1").find("img").should("have.attr", "src", dynamicImage);
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
     xit("loads an image from a dynamic url association", () => {
         cy.visit("/p/dynamicUrlAssociation");
         cy.get(".mx-name-image1").find("img").should("have.attr", "src", dynamicImage);
     });
 
     // todo: unskip once we figure out why this spec is failing.
-    // eslint-disable-next-line jest/no-disabled-tests
     xit("loads no image when no image url is specified", () => {
         cy.visit("/p/emptyUrl");
         cy.get(".mx-name-image1.hidden").find("img").should("have.attr", "src", dynamicImageNoUrl);

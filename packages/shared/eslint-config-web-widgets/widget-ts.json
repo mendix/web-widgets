@@ -30,6 +30,7 @@
         "sourceType": "module"
     },
     "plugins": ["react", "jest", "@typescript-eslint"],
+    "ignorePatterns": ["cypress/*"],
     "rules": {
         "linebreak-style": ["error", "unix"],
         "no-unused-vars": [

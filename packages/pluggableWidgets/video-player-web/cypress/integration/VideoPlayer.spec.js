@@ -116,7 +116,6 @@ describe("Video Player", () => {
                 const [videoElement] = el;
                 const { width, height } = videoElement.getBoundingClientRect();
                 const aspectRatio = Number(width / height);
-                // eslint-disable-next-line jest/valid-expect
                 expect(aspectRatio).to.be.closeTo(16 / 9, 0.1);
             });
 
@@ -128,7 +127,6 @@ describe("Video Player", () => {
                 const [videoElement] = el;
                 const { width, height } = videoElement.getBoundingClientRect();
                 const aspectRatio = Number(width / height);
-                // eslint-disable-next-line jest/valid-expect
                 expect(aspectRatio).to.be.closeTo(3 / 2, 0.1);
             });
 
@@ -139,7 +137,6 @@ describe("Video Player", () => {
             cy.get(".mx-name-videoPlayer5").then(el => {
                 const [videoElement] = el;
                 const { width, height } = videoElement.getBoundingClientRect();
-                // eslint-disable-next-line jest/valid-expect
                 expect(width).to.be.equal(height);
             });
         });
