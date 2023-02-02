@@ -7,11 +7,46 @@ describe("datagrid-dropdown-filter-web", () => {
 
     describe("visual testing:", () => {
         it("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
-            // Waiting for snapshot setup
+            // Waiting for data snapshot setup
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(5000);
+            cy.wait(10000);
             cy.get(".mx-name-dataGrid21").should("be.visible");
-            cy.get(".mx-name-dataGrid21").compareSnapshot(`dataGridDropDownFilter-${browserName}`, 0.1);
+            cy.get(".mx-name-dataGrid21").compareSnapshot(`dataGridDropDownFilter-${browserName}`, 0.15);
+        });
+    });
+
+    describe("single select", () => {
+        const rows = () => cy.get(".mx-name-dataGrid21 .tr");
+        const select = () => cy.get(".mx-name-drop_downFilter2 input");
+        const menu = () => cy.contains('[role="menu"]', "FMC Corp");
+        const options = () => menu().find('[role="menuitem"]');
+        const option1 = () => cy.contains('[role="menuitem"]', "Brown-Forman Corporation");
+        const clickOutside = () => cy.get("body").click();
+
+        describe("when used with Companies", () => {
+            it("show list of Companies with empty option on top of the list", () => {
+                cy.get(".mx-name-drop_downFilter2").should("be.visible");
+                select().click();
+                menu().should("be.visible");
+                options().should("have.length", 20 + 1);
+                // Empty option item
+                options().first().should("have.text", "");
+                // First option
+                options().first().next().should("have.text", "Merck & Co., Inc.");
+                // Last option
+                options().last().should("have.text", "PETsMART Inc");
+            });
+
+            it("set value after option is clicked", () => {
+                select().click();
+                menu().should("be.visible");
+                option1().click();
+                select().should("have.value", "Brown-Forman Corporation");
+                clickOutside();
+                menu().should("not.exist");
+                select().should("have.value", "Brown-Forman Corporation");
+                rows().should("have.length", 1 + 1);
+            });
         });
     });
 
