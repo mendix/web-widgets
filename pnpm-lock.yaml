@@ -141,7 +141,7 @@ importers:
       date-arithmetic: ^3.1.0
       enzyme: ^3.11.0
       eslint: ^7.32.0
-      fork-ts-checker-webpack-plugin: ^7.2.14
+      fork-ts-checker-webpack-plugin: ^7.3.0
       mendix-client: ^7.15.8
       moment: ^2.29.4
       prettier: ^2.5.1
@@ -185,7 +185,7 @@ importers:
       css-loader: 6.7.3_webpack@5.75.0
       enzyme: 3.11.0
       eslint: 7.32.0
-      fork-ts-checker-webpack-plugin: 7.2.14_leot54mpvtrbhlmxtuzvyiidqe
+      fork-ts-checker-webpack-plugin: 7.3.0_leot54mpvtrbhlmxtuzvyiidqe
       mendix-client: 7.15.8
       prettier: 2.7.1
       react: 17.0.2
@@ -9604,8 +9604,8 @@ packages:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: false
 
-  /fork-ts-checker-webpack-plugin/7.2.14_leot54mpvtrbhlmxtuzvyiidqe:
-    resolution: {integrity: sha512-Tg2feh/n8k486KX0EbXVUfJj3j0xnnbKYTJw0fnIb2QdV0+lblOYZSal5ed9hARoWVwKeOC7sYE2EakSRLo5ZA==}
+  /fork-ts-checker-webpack-plugin/7.3.0_leot54mpvtrbhlmxtuzvyiidqe:
+    resolution: {integrity: sha512-IN+XTzusCjR5VgntYFgxbxVx3WraPRnKehBFrf00cMSrtUuW9MsG9dhL6MWpY6MkjC3wVwoujfCDgZZCQwbswA==}
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
       typescript: '>3.6.0'
@@ -14663,6 +14663,7 @@ packages:
   /semver/7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
