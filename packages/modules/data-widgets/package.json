@@ -25,7 +25,7 @@
   },
   "moduleFolderNameInModeler": "datawidgets",
   "marketplace": {
-    "minimumMXVersion": "9.17.0.51380",
+    "minimumMXVersion": "9.17.0",
     "appNumber": 116540,
     "appName": "Data Widgets"
   },
