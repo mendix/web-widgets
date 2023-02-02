@@ -77,7 +77,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@zxing/library": "~0.19.1",
+    "@zxing/library": "~0.19.2",
     "classnames": "^2.3.2"
   }
 }
