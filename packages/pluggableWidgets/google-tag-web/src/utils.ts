@@ -1,6 +1,6 @@
 import { GoogleTagContainerProps, ParametersType } from "../typings/GoogleTagProps";
 import commonGtag from "./commonGtag";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function areParametersReady(parameters: GoogleTagContainerProps["parameters"]): boolean {
     return parameters.every(p => p.valueType === "predefined" || p.customValue?.status === "available");
@@ -75,9 +75,7 @@ let checkedDojo = false;
 export function useDojoOnNavigation(cb: () => void): void {
     if (!checkedDojo) {
         if (!window.dojo) {
-            console.error(
-                "GoogleTagWidget: `window.dojo` is not found. Listening to page navigation events is disabled."
-            );
+            console.error("GoogleTagWidget: `window.dojo` is not found. Tracking page changes is disabled.");
         }
         checkedDojo = true;
     }
@@ -92,18 +90,4 @@ export function useDojoOnNavigation(cb: () => void): void {
             };
         }, [cb]);
     }
-}
-
-export function useOnAfterRenderExecution(cb: () => boolean): () => void {
-    const [needsExecution, setNeedsExecution] = useState<boolean>(true);
-
-    useEffect(() => {
-        if (needsExecution) {
-            if (cb()) {
-                setNeedsExecution(false);
-            }
-        }
-    }, [needsExecution, cb]);
-
-    return () => setNeedsExecution(true);
 }

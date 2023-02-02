@@ -1,12 +1,11 @@
-import { ReactElement, createElement } from "react";
+import { ReactElement, createElement, useRef } from "react";
 import { GoogleTagContainerProps } from "../typings/GoogleTagProps";
 import {
     areParametersReady,
     executeCommand,
     getPredefinedValue,
     prepareParameters,
-    useDojoOnNavigation,
-    useOnAfterRenderExecution
+    useDojoOnNavigation
 } from "./utils";
 
 export default function GoogleTag(props: GoogleTagContainerProps): ReactElement | null {
@@ -18,12 +17,17 @@ export default function GoogleTag(props: GoogleTagContainerProps): ReactElement 
 }
 
 function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | null {
-    const runCommands = useOnAfterRenderExecution(() => {
+    const needsExecution = useRef(true);
+
+    const runCommands = (): void => {
+        if (!needsExecution.current) {
+            return;
+        }
         if (props.targetId && props.targetId.status !== "available") {
-            return false;
+            return;
         }
         if (!areParametersReady(props.parameters)) {
-            return false;
+            return;
         }
 
         // execute config if not yet executed
@@ -52,23 +56,31 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
             ""
         );
 
-        return true;
-    });
+        needsExecution.current = false;
+    };
 
     useDojoOnNavigation(() => {
+        needsExecution.current = true;
         runCommands();
     });
+
+    runCommands();
 
     return null;
 }
 
 function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | null {
-    const runCommands = useOnAfterRenderExecution(() => {
+    const needsExecution = useRef(true);
+
+    const runCommand = (): void => {
+        if (!needsExecution.current) {
+            return;
+        }
         if (props.targetId && props.targetId.status !== "available") {
-            return false;
+            return;
         }
         if (!areParametersReady(props.parameters)) {
-            return false;
+            return;
         }
 
         // at this point we have everything ready
@@ -79,15 +91,18 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
             props.targetId && props.targetId.value
         );
 
-        return true;
-    });
+        needsExecution.current = false;
+    };
 
     if (props.trackPageChanges) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useDojoOnNavigation(() => {
-            runCommands();
+            needsExecution.current = true;
+            runCommand();
         });
     }
+
+    runCommand();
 
     return null;
 }
