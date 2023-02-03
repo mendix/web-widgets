@@ -24,7 +24,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-web"
+    "branchName": "datagrid-web-next"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
@@ -38,7 +38,8 @@
     "e2edev": "run-e2e dev --with-preps",
     "release": "pluggable-widgets-tools release:ts",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget"
+    "update-changelog": "rui-update-changelog-widget",
+    "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

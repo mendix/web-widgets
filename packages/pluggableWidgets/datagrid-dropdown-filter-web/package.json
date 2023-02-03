@@ -24,7 +24,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-dropdown-filter-web-assoc"
+    "branchName": "datagrid-dropdown-filter-web-next"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
