@@ -6,11 +6,11 @@
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
-export type TypeaheadEnum = "no" | "startsWith" | "contains";
-
 export type TypeEnum = "enumeration" | "association" | "custom";
 
 export type CustomCaptionEnum = "enumeration" | "association" | "custom";
+
+export type TypeaheadEnum = "no" | "startsWith" | "contains";
 
 export type OptionCaptionEnum = "textTemplate" | "custom";
 
@@ -19,17 +19,17 @@ export interface DropdownContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    captionText?: DynamicValue<string>;
+    type: TypeEnum;
+    refValueObjects?: ListValue;
+    enumAttribute?: EditableValue<string>;
+    refValue?: ReferenceValue | ReferenceSetValue;
+    customCaption: CustomCaptionEnum;
     emptyOptionText?: DynamicValue<string>;
+    captionText?: DynamicValue<string>;
     typeahead: TypeaheadEnum;
     clearable: boolean;
     showLabel: boolean;
     labelCaption: DynamicValue<string>;
-    refValueObjects?: ListValue;
-    enumAttribute?: EditableValue<string>;
-    type: TypeEnum;
-    refValue?: ReferenceValue | ReferenceSetValue;
-    customCaption: CustomCaptionEnum;
     optionCaption: OptionCaptionEnum;
     optionTextTemplate?: DynamicValue<string>;
     optionCustom?: ReactNode;
@@ -48,17 +48,17 @@ export interface DropdownPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    captionText: string;
+    type: TypeEnum;
+    refValueObjects: {} | { type: string } | null;
+    enumAttribute: string;
+    refValue: string;
+    customCaption: CustomCaptionEnum;
     emptyOptionText: string;
+    captionText: string;
     typeahead: TypeaheadEnum;
     clearable: boolean;
     showLabel: boolean;
     labelCaption: string;
-    refValueObjects: {} | { type: string } | null;
-    enumAttribute: string;
-    type: TypeEnum;
-    refValue: string;
-    customCaption: CustomCaptionEnum;
     optionCaption: OptionCaptionEnum;
     optionTextTemplate: string;
     optionCustom: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
