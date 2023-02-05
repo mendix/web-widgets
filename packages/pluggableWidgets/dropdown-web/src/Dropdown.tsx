@@ -5,7 +5,6 @@ import { matchSorter } from "match-sorter";
 // import { executeAction } from "@mendix/pluggable-widgets-commons";
 
 export default function Dropdown(props: DropdownContainerProps): ReactNode {
-    console.log("props", props.refValueObjects);
     const items = [{ value: "apple" }, { value: "pear" }, { value: "orange" }, { value: "grape" }, { value: "banana" }];
     return (
         <Downshift itemToString={item => (item ? item.value : "")}>
