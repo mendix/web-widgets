@@ -1,0 +1,25 @@
+{
+  "name": "@mendix/snapshot-generator",
+  "version": "1.0.0",
+  "description": "Generate fake data snapshot in json",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint --ext .js lib/ bin/"
+  },
+  "dependencies": {
+    "chance": "^1.1.9"
+  },
+  "devDependencies": {
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "eslint": "^7.32.0",
+    "prettier": "^2.5.1"
+  }
+}

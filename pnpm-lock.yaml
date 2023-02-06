@@ -80,6 +80,19 @@ importers:
       prettier: 2.7.1
       pretty-quick: 3.1.3_prettier@2.7.1
 
+  automation/snapshot-generator:
+    specifiers:
+      '@mendix/prettier-config-web-widgets': workspace:*
+      chance: ^1.1.9
+      eslint: ^7.32.0
+      prettier: ^2.5.1
+    dependencies:
+      chance: 1.1.9
+    devDependencies:
+      '@mendix/prettier-config-web-widgets': link:../../packages/shared/prettier-config-web-widgets
+      eslint: 7.32.0
+      prettier: 2.7.1
+
   automation/utils:
     specifiers:
       '@mendix/eslint-config-web-widgets': workspace:*
@@ -7436,6 +7449,10 @@ packages:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
+  /chance/1.1.9:
+    resolution: {integrity: sha512-TfxnA/DcZXRTA4OekA2zL9GH8qscbbl6X0ZqU4tXhGveVY/mXWvEQLt5GwZcYXTEyEFflVtj+pG8nc8EwSm1RQ==}
+    dev: false
+
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
     engines: {node: '>=10'}
@@ -13472,6 +13489,7 @@ packages:
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -14392,6 +14410,7 @@ packages:
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
     dependencies:
       glob: 7.2.3
 
@@ -14663,6 +14682,7 @@ packages:
   /semver/7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
