@@ -1,0 +1,71 @@
+{
+  "name": "any-chart-web",
+  "version": "3.0.2",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "private": true,
+  "mxpackage": {
+    "name": "AnyChart",
+    "type": "widget",
+    "mpkName": "AnyChart.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "9.6.0",
+    "appName": "AnyChart",
+    "appNumber": -1
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "charts"
+  },
+  "packagePath": "com.mendix.widget.custom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets"
+  },
+  "scripts": {
+    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production"
+  },
+  "devDependencies": {
+    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@types/core-js": "^0.9.46",
+    "@types/node": "^18.8.3",
+    "@types/plotly.js": "~1.36.1",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.18",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "file-loader": "^6.2.0",
+    "mendix-client": "^7.15.8",
+    "mini-css-extract-plugin": "^2.7.2",
+    "raw-loader": "^4.0.2",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
+    "sass-loader": "^13.2.0",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^9.0.0",
+    "typescript": "4.5.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "ace-builds": "^1.4.13",
+    "classnames": "^2.3.2",
+    "date-format": "^4.0.14",
+    "deep-equal": "^2.1.0",
+    "deepmerge": "^4.2.2",
+    "fast-json-patch": "^3.1.1",
+    "json-source-map": "^0.6.1",
+    "plotly.js": "^1.58.5",
+    "react-ace": "^9.4.4",
+    "react-redux": "^8.0.5",
+    "react-resize-detector": "^8.0.3",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2"
+  }
+}
