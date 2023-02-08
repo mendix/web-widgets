@@ -33,7 +33,7 @@
     "enquirer": "^2.3.6",
     "eslint": "^7.32.0",
     "execa": "^5.1.1",
-    "fast-xml-parser": "^4.0.14",
+    "fast-xml-parser": "^4.1.1",
     "node-fetch": "^2.6.8",
     "ora": "^5.4.1",
     "peggy": "^1.2.0",
