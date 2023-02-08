@@ -14,12 +14,11 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
-    "appName": "AnyChart",
-    "appNumber": -1
+    "appName": "AnyChart"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "charts"
+    "branchName": "anychart-buildingblocks"
   },
   "packagePath": "com.mendix.widget.custom",
   "repository": {
@@ -33,7 +32,6 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/core-js": "^0.9.46",
     "@types/node": "^18.8.3",
     "@types/plotly.js": "~1.36.1",
     "@types/react": "^17.0.53",
