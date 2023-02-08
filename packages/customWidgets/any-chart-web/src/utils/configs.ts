@@ -1,5 +1,5 @@
 import { Config, Layout, Transform } from "plotly.js";
-import deepMerge from "deepmerge";
+import * as deepMerge from "deepmerge";
 import { Data } from "./namespaces";
 
 export const configs: SharedConfigs = {
@@ -33,7 +33,8 @@ export const fetchThemeConfigs = (type: ChartType): Promise<ChartConfigs> =>
     new Promise<ChartConfigs>((resolve, reject) => {
         try {
             const cacheBurst = window.dojoConfig.cacheBust;
-            window.fetch(`${window.mx.remoteUrl}com.mendix.charts.json?${cacheBurst}`)
+            window
+                .fetch(`${window.mx.remoteUrl}com.mendix.charts.json?${cacheBurst}`)
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -62,8 +63,8 @@ export const processChartConfigs = (type: ChartType, themeConfigs: ThemeConfigs)
         const chartConfigs = (charts as any)[type];
 
         return {
-            layout: deepMerge.all([ sharedLayout, (chartConfigs && chartConfigs.layout) || {} ]),
-            configuration: deepMerge.all([ sharedConfiguration, (chartConfigs && chartConfigs.configuration) || {} ]),
+            layout: deepMerge.all([sharedLayout, (chartConfigs && chartConfigs.layout) || {}]),
+            configuration: deepMerge.all([sharedConfiguration, (chartConfigs && chartConfigs.configuration) || {}]),
             data: (chartConfigs && chartConfigs.data) || {}
         };
     }
@@ -73,8 +74,17 @@ export const processChartConfigs = (type: ChartType, themeConfigs: ThemeConfigs)
 
 export const arrayOverwrite = (_destinationArray: any[], sourceArray: any[]) => sourceArray;
 
-export type ChartType = "LineChart" | "BubbleChart" | "PieChart" | "HeatMap" | "AnyChart" |
-    "PolarChart" | "BarChart" | "AreaChart" | "TimeSeries" | "ColumnChart";
+export type ChartType =
+    | "LineChart"
+    | "BubbleChart"
+    | "PieChart"
+    | "HeatMap"
+    | "AnyChart"
+    | "PolarChart"
+    | "BarChart"
+    | "AreaChart"
+    | "TimeSeries"
+    | "ColumnChart";
 
 interface SharedConfigs {
     layout: Partial<Layout>;
@@ -99,15 +109,19 @@ export interface ThemeConfigs extends SharedConfigs {
 export const getTransforms = (series: Data.SeriesProps, traces: Data.ScatterTrace): Transform[] | undefined => {
     const { aggregationType } = series;
     if (aggregationType !== "none" && traces) {
-        return [ {
-            type: "aggregate",
-            groups: traces.x,
-            aggregations: [ {
-                target: "y",
-                func: aggregationType,
-                enabled: true
-            } ]
-        } as Transform ];
+        return [
+            {
+                type: "aggregate",
+                groups: traces.x,
+                aggregations: [
+                    {
+                        target: "y",
+                        func: aggregationType,
+                        enabled: true
+                    }
+                ]
+            } as Transform
+        ];
     }
 
     return undefined;
