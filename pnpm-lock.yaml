@@ -698,7 +698,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
-      '@zxing/library': ~0.19.1
+      '@zxing/library': ~0.19.2
       classnames: ^2.3.2
       enzyme: ^3.11.0
       eslint: ^7.32.0
@@ -714,7 +714,7 @@ importers:
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
-      '@zxing/library': 0.19.1
+      '@zxing/library': 0.19.2
       classnames: 2.3.2
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
@@ -6592,8 +6592,8 @@ packages:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
     dev: true
 
-  /@zxing/library/0.19.1:
-    resolution: {integrity: sha512-rKwvl3Uuqs8yf364iU9l3HDDaIx8yPv+CH6DbtQaQr67VdKLG22G1ukEp9fOdDefE6tpLtRAdMnTrgtpiaKAZw==}
+  /@zxing/library/0.19.2:
+    resolution: {integrity: sha512-0aCQIbGXsDHcBuRYuZRZfJeLRYiPfdLxIlh5bY7k+k2bkxFwzla+75VyFi1rnjU5hqaZogdSH+Dw013YDsQOjg==}
     engines: {node: '>= 10.4.0'}
     dependencies:
       ts-custom-error: 3.3.1
