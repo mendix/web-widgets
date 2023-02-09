@@ -48,7 +48,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@testing-library/dom": "^8.19.1",
+    "@testing-library/dom": "^8.20.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.7.0",
