@@ -150,7 +150,7 @@ importers:
       react-dnd: 2.6.0
       react-dnd-html5-backend: ^5.0.1
       react-dom: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       sass: ^1.56.1
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
@@ -286,7 +286,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -354,7 +354,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -424,7 +424,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -495,7 +495,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -566,7 +566,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -637,7 +637,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -709,7 +709,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -781,7 +781,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -853,7 +853,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       swiper: ~6.8.4
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -913,7 +913,7 @@ importers:
       line-chart-web: workspace:*
       pie-doughnut-chart-web: workspace:*
       prettier: ^2.5.1
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       time-series-chart-web: workspace:*
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -974,7 +974,7 @@ importers:
       react-color: ^2.19.3
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1048,7 +1048,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1122,7 +1122,7 @@ importers:
       react-datepicker: ^4.6.0
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       string.prototype.replaceall: ^1.0.7
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -1198,7 +1198,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1271,7 +1271,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1342,7 +1342,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1413,7 +1413,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1484,7 +1484,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1553,7 +1553,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1623,7 +1623,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1696,7 +1696,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1768,7 +1768,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1838,7 +1838,7 @@ importers:
       react-dom: ~17.0.2
       react-overlays: ^5.0.1
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1908,7 +1908,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1979,7 +1979,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2059,7 +2059,7 @@ importers:
       react-dom: ~17.0.2
       react-leaflet: ^2.6.3
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2140,7 +2140,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2212,7 +2212,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2282,7 +2282,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2354,7 +2354,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2431,7 +2431,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2508,7 +2508,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2588,7 +2588,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       recursive-copy: ^2.0.14
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       through2: ^4.0.2
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -2674,7 +2674,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2750,7 +2750,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2822,7 +2822,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2893,7 +2893,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -2965,7 +2965,7 @@ importers:
       react-dom: ~17.0.2
       react-popper: ^2.2.5
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -3037,7 +3037,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -3107,7 +3107,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -3305,7 +3305,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
-      rollup: ^2.68.0
+      rollup: ^2.79.1
       typescript: 4.5.4
     dependencies:
       '@types/jest': 26.0.24
@@ -14494,6 +14494,7 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
