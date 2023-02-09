@@ -38,7 +38,7 @@ importers:
       cross-zip: ^4.0.0
       cypress: ^12.3.0
       cypress-image-diff-js: ^1.23.0
-      cypress-terminal-report: ^5.0.0
+      cypress-terminal-report: ^5.0.2
       enquirer: ^2.3.6
       eslint: ^7.32.0
       eslint-plugin-cypress: ^2.12.1
@@ -53,7 +53,7 @@ importers:
       cross-zip: 4.0.0
       cypress: 12.3.0
       cypress-image-diff-js: 1.23.0_cypress@12.3.0
-      cypress-terminal-report: 5.0.0_cypress@12.3.0
+      cypress-terminal-report: 5.0.2_cypress@12.3.0
       enquirer: 2.3.6
       eslint: 7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
@@ -8236,8 +8236,8 @@ packages:
       humanize-duration: 3.27.3
     dev: false
 
-  /cypress-terminal-report/5.0.0_cypress@12.3.0:
-    resolution: {integrity: sha512-X5JVRB2fs/KbZJU19qLjzcLidA2TO4g5dm4ya4XDXLoGvtEDI9XWSX+E8CFC25wzbvczIboWGBxLKSsDRZrTBw==}
+  /cypress-terminal-report/5.0.2_cypress@12.3.0:
+    resolution: {integrity: sha512-YJ6HODTvxKD0FYQX2p3f1DlBRcJcMJjRh3JWZZrBte4dQdnTuIElb4jPh3zbcqsV4MJ+QwF6XyJoXybZgg6kHg==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
