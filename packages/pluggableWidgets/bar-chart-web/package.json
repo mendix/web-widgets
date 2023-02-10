@@ -34,9 +34,6 @@
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
-    "pretest:e2e": "NODE_OPTIONS=--max_old_space_size=4096 npm run release:with-deps && node ../../../scripts/test/updateAtlas.js --latest-atlas",
-    "test:e2e": "echo 'Skipping e2e tests'",
-    "test:e2e:local": "echo 'Skipping e2e tests'",
     "release": "pluggable-widgets-tools release:web",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget"
