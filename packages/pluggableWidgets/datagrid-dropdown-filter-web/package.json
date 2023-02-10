@@ -19,12 +19,12 @@
     "type": "widget"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.17.0",
     "appName": "Drop-down Filter"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-dropdown-filter-web"
+    "branchName": "datagrid-dropdown-filter-web-next"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
@@ -38,7 +38,8 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
     "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
+    "e2edev": "run-e2e dev --with-preps",
+    "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

@@ -19,7 +19,7 @@
     "type": "widget"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.17.0",
     "appName": "Gallery"
   },
   "testProject": {

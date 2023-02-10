@@ -1,7 +1,7 @@
 {
   "name": "datagrid-web",
   "widgetName": "Datagrid",
-  "version": "2.4.4",
+  "version": "2.6.0",
   "description": "",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "private": true,
@@ -19,12 +19,12 @@
     "type": "widget"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.17.0",
     "appName": "Data Grid 2"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-web"
+    "branchName": "datagrid-web-next"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
@@ -38,7 +38,8 @@
     "e2edev": "run-e2e dev --with-preps",
     "release": "pluggable-widgets-tools release:ts",
     "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget"
+    "update-changelog": "rui-update-changelog-widget",
+    "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

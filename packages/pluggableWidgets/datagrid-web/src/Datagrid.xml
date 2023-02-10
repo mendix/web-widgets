@@ -70,15 +70,9 @@
                                 <caption>Filter</caption>
                                 <description />
                             </property>
-                        </propertyGroup>
-                        <propertyGroup caption="Association filter">
-                            <property key="enableAssociationFilter" type="boolean" defaultValue="false">
-                                <caption>Enable association filter</caption>
-                                <description>Use the Drop-down filter widget to filter on associations.</description>
-                            </property>
                             <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
                                 <caption>Reference</caption>
-                                <description />
+                                <description>Set the reference to enable filtering over association with the Drop-down filter widget.</description>
                                 <associationTypes>
                                     <associationType name="Reference" />
                                     <associationType name="ReferenceSet" />
@@ -89,8 +83,8 @@
                                 <description>The options to show in the Drop-down filter widget.</description>
                             </property>
                             <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
-                                <caption>Caption</caption>
-                                <description>The caption of the option.</description>
+                                <caption>Option caption</caption>
+                                <description />
                                 <returnType type="String" />
                             </property>
                         </propertyGroup>
@@ -236,15 +230,15 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Filtering">
-            <propertyGroup caption="Filters">
+        <propertyGroup caption="Grid wide filtering">
+            <propertyGroup caption="Grid wide filtering">
                 <property key="showHeaderFilters" type="boolean" defaultValue="false">
-                    <caption>Show header filters</caption>
-                    <description />
+                    <caption>Grid wide filters</caption>
+                    <description>When enabled and at least one filter is configured below, there is a dropzone available above the grid. Filter widgets can be added here to filter over multiple attributes/columns instead of a single column. To filter per column, check the column configuration.</description>
                 </property>
                 <property key="filterList" type="object" isList="true" required="false">
                     <caption>Filters</caption>
-                    <description />
+                    <description>The list of attributes that are used by the filter widgets placed in the grid wide dropzone. Filtering over associations it not supported.</description>
                     <properties>
                         <propertyGroup caption="General">
                             <property key="filter" type="attribute" dataSource="../datasource">

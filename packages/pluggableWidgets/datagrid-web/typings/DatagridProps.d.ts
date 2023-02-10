@@ -23,7 +23,6 @@ export interface ColumnsType {
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
-    enableAssociationFilter: boolean;
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
@@ -56,7 +55,6 @@ export interface ColumnsPreviewType {
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    enableAssociationFilter: boolean;
     filterAssociation: string;
     filterAssociationOptions: {} | { type: string } | null;
     filterAssociationOptionLabel: string;
