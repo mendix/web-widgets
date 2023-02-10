@@ -39,7 +39,7 @@
                             </enumerationValues>
                         </property>
                         <property key="predefinedValue" type="enumeration" defaultValue="pageName">
-                            <caption>Value</caption>
+                            <caption>Standard value</caption>
                             <description />
                             <enumerationValues>
                                 <enumerationValue key="pageTitle">Page Title</enumerationValue>
@@ -52,7 +52,7 @@
                             </enumerationValues>
                         </property>
                         <property key="customValue" type="expression" required="false">
-                            <caption>Value</caption>
+                            <caption>Custom value</caption>
                             <description />
                             <returnType type="String" />
                         </property>

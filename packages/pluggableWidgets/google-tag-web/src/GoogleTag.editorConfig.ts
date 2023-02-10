@@ -4,6 +4,7 @@ import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@
 export function getProperties(values: GoogleTagPreviewProps, defaultProperties: Properties): Properties {
     if (values.widgetMode === "basic") {
         hidePropertiesIn(defaultProperties, values, ["command", "eventName", "trackPageChanges"]);
+        handleValueTypes(values, defaultProperties);
     } else {
         switch (values.command) {
             case "config": {
@@ -20,12 +21,23 @@ export function getProperties(values: GoogleTagPreviewProps, defaultProperties: 
             }
             case "event": {
                 hidePropertiesIn(defaultProperties, values, ["targetId"]);
+                handleValueTypes(values, defaultProperties);
                 break;
             }
         }
     }
 
     return defaultProperties;
+}
+
+function handleValueTypes(values: GoogleTagPreviewProps, defaultProperties: Properties): void {
+    values.parameters.forEach((p, index) => {
+        if (p.valueType === "predefined") {
+            hideNestedPropertiesIn(defaultProperties, values, "parameters", index, ["customValue"]);
+        } else {
+            hideNestedPropertiesIn(defaultProperties, values, "parameters", index, ["predefinedValue"]);
+        }
+    });
 }
 
 export function check(values: GoogleTagPreviewProps): Problem[] {
