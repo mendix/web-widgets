@@ -39,10 +39,7 @@
     "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps"
   },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",

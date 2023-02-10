@@ -10,10 +10,7 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "license": "Apache-2.0",
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "mxpackage": {
     "name": "DatagridDateFilter",
     "type": "widget"

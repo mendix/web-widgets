@@ -9,10 +9,7 @@
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "mxpackage": {
     "name": "ProgressCircle",
     "type": "widget",
