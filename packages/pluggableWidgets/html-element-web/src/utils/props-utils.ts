@@ -135,7 +135,7 @@ const voidElements = [
     "textarea"
 ] as const;
 
-export type VoidElement = typeof voidElements[number];
+export type VoidElement = (typeof voidElements)[number];
 
 export function isVoidElement(tag: unknown): tag is VoidElement {
     return voidElements.includes(tag as VoidElement);
