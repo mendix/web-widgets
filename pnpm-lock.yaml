@@ -164,7 +164,7 @@ importers:
       react-dnd-html5-backend: ^5.0.1
       react-dom: ~17.0.2
       rollup: ^2.79.1
-      sass: ^1.56.1
+      sass: ^1.58.0
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
       to-string-loader: ^1.1.6
@@ -204,8 +204,8 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       rollup: 2.79.1
-      sass: 1.56.1
-      sass-loader: 13.2.0_sass@1.56.1+webpack@5.75.0
+      sass: 1.58.0
+      sass-loader: 13.2.0_sass@1.58.0+webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
       to-string-loader: 1.2.0
       ts-loader: 9.4.2_leot54mpvtrbhlmxtuzvyiidqe
@@ -5465,7 +5465,7 @@ packages:
       rollup-plugin-postcss: 4.0.2_hmn4uwjmj2tco6fs55wts3jqwy
       rollup-plugin-re: 1.0.7
       rollup-plugin-terser: 7.0.2_rollup@2.79.1
-      sass: 1.55.0
+      sass: 1.58.0
       semver: 7.3.8
       shelljs: 0.8.5
       ts-jest: 26.5.6_hoj6rh37du6uxub6buv3fchqgy
@@ -14595,7 +14595,7 @@ packages:
       - supports-color
     dev: true
 
-  /sass-loader/13.2.0_sass@1.56.1+webpack@5.75.0:
+  /sass-loader/13.2.0_sass@1.58.0+webpack@5.75.0:
     resolution: {integrity: sha512-JWEp48djQA4nbZxmgC02/Wh0eroSUutulROUusYJO9P9zltRbNN80JCBHqRGzjd4cmZCa/r88xgfkjGD0TXsHg==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
@@ -14616,22 +14616,14 @@ packages:
     dependencies:
       klona: 2.0.5
       neo-async: 2.6.2
-      sass: 1.56.1
+      sass: 1.58.0
       webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
-  /sass/1.55.0:
-    resolution: {integrity: sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==}
+  /sass/1.58.0:
+    resolution: {integrity: sha512-PiMJcP33DdKtZ/1jSjjqVIKihoDc6yWmYr9K/4r3fVVIEDAluD0q7XZiRKrNJcPK3qkLRF/79DND1H5q1LBjgg==}
     engines: {node: '>=12.0.0'}
-    dependencies:
-      chokidar: 3.5.3
-      immutable: 4.1.0
-      source-map-js: 1.0.2
-    dev: true
-
-  /sass/1.56.1:
-    resolution: {integrity: sha512-VpEyKpyBPCxE7qGDtOcdJ6fFbcpOM+Emu7uZLxVrkX8KVU/Dp5UF7WLvzqRuUhB6mqqQt1xffLoG+AndxTZrCQ==}
-    engines: {node: '>=12.0.0'}
+    hasBin: true
     dependencies:
       chokidar: 3.5.3
       immutable: 4.1.0
