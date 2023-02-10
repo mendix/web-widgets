@@ -1,0 +1,2 @@
+snapshots/*
+!snapshots/employee-sample-*.json
