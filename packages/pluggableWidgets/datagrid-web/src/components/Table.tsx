@@ -270,7 +270,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         <div className={classNames(className, "widget-datagrid")} style={styles}>
             <div className="table" role="table">
                 <div className="table-header" role="rowgroup">
-                    {pagingPosition === "top" && pagination}
+                    {pagination && (pagingPosition === "top" || pagingPosition === "both")}
                 </div>
                 {headerFilters && (
                     <div className="header-filters" role="rowgroup" aria-label={filtersTitle}>
@@ -361,7 +361,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         ))}
                 </InfiniteBody>
                 <div className="table-footer" role="rowgroup">
-                    {pagingPosition === "bottom" && pagination}
+                    {pagination && (pagingPosition === "bottom" || pagingPosition === "both")}
                 </div>
             </div>
         </div>
