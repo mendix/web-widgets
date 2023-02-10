@@ -13,38 +13,55 @@
     "branchName": "signature-web"
   },
   "license": "Apache-2.0",
+  "mxpackage": {
+    "name": "Signature",
+    "type": "widget",
+    "mpkName": "Signature.mpk"
+  },
+  "packagePath": "com.mendix.widget.custom",
   "marketplace": {
     "minimumMXVersion": "7.13.1",
+    "appName": "Signature",
     "appNumber": 107984
   },
   "scripts": {
-    "start": "utils-react-widgets start",
-    "dev": "utils-react-widgets dev",
-    "test": "npm run test:unit",
-    "test:unit": "jest --config ../../../scripts/test/jest.web.config.js",
-    "pretest:e2e": "npm run release && node ../../../scripts/test/updateAtlas.js --latest-atlas",
-    "test:e2e": "pluggable-widgets-tools test:e2e:web:cypress --no-widget-update --remove-atlas-files",
-    "test:e2e:local": "pluggable-widgets-tools test:e2e:web:cypress:local -- --config-file ../../../configs/e2e/cypress/cypress.json",
+    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+    "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/ cypress/",
-    "lint:fix": "npm run lint -- --fix",
-    "build": "utils-react-widgets build",
-    "release": "utils-react-widgets release",
-    "format": "prettier --write ."
-  },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
+    "test": "pluggable-widgets-tools test:unit:web"
   },
   "devDependencies": {
-    "@mendix/custom-widgets-utils-internal": "workspace:*",
-    "@mendix/pluggable-widgets-tools": ">=9.20.0",
-    "@types/classnames": "^2.2.6",
+    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@types/enzyme": "^3.10.12",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^18.8.3",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.18",
     "@types/react-resize-detector": "^5.0.0",
+    "css-loader": "^6.7.3",
     "eslint": "^7.32.0",
-    "jest": "^26.6.3"
+    "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.4.0",
+    "mendix-client": "^7.15.8",
+    "mini-css-extract-plugin": "^2.7.2",
+    "prettier": "^2.5.1",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
+    "rollup": "^2.79.1",
+    "sass-loader": "^13.2.0",
+    "to-string-loader": "^1.1.6",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^9.1.1",
+    "typescript": "4.5.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.2",
     "react-resize-detector": "^5.2.0",
     "signature_pad": "https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz"
   },

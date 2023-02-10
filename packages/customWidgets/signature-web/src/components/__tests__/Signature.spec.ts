@@ -2,6 +2,7 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
 
 import { Signature, SignatureProps } from "../Signature";
+import "jest-canvas-mock";
 
 describe("Signature", () => {
     const renderCanvas = (props: SignatureProps): ShallowWrapper<SignatureProps, any> =>
