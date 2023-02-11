@@ -106,7 +106,7 @@ export const ModulePackageSchema = PackageSchema.extend({
     moduleFolderNameInModeler: z
         .string()
         .min(3)
-        .regex(/^[a-z_]+$/m, "Expected to be writtern in snakecase (eg. data_stack)")
+        .regex(/^[a-z_]+$/m, "Expected to be written in snake_case (eg. my_first_module)")
 });
 
 export const JSActionsPackageSchema = PackageSchema.extend({
