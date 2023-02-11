@@ -12,6 +12,7 @@
   "mxpackage": {
     "name": "DataWidgets",
     "type": "module",
+    "mpkName": "DataWidgets.mpk",
     "dependencies": [
       "datagrid-date-filter-web",
       "datagrid-dropdown-filter-web",

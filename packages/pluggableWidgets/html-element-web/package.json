@@ -12,7 +12,8 @@
   "config": {},
   "mxpackage": {
     "name": "HTMLElement",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.HTMLElement.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.12.0",

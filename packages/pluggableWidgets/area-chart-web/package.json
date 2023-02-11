@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "AreaChart",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.AreaChart.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

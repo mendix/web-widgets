@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "TreeNode",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.TreeNode.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",

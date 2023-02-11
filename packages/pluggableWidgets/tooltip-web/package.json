@@ -12,7 +12,8 @@
   "config": {},
   "mxpackage": {
     "name": "Tooltip",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.Tooltip.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

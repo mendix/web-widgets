@@ -12,7 +12,8 @@
   "config": {},
   "mxpackage": {
     "name": "LanguageSelector",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.LanguageSelector.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.12.6",

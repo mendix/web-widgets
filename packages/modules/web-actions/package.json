@@ -10,7 +10,8 @@
   },
   "mxpackage": {
     "type": "module",
-    "name": "WebActions"
+    "name": "WebActions",
+    "mpkName": "WebActions.mpk"
   },
   "moduleFolderNameInModeler": "webactions",
   "marketplace": {

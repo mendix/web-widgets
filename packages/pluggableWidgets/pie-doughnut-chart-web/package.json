@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "PieChart",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.PieChart.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

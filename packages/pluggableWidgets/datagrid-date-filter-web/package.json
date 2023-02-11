@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "DatagridDateFilter",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.DatagridDateFilter.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",

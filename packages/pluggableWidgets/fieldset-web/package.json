@@ -12,7 +12,8 @@
   "config": {},
   "mxpackage": {
     "name": "Fieldset",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.Fieldset.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

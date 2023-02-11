@@ -52,7 +52,7 @@ export const MxPackageTypeSchema = z.enum([MODULE, WIDGET, JSACTIONS]);
 export const MxPackageSchema = z.object({
     name: MxPackageNameSchema,
     type: MxPackageTypeSchema,
-    mpkName: z.string().endsWith(".mpk").optional(),
+    mpkName: z.string().endsWith(".mpk"),
     dependencies: z.string().array().optional().default([])
 });
 
@@ -134,7 +134,9 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
     const pkgPath = join(dirPath, `package.json`);
     try {
         await access(pkgPath);
-        const result = (await import(pkgPath)) as PackageJsonFileContent;
+        const result = await import(pkgPath).then(module => {
+            return module.default as PackageJsonFileContent;
+        });
         return result;
     } catch (error) {
         console.log(error);

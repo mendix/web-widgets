@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "DatagridTextFilter",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.DatagridTextFilter.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",

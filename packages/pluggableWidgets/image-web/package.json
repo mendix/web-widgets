@@ -12,7 +12,8 @@
   "config": {},
   "mxpackage": {
     "name": "Image",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.Image.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "Gallery",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.Gallery.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",

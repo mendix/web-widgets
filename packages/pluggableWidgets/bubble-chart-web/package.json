@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "BubbleChart",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.BubbleChart.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

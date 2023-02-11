@@ -11,7 +11,8 @@
   "config": {},
   "mxpackage": {
     "name": "PopupMenu",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.PopupMenu.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",

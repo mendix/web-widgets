@@ -13,7 +13,8 @@
   "config": {},
   "mxpackage": {
     "name": "TimeSeries",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.TimeSeries.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
