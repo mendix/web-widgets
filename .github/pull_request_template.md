@@ -1,31 +1,76 @@
-### Description
+<!--
+IMPORTANT: Please read and follow instructions below on how to
+open and submit your pull request.
 
-<!--- Describe your changes in detail -->
+REQUIRED STEPS:
+1. Specify correct pull request type.
+2. Write meaningful description.
+3. Run `pnpm lint` and `pnpm test` in packages you changed and make sure they have no errors.
+4. Added new tests (if needed) to cover new functionality.
+5. Read checklist below.
 
-### Pull request checklist
+CHECKLIST:
+- Do you have story for your pull request?
+    - Yes: please, format PR's title to match `[XX-000]: description` pattern.
+    - No: please, write your PR's title using conventional commit rules.
+- Does your changes need new version for widget/module?
+    - Yes: run `pnpm -w changelog` or update CHANGELOG and bump version manually.
+    - No: ignore.
+- Do you have related PRs in other mendix repositories?
+    - Yes: please, link all related pull requests in the description.
+    - No: ignore.
+- Your change touch xml or it's a new feature or behavior?
+    - Yes: if needed, please create PR with updates in documentation https://github.com/mendix/docs.git.
+    - No: ignore.
+- Your change is bugfix or new feature?
+    - Yes: please add description (last section in template) of what should be tested and what steps is needed to make a test.
+    - No: ignore.
+-->
 
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+<!--
+What types of changes does your code introduce?
+Uncomment appropriate (by removing `<!--` in from of line).
+-->
 
--   [ ] All new and existing tests passed
--   [ ] I run `lint` command locally and it doesn’t give errors
--   [ ] PR title properly formatted `[XX-000]: description`
--   [ ] Added record to packages' CHANGELOG.md
--   [ ] Bumped package version in `package.json` and `package.xml`
--   [ ] Added a link to related project PRs (atlas, pluggable-widgets-tools, testProject, etc.) (optional)
--   [ ] Created docs PR to [mendix/docs](https://github.com/mendix/docs.git) and added a link (optional)
+### **Pull request type**
 
-### Pull request type
+<!-- No code changes (changes to documentation, CI, metadata, etc.)
+<!---->
 
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+<!-- Dependency changes (any modification to dependencies in `package.json`)
+<!---->
 
--   [ ] No code changes (changes to documentation, CI, metadata, etc)
--   [ ] Dependency changes (any modification to dependencies in `package.json`)
--   [ ] Bug fix (non-breaking change which fixes an issue)
--   [ ] New feature (non-breaking change which adds functionality)
--   [ ] Breaking change (fix or feature that would cause existing functionality to change)
--   [ ] Test related change (New E2E test, test automation, etc.)
+<!-- Refactoring (e.g. file rename, variable rename, etc.)
+<!---->
 
-### What should be covered while testing?
+<!-- Bug fix (non-breaking change which fixes an issue)
+<!---->
 
-<!--- Describe what part of pacakge need to be tested and more important - how -->
+<!-- New feature (non-breaking change which adds functionality)
+<!---->
+
+<!-- Breaking change (fix or feature that would cause existing functionality to change)
+<!---->
+
+<!-- Test related change (New E2E test, test automation, etc.)
+<!---->
+
+---
+
+<!---
+Describe your changes in detail.
+Try to explain WHAT and WHY you change, fix or refactor.
+-->
+
+### **Description**
+
+---
+
+<!--
+Please, uncomment and fill following section,
+to describe what part of package need to be tested
+and more important - how.
+-->
+<!--
+#### What should be covered while testing?
+-->
