@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Set of helpers for release processes",
   "private": true,
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "main": "index.ts",
   "types": "index.ts",
   "bin": {
