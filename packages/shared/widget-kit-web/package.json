@@ -1,0 +1,46 @@
+{
+  "name": "@mendix/widget-kit-web",
+  "version": "1.0.0",
+  "description": "Set of small, one-file modules to share between widgets.",
+  "license": "Apache-2.0",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "type": "module",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "!*.map"
+  ],
+  "scripts": {
+    "compile": "tsc",
+    "format": "prettier --write .",
+    "lint": "eslint --ext .ts,.tsx ./src"
+  },
+  "devDependencies": {
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/tsconfig-web-widgets": "workspace:*",
+    "@types/big.js": "^6.1.6",
+    "@types/node": "^18.8.3",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.18",
+    "mendix": "^9.22.62233",
+    "typescript": "4.5.4"
+  },
+  "dependencies": {
+    "big.js": "^6.0.2",
+    "classnames": "^2.3.2"
+  }
+}
