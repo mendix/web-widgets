@@ -28,6 +28,8 @@
     "compile": "tsc"
   },
   "devDependencies": {
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
     "@types/big.js": "^6.1.6",
     "@types/jest": "^26.0.24",
