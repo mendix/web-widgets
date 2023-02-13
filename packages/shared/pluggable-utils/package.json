@@ -32,7 +32,9 @@
     "@types/node": "^18.8.3",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.18",
+    "eslint": "^7.32.0",
     "mendix": "^9.22.62233",
+    "prettier": "^2.8.4",
     "typescript": "4.5.4"
   },
   "dependencies": {
