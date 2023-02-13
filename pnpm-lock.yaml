@@ -27,7 +27,7 @@ importers:
   .:
     specifiers:
       husky: ^8.0.3
-      turbo: ^1.7.3
+      turbo: ^1.7.4
     devDependencies:
       husky: 8.0.3
       turbo: 1.7.4
