@@ -27,7 +27,9 @@
   "scripts": {
     "compile": "tsc",
     "format": "prettier --write .",
-    "lint": "eslint --ext .ts,.tsx ./src"
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "prepare": "tsc",
+    "dev": "tsc --watch"
   },
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
