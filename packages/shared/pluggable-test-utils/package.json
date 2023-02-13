@@ -20,6 +20,13 @@
       ]
     }
   },
+  "scripts": {
+    "prepare": "tsc",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "format": "prettier --write .",
+    "dev": "tsc --watch",
+    "compile": "tsc"
+  },
   "devDependencies": {
     "@mendix/tsconfig-web-widgets": "workspace:*",
     "@types/big.js": "^6.1.6",
