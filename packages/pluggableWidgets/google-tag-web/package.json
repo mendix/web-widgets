@@ -51,7 +51,7 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",
-    "@types/react": "~17.0.1",
+    "@types/react": "~17.0.53",
     "@types/react-dom": "~17.0.1",
     "eslint": "^7.20.0",
     "rollup": "^2.68.0",
