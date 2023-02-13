@@ -304,8 +304,6 @@ const checkAssociationSettings = (
         return;
     }
 
-    // filterAssociationOptions - it will be checked by studio pro.
-
     if (!column.filterAssociationOptionLabel) {
         return {
             property: columnPropPath("filterAssociationOptionLabel", index),
