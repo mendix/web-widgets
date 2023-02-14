@@ -16,7 +16,8 @@
   },
   "mxpackage": {
     "name": "GoogleTag",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.GoogleTag.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "8.18.0",
