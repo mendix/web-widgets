@@ -3,20 +3,18 @@
   "widgetName": "BubbleChart",
   "version": "3.0.0",
   "description": "Shows data in a bubble format graph.",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "mxpackage": {
     "name": "BubbleChart",
-    "type": "widget"
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.BubbleChart.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.6.0",
@@ -28,19 +26,13 @@
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
-    "prestart": "lerna run build --scope '@mendix/shared-charts'",
     "start": "pluggable-widgets-tools start:server",
     "dev": "pluggable-widgets-tools start:web",
     "build": "pluggable-widgets-tools build:ts",
-    "build:with-deps": "lerna run build --scope 'bubble-chart-web' --include-dependencies",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
-    "pretest:e2e": "NODE_OPTIONS=--max_old_space_size=4096 npm run release:with-deps && node ../../../scripts/test/updateAtlas.js --latest-atlas",
-    "test:e2e": "echo 'Skipping e2e tests'",
-    "test:e2e:local": "echo 'Skipping e2e tests'",
     "release": "pluggable-widgets-tools release:web",
-    "release:with-deps": "lerna run release --scope 'bubble-chart-web' --include-dependencies",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget"
   },

@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "description": "Shared components for charts",
   "private": true,
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

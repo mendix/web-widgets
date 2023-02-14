@@ -3,14 +3,15 @@
   "moduleName": "Web Actions",
   "version": "2.6.0",
   "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "mxpackage": {
     "type": "module",
-    "name": "WebActions"
+    "name": "WebActions",
+    "mpkName": "WebActions.mpk"
   },
   "moduleFolderNameInModeler": "webactions",
   "marketplace": {

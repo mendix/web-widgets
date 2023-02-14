@@ -3,16 +3,13 @@
   "widgetName": "Maps",
   "version": "3.1.3",
   "description": "Show locations on Maps",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "mxpackage": {
     "name": "Maps",
     "type": "widget",
@@ -27,7 +24,7 @@
     "githubUrl": "https://github.com/mendix/testProjects",
     "branchName": "maps-web"
   },
-  "packagePath": "com.mendix.widget.custom.Maps",
+  "packagePath": "com.mendix.widget.custom",
   "scripts": {
     "start": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:server",
     "dev": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:web",

@@ -3,16 +3,13 @@
   "widgetName": "BadgeButton",
   "version": "3.1.0",
   "description": "Shows a button containing a colored badge or label",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "repository": {
     "type": "git",
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "license": "Apache-2.0",
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
+  "config": {},
   "mxpackage": {
     "name": "BadgeButton",
     "type": "widget",

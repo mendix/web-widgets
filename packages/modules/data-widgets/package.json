@@ -3,7 +3,7 @@
   "moduleName": "Data Widgets",
   "version": "2.6.0",
   "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
   "mxpackage": {
     "name": "DataWidgets",
     "type": "module",
+    "mpkName": "DataWidgets.mpk",
     "dependencies": [
       "datagrid-date-filter-web",
       "datagrid-dropdown-filter-web",
