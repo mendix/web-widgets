@@ -110,7 +110,7 @@ importers:
       ora: ^5.4.1
       peggy: ^1.2.0
       shelljs: ^0.8.5
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
       zod: ^3.11.6
     devDependencies:
@@ -169,7 +169,7 @@ importers:
       style-loader: ^3.3.1
       to-string-loader: ^1.2.0
       ts-loader: ^9.4.2
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
       webpack: ^5.3.2
       webpack-cli: ^4.1.0
@@ -231,7 +231,7 @@ importers:
       gallery-web: workspace:*
       prettier: ^2.8.4
       tree-node-web: workspace:*
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       datagrid-date-filter-web: link:../../pluggableWidgets/datagrid-date-filter-web
@@ -259,7 +259,7 @@ importers:
       '@types/node': ^18.8.3
       cross-env: ^7.0.3
       eslint: ^7.32.0
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
@@ -300,7 +300,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -368,7 +368,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -438,7 +438,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -509,7 +509,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -580,7 +580,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -651,7 +651,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -723,7 +723,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -795,7 +795,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -868,7 +868,7 @@ importers:
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
       swiper: ~6.8.4
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       classnames: 2.3.2
@@ -928,7 +928,7 @@ importers:
       prettier: ^2.8.4
       rollup: ^2.79.1
       time-series-chart-web: workspace:*
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       area-chart-web: link:../area-chart-web
@@ -988,7 +988,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1062,7 +1062,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1137,7 +1137,7 @@ importers:
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
       string.prototype.replaceall: ^1.0.7
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1212,7 +1212,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1285,7 +1285,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1356,7 +1356,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1427,7 +1427,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1498,7 +1498,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1567,7 +1567,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1637,7 +1637,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1689,7 +1689,7 @@ importers:
       '@types/react-dom': 17.0.18
       eslint: ^7.20.0
       rollup: ^2.68.0
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1743,7 +1743,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1815,7 +1815,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       dompurify: 2.4.3
@@ -1885,7 +1885,7 @@ importers:
       react-overlays: ^5.0.1
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -1955,7 +1955,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2026,7 +2026,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2106,7 +2106,7 @@ importers:
       react-leaflet: ^2.6.3
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2187,7 +2187,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2259,7 +2259,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2329,7 +2329,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2401,7 +2401,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2478,7 +2478,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2555,7 +2555,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       classnames: 2.3.2
@@ -2636,7 +2636,7 @@ importers:
       recursive-copy: ^2.0.14
       rollup: ^2.79.1
       through2: ^4.0.2
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@types/dompurify': 2.4.0
@@ -2721,7 +2721,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2797,7 +2797,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2869,7 +2869,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -2940,7 +2940,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -3012,7 +3012,7 @@ importers:
       react-popper: ^2.2.5
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -3084,7 +3084,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -3154,7 +3154,7 @@ importers:
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
@@ -3237,7 +3237,7 @@ importers:
       react-test-renderer: ~17.0.2
       rimraf: ^2.7.1
       rollup: ^2.79.1
-      ts-node: ^9.0.0
+      ts-node: ^9.1.1
       typescript: 4.5.4
     dependencies:
       '@mendix/pluggable-widgets-commons': link:../pluggable-widgets-commons
