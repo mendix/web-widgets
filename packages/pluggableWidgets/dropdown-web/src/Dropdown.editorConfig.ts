@@ -3,12 +3,27 @@ import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { DropdownPreviewProps } from "../typings/DropdownProps";
 
 export function getProperties(values: DropdownPreviewProps, defaultProperties: Properties): Properties {
-    if (values.optionCaption === "custom") {
-        hidePropertiesIn(defaultProperties, values, ["optionTextTemplate"]);
+    if (values.optionsSourceType === "enumerationOrBoolean") {
+        // hide attribute
+        hidePropertiesIn(defaultProperties, values, [
+            "attributeAssociation",
+            "optionsSourceAssociationCaptionType",
+            "optionsSourceAssociationCaptionAttribute",
+            "optionsSourceAssociationCaptionExpression",
+            "optionsSourceAssociationDataSource"
+        ]);
+
+        // clearable is not available in boolean, is it for Enums?
+        hidePropertiesIn(defaultProperties, values, ["clearable"]);
+    } else if (values.optionsSourceType === "association") {
+        hidePropertiesIn(defaultProperties, values, ["attributeEnumerationOrBoolean"]);
+        if (values.optionsSourceAssociationCaptionType === "attribute") {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
+        }
     }
-    if (!values.showLabel) {
-        hidePropertiesIn(defaultProperties, values, ["labelCaption"]);
-    }
+
     return defaultProperties;
 }
 

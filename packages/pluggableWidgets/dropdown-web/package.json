@@ -16,7 +16,7 @@
   "mxpackage": {
     "name": "Dropdown",
     "type": "widget",
-    "mpkName": "com.mendix.widget.web.Dropdwon.mpk"
+    "mpkName": "com.mendix.widget.web.Dropdown.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",
@@ -45,12 +45,16 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^18.8.3",
     "@types/react": "^17.0.52",
     "@types/react-dom": "^17.0.18",
     "@types/react-test-renderer": "<18.0.0",
@@ -60,6 +64,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
     "mendix": "^9.19.55544",
+    "rollup": "^2.68.0",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
     "react-test-renderer": "~17.0.2",
