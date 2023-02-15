@@ -1722,13 +1722,17 @@ importers:
   packages/pluggableWidgets/dropdown-web:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
+      '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
+      '@mendix/prettier-config-web-widgets': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^3.4.2
       '@testing-library/user-event': ^13.2.1
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1744,6 +1748,7 @@ importers:
       react: ~17.0.2
       react-dom: ~17.0.2
       react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
       ts-node: ^9.0.0
       typescript: 4.5.4
     dependencies:
@@ -1753,12 +1758,16 @@ importers:
       match-sorter: 6.3.1
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
+      '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@types/jest': 26.0.24
+      '@types/node': 18.11.18
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1771,6 +1780,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
@@ -16298,6 +16308,7 @@ packages:
   /rollup/2.79.1:
     resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
