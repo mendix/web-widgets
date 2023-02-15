@@ -1,5 +1,3 @@
 packages:
   - "packages/*/*"
   - "automation/*"
-  - "!packages/customWidgets/signature-web"
-  - "!packages/tools/custom-widgets-utils-internal"
