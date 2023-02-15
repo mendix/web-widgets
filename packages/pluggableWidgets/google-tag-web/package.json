@@ -53,7 +53,7 @@
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/react": "~17.0.53",
-    "@types/react-dom": "~17.0.1",
+    "@types/react-dom": "~17.0.18",
     "eslint": "^7.32.0",
     "rollup": "^2.68.0",
     "ts-node": "^9.1.1",
