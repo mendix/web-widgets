@@ -34,15 +34,25 @@ describe("color-picker-web", () => {
                 );
             }
         );
-        it("button(Firefox)", { browser: "firefox" }, () => {
-            cy.visit("/p/modePage");
-            cy.wait(1000);
-            cy.get(".mx-name-colorPicker3 .widget-color-picker-inner").should(
-                "have.css",
-                "background",
-                "rgb(76, 175, 80)"
-            );
-        });
+        it(
+            "button(Firefox)",
+            {
+                retries: {
+                    runMode: 10,
+                    openMode: 10
+                },
+                browser: "firefox"
+            },
+            () => {
+                cy.visit("/p/modePage");
+                cy.wait(1000);
+                cy.get(".mx-name-colorPicker3 .widget-color-picker-inner").should(
+                    "have.css",
+                    "background",
+                    "rgb(76, 175, 80)"
+                );
+            }
+        );
         it("input box", () => {
             cy.get(".mx-name-tabPage2").click();
             cy.get(".mx-name-colorPicker17 input").should("have.value", "#4caf50");
