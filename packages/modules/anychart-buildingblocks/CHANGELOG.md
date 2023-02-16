@@ -14,31 +14,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added .version file to the themesource folder
 
-## [3.0.2] - 2021-09-30
+## [3.0.2] AnyChart_BuildingBlocks - 2021-09-30
 
 ### Changed
 
 -   We fixed an issue where AnyChart could not find `worker-json.js` file.
 
-## [3.0.1] - 2021-09-28
+## [3.0.1] AnyChart_BuildingBlocks - 2021-09-28
 
 ### Changed
 
 -   We started to track the module version in a constant document inside the module.
 
-## [3.0.0] - 2021-09-28
+## [3.0.0] AnyChart_BuildingBlocks - 2021-09-28
 
 ### Added
 
 -   We added a toolbox category and toolbox tile image for Studio & Studio Pro.
 
-## [1.3.7] - 2021-08-04
+## [1.3.7] AnyChart_BuildingBlocks - 2021-08-04
 
 ### Removed
 
 -   We've removed deprecated APIs warnings
 
-## [1.3.6] - 2021-04-28
+## [1.3.6] AnyChart_BuildingBlocks - 2021-04-28
 
 ### Fixed
 

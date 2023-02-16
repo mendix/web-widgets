@@ -29,7 +29,7 @@
   "scripts": {
     "verify": "rui-verify-package-format",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-    "update-changelog": "rui-update-changelog-widget",
+    "update-changelog": "rui-update-changelog-module",
     "format": "prettier --write ."
   },
   "dependencies": {
