@@ -2153,7 +2153,7 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     specifiers:
-      '@googlemaps/jest-mocks': ^2.7.5
+      '@googlemaps/jest-mocks': ^2.9.0
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
@@ -2202,7 +2202,7 @@ importers:
       leaflet: 1.9.3
       react-leaflet: 2.8.0_edkpibxfdppewbyunodyehmvmq
     devDependencies:
-      '@googlemaps/jest-mocks': 2.7.5
+      '@googlemaps/jest-mocks': 2.9.0
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
@@ -5091,8 +5091,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@googlemaps/jest-mocks/2.7.5:
-    resolution: {integrity: sha512-fdHN/sN0Cpz+Acqe9Yhzvhqg/bhN4oMBoKToVIZgFhxafMXtUbQvfL12HiE9AmpvZgge2gBKTu11ImGRm3e2wg==}
+  /@googlemaps/jest-mocks/2.9.0:
+    resolution: {integrity: sha512-wF3hFQFSGC3ufJWo5dnwa4sJ/hDbNmRqsIglF74VpJiBK2xtMyXp7F02bfQoSX+P80HPBickB+rfvFVXhUVEMg==}
     dev: true
 
   /@googlemaps/js-api-loader/1.15.1:
