@@ -31,6 +31,11 @@ exports[`Filter component renders correctly 1`] = `
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
@@ -68,6 +73,11 @@ exports[`Filter component renders correctly when not adjustable by user 1`] = `
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control"
@@ -124,6 +134,11 @@ exports[`Filter component renders correctly with aria labels 1`] = `
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
