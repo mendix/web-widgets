@@ -11,6 +11,7 @@
   "mxpackage": {
     "name": "AnyChart_BuildingBlocks",
     "type": "module",
+    "mpkName": "AnyChart_BuildingBlocks.mpk",
     "dependencies": [
       "any-chart-web"
     ]
