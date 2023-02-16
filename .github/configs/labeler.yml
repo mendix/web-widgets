@@ -78,6 +78,8 @@ signature-web:
   - packages/*/signature-web/**/*
 dropdown-web:
   - packages/*/dropdown-web/**/*
+google-tag-web:
+  - packages/*/google-tag-web/**/*
 
 # Internals
 shared:
