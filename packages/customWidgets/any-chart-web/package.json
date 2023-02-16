@@ -27,7 +27,8 @@
   },
   "scripts": {
     "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
-    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production"
+    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+    "test": "echo 'FIXME: Finish any-chart-web unit test migration'"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",

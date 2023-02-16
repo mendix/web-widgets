@@ -23,5 +23,5 @@
         "allowSyntheticDefaultImports": true
     },
     "include": ["./src", "./typings"],
-    "exclude": ["dist/", "node_modules/", "tests/", "scripts/"]
+    "exclude": ["dist/", "node_modules/", "tests/", "scripts/", "**/__tests__/**"]
 }
