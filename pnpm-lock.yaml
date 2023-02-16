@@ -318,6 +318,27 @@ importers:
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
+  packages/modules/google-tag:
+    specifiers:
+      '@mendix-internal/automation-utils': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@types/node': ^18.8.3
+      cross-env: ^7.0.3
+      eslint: ^7.32.0
+      google-tag-web: workspace:*
+      ts-node: ^9.0.0
+      typescript: 4.5.4
+    dependencies:
+      google-tag-web: link:../../pluggableWidgets/google-tag-web
+    devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
+      '@types/node': 18.11.18
+      cross-env: 7.0.3
+      eslint: 7.32.0
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
+
   packages/modules/web-actions:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
@@ -8093,6 +8114,7 @@ packages:
   /cross-env/7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
     dependencies:
       cross-spawn: 7.0.3
     dev: true
@@ -15783,6 +15805,7 @@ packages:
   /typescript/4.5.4:
     resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
 
   /uglify-js/3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
