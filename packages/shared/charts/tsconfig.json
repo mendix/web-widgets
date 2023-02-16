@@ -13,6 +13,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "declaration": true,
-        "sourceMap": false
+        "sourceMap": false,
+        "paths": { "*": ["node_modules/*", "node_modules/@types/*"] }
     }
 }
