@@ -24,7 +24,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-text-filter-web"
+    "branchName": "datagrid-text-filter-web_data-widgets-2.5.x"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
