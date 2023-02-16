@@ -64,8 +64,6 @@ Try to explain WHAT and WHY you change, fix or refactor.
 
 ### **Description**
 
----
-
 <!--
 Please uncomment and fill in the following section
 to describe which part of the package needs to be tested

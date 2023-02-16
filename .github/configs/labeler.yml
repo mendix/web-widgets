@@ -14,7 +14,10 @@ data-widgets:
   - packages/*/tree-node-web/**/*
 web-actions:
   - packages/*/web-actions/**/*
-  - packages/*/nanoflow-actions-web/**/*
+google-tag:
+  - packages/*/google-tag/**/*
+anychart-buildingblocks:
+  - packages/*/anychart-buildingblocks/**/*
 
 # Widgets
 accessibility-helper-web:
@@ -67,10 +70,19 @@ tooltip-web:
   - packages/*/tooltip-web/**/*
 video-player-web:
   - packages/*/video-player-web/**/*
+any-chart-web:
+  - packages/*/any-chart-web/**/*
+calendar-web:
+  - packages/*/calendar-web/**/*
+signature-web:
+  - packages/*/signature-web/**/*
+dropdown-web:
+  - packages/*/dropdown-web/**/*
 
 # Internals
-pluggable-widgets-commons:
-  - packages/*/pluggable-widgets-commons/**/*
+shared:
+  - packages/shared/**/*
 automation:
   - automation/**/*
-  - .github/**/*
+workflows:
+  - .github/workflows/*
