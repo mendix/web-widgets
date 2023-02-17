@@ -48,7 +48,7 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.7.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/big.js": "^6.0.2",
+    "@types/big.js": "^6.1.6",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.13.0",
