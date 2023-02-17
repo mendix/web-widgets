@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] - 2023-02-17
+
 ### Changed
 
 -   Property change: Filtering tab renamed to Grid wide filtering.

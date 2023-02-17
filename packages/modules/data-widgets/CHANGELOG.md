@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] DataWidgets - 2023-02-17
+
+### [2.3.0] DatagridDropdownFilter
+
+#### Changed
+
+-   We added support for association filtering.
+
+### [2.6.0] Datagrid
+
+#### Changed
+
+-   Property change: Filtering tab renamed to Grid wide filtering.
+
+-   Property change: Show header filters property renamed to Grid wide filters and now have a description.
+
+-   Property change: Filters property now have a description.
+
+#### Added
+
+-   We added new column properties for Drop-down filter that allow filtering over associations.
+
 ## [2.5.9] DataWidgets - 2023-01-09
 
 ### [2.4.4] Datagrid
