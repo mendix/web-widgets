@@ -1,5 +1,5 @@
 import Big from "big.js";
-import { EditableValue, ValueStatus } from "mendix";
+import type { EditableValue, ValueStatus } from "mendix";
 
 type AttributeValue = EditableValue["value"];
 
@@ -66,5 +66,5 @@ export function isAvailable<T>(
           }
         | undefined
 ): property is T & { readonly status: ValueStatus.Available } {
-    return property?.status === ValueStatus.Available;
+    return property?.status === "available";
 }
