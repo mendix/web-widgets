@@ -1,5 +1,5 @@
 import { Context, createContext, Dispatch } from "react";
-import { ListAttributeValue } from "mendix";
+import type { ListAttributeValue } from "mendix";
 
 export type SortDirection = "asc" | "desc";
 export type ListAttributeId = string & {
