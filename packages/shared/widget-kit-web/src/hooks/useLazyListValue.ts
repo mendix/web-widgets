@@ -25,6 +25,14 @@ const incLimit = (setLimit: SetLimit, list: ListValue, pageSize: number): void =
     });
 };
 
+function useIncLimitThrottled(wait: number): typeof incLimit {
+    const [incLimitThrottled, abort] = useMemo(() => throttle(incLimit, wait), [wait]);
+
+    useEffect(() => abort, [abort]);
+
+    return incLimitThrottled;
+}
+
 export function useLazyListValue(
     list: ListValue,
     pageSize = 100,
@@ -42,11 +50,11 @@ export function useLazyListValue(
         }
     };
 
+    const incLimitWithDelay = useIncLimitThrottled(loadDelayTime);
+
     const getItems: GetItems = () => setLimit(n => (n === 0 ? pageSize : n));
 
-    const incLimitThrottled = useMemo(() => throttle(incLimit, loadDelayTime), [loadDelayTime]);
-
-    const loadMore: LoadMore = () => incLimitThrottled(setLimit, list, pageSize);
+    const loadMore: LoadMore = () => incLimitWithDelay(setLimit, list, pageSize);
 
     // Prevent list data fetching on first mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
