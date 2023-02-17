@@ -105,7 +105,7 @@ importers:
       enquirer: ^2.3.6
       eslint: ^7.32.0
       execa: ^5.1.1
-      fast-xml-parser: ^4.1.1
+      fast-xml-parser: ^4.1.2
       node-fetch: ^2.6.9
       ora: ^5.4.1
       peggy: ^1.2.0
@@ -124,7 +124,7 @@ importers:
       enquirer: 2.3.6
       eslint: 7.32.0
       execa: 5.1.1
-      fast-xml-parser: 4.1.1
+      fast-xml-parser: 4.1.2
       node-fetch: 2.6.9
       ora: 5.4.1
       peggy: 1.2.0
@@ -9589,8 +9589,9 @@ packages:
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  /fast-xml-parser/4.1.1:
-    resolution: {integrity: sha512-4gAP5PvNyrqePBOIIcpaEeE+nKBry1n6qTQiJsE59sLP0OC+YwhU7/XVmLLEMexbiluFQX1yEYm82Pk9B7xEiw==}
+  /fast-xml-parser/4.1.2:
+    resolution: {integrity: sha512-CDYeykkle1LiA/uqQyNwYpFbyF6Axec6YapmpUP+/RHWIoR1zKjocdvNaTsxCxZzQ6v9MLXaSYm9Qq0thv0DHg==}
+    hasBin: true
     dependencies:
       strnum: 1.0.5
     dev: true
