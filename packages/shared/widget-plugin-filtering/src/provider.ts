@@ -6,7 +6,7 @@ import { Result, value, error } from "@mendix/widget-kit-web/util";
 
 export type FilterValue = { type: string; value: any };
 
-export const enum FilterType {
+export enum FilterType {
     STRING = "string",
     NUMBER = "number",
     ENUMERATION = "enum",
