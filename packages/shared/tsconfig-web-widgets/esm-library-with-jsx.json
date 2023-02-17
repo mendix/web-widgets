@@ -24,6 +24,7 @@
         "useUnknownInCatchVariables": false,
         "exactOptionalPropertyTypes": false,
         "noImplicitAny": true,
-        "noImplicitReturns": true
+        "noImplicitReturns": true,
+        "isolatedModules": true
     }
 }
