@@ -27,6 +27,8 @@ import { associationInput, associationInputNative } from "./inputs/association";
 import { associationNativeOutput, associationWebOutput } from "./outputs/association";
 import { expressionInput, expressionInputNative } from "./inputs/expression";
 import { expressionWebOutput, expressionNativeOutput } from "./outputs/expression";
+import { selectionInput, selectionInputNative } from "./inputs/selection";
+import { selectionNativeOutput, selectionWebOutput } from "./outputs/selection";
 
 describe("Generating tests", () => {
     it("Generates a parsed typing from XML for native", () => {
@@ -157,6 +159,16 @@ describe("Generating tests", () => {
     it("Generates a parsed typing from XML for native using expression", () => {
         const newContent = generateNativeTypesFor(expressionInputNative);
         expect(newContent).toBe(expressionNativeOutput);
+    });
+
+    it("Generates a parsed typing from XML for web using selection", () => {
+        const newContent = generateFullTypesFor(selectionInput);
+        expect(newContent).toBe(selectionWebOutput);
+    });
+
+    it("Generates a parsed typing from XML for native using selection", () => {
+        const newContent = generateNativeTypesFor(selectionInputNative);
+        expect(newContent).toBe(selectionNativeOutput);
     });
 });
 

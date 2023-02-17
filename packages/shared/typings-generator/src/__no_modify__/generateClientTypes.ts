@@ -1,4 +1,4 @@
-import { Property, SystemProperty, ReturnType } from "./WidgetXml";
+import { Property, ReturnType, SystemProperty } from "./WidgetXml";
 import { capitalizeFirstLetter, commasAnd, extractProperties } from "./helpers";
 
 export function generateClientTypes(
@@ -62,17 +62,11 @@ function generateClientTypeBody(
 ) {
     return properties
         .map(prop => {
-            const isOptional =
-                prop.$.type !== "string" &&
-                ((prop.$.required === "false" && prop.$.type !== "object") ||
-                    prop.$.type === "action" ||
-                    (prop.$.dataSource && resolveProp(prop.$.dataSource)?.$.required === "false"));
-
             if (prop.$.type === "action" && actionIsLinkedInAnAttribute(prop.$.key, properties)) {
                 return undefined;
             }
 
-            return `    ${prop.$.key}${isOptional ? "?" : ""}: ${toClientPropType(
+            return `    ${prop.$.key}${isOptionalProp(prop, resolveProp) ? "?" : ""}: ${toClientPropType(
                 prop,
                 isNative,
                 generatedTypes,
@@ -81,6 +75,27 @@ function generateClientTypeBody(
         })
         .filter(Boolean)
         .join("\n");
+}
+
+function isOptionalProp(prop: Property, resolveProp: (key: string) => Property | undefined) {
+    switch (prop.$.type) {
+        case "string":
+        case "object":
+            return false;
+        case "action":
+            return true;
+        case "selection":
+            return (
+                (prop.selectionTypes?.flatMap(t => t.selectionType.map(t => t.$.name)) ?? []).includes("None") ||
+                hasOptionalDataSource(prop, resolveProp)
+            );
+        default:
+            return prop.$.required === "false" || hasOptionalDataSource(prop, resolveProp);
+    }
+}
+
+export function hasOptionalDataSource(prop: Property, resolveProp: (key: string) => Property | undefined) {
+    return prop.$.dataSource && resolveProp(prop.$.dataSource)?.$.required === "false";
 }
 
 function toClientPropType(
@@ -115,24 +130,19 @@ function toClientPropType(
                 throw new Error("[XML] Attribute property requires attributeTypes element");
             }
             const types = prop.attributeTypes
-                .map(ats => ats.attributeType)
-                .reduce((a, i) => a.concat(i), [])
+                .flatMap(ats => ats.attributeType)
                 .map(at => toAttributeClientType(at.$.name));
-            const uniqueTypes = Array.from(new Set(types));
-            return prop.$.dataSource
-                ? `ListAttributeValue<${uniqueTypes.join(" | ")}>`
-                : `EditableValue<${uniqueTypes.join(" | ")}>`;
+            const unionType = toUniqueUnionType(types);
+            return prop.$.dataSource ? `ListAttributeValue<${unionType}>` : `EditableValue<${unionType}>`;
         }
         case "association": {
             if (!prop.associationTypes?.length) {
                 throw new Error("[XML] Association property requires associationTypes element");
             }
             const types = prop.associationTypes
-                .map(ats => ats.associationType)
-                .reduce((a, i) => a.concat(i), [])
+                .flatMap(ats => ats.associationType)
                 .map(at => toAssociationOutputType(at.$.name, !!prop.$.dataSource));
-            const uniqueTypes = Array.from(new Set(types));
-            return uniqueTypes.join(" | ");
+            return toUniqueUnionType(types);
         }
         case "expression":
             if (!prop.returnType || prop.returnType.length === 0) {
@@ -162,6 +172,14 @@ ${generateClientTypeBody(childProperties, isNative, generatedTypes, resolveChild
             return prop.$.isList === "true" ? `${childType}[]` : childType;
         case "widgets":
             return prop.$.dataSource ? "ListWidgetValue" : "ReactNode";
+        case "selection":
+            if (!prop.selectionTypes?.length) {
+                throw new Error("[XML] Selection property requires selectionTypes element");
+            }
+
+            const selectionTypes = prop.selectionTypes.flatMap(s => s.selectionType).map(s => s.$.name);
+            const clientTypes = selectionTypes.filter(s => s !== "None").map(toSelectionClientType);
+            return toUniqueUnionType(clientTypes);
         default:
             return "any";
     }
@@ -246,9 +264,7 @@ export function toExpressionClientType(
         );
     }
 
-    const clientTypes = types.map(at => toAttributeClientType(at));
-    const uniqueTypes = Array.from(new Set(clientTypes));
-    return uniqueTypes.join(" | ");
+    return toUniqueUnionType(types.map(toAttributeClientType));
 }
 
 export function toAssociationOutputType(xmlType: string, linkedToDataSource: boolean) {
@@ -260,4 +276,19 @@ export function toAssociationOutputType(xmlType: string, linkedToDataSource: boo
         default:
             return "any";
     }
+}
+
+function toSelectionClientType(xmlType: string) {
+    switch (xmlType) {
+        case "Single":
+            return "SelectionSingleValue";
+        case "Multi":
+            return "SelectionMultiValue";
+        default:
+            return "any";
+    }
+}
+
+export function toUniqueUnionType(types: string[]) {
+    return types.length ? Array.from(new Set(types)).join(" | ") : "any";
 }

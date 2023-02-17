@@ -1,5 +1,6 @@
 import { Property, SystemProperty } from "./WidgetXml";
 import { capitalizeFirstLetter, extractProperties } from "./helpers";
+import { hasOptionalDataSource, toUniqueUnionType } from "./generateClientTypes";
 
 export function generatePreviewTypes(
     widgetName: string,
@@ -8,6 +9,10 @@ export function generatePreviewTypes(
 ): string[] {
     const results = Array.of<string>();
     const isLabeled = systemProperties.some(p => p.$.key === "Label");
+
+    function resolveProp(key: string) {
+        return properties.find(p => p.$.key === key);
+    }
 
     results.push(`export interface ${widgetName}PreviewProps {${
         !isLabeled
@@ -22,16 +27,26 @@ export function generatePreviewTypes(
             : ""
     }
     readOnly: boolean;
-${generatePreviewTypeBody(properties, results)}
+${generatePreviewTypeBody(properties, results, resolveProp)}
 }`);
     return results;
 }
 
-function generatePreviewTypeBody(properties: Property[], generatedTypes: string[]) {
-    return properties.map(prop => `    ${prop.$.key}: ${toPreviewPropType(prop, generatedTypes)};`).join("\n");
+function generatePreviewTypeBody(
+    properties: Property[],
+    generatedTypes: string[],
+    resolveProp: (key: string) => Property | undefined
+) {
+    return properties
+        .map(prop => `    ${prop.$.key}: ${toPreviewPropType(prop, generatedTypes, resolveProp)};`)
+        .join("\n");
 }
 
-function toPreviewPropType(prop: Property, generatedTypes: string[]): string {
+function toPreviewPropType(
+    prop: Property,
+    generatedTypes: string[],
+    resolveProp: (key: string) => Property | undefined
+): string {
     switch (prop.$.type) {
         case "boolean":
             return "boolean";
@@ -64,14 +79,29 @@ function toPreviewPropType(prop: Property, generatedTypes: string[]): string {
                 throw new Error("[XML] Object property requires properties element");
             }
             const childType = capitalizeFirstLetter(prop.$.key) + "PreviewType";
+            const childProperties = extractProperties(prop.properties[0]);
+
+            const resolveChildProp = (key: string) =>
+                key.startsWith("../") ? resolveProp(key.substring(3)) : childProperties.find(p => p.$.key === key);
+
             generatedTypes.push(
                 `export interface ${childType} {
-${generatePreviewTypeBody(extractProperties(prop.properties[0]), generatedTypes)}
+${generatePreviewTypeBody(childProperties, generatedTypes, resolveChildProp)}
 }`
             );
             return prop.$.isList === "true" ? `${childType}[]` : childType;
         case "widgets":
             return "{ widgetCount: number; renderer: ComponentType<{ caption?: string }> }";
+        case "selection":
+            if (!prop.selectionTypes?.length) {
+                throw new Error("[XML] Selection property requires selectionTypes element");
+            }
+
+            const selectionTypes = prop.selectionTypes.flatMap(s => s.selectionType).map(s => s.$.name);
+            if (hasOptionalDataSource(prop, resolveProp)) {
+                selectionTypes.push("None");
+            }
+            return toUniqueUnionType(selectionTypes.map(s => `"${s}"`));
         default:
             return "any";
     }

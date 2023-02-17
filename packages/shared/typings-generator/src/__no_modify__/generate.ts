@@ -19,6 +19,8 @@ const mxExports = [
     "ListWidgetValue",
     "ReferenceValue",
     "ReferenceSetValue",
+    "SelectionSingleValue",
+    "SelectionMultiValue",
     "WebIcon",
     "WebImage"
 ];

@@ -41,7 +41,8 @@ export interface Property {
             | "expression"
             | "enumeration"
             | "object"
-            | "widgets";
+            | "widgets"
+            | "selection";
         isList?: string;
         defaultValue?: string;
         required?: string;
@@ -57,6 +58,7 @@ export interface Property {
     returnType?: ReturnType[];
     properties?: Properties[];
     enumerationValues?: Enumeration[];
+    selectionTypes?: SelectionTypes[];
 }
 
 export interface AttributeType {
@@ -107,5 +109,15 @@ export interface Enumeration {
 export interface EnumerationValue {
     $: {
         key: string;
+    };
+}
+
+export interface SelectionTypes {
+    selectionType: SelectionType[];
+}
+
+export interface SelectionType {
+    $: {
+        name: string;
     };
 }
