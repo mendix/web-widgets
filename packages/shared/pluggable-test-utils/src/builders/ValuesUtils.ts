@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { Big } from "big.js";
-import { ListExpressionValue, ListWidgetValue } from "mendix";
-import { dynamicValue } from "./DynamicActionValueBuilder";
+import type { Big } from "big.js";
+import type { ListExpressionValue, ListWidgetValue } from "mendix";
+import { dynamicValue } from "./DynamicActionValueBuilder.js";
 
 export function buildListExpression<T extends string | boolean | Date | Big>(value: T): ListExpressionValue<T> {
     return { get: () => dynamicValue<T>(value) } as Pick<ListExpressionValue, "get"> as ListExpressionValue<T>;
