@@ -1,10 +1,9 @@
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
-import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { debounce } from "@mendix/pluggable-widgets-commons";
-
-import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
+import { FilterSelector } from "@mendix/widget-kit-web/ui/FilterSelector";
+import { debounce } from "@mendix/widget-kit-web/util";
 import { Big } from "big.js";
 import classNames from "classnames";
+import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 
 interface FilterComponentProps {
     adjustable: boolean;
@@ -24,8 +23,9 @@ interface FilterComponentProps {
 export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
     const [value, setValue] = useState<Big | undefined>(undefined);
-    const [valueInput, setValueInput] = useState<string | undefined>(undefined);
+    const [valueInput, setValueInput] = useState<string | undefined>("");
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const [[onChange, abortSetValue]] = useState(() => debounce((value?: Big) => setValue(value), props.delay));
 
     useEffect(() => {
         setValueInput(props.value?.toString() ?? "");
@@ -36,16 +36,28 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         props.updateFilters?.(value, type);
     }, [value, type]);
 
-    const onChange = useCallback(
-        debounce((value?: Big) => setValue(value), props.delay),
-        [props.delay]
-    );
-
     const focusInput = useCallback(() => {
         if (inputRef.current) {
             inputRef.current.focus();
         }
     }, [inputRef]);
+
+    // abortSetValue computed just once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => abortSetValue, []);
+
+    const onFilterTypeChange = useCallback(
+        type => {
+            setType(prev => {
+                if (prev === type) {
+                    return prev;
+                }
+                focusInput();
+                return type;
+            });
+        },
+        [focusInput]
+    );
 
     return (
         <div
@@ -58,18 +70,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     ariaLabel={props.screenReaderButtonCaption}
                     id={props.id}
                     defaultFilter={props.defaultFilter}
-                    onChange={useCallback(
-                        type => {
-                            setType(prev => {
-                                if (prev === type) {
-                                    return prev;
-                                }
-                                focusInput();
-                                return type;
-                            });
-                        },
-                        [focusInput]
-                    )}
+                    onChange={onFilterTypeChange}
                     options={
                         [
                             { value: "greater", label: "Greater than" },

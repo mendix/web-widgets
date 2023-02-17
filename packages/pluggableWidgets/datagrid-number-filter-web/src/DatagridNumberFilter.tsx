@@ -1,10 +1,9 @@
-import { createElement, ReactElement, useRef } from "react";
-import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";
-
-import { FilterComponent } from "./components/FilterComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-kit-web/ui/Alert";
+import { generateUUID } from "@mendix/widget-kit-web/util";
+import { getGlobalFilterContextObject, FilterType } from "@mendix/widget-plugin-filtering";
 import { Big } from "big.js";
-
+import { ListAttributeValue } from "mendix";
+import { FilterCondition } from "mendix/filters";
 import {
     attribute,
     equals,
@@ -16,14 +15,15 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { FilterCondition } from "mendix/filters";
-import { ListAttributeValue } from "mendix";
+import { createElement, ReactElement, useRef } from "react";
+import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";
+import { FilterComponent } from "./components/FilterComponent";
 import { translateFilters } from "./utils/filters";
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
 
-    const FilterContext = getFilterDispatcher();
+    const FilterContext = getGlobalFilterContextObject();
     const alertMessage = (
         <Alert bootstrapStyle="danger">
             The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget.

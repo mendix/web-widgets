@@ -1,7 +1,8 @@
 {
-    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
+    "extends": "@mendix/tsconfig-web-widgets/pluggable-widget",
     "include": ["./src", "./typings"],
     "compilerOptions": {
-        "baseUrl": "./"
+        "baseUrl": "./",
+        "outDir": "./dist/tsc"
     }
 }

@@ -1,17 +1,17 @@
 import "@testing-library/jest-dom";
-import { Alert, FilterContextValue } from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/pluggable-test-utils";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 
 import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
+import { act } from "react-dom/test-utils";
 
 const commonProps = {
     class: "filter-custom-class",
@@ -50,9 +50,10 @@ describe("Number Filter", () => {
                 const attribute = new EditableValueBuilder<Big>().build();
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
-                fireEvent.change(screen.getByRole("spinbutton"), { target: { value: "10" } });
-
-                jest.advanceTimersByTime(1000);
+                act(() => {
+                    fireEvent.change(screen.getByRole("spinbutton"), { target: { value: "10" } });
+                    jest.advanceTimersByTime(1000);
+                });
 
                 expect(action.execute).toBeCalledTimes(1);
                 expect(attribute.setValue).toBeCalledWith(new Big(10));
@@ -124,12 +125,14 @@ describe("Number Filter", () => {
                 } as FilterContextValue);
             });
 
-            it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+            it("renders error message", async () => {
+                render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'"
-                );
+                expect(
+                    await screen.findByText(
+                        "The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'"
+                    )
+                ).toBeVisible();
             });
 
             afterAll(() => {
@@ -156,12 +159,13 @@ describe("Number Filter", () => {
                 } as FilterContextValue);
             });
 
-            it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+            it("renders error message", async () => {
+                render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    'The Number filter widget can\'t be used with the filters options you have selected. It requires a "Autonumber, Decimal, Integer or Long" attribute to be selected.'
-                );
+                const text =
+                    'The Number filter widget can\'t be used with the filters options you have selected. It requires a "Autonumber, Decimal, Integer or Long" attribute to be selected.';
+
+                expect(await screen.findByText(text)).toBeVisible();
             });
 
             afterAll(() => {
@@ -174,12 +178,14 @@ describe("Number Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
             });
 
-            it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+            it("renders error message", async () => {
+                render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
-                );
+                expect(
+                    await screen.findByText(
+                        "The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
+                    )
+                ).toBeVisible();
             });
         });
     });
@@ -193,12 +199,11 @@ describe("Number Filter", () => {
         });
 
         it("renders with a unique id", () => {
-            const { asFragment: fragment1 } = render(<DatagridNumberFilter {...commonProps} />);
-            const { asFragment: fragment2 } = render(<DatagridNumberFilter {...commonProps} />);
+            render(<DatagridNumberFilter {...commonProps} />);
+            render(<DatagridNumberFilter {...commonProps} />);
 
-            expect(fragment1().querySelector("button")?.getAttribute("aria-controls")).not.toBe(
-                fragment2().querySelector("button")?.getAttribute("aria-controls")
-            );
+            const [btn1, btn2] = screen.queryAllByRole("button");
+            expect(btn1.getAttribute("aria-controls")).not.toEqual(btn2.getAttribute("aria-controls"));
         });
 
         afterAll(() => {
