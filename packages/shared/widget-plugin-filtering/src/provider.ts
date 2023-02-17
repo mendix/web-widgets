@@ -1,7 +1,7 @@
 import { Context, createContext, Dispatch, SetStateAction, useState, useContext } from "react";
-import { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
-import { FilterCondition } from "mendix/filters";
-import { OutOfContextError, ValueIsMissingError } from "./errors";
+import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
+import type { FilterCondition } from "mendix/filters";
+import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { Result, value, error } from "@mendix/widget-kit-web/util";
 
 export type FilterValue = { type: string; value: any };
