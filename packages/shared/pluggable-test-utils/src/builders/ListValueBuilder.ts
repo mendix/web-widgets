@@ -1,4 +1,5 @@
-import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import type { ListValue, ObjectItem } from "mendix";
+import { Status } from "../constants.js";
 
 // eslint-disable-next-line no-unused-vars
 type ListValueBuilder = {
@@ -11,7 +12,7 @@ type ListValueBuilder = {
 
 export function ListValueBuilder(): ListValueBuilder {
     const listValue: ListValue = {
-        status: ValueStatus.Available,
+        status: Status.Available,
         offset: 0,
         limit: 1,
         items: [{ id: "1" } as ObjectItem, { id: "2" } as ObjectItem],
@@ -39,11 +40,11 @@ export function ListValueBuilder(): ListValueBuilder {
             return this.withItems(items);
         },
         isLoading(): ListValue {
-            return { ...listValue, status: ValueStatus.Loading };
+            return { ...listValue, status: Status.Loading };
         },
 
         isUnavailable(): ListValue {
-            return { ...listValue, status: ValueStatus.Unavailable };
+            return { ...listValue, status: Status.Unavailable };
         },
 
         simple(): ListValue {

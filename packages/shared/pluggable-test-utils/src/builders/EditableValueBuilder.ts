@@ -1,5 +1,6 @@
-import { ValueStatus, EditableValue } from "mendix";
-import { Big } from "big.js";
+import type { EditableValue } from "mendix";
+import type { Big } from "big.js";
+import { Status } from "../constants.js";
 
 type Writable<T> = {
     -readonly [K in keyof T]: T[K];
@@ -15,7 +16,7 @@ export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     private readonly editableValue: Writable<EditableValue<T>> = {
         value: undefined,
         displayValue: "",
-        status: ValueStatus.Available,
+        status: Status.Available,
         validation: undefined,
         readOnly: false,
         formatter: {
@@ -49,12 +50,12 @@ export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     }
 
     isLoading(): EditableValueBuilder<T> {
-        this.editableValue.status = ValueStatus.Loading;
+        this.editableValue.status = Status.Loading;
         return this.isReadOnly();
     }
 
     isUnavailable(): EditableValueBuilder<T> {
-        this.editableValue.status = ValueStatus.Unavailable;
+        this.editableValue.status = Status.Unavailable;
         return this.isReadOnly();
     }
 
