@@ -60,7 +60,7 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.13.0",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "prettier": "^2.8.4",

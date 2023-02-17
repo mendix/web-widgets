@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@types/node": "^18.8.3"
+    "@types/node": "^18.13.0"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
