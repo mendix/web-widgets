@@ -1,1 +1,1 @@
-export * from "./assets/filter-type-icons";
+export * from "./assets/filter-type-icons.js";

@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { createElement, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { usePositionObserver } from "../hooks/usePositionObserver";
+import { useOnClickOutside } from "../hooks/useOnClickOutside.js";
+import { usePositionObserver } from "../hooks/usePositionObserver.js";
 
 interface FilterSelectorProps<T extends string> {
     ariaLabel?: string;
