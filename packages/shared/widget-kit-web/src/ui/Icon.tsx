@@ -1,5 +1,5 @@
 import { createElement, ReactElement } from "react";
-import { WebIcon } from "mendix";
+import type { WebIcon } from "mendix";
 import classNames from "classnames";
 
 export interface IconProps {

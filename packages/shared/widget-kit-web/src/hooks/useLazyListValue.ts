@@ -1,7 +1,8 @@
-import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import type { ListValue, ObjectItem } from "mendix";
 import { useRef, useMemo, useEffect } from "react";
-import { tuple } from "../util/tuple";
-import { throttle } from "../util/throttle";
+import { tuple } from "../util/tuple.js";
+import { throttle } from "../util/throttle.js";
+import { ValueStatus } from "../constants.js";
 
 type GetItems = () => void;
 type LoadMore = () => void;
