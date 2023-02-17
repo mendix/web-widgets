@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "noEmitOnError": true,
+        "sourceMap": false,
+        "module": "es2020",
+        "target": "es2020",
+        "lib": ["es2020", "dom"],
+        "moduleResolution": "node",
+        "declaration": false,
+        "noLib": false,
+        "watch": false,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "strictFunctionTypes": false,
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "useUnknownInCatchVariables": false,
+        "exactOptionalPropertyTypes": false,
+        "isolatedModules": true
+    }
+}
