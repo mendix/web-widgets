@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.0] GoogleTagModule - 2023-02-17
+
 ### Added
 
 -   We released Google Tag module.
+
+### [1.0.0] GoogleTag
+
+#### Added
+
+-   We introduced Google Tag widget!
