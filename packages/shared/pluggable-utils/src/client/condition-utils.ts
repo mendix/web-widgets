@@ -1,5 +1,5 @@
-import { ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
-import { ContainsCondition, EqualsCondition, FilterCondition } from "mendix/filters";
+import type { ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
+import type { ContainsCondition, EqualsCondition, FilterCondition } from "mendix/filters";
 import { association, literal, equals, contains, empty, or } from "mendix/filters/builders";
 
 export function referenceEquals(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
