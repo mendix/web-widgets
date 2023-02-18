@@ -13,6 +13,7 @@ export interface PackageJsonFileContent {
     moduleFolderNameInModeler?: string;
     version: string;
     private?: boolean;
+    config?: Record<string, unknown>;
 
     repository?: {
         type: "git";

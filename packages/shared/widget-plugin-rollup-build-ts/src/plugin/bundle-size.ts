@@ -26,7 +26,7 @@ export function bundleSize(pluginOptions?: Options): Plugin {
             if (options.file) {
                 const stat = statSync(options.file);
                 const name = basename(options.file);
-                console.log(`${name}: ${gray("bundle size")}`, ppsize(stat.size, !!pluginOptions?.warnOnExceeded));
+                console.log(gray(`${name}: bundle size`), ppsize(stat.size, !!pluginOptions?.warnOnExceeded));
             }
         }
     };
