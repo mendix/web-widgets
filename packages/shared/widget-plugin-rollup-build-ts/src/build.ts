@@ -33,7 +33,6 @@ export type WidgetOutputs = {
     mainAmd: string;
     editorConfig: string;
     editorPreview: string;
-    mpk: string;
 };
 
 export type BuildConfig = {
@@ -97,8 +96,7 @@ export function createBuildConfig(rootDir: string, outDir: string): BuildConfig 
             mainAmd: join(dirs.clientModule.clientComponentDir, `${name}.js`),
             mainEsm: join(dirs.clientModule.clientComponentDir, `${name}.mjs`),
             editorConfig: join(dirs.clientModule.widgetDefinitionDir, `${name}.editorConfig.js`),
-            editorPreview: join(dirs.clientModule.widgetDefinitionDir, `${name}.editorPreview.js`),
-            mpk: join(dirs.mpkDir, pkg.mxpackage.mpkName)
+            editorPreview: join(dirs.clientModule.widgetDefinitionDir, `${name}.editorPreview.js`)
         },
         dirs
     };

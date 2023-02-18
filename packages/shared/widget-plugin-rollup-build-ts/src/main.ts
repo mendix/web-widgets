@@ -2,6 +2,7 @@ import { resolve as resolvePath } from "node:path";
 import { existsSync } from "node:fs";
 import copy from "@guanghechen/rollup-plugin-copy";
 import { widgetTyping } from "@mendix/typings-generator";
+import command from "rollup-plugin-command";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
@@ -14,6 +15,7 @@ import { minify } from "rollup-plugin-swc3";
 import { BuildConfig, createBuildConfig } from "./build.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import * as dotenv from "dotenv";
+import { createMPK } from "./mpk-utils.js";
 
 type Env = Readonly<{
     production: boolean;
@@ -36,11 +38,9 @@ function main(args: CLIArgs): RollupOptions[] {
     args.configAnalyzeLimit ??= 20;
     args.configOutDir ??= "output";
 
-    const env = getEnv();
     const rootDir = process.cwd();
+    const env = getEnv();
     const config = createBuildConfig(rootDir, args.configOutDir);
-    // const mpkName = getMpkName(config, env);
-    const projectPath = getProjectPath(config, env);
 
     printBuildInfo(env, config, args);
 
@@ -49,7 +49,7 @@ function main(args: CLIArgs): RollupOptions[] {
         verbose: !env.ci && !args.watch
     });
 
-    return createEntries({ rootDir, env, args, config, hasProject: !!projectPath });
+    return createEntries({ rootDir, env, args, config });
 }
 
 export { main as rollupConfigFn };
@@ -59,11 +59,13 @@ type CreateEntriesParams = {
     env: Env;
     args: CLIArgs;
     config: BuildConfig;
-    hasProject: boolean;
 };
 
 function createEntries(params: CreateEntriesParams): RollupOptions[] {
-    const { rootDir, env, args, config, hasProject } = params;
+    const { rootDir, env, args, config } = params;
+    const projectPath = getProjectPath(config, env);
+    const mpkInfo = getMpkInfo(config, env);
+    const hasProject = !!projectPath;
 
     const use = {
         bundleAnalyzer: !env.ci && !args.watch && args.configAnalyze,
@@ -98,6 +100,20 @@ function createEntries(params: CreateEntriesParams): RollupOptions[] {
               })
             : null;
 
+    // We need to create .mpk and copy results to test project after bundling is finished.
+    // In case of a regular build is it is on `writeBundle` of the last config we define
+    // (since rollup processes configs sequentially). But in watch mode rollup re-bundles only
+    // configs affected by a change => we cannot know in advance which one will be "the last".
+    // So we run the same logic for all configs, letting the last one win.
+    const mpk = () =>
+        command([
+            () =>
+                createMPK({
+                    mpkFile: mpkInfo.mpkFileAbsolute,
+                    clientModuleRootDir: resolvePath(config.dirs.clientModule.rootDir)
+                })
+        ]);
+
     const mainEntryPlugins = [
         nodeResolve(),
         commonjs(),
@@ -114,12 +130,13 @@ function createEntries(params: CreateEntriesParams): RollupOptions[] {
         }),
         widgetTyping({ sourceDir: `${rootDir}/src` }),
         size(),
-        use.livereload ? livereload() : null
+        use.livereload ? livereload() : null,
+        mpk()
     ];
 
-    const editorConfigPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size()];
+    const editorConfigPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size(), mpk()];
 
-    const editorPreviewPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size()];
+    const editorPreviewPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size(), mpk()];
 
     const external = [/^mendix($|\/)/, /^react$/, /^react\/jsx-runtime$/, /^react-dom$/, /^big.js$/];
 
@@ -209,8 +226,18 @@ function getProjectPath(config: BuildConfig, env: Env): string | undefined {
     return existsSync(path) ? path : undefined;
 }
 
-function getMpkName(config: BuildConfig, env: Env): string {
-    return env.mpkoutput ? env.mpkoutput : config.package.mxpackage.mpkName;
+type MpkInfo = {
+    mpkName: string;
+    mpkFileAbsolute: string;
+};
+
+function getMpkInfo(config: BuildConfig, env: Env): MpkInfo {
+    const mpkName = env.mpkoutput ? env.mpkoutput : config.package.mxpackage.mpkName;
+
+    return {
+        mpkName,
+        mpkFileAbsolute: resolvePath(config.dirs.mpkDir, mpkName)
+    };
 }
 
 function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
@@ -226,7 +253,7 @@ function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
         [{ prop: "widget", value: pkg.mxpackage.name }],
         [{ prop: "version", value: pkg.version }],
         [{ prop: "mode", value: env.production ? "production" : "development" }],
-        [{ prop: "mpkoutput", value: getMpkName(config, env) }]
+        [{ prop: "mpkoutput", value: getMpkInfo(config, env).mpkName }]
     ];
 
     const statsCI: Line[] = [
