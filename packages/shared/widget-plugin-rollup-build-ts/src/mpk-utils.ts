@@ -11,12 +11,15 @@ export async function createMPK({ mpkFile, clientModuleRootDir }: CreateMPKArgs)
     mkdirSync(dirname(mpkFile), { recursive: true });
 
     return new Promise<void>((resolve, reject) => {
-        zip.zip(clientModuleRootDir, mpkFile, err => {
+        const cwd = process.cwd();
+        process.chdir(clientModuleRootDir);
+        zip.zip(".", mpkFile, err => {
             if (err) {
                 reject(err);
             } else {
                 resolve();
             }
         });
+        process.chdir(cwd);
     });
 }
