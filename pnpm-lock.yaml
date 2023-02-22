@@ -137,7 +137,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.8.3
+      '@types/node': ^18.13.0
       '@types/plotly.js': ~1.36.1
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.18
@@ -354,7 +354,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.8.3
+      '@types/node': ^18.13.0
       any-chart-web: workspace:*
       ts-node: ^9.0.0
       typescript: 4.5.4
