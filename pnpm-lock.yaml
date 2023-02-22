@@ -1298,7 +1298,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
-      date-fns: ^2.24.0
+      date-fns: ^2.29.3
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
@@ -1906,7 +1906,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
-      date-fns: ^2.24.0
+      date-fns: ^2.29.3
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
@@ -2350,7 +2350,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
-      date-fns: ^2.24.0
+      date-fns: ^2.29.3
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
@@ -3513,7 +3513,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       classnames: ^2.3.2
-      date-fns: ^2.24.0
+      date-fns: ^2.29.3
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
