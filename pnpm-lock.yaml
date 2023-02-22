@@ -3158,7 +3158,7 @@ importers:
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@popperjs/core': ^2.10.2
+      '@popperjs/core': ^2.11.6
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
