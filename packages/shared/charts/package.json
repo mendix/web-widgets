@@ -68,6 +68,20 @@
     "react-ace": "^9.4.4",
     "react-plotly.js": "^2.5.1"
   },
+  "pnpm": {
+    "packageExtensions": {
+      "@types/react-plotly.js": {
+        "dependencies": {
+          "@types/plotly.js": "^2.12.13"
+        }
+      },
+      "react-ace": {
+        "dependencies": {
+          "@types/react": "^17.0.53"
+        }
+      }
+    }
+  },
   "files": [
     "dist",
     "hooks",

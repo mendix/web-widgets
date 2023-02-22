@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://www.mendix.com/package/1.0/">
+    <clientModule name="Charts" version="2.0.1" xmlns="http://www.mendix.com/clientModule/1.0/">
+        <widgetFiles>
+            <widgetFile path="ColumnChart/ColumnChart.xml"/>
+            <widgetFile path="BarChart/BarChart.xml"/>
+            <widgetFile path="LineChart/LineChart.xml"/>
+            <widgetFile path="AreaChart/AreaChart.xml"/>
+            <widgetFile path="PieChart/PieChart.xml"/>
+            <widgetFile path="TimeSeries/TimeSeries.xml"/>
+            <widgetFile path="HeatMap/HeatMap.xml"/>
+            <widgetFile path="BubbleChart/BubbleChart.xml"/>
+        </widgetFiles>
+        <files>
+            <file path="com/mendix/widget/custom/ColumnChart"/>
+            <file path="com/mendix/widget/custom/BarChart"/>
+            <file path="com/mendix/widget/custom/LineChart"/>
+            <file path="com/mendix/widget/custom/AreaChart"/>
+            <file path="com/mendix/widget/custom/PieChart"/>
+            <file path="com/mendix/widget/custom/TimeSeries"/>
+            <file path="com/mendix/widget/custom/HeatMap"/>
+            <file path="com/mendix/widget/custom/BubbleChart"/>
+        </files>
+    </clientModule>
+</package>
