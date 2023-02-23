@@ -374,7 +374,6 @@ importers:
       '@types/node': ^18.13.0
       concurrently: ^6.5.1
       copy-and-watch: ^0.1.6
-      cross-env: ^7.0.3
       datagrid-date-filter-web: workspace:*
       datagrid-dropdown-filter-web: workspace:*
       datagrid-number-filter-web: workspace:*
@@ -401,7 +400,6 @@ importers:
       '@types/node': 18.14.0
       concurrently: 6.5.1
       copy-and-watch: 0.1.6
-      cross-env: 7.0.3
       prettier: 2.8.4
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
@@ -431,14 +429,12 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@types/node': ^18.13.0
-      cross-env: ^7.0.3
       eslint: ^7.32.0
       ts-node: ^9.1.1
       typescript: 4.5.4
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@types/node': 18.14.0
-      cross-env: 7.0.3
       eslint: 7.32.0
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
