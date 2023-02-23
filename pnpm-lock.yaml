@@ -3494,6 +3494,58 @@ importers:
       eslint: 7.32.0
       eslint-plugin-json: 3.1.0
 
+  packages/shared/pluggable-test-utils:
+    specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@mendix/tsconfig-web-widgets': workspace:*
+      '@types/big.js': ^6.1.6
+      '@types/jest': ^26.0.24
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      eslint: ^7.32.0
+      jest: '>=26.0.0'
+      mendix: ^9.22.62233
+      prettier: ^2.8.4
+      typescript: 4.5.4
+    dependencies:
+      '@types/big.js': 6.1.6
+      '@types/jest': 26.0.24
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      mendix: 9.22.62233
+    devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets': link:../tsconfig-web-widgets
+      eslint: 7.32.0
+      jest: 26.6.3
+      prettier: 2.8.4
+      typescript: 4.5.4
+
+  packages/shared/pluggable-utils:
+    specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@mendix/tsconfig-web-widgets': workspace:*
+      '@types/big.js': ^6.1.6
+      big.js: ^6.0.2
+      eslint: ^7.32.0
+      mendix: ^9.22.62233
+      prettier: ^2.8.4
+      typescript: 4.5.4
+    dependencies:
+      '@types/big.js': 6.1.6
+      big.js: 6.2.1
+      mendix: 9.22.62233
+    devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets': link:../tsconfig-web-widgets
+      eslint: 7.32.0
+      prettier: 2.8.4
+      typescript: 4.5.4
+
   packages/shared/pluggable-widgets-commons:
     specifiers:
       '@mendix/eslint-config-web-widgets': workspace:*
@@ -3569,6 +3621,102 @@ importers:
       '@prettier/plugin-xml': 2.2.0
     devDependencies:
       eslint: 7.32.0
+
+  packages/shared/tsconfig-web-widgets:
+    specifiers: {}
+
+  packages/shared/widget-kit-web:
+    specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@mendix/tsconfig-web-widgets': workspace:*
+      '@swc/core': ^1.3.35
+      '@swc/jest': ^0.2.24
+      '@types/jest': ^26.0.24
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      classnames: ^2.3.2
+      eslint: ^7.32.0
+      jest: ^26.6.3
+      mendix: ^9.22.62233
+      prettier: ^2.8.4
+      react: ~17.0.2
+      react-dom: ~17.0.2
+      typescript: 4.5.4
+    dependencies:
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      classnames: 2.3.2
+      mendix: 9.22.62233
+    devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets': link:../tsconfig-web-widgets
+      '@swc/core': 1.3.36
+      '@swc/jest': 0.2.24_@swc+core@1.3.36
+      '@types/jest': 26.0.24
+      eslint: 7.32.0
+      jest: 26.6.3
+      prettier: 2.8.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      typescript: 4.5.4
+
+  packages/shared/widget-plugin-filtering:
+    specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@mendix/tsconfig-web-widgets': workspace:*
+      '@mendix/widget-kit-web': workspace:*
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      eslint: ^7.32.0
+      mendix: ^9.22.62233
+      prettier: ^2.8.4
+      react: ~17.0.2
+      react-dom: ~17.0.2
+      typescript: 4.5.4
+    dependencies:
+      '@mendix/widget-kit-web': link:../widget-kit-web
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      mendix: 9.22.62233
+    devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets': link:../tsconfig-web-widgets
+      eslint: 7.32.0
+      prettier: 2.8.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      typescript: 4.5.4
+
+  packages/shared/widget-plugin-sorting:
+    specifiers:
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@mendix/tsconfig-web-widgets': workspace:*
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      eslint: ^7.32.0
+      mendix: ^9.22.62233
+      prettier: ^2.8.4
+      react: ~17.0.2
+      react-dom: ~17.0.2
+      typescript: 4.5.4
+    dependencies:
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      mendix: 9.22.62233
+    devDependencies:
+      '@mendix/eslint-config-web-widgets': link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets': link:../tsconfig-web-widgets
+      eslint: 7.32.0
+      prettier: 2.8.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      typescript: 4.5.4
 
 packages:
 
@@ -5342,6 +5490,13 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@jest/create-cache-key-function/27.5.1:
+    resolution: {integrity: sha512-dmH1yW+makpTSURTy8VzdUwFnfQh1G8R+DxO2Ho2FFmBbKFEVm+3jWdvFhE2VqB/LATCTokkP0dotjyQyw5/AQ==}
+    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    dependencies:
+      '@jest/types': 27.5.1
+    dev: true
+
   /@jest/environment/26.6.2:
     resolution: {integrity: sha512-nFy+fHl28zUrRsCeMB61VDThV1pVTtlEokBRgqPrcT1JNq4yRNIyTHfyht6PqtUvY9IsuLGTrbG8kPXjSZIZwA==}
     engines: {node: '>= 10.14.2'}
@@ -5492,6 +5647,17 @@ packages:
       '@types/node': 18.14.0
       '@types/yargs': 15.0.15
       chalk: 4.1.2
+
+  /@jest/types/27.5.1:
+    resolution: {integrity: sha512-Cx46iJ9QpwQTjIdq5VJu2QTMMs3QlEjI0x1QbBP5W1+nMzyc2XmimiRR/CbX9TO0cPTeUlxWMOu8mslYsJ8DEw==}
+    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    dependencies:
+      '@types/istanbul-lib-coverage': 2.0.4
+      '@types/istanbul-reports': 3.0.1
+      '@types/node': 18.14.0
+      '@types/yargs': 16.0.5
+      chalk: 4.1.2
+    dev: true
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
@@ -5937,6 +6103,124 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
+  /@swc/core-darwin-arm64/1.3.36:
+    resolution: {integrity: sha512-lsP+C8p9cC/Vd9uAbtxpEnM8GoJI/MMnVuXak7OlxOtDH9/oTwmAcAQTfNGNaH19d2FAIRwf+5RbXCPnxa2Zjw==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-darwin-x64/1.3.36:
+    resolution: {integrity: sha512-jaLXsozWN5xachl9fPxDMi5nbWq1rRxPAt6ISeiYB6RJk0MQKH1634pOweBBem2pUDDzwDFXFw6f22LTm/cFvA==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm-gnueabihf/1.3.36:
+    resolution: {integrity: sha512-vcBdTHjoEpvJDbFlgto+S6VwAHzLA9GyCiuNcTU2v4KNQlFzhbO4A4PMfMCb/Z0RLJEr16tirfHdWIxjU3h8nw==}
+    engines: {node: '>=10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm64-gnu/1.3.36:
+    resolution: {integrity: sha512-o7f5OsvwWppJo+qIZmrGO5+XC6DPt6noecSbRHjF6o1YAcR13ETPC14k1eC9H1YbQwpyCFNVAFXyNcUbCeQyrQ==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-arm64-musl/1.3.36:
+    resolution: {integrity: sha512-FSHPngMi3c0fuGt9yY2Ubn5UcELi3EiPLJxBSC3X8TF9atI/WHZzK9PE9Gtn0C/LyRh4CoyOugDtSOPzGYmLQg==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-x64-gnu/1.3.36:
+    resolution: {integrity: sha512-PHSsH2rek5pr3e0K09VgWAbrWK2vJhaI7MW9TPoTjyACYjcs3WwjcjQ30MghXUs2Dc/bXjWAOi9KFTjq/uCyFg==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-linux-x64-musl/1.3.36:
+    resolution: {integrity: sha512-4LfMYQHzozHCKkIcmQy83b+4SpI+mOp6sYNbXqSRz5dYvTVjegKZXe596P1U/87cK2cgR4uYvkgkgBXquaWvwQ==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-win32-arm64-msvc/1.3.36:
+    resolution: {integrity: sha512-7y3dDcun79TAjCyk3Iv0eOMw1X/KNQbkVyKOGqnEgq9g22F8F1FoUGKHNTzUqVdzpHeJSsHgW5PlkEkl3c/d9w==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-win32-ia32-msvc/1.3.36:
+    resolution: {integrity: sha512-zK0VR3B4LX5hzQ+7eD+K+FkxJlJg5Lo36BeahMzQ+/i0IURpnuyFlW88sdkFkMsc2swdU6bpvxLZeIRQ3W4OUg==}
+    engines: {node: '>=10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core-win32-x64-msvc/1.3.36:
+    resolution: {integrity: sha512-2bIjr9DhAckGiXZEvj6z2z7ECPcTimG+wD0VuQTvr+wkx46uAJKl5Kq+Zk+dd15ErL7JGUtCet1T7bf1k4FwvQ==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@swc/core/1.3.36:
+    resolution: {integrity: sha512-Ogrd9uRNIj7nHjXxG66UlKBIcXESUenJ7OD6K2a8p82qlg6ne7Ne5Goiipm/heHYhSfVmjcnRWL9ZJ4gv+YCPA==}
+    engines: {node: '>=10'}
+    requiresBuild: true
+    optionalDependencies:
+      '@swc/core-darwin-arm64': 1.3.36
+      '@swc/core-darwin-x64': 1.3.36
+      '@swc/core-linux-arm-gnueabihf': 1.3.36
+      '@swc/core-linux-arm64-gnu': 1.3.36
+      '@swc/core-linux-arm64-musl': 1.3.36
+      '@swc/core-linux-x64-gnu': 1.3.36
+      '@swc/core-linux-x64-musl': 1.3.36
+      '@swc/core-win32-arm64-msvc': 1.3.36
+      '@swc/core-win32-ia32-msvc': 1.3.36
+      '@swc/core-win32-x64-msvc': 1.3.36
+    dev: true
+
+  /@swc/jest/0.2.24_@swc+core@1.3.36:
+    resolution: {integrity: sha512-fwgxQbM1wXzyKzl1+IW0aGrRvAA8k0Y3NxFhKigbPjOJ4mCKnWEcNX9HQS3gshflcxq8YKhadabGUVfdwjCr6Q==}
+    engines: {npm: '>= 7.0.0'}
+    peerDependencies:
+      '@swc/core': '*'
+    dependencies:
+      '@jest/create-cache-key-function': 27.5.1
+      '@swc/core': 1.3.36
+      jsonc-parser: 3.2.0
+    dev: true
+
   /@testing-library/dom/8.20.0:
     resolution: {integrity: sha512-d9ULIT+a4EXLX3UU8FBjauG9NnsZHkHztXoIcTsOKoOw030fyjheN9svkTULjJxtYag9DZz5Jz5qkWZDPxTFwA==}
     engines: {node: '>=12'}
@@ -6098,7 +6382,6 @@ packages:
 
   /@types/big.js/6.1.6:
     resolution: {integrity: sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==}
-    dev: true
 
   /@types/cheerio/0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
@@ -6511,7 +6794,6 @@ packages:
     resolution: {integrity: sha512-U54mD5zsVade6nJidMEr8Zo7JGJytH+mH3Be3EeYrfgNMW1bHYr6U1HODFUC0wpprMdlQYvFXOSrBaWR2eefOA==}
     dependencies:
       '@types/react': 17.0.53
-    dev: true
 
   /@types/react-plotly.js/2.6.0:
     resolution: {integrity: sha512-nJJ57U0/CNDAO+F3dpnMgM8PtjLE/O1I3O6gq4+5Q13uKqrPnHGYOttfdzQJ4D7KYgF609miVzEYakUS2zds8w==}
@@ -6619,6 +6901,12 @@ packages:
     resolution: {integrity: sha512-IziEYMU9XoVj8hWg7k+UJrXALkGFjWJhn5QFEv9q4p+v40oZhSuC135M38st8XPjICL7Ey4TV64ferBGUoJhBg==}
     dependencies:
       '@types/yargs-parser': 21.0.0
+
+  /@types/yargs/16.0.5:
+    resolution: {integrity: sha512-AxO/ADJOBFJScHbWhq2xAhlWP24rY4aCEG/NFaMvbT3X2MgRsLjhjQwsn0Zi5zn0LG9jUhCCZMeX9Dkuw6k+vQ==}
+    dependencies:
+      '@types/yargs-parser': 21.0.0
+    dev: true
 
   /@types/yauzl/2.10.0:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
@@ -13225,7 +13513,6 @@ packages:
       '@types/big.js': 6.1.6
       '@types/react': 17.0.53
       '@types/react-native': 0.64.31
-    dev: true
 
   /meow/8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
