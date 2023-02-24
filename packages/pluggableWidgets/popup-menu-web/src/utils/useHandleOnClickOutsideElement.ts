@@ -6,12 +6,14 @@ export function useHandleOnClickOutsideElement(ref: RefObject<HTMLDivElement>, h
             if (!ref.current || ref.current.contains(event.target)) {
                 return;
             }
+            event.preventDefault();
+            event.stopPropagation();
             handler();
         };
-        ref.current?.ownerDocument.addEventListener("mousedown", listener);
+        ref.current?.ownerDocument.addEventListener("click", listener);
         ref.current?.ownerDocument.addEventListener("touchstart", listener);
         return () => {
-            ref.current?.ownerDocument.removeEventListener("mousedown", listener);
+            ref.current?.ownerDocument.removeEventListener("click", listener);
             ref.current?.ownerDocument.removeEventListener("touchstart", listener);
         };
     }, [ref, handler]);

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ActionValue } from "mendix";
-import { createElement, ReactElement, useEffect, useRef } from "react";
+import { createElement, ReactElement, SyntheticEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
 import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
@@ -83,7 +83,7 @@ function createMenuOptions(
                         <div
                             key={index}
                             className={classNames("popupmenu-basic-item", pickedStyle)}
-                            onClick={e => {
+                            onClick={(e: SyntheticEvent<HTMLElement>) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 handleOnClickItem(item.action);
@@ -101,11 +101,14 @@ function createMenuOptions(
                 <div
                     key={index}
                     className={"popupmenu-custom-item"}
-                    onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleOnClickItem(item.action);
-                    }}
+                    onClickCapture={
+                        item.action
+                            ? (e: SyntheticEvent<HTMLElement>) => {
+                                  e.preventDefault();
+                                  handleOnClickItem(item.action);
+                              }
+                            : undefined
+                    }
                 >
                     {item.content}
                 </div>
