@@ -14,11 +14,10 @@ describe("gallery-web", () => {
 
         it("changes order of data choosing another option in the dropdown sort", () => {
             const gallery = ".mx-name-gallery1";
-            const dropdownSort = ".mx-name-gallery1 .dropdown-container .form-control";
+            const dropdownSort = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
 
             cy.get(dropdownSort).first().click();
-            cy.get("#drop_downFilter1-dropdown-list li").eq(4).click();
-            cy.wait(1000);
+            cy.get(".dropdown-content li").eq(4).click();
             cy.get(gallery).compareSnapshot(`galleryDropdownSort-${browserName}`, 0.1);
         });
     });
