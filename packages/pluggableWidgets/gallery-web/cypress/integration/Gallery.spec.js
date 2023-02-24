@@ -14,10 +14,10 @@ describe("gallery-web", () => {
 
         it("changes order of data choosing another option in the dropdown sort", () => {
             const gallery = ".mx-name-gallery1";
-            const dropdownSort = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
+            const dropdownSort = ".mx-name-drop_downSort2 input";
 
             cy.get(dropdownSort).first().click();
-            cy.get(".dropdown-content li").eq(4).click();
+            cy.contains("[role=menuitem]", "Age").click();
             cy.get(gallery).compareSnapshot(`galleryDropdownSort-${browserName}`, 0.1);
         });
     });
@@ -48,6 +48,15 @@ describe("gallery-web", () => {
             cy.get(textFilter).eq(3).type("10/10/1986");
             cy.wait(1000);
             cy.get(gallery).compareSnapshot(`galleryDateFilter-${browserName}`, 0.1);
+        });
+
+        it("filters by enum (dropdown)", () => {
+            const gallery = ".mx-name-gallery1";
+            const dropdownSort = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
+
+            cy.get(dropdownSort).first().click();
+            cy.get(".dropdown-content li").eq(4).click();
+            cy.get(gallery).compareSnapshot(`galleryDropdownFilter-${browserName}`, 0.1);
         });
     });
 
