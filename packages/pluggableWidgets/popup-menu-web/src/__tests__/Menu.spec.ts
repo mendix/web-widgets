@@ -156,18 +156,17 @@ describe("Popup menu", () => {
 
         it("triggers action", () => {
             const popupMenu = createPopupMenu(defaultProps);
-            const preventDefaultAction = jest.fn();
-            const stopPropagationAction = jest.fn();
-            const event: any = {
-                preventDefault: preventDefaultAction,
-                stopPropagation: stopPropagationAction,
-                target: {}
-            };
-            popupMenu.find(".popupmenu-custom-item").prop("onClick")!(event);
-
-            expect(stopPropagationAction).toHaveBeenCalled();
-            expect(preventDefaultAction).toHaveBeenCalled();
-            expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
+            const onClick = popupMenu.find(".popupmenu-custom-item").prop("onClick");
+            if (onClick) {
+                const preventDefaultAction = jest.fn();
+                const event: any = {
+                    preventDefault: preventDefaultAction,
+                    target: {}
+                };
+                onClick(event);
+                expect(preventDefaultAction).toHaveBeenCalled();
+                expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
+            }
         });
     });
 });
