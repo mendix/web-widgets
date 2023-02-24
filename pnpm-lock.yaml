@@ -8,9 +8,9 @@ overrides:
   '@testing-library/react-hooks': ^3.4.2
   '@types/testing-library__jest-dom': ^5.14.1
   '@types/testing-library__react-hooks': ^3.4.0
-  '@types/react': 17.0.53
-  '@types/react-dom': 17.0.18
-  '@types/react-test-renderer': 17.0.2
+  '@types/react': ^17.0.53
+  '@types/react-dom': ^17.0.18
+  '@types/react-test-renderer': ^17.0.2
   react: ~17.0.2
   react-dom: ~17.0.2
   react-test-renderer: ~17.0.2
@@ -3497,8 +3497,8 @@ importers:
       '@mendix/tsconfig-web-widgets': workspace:*
       '@types/big.js': ^6.1.6
       '@types/jest': ^26.0.24
-      '@types/react': 17.0.53
-      '@types/react-dom': 17.0.18
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.18
       eslint: ^7.32.0
       jest: '>=26.0.0'
       mendix: ^9.22.62233
@@ -3629,8 +3629,8 @@ importers:
       '@swc/core': ^1.3.35
       '@swc/jest': ^0.2.24
       '@types/jest': ^26.0.24
-      '@types/react': 17.0.53
-      '@types/react-dom': 17.0.18
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.18
       classnames: ^2.3.2
       eslint: ^7.32.0
       jest: ^26.6.3
@@ -3664,8 +3664,8 @@ importers:
       '@mendix/prettier-config-web-widgets': workspace:*
       '@mendix/tsconfig-web-widgets': workspace:*
       '@mendix/widget-kit-web': workspace:*
-      '@types/react': 17.0.53
-      '@types/react-dom': 17.0.18
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.18
       eslint: ^7.32.0
       mendix: ^9.22.62233
       prettier: ^2.8.4
