@@ -20,8 +20,8 @@
     "root-script:commitlint": "npx --no -- commitlint --edit ${1}"
   },
   "dependencies": {
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "eslint": "^7.32.0",
     "prettier": "^2.8.4",
