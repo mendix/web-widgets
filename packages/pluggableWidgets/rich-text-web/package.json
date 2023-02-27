@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@types/dompurify": "^2.4.0",
-    "ckeditor4": "^4.20.1",
+    "ckeditor4": "^4.20.2",
     "ckeditor4-react": "^2.1.1",
     "classnames": "^2.3.2",
     "dompurify": "^2.4.3"
