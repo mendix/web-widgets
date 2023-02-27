@@ -83,7 +83,7 @@ importers:
   automation/snapshot-generator:
     specifiers:
       '@mendix/prettier-config-web-widgets': workspace:*
-      chance: ^1.1.9
+      chance: ^1.1.10
       eslint: ^7.32.0
       prettier: ^2.8.4
     dependencies:
