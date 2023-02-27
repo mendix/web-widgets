@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.14.0",
     "eslint": "^7.32.0",
     "ts-node": "^9.1.1",
     "typescript": "4.5.4"

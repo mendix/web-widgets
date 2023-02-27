@@ -42,7 +42,7 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.14.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "ts-node": "^9.0.0",

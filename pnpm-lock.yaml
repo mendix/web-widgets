@@ -98,7 +98,7 @@ importers:
       '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
       '@types/cross-zip': ^4.0.0
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/node-fetch': 2.6.2
       chalk: ^4.1.2
       cross-zip: ^4.0.0
@@ -137,7 +137,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.8.3
+      '@types/node': ^18.14.0
       '@types/plotly.js': ~1.36.1
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
@@ -214,7 +214,7 @@ importers:
       '@types/date-arithmetic': ^3.1.2
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-big-calendar': 0.20.20
       '@types/react-dom': ^17.0.18
@@ -293,7 +293,7 @@ importers:
       '@mendix/prettier-config-web-widgets': workspace:*
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-resize-detector': ^5.0.0
@@ -354,7 +354,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.8.3
+      '@types/node': ^18.14.0
       any-chart-web: workspace:*
       ts-node: ^9.0.0
       typescript: 4.5.4
@@ -371,7 +371,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       concurrently: ^6.5.1
       copy-and-watch: ^0.1.6
       datagrid-date-filter-web: workspace:*
@@ -408,7 +408,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/prettier-config-web-widgets': workspace:*
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       cross-env: ^7.0.3
       eslint: ^7.32.0
       google-tag-web: workspace:*
@@ -428,7 +428,7 @@ importers:
   packages/modules/web-actions:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       eslint: ^7.32.0
       ts-node: ^9.1.1
       typescript: 4.5.4
@@ -453,7 +453,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -520,7 +520,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -591,7 +591,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -660,7 +660,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -731,7 +731,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -804,7 +804,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -874,7 +874,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -948,7 +948,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1017,7 +1017,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1085,7 +1085,7 @@ importers:
       '@mendix/prettier-config-web-widgets': workspace:*
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       area-chart-web: workspace:*
       bar-chart-web: workspace:*
       bubble-chart-web: workspace:*
@@ -1137,7 +1137,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-color': ^2.17.6
       '@types/react-dom': ^17.0.18
@@ -1214,7 +1214,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1285,7 +1285,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-datepicker': ^4.8.0
       '@types/react-dom': ^17.0.18
@@ -1363,7 +1363,7 @@ importers:
       '@types/deep-equal': ^1.0.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1436,7 +1436,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1508,7 +1508,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1578,7 +1578,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1650,7 +1650,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1719,7 +1719,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1788,7 +1788,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1854,7 +1854,7 @@ importers:
       '@mendix/prettier-config-web-widgets': workspace:*
       '@types/big.js': ^6.1.6
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       eslint: ^7.32.0
@@ -1894,7 +1894,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -1969,7 +1969,7 @@ importers:
       '@types/dompurify': ^2.4.0
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2036,7 +2036,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2107,7 +2107,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2178,7 +2178,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2253,7 +2253,7 @@ importers:
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
       '@types/leaflet': ^1.9.0
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-leaflet': ^2.8.3
@@ -2338,7 +2338,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2411,7 +2411,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2480,7 +2480,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2551,7 +2551,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2625,7 +2625,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.7
       '@types/react': ^17.0.53
@@ -2706,7 +2706,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2781,7 +2781,7 @@ importers:
       '@types/dompurify': ^2.4.0
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -2868,7 +2868,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/rc-slider': ^8.6.4
       '@types/rc-tooltip': ^3.7.7
       '@types/react': ^17.0.53
@@ -2948,7 +2948,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -3021,7 +3021,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -3092,7 +3092,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -3162,7 +3162,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/popper.js': ^1.11.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
@@ -3236,7 +3236,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-test-renderer': ^17.0.2
@@ -3305,7 +3305,7 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-resize-detector': ^5.0.0
@@ -3376,7 +3376,7 @@ importers:
       '@types/big.js': ^6.1.6
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
-      '@types/node': ^18.13.0
+      '@types/node': ^18.14.0
       '@types/plotly.js': ^2.12.13
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
@@ -9107,6 +9107,7 @@ packages:
 
   /cypress-image-diff-js/1.23.0_cypress@12.6.0:
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
+    hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
@@ -9987,6 +9988,7 @@ packages:
 
   /eslint-config-prettier/8.6.0_eslint@7.32.0:
     resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -14990,6 +14992,7 @@ packages:
   /pretty-quick/3.1.3_prettier@2.8.4:
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
     engines: {node: '>=10.13'}
+    hasBin: true
     peerDependencies:
       prettier: '>=2.0.0'
     dependencies:
@@ -17279,6 +17282,7 @@ packages:
   /ts-jest/26.5.6_hoj6rh37du6uxub6buv3fchqgy:
     resolution: {integrity: sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==}
     engines: {node: '>= 10'}
+    hasBin: true
     peerDependencies:
       jest: '>=26 <27'
       typescript: '>=3.8 <5.0'
@@ -17314,6 +17318,7 @@ packages:
 
   /ts-node/10.9.1_rzp3k5nwapvzpixm62ol2eltbq:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -17345,6 +17350,7 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -17651,6 +17657,7 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.5:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -17971,6 +17978,7 @@ packages:
   /webpack-cli/4.10.0_webpack@5.75.0:
     resolution: {integrity: sha512-NLhDfH/h4O6UOy+0LSso42xvYypClINuMNBVVzX4vX98TmTaTUxwRbXdhucbFMd2qLaCTcLq/PdYrvi8onw90w==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
       '@webpack-cli/migrate': '*'
@@ -18005,6 +18013,7 @@ packages:
   /webpack-cli/5.0.1_webpack@5.75.0:
     resolution: {integrity: sha512-S3KVAyfwUqr0Mo/ur3NzIp6jnerNpo7GUO6so51mxLi1spqsA17YcMXy0WOIJtBSnj748lthxC6XLbNKh/ZC+A==}
     engines: {node: '>=14.15.0'}
+    hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
       webpack: 5.x.x
@@ -18050,6 +18059,7 @@ packages:
   /webpack/5.75.0_webpack-cli@4.10.0:
     resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
@@ -18090,6 +18100,7 @@ packages:
   /webpack/5.75.0_webpack-cli@5.0.1:
     resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
