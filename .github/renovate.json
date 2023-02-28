@@ -37,6 +37,14 @@
         {
             "matchPackagePatterns": ["*"],
             "rangeStrategy": "bump"
+        },
+        {
+            "matchDepTypes": ["devDependencies"],
+            "prPriority": -1
+        },
+        {
+            "matchPackageNames": ["mendix"],
+            "prPriority": 5
         }
     ]
 }
