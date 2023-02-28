@@ -41,7 +41,7 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@googlemaps/jest-mocks": "^2.9.0",
+    "@googlemaps/jest-mocks": "^2.10.0",
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
