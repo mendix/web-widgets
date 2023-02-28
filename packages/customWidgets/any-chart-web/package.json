@@ -34,7 +34,7 @@
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/node": "^18.8.3",
-    "@types/plotly.js": "~1.36.1",
+    "@types/plotly.js": "~1.54.22",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
     "copy-webpack-plugin": "^11.0.0",
