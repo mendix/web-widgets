@@ -72,6 +72,6 @@
     "typescript": "4.5.4"
   },
   "dependencies": {
-    "dompurify": "^2.4.3"
+    "dompurify": "^2.4.4"
   }
 }
