@@ -48,7 +48,7 @@ jobs:
       - name: Get sha of main
         run: echo "main_sha=$(git rev-parse origin/main)" >> $GITHUB_ENV
       - name: Restore Turbo Cache
-        uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3.2.5
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3.2.6
         with:
           path: node_modules/.cache/turbo
           # NOTE: We create new cache record for every new commit on main
@@ -91,7 +91,7 @@ jobs:
       - name: Get sha of main
         run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
       - name: Restore Turbo Cache
-        uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3.2.5
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3.2.6
         with:
           path: node_modules/.cache/turbo
           # NOTE: build & release tasks should have their own cache
@@ -153,7 +153,7 @@ jobs:
       - name: Get sha of main
         run: echo "main_sha=$(git rev-parse origin/main)" >> ${{ runner.os == 'Windows' && '$env:GITHUB_ENV' || '$GITHUB_ENV' }}
       - name: Restore Turbo Cache
-        uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3.2.5
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3.2.6
         with:
           path: node_modules/.cache/turbo
           key: turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}-${{ env.main_sha }}
