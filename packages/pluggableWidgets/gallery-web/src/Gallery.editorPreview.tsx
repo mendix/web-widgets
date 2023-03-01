@@ -41,7 +41,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             itemRenderer={useCallback(
                 renderWrapper => (
                     <props.content.renderer caption="Gallery item: Place widgets here">
-                        {renderWrapper(null, "")}
+                        {renderWrapper(false, null, "")}
                     </props.content.renderer>
                 ),
                 [props.content]

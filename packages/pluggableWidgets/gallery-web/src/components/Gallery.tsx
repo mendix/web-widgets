@@ -14,7 +14,12 @@ export interface GalleryProps<T extends ObjectItem> {
     hasMoreItems: boolean;
     items: T[];
     itemRenderer: (
-        renderWrapper: (children: ReactNode, className?: string, onClick?: () => void) => ReactElement,
+        renderWrapper: (
+            selected: boolean,
+            children: ReactNode,
+            className?: string,
+            onClick?: () => void
+        ) => ReactElement,
         item: T
     ) => ReactNode;
     numberOfItems?: number;
@@ -68,12 +73,13 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                     role="list"
                 >
                     {props.items.map(item =>
-                        props.itemRenderer((children, className, onClick) => {
+                        props.itemRenderer((selected, children, className, onClick) => {
                             return (
                                 <div
                                     key={`item_${item.id}`}
                                     className={classNames("widget-gallery-item", className, {
-                                        "widget-gallery-clickable": !!onClick
+                                        "widget-gallery-clickable": !!onClick,
+                                        "widget-gallery-selected": selected
                                     })}
                                     onClick={onClick}
                                     onKeyDown={

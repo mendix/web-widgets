@@ -12,7 +12,7 @@ const itemWrapperFunction =
         customClass?: string;
     }): GalleryProps<ObjectItem>["itemRenderer"] =>
     (wrapper, item) =>
-        wrapper(item.id, customClass, onClick);
+        wrapper(false, item.id, customClass, onClick);
 
 const defaultProps: GalleryProps<ObjectItem> = {
     hasMoreItems: false,
