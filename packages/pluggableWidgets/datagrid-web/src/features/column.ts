@@ -20,7 +20,7 @@ export function getAssociationProps(columnProps: ColumnsType): AssociationProper
 }
 
 export function getColumnAssociationProps(settings: ColumnsType): AssociationProperties | undefined {
-    if (!settings.enableAssociationFilter) {
+    if (!settings.filterAssociation) {
         return;
     }
 
@@ -29,7 +29,7 @@ export function getColumnAssociationProps(settings: ColumnsType): AssociationPro
 
 export function isSortable(column: ColumnsType | ColumnsPreviewType): boolean {
     // Handle case for editorPreview
-    const attrSortable = typeof column.attribute === "string" ? true : !!column.attribute?.sortable;
+    const attrSortable = typeof column.attribute === "string" || !!column.attribute?.sortable;
 
-    return !column.enableAssociationFilter && column.sortable && attrSortable;
+    return column.sortable && attrSortable;
 }

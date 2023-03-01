@@ -9,6 +9,7 @@ node_modules
 *.launch
 mxproject
 coverage
+output
 
 detox/apps
 detox/*.log

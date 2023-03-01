@@ -5,13 +5,13 @@
   "description": "prettier config for web widgets",
   "main": "index.js",
   "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "scripts": {
     "lint": "eslint --ext .js .",
     "format": "prettier --write ."
   },
   "peerDependencies": {
-    "prettier": ">= 2.5.1"
+    "prettier": ">= 2.8.4"
   },
   "devDependencies": {
     "eslint": "^7.32.0"

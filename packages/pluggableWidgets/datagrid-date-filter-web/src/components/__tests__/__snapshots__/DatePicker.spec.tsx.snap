@@ -12,6 +12,11 @@ Array [
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
@@ -46,6 +51,11 @@ Array [
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control"
@@ -82,6 +92,11 @@ Array [
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
@@ -116,6 +131,11 @@ Array [
     <div
       class="react-datepicker__input-container"
     >
+      <span
+        aria-live="polite"
+        class="react-datepicker__aria-live"
+        role="alert"
+      />
       <input
         aria-labelledby="undefined-label"
         class="form-control"

@@ -3,7 +3,7 @@
   "moduleName": "Data Widgets",
   "version": "2.6.0",
   "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
   "mxpackage": {
     "name": "DataWidgets",
     "type": "module",
+    "mpkName": "DataWidgets.mpk",
     "dependencies": [
       "datagrid-date-filter-web",
       "datagrid-dropdown-filter-web",
@@ -58,12 +59,11 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.13.0",
     "concurrently": "^6.5.1",
     "copy-and-watch": "^0.1.6",
-    "cross-env": "^7.0.3",
-    "prettier": "^2.5.1",
-    "ts-node": "^9.0.0",
+    "prettier": "^2.8.4",
+    "ts-node": "^9.1.1",
     "typescript": "4.5.4"
   }
 }

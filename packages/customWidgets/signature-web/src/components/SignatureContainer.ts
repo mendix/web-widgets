@@ -31,7 +31,7 @@ interface SignatureContainerState {
 
 export default class SignatureContainer extends Component<SignatureContainerProps, SignatureContainerState> {
     private subscriptionHandles: number[] = [];
-    private base64Uri: string;
+    private base64Uri = "";
     private formHandle?: number;
 
     readonly state = {

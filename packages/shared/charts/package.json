@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "description": "Shared components for charts",
   "private": true,
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -27,13 +28,13 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.7.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/big.js": "^6.0.2",
+    "@types/big.js": "^6.1.6",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.13.0",
     "@types/plotly.js": "^2.12.13",
     "@types/react": "^17.0.53",
-    "@types/react-dom": "^17.0.18",
+    "@types/react-dom": "^17.0.19",
     "@types/react-plotly.js": "^2.5.0",
     "@types/react-test-renderer": "<18.0.0",
     "@types/shelljs": "^0.8.11",
@@ -47,18 +48,18 @@
     "jest": "^26.6.3",
     "mendix": "^9.22.62233",
     "mendix-client": "^7.15.8",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.4",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
     "react-test-renderer": "~17.0.2",
     "rimraf": "^2.7.1",
     "rollup": "^2.79.1",
-    "ts-node": "^9.0.0",
+    "ts-node": "^9.1.1",
     "typescript": "4.5.4"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "ace-builds": "^1.4.13",
+    "ace-builds": "^1.15.0",
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
     "fast-json-patch": "^3.1.1",
@@ -66,6 +67,20 @@
     "plotly.js": "^2.14.0",
     "react-ace": "^9.4.4",
     "react-plotly.js": "^2.5.1"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "@types/react-plotly.js": {
+        "dependencies": {
+          "@types/plotly.js": "^2.12.13"
+        }
+      },
+      "react-ace": {
+        "dependencies": {
+          "@types/react": "^17.0.53"
+        }
+      }
+    }
   },
   "files": [
     "dist",

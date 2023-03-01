@@ -52,14 +52,14 @@ export const MxPackageTypeSchema = z.enum([MODULE, WIDGET, JSACTIONS]);
 export const MxPackageSchema = z.object({
     name: MxPackageNameSchema,
     type: MxPackageTypeSchema,
-    mpkName: z.string().endsWith(".mpk").optional(),
+    mpkName: z.string().endsWith(".mpk"),
     dependencies: z.string().array().optional().default([])
 });
 
 export const MarketplaceSchema = z.object({
     minimumMXVersion: versionSchema,
     appName: appNameSchema,
-    appNumber: appNumberSchema
+    appNumber: appNumberSchema.or(z.literal(-1))
 });
 
 export const TestProjectSchema = z.object({
@@ -106,7 +106,7 @@ export const ModulePackageSchema = PackageSchema.extend({
     moduleFolderNameInModeler: z
         .string()
         .min(3)
-        .regex(/^[a-z_]+$/m, "Expected to be writtern in snakecase (eg. data_stack)")
+        .regex(/^[a-z_]+$/m, "Expected to be written in snake_case (eg. my_first_module)")
 });
 
 export const JSActionsPackageSchema = PackageSchema.extend({
@@ -134,7 +134,9 @@ export async function getPackageFileContent(dirPath: string): Promise<PackageJso
     const pkgPath = join(dirPath, `package.json`);
     try {
         await access(pkgPath);
-        const result = (await import(pkgPath)) as PackageJsonFileContent;
+        const result = await import(pkgPath).then(module => {
+            return module.default as PackageJsonFileContent;
+        });
         return result;
     } catch (error) {
         console.log(error);
