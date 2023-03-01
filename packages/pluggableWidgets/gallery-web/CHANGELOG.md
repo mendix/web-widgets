@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   With new "Selection" property it is now possible to make items of the gallery selectable. Additionally, it is possible to configure "On selection change" action that runs when the selection changes.
+
 ## [1.2.0] - 2022-06-13
 
 ### Fixed
