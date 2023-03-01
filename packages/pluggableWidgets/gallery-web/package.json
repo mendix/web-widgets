@@ -17,7 +17,7 @@
     "mpkName": "com.mendix.widget.web.Gallery.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.17.0",
+    "minimumMXVersion": "9.23.0.621",
     "appName": "Gallery"
   },
   "testProject": {

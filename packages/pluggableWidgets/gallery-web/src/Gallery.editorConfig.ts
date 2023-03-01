@@ -30,6 +30,10 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "filtersPlaceholder");
     }
 
+    if (values.itemSelection === "None") {
+        hidePropertyIn(defaultProperties, values, "onSelectionChange");
+    }
+
     if (platform === "web") {
         if (!values.advanced) {
             hidePropertiesIn(defaultProperties, values, [
@@ -72,6 +76,12 @@ export function check(values: GalleryPreviewProps): Problem[] {
         errors.push({
             property: "tabletItems",
             message: "Tablet items must be a number between 1 and 12"
+        });
+    }
+    if (values.itemSelection !== "None" && values.onClick !== null) {
+        errors.push({
+            property: "onClick",
+            message: '"On click action" must be set to "Do nothing" when "Selection" is enabled'
         });
     }
     return errors;
