@@ -36,7 +36,7 @@
   },
   "config": {},
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.0",
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.20.0",
