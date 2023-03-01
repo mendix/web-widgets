@@ -13521,6 +13521,14 @@ packages:
       '@types/react': 17.0.53
       '@types/react-native': 0.64.31
 
+  /mendix/9.23.621:
+    resolution: {integrity: sha512-zsIOjmhgP4E9WHWrXFu2PbjC4/0cHbbL7ISkWetWQZPRFjd5kCXxECQ2wbhTmVfOdt94Usj59KQqeAqvnb4U4Q==}
+    dependencies:
+      '@types/big.js': 6.1.6
+      '@types/react': 17.0.53
+      '@types/react-native': 0.64.31
+    dev: true
+
   /meow/8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
     engines: {node: '>=10'}
