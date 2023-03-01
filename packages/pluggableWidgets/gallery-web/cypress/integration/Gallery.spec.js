@@ -52,9 +52,9 @@ describe("gallery-web", () => {
 
         it("filters by enum (dropdown)", () => {
             const gallery = ".mx-name-gallery1";
-            const dropdownSort = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
+            const dropdown = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
 
-            cy.get(dropdownSort).first().click();
+            cy.get(dropdown).first().click();
             cy.get(".dropdown-content li").eq(4).click();
             cy.get(gallery).compareSnapshot(`galleryDropdownFilter-${browserName}`, 0.1);
         });
