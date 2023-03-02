@@ -38,7 +38,7 @@ class MultiSelectionHelper {
     get selectionStatus(): MultiSelectionStatus {
         return this.selectionValue.selection.length === 0
             ? "none"
-            : this.selectionValue.selection.length === this.selectableItems.length ?? 0
+            : this.selectionValue.selection.length === this.selectableItems.length
             ? "all"
             : "some";
     }
