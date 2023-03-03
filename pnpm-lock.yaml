@@ -36,7 +36,7 @@ importers:
     specifiers:
       ansi-colors: ^4.1.3
       cross-zip: ^4.0.0
-      cypress: ^12.6.0
+      cypress: ^12.7.0
       cypress-image-diff-js: ^1.23.0
       cypress-terminal-report: ^5.0.2
       enquirer: ^2.3.6
@@ -51,9 +51,9 @@ importers:
     dependencies:
       ansi-colors: 4.1.3
       cross-zip: 4.0.0
-      cypress: 12.6.0
-      cypress-image-diff-js: 1.23.0_cypress@12.6.0
-      cypress-terminal-report: 5.0.2_cypress@12.6.0
+      cypress: 12.7.0
+      cypress-image-diff-js: 1.23.0_cypress@12.7.0
+      cypress-terminal-report: 5.0.2_cypress@12.7.0
       enquirer: 2.3.6
       eslint: 7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
@@ -9101,7 +9101,7 @@ packages:
       uniq: 1.0.1
     dev: false
 
-  /cypress-image-diff-js/1.23.0_cypress@12.6.0:
+  /cypress-image-diff-js/1.23.0_cypress@12.7.0:
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
     hasBin: true
     peerDependencies:
@@ -9110,7 +9110,7 @@ packages:
       '@babel/runtime': 7.21.0
       arg: 4.1.3
       colors: 1.4.0
-      cypress: 12.6.0
+      cypress: 12.7.0
       cypress-recurse: 1.27.0
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -9124,21 +9124,22 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report/5.0.2_cypress@12.6.0:
+  /cypress-terminal-report/5.0.2_cypress@12.7.0:
     resolution: {integrity: sha512-YJ6HODTvxKD0FYQX2p3f1DlBRcJcMJjRh3JWZZrBte4dQdnTuIElb4jPh3zbcqsV4MJ+QwF6XyJoXybZgg6kHg==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 12.6.0
+      cypress: 12.7.0
       fs-extra: 10.1.0
       semver: 7.3.8
       tv4: 1.3.0
     dev: false
 
-  /cypress/12.6.0:
-    resolution: {integrity: sha512-WdHSVaS1lumSd5XpVTslZd8ui9GIGphrzvXq9+3DtVhqjRZC5M70gu5SW/Y/SLPq3D1wiXGZoHC6HJ7ESVE2lw==}
+  /cypress/12.7.0:
+    resolution: {integrity: sha512-7rq+nmhzz0u6yabCFyPtADU2OOrYt6pvUau9qV7xyifJ/hnsaw/vkr0tnLlcuuQKUAOC1v1M1e4Z0zG7S0IAvA==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
+    hasBin: true
     requiresBuild: true
     dependencies:
       '@cypress/request': 2.88.11
@@ -10349,6 +10350,7 @@ packages:
   /extract-zip/2.0.1_supports-color@8.1.1:
     resolution: {integrity: sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==}
     engines: {node: '>= 10.17.0'}
+    hasBin: true
     dependencies:
       debug: 4.3.4_supports-color@8.1.1
       get-stream: 5.2.0
@@ -11827,6 +11829,7 @@ packages:
 
   /is-ci/3.0.1:
     resolution: {integrity: sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==}
+    hasBin: true
     dependencies:
       ci-info: 3.8.0
     dev: false
@@ -16704,6 +16707,7 @@ packages:
   /sshpk/1.17.0:
     resolution: {integrity: sha512-/9HIEs1ZXGhSPE8X6Ccm7Nam1z8KcoCqPdI7ecm1N33EzAetWahvQWVqLZtaZQ+IDKX4IyA2o0gBzqIMkAagHQ==}
     engines: {node: '>=0.10.0'}
+    hasBin: true
     dependencies:
       asn1: 0.2.6
       assert-plus: 1.0.0
@@ -17756,6 +17760,7 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
 
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
