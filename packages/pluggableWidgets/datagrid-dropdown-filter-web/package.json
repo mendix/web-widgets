@@ -42,7 +42,7 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "deep-equal": "^2.1.0"
+    "deep-equal": "^2.2.0"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
