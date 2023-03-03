@@ -75,6 +75,8 @@ describe("datagrid-web filtering single select", () => {
             rows().should("have.length", 10 + 1);
             roleSelect().click();
             option("Trader").click();
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(1000);
             rows().should("have.length", 7 + 1);
             column(4).each(cell => {
                 expect(cell).to.include.text("Trader");
