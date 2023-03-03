@@ -61,7 +61,7 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "ace-builds": "^1.15.0",
     "classnames": "^2.3.2",
-    "deepmerge": "^4.2.2",
+    "deepmerge": "^4.3.0",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1",
     "plotly.js": "^2.14.0",
