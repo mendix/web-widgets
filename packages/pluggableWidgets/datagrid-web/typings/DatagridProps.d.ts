@@ -39,7 +39,7 @@ export interface ColumnsType {
 
 export type PaginationEnum = "buttons" | "virtualScrolling";
 
-export type PagingPositionEnum = "bottom" | "top";
+export type PagingPositionEnum = "bottom" | "top" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
