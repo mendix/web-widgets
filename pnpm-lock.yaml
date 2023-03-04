@@ -146,7 +146,7 @@ importers:
       copy-webpack-plugin: ^11.0.0
       css-loader: ^6.7.3
       date-format: ^4.0.14
-      deep-equal: ^2.1.0
+      deep-equal: ^2.2.0
       deepmerge: ^4.3.0
       fast-json-patch: ^3.1.1
       file-loader: ^6.2.0
@@ -1371,7 +1371,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
-      deep-equal: ^2.1.0
+      deep-equal: ^2.2.0
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
@@ -1586,7 +1586,7 @@ importers:
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
-      deep-equal: ^2.1.0
+      deep-equal: ^2.2.0
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
@@ -2263,7 +2263,7 @@ importers:
       '@web-widgets/run-e2e': workspace:*
       classnames: ^2.3.2
       cross-env: ^7.0.3
-      deep-equal: ^2.1.0
+      deep-equal: ^2.2.0
       enzyme: ^3.11.0
       eslint: ^7.32.0
       identity-obj-proxy: ^3.0.0
