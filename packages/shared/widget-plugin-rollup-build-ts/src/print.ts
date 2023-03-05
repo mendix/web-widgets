@@ -22,7 +22,6 @@ export function printBuildInfo(ctx: Context) {
         ]
     ];
 
-    // const stats = env.ci ? statsMain : statsCI;
     const stats = env.ci ? statsCI : statsMain;
 
     // Spacing top

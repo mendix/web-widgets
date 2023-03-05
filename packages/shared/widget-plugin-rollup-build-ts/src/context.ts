@@ -71,7 +71,7 @@ function env(): Env {
 
     const env: EnvVars = {
         production: prod1 || prod2,
-        ci: !!JSON.parse(process.env["CI"] || "false")
+        ci: !!process.env["CI"]
     };
 
     if (typeof mpk === "string" && mpk !== "") {
