@@ -1,5 +1,4 @@
 import { resolve as resolvePath } from "node:path";
-import { existsSync } from "node:fs";
 import copy from "@guanghechen/rollup-plugin-copy";
 import command from "rollup-plugin-command";
 import commonjs from "@rollup/plugin-commonjs";
@@ -15,7 +14,6 @@ import type { Bundle } from "./bundle.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
 import { createMPK } from "./mpk-utils.js";
-import type { PackageJsonFileContent } from "./pkg-utils.js";
 import { Context, context } from "./context.js";
 
 type CLIArgs = {
@@ -56,7 +54,7 @@ type CreateEntriesParams = {
 
 function createEntries(params: CreateEntriesParams, context: Context): RollupOptions[] {
     const { rootDir, env, args, config } = params;
-    const projectPath = getProjectPath(context.package, env);
+    const projectPath = context.config.projectPath;
     const hasProject = !!projectPath;
 
     const use = {
@@ -184,20 +182,6 @@ type Env = Readonly<{
     projectPath?: string;
 }>;
 
-function getProjectPath(pkg: PackageJsonFileContent, env: Env): string | undefined {
-    let path: string;
-
-    if (env.projectPath) {
-        path = env.projectPath;
-    } else if (typeof pkg.config?.["packagePath"] === "string") {
-        path = pkg.config["packagePath"];
-    } else {
-        path = resolvePath("tests", "testProject");
-    }
-
-    return existsSync(path) ? path : undefined;
-}
-
 function printBuildInfo(context: Context, options: CLIArgs) {
     if (options.watch) {
         return;
@@ -233,7 +217,7 @@ function printBuildInfo(context: Context, options: CLIArgs) {
         console.log(l.join(gray(" | ")));
     }
 
-    const projectPath = getProjectPath(context.package, env);
+    const projectPath = context.config.projectPath;
     if (!env.ci && projectPath) {
         console.log(align(gray(`project path:`)), magenta(projectPath));
     }

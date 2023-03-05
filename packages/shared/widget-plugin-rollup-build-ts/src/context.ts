@@ -1,4 +1,6 @@
 import * as dotenv from "dotenv";
+import { resolve as resolvePath } from "node:path";
+import { existsSync } from "node:fs";
 import { Bundle, createBundle } from "./bundle.js";
 import { getPackageFileContentSync, PackageJsonFileContent } from "./pkg-utils.js";
 
@@ -11,8 +13,13 @@ type EnvVars = {
 
 export type Env = Readonly<EnvVars>;
 
+type Config = {
+    projectPath: string | undefined;
+};
+
 export type Context = {
     rootDir: string;
+    config: Config;
     env: Env;
     package: PackageJsonFileContent;
     bundle: Bundle;
@@ -23,12 +30,14 @@ export function context(): Context {
     const env = createEnv();
     const pkg = getPackageFileContentSync(rootDir);
     const bundle = createBundle(env, pkg, "output");
+    const config = createConfig(env, pkg);
 
     return {
         rootDir,
         env,
         package: pkg,
-        bundle
+        bundle,
+        config
     };
 }
 
@@ -54,4 +63,24 @@ function createEnv(): Env {
     }
 
     return Object.freeze(env);
+}
+
+function createConfig(env: Env, pkg: PackageJsonFileContent): Config {
+    return {
+        projectPath: getProjectPath(env, pkg)
+    };
+}
+
+function getProjectPath(env: Env, pkg: PackageJsonFileContent): string | undefined {
+    let path: string;
+
+    if (env.projectPath) {
+        path = env.projectPath;
+    } else if (typeof pkg.config?.["packagePath"] === "string") {
+        path = pkg.config["packagePath"];
+    } else {
+        path = resolvePath("tests", "testProject");
+    }
+
+    return existsSync(path) ? path : undefined;
 }
