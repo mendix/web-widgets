@@ -1,5 +1,6 @@
 import copy from "@guanghechen/rollup-plugin-copy";
 import commonjs from "@rollup/plugin-commonjs";
+import image from "@rollup/plugin-image";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import { resolve as resolvePath } from "node:path";
@@ -59,6 +60,7 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         nodeResolve(),
         commonjs(),
         ts(),
+        image(),
         use.minify ? minify({ compress: true, mangle: true, sourceMap: !!options.sourcemap }) : null,
         analyze(),
         copy({
@@ -75,9 +77,9 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         mpk()
     ];
 
-    const editorConfigPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size(), mpk()];
+    const editorConfigPlugins = [nodeResolve(), commonjs(), ts(), image(), analyze(), size(), mpk()];
 
-    const editorPreviewPlugins = [nodeResolve(), commonjs(), ts(), analyze(), size(), mpk()];
+    const editorPreviewPlugins = [nodeResolve(), commonjs(), ts(), image(), analyze(), size(), mpk()];
 
     const external = [/^mendix($|\/)/, /^react$/, /^react\/jsx-runtime$/, /^react-dom$/, /^big.js$/];
 
