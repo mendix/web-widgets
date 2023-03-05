@@ -57,7 +57,6 @@ type CreateEntriesParams = {
 function createEntries(params: CreateEntriesParams, context: Context): RollupOptions[] {
     const { rootDir, env, args, config } = params;
     const projectPath = getProjectPath(context.package, env);
-    const mpkInfo = getMpkInfo(context);
     const hasProject = !!projectPath;
 
     const use = {
@@ -102,7 +101,7 @@ function createEntries(params: CreateEntriesParams, context: Context): RollupOpt
         command([
             () =>
                 createMPK({
-                    mpkFile: mpkInfo.mpkFileAbsolute,
+                    mpkFile: context.bundle.mpk.mpkFileAbsolute,
                     clientModuleRootDir: resolvePath(config.dirs.clientModule.rootDir)
                 })
         ]);
@@ -199,27 +198,12 @@ function getProjectPath(pkg: PackageJsonFileContent, env: Env): string | undefin
     return existsSync(path) ? path : undefined;
 }
 
-type MpkInfo = {
-    mpkName: string;
-    mpkFileAbsolute: string;
-};
-
-function getMpkInfo(context: Context): MpkInfo {
-    const { env, package: pkg, bundle } = context;
-    const mpkName = env.mpkoutput ? env.mpkoutput : pkg.mxpackage.mpkName;
-
-    return {
-        mpkName,
-        mpkFileAbsolute: resolvePath(bundle.dirs.mpkDir, mpkName)
-    };
-}
-
 function printBuildInfo(context: Context, options: CLIArgs) {
     if (options.watch) {
         return;
     }
 
-    const { env, package: pkg } = context;
+    const { env, package: pkg, bundle } = context;
 
     type Stat = { prop?: string; value: string };
     type Line = Stat[];
@@ -227,7 +211,7 @@ function printBuildInfo(context: Context, options: CLIArgs) {
         [{ prop: "widget", value: pkg.mxpackage.name }],
         [{ prop: "version", value: pkg.version }],
         [{ prop: "mode", value: env.production ? "production" : "development" }],
-        [{ prop: "mpkoutput", value: getMpkInfo(context).mpkName }]
+        [{ prop: "mpkoutput", value: bundle.mpk.mpkName }]
     ];
 
     const statsCI: Line[] = [

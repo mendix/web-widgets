@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
-import { posix } from "node:path";
+import { posix, resolve as resolvePath } from "node:path";
+import type { Env } from "./context.js";
 import type { PackageJsonFileContent } from "./pkg-utils.js";
 
 type RelDirPath = string;
@@ -33,14 +34,20 @@ export type WidgetOutputs = {
     editorPreview: string;
 };
 
+export type WidgetMpk = {
+    mpkName: string;
+    mpkFileAbsolute: string;
+};
+
 export type Bundle = {
     widgetName: string;
     inputs: WidgetInputs;
     outputs: WidgetOutputs;
+    mpk: WidgetMpk;
     dirs: WidgetDirs;
 };
 
-export function createBundle(pkg: PackageJsonFileContent, outDir: string): Bundle {
+export function createBundle(env: Env, pkg: PackageJsonFileContent, outDir: string): Bundle {
     const name = pkg.mxpackage.name;
 
     const dirs = createDirs(outDir, pkg.version, publicPath(pkg.packagePath, name));
@@ -48,6 +55,8 @@ export function createBundle(pkg: PackageJsonFileContent, outDir: string): Bundl
     const inputs = widgetInputs(name);
 
     const outputs = widgetOutputs(name, dirs);
+
+    const mpk = widgetMpk(env, pkg, dirs);
 
     return {
         widgetName: name,
@@ -57,7 +66,8 @@ export function createBundle(pkg: PackageJsonFileContent, outDir: string): Bundl
             editorPreview: existsSync(inputs.editorPreview) ? inputs.editorPreview : undefined
         },
         outputs,
-        dirs
+        dirs,
+        mpk
     };
 }
 
@@ -99,5 +109,14 @@ function widgetOutputs(name: string, { clientModule }: WidgetDirs): WidgetOutput
         mainEsm: posix.join(clientModule.clientComponentDir, `${name}.mjs`),
         editorConfig: posix.join(clientModule.widgetDefinitionDir, `${name}.editorConfig.js`),
         editorPreview: posix.join(clientModule.widgetDefinitionDir, `${name}.editorPreview.js`)
+    };
+}
+
+function widgetMpk(env: Env, pkg: PackageJsonFileContent, dirs: WidgetDirs): WidgetMpk {
+    const mpkName = env.mpkoutput ?? pkg.mxpackage.mpkName;
+
+    return {
+        mpkName,
+        mpkFileAbsolute: resolvePath(dirs.mpkDir, mpkName)
     };
 }

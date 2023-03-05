@@ -22,7 +22,7 @@ export function context(): Context {
     const rootDir = process.cwd();
     const env = createEnv();
     const pkg = getPackageFileContentSync(rootDir);
-    const bundle = createBundle(pkg, "output");
+    const bundle = createBundle(env, pkg, "output");
 
     return {
         rootDir,
