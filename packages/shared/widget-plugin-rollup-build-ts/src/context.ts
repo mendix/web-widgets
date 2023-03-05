@@ -1,8 +1,54 @@
+import type { OutputOptions } from "rollup";
 import * as dotenv from "dotenv";
 import { resolve as resolvePath } from "node:path";
 import { existsSync } from "node:fs";
 import { Bundle, createBundle } from "./bundle.js";
 import { getPackageFileContentSync, PackageJsonFileContent } from "./pkg-utils.js";
+
+export type Context = {
+    rootDir: string;
+    options: Options;
+    config: Config;
+    env: Env;
+    package: PackageJsonFileContent;
+    bundle: Bundle;
+};
+
+export function context(opt?: ConfigOptions): Context {
+    const rootDir = process.cwd();
+    const options = getOptions(opt);
+    const env = createEnv();
+    const pkg = getPackageFileContentSync(rootDir);
+    const config = createConfig(env, pkg, options);
+    const bundle = createBundle(env, pkg, options.outDir);
+
+    return {
+        rootDir,
+        options,
+        env,
+        package: pkg,
+        bundle,
+        config
+    };
+}
+
+type Options = {
+    watch: boolean;
+    sourcemap: OutputOptions["sourcemap"];
+    bundleAnalyzer: boolean;
+    outDir: string;
+};
+
+export type ConfigOptions = Partial<Options>;
+
+function getOptions(incoming?: ConfigOptions): Options {
+    return {
+        watch: incoming?.watch ?? false,
+        sourcemap: incoming?.sourcemap ?? "inline",
+        bundleAnalyzer: incoming?.bundleAnalyzer ?? false,
+        outDir: incoming?.outDir ?? "output"
+    };
+}
 
 type EnvVars = {
     production: boolean;
@@ -13,36 +59,10 @@ type EnvVars = {
 
 export type Env = Readonly<EnvVars>;
 
-type Config = {
-    projectPath: string | undefined;
-};
-
-export type Context = {
-    rootDir: string;
-    config: Config;
-    env: Env;
-    package: PackageJsonFileContent;
-    bundle: Bundle;
-};
-
-export function context(): Context {
-    const rootDir = process.cwd();
-    const env = createEnv();
-    const pkg = getPackageFileContentSync(rootDir);
-    const bundle = createBundle(env, pkg, "output");
-    const config = createConfig(env, pkg);
-
-    return {
-        rootDir,
-        env,
-        package: pkg,
-        bundle,
-        config
-    };
-}
-
 function createEnv(): Env {
     dotenv.config();
+
+    console.log(process.env);
 
     const prod1 = process.env["MODE"] === "production";
     const prod2 = process.env["NODE_ENV"] === "production";
@@ -65,9 +85,38 @@ function createEnv(): Env {
     return Object.freeze(env);
 }
 
-function createConfig(env: Env, pkg: PackageJsonFileContent): Config {
+export type Config = {
+    projectPath: string | undefined;
+    verbose: boolean;
+    use: {
+        bundleAnalyzer: boolean;
+        bundleSize: boolean;
+        minify: boolean;
+        livereload: boolean;
+    };
+    plugin: {
+        bundleAnalyzer: null;
+        bundleSize: null;
+    };
+};
+
+function createConfig(env: Env, pkg: PackageJsonFileContent, options: Options): Config {
+    const projectPath = getProjectPath(env, pkg);
+    const verbose = !env.ci && !options.watch;
+    const use = {
+        bundleAnalyzer: !env.ci && !options.watch && options.bundleAnalyzer,
+        minify: env.production,
+        bundleSize: !options.watch,
+        livereload: projectPath !== undefined && options.watch
+    };
     return {
-        projectPath: getProjectPath(env, pkg)
+        projectPath,
+        verbose,
+        use,
+        plugin: {
+            bundleAnalyzer: null,
+            bundleSize: null
+        }
     };
 }
 

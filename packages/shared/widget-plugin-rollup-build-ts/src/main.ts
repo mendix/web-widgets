@@ -7,7 +7,7 @@ import typescript from "@rollup/plugin-typescript";
 import livereload from "rollup-plugin-livereload";
 import { gray, magenta, green } from "colorette";
 import rimraf from "rimraf";
-import type { RollupOptions } from "rollup";
+import type { OutputOptions, RollupOptions } from "rollup";
 import bundleAnalyzer from "rollup-plugin-analyzer";
 import { minify } from "rollup-plugin-swc3";
 import type { Bundle } from "./bundle.js";
@@ -22,15 +22,16 @@ type CLIArgs = {
     configAnalyzeLimit?: number;
     configProduction?: true;
     configOutDir?: string;
-    sourcemap?: boolean | "inline" | "hidden";
+    sourcemap?: OutputOptions["sourcemap"];
     watch?: true;
 };
 
 function main(args: CLIArgs): RollupOptions[] {
-    args.configAnalyzeLimit ??= 20;
-    args.configOutDir ??= "output";
+    const ctx = context({
+        outDir: args.configOutDir,
+        bundleAnalyzer: args.configAnalyze
+    });
 
-    const ctx = context();
     console.dir(ctx, { depth: 8 });
 
     printBuildInfo(ctx, args);
