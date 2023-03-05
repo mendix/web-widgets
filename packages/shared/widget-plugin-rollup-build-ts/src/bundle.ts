@@ -5,9 +5,7 @@ import type { PackageJsonFileContent } from "./pkg-utils.js";
 
 export type Bundle = {
     widgetName: string;
-    publicPath: string;
-    assetsDirName: string;
-    assetsPublicPath: string;
+    urlPaths: WidgetUrlPaths;
     inputs: WidgetInputs;
     outputs: WidgetOutputs;
     mpk: WidgetMpk;
@@ -17,13 +15,13 @@ export type Bundle = {
 export function bundle(env: Env, pkg: PackageJsonFileContent, outDir: string): Bundle {
     const name = pkg.mxpackage.name;
 
+    const publicRoot = "widgets";
+
     const assetsDirName = "assets";
 
-    const bundlePublicPath = publicPath(pkg.packagePath, name);
+    const urlPaths = widgetUrlPaths(name, pkg.packagePath, publicRoot, assetsDirName);
 
-    const assetsPublicPath = `${bundlePublicPath}/${assetsDirName}`;
-
-    const dirs = widgetDirs(outDir, pkg.version, bundlePublicPath, assetsDirName);
+    const dirs = widgetDirs(outDir, pkg.version, urlPaths.componentPath, assetsDirName);
 
     const inputs = widgetInputs(name);
 
@@ -33,9 +31,7 @@ export function bundle(env: Env, pkg: PackageJsonFileContent, outDir: string): B
 
     return {
         widgetName: name,
-        publicPath: bundlePublicPath,
-        assetsPublicPath,
-        assetsDirName,
+        urlPaths,
         inputs: {
             ...inputs,
             editorConfig: existsSync(inputs.editorConfig) ? inputs.editorConfig : undefined,
@@ -78,7 +74,7 @@ function widgetDirs(outDir: string, version: string, publicPath: string, assetsD
     };
 }
 
-function publicPath(namespace: string, packageName: string): string {
+function componentPath(namespace: string, packageName: string): string {
     const pkgNamespace = namespace.replace(/\./g, "/");
     const pkgDir = packageName.toLocaleLowerCase();
 
@@ -132,6 +128,36 @@ function widgetMpk(env: Env, pkg: PackageJsonFileContent, dirs: WidgetDirs): Wid
     return {
         mpkName,
         mpkFileAbsolute: resolvePath(dirs.mpkDir, mpkName)
+    };
+}
+
+type WidgetUrlPaths = {
+    publicRoot: string;
+    publicPath: string;
+    componentPath: string;
+    assetsDirName: string;
+    assetsPublicPath: string;
+    assetsPathRelativeToWidgetsDotCSS: string;
+};
+
+function widgetUrlPaths(name: string, packagePath: string, publicRoot: string, assetsDirName: string): WidgetUrlPaths {
+    const widgetComponentPath = componentPath(packagePath, name);
+
+    const widgetAssetsPath = `${widgetComponentPath}/${assetsDirName}`;
+
+    const publicPath = `${publicRoot}/${widgetComponentPath}`;
+
+    const assetsPublicPath = `${publicRoot}/${widgetAssetsPath}`;
+
+    const assetsPathRelativeToWidgetsDotCSS = widgetAssetsPath;
+
+    return {
+        publicRoot,
+        publicPath,
+        componentPath: widgetComponentPath,
+        assetsDirName,
+        assetsPublicPath,
+        assetsPathRelativeToWidgetsDotCSS
     };
 }
 

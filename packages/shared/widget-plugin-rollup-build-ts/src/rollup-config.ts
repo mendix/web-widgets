@@ -3,6 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import image from "@rollup/plugin-image";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import url from "@rollup/plugin-url";
 import { resolve as resolvePath } from "node:path";
 import type { RollupOptions } from "rollup";
 import bundleAnalyzer from "rollup-plugin-analyzer";
@@ -12,8 +13,8 @@ import { minify } from "rollup-plugin-swc3";
 import type { Context } from "./context.js";
 import { createMPK } from "./mpk-utils.js";
 import { bundleSize } from "./plugin/bundle-size.js";
-import { widgetTyping } from "./plugin/widget-typing.js";
 import { license } from "./plugin/license.js";
+import { widgetTyping } from "./plugin/widget-typing.js";
 
 export function rollupConfig(ctx: Context): RollupOptions[] {
     const { rootDir, env, config, options, bundle } = ctx;
@@ -61,6 +62,14 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         nodeResolve(),
         commonjs(),
         ts(),
+        url({
+            include: imagesAndFonts,
+            limit: 0,
+            // Prefix for the actual import, relative to Mendix web server root
+            publicPath: `${bundle.urlPaths.assetsPublicPath}/`,
+            destDir: bundle.dirs.clientModule.assetsDir
+        }),
+        // NOTE: I'm still not sure why we need image plugin. It probably never used.
         image(),
         use.license ? license(bundle.dirs.clientModule.rootDir) : null,
         use.minify ? minify({ compress: true, mangle: true, sourceMap: !!options.sourcemap }) : null,
@@ -79,9 +88,28 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         mpk()
     ];
 
-    const editorConfigPlugins = [nodeResolve(), commonjs(), ts(), image(), analyze(), size(), mpk()];
+    const editorConfigPlugins = [
+        nodeResolve(),
+        commonjs(),
+        ts(),
+        url({ include: ["**/*.svg"], limit: 143360 }),
+        // NOTE: I'm still not sure why we need image plugin. It probably never used.
+        image(),
+        analyze(),
+        size(),
+        mpk()
+    ];
 
-    const editorPreviewPlugins = [nodeResolve(), commonjs(), ts(), image(), analyze(), size(), mpk()];
+    const editorPreviewPlugins = [
+        nodeResolve(),
+        commonjs(),
+        ts(),
+        // NOTE: I'm still not sure why we need image plugin. It probably never used.
+        image(),
+        analyze(),
+        size(),
+        mpk()
+    ];
 
     const external = [/^mendix($|\/)/, /^react$/, /^react\/jsx-runtime$/, /^react-dom$/, /^big.js$/];
 
@@ -129,3 +157,14 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
 
     return entries;
 }
+
+const imagesAndFonts = [
+    "**/*.svg",
+    "**/*.png",
+    "**/*.jp(e)?g",
+    "**/*.gif",
+    "**/*.webp",
+    "**/*.ttf",
+    "**/*.woff(2)?",
+    "**/*.eot"
+];
