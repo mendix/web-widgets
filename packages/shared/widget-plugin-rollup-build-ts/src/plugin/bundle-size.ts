@@ -5,10 +5,10 @@ import prettyBytes from "pretty-bytes";
 import type { Plugin } from "rollup";
 
 function ppsize(size: number, warn: boolean) {
-    const _250K = 250_000;
+    const LIMIT = 150_000;
     const humanSize = prettyBytes(size);
 
-    if (warn && size > _250K) {
+    if (warn && size > LIMIT) {
         return `${yellow(humanSize)} - size limit exceed. This can impact web performance.`;
     }
 
