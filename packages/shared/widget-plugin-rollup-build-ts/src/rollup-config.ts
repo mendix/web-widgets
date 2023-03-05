@@ -13,6 +13,7 @@ import type { Context } from "./context.js";
 import { createMPK } from "./mpk-utils.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
+import { license } from "./plugin/license.js";
 
 export function rollupConfig(ctx: Context): RollupOptions[] {
     const { rootDir, env, config, options, bundle } = ctx;
@@ -61,6 +62,7 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         commonjs(),
         ts(),
         image(),
+        use.license ? license(bundle.dirs.clientModule.rootDir) : null,
         use.minify ? minify({ compress: true, mangle: true, sourceMap: !!options.sourcemap }) : null,
         analyze(),
         copy({

@@ -92,6 +92,7 @@ export type Config = {
         bundleAnalyzer: boolean;
         bundleSize: boolean;
         minify: boolean;
+        license: boolean;
         livereload: boolean;
     };
     plugin: {
@@ -106,6 +107,7 @@ function config(env: Env, pkg: PackageJsonFileContent, options: Options): Config
         bundleAnalyzer: !env.ci && !options.watch && options.bundleAnalyzer,
         minify: env.production,
         bundleSize: !options.watch,
+        license: env.production,
         livereload: projectPath !== undefined && options.watch
     };
     return {
