@@ -16,13 +16,7 @@ import { bundleSize } from "./plugin/bundle-size.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
 import * as dotenv from "dotenv";
 import { createMPK } from "./mpk-utils.js";
-
-type Env = Readonly<{
-    production: boolean;
-    ci: boolean;
-    mpkoutput?: string;
-    projectPath?: string;
-}>;
+import { getPackageFileContentSync, PackageJsonFileContent } from "./pkg-utils.js";
 
 type CLIArgs = {
     config: string;
@@ -38,21 +32,37 @@ function main(args: CLIArgs): RollupOptions[] {
     args.configAnalyzeLimit ??= 20;
     args.configOutDir ??= "output";
 
-    const rootDir = process.cwd();
-    const env = getEnv();
-    const config = createBuildConfig(rootDir, args.configOutDir);
+    const ctx = context();
+    console.log(ctx);
+    const config = createBuildConfig(ctx.rootDir, args.configOutDir);
 
-    printBuildInfo(env, config, args);
+    printBuildInfo(ctx.env, config, args);
 
     cleanup({
         dirs: [config.dirs.tmpDir, config.dirs.mpkDir],
-        verbose: !env.ci && !args.watch
+        verbose: !ctx.env.ci && !args.watch
     });
 
-    return createEntries({ rootDir, env, args, config });
+    return createEntries({ rootDir: ctx.rootDir, env: ctx.env, args, config });
 }
 
 export { main as rollupConfigFn };
+
+type Context = {
+    rootDir: string;
+    env: Env;
+    pkg: PackageJsonFileContent;
+};
+
+function context(): Context {
+    const rootDir = process.cwd();
+
+    return {
+        rootDir,
+        env: getEnv(),
+        pkg: getPackageFileContentSync(rootDir)
+    };
+}
 
 type CreateEntriesParams = {
     rootDir: string;
@@ -185,6 +195,13 @@ function createEntries(params: CreateEntriesParams): RollupOptions[] {
     return entries;
 }
 
+type Env = Readonly<{
+    production: boolean;
+    ci: boolean;
+    mpkoutput?: string;
+    projectPath?: string;
+}>;
+
 function getEnv(): Env {
     dotenv.config();
 
@@ -193,10 +210,12 @@ function getEnv(): Env {
     const mpk = process.env["MPKOUTPUT"];
     const mxProjectPath = process.env["MX_PROJECT_PATH"];
 
-    type Writable<T> = {
-        -readonly [P in keyof T]: T[P];
-    };
-    const env: Writable<Env> = {
+    const env: {
+        production: boolean;
+        ci: boolean;
+        mpkoutput?: string;
+        projectPath?: string;
+    } = {
         production: prod1 || prod2,
         ci: !!JSON.parse(process.env["CI"] || "false")
     };
