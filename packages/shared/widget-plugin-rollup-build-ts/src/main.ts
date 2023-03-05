@@ -11,12 +11,12 @@ import rimraf from "rimraf";
 import type { RollupOptions } from "rollup";
 import bundleAnalyzer from "rollup-plugin-analyzer";
 import { minify } from "rollup-plugin-swc3";
-import { Bundle, createBundle } from "./bundle.js";
+import type { Bundle } from "./bundle.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
-import * as dotenv from "dotenv";
 import { createMPK } from "./mpk-utils.js";
-import { getPackageFileContentSync, PackageJsonFileContent } from "./pkg-utils.js";
+import type { PackageJsonFileContent } from "./pkg-utils.js";
+import { Context, context } from "./context.js";
 
 type CLIArgs = {
     config: string;
@@ -46,27 +46,6 @@ function main(args: CLIArgs): RollupOptions[] {
 }
 
 export { main as rollupConfigFn };
-
-type Context = {
-    rootDir: string;
-    env: Env;
-    package: PackageJsonFileContent;
-    bundle: Bundle;
-};
-
-function context(): Context {
-    const rootDir = process.cwd();
-    const env = getEnv();
-    const pkg = getPackageFileContentSync(rootDir);
-    const bundle = createBundle(pkg, "output");
-
-    return {
-        rootDir,
-        env,
-        package: pkg,
-        bundle
-    };
-}
 
 type CreateEntriesParams = {
     rootDir: string;
@@ -205,35 +184,6 @@ type Env = Readonly<{
     mpkoutput?: string;
     projectPath?: string;
 }>;
-
-function getEnv(): Env {
-    dotenv.config();
-
-    const prod1 = !!JSON.parse(process.env["PRODUCTION"] || "false");
-    const prod2 = process.env["NODE_ENV"] === "production";
-    const mpk = process.env["MPKOUTPUT"];
-    const mxProjectPath = process.env["MX_PROJECT_PATH"];
-
-    const env: {
-        production: boolean;
-        ci: boolean;
-        mpkoutput?: string;
-        projectPath?: string;
-    } = {
-        production: prod1 || prod2,
-        ci: !!JSON.parse(process.env["CI"] || "false")
-    };
-
-    if (typeof mpk === "string" && mpk !== "") {
-        env.mpkoutput = mpk;
-    }
-
-    if (typeof mxProjectPath === "string" && mxProjectPath !== "") {
-        env.projectPath = mxProjectPath;
-    }
-
-    return Object.freeze(env);
-}
 
 function getProjectPath(pkg: PackageJsonFileContent, env: Env): string | undefined {
     let path: string;
