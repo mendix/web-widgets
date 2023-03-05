@@ -111,7 +111,7 @@ function widgetOutputs(name: string, { clientModule }: WidgetDirs): WidgetOutput
     return {
         mainAmd: posix.join(clientModule.clientComponentDir, `${name}.js`),
         mainEsm: posix.join(clientModule.clientComponentDir, `${name}.mjs`),
-        widgetCss: posix.join(clientModule.assetsDir, `${name}.css`),
+        widgetCss: posix.join(clientModule.clientComponentDir, `${name}.css`),
         editorConfig: posix.join(clientModule.widgetDefinitionDir, `${name}.editorConfig.js`),
         editorPreview: posix.join(clientModule.widgetDefinitionDir, `${name}.editorPreview.js`)
     };

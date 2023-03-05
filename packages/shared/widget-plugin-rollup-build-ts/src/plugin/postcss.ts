@@ -10,6 +10,7 @@ type PostCSSConfigSubset = Pick<PostCSSPluginConf, "extract" | "minimize"> & {
 type Options = PostCSSConfigSubset & {
     assetsDirName: string;
     relativeAssetPrefix: string;
+    assetsDirAbsolute: string;
     to: string;
 };
 
@@ -30,7 +31,10 @@ export function widgetPostcss(options: Options) {
              * 3. This plugin relies on `to` property of postcss plugin and it should be present, when
              * copying files to destination.
              */
-            postcssUrl({ url: "copy", assetsPath: options.assetsDirName }),
+            postcssUrl({
+                url: "copy",
+                assetsPath: options.assetsDirName
+            }),
             /**
              * This instance of postcss-url is just for adjusting asset path.
              */
@@ -66,5 +70,7 @@ export function widgetPreviewPostcss(options: PostCSSConfigSubset) {
  * before: assets/icon.png
  * after: com/mendix/widget/web/accordion/assets/icon.png
  */
-const createUrlTransform = (matchPrefix: string, relativeAssetPrefix: string) => (asset: { url: string }) =>
-    asset.url.startsWith(`${matchPrefix}/`) ? `${relativeAssetPrefix}/${asset.url}` : asset.url;
+export const createUrlTransform = (matchPrefix: string, relativeAssetPrefix: string) => (asset: { url: string }) => {
+    console.log(asset);
+    return asset.url.startsWith(`${matchPrefix}/`) ? `${relativeAssetPrefix}/${asset.url}` : asset.url;
+};

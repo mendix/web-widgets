@@ -73,6 +73,7 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         widgetPostcss({
             to: bundle.outputs.widgetCss,
             assetsDirName: bundle.urlPaths.assetsDirName,
+            assetsDirAbsolute: resolvePath(bundle.dirs.clientModule.assetsDir),
             sourcemap: options.sourcemap && "inline",
             minimize: env.production,
             relativeAssetPrefix: bundle.urlPaths.componentPathRelativeToWidgetsDotCSS,
