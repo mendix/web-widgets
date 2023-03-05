@@ -2,7 +2,7 @@ import type { OutputOptions } from "rollup";
 import * as dotenv from "dotenv";
 import { resolve as resolvePath } from "node:path";
 import { existsSync } from "node:fs";
-import { Bundle, createBundle } from "./bundle.js";
+import { Bundle, bundle } from "./bundle.js";
 import { getPackageFileContentSync, PackageJsonFileContent } from "./pkg-utils.js";
 
 export type Context = {
@@ -14,21 +14,21 @@ export type Context = {
     bundle: Bundle;
 };
 
-export function context(opt?: ConfigOptions): Context {
+export function context(incomingOptions?: IncomingOptions): Context {
     const rootDir = process.cwd();
-    const options = getOptions(opt);
-    const env = createEnv();
+    const opt = options(incomingOptions);
+    const ctxEnv = env();
     const pkg = getPackageFileContentSync(rootDir);
-    const config = createConfig(env, pkg, options);
-    const bundle = createBundle(env, pkg, options.outDir);
+    const ctxConfig = config(ctxEnv, pkg, opt);
+    const ctxBundle = bundle(ctxEnv, pkg, opt.outDir);
 
     return {
         rootDir,
-        options,
-        env,
+        options: opt,
+        env: ctxEnv,
         package: pkg,
-        bundle,
-        config
+        bundle: ctxBundle,
+        config: ctxConfig
     };
 }
 
@@ -39,9 +39,9 @@ type Options = {
     outDir: string;
 };
 
-export type ConfigOptions = Partial<Options>;
+export type IncomingOptions = Partial<Options>;
 
-function getOptions(incoming?: ConfigOptions): Options {
+function options(incoming?: IncomingOptions): Options {
     return {
         watch: incoming?.watch ?? false,
         sourcemap: incoming?.sourcemap ?? "inline",
@@ -59,10 +59,8 @@ type EnvVars = {
 
 export type Env = Readonly<EnvVars>;
 
-function createEnv(): Env {
+function env(): Env {
     dotenv.config();
-
-    console.log(process.env);
 
     const prod1 = process.env["MODE"] === "production";
     const prod2 = process.env["NODE_ENV"] === "production";
@@ -100,8 +98,8 @@ export type Config = {
     };
 };
 
-function createConfig(env: Env, pkg: PackageJsonFileContent, options: Options): Config {
-    const projectPath = getProjectPath(env, pkg);
+function config(env: Env, pkg: PackageJsonFileContent, options: Options): Config {
+    const projectPath = resolveProjectPath(env, pkg);
     const verbose = !env.ci && !options.watch;
     const use = {
         bundleAnalyzer: !env.ci && !options.watch && options.bundleAnalyzer,
@@ -120,7 +118,7 @@ function createConfig(env: Env, pkg: PackageJsonFileContent, options: Options): 
     };
 }
 
-function getProjectPath(env: Env, pkg: PackageJsonFileContent): string | undefined {
+function resolveProjectPath(env: Env, pkg: PackageJsonFileContent): string | undefined {
     let path: string;
 
     if (env.projectPath) {
@@ -131,5 +129,5 @@ function getProjectPath(env: Env, pkg: PackageJsonFileContent): string | undefin
         path = resolvePath("tests", "testProject");
     }
 
-    return existsSync(path) ? path : undefined;
+    return existsSync(path) ? resolvePath(path) : undefined;
 }

@@ -3,42 +3,6 @@ import { posix, resolve as resolvePath } from "node:path";
 import type { Env } from "./context.js";
 import type { PackageJsonFileContent } from "./pkg-utils.js";
 
-type RelDirPath = string;
-
-type RelFilePath = string;
-
-type Glob = string;
-
-export type WidgetDirs = {
-    clientModule: {
-        rootDir: RelDirPath;
-        widgetDefinitionDir: RelDirPath;
-        clientComponentDir: RelDirPath;
-    };
-    tmpDir: RelDirPath;
-    mpkDir: RelDirPath;
-};
-
-export type WidgetInputs = {
-    main: RelFilePath;
-    editorConfig?: RelFilePath;
-    editorPreview?: RelFilePath;
-    widgetDefinition: RelFilePath;
-    icons: Glob;
-};
-
-export type WidgetOutputs = {
-    mainEsm: string;
-    mainAmd: string;
-    editorConfig: string;
-    editorPreview: string;
-};
-
-export type WidgetMpk = {
-    mpkName: string;
-    mpkFileAbsolute: string;
-};
-
 export type Bundle = {
     widgetName: string;
     inputs: WidgetInputs;
@@ -47,10 +11,10 @@ export type Bundle = {
     dirs: WidgetDirs;
 };
 
-export function createBundle(env: Env, pkg: PackageJsonFileContent, outDir: string): Bundle {
+export function bundle(env: Env, pkg: PackageJsonFileContent, outDir: string): Bundle {
     const name = pkg.mxpackage.name;
 
-    const dirs = createDirs(outDir, pkg.version, publicPath(pkg.packagePath, name));
+    const dirs = widgetDirs(outDir, pkg.version, publicPath(pkg.packagePath, name));
 
     const inputs = widgetInputs(name);
 
@@ -71,7 +35,17 @@ export function createBundle(env: Env, pkg: PackageJsonFileContent, outDir: stri
     };
 }
 
-function createDirs(outDir: string, version: string, publicPath: string): WidgetDirs {
+export type WidgetDirs = {
+    clientModule: {
+        rootDir: RelDirPath;
+        widgetDefinitionDir: RelDirPath;
+        clientComponentDir: RelDirPath;
+    };
+    tmpDir: RelDirPath;
+    mpkDir: RelDirPath;
+};
+
+function widgetDirs(outDir: string, version: string, publicPath: string): WidgetDirs {
     const tmpDir = posix.join(outDir, "tmp");
     const moduleRootDir = posix.join(outDir, "tmp", "widgets");
     const mpkDir = posix.join(outDir, version);
@@ -93,6 +67,14 @@ function publicPath(namespace: string, packageName: string): string {
     return `${pkgNamespace}/${pkgDir}`;
 }
 
+export type WidgetInputs = {
+    main: RelFilePath;
+    editorConfig?: RelFilePath;
+    editorPreview?: RelFilePath;
+    widgetDefinition: RelFilePath;
+    icons: Glob;
+};
+
 function widgetInputs(name: string): Required<WidgetInputs> {
     return {
         main: `src/${name}.tsx`,
@@ -103,6 +85,13 @@ function widgetInputs(name: string): Required<WidgetInputs> {
     };
 }
 
+export type WidgetOutputs = {
+    mainEsm: string;
+    mainAmd: string;
+    editorConfig: string;
+    editorPreview: string;
+};
+
 function widgetOutputs(name: string, { clientModule }: WidgetDirs): WidgetOutputs {
     return {
         mainAmd: posix.join(clientModule.clientComponentDir, `${name}.js`),
@@ -112,6 +101,11 @@ function widgetOutputs(name: string, { clientModule }: WidgetDirs): WidgetOutput
     };
 }
 
+export type WidgetMpk = {
+    mpkName: string;
+    mpkFileAbsolute: string;
+};
+
 function widgetMpk(env: Env, pkg: PackageJsonFileContent, dirs: WidgetDirs): WidgetMpk {
     const mpkName = env.mpkoutput ?? pkg.mxpackage.mpkName;
 
@@ -120,3 +114,9 @@ function widgetMpk(env: Env, pkg: PackageJsonFileContent, dirs: WidgetDirs): Wid
         mpkFileAbsolute: resolvePath(dirs.mpkDir, mpkName)
     };
 }
+
+type RelDirPath = string;
+
+type RelFilePath = string;
+
+type Glob = string;
