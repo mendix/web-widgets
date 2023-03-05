@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@guanghechen/rollup-plugin-copy": "^4.1.0",
+    "@mendix/pluggable-widgets-tools": "^9.23.1",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",

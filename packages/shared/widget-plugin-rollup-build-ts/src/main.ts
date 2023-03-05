@@ -1,7 +1,6 @@
 import { resolve as resolvePath } from "node:path";
 import { existsSync } from "node:fs";
 import copy from "@guanghechen/rollup-plugin-copy";
-import { widgetTyping } from "@mendix/typings-generator";
 import command from "rollup-plugin-command";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
@@ -14,6 +13,7 @@ import bundleAnalyzer from "rollup-plugin-analyzer";
 import { minify } from "rollup-plugin-swc3";
 import { BuildConfig, createBuildConfig } from "./build.js";
 import { bundleSize } from "./plugin/bundle-size.js";
+import { widgetTyping } from "./plugin/widget-typing.js";
 import * as dotenv from "dotenv";
 import { createMPK } from "./mpk-utils.js";
 
