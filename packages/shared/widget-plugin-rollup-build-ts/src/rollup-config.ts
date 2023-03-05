@@ -14,6 +14,7 @@ import type { Context } from "./context.js";
 import { createMPK } from "./mpk-utils.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import { license } from "./plugin/license.js";
+import { widgetPostcss, widgetPreviewPostcss } from "./plugin/postcss.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
 
 export function rollupConfig(ctx: Context): RollupOptions[] {
@@ -69,8 +70,14 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
             publicPath: `${bundle.urlPaths.assetsPublicPath}/`,
             destDir: bundle.dirs.clientModule.assetsDir
         }),
-        // NOTE: I'm still not sure why we need image plugin. It probably never used.
-        image(),
+        widgetPostcss({
+            to: bundle.outputs.widgetCss,
+            assetsDirName: bundle.urlPaths.assetsDirName,
+            sourcemap: options.sourcemap && "inline",
+            minimize: env.production,
+            relativeAssetPrefix: bundle.urlPaths.componentPathRelativeToWidgetsDotCSS,
+            extract: true
+        }),
         use.license ? license(bundle.dirs.clientModule.rootDir) : null,
         use.minify ? minify({ compress: true, mangle: true, sourceMap: !!options.sourcemap }) : null,
         analyze(),
@@ -93,6 +100,10 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         commonjs(),
         ts(),
         url({ include: ["**/*.svg"], limit: 143360 }),
+        widgetPreviewPostcss({
+            sourcemap: options.sourcemap && "inline",
+            minimize: env.production
+        }),
         // NOTE: I'm still not sure why we need image plugin. It probably never used.
         image(),
         analyze(),

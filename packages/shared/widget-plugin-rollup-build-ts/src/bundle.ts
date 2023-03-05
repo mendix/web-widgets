@@ -54,12 +54,12 @@ export type WidgetDirs = {
     mpkDir: RelDirPath;
 };
 
-function widgetDirs(outDir: string, version: string, publicPath: string, assetsDirName: string): WidgetDirs {
+function widgetDirs(outDir: string, version: string, componentPath: string, assetsDirName: string): WidgetDirs {
     const tmpDir = posix.join(outDir, "tmp");
     const moduleRootDir = posix.join(outDir, "tmp", "widgets");
     const mpkDir = posix.join(outDir, version);
     const widgetDefinitionDir = posix.join(outDir, "tmp", "widgets");
-    const clientComponentDir = posix.join(moduleRootDir, publicPath);
+    const clientComponentDir = posix.join(moduleRootDir, componentPath);
     const assetsDir = posix.join(clientComponentDir, assetsDirName);
 
     return {
@@ -137,7 +137,7 @@ type WidgetUrlPaths = {
     componentPath: string;
     assetsDirName: string;
     assetsPublicPath: string;
-    assetsPathRelativeToWidgetsDotCSS: string;
+    componentPathRelativeToWidgetsDotCSS: string;
 };
 
 function widgetUrlPaths(name: string, packagePath: string, publicRoot: string, assetsDirName: string): WidgetUrlPaths {
@@ -149,7 +149,7 @@ function widgetUrlPaths(name: string, packagePath: string, publicRoot: string, a
 
     const assetsPublicPath = `${publicRoot}/${widgetAssetsPath}`;
 
-    const assetsPathRelativeToWidgetsDotCSS = widgetAssetsPath;
+    const componentPathRelativeToWidgetsDotCSS = widgetComponentPath;
 
     return {
         publicRoot,
@@ -157,7 +157,7 @@ function widgetUrlPaths(name: string, packagePath: string, publicRoot: string, a
         componentPath: widgetComponentPath,
         assetsDirName,
         assetsPublicPath,
-        assetsPathRelativeToWidgetsDotCSS
+        componentPathRelativeToWidgetsDotCSS
     };
 }
 

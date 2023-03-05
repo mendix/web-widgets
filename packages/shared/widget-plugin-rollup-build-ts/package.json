@@ -34,11 +34,17 @@
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-url": "^8.0.1",
     "@types/cross-zip": "^4.0.0",
     "@types/node": "^18.13.0",
+    "@types/postcss-import": "^14.0.0",
+    "@types/postcss-url": "^10.0.0",
     "colorette": "^2.0.19",
     "cross-zip": "^4.0.0",
     "dotenv": "^16.0.3",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "postcss-url": "^10.1.3",
     "pretty-bytes": "^6.1.0",
     "recursive-copy": "^2.0.14",
     "rimraf": "^4.1.2",
@@ -48,7 +54,9 @@
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-license": "^3.0.1",
     "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-swc3": "^0.8.0"
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-swc3": "^0.8.0",
+    "sass": "^1.58.3"
   },
   "devDependencies": {
     "@mendix/prettier-config-web-widgets": "workspace:*",
