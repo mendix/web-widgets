@@ -6,9 +6,8 @@ import { rollupConfig } from "./rollup-config.js";
 
 type CLIArgs = {
     config: string;
-    configAnalyze?: true;
-    configAnalyzeLimit?: number;
-    configProduction?: true;
+    configUseAnalyzer?: true;
+    configAnalyzerLimit?: number;
     configOutDir?: string;
     sourcemap?: OutputOptions["sourcemap"];
     watch?: true;
@@ -16,9 +15,11 @@ type CLIArgs = {
 
 function main(args: CLIArgs): RollupOptions[] {
     const ctx = context({
+        watch: args.watch,
         sourcemap: args.sourcemap,
         outDir: args.configOutDir,
-        bundleAnalyzer: args.configAnalyze
+        bundleAnalyzer: args.configUseAnalyzer,
+        analyzerLimit: args.configAnalyzerLimit
     });
 
     console.dir(ctx, { depth: 8 });

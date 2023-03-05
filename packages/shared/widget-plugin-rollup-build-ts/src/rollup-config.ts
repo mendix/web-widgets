@@ -30,7 +30,7 @@ export function rollupConfig(ctx: Context): RollupOptions[] {
         use.bundleAnalyzer
             ? bundleAnalyzer({
                   summaryOnly: true,
-                  limit: 20
+                  limit: config.plugin.bundleAnalyzer.limit
               })
             : null;
 

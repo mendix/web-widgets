@@ -36,6 +36,7 @@ type Options = {
     watch: boolean;
     sourcemap: SourceMap;
     bundleAnalyzer: boolean;
+    analyzerLimit: number;
     outDir: string;
 };
 
@@ -46,6 +47,7 @@ function options(incoming?: IncomingOptions): Options {
         watch: incoming?.watch ?? false,
         sourcemap: incoming?.sourcemap ?? false,
         bundleAnalyzer: incoming?.bundleAnalyzer ?? false,
+        analyzerLimit: incoming?.analyzerLimit ?? 5,
         outDir: incoming?.outDir ?? "output"
     };
 }
@@ -93,8 +95,7 @@ export type Config = {
         livereload: boolean;
     };
     plugin: {
-        bundleAnalyzer: null;
-        bundleSize: null;
+        bundleAnalyzer: { limit: number };
     };
 };
 
@@ -112,8 +113,7 @@ function config(env: Env, pkg: PackageJsonFileContent, options: Options): Config
         verbose,
         use,
         plugin: {
-            bundleAnalyzer: null,
-            bundleSize: null
+            bundleAnalyzer: { limit: options.analyzerLimit }
         }
     };
 }
