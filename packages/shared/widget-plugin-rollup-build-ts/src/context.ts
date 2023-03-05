@@ -34,7 +34,7 @@ export function context(incomingOptions?: IncomingOptions): Context {
 
 type Options = {
     watch: boolean;
-    sourcemap: OutputOptions["sourcemap"];
+    sourcemap: SourceMap;
     bundleAnalyzer: boolean;
     outDir: string;
 };
@@ -44,7 +44,7 @@ export type IncomingOptions = Partial<Options>;
 function options(incoming?: IncomingOptions): Options {
     return {
         watch: incoming?.watch ?? false,
-        sourcemap: incoming?.sourcemap ?? "inline",
+        sourcemap: incoming?.sourcemap ?? false,
         bundleAnalyzer: incoming?.bundleAnalyzer ?? false,
         outDir: incoming?.outDir ?? "output"
     };
@@ -131,3 +131,5 @@ function resolveProjectPath(env: Env, pkg: PackageJsonFileContent): string | und
 
     return existsSync(path) ? resolvePath(path) : undefined;
 }
+
+type SourceMap = OutputOptions["sourcemap"];
