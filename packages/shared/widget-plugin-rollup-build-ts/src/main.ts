@@ -6,6 +6,7 @@ import { cleanup } from "./utils.js";
 
 type CLIArgs = {
     config: string;
+    configShowWidgetConfig: true;
     configUseAnalyzer?: true;
     configAnalyzerLimit?: number;
     configOutDir?: string;
@@ -22,7 +23,9 @@ function main(args: CLIArgs): RollupOptions[] {
         analyzerLimit: args.configAnalyzerLimit
     });
 
-    console.dir(ctx, { depth: 8 });
+    if (args.configShowWidgetConfig) {
+        console.dir(ctx, { depth: 10 });
+    }
 
     printBuildInfo(ctx);
 
