@@ -11,7 +11,7 @@ import rimraf from "rimraf";
 import type { RollupOptions } from "rollup";
 import bundleAnalyzer from "rollup-plugin-analyzer";
 import { minify } from "rollup-plugin-swc3";
-import { BuildConfig, createBuildConfig } from "./build.js";
+import { Bundle, createBundle } from "./bundle.js";
 import { bundleSize } from "./plugin/bundle-size.js";
 import { widgetTyping } from "./plugin/widget-typing.js";
 import * as dotenv from "dotenv";
@@ -33,17 +33,16 @@ function main(args: CLIArgs): RollupOptions[] {
     args.configOutDir ??= "output";
 
     const ctx = context();
-    console.log(ctx);
-    const config = createBuildConfig(ctx.rootDir, args.configOutDir);
+    console.dir(ctx, { depth: 8 });
 
-    printBuildInfo(ctx.env, config, args);
+    printBuildInfo(ctx, args);
 
     cleanup({
-        dirs: [config.dirs.tmpDir, config.dirs.mpkDir],
+        dirs: [ctx.bundle.dirs.tmpDir, ctx.bundle.dirs.mpkDir],
         verbose: !ctx.env.ci && !args.watch
     });
 
-    return createEntries({ rootDir: ctx.rootDir, env: ctx.env, args, config });
+    return createEntries({ rootDir: ctx.rootDir, env: ctx.env, args, config: ctx.bundle }, ctx);
 }
 
 export { main as rollupConfigFn };
@@ -51,16 +50,21 @@ export { main as rollupConfigFn };
 type Context = {
     rootDir: string;
     env: Env;
-    pkg: PackageJsonFileContent;
+    package: PackageJsonFileContent;
+    bundle: Bundle;
 };
 
 function context(): Context {
     const rootDir = process.cwd();
+    const env = getEnv();
+    const pkg = getPackageFileContentSync(rootDir);
+    const bundle = createBundle(pkg, "output");
 
     return {
         rootDir,
-        env: getEnv(),
-        pkg: getPackageFileContentSync(rootDir)
+        env,
+        package: pkg,
+        bundle
     };
 }
 
@@ -68,13 +72,13 @@ type CreateEntriesParams = {
     rootDir: string;
     env: Env;
     args: CLIArgs;
-    config: BuildConfig;
+    config: Bundle;
 };
 
-function createEntries(params: CreateEntriesParams): RollupOptions[] {
+function createEntries(params: CreateEntriesParams, context: Context): RollupOptions[] {
     const { rootDir, env, args, config } = params;
-    const projectPath = getProjectPath(config, env);
-    const mpkInfo = getMpkInfo(config, env);
+    const projectPath = getProjectPath(context.package, env);
+    const mpkInfo = getMpkInfo(context);
     const hasProject = !!projectPath;
 
     const use = {
@@ -231,13 +235,13 @@ function getEnv(): Env {
     return Object.freeze(env);
 }
 
-function getProjectPath(config: BuildConfig, env: Env): string | undefined {
+function getProjectPath(pkg: PackageJsonFileContent, env: Env): string | undefined {
     let path: string;
 
     if (env.projectPath) {
         path = env.projectPath;
-    } else if (typeof config.package.config?.["packagePath"] === "string") {
-        path = config.package.config["packagePath"];
+    } else if (typeof pkg.config?.["packagePath"] === "string") {
+        path = pkg.config["packagePath"];
     } else {
         path = resolvePath("tests", "testProject");
     }
@@ -250,21 +254,22 @@ type MpkInfo = {
     mpkFileAbsolute: string;
 };
 
-function getMpkInfo(config: BuildConfig, env: Env): MpkInfo {
-    const mpkName = env.mpkoutput ? env.mpkoutput : config.package.mxpackage.mpkName;
+function getMpkInfo(context: Context): MpkInfo {
+    const { env, package: pkg, bundle } = context;
+    const mpkName = env.mpkoutput ? env.mpkoutput : pkg.mxpackage.mpkName;
 
     return {
         mpkName,
-        mpkFileAbsolute: resolvePath(config.dirs.mpkDir, mpkName)
+        mpkFileAbsolute: resolvePath(bundle.dirs.mpkDir, mpkName)
     };
 }
 
-function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
+function printBuildInfo(context: Context, options: CLIArgs) {
     if (options.watch) {
         return;
     }
 
-    const { package: pkg } = config;
+    const { env, package: pkg } = context;
 
     type Stat = { prop?: string; value: string };
     type Line = Stat[];
@@ -272,7 +277,7 @@ function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
         [{ prop: "widget", value: pkg.mxpackage.name }],
         [{ prop: "version", value: pkg.version }],
         [{ prop: "mode", value: env.production ? "production" : "development" }],
-        [{ prop: "mpkoutput", value: getMpkInfo(config, env).mpkName }]
+        [{ prop: "mpkoutput", value: getMpkInfo(context).mpkName }]
     ];
 
     const statsCI: Line[] = [
@@ -294,7 +299,7 @@ function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
         console.log(l.join(gray(" | ")));
     }
 
-    const projectPath = getProjectPath(config, env);
+    const projectPath = getProjectPath(context.package, env);
     if (!env.ci && projectPath) {
         console.log(align(gray(`project path:`)), magenta(projectPath));
     }
