@@ -6,7 +6,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import livereload from "rollup-plugin-livereload";
-import { gray, magenta } from "colorette";
+import { gray, magenta, green } from "colorette";
 import rimraf from "rimraf";
 import type { RollupOptions } from "rollup";
 import bundleAnalyzer from "rollup-plugin-analyzer";
@@ -265,7 +265,9 @@ function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
 
     const stats = env.ci ? statsCI : statsMain;
 
+    // Spacing top
     console.log();
+
     for (const line of stats) {
         const l = line.map(({ value, prop }) => {
             return prop ? `${align(gray(`${prop}:`))} ${value}` : value;
@@ -282,7 +284,12 @@ function printBuildInfo(env: Env, config: BuildConfig, options: CLIArgs) {
 function cleanup({ dirs, verbose }: { dirs: string[]; verbose: boolean }) {
     rimraf.sync(dirs);
     if (verbose) {
-        console.log(align(gray("cleared:")), dirs.join(", "));
+        // Spacing top
+        console.log();
+        console.log(green(`removed:`));
+        for (const dir of dirs) {
+            console.log(green(`  ${dir}`));
+        }
     }
 }
 
