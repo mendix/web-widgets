@@ -123,8 +123,8 @@ function resolveProjectPath(env: Env, pkg: PackageJsonFileContent): string | und
 
     if (env.projectPath) {
         path = env.projectPath;
-    } else if (typeof pkg.config?.["packagePath"] === "string") {
-        path = pkg.config["packagePath"];
+    } else if (typeof pkg.config?.["projectPath"] === "string") {
+        path = pkg.config["projectPath"];
     } else {
         path = resolvePath("tests", "testProject");
     }
