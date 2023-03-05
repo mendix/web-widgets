@@ -5,6 +5,9 @@ import type { PackageJsonFileContent } from "./pkg-utils.js";
 
 export type Bundle = {
     widgetName: string;
+    publicPath: string;
+    assetsDirName: string;
+    assetsPublicPath: string;
     inputs: WidgetInputs;
     outputs: WidgetOutputs;
     mpk: WidgetMpk;
@@ -14,7 +17,13 @@ export type Bundle = {
 export function bundle(env: Env, pkg: PackageJsonFileContent, outDir: string): Bundle {
     const name = pkg.mxpackage.name;
 
-    const dirs = widgetDirs(outDir, pkg.version, publicPath(pkg.packagePath, name));
+    const assetsDirName = "assets";
+
+    const bundlePublicPath = publicPath(pkg.packagePath, name);
+
+    const assetsPublicPath = `${bundlePublicPath}/${assetsDirName}`;
+
+    const dirs = widgetDirs(outDir, pkg.version, bundlePublicPath, assetsDirName);
 
     const inputs = widgetInputs(name);
 
@@ -24,6 +33,9 @@ export function bundle(env: Env, pkg: PackageJsonFileContent, outDir: string): B
 
     return {
         widgetName: name,
+        publicPath: bundlePublicPath,
+        assetsPublicPath,
+        assetsDirName,
         inputs: {
             ...inputs,
             editorConfig: existsSync(inputs.editorConfig) ? inputs.editorConfig : undefined,
@@ -40,20 +52,26 @@ export type WidgetDirs = {
         rootDir: RelDirPath;
         widgetDefinitionDir: RelDirPath;
         clientComponentDir: RelDirPath;
+        assetsDir: RelDirPath;
     };
     tmpDir: RelDirPath;
     mpkDir: RelDirPath;
 };
 
-function widgetDirs(outDir: string, version: string, publicPath: string): WidgetDirs {
+function widgetDirs(outDir: string, version: string, publicPath: string, assetsDirName: string): WidgetDirs {
     const tmpDir = posix.join(outDir, "tmp");
     const moduleRootDir = posix.join(outDir, "tmp", "widgets");
     const mpkDir = posix.join(outDir, version);
+    const widgetDefinitionDir = posix.join(outDir, "tmp", "widgets");
+    const clientComponentDir = posix.join(moduleRootDir, publicPath);
+    const assetsDir = posix.join(clientComponentDir, assetsDirName);
+
     return {
         clientModule: {
             rootDir: moduleRootDir,
-            widgetDefinitionDir: posix.join(outDir, "tmp", "widgets"),
-            clientComponentDir: posix.join(moduleRootDir, publicPath)
+            widgetDefinitionDir,
+            clientComponentDir,
+            assetsDir
         },
         tmpDir,
         mpkDir
@@ -90,12 +108,14 @@ export type WidgetOutputs = {
     mainAmd: string;
     editorConfig: string;
     editorPreview: string;
+    widgetCss: string;
 };
 
 function widgetOutputs(name: string, { clientModule }: WidgetDirs): WidgetOutputs {
     return {
         mainAmd: posix.join(clientModule.clientComponentDir, `${name}.js`),
         mainEsm: posix.join(clientModule.clientComponentDir, `${name}.mjs`),
+        widgetCss: posix.join(clientModule.assetsDir, `${name}.css`),
         editorConfig: posix.join(clientModule.widgetDefinitionDir, `${name}.editorConfig.js`),
         editorPreview: posix.join(clientModule.widgetDefinitionDir, `${name}.editorPreview.js`)
     };
