@@ -1,18 +1,15 @@
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
-import { ListAttributeValue, ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { matchSorter } from "match-sorter";
-import { attribute, contains, literal, or } from "mendix/filters/builders";
 
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
     ds: ListValue;
-    searchableAttributes: ListAttributeValue[];
 }
 
 export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, Props> {
     private searchTerm: string = "";
     private options: string[] = [];
-    private attributes: ListAttributeValue[] = [];
     private ds?: ListValue;
 
     constructor(private caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {}
@@ -37,16 +34,6 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
 
     setSearchTerm(term: string): void {
         this.searchTerm = term;
-
-        if (this.ds && this.attributes.length > 0) {
-            console.log("applyting ", this.searchTerm);
-            if (this.searchTerm !== "") {
-                const a = this.attributes.map(a => contains(attribute(a.id), literal(this.searchTerm)));
-                this.ds?.setFilter(a.length === 1 ? a[0] : or(...a));
-            } else {
-                this.ds?.setFilter(undefined);
-            }
-        }
     }
 
     _optionToValue(value: string | null): ObjectItem | undefined {
@@ -62,7 +49,6 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
     }
 
     _updateProps(props: Props): void {
-        this.attributes = props.searchableAttributes;
         // current value
         // const currentValue = (props.attr.value?.id as string) ?? null;
 
