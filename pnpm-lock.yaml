@@ -3465,7 +3465,7 @@ importers:
       eslint-plugin-cypress: ^2.12.1
       eslint-plugin-jest: ^24.7.0
       eslint-plugin-json: ^3.1.0
-      eslint-plugin-prettier: ^3.3.1
+      eslint-plugin-prettier: ^3.4.1
       eslint-plugin-promise: ^4.3.1
       eslint-plugin-react: ~7.28.0
       eslint-plugin-react-hooks: ^4.2.0
