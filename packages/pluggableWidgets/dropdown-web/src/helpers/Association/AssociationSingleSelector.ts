@@ -31,8 +31,7 @@ export class AssociationSingleSelector implements SingleSelector {
 
         this.options._updateProps({
             attr: attr,
-            ds: ds,
-            searchableAttributes: [sa!]
+            ds: ds
         });
 
         if (
