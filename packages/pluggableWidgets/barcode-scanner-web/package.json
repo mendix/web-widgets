@@ -43,7 +43,7 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/pluggable-widgets-tools": "^9.23.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@rollup/plugin-replace": "^2.4.2",
     "@testing-library/dom": "^8.20.0",
@@ -64,7 +64,7 @@
     "eslint": "^7.32.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "mendix": "^9.22.62233",
+    "mendix": "^9.23.621",
     "prettier": "^2.8.4",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",

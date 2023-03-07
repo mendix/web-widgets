@@ -48,7 +48,7 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/pluggable-widgets-tools": "^9.23.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/big.js": "^6.1.6",
     "@types/jest": "^26.0.24",

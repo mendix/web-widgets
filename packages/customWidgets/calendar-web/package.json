@@ -39,7 +39,7 @@
     "@babel/core": "^7.21.0",
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.20.0",
+    "@mendix/pluggable-widgets-tools": "^9.23.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
     "@types/enzyme": "^3.10.12",
