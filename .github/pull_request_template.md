@@ -32,7 +32,7 @@ What type of changes does your PR introduce?
 Uncomment relevant sections below by removing `<!--` at the beginning of the line.
 -->
 
-### **Pull request type**
+### Pull request type
 
 <!-- No code changes (changes to documentation, CI, metadata, etc.)
 <!---->
@@ -62,7 +62,7 @@ Describe your changes in detail.
 Try to explain WHAT and WHY you change, fix or refactor.
 -->
 
-### **Description**
+### Description
 
 <!--
 Please uncomment and fill in the following section
