@@ -1,9 +1,9 @@
-import { createElement } from "react";
 import { PropGetters } from "downshift/typings";
+import { createElement } from "react";
 import { SingleSelector } from "../helpers/types";
 
 interface DropdownMenuProps extends Partial<PropGetters<any>> {
-    dropdownRef: React.RefObject<HTMLInputElement>;
+    dropdownSize: number | undefined;
     isOpen: boolean;
     selector: SingleSelector;
     highlightedIndex: number | null;
@@ -11,39 +11,35 @@ interface DropdownMenuProps extends Partial<PropGetters<any>> {
 }
 
 export function DropdownMenu(props: DropdownMenuProps) {
-    const { dropdownRef, isOpen, selector, highlightedIndex, selectedItem } = props;
+    const { dropdownSize, isOpen, selector, highlightedIndex, selectedItem } = props;
     return (
         <div>
             <ul
+                className="dropdown-menu"
                 {...props.getMenuProps?.()}
                 style={{
-                    position: "absolute",
-                    display: !isOpen ? "none" : undefined,
-                    borderRadius: "10px",
-                    margin: "4px 0 0 0",
-                    padding: 0,
-                    overflow: "hidden",
-                    zIndex: 20,
-                    width: dropdownRef.current?.getBoundingClientRect().width,
-                    border: "1px solid #264ae5",
-                    listStyleType: "none"
+                    display: !isOpen ? "none" : "inline",
+                    left: "unset",
+                    width: dropdownSize,
+                    padding: 0
                 }}
             >
                 {isOpen
                     ? selector.options.getAll().map((item, index) => (
                           <li
+                              className="dropdown-item"
                               {...props.getItemProps?.({
                                   key: JSON.stringify(item),
                                   index,
                                   item: item,
                                   style: {
-                                      display: "flex",
-                                      //   alignContent: "center",
-                                      padding: "0 0 0 10px",
-                                      height: "30px",
-                                      border: highlightedIndex === index ? "1px solid #264ae5" : undefined,
-                                      backgroundColor: highlightedIndex === index ? "lightgray" : "white",
-                                      fontWeight: selectedItem === item ? "bold" : "normal"
+                                      backgroundColor:
+                                          selectedItem === item
+                                              ? "rgb(101 163 244)"
+                                              : highlightedIndex === index
+                                              ? "rgb(195 221 255)"
+                                              : "white",
+                                      color: selectedItem === item ? "white" : "black"
                                   }
                               })}
                           >
