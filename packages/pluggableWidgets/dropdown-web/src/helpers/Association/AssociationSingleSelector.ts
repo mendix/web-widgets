@@ -21,7 +21,7 @@ export class AssociationSingleSelector implements SingleSelector {
     }
 
     updateProps(props: DropdownContainerProps) {
-        const [attr, ds, captionProvider, emptyOption, clearable, sa] = extractAssociationProps(props);
+        const [attr, ds, captionProvider, emptyOption, clearable] = extractAssociationProps(props);
         this._attr = attr;
 
         this.caption.updateProps({
