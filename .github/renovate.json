@@ -43,7 +43,7 @@
             "prPriority": -1
         },
         {
-            "matchPackagePrefixes": "@mendix",
+            "matchPackagePrefixes": ["@mendix"],
             "prPriority": 5
         },
         {
