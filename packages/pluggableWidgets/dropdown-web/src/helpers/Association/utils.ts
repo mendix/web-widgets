@@ -36,7 +36,6 @@ export function extractAssociationProps(props: DropdownContainerProps) {
         ds,
         captionType === "attribute" ? captionAttribute! : captionExpression!,
         emptyOption,
-        clearable,
-        props.optionsSourceAssociationCaptionAttribute
+        clearable
     ] as const;
 }
