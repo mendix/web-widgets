@@ -17,7 +17,7 @@
     "lint:enableme": "eslint . --ext .mjs",
     "format": "prettier --write .",
     "root-script:format-staged": "pretty-quick --staged --config \"./.prettierrc.cjs\" --pattern \"**/{src,script,typings,test,**}/**/*.{cjs,mjs,js,jsx,ts,tsx,scss,html,xml,md,json}\"",
-    "root-script:commitlint": "npx --no -- commitlint --edit ${1}"
+    "root-script:commitlint": "commitlint"
   },
   "dependencies": {
     "@commitlint/cli": "^17.4.4",

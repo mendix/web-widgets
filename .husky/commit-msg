@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm --filter @mendix/scripts run root-script:commitlint
+pnpm --filter @mendix/scripts run root-script:commitlint --edit "$1"
