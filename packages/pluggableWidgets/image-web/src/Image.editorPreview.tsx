@@ -21,11 +21,14 @@ export function preview(props: ImagePreviewProps): ReactElement | null {
         case "icon":
             // TODO: Remove these when preview typing for `icon` property is aligned properly by PageEditor
             const imageIcon: WebIcon | null = props.imageIcon as any;
-            if (imageIcon?.type === "glyph") {
-                image = imageIcon.iconClass;
-            }
-            if (imageIcon?.type === "image") {
-                image = imageIcon.iconUrl;
+            switch (imageIcon?.type) {
+                case "glyph":
+                case "icon":
+                    image = imageIcon.iconClass;
+                    break;
+                case "image":
+                    image = imageIcon.iconUrl;
+                    break;
             }
             break;
         case "imageUrl":
@@ -48,7 +51,7 @@ export function preview(props: ImagePreviewProps): ReactElement | null {
             responsive={props.responsive}
             onClickType={props.onClickType}
             onClick={undefined}
-            type={props.datasource === "icon" && props.imageIcon?.type === "glyph" ? "icon" : "image"}
+            type={props.datasource === "icon" && props.imageIcon ? props.imageIcon.type : "image"}
             image={image}
             displayAs={props.displayAs}
             renderAsBackground={props.datasource !== "icon" && props.isBackgroundImage}

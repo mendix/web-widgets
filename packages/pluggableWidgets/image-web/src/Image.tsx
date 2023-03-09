@@ -41,19 +41,12 @@ function getImageProps({
                 image: imageUrl?.status === ValueStatus.Available ? imageUrl.value : undefined
             };
         case "icon": {
-            if (imageIcon?.status === ValueStatus.Available) {
-                if (imageIcon.value?.type === "glyph") {
-                    return {
-                        type: "icon",
-                        image: imageIcon.value.iconClass
-                    };
-                }
-                if (imageIcon.value?.type === "image") {
-                    return {
-                        type: "image",
-                        image: imageIcon.value.iconUrl
-                    };
-                }
+            if (imageIcon?.status === ValueStatus.Available && imageIcon.value) {
+                const icon = imageIcon.value;
+                return {
+                    type: icon.type,
+                    image: icon.type === "image" ? icon.iconUrl : icon.iconClass
+                };
             }
             return fallback;
         }
