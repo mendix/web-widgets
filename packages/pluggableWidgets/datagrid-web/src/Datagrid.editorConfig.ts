@@ -82,6 +82,8 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "filterList");
     }
 
+    hideSelectionProperties(defaultProperties, values);
+
     changePropertyIn(
         defaultProperties,
         values,
@@ -135,6 +137,24 @@ export function getProperties(
         transformGroupsIntoTabs(defaultProperties);
     } else {
         hidePropertyIn(defaultProperties, values, "advanced");
+    }
+
+    return defaultProperties;
+}
+
+function hideSelectionProperties(defaultProperties: Properties, values: DatagridPreviewProps): Properties {
+    const { itemSelection, itemSelectionMethod } = values;
+
+    if (itemSelection === "None") {
+        hidePropertyIn(defaultProperties, values, "itemSelectionMethod");
+    }
+
+    if (itemSelection === "None" || itemSelectionMethod !== "checkbox") {
+        hidePropertyIn(defaultProperties, values, "showSelectAllToggle");
+    }
+
+    if (values.itemSelection === "None") {
+        hidePropertyIn(defaultProperties, values, "onSelectionChange");
     }
 
     return defaultProperties;
@@ -359,6 +379,19 @@ const checkSortingSettings = (
     }
 };
 
+const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
+    if (values.itemSelection !== "None" && values.onClick !== null) {
+        return [
+            {
+                property: "onClick",
+                message: '"On click action" must be set to "Do nothing" when "Selection" is enabled'
+            }
+        ];
+    }
+
+    return [];
+};
+
 export function check(values: DatagridPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
@@ -380,6 +413,8 @@ export function check(values: DatagridPreviewProps): Problem[] {
             });
         }
     });
+
+    errors.push(...checkSelectionSettings(values));
 
     return errors;
 }
