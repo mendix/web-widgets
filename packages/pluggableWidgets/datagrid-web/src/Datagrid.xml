@@ -20,6 +20,27 @@
                     <caption>Refresh time (in seconds)</caption>
                     <description />
                 </property>
+                <property key="itemSelection" type="selection" dataSource="datasource">
+                    <caption>Selection</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="None" />
+                        <selectionType name="Single" />
+                        <selectionType name="Multi" />
+                    </selectionTypes>
+                </property>
+                <property key="itemSelectionMethod" type="enumeration" defaultValue="checkbox">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowClick">Row click</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="showSelectAllToggle" type="boolean" defaultValue="false">
+                    <caption>Show (un)check all toggle</caption>
+                    <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
                 <property key="columns" type="object" isList="true">
@@ -194,6 +215,10 @@
             <propertyGroup caption="Events">
                 <property key="onClick" type="action" required="false" dataSource="datasource">
                     <caption>On click action</caption>
+                    <description />
+                </property>
+                <property key="onSelectionChange" type="action" required="false">
+                    <caption>On selection change</caption>
                     <description />
                 </property>
             </propertyGroup>
