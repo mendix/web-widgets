@@ -1583,6 +1583,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/pluggable-test-utils': workspace:*
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.23.2
       '@mendix/prettier-config-web-widgets': workspace:*
@@ -1622,6 +1623,7 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-test-utils': link:../../shared/pluggable-test-utils
       '@mendix/pluggable-widgets-tools': 9.23.2_@types+react@17.0.53
       '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
       '@testing-library/dom': 8.20.0

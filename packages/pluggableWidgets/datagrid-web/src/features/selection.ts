@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { ObjectItem } from "mendix";
 import { MultiSelectionStatus, SelectionHelper } from "@mendix/pluggable-widgets-commons";
-import { DatagridContainerProps, DatagridPreviewProps } from "typings/DatagridProps";
+import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "typings/DatagridProps";
 
 export enum SelectionMethod {
     none = "none",
@@ -50,39 +50,32 @@ export function useOnSelectProps(selection: SelectionHelper): SelectActionProps 
     }, [selection]);
 }
 
+export interface SelectionProps {
+    itemSelection: (DatagridContainerProps | DatagridPreviewProps)["itemSelection"];
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    showSelectAllToggle: boolean;
+}
+
 type SelectionSettings = {
     selectionStatus: MultiSelectionStatus | undefined;
     selectionMethod: SelectionMethod;
 };
 
-export function selectionSettings(
-    props: DatagridContainerProps | DatagridPreviewProps,
-    selection: SelectionHelper
-): SelectionSettings {
+export function selectionSettings(props: SelectionProps, selection: SelectionHelper): SelectionSettings {
+    const isDesignMode = typeof props.itemSelection === "string";
     const selectionOn = props.itemSelection !== undefined && props.itemSelection !== "None";
-    const checkboxOn = props.itemSelectionMethod === "checkbox";
-    const status = selectionStatus(props, selection);
+    const methodCheckbox = props.itemSelectionMethod === "checkbox";
+    const selectAllOn = methodCheckbox && props.showSelectAllToggle;
+    const status = isDesignMode ? "none" : selection?.type === "Multi" ? selection.selectionStatus : undefined;
 
     return {
-        selectionStatus: props.showSelectAllToggle ? status : undefined,
+        selectionStatus: selectAllOn ? status : undefined,
         selectionMethod: selectionOn
-            ? checkboxOn
+            ? methodCheckbox
                 ? SelectionMethod.checkbox
                 : SelectionMethod.rowClick
             : SelectionMethod.none
     };
-}
-
-function selectionStatus(
-    props: DatagridContainerProps | DatagridPreviewProps,
-    selection: SelectionHelper
-): MultiSelectionStatus | undefined {
-    // Always "none" in design mode.
-    if (props.itemSelection === "Multi") {
-        return SelectionMethod.none;
-    } else if (selection?.type === "Multi") {
-        return selection.selectionStatus;
-    }
 }
 
 function stub(): (...args: any[]) => void;

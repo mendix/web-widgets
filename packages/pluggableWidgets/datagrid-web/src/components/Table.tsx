@@ -281,9 +281,13 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                     setPage={setPage}
                     style={cssGridStyles}
                 >
-                    <div className="tr" role="row">
+                    <div key="headers_row" className="tr" role="row">
                         {checkboxSelectionOn && (
-                            <div key="selection-column" className="th widget-datagrid-col-select" role="columnheader">
+                            <div
+                                key="headers_column_select_all"
+                                className="th widget-datagrid-col-select"
+                                role="columnheader"
+                            >
                                 {selectionStatus && (
                                     <input
                                         checked={selectionStatus !== SelectionMethod.none}
@@ -330,6 +334,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         )}
                         {columnsHidable && (
                             <ColumnSelector
+                                key="headers_column_selector"
                                 columns={tableColumns}
                                 hiddenColumns={hiddenColumns}
                                 id={id}
@@ -346,7 +351,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             >
                                 {checkboxSelectionOn && (
                                     <div
-                                        key="selection-column"
+                                        key="cell_checkbox"
                                         className={classNames("td widget-datagrid-col-select", {
                                             "td-borders": rowIndex === 0
                                         })}
@@ -362,6 +367,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 {visibleColumns.map(cell => renderCell(cell, row.item, rowIndex))}
                                 {columnsHidable && (
                                     <div
+                                        key="cell_column_dropdown"
                                         aria-hidden
                                         className={classNames("td column-selector", {
                                             "td-borders": rowIndex === 0
@@ -377,6 +383,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             const colspan = columns.length + (columnsHidable ? 1 : 0) + (checkboxSelectionOn ? 1 : 0);
                             return (
                                 <div
+                                    key="row-footer"
                                     className={classNames("td", { "td-borders": !preview })}
                                     style={{
                                         gridColumn: `span ${colspan}`

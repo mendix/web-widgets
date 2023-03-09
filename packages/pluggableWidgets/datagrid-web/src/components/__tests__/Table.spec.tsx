@@ -1,7 +1,8 @@
 import { render } from "enzyme";
+import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
+import { SelectionMethod } from "../../features/selection";
 import { Table, TableProps } from "../Table";
-import { ObjectItem, GUID } from "mendix";
 
 describe("Table", () => {
     it("renders the structure correctly", () => {
@@ -140,7 +141,11 @@ describe("Table", () => {
         const component = render(
             <Table
                 {...mockTableProps()}
-                headerWrapperRenderer={(_, header) => <div className="my-custom-header">{header}</div>}
+                headerWrapperRenderer={(index, header) => (
+                    <div key={`header_wrapper_${index}`} className="my-custom-header">
+                        {header}
+                    </div>
+                )}
             />
         );
 
@@ -193,9 +198,14 @@ function mockTableProps(): TableProps<ObjectItem> {
         columnsSortable: false,
         columns,
         valueForSort: () => "dummy",
-        filterRenderer: () => <input type="text" value="dummy" />,
+        filterRenderer: () => <input type="text" defaultValue="dummy" />,
         cellRenderer: (renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header),
         headerWrapperRenderer: (_index, header) => header,
-        data: [{ id: "123456" as GUID }]
+        data: [{ id: "123456" as GUID }],
+        onSelect: jest.fn(),
+        onSelectAll: jest.fn(),
+        isSelected: jest.fn(() => false),
+        selectionMethod: SelectionMethod.none,
+        selectionStatus: undefined
     };
 }
