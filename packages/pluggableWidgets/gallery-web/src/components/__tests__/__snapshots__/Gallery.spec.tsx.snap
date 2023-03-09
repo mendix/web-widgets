@@ -227,7 +227,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
 </div>
 `;
 
-exports[`Gallery without filters renders structure without filters container 1`] = `
+exports[`Gallery without filters renders structure without header container 1`] = `
 <div
   class="widget-gallery"
   data-focusindex="0"
