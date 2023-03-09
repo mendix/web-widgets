@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.selectionhelper.SelectionHelper" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Selection Helper</name>
+    <description>My widget description</description>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="renderStyle" type="enumeration" defaultValue="checkbox">
+                <caption>Style</caption>
+                <description />
+                <enumerationValues>
+                    <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                    <enumerationValue key="custom">Custom</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="checkboxCaption" type="textTemplate">
+                <caption>Checkbox caption</caption>
+                <description />
+            </property>
+            <property key="customAllSelected" type="widgets">
+                <caption>All selected</caption>
+                <description />
+            </property>
+            <property key="customSomeSelected" type="widgets">
+                <caption>Some selected</caption>
+                <description />
+            </property>
+            <property key="customNoneSelected" type="widgets">
+                <caption>None selected</caption>
+                <description />
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
