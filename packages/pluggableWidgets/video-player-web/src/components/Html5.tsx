@@ -63,6 +63,8 @@ export class Html5 extends Component<Html5PlayerProps> {
                             src={this.props.url}
                             type="video/mp4"
                             onError={this.handleOnError}
+                            /* https://github.com/jsx-eslint/eslint-plugin-react/issues/3505 */
+                            /* eslint-disable-next-line react/no-unknown-property */
                             onLoad={this.handleOnSuccess}
                         />
                     ) : null}
