@@ -1,4 +1,5 @@
 import { render } from "enzyme";
+import * as testingLibrary from "@testing-library/react";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
 import { SelectionMethod } from "../../features/selection";
@@ -166,6 +167,16 @@ describe("Table", () => {
         );
 
         expect(component).toMatchSnapshot();
+    });
+
+    describe("with selection method checkbox", () => {
+        it("renders correctly and first column have checkboxes", () => {
+            const { asFragment } = testingLibrary.render(
+                <Table {...mockTableProps()} paging selectionMethod={SelectionMethod.checkbox} />
+            );
+
+            expect(asFragment()).toMatchSnapshot();
+        });
     });
 });
 
