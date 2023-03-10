@@ -32,7 +32,7 @@
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.13.0",
-    "@types/plotly.js": "^2.12.13",
+    "@types/plotly.js": "^2.12.18",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
     "@types/react-plotly.js": "^2.5.0",
@@ -64,7 +64,7 @@
     "deepmerge": "^4.3.0",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1",
-    "plotly.js": "^2.14.0",
+    "plotly.js": "^2.18.2",
     "react-ace": "^9.4.4",
     "react-plotly.js": "^2.5.1"
   },

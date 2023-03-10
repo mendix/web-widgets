@@ -3375,7 +3375,7 @@ importers:
       '@types/enzyme': ^3.10.12
       '@types/jest': ^26.0.24
       '@types/node': ^18.13.0
-      '@types/plotly.js': ^2.12.13
+      '@types/plotly.js': ^2.12.18
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.18
       '@types/react-plotly.js': ^2.5.0
@@ -3396,7 +3396,7 @@ importers:
       json-source-map: ^0.6.1
       mendix: ^9.23.621
       mendix-client: ^7.15.8
-      plotly.js: ^2.14.0
+      plotly.js: ^2.18.2
       prettier: ^2.8.4
       react: ~17.0.2
       react-ace: ^9.4.4
@@ -5699,6 +5699,7 @@ packages:
 
   /@mapbox/geojson-rewind/0.5.2:
     resolution: {integrity: sha512-tJaT+RbYGJYStt7wI3cq4Nl4SXxG8W7JDG5DMJu97V25RnbNg3QtQtf+KD+VLjNpWKYsRvXDNmNrBgEETr1ifA==}
+    hasBin: true
     dependencies:
       get-stream: 6.0.1
       minimist: 1.2.8
@@ -9236,6 +9237,7 @@ packages:
 
   /d3-geo-projection/2.9.0:
     resolution: {integrity: sha512-ZULvK/zBn87of5rWAfFMc9mJOipeSo57O+BBitsKIXmU4rTVAnX1kSsJkE0R+TxY8pGNoM1nbyRRE7GYHhdOEQ==}
+    hasBin: true
     dependencies:
       commander: 2.20.3
       d3-array: 1.2.4
@@ -13766,6 +13768,7 @@ packages:
 
   /mumath/3.3.4:
     resolution: {integrity: sha512-VAFIOG6rsxoc7q/IaY3jdjmrsuX9f15KlRLYTHmixASBZkZEKC1IFqE2BC5CdhXmK6WLM1Re33z//AGmeRI6FA==}
+    deprecated: Redundant dependency in your project.
     dependencies:
       almost-equal: 1.1.0
     dev: false
@@ -13871,6 +13874,7 @@ packages:
   /needle/2.9.1:
     resolution: {integrity: sha512-6R9fqJ5Zcmf+uYaFgdIHmLwNldn5HbK8L5ybn7Uz+ylX/rnOsSp1AHcvQSrCaFN+qNM1wpymHqD7mVasEOlHGQ==}
     engines: {node: '>= 4.4.x'}
+    hasBin: true
     dependencies:
       debug: 3.2.7
       iconv-lite: 0.4.24
@@ -14323,6 +14327,7 @@ packages:
 
   /pbf/3.2.1:
     resolution: {integrity: sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==}
+    hasBin: true
     dependencies:
       ieee754: 1.2.1
       resolve-protobuf-schema: 2.1.0
