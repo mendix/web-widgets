@@ -51,7 +51,7 @@ export function useOnSelectProps(selection: SelectionHelper): SelectActionProps 
 }
 
 export interface SelectionProps {
-    itemSelection: (DatagridContainerProps | DatagridPreviewProps)["itemSelection"];
+    itemSelection?: (DatagridContainerProps | DatagridPreviewProps)["itemSelection"];
     itemSelectionMethod: ItemSelectionMethodEnum;
     showSelectAllToggle: boolean;
 }
@@ -61,12 +61,14 @@ type SelectionSettings = {
     selectionMethod: SelectionMethod;
 };
 
-export function selectionSettings(props: SelectionProps, selection: SelectionHelper): SelectionSettings {
-    const isDesignMode = typeof props.itemSelection === "string";
-    const selectionOn = props.itemSelection !== undefined && props.itemSelection !== "None";
-    const methodCheckbox = props.itemSelectionMethod === "checkbox";
-    const selectAllOn = methodCheckbox && props.showSelectAllToggle;
-    const status = isDesignMode ? "none" : selection?.type === "Multi" ? selection.selectionStatus : undefined;
+export function selectionSettings(props: SelectionProps, helper: SelectionHelper): SelectionSettings {
+    const { itemSelection, itemSelectionMethod, showSelectAllToggle } = props;
+    const isDesignMode = typeof itemSelection === "string";
+    const selectionOn = itemSelection !== undefined && itemSelection !== "None";
+    const selectionMulti = isDesignMode ? itemSelection === "Multi" : itemSelection?.type === "Multi";
+    const methodCheckbox = itemSelectionMethod === "checkbox";
+    const selectAllOn = selectionMulti && methodCheckbox && showSelectAllToggle;
+    const status = isDesignMode ? "none" : helper?.type === "Multi" ? helper.selectionStatus : undefined;
 
     return {
         selectionStatus: selectAllOn ? status : undefined,

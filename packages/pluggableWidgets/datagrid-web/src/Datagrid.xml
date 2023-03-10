@@ -37,7 +37,7 @@
                         <enumerationValue key="rowClick">Row click</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="showSelectAllToggle" type="boolean" defaultValue="false">
+                <property key="showSelectAllToggle" type="boolean" defaultValue="true">
                     <caption>Show (un)check all toggle</caption>
                     <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
                 </property>
