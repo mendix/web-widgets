@@ -12,7 +12,7 @@ import {
 import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";
 import { and } from "mendix/filters/builders";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction, useSelectionHelper } from "@mendix/pluggable-widgets-commons";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
@@ -103,6 +103,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
+    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+
     return (
         <GalleryComponent
             className={props.class}
@@ -163,11 +165,24 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             itemRenderer={useCallback(
                 (renderWrapper, item) =>
                     renderWrapper(
+                        !!selection?.isSelected(item),
                         props.content?.get(item),
                         props.itemClass?.get(item)?.value,
-                        props.onClick ? () => executeAction(props.onClick?.get(item)) : undefined
+                        (props.onClick || selection) &&
+                            (() => {
+                                if (props.onClick) {
+                                    executeAction(props.onClick?.get(item));
+                                }
+                                if (selection) {
+                                    if (selection.isSelected(item)) {
+                                        selection.remove(item);
+                                    } else {
+                                        selection.add(item);
+                                    }
+                                }
+                            })
                     ),
-                [props.content, props.itemClass, props.onClick]
+                [props.content, props.itemClass, props.onClick, selection]
             )}
             numberOfItems={props.datasource.totalCount}
             page={currentPage}

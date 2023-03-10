@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue } from "mendix";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type PaginationEnum = "buttons" | "virtualScrolling";
@@ -38,6 +38,7 @@ export interface GalleryContainerProps {
     tabIndex?: number;
     advanced: boolean;
     datasource: ListValue;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
     content?: ListWidgetValue;
     desktopItems: number;
     tabletItems: number;
@@ -49,6 +50,7 @@ export interface GalleryContainerProps {
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
     onClick?: ListActionValue;
+    onSelectionChange?: ActionValue;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     sortList: SortListType[];
@@ -67,6 +69,7 @@ export interface GalleryPreviewProps {
     readOnly: boolean;
     advanced: boolean;
     datasource: {} | { type: string } | null;
+    itemSelection: "None" | "Single" | "Multi";
     content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     desktopItems: number | null;
     tabletItems: number | null;
@@ -78,6 +81,7 @@ export interface GalleryPreviewProps {
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     itemClass: string;
     onClick: {} | null;
+    onSelectionChange: {} | null;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     sortList: SortListPreviewType[];

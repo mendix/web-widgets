@@ -3,7 +3,7 @@ import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { ObjectItem, GUID } from "mendix";
 
-export function preview(props: GalleryPreviewProps): ReactElement {
+function Preview(props: GalleryPreviewProps): ReactElement {
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -18,7 +18,7 @@ export function preview(props: GalleryPreviewProps): ReactElement {
     const isSortableFilterable = props.filterList.length > 0 || props.sortList.length > 0;
     return (
         <GalleryComponent
-            className={props.className}
+            className={props.class}
             desktopItems={props.desktopItems!}
             emptyPlaceholderRenderer={useCallback(
                 renderWrapper => (
@@ -41,7 +41,7 @@ export function preview(props: GalleryPreviewProps): ReactElement {
             itemRenderer={useCallback(
                 renderWrapper => (
                     <props.content.renderer caption="Gallery item: Place widgets here">
-                        {renderWrapper(null, "")}
+                        {renderWrapper(false, null, "")}
                     </props.content.renderer>
                 ),
                 [props.content]
@@ -56,4 +56,8 @@ export function preview(props: GalleryPreviewProps): ReactElement {
             tabletItems={props.tabletItems!}
         />
     );
+}
+
+export function preview(props: GalleryPreviewProps): ReactElement {
+    return createElement(Preview, props);
 }
