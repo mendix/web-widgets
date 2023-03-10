@@ -4,7 +4,7 @@ import "../ui/CheckBox.scss";
 interface CheckBoxProps {
     id: string;
     value: "all" | "some" | "none";
-    onChange: () => void;
+    onChange?: () => void;
 }
 
 export function CheckBox({ id, value, onChange }: CheckBoxProps): ReactElement {

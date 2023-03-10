@@ -12,7 +12,7 @@
                     <enumerationValue key="custom">Custom</enumerationValue>
                 </enumerationValues>
             </property>
-            <property key="checkboxCaption" type="textTemplate">
+            <property key="checkboxCaption" type="textTemplate" required="false">
                 <caption>Checkbox caption</caption>
                 <description />
             </property>

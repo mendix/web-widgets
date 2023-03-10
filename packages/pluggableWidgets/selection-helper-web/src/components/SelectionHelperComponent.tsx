@@ -4,7 +4,7 @@ import { CheckBox } from "./CheckBox";
 interface Props {
     type: "checkbox" | "custom";
     status: "all" | "some" | "none";
-    onClick: () => void;
+    onClick?: () => void;
     children: ReactNode;
 }
 
@@ -22,7 +22,7 @@ export function SelectionHelperComponent(props: Props): ReactElement {
                     onKeyDown={e => {
                         if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
-                            props.onClick();
+                            props.onClick?.();
                         }
                     }}
                 >

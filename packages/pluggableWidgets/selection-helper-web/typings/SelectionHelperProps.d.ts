@@ -14,7 +14,7 @@ export interface SelectionHelperContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     renderStyle: RenderStyleEnum;
-    checkboxCaption: DynamicValue<string>;
+    checkboxCaption?: DynamicValue<string>;
     customAllSelected: ReactNode;
     customSomeSelected: ReactNode;
     customNoneSelected: ReactNode;
