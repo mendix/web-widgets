@@ -13,7 +13,7 @@ export function preview(props: HTMLElementPreviewProps): ReactElement {
         <Fragment>
             {items.map(i =>
                 isVoidElement(tag) ? (
-                    <div>{`<${tag} />`}</div>
+                    <div key={i}>{`<${tag} />`}</div>
                 ) : (
                     <HTMLTag
                         key={i}
