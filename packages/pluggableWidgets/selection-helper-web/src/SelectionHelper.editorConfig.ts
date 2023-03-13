@@ -1,6 +1,15 @@
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { SelectionHelperPreviewProps } from "../typings/SelectionHelperProps";
-import { container, dropzone, rowLayout, StructurePreviewProps, text } from "@mendix/pluggable-widgets-commons";
+import {
+    container,
+    dropzone,
+    rowLayout,
+    StructurePreviewProps,
+    svgImage,
+    text
+} from "@mendix/pluggable-widgets-commons";
+
+import CheckBoxIndeterminateSVG from "./assets/CheckBoxIndeterminate.light.svg";
 
 export function getProperties(values: SelectionHelperPreviewProps, defaultProperties: Properties): Properties {
     if (values.renderStyle === "checkbox") {
@@ -19,24 +28,18 @@ export function getPreview(
 ): StructurePreviewProps {
     if (values.renderStyle === "checkbox") {
         return container()(
-            rowLayout()(
-                container({ grow: 1, padding: 3 })(
-                    container({
-                        grow: 0,
-                        borderWidth: 1,
-                        borderRadius: 3,
-                        backgroundColor: "#264ae5",
-                        borders: true
-                    })(text({ fontColor: "#ffffff", fontSize: 18 })(" "))
+            rowLayout({ columnSize: "grow" })(
+                container({ grow: 1 })(
+                    svgImage(decodeURIComponent(CheckBoxIndeterminateSVG.replace("data:image/svg+xml,", "")), 24, 24)
                 ),
-                container({ grow: 11 })(text()(values.checkboxCaption))
+                container({ grow: 100, padding: 3 })(text({ fontSize: 10 })(values.checkboxCaption))
             )
         );
     }
 
     return container()(
-        container()(dropzone()(values.customNoneSelected)),
-        container()(dropzone()(values.customSomeSelected)),
-        container()(dropzone()(values.customAllSelected))
+        container({ borders: true })(dropzone()(values.customNoneSelected)),
+        container({ borders: true })(dropzone()(values.customSomeSelected)),
+        container({ borders: true })(dropzone()(values.customAllSelected))
     );
 }
