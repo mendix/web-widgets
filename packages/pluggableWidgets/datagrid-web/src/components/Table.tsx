@@ -1,4 +1,5 @@
 import {
+    ChangeEventHandler,
     createElement,
     CSSProperties,
     ReactElement,
@@ -72,7 +73,7 @@ export interface TableProps<T extends ObjectItem> {
     selectionMethod: SelectionMethod;
     selectionStatus?: MultiSelectionStatus;
     onSelect: (item: T) => void;
-    onSelectAll: () => void;
+    onSelectAll: ChangeEventHandler<HTMLInputElement>;
     isSelected: (item: T) => boolean;
 }
 

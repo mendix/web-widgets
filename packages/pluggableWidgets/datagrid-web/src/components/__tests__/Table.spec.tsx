@@ -240,6 +240,64 @@ describe("Table", () => {
 
             expect(checked()).toHaveLength(4);
         });
+
+        it("call onSelect when checkbox is clicked", () => {
+            const { render, fireEvent, screen } = testingLibrary;
+            const items = objectItems(3);
+            const onSelect = jest.fn();
+
+            render(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    onSelect={onSelect}
+                />
+            );
+
+            const checkbox1 = screen.getAllByRole("checkbox")[0];
+            const checkbox3 = screen.getAllByRole("checkbox")[2];
+
+            fireEvent.click(checkbox1);
+            expect(onSelect).toBeCalledTimes(1);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            fireEvent.click(checkbox1);
+            expect(onSelect).toBeCalledTimes(2);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+
+            fireEvent.click(checkbox3);
+            expect(onSelect).toBeCalledTimes(3);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2]);
+            fireEvent.click(checkbox3);
+            expect(onSelect).toBeCalledTimes(4);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2]);
+        });
+
+        it("call onSelectAll when header checkbox is clicked", () => {
+            const { render, fireEvent, screen } = testingLibrary;
+            const items = objectItems(3);
+            const onSelectAll = jest.fn();
+
+            render(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionStatus="none"
+                    selectionMethod={SelectionMethod.checkbox}
+                    onSelectAll={onSelectAll}
+                />
+            );
+
+            const checkbox = screen.getAllByRole("checkbox")[0];
+
+            fireEvent.click(checkbox);
+            expect(onSelectAll).toBeCalledTimes(1);
+
+            fireEvent.click(checkbox);
+            expect(onSelectAll).toBeCalledTimes(2);
+        });
     });
 });
 
