@@ -24,7 +24,7 @@ jobs:
         uses: zgosalvez/github-actions-ensure-sha-pinned-actions@21991cec25093947ff3f62e4c223df0260c39944 # v2.1.2
 
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@3cae5833b4ae40ae8e4b9921c5c1a32adeda490b # v34.152.4
+        uses: renovatebot/github-action@5e8129624e65d182d7dc0fa673708ff4badab949 # v34.159.1
         with:
           configurationFile: .github/renovate.json
           token: ${{ secrets.RENOVATE_TOKEN }}
