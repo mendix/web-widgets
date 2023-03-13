@@ -6,6 +6,7 @@ import { SelectionMethod } from "../../features/selection";
 import { Table, TableProps } from "../Table";
 import { objectItems } from "@mendix/pluggable-test-utils";
 import "@testing-library/jest-dom";
+import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
 
 describe("Table", () => {
     it("renders the structure correctly", () => {
@@ -283,6 +284,68 @@ describe("Table", () => {
             fireEvent.click(checkbox3);
             expect(onSelect).toBeCalledTimes(4);
             expect(onSelect).toHaveBeenLastCalledWith(items[2]);
+        });
+    });
+
+    describe("with selection status", () => {
+        it("not render header checkbox when status is undefined", () => {
+            const { render, screen, queryByRole } = testingLibrary;
+            const items = objectItems(5);
+            render(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionStatus={undefined}
+                    selectionMethod={SelectionMethod.checkbox}
+                />
+            );
+
+            const colheader = screen.getAllByRole("columnheader")[0];
+            expect(queryByRole(colheader, "checkbox")).toBeNull();
+        });
+
+        it("render header checkbox if status is given and checkbox state depends on the status", () => {
+            const { render, screen, queryByRole, cleanup } = testingLibrary;
+            const items = objectItems(5);
+            const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> =>
+                render(
+                    <Table
+                        {...mockTableProps()}
+                        data={items}
+                        paging
+                        selectionStatus={status}
+                        selectionMethod={SelectionMethod.checkbox}
+                    />
+                );
+
+            renderWithStatus("none");
+            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).not.toBeChecked();
+
+            cleanup();
+            renderWithStatus("some");
+            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+
+            cleanup();
+            renderWithStatus("all");
+            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+        });
+
+        it("not render header checkbox if method is rowClick", () => {
+            const { render, screen, queryByRole } = testingLibrary;
+            const items = objectItems(5);
+            render(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionStatus={"some"}
+                    selectionMethod={SelectionMethod.rowClick}
+                />
+            );
+
+            const colheader = screen.getAllByRole("columnheader")[0];
+            expect(queryByRole(colheader, "checkbox")).toBeNull();
         });
 
         it("call onSelectAll when header checkbox is clicked", () => {
