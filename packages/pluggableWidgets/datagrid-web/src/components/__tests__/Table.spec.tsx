@@ -5,6 +5,7 @@ import { createElement } from "react";
 import { SelectionMethod } from "../../features/selection";
 import { Table, TableProps } from "../Table";
 import { objectItems } from "@mendix/pluggable-test-utils";
+import "@testing-library/jest-dom";
 
 describe("Table", () => {
     it("renders the structure correctly", () => {
@@ -177,6 +178,16 @@ describe("Table", () => {
             );
 
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("set negative tabindex on row checkbox", () => {
+            const { getAllByRole } = testingLibrary.render(
+                <Table {...mockTableProps()} paging selectionMethod={SelectionMethod.checkbox} />
+            );
+
+            getAllByRole("checkbox").forEach(elt => {
+                expect(elt).toHaveAttribute("tabindex", "-1");
+            });
         });
 
         it("render correct number of checked checkboxes", () => {
