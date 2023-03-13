@@ -4,6 +4,7 @@ import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
 import { SelectionMethod } from "../../features/selection";
 import { Table, TableProps } from "../Table";
+import { objectItems } from "@mendix/pluggable-test-utils";
 
 describe("Table", () => {
     it("renders the structure correctly", () => {
@@ -176,6 +177,68 @@ describe("Table", () => {
             );
 
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("render correct number of checked checkboxes", () => {
+            const items = objectItems(6);
+            const [a, b, c, d, e, f] = items;
+            const { rerender } = testingLibrary.render(
+                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.checkbox} />
+            );
+
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            const checked = () =>
+                testingLibrary.screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
+
+            expect(checked()).toHaveLength(0);
+
+            rerender(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    isSelected={item => [a, b, c].includes(item)}
+                />
+            );
+
+            expect(checked()).toHaveLength(3);
+
+            rerender(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    isSelected={item => [c].includes(item)}
+                />
+            );
+
+            expect(checked()).toHaveLength(1);
+
+            rerender(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    isSelected={item => [d, e].includes(item)}
+                />
+            );
+
+            expect(checked()).toHaveLength(2);
+
+            rerender(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    isSelected={item => [f, e, d, a].includes(item)}
+                />
+            );
+
+            expect(checked()).toHaveLength(4);
         });
     });
 });
