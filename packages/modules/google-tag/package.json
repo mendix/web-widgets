@@ -1,7 +1,7 @@
 {
   "name": "google-tag",
   "moduleName": "Google Tag module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -19,8 +19,8 @@
   },
   "moduleFolderNameInModeler": "googletagmodule",
   "marketplace": {
-    "minimumMXVersion": "8.18.17.42711",
-    "appNumber": -1,
+    "minimumMXVersion": "9.18.4.62522",
+    "appNumber": 207519,
     "appName": "Google Tag"
   },
   "testProject": {
