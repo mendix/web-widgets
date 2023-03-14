@@ -2,7 +2,7 @@
   "name": "selection-helper-web",
   "widgetName": "SelectionHelper",
   "version": "1.0.0",
-  "description": "A flexible selection helper",
+  "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "private": true,
