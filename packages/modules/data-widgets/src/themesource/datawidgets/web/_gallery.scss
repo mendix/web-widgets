@@ -57,9 +57,11 @@
             outline: 1px solid $brand-primary;
         }
     }
-    
-    .widget-gallery-selected {
-        background: $brand-light;
+
+    &:not(.widget-gallery-disable-selected-items-highlight) {
+        .widget-gallery-selected {
+            background: $brand-light;
+        }
     }
 
     .infinite-loading {
