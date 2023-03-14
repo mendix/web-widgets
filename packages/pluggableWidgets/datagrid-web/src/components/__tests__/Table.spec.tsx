@@ -414,8 +414,8 @@ describe("Table", () => {
             expect(rows).toHaveLength(3);
 
             const [row1, row2] = rows;
-            const [cell1, cell2] = getAllByRole(row1, "cell");
-            const [cell3, cell4] = getAllByRole(row2, "cell");
+            const [cell1, cell2] = getAllByRole(row1, "button");
+            const [cell3, cell4] = getAllByRole(row2, "button");
 
             // Click cell1 two times
             fireEvent.click(cell1);

@@ -125,7 +125,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         settings,
         styles,
         selectionStatus,
-        selectionMethod
+        selectionMethod,
+        onSelect
     } = props;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -141,6 +142,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
     );
     const checkboxSelectionOn = selectionMethod === SelectionMethod.checkbox;
+    const rowClickSelectionOn = selectionMethod === SelectionMethod.rowClick;
 
     const { updateSettings } = useSettings(
         settings,
@@ -206,7 +208,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         (column: ColumnProperty, value: T, rowIndex: number) =>
             visibleColumns.find(c => c.id === column.id) || preview
                 ? cellRenderer(
-                      (children, className, onClick) => {
+                      (children, className, onClickAction) => {
+                          const onClick = rowClickSelectionOn ? () => onSelect(value) : onClickAction;
+
                           return (
                               <div
                                   key={`row_${value.id}_cell_${column.id}`}
@@ -236,7 +240,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                       Number(column.id)
                   )
                 : null,
-        [cellRenderer, columnsHidable, preview, visibleColumns]
+        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
     );
 
     const rows = useMemo(() => data.map(item => ({ item })), [data]);
@@ -359,7 +363,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                     >
                                         <input
                                             checked={props.isSelected(row.item)}
-                                            onChange={() => props.onSelect(row.item)}
+                                            onChange={() => onSelect(row.item)}
                                             type="checkbox"
                                             tabIndex={-1}
                                         />

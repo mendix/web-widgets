@@ -1171,8 +1171,9 @@ exports[`Table with selection method rowClick not render extra columns 1`] = `
           role="row"
         >
           <div
-            class="td td-borders"
-            role="cell"
+            class="td td-borders clickable"
+            role="button"
+            tabindex="0"
           >
             Test
           </div>
@@ -1182,8 +1183,9 @@ exports[`Table with selection method rowClick not render extra columns 1`] = `
           role="row"
         >
           <div
-            class="td"
-            role="cell"
+            class="td clickable"
+            role="button"
+            tabindex="0"
           >
             Test
           </div>
@@ -1193,8 +1195,9 @@ exports[`Table with selection method rowClick not render extra columns 1`] = `
           role="row"
         >
           <div
-            class="td"
-            role="cell"
+            class="td clickable"
+            role="button"
+            tabindex="0"
           >
             Test
           </div>
