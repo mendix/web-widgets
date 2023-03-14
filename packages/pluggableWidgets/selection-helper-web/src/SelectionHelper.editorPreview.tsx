@@ -7,15 +7,18 @@ export function preview(props: SelectionHelperPreviewProps): ReactElement {
         <SelectionHelperComponent type={props.renderStyle} status="some">
             {props.renderStyle === "custom"
                 ? [
-                      <props.customAllSelected.renderer key={"all"}>
+                      <props.customNoneSelected.renderer key={"none"} caption={"No items selected: Place widgets here"}>
                           <div />
-                      </props.customAllSelected.renderer>,
-                      <props.customSomeSelected.renderer key={"some"}>
+                      </props.customNoneSelected.renderer>,
+                      <props.customSomeSelected.renderer
+                          key={"some"}
+                          caption={"Some items selected: Place widgets here"}
+                      >
                           <div />
                       </props.customSomeSelected.renderer>,
-                      <props.customNoneSelected.renderer key={"none"}>
+                      <props.customAllSelected.renderer key={"all"} caption={"All items selected: Place widgets here"}>
                           <div />
-                      </props.customNoneSelected.renderer>
+                      </props.customAllSelected.renderer>
                   ]
                 : props.checkboxCaption}
         </SelectionHelperComponent>

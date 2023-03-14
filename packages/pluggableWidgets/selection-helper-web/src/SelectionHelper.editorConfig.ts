@@ -38,8 +38,14 @@ export function getPreview(
     }
 
     return container()(
-        container({ borders: true })(dropzone()(values.customNoneSelected)),
-        container({ borders: true })(dropzone()(values.customSomeSelected)),
-        container({ borders: true })(dropzone()(values.customAllSelected))
+        container({ borders: true })(
+            dropzone(dropzone.placeholder("No items selected: Place widgets here"))(values.customNoneSelected)
+        ),
+        container({ borders: true })(
+            dropzone(dropzone.placeholder("Some items selected: Place widgets here"))(values.customSomeSelected)
+        ),
+        container({ borders: true })(
+            dropzone(dropzone.placeholder("All items selected: Place widgets here"))(values.customAllSelected)
+        )
     );
 }
