@@ -57,6 +57,10 @@
             outline: 1px solid $brand-primary;
         }
     }
+    
+    .widget-gallery-selected {
+        background: $brand-light;
+    }
 
     .infinite-loading {
         overflow: auto;
