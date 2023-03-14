@@ -173,9 +173,29 @@ describe("Table", () => {
     });
 
     describe("with selection method checkbox", () => {
-        it("renders correctly and first column have checkboxes", () => {
-            const { asFragment } = testingLibrary.render(
-                <Table {...mockTableProps()} paging selectionMethod={SelectionMethod.checkbox} />
+        it("render method class", () => {
+            const { render } = testingLibrary;
+            const items = objectItems(3);
+
+            const { container } = render(
+                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.checkbox} />
+            );
+
+            expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
+        });
+
+        it("render an extra column and add class to each selected cell", () => {
+            const { render } = testingLibrary;
+            const items = objectItems(3);
+
+            const { asFragment } = render(
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.checkbox}
+                    isSelected={() => true}
+                />
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -375,12 +395,29 @@ describe("Table", () => {
     });
 
     describe("with selection method rowClick", () => {
-        it("not render extra columns", () => {
+        it("render method class", () => {
+            const { render } = testingLibrary;
+            const items = objectItems(3);
+
+            const { container } = render(
+                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.rowClick} />
+            );
+
+            expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
+        });
+
+        it("add class to each selected cell", () => {
             const { render } = testingLibrary;
             const items = objectItems(3);
 
             const { asFragment } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.rowClick} />
+                <Table
+                    {...mockTableProps()}
+                    data={items}
+                    paging
+                    selectionMethod={SelectionMethod.rowClick}
+                    isSelected={() => true}
+                />
             );
 
             expect(asFragment()).toMatchSnapshot();

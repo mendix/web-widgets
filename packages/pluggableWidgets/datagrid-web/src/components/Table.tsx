@@ -126,7 +126,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         styles,
         selectionStatus,
         selectionMethod,
-        onSelect
+        onSelect,
+        isSelected
     } = props;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -216,7 +217,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                   key={`row_${value.id}_cell_${column.id}`}
                                   className={classNames("td", { "td-borders": rowIndex === 0 }, className, {
                                       clickable: !!onClick,
-                                      "hidden-column-preview": preview && columnsHidable && column.hidden
+                                      "hidden-column-preview": preview && columnsHidable && column.hidden,
+                                      "td-selected": isSelected(value)
                                   })}
                                   onClick={onClick}
                                   onKeyDown={
@@ -240,7 +242,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                       Number(column.id)
                   )
                 : null,
-        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
+        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn, isSelected]
     );
 
     const rows = useMemo(() => data.map(item => ({ item })), [data]);
@@ -268,7 +270,13 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     );
 
     return (
-        <div className={classNames(className, "widget-datagrid")} style={styles}>
+        <div
+            className={classNames(className, "widget-datagrid", {
+                "widget-datagrid-selection-method-checkbox": checkboxSelectionOn,
+                "widget-datagrid-selection-method-click": rowClickSelectionOn
+            })}
+            style={styles}
+        >
             <div className="table" role="table">
                 <div className="table-header" role="rowgroup">
                     {(pagingPosition === "top" || pagingPosition === "both") && pagination}
@@ -358,11 +366,12 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                     <div
                                         key="cell_checkbox"
                                         className={classNames("td widget-datagrid-col-select", {
-                                            "td-borders": rowIndex === 0
+                                            "td-borders": rowIndex === 0,
+                                            "td-selected": isSelected(row.item)
                                         })}
                                     >
                                         <input
-                                            checked={props.isSelected(row.item)}
+                                            checked={isSelected(row.item)}
                                             onChange={() => onSelect(row.item)}
                                             type="checkbox"
                                             tabIndex={-1}
@@ -375,7 +384,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                         key="cell_column_dropdown"
                                         aria-hidden
                                         className={classNames("td column-selector", {
-                                            "td-borders": rowIndex === 0
+                                            "td-borders": rowIndex === 0,
+                                            "td-selected": isSelected(row.item)
                                         })}
                                     />
                                 )}
