@@ -300,6 +300,7 @@ importers:
       classnames: ^2.3.2
       css-loader: ^6.7.3
       eslint: ^7.32.0
+      identity-obj-proxy: ^3.0.0
       jest: ^26.6.3
       jest-canvas-mock: ^2.4.0
       mendix-client: ^7.15.8
@@ -334,6 +335,7 @@ importers:
       '@types/react-resize-detector': 5.0.0
       css-loader: 6.7.3_webpack@5.75.0
       eslint: 7.32.0
+      identity-obj-proxy: 3.0.0
       jest: 26.6.3_ts-node@9.1.1
       jest-canvas-mock: 2.4.0
       mendix-client: 7.15.8
@@ -5798,7 +5800,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.23.621
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.21.0
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.9
       postcss: 8.4.21
       postcss-import: 14.1.0_postcss@8.4.21
@@ -8957,7 +8959,7 @@ packages:
       postcss-modules-values: 4.0.0_postcss@8.4.21
       postcss-value-parser: 4.2.0
       semver: 7.3.8
-      webpack: 5.75.0_webpack-cli@4.10.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /css-select/4.3.0:
@@ -13531,10 +13533,8 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.21.0:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.21.0
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.21.0
@@ -13648,7 +13648,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@4.10.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /mini-svg-data-uri/1.4.4:
@@ -16341,7 +16341,7 @@ packages:
     dependencies:
       klona: 2.0.6
       neo-async: 2.6.2
-      webpack: 5.75.0_webpack-cli@4.10.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /sass/1.58.3:
@@ -17118,7 +17118,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.4
-      webpack: 5.75.0_webpack-cli@4.10.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /terser/5.16.4:
@@ -17369,7 +17369,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.3.8
       typescript: 4.5.4
-      webpack: 5.75.0_webpack-cli@4.10.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /ts-node/10.9.1_rzp3k5nwapvzpixm62ol2eltbq:
