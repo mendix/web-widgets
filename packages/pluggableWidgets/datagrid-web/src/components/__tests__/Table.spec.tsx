@@ -373,6 +373,72 @@ describe("Table", () => {
             expect(onSelectAll).toBeCalledTimes(2);
         });
     });
+
+    describe("with selection method rowClick", () => {
+        it("not render extra columns", () => {
+            const { render } = testingLibrary;
+            const items = objectItems(3);
+
+            const { asFragment } = render(
+                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.rowClick} />
+            );
+
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("call onSelect when cell is clicked", () => {
+            const { render, screen, getAllByRole, fireEvent } = testingLibrary;
+            const items = objectItems(3);
+            const onSelect = jest.fn();
+            const {
+                columns: [columnProps],
+                ...props
+            } = mockTableProps();
+            const col1 = { ...columnProps, header: "Column A" };
+            const col2 = { ...columnProps, header: "Column B" };
+            const columns = [col1, col2];
+
+            render(
+                <Table
+                    {...props}
+                    columns={columns}
+                    data={items}
+                    cellRenderer={(renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header)}
+                    paging
+                    selectionMethod={SelectionMethod.rowClick}
+                    onSelect={onSelect}
+                />
+            );
+
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(3);
+
+            const [row1, row2] = rows;
+            const [cell1, cell2] = getAllByRole(row1, "cell");
+            const [cell3, cell4] = getAllByRole(row2, "cell");
+
+            // Click cell1 two times
+            fireEvent.click(cell1);
+            expect(onSelect).toHaveBeenCalledTimes(1);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            fireEvent.click(cell1);
+            expect(onSelect).toHaveBeenCalledTimes(2);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+
+            // Click cell2
+            fireEvent.click(cell2);
+            expect(onSelect).toHaveBeenCalledTimes(3);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+
+            // Click cell3 and cell4
+            fireEvent.click(cell4);
+            expect(onSelect).toHaveBeenCalledTimes(4);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1]);
+            fireEvent.click(cell3);
+            expect(onSelect).toHaveBeenCalledTimes(5);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1]);
+        });
+    });
 });
 
 function mockTableProps(): TableProps<ObjectItem> {
