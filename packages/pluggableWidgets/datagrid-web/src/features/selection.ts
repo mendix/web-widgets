@@ -9,44 +9,46 @@ export enum SelectionMethod {
     checkbox = "checkbox"
 }
 
-export type SelectActionProps<T extends ObjectItem = ObjectItem> = {
-    onSelect: (item: T) => void;
+export type SelectActionProps = {
+    onSelect: (item: ObjectItem) => void;
     onSelectAll: () => void;
-    isSelected: (item: T) => boolean;
+    isSelected: (item: ObjectItem) => boolean;
 };
 
 const defaultProps: SelectActionProps = {
-    onSelect: stub(),
-    onSelectAll: stub(),
-    isSelected: stub(false)
+    onSelect: () => undefined,
+    onSelectAll: () => undefined,
+    isSelected: () => false
 };
 
 export function useOnSelectProps(selection: SelectionHelper): SelectActionProps {
     return useMemo(() => {
         if (!selection) {
             return defaultProps;
-        } else {
-            return {
-                onSelect: item => {
-                    if (selection?.isSelected(item)) {
-                        selection?.remove(item);
-                    } else {
-                        selection?.add(item);
-                    }
-                },
-                onSelectAll: () => {
-                    if (selection.type !== "Multi") {
-                        throw new Error("onSelectAll called when selection is 'Single'");
-                    }
-                    if (selection.selectionStatus === "all") {
-                        selection.selectNone();
-                    } else {
-                        selection.selectAll();
-                    }
-                },
-                isSelected: item => selection?.isSelected(item) ?? false
-            };
         }
+
+        return {
+            onSelect: item => {
+                if (selection.isSelected(item)) {
+                    selection.remove(item);
+                } else {
+                    selection.add(item);
+                }
+            },
+            onSelectAll:
+                selection.type === "Single"
+                    ? () => {
+                          console.warn("Datagrid: calling onSelectAll in single selection mode have no effect");
+                      }
+                    : () => {
+                          if (selection.selectionStatus === "all") {
+                              selection.selectNone();
+                          } else {
+                              selection.selectAll();
+                          }
+                      },
+            isSelected: item => selection.isSelected(item)
+        };
     }, [selection]);
 }
 
@@ -78,10 +80,4 @@ export function selectionSettings(props: SelectionProps, helper: SelectionHelper
                 : SelectionMethod.rowClick
             : SelectionMethod.none
     };
-}
-
-function stub(): (...args: any[]) => void;
-function stub<T>(a: T): (...args: any[]) => T;
-function stub<T>(a?: T) {
-    return (..._args: any[]) => a;
 }

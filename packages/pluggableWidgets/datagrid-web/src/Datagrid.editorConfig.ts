@@ -142,22 +142,17 @@ export function getProperties(
     return defaultProperties;
 }
 
-function hideSelectionProperties(defaultProperties: Properties, values: DatagridPreviewProps): Properties {
+function hideSelectionProperties(defaultProperties: Properties, values: DatagridPreviewProps): void {
     const { itemSelection, itemSelectionMethod } = values;
 
     if (itemSelection === "None") {
         hidePropertyIn(defaultProperties, values, "itemSelectionMethod");
+        hidePropertyIn(defaultProperties, values, "onSelectionChange");
     }
 
     if (itemSelection !== "Multi" || itemSelectionMethod !== "checkbox") {
         hidePropertyIn(defaultProperties, values, "showSelectAllToggle");
     }
-
-    if (itemSelection === "None") {
-        hidePropertyIn(defaultProperties, values, "onSelectionChange");
-    }
-
-    return defaultProperties;
 }
 
 export const getPreview = (
