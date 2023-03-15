@@ -65,7 +65,7 @@ export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
     onSelectionChange: ActionValue | undefined
-): SelectionHelper {
+): SelectionHelper | undefined {
     const firstLoadDone = useRef(false);
     useEffect(() => {
         if (firstLoadDone.current) {
@@ -78,7 +78,7 @@ export function useSelectionHelper(
         }
     }, [dataSource?.status]);
 
-    const selectionHelper = useRef<SelectionHelper>(undefined);
+    const selectionHelper = useRef<SelectionHelper | undefined>(undefined);
 
     if (selection !== undefined) {
         if (selection.type === "Single") {
@@ -101,5 +101,5 @@ export function useSelectionHelper(
 
 export type { SingleSelectionHelper };
 export type { MultiSelectionHelper };
-export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper | undefined;
+export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
 export type MultiSelectionStatus = "none" | "all" | "some";

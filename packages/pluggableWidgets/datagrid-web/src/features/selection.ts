@@ -17,7 +17,7 @@ const defaultProps: SelectActionProps = {
     isSelected: () => false
 };
 
-export function useOnSelectProps(selection: SelectionHelper): SelectActionProps {
+export function useOnSelectProps(selection: SelectionHelper | undefined): SelectActionProps {
     return useMemo(() => {
         if (!selection) {
             return defaultProps;
@@ -59,7 +59,7 @@ type SelectionSettings = {
     selectionMethod: SelectionMethod;
 };
 
-export function selectionSettings(props: SelectionProps, helper: SelectionHelper): SelectionSettings {
+export function selectionSettings(props: SelectionProps, helper: SelectionHelper | undefined): SelectionSettings {
     const { itemSelection, itemSelectionMethod, showSelectAllToggle } = props;
     const isDesignMode = typeof itemSelection === "string";
     const selectionOn = itemSelection !== undefined && itemSelection !== "None";
