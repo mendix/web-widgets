@@ -25,8 +25,8 @@ const defaultProps: GalleryProps<ObjectItem> = {
     className: "",
     items: [{ id: "11" as GUID }, { id: "22" as GUID }, { id: "33" as GUID }],
     itemRenderer: itemWrapperFunction({}),
-    hasFilters: true,
-    filters: <input />
+    showHeader: true,
+    header: <input />
 };
 
 describe("Gallery", () => {
@@ -172,7 +172,7 @@ describe("Gallery", () => {
                 <Gallery
                     {...defaultProps}
                     items={[]}
-                    filtersTitle="filter title"
+                    headerTitle="filter title"
                     emptyMessageTitle="empty message"
                     emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
                 />
@@ -183,8 +183,8 @@ describe("Gallery", () => {
     });
 
     describe("without filters", () => {
-        it("renders structure without filters container", () => {
-            const filters = { ...defaultProps, hasFilters: false, filters: undefined };
+        it("renders structure without header container", () => {
+            const filters = { ...defaultProps, showHeader: false, header: undefined };
             const gallery = render(<Gallery {...filters} />);
 
             expect(gallery).toMatchSnapshot();

@@ -7,15 +7,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
-    const caption =
-        props.filterList.length > 0
-            ? props.sortList.length > 0
-                ? "Place filter/sort widgets here"
-                : "Place filter widgets here"
-            : props.sortList.length > 0
-            ? "Place sort widgets here"
-            : "Place widgets here";
-    const isSortableFilterable = props.filterList.length > 0 || props.sortList.length > 0;
+
+    const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || props.itemSelection === "Multi";
     return (
         <GalleryComponent
             className={props.class}
@@ -28,14 +21,14 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 ),
                 [props.emptyPlaceholder]
             )}
-            filters={
-                isSortableFilterable ? (
-                    <props.filtersPlaceholder.renderer caption={caption}>
+            header={
+                showHeader ? (
+                    <props.filtersPlaceholder.renderer caption="Gallery header: Place widgets here">
                         <div />
                     </props.filtersPlaceholder.renderer>
                 ) : null
             }
-            hasFilters={!!props.filterList.length}
+            showHeader={!!props.filterList.length}
             hasMoreItems={false}
             items={items}
             itemRenderer={useCallback(

@@ -21,6 +21,7 @@
       "datagrid-web",
       "dropdown-sort-web",
       "gallery-web",
+      "selection-helper-web",
       "tree-node-web"
     ]
   },

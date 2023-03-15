@@ -26,7 +26,7 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
 
-    if (values.filterList?.length === 0 && values.sortList?.length === 0) {
+    if (values.filterList?.length === 0 && values.sortList?.length === 0 && values.itemSelection !== "Multi") {
         hidePropertyIn(defaultProperties, values, "filtersPlaceholder");
     }
 
@@ -88,14 +88,6 @@ export function check(values: GalleryPreviewProps): Problem[] {
 }
 
 export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): StructurePreviewProps {
-    const filterCaption =
-        values.filterList.length > 0
-            ? values.sortList.length > 0
-                ? "Place filter/sort widgets here"
-                : "Place filter widgets here"
-            : values.sortList.length > 0
-            ? "Place sort widgets here"
-            : "Place widgets here";
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
@@ -124,7 +116,7 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
             {
                 type: "DropZone",
                 property: values.filtersPlaceholder,
-                placeholder: filterCaption
+                placeholder: "Gallery header: Place widgets here"
             } as DropZoneProps
         ]
     } as RowLayoutProps;
