@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.0] - 2023-03-15
+
 ### Changed
 
 -   Update minimal supported version to Mendix Studio Pro 9.18.4 and above.
