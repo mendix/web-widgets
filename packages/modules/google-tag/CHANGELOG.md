@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We introduced version 2.0.0 of the module that supports Mendix Studio Pro 9.18.4 and above.
+
 ## [1.0.0] GoogleTagModule - 2023-02-17
 
 ### Added
