@@ -9,13 +9,16 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "type": "module",
+  "main": "./dist/main.js",
   "exports": {
-    "./*": "./dist/*.js"
+    "./*": "./dist/*.js",
+    ".": "./dist/main.js"
   },
   "typesVersions": {
     "*": {
       "*": [
-        "dist/*"
+        "dist/*",
+        "./dist/main.d.ts"
       ]
     }
   },

@@ -15,11 +15,16 @@ export function useOnClickOutside(
             }
             handler();
         };
-        document.addEventListener("mousedown", listener);
-        document.addEventListener("touchstart", listener);
-        return () => {
-            document.removeEventListener("mousedown", listener);
-            document.removeEventListener("touchstart", listener);
-        };
+        const document = Array.isArray(ref) ? ref[0].current?.ownerDocument : ref.current?.ownerDocument;
+        if (document) {
+            document.addEventListener("mousedown", listener);
+            document.addEventListener("touchstart", listener);
+            return () => {
+                document.removeEventListener("mousedown", listener);
+                document.removeEventListener("touchstart", listener);
+            };
+        }
+
+        return undefined;
     }, [ref, handler]);
 }

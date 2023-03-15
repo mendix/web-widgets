@@ -3,7 +3,13 @@ import { ActionValue } from "mendix";
 import { createElement, ReactElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
-import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
+// FIXME: As of now, because jest 26 module resolution can't resolve ES modules
+// We have to use "main" entry.
+// Once we migrate to Jest 29 we can finally use ES "exports".
+// This is how we should import hooks to improve tree shaking:
+// import { useOnClickOutside as useHandleOnClickOutsideElement } from "@mendix/widget-kit-web/hooks/useOnClickOutside";
+// So, basically, only import what is needed.
+import { useOnClickOutside as useHandleOnClickOutsideElement } from "@mendix/widget-kit-web";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 import {

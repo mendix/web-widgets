@@ -1,5 +1,8 @@
 import { RefObject, useEffect } from "react";
 
+/**
+ * @deprecated Please import this hook from `widget-kit-web`
+ */
 export function useOnClickOutside(
     ref: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
     handler: () => void
