@@ -26,7 +26,7 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
 
-    if (values.filterList?.length === 0 && values.sortList?.length === 0 && values.itemSelection !== "Multi") {
+    if (!showHeader(values)) {
         hidePropertyIn(defaultProperties, values, "filtersPlaceholder");
     }
 
@@ -187,15 +187,14 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
 
     return {
         type: "Container",
-        children: [
-            titleHeader,
-            ...(values.filterList.length > 0 || values.sortList.length > 0 ? [filters] : []),
-            content,
-            ...footer
-        ]
+        children: [titleHeader, ...(showHeader(values) ? [filters] : []), content, ...footer]
     };
 }
 
 function getSingularPlural(word: string, elements: number): string {
     return elements > 1 ? word + "s" : word;
+}
+
+function showHeader(values: GalleryPreviewProps): boolean {
+    return values.filterList?.length > 0 || values.sortList?.length > 0 || values.itemSelection === "Multi";
 }
