@@ -3,11 +3,7 @@ import type { ObjectItem } from "mendix";
 import { MultiSelectionStatus, SelectionHelper } from "@mendix/pluggable-widgets-commons";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "typings/DatagridProps";
 
-export enum SelectionMethod {
-    none = "none",
-    rowClick = "rowClick",
-    checkbox = "checkbox"
-}
+export type SelectionMethod = ItemSelectionMethodEnum | "none";
 
 export type SelectActionProps = {
     onSelect: (item: ObjectItem) => void;
@@ -74,10 +70,6 @@ export function selectionSettings(props: SelectionProps, helper: SelectionHelper
 
     return {
         selectionStatus: selectAllOn ? status : undefined,
-        selectionMethod: selectionOn
-            ? methodCheckbox
-                ? SelectionMethod.checkbox
-                : SelectionMethod.rowClick
-            : SelectionMethod.none
+        selectionMethod: selectionOn ? itemSelectionMethod : "none"
     };
 }

@@ -142,8 +142,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidth>(
         Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
     );
-    const checkboxSelectionOn = selectionMethod === SelectionMethod.checkbox;
-    const rowClickSelectionOn = selectionMethod === SelectionMethod.rowClick;
+    const checkboxSelectionOn = selectionMethod === "checkbox";
+    const rowClickSelectionOn = selectionMethod === "rowClick";
 
     const { updateSettings } = useSettings(
         settings,
@@ -303,7 +303,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             >
                                 {selectionStatus && (
                                     <input
-                                        checked={selectionStatus !== SelectionMethod.none}
+                                        checked={selectionStatus !== "none"}
                                         type="checkbox"
                                         onChange={props.onSelectAll}
                                     />

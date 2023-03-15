@@ -1,4 +1,4 @@
-import { SelectionProps, SelectionMethod, selectionSettings } from "../../features/selection";
+import { SelectionProps, selectionSettings } from "../../features/selection";
 import {
     SelectionSingleValueBuilder as SingleBuilder,
     SelectionMultiValueBuilder as MultiBuilder
@@ -18,44 +18,36 @@ describe("features/selection", () => {
         it("is none, when selection is off", () => {
             const helper = undefined;
 
-            expect(selectionSettings(props(undefined, "checkbox"), helper).selectionMethod).toBe(SelectionMethod.none);
-            expect(selectionSettings(props("None", "checkbox"), helper).selectionMethod).toBe(SelectionMethod.none);
+            expect(selectionSettings(props(undefined, "checkbox"), helper).selectionMethod).toBe("none");
+            expect(selectionSettings(props("None", "checkbox"), helper).selectionMethod).toBe("none");
         });
 
         it("depends on the value of itemSelectionMethod prop", () => {
             const helper = undefined;
 
             expect(selectionSettings(props(new SingleBuilder().build(), "checkbox"), helper).selectionMethod).toBe(
-                SelectionMethod.checkbox
+                "checkbox"
             );
 
-            expect(selectionSettings(props("Single", "checkbox"), helper).selectionMethod).toBe(
-                SelectionMethod.checkbox
-            );
+            expect(selectionSettings(props("Single", "checkbox"), helper).selectionMethod).toBe("checkbox");
 
             expect(selectionSettings(props(new SingleBuilder().build(), "rowClick"), helper).selectionMethod).toBe(
-                SelectionMethod.rowClick
+                "rowClick"
             );
 
-            expect(selectionSettings(props("Single", "rowClick"), helper).selectionMethod).toBe(
-                SelectionMethod.rowClick
-            );
+            expect(selectionSettings(props("Single", "rowClick"), helper).selectionMethod).toBe("rowClick");
 
             expect(selectionSettings(props(new MultiBuilder().build(), "checkbox"), helper).selectionMethod).toBe(
-                SelectionMethod.checkbox
+                "checkbox"
             );
 
-            expect(selectionSettings(props("Multi", "checkbox"), helper).selectionMethod).toBe(
-                SelectionMethod.checkbox
-            );
+            expect(selectionSettings(props("Multi", "checkbox"), helper).selectionMethod).toBe("checkbox");
 
             expect(selectionSettings(props(new MultiBuilder().build(), "rowClick"), helper).selectionMethod).toBe(
-                SelectionMethod.rowClick
+                "rowClick"
             );
 
-            expect(selectionSettings(props("Multi", "rowClick"), helper).selectionMethod).toBe(
-                SelectionMethod.rowClick
-            );
+            expect(selectionSettings(props("Multi", "rowClick"), helper).selectionMethod).toBe("rowClick");
         });
     });
 

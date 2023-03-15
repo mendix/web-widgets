@@ -2,7 +2,6 @@ import { render } from "enzyme";
 import * as testingLibrary from "@testing-library/react";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
-import { SelectionMethod } from "../../features/selection";
 import { Table, TableProps } from "../Table";
 import { objectItems } from "@mendix/pluggable-test-utils";
 import "@testing-library/jest-dom";
@@ -178,7 +177,7 @@ describe("Table", () => {
             const items = objectItems(3);
 
             const { container } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.checkbox} />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} />
             );
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
@@ -189,13 +188,7 @@ describe("Table", () => {
             const items = objectItems(3);
 
             const { asFragment } = render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={SelectionMethod.checkbox}
-                    isSelected={() => true}
-                />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} isSelected={() => true} />
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -203,7 +196,7 @@ describe("Table", () => {
 
         it("set negative tabindex on row checkbox", () => {
             const { getAllByRole } = testingLibrary.render(
-                <Table {...mockTableProps()} paging selectionMethod={SelectionMethod.checkbox} />
+                <Table {...mockTableProps()} paging selectionMethod={"checkbox"} />
             );
 
             getAllByRole("checkbox").forEach(elt => {
@@ -215,7 +208,7 @@ describe("Table", () => {
             const items = objectItems(6);
             const [a, b, c, d, e, f] = items;
             const { rerender } = testingLibrary.render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.checkbox} />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} />
             );
 
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -229,7 +222,7 @@ describe("Table", () => {
                     {...mockTableProps()}
                     data={items}
                     paging
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                     isSelected={item => [a, b, c].includes(item)}
                 />
             );
@@ -241,7 +234,7 @@ describe("Table", () => {
                     {...mockTableProps()}
                     data={items}
                     paging
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                     isSelected={item => [c].includes(item)}
                 />
             );
@@ -253,7 +246,7 @@ describe("Table", () => {
                     {...mockTableProps()}
                     data={items}
                     paging
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                     isSelected={item => [d, e].includes(item)}
                 />
             );
@@ -265,7 +258,7 @@ describe("Table", () => {
                     {...mockTableProps()}
                     data={items}
                     paging
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                     isSelected={item => [f, e, d, a].includes(item)}
                 />
             );
@@ -279,13 +272,7 @@ describe("Table", () => {
             const onSelect = jest.fn();
 
             render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={SelectionMethod.checkbox}
-                    onSelect={onSelect}
-                />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} onSelect={onSelect} />
             );
 
             const checkbox1 = screen.getAllByRole("checkbox")[0];
@@ -317,7 +304,7 @@ describe("Table", () => {
                     data={items}
                     paging
                     selectionStatus={undefined}
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                 />
             );
 
@@ -335,7 +322,7 @@ describe("Table", () => {
                         data={items}
                         paging
                         selectionStatus={status}
-                        selectionMethod={SelectionMethod.checkbox}
+                        selectionMethod={"checkbox"}
                     />
                 );
 
@@ -360,7 +347,7 @@ describe("Table", () => {
                     data={items}
                     paging
                     selectionStatus={"some"}
-                    selectionMethod={SelectionMethod.rowClick}
+                    selectionMethod={"rowClick"}
                 />
             );
 
@@ -379,7 +366,7 @@ describe("Table", () => {
                     data={items}
                     paging
                     selectionStatus="none"
-                    selectionMethod={SelectionMethod.checkbox}
+                    selectionMethod={"checkbox"}
                     onSelectAll={onSelectAll}
                 />
             );
@@ -400,7 +387,7 @@ describe("Table", () => {
             const items = objectItems(3);
 
             const { container } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={SelectionMethod.rowClick} />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"rowClick"} />
             );
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
@@ -411,13 +398,7 @@ describe("Table", () => {
             const items = objectItems(3);
 
             const { asFragment } = render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={SelectionMethod.rowClick}
-                    isSelected={() => true}
-                />
+                <Table {...mockTableProps()} data={items} paging selectionMethod={"rowClick"} isSelected={() => true} />
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -442,7 +423,7 @@ describe("Table", () => {
                     data={items}
                     cellRenderer={(renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header)}
                     paging
-                    selectionMethod={SelectionMethod.rowClick}
+                    selectionMethod={"rowClick"}
                     onSelect={onSelect}
                 />
             );
@@ -514,7 +495,7 @@ function mockTableProps(): TableProps<ObjectItem> {
         onSelect: jest.fn(),
         onSelectAll: jest.fn(),
         isSelected: jest.fn(() => false),
-        selectionMethod: SelectionMethod.none,
+        selectionMethod: "none",
         selectionStatus: undefined
     };
 }
