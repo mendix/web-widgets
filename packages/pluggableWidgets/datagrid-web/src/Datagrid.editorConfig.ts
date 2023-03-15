@@ -146,8 +146,7 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
     const { itemSelection, itemSelectionMethod } = values;
 
     if (itemSelection === "None") {
-        hidePropertyIn(defaultProperties, values, "itemSelectionMethod");
-        hidePropertyIn(defaultProperties, values, "onSelectionChange");
+        hidePropertiesIn(defaultProperties, values, ["itemSelectionMethod", "onSelectionChange"]);
     }
 
     if (itemSelection !== "Multi" || itemSelectionMethod !== "checkbox") {
