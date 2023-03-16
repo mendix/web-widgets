@@ -111,6 +111,12 @@
                     "class": "widget-gallery-pagination-center"
                 }
             ]
+        },
+        {
+            "name": "Disable selection highlight",
+            "type": "Toggle",
+            "description": "Disable standard styles for highlighting of selected items.",
+            "class": "widget-gallery-disable-selected-items-highlight"
         }
     ],
     "com.mendix.widget.web.treenode.TreeNode": [

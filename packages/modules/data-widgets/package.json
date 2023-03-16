@@ -55,6 +55,7 @@
     "datagrid-web": "workspace:*",
     "dropdown-sort-web": "workspace:*",
     "gallery-web": "workspace:*",
+    "selection-helper-web": "workspace:*",
     "tree-node-web": "workspace:*"
   },
   "devDependencies": {

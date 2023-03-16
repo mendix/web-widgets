@@ -10,7 +10,8 @@ export function SelectionHelper(props: SelectionHelperContainerProps): ReactElem
     if (contextValue.hasError) {
         return (
             <Alert bootstrapStyle="danger">
-                The Selection Helper widget must be placed inside the header of the Data grid 2.0 or Gallery widget.
+                The Selection Helper widget must be placed inside the header of the Data grid 2.0 or Gallery widget with
+                multi-selection.
             </Alert>
         );
     }
