@@ -1049,11 +1049,11 @@ exports[`Table with selection method checkbox render an extra column and add cla
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select td-borders td-selected"
+            class="td widget-datagrid-col-select td-borders"
           >
             <input
               checked=""
@@ -1062,18 +1062,18 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td td-borders td-selected"
+            class="td td-borders"
             role="cell"
           >
             Test
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select td-selected"
+            class="td widget-datagrid-col-select"
           >
             <input
               checked=""
@@ -1082,18 +1082,18 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td td-selected"
+            class="td"
             role="cell"
           >
             Test
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select td-selected"
+            class="td widget-datagrid-col-select"
           >
             <input
               checked=""
@@ -1102,7 +1102,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td td-selected"
+            class="td"
             role="cell"
           >
             Test
@@ -1208,11 +1208,11 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td td-borders clickable td-selected"
+            class="td td-borders clickable"
             role="button"
             tabindex="0"
           >
@@ -1220,11 +1220,11 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td clickable td-selected"
+            class="td clickable"
             role="button"
             tabindex="0"
           >
@@ -1232,11 +1232,11 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-selected"
           role="row"
         >
           <div
-            class="td clickable td-selected"
+            class="td clickable"
             role="button"
             tabindex="0"
           >

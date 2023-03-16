@@ -217,8 +217,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                   key={`row_${value.id}_cell_${column.id}`}
                                   className={classNames("td", { "td-borders": rowIndex === 0 }, className, {
                                       clickable: !!onClick,
-                                      "hidden-column-preview": preview && columnsHidable && column.hidden,
-                                      "td-selected": isSelected(value)
+                                      "hidden-column-preview": preview && columnsHidable && column.hidden
                                   })}
                                   onClick={onClick}
                                   onKeyDown={
@@ -242,7 +241,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                       Number(column.id)
                   )
                 : null,
-        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn, isSelected]
+        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
     );
 
     const rows = useMemo(() => data.map(item => ({ item })), [data]);
@@ -359,15 +358,16 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         return (
                             <div
                                 key={`row_${row.item.id}`}
-                                className={classNames("tr", rowClass?.(row.item))}
+                                className={classNames("tr", rowClass?.(row.item), {
+                                    "tr-selected": isSelected(row.item)
+                                })}
                                 role="row"
                             >
                                 {checkboxSelectionOn && (
                                     <div
                                         key="cell_checkbox"
                                         className={classNames("td widget-datagrid-col-select", {
-                                            "td-borders": rowIndex === 0,
-                                            "td-selected": isSelected(row.item)
+                                            "td-borders": rowIndex === 0
                                         })}
                                     >
                                         <input
@@ -384,8 +384,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                         key="cell_column_dropdown"
                                         aria-hidden
                                         className={classNames("td column-selector", {
-                                            "td-borders": rowIndex === 0,
-                                            "td-selected": isSelected(row.item)
+                                            "td-borders": rowIndex === 0
                                         })}
                                     />
                                 )}
