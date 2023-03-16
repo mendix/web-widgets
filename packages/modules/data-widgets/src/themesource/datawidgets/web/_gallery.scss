@@ -59,7 +59,7 @@
     }
 
     &:not(.widget-gallery-disable-selected-items-highlight) {
-        .widget-gallery-selected {
+        .widget-gallery-item.widget-gallery-clickable.widget-gallery-selected {
             background: $brand-light;
         }
     }
