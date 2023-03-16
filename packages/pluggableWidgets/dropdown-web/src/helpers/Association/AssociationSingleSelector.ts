@@ -8,7 +8,7 @@ import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 export class AssociationSingleSelector implements SingleSelector {
     status: Status = "unavailable";
     options: AssociationOptionsProvider;
-    clearable: boolean = false;
+    clearable = false;
     currentValue: string | null = null;
     caption: AssociationSimpleCaptionsProvider;
     private _attr: ReferenceValue | undefined;
@@ -30,8 +30,8 @@ export class AssociationSingleSelector implements SingleSelector {
         });
 
         this.options._updateProps({
-            attr: attr,
-            ds: ds
+            attr,
+            ds
         });
 
         if (

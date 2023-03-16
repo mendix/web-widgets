@@ -8,7 +8,7 @@ interface Props {
 }
 
 export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, Props> {
-    private searchTerm: string = "";
+    private searchTerm = "";
     private options: string[] = [];
     private ds?: ListValue;
 
@@ -49,6 +49,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
     }
 
     _updateProps(props: Props): void {
+        // TODO: changes here
         // current value
         // const currentValue = (props.attr.value?.id as string) ?? null;
 
