@@ -16,7 +16,7 @@
     "mpkName": "com.mendix.widget.web.Image.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.24.0",
     "appNumber": 118579,
     "appName": "Image"
   },
