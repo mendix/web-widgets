@@ -8,7 +8,6 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         id: String(index) as GUID
     }));
 
-    const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || props.itemSelection === "Multi";
     return (
         <GalleryComponent
             className={props.class}
@@ -22,13 +21,11 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 [props.emptyPlaceholder]
             )}
             header={
-                showHeader ? (
-                    <props.filtersPlaceholder.renderer caption="Gallery header: Place widgets here">
-                        <div />
-                    </props.filtersPlaceholder.renderer>
-                ) : null
+                <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                    <div />
+                </props.filtersPlaceholder.renderer>
             }
-            showHeader={!!props.filterList.length}
+            showHeader
             hasMoreItems={false}
             items={items}
             itemRenderer={useCallback(
