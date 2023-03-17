@@ -1,5 +1,5 @@
 import { createElement, ReactElement, ReactNode, useMemo } from "react";
-import { CheckBox } from "./CheckBox";
+import { ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
 
 interface Props {
     type: "checkbox" | "custom";
@@ -30,7 +30,7 @@ export function SelectionHelperComponent(props: Props): ReactElement {
                 </div>
             ) : (
                 <div className="selection-helper-checkbox mx-checkbox form-group label-after">
-                    <CheckBox id={id} value={props.status} onChange={props.onClick} />
+                    <ThreeStateCheckBox id={id} value={props.status} onChange={props.onClick} />
                     <label htmlFor={id} className="control-label">
                         {props.children}
                     </label>
