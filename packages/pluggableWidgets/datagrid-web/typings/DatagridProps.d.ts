@@ -101,7 +101,6 @@ export interface DatagridContainerProps {
     columnsDraggable: boolean;
     columnsHidable: boolean;
     configurationAttribute?: EditableValue<string>;
-    showHeaderFilters: boolean;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
@@ -138,7 +137,6 @@ export interface DatagridPreviewProps {
     columnsHidable: boolean;
     configurationAttribute: string;
     onConfigurationChange: {} | null;
-    showHeaderFilters: boolean;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     filterSectionTitle: string;
