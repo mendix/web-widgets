@@ -1000,3 +1000,301 @@ exports[`Table renders the structure correctly with sorting 1`] = `
   </div>
 </div>
 `;
+
+exports[`Table with selection method checkbox render an extra column and add class to each selected cell 1`] = `
+<DocumentFragment>
+  <div
+    class="test widget-datagrid widget-datagrid-selection-method-checkbox"
+  >
+    <div
+      class="table"
+      role="table"
+    >
+      <div
+        class="table-header"
+        role="rowgroup"
+      />
+      <div
+        class="table-content"
+        role="rowgroup"
+        style="grid-template-columns: fit-content(48px) 1fr;"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th widget-datagrid-col-select"
+            role="columnheader"
+          />
+          <div
+            aria-label="Test"
+            class="th"
+            role="columnheader"
+            style="cursor: unset;"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="0"
+            >
+              <div
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select td-borders"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td td-borders"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+      </div>
+      <div
+        class="table-footer"
+        role="rowgroup"
+      >
+        <div
+          aria-label="Pagination"
+          class="pagination-bar"
+          role="pagination"
+        >
+          <button
+            aria-label="Go to first page"
+            class="btn pagination-button"
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-step-backward"
+            />
+          </button>
+          <button
+            aria-label="Go to previous page"
+            class="btn pagination-button"
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-backward"
+            />
+          </button>
+          <span
+            class="sr-only sr-only-focusable"
+          >
+            Currently showing 11 to 20 
+          </span>
+          <div
+            aria-hidden="true"
+            class="paging-status"
+          >
+            11 to 20 
+          </div>
+          <button
+            aria-label="Go to next page"
+            class="btn pagination-button"
+            disabled=""
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-forward"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Table with selection method rowClick add class to each selected cell 1`] = `
+<DocumentFragment>
+  <div
+    class="test widget-datagrid widget-datagrid-selection-method-click"
+  >
+    <div
+      class="table"
+      role="table"
+    >
+      <div
+        class="table-header"
+        role="rowgroup"
+      />
+      <div
+        class="table-content"
+        role="rowgroup"
+        style="grid-template-columns: 1fr;"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            aria-label="Test"
+            class="th"
+            role="columnheader"
+            style="cursor: unset;"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="0"
+            >
+              <div
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td td-borders clickable"
+            role="button"
+            tabindex="0"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td clickable"
+            role="button"
+            tabindex="0"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td clickable"
+            role="button"
+            tabindex="0"
+          >
+            Test
+          </div>
+        </div>
+      </div>
+      <div
+        class="table-footer"
+        role="rowgroup"
+      >
+        <div
+          aria-label="Pagination"
+          class="pagination-bar"
+          role="pagination"
+        >
+          <button
+            aria-label="Go to first page"
+            class="btn pagination-button"
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-step-backward"
+            />
+          </button>
+          <button
+            aria-label="Go to previous page"
+            class="btn pagination-button"
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-backward"
+            />
+          </button>
+          <span
+            class="sr-only sr-only-focusable"
+          >
+            Currently showing 11 to 20 
+          </span>
+          <div
+            aria-hidden="true"
+            class="paging-status"
+          >
+            11 to 20 
+          </div>
+          <button
+            aria-label="Go to next page"
+            class="btn pagination-button"
+            disabled=""
+          >
+            <span
+              aria-hidden="true"
+              class="glyphicon glyphicon-forward"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

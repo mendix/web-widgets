@@ -16,7 +16,9 @@ import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
 import { SortingRule, useSettings } from "../features/settings";
 import { ColumnResizer } from "./ColumnResizer";
-import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
+import { InfiniteBody, Pagination, ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
+import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
+import { SelectionMethod } from "../features/selection";
 
 export type TableColumn = Omit<
     ColumnsPreviewType,
@@ -67,6 +69,11 @@ export interface TableProps<T extends ObjectItem> {
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
+    selectionMethod: SelectionMethod;
+    selectionStatus?: MultiSelectionStatus;
+    onSelect: (item: T) => void;
+    onSelectAll: () => void;
+    isSelected: (item: T) => boolean;
 }
 
 export interface ColumnWidth {
@@ -115,7 +122,11 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         setPage,
         setSortParameters,
         settings,
-        styles
+        styles,
+        selectionStatus,
+        selectionMethod,
+        onSelect,
+        isSelected
     } = props;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -130,6 +141,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidth>(
         Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
     );
+    const checkboxSelectionOn = selectionMethod === "checkbox";
+    const rowClickSelectionOn = selectionMethod === "rowClick";
 
     const { updateSettings } = useSettings(
         settings,
@@ -195,7 +208,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         (column: ColumnProperty, value: T, rowIndex: number) =>
             visibleColumns.find(c => c.id === column.id) || preview
                 ? cellRenderer(
-                      (children, className, onClick) => {
+                      (children, className, onClickAction) => {
+                          const onClick = rowClickSelectionOn ? () => onSelect(value) : onClickAction;
+
                           return (
                               <div
                                   key={`row_${value.id}_cell_${column.id}`}
@@ -225,7 +240,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                       Number(column.id)
                   )
                 : null,
-        [cellRenderer, columnsHidable, preview, visibleColumns]
+        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
     );
 
     const rows = useMemo(() => data.map(item => ({ item })), [data]);
@@ -243,30 +258,23 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         />
     ) : null;
 
-    const cssGridStyles = useMemo(() => {
-        const columnSizes = visibleColumns
-            .map(c => {
-                const columnResizedSize = columnsWidth[c.id];
-                if (columnResizedSize) {
-                    return `${columnResizedSize}px`;
-                }
-                switch (c.width) {
-                    case "autoFit":
-                        return "fit-content(100%)";
-                    case "manual":
-                        return `${c.weight}fr`;
-                    default:
-                        return "1fr";
-                }
-            })
-            .join(" ");
-        return {
-            gridTemplateColumns: columnSizes + (columnsHidable ? " fit-content(50px)" : "")
-        };
-    }, [columnsWidth, visibleColumns, columnsHidable]);
+    const cssGridStyles = useMemo(
+        () =>
+            gridStyle(visibleColumns, columnsWidth, {
+                selectItemColumn: checkboxSelectionOn,
+                visibilitySelectorColumn: columnsHidable
+            }),
+        [columnsWidth, visibleColumns, columnsHidable, checkboxSelectionOn]
+    );
 
     return (
-        <div className={classNames(className, "widget-datagrid")} style={styles}>
+        <div
+            className={classNames(className, "widget-datagrid", {
+                "widget-datagrid-selection-method-checkbox": checkboxSelectionOn,
+                "widget-datagrid-selection-method-click": rowClickSelectionOn
+            })}
+            style={styles}
+        >
             <div className="table" role="table">
                 <div className="table-header" role="rowgroup">
                     {(pagingPosition === "top" || pagingPosition === "both") && pagination}
@@ -284,7 +292,18 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                     setPage={setPage}
                     style={cssGridStyles}
                 >
-                    <div className="tr" role="row">
+                    <div key="headers_row" className="tr" role="row">
+                        {checkboxSelectionOn && (
+                            <div
+                                key="headers_column_select_all"
+                                className="th widget-datagrid-col-select"
+                                role="columnheader"
+                            >
+                                {selectionStatus && (
+                                    <ThreeStateCheckBox value={selectionStatus} onChange={props.onSelectAll} />
+                                )}
+                            </div>
+                        )}
                         {visibleColumns.map(column =>
                             headerWrapperRenderer(
                                 Number(column.id),
@@ -322,6 +341,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         )}
                         {columnsHidable && (
                             <ColumnSelector
+                                key="headers_column_selector"
                                 columns={tableColumns}
                                 hiddenColumns={hiddenColumns}
                                 id={id}
@@ -333,14 +353,34 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         return (
                             <div
                                 key={`row_${row.item.id}`}
-                                className={classNames("tr", rowClass?.(row.item))}
+                                className={classNames("tr", rowClass?.(row.item), {
+                                    "tr-selected": isSelected(row.item)
+                                })}
                                 role="row"
                             >
+                                {checkboxSelectionOn && (
+                                    <div
+                                        key="cell_checkbox"
+                                        className={classNames("td widget-datagrid-col-select", {
+                                            "td-borders": rowIndex === 0
+                                        })}
+                                    >
+                                        <input
+                                            checked={isSelected(row.item)}
+                                            onChange={() => onSelect(row.item)}
+                                            type="checkbox"
+                                            tabIndex={-1}
+                                        />
+                                    </div>
+                                )}
                                 {visibleColumns.map(cell => renderCell(cell, row.item, rowIndex))}
                                 {columnsHidable && (
                                     <div
+                                        key="cell_column_dropdown"
                                         aria-hidden
-                                        className={classNames("td column-selector", { "td-borders": rowIndex === 0 })}
+                                        className={classNames("td column-selector", {
+                                            "td-borders": rowIndex === 0
+                                        })}
                                     />
                                 )}
                             </div>
@@ -348,16 +388,20 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                     })}
                     {(data.length === 0 || preview) &&
                         emptyPlaceholderRenderer &&
-                        emptyPlaceholderRenderer(children => (
-                            <div
-                                className={classNames("td", "td-borders")}
-                                style={{
-                                    gridColumn: `span ${columns.length + (columnsHidable ? 1 : 0)}`
-                                }}
-                            >
-                                <div className="empty-placeholder">{children}</div>
-                            </div>
-                        ))}
+                        emptyPlaceholderRenderer(children => {
+                            const colspan = columns.length + (columnsHidable ? 1 : 0) + (checkboxSelectionOn ? 1 : 0);
+                            return (
+                                <div
+                                    key="row-footer"
+                                    className={classNames("td", { "td-borders": !preview })}
+                                    style={{
+                                        gridColumn: `span ${colspan}`
+                                    }}
+                                >
+                                    <div className="empty-placeholder">{children}</div>
+                                </div>
+                            );
+                        })}
                 </InfiniteBody>
                 <div className="table-footer" role="rowgroup">
                     {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
@@ -378,3 +422,41 @@ function sortColumns(columnsOrder: string[], columnA: ColumnProperty, columnB: C
     }
     return columnAValue < columnBValue ? -1 : columnAValue > columnBValue ? 1 : 0;
 }
+
+function gridStyle(visibleColumns: ColumnProperty[], resizeMap: ColumnWidth, optional: OptionalColumns): CSSProperties {
+    const columnSizes = visibleColumns.map(c => {
+        const columnResizedSize = resizeMap[c.id];
+        if (columnResizedSize) {
+            return `${columnResizedSize}px`;
+        }
+        switch (c.width) {
+            case "autoFit":
+                return "fit-content(100%)";
+            case "manual":
+                return `${c.weight}fr`;
+            default:
+                return "1fr";
+        }
+    });
+
+    const sizes: string[] = [];
+
+    if (optional.selectItemColumn) {
+        sizes.push("fit-content(48px)");
+    }
+
+    sizes.push(...columnSizes);
+
+    if (optional.visibilitySelectorColumn) {
+        sizes.push("fit-content(50px)");
+    }
+
+    return {
+        gridTemplateColumns: sizes.join(" ")
+    };
+}
+
+type OptionalColumns = {
+    selectItemColumn?: boolean;
+    visibilitySelectorColumn?: boolean;
+};

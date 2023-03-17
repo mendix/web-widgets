@@ -97,6 +97,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             style={{ pointerEvents: "none" }}
                             type="checkbox"
                             tabIndex={-1}
+                            onChange={onChangeStub}
                         />
                         <label htmlFor={`${props.id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
                             {column.header}
@@ -140,4 +141,8 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             {show && optionsComponent}
         </div>
     );
+}
+
+function onChangeStub(): void {
+    // Stub to prevent react warnings in unit tests
 }

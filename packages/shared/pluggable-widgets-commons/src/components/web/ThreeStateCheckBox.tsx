@@ -1,13 +1,12 @@
 import { createElement, ReactElement, useEffect, useRef } from "react";
-import "../ui/CheckBox.scss";
 
-interface CheckBoxProps {
-    id: string;
+interface ThreeStateCheckBoxProps {
+    id?: string;
     value: "all" | "some" | "none";
     onChange?: () => void;
 }
 
-export function CheckBox({ id, value, onChange }: CheckBoxProps): ReactElement {
+export function ThreeStateCheckBox({ id, value, onChange }: ThreeStateCheckBoxProps): ReactElement {
     const checkboxRef = useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (!checkboxRef.current) {

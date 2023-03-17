@@ -15,6 +15,7 @@ $grid-border-color: #ced0d3 !default;
 
 $brand-primary: #264ae5 !default;
 $brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light;
 
 .table {
     position: relative;
@@ -344,6 +345,14 @@ $brand-light: #e6eaff !default;
             margin: 8px;
             font-weight: normal;
             white-space: nowrap;
+        }
+    }
+}
+
+.widget-datagrid {
+    &.widget-datagrid-selection-method-click {
+        .tr.tr-selected .td {
+            background-color: $grid-selected-row-background;
         }
     }
 }

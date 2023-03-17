@@ -4,8 +4,10 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
+
+export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
@@ -81,6 +83,9 @@ export interface DatagridContainerProps {
     advanced: boolean;
     datasource: ListValue;
     refreshInterval: number;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    showSelectAllToggle: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     pageSize: number;
@@ -90,6 +95,7 @@ export interface DatagridContainerProps {
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
     onClick?: ListActionValue;
+    onSelectionChange?: ActionValue;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
@@ -113,6 +119,9 @@ export interface DatagridPreviewProps {
     advanced: boolean;
     datasource: {} | { type: string } | null;
     refreshInterval: number | null;
+    itemSelection: "None" | "Single" | "Multi";
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    showSelectAllToggle: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     pageSize: number | null;
@@ -122,6 +131,7 @@ export interface DatagridPreviewProps {
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
     rowClass: string;
     onClick: {} | null;
+    onSelectionChange: {} | null;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;

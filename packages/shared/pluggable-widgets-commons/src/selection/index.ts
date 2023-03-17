@@ -20,8 +20,6 @@ class SingleSelectionHelper {
     }
 }
 
-type MultiSelectionStatus = "none" | "all" | "some";
-
 class MultiSelectionHelper {
     type = "Multi" as const;
     constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {}
@@ -67,7 +65,7 @@ export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
     onSelectionChange: ActionValue | undefined
-): SingleSelectionHelper | MultiSelectionHelper | undefined {
+): SelectionHelper | undefined {
     const firstLoadDone = useRef(false);
     useEffect(() => {
         if (firstLoadDone.current) {
@@ -80,7 +78,7 @@ export function useSelectionHelper(
         }
     }, [dataSource?.status]);
 
-    const selectionHelper = useRef<SingleSelectionHelper | MultiSelectionHelper | undefined>(undefined);
+    const selectionHelper = useRef<SelectionHelper | undefined>(undefined);
 
     if (selection !== undefined) {
         if (selection.type === "Single") {
@@ -100,3 +98,8 @@ export function useSelectionHelper(
 
     return selectionHelper.current;
 }
+
+export type { SingleSelectionHelper };
+export type { MultiSelectionHelper };
+export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
+export type MultiSelectionStatus = "none" | "all" | "some";

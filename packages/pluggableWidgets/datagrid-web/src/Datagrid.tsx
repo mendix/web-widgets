@@ -2,7 +2,6 @@ import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef, u
 import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-
 import { Table, TableColumn } from "./components/Table";
 import {
     FilterFunction,
@@ -11,10 +10,12 @@ import {
     useFilterContext,
     useMultipleFiltering
 } from "@mendix/pluggable-widgets-commons/components/web";
-import { isAvailable } from "@mendix/pluggable-widgets-commons";
+import { isAvailable, useSelectionHelper } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
+import { selectionSettings, useOnSelectProps } from "./features/selection";
+import "./ui/Datagrid.scss";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -115,8 +116,14 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         [props.filterList]
     );
 
+    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectActionProps = useOnSelectProps(selection);
+    const { selectionStatus, selectionMethod } = selectionSettings(props, selection);
+
     return (
         <Table
+            selectionStatus={selectionStatus}
+            selectionMethod={selectionMethod}
             cellRenderer={cellRenderer}
             className={props.class}
             columns={columns}
@@ -212,6 +219,9 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [props.columns]
             )}
+            onSelect={selectActionProps.onSelect}
+            onSelectAll={selectActionProps.onSelectAll}
+            isSelected={selectActionProps.isSelected}
         />
     );
 }
