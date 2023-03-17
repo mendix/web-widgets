@@ -1,5 +1,4 @@
 import {
-    ChangeEventHandler,
     createElement,
     CSSProperties,
     ReactElement,
@@ -17,7 +16,7 @@ import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
 import { SortingRule, useSettings } from "../features/settings";
 import { ColumnResizer } from "./ColumnResizer";
-import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
+import { InfiniteBody, Pagination, ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
 import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
 import { SelectionMethod } from "../features/selection";
 
@@ -73,7 +72,7 @@ export interface TableProps<T extends ObjectItem> {
     selectionMethod: SelectionMethod;
     selectionStatus?: MultiSelectionStatus;
     onSelect: (item: T) => void;
-    onSelectAll: ChangeEventHandler<HTMLInputElement>;
+    onSelectAll: () => void;
     isSelected: (item: T) => boolean;
 }
 
@@ -301,11 +300,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 role="columnheader"
                             >
                                 {selectionStatus && (
-                                    <input
-                                        checked={selectionStatus !== "none"}
-                                        type="checkbox"
-                                        onChange={props.onSelectAll}
-                                    />
+                                    <ThreeStateCheckBox value={selectionStatus} onChange={props.onSelectAll} />
                                 )}
                             </div>
                         )}
