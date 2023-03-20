@@ -11,12 +11,23 @@ exports[`Image renders the structure as a background image 1`] = `
 </div>
 `;
 
+exports[`Image renders the structure with a glyph icon 1`] = `
+<div
+  class="mx-image-viewer mx-image-viewer-responsive"
+>
+  <span
+    class="glyphicon-asterisk glyphicon"
+    style="font-size:20px"
+  />
+</div>
+`;
+
 exports[`Image renders the structure with an icon 1`] = `
 <div
   class="mx-image-viewer mx-image-viewer-responsive"
 >
   <span
-    class="glyphicon glyphicon-asterisk"
+    class="mx-icon mx-icon-asterisk"
     style="font-size:20px"
   />
 </div>

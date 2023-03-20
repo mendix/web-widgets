@@ -8,7 +8,7 @@ import "../../ui/Image.scss";
 import classNames from "classnames";
 
 export type ImageType = {
-    type: "image" | "icon";
+    type: "image" | "icon" | "glyph";
     image: string | undefined;
 };
 
@@ -99,7 +99,7 @@ export const Image: FunctionComponent<ImageProps> = ({
                 {...sharedContentProps}
             />
         ) : (
-            <ImageUi.ContentGlyphicon icon={image} size={iconSize} {...sharedContentProps} />
+            <ImageUi.ContentIcon icon={image} isGlyph={type === "glyph"} size={iconSize} {...sharedContentProps} />
         );
 
     if (renderAsBackground) {

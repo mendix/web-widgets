@@ -20,8 +20,8 @@ export interface ImageWrapperProps {
     responsive: boolean;
     hasImage: boolean;
     children:
-        | ReactElement<ImageContentGlyphicon | ImageContentImage>
-        | [ReactElement<ImageContentGlyphicon | ImageContentImage>, ReactElement<LightboxProps> | false];
+        | ReactElement<ImageContentIcon | ImageContentImage>
+        | [ReactElement<ImageContentIcon | ImageContentImage>, ReactElement<LightboxProps> | false];
 }
 
 export interface ImageContentProps {
@@ -45,12 +45,13 @@ function Wrapper(props: ImageWrapperProps): ReactElement {
     );
 }
 
-export interface ImageContentGlyphicon extends ImageContentProps {
+export interface ImageContentIcon extends ImageContentProps {
     icon: string | undefined;
     size: number;
+    isGlyph?: boolean;
 }
 
-function ContentGlyphicon(props: ImageContentGlyphicon): ReactElement {
+function ContentIcon(props: ImageContentIcon): ReactElement {
     const accessibilityProps = props.altText
         ? {
               "aria-label": props.altText,
@@ -62,7 +63,7 @@ function ContentGlyphicon(props: ImageContentGlyphicon): ReactElement {
 
     return (
         <span
-            className={classNames("glyphicon", props.icon)}
+            className={classNames(props.icon, { glyphicon: props.isGlyph })}
             style={{ ...props.style, fontSize: `${props.size}px` }}
             {...accessibilityProps}
             {...onClickProps}
@@ -136,6 +137,6 @@ function BackgroundImage(props: BackgroundImageProps): ReactElement {
 export const ImageUi = {
     Wrapper,
     BackgroundImage,
-    ContentGlyphicon,
+    ContentIcon,
     ContentImage
 };

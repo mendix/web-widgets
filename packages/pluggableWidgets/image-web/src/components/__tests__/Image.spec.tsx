@@ -38,8 +38,24 @@ const imageProps: ImageProps = {
 
 const glyphiconProps: ImageProps = {
     class: "",
-    type: "icon",
+    type: "glyph",
     image: "glyphicon-asterisk",
+    iconSize: 20,
+    height: 0,
+    heightUnit: "pixels",
+    width: 0,
+    widthUnit: "pixels",
+    responsive: true,
+    onClickType: "action",
+    displayAs: "fullImage",
+    renderAsBackground: false,
+    backgroundImageContent: null
+};
+
+const iconProps: ImageProps = {
+    class: "",
+    type: "icon",
+    image: "mx-icon mx-icon-asterisk",
     iconSize: 20,
     height: 0,
     heightUnit: "pixels",
@@ -63,8 +79,12 @@ describe("Image", () => {
         ).toMatchSnapshot();
     });
 
-    it("renders the structure with an icon", () => {
+    it("renders the structure with a glyph icon", () => {
         expect(render(<Image {...glyphiconProps} />)).toMatchSnapshot();
+    });
+
+    it("renders the structure with an icon", () => {
+        expect(render(<Image {...iconProps} />)).toMatchSnapshot();
     });
 
     it("renders the structure as a background image", () => {
@@ -85,9 +105,20 @@ describe("Image", () => {
             expect(onClickMock).toHaveBeenCalled();
         });
 
-        it("calls the onClick when clicking on an icon", () => {
+        it("calls the onClick when clicking on a glyph icon", () => {
             const onClickMock = jest.fn();
             const imageRender = mount(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
+
+            const glyphicon = imageRender.find("span");
+            expect(glyphicon).toHaveLength(1);
+
+            glyphicon.simulate("click");
+            expect(onClickMock).toHaveBeenCalled();
+        });
+
+        it("calls the onClick when clicking on an icon", () => {
+            const onClickMock = jest.fn();
+            const imageRender = mount(<Image {...iconProps} onClick={onClickMock} onClickType="action" />);
 
             const glyphicon = imageRender.find("span");
             expect(glyphicon).toHaveLength(1);
@@ -151,7 +182,14 @@ describe("Image", () => {
         });
 
         it("is set properly on a glyphicon", () => {
-            const imageRender = mount(<Image {...glyphiconProps} altText="this is an awesome icon" />);
+            const imageRender = mount(<Image {...glyphiconProps} altText="this is an awesome glyphicon" />);
+            const image = imageRender.find("span");
+            expect(image.prop("aria-label")).toBe("this is an awesome glyphicon");
+            expect(image.prop("role")).toBe("img");
+        });
+
+        it("is set properly on an icon", () => {
+            const imageRender = mount(<Image {...iconProps} altText="this is an awesome icon" />);
             const image = imageRender.find("span");
             expect(image.prop("aria-label")).toBe("this is an awesome icon");
             expect(image.prop("role")).toBe("img");
@@ -167,6 +205,13 @@ describe("Image", () => {
 
         it("nothing is set on a glyphicon", () => {
             const imageRender = mount(<Image {...glyphiconProps} />);
+            const image = imageRender.find("span");
+            expect(image).not.toHaveProperty("aria-label");
+            expect(image).not.toHaveProperty("role");
+        });
+
+        it("nothing is set on an icon", () => {
+            const imageRender = mount(<Image {...iconProps} />);
             const image = imageRender.find("span");
             expect(image).not.toHaveProperty("aria-label");
             expect(image).not.toHaveProperty("role");
