@@ -78,9 +78,6 @@ export function getProperties(
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
-    if (!values.showHeaderFilters) {
-        hidePropertyIn(defaultProperties, values, "filterList");
-    }
 
     hideSelectionProperties(defaultProperties, values);
 
@@ -127,7 +124,6 @@ export function getProperties(
                 "columnsHidable",
                 "configurationAttribute",
                 "onConfigurationChange",
-                "showHeaderFilters",
                 "filterList",
                 "filtersPlaceholder",
                 "filterSectionTitle"
@@ -229,7 +225,7 @@ export const getPreview = (
         borders: true
     })(
         dropzone(
-            dropzone.placeholder("Place filter widget(s) here"),
+            dropzone.placeholder("Place widgets like filter widget(s) and action button(s) here"),
             dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
         )(values.filtersPlaceholder)
     );
@@ -296,7 +292,7 @@ export const getPreview = (
     return container()(
         titleHeader,
         ...(canHideDataSourceHeader ? [datasource(values.datasource)()] : []),
-        ...(values.showHeaderFilters && values.filterList.length > 0 ? [headerFilters] : []),
+        headerFilters,
         headers,
         ...Array.from({ length: 5 }).map(() => columns),
         ...footer

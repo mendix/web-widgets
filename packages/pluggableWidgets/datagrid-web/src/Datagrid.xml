@@ -258,13 +258,9 @@
         </propertyGroup>
         <propertyGroup caption="Grid wide filtering">
             <propertyGroup caption="Grid wide filtering">
-                <property key="showHeaderFilters" type="boolean" defaultValue="false">
-                    <caption>Grid wide filters</caption>
-                    <description>When enabled and at least one filter is configured below, there is a dropzone available above the grid. Filter widgets can be added here to filter over multiple attributes/columns instead of a single column. To filter per column, check the column configuration.</description>
-                </property>
                 <property key="filterList" type="object" isList="true" required="false">
                     <caption>Filters</caption>
-                    <description>The list of attributes that are used by the filter widgets placed in the grid wide dropzone. Filtering over associations it not supported.</description>
+                    <description>The list of attributes is used by the filter widgets that are placed in the placeholder above the data grid. This enables filtering across multiple attributes or columns instead of limiting to a single column.</description>
                     <properties>
                         <propertyGroup caption="General">
                             <property key="filter" type="attribute" dataSource="../datasource">

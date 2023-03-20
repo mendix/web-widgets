@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.selectionhelper.SelectionHelper" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Selection Helper</name>
+    <name>Selection helper</name>
     <description />
     <studioProCategory>Data controls</studioProCategory>
     <studioCategory>Data Controls</studioCategory>
@@ -9,14 +9,14 @@
         <propertyGroup caption="General">
             <property key="renderStyle" type="enumeration" defaultValue="checkbox">
                 <caption>Style</caption>
-                <description />
+                <description>Custom enables placeholders for using widgets for the different states.</description>
                 <enumerationValues>
-                    <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                    <enumerationValue key="checkbox">Check box</enumerationValue>
                     <enumerationValue key="custom">Custom</enumerationValue>
                 </enumerationValues>
             </property>
             <property key="checkboxCaption" type="textTemplate" required="false">
-                <caption>Checkbox caption</caption>
+                <caption>Check box caption</caption>
                 <description />
             </property>
             <property key="customAllSelected" type="widgets">

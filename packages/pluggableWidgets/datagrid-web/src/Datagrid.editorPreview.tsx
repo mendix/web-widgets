@@ -122,11 +122,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             )}
             hasMoreItems={false}
             headerFilters={
-                props.showHeaderFilters ? (
-                    <props.filtersPlaceholder.renderer caption="Place filter widget(s) here">
-                        <div />
-                    </props.filtersPlaceholder.renderer>
-                ) : null
+                <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                    <div />
+                </props.filtersPlaceholder.renderer>
             }
             headerWrapperRenderer={selectableWrapperRenderer}
             numberOfItems={5}

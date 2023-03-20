@@ -173,33 +173,25 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             headerFilters={useMemo(
-                () =>
-                    props.showHeaderFilters ? (
-                        <FilterContext.Provider
-                            value={{
-                                filterDispatcher: prev => {
-                                    if (prev.filterType) {
-                                        const [, filterDispatcher] = multipleFilteringState[prev.filterType];
-                                        filterDispatcher(prev);
-                                        setFiltered(true);
-                                    }
-                                    return prev;
-                                },
-                                multipleAttributes: filterList,
-                                multipleInitialFilters
-                            }}
-                        >
-                            {props.filtersPlaceholder}
-                        </FilterContext.Provider>
-                    ) : null,
-                [
-                    FilterContext,
-                    filterList,
-                    multipleInitialFilters,
-                    props.filtersPlaceholder,
-                    multipleFilteringState,
-                    props.showHeaderFilters
-                ]
+                () => (
+                    <FilterContext.Provider
+                        value={{
+                            filterDispatcher: prev => {
+                                if (prev.filterType) {
+                                    const [, filterDispatcher] = multipleFilteringState[prev.filterType];
+                                    filterDispatcher(prev);
+                                    setFiltered(true);
+                                }
+                                return prev;
+                            },
+                            multipleAttributes: filterList,
+                            multipleInitialFilters
+                        }}
+                    >
+                        {props.filtersPlaceholder}
+                    </FilterContext.Provider>
+                ),
+                [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
             )}
             id={id.current}
             numberOfItems={props.datasource.totalCount}

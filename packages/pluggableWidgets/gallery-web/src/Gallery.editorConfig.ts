@@ -26,10 +26,6 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
 
-    if (!showHeader(values)) {
-        hidePropertyIn(defaultProperties, values, "filtersPlaceholder");
-    }
-
     if (values.itemSelection === "None") {
         hidePropertyIn(defaultProperties, values, "onSelectionChange");
     }
@@ -116,7 +112,7 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
             {
                 type: "DropZone",
                 property: values.filtersPlaceholder,
-                placeholder: "Gallery header: Place widgets here"
+                placeholder: "Place widgets like filter widget(s) and action button(s) here"
             } as DropZoneProps
         ]
     } as RowLayoutProps;
@@ -187,14 +183,10 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
 
     return {
         type: "Container",
-        children: [titleHeader, ...(showHeader(values) ? [filters] : []), content, ...footer]
+        children: [titleHeader, filters, content, ...footer]
     };
 }
 
 function getSingularPlural(word: string, elements: number): string {
     return elements > 1 ? word + "s" : word;
-}
-
-function showHeader(values: GalleryPreviewProps): boolean {
-    return values.filterList?.length > 0 || values.sortList?.length > 0 || values.itemSelection === "Multi";
 }
