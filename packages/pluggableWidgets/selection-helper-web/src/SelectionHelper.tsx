@@ -18,7 +18,13 @@ export function SelectionHelper(props: SelectionHelperContainerProps): ReactElem
     const selection = contextValue.value;
 
     return (
-        <SelectionHelperComponent type={props.renderStyle} status={selection.status} onClick={selection.toggle}>
+        <SelectionHelperComponent
+            type={props.renderStyle}
+            status={selection.status}
+            onClick={selection.toggle}
+            className={props.class}
+            cssStyles={props.style}
+        >
             {selection.status === "all" && props.customAllSelected}
             {selection.status === "some" && props.customSomeSelected}
             {selection.status === "none" && props.customNoneSelected}
