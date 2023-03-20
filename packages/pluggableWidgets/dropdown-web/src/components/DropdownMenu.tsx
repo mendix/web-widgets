@@ -5,7 +5,7 @@ import { createElement, ReactElement } from "react";
 import { createPortal } from "react-dom";
 import { SingleSelector } from "../helpers/types";
 
-interface DropdownMenuProps extends Partial<PropGetters<any>> {
+export interface DropdownMenuProps extends Partial<PropGetters<any>> {
     dropdownSize: DOMRect | undefined;
     isOpen: boolean;
     selector: SingleSelector;
