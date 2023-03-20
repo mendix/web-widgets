@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useMemo } from "react";
+import { createElement, CSSProperties, ReactElement, ReactNode, useMemo } from "react";
 import { ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
 
 interface Props {
@@ -6,6 +6,8 @@ interface Props {
     status: "all" | "some" | "none";
     onClick?: () => void;
     children: ReactNode;
+    className: string;
+    cssStyles?: CSSProperties;
 }
 
 export function SelectionHelperComponent(props: Props): ReactElement {
@@ -14,7 +16,7 @@ export function SelectionHelperComponent(props: Props): ReactElement {
     }, []);
 
     return (
-        <div className="widget-selection-helper">
+        <div className={`widget-selection-helper ${props.className}`} style={props.cssStyles}>
             {props.type === "custom" ? (
                 <div
                     className="selection-helper-custom"

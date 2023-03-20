@@ -4,7 +4,12 @@ import { SelectionHelperComponent } from "./components/SelectionHelperComponent"
 
 export function preview(props: SelectionHelperPreviewProps): ReactElement {
     return (
-        <SelectionHelperComponent type={props.renderStyle} status="some">
+        <SelectionHelperComponent
+            type={props.renderStyle}
+            status="some"
+            className={props.class}
+            cssStyles={props.styleObject}
+        >
             {props.renderStyle === "custom"
                 ? [
                       <props.customNoneSelected.renderer key={"none"} caption={"No items selected: Place widgets here"}>
