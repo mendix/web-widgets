@@ -9,8 +9,6 @@ import { DropdownMenu } from "./DropdownMenu";
 import { Placeholder } from "./Placeholder";
 
 export function Dropdown(props: DropdownContainerProps): ReactElement {
-    console.log("props", props);
-
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);

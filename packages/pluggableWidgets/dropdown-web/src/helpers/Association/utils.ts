@@ -18,7 +18,6 @@ export function extractAssociationProps(props: DropdownContainerProps) {
     const captionType = props.optionsSourceAssociationCaptionType;
     const captionAttribute = props.optionsSourceAssociationCaptionAttribute;
     const captionExpression = props.optionsSourceAssociationCaptionExpression;
-    console.log("CAPTIONEXPRESSION", captionExpression?.get());
 
     if (captionType === "attribute" && !captionAttribute) {
         throw new Error(
