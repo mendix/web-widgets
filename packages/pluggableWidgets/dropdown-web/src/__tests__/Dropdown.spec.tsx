@@ -1,17 +1,17 @@
+import {
+    buildListExpression,
+    dynamicValue,
+    EditableValueBuilder,
+    ListAttributeValueBuilder,
+    ListValueBuilder,
+    ReferenceValueBuilder
+} from "@mendix/pluggable-test-utils";
 import "@testing-library/jest-dom";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
+import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
 import { DropdownContainerProps } from "../../typings/DropdownProps";
 import { Dropdown } from "../components/Dropdown";
-import {
-    ListAttributeValueBuilder,
-    EditableValueBuilder,
-    ListValueBuilder,
-    dynamicValue,
-    buildListExpression,
-    ReferenceValueBuilder
-} from "@mendix/pluggable-test-utils";
-import { GUID, ObjectItem } from "mendix";
 
 describe("Drop-down (Association)", () => {
     let defaultProps: DropdownContainerProps;
@@ -37,9 +37,14 @@ describe("Drop-down (Association)", () => {
             typeahead: "contains"
         };
     });
-    it("renders dropdown widget", async () => {
+    it("renders dropdown widget", () => {
         const component = render(<Dropdown {...defaultProps} />);
         expect(component).toMatchSnapshot();
+    });
+    it("renders placeholder component in case of unavailable status", () => {
+        defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
+        const { container } = render(<Dropdown {...defaultProps} />);
+        expect(container.getElementsByClassName("widget-dropdown-placeholder")).toHaveLength(1);
     });
     it("opens dropdown menu with all items on trigger", async () => {
         const component = render(<Dropdown {...defaultProps} />);
