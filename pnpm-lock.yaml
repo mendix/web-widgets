@@ -1723,6 +1723,7 @@ importers:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
       '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/pluggable-test-utils': workspace:^1.0.0
       '@mendix/pluggable-widgets-commons': workspace:*
       '@mendix/pluggable-widgets-tools': ^9.20.0
       '@mendix/prettier-config-web-widgets': workspace:*
@@ -1733,9 +1734,9 @@ importers:
       '@testing-library/user-event': ^13.2.1
       '@types/jest': ^26.0.24
       '@types/node': ^18.8.3
-      '@types/react': 17.0.53
-      '@types/react-dom': 17.0.18
-      '@types/react-test-renderer': 17.0.2
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.18
+      '@types/react-test-renderer': ^17.0.2
       '@types/testing-library__jest-dom': ^5.14.1
       '@types/testing-library__react-hooks': ^3.4.0
       '@web-widgets/run-e2e': workspace:^*
@@ -1759,15 +1760,16 @@ importers:
     devDependencies:
       '@mendix-internal/automation-utils': link:../../../automation/utils
       '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-tools': 9.20.0_@types+react@17.0.53
+      '@mendix/pluggable-test-utils': link:../../shared/pluggable-test-utils
+      '@mendix/pluggable-widgets-tools': 9.23.2_@types+react@17.0.53
       '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
-      '@testing-library/dom': 8.19.0
+      '@testing-library/dom': 8.20.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
-      '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
+      '@testing-library/user-event': 13.5.0_yxlyej73nftwmh2fiao7paxmlm
       '@types/jest': 26.0.24
-      '@types/node': 18.11.18
+      '@types/node': 18.14.0
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.18
       '@types/react-test-renderer': 17.0.2
@@ -1776,7 +1778,7 @@ importers:
       '@web-widgets/run-e2e': link:../../../automation/run-e2e
       cross-env: 7.0.3
       eslint: 7.32.0
-      mendix: 9.22.62233
+      mendix: 9.23.621
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -7899,6 +7901,7 @@ packages:
   /babel-eslint/10.1.0_eslint@7.32.0:
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
+    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
     peerDependencies:
       eslint: '>= 4.12.1'
     dependencies:
@@ -8871,7 +8874,7 @@ packages:
       normalize-path: 3.0.0
       schema-utils: 4.0.0
       serialize-javascript: 6.0.1
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /core-js-compat/3.28.0:
@@ -9049,7 +9052,7 @@ packages:
       postcss-modules-values: 4.0.0_postcss@8.4.21
       postcss-value-parser: 4.2.0
       semver: 7.3.8
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /css-select/4.3.0:
@@ -9767,17 +9770,19 @@ packages:
 
   /double-bits/1.1.1:
     resolution: {integrity: sha512-BCLEIBq0O/DWoA7BsCu/R+RP0ZXiowP8BhtJT3qeuuQEBpnS8LK/Wo6UTJQv6v8mK1fj8n90YziHLwGdM5whSg==}
+    dev: false
+
   /downshift/7.2.0_react@17.0.2:
     resolution: {integrity: sha512-dEn1Sshe7iTelUhmdbmiJhtIiwIBxBV8p15PuvEBh0qZcHXZnEt0geuCIIkCL4+ooaKRuLE0Wc+Fz9SwWuBIyg==}
     peerDependencies:
       react: '>=16.12.0'
     dependencies:
-      '@babel/runtime': 7.19.4
+      '@babel/runtime': 7.21.0
       compute-scroll-into-view: 2.0.4
       prop-types: 15.8.1
       react: 17.0.2
       react-is: 17.0.2
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /draw-svg-path/1.0.0:
@@ -12345,6 +12350,7 @@ packages:
 
   /jasmine/3.99.0:
     resolution: {integrity: sha512-YIThBuHzaIIcjxeuLmPD40SjxkEcc8i//sGMDKCgkRMVgIwRJf5qyExtlJpQeh7pkeoBSOe6lQEdg+/9uKg9mw==}
+    hasBin: true
     dependencies:
       glob: 7.2.3
       jasmine-core: 3.99.1
@@ -13256,6 +13262,7 @@ packages:
   /livereload/0.9.3:
     resolution: {integrity: sha512-q7Z71n3i4X0R9xthAryBdNGVGAO2R5X+/xXpmKeuPMrteg+W2U8VusTKV3YiJbXZwKsOlFlHe+go6uSNjfxrZw==}
     engines: {node: '>=8.0.0'}
+    hasBin: true
     dependencies:
       chokidar: 3.5.3
       livereload-js: 3.4.1
@@ -13555,10 +13562,12 @@ packages:
     resolution: {integrity: sha512-s1P2Yl4LQxq8dN0CgJE+mCO8y3IX/SmauSZ+H0zJsE1UKlgJ9loInfPC/OUxn2MzUW9bfBZf0Wcc2QKA3/e6FQ==}
     dependencies:
       gl-mat4: 1.2.0
+    dev: false
+
   /match-sorter/6.3.1:
     resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
     dependencies:
-      '@babel/runtime': 7.19.4
+      '@babel/runtime': 7.21.0
       remove-accents: 0.4.2
     dev: false
 
@@ -13756,11 +13765,12 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /mini-svg-data-uri/1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch/3.0.8:
@@ -13803,6 +13813,7 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
+    hasBin: true
     dev: true
 
   /moment/2.29.4:
@@ -15939,6 +15950,7 @@ packages:
 
   /regjsparser/0.9.1:
     resolution: {integrity: sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==}
+    hasBin: true
     dependencies:
       jsesc: 0.5.0
     dev: true
@@ -16289,6 +16301,7 @@ packages:
 
   /rollup-plugin-terser/7.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: ^2.0.0
     dependencies:
@@ -16442,7 +16455,7 @@ packages:
     dependencies:
       klona: 2.0.6
       neo-async: 2.6.2
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /sass/1.58.3:
@@ -16867,6 +16880,7 @@ packages:
 
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
+    deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
     dev: true
 
   /stack-trace/0.0.9:
@@ -17141,6 +17155,7 @@ packages:
   /svgo/2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     dependencies:
       '@trysound/sax': 0.2.0
       commander: 7.2.0
@@ -17223,7 +17238,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.4
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /terser/5.16.4:
@@ -17475,7 +17490,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.3.8
       typescript: 4.5.4
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /ts-node/10.9.1_rzp3k5nwapvzpixm62ol2eltbq:
