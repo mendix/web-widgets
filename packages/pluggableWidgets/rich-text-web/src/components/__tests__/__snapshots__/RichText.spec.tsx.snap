@@ -11,8 +11,6 @@ exports[`RichText render DOM structure 1`] = `
     }
   }
 >
-  <div
-    id="RichText_Div"
-  />
+  <div />
 </div>
 `;
