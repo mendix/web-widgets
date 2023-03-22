@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with Rich Text widget not working correctly when another Rich Text widget is opened in a popup.
+
 ## [2.1.3] - 2023-01-31
 
 ### Fixed
