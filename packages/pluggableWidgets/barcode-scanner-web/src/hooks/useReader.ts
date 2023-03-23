@@ -4,9 +4,10 @@ import {
     BinaryBitmap,
     BrowserMultiFormatReader,
     DecodeHintType,
+    HTMLCanvasElementLuminanceSource,
     HybridBinarizer,
     NotFoundException,
-    RGBLuminanceSource
+    Result
 } from "@zxing/library/cjs";
 import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
@@ -38,47 +39,40 @@ export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
+    const scale = 0.5;
 
-    const scanFrame = async (
-        reader: BrowserMultiFormatReader,
-        canvas: HTMLCanvasElement,
-        cropWidth: number,
-        cropHeight: number
-    ) => {
-        const canvasContext = canvas.getContext("2d");
-        if (canvasContext !== null) {
-            canvasContext.drawImage(
-                videoRef.current!,
-                (videoRef.current!.videoWidth - cropWidth) / 2,
-                (videoRef.current!.videoHeight - cropHeight) / 2,
-                cropWidth, //videoRef.current!.videoWidth * scale,
-                cropHeight, //videoRef.current!.videoHeight * scale,
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-            const imgData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-            if (imgData.data) {
-                const luminanceSource = new RGBLuminanceSource(
-                    new Int32Array(imgData.data.buffer),
-                    canvas.width,
-                    canvas.height,
-                    imgData.width,
-                    imgData.height
-                );
-                const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
-                reader.hints = hints;
-                try {
-                    const result = await reader.decodeBitmap(binaryBitmap);
-                    onSuccess(result.getText());
-                } catch (NotFoundException) {
-                    setTimeout(() => {
-                        scanFrame(reader, canvas, cropWidth, cropHeight);
-                    }, 500);
+    const scanWithCropOnce = (reader: BrowserMultiFormatReader, canvas: HTMLCanvasElement): Promise<Result> => {
+        const loop: any = (resolve: (value?: Result) => void, reject: (reason?: any) => void) => {
+            try {
+                const canvasContext = canvas.getContext("2d");
+                if (canvasContext !== null) {
+                    canvasContext.drawImage(
+                        videoRef.current!,
+                        (videoRef.current!.videoWidth - videoRef.current!.videoWidth * scale) / 2,
+                        (videoRef.current!.videoHeight - videoRef.current!.videoHeight * scale) / 2,
+                        videoRef.current!.videoWidth * scale,
+                        videoRef.current!.videoHeight * scale,
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+                    const luminanceSource = new HTMLCanvasElementLuminanceSource(canvas);
+                    const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
+                    reader.hints = hints;
+                    const result = reader.decodeBitmap(binaryBitmap);
+                    resolve(result);
                 }
+            } catch (e) {
+                const ifNotFound = e instanceof NotFoundException;
+                if (ifNotFound) {
+                    // trying again
+                    return setTimeout(loop, reader.timeBetweenDecodingAttempts, resolve, reject);
+                }
+                reject(e);
             }
-        }
+        };
+        return new Promise((resolve, reject) => loop(resolve, reject));
     };
 
     useEffect(() => {
@@ -94,31 +88,20 @@ export const useReader: UseReaderHook = args => {
         const start = async (): Promise<void> => {
             let stream;
             try {
+                stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
                 reader.hints = hints;
+                reader.timeBetweenDecodingAttempts = 500;
                 if (!stopped && videoRef.current) {
                     if (args.showMask) {
-                        navigator.mediaDevices.getUserMedia(mediaStreamConstraints).then(stream => {
-                            reader.timeBetweenDecodingAttempts = 500;
-                            console.log("Start call to scanwithcrop");
-                            videoRef.current!.srcObject = stream;
-                            videoRef.current!.autofocus = true;
-                            videoRef.current!.addEventListener("play", () => {
-                                const canvasMiddleMiddle = document.getElementsByClassName("canvas-middle-middle")[0];
-                                const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-                                captureCanvas.width = videoRef.current!.videoWidth;
-                                captureCanvas.height = videoRef.current!.videoHeight;
-                                console.log(captureCanvas);
-                                scanFrame(
-                                    reader,
-                                    captureCanvas,
-                                    canvasMiddleMiddle.clientWidth, // videoRef.current!.videoWidth * scale,
-                                    canvasMiddleMiddle.clientHeight // videoRef.current!.videoHeight * scale
-                                );
-                            });
-                        });
+                        videoRef.current!.srcObject = stream;
+                        videoRef.current!.autofocus = true;
+                        await videoRef.current.play();
+                        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
+                        captureCanvas.width = videoRef.current!.videoWidth;
+                        captureCanvas.height = videoRef.current!.videoHeight;
+                        const result = await scanWithCropOnce(reader, captureCanvas);
+                        onSuccess(result.getText());
                     } else {
-                        stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-                        reader.timeBetweenDecodingAttempts = 2000;
                         const result = await reader.decodeOnceFromStream(stream, videoRef.current);
                         if (!stopped) {
                             onSuccess(result.getText());
