@@ -8,5 +8,6 @@ export function useGetSelector(props: DropdownContainerProps): SingleSelector {
     if (!selectorRef.current) {
         selectorRef.current = getSelector(props);
     }
+    selectorRef.current.updateProps(props);
     return selectorRef.current;
 }

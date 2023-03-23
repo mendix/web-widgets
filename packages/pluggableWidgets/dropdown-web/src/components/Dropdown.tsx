@@ -12,7 +12,6 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
-    selector.updateProps(props);
     const downshiftProps = useDownshiftProps(selector, inputRef.current);
 
     if (selector.status === "unavailable") {
@@ -48,7 +47,6 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
 
                         {selector.clearable && selector.currentValue !== null && (
                             <button
-                                className="widget-dropdown-clear-button"
                                 onClick={e => {
                                     e.preventDefault();
                                     e.stopPropagation();
