@@ -1,5 +1,5 @@
 {
-  "name": "calendar-web",
+  "name": "@mendix/calendar-web",
   "widgetName": "Calendar",
   "version": "1.0.14",
   "description": "Display and manage calendar events",
