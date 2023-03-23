@@ -95,6 +95,7 @@ export const useReader: UseReaderHook = args => {
                     if (args.showMask) {
                         videoRef.current!.srcObject = stream;
                         videoRef.current!.autofocus = true;
+                        videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
                         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
                         captureCanvas.width = videoRef.current!.videoWidth;
