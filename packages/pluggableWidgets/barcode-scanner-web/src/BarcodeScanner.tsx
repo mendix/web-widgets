@@ -13,13 +13,15 @@ export const BarcodeScanner: FunctionComponent<BarcodeScannerContainerProps> = p
             if (data !== props.datasource.value) {
                 props.datasource.setValue(data);
             }
-            executeAction(props.onDetect);
+            if (props.onDetect?.canExecute) {
+                executeAction(props.onDetect);
+            }
         },
         [props.onDetect, props.datasource]
     );
     return (
         <BarcodeScannerComponent
-            onDetect={props.onDetect ? onDetect : undefined}
+            onDetect={onDetect}
             showMask={props.showMask}
             class={props.class}
             heightUnit={props.heightUnit}

@@ -57,7 +57,7 @@ export function BarcodeScanner({
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
-    const videoRef = useReader({ onSuccess: onDetect, onError: setError });
+    const videoRef = useReader({ onSuccess: onDetect, onError: setError, showMask });
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
         if (event.currentTarget.paused) {

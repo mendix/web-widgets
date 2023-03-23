@@ -1,5 +1,13 @@
 import { useEffect, useRef, RefObject } from "react";
-import { BarcodeFormat, BrowserMultiFormatReader, DecodeHintType, NotFoundException } from "@zxing/library/cjs";
+import {
+    BarcodeFormat,
+    BinaryBitmap,
+    BrowserMultiFormatReader,
+    DecodeHintType,
+    HybridBinarizer,
+    NotFoundException,
+    RGBLuminanceSource
+} from "@zxing/library/cjs";
 import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
 const hints = new Map();
@@ -23,6 +31,7 @@ const mediaStreamConstraints: MediaStreamConstraints = {
 type UseReaderHook = (args: {
     onSuccess?: (data: string) => void;
     onError?: (e: Error) => void;
+    showMask: boolean;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
@@ -30,9 +39,51 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
 
+    const scanFrame = async (
+        reader: BrowserMultiFormatReader,
+        canvas: HTMLCanvasElement,
+        cropWidth: number,
+        cropHeight: number
+    ) => {
+        const canvasContext = canvas.getContext("2d");
+        if (canvasContext !== null) {
+            canvasContext.drawImage(
+                videoRef.current!,
+                (videoRef.current!.videoWidth - cropWidth) / 2,
+                (videoRef.current!.videoHeight - cropHeight) / 2,
+                cropWidth, //videoRef.current!.videoWidth * scale,
+                cropHeight, //videoRef.current!.videoHeight * scale,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+            const imgData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+            if (imgData.data) {
+                const luminanceSource = new RGBLuminanceSource(
+                    new Int32Array(imgData.data.buffer),
+                    canvas.width,
+                    canvas.height,
+                    imgData.width,
+                    imgData.height
+                );
+                const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
+                reader.hints = hints;
+                try {
+                    const result = await reader.decodeBitmap(binaryBitmap);
+                    onSuccess(result.getText());
+                } catch (NotFoundException) {
+                    setTimeout(() => {
+                        scanFrame(reader, canvas, cropWidth, cropHeight);
+                    }, 500);
+                }
+            }
+        }
+    };
+
     useEffect(() => {
         let stopped = false;
-        const reader = new BrowserMultiFormatReader(hints, 2000);
+        const reader = new BrowserMultiFormatReader();
 
         const stop = (): void => {
             stopped = true;
@@ -43,11 +94,35 @@ export const useReader: UseReaderHook = args => {
         const start = async (): Promise<void> => {
             let stream;
             try {
-                stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+                reader.hints = hints;
                 if (!stopped && videoRef.current) {
-                    const result = await reader.decodeOnceFromStream(stream, videoRef.current);
-                    if (!stopped) {
-                        onSuccess(result.getText());
+                    if (args.showMask) {
+                        navigator.mediaDevices.getUserMedia(mediaStreamConstraints).then(stream => {
+                            reader.timeBetweenDecodingAttempts = 500;
+                            console.log("Start call to scanwithcrop");
+                            videoRef.current!.srcObject = stream;
+                            videoRef.current!.autofocus = true;
+                            videoRef.current!.addEventListener("play", () => {
+                                const canvasMiddleMiddle = document.getElementsByClassName("canvas-middle-middle")[0];
+                                const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
+                                captureCanvas.width = videoRef.current!.videoWidth;
+                                captureCanvas.height = videoRef.current!.videoHeight;
+                                console.log(captureCanvas);
+                                scanFrame(
+                                    reader,
+                                    captureCanvas,
+                                    canvasMiddleMiddle.clientWidth, // videoRef.current!.videoWidth * scale,
+                                    canvasMiddleMiddle.clientHeight // videoRef.current!.videoHeight * scale
+                                );
+                            });
+                        });
+                    } else {
+                        stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+                        reader.timeBetweenDecodingAttempts = 2000;
+                        const result = await reader.decodeOnceFromStream(stream, videoRef.current);
+                        if (!stopped) {
+                            onSuccess(result.getText());
+                        }
                     }
                 }
             } catch (error) {
