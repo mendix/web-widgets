@@ -39,7 +39,7 @@ describe("Drop-down (Association)", () => {
     });
     it("renders dropdown widget", () => {
         const component = render(<Dropdown {...defaultProps} />);
-        expect(component).toMatchSnapshot();
+        expect(component.container).toMatchSnapshot();
     });
     it("renders placeholder component in case of unavailable status", () => {
         defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
