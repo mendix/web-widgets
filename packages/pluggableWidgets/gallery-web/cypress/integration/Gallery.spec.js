@@ -2,7 +2,7 @@ describe("gallery-web", () => {
     const browserName = Cypress.browser.name;
 
     beforeEach(() => {
-        cy.visit("/"); // resets page
+        cy.visit("/");
     });
 
     describe("capabilities: sorting", () => {
