@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue when Rich Text widget loosing focus after running onChange or onKeyPress microflow.
+
 ## [2.1.4] - 2023-03-22
 
 ### Fixed
