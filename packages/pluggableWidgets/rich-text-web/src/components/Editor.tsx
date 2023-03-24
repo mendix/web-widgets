@@ -80,6 +80,14 @@ export class Editor extends Component<EditorProps> {
                 return false;
             }
 
+            if (key === "onChange") {
+                return false;
+            }
+
+            if (key === "onKeyPress") {
+                return false;
+            }
+
             return prevProps[key] !== nextProps[key];
         });
     }
