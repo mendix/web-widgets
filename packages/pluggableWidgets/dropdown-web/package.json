@@ -33,7 +33,7 @@
     "dev": "pluggable-widgets-tools start:web",
     "build": "pluggable-widgets-tools build:web",
     "format": "pluggable-widgets-tools format",
-    "lint": "eslint --config ../../../.eslintrc.js --ext .jsx,.js,.ts,.tsx src/",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "test": "pluggable-widgets-tools test:unit:web",
     "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps",

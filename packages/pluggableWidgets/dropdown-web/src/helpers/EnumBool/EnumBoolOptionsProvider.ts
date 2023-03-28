@@ -11,9 +11,12 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
     private options: string[] = [];
 
     hasMore = false;
-    loadMore(): void {}
 
     constructor(private caption: CaptionsProvider) {}
+
+    loadMore(): void {
+        return undefined;
+    }
 
     _updateProps(props: { attribute: EditableValue<string | boolean> }) {
         if (props.attribute.status === "unavailable") {

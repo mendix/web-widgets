@@ -7,13 +7,13 @@ import { EnumBoolOptionsProvider } from "./EnumBoolOptionsProvider";
 
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
-    private isBoolean: boolean = false;
+    private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
 
     currentValue: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
-    clearable: boolean = true;
+    clearable = true;
 
     constructor() {
         this.caption = new EnumAndBooleanSimpleCaptionsProvider();
