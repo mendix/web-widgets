@@ -47,15 +47,14 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
 
                         {selector.clearable && selector.currentValue !== null && (
                             <button
+                                className="widget-dropdown-clear-button"
                                 onClick={e => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     selectItem(null);
                                 }}
                             >
-                                <div className="widget-dropdown-clear-button">
-                                    <ClearButton />
-                                </div>
+                                <ClearButton />
                             </button>
                         )}
                         <div className="widget-dropdown-down-arrow">
