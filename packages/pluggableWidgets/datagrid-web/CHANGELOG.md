@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   With the new "Selection" property, it is now possible to make items in the grid selectable.
+
 ## [2.6.1] - 2023-03-09
 
 ### Added

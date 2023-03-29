@@ -17,7 +17,7 @@
     "mpkName": "com.mendix.widget.web.SelectionHelper.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.23.0.621",
+    "minimumMXVersion": "9.24.0.2965",
     "appName": "SelectionHelper"
   },
   "testProject": {
