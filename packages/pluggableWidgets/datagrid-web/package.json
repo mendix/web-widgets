@@ -1,7 +1,7 @@
 {
   "name": "datagrid-web",
   "widgetName": "Datagrid",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -17,7 +17,7 @@
     "mpkName": "com.mendix.widget.web.Datagrid.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.17.0",
+    "minimumMXVersion": "9.24.0.2965",
     "appName": "Data Grid 2"
   },
   "testProject": {
