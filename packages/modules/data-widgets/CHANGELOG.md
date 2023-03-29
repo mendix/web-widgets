@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.0] DataWidgets - 2023-03-29
+
+### [2.7.0] Datagrid
+
+#### Added
+
+-   With the new "Selection" property, it is now possible to make items in the grid selectable.
+
+### [1.3.0] Gallery
+
+#### Added
+
+-   With the new "Selection" property, it is now possible to make items in the gallery selectable. Additionally, it is possible to configure an "On selection change" action that runs when the selection changes.
+
+### [1.0.0] SelectionHelper
+
+#### Added
+
+-   We added Selection helper widget.
+
 ## [2.6.1] DataWidgets - 2023-03-09
 
 ### [2.6.1] Datagrid
