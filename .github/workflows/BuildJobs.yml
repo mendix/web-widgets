@@ -175,7 +175,12 @@ jobs:
         run: |
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
-      - name: "Archive test screenshot diff results"
+      - name: "Generating test report"
+        working-directory: ./automation/run-e2e
+        run: |
+          pnpm run report:merge
+          pnpm run report:generate
+      - name: "Archive test screenshot diff results and test report"
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         if: failure()
         with:
@@ -186,4 +191,5 @@ jobs:
             ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
             ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
             ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
+            ${{ github.workspace }}/automation/run-e2e/mochawesome-report/
           if-no-files-found: error

@@ -21,6 +21,13 @@ module.exports = defineConfig({
         testIsolation: false,
         chromeWebSecurity: false,
         specPattern: "cypress/integration/**/*.js",
-        supportFile: "cypress/support/e2e.js"
+        supportFile: "cypress/support/e2e.js",
+        reporter: "./node_modules/@web-widgets/run-e2e/node_modules/mochawesome/src/mochawesome.js",
+        reporterOptions: {
+            reportDir: "cypress/results",
+            overwrite: false,
+            html: false,
+            json: true
+        }
     }
 });
