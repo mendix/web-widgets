@@ -39,8 +39,7 @@ export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
-    const scale = 0.5;
-
+    const scale = 0.3;
     const scanWithCropOnce = (reader: BrowserMultiFormatReader, canvas: HTMLCanvasElement): Promise<Result> => {
         const loop: any = (resolve: (value?: Result) => void, reject: (reason?: any) => void) => {
             try {
@@ -48,8 +47,8 @@ export const useReader: UseReaderHook = args => {
                 if (canvasContext !== null) {
                     canvasContext.drawImage(
                         videoRef.current!,
-                        (videoRef.current!.videoWidth - videoRef.current!.videoWidth * scale) / 2,
-                        (videoRef.current!.videoHeight - videoRef.current!.videoHeight * scale) / 2,
+                        (videoRef.current!.videoWidth * (1 - scale)) / 2,
+                        (videoRef.current!.videoHeight * (1 - scale)) / 2,
                         videoRef.current!.videoWidth * scale,
                         videoRef.current!.videoHeight * scale,
                         0,
@@ -93,13 +92,13 @@ export const useReader: UseReaderHook = args => {
                 reader.timeBetweenDecodingAttempts = 500;
                 if (!stopped && videoRef.current) {
                     if (args.showMask) {
-                        videoRef.current!.srcObject = stream;
-                        videoRef.current!.autofocus = true;
+                        videoRef.current.srcObject = stream;
+                        videoRef.current.autofocus = true;
                         videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
                         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-                        captureCanvas.width = videoRef.current!.videoWidth;
-                        captureCanvas.height = videoRef.current!.videoHeight;
+                        captureCanvas.width = videoRef.current.videoWidth * scale;
+                        captureCanvas.height = videoRef.current.videoHeight * scale;
                         const result = await scanWithCropOnce(reader, captureCanvas);
                         onSuccess(result.getText());
                     } else {
