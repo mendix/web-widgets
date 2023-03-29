@@ -48,17 +48,16 @@ export const useReader: UseReaderHook = args => {
                     canvasContext.drawImage(
                         videoRef.current!,
                         (videoRef.current!.videoWidth * (1 - scale)) / 2,
-                        (videoRef.current!.videoHeight * (1 - scale)) / 2,
+                        (videoRef.current!.videoHeight - videoRef.current!.videoWidth * scale) / 2,
                         videoRef.current!.videoWidth * scale,
-                        videoRef.current!.videoHeight * scale,
+                        videoRef.current!.videoWidth * scale,
                         0,
                         0,
                         canvas.width,
-                        canvas.height
+                        canvas.width
                     );
                     const luminanceSource = new HTMLCanvasElementLuminanceSource(canvas);
                     const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
-                    reader.hints = hints;
                     const result = reader.decodeBitmap(binaryBitmap);
                     resolve(result);
                 }
@@ -98,7 +97,7 @@ export const useReader: UseReaderHook = args => {
                         await videoRef.current.play();
                         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
                         captureCanvas.width = videoRef.current.videoWidth * scale;
-                        captureCanvas.height = videoRef.current.videoHeight * scale;
+                        captureCanvas.height = videoRef.current.videoWidth * scale;
                         const result = await scanWithCropOnce(reader, captureCanvas);
                         onSuccess(result.getText());
                     } else {
