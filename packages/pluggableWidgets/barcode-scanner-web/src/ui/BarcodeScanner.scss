@@ -43,7 +43,6 @@
             .canvas-middle {
                 flex: 0;
                 flex-basis: 30%;
-                border: 1px solid blue;
                 display: flex;
                 flex-direction: column;
 
@@ -55,7 +54,6 @@
                     flex: 0;
                     padding-top: 100%;
                     position: relative;
-                    border: 1px solid red;
                     $corner-offset: 13px;
                     .corner {
                         position: absolute;
