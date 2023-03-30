@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import classNames from "classnames";
 import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
@@ -29,6 +28,7 @@ export function DropdownMenu(props: DropdownMenuProps): ReactElement {
                 ? selector.options.getAll().map((item, index) => (
                       <li
                           className={classNames("widget-dropdown-item")}
+                          key={JSON.stringify(item)}
                           {...props.getItemProps?.({
                               key: JSON.stringify(item),
                               index,

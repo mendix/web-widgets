@@ -1,10 +1,14 @@
-// import { parseStyle } from "@mendix/pluggable-widgets-commons";
 import { createElement, ReactElement } from "react";
+import { DropdownPreviewProps } from "../typings/DropdownProps";
+import { DropdownPreview } from "./components/DropdownPreview";
 
-import { Dropdown } from "./components/Dropdown";
-
-export const preview = (): ReactElement => {
-    // TODO: Change PIW preview props typing (class -> className) generation to remove the ts-ignore below
-    // @ts-ignore
-    return <Dropdown />;
+export const preview = (props: DropdownPreviewProps): ReactElement => {
+    return (
+        <DropdownPreview
+            emptyOptionText={props.emptyOptionText}
+            clearable={props.clearable}
+            ariaRequired={props.ariaRequired}
+            typeahead="contains"
+        />
+    );
 };

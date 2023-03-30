@@ -1,0 +1,38 @@
+import classNames from "classnames";
+import Downshift from "downshift";
+import { createElement, ReactElement } from "react";
+import { ClearButton, DownArrow } from "../assets/icons";
+import { DropdownPreviewProps } from "../../typings/DropdownProps";
+import "../ui/Dropdown.scss";
+
+export function DropdownPreview(props: Partial<DropdownPreviewProps>): ReactElement {
+    return (
+        <Downshift>
+            {({ getInputProps, isOpen, getToggleButtonProps }) => (
+                <div className="widget-dropdown">
+                    <div
+                        className={classNames("form-control", "widget-dropdown-input-container", {
+                            active: isOpen
+                        })}
+                        {...getToggleButtonProps()}
+                    >
+                        <input
+                            className="widget-dropdown-input"
+                            {...{ ...getInputProps() }}
+                            placeholder={props.emptyOptionText}
+                        />
+
+                        {props.clearable && (
+                            <button className="widget-dropdown-clear-button">
+                                <ClearButton />
+                            </button>
+                        )}
+                        <div className="widget-dropdown-down-arrow">
+                            <DownArrow />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </Downshift>
+    );
+}
