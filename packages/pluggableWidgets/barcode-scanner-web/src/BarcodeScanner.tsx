@@ -13,9 +13,7 @@ export const BarcodeScanner: FunctionComponent<BarcodeScannerContainerProps> = p
             if (data !== props.datasource.value) {
                 props.datasource.setValue(data);
             }
-            if (props.onDetect?.canExecute) {
-                executeAction(props.onDetect);
-            }
+            executeAction(props.onDetect);
         },
         [props.onDetect, props.datasource]
     );
