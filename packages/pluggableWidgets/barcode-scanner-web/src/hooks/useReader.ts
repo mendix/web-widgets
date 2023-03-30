@@ -32,7 +32,7 @@ const mediaStreamConstraints: MediaStreamConstraints = {
 type UseReaderHook = (args: {
     onSuccess?: (data: string) => void;
     onError?: (e: Error) => void;
-    showMask: boolean;
+    useCrop: boolean;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
@@ -40,23 +40,27 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const scale = 0.3;
-    const scanWithCropOnce = (reader: BrowserMultiFormatReader, canvas: HTMLCanvasElement): Promise<Result> => {
+    const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
+        const cropWidth = videoRef.current!.videoWidth * scale;
+        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
+        captureCanvas.width = cropWidth;
+        captureCanvas.height = cropWidth;
         const loop: any = (resolve: (value?: Result) => void, reject: (reason?: any) => void) => {
             try {
-                const canvasContext = canvas.getContext("2d");
+                const canvasContext = captureCanvas.getContext("2d");
                 if (canvasContext !== null) {
                     canvasContext.drawImage(
                         videoRef.current!,
                         (videoRef.current!.videoWidth * (1 - scale)) / 2,
-                        (videoRef.current!.videoHeight - videoRef.current!.videoWidth * scale) / 2,
-                        videoRef.current!.videoWidth * scale,
-                        videoRef.current!.videoWidth * scale,
+                        (videoRef.current!.videoHeight - cropWidth) / 2,
+                        cropWidth,
+                        cropWidth,
                         0,
                         0,
-                        canvas.width,
-                        canvas.width
+                        captureCanvas.width,
+                        captureCanvas.width
                     );
-                    const luminanceSource = new HTMLCanvasElementLuminanceSource(canvas);
+                    const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
                     const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
                     const result = reader.decodeBitmap(binaryBitmap);
                     resolve(result);
@@ -90,15 +94,12 @@ export const useReader: UseReaderHook = args => {
                 reader.hints = hints;
                 reader.timeBetweenDecodingAttempts = 500;
                 if (!stopped && videoRef.current) {
-                    if (args.showMask) {
+                    if (args.useCrop) {
                         videoRef.current.srcObject = stream;
                         videoRef.current.autofocus = true;
                         videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
-                        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-                        captureCanvas.width = videoRef.current.videoWidth * scale;
-                        captureCanvas.height = videoRef.current.videoWidth * scale;
-                        const result = await scanWithCropOnce(reader, captureCanvas);
+                        const result = await scanWithCropOnce(reader);
                         onSuccess(result.getText());
                     } else {
                         const result = await reader.decodeOnceFromStream(stream, videoRef.current);
