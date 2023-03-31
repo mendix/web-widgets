@@ -1,9 +1,10 @@
 import { Style } from "./namespaces";
 import { CSSProperties } from "react";
 
-export const parseStyle = (style = ""): {[key: string]: string} => { // Doesn't support a few stuff.
+export const parseStyle = (style = ""): { [key: string]: string } => {
+    // Doesn't support a few stuff.
     try {
-        return style.split(";").reduce<{[key: string]: string}>((styleObject, line) => {
+        return style.split(";").reduce<{ [key: string]: string }>((styleObject, line) => {
             const pair = line.split(":");
             if (pair.length === 2) {
                 const name = pair[0].trim().replace(/(-.)/g, match => match[1].toUpperCase());
@@ -24,9 +25,7 @@ export const getDimensions = <T extends Style.Dimensions>(props: T): CSSProperti
         width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`
     };
     if (props.heightUnit === "percentageOfWidth") {
-        style.paddingBottom = props.widthUnit === "percentage"
-            ? `${props.height}%`
-            : `${props.width / 2}px`;
+        style.paddingBottom = props.widthUnit === "percentage" ? `${props.height}%` : `${props.width / 2}px`;
     } else if (props.heightUnit === "pixels") {
         style.height = `${props.height}px`;
     } else if (props.heightUnit === "percentageOfParent") {
@@ -41,22 +40,6 @@ export const getDimensionsFromNode = (node: HTMLDivElement) => {
 
     return { width, height };
 };
-
-export const defaultColours = (opacity = 1) => [
-    // Mendix defaults
-    `rgba(5, 149, 219, ${opacity})`,
-    `rgba(23, 52, 123, ${opacity})`,
-    `rgba(118, 202, 2, ${opacity})`,
-    // Plotly defaults, minus the top 3 - (source)[https://github.com/plotly/plotly.js/blob/master/src/components/color/attributes.js]
-    `rgba(214, 39, 40, ${opacity})`,
-    `rgba(148, 103, 189, ${opacity})`,
-    `rgba(140, 86, 75, ${opacity})`,
-    `rgba(227, 119, 194, ${opacity})`,
-    `rgba(127, 127, 127, ${opacity})`,
-    `rgba(188, 189, 34, ${opacity})`,
-    `rgba(23, 190, 207, ${opacity})`
-];
-export const fillColours = defaultColours(0.1);
 
 export const getTooltipCoordinates = (event: MouseEvent, tooltipNode: HTMLDivElement): SVGPoint | null => {
     const parentElement = tooltipNode.parentElement;

@@ -66,16 +66,27 @@ declare module "plotly.js" {
             customdata: T;
         }>;
     }
-    export type AggregationType = "avg" | "sum" | "min" | "max" | "mode" | "median" | "count" | "stddev" | "first" | "last";
+    export type AggregationType =
+        | "avg"
+        | "sum"
+        | "min"
+        | "max"
+        | "mode"
+        | "median"
+        | "count"
+        | "stddev"
+        | "first"
+        | "last";
     export interface Transform {
         type: "aggregate";
         groups: Datum[];
-        aggregations: [{
-            target: string;
-            func: AggregationType;
-            enabled: boolean
-        }];
-
+        aggregations: [
+            {
+                target: string;
+                func: AggregationType;
+                enabled: boolean;
+            }
+        ];
     }
 
     export interface ScatterData {
@@ -88,7 +99,16 @@ declare module "plotly.js" {
 
     export interface PieData {
         hole: number;
-        hoverinfo?: "label" | "percent" | "name" | "label+percent" | "label+name" | "percent+name" | "label+percent+name" | "skip" | "none";
+        hoverinfo?:
+            | "label"
+            | "percent"
+            | "name"
+            | "label+percent"
+            | "label+name"
+            | "percent+name"
+            | "label+percent+name"
+            | "skip"
+            | "none";
         labels: string[];
         name?: string;
         type: "pie";
@@ -106,7 +126,16 @@ declare module "plotly.js" {
         z: number[][];
         type: "heatmap";
         zsmooth: "fast" | "best" | false;
-        hoverinfo?: "label" | "percent" | "name" | "label+percent" | "label+name" | "percent+name" | "label+percent+name" | "skip" | "none";
+        hoverinfo?:
+            | "label"
+            | "percent"
+            | "name"
+            | "label+percent"
+            | "label+name"
+            | "percent+name"
+            | "label+percent+name"
+            | "skip"
+            | "none";
         colorscale?: (string | number)[][];
         showscale?: boolean;
         xgap?: number;
