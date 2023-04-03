@@ -38,12 +38,9 @@ $unselected-item: #ffffff;
         height: fit-content;
         overflow: hidden;
         color: $typography-color;
-
+        background-color: $unselected-item;
         &.selected {
             background-color: $selected-item;
-        }
-        &.unselected {
-            background-color: $unselected-item;
         }
         &.highlighted {
             background-color: $highlighted-index;

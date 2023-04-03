@@ -27,14 +27,10 @@ export function DropdownMenu(props: DropdownMenuProps): ReactElement {
             {isOpen
                 ? selector.options.getAll().map((item, index) => (
                       <li
-                          className={classNames(
-                              "widget-dropdown-item",
-                              selectedItem === item
-                                  ? "selected"
-                                  : highlightedIndex === index
-                                  ? "highlighted"
-                                  : "unselected"
-                          )}
+                          className={classNames("widget-dropdown-item", {
+                              selected: selectedItem === item,
+                              highlighted: highlightedIndex === index
+                          })}
                           key={JSON.stringify(item)}
                           {...props.getItemProps?.({
                               key: JSON.stringify(item),
