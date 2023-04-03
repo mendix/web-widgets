@@ -41,6 +41,10 @@ export const useReader: UseReaderHook = args => {
     const onError = useEventCallback(args.onError);
     const scale = 0.3;
     const stopped = useRef<Boolean>(false);
+    const checkNotFound = (error: any): boolean => {
+        const ifNotFound = error instanceof NotFoundException;
+        return ifNotFound && !stopped.current;
+    };
 
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
         const cropWidth = videoRef.current!.videoWidth * scale;
@@ -67,16 +71,15 @@ export const useReader: UseReaderHook = args => {
                     const result = reader.decodeBitmap(binaryBitmap);
                     resolve(result);
                 }
-            } catch (e) {
-                const ifNotFound = e instanceof NotFoundException;
-                if (ifNotFound && !stopped.current) {
-                    setTimeout(loop, reader.timeBetweenDecodingAttempts, resolve, reject);
+            } catch (error) {
+                if (checkNotFound(error)) {
+                    setTimeout(() => loop(resolve, reject), reader.timeBetweenDecodingAttempts);
                 } else {
-                    reject(e);
+                    reject(error);
                 }
             }
         };
-        return new Promise((resolve, reject) => loop(resolve, reject));
+        return new Promise(loop);
     };
 
     useEffect(() => {
@@ -109,8 +112,7 @@ export const useReader: UseReaderHook = args => {
                 }
             } catch (error) {
                 // Suppress not found error if widget is closed normally (eg. leaving page);
-                const isNotFound = stopped.current && error instanceof NotFoundException;
-                if (!isNotFound) {
+                if (!checkNotFound(error)) {
                     if (error instanceof Error) {
                         console.error(error.message);
                     }
