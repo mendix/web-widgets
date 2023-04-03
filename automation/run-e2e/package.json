@@ -18,7 +18,7 @@
   "scripts": {
     "lint": "eslint --ext .mjs .",
     "format": "prettier --write .",
-    "report:merge": "mochawesome-merge ../../packages/pluggableWidgets/*/cypress/results/*.json -o report.json",
+    "report:merge": "mochawesome-merge ../../packages/pluggableWidgets/*/cypress/results/*.json -o report.json 2> /dev/null || true",
     "report:generate": "marge report.json --charts true"
   },
   "dependencies": {
