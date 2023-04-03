@@ -49,12 +49,6 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
     }
 
     _updateProps(props: Props): void {
-        // TODO: changes here
-        // current value
-        // const currentValue = (props.attr.value?.id as string) ?? null;
-
-        // prepare options
-        // const items = props.ds.items ?? [];
         this.ds = props.ds;
 
         const items = this.ds.items ?? [];

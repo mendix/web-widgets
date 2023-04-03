@@ -2,6 +2,9 @@ $primary-border: #264ae5;
 $separator-border: #808080;
 $typography-color: #3b4251;
 $box-shadow-color: rgba(0, 0, 0, 0.2);
+$selected-item: #e6eaff;
+$highlighted-index: #f5f6f6;
+$unselected-item: #ffffff;
 
 .widget-dropdown {
     flex-grow: 1;
@@ -35,6 +38,16 @@ $box-shadow-color: rgba(0, 0, 0, 0.2);
         height: fit-content;
         overflow: hidden;
         color: $typography-color;
+
+        &.selected {
+            background-color: $selected-item;
+        }
+        &.unselected {
+            background-color: $unselected-item;
+        }
+        &.highlighted {
+            background-color: $highlighted-index;
+        }
     }
 
     &-input-container {
