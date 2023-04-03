@@ -40,12 +40,14 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const scale = 0.3;
+    const stopped = useRef<Boolean>(false);
+
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
         const cropWidth = videoRef.current!.videoWidth * scale;
         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
         captureCanvas.width = cropWidth;
         captureCanvas.height = cropWidth;
-        const loop: any = (resolve: (value?: Result) => void, reject: (reason?: any) => void) => {
+        const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void) => {
             try {
                 const canvasContext = captureCanvas.getContext("2d");
                 if (canvasContext !== null) {
@@ -67,22 +69,21 @@ export const useReader: UseReaderHook = args => {
                 }
             } catch (e) {
                 const ifNotFound = e instanceof NotFoundException;
-                if (ifNotFound) {
-                    // trying again
-                    return setTimeout(loop, reader.timeBetweenDecodingAttempts, resolve, reject);
+                if (ifNotFound && !stopped.current) {
+                    setTimeout(loop, reader.timeBetweenDecodingAttempts, resolve, reject);
+                } else {
+                    reject(e);
                 }
-                reject(e);
             }
         };
         return new Promise((resolve, reject) => loop(resolve, reject));
     };
 
     useEffect(() => {
-        let stopped = false;
-        const reader = new BrowserMultiFormatReader();
+        const reader = new BrowserMultiFormatReader(hints, 500);
 
         const stop = (): void => {
-            stopped = true;
+            stopped.current = true;
             reader.stopAsyncDecode();
             reader.reset();
         };
@@ -91,26 +92,24 @@ export const useReader: UseReaderHook = args => {
             let stream;
             try {
                 stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-                reader.hints = hints;
-                reader.timeBetweenDecodingAttempts = 500;
-                if (!stopped && videoRef.current) {
+                if (videoRef.current) {
+                    let result: Result;
                     if (args.useCrop) {
                         videoRef.current.srcObject = stream;
                         videoRef.current.autofocus = true;
                         videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
-                        const result = await scanWithCropOnce(reader);
-                        onSuccess(result.getText());
+                        result = await scanWithCropOnce(reader);
                     } else {
-                        const result = await reader.decodeOnceFromStream(stream, videoRef.current);
-                        if (!stopped) {
-                            onSuccess(result.getText());
-                        }
+                        result = await reader.decodeOnceFromStream(stream, videoRef.current);
+                    }
+                    if (!stopped.current) {
+                        onSuccess(result.getText());
                     }
                 }
             } catch (error) {
                 // Suppress not found error if widget is closed normally (eg. leaving page);
-                const isNotFound = stopped && error instanceof NotFoundException;
+                const isNotFound = stopped.current && error instanceof NotFoundException;
                 if (!isNotFound) {
                     if (error instanceof Error) {
                         console.error(error.message);
