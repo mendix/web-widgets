@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with 1D barcode scanning, now 1D barcodes recognition is improved when using the mask (#180937)
+
 ## [2.2.3] - 2023-01-04
 
 ### Changed
