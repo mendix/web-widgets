@@ -1738,7 +1738,7 @@ importers:
       '@mendix/eslint-config-web-widgets': workspace:*
       '@mendix/pluggable-test-utils': workspace:^1.0.0
       '@mendix/pluggable-widgets-commons': workspace:*
-      '@mendix/pluggable-widgets-tools': ^9.20.0
+      '@mendix/pluggable-widgets-tools': 9.23.2
       '@mendix/prettier-config-web-widgets': workspace:*
       '@testing-library/dom': ^8.1.0
       '@testing-library/jest-dom': ^5.14.1
@@ -5916,9 +5916,9 @@ packages:
       enzyme: 3.11.0
       enzyme-to-json: 3.6.2_enzyme@3.11.0
       eslint: 7.32.0
-      eslint-config-prettier: 8.7.0_eslint@7.32.0
+      eslint-config-prettier: 8.8.0_eslint@7.32.0
       eslint-plugin-jest: 24.7.0_2o2hv7svn3vuzabbtnmo225egy
-      eslint-plugin-prettier: 3.4.1_uiswlpulcu4wppk3zxswnxg2xq
+      eslint-plugin-prettier: 3.4.1_vwpg52wrltrw7erk6on7tspv2u
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0_eslint@7.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
@@ -5933,7 +5933,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.23.621
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.21.0
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.9
       postcss: 8.4.21
       postcss-import: 14.1.0_postcss@8.4.21
@@ -10138,15 +10138,6 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-config-prettier/8.6.0_eslint@7.32.0:
-    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-    dependencies:
-      eslint: 7.32.0
-    dev: true
-
   /eslint-config-prettier/8.8.0_eslint@7.32.0:
     resolution: {integrity: sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==}
     hasBin: true
@@ -10187,23 +10178,6 @@ packages:
     dependencies:
       lodash: 4.17.21
       vscode-json-languageservice: 4.2.1
-    dev: true
-
-  /eslint-plugin-prettier/3.4.1_2fbugv7hbzbahj5qm3ztcno6by:
-    resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      eslint: '>=5.0.0'
-      eslint-config-prettier: '*'
-      prettier: '>=1.13.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: 7.32.0
-      eslint-config-prettier: 8.6.0_eslint@7.32.0
-      prettier: 2.8.4
-      prettier-linter-helpers: 1.0.0
     dev: true
 
   /eslint-plugin-prettier/3.4.1_vwpg52wrltrw7erk6on7tspv2u:
@@ -13748,10 +13722,8 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.21.0:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.21.0
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.21.0
@@ -13867,7 +13839,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /mini-svg-data-uri/1.4.4:
@@ -16640,7 +16612,7 @@ packages:
     dependencies:
       klona: 2.0.6
       neo-async: 2.6.2
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0_webpack-cli@4.10.0
     dev: true
 
   /sass/1.58.3:
