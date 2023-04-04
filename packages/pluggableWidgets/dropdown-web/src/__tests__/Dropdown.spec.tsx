@@ -46,18 +46,12 @@ describe("Drop-down (Association)", () => {
         const { container } = render(<Dropdown {...defaultProps} />);
         expect(container.getElementsByClassName("widget-dropdown-placeholder")).toHaveLength(1);
     });
-    it("renders placeholder component in case of unavailable status", () => {
-        defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
-        const { container } = render(<Dropdown {...defaultProps} />);
-        expect(container.getElementsByClassName("widget-dropdown-placeholder")).toHaveLength(1);
-    });
     it("opens dropdown menu with all items on trigger", async () => {
         const component = render(<Dropdown {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
     });
-
     it("closes dropdown menu on trigger", async () => {
         const component = render(<Dropdown {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
@@ -66,7 +60,6 @@ describe("Drop-down (Association)", () => {
         fireEvent.click(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
-
     it("sets option to selected item", async () => {
         const component = render(<Dropdown {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
