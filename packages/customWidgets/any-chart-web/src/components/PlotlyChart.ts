@@ -109,25 +109,12 @@ class PlotlyChart extends Component<PlotlyChartProps> {
     private renderChart({ config, data, layout, onClick, onHover, onRestyle }: PlotlyChartProps, plotly: Plotly) {
         const rootNode = this.chartNode && (this.chartNode.parentElement as HTMLDivElement);
         if (this.chartNode && rootNode && !this.props.loadingAPI && layout && data && Array.isArray(data) && config) {
-            const chartData = (data as Data[]).map(data_ => {
-                if (data_.customdata) {
-                    const customdata = data_.customdata.map(dataObject => ({
-                        entity: dataObject.getEntity() as string,
-                        guid: dataObject.getGuid() as string
-                    }));
-
-                    return { ...data_, customdata };
-                }
-
-                return { ...data_, customdata: [] };
-            });
             const layoutOptions = deepMerge.all([layout, getDimensionsFromNode(rootNode)]);
             const plotlyConfig = window.dojo && window.dojo.locale ? { ...config, locale: window.dojo.locale } : config;
-            const logger = window.mx && window.mx.logger ? window.mx.logger : window.logger;
-            if (logger && logger.debug) {
-                logger.debug("newPlot", this.chartNode, chartData as Data[], layoutOptions, plotlyConfig);
-            }
-            plotly.newPlot(this.chartNode, chartData as Data[], layoutOptions, plotlyConfig).then(myPlot => {
+
+            console.debug("newPlot", this.chartNode, data, layoutOptions, plotlyConfig);
+
+            plotly.newPlot(this.chartNode, data as Data[], layoutOptions, plotlyConfig).then(myPlot => {
                 if (onClick) {
                     myPlot.on("plotly_click", onClick as any);
                 }

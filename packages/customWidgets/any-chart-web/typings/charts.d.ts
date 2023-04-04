@@ -1,7 +1,3 @@
-type VisibilityMap<T> = {
-    [P in keyof T]: any;
-};
-
 declare module "plotly.js/lib/core" {
     export = Plotly;
 }

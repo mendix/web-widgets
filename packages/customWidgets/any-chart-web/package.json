@@ -1,6 +1,6 @@
 {
   "name": "any-chart-web",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "",
   "main": "index.js",
   "keywords": [],
@@ -13,7 +13,7 @@
     "mpkName": "AnyChart.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.18.4.62522",
     "appName": "AnyChart"
   },
   "testProject": {
