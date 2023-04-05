@@ -13,7 +13,7 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo";
 import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
-import { cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
+import { cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip, chmod } from "./shell";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -162,6 +162,7 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
     console.info("Unzip module mpk");
     await unzip(mpk, target);
     mkdir("-p", widgetsOut);
+    chmod("-R", "a+rw", target);
 
     console.info(`Add ${widgets.length} widgets to ${mpkEntry.base}`);
     cp(widgets, widgetsOut);
