@@ -28,6 +28,9 @@
   },
   "scripts": {
     "verify": "rui-verify-package-format",
+    "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
     "update-changelog": "rui-update-changelog-module",
     "format": "prettier --write ."
