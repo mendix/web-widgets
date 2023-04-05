@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.3] AnyChart_BuildingBlocks - 2023-04-05
+
 ### Changed
 
 -   We removed version constant from module
@@ -13,6 +15,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We added .version file to the themesource folder
+
+### [3.0.3] AnyChart
+
+#### Changed
+
+-   Update minimum required version of Studio Pro to 9.18.
+
+#### Fixed
+
+-   We fixed an issue with 'customdata' field causing widget to crash.
 
 ## [3.0.2] AnyChart_BuildingBlocks - 2021-09-30
 
