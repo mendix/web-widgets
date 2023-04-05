@@ -177,6 +177,7 @@ jobs:
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
       - name: "Generating test report"
         working-directory: ./automation/run-e2e
+        if: failure()
         run: |
           report_count=$(find ../../packages -type f -path "*/cypress/results/*" -name "*.json" | wc -l)
           if [ $report_count -gt 0 ];
