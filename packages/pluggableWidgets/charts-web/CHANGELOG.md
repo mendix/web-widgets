@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Before, if some items in a series for a chart were missing an association value, the chart might not display properly. However, this issue has been resolved. Now, if an item in the series is missing an association value, it will be grouped under a new label called "(empty)".
+
 ## [4.0.3] Charts - 2023-01-09
 
 ### Changed
