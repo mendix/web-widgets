@@ -86,8 +86,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     <FilterComponent
                         adjustable={props.adjustable}
                         className={props.class}
-                        defaultFilter={defaultFilter?.type ?? props.defaultFilter}
-                        delay={props.delay}
+                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
+                        inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
@@ -111,7 +111,6 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                                 filterType: FilterType.NUMBER
                             });
                         }}
-                        value={defaultFilter?.value ?? props.defaultValue?.value}
                     />
                 );
             }}

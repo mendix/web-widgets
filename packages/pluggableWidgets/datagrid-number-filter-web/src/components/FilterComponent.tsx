@@ -1,56 +1,43 @@
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { debounce, useId, usePropInspect, useLog } from "@mendix/pluggable-widgets-commons";
+import { useId, useLog, usePropInspect } from "@mendix/pluggable-widgets-commons";
 
 import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";
 import classNames from "classnames";
+import { useFilterState } from "../features/filter-state";
 
-interface FilterComponentProps {
+type FilterType = DefaultFilterEnum;
+
+interface FilterProps {
     adjustable: boolean;
+    initialFilterType: FilterType;
     className?: string;
-    defaultFilter: DefaultFilterEnum;
-    delay: number;
     id?: string;
     placeholder?: string;
     screenReaderButtonCaption?: string;
     screenReaderInputCaption?: string;
     tabIndex?: number;
     styles?: CSSProperties;
-    updateFilters?: (value: Big | undefined, type: DefaultFilterEnum) => void;
-    value?: Big;
 }
 
-export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const id = useId("NumberFilter");
-    const log = useLog(id);
+interface FilterComponentProps extends FilterProps {
+    inputChangeDelay: number;
+    updateFilters?: (value: Big | undefined, type: DefaultFilterEnum) => void;
+}
+
+interface FilterInputProps extends FilterProps {
+    onFilterTypeClick: (type: FilterType) => void;
+    onInputChange: ChangeEventHandler<HTMLInputElement>;
+    inputValue: string;
+    inputRef?: React.ClassAttributes<HTMLInputElement>["ref"];
+    inputDisabled?: boolean;
+}
+
+function FilterInput(props: FilterInputProps): ReactElement {
+    const { current: initialFilterType } = useRef(props.initialFilterType);
+    const id = useId("PureNumberFilter");
     usePropInspect(id)(props);
-    const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
-    const [value, setValue] = useState<Big | undefined>(undefined);
-    const [valueInput, setValueInput] = useState<string | undefined>(undefined);
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    useEffect(() => {
-        log("effect -> props.value is changed, set valueInput and value");
-        setValueInput(props.value?.toString() ?? "");
-        setValue(props.value);
-    }, [props.value]);
-
-    useEffect(() => {
-        log("effect -> value or type is changed, call updateFilters");
-        props.updateFilters?.(value, type);
-    }, [value, type]);
-
-    const onChange = useCallback(
-        debounce((value?: Big) => setValue(value), props.delay),
-        [props.delay]
-    );
-
-    const focusInput = useCallback(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [inputRef]);
 
     return (
         <div
@@ -62,19 +49,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     id={props.id}
-                    defaultFilter={props.defaultFilter}
-                    onChange={useCallback(
-                        type => {
-                            setType(prev => {
-                                if (prev === type) {
-                                    return prev;
-                                }
-                                focusInput();
-                                return type;
-                            });
-                        },
-                        [focusInput]
-                    )}
+                    defaultFilter={initialFilterType}
+                    onChange={props.onFilterTypeClick}
                     options={
                         [
                             { value: "greater", label: "Greater than" },
@@ -92,22 +68,31 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             <input
                 aria-label={props.screenReaderInputCaption}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
-                disabled={type === "empty" || type === "notEmpty"}
-                onChange={e => {
-                    const value = e.target.value;
-                    if (value && !isNaN(Number(value))) {
-                        setValueInput(value);
-                        onChange(new Big(Number(value)));
-                    } else {
-                        setValueInput(value);
-                        onChange(undefined);
-                    }
-                }}
+                disabled={props.inputDisabled}
+                onChange={props.onInputChange}
                 placeholder={props.placeholder}
-                ref={inputRef}
+                ref={props.inputRef}
                 type="number"
-                value={valueInput}
+                value={props.inputValue}
             />
         </div>
+    );
+}
+
+const PureFilterInput = memo(FilterInput);
+
+export function FilterComponent(props: FilterComponentProps): ReactElement {
+    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({ inputValue: "5", type: "greater" }));
+    const log = useLog("FilterComponent");
+    log("Rerender");
+    return (
+        <PureFilterInput
+            {...props}
+            initialFilterType="greater"
+            onFilterTypeClick={onFilterTypeClick}
+            onInputChange={onInputChange}
+            inputValue={state.inputValue}
+            inputDisabled={state.type === "empty" || state.type === "notEmpty"}
+        />
     );
 }

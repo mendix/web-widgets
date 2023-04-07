@@ -49,36 +49,45 @@ export function useId(name?: string): string {
     return id;
 }
 
-function createInspect(id?: string): (props: any) => void {
+const debugMsg = (...args: any[]): void => console.debug("[DEBUG]", ...args);
+
+function debugHeader(id: string): void {
+    debugMsg();
+    debugMsg(`Component:`, id);
+}
+
+function createInspect(id: string): (props: any) => void {
     let prevProps: any = {};
     return (currentProps: any) => {
-        console.log(`[DEBUG]`);
-        console.log(`[DEBUG] Render`, id);
+        debugHeader(id);
         const keys = new Set([...Object.keys(prevProps), ...Object.keys(currentProps)]);
         const changed = Array.from(keys).some(k => {
             const notEq = prevProps[k] !== currentProps[k];
             if (notEq) {
-                console.log(`[DEBUG]   > prop [${k}] changed`);
+                debugMsg(`   > prop [${k}] changed`);
             }
             return notEq;
         });
         if (!changed) {
-            console.log("[DEBUG] No prop changes", id);
+            debugMsg("   > No prop changes");
         }
         prevProps = currentProps;
     };
 }
 
-export function usePropInspect(id?: string): (props: any) => void {
+export function usePropInspect(id: string): (props: any) => void {
     const [inspect] = useState(() => createInspect(id));
     return inspect;
 }
 
-function createLog(id: string): (msg: string) => void {
-    return (msg: string) => console.log(`[DEBUG]   >`, msg, id);
+function createLog(id: string): (...args: string[]) => void {
+    return (...args: string[]) => {
+        debugHeader(id);
+        debugMsg("   >", ...args);
+    };
 }
 
-export function useLog(id: string): (msg: string) => void {
+export function useLog(id: string): (...args: string[]) => void {
     const [log] = useState(() => createLog(id));
     return log;
 }
