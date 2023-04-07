@@ -2,6 +2,7 @@ import { ChangeEventHandler, useState, useMemo, useRef, useEffect, MutableRefObj
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import { debounce, useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { toBig } from "../utils/value";
 
 type FilterState = {
     type: FilterType;
@@ -42,10 +43,10 @@ export function useStateChangeEffects(
     useEffect(() => {
         const { current: prevState } = prevStateRef;
         if (state.type !== prevState.type) {
-            stableDispatch(new Big(5), state.type);
+            stableDispatch(toBig(state.inputValue), state.type);
             inputRef.current?.focus();
         } else if (state.inputValue !== prevState.inputValue) {
-            stableDispatchDelayed(new Big(1), state.type);
+            stableDispatchDelayed(toBig(state.inputValue), state.type);
         }
         prevStateRef.current = state;
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -6,6 +6,7 @@ import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { useFilterState, useStateChangeEffects } from "../features/filter-state";
+import { toInputValue } from "../utils/value";
 
 type FilterType = DefaultFilterEnum;
 
@@ -23,6 +24,7 @@ interface FilterProps {
 
 interface FilterComponentProps extends FilterProps {
     inputChangeDelay: number;
+    initialFilterValue?: Big;
     updateFilters?: (value: Big | undefined, type: DefaultFilterEnum) => void;
 }
 
@@ -82,7 +84,10 @@ function FilterInput(props: FilterInputProps): ReactElement {
 const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({ inputValue: "5", type: "greater" }));
+    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({
+        inputValue: toInputValue(props.initialFilterValue),
+        type: props.initialFilterType
+    }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b));
 
     const log = useLog("FilterComponent");
@@ -90,7 +95,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     return (
         <PureFilterInput
             {...props}
-            initialFilterType="greater"
+            initialFilterType={props.initialFilterType}
             onFilterTypeClick={onFilterTypeClick}
             onInputChange={onInputChange}
             inputRef={inputRef}

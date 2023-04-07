@@ -74,7 +74,6 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     ? translateFilters(singleInitialFilter)
                     : translateFilters(multipleInitialFilters?.[attributes[0].id]);
 
-                log(`defaultFilter: ${JSON.stringify(defaultFilter, null, 2)}`);
                 log(`defaultValue: ${JSON.stringify(props.defaultValue?.value, null, 2)}`);
 
                 const errorMessage = getAttributeTypeErrorMessage(attributes[0].type);
@@ -82,11 +81,16 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
+                if (props.defaultValue && props.defaultValue.status === "loading") {
+                    return null;
+                }
+
                 return (
                     <FilterComponent
                         adjustable={props.adjustable}
                         className={props.class}
                         initialFilterType={defaultFilter?.type ?? props.defaultFilter}
+                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
                         inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
@@ -95,6 +99,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
+                            console.log("[DEBUG] >>> updateFilters");
                             if (
                                 (value && !props.valueAttribute?.value?.eq(value)) ||
                                 value !== props.valueAttribute?.value
