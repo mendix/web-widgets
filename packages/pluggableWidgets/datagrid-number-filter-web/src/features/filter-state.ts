@@ -1,6 +1,7 @@
-import { ChangeEventHandler, useState, useMemo } from "react";
+import { ChangeEventHandler, useState, useMemo, useRef, useEffect } from "react";
 import { FilterType } from "../../typings/FilterType";
-// import type { Big } from "big.js";
+import { Big } from "big.js";
+import { debounce, useEventCallback } from "@mendix/pluggable-widgets-commons";
 
 type FilterState = {
     type: FilterType;
@@ -27,8 +28,23 @@ export function useFilterState(initialState: () => FilterState): [FilterState, I
     return [state, onInputChange, onTypeClick];
 }
 
-// type ChangeDispatch = (value: Big | undefined, type: FilterType) => void;
+type ChangeDispatch = (value: Big | undefined, type: FilterType) => void;
 
-// function useStateChangeEffects(state: FilterState, dispatch:) {
-//     const [state, setState] = useFilterState();
-// }
+export function useStateChangeEffects(state: FilterState, dispatch: ChangeDispatch): void {
+    const stableDispatch = useEventCallback(dispatch);
+    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, 1000));
+    const inputRef = useRef<HTMLInputElement | undefined>(undefined);
+    const prevStateRef = useRef(state);
+
+    useEffect(() => {
+        const { current: prevState } = prevStateRef;
+        if (state.type !== prevState.type) {
+            stableDispatch(new Big(5), state.type);
+            inputRef.current?.focus();
+        } else if (state.inputValue !== prevState.inputValue) {
+            stableDispatchDelayed(new Big(1), state.type);
+        }
+        prevStateRef.current = state;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state]);
+}

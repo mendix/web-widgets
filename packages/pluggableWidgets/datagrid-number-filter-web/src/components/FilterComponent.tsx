@@ -5,7 +5,7 @@ import { useId, useLog, usePropInspect } from "@mendix/pluggable-widgets-commons
 import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";
 import classNames from "classnames";
-import { useFilterState } from "../features/filter-state";
+import { useFilterState, useStateChangeEffects } from "../features/filter-state";
 
 type FilterType = DefaultFilterEnum;
 
@@ -83,6 +83,8 @@ const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({ inputValue: "5", type: "greater" }));
+    useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b));
+
     const log = useLog("FilterComponent");
     log("Rerender");
     return (
