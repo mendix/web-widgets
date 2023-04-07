@@ -1,6 +1,5 @@
 import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { useId, useLog, usePropInspect } from "@mendix/pluggable-widgets-commons";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import classNames from "classnames";
@@ -35,8 +34,6 @@ interface FilterInputProps extends FilterProps {
 
 function FilterInput(props: FilterInputProps): ReactElement {
     const { current: initialFilterType } = useRef(props.initialFilterType);
-    const id = useId("PureNumberFilter");
-    usePropInspect(id)(props);
 
     return (
         <div
@@ -87,8 +84,6 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
 
-    const log = useLog("FilterComponent");
-    log("Rerender");
     return (
         <PureFilterInput
             initialFilterType={props.initialFilterType}
