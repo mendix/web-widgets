@@ -3,6 +3,7 @@ import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typing
 
 import { FilterComponent } from "./components/FilterComponent";
 import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { usePropInspect, useId, useLog } from "@mendix/pluggable-widgets-commons";
 import { Big } from "big.js";
 
 import {
@@ -22,6 +23,9 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
+    const debugId = useId("DatagridNumberFilter");
+    const log = useLog(debugId);
+    usePropInspect(debugId)(props);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -69,6 +73,9 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                 const defaultFilter = singleInitialFilter
                     ? translateFilters(singleInitialFilter)
                     : translateFilters(multipleInitialFilters?.[attributes[0].id]);
+
+                log(`defaultFilter: ${JSON.stringify(defaultFilter, null, 2)}`);
+                log(`defaultValue: ${JSON.stringify(props.defaultValue?.value, null, 2)}`);
 
                 const errorMessage = getAttributeTypeErrorMessage(attributes[0].type);
                 if (errorMessage) {

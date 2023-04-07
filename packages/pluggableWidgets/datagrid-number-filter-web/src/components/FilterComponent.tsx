@@ -1,6 +1,6 @@
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { debounce } from "@mendix/pluggable-widgets-commons";
+import { debounce, useId, usePropInspect, useLog } from "@mendix/pluggable-widgets-commons";
 
 import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";
@@ -22,17 +22,22 @@ interface FilterComponentProps {
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
+    const id = useId("NumberFilter");
+    const log = useLog(id);
+    usePropInspect(id)(props);
     const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
     const [value, setValue] = useState<Big | undefined>(undefined);
     const [valueInput, setValueInput] = useState<string | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
+        log("effect -> props.value is changed, set valueInput and value");
         setValueInput(props.value?.toString() ?? "");
         setValue(props.value);
     }, [props.value]);
 
     useEffect(() => {
+        log("effect -> value or type is changed, call updateFilters");
         props.updateFilters?.(value, type);
     }, [value, type]);
 
