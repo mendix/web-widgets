@@ -94,13 +94,20 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     log("Rerender");
     return (
         <PureFilterInput
-            {...props}
             initialFilterType={props.initialFilterType}
             onFilterTypeClick={onFilterTypeClick}
             onInputChange={onInputChange}
             inputRef={inputRef}
             inputValue={state.inputValue}
             inputDisabled={state.type === "empty" || state.type === "notEmpty"}
+            adjustable={props.adjustable}
+            className={props.className}
+            id={props.id}
+            placeholder={props.placeholder}
+            screenReaderButtonCaption={props.screenReaderButtonCaption}
+            screenReaderInputCaption={props.screenReaderInputCaption}
+            styles={props.styles}
+            tabIndex={props.tabIndex}
         />
     );
 }
