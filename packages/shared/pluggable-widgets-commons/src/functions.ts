@@ -61,13 +61,13 @@ function createInspect(id: string): (props: any) => void {
     return (currentProps: any) => {
         debugHeader(id);
         const keys = new Set([...Object.keys(prevProps), ...Object.keys(currentProps)]);
-        const changed = Array.from(keys).some(k => {
-            const notEq = prevProps[k] !== currentProps[k];
-            if (notEq) {
+        let changed = false;
+        for (const k of keys) {
+            if (prevProps[k] !== currentProps[k]) {
                 debugMsg(`   > prop [${k}] changed`);
+                changed = true;
             }
-            return notEq;
-        });
+        }
         if (!changed) {
             debugMsg("   > No prop changes");
         }
