@@ -83,7 +83,7 @@ const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({ inputValue: "5", type: "greater" }));
-    useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b));
+    const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b));
 
     const log = useLog("FilterComponent");
     log("Rerender");
@@ -93,6 +93,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             initialFilterType="greater"
             onFilterTypeClick={onFilterTypeClick}
             onInputChange={onInputChange}
+            inputRef={inputRef}
             inputValue={state.inputValue}
             inputDisabled={state.type === "empty" || state.type === "notEmpty"}
         />

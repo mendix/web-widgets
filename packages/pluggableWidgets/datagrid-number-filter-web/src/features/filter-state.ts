@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState, useMemo, useRef, useEffect } from "react";
+import { ChangeEventHandler, useState, useMemo, useRef, useEffect, MutableRefObject } from "react";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import { debounce, useEventCallback } from "@mendix/pluggable-widgets-commons";
@@ -30,10 +30,13 @@ export function useFilterState(initialState: () => FilterState): [FilterState, I
 
 type ChangeDispatch = (value: Big | undefined, type: FilterType) => void;
 
-export function useStateChangeEffects(state: FilterState, dispatch: ChangeDispatch): void {
+export function useStateChangeEffects(
+    state: FilterState,
+    dispatch: ChangeDispatch
+): [MutableRefObject<HTMLInputElement | null>] {
     const stableDispatch = useEventCallback(dispatch);
     const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, 1000));
-    const inputRef = useRef<HTMLInputElement | undefined>(undefined);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const prevStateRef = useRef(state);
 
     useEffect(() => {
@@ -47,4 +50,6 @@ export function useStateChangeEffects(state: FilterState, dispatch: ChangeDispat
         prevStateRef.current = state;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
+
+    return [inputRef];
 }
