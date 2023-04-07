@@ -1,14 +1,11 @@
 import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
 import { useId, useLog, usePropInspect } from "@mendix/pluggable-widgets-commons";
-
-import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
+import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { useFilterState, useStateChangeEffects } from "../features/filter-state";
 import { toInputValue } from "../utils/value";
-
-type FilterType = DefaultFilterEnum;
 
 interface FilterProps {
     adjustable: boolean;
@@ -25,7 +22,7 @@ interface FilterProps {
 interface FilterComponentProps extends FilterProps {
     inputChangeDelay: number;
     initialFilterValue?: Big;
-    updateFilters?: (value: Big | undefined, type: DefaultFilterEnum) => void;
+    updateFilters?: (value: Big | undefined, type: FilterType) => void;
 }
 
 interface FilterInputProps extends FilterProps {
@@ -63,7 +60,7 @@ function FilterInput(props: FilterInputProps): ReactElement {
                             { value: "smallerEqual", label: "Smaller than or equal" },
                             { value: "empty", label: "Empty" },
                             { value: "notEmpty", label: "Not empty" }
-                        ] as Array<{ value: DefaultFilterEnum; label: string }>
+                        ] as Array<{ value: FilterType; label: string }>
                     }
                 />
             )}
