@@ -92,13 +92,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
-                            if (
-                                (value && !props.valueAttribute?.value?.eq(value)) ||
-                                value !== props.valueAttribute?.value
-                            ) {
-                                props.valueAttribute?.setValue(value);
-                                props.onChange?.execute();
-                            }
+                            props.valueAttribute?.setValue(value);
+                            props.onChange?.execute();
                             const conditions = attributes
                                 ?.map(attribute => getFilterCondition(attribute, value, type))
                                 .filter((filter): filter is FilterCondition => filter !== undefined);
