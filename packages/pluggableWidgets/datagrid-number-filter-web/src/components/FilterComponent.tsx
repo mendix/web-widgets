@@ -85,7 +85,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         inputValue: toInputValue(props.initialFilterValue),
         type: props.initialFilterType
     }));
-    const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b));
+    const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
 
     const log = useLog("FilterComponent");
     log("Rerender");

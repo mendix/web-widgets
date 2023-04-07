@@ -33,10 +33,11 @@ type ChangeDispatch = (value: Big | undefined, type: FilterType) => void;
 
 export function useStateChangeEffects(
     state: FilterState,
-    dispatch: ChangeDispatch
+    dispatch: ChangeDispatch,
+    inputChangeDelay: number
 ): [MutableRefObject<HTMLInputElement | null>] {
     const stableDispatch = useEventCallback(dispatch);
-    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, 1000));
+    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, inputChangeDelay));
     const inputRef = useRef<HTMLInputElement | null>(null);
     const prevStateRef = useRef(state);
 
