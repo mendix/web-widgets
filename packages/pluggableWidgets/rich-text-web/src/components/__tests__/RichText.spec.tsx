@@ -44,12 +44,17 @@ const defaultRichTextProps: RichTextContainerProps = {
     codeHighlight: false,
     allowedContent: "",
     disallowedContent: "",
+    enableUploadImages: false,
+    uploadImageEndpoint: "",
     id: "1.Dev.Test_ListenTo.richText1_x_1"
 };
 
 describe("RichText", () => {
     window.mx = {
-        remoteUrl: "https://example.com"
+        remoteUrl: "https://example.com",
+        session: {
+            getConfig: (value: string) => value + "config"
+        }
     };
 
     function renderRichText(props = defaultRichTextProps): ReactWrapper {
@@ -175,6 +180,7 @@ describe("CKEditor configuration", () => {
         toolbarGroups.splice(4, 0, "/");
         expect(config).toEqual({
             toolbarGroups,
+            extraPlugins: "mxupload",
             removeButtons:
                 "Save,Templates,NewPage,ExportPdf,Preview,Print,Find," +
                 "Replace,SelectAll,Form,Checkbox,Radio,TextField,Textarea," +
