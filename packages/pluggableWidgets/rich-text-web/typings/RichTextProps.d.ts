@@ -73,6 +73,9 @@ export interface RichTextContainerProps {
     advancedContentFilter: AdvancedContentFilterEnum;
     allowedContent: string;
     disallowedContent: string;
+    enableUploadImages: boolean;
+    uploadImageEndpoint: string;
+    UploadedImages?: EditableValue<string>;
 }
 
 export interface RichTextPreviewProps {
@@ -111,4 +114,7 @@ export interface RichTextPreviewProps {
     advancedContentFilter: AdvancedContentFilterEnum;
     allowedContent: string;
     disallowedContent: string;
+    enableUploadImages: boolean;
+    uploadImageEndpoint: string;
+    UploadedImages: string;
 }

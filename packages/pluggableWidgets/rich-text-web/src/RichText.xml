@@ -297,6 +297,23 @@
                     <description />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Extensions">
+                <property key="enableUploadImages" type="boolean" defaultValue="false">
+                    <caption>Enable upload image</caption>
+                    <description />
+                </property>
+                <property key="uploadImageEndpoint" type="string" required="false">
+                    <caption>Upload Image Endpoint</caption>
+                    <description>Then endpoint that receives the image entity as body parameter and passes the image guid in return.</description>
+                </property>
+                <property key="UploadedImages" type="attribute" required="false">
+                    <caption>Uploaded Image List</caption>
+                    <description>List of images that has been used as content in comma separated format.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>
