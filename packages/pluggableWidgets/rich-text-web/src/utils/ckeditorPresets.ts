@@ -99,6 +99,7 @@ function createPreset(type: "basic" | "standard" | "full"): CKEditorConfig {
             config.toolbarGroups = toolbarGroup;
             config.removeButtons =
                 "Save,Templates,NewPage,ExportPdf,Preview,Print,Find,Replace,SelectAll,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Underline,Subscript,Superscript,CopyFormatting,CreateDiv,JustifyLeft,BidiLtr,BidiRtl,JustifyCenter,JustifyRight,Language,JustifyBlock,Smiley,PageBreak,Iframe,TextColor,BGColor,Font,FontSize,ShowBlocks";
+            config.extraPlugins = "mxupload";
             break;
         case "full":
             toolbarGroup = [...TOOLBAR_GROUP];
@@ -109,7 +110,7 @@ function createPreset(type: "basic" | "standard" | "full"): CKEditorConfig {
             config.removeButtons = "";
             /* TODO temporary removed exportpdf*/
             config.extraPlugins =
-                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks";
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,mxupload";
             break;
         default:
             config.toolbarGroups = [...TOOLBAR_GROUP];
@@ -129,7 +130,7 @@ function createCustomToolbar(groups: Array<string | ToolbarItems>, withGroupName
     } else {
         return {
             extraPlugins:
-                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley",
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley,mxupload",
             toolbar: groups
         };
     }

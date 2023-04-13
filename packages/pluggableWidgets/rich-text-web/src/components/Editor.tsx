@@ -34,6 +34,7 @@ export class Editor extends Component<EditorProps> {
     editorScript = "widgets/ckeditor/ckeditor.js";
     element: HTMLElement;
     lastSentValue: string | undefined;
+    uploadedImages: string[] = [];
 
     constructor(props: EditorProps) {
         super(props);
@@ -128,6 +129,7 @@ export class Editor extends Component<EditorProps> {
         this.updateEditorState({
             data: this.widgetProps.stringAttribute.value
         });
+        this.updateImageList(this.widgetProps.stringAttribute.value);
     }
 
     onDestroy(): void {
@@ -179,6 +181,7 @@ export class Editor extends Component<EditorProps> {
             const content = this.widgetProps.sanitizeContent ? DOMPurify.sanitize(editorData) : editorData;
             this.lastSentValue = content;
             this.widgetProps.stringAttribute.setValue(content);
+            this.updateImageList(content);
         }
 
         this.widgetProps.onChange?.execute();
@@ -190,6 +193,9 @@ export class Editor extends Component<EditorProps> {
             this.editor.on("key", this.onKeyPress);
             this.editor.on("paste", this.onPasteContent);
             this.editor.on("drop", this.onDropContent);
+            if (this.widgetProps.enableUploadImages) {
+                this.editor.uploadUrl = this.widgetProps.uploadImageEndpoint;
+            }
         }
     }
 
@@ -198,6 +204,21 @@ export class Editor extends Component<EditorProps> {
         this.editor?.removeListener("key", this.onKeyPress);
         this.editor?.removeListener("paste", this.onPasteContent);
         this.editor?.removeListener("drop", this.onDropContent);
+    }
+
+    updateImageList(content: string | undefined): void {
+        if (!this.widgetProps.enableUploadImages || !this.widgetProps.UploadedImages || !content) {
+            return;
+        }
+
+        const matches = content.matchAll(/<img.*?src="(.*?)"/g);
+        this.uploadedImages = [];
+        for (const match of matches) {
+            if (match.length > 0) {
+                this.uploadedImages.push(match[1]);
+            }
+        }
+        this.widgetProps.UploadedImages.setValue(this.uploadedImages.join(","));
     }
 
     updateEditorState(
