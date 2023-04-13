@@ -77,12 +77,17 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
+                if (props.defaultValue && props.defaultValue.status === "loading") {
+                    return null;
+                }
+
                 return (
                     <FilterComponent
                         adjustable={props.adjustable}
                         className={props.class}
-                        defaultFilter={defaultFilter?.type ?? props.defaultFilter}
-                        delay={props.delay}
+                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
+                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
+                        inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
@@ -90,11 +95,8 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: string, type: DefaultFilterEnum): void => {
-                            const attributeCurrentValue = props.valueAttribute?.value || "";
-                            if (value !== attributeCurrentValue) {
-                                props.valueAttribute?.setValue(value);
-                                props.onChange?.execute();
-                            }
+                            props.valueAttribute?.setValue(value);
+                            props.onChange?.execute();
                             const conditions = attributes
                                 ?.map(attribute => getFilterCondition(attribute, value, type))
                                 .filter((filter): filter is FilterCondition => filter !== undefined);
@@ -104,7 +106,6 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                                 filterType: FilterType.STRING
                             });
                         }}
-                        value={defaultFilter?.value ?? props.defaultValue?.value}
                     />
                 );
             }}
