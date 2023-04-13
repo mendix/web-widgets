@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+-   We added image upload functionality. It can be enabled in Advanced tab. An upload endpoint and a text attribute for meta data is needed in the Mendix app to support this feature.
+
 ## [2.1.5] - 2023-03-24
 
 ### Fixed
