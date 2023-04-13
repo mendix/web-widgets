@@ -143,38 +143,38 @@ function groupDataSourceItems(series: PlotDataSeries): DataSourceItemGroup[] | n
     for (const item of dataSource.items) {
         const groupByAttributeValue = ensure(groupByAttribute).get(item);
 
-        if (groupByAttributeValue.value === undefined) {
+        if (groupByAttributeValue.status === "loading") {
             return null;
         }
 
-        const group = dataSourceItemGroupsResult.find(group => {
-            if (groupByAttributeValue.value instanceof Date && group.groupByAttributeValue instanceof Date) {
-                return group.groupByAttributeValue.getTime() === groupByAttributeValue.value.getTime();
-            } else if (groupByAttributeValue.value instanceof Big && group.groupByAttributeValue instanceof Big) {
-                return group.groupByAttributeValue.eq(groupByAttributeValue.value);
+        const groupValue = groupByAttributeValue.value ?? "";
+
+        let group = dataSourceItemGroupsResult.find(group => {
+            if (groupValue instanceof Date && group.groupByAttributeValue instanceof Date) {
+                return group.groupByAttributeValue.getTime() === groupValue.getTime();
+            } else if (groupValue instanceof Big && group.groupByAttributeValue instanceof Big) {
+                return group.groupByAttributeValue.eq(groupValue);
             }
-            return group.groupByAttributeValue === groupByAttributeValue.value;
+            return group.groupByAttributeValue === groupValue;
         });
 
-        if (group) {
-            group.items.push(item);
-        } else {
-            const newDataSourceItemGroup: DataSourceItemGroup = {
-                groupByAttributeValue: groupByAttributeValue.value,
-                items: [item]
+        if (!group) {
+            group = {
+                groupByAttributeValue: groupValue,
+                items: []
             };
+            dataSourceItemGroupsResult.push(group);
+        }
 
-            if (dynamicName) {
-                const dynamicSeriesNameValue = dynamicName.get(item);
+        group.items.push(item);
 
-                if (dynamicSeriesNameValue.value === undefined) {
-                    return null;
-                }
-
-                newDataSourceItemGroup.dynamicNameValue = dynamicSeriesNameValue.value;
+        if (dynamicName && (!group.dynamicNameValue || group.dynamicNameValue === "(empty)")) {
+            // update name if it is still empty
+            const { status, value } = dynamicName.get(item);
+            if (status === "loading") {
+                return null;
             }
-
-            dataSourceItemGroupsResult.push(newDataSourceItemGroup);
+            group.dynamicNameValue = value ?? "(empty)";
         }
     }
 
