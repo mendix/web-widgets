@@ -12,8 +12,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
-    const downshiftProps = useDownshiftProps(selector, inputRef.current);
-
+    const downshiftProps = useDownshiftProps(selector, inputRef.current, props);
     if (selector.status === "unavailable") {
         return <Placeholder />;
     }
@@ -24,14 +23,15 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                 selectItem,
                 getInputProps,
                 getItemProps,
+                selectedItem,
                 getMenuProps,
                 isOpen,
                 highlightedIndex,
-                selectedItem,
                 getToggleButtonProps
-            }) => (
+            }): JSX.Element => (
                 <div className="widget-dropdown">
                     <div
+                        tabIndex={0}
                         ref={dropdownRef}
                         className={classNames("form-control", "widget-dropdown-input-container", {
                             active: isOpen
@@ -39,12 +39,13 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                         {...getToggleButtonProps()}
                     >
                         <input
+                            tabIndex={0}
+                            id="widget-dropdown-input"
                             className="widget-dropdown-input"
                             ref={inputRef}
                             {...getInputProps()}
                             placeholder={selector.caption.get(selector.currentValue)}
                         />
-
                         {selector.clearable && selector.currentValue !== null && (
                             <button
                                 className="widget-dropdown-clear-button"
@@ -52,6 +53,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     selectItem(null);
+                                    selector.setValue(null);
                                 }}
                             >
                                 <ClearButton />
@@ -64,10 +66,11 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                     <DropdownMenu
                         dropdownSize={dropdownRef.current?.getBoundingClientRect()}
                         selector={selector}
+                        typeahead={props.typeahead}
+                        selectedItem={selectedItem}
                         getMenuProps={getMenuProps}
                         getItemProps={getItemProps}
                         isOpen={isOpen}
-                        selectedItem={selectedItem}
                         highlightedIndex={highlightedIndex}
                     />
                 </div>

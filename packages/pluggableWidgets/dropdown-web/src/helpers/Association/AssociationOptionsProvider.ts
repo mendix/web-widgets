@@ -1,6 +1,7 @@
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
 import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { matchSorter } from "match-sorter";
+import { TypeaheadEnum } from "../../../typings/DropdownProps";
 
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
@@ -22,8 +23,21 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
         return this.ds?.hasMoreItems ?? false;
     }
 
-    getAll(): string[] {
-        return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
+    getAll(sortType: TypeaheadEnum): string[] {
+        switch (sortType) {
+            case "contains":
+                return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
+            case "startsWith":
+                return matchSorter(this.options, this.searchTerm || "", {
+                    threshold: matchSorter.rankings.WORD_STARTS_WITH,
+                    keys: [v => this.caption.get(v)]
+                });
+            case "no":
+                return matchSorter(this.options, this.searchTerm || "", {
+                    threshold: matchSorter.rankings.NO_MATCH,
+                    keys: [v => this.caption.get(v)]
+                });
+        }
     }
 
     loadMore(): void {
