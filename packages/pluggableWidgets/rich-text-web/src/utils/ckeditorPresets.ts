@@ -110,7 +110,7 @@ function createPreset(type: "basic" | "standard" | "full"): CKEditorConfig {
             config.removeButtons = "";
             /* TODO temporary removed exportpdf*/
             config.extraPlugins =
-                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,mxupload";
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks";
             break;
         default:
             config.toolbarGroups = [...TOOLBAR_GROUP];
@@ -130,7 +130,7 @@ function createCustomToolbar(groups: Array<string | ToolbarItems>, withGroupName
     } else {
         return {
             extraPlugins:
-                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley,mxupload",
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley",
             toolbar: groups
         };
     }
