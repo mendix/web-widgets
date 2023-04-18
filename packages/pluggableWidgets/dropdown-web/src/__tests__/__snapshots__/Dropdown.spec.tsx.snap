@@ -25,7 +25,6 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         class="widget-dropdown-input"
         id="downshift-0-input"
         placeholder=""
-        tabindex="0"
         value=""
       />
       <button
