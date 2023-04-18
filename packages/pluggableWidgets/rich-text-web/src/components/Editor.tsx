@@ -1,6 +1,6 @@
 import { debounce } from "@mendix/pluggable-widgets-commons";
 import { CKEditorEventPayload, CKEditorHookProps, CKEditorInstance } from "ckeditor4-react";
-import { Component, createElement, createRef, RefObject } from "react";
+import { Component, createElement } from "react";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
@@ -35,7 +35,6 @@ export class Editor extends Component<EditorProps> {
     element: HTMLElement;
     lastSentValue: string | undefined;
     applyChangesDebounce: () => void;
-    divRef: RefObject<HTMLDivElement>;
     cancelRAF: (() => void) | undefined;
     hasFocus: boolean;
 
@@ -51,7 +50,6 @@ export class Editor extends Component<EditorProps> {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onPasteContent = this.onPasteContent.bind(this);
         this.onDropContent = this.onDropContent.bind(this);
-        this.divRef = createRef();
         this.hasFocus = false;
     }
 
@@ -185,14 +183,13 @@ export class Editor extends Component<EditorProps> {
             this.lastSentValue = content;
             this.applyChangesDebounce();
         }
-
-        this.widgetProps.onChange?.execute();
     }
 
     applyChangesImmediately() {
         // put last seen content to the attribute if it exists
         if (this.lastSentValue !== undefined) {
             this.widgetProps.stringAttribute.setValue(this.lastSentValue);
+            this.widgetProps.onChange?.execute();
         }
     }
 
@@ -267,8 +264,8 @@ export class Editor extends Component<EditorProps> {
 
     componentDidMount() {
         this.cancelRAF = animationLoop(() => {
-            if (this.divRef.current && this.divRef.current.parentElement) {
-                const newHasFocus = this.divRef.current.parentElement.contains(document.activeElement);
+            if (this.element && this.element.parentElement) {
+                const newHasFocus = this.element.parentElement.contains(document.activeElement);
                 if (newHasFocus !== this.hasFocus) {
                     this.hasFocus = newHasFocus;
                     if (!this.hasFocus) {
@@ -297,11 +294,7 @@ export class Editor extends Component<EditorProps> {
     render(): JSX.Element | null {
         const [key, config] = this.getRenderProps();
 
-        return (
-            <div ref={this.divRef}>
-                <MainEditor key={key} config={config} />
-            </div>
-        );
+        return <MainEditor key={key} config={config} />;
     }
 }
 
