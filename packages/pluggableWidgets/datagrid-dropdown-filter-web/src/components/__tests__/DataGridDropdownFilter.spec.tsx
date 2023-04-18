@@ -109,7 +109,7 @@ describe("Dropdown Filter", () => {
                     expect(screen.getByRole("textbox")).toHaveValue("enum_value_1");
                 });
 
-                it("sync defaultValue with state when defaultValue changes from undefined to string", async () => {
+                it("don't sync defaultValue with state when defaultValue changes from undefined to string", async () => {
                     const { rerender } = render(
                         <DatagridDropdownFilter
                             {...commonProps}
@@ -145,11 +145,11 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("textbox")).toHaveValue("enum_value_1");
+                        expect(screen.getByRole("textbox")).toHaveValue("");
                     });
                 });
 
-                it("sync defaultValue with state when defaultValue changes from string to undefined", async () => {
+                it("don't sync defaultValue with state when defaultValue changes from string to undefined", async () => {
                     mockCtx(["xyz", "abc"]);
                     const { rerender } = render(
                         <DatagridDropdownFilter
@@ -184,7 +184,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("textbox")).toHaveValue("");
+                        expect(screen.getByRole("textbox")).toHaveValue("xyz");
                     });
                 });
             });
