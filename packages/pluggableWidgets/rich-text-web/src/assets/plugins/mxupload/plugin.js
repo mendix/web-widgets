@@ -58,7 +58,7 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
                         }
                         return response.text();
                     })
-                    .then(imagePath => setUrl(editor, dialog, imagePath));
+                    .then(imagePath => setUrl(editor, dialog, imagePath, fileInput.$.files[0].name));
                 return false;
             };
         }
@@ -74,15 +74,15 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
     }
 }
 
-function setUrl(editor, dialog, fileUrl) {
+function setUrl(editor, dialog, fileUrl, imageName) {
     var targetInput = editor._.filebrowserSe["for"];
 
     if (targetInput) dialog.getContentElement(targetInput[0], targetInput[1]).reset();
 
-    if (fileUrl) updateTargetElement(fileUrl, editor._.filebrowserSe, dialog);
+    if (fileUrl) updateTargetElement(fileUrl, editor._.filebrowserSe, dialog, imageName);
 }
 
-function updateTargetElement(url, sourceElement, dialog) {
+function updateTargetElement(url, sourceElement, dialog, imageName) {
     var targetElement = sourceElement.filebrowser.target || null;
 
     // If there is a reference to targetElement, update it.
@@ -92,6 +92,10 @@ function updateTargetElement(url, sourceElement, dialog) {
         if (element) {
             element.setValue(url);
             dialog.selectPage(target[0]);
+        }
+        var altElement = dialog.getContentElement(target[0], "txtAlt");
+        if (altElement) {
+            altElement.setValue(imageName);
         }
     }
 }
