@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue when Rich Text widget not saving data when user leaves the page quickly after editing.
+
+### Security
+
+-   Update ckeditor4 to version 4.21.0
+
 ## [2.1.5] - 2023-03-24
 
 ### Fixed
