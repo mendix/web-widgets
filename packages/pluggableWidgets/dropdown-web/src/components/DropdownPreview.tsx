@@ -6,17 +6,20 @@ import { DropdownPreviewProps } from "../../typings/DropdownProps";
 import "../ui/Dropdown.scss";
 
 export function DropdownPreview(props: Partial<DropdownPreviewProps>): ReactElement {
+    const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
         <Downshift>
             {({ getInputProps, isOpen, getToggleButtonProps }) => (
                 <div className="widget-dropdown">
                     <div
+                        style={{ backgroundColor }}
                         className={classNames("form-control", "widget-dropdown-input-container", {
                             active: isOpen
                         })}
                         {...getToggleButtonProps()}
                     >
                         <input
+                            style={{ backgroundColor }}
                             className="widget-dropdown-input"
                             {...{ ...getInputProps() }}
                             placeholder={props.emptyOptionText}

@@ -7,6 +7,7 @@ export const preview = (props: DropdownPreviewProps): ReactElement => {
         <DropdownPreview
             emptyOptionText={props.emptyOptionText}
             clearable={props.clearable}
+            readOnly={props.readOnly}
             ariaRequired={props.ariaRequired}
             typeahead="contains"
         />

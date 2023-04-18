@@ -31,7 +31,13 @@ export function getPreview(_values: DropdownPreviewProps, isDarkMode: boolean): 
     return {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#4F4F4F" : "#F5F5F5",
+        backgroundColor: isDarkMode
+            ? _values.readOnly
+                ? "#4F4F4F"
+                : undefined
+            : _values.readOnly
+            ? "#C8C8C8"
+            : "#F5F5F5",
         borders: true,
         borderWidth: 1,
         children: [

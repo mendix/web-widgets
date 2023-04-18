@@ -39,7 +39,6 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                         {...getToggleButtonProps()}
                     >
                         <input
-                            tabIndex={0}
                             id="widget-dropdown-input"
                             className="widget-dropdown-input"
                             ref={inputRef}

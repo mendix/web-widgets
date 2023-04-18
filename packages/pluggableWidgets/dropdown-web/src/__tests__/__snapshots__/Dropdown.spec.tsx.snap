@@ -15,6 +15,7 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
       class="form-control widget-dropdown-input-container"
       data-toggle="true"
       role="button"
+      tabindex="0"
       type="button"
     >
       <input
@@ -24,6 +25,7 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         class="widget-dropdown-input"
         id="downshift-0-input"
         placeholder=""
+        tabindex="0"
         value=""
       />
       <button
