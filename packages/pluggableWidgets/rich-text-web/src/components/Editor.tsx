@@ -1,6 +1,6 @@
 import { debounce } from "@mendix/pluggable-widgets-commons";
 import { CKEditorEventPayload, CKEditorHookProps, CKEditorInstance } from "ckeditor4-react";
-import { Component, createElement } from "react";
+import { Component, createElement, createRef, RefObject } from "react";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { getCKEditorConfig } from "../utils/ckeditorConfigs";
 import { MainEditor } from "./MainEditor";
@@ -34,6 +34,10 @@ export class Editor extends Component<EditorProps> {
     editorScript = "widgets/ckeditor/ckeditor.js";
     element: HTMLElement;
     lastSentValue: string | undefined;
+    applyChangesDebounce: () => void;
+    divRef: RefObject<HTMLDivElement>;
+    cancelRAF: (() => void) | undefined;
+    hasFocus: boolean;
 
     constructor(props: EditorProps) {
         super(props);
@@ -42,10 +46,13 @@ export class Editor extends Component<EditorProps> {
         this.element = this.props.element;
         this.editorKey = this.getNewKey();
         this.editorHookProps = this.getNewEditorHookProps();
-        this.onChange = debounce(this.onChange.bind(this), 500);
+        this.onChange = this.onChange.bind(this);
+        this.applyChangesDebounce = debounce(this.applyChangesImmediately.bind(this), 500);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onPasteContent = this.onPasteContent.bind(this);
         this.onDropContent = this.onDropContent.bind(this);
+        this.divRef = createRef();
+        this.hasFocus = false;
     }
 
     setNewRenderProps(): void {
@@ -171,17 +178,22 @@ export class Editor extends Component<EditorProps> {
         }
     }
 
-    // onChange is wrapped in debounce, so, we always need to check
-    // weather we sill have editor.
     onChange(_event: CKEditorEventPayload<"change">): void {
         if (this.editor) {
             const editorData = this.editor.getData();
             const content = this.widgetProps.sanitizeContent ? DOMPurify.sanitize(editorData) : editorData;
             this.lastSentValue = content;
-            this.widgetProps.stringAttribute.setValue(content);
+            this.applyChangesDebounce();
         }
 
         this.widgetProps.onChange?.execute();
+    }
+
+    applyChangesImmediately() {
+        // put last seen content to the attribute if it exists
+        if (this.lastSentValue !== undefined) {
+            this.widgetProps.stringAttribute.setValue(this.lastSentValue);
+        }
     }
 
     addListeners(): void {
@@ -253,6 +265,25 @@ export class Editor extends Component<EditorProps> {
         this.lastSentValue = undefined;
     }
 
+    componentDidMount() {
+        this.cancelRAF = animationLoop(() => {
+            if (this.divRef.current && this.divRef.current.parentElement) {
+                const newHasFocus = this.divRef.current.parentElement.contains(document.activeElement);
+                if (newHasFocus !== this.hasFocus) {
+                    this.hasFocus = newHasFocus;
+                    if (!this.hasFocus) {
+                        // changed from true to false, user left the element, apply changes immediately
+                        this.applyChangesImmediately();
+                    }
+                }
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this.cancelRAF?.();
+    }
+
     componentDidUpdate(): void {
         const prevAttr = this.widgetProps.stringAttribute;
         const nextAttr = this.props.widgetProps.stringAttribute;
@@ -266,6 +297,25 @@ export class Editor extends Component<EditorProps> {
     render(): JSX.Element | null {
         const [key, config] = this.getRenderProps();
 
-        return <MainEditor key={key} config={config} />;
+        return (
+            <div ref={this.divRef}>
+                <MainEditor key={key} config={config} />
+            </div>
+        );
     }
+}
+
+function animationLoop(callback: () => void): () => void {
+    let requestId: number;
+
+    const requestFrame = () => {
+        requestId = window.requestAnimationFrame(() => {
+            callback();
+            requestFrame();
+        });
+    };
+
+    requestFrame();
+
+    return () => window.cancelAnimationFrame(requestId);
 }
