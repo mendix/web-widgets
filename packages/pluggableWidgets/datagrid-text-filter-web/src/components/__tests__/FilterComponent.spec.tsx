@@ -6,13 +6,15 @@ jest.useFakeTimers();
 
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable defaultFilter="contains" delay={500} />);
+        const component = render(<FilterComponent adjustable initialFilterType="contains" inputChangeDelay={500} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterComponent adjustable={false} defaultFilter="contains" delay={500} />);
+        const component = render(
+            <FilterComponent adjustable={false} initialFilterType="contains" inputChangeDelay={500} />
+        );
 
         expect(component).toMatchSnapshot();
     });
@@ -23,8 +25,8 @@ describe("Filter component", () => {
                 adjustable
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
-                defaultFilter="contains"
-                delay={500}
+                initialFilterType="contains"
+                inputChangeDelay={500}
             />
         );
 
@@ -34,7 +36,12 @@ describe("Filter component", () => {
     it("calls updateFilters when value changes", () => {
         const updateFiltersHandler = jest.fn();
         const component = shallow(
-            <FilterComponent adjustable defaultFilter="contains" delay={500} updateFilters={updateFiltersHandler} />
+            <FilterComponent
+                adjustable
+                initialFilterType="contains"
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
         const input = component.find("input");
@@ -46,7 +53,12 @@ describe("Filter component", () => {
     it("debounces calls for updateFilters when value changes", () => {
         const updateFiltersHandler = jest.fn();
         const component = shallow(
-            <FilterComponent adjustable defaultFilter="contains" delay={500} updateFilters={updateFiltersHandler} />
+            <FilterComponent
+                adjustable
+                initialFilterType="contains"
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
         // Initial call with default filter
