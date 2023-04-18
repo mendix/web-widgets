@@ -102,17 +102,17 @@ describe("Date Filter", () => {
                     expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
                 });
 
-                it("sync value when defaultValue changes from undefined to date", async () => {
+                it("don't sync value when defaultValue changes from undefined to date", async () => {
                     // 946684800000 = 01.01.2000
                     const date = new Date(946684800000);
                     const { rerender } = render(<DatagridDateFilter {...commonProps} defaultValue={undefined} />);
                     expect(screen.getByRole("textbox")).toHaveValue("");
 
                     rerender(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue<Date>(date)} />);
-                    expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
+                    expect(screen.getByRole("textbox")).toHaveValue("");
                 });
 
-                it("sync value when defaultValue changes from date to undefined", async () => {
+                it("don't sync value when defaultValue changes from date to undefined", async () => {
                     // 946684800000 = 01.01.2000
                     const date = new Date(946684800000);
                     const { rerender } = render(
@@ -121,7 +121,7 @@ describe("Date Filter", () => {
                     expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
 
                     rerender(<DatagridDateFilter {...commonProps} defaultValue={undefined} />);
-                    expect(screen.getByRole("textbox")).toHaveValue("");
+                    expect(screen.getByRole("textbox")).toHaveValue("01/01/2000");
                 });
             });
 

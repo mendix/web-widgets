@@ -34,22 +34,6 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const pickerRef = useRef<DatePickerComponent | null>(null);
 
     useEffect(() => {
-        setValue(prev => {
-            if (prev?.toISOString() === props.defaultValue?.toISOString()) {
-                return prev;
-            }
-
-            return props.defaultValue;
-        });
-    }, [props.defaultValue]);
-
-    useEffect(() => {
-        if (props.defaultStartDate || props.defaultEndDate) {
-            setRangeValues([props.defaultStartDate, props.defaultEndDate]);
-        }
-    }, [props.defaultStartDate, props.defaultEndDate]);
-
-    useEffect(() => {
         props.updateFilters?.(value, rangeValues, type);
     }, [value, rangeValues, type]);
 

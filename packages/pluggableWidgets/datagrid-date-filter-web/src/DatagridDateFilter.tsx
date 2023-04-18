@@ -97,6 +97,10 @@ export default function DatagridDateFilter(props: DatagridDateFilterContainerPro
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
+                if (isLoadingDefaultValues(props)) {
+                    return null;
+                }
+
                 return (
                     <FilterComponent
                         adjustable={props.adjustable}
@@ -244,4 +248,9 @@ function getFilterCondition(
             // <= day +1 at midnight -1ms
             return lessThanOrEqual(filterAttribute, literal(new Date(addDays(dateValue, 1).getTime() - 1)));
     }
+}
+
+function isLoadingDefaultValues(props: DatagridDateFilterContainerProps): boolean {
+    const statusList = [props.defaultValue?.status, props.defaultStartDate?.status, props.defaultEndDate?.status];
+    return statusList.some(status => status === "loading");
 }
