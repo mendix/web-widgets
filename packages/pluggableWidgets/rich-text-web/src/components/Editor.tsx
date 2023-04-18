@@ -194,7 +194,8 @@ export class Editor extends Component<EditorProps> {
             this.editor.on("paste", this.onPasteContent);
             this.editor.on("drop", this.onDropContent);
             if (this.widgetProps.enableUploadImages) {
-                this.editor.uploadUrl = this.widgetProps.uploadImageEndpoint;
+                this.editor.uploadImageEndpoint = this.widgetProps.uploadImageEndpoint;
+                this.editor.uploadImageMaxSize = this.widgetProps.uploadImageMaxSize;
             }
         }
     }

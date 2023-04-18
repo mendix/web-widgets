@@ -11,9 +11,9 @@
 function attachFileBrowser(editor, dialogName, definition, elements) {
     if (!elements || !elements.length) return;
 
-    var element;
+    let element;
 
-    for (var i = elements.length; i--; ) {
+    for (let i = elements.length; i--; ) {
         element = elements[i];
 
         if (element.type == "hbox" || element.type == "vbox" || element.type == "fieldset")
@@ -22,7 +22,7 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
         if (!element.filebrowser) continue;
 
         if (typeof element.filebrowser == "string") {
-            var fb = {
+            const fb = {
                 action: "QuickUpload",
                 target: element.filebrowser
             };
@@ -32,13 +32,19 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
         if (element.filebrowser.action == "QuickUpload" && element.type === "file") {
             element.onChange = function (evt) {
                 const fileInput = this.getInputElement();
-                var dialog = evt.sender.getDialog();
+                const file = fileInput.$.files[0];
+                if (file.size > editor.uploadImageMaxSize * 1024) {
+                    alert(`Image is too large. Select an image less than ${editor.uploadImageMaxSize} KB`);
+                    return;
+                }
+
+                const dialog = evt.sender.getDialog();
                 editor._.filebrowserSe = evt.sender;
 
                 window
-                    .fetch(editor.uploadUrl, {
+                    .fetch(editor.uploadImageEndpoint, {
                         method: "POST",
-                        body: fileInput.$.files[0],
+                        body: file,
                         headers: {
                             Origin: window.location.origin,
                             "Content-Type": "text/html",
@@ -58,13 +64,13 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
                         }
                         return response.text();
                     })
-                    .then(imagePath => setUrl(editor, dialog, imagePath, fileInput.$.files[0].name));
+                    .then(imagePath => setUrl(editor, dialog, imagePath, file.name));
                 return false;
             };
         }
         if (element.filebrowser.action == "QuickUpload" && element["for"]) {
             element.hidden = true;
-            var params = element.filebrowser.params || {};
+            const params = element.filebrowser.params || {};
             params.CKEditor = editor.name;
             params.CKEditorFuncNum = editor._.filebrowserFn;
             if (!params.langCode) params.langCode = editor.langCode;
@@ -75,7 +81,7 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
 }
 
 function setUrl(editor, dialog, fileUrl, imageName) {
-    var targetInput = editor._.filebrowserSe["for"];
+    const targetInput = editor._.filebrowserSe["for"];
 
     if (targetInput) dialog.getContentElement(targetInput[0], targetInput[1]).reset();
 
@@ -83,17 +89,17 @@ function setUrl(editor, dialog, fileUrl, imageName) {
 }
 
 function updateTargetElement(url, sourceElement, dialog, imageName) {
-    var targetElement = sourceElement.filebrowser.target || null;
+    const targetElement = sourceElement.filebrowser.target || null;
 
     // If there is a reference to targetElement, update it.
     if (targetElement) {
-        var target = targetElement.split(":");
-        var element = dialog.getContentElement(target[0], target[1]);
+        const target = targetElement.split(":");
+        const element = dialog.getContentElement(target[0], target[1]);
         if (element) {
             element.setValue(url);
             dialog.selectPage(target[0]);
         }
-        var altElement = dialog.getContentElement(target[0], "txtAlt");
+        const altElement = dialog.getContentElement(target[0], "txtAlt");
         if (altElement) {
             altElement.setValue(imageName);
         }
@@ -110,14 +116,14 @@ function updateTargetElement(url, sourceElement, dialog, imageName) {
 //            elementId The element id (or ids, separated with a semicolon) to check.
 function isConfigured(definition, tabId, elementId) {
     if (elementId.indexOf(";") !== -1) {
-        var ids = elementId.split(";");
-        for (var i = 0; i < ids.length; i++) {
+        const ids = elementId.split(";");
+        for (let i = 0; i < ids.length; i++) {
             if (isConfigured(definition, tabId, ids[i])) return true;
         }
         return false;
     }
 
-    var elementFileBrowser = definition.getContents(tabId).get(elementId).filebrowser;
+    const elementFileBrowser = definition.getContents(tabId).get(elementId).filebrowser;
     return !!elementFileBrowser;
 }
 
@@ -133,10 +139,10 @@ CKEDITOR.plugins.add("mxupload", {
 CKEDITOR.on("dialogDefinition", function (evt) {
     if (!evt.editor.plugins.mxupload) return;
 
-    var definition = evt.data.definition,
+    let definition = evt.data.definition,
         element;
     // Associate mxupload to elements with 'filebrowser' attribute.
-    for (var i = 0; i < definition.contents.length; ++i) {
+    for (let i = 0; i < definition.contents.length; ++i) {
         if ((element = definition.contents[i])) {
             attachFileBrowser(evt.editor, evt.data.name, definition, element.elements);
             if (element.hidden && element.filebrowser)
