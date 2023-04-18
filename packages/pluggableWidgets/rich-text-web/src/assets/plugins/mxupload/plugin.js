@@ -63,23 +63,15 @@ function attachFileBrowser(editor, dialogName, definition, elements) {
             };
         }
         if (element.filebrowser.action == "QuickUpload" && element["for"]) {
-            element.hidden = false;
-            setupFileElement(
-                editor,
-                definition.getContents(element["for"][0]).get(element["for"][1]),
-                element.filebrowser
-            );
+            element.hidden = true;
+            var params = element.filebrowser.params || {};
+            params.CKEditor = editor.name;
+            params.CKEditorFuncNum = editor._.filebrowserFn;
+            if (!params.langCode) params.langCode = editor.langCode;
+            const fileInput = definition.getContents(element["for"][0]).get(element["for"][1]);
+            fileInput.filebrowser = element.filebrowser;
         }
     }
-}
-
-function setupFileElement(editor, fileInput, filebrowser) {
-    var params = filebrowser.params || {};
-    params.CKEditor = editor.name;
-    params.CKEditorFuncNum = editor._.filebrowserFn;
-    if (!params.langCode) params.langCode = editor.langCode;
-
-    fileInput.filebrowser = filebrowser;
 }
 
 function setUrl(editor, dialog, fileUrl) {
