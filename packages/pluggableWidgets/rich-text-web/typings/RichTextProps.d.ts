@@ -75,6 +75,7 @@ export interface RichTextContainerProps {
     disallowedContent: string;
     enableUploadImages: boolean;
     uploadImageEndpoint: string;
+    uploadImageMaxSize: number;
     UploadedImages?: EditableValue<string>;
 }
 
@@ -116,5 +117,6 @@ export interface RichTextPreviewProps {
     disallowedContent: string;
     enableUploadImages: boolean;
     uploadImageEndpoint: string;
+    uploadImageMaxSize: number | null;
     UploadedImages: string;
 }

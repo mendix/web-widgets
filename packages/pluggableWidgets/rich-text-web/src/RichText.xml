@@ -306,6 +306,10 @@
                     <caption>Upload Image Endpoint</caption>
                     <description>Then endpoint that receives the image entity as body parameter and passes the image guid in return.</description>
                 </property>
+                <property key="uploadImageMaxSize" type="integer" defaultValue="4096">
+                    <caption>Upload Image Max Size</caption>
+                    <description>Max allowed image size in KB.</description>
+                </property>
                 <property key="UploadedImages" type="attribute" required="false">
                     <caption>Uploaded Image List</caption>
                     <description>List of images that has been used as content in comma separated format.</description>
