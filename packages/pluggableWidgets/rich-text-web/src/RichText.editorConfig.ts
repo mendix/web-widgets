@@ -56,7 +56,11 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "advancedMode");
     }
     if (!values.enableUploadImages) {
-        hidePropertiesIn(defaultProperties, values, toolbarGroups.concat(["uploadImageEndpoint", "UploadedImages"]));
+        hidePropertiesIn(
+            defaultProperties,
+            values,
+            toolbarGroups.concat(["uploadImageEndpoint", "UploadedImages", "uploadImageMaxSize"])
+        );
     }
     return defaultProperties;
 }
