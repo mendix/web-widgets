@@ -173,6 +173,7 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
     }
 
     if (enableUploadImages) {
+        config.extraPlugins = config.extraPlugins ? config.extraPlugins + ",mxupload" : "mxupload";
         plugins.push("mxupload");
     }
 
