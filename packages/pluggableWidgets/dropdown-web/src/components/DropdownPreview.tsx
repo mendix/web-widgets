@@ -14,7 +14,7 @@ export function DropdownPreview(props: Partial<DropdownPreviewProps>): ReactElem
                     <div
                         style={{ backgroundColor }}
                         className={classNames("form-control", "widget-dropdown-input-container", {
-                            active: isOpen
+                            "widget-dropdown-input-container-active": isOpen
                         })}
                         {...getToggleButtonProps()}
                     >

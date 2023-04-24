@@ -12,10 +12,12 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
+    const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props);
     if (selector.status === "unavailable") {
         return <Placeholder />;
     }
+    console.log("readOnly", props);
 
     return (
         <Downshift {...downshiftProps}>
@@ -34,18 +36,22 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                         tabIndex={0}
                         ref={dropdownRef}
                         className={classNames("form-control", "widget-dropdown-input-container", {
-                            active: isOpen
+                            "widget-dropdown-input-container-active": isOpen
                         })}
-                        {...getToggleButtonProps()}
+                        {...getToggleButtonProps({
+                            disabled: readOnly
+                        })}
                     >
                         <input
                             id="widget-dropdown-input"
                             className="widget-dropdown-input"
                             ref={inputRef}
-                            {...getInputProps()}
+                            {...getInputProps({
+                                disabled: readOnly
+                            })}
                             placeholder={selector.caption.get(selector.currentValue)}
                         />
-                        {selector.clearable && selector.currentValue !== null && (
+                        {!readOnly && selector.clearable && selector.currentValue !== null && (
                             <button
                                 className="widget-dropdown-clear-button"
                                 onClick={e => {

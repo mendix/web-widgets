@@ -23,10 +23,9 @@ $hover-color: #ced0d3;
         z-index: 102;
         box-shadow: 0px 0px 10px 0px $box-shadow-color;
         list-style-type: "none";
-    }
-
-    &.hidden {
-        display: none;
+        &-hidden {
+            display: none;
+        }
     }
 
     &-item {
@@ -40,10 +39,10 @@ $hover-color: #ced0d3;
         overflow: hidden;
         color: $typography-color;
         background-color: $unselected-item;
-        &.selected {
+        &-selected {
             background-color: $selected-item;
         }
-        &.highlighted {
+        &-highlighted {
             background-color: $highlighted-index;
         }
     }
@@ -54,7 +53,7 @@ $hover-color: #ced0d3;
         &:hover {
             box-shadow: 0px 0px 7px 0px $box-shadow-color;
         }
-        &.active {
+        &-active {
             border: 1px solid $primary-border;
         }
     }

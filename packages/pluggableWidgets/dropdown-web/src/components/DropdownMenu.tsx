@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { SingleSelector } from "../helpers/types";
 import { TypeaheadEnum } from "../../typings/DropdownProps";
 
-export interface DropdownMenuProps extends Partial<PropGetters<any>> {
+interface DropdownMenuProps extends Partial<PropGetters<any>> {
     dropdownSize: DOMRect | undefined;
     isOpen: boolean;
     typeahead: TypeaheadEnum;
@@ -18,7 +18,7 @@ export function DropdownMenu(props: DropdownMenuProps): ReactElement {
     const { dropdownSize, isOpen, selector, highlightedIndex } = props;
     return createPortal(
         <ul
-            className={classNames("widget-dropdown-menu", { hidden: !isOpen })}
+            className={classNames("widget-dropdown-menu", { "widget-dropdown-menu-hidden": !isOpen })}
             {...props.getMenuProps?.()}
             style={{
                 width: dropdownSize?.width,
@@ -30,8 +30,8 @@ export function DropdownMenu(props: DropdownMenuProps): ReactElement {
                 ? selector.options.getAll(props.typeahead).map((item, index) => (
                       <li
                           className={classNames("widget-dropdown-item", {
-                              selected: selector.currentValue === item,
-                              highlighted: highlightedIndex === index
+                              "widget-dropdown-item-selected": selector.currentValue === item,
+                              "widget-dropdown-item-highlighted": highlightedIndex === index
                           })}
                           key={JSON.stringify(item)}
                           {...props.getItemProps?.({

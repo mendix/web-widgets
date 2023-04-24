@@ -13,7 +13,7 @@
                     <caption>Type</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="enumerationOrBoolean">Enumeration or Boolean</enumerationValue>
+                        <enumerationValue key="enumerationOrBoolean">Enumeration or boolean</enumerationValue>
                         <enumerationValue key="association">Association</enumerationValue>
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
@@ -25,7 +25,7 @@
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
-                        <attributeType name="Boolean"/>
+                        <attributeType name="Boolean" />
                     </attributeTypes>
                 </property>
                 <!-- END ENUM OR BOOLEAN -->
@@ -40,7 +40,7 @@
                     </associationTypes>
                 </property>
                 <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
-                    <caption>Data Source (association)</caption>
+                    <caption>Data source (association)</caption>
                     <description />
                 </property>
                 <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
@@ -112,22 +112,22 @@
 
         <propertyGroup caption="Events">
             <property key="onClickEvent" type="action" required="false">
-                <caption>On Click action</caption>
+                <caption>On click action</caption>
                 <description />
             </property>
             <property key="onEnterEvent" type="action" required="false">
-                <caption>On Enter action</caption>
+                <caption>On enter action</caption>
                 <description />
             </property>
             <property key="onLeaveEvent" type="action" required="false">
-                <caption>On Leave action</caption>
+                <caption>On leave action</caption>
                 <description />
             </property>
         </propertyGroup>
 
         <propertyGroup caption="Accessibility">
             <property key="ariaRequired" type="boolean" defaultValue="false">
-                <caption>Aria Required</caption>
+                <caption>Aria required</caption>
                 <description />
             </property>
         </propertyGroup>
