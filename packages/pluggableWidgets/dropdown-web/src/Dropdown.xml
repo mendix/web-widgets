@@ -45,7 +45,7 @@
                 </property>
                 <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
                     <caption>Caption type</caption>
-                    <description />
+                    <description>"Custom caption is not supported in the early version."</description>
                     <enumerationValues>
                         <enumerationValue key="attribute">Attribute</enumerationValue>
                         <enumerationValue key="expression">Expression</enumerationValue>
