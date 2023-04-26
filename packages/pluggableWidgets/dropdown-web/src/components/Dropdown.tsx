@@ -14,10 +14,10 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const selector = useGetSelector(props);
     const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props);
+
     if (selector.status === "unavailable") {
         return <Placeholder />;
     }
-    console.log("readOnly", props);
 
     return (
         <Downshift {...downshiftProps}>
