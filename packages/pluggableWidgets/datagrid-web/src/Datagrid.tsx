@@ -10,7 +10,7 @@ import {
     useFilterContext,
     useMultipleFiltering
 } from "@mendix/pluggable-widgets-commons/components/web";
-import { isAvailable, useSelectionHelper } from "@mendix/pluggable-widgets-commons";
+import { getGlobalSelectionContext, isAvailable, useSelectionHelper } from "@mendix/pluggable-widgets-commons";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
@@ -29,6 +29,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
+    const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     useEffect(() => {
@@ -120,6 +121,17 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const selectActionProps = useOnSelectProps(selection);
     const { selectionStatus, selectionMethod } = selectionSettings(props, selection);
 
+    const toggleSelection = selectActionProps.onSelectAll;
+    const multiSelectionStatus = selection?.type === "Multi" ? selection.selectionStatus : undefined;
+    const selectionContextValue = useMemo(() => {
+        if (multiSelectionStatus !== undefined) {
+            return {
+                status: multiSelectionStatus,
+                toggle: toggleSelection
+            };
+        }
+    }, [multiSelectionStatus, toggleSelection]);
+
     return (
         <Table
             selectionStatus={selectionStatus}
@@ -188,7 +200,9 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                             multipleInitialFilters
                         }}
                     >
-                        {props.filtersPlaceholder}
+                        <SelectionContext.Provider value={selectionContextValue}>
+                            {props.filtersPlaceholder}
+                        </SelectionContext.Provider>
                     </FilterContext.Provider>
                 ),
                 [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
