@@ -159,12 +159,12 @@ describe("Table", () => {
         const component = render(
             <Table
                 {...mockTableProps()}
-                headerFilters={
+                gridHeaderWidgets={
                     <div className="my-custom-filters">
                         <span />
                     </div>
                 }
-                filtersTitle="filter title"
+                gridHeaderTitle="filter title"
             />
         );
 

@@ -181,10 +181,9 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [FilterContext, customFiltersState, props.columns]
             )}
-            filtersTitle={props.filterSectionTitle?.value}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
-            headerFilters={useMemo(
+            gridHeaderWidgets={useMemo(
                 () => (
                     <FilterContext.Provider
                         value={{
@@ -207,6 +206,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 ),
                 [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
             )}
+            gridHeaderTitle={props.filterSectionTitle?.value}
             id={id.current}
             numberOfItems={props.datasource.totalCount}
             page={currentPage}
