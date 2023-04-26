@@ -1,6 +1,6 @@
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { useMemo } from "react";
-import { DropdownContainerProps } from "typings/DropdownProps";
+import { DropdownContainerProps } from "../../typings/DropdownProps";
 
 export function useActionEvents(props: DropdownContainerProps) {
     return useMemo(() => {

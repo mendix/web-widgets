@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Downshift from "downshift";
 import { createElement, ReactElement, useRef } from "react";
-import { useActionEvents } from "src/hooks/useActionEvents";
+import { useActionEvents } from "../hooks/useActionEvents";
 import { DropdownContainerProps } from "../../typings/DropdownProps";
 import { ClearButton, DownArrow } from "../assets/icons";
 import { useDownshiftProps } from "../hooks/useDownshiftProps";
