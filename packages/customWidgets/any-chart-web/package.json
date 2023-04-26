@@ -1,5 +1,5 @@
 {
-  "name": "any-chart-web",
+  "name": "@mendix/any-chart-web",
   "version": "3.0.3",
   "description": "",
   "main": "index.js",
