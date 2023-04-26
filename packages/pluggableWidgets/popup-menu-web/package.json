@@ -1,5 +1,5 @@
 {
-  "name": "popup-menu-web",
+  "name": "@mendix/popup-menu-web",
   "widgetName": "PopupMenu",
   "version": "3.3.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",

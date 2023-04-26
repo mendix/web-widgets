@@ -1,5 +1,5 @@
 {
-  "name": "bubble-chart-web",
+  "name": "@mendix/bubble-chart-web",
   "widgetName": "BubbleChart",
   "version": "3.0.0",
   "description": "Shows data in a bubble format graph.",

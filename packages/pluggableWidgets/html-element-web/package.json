@@ -1,5 +1,5 @@
 {
-  "name": "html-element-web",
+  "name": "@mendix/html-element-web",
   "widgetName": "HTMLElement",
   "version": "1.0.1",
   "description": "Displays custom HTML",

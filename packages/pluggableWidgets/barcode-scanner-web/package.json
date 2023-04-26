@@ -1,5 +1,5 @@
 {
-  "name": "barcode-scanner-web",
+  "name": "@mendix/barcode-scanner-web",
   "widgetName": "BarcodeScanner",
   "version": "2.2.4",
   "description": "Displays a barcode scanner",

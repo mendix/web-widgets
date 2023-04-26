@@ -1,5 +1,5 @@
 {
-  "name": "datagrid-text-filter-web",
+  "name": "@mendix/datagrid-text-filter-web",
   "widgetName": "DatagridTextFilter",
   "version": "2.4.0",
   "description": "",

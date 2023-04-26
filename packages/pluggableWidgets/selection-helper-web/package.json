@@ -1,5 +1,5 @@
 {
-  "name": "selection-helper-web",
+  "name": "@mendix/selection-helper-web",
   "widgetName": "SelectionHelper",
   "version": "1.0.1",
   "description": "",

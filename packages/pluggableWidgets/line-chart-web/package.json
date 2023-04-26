@@ -1,5 +1,5 @@
 {
-  "name": "line-chart-web",
+  "name": "@mendix/line-chart-web",
   "widgetName": "LineChart",
   "version": "3.0.0",
   "description": "Shows data in a line format graph.",

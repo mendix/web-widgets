@@ -1,5 +1,5 @@
 {
-  "name": "datagrid-web",
+  "name": "@mendix/datagrid-web",
   "widgetName": "Datagrid",
   "version": "2.7.1",
   "description": "",

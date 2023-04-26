@@ -1,5 +1,5 @@
 {
-  "name": "progress-circle-web",
+  "name": "@mendix/progress-circle-web",
   "widgetName": "ProgressCircle",
   "version": "3.1.0",
   "description": "Displays a progress in a circle",

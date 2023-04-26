@@ -1,5 +1,5 @@
 {
-  "name": "google-tag-web",
+  "name": "@mendix/google-tag-web",
   "widgetName": "GoogleTag",
   "version": "1.0.0",
   "description": "gtag.js integration widget",
