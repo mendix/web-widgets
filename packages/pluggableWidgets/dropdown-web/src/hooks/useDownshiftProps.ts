@@ -1,21 +1,12 @@
-import { useMemo } from "react";
 import Downshift, { DownshiftState, StateChangeOptions } from "downshift";
+import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
-import { DropdownContainerProps } from "typings/DropdownProps";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
 
-export function useDownshiftProps(
-    selector: SingleSelector,
-    inputElement: HTMLInputElement | null,
-    props: DropdownContainerProps
-) {
+export function useDownshiftProps(selector: SingleSelector, inputElement: HTMLInputElement | null) {
     return useMemo(() => {
         return {
             itemToString: (v: string | null) => selector.caption.get(v),
             onChange: (v: string | null) => selector.setValue(v),
-            onClick: (): void => executeAction(props.onClickEvent),
-            onMouseEnter: (): void => executeAction(props.onEnterEvent),
-            onMouseLeave: (): void => executeAction(props.onLeaveEvent),
             onInputValueChange: (v: string) => selector.options.setSearchTerm(v),
             onStateChange: (state: StateChangeOptions<string>) => {
                 if (state.type === Downshift.stateChangeTypes.clickButton && state.isOpen) {
@@ -40,5 +31,5 @@ export function useDownshiftProps(
                 }
             }
         };
-    }, [selector, inputElement, props.onClickEvent, props.onEnterEvent, props.onLeaveEvent]);
+    }, [selector, inputElement]);
 }

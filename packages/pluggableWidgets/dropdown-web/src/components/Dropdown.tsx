@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import Downshift from "downshift";
 import { createElement, ReactElement, useRef } from "react";
+import { useActionEvents } from "src/hooks/useActionEvents";
+import { DropdownContainerProps } from "../../typings/DropdownProps";
 import { ClearButton, DownArrow } from "../assets/icons";
 import { useDownshiftProps } from "../hooks/useDownshiftProps";
 import { useGetSelector } from "../hooks/useGetSelector";
-import { DropdownContainerProps } from "../../typings/DropdownProps";
 import { DropdownMenu } from "./DropdownMenu";
 import { Placeholder } from "./Placeholder";
 
@@ -12,8 +13,9 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
+    const downshiftProps = useDownshiftProps(selector, inputRef.current);
+    const actionEvents = useActionEvents(props);
     const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
-    const downshiftProps = useDownshiftProps(selector, inputRef.current, props);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -31,7 +33,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                 highlightedIndex,
                 getToggleButtonProps
             }): JSX.Element => (
-                <div className="widget-dropdown">
+                <div className="widget-dropdown" {...actionEvents}>
                     <div
                         tabIndex={0}
                         ref={dropdownRef}
