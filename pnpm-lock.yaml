@@ -1732,6 +1732,73 @@ importers:
       ts-node: 9.1.1_typescript@4.5.4
       typescript: 4.5.4
 
+  packages/pluggableWidgets/dropdown-web:
+    specifiers:
+      '@mendix-internal/automation-utils': workspace:*
+      '@mendix/eslint-config-web-widgets': workspace:*
+      '@mendix/pluggable-test-utils': workspace:^1.0.0
+      '@mendix/pluggable-widgets-commons': workspace:*
+      '@mendix/pluggable-widgets-tools': 9.23.2
+      '@mendix/prettier-config-web-widgets': workspace:*
+      '@testing-library/dom': ^8.1.0
+      '@testing-library/jest-dom': ^5.14.1
+      '@testing-library/react': ^12.0.0
+      '@testing-library/react-hooks': ^3.4.2
+      '@testing-library/user-event': ^13.2.1
+      '@types/jest': ^26.0.24
+      '@types/node': ^18.8.3
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.18
+      '@types/react-test-renderer': ^17.0.2
+      '@types/testing-library__jest-dom': ^5.14.1
+      '@types/testing-library__react-hooks': ^3.4.0
+      '@web-widgets/run-e2e': workspace:^*
+      classnames: ^2.3.2
+      cross-env: ^7.0.3
+      downshift: ^7.2.0
+      eslint: ^7.20.0
+      match-sorter: ^6.3.1
+      mendix: ^9.19.55544
+      react: ~17.0.2
+      react-dom: ~17.0.2
+      react-test-renderer: ~17.0.2
+      rollup: ^2.68.0
+      ts-node: ^9.0.0
+      typescript: 4.5.4
+    dependencies:
+      '@mendix/pluggable-widgets-commons': link:../../shared/pluggable-widgets-commons
+      classnames: 2.3.2
+      downshift: 7.6.0_react@17.0.2
+      match-sorter: 6.3.1
+    devDependencies:
+      '@mendix-internal/automation-utils': link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets': link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-test-utils': link:../../shared/pluggable-test-utils
+      '@mendix/pluggable-widgets-tools': 9.23.2_@types+react@17.0.53
+      '@mendix/prettier-config-web-widgets': link:../../shared/prettier-config-web-widgets
+      '@testing-library/dom': 8.20.0
+      '@testing-library/jest-dom': 5.16.5
+      '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
+      '@testing-library/react-hooks': 3.7.0_kcibn7jsej4njf6b4whwczgodu
+      '@testing-library/user-event': 13.5.0_yxlyej73nftwmh2fiao7paxmlm
+      '@types/jest': 26.0.24
+      '@types/node': 18.14.0
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.18
+      '@types/react-test-renderer': 17.0.2
+      '@types/testing-library__jest-dom': 5.14.5
+      '@types/testing-library__react-hooks': 3.4.1
+      '@web-widgets/run-e2e': link:../../../automation/run-e2e
+      cross-env: 7.0.3
+      eslint: 7.32.0
+      mendix: 9.23.621
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-test-renderer: 17.0.2_react@17.0.2
+      rollup: 2.79.1
+      ts-node: 9.1.1_typescript@4.5.4
+      typescript: 4.5.4
+
   packages/pluggableWidgets/fieldset-web:
     specifiers:
       '@mendix-internal/automation-utils': workspace:*
@@ -3538,10 +3605,10 @@ importers:
       '@mendix/prettier-config-web-widgets': link:../prettier-config-web-widgets
       '@typescript-eslint/eslint-plugin': 5.53.0_nocphhfgjc4xcona7odldu7nmy
       '@typescript-eslint/parser': 5.53.0_ek2rpc4knwwiwkb7dlup4o3xyy
-      eslint-config-prettier: 8.7.0_eslint@7.32.0
+      eslint-config-prettier: 8.8.0_eslint@7.32.0
       eslint-plugin-cypress: 2.12.1_eslint@7.32.0
       eslint-plugin-jest: 24.7.0_2o2hv7svn3vuzabbtnmo225egy
-      eslint-plugin-prettier: 3.4.1_uiswlpulcu4wppk3zxswnxg2xq
+      eslint-plugin-prettier: 3.4.1_vwpg52wrltrw7erk6on7tspv2u
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.32.2_eslint@7.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
@@ -5849,9 +5916,9 @@ packages:
       enzyme: 3.11.0
       enzyme-to-json: 3.6.2_enzyme@3.11.0
       eslint: 7.32.0
-      eslint-config-prettier: 8.7.0_eslint@7.32.0
+      eslint-config-prettier: 8.8.0_eslint@7.32.0
       eslint-plugin-jest: 24.7.0_2o2hv7svn3vuzabbtnmo225egy
-      eslint-plugin-prettier: 3.4.1_uiswlpulcu4wppk3zxswnxg2xq
+      eslint-plugin-prettier: 3.4.1_vwpg52wrltrw7erk6on7tspv2u
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0_eslint@7.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
@@ -5866,7 +5933,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       jest-svg-transformer: 1.0.0_jest@26.6.3+react@17.0.2
       mendix: 9.23.621
-      metro-react-native-babel-preset: 0.63.0_@babel+core@7.21.0
+      metro-react-native-babel-preset: 0.63.0
       node-fetch: 2.6.9
       postcss: 8.4.21
       postcss-import: 14.1.0_postcss@8.4.21
@@ -7845,7 +7912,6 @@ packages:
   /babel-eslint/10.1.0_eslint@7.32.0:
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
-    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
     peerDependencies:
       eslint: '>= 4.12.1'
     dependencies:
@@ -8708,6 +8774,10 @@ packages:
       validate.io-matrix-like: 1.0.2
       validate.io-ndarray-like: 1.0.0
       validate.io-positive-integer: 1.0.0
+    dev: false
+
+  /compute-scroll-into-view/2.0.4:
+    resolution: {integrity: sha512-y/ZA3BGnxoM/QHHQ2Uy49CLtnWPbt4tTPpEEZiEmmiWBFKjej7nEyH8Ryz54jH0MLXflUYA3Er2zUxPSJu5R+g==}
     dev: false
 
   /concat-map/0.0.1:
@@ -9573,11 +9643,6 @@ packages:
     engines: {node: '>=0.3.1'}
     dev: false
 
-  /diff/5.1.0:
-    resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==}
-    engines: {node: '>=0.3.1'}
-    dev: false
-
   /dir-glob/3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
@@ -9734,6 +9799,19 @@ packages:
 
   /double-bits/1.1.1:
     resolution: {integrity: sha512-BCLEIBq0O/DWoA7BsCu/R+RP0ZXiowP8BhtJT3qeuuQEBpnS8LK/Wo6UTJQv6v8mK1fj8n90YziHLwGdM5whSg==}
+    dev: false
+
+  /downshift/7.6.0_react@17.0.2:
+    resolution: {integrity: sha512-VSoTVynTAsabou/hbZ6HJHUVhtBiVOjQoBsCPcQq5eAROIGP+9XKMp9asAKQ3cEcUP4oe0fFdD2pziUjhFY33Q==}
+    peerDependencies:
+      react: '>=16.12.0'
+    dependencies:
+      '@babel/runtime': 7.21.0
+      compute-scroll-into-view: 2.0.4
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-is: 17.0.2
+      tslib: 2.5.0
     dev: false
 
   /draw-svg-path/1.0.0:
@@ -10060,8 +10138,8 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-config-prettier/8.7.0_eslint@7.32.0:
-    resolution: {integrity: sha512-HHVXLSlVUhMSmyW4ZzEuvjpwqamgmlfkutD53cYXLikh4pt/modINRcCIApJ84czDxM4GZInwUrromsDdTImTA==}
+  /eslint-config-prettier/8.8.0_eslint@7.32.0:
+    resolution: {integrity: sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -10102,7 +10180,7 @@ packages:
       vscode-json-languageservice: 4.2.1
     dev: true
 
-  /eslint-plugin-prettier/3.4.1_uiswlpulcu4wppk3zxswnxg2xq:
+  /eslint-plugin-prettier/3.4.1_vwpg52wrltrw7erk6on7tspv2u:
     resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -10114,7 +10192,7 @@ packages:
         optional: true
     dependencies:
       eslint: 7.32.0
-      eslint-config-prettier: 8.7.0_eslint@7.32.0
+      eslint-config-prettier: 8.8.0_eslint@7.32.0
       prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
 
@@ -12331,7 +12409,6 @@ packages:
 
   /jasmine/3.99.0:
     resolution: {integrity: sha512-YIThBuHzaIIcjxeuLmPD40SjxkEcc8i//sGMDKCgkRMVgIwRJf5qyExtlJpQeh7pkeoBSOe6lQEdg+/9uKg9mw==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
       jasmine-core: 3.99.1
@@ -13249,7 +13326,6 @@ packages:
   /livereload/0.9.3:
     resolution: {integrity: sha512-q7Z71n3i4X0R9xthAryBdNGVGAO2R5X+/xXpmKeuPMrteg+W2U8VusTKV3YiJbXZwKsOlFlHe+go6uSNjfxrZw==}
     engines: {node: '>=8.0.0'}
-    hasBin: true
     dependencies:
       chokidar: 3.5.3
       livereload-js: 3.4.1
@@ -13421,7 +13497,6 @@ packages:
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
-    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 
@@ -13439,6 +13514,7 @@ packages:
 
   /lz-string/1.4.4:
     resolution: {integrity: sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==}
+    hasBin: true
     dev: true
 
   /magic-string/0.16.0:
@@ -13562,6 +13638,13 @@ packages:
       gl-mat4: 1.2.0
     dev: false
 
+  /match-sorter/6.3.1:
+    resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
+    dependencies:
+      '@babel/runtime': 7.21.0
+      remove-accents: 0.4.2
+    dev: false
+
   /material-colors/1.2.6:
     resolution: {integrity: sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==}
     dev: false
@@ -13639,10 +13722,8 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset/0.63.0_@babel+core@7.21.0:
+  /metro-react-native-babel-preset/0.63.0:
     resolution: {integrity: sha512-iTM6V/hzqTd2dg0LHtD4f/TU+d4A7MFiMPUmIYDb0OZmCq6avfcxHQTXk/ZNbAr+eRoN/owx9OIkjt/CvG4vUA==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.21.0
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.21.0
@@ -13763,7 +13844,6 @@ packages:
 
   /mini-svg-data-uri/1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
-    hasBin: true
     dev: true
 
   /minimatch/3.0.8:
@@ -13813,7 +13893,6 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
-    hasBin: true
     dev: true
 
   /mocha/10.2.0:
@@ -13878,7 +13957,7 @@ packages:
       mocha: '>=7'
     dependencies:
       chalk: 4.1.2
-      diff: 5.1.0
+      diff: 5.0.0
       json-stringify-safe: 5.0.1
       lodash.isempty: 4.4.0
       lodash.isfunction: 3.0.9
@@ -16032,7 +16111,6 @@ packages:
 
   /regjsparser/0.9.1:
     resolution: {integrity: sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==}
-    hasBin: true
     dependencies:
       jsesc: 0.5.0
     dev: true
@@ -16106,6 +16184,10 @@ packages:
 
   /regl/2.1.0:
     resolution: {integrity: sha512-oWUce/aVoEvW5l2V0LK7O5KJMzUSKeiOwFuJehzpSFd43dO5spP9r+sSUfhKtsky4u6MCqWJaRL+abzExynfTg==}
+    dev: false
+
+  /remove-accents/0.4.2:
+    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: false
 
   /remove-trailing-separator/1.1.0:
@@ -16378,7 +16460,6 @@ packages:
 
   /rollup-plugin-terser/7.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: ^2.0.0
     dependencies:
@@ -16962,7 +17043,6 @@ packages:
 
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
-    deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
     dev: true
 
   /stack-trace/0.0.9:
@@ -17237,7 +17317,6 @@ packages:
   /svgo/2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
     dependencies:
       '@trysound/sax': 0.2.0
       commander: 7.2.0
