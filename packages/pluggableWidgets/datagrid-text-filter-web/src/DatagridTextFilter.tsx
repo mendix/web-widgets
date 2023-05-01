@@ -77,7 +77,7 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
-                if (props.defaultValue && props.defaultValue.status === "loading") {
+                if (props.defaultValue?.status === "loading") {
                     return null;
                 }
 
