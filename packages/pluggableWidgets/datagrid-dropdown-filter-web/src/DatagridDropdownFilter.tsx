@@ -1,5 +1,5 @@
 import { useFilterContextValue } from "@mendix/pluggable-widgets-commons/components/web";
-import { createElement, ReactElement } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
 import { EnumerationFilter } from "./components/EnumerationFilter";
 import { ErrorBox } from "./components/ErrorBox";
@@ -11,6 +11,10 @@ export default function DatagridDropdownFilter(props: DatagridDropdownFilterCont
 
     if (context.hasError) {
         return <ErrorBox error={new OutOfProviderError()} />;
+    }
+
+    if (props.defaultValue?.status === "loading") {
+        return <Fragment />;
     }
 
     const Filter = context.value.associationProperties ? AssociationFilter : EnumerationFilter;

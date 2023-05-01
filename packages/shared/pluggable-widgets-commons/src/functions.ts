@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 
 export const executeAction = (action?: ActionValue): void => {
@@ -38,3 +39,55 @@ export const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: nu
 
     return debounced as F;
 };
+
+export function useId(name?: string): string {
+    const [id] = useState(() => {
+        const num = Math.random().toFixed(9).slice(2);
+        return name ? `${name}-${num}` : num;
+    });
+
+    return id;
+}
+
+const debugMsg = (...args: any[]): void => console.debug("[DEBUG]", ...args);
+
+function debugHeader(id: string): void {
+    debugMsg();
+    debugMsg(`Component:`, id);
+}
+
+function createInspect(id: string): (props: any) => void {
+    let prevProps: any = {};
+    return (currentProps: any) => {
+        debugHeader(id);
+        const keys = new Set([...Object.keys(prevProps), ...Object.keys(currentProps)]);
+        let changed = false;
+        for (const k of keys) {
+            if (prevProps[k] !== currentProps[k]) {
+                debugMsg(`   > prop [${k}] changed`);
+                changed = true;
+            }
+        }
+        if (!changed) {
+            debugMsg("   > No prop changes");
+        }
+        prevProps = currentProps;
+    };
+}
+
+export function usePropInspect(id: string): (props: any) => void {
+    const [inspect] = useState(() => createInspect(id));
+    return inspect;
+}
+
+function createLog(id: string): (...args: string[]) => void {
+    return (...args: string[]) => {
+        debugHeader(id);
+        debugMsg("   >", ...args);
+    };
+}
+
+export function useLog(id: string): (...args: string[]) => void {
+    const [log] = useState(() => createLog(id));
+    return log;
+}

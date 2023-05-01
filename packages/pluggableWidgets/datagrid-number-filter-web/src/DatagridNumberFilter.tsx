@@ -1,6 +1,5 @@
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";
-
 import { FilterComponent } from "./components/FilterComponent";
 import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
 import { Big } from "big.js";
@@ -75,12 +74,17 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
+                if (props.defaultValue?.status === "loading") {
+                    return null;
+                }
+
                 return (
                     <FilterComponent
                         adjustable={props.adjustable}
                         className={props.class}
-                        defaultFilter={defaultFilter?.type ?? props.defaultFilter}
-                        delay={props.delay}
+                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
+                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
+                        inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
@@ -88,13 +92,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
-                            if (
-                                (value && !props.valueAttribute?.value?.eq(value)) ||
-                                value !== props.valueAttribute?.value
-                            ) {
-                                props.valueAttribute?.setValue(value);
-                                props.onChange?.execute();
-                            }
+                            props.valueAttribute?.setValue(value);
+                            props.onChange?.execute();
                             const conditions = attributes
                                 ?.map(attribute => getFilterCondition(attribute, value, type))
                                 .filter((filter): filter is FilterCondition => filter !== undefined);
@@ -104,7 +103,6 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                                 filterType: FilterType.NUMBER
                             });
                         }}
-                        value={defaultFilter?.value ?? props.defaultValue?.value}
                     />
                 );
             }}

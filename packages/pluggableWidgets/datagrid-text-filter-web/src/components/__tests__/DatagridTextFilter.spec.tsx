@@ -30,7 +30,7 @@ describe("Text Filter", () => {
             delete (global as any)["com.mendix.widgets.web.UUID"];
         });
 
-        describe("sync input value with defaultValue prop", () => {
+        describe("with defaultValue prop", () => {
             beforeAll(() => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
@@ -38,7 +38,7 @@ describe("Text Filter", () => {
                 } as FilterContextValue);
             });
 
-            it("sync value when defaultValue changes from undefined to string", async () => {
+            it("don't sync value when defaultValue changes from undefined to string", async () => {
                 const { rerender } = render(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
 
                 expect(screen.getByRole("textbox")).toHaveValue("");
@@ -46,10 +46,10 @@ describe("Text Filter", () => {
                 // rerender component with new `defaultValue`
                 const defaultValue = dynamicValue<string>("xyz");
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={defaultValue} />);
-                expect(screen.getByRole("textbox")).toHaveValue("xyz");
+                expect(screen.getByRole("textbox")).toHaveValue("");
             });
 
-            it("sync value when defaultValue changes from string to string", async () => {
+            it("don't sync value when defaultValue changes from string to string", async () => {
                 const { rerender } = render(
                     <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
                 );
@@ -59,10 +59,10 @@ describe("Text Filter", () => {
                 // rerender component with new `defaultValue`
                 const defaultValue = dynamicValue<string>("xyz");
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={defaultValue} />);
-                expect(screen.getByRole("textbox")).toHaveValue("xyz");
+                expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
 
-            it("sync value when defaultValue changes from string to undefined", async () => {
+            it("don't sync value when defaultValue changes from string to undefined", async () => {
                 const { rerender } = render(
                     <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
                 );
@@ -71,7 +71,7 @@ describe("Text Filter", () => {
 
                 // rerender component with new `defaultValue`
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
-                expect(screen.getByRole("textbox")).toHaveValue("");
+                expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
         });
 
