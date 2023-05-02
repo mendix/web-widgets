@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.1] - 2023-05-02
+
 ### Added
 
 -   It is now possible to add selection helper in the header of the Data Grid 2 widget.
