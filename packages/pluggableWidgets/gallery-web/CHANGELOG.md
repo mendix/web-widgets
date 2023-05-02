@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Minor changes in the internal structure of the widget.
+
 ## [1.3.0] - 2023-03-29
 
 ### Added

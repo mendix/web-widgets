@@ -1,6 +1,7 @@
+import { createContext, useContext, Context, useCallback, useMemo } from "react";
 import { error, value, ValueMeta } from "../utils/valueStatus";
 import { OutOfContextError } from "../components/web/utils/errors";
-import { createContext, useContext, Context } from "react";
+import { SelectionHelper } from "./";
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.selectable.selectionContext" as const;
 
@@ -18,6 +19,30 @@ export function getGlobalSelectionContext(): SelectionContextObject {
     }
 
     return window[CONTEXT_OBJECT_PATH]!;
+}
+
+export function useCreateSelectionContextValue(selection: SelectionHelper | undefined) {
+    const toggleSelection = useCallback(() => {
+        if (selection?.type === "Multi") {
+            if (selection.selectionStatus === "all") {
+                selection.selectNone();
+            } else {
+                selection.selectAll();
+            }
+        }
+    }, [selection]);
+    const multiSelectionStatus = selection?.type === "Multi" ? selection.selectionStatus : undefined;
+
+    return useMemo(() => {
+        if (multiSelectionStatus !== undefined) {
+            return {
+                status: multiSelectionStatus,
+                toggle: toggleSelection
+            };
+        }
+
+        return undefined;
+    }, [multiSelectionStatus, toggleSelection]);
 }
 
 export function useSelectionContextValue(): ValueMeta<SelectionContextValue, OutOfContextError> {

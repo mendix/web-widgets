@@ -52,9 +52,9 @@ export interface TableProps<T extends ObjectItem> {
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
-    filtersTitle?: string;
+    gridHeaderWidgets?: ReactNode;
+    gridHeaderTitle?: string;
     hasMoreItems: boolean;
-    headerFilters?: ReactNode;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
@@ -107,9 +107,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         data,
         emptyPlaceholderRenderer,
         filterRenderer: filterRendererProp,
-        filtersTitle,
+        gridHeaderWidgets,
+        gridHeaderTitle,
         hasMoreItems,
-        headerFilters,
         headerWrapperRenderer,
         id,
         numberOfItems,
@@ -279,9 +279,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                 <div className="table-header" role="rowgroup">
                     {(pagingPosition === "top" || pagingPosition === "both") && pagination}
                 </div>
-                {headerFilters && (
-                    <div className="header-filters" role="rowgroup" aria-label={filtersTitle}>
-                        {headerFilters}
+                {gridHeaderWidgets && (
+                    <div className="header-filters" role="rowgroup" aria-label={gridHeaderTitle}>
+                        {gridHeaderWidgets}
                     </div>
                 )}
                 <InfiniteBody
