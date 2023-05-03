@@ -1,5 +1,5 @@
 {
-  "name": "bar-chart-web",
+  "name": "@mendix/bar-chart-web",
   "widgetName": "BarChart",
   "version": "3.0.0",
   "description": "Shows difference between the data points for one or more categories.",

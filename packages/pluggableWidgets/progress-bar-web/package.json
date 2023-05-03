@@ -1,5 +1,5 @@
 {
-  "name": "progress-bar-web",
+  "name": "@mendix/progress-bar-web",
   "widgetName": "ProgressBar",
   "version": "3.1.0",
   "description": "Displays a progress bar",

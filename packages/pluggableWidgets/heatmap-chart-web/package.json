@@ -1,5 +1,5 @@
 {
-  "name": "heatmap-chart-web",
+  "name": "@mendix/heatmap-chart-web",
   "widgetName": "HeatMap",
   "version": "3.0.0",
   "description": "Shows data in a heatmap format graph.",

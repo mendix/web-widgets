@@ -1,5 +1,5 @@
 {
-  "name": "carousel-web",
+  "name": "@mendix/carousel-web",
   "widgetName": "Carousel",
   "version": "2.0.0",
   "description": "Displays images in a carousel",

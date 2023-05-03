@@ -1,5 +1,5 @@
 {
-  "name": "tooltip-web",
+  "name": "@mendix/tooltip-web",
   "widgetName": "Tooltip",
   "version": "1.2.1",
   "description": "Shows a value inside a colored tooltip or label",

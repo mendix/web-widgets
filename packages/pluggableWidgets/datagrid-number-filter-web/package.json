@@ -1,5 +1,5 @@
 {
-  "name": "datagrid-number-filter-web",
+  "name": "@mendix/datagrid-number-filter-web",
   "widgetName": "DatagridNumberFilter",
   "version": "2.4.0",
   "description": "",

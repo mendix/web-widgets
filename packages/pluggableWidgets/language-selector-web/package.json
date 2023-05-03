@@ -1,5 +1,5 @@
 {
-  "name": "language-selector-web",
+  "name": "@mendix/language-selector-web",
   "widgetName": "LanguageSelector",
   "version": "1.0.1",
   "description": "Display a list of available languages",

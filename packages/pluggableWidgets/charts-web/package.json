@@ -1,5 +1,5 @@
 {
-  "name": "charts-web",
+  "name": "@mendix/charts-web",
   "version": "4.0.4",
   "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
@@ -14,14 +14,14 @@
     "type": "widget",
     "mpkName": "Charts.mpk",
     "dependencies": [
-      "area-chart-web",
-      "bar-chart-web",
-      "bubble-chart-web",
-      "column-chart-web",
-      "heatmap-chart-web",
-      "line-chart-web",
-      "pie-doughnut-chart-web",
-      "time-series-chart-web"
+      "@mendix/area-chart-web",
+      "@mendix/bar-chart-web",
+      "@mendix/bubble-chart-web",
+      "@mendix/column-chart-web",
+      "@mendix/heatmap-chart-web",
+      "@mendix/line-chart-web",
+      "@mendix/pie-doughnut-chart-web",
+      "@mendix/time-series-chart-web"
     ]
   },
   "packagePath": "com.mendix.widget.web",
@@ -45,14 +45,14 @@
     "lint": "tsc --project scripts/tsconfig.json"
   },
   "dependencies": {
-    "area-chart-web": "workspace:*",
-    "bar-chart-web": "workspace:*",
-    "bubble-chart-web": "workspace:*",
-    "column-chart-web": "workspace:*",
-    "heatmap-chart-web": "workspace:*",
-    "line-chart-web": "workspace:*",
-    "pie-doughnut-chart-web": "workspace:*",
-    "time-series-chart-web": "workspace:*"
+    "@mendix/area-chart-web": "workspace:*",
+    "@mendix/bar-chart-web": "workspace:*",
+    "@mendix/bubble-chart-web": "workspace:*",
+    "@mendix/column-chart-web": "workspace:*",
+    "@mendix/heatmap-chart-web": "workspace:*",
+    "@mendix/line-chart-web": "workspace:*",
+    "@mendix/pie-doughnut-chart-web": "workspace:*",
+    "@mendix/time-series-chart-web": "workspace:*"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",

@@ -1,5 +1,5 @@
 {
-  "name": "range-slider-web",
+  "name": "@mendix/range-slider-web",
   "widgetName": "RangeSlider",
   "version": "2.0.1",
   "description": "Change a range of values on a slider",

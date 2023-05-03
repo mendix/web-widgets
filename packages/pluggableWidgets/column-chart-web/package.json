@@ -1,5 +1,5 @@
 {
-  "name": "column-chart-web",
+  "name": "@mendix/column-chart-web",
   "widgetName": "ColumnChart",
   "version": "3.0.0",
   "description": "Shows data in a column format graph.",

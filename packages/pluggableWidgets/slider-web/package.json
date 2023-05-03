@@ -1,5 +1,5 @@
 {
-  "name": "slider-web",
+  "name": "@mendix/slider-web",
   "widgetName": "Slider",
   "version": "2.0.1",
   "description": "Change a number value using a slider",

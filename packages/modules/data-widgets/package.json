@@ -1,5 +1,5 @@
 {
-  "name": "data-widgets",
+  "name": "@mendix/data-widgets",
   "moduleName": "Data Widgets",
   "version": "2.7.2",
   "license": "Apache-2.0",
@@ -14,15 +14,15 @@
     "type": "module",
     "mpkName": "DataWidgets.mpk",
     "dependencies": [
-      "datagrid-date-filter-web",
-      "datagrid-dropdown-filter-web",
-      "datagrid-number-filter-web",
-      "datagrid-text-filter-web",
-      "datagrid-web",
-      "dropdown-sort-web",
-      "gallery-web",
-      "selection-helper-web",
-      "tree-node-web"
+      "@mendix/datagrid-date-filter-web",
+      "@mendix/datagrid-dropdown-filter-web",
+      "@mendix/datagrid-number-filter-web",
+      "@mendix/datagrid-text-filter-web",
+      "@mendix/datagrid-web",
+      "@mendix/dropdown-sort-web",
+      "@mendix/gallery-web",
+      "@mendix/selection-helper-web",
+      "@mendix/tree-node-web"
     ]
   },
   "moduleFolderNameInModeler": "datawidgets",
@@ -48,15 +48,15 @@
     "lint": "tsc --project scripts/tsconfig.json"
   },
   "dependencies": {
-    "datagrid-date-filter-web": "workspace:*",
-    "datagrid-dropdown-filter-web": "workspace:*",
-    "datagrid-number-filter-web": "workspace:*",
-    "datagrid-text-filter-web": "workspace:*",
-    "datagrid-web": "workspace:*",
-    "dropdown-sort-web": "workspace:*",
-    "gallery-web": "workspace:*",
-    "selection-helper-web": "workspace:*",
-    "tree-node-web": "workspace:*"
+    "@mendix/datagrid-date-filter-web": "workspace:*",
+    "@mendix/datagrid-dropdown-filter-web": "workspace:*",
+    "@mendix/datagrid-number-filter-web": "workspace:*",
+    "@mendix/datagrid-text-filter-web": "workspace:*",
+    "@mendix/datagrid-web": "workspace:*",
+    "@mendix/dropdown-sort-web": "workspace:*",
+    "@mendix/gallery-web": "workspace:*",
+    "@mendix/selection-helper-web": "workspace:*",
+    "@mendix/tree-node-web": "workspace:*"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",

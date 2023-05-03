@@ -1,5 +1,5 @@
 {
-  "name": "rich-text-web",
+  "name": "@mendix/rich-text-web",
   "widgetName": "RichText",
   "version": "2.1.6",
   "description": "Rich inline or toolbar text editing",

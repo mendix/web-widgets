@@ -1,5 +1,5 @@
 {
-  "name": "signature-web",
+  "name": "@mendix/signature-web",
   "widgetName": "Signature",
   "version": "1.0.5",
   "description": "A signature pad for capturing signatures",

@@ -1,5 +1,5 @@
 {
-  "name": "badge-web",
+  "name": "@mendix/badge-web",
   "widgetName": "Badge",
   "version": "3.1.0",
   "description": "Shows a value inside a colored badge or label",

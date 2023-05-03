@@ -1,5 +1,5 @@
 {
-  "name": "time-series-chart-web",
+  "name": "@mendix/time-series-chart-web",
   "widgetName": "TimeSeries",
   "version": "3.0.0",
   "description": "Shows data changes over period of time.",

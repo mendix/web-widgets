@@ -1,5 +1,5 @@
 {
-  "name": "accessibility-helper-web",
+  "name": "@mendix/accessibility-helper-web",
   "widgetName": "AccessibilityHelper",
   "version": "2.1.0",
   "description": "Set an attribute to a DOM element",

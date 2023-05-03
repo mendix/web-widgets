@@ -1,5 +1,5 @@
 {
-  "name": "color-picker-web",
+  "name": "@mendix/color-picker-web",
   "widgetName": "ColorPicker",
   "version": "2.0.1",
   "description": "Change a color using a color input",

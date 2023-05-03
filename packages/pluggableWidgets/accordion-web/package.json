@@ -1,5 +1,5 @@
 {
-  "name": "accordion-web",
+  "name": "@mendix/accordion-web",
   "widgetName": "Accordion",
   "version": "2.2.0",
   "description": "A Mendix pluggable widget to display expandable list items.",

@@ -1,5 +1,5 @@
 {
-  "name": "gallery-web",
+  "name": "@mendix/gallery-web",
   "widgetName": "Gallery",
   "version": "1.3.1",
   "description": "A flexible gallery widget that renders columns, rows and layouts.",
