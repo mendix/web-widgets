@@ -54,7 +54,7 @@
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.13.0",
-    "@types/rc-slider": "^8.6.4",
+    "@types/rc-slider": "^8.6.6",
     "@types/rc-tooltip": "^3.7.7",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
@@ -79,7 +79,7 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "rc-slider": "^8.6.6",
+    "rc-slider": "^8.7.1",
     "rc-tooltip": "^3.7.3"
   }
 }
