@@ -53,7 +53,10 @@
   Styles when icon is selected in Studio/Studio Pro
    */
     .rating-icon {
-        font-size: 24px;
+        svg {
+            width: 24px;
+            height: 24px;
+        }
         transform: scale(1);
     }
 

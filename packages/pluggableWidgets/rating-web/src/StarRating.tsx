@@ -13,13 +13,13 @@ export function StarRating(props: StarRatingContainerProps): ReactElement {
         props.emptyIcon && isAvailable(props.emptyIcon) ? (
             <Icon value={props.emptyIcon?.value} empty animate={props.animation} />
         ) : (
-            <Icon value={{ type: "glyph", iconClass: "glyphicon-star-empty" }} empty animate={props.animation} />
+            <Icon value={{ type: "icon", iconClass: "" }} empty animate={props.animation} />
         );
     const fullIcon =
         props.icon && isAvailable(props.icon) ? (
             <Icon value={props.icon?.value} full animate={props.animation} />
         ) : (
-            <Icon value={{ type: "glyph", iconClass: "glyphicon-star" }} full animate={props.animation} />
+            <Icon value={{ type: "icon", iconClass: "" }} full animate={props.animation} />
         );
 
     const onChange = useCallback(
