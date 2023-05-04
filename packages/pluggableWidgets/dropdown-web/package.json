@@ -1,5 +1,5 @@
 {
-  "name": "dropdown-web",
+  "name": "@mendix/dropdown-web",
   "widgetName": "Dropdown",
   "version": "1.0.0",
   "description": "Configurable drop-down widget with suggestions and autocomplete.",
