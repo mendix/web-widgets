@@ -3,7 +3,7 @@ import { DynamicValue, ListAttributeValue, ListExpressionValue, ObjectItem } fro
 import { CaptionsProvider } from "../types";
 
 interface Props {
-    emptyOptionText: DynamicValue<string>;
+    emptyOptionText?: DynamicValue<string>;
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
 }
 
@@ -15,7 +15,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
     updateProps(props: Props) {
-        if (props.emptyOptionText.status === "unavailable") {
+        if (props.emptyOptionText?.status === "unavailable" || !props.emptyOptionText) {
             this.emptyCaption = "";
         } else {
             this.emptyCaption = props.emptyOptionText.value!;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.dropdown.Dropdown" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Drop-down</name>
+    <name>Drop-down 2</name>
     <description />
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Display</studioCategory>
@@ -21,7 +21,7 @@
 
                 <!-- ENUM OR BOOLEAN -->
                 <property key="attributeEnumerationOrBoolean" type="attribute" required="false">
-                    <caption>Attribute (enum)</caption>
+                    <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
@@ -32,7 +32,7 @@
 
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="false">
-                    <caption>Attribute (assoc)</caption>
+                    <caption>Attribute</caption>
                     <description />
                     <associationTypes>
                         <associationType name="Reference" />
@@ -45,11 +45,10 @@
                 </property>
                 <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
                     <caption>Caption type</caption>
-                    <description>Custom caption is not supported in the early version.</description>
+                    <description />
                     <enumerationValues>
                         <enumerationValue key="attribute">Attribute</enumerationValue>
                         <enumerationValue key="expression">Expression</enumerationValue>
-                        <enumerationValue key="custom">Custom (n/a)</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>
@@ -58,8 +57,8 @@
             <!-- GENERAL -->
             <propertyGroup caption="General">
                 <!-- Empty option -->
-                <property key="emptyOptionText" type="textTemplate">
-                    <caption>Empty option</caption>
+                <property key="emptyOptionText" type="textTemplate" required="false">
+                    <caption>Placeholder text</caption>
                     <description />
                 </property>
 

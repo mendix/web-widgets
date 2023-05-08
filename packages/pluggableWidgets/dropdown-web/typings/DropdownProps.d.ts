@@ -7,7 +7,7 @@ import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue
 
 export type OptionsSourceTypeEnum = "enumerationOrBoolean" | "association" | "custom";
 
-export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression" | "custom";
+export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type TypeaheadEnum = "no" | "startsWith" | "contains";
 
@@ -20,7 +20,7 @@ export interface DropdownContainerProps {
     attributeAssociation?: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
-    emptyOptionText: DynamicValue<string>;
+    emptyOptionText?: DynamicValue<string>;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     typeahead: TypeaheadEnum;
