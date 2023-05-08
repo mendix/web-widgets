@@ -168,14 +168,17 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                                 },
                                 singleAttribute: attribute,
                                 singleInitialFilter: initialFilters,
-                                associationProperties: associationProps
+                                associationProperties: associationProps,
+                                providerData: {
+                                    eventChannelName: props.name
+                                }
                             }}
                         >
                             {filter}
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, customFiltersState, props.columns, props.name]
             )}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
@@ -192,7 +195,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                                 return prev;
                             },
                             multipleAttributes: filterList,
-                            multipleInitialFilters
+                            multipleInitialFilters,
+                            providerData: {
+                                eventChannelName: props.name
+                            }
                         }}
                     >
                         <SelectionContext.Provider value={selectionContextValue}>
@@ -200,7 +206,15 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                         </SelectionContext.Provider>
                     </FilterContext.Provider>
                 ),
-                [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                [
+                    FilterContext,
+                    filterList,
+                    multipleInitialFilters,
+                    props.filtersPlaceholder,
+                    multipleFilteringState,
+                    props.name
+                ]
             )}
             gridHeaderTitle={props.filterSectionTitle?.value}
             id={id.current}

@@ -29,6 +29,10 @@ export interface AssociationProperties {
 
 export type ConditionDispatch = Dispatch<FilterFunction>;
 
+interface ProviderData {
+    eventChannelName: string;
+}
+
 export interface FilterContextValue {
     filterDispatcher: ConditionDispatch;
     singleAttribute?: ListAttributeValue;
@@ -36,6 +40,7 @@ export interface FilterContextValue {
     singleInitialFilter?: FilterValue[];
     multipleInitialFilters?: { [id: string]: FilterValue[] };
     associationProperties?: AssociationProperties;
+    providerData?: ProviderData;
 }
 
 type FilterContextObject = Context<FilterContextValue | undefined>;

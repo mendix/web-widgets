@@ -1,5 +1,6 @@
 import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
+import { useListenChannelEvents } from "@mendix/widget-plugin-external-events";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import classNames from "classnames";
@@ -78,16 +79,24 @@ function FilterInput(props: FilterInputProps): ReactElement {
 const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({
+    const [state, { onInputChange, onTypeClick, onReset }] = useFilterState(() => ({
         inputValue: toInputValue(props.initialFilterValue),
         type: props.initialFilterType
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
 
+    useListenChannelEvents(undefined, "filters.reset.every", onReset);
+    useListenChannelEvents("x", "filters.reset.every", onReset);
+    useListenChannelEvents("x", "filters.reset.single", (widgetName: string) => {
+        if (widgetName === "foo") {
+            onReset();
+        }
+    });
+
     return (
         <PureFilterInput
             initialFilterType={props.initialFilterType}
-            onFilterTypeClick={onFilterTypeClick}
+            onFilterTypeClick={onTypeClick}
             onInputChange={onInputChange}
             inputRef={inputRef}
             inputValue={state.inputValue}
