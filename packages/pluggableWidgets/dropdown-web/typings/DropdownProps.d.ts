@@ -5,24 +5,24 @@
  */
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
-export type OptionsSourceTypeEnum = "enumerationOrBoolean" | "association" | "custom";
+export type OptionsSourceTypeEnum = "enumerationOrBoolean" | "association";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
-export type TypeaheadEnum = "no" | "startsWith" | "contains";
+export type TypeaheadEnum = "contains" | "startsWith" | "no";
 
 export interface DropdownContainerProps {
     name: string;
     tabIndex?: number;
     id: string;
     optionsSourceType: OptionsSourceTypeEnum;
-    attributeEnumerationOrBoolean?: EditableValue<string | boolean>;
-    attributeAssociation?: ReferenceValue | ReferenceSetValue;
+    attributeEnumerationOrBoolean: EditableValue<string | boolean>;
+    attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
-    emptyOptionText?: DynamicValue<string>;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
+    emptyOptionText?: DynamicValue<string>;
     typeahead: TypeaheadEnum;
     clearable: boolean;
     onClickEvent?: ActionValue;
@@ -38,9 +38,9 @@ export interface DropdownPreviewProps {
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
-    emptyOptionText: string;
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
+    emptyOptionText: string;
     typeahead: TypeaheadEnum;
     clearable: boolean;
     onClickEvent: {} | null;
