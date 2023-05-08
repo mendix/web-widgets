@@ -5455,6 +5455,12 @@ importers:
       '@types/jest':
         specifier: ^26.0.24
         version: 26.0.24
+      '@types/react':
+        specifier: ^17.0.53
+        version: 17.0.53
+      '@types/react-dom':
+        specifier: ^17.0.18
+        version: 17.0.18
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -5477,6 +5483,12 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
+      react:
+        specifier: ~17.0.2
+        version: 17.0.2
+      react-dom:
+        specifier: ~17.0.2
+        version: 17.0.2(react@17.0.2)
       typescript:
         specifier: 4.5.4
         version: 4.5.4
