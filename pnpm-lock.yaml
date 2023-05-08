@@ -5450,6 +5450,37 @@ importers:
         specifier: 4.5.4
         version: 4.5.4
 
+  packages/shared/widget-plugin-external-events:
+    dependencies:
+      '@types/jest':
+        specifier: ^26.0.24
+        version: 26.0.24
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:^1.0.0
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:^
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:^1.0.0
+        version: link:../tsconfig-web-widgets
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      jest:
+        specifier: '>=26.6.3'
+        version: 26.6.3
+      prettier:
+        specifier: ^2.8.4
+        version: 2.8.4
+      typescript:
+        specifier: 4.5.4
+        version: 4.5.4
+
   packages/shared/widget-plugin-filtering:
     dependencies:
       '@mendix/widget-kit-web':
@@ -9917,6 +9948,7 @@ packages:
   /browserslist@4.21.5:
     resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001457
       electron-to-chromium: 1.4.305
