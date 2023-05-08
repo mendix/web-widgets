@@ -3,7 +3,7 @@ import { createElement, ReactNode } from "react";
 import { CaptionsProvider } from "../types";
 
 interface EnumAndBooleanSimpleCaptionsProviderProps {
-    emptyOptionText: DynamicValue<string>;
+    emptyOptionText?: DynamicValue<string>;
     attribute: EditableValue<string | boolean>;
 }
 
@@ -12,7 +12,7 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     private emptyCaption = "";
     updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps) {
         this.attr = props.attribute;
-        if (props.emptyOptionText.status === "unavailable") {
+        if (props.emptyOptionText?.status === "unavailable" || !props.emptyOptionText) {
             this.emptyCaption = "";
         } else {
             this.emptyCaption = props.emptyOptionText.value!;
