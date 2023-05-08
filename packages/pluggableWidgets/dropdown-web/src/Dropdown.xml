@@ -15,12 +15,11 @@
                     <enumerationValues>
                         <enumerationValue key="enumerationOrBoolean">Enumeration or boolean</enumerationValue>
                         <enumerationValue key="association">Association</enumerationValue>
-                        <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
 
                 <!-- ENUM OR BOOLEAN -->
-                <property key="attributeEnumerationOrBoolean" type="attribute" required="false">
+                <property key="attributeEnumerationOrBoolean" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -31,7 +30,7 @@
                 <!-- END ENUM OR BOOLEAN -->
 
                 <!-- ASSOCIATION -->
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="false">
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <associationTypes>
@@ -40,7 +39,7 @@
                     </associationTypes>
                 </property>
                 <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
-                    <caption>Data source (association)</caption>
+                    <caption>Selectable objects</caption>
                     <description />
                 </property>
                 <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
@@ -51,17 +50,6 @@
                         <enumerationValue key="expression">Expression</enumerationValue>
                     </enumerationValues>
                 </property>
-            </propertyGroup>
-            <!-- END OPTIONS SOURCE -->
-
-            <!-- GENERAL -->
-            <propertyGroup caption="General">
-                <!-- Empty option -->
-                <property key="emptyOptionText" type="textTemplate" required="false">
-                    <caption>Placeholder text</caption>
-                    <description />
-                </property>
-
                 <!-- CAPTIONS -->
                 <property key="optionsSourceAssociationCaptionAttribute" type="attribute" dataSource="optionsSourceAssociationDataSource" required="false">
                     <caption>Caption (attribute)</caption>
@@ -76,15 +64,25 @@
                     <returnType type="String" />
                 </property>
                 <!-- END CAPTIONS -->
+            </propertyGroup>
+            <!-- END OPTIONS SOURCE -->
+
+            <!-- GENERAL -->
+            <propertyGroup caption="General">
+                <!-- Empty option -->
+                <property key="emptyOptionText" type="textTemplate" required="false">
+                    <caption>Placeholder text</caption>
+                    <description />
+                </property>
 
                 <!-- MISC PROPS -->
                 <property key="typeahead" type="enumeration" defaultValue="contains">
-                    <caption>Typeahead</caption>
+                    <caption>Autocomplete</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="no">No</enumerationValue>
-                        <enumerationValue key="startsWith">Starts-with</enumerationValue>
                         <enumerationValue key="contains">Contains</enumerationValue>
+                        <enumerationValue key="startsWith">Starts-with</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="clearable" type="boolean" defaultValue="true">
