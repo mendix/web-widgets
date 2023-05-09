@@ -4,15 +4,15 @@ on:
       - opened
 jobs:
   triage:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR: ${{ github.event.pull_request.html_url }}
     if: >-
       ${{ github.event_name == 'pull_request' &&
           github.event.pull_request.head.repo.full_name != 'mendix/web-widgets' }}
     runs-on: ubuntu-latest
     steps:
       - name: "First welcome comment"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR: ${{ github.event.pull_request.html_url }}
         run: |
-          gh pr edit $PR --add-label 'fork'
-          gh pr comment $PR --body 'Hi, thank you for your contribution to the `web-widgets` repository! Well, this looks like a great PR. What I want to make sure is that you understand that bringing new feature to the widget is a small journey. But don't be scared, we just need time to triage, test and analyze this feature. We may request xml, code or other changes that may be needed to match our desired look and feel for new feature.In general your PR looks promising, but we first need make sure it don't brake existing behavior.Here what we will do next: 1. We will discuss this new feature within our team. 2. If we decide to add it, we will do code review and testing. 3. If all goes well, we will publish this new feature in next minor release.'
+          gh pr edit $PR --add-label 'external'
+          gh pr comment $PR --body-file ./.github/pull_request_welcome_message.md
