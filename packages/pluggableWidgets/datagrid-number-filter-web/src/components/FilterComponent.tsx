@@ -1,6 +1,6 @@
 import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { useListenChannelEvents } from "@mendix/widget-plugin-external-events";
+import { useListenChannelEvents, recommendedEventNames } from "@mendix/widget-plugin-external-events";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import classNames from "classnames";
@@ -17,6 +17,8 @@ interface FilterProps {
     screenReaderInputCaption?: string;
     tabIndex?: number;
     styles?: CSSProperties;
+    widgetChannelName?: string;
+    providerChannelName?: string;
 }
 
 interface FilterComponentProps extends FilterProps {
@@ -85,13 +87,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
 
-    useListenChannelEvents(undefined, "filters.reset.every", onReset);
-    useListenChannelEvents("x", "filters.reset.every", onReset);
-    useListenChannelEvents("x", "filters.reset.single", (widgetName: string) => {
-        if (widgetName === "foo") {
-            onReset();
-        }
-    });
+    useListenChannelEvents(props.widgetChannelName, recommendedEventNames.input.clear, onReset);
+    useListenChannelEvents(props.providerChannelName, recommendedEventNames.grid.resetFilters, onReset);
 
     return (
         <PureFilterInput

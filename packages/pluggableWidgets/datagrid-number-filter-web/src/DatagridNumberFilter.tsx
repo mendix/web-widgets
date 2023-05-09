@@ -91,6 +91,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         screenReaderInputCaption={props.screenReaderInputCaption?.value}
                         styles={props.style}
                         tabIndex={props.tabIndex}
+                        providerChannelName={filterContextValue.providerData?.eventChannelName}
+                        widgetChannelName={props.name}
                         updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
                             props.valueAttribute?.setValue(value);
                             props.onChange?.execute();
