@@ -4730,14 +4730,14 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
       '@popperjs/core':
-        specifier: ^2.11.6
-        version: 2.11.6
+        specifier: ^2.11.7
+        version: 2.11.7
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
       react-popper:
         specifier: ^2.2.5
-        version: 2.3.0(@popperjs/core@2.11.6)(react-dom@17.0.2)(react@17.0.2)
+        version: 2.3.0(@popperjs/core@2.11.7)(react-dom@17.0.2)(react@17.0.2)
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -7717,6 +7717,10 @@ packages:
 
   /@popperjs/core@2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+
+  /@popperjs/core@2.11.7:
+    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+    dev: false
 
   /@prettier/plugin-xml@1.2.0:
     resolution: {integrity: sha512-bFvVAZKs59XNmntYjyefn3K4TBykS6E+d6ZW8IcylAs88ZO+TzLhp0dPpi0VKfPzq1Nb+kpDnPRTiwb4zY6NgA==}
@@ -17504,6 +17508,20 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
       react-fast-compare: 3.2.0
       warning: 4.0.3
+
+  /react-popper@2.3.0(@popperjs/core@2.11.7)(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
+    peerDependencies:
+      '@popperjs/core': ^2.0.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: ^16.8.0 || ^17 || ^18
+    dependencies:
+      '@popperjs/core': 2.11.7
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      react-fast-compare: 3.2.0
+      warning: 4.0.3
+    dev: false
 
   /react-prop-types@0.4.0(react@17.0.2):
     resolution: {integrity: sha512-IyjsJhDX9JkoOV9wlmLaS7z+oxYoIWhfzDcFy7inwoAKTu+VcVNrVpPmLeioJ94y6GeDRsnwarG1py5qofFQMg==}
