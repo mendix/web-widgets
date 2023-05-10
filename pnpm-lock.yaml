@@ -3901,7 +3901,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       rc-slider:
-        specifier: ^8.6.6
+        specifier: ^8.7.1
         version: 8.7.1(react-dom@17.0.2)(react@17.0.2)
       rc-tooltip:
         specifier: ^3.7.3
@@ -3947,7 +3947,7 @@ importers:
         specifier: ^18.13.0
         version: 18.14.0
       '@types/rc-slider':
-        specifier: ^8.6.4
+        specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
@@ -4306,7 +4306,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       rc-slider:
-        specifier: ^8.6.6
+        specifier: ^8.7.1
         version: 8.7.1(react-dom@17.0.2)(react@17.0.2)
       rc-tooltip:
         specifier: ^3.7.3
@@ -4352,7 +4352,7 @@ importers:
         specifier: ^18.13.0
         version: 18.14.0
       '@types/rc-slider':
-        specifier: ^8.6.4
+        specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
