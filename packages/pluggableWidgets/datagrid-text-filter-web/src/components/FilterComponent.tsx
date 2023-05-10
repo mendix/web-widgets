@@ -79,7 +79,7 @@ function FilterInput(props: FilterInputProps): ReactElement {
 const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({
+    const [state, { onInputChange, onTypeClick }] = useFilterState(() => ({
         inputValue: props.initialFilterValue ?? "",
         type: props.initialFilterType
     }));
@@ -88,7 +88,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     return (
         <PureFilterInput
             initialFilterType={props.initialFilterType}
-            onFilterTypeClick={onFilterTypeClick}
+            onFilterTypeClick={onTypeClick}
             onInputChange={onInputChange}
             inputRef={inputRef}
             inputValue={state.inputValue}

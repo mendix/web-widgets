@@ -7,24 +7,28 @@ type FilterState = {
     inputValue: string;
 };
 
-type InputChangeHandler = ChangeEventHandler<HTMLInputElement>;
-
-type TypeClickHandler = (type: FilterType) => void;
+type FilterChangeFns = {
+    onInputChange: ChangeEventHandler<HTMLInputElement>;
+    onTypeClick: (type: FilterType) => void;
+    onReset: () => void;
+};
 
 function updateState<K extends keyof S, V extends S[K], S>(key: K, value: V): (prev: S) => S {
     return prev => (prev[key] !== value ? { ...prev, [key]: value } : prev);
 }
 
-export function useFilterState(initialState: () => FilterState): [FilterState, InputChangeHandler, TypeClickHandler] {
+export function useFilterState(initialState: () => FilterState): [FilterState, FilterChangeFns] {
     const [state, setState] = useState(initialState);
-    const [onInputChange, onTypeClick] = useMemo(() => {
-        const inputHandler: InputChangeHandler = event => setState(updateState("inputValue", event.target.value));
-        const clickHandler: TypeClickHandler = type => setState(updateState("type", type));
+    const changeFns = useMemo<FilterChangeFns>(
+        () => ({
+            onInputChange: event => setState(updateState("inputValue", event.target.value)),
+            onTypeClick: type => setState(updateState("type", type)),
+            onReset: () => setState(updateState("inputValue", ""))
+        }),
+        []
+    );
 
-        return [inputHandler, clickHandler];
-    }, []);
-
-    return [state, onInputChange, onTypeClick];
+    return [state, changeFns];
 }
 
 type ChangeDispatch = (value: string | undefined, type: FilterType) => void;
