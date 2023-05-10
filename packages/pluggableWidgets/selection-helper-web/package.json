@@ -39,7 +39,7 @@
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.23.2",
+    "@mendix/pluggable-widgets-tools": "^9.24.0",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",

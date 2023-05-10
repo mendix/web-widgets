@@ -46,7 +46,7 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.23.2",
+    "@mendix/pluggable-widgets-tools": "^9.24.0",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@testing-library/dom": "^8.20.0",
     "@testing-library/jest-dom": "^5.16.5",
