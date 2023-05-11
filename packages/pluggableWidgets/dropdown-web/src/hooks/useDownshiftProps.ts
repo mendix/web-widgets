@@ -2,7 +2,11 @@ import Downshift, { DownshiftState, StateChangeOptions } from "downshift";
 import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
 
-export function useDownshiftProps(selector: SingleSelector, inputElement: HTMLInputElement | null) {
+export function useDownshiftProps(
+    selector: SingleSelector,
+    inputElement: HTMLInputElement | null,
+    emptyOptionText: string | undefined
+) {
     return useMemo(() => {
         return {
             itemToString: (v: string | null) => selector.caption.get(v),
@@ -13,6 +17,7 @@ export function useDownshiftProps(selector: SingleSelector, inputElement: HTMLIn
                     inputElement?.focus();
                 }
             },
+            defaultHighlightedIndex: 0,
             initialInputValue: selector.caption.get(selector.currentValue),
             stateReducer: (_state: DownshiftState<string>, changes: StateChangeOptions<string>) => {
                 switch (changes.type) {
@@ -26,10 +31,20 @@ export function useDownshiftProps(selector: SingleSelector, inputElement: HTMLIn
                         return {
                             ...changes
                         };
+                    case Downshift.stateChangeTypes.mouseUp:
+                    case Downshift.stateChangeTypes.blurButton:
+                    case undefined:
+                        return {
+                            ...changes,
+                            inputValue:
+                                changes.selectedItem || selector.caption.get(selector.currentValue) !== emptyOptionText
+                                    ? selector.caption.get(selector.currentValue)
+                                    : ""
+                        };
                     default:
-                        return changes;
+                        return { ...changes };
                 }
             }
         };
-    }, [selector, inputElement]);
+    }, [selector, inputElement, emptyOptionText]);
 }
