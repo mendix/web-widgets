@@ -13,7 +13,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
-    const downshiftProps = useDownshiftProps(selector, inputRef.current);
+    const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
     const actionEvents = useActionEvents(props);
     const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
 
@@ -35,16 +35,17 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
             }): JSX.Element => (
                 <div className="widget-dropdown" {...actionEvents}>
                     <div
-                        tabIndex={0}
                         ref={dropdownRef}
                         className={classNames("form-control", "widget-dropdown-input-container", {
-                            "widget-dropdown-input-container-active": isOpen
+                            "widget-dropdown-input-container-active":
+                                isOpen || document.activeElement === inputRef.current
                         })}
                         {...getToggleButtonProps({
                             disabled: readOnly
                         })}
                     >
                         <input
+                            tabIndex={0}
                             id="widget-dropdown-input"
                             className="widget-dropdown-input"
                             ref={inputRef}

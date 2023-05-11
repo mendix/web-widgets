@@ -12,9 +12,6 @@ export function getProperties(values: DropdownPreviewProps, defaultProperties: P
             "optionsSourceAssociationCaptionExpression",
             "optionsSourceAssociationDataSource"
         ]);
-
-        // clearable is not available in boolean, is it for Enums?
-        hidePropertiesIn(defaultProperties, values, ["clearable"]);
     } else if (values.optionsSourceType === "association") {
         hidePropertiesIn(defaultProperties, values, ["attributeEnumerationOrBoolean"]);
         if (values.optionsSourceAssociationCaptionType === "attribute") {

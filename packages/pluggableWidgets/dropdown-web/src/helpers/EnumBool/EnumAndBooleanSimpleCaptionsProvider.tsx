@@ -28,11 +28,6 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     }
 
     render(value: string | null): ReactNode {
-        return (
-            <span>
-                {this.get(value)}
-                <small>({value})</small>
-            </span>
-        );
+        return <span>{this.get(value)}</span>;
     }
 }
