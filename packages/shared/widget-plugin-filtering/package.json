@@ -43,8 +43,8 @@
   },
   "dependencies": {
     "@mendix/widget-kit-web": "workspace:*",
-    "@types/react": "17.0.53",
-    "@types/react-dom": "^17.0.19",
+    "@types/react": "17.0.59",
+    "@types/react-dom": "^17.0.20",
     "mendix": "^9.23.621"
   },
   "peerDependencies": {
