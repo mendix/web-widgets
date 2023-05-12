@@ -705,8 +705,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -805,8 +805,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -908,8 +908,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1011,8 +1011,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1114,8 +1114,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1217,8 +1217,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1323,8 +1323,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1426,8 +1426,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1535,8 +1535,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1720,8 +1720,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1826,8 +1826,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -1938,8 +1938,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2044,8 +2044,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2150,8 +2150,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2250,8 +2250,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2359,8 +2359,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2459,8 +2459,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2559,8 +2559,8 @@ importers:
         specifier: ^7.20.0
         version: 7.32.0
       mendix:
-        specifier: ^9.19.55544
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       react:
         specifier: ~17.0.2
         version: 17.0.2
@@ -2656,8 +2656,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2759,8 +2759,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -2914,8 +2914,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3014,8 +3014,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3117,8 +3117,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3217,8 +3217,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3323,8 +3323,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3450,8 +3450,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3559,8 +3559,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3659,8 +3659,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3762,8 +3762,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3868,8 +3868,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3986,8 +3986,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4092,8 +4092,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4216,8 +4216,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4391,8 +4391,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4494,8 +4494,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4600,8 +4600,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4700,8 +4700,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4806,8 +4806,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -4906,8 +4906,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -5009,8 +5009,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -5142,8 +5142,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3(ts-node@9.1.1)
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -5233,8 +5233,8 @@ importers:
         specifier: ^17.0.18
         version: 17.0.18
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -5267,8 +5267,8 @@ importers:
         specifier: ^6.0.2
         version: 6.2.1
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -5359,8 +5359,8 @@ importers:
         specifier: ^26.6.3
         version: 26.6.3
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -5410,8 +5410,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -5462,8 +5462,8 @@ importers:
         specifier: ^17.0.18
         version: 17.0.18
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -5499,8 +5499,8 @@ importers:
         specifier: ^17.0.18
         version: 17.0.18
       mendix:
-        specifier: ^9.23.621
-        version: 9.23.621
+        specifier: ^9.24.2965
+        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -8600,6 +8600,12 @@ packages:
 
   /@types/react-native@0.64.31:
     resolution: {integrity: sha512-U54mD5zsVade6nJidMEr8Zo7JGJytH+mH3Be3EeYrfgNMW1bHYr6U1HODFUC0wpprMdlQYvFXOSrBaWR2eefOA==}
+    dependencies:
+      '@types/react': 17.0.53
+    dev: true
+
+  /@types/react-native@0.70.13:
+    resolution: {integrity: sha512-VnC/ny8Eynk3fvY4cnNKXpo/0zUhA2gO64RX51yzVofblOP6TR6jciga0kIjI4c+2eUyWNGrahmiolNm+QU6Cw==}
     dependencies:
       '@types/react': 17.0.53
 
@@ -15410,6 +15416,14 @@ packages:
       '@types/big.js': 6.1.6
       '@types/react': 17.0.53
       '@types/react-native': 0.64.31
+    dev: true
+
+  /mendix@9.24.2965:
+    resolution: {integrity: sha512-YcWbfU/7KjvM9zSWmXrObYqFqKCG/HPnv6w8nTvOJSO3SLLogFIU0qeKd4BDHFxVAH7ouGWN874VAAgmBBIPNA==}
+    dependencies:
+      '@types/big.js': 6.1.6
+      '@types/react': 17.0.53
+      '@types/react-native': 0.70.13
 
   /meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
