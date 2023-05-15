@@ -1,5 +1,6 @@
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
+import { useListenChannelEvents, recommendedEventNames } from "@mendix/widget-plugin-external-events";
 
 import { DefaultFilterEnum } from "../../typings/DatagridDateFilterProps";
 
@@ -24,6 +25,8 @@ interface FilterComponentProps {
     screenReaderInputCaption?: string;
     tabIndex?: number;
     styles?: CSSProperties;
+    widgetChannel?: string;
+    providerChannel?: string;
     updateFilters?: (value: Date | undefined, rangeValues: RangeDateValue, type: DefaultFilterEnum) => void;
 }
 
@@ -42,6 +45,13 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             pickerRef.current.setFocus();
         }
     }, [pickerRef.current]);
+
+    const reset = (): void => {
+        setRangeValues([undefined, undefined]);
+        setValue(undefined);
+    };
+    useListenChannelEvents(props.widgetChannel, recommendedEventNames.input.clear, reset);
+    useListenChannelEvents(props.providerChannel, recommendedEventNames.grid.resetFilters, reset);
 
     return (
         <div

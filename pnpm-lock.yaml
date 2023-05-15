@@ -1855,6 +1855,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-external-events':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-external-events
       classnames:
         specifier: ^2.3.2
         version: 2.3.2

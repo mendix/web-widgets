@@ -119,6 +119,8 @@ export default function DatagridDateFilter(props: DatagridDateFilterContainerPro
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         calendarStartDay={firstDayOfWeek}
+                        widgetChannel={props.name}
+                        providerChannel={filterContextValue.providerData?.eventChannelName}
                         updateFilters={(
                             value: Date | undefined,
                             rangeValues: RangeDateValue,
