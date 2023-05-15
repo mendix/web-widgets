@@ -44,3 +44,7 @@ export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): S
         ]
     };
 }
+
+export function getCustomCaption(values: FieldsetPreviewProps): string {
+    return values.legend || "Fieldset";
+}

@@ -30,3 +30,7 @@ export function getPreview(values: BadgePreviewProps, isDarkMode: boolean): Stru
         ]
     };
 }
+
+export function getCustomCaption(values: BadgePreviewProps): string {
+    return values?.value ?? "Badge";
+}

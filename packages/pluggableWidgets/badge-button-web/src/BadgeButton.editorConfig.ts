@@ -61,3 +61,7 @@ export function getPreview(values: BadgeButtonPreviewProps, isDarkMode: boolean)
         ]
     };
 }
+
+export function getCustomCaption(values: BadgeButtonPreviewProps): string {
+    return values.label ?? "Badge button";
+}
