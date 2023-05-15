@@ -188,3 +188,7 @@ export function getPreview(_: SliderPreviewProps, isDarkMode: boolean): Structur
         width: 300
     };
 }
+
+export function getCustomCaption(values: SliderPreviewProps, _platform = "desktop"): string {
+    return values.valueAttribute || `Slider`;
+}

@@ -64,3 +64,7 @@ export function check(values: StarRatingPreviewProps): Problem[] {
     }
     return errors;
 }
+
+export function getCustomCaption(values: StarRatingPreviewProps, _platform = "desktop"): string {
+    return values.rateAttribute || `Rating`;
+}

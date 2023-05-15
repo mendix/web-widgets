@@ -3,7 +3,8 @@ import {
     DropZoneProps,
     RowLayoutProps,
     StructurePreviewProps,
-    TextProps
+    TextProps,
+    datasource
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
@@ -164,4 +165,10 @@ function getChevronIconPreview(headerType: HeaderTypeEnum, isDarkMode: boolean):
             }
         ]
     };
+}
+
+export function getCustomCaption(values: TreeNodePreviewProps, _platform = "desktop"): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
+    return dsProperty.caption || "Tree node";
 }

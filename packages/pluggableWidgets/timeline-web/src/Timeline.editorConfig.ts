@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { datasource, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { TimelinePreviewProps } from "../typings/TimelineProps";
@@ -171,4 +171,10 @@ export function getPreview(values: TimelinePreviewProps, isDarkMode: boolean): S
                 return "Today";
         }
     }
+}
+
+export function getCustomCaption(values: TimelinePreviewProps, _platform = "desktop"): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.data)().property ?? {};
+    return dsProperty.caption || "Timeline";
 }

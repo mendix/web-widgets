@@ -63,3 +63,7 @@ export function getPreview(values: VideoPlayerPreviewProps): StructurePreviewPro
         height: 211
     };
 }
+
+export function getCustomCaption(values: VideoPlayerPreviewProps, _platform = "desktop"): string {
+    return values.videoUrl || `Video Player`;
+}
