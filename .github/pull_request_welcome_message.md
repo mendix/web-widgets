@@ -8,7 +8,7 @@ We know that you probably wish to see your cool new feature or fix ASAP, but bri
 
 For now, here is what will happen next:
 
-1. Our TotW\* will quickly scan your code for malware and, if all is well, trigger a PR check.
+1. Our TotW\* will quickly scan your code and, if all is well, trigger a PR check.
 2. We will discuss your new feature or fix within our team.
 3. If we decide to add it, we will do code review and testing. As mentioned, we may ask you to make some changes.
 4. If all goes well, we will publish this new feature or fix in the next minor or patch release.

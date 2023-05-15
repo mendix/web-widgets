@@ -1,3 +1,4 @@
+name: "Welcome notice for external pull requests"
 on:
   pull_request:
     types:
