@@ -195,5 +195,5 @@ function getSingularPlural(word: string, elements: number): string {
 export function getCustomCaption(values: GalleryPreviewProps): string {
     type DsProperty = { caption?: string };
     const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
-    return dsProperty.caption ?? "Gallery";
+    return dsProperty.caption || "Gallery";
 }

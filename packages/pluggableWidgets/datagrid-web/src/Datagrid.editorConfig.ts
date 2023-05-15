@@ -412,5 +412,5 @@ export function check(values: DatagridPreviewProps): Problem[] {
 export function getCustomCaption(values: DatagridPreviewProps): string {
     type DsProperty = { caption?: string };
     const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
-    return dsProperty.caption ?? "Data grid 2";
+    return dsProperty.caption || "Data grid 2";
 }
