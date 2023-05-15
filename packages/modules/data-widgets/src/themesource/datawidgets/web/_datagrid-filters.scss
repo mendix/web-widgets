@@ -29,6 +29,10 @@ $item-min-height: 32px;
 
     .btn-calendar {
         margin-left: 5px; //Review in atlas, the current date picker is also 5px
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
     }
 }
 

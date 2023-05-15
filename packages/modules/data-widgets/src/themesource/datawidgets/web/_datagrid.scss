@@ -313,7 +313,7 @@ $grid-selected-row-background: $brand-light;
             outline: 1px solid $brand-primary;
         }
     }
-    svg {
+    .pagination-icon {
         position: relative;
         top: 4px;
         display: inline-block;
@@ -361,12 +361,5 @@ $grid-selected-row-background: $brand-light;
         .tr.tr-selected .td {
             background-color: $grid-selected-row-background;
         }
-    }
-}
-
-.calendar-icon {
-    svg {
-        width: 18px;
-        height: 18px;
     }
 }

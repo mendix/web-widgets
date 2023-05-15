@@ -138,7 +138,7 @@ export const DatePicker = forwardRef(
                     aria-haspopup
                     aria-label={props.screenReaderCalendarCaption ?? "Show calendar"}
                     ref={buttonRef}
-                    className="btn btn-default btn-calendar calendar-icon"
+                    className="btn btn-default btn-calendar"
                     onClick={buttonClick}
                     onKeyDown={e => {
                         if (e.key === "Enter" || e.key === " ") {
