@@ -148,15 +148,18 @@ export function check(values: ColumnChartPreviewProps): Problem[] {
 export function getCustomCaption(values: ColumnChartPreviewProps): string {
     type DsProperty = { caption?: string };
 
-    const datasources = values.series.map(serie => {
-        const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
-        const dsProperty: DsProperty = datasource(ds)().property ?? {};
-        return dsProperty.caption?.replace("[", "").replace("]", "");
-    });
-
-    if (datasources.length > 1) {
-        return `${datasources[0]} and ${datasources.length - 1} more`;
+    if (values.series.length === 0) {
+        return "Column chart";
     }
 
-    return datasources[0] || "Column chart";
+    const serie = values.series[0];
+    const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+    const dsProperty: DsProperty = datasource(ds)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "") || "";
+
+    if (values.series.length > 1) {
+        return `${caption} and ${values.series.length - 1} more`;
+    }
+
+    return caption;
 }

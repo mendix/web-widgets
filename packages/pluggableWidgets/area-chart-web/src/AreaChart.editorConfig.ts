@@ -139,15 +139,18 @@ export function check(values: AreaChartPreviewProps): Problem[] {
 export function getCustomCaption(values: AreaChartPreviewProps): string {
     type DsProperty = { caption?: string };
 
-    const datasources = values.series.map(serie => {
-        const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
-        const dsProperty: DsProperty = datasource(ds)().property ?? {};
-        return dsProperty.caption?.replace("[", "").replace("]", "");
-    });
-
-    if (datasources.length > 1) {
-        return `${datasources[0]} and ${datasources.length - 1} more`;
+    if (values.series.length === 0) {
+        return "Area chart";
     }
 
-    return datasources[0] || "Area chart";
+    const serie = values.series[0];
+    const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+    const dsProperty: DsProperty = datasource(ds)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "") || "";
+
+    if (values.series.length > 1) {
+        return `${caption} and ${values.series.length - 1} more`;
+    }
+
+    return caption;
 }

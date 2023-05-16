@@ -127,15 +127,18 @@ export function check(_values: TimeSeriesPreviewProps): Problem[] {
 export function getCustomCaption(values: TimeSeriesPreviewProps): string {
     type DsProperty = { caption?: string };
 
-    const datasources = values.lines.map(line => {
-        const ds = line.dataSet === "dynamic" ? line.dynamicDataSource : line.staticDataSource;
-        const dsProperty: DsProperty = datasource(ds)().property ?? {};
-        return dsProperty.caption?.replace("[", "").replace("]", "");
-    });
-
-    if (datasources.length > 1) {
-        return `${datasources[0]} and ${datasources.length - 1} more`;
+    if (values.lines.length === 0) {
+        return "Time series";
     }
 
-    return datasources[0] || "Time series";
+    const serie = values.lines[0];
+    const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+    const dsProperty: DsProperty = datasource(ds)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "") || "";
+
+    if (values.lines.length > 1) {
+        return `${caption} and ${values.lines.length - 1} more`;
+    }
+
+    return caption;
 }
