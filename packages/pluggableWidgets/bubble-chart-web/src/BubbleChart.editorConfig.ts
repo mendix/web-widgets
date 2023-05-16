@@ -1,4 +1,4 @@
-import { ContainerProps, ImageProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { ContainerProps, ImageProps, StructurePreviewProps, datasource } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -148,4 +148,20 @@ export function check(values: BubbleChartPreviewProps): Problem[] {
         }
     });
     return errors;
+}
+
+export function getCustomCaption(values: BubbleChartPreviewProps): string {
+    type DsProperty = { caption?: string };
+
+    const datasources = values.lines.map(line => {
+        const ds = line.dataSet === "dynamic" ? line.dynamicDataSource : line.staticDataSource;
+        const dsProperty: DsProperty = datasource(ds)().property ?? {};
+        return dsProperty.caption?.replace("[", "").replace("]", "");
+    });
+
+    if (datasources.length > 1) {
+        return `${datasources[0]} and ${datasources.length - 1} more`;
+    }
+
+    return datasources[0] || "Bubble chart";
 }

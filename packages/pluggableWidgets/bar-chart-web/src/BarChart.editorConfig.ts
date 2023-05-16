@@ -1,5 +1,5 @@
 import { BarChartPreviewProps, BarmodeEnum } from "../typings/BarChartProps";
-import { StructurePreviewProps, ContainerProps, ImageProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ContainerProps, ImageProps, datasource } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -143,4 +143,20 @@ export function check(values: BarChartPreviewProps): Problem[] {
     });
 
     return errors;
+}
+
+export function getCustomCaption(values: BarChartPreviewProps): string {
+    type DsProperty = { caption?: string };
+
+    const datasources = values.series.map(serie => {
+        const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+        const dsProperty: DsProperty = datasource(ds)().property ?? {};
+        return dsProperty.caption?.replace("[", "").replace("]", "");
+    });
+
+    if (datasources.length > 1) {
+        return `${datasources[0]} and ${datasources.length - 1} more`;
+    }
+
+    return datasources[0] || "Bar chart";
 }

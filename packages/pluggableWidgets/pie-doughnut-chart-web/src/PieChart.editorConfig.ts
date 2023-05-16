@@ -1,4 +1,4 @@
-import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ImageProps, ContainerProps, datasource } from "@mendix/pluggable-widgets-commons";
 import {
     hidePropertiesIn,
     hidePropertyIn,
@@ -89,4 +89,12 @@ export function check(_values: PieChartPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
     return errors;
+}
+
+export function getCustomCaption(values: PieChartPreviewProps): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.seriesDataSource)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "");
+
+    return caption || "Pie chart";
 }
