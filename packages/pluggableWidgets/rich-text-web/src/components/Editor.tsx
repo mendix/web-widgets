@@ -184,7 +184,9 @@ export class Editor extends Component<EditorProps> {
             const content = this.widgetProps.sanitizeContent ? DOMPurify.sanitize(editorData) : editorData;
             this.lastSentValue = content;
             this.applyChangesDebounce();
-            this.updateImageList(content);
+            if (this.widgetProps.enableUploadImages) {
+                this.updateImageList(content);
+            }
         }
     }
 
@@ -217,7 +219,7 @@ export class Editor extends Component<EditorProps> {
     }
 
     updateImageList(content: string | undefined): void {
-        if (!this.widgetProps.enableUploadImages || !this.widgetProps.UploadedImages || !content) {
+        if (!this.widgetProps.enableUploadImages || !this.widgetProps.uploadedImages || !content) {
             return;
         }
 
@@ -228,7 +230,7 @@ export class Editor extends Component<EditorProps> {
                 this.uploadedImages.push(match[1]);
             }
         }
-        this.widgetProps.UploadedImages.setValue(this.uploadedImages.join(","));
+        this.widgetProps.uploadedImages.setValue(this.uploadedImages.join(","));
     }
 
     updateEditorState(

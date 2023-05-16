@@ -59,7 +59,7 @@ export function getProperties(
         hidePropertiesIn(
             defaultProperties,
             values,
-            toolbarGroups.concat(["uploadImageEndpoint", "UploadedImages", "uploadImageMaxSize"])
+            toolbarGroups.concat(["uploadImageEndpoint", "uploadedImages", "uploadImageMaxSize"])
         );
     }
     return defaultProperties;

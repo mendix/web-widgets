@@ -310,7 +310,7 @@
                     <caption>Upload Image Max Size</caption>
                     <description>Max allowed image size in KB.</description>
                 </property>
-                <property key="UploadedImages" type="attribute" required="false">
+                <property key="uploadedImages" type="attribute" required="false">
                     <caption>Uploaded Image List</caption>
                     <description>List of images that has been used as content in comma separated format.</description>
                     <attributeTypes>
