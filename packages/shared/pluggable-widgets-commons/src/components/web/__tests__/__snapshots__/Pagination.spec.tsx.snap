@@ -15,7 +15,7 @@ exports[`Pagination renders the current page correctly with server side paging 1
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon step-backward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ exports[`Pagination renders the current page correctly with server side paging 1
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon backward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ exports[`Pagination renders the current page correctly with server side paging 1
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon forward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ exports[`Pagination renders the structure correctly 1`] = `
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon step-backward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@ exports[`Pagination renders the structure correctly 1`] = `
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon backward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +169,7 @@ exports[`Pagination renders the structure correctly 1`] = `
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon forward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@ exports[`Pagination renders the structure correctly 1`] = `
       aria-hidden="true"
     >
       <svg
-        class="pagination-icon"
+        class="pagination-icon step-forward"
         fill="currentColor"
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"

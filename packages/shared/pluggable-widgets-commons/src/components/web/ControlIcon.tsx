@@ -1,12 +1,13 @@
 import { ReactElement, createElement } from "react";
 
 export default function ControlIcon({ direction }: { direction: string }): ReactElement {
+    const classNames = `pagination-icon ${direction}`;
     switch (direction) {
         case "forward":
             return (
                 <span aria-hidden>
                     <svg
-                        className="pagination-icon"
+                        className={classNames}
                         viewBox="0 0 32 32"
                         fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +27,7 @@ export default function ControlIcon({ direction }: { direction: string }): React
             return (
                 <span aria-hidden>
                     <svg
-                        className="pagination-icon"
+                        className={classNames}
                         viewBox="0 0 32 32"
                         fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +44,7 @@ export default function ControlIcon({ direction }: { direction: string }): React
             return (
                 <span aria-hidden>
                     <svg
-                        className="pagination-icon"
+                        className={classNames}
                         viewBox="0 0 32 32"
                         fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +64,7 @@ export default function ControlIcon({ direction }: { direction: string }): React
             return (
                 <span aria-hidden>
                     <svg
-                        className="pagination-icon"
+                        className={classNames}
                         viewBox="0 0 32 32"
                         fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
