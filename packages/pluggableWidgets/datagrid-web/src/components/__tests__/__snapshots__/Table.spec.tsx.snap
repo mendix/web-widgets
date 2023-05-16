@@ -840,7 +840,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
             aria-hidden="true"
           >
             <svg
-              class="pagination-icon"
+              class="pagination-icon step-backward"
               fill="currentColor"
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
@@ -864,7 +864,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
             aria-hidden="true"
           >
             <svg
-              class="pagination-icon"
+              class="pagination-icon backward"
               fill="currentColor"
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
@@ -900,7 +900,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
             aria-hidden="true"
           >
             <svg
-              class="pagination-icon"
+              class="pagination-icon forward"
               fill="currentColor"
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
@@ -1171,7 +1171,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon step-backward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1195,7 +1195,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon backward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1231,7 +1231,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon forward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1351,7 +1351,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon step-backward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1375,7 +1375,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon backward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1411,7 +1411,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
               aria-hidden="true"
             >
               <svg
-                class="pagination-icon"
+                class="pagination-icon forward"
                 fill="currentColor"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
