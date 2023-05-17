@@ -1,5 +1,5 @@
 import { ColumnChartPreviewProps, BarmodeEnum } from "../typings/ColumnChartProps";
-import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ImageProps, ContainerProps, datasource } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -143,4 +143,23 @@ export function check(values: ColumnChartPreviewProps): Problem[] {
     });
 
     return errors;
+}
+
+export function getCustomCaption(values: ColumnChartPreviewProps): string {
+    type DsProperty = { caption?: string };
+
+    if (values.series.length === 0) {
+        return "Column chart";
+    }
+
+    const serie = values.series[0];
+    const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+    const dsProperty: DsProperty = datasource(ds)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "") || "";
+
+    if (values.series.length > 1) {
+        return `${caption} and ${values.series.length - 1} more`;
+    }
+
+    return caption;
 }

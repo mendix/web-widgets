@@ -1,4 +1,4 @@
-import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ImageProps, ContainerProps, datasource } from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -136,4 +136,23 @@ export function check(values: LineChartPreviewProps): Problem[] {
         }
     });
     return errors;
+}
+
+export function getCustomCaption(values: LineChartPreviewProps): string {
+    type DsProperty = { caption?: string };
+
+    if (values.lines.length === 0) {
+        return "Line chart";
+    }
+
+    const serie = values.lines[0];
+    const ds = serie.dataSet === "dynamic" ? serie.dynamicDataSource : serie.staticDataSource;
+    const dsProperty: DsProperty = datasource(ds)().property ?? {};
+    const caption = dsProperty.caption?.replace("[", "").replace("]", "") || "";
+
+    if (values.lines.length > 1) {
+        return `${caption} and ${values.lines.length - 1} more`;
+    }
+
+    return caption;
 }

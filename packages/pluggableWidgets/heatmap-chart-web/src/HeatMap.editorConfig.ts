@@ -1,4 +1,4 @@
-import { StructurePreviewProps, ImageProps, ContainerProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ImageProps, ContainerProps, datasource } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, moveProperty, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { HeatMapPreviewProps } from "../typings/HeatMapProps";
@@ -93,4 +93,10 @@ export function getPreview(values: HeatMapPreviewProps, isDarkMode: boolean): St
         columnSize: "fixed",
         children: values.showScale ? [chartImage, legendImage, filler] : [chartImage, filler]
     };
+}
+
+export function getCustomCaption(values: HeatMapPreviewProps): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.seriesDataSource)().property ?? {};
+    return dsProperty.caption || "Heatmap chart";
 }
