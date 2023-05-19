@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
 ## [3.3.0] - 2023-01-04
 
 ### Changed
