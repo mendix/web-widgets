@@ -1,5 +1,5 @@
 {
-  "name": "web-actions",
+  "name": "@mendix/web-actions",
   "moduleName": "Web Actions",
   "version": "2.7.0",
   "license": "Apache-2.0",

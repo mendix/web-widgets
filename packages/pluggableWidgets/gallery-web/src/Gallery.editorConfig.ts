@@ -2,7 +2,8 @@ import {
     ContainerProps,
     DropZoneProps,
     RowLayoutProps,
-    StructurePreviewProps
+    StructurePreviewProps,
+    datasource
 } from "@mendix/pluggable-widgets-commons";
 import {
     hidePropertiesIn,
@@ -189,4 +190,10 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
 
 function getSingularPlural(word: string, elements: number): string {
     return elements > 1 ? word + "s" : word;
+}
+
+export function getCustomCaption(values: GalleryPreviewProps): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
+    return dsProperty.caption || "Gallery";
 }

@@ -73,7 +73,7 @@ export const RepositorySchema = z.object({
 });
 
 export const PackageSchema = z.object({
-    name: z.string().min(1),
+    name: z.string().min(1).startsWith("@mendix/"),
     version: versionSchema,
     private: z.boolean().optional(),
     license: z.literal("Apache-2.0"),

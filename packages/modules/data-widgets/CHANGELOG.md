@@ -6,6 +6,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.2] DataWidgets - 2023-05-02
+
+### [2.7.1] Datagrid
+
+#### Added
+
+-   It is now possible to add Selection helper widget into the header section of Data Grid 2.
+
+### [1.3.1] Gallery
+
+#### Changed
+
+-   Minor changes in the internal structure of the widget.
+
+### [1.0.1] SelectionHelper
+
+#### Added
+
+-   It is now possible to add selection helper in the header of the Data Grid 2 widget.
+
+## [2.7.1] DataWidgets - 2023-05-01
+
+### [2.5.0] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with widget rendering and performance.
+
+#### Breaking changes
+
+-   We introduce a breaking change that affects how widget is reacting on default value changes. Starting with this version, widget use the default value attribute only as an initial value, and any further changes to the default value attribute will be ignored.
+
+### [2.4.0] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue with widget rendering and performance.
+
+#### Breaking changes
+
+-   We introduce a breaking change that affects how widget is reacting on default value changes. Starting with this version, widget use the default value attribute only as an initial value, and any further changes to the default value attribute will be ignored.
+
+### [2.4.0] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with widget rendering and performance.
+
+#### Breaking changes
+
+-   We introduce a breaking change that affects how widget is reacting on default value changes. Starting with this version, widget use the default value attribute only as an initial value, and any further changes to the default value attribute will be ignored.
+
+### [2.4.0] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with widget rendering and performance.
+
+#### Breaking changes
+
+-   We introduce a breaking change that affects how widget is reacting on default value changes. Starting with this version, widget use the default value attribute only as an initial value, and any further changes to the default value attribute will be ignored.
+
 ## [2.7.0] DataWidgets - 2023-03-29
 
 ### [2.7.0] Datagrid

@@ -210,7 +210,7 @@ export const getPreview = (
             )
         )
     );
-    const titleHeader = rowLayout({
+    const gridTitle = rowLayout({
         columnSize: "fixed",
         backgroundColor: modeColor("#3B5C8F", "#DAEFFB"),
         borders: true,
@@ -220,7 +220,7 @@ export const getPreview = (
             padding: 4
         })(text({ fontColor: modeColor("#6DB1FE", "#2074C8") })("Data grid 2"))
     );
-    const headerFilters = rowLayout({
+    const gridHeaderWidgets = rowLayout({
         columnSize: "fixed",
         borders: true
     })(
@@ -230,7 +230,7 @@ export const getPreview = (
         )(values.filtersPlaceholder)
     );
 
-    const headers = rowLayout({
+    const columnHeaders = rowLayout({
         columnSize: "fixed"
     })(
         ...columnProps.map(column => {
@@ -274,7 +274,7 @@ export const getPreview = (
                 : content;
         })
     );
-    const footer =
+    const customEmptyMessageWidgets =
         values.showEmptyPlaceholder === "custom"
             ? [
                   rowLayout({
@@ -290,12 +290,12 @@ export const getPreview = (
             : [];
 
     return container()(
-        titleHeader,
+        gridTitle,
         ...(canHideDataSourceHeader ? [datasource(values.datasource)()] : []),
-        headerFilters,
-        headers,
+        gridHeaderWidgets,
+        columnHeaders,
         ...Array.from({ length: 5 }).map(() => columns),
-        ...footer
+        ...customEmptyMessageWidgets
     );
 };
 
@@ -407,4 +407,10 @@ export function check(values: DatagridPreviewProps): Problem[] {
     errors.push(...checkSelectionSettings(values));
 
     return errors;
+}
+
+export function getCustomCaption(values: DatagridPreviewProps): string {
+    type DsProperty = { caption?: string };
+    const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
+    return dsProperty.caption || "Data grid 2";
 }

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] - 2023-05-01
+
+### Fixed
+
+-   We fixed an issue with widget rendering and performance.
+
+### Breaking changes
+
+-   We introduce a breaking change that affects how widget is reacting on default value changes. Starting with this version, widget use the default value attribute only as an initial value, and any further changes to the default value attribute will be ignored.
+
 ## [2.4.2] - 2022-09-29
 
 ### Fixed

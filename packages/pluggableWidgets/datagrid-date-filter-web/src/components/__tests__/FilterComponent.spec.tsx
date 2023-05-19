@@ -40,7 +40,7 @@ describe("Filter component", () => {
     });
 
     describe("with defaultValue", () => {
-        it("call updateFilters when defaultValue get new value", () => {
+        it("don't call updateFilters when defaultValue get new value", () => {
             const date = new Date(946684800000);
             const updateFilters = jest.fn();
             const { rerender } = render_fromTestingLibrary(
@@ -49,7 +49,7 @@ describe("Filter component", () => {
 
             // First time updateFilters is called on initial mount
             expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters.mock.calls[0][0]).toBe(date);
+            expect(updateFilters).toHaveBeenLastCalledWith(date, [undefined, undefined], "equal");
 
             const nextValue = new Date(999999900000);
 
@@ -62,8 +62,8 @@ describe("Filter component", () => {
                 />
             );
 
-            expect(updateFilters).toBeCalledTimes(2);
-            expect(updateFilters.mock.calls[1][0]).toBe(nextValue);
+            expect(updateFilters).toBeCalledTimes(1);
+            expect(updateFilters).toHaveBeenLastCalledWith(date, [undefined, undefined], "equal");
         });
 
         it("don't call updateFilters when defaultValue get same value", () => {

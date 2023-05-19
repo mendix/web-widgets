@@ -178,3 +178,7 @@ export function check(values: ImagePreviewProps): Problem[] {
 
     return errors;
 }
+
+export function getCustomCaption(values: any): string {
+    return values.datasource || "Image";
+}

@@ -1,5 +1,5 @@
 {
-  "name": "anychart-buildingblocks",
+  "name": "@mendix/anychart-buildingblocks",
   "version": "3.0.3",
   "description": "Module for publishing AnyChart widget along with building blocks",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
     "type": "module",
     "mpkName": "AnyChart_BuildingBlocks.mpk",
     "dependencies": [
-      "any-chart-web"
+      "@mendix/any-chart-web"
     ]
   },
   "moduleFolderNameInModeler": "anychart_buildingblocks",
@@ -36,7 +36,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "any-chart-web": "workspace:*"
+    "@mendix/any-chart-web": "workspace:*"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",

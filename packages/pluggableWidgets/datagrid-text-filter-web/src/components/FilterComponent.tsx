@@ -1,50 +1,37 @@
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import { createElement, CSSProperties, ReactElement, memo, useRef, ChangeEventHandler } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-import { debounce } from "@mendix/pluggable-widgets-commons";
-
-import { DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
+import { useFilterState, useStateChangeEffects } from "../features/filter-state";
+import { FilterType } from "../../typings/FilterType";
 import classNames from "classnames";
 
-interface FilterComponentProps {
+interface FilterProps {
     adjustable: boolean;
+    initialFilterType: FilterType;
     className?: string;
-    defaultFilter: DefaultFilterEnum;
-    delay: number;
     id?: string;
     placeholder?: string;
-    tabIndex?: number;
     screenReaderButtonCaption?: string;
     screenReaderInputCaption?: string;
+    tabIndex?: number;
     styles?: CSSProperties;
-    updateFilters?: (value: string, type: DefaultFilterEnum) => void;
-    value?: string;
 }
 
-export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
-    const [value, setValue] = useState("");
-    const [valueInput, setValueInput] = useState("");
-    const inputRef = useRef<HTMLInputElement | null>(null);
+interface FilterComponentProps extends FilterProps {
+    inputChangeDelay: number;
+    initialFilterValue?: string;
+    updateFilters?: (value: string | undefined, type: FilterType) => void;
+}
 
-    useEffect(() => {
-        setValueInput(props.value ?? "");
-        setValue(props.value ?? "");
-    }, [props.value]);
+interface FilterInputProps extends FilterProps {
+    onFilterTypeClick: (type: FilterType) => void;
+    onInputChange: ChangeEventHandler<HTMLInputElement>;
+    inputValue: string;
+    inputRef?: React.ClassAttributes<HTMLInputElement>["ref"];
+    inputDisabled?: boolean;
+}
 
-    useEffect(() => {
-        props.updateFilters?.(value, type);
-    }, [value, type]);
-
-    const onChange = useCallback(
-        debounce((value: string) => setValue(value), props.delay),
-        [props.delay]
-    );
-
-    const focusInput = useCallback(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [inputRef]);
+function FilterInput(props: FilterInputProps): ReactElement {
+    const { current: initialFilterType } = useRef(props.initialFilterType);
 
     return (
         <div
@@ -56,19 +43,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     id={props.id}
-                    defaultFilter={props.defaultFilter}
-                    onChange={useCallback(
-                        type => {
-                            setType(prev => {
-                                if (prev === type) {
-                                    return prev;
-                                }
-                                focusInput();
-                                return type;
-                            });
-                        },
-                        [focusInput]
-                    )}
+                    defaultFilter={initialFilterType}
+                    onChange={props.onFilterTypeClick}
                     options={
                         [
                             { value: "contains", label: "Contains" },
@@ -82,23 +58,49 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                             { value: "smallerEqual", label: "Smaller than or equal" },
                             { value: "empty", label: "Empty" },
                             { value: "notEmpty", label: "Not empty" }
-                        ] as Array<{ value: DefaultFilterEnum; label: string }>
+                        ] as Array<{ value: FilterType; label: string }>
                     }
                 />
             )}
             <input
                 aria-label={props.screenReaderInputCaption}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
-                disabled={type === "empty" || type === "notEmpty"}
-                onChange={e => {
-                    setValueInput(e.target.value);
-                    onChange(e.target.value);
-                }}
+                disabled={props.inputDisabled}
+                onChange={props.onInputChange}
                 placeholder={props.placeholder}
-                ref={inputRef}
+                ref={props.inputRef}
                 type="text"
-                value={valueInput}
+                value={props.inputValue}
             />
         </div>
+    );
+}
+
+const PureFilterInput = memo(FilterInput);
+
+export function FilterComponent(props: FilterComponentProps): ReactElement {
+    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({
+        inputValue: props.initialFilterValue ?? "",
+        type: props.initialFilterType
+    }));
+    const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
+
+    return (
+        <PureFilterInput
+            initialFilterType={props.initialFilterType}
+            onFilterTypeClick={onFilterTypeClick}
+            onInputChange={onInputChange}
+            inputRef={inputRef}
+            inputValue={state.inputValue}
+            inputDisabled={state.type === "empty" || state.type === "notEmpty"}
+            adjustable={props.adjustable}
+            className={props.className}
+            id={props.id}
+            placeholder={props.placeholder}
+            screenReaderButtonCaption={props.screenReaderButtonCaption}
+            screenReaderInputCaption={props.screenReaderInputCaption}
+            styles={props.styles}
+            tabIndex={props.tabIndex}
+        />
     );
 }

@@ -1,5 +1,5 @@
 {
-  "name": "progress-circle-web",
+  "name": "@mendix/progress-circle-web",
   "widgetName": "ProgressCircle",
   "version": "3.1.0",
   "description": "Displays a progress in a circle",
@@ -53,8 +53,8 @@
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.13.0",
-    "@types/react": "^17.0.53",
-    "@types/react-dom": "^17.0.19",
+    "@types/react": "^17.0.59",
+    "@types/react-dom": "^17.0.20",
     "@types/react-test-renderer": "<18.0.0",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@types/testing-library__react-hooks": "^3.4.1",
@@ -76,6 +76,6 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "progressbar.js": "^1.0.1"
+    "progressbar.js": "^1.1.0"
   }
 }

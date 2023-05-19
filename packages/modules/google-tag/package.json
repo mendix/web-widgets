@@ -1,5 +1,5 @@
 {
-  "name": "google-tag",
+  "name": "@mendix/google-tag",
   "moduleName": "Google Tag module",
   "version": "2.0.0",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     "name": "GoogleTagModule",
     "mpkName": "GoogleTagModule.mpk",
     "dependencies": [
-      "google-tag-web"
+      "@mendix/google-tag-web"
     ]
   },
   "moduleFolderNameInModeler": "googletagmodule",
@@ -37,7 +37,7 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "dependencies": {
-    "google-tag-web": "workspace:*"
+    "@mendix/google-tag-web": "workspace:*"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",

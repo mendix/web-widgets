@@ -12,7 +12,8 @@ async function main(): Promise<void> {
     const pkg = await getPublishedInfo(path);
     const appName = pkg.marketplace.appName;
     const version = pkg.version.format();
-    const releaseTag = `${pkg.name}-v${version}`;
+    const pkgName = pkg.name.replace("@mendix/", "");
+    const releaseTag = `${pkgName}-v${version}`;
     const notesFile = resolve(await gh.createTempFile());
     console.log(notesFile);
 
@@ -25,8 +26,8 @@ async function main(): Promise<void> {
     }
 
     // Do release
-    console.log(`Preparing ${pkg.name} release...`);
-    const remoteName = `origin-${pkg.name}-v${version}-${Date.now()}`;
+    console.log(`Preparing ${pkgName} release...`);
+    const remoteName = `origin-${pkgName}-v${version}-${Date.now()}`;
     // Set remote repo as origin
     await addRemoteWithAuthentication(pkg.repository.url, remoteName);
 

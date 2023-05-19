@@ -63,20 +63,20 @@ describe("Number Filter", () => {
                     render(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
                     expect(screen.getByRole("spinbutton")).toHaveValue(100);
                 });
-                it("sync value and defaultValue when defaultValue changes from undefined to number", () => {
+                it("do not sync value and defaultValue when defaultValue changes from undefined to number", () => {
                     const { rerender } = render(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
                     expect(screen.getByRole("spinbutton")).toHaveValue(null);
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
-                    expect(screen.getByRole("spinbutton")).toHaveValue(100);
+                    expect(screen.getByRole("spinbutton")).toHaveValue(null);
                 });
-                it("sync value and defaultValue when defaultValue changes from number to undefined", async () => {
+                it("do not sync value and defaultValue when defaultValue changes from number to undefined", async () => {
                     const { rerender } = render(
                         <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />
                     );
                     expect(screen.getByRole("spinbutton")).toHaveValue(100);
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
                     await waitFor(() => {
-                        expect(screen.getByRole("spinbutton")).toHaveValue(null);
+                        expect(screen.getByRole("spinbutton")).toHaveValue(100);
                     });
                 });
             });

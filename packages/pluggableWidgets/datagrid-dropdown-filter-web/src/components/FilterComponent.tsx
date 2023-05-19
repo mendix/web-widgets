@@ -64,6 +64,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [selectedFilters, setSelectedFilters] = useState<FilterOption[]>([]);
     const [show, setShow] = useState(false);
     const [dropdownWidth, setDropdownWidth] = useState(0);
+    const { current: initialFilterValue } = useRef(defaultValue);
     const defaultValuesLoaded = useRef<boolean>(false);
 
     const componentRef = useRef<HTMLDivElement>(null);
@@ -108,8 +109,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     useEffect(() => {
         if (!defaultValuesLoaded.current && options.length > 0) {
             if (multiSelect) {
-                if (defaultValue) {
-                    const initialOptions = defaultValue
+                if (initialFilterValue) {
+                    const initialOptions = initialFilterValue
                         .split(",")
                         .map(value => options.find(option => option.value === value))
                         .filter(Boolean) as FilterOption[];
@@ -121,7 +122,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 }
             } else {
                 // We want to add empty option caption
-                const initialOption = options.find(option => option.value === defaultValue) ?? options[0];
+                const initialOption = options.find(option => option.value === initialFilterValue) ?? options[0];
 
                 setValueInput(initialOption?.caption ?? "");
                 setSelectedFilters(prev => {
@@ -134,7 +135,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             }
             defaultValuesLoaded.current = true;
         }
-    }, [defaultValue, emptyOptionCaption, multiSelect, options, setMultiSelectFilters]);
+    }, [initialFilterValue, emptyOptionCaption, multiSelect, options, setMultiSelectFilters]);
 
     useEffect(() => {
         const emptyOption = multiSelect
@@ -155,7 +156,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
 
         // Resets the option to reload default values
         defaultValuesLoaded.current = false;
-    }, [emptyOptionCaption, multiSelect, optionsProp, defaultValue]);
+    }, [emptyOptionCaption, multiSelect, optionsProp, initialFilterValue]);
 
     // This side effect meant to sync filter value with parents
     // But, because updateFilters is might be "unstable" function

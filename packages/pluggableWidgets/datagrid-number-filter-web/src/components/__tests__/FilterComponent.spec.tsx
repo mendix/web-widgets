@@ -1,4 +1,4 @@
-import { render, shallow } from "enzyme";
+import { render, mount } from "enzyme";
 import { createElement } from "react";
 import { FilterComponent } from "../FilterComponent";
 
@@ -6,13 +6,15 @@ jest.useFakeTimers();
 
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable defaultFilter="equal" delay={500} />);
+        const component = render(<FilterComponent adjustable initialFilterType="equal" inputChangeDelay={500} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterComponent adjustable={false} defaultFilter="equal" delay={500} />);
+        const component = render(
+            <FilterComponent adjustable={false} initialFilterType="equal" inputChangeDelay={500} />
+        );
 
         expect(component).toMatchSnapshot();
     });
@@ -21,8 +23,8 @@ describe("Filter component", () => {
         const component = render(
             <FilterComponent
                 adjustable
-                defaultFilter="equal"
-                delay={500}
+                initialFilterType="equal"
+                inputChangeDelay={500}
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
             />
@@ -33,24 +35,35 @@ describe("Filter component", () => {
 
     it("calls updateFilters when value changes", () => {
         const updateFiltersHandler = jest.fn();
-        const component = shallow(
-            <FilterComponent defaultFilter="equal" adjustable delay={500} updateFilters={updateFiltersHandler} />
+        const component = mount(
+            <FilterComponent
+                initialFilterType="equal"
+                adjustable
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
         const input = component.find("input");
         input.simulate("change", { target: { value: "test" } });
+
+        jest.advanceTimersByTime(500);
 
         expect(updateFiltersHandler).toBeCalled();
     });
 
     it("debounces calls for updateFilters when value changes with numbers", () => {
         const updateFiltersHandler = jest.fn();
-        const component = shallow(
-            <FilterComponent defaultFilter="equal" adjustable delay={500} updateFilters={updateFiltersHandler} />
+        const component = mount(
+            <FilterComponent
+                initialFilterType="equal"
+                adjustable
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
-        // Initial call with default filter
-        expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(updateFiltersHandler).toBeCalledTimes(0);
 
         const input = component.find("input");
         input.simulate("change", { target: { value: "0" } });
@@ -59,22 +72,26 @@ describe("Filter component", () => {
         input.simulate("change", { target: { value: "2" } });
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(2);
+        expect(updateFiltersHandler).toBeCalledTimes(1);
 
         input.simulate("change", { target: { value: "3" } });
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(3);
+        expect(updateFiltersHandler).toBeCalledTimes(2);
     });
 
     it("debounces calls for updateFilters when value changes with decimals", () => {
         const updateFiltersHandler = jest.fn();
-        const component = shallow(
-            <FilterComponent adjustable defaultFilter="equal" delay={500} updateFilters={updateFiltersHandler} />
+        const component = mount(
+            <FilterComponent
+                adjustable
+                initialFilterType="equal"
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
-        // Initial call with default filter
-        expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(updateFiltersHandler).toBeCalledTimes(0);
 
         const input = component.find("input");
         input.simulate("change", { target: { value: "0.0" } });
@@ -83,22 +100,26 @@ describe("Filter component", () => {
         input.simulate("change", { target: { value: "4" } });
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(2);
+        expect(updateFiltersHandler).toBeCalledTimes(1);
 
         input.simulate("change", { target: { value: "6.8" } });
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(3);
+        expect(updateFiltersHandler).toBeCalledTimes(2);
     });
 
     it("debounces calls for updateFilters when value changes with invalid input", () => {
         const updateFiltersHandler = jest.fn();
-        const component = shallow(
-            <FilterComponent adjustable defaultFilter="equal" delay={500} updateFilters={updateFiltersHandler} />
+        const component = mount(
+            <FilterComponent
+                adjustable
+                initialFilterType="equal"
+                inputChangeDelay={500}
+                updateFilters={updateFiltersHandler}
+            />
         );
 
-        // Initial call with default filter
-        expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(updateFiltersHandler).toBeCalledTimes(0);
 
         const input = component.find("input");
         input.simulate("change", { target: { value: "test1" } });
@@ -107,13 +128,13 @@ describe("Filter component", () => {
         input.simulate("change", { target: { value: "test3" } });
         jest.advanceTimersByTime(500);
 
-        // Consecutive invalid numbers wont call useState with empty value twice
-        // this is why we expect func to be called 1 time
         expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(updateFiltersHandler).toHaveBeenLastCalledWith(undefined, "equal");
 
         input.simulate("change", { target: { value: "test4" } });
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(updateFiltersHandler).toBeCalledTimes(2);
+        expect(updateFiltersHandler).toHaveBeenLastCalledWith(undefined, "equal");
     });
 });
