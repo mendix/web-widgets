@@ -3,7 +3,8 @@ import {
     DropZoneProps,
     RowLayoutProps,
     StructurePreviewProps,
-    TextProps
+    TextProps,
+    colorWithAlpha
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
@@ -50,10 +51,24 @@ export function getProperties(
 }
 
 export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const paletteDark = {
+        textPrimary: "#DEDEDE",
+        topbarData: colorWithAlpha("#3A65E5", 20),
+        topbarStandard: colorWithAlpha("#646464", 20)
+    };
+
+    const paletteLight = {
+        textPrimary: "#2F3646",
+        topbarData: "#DCEEEF",
+        topbarStandard: "#F7F7F7"
+    };
+
+    const palette = isDarkMode ? paletteDark : paletteLight;
+
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#3B5C8F" : "#DAEFFB",
+        backgroundColor: palette.topbarData,
         borders: true,
         borderWidth: 1,
         children: [
@@ -64,7 +79,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
                     {
                         type: "Text",
                         content: "Tree node",
-                        fontColor: isDarkMode ? "#6DB1FE" : "#2074C8"
+                        fontColor: palette.textPrimary
                     }
                 ]
             }
@@ -72,7 +87,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
     };
     const treeNodeHeader: RowLayoutProps = {
         type: "RowLayout",
-        backgroundColor: isDarkMode ? "#3E3E3E" : "#F5F5F5",
+        backgroundColor: palette.topbarStandard,
         borders: true,
         borderWidth: 1,
         children: [
@@ -95,7 +110,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
                         : ({
                               type: "RowLayout",
                               borders: true,
-                              backgroundColor: isDarkMode ? "#4F4F4F" : "#F8F8F8",
+                              grow: 100,
                               children: [
                                   {
                                       type: "DropZone",
