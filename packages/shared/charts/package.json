@@ -31,7 +31,7 @@
     "@types/big.js": "^6.1.6",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.16.12",
     "@types/plotly.js": "^2.12.18",
     "@types/react": "^17.0.59",
     "@types/react-dom": "^17.0.20",
