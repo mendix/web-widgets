@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+-   We updated page explorer's caption to display datasource.
+
 ## [2.0.1] - 2022-05-04
 
 ### Fixed
