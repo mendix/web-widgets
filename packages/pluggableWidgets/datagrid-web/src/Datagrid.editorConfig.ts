@@ -5,7 +5,8 @@ import {
     rowLayout,
     selectable,
     StructurePreviewProps,
-    text
+    text,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import {
     changePropertyIn,
@@ -157,6 +158,7 @@ export const getPreview = (
 ): StructurePreviewProps => {
     const [x, y] = spVersion;
     const canHideDataSourceHeader = x >= 9 && y >= 20;
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
     const modeColor = (colorDark: string, colorLight: string): string => (isDarkMode ? colorDark : colorLight);
 
@@ -201,7 +203,7 @@ export const getPreview = (
                     : container({
                           padding: 8
                       })(
-                          text({ fontSize: 10 })(
+                          text({ fontSize: 10, fontColor: palette.text.secondary })(
                               column.showContentAs === "dynamicText"
                                   ? column.dynamicText ?? "Dynamic text"
                                   : `[${column.attribute ? column.attribute : "No attribute selected"}]`
@@ -212,13 +214,13 @@ export const getPreview = (
     );
     const gridTitle = rowLayout({
         columnSize: "fixed",
-        backgroundColor: modeColor("#3B5C8F", "#DAEFFB"),
+        backgroundColor: palette.background.topbarData,
         borders: true,
         borderWidth: 1
     })(
         container({
             padding: 4
-        })(text({ fontColor: modeColor("#6DB1FE", "#2074C8") })("Data grid 2"))
+        })(text({ fontColor: palette.text.data })("Data grid 2"))
     );
     const gridHeaderWidgets = rowLayout({
         columnSize: "fixed",
@@ -243,7 +245,7 @@ export const getPreview = (
                             ? column.size
                             : 1
                         : undefined,
-                backgroundColor: isColumnHidden ? modeColor("#4F4F4F", "#DCDCDC") : modeColor("#3E3E3E", "#F5F5F5")
+                backgroundColor: isColumnHidden ? modeColor("#4F4F4F", "#DCDCDC") : palette.background.topbarStandard
             })(
                 container({
                     padding: 8
@@ -255,7 +257,7 @@ export const getPreview = (
                             ? undefined
                             : isColumnHidden
                             ? modeColor("#4F4F4F", "#DCDCDC")
-                            : modeColor("#3E3E3E", "#F5F5F5")
+                            : palette.text.secondary
                     })(column.header ? column.header : "Header")
                 ),
                 ...(hasColumns && values.columnsFilterable
