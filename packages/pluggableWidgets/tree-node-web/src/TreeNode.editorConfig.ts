@@ -4,7 +4,7 @@ import {
     RowLayoutProps,
     StructurePreviewProps,
     TextProps,
-    colorWithAlpha
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
@@ -51,24 +51,12 @@ export function getProperties(
 }
 
 export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
-    const paletteDark = {
-        textPrimary: "#DEDEDE",
-        topbarData: colorWithAlpha("#3A65E5", 20),
-        topbarStandard: colorWithAlpha("#646464", 20)
-    };
-
-    const paletteLight = {
-        textPrimary: "#2F3646",
-        topbarData: "#DCEEEF",
-        topbarStandard: "#F7F7F7"
-    };
-
-    const palette = isDarkMode ? paletteDark : paletteLight;
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: palette.topbarData,
+        backgroundColor: palette.background.topbarData,
         borders: true,
         borderWidth: 1,
         children: [
@@ -79,7 +67,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
                     {
                         type: "Text",
                         content: "Tree node",
-                        fontColor: palette.textPrimary
+                        fontColor: palette.text.primary
                     }
                 ]
             }
@@ -87,7 +75,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
     };
     const treeNodeHeader: RowLayoutProps = {
         type: "RowLayout",
-        backgroundColor: palette.topbarStandard,
+        backgroundColor: palette.background.topbarStandard,
         borders: true,
         borderWidth: 1,
         children: [

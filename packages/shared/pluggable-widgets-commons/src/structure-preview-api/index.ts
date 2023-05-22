@@ -270,6 +270,35 @@ export function colorWithAlpha(color: string, alpha: number): string {
     return `#${xAlpha}${color.slice(1)}`;
 }
 
+const paletteDark = {
+    text: {
+        primary: "#DEDEDE",
+        secondary: "#A4A4A4",
+        data: "#579BF9"
+    },
+    background: {
+        topbarData: colorWithAlpha("#3A65E5", 20),
+        topbarStandard: colorWithAlpha("#646464", 20)
+    }
+} as const;
+
+const paletteLight = {
+    text: {
+        primary: "#2F3646",
+        secondary: "#6B707B",
+        data: "#146FF4"
+    },
+    background: {
+        topbarData: "#DCEEFE",
+        topbarStandard: "#F7F7F7"
+    }
+} as const;
+
+export const structurePreviewPalette = Object.freeze({
+    dark: paletteDark,
+    light: paletteLight
+});
+
 export type StructurePreviewProps =
     | ImageProps
     | ContainerProps
