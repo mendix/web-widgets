@@ -2492,8 +2492,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       downshift:
-        specifier: ^7.2.0
-        version: 7.2.0(react@17.0.2)
+        specifier: ^7.6.0
+        version: 7.6.0(react@17.0.2)
       match-sorter:
         specifier: ^6.3.1
         version: 6.3.1
@@ -11514,8 +11514,8 @@ packages:
     resolution: {integrity: sha512-BCLEIBq0O/DWoA7BsCu/R+RP0ZXiowP8BhtJT3qeuuQEBpnS8LK/Wo6UTJQv6v8mK1fj8n90YziHLwGdM5whSg==}
     dev: false
 
-  /downshift@7.2.0(react@17.0.2):
-    resolution: {integrity: sha512-dEn1Sshe7iTelUhmdbmiJhtIiwIBxBV8p15PuvEBh0qZcHXZnEt0geuCIIkCL4+ooaKRuLE0Wc+Fz9SwWuBIyg==}
+  /downshift@7.6.0(react@17.0.2):
+    resolution: {integrity: sha512-VSoTVynTAsabou/hbZ6HJHUVhtBiVOjQoBsCPcQq5eAROIGP+9XKMp9asAKQ3cEcUP4oe0fFdD2pziUjhFY33Q==}
     peerDependencies:
       react: '>=16.12.0'
     dependencies:
