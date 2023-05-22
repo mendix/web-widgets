@@ -43,14 +43,14 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       cypress:
-        specifier: ^12.9.0
-        version: 12.9.0
+        specifier: ^12.12.0
+        version: 12.12.0
       cypress-image-diff-js:
         specifier: ^1.23.0
-        version: 1.23.0(cypress@12.9.0)
+        version: 1.23.0(cypress@12.12.0)
       cypress-terminal-report:
         specifier: ^5.0.2
-        version: 5.0.2(cypress@12.9.0)
+        version: 5.0.2(cypress@12.12.0)
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
@@ -10391,8 +10391,8 @@ packages:
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
-  /commander@5.1.0:
-    resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==}
+  /commander@6.2.1:
+    resolution: {integrity: sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==}
     engines: {node: '>= 6'}
     dev: false
 
@@ -10929,7 +10929,7 @@ packages:
       uniq: 1.0.1
     dev: false
 
-  /cypress-image-diff-js@1.23.0(cypress@12.9.0):
+  /cypress-image-diff-js@1.23.0(cypress@12.12.0):
     resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
     hasBin: true
     peerDependencies:
@@ -10938,7 +10938,7 @@ packages:
       '@babel/runtime': 7.21.0
       arg: 4.1.3
       colors: 1.4.0
-      cypress: 12.9.0
+      cypress: 12.12.0
       cypress-recurse: 1.27.0
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -10952,20 +10952,20 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report@5.0.2(cypress@12.9.0):
+  /cypress-terminal-report@5.0.2(cypress@12.12.0):
     resolution: {integrity: sha512-YJ6HODTvxKD0FYQX2p3f1DlBRcJcMJjRh3JWZZrBte4dQdnTuIElb4jPh3zbcqsV4MJ+QwF6XyJoXybZgg6kHg==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 12.9.0
+      cypress: 12.12.0
       fs-extra: 10.1.0
       semver: 7.3.8
       tv4: 1.3.0
     dev: false
 
-  /cypress@12.9.0:
-    resolution: {integrity: sha512-Ofe09LbHKgSqX89Iy1xen2WvpgbvNxDzsWx3mgU1mfILouELeXYGwIib3ItCwoRrRifoQwcBFmY54Vs0zw7QCg==}
+  /cypress@12.12.0:
+    resolution: {integrity: sha512-UU5wFQ7SMVCR/hyKok/KmzG6fpZgBHHfrXcHzDmPHWrT+UUetxFzQgt7cxCszlwfozckzwkd22dxMwl/vNkWRw==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     requiresBuild: true
@@ -10984,7 +10984,7 @@ packages:
       check-more-types: 2.24.0
       cli-cursor: 3.1.0
       cli-table3: 0.6.3
-      commander: 5.1.0
+      commander: 6.2.1
       common-tags: 1.8.2
       dayjs: 1.11.7
       debug: 4.3.4(supports-color@8.1.1)
@@ -11007,7 +11007,7 @@ packages:
       pretty-bytes: 5.6.0
       proxy-from-env: 1.0.0
       request-progress: 3.0.0
-      semver: 7.3.8
+      semver: 7.5.0
       supports-color: 8.1.1
       tmp: 0.2.1
       untildify: 4.0.0
