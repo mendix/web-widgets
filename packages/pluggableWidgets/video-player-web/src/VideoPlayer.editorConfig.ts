@@ -70,11 +70,11 @@ export function getCustomCaption(values: VideoPlayerPreviewProps, _platform = "d
         case "dynamic":
             caption = values.videoUrl;
             if (caption) {
-                //since 'new URL' doesn't work here, we'll use naive regex approach
+                // since 'new URL' doesn't work here, we'll use naive regex approach
                 const urlRegex = /^(?:https?:\/\/)?(?:www\.)?([^:/\n?]+)/;
                 const url = caption?.match(urlRegex);
                 if (url && url[1]) {
-                    //retrieve hostname to avoid long url string
+                    // retrieve hostname to avoid long url string
                     caption = url[1];
                 }
             }

@@ -116,9 +116,7 @@ export function getPreview(values: ProgressCirclePreviewProps, isDarkMode: boole
 }
 
 export function getCustomCaption(values: ProgressCirclePreviewProps, _platform = "desktop"): string {
-    return values.type && values[`${values.type}MinValue`] != null
-        ? `[${values[`${values.type}MinValue`]}, ${values[`${values.type}CurrentValue`]}, ${
-              values[`${values.type}MaxValue`]
-          }]`
+    return values.type && values[`${values.type}CurrentValue`] != null
+        ? `[${values.type}, ${values[`${values.type}CurrentValue`]}]`
         : "Progress Circle";
 }
