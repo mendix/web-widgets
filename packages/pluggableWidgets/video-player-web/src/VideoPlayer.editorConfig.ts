@@ -65,5 +65,25 @@ export function getPreview(values: VideoPlayerPreviewProps): StructurePreviewPro
 }
 
 export function getCustomCaption(values: VideoPlayerPreviewProps, _platform = "desktop"): string {
-    return values.videoUrl || `Video Player`;
+    let caption = "Video Player";
+    switch (values.type) {
+        case "dynamic":
+            caption = values.videoUrl;
+            if (caption) {
+                //since 'new URL' doesn't work here, we'll use naive regex approach
+                const urlRegex = /^(?:https?:\/\/)?(?:www\.)?([^:/\n?]+)/;
+                const url = caption?.match(urlRegex);
+                if (url && url[1]) {
+                    //retrieve hostname to avoid long url string
+                    caption = url[1];
+                }
+            }
+            break;
+        case "expression":
+            caption = values.urlExpression;
+            break;
+        default:
+            break;
+    }
+    return caption;
 }
