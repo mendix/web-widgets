@@ -140,8 +140,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/node-fetch':
         specifier: 2.6.2
         version: 2.6.2
@@ -234,8 +234,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
       '@types/node':
-        specifier: ^18.8.3
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/plotly.js':
         specifier: ~1.36.1
         version: 1.36.1
@@ -334,8 +334,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -440,8 +440,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -522,8 +522,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
       '@types/node':
-        specifier: ^18.8.3
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       ts-node:
         specifier: ^9.0.0
         version: 9.1.1(typescript@4.5.4)
@@ -568,8 +568,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       concurrently:
         specifier: ^6.5.1
         version: 6.5.1
@@ -599,8 +599,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -620,8 +620,8 @@ importers:
         specifier: workspace:*
         version: link:../../../automation/utils
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -672,8 +672,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -772,8 +772,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -878,8 +878,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -975,8 +975,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1078,8 +1078,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1187,8 +1187,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1290,8 +1290,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1396,8 +1396,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1496,8 +1496,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1614,8 +1614,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1681,8 +1681,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1793,8 +1793,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -1902,8 +1902,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2011,8 +2011,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2117,8 +2117,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2217,8 +2217,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2326,8 +2326,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2426,8 +2426,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2532,8 +2532,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.8.3
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2620,8 +2620,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2723,8 +2723,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2789,8 +2789,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -2881,8 +2881,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -2987,8 +2987,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3084,8 +3084,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3184,8 +3184,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3290,8 +3290,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3411,8 +3411,8 @@ importers:
         specifier: ^1.9.1
         version: 1.9.1
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3526,8 +3526,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3626,8 +3626,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3726,8 +3726,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3832,8 +3832,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -3944,8 +3944,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
@@ -4056,8 +4056,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4177,8 +4177,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4270,8 +4270,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4349,8 +4349,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
@@ -4458,8 +4458,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4567,8 +4567,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4667,8 +4667,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4773,8 +4773,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4873,8 +4873,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -4973,8 +4973,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/react':
         specifier: ^17.0.53
         version: 17.0.53
@@ -5097,8 +5097,8 @@ importers:
         specifier: ^26.0.24
         version: 26.0.24
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
+        specifier: ^18.16.12
+        version: 18.16.12
       '@types/plotly.js':
         specifier: ^2.12.18
         version: 2.12.18
@@ -7009,15 +7009,15 @@ packages:
       '@commitlint/execute-rule': 17.4.0
       '@commitlint/resolve-extends': 17.4.4
       '@commitlint/types': 17.4.4
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       cosmiconfig: 8.0.0
-      cosmiconfig-typescript-loader: 4.3.0(@types/node@18.14.0)(cosmiconfig@8.0.0)(ts-node@10.9.1)(typescript@4.5.4)
+      cosmiconfig-typescript-loader: 4.3.0(@types/node@18.16.12)(cosmiconfig@8.0.0)(ts-node@10.9.1)(typescript@4.5.4)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@types/node@18.14.0)(typescript@4.5.4)
+      ts-node: 10.9.1(@types/node@18.16.12)(typescript@4.5.4)
       typescript: 4.5.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -7211,7 +7211,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       jest-message-util: 26.6.2
       jest-util: 26.6.2
@@ -7227,7 +7227,7 @@ packages:
       '@jest/test-result': 26.6.2
       '@jest/transform': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       exit: 0.1.2
@@ -7267,7 +7267,7 @@ packages:
       '@jest/test-result': 26.6.2
       '@jest/transform': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       exit: 0.1.2
@@ -7311,7 +7311,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       jest-mock: 26.6.2
     dev: true
 
@@ -7321,7 +7321,7 @@ packages:
     dependencies:
       '@jest/types': 26.6.2
       '@sinonjs/fake-timers': 6.0.1
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       jest-message-util: 26.6.2
       jest-mock: 26.6.2
       jest-util: 26.6.2
@@ -7452,7 +7452,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       '@types/yargs': 15.0.15
       chalk: 4.1.2
 
@@ -7462,7 +7462,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       '@types/yargs': 16.0.5
       chalk: 4.1.2
     dev: true
@@ -8202,7 +8202,7 @@ packages:
   /@types/cheerio@0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /@types/ckeditor4@4.16.5:
@@ -8450,7 +8450,7 @@ packages:
     resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /@types/google.maps@3.50.5:
@@ -8460,7 +8460,7 @@ packages:
   /@types/graceful-fs@4.1.6:
     resolution: {integrity: sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /@types/hoist-non-react-statics@3.3.1:
@@ -8513,7 +8513,7 @@ packages:
   /@types/node-fetch@2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       form-data: 3.0.1
     dev: true
 
@@ -8521,8 +8521,8 @@ packages:
     resolution: {integrity: sha512-FXKWbsJ6a1hIrRxv+FoukuHnGTgEzKYGi7kilfMae96AL9UNkPFNWJEEYWzdRI9ooIkbr4AKldyuSTLql06vLQ==}
     dev: false
 
-  /@types/node@18.14.0:
-    resolution: {integrity: sha512-5EWrvLmglK+imbCJY0+INViFWUHg1AHel1sq4ZVSfdcNqGy9Edv3UB9IIzzg+xPaUcAgZYcfVs2fBcwDeZzU0A==}
+  /@types/node@18.16.12:
+    resolution: {integrity: sha512-tIRrjbY9C277MOfP8M3zjMIhtMlUJ6YVqkGgLjz+74jVsdf4/UjC6Hku4+1N0BS0qyC0JAS6tJLUk9H6JUKviQ==}
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -8639,7 +8639,7 @@ packages:
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /@types/sanitize-html@1.27.2:
@@ -8658,7 +8658,7 @@ packages:
     resolution: {integrity: sha512-x9yaMvEh5BEaZKeVQC4vp3l+QoFj3BXcd4aYfuKSzIIyihjdVARAadYy3SMNIz0WCCdS2vB9JL/U6GQk5PaxQw==}
     dependencies:
       '@types/glob': 8.0.1
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /@types/sinonjs__fake-timers@8.1.1:
@@ -8720,7 +8720,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: false
     optional: true
 
@@ -10616,7 +10616,7 @@ packages:
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  /cosmiconfig-typescript-loader@4.3.0(@types/node@18.14.0)(cosmiconfig@8.0.0)(ts-node@10.9.1)(typescript@4.5.4):
+  /cosmiconfig-typescript-loader@4.3.0(@types/node@18.16.12)(cosmiconfig@8.0.0)(ts-node@10.9.1)(typescript@4.5.4):
     resolution: {integrity: sha512-NTxV1MFfZDLPiBMjxbHRwSh5LaLcPMwNdCutmnHJCKoVnlvldPWlllonKwrsRJ5pYZBIBGRWWU2tfvzxgeSW5Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
@@ -10625,9 +10625,9 @@ packages:
       ts-node: '>=10'
       typescript: '>=3'
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       cosmiconfig: 8.0.0
-      ts-node: 10.9.1(@types/node@18.14.0)(typescript@4.5.4)
+      ts-node: 10.9.1(@types/node@18.16.12)(typescript@4.5.4)
       typescript: 4.5.4
     dev: false
 
@@ -14301,7 +14301,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       jest-mock: 26.6.2
       jest-util: 26.6.2
       jsdom: 16.7.0
@@ -14319,7 +14319,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       jest-mock: 26.6.2
       jest-util: 26.6.2
     dev: true
@@ -14334,7 +14334,7 @@ packages:
     dependencies:
       '@jest/types': 26.6.2
       '@types/graceful-fs': 4.1.6
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.10
@@ -14360,7 +14360,7 @@ packages:
       '@jest/source-map': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       co: 4.6.0
       expect: 26.6.2
@@ -14390,7 +14390,7 @@ packages:
       '@jest/source-map': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       co: 4.6.0
       expect: 26.6.2
@@ -14459,7 +14459,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
     dev: true
 
   /jest-pnp-resolver@1.2.3(jest-resolve@26.6.2):
@@ -14518,7 +14518,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       emittery: 0.7.2
       exit: 0.1.2
@@ -14550,7 +14550,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       emittery: 0.7.2
       exit: 0.1.2
@@ -14658,7 +14658,7 @@ packages:
     resolution: {integrity: sha512-S5wqyz0DXnNJPd/xfIzZ5Xnp1HrJWBczg8mMfMpN78OJ5eDxXyf+Ygld9wX1DnUWbIbhM1YDY95NjR4CBXkb2g==}
     engines: {node: '>= 10.14.2'}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       graceful-fs: 4.2.10
     dev: true
 
@@ -14701,7 +14701,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       chalk: 4.1.2
       graceful-fs: 4.2.10
       is-ci: 2.0.0
@@ -14726,7 +14726,7 @@ packages:
     dependencies:
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       jest-util: 26.6.2
@@ -14737,7 +14737,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -14746,7 +14746,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -19419,7 +19419,7 @@ packages:
       webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
-  /ts-node@10.9.1(@types/node@18.14.0)(typescript@4.5.4):
+  /ts-node@10.9.1(@types/node@18.16.12)(typescript@4.5.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -19438,7 +19438,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.14.0
+      '@types/node': 18.16.12
       acorn: 8.8.2
       acorn-walk: 8.2.0
       arg: 4.1.3
