@@ -17,6 +17,7 @@ import { isDate, isValid } from "date-fns";
 import { createPortal } from "react-dom";
 import replaceAllInserter from "string.prototype.replaceall";
 import { doubleMonthOrDayWhenSingle } from "../utils/utils";
+import CalendarIcon from "./CalendarIcon";
 
 export type RangeDateValue = [Date | undefined, Date | undefined];
 
@@ -147,7 +148,7 @@ export const DatePicker = forwardRef(
                         }
                     }}
                 >
-                    <span className="glyphicon glyphicon-calendar" />
+                    <CalendarIcon />
                 </button>
             </Fragment>
         );

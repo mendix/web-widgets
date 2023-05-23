@@ -1,4 +1,5 @@
 import { createElement, Dispatch, HTMLAttributes, ReactElement, SetStateAction } from "react";
+import ControlIcon from "./ControlIcon";
 
 export interface PaginationProps {
     canNextPage: boolean;
@@ -51,7 +52,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                 })}
                 aria-label={props.labelFirstPage ?? "Go to first page"}
             >
-                <span aria-hidden className="glyphicon glyphicon-step-backward" />
+                <ControlIcon direction="step-backward" />
             </button>
             <button
                 className="btn pagination-button"
@@ -62,7 +63,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                 })}
                 aria-label={props.labelPreviousPage ?? "Go to previous page"}
             >
-                <span aria-hidden className="glyphicon glyphicon-backward" />
+                <ControlIcon direction="backward" />
             </button>
             <span className="sr-only sr-only-focusable">
                 {props.labelPagingStatus ?? "Currently showing"} {pagingStatus}
@@ -79,7 +80,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                     setPageIndex(props.page + 1);
                 })}
             >
-                <span aria-hidden className="glyphicon glyphicon-forward" />
+                <ControlIcon direction="forward" />
             </button>
             {hasLastPage && (
                 <button
@@ -91,7 +92,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                         setPageIndex(lastPage);
                     })}
                 >
-                    <span aria-hidden className="glyphicon glyphicon-step-forward" />
+                    <ControlIcon direction="step-forward" />
                 </button>
             )}
         </div>

@@ -11,12 +11,12 @@ export function preview(props: StarRatingPreviewProps): ReactElement {
     const emptyIcon = props.emptyIcon ? (
         <Icon value={mapPreviewIconToWebIcon(props.emptyIcon)} empty />
     ) : (
-        <Icon value={{ type: "glyph", iconClass: "glyphicon-star-empty" }} empty />
+        <Icon value={{ type: "icon", iconClass: "" }} empty />
     );
     const fullIcon = props.icon ? (
         <Icon value={mapPreviewIconToWebIcon(props.icon)} full />
     ) : (
-        <Icon value={{ type: "glyph", iconClass: "glyphicon-star" }} full />
+        <Icon value={{ type: "icon", iconClass: "" }} full />
     );
 
     return (
