@@ -3,7 +3,8 @@ import {
     DropZoneProps,
     RowLayoutProps,
     StructurePreviewProps,
-    datasource
+    datasource,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import {
     hidePropertiesIn,
@@ -85,10 +86,11 @@ export function check(values: GalleryPreviewProps): Problem[] {
 }
 
 export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#3B5C8F" : "#DAEFFB",
+        backgroundColor: palette.background.topbarData,
         borders: true,
         borderWidth: 1,
         children: [
@@ -99,7 +101,7 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
                     {
                         type: "Text",
                         content: "Gallery",
-                        fontColor: isDarkMode ? "#6DB1FE" : "#2074C8"
+                        fontColor: palette.text.data
                     }
                 ]
             }
@@ -155,7 +157,7 @@ export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): St
                                     "Column",
                                     values.tabletItems!
                                 )}, Phone ${values.phoneItems} ${getSingularPlural("Column", values.phoneItems!)}`,
-                                fontColor: isDarkMode ? "#DEDEDE" : "#899499"
+                                fontColor: palette.text.secondary
                             }
                         ]
                     }
