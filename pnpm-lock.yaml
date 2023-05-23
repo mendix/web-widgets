@@ -300,8 +300,8 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
       react-big-calendar:
-        specifier: 0.19.2
-        version: 0.19.2(react-dom@17.0.2)(react@17.0.2)
+        specifier: 0.40.8
+        version: 0.40.8(moment@2.29.4)(react-dom@17.0.2)(react@17.0.2)
       react-dnd:
         specifier: 2.6.0
         version: 2.6.0(react@17.0.2)
@@ -340,8 +340,8 @@ importers:
         specifier: ^17.0.53
         version: 17.0.53
       '@types/react-big-calendar':
-        specifier: 0.20.20
-        version: 0.20.20
+        specifier: 0.38.4
+        version: 0.38.4
       '@types/react-dom':
         specifier: ^17.0.18
         version: 17.0.18
@@ -7761,6 +7761,15 @@ packages:
     resolution: {integrity: sha512-jOuyqzWLeXvQcoAu6TCVWHAuko+sDt0JjawNHBGqUNLywMtTCvYP0L0PiqJZOUCUeRYGdUy0AKxQ+30vAkvwag==}
     dev: false
 
+  /@restart/hooks@0.3.27(react@17.0.2):
+    resolution: {integrity: sha512-s984xV/EapUIfkjlf8wz9weP2O9TNKR96C68FfMEy2bE69+H4cNv3RD4Mf97lW7Htt7PjZrYTjSC8f3SB9VCXw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      dequal: 2.0.3
+      react: 17.0.2
+    dev: false
+
   /@restart/hooks@0.4.9(react@17.0.2):
     resolution: {integrity: sha512-3BekqcwB6Umeya+16XPooARn4qEPW6vNvwYnlofIYe6h9qG1/VeD7UvShCWx11eFz5ELYmwIEshz+MkPX3wjcQ==}
     peerDependencies:
@@ -8561,9 +8570,10 @@ packages:
       '@types/react': 17.0.53
     dev: true
 
-  /@types/react-big-calendar@0.20.20:
-    resolution: {integrity: sha512-XVKERX7vh5MqUkIPaWKkHBYmurbCYs0OTEBdcxChgKbXqeXviGz7+6Yzff4uI/dy/uBgaD3igQSLcJDgiZhdcQ==}
+  /@types/react-big-calendar@0.38.4:
+    resolution: {integrity: sha512-6sorJYTTlHjqCeqpJ1FdSDkdNJ8tHCesQDwZ+NJFt+Qz86CTVFagFd9rAH4XRPM3i3R7fDW+0/IT2j9B0bUJaw==}
     dependencies:
+      '@types/date-arithmetic': 3.1.2
       '@types/prop-types': 15.7.5
       '@types/react': 17.0.53
     dev: true
@@ -10288,6 +10298,11 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
   /co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
@@ -11141,6 +11156,10 @@ packages:
     resolution: {integrity: sha512-ynlmvduDVuzwDDYW3OF4RHCikdzegg0vWQtzwjiVKPs/RjZ93b/7AxIwhfZKxSQQFA8l9lwhkyeDVQyrzbPUwA==}
     dev: false
 
+  /date-arithmetic@4.1.0:
+    resolution: {integrity: sha512-QWxYLR5P/6GStZcdem+V1xoto6DMadYWpMXU82ES3/RfR3Wdwr3D0+be7mgOJ+Ov0G9D5Dmb9T17sNLQYj9XOg==}
+    dev: false
+
   /date-fns@2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
@@ -11413,12 +11432,6 @@ packages:
 
   /dom-align@1.12.4:
     resolution: {integrity: sha512-R8LUSEay/68zE5c8/3BDxiTEvgb4xZTF0RKmAHfiEVN3klfIpXfi2/QCoiWPccVQ0J/ZGdz9OjzL4uJEP/MRAw==}
-    dev: false
-
-  /dom-helpers@3.4.0:
-    resolution: {integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==}
-    dependencies:
-      '@babel/runtime': 7.21.0
     dev: false
 
   /dom-helpers@5.2.1:
@@ -15443,6 +15456,10 @@ packages:
       fs-monkey: 1.0.3
     dev: true
 
+  /memoize-one@6.0.0:
+    resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
+    dev: false
+
   /mendix-client@7.15.8:
     resolution: {integrity: sha512-RazCdCHoLVNKUUeKDkSkIL6Lxx6fUaa4iiy+Ltp9ra8mLQhwyNqD33TIN7YZJ3HDjHc3eWh9cjiZWwh6Jg/cQg==}
     dependencies:
@@ -17143,16 +17160,6 @@ packages:
       sisteransi: 1.0.5
     dev: true
 
-  /prop-types-extra@1.1.1(react@17.0.2):
-    resolution: {integrity: sha512-59+AHNnHYCdiC+vMwY52WmvP5dM3QLeoumYuEyceQDi9aEhtwN9zIQ2ZNo25sMyXnbh32h+P1ezDsUpUH3JAew==}
-    peerDependencies:
-      react: '>=0.14.0'
-    dependencies:
-      react: 17.0.2
-      react-is: 16.13.1
-      warning: 4.0.3
-    dev: false
-
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
@@ -17371,24 +17378,27 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: false
 
-  /react-big-calendar@0.19.2(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-cuGfM211IGM54qaOUod0IaqGQh7iBYvjeNoP2DlfLQy+oLTBtZ8y+AFwBKqGsZT2gEyBOlrgNfIBLGltlrEicA==}
+  /react-big-calendar@0.40.8(moment@2.29.4)(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-siY5Eiu3pRGcbjmZzaMizdUOkuZOOYUPoIhu5G7v8Kmxoko2brmD4iFYkrlobCOk7rWDN6ZPPgSOJUgrQst2uw==}
     peerDependencies:
+      moment: ^2.29.1
       react: ^15.3.0 || ^16.0.0 || ^17.0.0
       react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      classnames: 2.3.2
-      date-arithmetic: 3.1.0
-      dom-helpers: 3.4.0
+      '@babel/runtime': 7.21.0
+      clsx: 1.2.1
+      date-arithmetic: 4.1.0
+      dom-helpers: 5.2.1
       invariant: 2.2.4
       lodash: 4.17.21
+      lodash-es: 4.17.21
+      memoize-one: 6.0.0
+      moment: 2.29.4
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      react-overlays: 0.7.4(react-dom@17.0.2)(react@17.0.2)
-      react-prop-types: 0.4.0(react@17.0.2)
-      uncontrollable: 4.1.0(react@17.0.2)
-      warning: 2.1.0
+      react-overlays: 4.1.1(react-dom@17.0.2)(react@17.0.2)
+      uncontrollable: 7.2.1(react@17.0.2)
     dev: false
 
   /react-color@2.19.3(react@17.0.2):
@@ -17520,19 +17530,22 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: false
 
-  /react-overlays@0.7.4(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-7vsooMx3siLAuEfTs8FYeP/lAORWWFXTO8PON3KgX0Htq1Oa+po6ioSjGyO0/GO5CVSMNhpWt6V2opeexHgBuQ==}
+  /react-overlays@4.1.1(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-WtJifh081e6M24KnvTQoNjQEpz7HoLxqt8TwZM7LOYIkYJ8i/Ly1Xi7RVte87ZVnmqQ4PFaFiNHZhSINPSpdBQ==}
     peerDependencies:
-      react: ^0.14.9 || >=15.3.0
-      react-dom: ^0.14.9 || >=15.3.0
+      react: '>=16.3.0'
+      react-dom: '>=16.3.0'
     dependencies:
-      classnames: 2.3.2
-      dom-helpers: 3.4.0
+      '@babel/runtime': 7.21.0
+      '@popperjs/core': 2.11.7
+      '@restart/hooks': 0.3.27(react@17.0.2)
+      '@types/warning': 3.0.0
+      dom-helpers: 5.2.1
       prop-types: 15.8.1
-      prop-types-extra: 1.1.1(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      warning: 3.0.0
+      uncontrollable: 7.2.1(react@17.0.2)
+      warning: 4.0.3
     dev: false
 
   /react-overlays@5.2.1(react-dom@17.0.2)(react@17.0.2):
@@ -17589,15 +17602,6 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
       react-fast-compare: 3.2.0
       warning: 4.0.3
-    dev: false
-
-  /react-prop-types@0.4.0(react@17.0.2):
-    resolution: {integrity: sha512-IyjsJhDX9JkoOV9wlmLaS7z+oxYoIWhfzDcFy7inwoAKTu+VcVNrVpPmLeioJ94y6GeDRsnwarG1py5qofFQMg==}
-    peerDependencies:
-      react: '>=0.14.0'
-    dependencies:
-      react: 17.0.2
-      warning: 3.0.0
     dev: false
 
   /react-redux@8.0.5(@types/react-dom@17.0.18)(@types/react@17.0.53)(react-dom@17.0.2)(react@17.0.2)(redux@4.2.1):
@@ -19717,15 +19721,6 @@ packages:
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
 
-  /uncontrollable@4.1.0(react@17.0.2):
-    resolution: {integrity: sha512-YN1vmvC+UkttgPcFaal2UaNVODu6Rf1FU2x1guyiQRHOzSKkfTJLb0dzhJAEfRsAtjog4PF9UyNWUM2crqDyvg==}
-    peerDependencies:
-      react: '>=0.11.0'
-    dependencies:
-      invariant: 2.2.4
-      react: 17.0.2
-    dev: false
-
   /uncontrollable@7.2.1(react@17.0.2):
     resolution: {integrity: sha512-svtcfoTADIB0nT9nltgjujTi7BzVmwjZClOmskKu/E8FW9BXzg9os8OLr4f8Dlnk0rYWJIWr4wv9eKUXiQvQwQ==}
     peerDependencies:
@@ -20065,18 +20060,6 @@ packages:
     dependencies:
       makeerror: 1.0.12
     dev: true
-
-  /warning@2.1.0:
-    resolution: {integrity: sha512-O9pvum8nlCqIT5pRGo2WRQJPRG2bW/ZBeCzl7/8CWREjUW693juZpGup7zbRtuVcSKyGiRAIZLYsh3C0vq7FAg==}
-    dependencies:
-      loose-envify: 1.4.0
-    dev: false
-
-  /warning@3.0.0:
-    resolution: {integrity: sha512-jMBt6pUrKn5I+OGgtQ4YZLdhIeJmObddh6CsibPxyQ5yPZm1XExSyzC1LCNX7BzhxWgiHmizBWJTHJIjMjTQYQ==}
-    dependencies:
-      loose-envify: 1.4.0
-    dev: false
 
   /warning@4.0.3:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}

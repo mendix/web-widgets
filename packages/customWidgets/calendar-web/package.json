@@ -46,7 +46,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^18.16.12",
     "@types/react": "^17.0.59",
-    "@types/react-big-calendar": "0.20.20",
+    "@types/react-big-calendar": "0.38.4",
     "@types/react-dom": "^17.0.20",
     "babel-loader": "^8.3.0",
     "copy-webpack-plugin": "^11.0.0",
@@ -74,7 +74,7 @@
     "classnames": "^2.3.2",
     "date-arithmetic": "^3.1.0",
     "moment": "^2.29.4",
-    "react-big-calendar": "0.19.2",
+    "react-big-calendar": "0.40.8",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "^5.0.1"
   }
