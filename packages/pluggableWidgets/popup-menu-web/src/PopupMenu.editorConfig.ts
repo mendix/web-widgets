@@ -4,7 +4,8 @@ import {
     RowLayoutProps,
     SelectableProps,
     StructurePreviewProps,
-    TextProps
+    TextProps,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import {
     changePropertyIn,
@@ -117,10 +118,11 @@ export function getPreview(values: PopupMenuPreviewProps, isDarkMode: boolean): 
         return null;
     }
 
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#4F4F4F" : "#F5F5F5",
+        backgroundColor: palette.background.topbarStandard,
         borders: true,
         borderWidth: 1,
         children: [
@@ -131,7 +133,7 @@ export function getPreview(values: PopupMenuPreviewProps, isDarkMode: boolean): 
                     {
                         type: "Text",
                         content: "Pop-up menu",
-                        fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
+                        fontColor: palette.text.primary
                     }
                 ]
             }
@@ -144,8 +146,6 @@ export function getPreview(values: PopupMenuPreviewProps, isDarkMode: boolean): 
             titleHeader,
             {
                 type: "Container",
-                backgroundColor:
-                    values.menuTrigger.widgetCount === 0 ? (isDarkMode ? undefined : "#F5F5F5") : undefined,
                 children: [
                     {
                         type: "DropZone",
