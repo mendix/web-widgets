@@ -18,6 +18,7 @@ export function useDownshiftProps(
                 }
             },
             defaultHighlightedIndex: 0,
+            selectedItem: selector.currentValue,
             initialInputValue: selector.caption.get(selector.currentValue),
             stateReducer: (_state: DownshiftState<string>, changes: StateChangeOptions<string>) => {
                 switch (changes.type) {

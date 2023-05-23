@@ -1,9 +1,9 @@
-import { SingleSelector, Status } from "../types";
-import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { ObjectItem, ReferenceValue } from "mendix";
 import { DropdownContainerProps } from "../../../typings/DropdownProps";
-import { extractAssociationProps } from "./utils";
+import { SingleSelector, Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
+import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
+import { extractAssociationProps } from "./utils";
 
 export class AssociationSingleSelector implements SingleSelector {
     status: Status = "unavailable";
