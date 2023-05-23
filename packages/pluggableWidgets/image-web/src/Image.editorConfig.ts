@@ -1,4 +1,9 @@
-import { DropZoneProps, RowLayoutProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import {
+    DropZoneProps,
+    RowLayoutProps,
+    StructurePreviewProps,
+    structurePreviewPalette
+} from "@mendix/pluggable-widgets-commons";
 import {
     hidePropertiesIn,
     hidePropertyIn,
@@ -97,6 +102,8 @@ export function getProperties(
 }
 
 export function getPreview(values: ImagePreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+
     if (!values.isBackgroundImage) {
         return {
             type: "Image",
@@ -110,10 +117,11 @@ export function getPreview(values: ImagePreviewProps, isDarkMode: boolean): Stru
             width: 100
         };
     }
+
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#3B5C8F" : "#DAEFFB",
+        backgroundColor: palette.background.topbarData,
         borders: true,
         borderWidth: 1,
         children: [
@@ -124,7 +132,7 @@ export function getPreview(values: ImagePreviewProps, isDarkMode: boolean): Stru
                     {
                         type: "Text",
                         content: "Image",
-                        fontColor: isDarkMode ? "#6DB1FE" : "#2074C8"
+                        fontColor: palette.text.primary
                     }
                 ]
             }
