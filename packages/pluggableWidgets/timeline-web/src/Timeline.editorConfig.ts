@@ -172,3 +172,7 @@ export function getPreview(values: TimelinePreviewProps, isDarkMode: boolean): S
         }
     }
 }
+
+export function getCustomCaption(values: TimelinePreviewProps, _platform = "desktop"): string {
+    return (values.data as { caption?: string }).caption || "Timeline";
+}

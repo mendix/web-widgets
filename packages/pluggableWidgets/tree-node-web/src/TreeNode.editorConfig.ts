@@ -165,3 +165,7 @@ function getChevronIconPreview(headerType: HeaderTypeEnum, isDarkMode: boolean):
         ]
     };
 }
+
+export function getCustomCaption(values: TreeNodePreviewProps, _platform = "desktop"): string {
+    return (values.datasource as { caption?: string }).caption || "Tree node";
+}
