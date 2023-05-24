@@ -5,7 +5,9 @@ import {
     ContainerProps,
     datasource,
     dropzone,
+    structurePreviewPalette,
     StructurePreviewProps,
+    TextProps,
     text
 } from "@mendix/pluggable-widgets-commons";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
@@ -168,31 +170,34 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
 
 export function getPreview(
     values: HTMLElementPreviewProps,
-    _isDarkMode: boolean,
+    isDarkMode: boolean,
     spVersion: number[] = [0, 0, 0]
 ): StructurePreviewProps | null {
     const tagName = prepareTag(values.tagName, values.tagNameCustom);
     const [x, y] = spVersion;
     const canHideDataSourceHeader = x >= 9 && y >= 20;
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+
+    const tagText = (content: string): TextProps => text({ fontColor: palette.text.primary })(content);
 
     const voidElementPreview = (tagName: keyof JSX.IntrinsicElements): ContainerProps =>
-        container({ padding: 4 })(text()(`<${tagName} />`));
+        container({ padding: 4 })(tagText(`<${tagName} />`));
 
     const flowElementPreview = (): ContainerProps =>
         values.tagContentMode === "innerHTML"
             ? container({ padding: 4 })(
-                  text()(
+                  tagText(
                       `<${tagName}>${
                           values.tagUseRepeat ? values.tagContentRepeatHTML : values.tagContentHTML
                       }</${tagName}>`
                   )
               )
             : container({ padding: 0 })(
-                  text()(`<${tagName}>`),
+                  tagText(`<${tagName}>`),
                   dropzone(dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader))(
                       values.tagUseRepeat ? values.tagContentRepeatContainer : values.tagContentContainer
                   ),
-                  text()(`</${tagName}>`)
+                  tagText(`</${tagName}>`)
               );
 
     return container({ grow: 1, borders: true, borderWidth: 1 })(
