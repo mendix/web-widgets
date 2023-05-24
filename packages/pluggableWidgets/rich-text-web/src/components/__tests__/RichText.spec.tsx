@@ -46,6 +46,7 @@ const defaultRichTextProps: RichTextContainerProps = {
     disallowedContent: "",
     enableUploadImages: false,
     uploadImageEndpoint: "",
+    uploadImageMaxSize: 4096,
     id: "1.Dev.Test_ListenTo.richText1_x_1"
 };
 
@@ -180,7 +181,6 @@ describe("CKEditor configuration", () => {
         toolbarGroups.splice(4, 0, "/");
         expect(config).toEqual({
             toolbarGroups,
-            extraPlugins: "mxupload",
             removeButtons:
                 "Save,Templates,NewPage,ExportPdf,Preview,Print,Find," +
                 "Replace,SelectAll,Form,Checkbox,Radio,TextField,Textarea," +
