@@ -113,3 +113,9 @@ export function getPreview(values: ProgressBarPreviewProps, isDarkMode: boolean)
         width: 300
     };
 }
+
+export function getCustomCaption(values: ProgressBarPreviewProps, _platform = "desktop"): string {
+    return values.type && values[`${values.type}CurrentValue`] != null
+        ? `[${values.type}, ${values[`${values.type}CurrentValue`]}]`
+        : "Progress Bar";
+}

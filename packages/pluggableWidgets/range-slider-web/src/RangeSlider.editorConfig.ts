@@ -100,3 +100,9 @@ export function getPreview(_: RangeSliderPreviewProps, isDarkMode: boolean): Str
         width: 300
     };
 }
+
+export function getCustomCaption(values: RangeSliderPreviewProps, _platform = "desktop"): string {
+    return values.lowerBoundAttribute
+        ? `[${values.lowerBoundAttribute}, ${values.upperBoundAttribute}]`
+        : "Range Slider";
+}

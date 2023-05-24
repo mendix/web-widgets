@@ -68,3 +68,7 @@ export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): St
         height: 148
     };
 }
+
+export function getCustomCaption(values: RichTextPreviewProps, _platform = "desktop"): string {
+    return values.stringAttribute || "Rich Text";
+}
