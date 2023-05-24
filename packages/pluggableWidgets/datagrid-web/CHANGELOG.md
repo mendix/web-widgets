@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We replaced glyphicons with internal icons
 
+### Fixed
+
+-   We fix virtual scrolling issue
+
 ## [2.7.1] - 2023-05-02
 
 ### Added
