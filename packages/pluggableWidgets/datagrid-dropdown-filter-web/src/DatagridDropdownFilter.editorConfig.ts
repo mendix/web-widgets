@@ -5,7 +5,8 @@ import {
     ContainerProps,
     ImageProps,
     StructurePreviewProps,
-    TextProps
+    text,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
@@ -28,6 +29,7 @@ export function getProperties(
 }
 
 export const getPreview = (values: DatagridDropdownFilterPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     return {
         type: "RowLayout",
         borders: true,
@@ -38,24 +40,16 @@ export const getPreview = (values: DatagridDropdownFilterPreviewProps, isDarkMod
             {
                 type: "RowLayout",
                 columnSize: "grow",
-                backgroundColor: isDarkMode ? "#313131" : "#FFFFFF",
+                backgroundColor: palette.background.container,
                 children: [
                     {
                         type: "Container",
                         padding: 8,
                         children: [
-                            {
-                                type: "Text",
-                                fontColor: values.emptyOptionCaption
-                                    ? isDarkMode
-                                        ? "#A4A4A4"
-                                        : "#BBBBBB"
-                                    : isDarkMode
-                                    ? "#313131"
-                                    : "#FFF",
-                                italic: true,
-                                content: values.emptyOptionCaption ? values.emptyOptionCaption : "Sample"
-                            } as TextProps
+                            text({
+                                fontColor: palette.text.secondary,
+                                italic: true
+                            })(values.emptyOptionCaption || " ")
                         ],
                         grow: 1
                     } as ContainerProps,
