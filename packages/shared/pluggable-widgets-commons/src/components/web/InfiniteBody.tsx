@@ -28,8 +28,11 @@ export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): React
         e => {
             /**
              * In Windows OS the result of first expression returns a non integer and result in never loading more, require floor to solve.
+             * note: Math floor sometimes result in incorrect integer value,
+             * causing mismatch by 1 pixel point, thus, add magic number 2 as buffer.
              */
-            const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === Math.floor(e.target.clientHeight);
+            const bottom =
+                Math.floor(e.target.scrollHeight - e.target.scrollTop) <= Math.floor(e.target.clientHeight) + 2;
             if (bottom) {
                 if (hasMoreItems && setPage) {
                     setPage(prev => prev + 1);
