@@ -1,7 +1,8 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, structurePreviewPalette } from "@mendix/pluggable-widgets-commons";
 import { BadgePreviewProps } from "../typings/BadgeProps";
 
 export function getPreview(values: BadgePreviewProps, isDarkMode: boolean): StructurePreviewProps {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     return {
         type: "RowLayout",
         columnSize: "grow",
@@ -15,7 +16,7 @@ export function getPreview(values: BadgePreviewProps, isDarkMode: boolean): Stru
                             {
                                 type: "Text",
                                 content: values.value,
-                                fontColor: "#FFF",
+                                fontColor: palette.text.primary,
                                 bold: true,
                                 fontSize: 8
                             }
@@ -23,7 +24,7 @@ export function getPreview(values: BadgePreviewProps, isDarkMode: boolean): Stru
                         padding: values.value ? 8 : 18
                     }
                 ],
-                backgroundColor: isDarkMode ? "#579BF9" : "#264AE5",
+                backgroundColor: palette.background.buttonInfo,
                 borderRadius: values.type === "badge" ? 22 : 8
             },
             { type: "Container", grow: 2 }
