@@ -19,7 +19,6 @@ import {
     smallerThanIconDark,
     structurePreviewPalette,
     StructurePreviewProps,
-    TextProps,
     text
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
