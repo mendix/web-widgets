@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+-   We changed colors in the structure mode preview for dark and light modes.
+
 -   We replaced glyphicons with internal icons
 -   We updated the light and dark icons and tiles for the widget.
 
