@@ -313,6 +313,13 @@ $grid-selected-row-background: $brand-light;
             outline: 1px solid $brand-primary;
         }
     }
+    .pagination-icon {
+        position: relative;
+        top: 4px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
 }
 
 /* Column selector for hidable columns outside DG context */

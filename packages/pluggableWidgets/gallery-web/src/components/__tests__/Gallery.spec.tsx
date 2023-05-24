@@ -142,7 +142,7 @@ describe("Gallery", () => {
                     setPage={setPage}
                 />
             );
-            const galleryFirstItem = gallery.find(".glyphicon-step-forward").at(0);
+            const galleryFirstItem = gallery.find(".step-forward").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 

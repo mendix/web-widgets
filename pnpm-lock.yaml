@@ -1859,8 +1859,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       date-fns:
-        specifier: ^2.29.3
-        version: 2.29.3
+        specifier: ^2.30.0
+        version: 2.30.0
       react-datepicker:
         specifier: ^4.6.0
         version: 4.10.0(react-dom@17.0.2)(react@17.0.2)
@@ -2492,8 +2492,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       downshift:
-        specifier: ^7.2.0
-        version: 7.2.0(react@17.0.2)
+        specifier: ^7.6.0
+        version: 7.6.0(react@17.0.2)
       match-sorter:
         specifier: ^6.3.1
         version: 6.3.1
@@ -2841,8 +2841,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       date-fns:
-        specifier: ^2.29.3
-        version: 2.29.3
+        specifier: ^2.30.0
+        version: 2.30.0
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -3486,8 +3486,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       date-fns:
-        specifier: ^2.29.3
-        version: 2.29.3
+        specifier: ^2.30.0
+        version: 2.30.0
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -5184,8 +5184,8 @@ importers:
         specifier: ^5.8.1
         version: 5.53.0(eslint@7.32.0)(typescript@4.5.4)
       eslint-config-prettier:
-        specifier: ^8.7.0
-        version: 8.7.0(eslint@7.32.0)
+        specifier: ^8.8.0
+        version: 8.8.0(eslint@7.32.0)
       eslint-plugin-cypress:
         specifier: ^2.12.1
         version: 2.12.1(eslint@7.32.0)
@@ -5194,7 +5194,7 @@ importers:
         version: 24.7.0(@typescript-eslint/eslint-plugin@5.53.0)(eslint@7.32.0)(typescript@4.5.4)
       eslint-plugin-prettier:
         specifier: ^3.4.1
-        version: 3.4.1(eslint-config-prettier@8.7.0)(eslint@7.32.0)(prettier@2.8.4)
+        version: 3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.4)
       eslint-plugin-promise:
         specifier: ^4.3.1
         version: 4.3.1
@@ -5298,8 +5298,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       date-fns:
-        specifier: ^2.29.3
-        version: 2.29.3
+        specifier: ^2.30.0
+        version: 2.30.0
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -8580,7 +8580,7 @@ packages:
     dependencies:
       '@popperjs/core': 2.11.6
       '@types/react': 17.0.53
-      date-fns: 2.29.3
+      date-fns: 2.30.0
       react-popper: 2.3.0(@popperjs/core@2.11.6)(react-dom@17.0.2)(react@17.0.2)
     transitivePeerDependencies:
       - react
@@ -11144,6 +11144,13 @@ packages:
   /date-fns@2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
+    dev: true
+
+  /date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.21.0
 
   /date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}
@@ -11514,8 +11521,8 @@ packages:
     resolution: {integrity: sha512-BCLEIBq0O/DWoA7BsCu/R+RP0ZXiowP8BhtJT3qeuuQEBpnS8LK/Wo6UTJQv6v8mK1fj8n90YziHLwGdM5whSg==}
     dev: false
 
-  /downshift@7.2.0(react@17.0.2):
-    resolution: {integrity: sha512-dEn1Sshe7iTelUhmdbmiJhtIiwIBxBV8p15PuvEBh0qZcHXZnEt0geuCIIkCL4+ooaKRuLE0Wc+Fz9SwWuBIyg==}
+  /downshift@7.6.0(react@17.0.2):
+    resolution: {integrity: sha512-VSoTVynTAsabou/hbZ6HJHUVhtBiVOjQoBsCPcQq5eAROIGP+9XKMp9asAKQ3cEcUP4oe0fFdD2pziUjhFY33Q==}
     peerDependencies:
       react: '>=16.12.0'
     dependencies:
@@ -11858,6 +11865,16 @@ packages:
       eslint: '>=7.0.0'
     dependencies:
       eslint: 7.32.0
+    dev: true
+
+  /eslint-config-prettier@8.8.0(eslint@7.32.0):
+    resolution: {integrity: sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 7.32.0
+    dev: false
 
   /eslint-plugin-cypress@2.12.1(eslint@7.32.0):
     resolution: {integrity: sha512-c2W/uPADl5kospNDihgiLc7n87t5XhUbFDoTl6CfVkmG+kDAb5Ux10V9PoLPu9N+r7znpc+iQlcmAqT1A/89HA==}
@@ -11908,6 +11925,24 @@ packages:
       eslint-config-prettier: 8.7.0(eslint@7.32.0)
       prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-prettier@3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.4):
+    resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      eslint: '>=5.0.0'
+      eslint-config-prettier: '*'
+      prettier: '>=1.13.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 7.32.0
+      eslint-config-prettier: 8.8.0(eslint@7.32.0)
+      prettier: 2.8.4
+      prettier-linter-helpers: 1.0.0
+    dev: false
 
   /eslint-plugin-promise@4.3.1:
     resolution: {integrity: sha512-bY2sGqyptzFBDLh/GMbAxfdJC+b0f23ME63FOE4+Jao0oZ3E1LEwFtWJX/1pGMJLiTtrSSern2CRM/g+dfc0eQ==}
@@ -17379,7 +17414,7 @@ packages:
     dependencies:
       '@popperjs/core': 2.11.6
       classnames: 2.3.2
-      date-fns: 2.29.3
+      date-fns: 2.30.0
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)

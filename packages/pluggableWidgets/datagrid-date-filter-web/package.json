@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-date-filter-web",
   "widgetName": "DatagridDateFilter",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -41,7 +41,7 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "react-datepicker": "^4.6.0",
     "string.prototype.replaceall": "^1.0.7"
   },

@@ -11,8 +11,8 @@ exports[`Rating Container renders correctly the structure 1`] = `
       empty={true}
       value={
         Object {
-          "iconClass": "glyphicon-star-empty",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
@@ -23,8 +23,8 @@ exports[`Rating Container renders correctly the structure 1`] = `
       full={true}
       value={
         Object {
-          "iconClass": "glyphicon-star",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
@@ -47,8 +47,8 @@ exports[`Rating Container renders correctly the structure when disabled 1`] = `
       empty={true}
       value={
         Object {
-          "iconClass": "glyphicon-star-empty",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
@@ -59,8 +59,8 @@ exports[`Rating Container renders correctly the structure when disabled 1`] = `
       full={true}
       value={
         Object {
-          "iconClass": "glyphicon-star",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
@@ -83,8 +83,8 @@ exports[`Rating Container renders correctly the structure without animation 1`] 
       empty={true}
       value={
         Object {
-          "iconClass": "glyphicon-star-empty",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
@@ -95,8 +95,8 @@ exports[`Rating Container renders correctly the structure without animation 1`] 
       full={true}
       value={
         Object {
-          "iconClass": "glyphicon-star",
-          "type": "glyph",
+          "iconClass": "",
+          "type": "icon",
         }
       }
     />
