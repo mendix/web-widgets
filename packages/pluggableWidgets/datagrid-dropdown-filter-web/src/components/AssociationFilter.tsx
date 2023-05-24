@@ -41,8 +41,16 @@ interface DropdownProps {
     dispatch: ConditionDispatch;
     widgetProps: DatagridDropdownFilterContainerProps;
     associationProps: AssociationProperties;
+    widgetChannel?: string;
+    providerChannel?: string;
 }
-function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): ReactElement {
+function Dropdown({
+    dispatch,
+    widgetProps,
+    associationProps,
+    widgetChannel,
+    providerChannel
+}: DropdownProps): ReactElement {
     const { association, optionsSource, getOptionLabel } = associationProps;
 
     const id = useDropdownId();
@@ -76,6 +84,8 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
             footer={<DropdownFooter loading={lazyList.isLoading} />}
             onTriggerClick={getItems}
             onContentScroll={lazyList.hasMore ? onContentScroll : undefined}
+            widgetChannel={widgetChannel}
+            providerChannel={providerChannel}
         />
     );
 }
@@ -92,6 +102,8 @@ export function AssociationFilter({ context, widgetProps }: FilterProps): ReactE
             widgetProps={widgetProps}
             associationProps={associationProps.value}
             dispatch={context.filterDispatcher}
+            widgetChannel={widgetProps.name}
+            providerChannel={context.providerData?.eventChannelName}
         />
     );
 }

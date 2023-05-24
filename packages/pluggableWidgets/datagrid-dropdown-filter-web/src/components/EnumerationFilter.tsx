@@ -1,6 +1,7 @@
 import { createElement, ReactElement } from "react";
-import { useDropdownId } from "../hooks/useDropdownId";
 import { getFilterProps } from "../features/enumerationFilter";
+import { useDropdownId } from "../hooks/useDropdownId";
+import { getProviderChannel } from "../utils/context";
 import { FilterProps } from "../utils/types";
 import { ErrorBox } from "./ErrorBox";
 import { FilterComponent } from "./FilterComponent";
@@ -13,5 +14,12 @@ export function EnumerationFilter(props: FilterProps): ReactElement {
         return <ErrorBox error={filterProps.error} />;
     }
 
-    return <FilterComponent {...filterProps.value} id={id} />;
+    return (
+        <FilterComponent
+            {...filterProps.value}
+            id={id}
+            widgetChannel={props.widgetProps.name}
+            providerChannel={getProviderChannel(props.context)}
+        />
+    );
 }

@@ -10,6 +10,7 @@ import {
     useState
 } from "react";
 import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
+import { useListenChannelEvents, recommendedEventNames } from "@mendix/widget-plugin-external-events";
 import classNames from "classnames";
 import deepEqual from "deep-equal";
 import { createPortal } from "react-dom";
@@ -40,6 +41,8 @@ export interface FilterComponentProps {
     updateFilters?: FilterValueChangeCallback;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLDivElement>;
+    widgetChannel?: string;
+    providerChannel?: string;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
@@ -166,6 +169,14 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         updateFilters?.(selectedFilters);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedFilters]);
+
+    const reset = (): void => {
+        setValueInput(emptyOptionCaption ?? "");
+        setSelectedFilters([]);
+        setShow(false);
+    };
+    useListenChannelEvents(props.widgetChannel, recommendedEventNames.input.clear, reset);
+    useListenChannelEvents(props.providerChannel, recommendedEventNames.grid.resetFilters, reset);
 
     const showPlaceholder = selectedFilters.length === 0 || valueInput === emptyOptionCaption;
 
