@@ -1,7 +1,10 @@
 import { BadgeButtonPreviewProps } from "../typings/BadgeButtonProps";
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, structurePreviewPalette } from "@mendix/pluggable-widgets-commons";
 
 export function getPreview(values: BadgeButtonPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    const buttonBg = palette.background.buttonInfo;
+
     return {
         type: "RowLayout",
         columnSize: "grow",
@@ -38,7 +41,7 @@ export function getPreview(values: BadgeButtonPreviewProps, isDarkMode: boolean)
                                             {
                                                 type: "Text",
                                                 content: values.value,
-                                                fontColor: isDarkMode ? "#579BF9" : "#264AE5",
+                                                fontColor: buttonBg,
                                                 bold: true,
                                                 fontSize: 8
                                             }
@@ -52,7 +55,7 @@ export function getPreview(values: BadgeButtonPreviewProps, isDarkMode: boolean)
                         ]
                     }
                 ],
-                backgroundColor: isDarkMode ? "#579BF9" : "#264AE5",
+                backgroundColor: buttonBg,
                 borderRadius: 4
             },
             {

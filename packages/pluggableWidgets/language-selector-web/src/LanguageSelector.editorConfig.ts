@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, structurePreviewPalette } from "@mendix/pluggable-widgets-commons";
 import { Properties } from "@mendix/pluggable-widgets-tools";
 import { LanguageSelectorPreviewProps } from "typings/LanguageSelectorProps";
 import ArrowDark from "./assets/arrow_dark.svg";
@@ -9,6 +9,7 @@ export function getProperties(__values: LanguageSelectorPreviewProps, defaultVal
 }
 
 export function getPreview(__values: LanguageSelectorPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     return {
         type: "RowLayout",
         columnSize: "grow", // dynamic column sizes
@@ -16,7 +17,7 @@ export function getPreview(__values: LanguageSelectorPreviewProps, isDarkMode: b
             {
                 type: "Text",
                 content: "Selected language",
-                fontColor: isDarkMode ? "#DEDEDE" : "#899499"
+                fontColor: palette.text.primary
             },
             { type: "Container", grow: 0.001 }, // small space between items
             {

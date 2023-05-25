@@ -1,4 +1,9 @@
-import { ContainerProps, RowLayoutProps, StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import {
+    ContainerProps,
+    RowLayoutProps,
+    StructurePreviewProps,
+    structurePreviewPalette
+} from "@mendix/pluggable-widgets-commons";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -105,6 +110,7 @@ export function check(values: AccordionPreviewProps): Problem[] {
 }
 
 export function getPreview(values: AccordionPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const groups =
         values.groups.length > 0
             ? values.groups
@@ -128,7 +134,7 @@ export function getPreview(values: AccordionPreviewProps, isDarkMode: boolean): 
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "fixed",
-        backgroundColor: isDarkMode ? "#4F4F4F" : "#F5F5F5",
+        backgroundColor: palette.background.topbarStandard,
         borders: true,
         borderWidth: 1,
         children: [
@@ -139,7 +145,7 @@ export function getPreview(values: AccordionPreviewProps, isDarkMode: boolean): 
                     {
                         type: "Text",
                         content: "Accordion",
-                        fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
+                        fontColor: palette.text.primary
                     }
                 ]
             }

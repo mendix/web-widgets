@@ -1,4 +1,10 @@
-import { StructurePreviewProps, DropZoneProps, RowLayoutProps, TextProps } from "@mendix/pluggable-widgets-commons";
+import {
+    StructurePreviewProps,
+    DropZoneProps,
+    RowLayoutProps,
+    TextProps,
+    structurePreviewPalette
+} from "@mendix/pluggable-widgets-commons";
 import { hidePropertyIn, Properties, Problem } from "@mendix/pluggable-widgets-tools";
 import { AttributesListPreviewType, AccessibilityHelperPreviewProps } from "../typings/AccessibilityHelperProps";
 
@@ -32,6 +38,8 @@ export function check(values: AccessibilityHelperPreviewProps): Problem[] {
 }
 
 export function getPreview(values: AccessibilityHelperPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+
     return {
         type: "Container",
         borders: true,
@@ -39,7 +47,7 @@ export function getPreview(values: AccessibilityHelperPreviewProps, isDarkMode: 
         children: [
             {
                 type: "RowLayout",
-                backgroundColor: values.content.widgetCount > 0 ? undefined : isDarkMode ? "#3E3E3E" : "#F5F5F5",
+                backgroundColor: values.content.widgetCount > 0 ? undefined : palette.background.topbarStandard,
                 children: [
                     {
                         type: "DropZone",

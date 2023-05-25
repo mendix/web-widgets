@@ -17,8 +17,9 @@ import {
     smallerThanEqualIconDark,
     smallerThanIcon,
     smallerThanIconDark,
+    structurePreviewPalette,
     StructurePreviewProps,
-    TextProps
+    text
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 
@@ -43,6 +44,7 @@ export function getProperties(
 }
 
 export const getPreview = (values: DatagridNumberFilterPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const adjustableByUserContainer = values.adjustable
         ? [
               {
@@ -74,25 +76,17 @@ export const getPreview = (values: DatagridNumberFilterPreviewProps, isDarkMode:
             {
                 type: "RowLayout",
                 columnSize: "grow",
-                backgroundColor: isDarkMode ? "#313131" : "#FFFFFF",
+                backgroundColor: palette.background.container,
                 children: [
                     ...adjustableByUserContainer,
                     {
                         type: "Container",
                         padding: 8,
                         children: [
-                            {
-                                type: "Text",
-                                fontColor: values.placeholder
-                                    ? isDarkMode
-                                        ? "#A4A4A4"
-                                        : "#BBBBBB"
-                                    : isDarkMode
-                                    ? "#313131"
-                                    : "#FFF",
-                                italic: true,
-                                content: values.placeholder ? values.placeholder : "Sample"
-                            } as TextProps
+                            text({
+                                fontColor: palette.text.secondary,
+                                italic: true
+                            })(values.placeholder || " ")
                         ],
                         grow: 1
                     } as ContainerProps

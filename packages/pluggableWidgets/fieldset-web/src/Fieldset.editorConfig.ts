@@ -2,11 +2,13 @@ import {
     DropZoneProps,
     RowLayoutProps,
     StructurePreviewProps,
-    TextProps
+    TextProps,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons/dist";
 import { FieldsetPreviewProps } from "../typings/FieldsetProps";
 
 export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     return {
         type: "Container",
         borders: true,
@@ -14,7 +16,7 @@ export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): S
         children: [
             {
                 type: "Container",
-                backgroundColor: isDarkMode ? "#454545" : undefined,
+                backgroundColor: palette.background.topbarStandard,
                 children: [
                     {
                         type: "Container",
@@ -32,7 +34,6 @@ export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): S
             },
             {
                 type: "RowLayout",
-                backgroundColor: values.content.widgetCount > 0 ? undefined : isDarkMode ? undefined : "#F8F8F8",
                 children: [
                     {
                         type: "DropZone",

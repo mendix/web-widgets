@@ -4,7 +4,8 @@ import {
     DropZoneProps,
     RowLayoutProps,
     ContainerProps,
-    TextProps
+    TextProps,
+    structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
@@ -35,6 +36,7 @@ export function check(values: TooltipPreviewProps): Problem[] {
 }
 
 export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const centerLayout = (props: TextProps | DropZoneProps) =>
         ({
             type: "RowLayout",
@@ -62,7 +64,7 @@ export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): St
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
         columnSize: "grow",
-        backgroundColor: isDarkMode ? "#4F4F4F" : "#F5F5F5",
+        backgroundColor: palette.background.topbarStandard,
         borders: true,
         borderWidth: 1,
         children: [
@@ -73,7 +75,7 @@ export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): St
                     {
                         type: "Text",
                         content: "Tooltip",
-                        fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
+                        fontColor: palette.text.secondary
                     } as TextProps
                 ]
             }
