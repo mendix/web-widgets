@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 -   We replaced glyphicons with internal icons
+
 -   We updated page explorer's caption to display datasource.
+
 -   We updated the light and dark icons and tiles for the widget.
 
 ### Fixed
