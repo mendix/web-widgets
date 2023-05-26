@@ -6,6 +6,96 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.0] DataWidgets - 2023-05-26
+
+### [2.5.1] DatagridDateFilter
+
+#### Changed
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+-   We replaced glyphicons with internal icons
+
+-   We updated the light and dark icons and tiles for the widget.
+
+### [2.4.1] DatagridDropdownFilter
+
+#### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+### [2.4.1] DatagridNumberFilter
+
+#### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+### [2.4.1] DatagridTextFilter
+
+#### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+### [2.7.3] Datagrid
+
+#### Changed
+
+-   We replaced glyphicons with internal icons
+
+-   We updated page explorer's caption to display datasource.
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+#### Fixed
+
+-   We fix virtual scrolling issue
+
+### [1.1.1] DropdownSort
+
+#### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+### [1.3.2] Gallery
+
+#### Changed
+
+-   We updated page explorer's caption to display datasource.
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
+#### Fixed
+
+-   We fix virtual scrolling issue
+
+### [1.0.2] SelectionHelper
+
+#### Changed
+
+-   We updated the light and dark icons and tiles for the widget.
+
+### [1.1.1] TreeNode
+
+#### Changed
+
+-   We updated page explorer's caption to display datasource.
+
+-   We updated the light and dark icons and tiles for the widget.
+
+-   We changed colors in the structure mode preview for dark and light modes.
+
 ## [2.7.2] DataWidgets - 2023-05-02
 
 ### [2.7.1] Datagrid
