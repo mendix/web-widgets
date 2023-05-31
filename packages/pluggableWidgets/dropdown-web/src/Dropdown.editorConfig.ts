@@ -3,7 +3,7 @@ import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { DropdownPreviewProps } from "../typings/DropdownProps";
 
 export function getProperties(values: DropdownPreviewProps, defaultProperties: Properties): Properties {
-    if (values.optionsSourceType === "enumerationOrBoolean") {
+    if (values.optionsSourceType === "enumeration" || values.optionsSourceType === "boolean") {
         // hide attribute
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
@@ -12,12 +12,19 @@ export function getProperties(values: DropdownPreviewProps, defaultProperties: P
             "optionsSourceAssociationCaptionExpression",
             "optionsSourceAssociationDataSource"
         ]);
+        if (values.optionsSourceType === "boolean") {
+            hidePropertiesIn(defaultProperties, values, ["clearable"]);
+        }
     } else if (values.optionsSourceType === "association") {
         hidePropertiesIn(defaultProperties, values, ["attributeEnumerationOrBoolean"]);
         if (values.optionsSourceAssociationCaptionType === "attribute") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
+        }
+
+        if (values.optionsSourceAssociationDataSource === null) {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionType"]);
         }
     }
 

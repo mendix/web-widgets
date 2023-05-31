@@ -5,7 +5,7 @@
  */
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
-export type OptionsSourceTypeEnum = "enumerationOrBoolean" | "association";
+export type OptionsSourceTypeEnum = "enumeration" | "boolean" | "association";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 

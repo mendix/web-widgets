@@ -4,7 +4,7 @@ import { EnumBooleanSingleSelector } from "./EnumBool/EnumBoolSingleSelector";
 import { SingleSelector } from "./types";
 
 export function getSelector(props: DropdownContainerProps): SingleSelector {
-    if (props.optionsSourceType === "enumerationOrBoolean") {
+    if (props.optionsSourceType === "enumeration" || props.optionsSourceType === "boolean") {
         return new EnumBooleanSingleSelector();
     } else if (props.optionsSourceType === "association") {
         return new AssociationSingleSelector();
