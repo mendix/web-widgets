@@ -62,7 +62,7 @@ describe("tooltip-web", () => {
         it("verifies tooltip shown custom content and compares with a screenshot baseline", () => {
             cy.visit("/p/arrow");
             cy.get(".mx-name-navigationTree3-3").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-actionButtonCustom").focus();
             cy.get(".mx-scrollcontainer-center").compareSnapshot(`tooltipCustom-${browserName}`, 0.1);
         });
@@ -70,7 +70,7 @@ describe("tooltip-web", () => {
         it("verifies if tooltip is opened on click", () => {
             cy.visit("/p/click");
             cy.get(".mx-name-actionButtonClick").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-scrollcontainer-center").compareSnapshot(`tooltipClick-${browserName}`, 0.1);
         });
     });

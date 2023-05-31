@@ -7,7 +7,7 @@ describe("datagrid-dropdown-filter-web", () => {
 
     describe("visual testing:", () => {
         it("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
-            cy.wait(3000);
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1").should("be.visible");
             cy.get(".mx-name-datagrid1").compareSnapshot(`dataGridDropDownFilter-${browserName}`, 0.1);
         });
@@ -17,7 +17,7 @@ describe("datagrid-dropdown-filter-web", () => {
         it("shows the expected result", () => {
             cy.get(".mx-name-datagrid1").find(".dropdown-container").first().click();
             cy.get(".dropdown-list > li:nth-child(1)").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .td").should("have.text", "10testtestYes");
         });
 
@@ -25,7 +25,7 @@ describe("datagrid-dropdown-filter-web", () => {
             cy.get(".mx-name-datagrid1").find(".dropdown-container").first().click();
             cy.get(".dropdown-list > li:nth-child(1)").click();
             cy.get(".dropdown-list > li:nth-child(2)").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .td").should("have.text", "10testtestYes20test2test2Yes");
         });
     });
@@ -35,7 +35,7 @@ describe("datagrid-dropdown-filter-web", () => {
             cy.get(".mx-name-datagrid1").find(".dropdown-container").last().click();
             cy.get(".dropdown-list > li:nth-child(3)").should("have.text", "No");
             cy.get(".dropdown-list > li:nth-child(3)").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .td").should("have.length", 0);
         });
     });

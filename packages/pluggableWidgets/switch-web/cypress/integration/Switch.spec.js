@@ -38,7 +38,7 @@ describe("Switch", () => {
         cy.get(".mx-name-switch3").should("be.visible");
         cy.get(".mx-name-switch3 .widget-switch-btn-wrapper").first().click();
         cy.get(".mx-name-radioButtons7 input:checked").should("have.value", "true");
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".modal-dialog .modal-body").should("be.visible").and("contain.text", "IT WORKS");
     });
 });

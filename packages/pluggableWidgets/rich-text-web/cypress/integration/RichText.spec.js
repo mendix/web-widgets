@@ -27,8 +27,9 @@ describe("RichText", () => {
 
     it("compares with a screenshot baseline and checks if inline basic mode are rendered as expected", () => {
         cy.visit("/#/basic");
-        cy.wait(3000);
-        cy.get(".mx-name-richText1").scrollIntoView().should("be.visible");
+        cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+        cy.get(".mx-name-richText1").scrollIntoView();
+        cy.get(".mx-name-richText1").should("be.visible");
         cy.get(".mx-name-richText1").compareSnapshot(`inlineBasicMode-${browserName}`, 0.4);
     });
 
@@ -40,7 +41,7 @@ describe("RichText", () => {
 
     it("compares with a screenshot baseline and checks if inline advanced mode are rendered as expected", () => {
         cy.visit("/#/advanced");
-        cy.wait(2000);
+        cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-richText1").should("be.visible");
         cy.get(".mx-name-richText1").compareSnapshot(`inlineAdvancedMode-${browserName}`, 0.4);
     });
@@ -52,7 +53,7 @@ describe("RichText", () => {
 
     it("compares with a screenshot baseline and checks if inline custom mode are rendered as expected", () => {
         cy.visit("/p/custom");
-        cy.wait(2000);
+        cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-richText1").should("be.visible");
         cy.get(".mx-name-richText1").compareSnapshot(`inlineCustomMode-${browserName}`, 0.4);
     });
@@ -74,7 +75,7 @@ describe("RichText", () => {
 
     it("compares with a screenshot baseline and checks if read-only text are rendered as expected", () => {
         cy.visit("/#/read-only");
-        cy.wait(2000);
+        cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-richText2").should("be.visible");
         cy.get(".mx-name-richText2").compareSnapshot(`readOnlyText-${browserName}`, 0.4);
     });

@@ -6,6 +6,7 @@ installLogsCollector();
 compareSnapshotCommand();
 
 /*eslint-disable cypress/no-unnecessary-waiting*/
+/*eslint-disable cypress/unsafe-to-chain-command*/
 Cypress.Commands.add("dragAndDrop", (subject, target, dragIndex, dropIndex) => {
     cy.get(subject).should("be.visible", { timeout: 20000 });
     Cypress.log({
@@ -54,6 +55,7 @@ Cypress.Commands.add("dragAndDrop", (subject, target, dragIndex, dropIndex) => {
         });
 });
 /*eslint-disable cypress/no-unnecessary-waiting*/
+/*eslint-disable cypress/unsafe-to-chain-command*/
 
 const logCommand = ({ options, originalOptions }) => {
     if (options.log) {

@@ -14,8 +14,7 @@ describe("datagrid-web filtering single select", () => {
 
     it("load snapshot", () => {
         // Wait data snapshot setup
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(10000);
+        cy.wait(10000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-dataGrid21").should("be.visible");
         cy.get(".mx-name-dataGrid21").compareSnapshot(`datagrid-${browserName}`, 0.15);
     });
@@ -75,8 +74,7 @@ describe("datagrid-web filtering single select", () => {
             rows().should("have.length", 10 + 1);
             roleSelect().click();
             option("Trader").click();
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             rows().should("have.length", 7 + 1);
             column(4).each(cell => {
                 expect(cell).to.include.text("Trader");

@@ -5,9 +5,10 @@ describe("line-chart-web", () => {
         cy.visit("/");
     });
 
+    /*eslint-disable cypress/unsafe-to-chain-command*/
     describe("line style", () => {
         it("renders basic line chart and compares with a screenshot baseline", { retries: 3 }, () => {
-            cy.wait(5000);
+            cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-containerBasic", { timeout: 10000 }).should("be.visible");
             cy.get(".mx-name-containerBasic").compareSnapshot(`lineChartLineBasic-${browserName}`, 0.5);
         });

@@ -16,7 +16,7 @@ describe("Here Maps", () => {
 
         it("compares with a screenshot baseline and checks if basemap is correct", () => {
             cy.get(".widget-maps").should("be.visible");
-            cy.get(".widget-maps").wait(3000).compareSnapshot(`hereMaps-${browserName}`, 0.5);
+            cy.get(".widget-maps").wait(3000).compareSnapshot(`hereMaps-${browserName}`, 0.5); // eslint-disable-line cypress/no-unnecessary-waiting
         });
     });
 
@@ -31,7 +31,7 @@ describe("Here Maps", () => {
 
         it("check the number of locations", () => {
             cy.get(".widget-leaflet-maps").should("be.visible");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".leaflet-marker-icon").should("have.length", 3);
         });
     });
@@ -47,7 +47,7 @@ describe("Here Maps", () => {
 
         it("check the number of locations", { browser: "!firefox" }, () => {
             cy.get(".widget-leaflet-maps").should("be.visible");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".leaflet-marker-icon").should("have.length", 1);
         });
     });
@@ -63,7 +63,7 @@ describe("Here Maps", () => {
 
         it("check the number of locations", { browser: "!firefox" }, () => {
             cy.get(".widget-leaflet-maps").should("be.visible");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".leaflet-marker-icon").should("have.length", 2);
         });
     });
@@ -75,9 +75,9 @@ describe("Here Maps", () => {
 
         it("should click on first marker", () => {
             cy.get(".widget-leaflet-maps").should("be.visible");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".leaflet-marker-icon").first().click({ force: true });
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".modal-body.mx-dialog-body").should("be.visible").should("have.text", "Clicked on static marker");
         });
     });

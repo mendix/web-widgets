@@ -12,7 +12,7 @@ describe("barcode-scanner-web", () => {
 
     it("compares with a screenshot baseline and checks if the media stream is started", () => {
         cy.get(".mx-name-actionButton1").click();
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-barcode-scanner-content").should("be.visible");
     });
 });

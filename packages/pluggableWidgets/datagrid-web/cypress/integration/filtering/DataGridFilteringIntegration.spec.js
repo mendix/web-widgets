@@ -7,8 +7,7 @@ describe("datagrid-web filtering integration", () => {
 
         cy.visit("/p/filtering-integration");
         // Await till DG is fully visible
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         rows().should("have.length", 50 + 1);
 
         select("First name").type("a");

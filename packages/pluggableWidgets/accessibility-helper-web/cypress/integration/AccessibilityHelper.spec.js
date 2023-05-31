@@ -38,7 +38,7 @@ describe("accessibility-helper", () => {
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-radioButtons1 input").first().click();
             cy.get(".mx-name-actionButton1").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-text3").invoke("attr", "expressionValue").should("eq", "NF changes");
         });
 
@@ -64,7 +64,7 @@ describe("accessibility-helper", () => {
     describe("with multiple targets", () => {
         it("sets attributes when condition is true", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-text3").invoke("attr", "trueCondition").should("eq", "true");
             cy.get(".mx-name-text4").invoke("attr", "trueCondition").should("eq", "true");
@@ -72,7 +72,7 @@ describe("accessibility-helper", () => {
 
         it("hides attributes when condition is false", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-text3").invoke("attr", "a11yhelper").should("not.eq", "a11yhelper");
             cy.get(".mx-name-text4").invoke("attr", "a11yhelper").should("not.eq", "a11yhelper");
@@ -80,7 +80,7 @@ describe("accessibility-helper", () => {
 
         it("updates target attributes when attributes are expression", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-textBox1").find("input").type("test", { force: true });
             cy.get(".mx-name-radioButtons1 input").first().click();
@@ -89,18 +89,18 @@ describe("accessibility-helper", () => {
         });
         it("updates target attributes using a NF", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-radioButtons1 input").first().click();
             cy.get(".mx-name-actionButton1").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-text3").invoke("attr", "expressionValue").should("eq", "NF changes");
             cy.get(".mx-name-text4").invoke("attr", "expressionValue").should("eq", "NF changes");
         });
 
         it("sets target attributes even though target's props changed eg: textinput", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-radioButtons1 input").first().click();
             cy.get(".mx-name-textBox1").find("input").type("test", { force: true });
@@ -113,7 +113,7 @@ describe("accessibility-helper", () => {
 
         it("sets target attributes even though target is conditionally shown after being hidden", () => {
             cy.get(".mx-name-actionButton2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-radioButtons2 input").first().click();
             cy.get(".mx-name-radioButtons1 input").first().click();
             cy.get(".mx-name-text3").invoke("attr", "a11yhelper").should("contain", "a11yhelper");

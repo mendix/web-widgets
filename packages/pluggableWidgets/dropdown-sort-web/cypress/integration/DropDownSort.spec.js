@@ -6,7 +6,7 @@ describe("dropdown-sort-web", () => {
         cy.get(".mx-name-drop_downSort1").click();
         cy.get(".dropdown-list > li:nth-child(2)").click();
         cy.get(".mx-name-drop_downSort1").find(".btn").first().click();
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-gallery1").find(".widget-gallery-item").first().should("have.text", "test3");
     });
 
@@ -15,7 +15,7 @@ describe("dropdown-sort-web", () => {
         cy.get(".dropdown-list > li:nth-child(2)").click();
         cy.get(".mx-name-drop_downSort1").find(".btn").first().click();
         cy.get(".mx-name-drop_downSort1").find(".btn").first().click();
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-gallery1").find(".widget-gallery-item").first().should("have.text", "test");
     });
 });
