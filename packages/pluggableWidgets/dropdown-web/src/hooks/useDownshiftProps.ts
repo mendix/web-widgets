@@ -47,5 +47,5 @@ export function useDownshiftProps(
                 }
             }
         };
-    }, [selector, inputElement, emptyOptionText]);
+    }, [selector, inputElement, emptyOptionText, selector.currentValue]);
 }

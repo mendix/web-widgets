@@ -6,7 +6,7 @@ export function extractEnumerationProps(props: DropdownContainerProps) {
     const clearable = props.clearable;
     if (!attr) {
         throw new Error(
-            "'optionsSourceType' type is 'enumerationOrBoolean' but 'attributeEnumerationOrBoolean' is not defined."
+            "'optionsSourceType' type is 'enumeration' or 'boolean' but 'attributeEnumerationOrBoolean' is not defined."
         );
     }
 

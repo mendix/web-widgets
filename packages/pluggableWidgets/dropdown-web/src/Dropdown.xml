@@ -9,11 +9,12 @@
         <propertyGroup caption="General">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Data source">
-                <property key="optionsSourceType" type="enumeration" defaultValue="enumerationOrBoolean">
+                <property key="optionsSourceType" type="enumeration" defaultValue="enumeration" required="true">
                     <caption>Type</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="enumerationOrBoolean">Enumeration or boolean</enumerationValue>
+                        <enumerationValue key="enumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="boolean">Boolean</enumerationValue>
                         <enumerationValue key="association">Association</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -51,15 +52,15 @@
                     </enumerationValues>
                 </property>
                 <!-- CAPTIONS -->
-                <property key="optionsSourceAssociationCaptionAttribute" type="attribute" dataSource="optionsSourceAssociationDataSource" required="false">
-                    <caption>Caption (attribute)</caption>
+                <property key="optionsSourceAssociationCaptionAttribute" type="attribute" dataSource="optionsSourceAssociationDataSource" required="true">
+                    <caption>Caption</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
-                <property key="optionsSourceAssociationCaptionExpression" type="expression" dataSource="optionsSourceAssociationDataSource" required="false">
-                    <caption>Caption (expression)</caption>
+                <property key="optionsSourceAssociationCaptionExpression" type="expression" dataSource="optionsSourceAssociationDataSource" required="true">
+                    <caption>Caption</caption>
                     <description />
                     <returnType type="String" />
                 </property>
