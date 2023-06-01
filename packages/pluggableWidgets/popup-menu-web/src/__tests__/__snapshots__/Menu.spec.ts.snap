@@ -17,7 +17,6 @@ exports[`Popup menu renders popup menu 1`] = `
           "position": "fixed",
           "top": 11,
           "transform": "none",
-          "zIndex": 0,
         }
       }
     >
