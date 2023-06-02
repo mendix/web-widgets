@@ -41,6 +41,7 @@ describe("Fieldset", () => {
         const fieldset = ".mx-name-fieldsetLegendYes";
 
         cy.get(fieldset).find("legend").should("have.text", "Smith's personal info");
+        /*eslint-disable cypress/unsafe-to-chain-command*/
         cy.get("fieldset[name=fieldsetLegendYes] > *")
             .not("legend")
             .next()
@@ -48,6 +49,7 @@ describe("Fieldset", () => {
             .clear()
             .type("Smiths")
             .type("{enter}");
+        /*eslint-disable cypress/unsafe-to-chain-command*/
         cy.get(fieldset).find("legend").should("have.text", "Smiths's personal info");
     });
 });

@@ -16,8 +16,9 @@ describe("column-chart-web", () => {
                 "renders column chart with default color and compares with a screenshot baseline",
                 { retries: 3 },
                 () => {
-                    cy.wait(6000);
-                    cy.get(".mx-name-containerDefaultColor", { timeout: 10000 }).scrollIntoView().should("be.visible");
+                    cy.wait(6000); // eslint-disable-line cypress/no-unnecessary-waiting
+                    cy.get(".mx-name-containerDefaultColor", { timeout: 10000 }).scrollIntoView();
+                    cy.get(".mx-name-containerDefaultColor", { timeout: 10000 }).should("be.visible");
                     cy.get(".mx-name-containerDefaultColor").compareSnapshot(
                         `columnChartDefaultColor-${browserName}`,
                         0.5
@@ -26,7 +27,8 @@ describe("column-chart-web", () => {
             );
 
             it("renders column chart with custom color and compares with a screenshot baseline", () => {
-                cy.get(".mx-name-containerCustomColor", { timeout: 10000 }).scrollIntoView().should("be.visible");
+                cy.get(".mx-name-containerCustomColor", { timeout: 10000 }).scrollIntoView();
+                cy.get(".mx-name-containerCustomColor", { timeout: 10000 }).should("be.visible");
                 cy.get(".mx-name-containerCustomColor").compareSnapshot(`columnChartCustomColor-${browserName}`, 0.5);
             });
         }
@@ -43,13 +45,15 @@ describe("column-chart-web", () => {
                 "renders column chart with grouped format and compares with a screenshot baseline",
                 { retries: 3 },
                 () => {
-                    cy.get(".mx-name-containerGroup", { timeout: 10000 }).scrollIntoView().should("be.visible");
+                    cy.get(".mx-name-containerGroup", { timeout: 10000 }).scrollIntoView();
+                    cy.get(".mx-name-containerGroup", { timeout: 10000 }).should("be.visible");
                     cy.get(".mx-name-containerGroup").compareSnapshot(`columnChartGrouped-${browserName}`, 0.5);
                 }
             );
 
             it("renders column chart with stacked format and compares with a screenshot baseline", () => {
-                cy.get(".mx-name-containerStack", { timeout: 10000 }).scrollIntoView().should("be.visible");
+                cy.get(".mx-name-containerStack", { timeout: 10000 }).scrollIntoView();
+                cy.get(".mx-name-containerStack", { timeout: 10000 }).should("be.visible");
                 cy.get(".mx-name-containerStack").compareSnapshot(`columnChartStacked-${browserName}`, 0.5);
             });
         }

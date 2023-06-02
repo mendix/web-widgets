@@ -20,13 +20,13 @@ describe("color-picker-web", () => {
             },
             () => {
                 cy.visit("/p/modePage");
-                cy.wait(5000);
+                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner", { timeout: 10000 }).should(
                     "be.visible",
                     true
                 );
                 cy.get(".mx-name-navigationTree3-2").click({ force: true });
-                cy.wait(5000);
+                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner", { timeout: 10000 }).should(
                     "have.css",
                     "background",
@@ -45,7 +45,7 @@ describe("color-picker-web", () => {
             },
             () => {
                 cy.visit("/p/modePage");
-                cy.wait(1000);
+                cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner").should(
                     "have.css",
                     "background",
@@ -91,10 +91,12 @@ describe("color-picker-web", () => {
             cy.get(".mx-name-colorPicker35 .hue-picker").should("be.visible", true);
         });
         it("slider", () => {
-            cy.get(".mx-name-colorPicker37 .slider-picker").scrollIntoView().should("be.visible", true);
+            cy.get(".mx-name-colorPicker37 .slider-picker").scrollIntoView();
+            cy.get(".mx-name-colorPicker37 .slider-picker").should("be.visible", true);
         });
         it("compact", () => {
-            cy.get(".mx-name-colorPicker26 .compact-picker").scrollIntoView().should("be.visible", true);
+            cy.get(".mx-name-colorPicker26 .compact-picker").scrollIntoView();
+            cy.get(".mx-name-colorPicker26 .compact-picker").should("be.visible", true);
         });
     });
     describe("renders with color format as", () => {

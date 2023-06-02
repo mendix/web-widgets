@@ -16,14 +16,14 @@ describe("timeline-web", () => {
     describe("option: basic", () => {
         it("compares with a screenshot baseline and checks if all timeline elements are rendered as expected", () => {
             cy.get(".mx-name-basicTimelinePage").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-timelineGrids").compareSnapshot(`timelineBasic-${browserName}`, 0.1);
         });
         it("shows a message when event onclick is called", () => {
             cy.get(".mx-name-basicTimelinePage").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-timelineBasic .clickable").first().click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".modal-dialog .modal-body").should("be.visible").and("contain.text", "Event called");
         });
     });
@@ -34,7 +34,7 @@ describe("timeline-web", () => {
         });
         it("shows a message when event onclick is called", () => {
             cy.get(".mx-name-timelineCustom .mx-name-clickMeTitle").first().click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".modal-dialog .modal-body").should("be.visible").and("contain.text", "Event called");
         });
     });

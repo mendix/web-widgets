@@ -84,7 +84,7 @@ describe("BadgeButton different views", () => {
 
         it("displays correctly in second tab", () => {
             cy.get(".mx-name-tabPage2").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-badgeButtonTabContainer2").should("be.visible");
             cy.get(".mx-name-badgeButtonTabContainer2")
                 .find(".widget-badge-button-text")

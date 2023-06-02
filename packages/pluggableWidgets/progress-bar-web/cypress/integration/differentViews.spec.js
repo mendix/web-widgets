@@ -46,7 +46,7 @@ describe("Progress Bar", () => {
 
     it("renders in a template grid", () => {
         cy.visit("p/templateGrid");
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 
         cy.get(".mx-name-textBox1 .form-control-static").then(element => {
             const textBoxContent = element.text();

@@ -64,7 +64,7 @@ describe("BadgeButton on click", () => {
         it("closes a page", () => {
             cy.get(".mx-name-openClosePage").should("be.visible");
             cy.get(".mx-name-openClosePage").click();
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-badgeButtonClosePage").should("be.visible");
             cy.get(".mx-name-badgeButtonClosePage").click();
             cy.get(".mx-name-pageTitle1").should("have.text", "Events");

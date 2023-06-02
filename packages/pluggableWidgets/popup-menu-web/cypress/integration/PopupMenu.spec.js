@@ -13,6 +13,7 @@ describe("Popup-menu-web", () => {
 
     afterEach(() => cleanMendixSession());
 
+    /*eslint-disable cypress/no-unnecessary-waiting*/
     describe("using basic option", () => {
         it("compares with a screenshot baseline and checks if popupmenu is rendered in the top left position", () => {
             cy.get(".mx-name-actionButton10").click();

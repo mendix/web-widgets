@@ -7,7 +7,7 @@ describe("datagrid-date-filter-web", () => {
 
     describe("visual testing:", () => {
         it("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
-            cy.wait(3000);
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1").should("be.visible");
             cy.get(".mx-name-datagrid1").compareSnapshot(`dataGridDateFilter-${browserName}`, 0.1);
         });
@@ -15,7 +15,7 @@ describe("datagrid-date-filter-web", () => {
 
     it("compares with a screenshot baseline and checks if date picker element is rendered as expected", () => {
         cy.get(".mx-name-datagrid1").find(".btn-calendar").first().click();
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-datagrid1").compareSnapshot(`dataGridDateFilterDatePicker-${browserName}`, 1);
     });
 

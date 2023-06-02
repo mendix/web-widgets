@@ -1,7 +1,7 @@
 describe("Carousel", () => {
     before(() => {
         cy.visit("/");
-        cy.wait(5000);
+        cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     });
     it("disables the left arrow when showing the first item", { retries: 3 }, () => {
         cy.get(".swiper-button-prev").should("exist").and("have.class", "swiper-button-disabled");

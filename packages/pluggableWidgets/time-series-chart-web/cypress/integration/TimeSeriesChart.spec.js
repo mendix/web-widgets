@@ -1,3 +1,4 @@
+/*eslint-disable cypress/unsafe-to-chain-command*/
 describe(
     "time-series-chart-web",
     {

@@ -32,7 +32,7 @@ describe("Image viewer", () => {
     it("shows full screen image on click", () => {
         cy.visit("/p/onClickOpenFullScreen");
         cy.get(".mx-name-imageRender1").click();
-        cy.wait(1000);
+        cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-image-viewer-lightbox").find("img").should("have.attr", "src").and("contains", staticImage);
     });
 });

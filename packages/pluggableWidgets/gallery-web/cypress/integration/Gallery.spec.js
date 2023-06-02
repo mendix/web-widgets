@@ -7,7 +7,7 @@ describe("gallery-web", () => {
 
     describe("capabilities: sorting", () => {
         it("applies the default sort order from the data source option", () => {
-            cy.wait(3000);
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-gallery1").should("be.visible");
             cy.get(".mx-name-gallery1").compareSnapshot(`galleryContent-${browserName}`, 0.1);
         });
@@ -28,7 +28,7 @@ describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             cy.get(textFilter).first().type("Leo");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(gallery).compareSnapshot(`galleryTextFilter-${browserName}`, 0.1);
         });
 
@@ -37,7 +37,7 @@ describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             cy.get(textFilter).eq(1).type("32");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(gallery).compareSnapshot(`galleryNumberFilter-${browserName}`, 0.1);
         });
 
@@ -46,7 +46,7 @@ describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             cy.get(textFilter).eq(3).type("10/10/1986");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(gallery).compareSnapshot(`galleryDateFilter-${browserName}`, 0.1);
         });
 
@@ -65,7 +65,7 @@ describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             cy.get(textFilter).first().type("Leo");
-            cy.wait(1000);
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 
             const galleryItem = ".mx-name-gallery1 .widget-gallery-item";
 
