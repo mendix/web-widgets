@@ -64,7 +64,7 @@
     "deepmerge": "^4.3.1",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1",
-    "plotly.js": "^2.18.2",
+    "plotly.js": "^2.23.2",
     "react-ace": "^9.5.0",
     "react-plotly.js": "^2.5.1"
   },
