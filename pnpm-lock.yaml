@@ -3051,7 +3051,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       react-overlays:
-        specifier: ^5.0.1
+        specifier: ^5.2.1
         version: 5.2.1(react-dom@17.0.2)(react@17.0.2)
     devDependencies:
       '@mendix-internal/automation-utils':
@@ -16567,7 +16567,7 @@ packages:
       react-dom: '>=16.3.0'
     dependencies:
       '@babel/runtime': 7.21.0
-      '@popperjs/core': 2.11.6
+      '@popperjs/core': 2.11.8
       '@restart/hooks': 0.4.9(react@17.0.2)
       '@types/warning': 3.0.0
       dom-helpers: 5.2.1

@@ -75,6 +75,6 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "react-overlays": "^5.0.1"
+    "react-overlays": "^5.2.1"
   }
 }
