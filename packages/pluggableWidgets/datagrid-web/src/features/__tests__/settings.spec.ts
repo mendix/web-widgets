@@ -2,7 +2,7 @@ import { useSettings } from "../../features/settings";
 import { ColumnWidth, TableColumn } from "../../components/Table";
 import { EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
 import { HidableEnum } from "../../../typings/DatagridProps";
-import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
+import { renderHook, RenderHookResult } from "@testing-library/react";
 import { EditableValue } from "mendix";
 import { act } from "react-dom/test-utils";
 

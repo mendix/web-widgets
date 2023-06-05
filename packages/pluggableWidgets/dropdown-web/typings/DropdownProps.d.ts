@@ -36,7 +36,7 @@ export interface DropdownPreviewProps {
     optionsSourceType: OptionsSourceTypeEnum;
     attributeEnumerationOrBoolean: string;
     attributeAssociation: string;
-    optionsSourceAssociationDataSource: {} | { type: string } | null;
+    optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     emptyOptionText: string;
     optionsSourceAssociationCaptionAttribute: string;

@@ -71,7 +71,7 @@ export interface HeatMapPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    seriesDataSource: {} | { type: string } | null;
+    seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesValueAttribute: string;
     horizontalAxisAttribute: string;
     horizontalSortAttribute: string;

@@ -49,7 +49,7 @@ export interface PieChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    seriesDataSource: {} | { type: string } | null;
+    seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesName: string;
     seriesValueAttribute: string;
     seriesSortAttribute: string;

@@ -37,7 +37,7 @@ export interface BasicItemsPreviewType {
 }
 
 export interface CustomItemsPreviewType {
-    content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     visible: string;
     action: {} | null;
 }
@@ -66,7 +66,7 @@ export interface PopupMenuPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     advancedMode: boolean;
-    menuTrigger: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    menuTrigger: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     basicItems: BasicItemsPreviewType[];
     customItems: CustomItemsPreviewType[];
     trigger: TriggerEnum;

@@ -58,7 +58,7 @@ export interface MarkersPreviewType {
 }
 
 export interface DynamicMarkersPreviewType {
-    markersDS: {} | { type: string } | null;
+    markersDS: {} | { caption: string } | { type: string } | null;
     locationType: LocationTypeEnum;
     address: string;
     latitude: string;

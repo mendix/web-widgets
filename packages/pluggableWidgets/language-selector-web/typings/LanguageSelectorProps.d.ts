@@ -31,7 +31,7 @@ export interface LanguageSelectorPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    languageOptions: {} | { type: string } | null;
+    languageOptions: {} | { caption: string } | { type: string } | null;
     languageCaption: string;
     position: PositionEnum;
     trigger: TriggerEnum;
