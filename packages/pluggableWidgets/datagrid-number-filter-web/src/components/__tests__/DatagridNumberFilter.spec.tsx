@@ -6,7 +6,8 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/pluggable-widgets-commons";
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 
@@ -45,14 +46,16 @@ describe("Number Filter", () => {
                 expect(asFragment()).toMatchSnapshot();
             });
 
-            it("triggers attribute and onchange action on change filter value", () => {
+            it("triggers attribute and onchange action on change filter value", async () => {
                 const action = actionValue();
                 const attribute = new EditableValueBuilder<Big>().build();
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
-                fireEvent.change(screen.getByRole("spinbutton"), { target: { value: "10" } });
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-                jest.advanceTimersByTime(1000);
+                await user.type(screen.getByRole("spinbutton"), "10");
+
+                jest.runOnlyPendingTimers();
 
                 expect(action.execute).toBeCalledTimes(1);
                 expect(attribute.setValue).toBeCalledWith(new Big(10));

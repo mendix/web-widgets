@@ -1,5 +1,6 @@
 import { render } from "enzyme";
 import * as testingLibrary from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
 import { Table, TableProps } from "../Table";
@@ -266,8 +267,8 @@ describe("Table", () => {
             expect(checked()).toHaveLength(4);
         });
 
-        it("call onSelect when checkbox is clicked", () => {
-            const { render, fireEvent, screen } = testingLibrary;
+        it("call onSelect when checkbox is clicked", async () => {
+            const { render, screen } = testingLibrary;
             const items = objectItems(3);
             const onSelect = jest.fn();
 
@@ -278,17 +279,17 @@ describe("Table", () => {
             const checkbox1 = screen.getAllByRole("checkbox")[0];
             const checkbox3 = screen.getAllByRole("checkbox")[2];
 
-            fireEvent.click(checkbox1);
+            await userEvent.click(checkbox1);
             expect(onSelect).toBeCalledTimes(1);
             expect(onSelect).toHaveBeenLastCalledWith(items[0]);
-            fireEvent.click(checkbox1);
+            await userEvent.click(checkbox1);
             expect(onSelect).toBeCalledTimes(2);
             expect(onSelect).toHaveBeenLastCalledWith(items[0]);
 
-            fireEvent.click(checkbox3);
+            await userEvent.click(checkbox3);
             expect(onSelect).toBeCalledTimes(3);
             expect(onSelect).toHaveBeenLastCalledWith(items[2]);
-            fireEvent.click(checkbox3);
+            await userEvent.click(checkbox3);
             expect(onSelect).toBeCalledTimes(4);
             expect(onSelect).toHaveBeenLastCalledWith(items[2]);
         });
@@ -355,8 +356,8 @@ describe("Table", () => {
             expect(queryByRole(colheader, "checkbox")).toBeNull();
         });
 
-        it("call onSelectAll when header checkbox is clicked", () => {
-            const { render, fireEvent, screen } = testingLibrary;
+        it("call onSelectAll when header checkbox is clicked", async () => {
+            const { render, screen } = testingLibrary;
             const items = objectItems(3);
             const onSelectAll = jest.fn();
 
@@ -373,10 +374,10 @@ describe("Table", () => {
 
             const checkbox = screen.getAllByRole("checkbox")[0];
 
-            fireEvent.click(checkbox);
+            await userEvent.click(checkbox);
             expect(onSelectAll).toBeCalledTimes(1);
 
-            fireEvent.click(checkbox);
+            await userEvent.click(checkbox);
             expect(onSelectAll).toBeCalledTimes(2);
         });
     });
@@ -404,8 +405,8 @@ describe("Table", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("call onSelect when cell is clicked", () => {
-            const { render, screen, getAllByRole, fireEvent } = testingLibrary;
+        it("call onSelect when cell is clicked", async () => {
+            const { render, screen, getAllByRole } = testingLibrary;
             const items = objectItems(3);
             const onSelect = jest.fn();
             const {
@@ -436,23 +437,23 @@ describe("Table", () => {
             const [cell3, cell4] = getAllByRole(row2, "button");
 
             // Click cell1 two times
-            fireEvent.click(cell1);
+            await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(1);
             expect(onSelect).toHaveBeenLastCalledWith(items[0]);
-            fireEvent.click(cell1);
+            await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(2);
             expect(onSelect).toHaveBeenLastCalledWith(items[0]);
 
             // Click cell2
-            fireEvent.click(cell2);
+            await userEvent.click(cell2);
             expect(onSelect).toHaveBeenCalledTimes(3);
             expect(onSelect).toHaveBeenLastCalledWith(items[0]);
 
             // Click cell3 and cell4
-            fireEvent.click(cell4);
+            await userEvent.click(cell4);
             expect(onSelect).toHaveBeenCalledTimes(4);
             expect(onSelect).toHaveBeenLastCalledWith(items[1]);
-            fireEvent.click(cell3);
+            await userEvent.click(cell3);
             expect(onSelect).toHaveBeenCalledTimes(5);
             expect(onSelect).toHaveBeenLastCalledWith(items[1]);
         });

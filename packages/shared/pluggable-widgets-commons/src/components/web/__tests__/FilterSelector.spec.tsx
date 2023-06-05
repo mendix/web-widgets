@@ -1,5 +1,4 @@
-import { shallow } from "enzyme";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { createElement } from "react";
@@ -17,32 +16,36 @@ const options = [
     { value: "smallerEqual", label: "Smaller than or equal" }
 ];
 
+jest.mock("../usePositionObserver", () => ({
+    usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
+}));
+
 jest.useFakeTimers();
 
 describe("Filter selector", () => {
     it("renders correctly", () => {
-        const component = shallow(
+        const component = render(
             <FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
-    it("renders correctly with filter selectors open", () => {
-        const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
+    it("renders correctly with filter selectors open", async () => {
         const onChange = jest.fn();
-        const component = shallow(
+        const component = render(
             <FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />
         );
 
-        const button = component.find("button");
-        button.simulate("click", onClickProps);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+        await user.click(screen.getByRole("button"));
+        jest.runOnlyPendingTimers();
 
-        expect(component).toMatchSnapshot();
+        expect(component.baseElement).toMatchSnapshot();
     });
 
     it("renders correctly with aria-label", () => {
-        const component = shallow(
+        const component = render(
             <FilterSelector
                 ariaLabel="my label"
                 defaultFilter="contains"
@@ -52,79 +55,80 @@ describe("Filter selector", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with another default filter", () => {
-        const component = shallow(
+        const component = render(
             <FilterSelector defaultFilter="equal" onChange={jest.fn()} id="test" options={options} />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
-    it("calls onChange when type changes", () => {
-        const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
+    it("calls onChange when type changes", async () => {
         const onChange = jest.fn();
-        const component = shallow(
-            <FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />
-        );
+        render(<FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />);
 
-        const button = component.find("button");
-        button.simulate("click", onClickProps);
-        const lis = component.find("li");
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+        await user.click(screen.getByRole("button"));
+        jest.runOnlyPendingTimers();
 
-        expect(lis.at(0)).toBeDefined();
-        lis.at(0).simulate("click", onClickProps);
+        const item0 = screen.getAllByRole("menuitem")[0];
+        expect(item0).toBeDefined();
+        await user.click(item0!);
+        jest.runOnlyPendingTimers();
 
         expect(onChange).toBeCalled();
         expect(onChange).toBeCalledWith("contains");
 
-        lis.at(1).simulate("click", onClickProps);
+        await user.click(screen.getByRole("button"));
+        jest.runOnlyPendingTimers();
+
+        const item1 = screen.getAllByRole("menuitem")[1];
+        expect(item1).toBeDefined();
+        await user.click(item1!);
+        jest.runOnlyPendingTimers();
+
         expect(onChange).toBeCalledWith("startsWith");
     });
 
     describe("focus", () => {
         beforeEach(() => (document.body.innerHTML = ""));
 
-        it("changes focused element when pressing filter selector button", () => {
+        it("changes focused element when pressing filter selector button", async () => {
             render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 
-            const button = screen.getByRole("button");
-            expect(button).toBeDefined();
-            fireEvent.click(button);
-
-            jest.advanceTimersByTime(10);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.click(screen.getByRole("button"));
+            jest.runOnlyPendingTimers();
 
             const items = screen.getAllByRole("menuitem");
 
             expect(items[0]).toHaveFocus();
         });
 
-        it("changes focused element back to the button when pressing shift+tab in the first element", () => {
+        it("changes focused element back to the button when pressing shift+tab in the first element", async () => {
             render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 
-            const button = screen.getByRole("button");
-            expect(button).toBeDefined();
-            fireEvent.click(button);
-
-            jest.advanceTimersByTime(10);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.click(screen.getByRole("button"));
+            jest.runOnlyPendingTimers();
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
 
-            userEvent.tab({ shift: true });
+            await user.tab({ shift: true });
+            jest.runOnlyPendingTimers();
 
-            jest.advanceTimersByTime(10);
-
-            expect(button).toHaveFocus();
+            expect(screen.getByRole("button")).toHaveFocus();
         });
 
-        it("triggers onChange with previous value when pressing tab on the last item", () => {
+        it("triggers onChange with previous value when pressing tab on the last item", async () => {
             const onChange = jest.fn();
 
             render(
@@ -141,47 +145,42 @@ describe("Filter selector", () => {
 
             expect(document.body).toHaveFocus();
 
-            const button = screen.getByRole("button");
-            expect(button).toBeDefined();
-            fireEvent.click(button);
-
-            jest.advanceTimersByTime(10);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.click(screen.getByRole("button"));
+            jest.runOnlyPendingTimers();
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
 
-            userEvent.tab();
+            await user.tab();
             expect(items[1]).toHaveFocus();
-            userEvent.tab();
+            await user.tab();
 
-            jest.advanceTimersByTime(10);
+            jest.runOnlyPendingTimers();
 
             expect(onChange).toHaveBeenCalledWith("contains");
         });
 
-        it("changes focused element back to the button when pressing escape in any element", () => {
+        it("changes focused element back to the button when pressing escape in any element", async () => {
             render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 
-            const button = screen.getByRole("button");
-            expect(button).toBeDefined();
-            fireEvent.click(button);
-
-            jest.advanceTimersByTime(10);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.click(screen.getByRole("button"));
+            jest.runOnlyPendingTimers();
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
 
-            userEvent.tab();
+            await user.tab();
 
             expect(items[1]).toHaveFocus();
 
-            userEvent.keyboard("{esc}");
+            await user.keyboard("{Escape}");
+            jest.runOnlyPendingTimers();
 
-            jest.advanceTimersByTime(10);
-
-            expect(button).toHaveFocus();
+            expect(screen.getByRole("button")).toHaveFocus();
         });
     });
 });
