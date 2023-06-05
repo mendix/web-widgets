@@ -36,8 +36,8 @@ export interface GroupsPreviewType {
     headerRenderMode: HeaderRenderModeEnum;
     headerText: string;
     headerHeading: HeaderHeadingEnum;
-    headerContent: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    headerContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     visible: string;
     dynamicClass: string;
     loadContent: LoadContentEnum;
@@ -79,8 +79,8 @@ export interface AccordionPreviewProps {
     expandBehavior: ExpandBehaviorEnum;
     animate: boolean;
     showIcon: ShowIconEnum;
-    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
-    expandIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
-    collapseIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
+    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    expandIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    collapseIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     animateIcon: boolean;
 }

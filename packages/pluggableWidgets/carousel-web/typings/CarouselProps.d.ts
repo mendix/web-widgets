@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ComponentType, CSSProperties } from "react";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, ListValue, ListWidgetValue } from "mendix";
 
 export interface CarouselContainerProps {
@@ -31,8 +31,8 @@ export interface CarouselPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    dataSource: {} | { type: string } | null;
-    content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    dataSource: {} | { caption: string } | { type: string } | null;
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showPagination: boolean;
     navigation: boolean;
     autoplay: boolean;

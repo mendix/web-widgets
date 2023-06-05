@@ -44,6 +44,6 @@ export interface AccessibilityHelperPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     targetSelector: string;
-    content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     attributesList: AttributesListPreviewType[];
 }

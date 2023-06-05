@@ -59,7 +59,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/enzyme": "^3.10.12",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29.0.0",
     "@types/node": "^18.16.12",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",

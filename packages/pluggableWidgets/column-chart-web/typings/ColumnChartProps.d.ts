@@ -40,8 +40,8 @@ export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParen
 
 export interface SeriesPreviewType {
     dataSet: DataSetEnum;
-    staticDataSource: {} | { type: string } | null;
-    dynamicDataSource: {} | { type: string } | null;
+    staticDataSource: {} | { caption: string } | { type: string } | null;
+    dynamicDataSource: {} | { caption: string } | { type: string } | null;
     groupByAttribute: string;
     staticName: string;
     dynamicName: string;
