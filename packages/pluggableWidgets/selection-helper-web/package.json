@@ -44,7 +44,7 @@
     "@types/big.js": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/node": "^18.16.12",
-    "@types/react": "~17.0.59",
+    "@types/react": "~17.0.60",
     "@types/react-dom": "~17.0.20",
     "ts-node": "^9.1.1",
     "typescript": "4.5.4",

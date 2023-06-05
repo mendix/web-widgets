@@ -35,7 +35,7 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/node": "^18.16.12",
     "@types/plotly.js": "~2.12.18",
-    "@types/react": "^17.0.59",
+    "@types/react": "^17.0.60",
     "@types/react-dom": "^17.0.20",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
