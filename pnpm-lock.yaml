@@ -4734,14 +4734,14 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
       '@popperjs/core':
-        specifier: ^2.11.7
-        version: 2.11.7
+        specifier: ^2.11.8
+        version: 2.11.8
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
       react-popper:
         specifier: ^2.2.5
-        version: 2.3.0(@popperjs/core@2.11.7)(react-dom@17.0.2)(react@17.0.2)
+        version: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2)
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -7716,8 +7716,8 @@ packages:
   /@popperjs/core@2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
 
-  /@popperjs/core@2.11.7:
-    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
   /@prettier/plugin-xml@1.2.0:
@@ -16550,7 +16550,7 @@ packages:
       react-dom: '>=16.3.0'
     dependencies:
       '@babel/runtime': 7.21.0
-      '@popperjs/core': 2.11.7
+      '@popperjs/core': 2.11.8
       '@restart/hooks': 0.3.27(react@17.0.2)
       '@types/warning': 3.0.0
       dom-helpers: 5.2.1
@@ -16603,14 +16603,14 @@ packages:
       react-fast-compare: 3.2.0
       warning: 4.0.3
 
-  /react-popper@2.3.0(@popperjs/core@2.11.7)(react-dom@17.0.2)(react@17.0.2):
+  /react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
       '@popperjs/core': ^2.0.0
       react: ^16.8.0 || ^17 || ^18
       react-dom: ^16.8.0 || ^17 || ^18
     dependencies:
-      '@popperjs/core': 2.11.7
+      '@popperjs/core': 2.11.8
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
       react-fast-compare: 3.2.0
