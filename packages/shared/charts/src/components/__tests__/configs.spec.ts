@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useThemeFolderConfigs } from "../../utils/configs";
 import * as themeFileFetchUtils from "../../utils/themeFolderConfig";
 
@@ -31,16 +31,17 @@ describe("The useThemeFolderConfigs hook", () => {
                 }
             }
         });
-        const { result, waitForNextUpdate } = renderHook(() => useThemeFolderConfigs("LineChart", true));
-        await waitForNextUpdate();
-        expect(result.current).toEqual({
-            layout: { font: { size: 20 } },
-            configuration: { fillFrame: true },
-            series: {
-                line: {
-                    color: "purple"
+        const { result } = renderHook(() => useThemeFolderConfigs("LineChart", true));
+        await waitFor(() => {
+            expect(result.current).toEqual({
+                layout: { font: { size: 20 } },
+                configuration: { fillFrame: true },
+                series: {
+                    line: {
+                        color: "purple"
+                    }
                 }
-            }
+            });
         });
     });
 
@@ -61,16 +62,17 @@ describe("The useThemeFolderConfigs hook", () => {
                 }
             }
         });
-        const { result, waitForNextUpdate } = renderHook(() => useThemeFolderConfigs("BarChart", true));
-        await waitForNextUpdate();
-        expect(result.current).toEqual({
-            layout: { font: { size: 20 } },
-            configuration: { fillFrame: true },
-            series: {
-                line: {
-                    color: "red"
+        const { result } = renderHook(() => useThemeFolderConfigs("BarChart", true));
+        await waitFor(() => {
+            expect(result.current).toEqual({
+                layout: { font: { size: 20 } },
+                configuration: { fillFrame: true },
+                series: {
+                    line: {
+                        color: "red"
+                    }
                 }
-            }
+            });
         });
     });
 
