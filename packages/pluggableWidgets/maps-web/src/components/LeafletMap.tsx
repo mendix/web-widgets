@@ -1,5 +1,5 @@
-import { createElement, ReactElement, useEffect, useState } from "react";
-import { Map, Marker as MarkerComponent, Popup, TileLayer } from "react-leaflet";
+import { createElement, ReactElement } from "react";
+import { MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap } from "react-leaflet";
 import classNames from "classnames";
 import { getDimensions } from "@mendix/pluggable-widgets-commons";
 import { SharedProps } from "../../typings/shared";
@@ -30,7 +30,7 @@ const defaultMarkerIcon = new LeafletIcon({
 });
 
 export function LeafletMap(props: LeafletProps): ReactElement {
-    const [map, setMap] = useState<Map | undefined>();
+    const map = useMap();
     const center = { lat: 51.906688, lng: 4.48837 };
     const {
         autoZoom,
@@ -47,40 +47,31 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         optionDrag: dragging
     } = props;
 
-    useEffect(() => {
-        if (map) {
-            const { leafletElement: mapRef } = map;
-            const bounds = latLngBounds(
-                locations
-                    .concat(currentLocation ? [currentLocation] : [])
-                    .filter(m => !!m)
-                    .map(m => [m.latitude, m.longitude])
-            );
-            if (bounds.isValid()) {
-                if (autoZoom) {
-                    mapRef.fitBounds(bounds, { padding: [0.5, 0.5] }).invalidateSize();
-                } else {
-                    mapRef.panTo(bounds.getCenter(), { animate: false });
-                }
-            }
+    const bounds = latLngBounds(
+        locations
+            .concat(currentLocation ? [currentLocation] : [])
+            .filter(m => !!m)
+            .map(m => [m.latitude, m.longitude])
+    );
+
+    if (bounds.isValid()) {
+        if (autoZoom) {
+            map.fitBounds(bounds, { padding: [0.5, 0.5] }).invalidateSize();
+        } else {
+            map.panTo(bounds.getCenter(), { animate: false });
         }
-    }, [map, locations, currentLocation, autoZoom]);
+    }
 
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
             <div className="widget-leaflet-maps-wrapper">
-                <Map
+                <MapContainer
                     attributionControl={attributionControl}
                     center={center}
                     className="widget-leaflet-maps"
                     dragging={dragging}
                     maxZoom={18}
                     minZoom={1}
-                    ref={ref => {
-                        if (ref && ref !== map) {
-                            setMap(ref);
-                        }
-                    }}
                     scrollWheelZoom={scrollWheelZoom}
                     zoom={autoZoom ? translateZoom("city") : zoom}
                     zoomControl={zoomControl}
@@ -91,19 +82,21 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                         .filter(m => !!m)
                         .map((marker, index) => (
                             <MarkerComponent
-                                key={`marker_${index}`}
-                                position={{ lat: marker.latitude, lng: marker.longitude }}
-                                onclick={marker.title ? undefined : marker.onClick}
-                                interactive={!!marker.title || !!marker.onClick}
-                                title={marker.title}
                                 icon={
                                     marker.url
                                         ? new DivIcon({
-                                              html: `<img src="${marker.url}" class="custom-leaflet-map-icon-marker-icon"}></img>`,
+                                              html: `<img src="${marker.url}" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />`,
                                               className: "custom-leaflet-map-icon-marker"
                                           })
                                         : defaultMarkerIcon
                                 }
+                                interactive={!!marker.title || !!marker.onClick}
+                                key={`marker_${index}`}
+                                eventHandlers={{
+                                    click: marker.title ? undefined : marker.onClick
+                                }}
+                                position={{ lat: marker.latitude, lng: marker.longitude }}
+                                title={marker.title}
                             >
                                 {marker.title && (
                                     <Popup>
@@ -117,7 +110,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 )}
                             </MarkerComponent>
                         ))}
-                </Map>
+                </MapContainer>
             </div>
         </div>
     );

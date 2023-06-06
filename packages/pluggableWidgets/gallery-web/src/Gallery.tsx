@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import {
@@ -96,7 +96,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     }
 
     const setPage = useCallback(
-        computePage => {
+        (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
             if (isInfiniteLoad) {
                 props.datasource.setLimit(newPage * props.pageSize);
@@ -118,7 +118,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             className={props.class}
             desktopItems={props.desktopItems}
             emptyPlaceholderRenderer={useCallback(
-                renderWrapper =>
+                (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}

@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "react";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { ObjectItem, GUID } from "mendix";
@@ -13,7 +13,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             className={props.class}
             desktopItems={props.desktopItems!}
             emptyPlaceholderRenderer={useCallback(
-                renderWrapper => (
+                (renderWrapper: (children: ReactNode) => ReactElement) => (
                     <props.emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
                         {renderWrapper(null)}
                     </props.emptyPlaceholder.renderer>

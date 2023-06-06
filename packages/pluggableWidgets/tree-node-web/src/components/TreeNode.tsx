@@ -96,7 +96,7 @@ export function TreeNode({
 
     // Combination of useState + useCallback is necessary here over useRef because it needs to trigger an update in useInformParentContextOfChildNodes
     const [treeNodeElement, setTreeNodeElement] = useState<HTMLDivElement | null>(null);
-    const updateTreeNodeElement = useCallback(node => {
+    const updateTreeNodeElement = useCallback((node: any) => {
         if (node) {
             setTreeNodeElement(node);
         }
