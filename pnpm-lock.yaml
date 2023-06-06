@@ -5064,7 +5064,7 @@ importers:
         specifier: ^9.5.0
         version: 9.5.0(react-dom@17.0.2)(react@17.0.2)
       react-plotly.js:
-        specifier: ^2.5.1
+        specifier: ^2.6.0
         version: 2.6.0(plotly.js@2.23.2)(react@17.0.2)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
@@ -5113,7 +5113,7 @@ importers:
         specifier: ^17.0.18
         version: 17.0.18
       '@types/react-plotly.js':
-        specifier: ^2.5.0
+        specifier: ^2.6.0
         version: 2.6.0
       '@types/react-test-renderer':
         specifier: ^17.0.2
