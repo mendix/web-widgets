@@ -58,7 +58,7 @@ describe("Slider", () => {
         expect(onChange.mock.calls[3][0]).toEqual(20);
     });
 
-    it("handles keydown events", () => {
+    it("handles keydown events", async () => {
         const onChange = jest.fn();
 
         render(<Slider {...defaultSliderProps} onChange={onChange} />);

@@ -8,7 +8,7 @@ overrides:
   '@testing-library/dom': ^8.1.0
   '@testing-library/jest-dom': ^5.14.1
   '@testing-library/react': ^12.0.0
-  '@testing-library/user-event': ^13.2.1
+  '@testing-library/user-event': ^14.4.3
   '@testing-library/react-hooks': ^3.4.2
   '@types/testing-library__jest-dom': ^5.14.1
   '@types/testing-library__react-hooks': ^3.4.0
@@ -667,8 +667,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -767,8 +767,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -870,8 +870,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -970,8 +970,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -1073,8 +1073,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -1179,8 +1179,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -1285,8 +1285,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -1388,8 +1388,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -1491,8 +1491,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -1676,8 +1676,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -1785,8 +1785,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -1897,8 +1897,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -2003,8 +2003,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
@@ -2109,8 +2109,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -2212,8 +2212,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -2318,8 +2318,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -2421,8 +2421,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -2530,8 +2530,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/jest':
         specifier: ^26.0.24
         version: 26.0.24
@@ -2615,8 +2615,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -2718,8 +2718,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -2873,8 +2873,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -2976,8 +2976,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -3079,8 +3079,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -3179,8 +3179,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -3282,8 +3282,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -3400,8 +3400,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
@@ -3518,8 +3518,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -3621,8 +3621,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -3721,8 +3721,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -3827,8 +3827,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -3936,8 +3936,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -4048,8 +4048,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -4169,8 +4169,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/ckeditor4':
         specifier: ^4.16.5
         version: 4.16.5
@@ -4341,8 +4341,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -4453,8 +4453,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -4559,8 +4559,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -4662,8 +4662,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -4768,8 +4768,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -4868,8 +4868,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -4968,8 +4968,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
@@ -5089,8 +5089,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -5327,8 +5327,8 @@ importers:
         specifier: ^3.4.2
         version: 3.7.0(react-test-renderer@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
-        specifier: ^13.2.1
-        version: 13.5.0(@testing-library/dom@8.20.0)
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@8.20.0)
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
@@ -7584,7 +7584,7 @@ packages:
       '@testing-library/dom': 8.20.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': 13.5.0(@testing-library/dom@8.20.0)
+      '@testing-library/user-event': 14.4.3(@testing-library/dom@8.20.0)
       '@types/testing-library__jest-dom': 5.14.5
       '@typescript-eslint/eslint-plugin': 5.53.0(@typescript-eslint/parser@5.53.0)(eslint@7.32.0)(typescript@4.5.4)
       '@typescript-eslint/parser': 5.53.0(eslint@7.32.0)(typescript@4.5.4)
@@ -8098,13 +8098,12 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: true
 
-  /@testing-library/user-event@13.5.0(@testing-library/dom@8.20.0):
-    resolution: {integrity: sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==}
-    engines: {node: '>=10', npm: '>=6'}
+  /@testing-library/user-event@14.4.3(@testing-library/dom@8.20.0):
+    resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
+    engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     dependencies:
-      '@babel/runtime': 7.21.0
       '@testing-library/dom': 8.20.0
     dev: true
 

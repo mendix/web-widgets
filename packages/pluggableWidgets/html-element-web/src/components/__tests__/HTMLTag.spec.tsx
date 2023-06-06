@@ -1,6 +1,6 @@
-import { render, fireEvent } from "@testing-library/react";
 import { createElement } from "react";
-
+import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { HTMLTag } from "../HTMLTag";
 
 describe("HTMLTag", () => {
@@ -60,7 +60,7 @@ describe("HTMLTag", () => {
         checkSapshot("<a>123</a><option><style><img src=x onerror=alert(1)></style>");
     });
 
-    it("fires events", () => {
+    it("fires events", async () => {
         const cbFn = jest.fn();
         const { getByTestId } = render(
             <HTMLTag
@@ -77,7 +77,7 @@ describe("HTMLTag", () => {
             </HTMLTag>
         );
 
-        fireEvent.click(getByTestId("html-element"));
+        await userEvent.click(getByTestId("html-element"));
 
         expect(cbFn).toHaveBeenCalled();
     });
