@@ -17,9 +17,30 @@ describe("Menu Placement", () => {
             position: "fixed",
             display: "flex",
             top: positionObserverValues.top,
-            left: positionObserverValues.left
+            left: positionObserverValues.left,
+            zIndex: 0
         });
     });
+
+    it("Returns the styles for position: TOP, on a modal", () => {
+        const anchor = document.createElement("div");
+        const modal = document.createElement("div");
+        document.body.appendChild(modal);
+        modal.classList.add("modal-dialog");
+        modal.style.zIndex = "102";
+
+        const { result } = renderHook(() => useMenuPlacement(anchor, "top"));
+
+        expect(result.current).toStrictEqual({
+            position: "fixed",
+            display: "flex",
+            top: positionObserverValues.top,
+            left: positionObserverValues.left,
+            zIndex: 103
+        });
+        document.body.getElementsByClassName("modal-dialog")[0]?.remove();
+    });
+
     it("Returns the styles for position: RIGHT", () => {
         const anchor = document.createElement("div");
 
@@ -31,7 +52,8 @@ describe("Menu Placement", () => {
             top: positionObserverValues.top,
             left: positionObserverValues.left + positionObserverValues.width,
             transform: "none",
-            bottom: "initial"
+            bottom: "initial",
+            zIndex: 0
         });
     });
     it("Returns the styles for position: BOTTOM", () => {
@@ -45,7 +67,8 @@ describe("Menu Placement", () => {
             top: positionObserverValues.height + positionObserverValues.top,
             left: positionObserverValues.left,
             transform: "none",
-            bottom: "initial"
+            bottom: "initial",
+            zIndex: 0
         });
     });
     it("Returns the styles for position: LEFT", () => {
@@ -57,7 +80,8 @@ describe("Menu Placement", () => {
             position: "fixed",
             display: "flex",
             top: positionObserverValues.top,
-            left: positionObserverValues.left
+            left: positionObserverValues.left,
+            zIndex: 0
         });
     });
 });

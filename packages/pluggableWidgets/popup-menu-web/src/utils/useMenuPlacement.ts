@@ -1,9 +1,12 @@
 import { usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { CSSProperties } from "react";
 import { PositionEnum } from "../../typings/PopupMenuProps";
+import { useZIndex } from "./useZIndex";
 
 export function useMenuPlacement(anchorElement: HTMLElement | null, position: PositionEnum): CSSProperties | undefined {
     const triggerPosition = usePositionObserver(anchorElement, true);
+    const zIndex = useZIndex(anchorElement, "modal-dialog"); // Making sure to get a zIndex higher than "modal-dialog"
+
     if (!triggerPosition) {
         return undefined;
     }
@@ -24,5 +27,5 @@ export function useMenuPlacement(anchorElement: HTMLElement | null, position: Po
               }
             : { top: triggerPosition?.top, left: triggerPosition?.left };
 
-    return { ...popupStyles, position: "fixed", display: "flex" };
+    return { ...popupStyles, zIndex, position: "fixed", display: "flex" };
 }
