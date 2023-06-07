@@ -1,6 +1,7 @@
 import { createElement, CSSProperties, ReactElement, memo, useRef, ChangeEventHandler } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
 import { useFilterState, useStateChangeEffects } from "../features/filter-state";
+import { useSetInitialConditionEffect } from "../features/initialize";
 import { FilterType } from "../../typings/FilterType";
 import classNames from "classnames";
 
@@ -84,6 +85,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         type: props.initialFilterType
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
+
+    useSetInitialConditionEffect(props);
 
     return (
         <PureFilterInput
