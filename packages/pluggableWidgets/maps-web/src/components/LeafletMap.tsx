@@ -29,23 +29,9 @@ const defaultMarkerIcon = new LeafletIcon({
     iconAnchor: [12, 41]
 });
 
-export function LeafletMap(props: LeafletProps): ReactElement {
+function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">) {
     const map = useMap();
-    const center = { lat: 51.906688, lng: 4.48837 };
-    const {
-        autoZoom,
-        attributionControl,
-        className,
-        currentLocation,
-        locations,
-        mapProvider,
-        mapsToken,
-        optionScroll: scrollWheelZoom,
-        optionZoomControl: zoomControl,
-        style,
-        zoomLevel: zoom,
-        optionDrag: dragging
-    } = props;
+    const { autoZoom, currentLocation, locations } = props;
 
     const bounds = latLngBounds(
         locations
@@ -61,6 +47,26 @@ export function LeafletMap(props: LeafletProps): ReactElement {
             map.panTo(bounds.getCenter(), { animate: false });
         }
     }
+
+    return null;
+}
+
+export function LeafletMap(props: LeafletProps): ReactElement {
+    const center = { lat: 51.906688, lng: 4.48837 };
+    const {
+        autoZoom,
+        attributionControl,
+        className,
+        currentLocation,
+        locations,
+        mapProvider,
+        mapsToken,
+        optionScroll: scrollWheelZoom,
+        optionZoomControl: zoomControl,
+        style,
+        zoomLevel: zoom,
+        optionDrag: dragging
+    } = props;
 
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
@@ -110,6 +116,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 )}
                             </MarkerComponent>
                         ))}
+                    <SetBoundsComponent autoZoom={autoZoom} currentLocation={currentLocation} locations={locations} />
                 </MapContainer>
             </div>
         </div>
