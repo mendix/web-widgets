@@ -1,10 +1,6 @@
-import { useState, useCallback } from "react";
+import deepEqual from "deep-equal";
+import { useState, useCallback, useMemo } from "react";
 import { Option, OptionValue } from "../utils/types";
-
-type InternalState = {
-    inputValue: string;
-    selected: Set<OptionValue>;
-};
 
 type State = {
     inputValue: string;
@@ -24,39 +20,46 @@ function getInputValue(selected: Set<OptionValue>, options: Option[]): string {
 }
 
 export function useSelectState(options: Option[], initialSelected: OptionValue[]): [State, Actions] {
-    const [state, setState] = useState<InternalState>(() => {
-        const selected = new Set(initialSelected);
-        const inputValue = getInputValue(selected, options);
-
-        return { inputValue, selected };
-    });
+    const [state, setState] = useState<Set<OptionValue>>(() => new Set(initialSelected));
 
     const setSelected = useCallback(
-        (nextSelected: OptionValue[]) => setState(prev => ({ ...prev, selected: new Set(nextSelected) })),
+        (nextSelected: OptionValue[]) =>
+            setState(prev => {
+                const next = new Set(nextSelected);
+                return deepEqual(prev, next) ? prev : next;
+            }),
         []
     );
 
     const toggle = useCallback(
         (value: string) =>
             setState(prev => {
-                if (prev.selected.has(value)) {
-                    prev.selected.delete(value);
+                if (prev.has(value)) {
+                    prev.delete(value);
                 } else {
-                    prev.selected.add(value);
+                    prev.add(value);
                 }
-                return { ...prev };
+                return new Set(prev);
             }),
         []
     );
 
-    return [
-        {
-            inputValue: getInputValue(state.selected, options),
-            selected: [...state.selected.values()]
-        },
-        {
-            setSelected,
-            toggle
-        }
-    ];
+    const inputValue = getInputValue(state, options);
+
+    const stableResult = useMemo<[State, Actions]>(
+        () => [
+            {
+                inputValue,
+                selected: [...state.values()]
+            },
+            {
+                setSelected,
+                toggle
+            }
+        ],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [inputValue, state]
+    );
+
+    return stableResult;
 }

@@ -9,10 +9,12 @@ import {
     useState
 } from "react";
 import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 import { Option, OptionValue } from "../utils/types";
 import { useSelectState } from "src/features/select";
+import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "src/features/setup";
 
 const PreventReactErrorsAboutReadOnly = (): void => {
     return undefined;
@@ -164,6 +166,7 @@ function SelectComponent(props: SelectProps): ReactElement {
             document.body
         );
     };
+
     const containerClick = useCallback(() => {
         setShow(show => !show);
         setTimeout(() => {
@@ -224,17 +227,28 @@ function within(selected: OptionValue[]): (value: OptionValue) => boolean {
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const { multiSelect } = props;
-    const [state, { toggle, setSelected }] = useSelectState(props.options, []);
+    const multiSelect = !!props.multiSelect;
+    const options = finalizeOptions(props.options, { multiSelect, emptyOptionCaption: props.emptyOptionCaption });
+    const [state, { toggle, setSelected }] = useSelectState(options, parseInitValues(props.initialSelected ?? ""));
 
     const onSelect = useCallback((value: string) => {
         if (multiSelect) {
             toggle(value);
         } else {
-            setSelected([value]);
+            const next = value === EMPTY_OPTION_VALUE ? [] : [value];
+            setSelected(next);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // TODO: test - ignore options updates
+    useWatchValues(
+        (_, [selected]) => {
+            const selectedOptions = selected.length > 0 ? options.filter(o => selected.includes(o.value)) : [];
+            props.updateFilters?.(selectedOptions);
+        },
+        [state.selected]
+    );
 
     return (
         <SelectComponent
@@ -243,13 +257,16 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             footer={props.footer}
             id={props.id}
             inputValue={state.inputValue}
-            multiSelect={!!multiSelect}
+            multiSelect={multiSelect}
             onSelect={onSelect}
-            options={props.options}
+            options={options}
             selected={state.selected}
             status={props.status}
             styles={props.styles}
             tabIndex={props.tabIndex}
+            placeholder={props.emptyOptionCaption}
+            onContentScroll={props.onContentScroll}
+            onTriggerClick={props.onTriggerClick}
         />
     );
 }

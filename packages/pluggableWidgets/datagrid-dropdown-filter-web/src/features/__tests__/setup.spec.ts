@@ -1,4 +1,4 @@
-import { finalizeOptions, parseInitValues } from "../setup";
+import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../setup";
 
 describe("setup", () => {
     describe("parseSelected", () => {
@@ -11,9 +11,11 @@ describe("setup", () => {
 
     describe("finalizeOptions", () => {
         it("add 'empty' option at the beginning of the options array", () => {
-            expect(finalizeOptions([], { multiSelect: false })).toStrictEqual([{ caption: "", value: "" }]);
+            expect(finalizeOptions([], { multiSelect: false })).toStrictEqual([
+                { caption: "", value: EMPTY_OPTION_VALUE }
+            ]);
             expect(finalizeOptions([{ caption: "A", value: "1" }], { multiSelect: false })).toStrictEqual([
-                { caption: "", value: "" },
+                { caption: "", value: EMPTY_OPTION_VALUE },
                 { caption: "A", value: "1" }
             ]);
         });
@@ -22,7 +24,7 @@ describe("setup", () => {
             expect(
                 finalizeOptions([{ caption: "A", value: "1" }], { multiSelect: false, emptyOptionCaption: "None" })
             ).toStrictEqual([
-                { caption: "None", value: "" },
+                { caption: "None", value: EMPTY_OPTION_VALUE },
                 { caption: "A", value: "1" }
             ]);
         });
