@@ -4,7 +4,7 @@ exports[`Fieldset renders children and legend 1`] = `
 <fieldset
   className="className"
   name="fieldset"
-  style={Object {}}
+  style={{}}
   tabIndex={0}
 >
   <legend>
@@ -25,7 +25,7 @@ exports[`Fieldset renders only children when no legend is passed 1`] = `
 <fieldset
   className="className"
   name="fieldset"
-  style={Object {}}
+  style={{}}
   tabIndex={0}
 >
   <label>

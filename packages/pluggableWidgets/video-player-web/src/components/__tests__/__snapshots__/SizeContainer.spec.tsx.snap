@@ -4,7 +4,7 @@ exports[`Size container renders correctly with height unit aspect ratio & any wi
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "29.142857142857142%",
       "width": "68%",
@@ -26,7 +26,7 @@ exports[`Size container renders correctly with height unit aspect ratio 1:1 1`] 
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "100%",
       "width": "100%",
@@ -48,7 +48,7 @@ exports[`Size container renders correctly with height unit aspect ratio 3:2 1`] 
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "66.66666666666666%",
       "width": "100%",
@@ -70,7 +70,7 @@ exports[`Size container renders correctly with height unit aspect ratio 4:3 1`] 
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "75%",
       "width": "100%",
@@ -92,7 +92,7 @@ exports[`Size container renders correctly with height unit aspect ratio 16:9 1`]
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "56.25%",
       "width": "100%",
@@ -114,7 +114,7 @@ exports[`Size container renders correctly with height unit aspect ratio 21:9 1`]
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "42.857142857142854%",
       "width": "100%",
@@ -136,7 +136,7 @@ exports[`Size container renders correctly with height unit percentage of parent 
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "height": "25%",
       "paddingTop": 0,
@@ -159,7 +159,7 @@ exports[`Size container renders correctly with height unit percentage of width 1
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": "25%",
       "width": "100%",
@@ -181,7 +181,7 @@ exports[`Size container renders correctly with height unit pixels 1`] = `
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": 25,
       "width": "100%",
@@ -203,7 +203,7 @@ exports[`Size container renders correctly with pixel width & height unit aspect 
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": 42.857142857142854,
       "width": "100px",
@@ -225,7 +225,7 @@ exports[`Size container renders correctly with pixel width & height unit percent
 <div
   className="class-name size-box"
   style={
-    Object {
+    {
       "backgroundColor": "aqua",
       "paddingTop": 25,
       "width": "100px",

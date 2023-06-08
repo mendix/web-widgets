@@ -302,13 +302,13 @@ exports[`AccordionGroup doesn't render widgets when 'loadContent' is 'whenExpand
   dynamicClassName="class-name"
   generateHeaderIcon={
     [MockFunction] {
-      "calls": Array [
-        Array [
+      "calls": [
+        [
           true,
         ],
       ],
-      "results": Array [
-        Object {
+      "results": [
+        {
           "type": "return",
           "value": undefined,
         },
@@ -446,13 +446,13 @@ exports[`AccordionGroup render widgets when 'loadContent' is 'always' 1`] = `
   dynamicClassName="class-name"
   generateHeaderIcon={
     [MockFunction] {
-      "calls": Array [
-        Array [
+      "calls": [
+        [
           true,
         ],
       ],
-      "results": Array [
-        Object {
+      "results": [
+        {
           "type": "return",
           "value": undefined,
         },

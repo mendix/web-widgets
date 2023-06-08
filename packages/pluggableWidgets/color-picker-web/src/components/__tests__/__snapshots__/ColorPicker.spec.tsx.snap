@@ -48,7 +48,7 @@ exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
       onChange={[Function]}
       onChangeComplete={[Function]}
       presetColors={
-        Array [
+        [
           "#D0021B",
           "#F5A623",
           "#F8E71C",
@@ -66,7 +66,7 @@ exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
           "#FFFFFF",
         ]
       }
-      styles={Object {}}
+      styles={{}}
       width={200}
     />
   </div>

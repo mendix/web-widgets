@@ -4,7 +4,7 @@ exports[`Google maps renders a map with current location 1`] = `
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "75px",
       "width": "50%",
     }
@@ -15,7 +15,7 @@ exports[`Google maps renders a map with current location 1`] = `
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -24,7 +24,7 @@ exports[`Google maps renders a map with current location 1`] = `
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -33,12 +33,12 @@ exports[`Google maps renders a map with current location 1`] = `
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
@@ -52,7 +52,7 @@ exports[`Google maps renders a map with current location 1`] = `
       <GoogleMapsMarker
         key="marker_0"
         marker={
-          Object {
+          {
             "latitude": 51.906688,
             "longitude": 4.48837,
             "url": "image:url",
@@ -69,7 +69,7 @@ exports[`Google maps renders a map with markers 1`] = `
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "75px",
       "width": "50%",
     }
@@ -80,7 +80,7 @@ exports[`Google maps renders a map with markers 1`] = `
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -89,7 +89,7 @@ exports[`Google maps renders a map with markers 1`] = `
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -98,12 +98,12 @@ exports[`Google maps renders a map with markers 1`] = `
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
@@ -117,7 +117,7 @@ exports[`Google maps renders a map with markers 1`] = `
       <GoogleMapsMarker
         key="marker_0"
         marker={
-          Object {
+          {
             "latitude": 51.906688,
             "longitude": 4.48837,
             "title": "Mendix HQ",
@@ -129,7 +129,7 @@ exports[`Google maps renders a map with markers 1`] = `
       <GoogleMapsMarker
         key="marker_1"
         marker={
-          Object {
+          {
             "latitude": 51.922823,
             "longitude": 4.479632,
             "title": "Gementee Rotterdam",
@@ -147,7 +147,7 @@ exports[`Google maps renders a map with percentage of parent units renders the s
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "75%",
       "width": "50%",
     }
@@ -158,7 +158,7 @@ exports[`Google maps renders a map with percentage of parent units renders the s
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -167,7 +167,7 @@ exports[`Google maps renders a map with percentage of parent units renders the s
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -176,12 +176,12 @@ exports[`Google maps renders a map with percentage of parent units renders the s
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
@@ -200,7 +200,7 @@ exports[`Google maps renders a map with percentage of width and height units ren
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "auto",
       "paddingBottom": "37.5%",
       "width": "50%",
@@ -212,7 +212,7 @@ exports[`Google maps renders a map with percentage of width and height units ren
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -221,7 +221,7 @@ exports[`Google maps renders a map with percentage of width and height units ren
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -230,12 +230,12 @@ exports[`Google maps renders a map with percentage of width and height units ren
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
@@ -254,7 +254,7 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "75px",
       "width": "50px",
     }
@@ -265,7 +265,7 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -274,7 +274,7 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -283,12 +283,12 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
@@ -307,7 +307,7 @@ exports[`Google maps renders a map with right structure 1`] = `
 <div
   className="widget-maps"
   style={
-    Object {
+    {
       "height": "37.5px",
       "width": "50px",
     }
@@ -318,7 +318,7 @@ exports[`Google maps renders a map with right structure 1`] = `
   >
     <GoogleMap
       center={
-        Object {
+        {
           "lat": 51.906688,
           "lng": 4.48837,
         }
@@ -327,7 +327,7 @@ exports[`Google maps renders a map with right structure 1`] = `
       onCenterChanged={[Function]}
       onLoad={[Function]}
       options={
-        Object {
+        {
           "draggable": true,
           "fullscreenControl": false,
           "mapTypeControl": false,
@@ -336,12 +336,12 @@ exports[`Google maps renders a map with right structure 1`] = `
           "rotateControl": false,
           "scrollwheel": true,
           "streetViewControl": false,
-          "styles": Array [
-            Object {
+          "styles": [
+            {
               "elementType": "labels",
               "featureType": "poi",
-              "stylers": Array [
-                Object {
+              "stylers": [
+                {
                   "visibility": "off",
                 },
               ],
