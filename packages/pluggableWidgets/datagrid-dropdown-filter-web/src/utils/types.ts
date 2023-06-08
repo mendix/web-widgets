@@ -5,3 +5,10 @@ export interface FilterProps {
     widgetProps: DatagridDropdownFilterContainerProps;
     context: FilterContextValue;
 }
+
+export type OptionValue = string;
+
+export interface Option {
+    value: OptionValue;
+    caption: string;
+}

@@ -5,21 +5,18 @@ import {
 import { ConditionDispatch } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { tuple } from "@mendix/pluggable-widgets-commons/dist/utils/tuple";
 import { ActionValue, ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
-import { FilterOption, FilterValueChangeCallback } from "../components/FilterComponent";
+import { Option } from "../utils/types";
 
 type ValueToObjectMap = Record<string, ObjectItem>;
 
-function optionsToObjects(objectMap: ValueToObjectMap, options: FilterOption[]): ObjectItem[] {
+function optionsToObjects(objectMap: ValueToObjectMap, options: Option[]): ObjectItem[] {
     // handle "empty" option
     const cleanOptions = options[0]?.value === "" ? [] : options;
     return cleanOptions.map(option => objectMap[option.value]);
 }
 
-export function getOptions<T extends ObjectItem>(
-    items: T[],
-    getLabel: (o: T) => string
-): [FilterOption[], ValueToObjectMap] {
-    const options = items.map<FilterOption>(obj => ({
+export function getOptions<T extends ObjectItem>(items: T[], getLabel: (o: T) => string): [Option[], ValueToObjectMap] {
+    const options = items.map<Option>(obj => ({
         value: obj.id,
         caption: getLabel(obj)
     }));
@@ -34,8 +31,8 @@ export function getOnChange(
     association: ListReferenceValue | ListReferenceSetValue,
     objectMap: ValueToObjectMap,
     onChangeAction?: ActionValue
-): FilterValueChangeCallback {
-    return (options: FilterOption[]): void => {
+): (values: Option[]) => void {
+    return (options: Option[]): void => {
         const values = optionsToObjects(objectMap, options);
 
         dispatch({
