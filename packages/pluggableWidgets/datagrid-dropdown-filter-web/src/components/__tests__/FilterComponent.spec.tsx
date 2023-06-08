@@ -1,4 +1,4 @@
-import { mount, render, shallow } from "enzyme";
+import { mount, render } from "enzyme";
 import { createElement } from "react";
 import { FilterComponent } from "../FilterComponent";
 import { render as renderTestingLib, screen } from "@testing-library/react";
@@ -22,27 +22,32 @@ describe("Filter selector", () => {
     describe("with single selection", () => {
         describe("renders correctly", () => {
             it("with options", () => {
-                const component = render(<FilterComponent options={defaultOptions} />);
+                const { asFragment } = renderTestingLib(<FilterComponent options={defaultOptions} />);
 
-                expect(component).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
             it("with no options", () => {
-                const component = render(<FilterComponent options={[]} />);
+                const { asFragment } = renderTestingLib(<FilterComponent options={[]} />);
 
-                expect(component).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
             it("with ariaLabel", () => {
-                const component = render(<FilterComponent options={defaultOptions} ariaLabel="my label" />);
+                const { asFragment } = renderTestingLib(
+                    <FilterComponent options={defaultOptions} ariaLabel="my label" />
+                );
 
-                expect(component).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
-            it("with emptyOptioncaption", () => {
-                const component = render(<FilterComponent options={defaultOptions} emptyOptionCaption={"find me"} />);
+            it("with emptyOptionCaption", () => {
+                const { asFragment } = renderTestingLib(
+                    <FilterComponent options={defaultOptions} emptyOptionCaption={"find me"} />
+                );
 
-                expect(component).toMatchSnapshot();
-                expect(component.find("input").first().prop("placeholder")).toBe("find me");
+                expect(asFragment()).toMatchSnapshot();
+                screen.getByPlaceholderText("find me");
             });
         });
+
         it("selects default option", () => {
             const updateFilters = jest.fn();
             const defaultOption = defaultOptions[0];
@@ -62,38 +67,82 @@ describe("Filter selector", () => {
             expect(updateFilters).toHaveBeenLastCalledWith([defaultOption]);
         });
 
+        it("don't call updateFilters when nothing is selected and 'empty' option clicked", async () => {
+            const updateFilters = jest.fn();
+
+            renderTestingLib(<FilterComponent options={defaultOptions} updateFilters={updateFilters} />);
+
+            expect(updateFilters).toBeCalledTimes(1);
+
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+            const [input] = screen.getAllByRole("textbox");
+
+            await user.click(input);
+
+            const menuItems = screen.getAllByRole("menuitem");
+
+            await user.click(menuItems[0]);
+
+            expect(updateFilters).toBeCalledTimes(1);
+            expect(updateFilters).toHaveBeenLastCalledWith([]);
+        });
+
         describe("when value changes", () => {
-            it("calls updateFilters when value changes", () => {
-                const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
-                const updateFilterHandler = jest.fn();
-                const component = shallow(
-                    <FilterComponent options={defaultOptions} updateFilters={updateFilterHandler} />
-                );
+            it("calls updateFilters when value changes", async () => {
+                const updateFilters = jest.fn();
 
-                const input = component.find("input");
-                input.simulate("click", onClickProps);
+                renderTestingLib(<FilterComponent options={defaultOptions} updateFilters={updateFilters} />);
 
-                const item = component.find("li").first();
-                item.simulate("click", onClickProps);
+                expect(updateFilters).toBeCalledTimes(1);
 
-                expect(updateFilterHandler).toBeCalled();
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                const [input] = screen.getAllByRole("textbox");
+
+                await user.click(input);
+                let menuItems = screen.getAllByRole("menuitem");
+                // click "1"
+                await user.click(menuItems[1]);
+                expect(updateFilters).toBeCalledTimes(2);
+                expect(updateFilters).toHaveBeenLastCalledWith([{ caption: "1", value: "_1" }]);
+
+                await user.click(input);
+                menuItems = screen.getAllByRole("menuitem");
+                // click empty
+                await user.click(menuItems[0]);
+                expect(updateFilters).toBeCalledTimes(3);
+                expect(updateFilters).toHaveBeenLastCalledWith([]);
+
+                await user.click(input);
+                menuItems = screen.getAllByRole("menuitem");
+                // click "3"
+                await user.click(menuItems[3]);
+                expect(updateFilters).toBeCalledTimes(4);
+                expect(updateFilters).toHaveBeenLastCalledWith([{ caption: "3", value: "_3" }]);
             });
-            it("shows selected option on input value", () => {
-                const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
-                const defaultOption = defaultOptions[1];
-                const component = shallow(
-                    <FilterComponent options={defaultOptions} initialSelected={defaultOption.value} />
+
+            it("shows selected option on input value", async () => {
+                renderTestingLib(
+                    <FilterComponent
+                        options={[
+                            { caption: "Apple", value: "Foo" },
+                            { caption: "Banana", value: "bar" }
+                        ]}
+                        initialSelected="Foo"
+                    />
                 );
 
-                const input = component.find("input");
-                input.simulate("click", onClickProps);
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                const [input] = screen.getAllByRole("textbox");
 
-                expect(component.find("input").first().prop("value")).toBe(defaultOption.caption);
+                expect(input).toHaveValue("Apple");
 
-                const item = component.find("li").last(); // [cap 3: val:_3]
-                item.simulate("click", onClickProps);
+                await user.click(input);
+                const menuItems = screen.getAllByRole("menuitem");
+                // click "2"
+                await user.click(menuItems[2]);
 
-                expect(component.find("input").first().prop("value")).toBe(defaultOptions[2].caption);
+                expect(input).toHaveValue("Banana");
             });
         });
     });
@@ -115,7 +164,7 @@ describe("Filter selector", () => {
 
                 expect(component).toMatchSnapshot();
             });
-            it("with emptyOptioncaption", () => {
+            it("with emptyOptionCaption", () => {
                 const component = render(
                     <FilterComponent multiSelect options={defaultOptions} emptyOptionCaption={"find me"} />
                 );
@@ -147,16 +196,14 @@ describe("Filter selector", () => {
             });
 
             it("filters incorrect default options", () => {
-                const inCorrectDefaultValue = `${defaultOptions[0].value},${defaultOptions[1].value},SomeRandomText`;
-
-                const component = shallow(
-                    <FilterComponent multiSelect options={defaultOptions} initialSelected={inCorrectDefaultValue} />
+                renderTestingLib(
+                    <FilterComponent options={defaultOptions} initialSelected="_1,_2,SomeRandomText" multiSelect />
                 );
 
-                const input = component.find("input").first();
+                const [input] = screen.getAllByRole("textbox");
 
-                const expectedCaptions = `${defaultOptions[0].caption},${defaultOptions[1].caption}`;
-                expect(input.prop("value")).toBe(expectedCaptions);
+                const expectedCaptions = `1,2`;
+                expect(input).toHaveValue(expectedCaptions);
             });
         });
 
@@ -176,25 +223,39 @@ describe("Filter selector", () => {
 
                 expect(updateFiltersHandler).toBeCalled();
             });
-            it("shows selected options on input value", () => {
-                const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
-                const component = mount(<FilterComponent multiSelect options={defaultOptions} />);
+            it("shows selected options on input value", async () => {
+                renderTestingLib(
+                    <FilterComponent
+                        options={[
+                            { caption: "Apple", value: "Foo" },
+                            { caption: "Banana", value: "bar" }
+                        ]}
+                        multiSelect
+                    />
+                );
 
-                const input = component.find("input");
-                input.simulate("click", onClickProps);
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                const [input] = screen.getAllByRole("textbox");
 
-                const item = component.find("li").at(1);
-                item.simulate("click", onClickProps);
-                const item2 = component.find("li").at(2);
-                item2.simulate("click", onClickProps);
+                expect(input).toHaveValue("");
 
-                expect(component.find("input").first().prop("value")).toBe("2,3");
+                await user.click(input);
+                // click "Apple"
+                await user.click(screen.getAllByRole("menuitem")[0]);
+
+                expect(input).toHaveValue("Apple");
+
+                await user.click(input);
+                // click "Banana"
+                await user.click(screen.getAllByRole("menuitem")[1]);
+
+                expect(input).toHaveValue("Apple,Banana");
             });
         });
     });
 
     describe("focus", () => {
-        it.skip("changes focused element when pressing the input", async () => {
+        it("changes focused element when pressing the input", async () => {
             renderTestingLib(<FilterComponent options={defaultOptions} emptyOptionCaption="Click me" />);
             expect(document.body).toHaveFocus();
 
@@ -209,7 +270,7 @@ describe("Filter selector", () => {
             expect(items[0]).toHaveFocus();
         });
 
-        it.skip("changes focused element back to the input when pressing shift+tab in the first element", async () => {
+        it("changes focused element back to the input when pressing shift+tab in the first element", async () => {
             renderTestingLib(<FilterComponent options={defaultOptions} emptyOptionCaption="Click me" />);
             expect(document.body).toHaveFocus();
 
@@ -231,7 +292,7 @@ describe("Filter selector", () => {
             expect(input).toHaveFocus();
         });
 
-        it.skip("changes focused element back to the input when pressing tab on the last item", async () => {
+        it("changes focused element back to the input when pressing tab on the last item", async () => {
             renderTestingLib(
                 <FilterComponent options={[{ caption: "1", value: "_1" }]} emptyOptionCaption="Click me" />
             );
@@ -256,7 +317,7 @@ describe("Filter selector", () => {
             expect(input).toHaveFocus();
         });
 
-        it.skip("changes focused element back to the input when pressing escape on any item", async () => {
+        it("changes focused element back to the input when pressing escape on any item", async () => {
             renderTestingLib(
                 <FilterComponent
                     options={[

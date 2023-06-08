@@ -5,6 +5,7 @@ import {
     ReactElement,
     UIEventHandler,
     useCallback,
+    useEffect,
     useRef,
     useState
 } from "react";
@@ -13,8 +14,8 @@ import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/use
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 import { Option, OptionValue } from "../utils/types";
-import { useSelectState } from "src/features/select";
-import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "src/features/setup";
+import { useSelectState } from "../features/select";
+import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
 
 const PreventReactErrorsAboutReadOnly = (): void => {
     return undefined;
@@ -170,7 +171,7 @@ function SelectComponent(props: SelectProps): ReactElement {
     const containerClick = useCallback(() => {
         setShow(show => !show);
         setTimeout(() => {
-            (optionsRef.current?.querySelector("li.filter-selected") as HTMLElement)?.focus();
+            (optionsRef.current?.querySelector('[role="menuitem"]') as HTMLElement)?.focus();
         }, 10);
         if (onTriggerClick) {
             onTriggerClick();
@@ -235,17 +236,16 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         if (multiSelect) {
             toggle(value);
         } else {
-            const next = value === EMPTY_OPTION_VALUE ? [] : [value];
-            setSelected(next);
+            setSelected(value === EMPTY_OPTION_VALUE ? [] : [value]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // TODO: test - ignore options updates
+    useSetInitialConditionEffect(props.updateFilters, options, state.selected);
+
     useWatchValues(
         (_, [selected]) => {
-            const selectedOptions = selected.length > 0 ? options.filter(o => selected.includes(o.value)) : [];
-            props.updateFilters?.(selectedOptions);
+            props.updateFilters?.(selected.length > 0 ? options.filter(o => selected.includes(o.value)) : []);
         },
         [state.selected]
     );
@@ -269,4 +269,13 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             onTriggerClick={props.onTriggerClick}
         />
     );
+}
+
+function useSetInitialConditionEffect(
+    updateFilters: ((values: Option[]) => void) | undefined,
+    options: Option[],
+    selected: string[]
+): void {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => updateFilters?.(options.filter(o => selected.includes(o.value))), []);
 }
