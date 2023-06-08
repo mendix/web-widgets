@@ -4740,7 +4740,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       react-popper:
-        specifier: ^2.2.5
+        specifier: ^2.3.0
         version: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2)
     devDependencies:
       '@mendix-internal/automation-utils':
