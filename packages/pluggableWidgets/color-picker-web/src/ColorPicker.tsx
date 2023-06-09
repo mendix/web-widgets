@@ -8,7 +8,7 @@ export function ColorPicker(props: ColorPickerContainerProps): ReactNode {
     const { name, mode, tabIndex, type, onChange, colorAttribute, defaultColors, format, id, invalidFormatMessage } =
         props;
     const onChangeFn = useCallback(() => executeAction(onChange), [onChange]);
-    const onColorChange = useCallback(value => props.colorAttribute.setValue(value), [props.colorAttribute]);
+    const onColorChange = useCallback((value: string) => props.colorAttribute.setValue(value), [props.colorAttribute]);
     return (
         <ColorPickerComponent
             id={id}
