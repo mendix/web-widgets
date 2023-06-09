@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   Fixed visilibity issue when used with layers of modals/popups
+-   We fixed visilibity issue when dropdown filter is used with layers of modals/popups.
 
 ## [2.4.1] - 2023-05-26
 
