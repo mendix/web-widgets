@@ -85,9 +85,11 @@ function SelectComponent(props: SelectProps): ReactElement {
     const onClick = useCallback(
         (option: Option) => {
             onSelect(option.value);
-            setShow(false);
+            if (!multiSelect) {
+                setShow(false);
+            }
         },
-        [onSelect]
+        [onSelect, multiSelect]
     );
 
     useOnClickOutside([componentRef, optionsRef], () => setShow(false));

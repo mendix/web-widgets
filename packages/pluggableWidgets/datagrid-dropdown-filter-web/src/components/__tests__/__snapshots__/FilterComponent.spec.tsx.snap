@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Filter selector with multi selection renders correctly with ariaLabel 1`] = `
+exports[`FilterComponent with multi selection renders correctly with ariaLabel 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -18,7 +18,7 @@ exports[`Filter selector with multi selection renders correctly with ariaLabel 1
 </DocumentFragment>
 `;
 
-exports[`Filter selector with multi selection renders correctly with emptyOptionCaption 1`] = `
+exports[`FilterComponent with multi selection renders correctly with emptyOptionCaption 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -36,7 +36,7 @@ exports[`Filter selector with multi selection renders correctly with emptyOption
 </DocumentFragment>
 `;
 
-exports[`Filter selector with multi selection renders correctly with no options 1`] = `
+exports[`FilterComponent with multi selection renders correctly with no options 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -53,7 +53,7 @@ exports[`Filter selector with multi selection renders correctly with no options 
 </DocumentFragment>
 `;
 
-exports[`Filter selector with multi selection renders correctly with options 1`] = `
+exports[`FilterComponent with multi selection renders correctly with options 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -70,7 +70,7 @@ exports[`Filter selector with multi selection renders correctly with options 1`]
 </DocumentFragment>
 `;
 
-exports[`Filter selector with single selection renders correctly with ariaLabel 1`] = `
+exports[`FilterComponent with single selection renders correctly with ariaLabel 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -88,7 +88,7 @@ exports[`Filter selector with single selection renders correctly with ariaLabel 
 </DocumentFragment>
 `;
 
-exports[`Filter selector with single selection renders correctly with emptyOptionCaption 1`] = `
+exports[`FilterComponent with single selection renders correctly with emptyOptionCaption 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -106,7 +106,7 @@ exports[`Filter selector with single selection renders correctly with emptyOptio
 </DocumentFragment>
 `;
 
-exports[`Filter selector with single selection renders correctly with no options 1`] = `
+exports[`FilterComponent with single selection renders correctly with no options 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"
@@ -123,7 +123,7 @@ exports[`Filter selector with single selection renders correctly with no options
 </DocumentFragment>
 `;
 
-exports[`Filter selector with single selection renders correctly with options 1`] = `
+exports[`FilterComponent with single selection renders correctly with options 1`] = `
 <DocumentFragment>
   <div
     class="dropdown-container"

@@ -17,7 +17,7 @@ jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
 
 jest.useFakeTimers();
 
-describe("Filter selector", () => {
+describe("FilterComponent", () => {
     describe("with single selection", () => {
         describe("renders correctly", () => {
             it("with options", () => {
@@ -214,23 +214,22 @@ describe("Filter selector", () => {
                 const [input] = screen.getAllByRole("textbox");
 
                 await user.click(input);
+                const [item1, item2] = screen.getAllByRole("menuitem");
                 // select "1"
-                await user.click(screen.getAllByRole("menuitem")[0]);
+                await user.click(item1);
                 expect(updateFilters).toBeCalledTimes(2);
                 expect(updateFilters).toHaveBeenLastCalledWith([{ caption: "1", value: "_1" }]);
 
-                await user.click(input);
                 // select "2"
-                await user.click(screen.getAllByRole("menuitem")[1]);
+                await user.click(item2);
                 expect(updateFilters).toBeCalledTimes(3);
                 expect(updateFilters).toHaveBeenLastCalledWith([
                     { caption: "1", value: "_1" },
                     { caption: "2", value: "_2" }
                 ]);
 
-                await user.click(input);
                 // unselect "2"
-                await user.click(screen.getAllByRole("menuitem")[1]);
+                await user.click(item2);
                 expect(updateFilters).toBeCalledTimes(4);
                 expect(updateFilters).toHaveBeenLastCalledWith([{ caption: "1", value: "_1" }]);
             });
@@ -256,12 +255,36 @@ describe("Filter selector", () => {
 
                 expect(input).toHaveValue("Apple");
 
-                await user.click(input);
                 // click "Banana"
                 await user.click(screen.getAllByRole("menuitem")[1]);
 
                 expect(input).toHaveValue("Apple,Banana");
             });
+        });
+
+        it("keep menu open when item is clicked", async () => {
+            render(
+                <FilterComponent
+                    options={[
+                        { caption: "Alice", value: "1" },
+                        { caption: "Bob", value: "2" },
+                        { caption: "Chris", value: "3" }
+                    ]}
+                    multiSelect
+                />
+            );
+
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const input = screen.getByRole("textbox");
+            await user.click(input);
+            const menu = screen.getByRole("menu");
+            const [alice, bob, chris] = screen.getAllByRole("menuitem");
+            await user.click(alice);
+            expect(menu).toBeVisible();
+            await user.click(bob);
+            expect(menu).toBeVisible();
+            await user.click(chris);
+            expect(menu).toBeVisible();
         });
     });
 
