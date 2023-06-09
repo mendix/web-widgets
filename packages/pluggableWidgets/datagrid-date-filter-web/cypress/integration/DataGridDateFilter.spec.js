@@ -38,7 +38,7 @@ describe("datagrid-date-filter-web", () => {
 
     describe("with Default value", () => {
         it("set initial condition (apply filter right after load)", () => {
-            cy.visit("localhost:8080/#/filter_init_condition", { timeout: 1000 });
+            cy.visit("/#/filter_init_condition", { timeout: 1000 });
             cy.reload(true);
             cy.get(".mx-name-dataGrid22 [role=row]").eq(1).should("have.text", "Chester2/20/2003");
             cy.get(".mx-name-dataGrid22 [role=row]").eq(7).should("have.text", "Tyler5/31/2001");
@@ -48,7 +48,7 @@ describe("datagrid-date-filter-web", () => {
 
     describe("with Default start and Default end dates", () => {
         it("set initial condition (apply filter right after load)", () => {
-            cy.visit("localhost:8080/#/filter_init_condition", { timeout: 1000 });
+            cy.visit("/#/filter_init_condition", { timeout: 1000 });
             cy.reload(true);
             cy.get(".mx-name-dataGrid21 [role=row]").eq(1).should("have.text", "Jayden4/21/1993");
             cy.get(".mx-name-dataGrid21 [role=row]").eq(10).should("have.text", "Inez8/13/1992");
