@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
--   We fixed visilibity issue when dropdown filter is used with layers of modals/popups.
-
 ## [2.8.0] DataWidgets - 2023-05-26
 
 ### [2.5.1] DatagridDateFilter
