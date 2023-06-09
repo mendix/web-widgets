@@ -237,8 +237,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     position: "fixed",
                     width: dropdownWidth,
                     top: position?.bottom,
-                    left: position?.left,
-                    zIndex: 102
+                    left: position?.left
                 }}
             >
                 {optionsList}

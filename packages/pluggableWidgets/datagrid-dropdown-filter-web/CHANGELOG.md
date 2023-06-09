@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We fixed visilibity issue when dropdown filter is used with layers of modals/popups.
+
 ## [2.4.1] - 2023-05-26
 
 ### Changed
