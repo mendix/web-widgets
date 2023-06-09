@@ -1,4 +1,4 @@
-import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
+import { renderHook, RenderHookResult } from "@testing-library/react";
 import { AccordionContainerProps } from "../../../typings/AccordionProps";
 import { IconProps } from "../../components/Icon";
 import { useIconGenerator } from "../iconGenerator";
@@ -21,7 +21,7 @@ describe("useIconGenerator", () => {
 
     const initUseIconGenerator = (
         initialProps = defaultHookProps
-    ): RenderHookResult<HookProps, (collapsed: boolean) => ReactElement> =>
+    ): RenderHookResult<(collapsed: boolean) => ReactElement, HookProps> =>
         renderHook(
             (props: {
                 animateIcon: AccordionContainerProps["animateIcon"];
@@ -38,7 +38,7 @@ describe("useIconGenerator", () => {
         const renderedHook = initUseIconGenerator();
         const firstFunction = renderedHook.result.current;
 
-        renderedHook.rerender();
+        renderedHook.rerender(defaultHookProps);
         expect(renderedHook.result.current).toBe(firstFunction);
     });
     it("returns a new function when the arguments have changed", () => {

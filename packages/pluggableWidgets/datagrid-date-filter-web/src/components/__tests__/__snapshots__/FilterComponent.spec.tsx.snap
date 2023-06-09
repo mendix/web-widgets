@@ -29,7 +29,7 @@ exports[`Filter component renders correctly 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container"
+      class="react-datepicker__input-container "
     >
       <span
         aria-live="polite"
@@ -78,7 +78,7 @@ exports[`Filter component renders correctly when not adjustable by user 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container"
+      class="react-datepicker__input-container "
     >
       <span
         aria-live="polite"
@@ -146,7 +146,7 @@ exports[`Filter component renders correctly with aria labels 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container"
+      class="react-datepicker__input-container "
     >
       <span
         aria-live="polite"

@@ -222,7 +222,7 @@ type InitProps = {
     setColumnOrder: any;
 };
 
-function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<InitProps, { updateSettings: () => void }> {
+function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<{ updateSettings: () => void }, InitProps> {
     return renderHook(
         ({
             settings,
