@@ -1,6 +1,6 @@
-import { SFC, createElement } from "react";
+import { FunctionComponent, createElement } from "react";
 
-export const HoverTooltip: SFC<{ text?: string | number }> = ({ text }) =>
+export const HoverTooltip: FunctionComponent<{ text?: string | number }> = ({ text }) =>
     text ? createElement("div", {}, text) : null;
 
 HoverTooltip.displayName = "HoverTooltip";

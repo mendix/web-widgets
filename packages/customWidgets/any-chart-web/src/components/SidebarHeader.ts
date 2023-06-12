@@ -1,4 +1,4 @@
-import { Component, createElement } from "react";
+import { Component, createElement, PropsWithChildren } from "react";
 import * as classNames from "classnames";
 import { IconButton } from "./IconButton";
 
@@ -8,11 +8,13 @@ interface SidebarHeaderProps {
     onClose?: () => void;
 }
 
-export class SidebarHeader extends Component<SidebarHeaderProps> {
+export class SidebarHeader extends Component<PropsWithChildren<SidebarHeaderProps>, {}> {
     private contentSize = 10;
 
     render() {
-        return createElement("div", { className: classNames("sidebar-content-header", this.props.className) },
+        return createElement(
+            "div",
+            { className: classNames("sidebar-content-header", this.props.className) },
             this.renderHeaderContent(),
             this.renderCloser()
         );
@@ -21,14 +23,20 @@ export class SidebarHeader extends Component<SidebarHeaderProps> {
     private renderHeaderContent() {
         this.contentSize = this.props.onClose ? this.contentSize : 12;
 
-        return createElement("div", {
-            className: `header-content col-sm-${this.contentSize} col-xs-${this.contentSize}`
-        }, this.props.children);
+        return createElement(
+            "div",
+            {
+                className: `header-content col-sm-${this.contentSize} col-xs-${this.contentSize}`
+            },
+            this.props.children
+        );
     }
 
     private renderCloser() {
         if (this.props.onClose) {
-            return createElement("div", { className: "col-sm-2 col-xs-2" },
+            return createElement(
+                "div",
+                { className: "col-sm-2 col-xs-2" },
                 createElement(IconButton, {
                     className: "pull-right remove",
                     glyphIcon: "remove",

@@ -36,7 +36,7 @@ window.isHovered = window.isHovered || false;
 
 type PlotlyChartProps = ComponentProps & typeof PlotlyChartActions & PlotlyChartInstance;
 
-class PlotlyChart extends Component<PlotlyChartProps> {
+class PlotlyChart extends Component<PlotlyChartProps, {}> {
     private chartNode?: HTMLDivElement;
     private tooltipNode?: HTMLDivElement;
 

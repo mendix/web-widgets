@@ -1,4 +1,4 @@
-import { Component, ReactChild, createElement, isValidElement } from "react";
+import { Component, ReactChild, createElement, isValidElement, PropsWithChildren } from "react";
 import AceEditor, { IMarker } from "react-ace";
 import * as classNames from "classnames";
 import { Operation, compare } from "fast-json-patch";
@@ -34,7 +34,7 @@ export interface RenderAceEditorOptions {
 
 type SidebarChildren = typeof Panel | typeof PlotlyChart | typeof AnyChart | typeof SidebarHeaderTools;
 
-export class Playground extends Component<{}, PlaygroundState> {
+export class Playground extends Component<PropsWithChildren<{}>, PlaygroundState> {
     state = {
         showEditor: false,
         showTooltip: false

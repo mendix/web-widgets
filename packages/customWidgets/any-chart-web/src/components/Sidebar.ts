@@ -1,4 +1,4 @@
-import { Component, ReactElement, cloneElement, createElement, isValidElement } from "react";
+import { Component, ReactElement, cloneElement, createElement, isValidElement, PropsWithChildren } from "react";
 import * as classNames from "classnames";
 
 import { SidebarContent } from "./SidebarContent";
@@ -13,7 +13,7 @@ interface SidebarProps {
     onClose?: () => void;
 }
 
-export class Sidebar extends Component<SidebarProps, {}> {
+export class Sidebar extends Component<PropsWithChildren<SidebarProps>, {}> {
     constructor(props: SidebarProps) {
         super(props);
 
@@ -21,7 +21,8 @@ export class Sidebar extends Component<SidebarProps, {}> {
     }
 
     render() {
-        return createElement("div",
+        return createElement(
+            "div",
             {
                 className: classNames("widget-sidebar", this.props.className, {
                     "widget-sidebar-open": this.props.open
@@ -29,7 +30,9 @@ export class Sidebar extends Component<SidebarProps, {}> {
                 onClick: this.props.onClick
             },
             createElement("div", { className: "overlay", onClick: this.overlayClicked }),
-            createElement("div", { className: "sidebar-content" },
+            createElement(
+                "div",
+                { className: "sidebar-content" },
                 this.getSidebarElement("HEADER"),
                 this.getSidebarElement("CONTENT")
             )
@@ -39,8 +42,9 @@ export class Sidebar extends Component<SidebarProps, {}> {
     private getSidebarElement(type: "HEADER" | "CONTENT") {
         if (this.props.children) {
             if (Array.isArray(this.props.children)) {
-                const element = this.props.children.find(child =>
-                    isValidElement(child) && child.type === (type === "HEADER" ? SidebarHeader : SidebarContent)
+                const element = this.props.children.find(
+                    child =>
+                        isValidElement(child) && child.type === (type === "HEADER" ? SidebarHeader : SidebarContent)
                 );
 
                 return type === "HEADER"
