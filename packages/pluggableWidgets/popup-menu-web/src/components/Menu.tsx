@@ -42,7 +42,7 @@ export function Menu(props: MenuProps): ReactElement {
         <div className="widget-popupmenu-root">
             <div
                 ref={popupRef}
-                style={{ ...popupStyles }}
+                style={popupStyles}
                 className={classNames(
                     "popupmenu-menu",
                     `popupmenu-position-${props.position}`,
@@ -114,6 +114,8 @@ function createMenuOptions(
 }
 
 function correctPosition(element: HTMLElement, position: PositionEnum): void {
+    console.log("CORRECT POS");
+
     const dynamicDocument: Document = element.ownerDocument;
     const dynamicWindow = dynamicDocument.defaultView as Window;
     let boundingRect: DOMRect = element.getBoundingClientRect();
