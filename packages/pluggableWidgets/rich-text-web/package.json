@@ -44,7 +44,7 @@
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.0",
+    "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@rollup/plugin-json": "^4.1.0",
     "@testing-library/dom": "^9.3.0",
