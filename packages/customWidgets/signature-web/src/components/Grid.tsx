@@ -1,4 +1,4 @@
-import { SFC, createElement } from "react";
+import { FunctionComponent, createElement } from "react";
 
 export interface GridBackgroundProps {
     gridCellWidth: number;
@@ -7,7 +7,7 @@ export interface GridBackgroundProps {
     gridBorderWidth: number;
     showGrid?: boolean;
 }
-export const Grid: SFC<GridBackgroundProps> = ({
+export const Grid: FunctionComponent<GridBackgroundProps> = ({
     gridCellWidth,
     gridCellHeight,
     gridBorderColor,
