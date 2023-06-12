@@ -1,4 +1,4 @@
-import { createElement, FunctionComponent } from "react";
+import { createElement, FunctionComponent, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export interface AlertProps {
@@ -6,7 +6,7 @@ export interface AlertProps {
     className?: string;
 }
 
-export const Alert: FunctionComponent<AlertProps> = ({ bootstrapStyle, className, children }) =>
+export const Alert: FunctionComponent<PropsWithChildren<AlertProps>> = ({ bootstrapStyle, className, children }) =>
     children
         ? createElement("div", { className: classNames(`alert alert-${bootstrapStyle}`, className) }, children)
         : null;
