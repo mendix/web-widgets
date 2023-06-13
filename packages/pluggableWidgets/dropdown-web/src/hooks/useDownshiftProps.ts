@@ -27,6 +27,14 @@ export function useDownshiftProps(
                             ...changes,
                             inputValue: ""
                         };
+                    case Downshift.stateChangeTypes.controlledPropUpdatedSelectedItem:
+                        return {
+                            ...changes,
+                            inputValue:
+                                changes.inputValue === emptyOptionText
+                                    ? ""
+                                    : selector.caption.get(selector.currentValue)
+                        };
                     case Downshift.stateChangeTypes.keyDownEnter:
                     case Downshift.stateChangeTypes.clickItem:
                         return {
