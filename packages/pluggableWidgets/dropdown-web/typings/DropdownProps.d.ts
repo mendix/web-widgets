@@ -5,11 +5,11 @@
  */
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
-export type OptionsSourceTypeEnum = "enumeration" | "boolean" | "association";
+export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
-export type TypeaheadEnum = "contains" | "startsWith" | "no";
+export type FilterTypeEnum = "contains" | "startsWith" | "no";
 
 export interface DropdownContainerProps {
     name: string;
@@ -23,7 +23,7 @@ export interface DropdownContainerProps {
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     emptyOptionText?: DynamicValue<string>;
-    typeahead: TypeaheadEnum;
+    filterType: FilterTypeEnum;
     clearable: boolean;
     onClickEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -41,7 +41,7 @@ export interface DropdownPreviewProps {
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
     emptyOptionText: string;
-    typeahead: TypeaheadEnum;
+    filterType: FilterTypeEnum;
     clearable: boolean;
     onClickEvent: {} | null;
     onEnterEvent: {} | null;

@@ -1,7 +1,7 @@
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
 import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { matchSorter } from "match-sorter";
-import { TypeaheadEnum } from "../../../typings/DropdownProps";
+import { FilterTypeEnum } from "../../../typings/DropdownProps";
 
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
@@ -23,7 +23,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
         return this.ds?.hasMoreItems ?? false;
     }
 
-    getAll(sortType: TypeaheadEnum): string[] {
+    getAll(sortType: FilterTypeEnum): string[] {
         switch (sortType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });

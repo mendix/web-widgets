@@ -3,12 +3,12 @@ import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
 import { createPortal } from "react-dom";
 import { SingleSelector } from "../helpers/types";
-import { TypeaheadEnum } from "../../typings/DropdownProps";
+import { FilterTypeEnum } from "../../typings/DropdownProps";
 
 interface DropdownMenuProps extends Partial<PropGetters<any>> {
     dropdownSize: DOMRect | undefined;
     isOpen: boolean;
-    typeahead: TypeaheadEnum;
+    filterType: FilterTypeEnum;
     selector: SingleSelector;
     highlightedIndex: number | null;
     selectedItem?: string | null;
@@ -27,7 +27,7 @@ export function DropdownMenu(props: DropdownMenuProps): ReactElement {
             }}
         >
             {isOpen
-                ? selector.options.getAll(props.typeahead).map((item, index) => (
+                ? selector.options.getAll(props.filterType).map((item, index) => (
                       <li
                           className={classNames("widget-dropdown-item", {
                               "widget-dropdown-item-selected": selector.currentValue === item,

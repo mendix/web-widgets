@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { DropdownContainerProps, TypeaheadEnum } from "../../typings/DropdownProps";
+import { DropdownContainerProps, FilterTypeEnum } from "../../typings/DropdownProps";
 
 export type Status = "unavailable" | "loading" | "available";
 
@@ -11,7 +11,7 @@ export interface CaptionsProvider {
 export interface OptionsProvider<T = unknown, P = {}> {
     status: Status;
 
-    getAll(sortType: TypeaheadEnum): string[];
+    getAll(sortType: FilterTypeEnum): string[];
 
     // search related
     setSearchTerm(term: string): void;

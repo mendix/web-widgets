@@ -74,7 +74,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                     <DropdownMenu
                         dropdownSize={dropdownRef.current?.getBoundingClientRect()}
                         selector={selector}
-                        typeahead={props.typeahead}
+                        filterType={props.filterType}
                         selectedItem={selectedItem}
                         getMenuProps={getMenuProps}
                         getItemProps={getItemProps}

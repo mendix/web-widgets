@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.dropdown.Dropdown" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Drop-down 2</name>
+    <name>Combo box</name>
     <description />
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Display</studioCategory>
@@ -9,13 +9,13 @@
         <propertyGroup caption="General">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Data source">
-                <property key="optionsSourceType" type="enumeration" defaultValue="enumeration" required="true">
+                <property key="optionsSourceType" type="enumeration" defaultValue="association" required="true">
                     <caption>Type</caption>
                     <description />
                     <enumerationValues>
+                        <enumerationValue key="association">Association</enumerationValue>
                         <enumerationValue key="enumeration">Enumeration</enumerationValue>
                         <enumerationValue key="boolean">Boolean</enumerationValue>
-                        <enumerationValue key="association">Association</enumerationValue>
                     </enumerationValues>
                 </property>
 
@@ -32,7 +32,7 @@
 
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
-                    <caption>Attribute</caption>
+                    <caption>Entity</caption>
                     <description />
                     <associationTypes>
                         <associationType name="Reference" />
@@ -77,8 +77,8 @@
                 </property>
 
                 <!-- MISC PROPS -->
-                <property key="typeahead" type="enumeration" defaultValue="contains">
-                    <caption>Autocomplete</caption>
+                <property key="filterType" type="enumeration" defaultValue="contains">
+                    <caption>Filter type</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="contains">Contains</enumerationValue>

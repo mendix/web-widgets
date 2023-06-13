@@ -34,7 +34,7 @@ describe("Drop-down (Association)", () => {
             optionsSourceAssociationCaptionType: "expression",
             ariaRequired: true,
             clearable: true,
-            typeahead: "contains"
+            filterType: "contains"
         };
     });
     it("renders dropdown widget", () => {

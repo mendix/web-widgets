@@ -21,7 +21,7 @@
   "marketplace": {
     "minimumMXVersion": "9.17.0",
     "appNumber": -1,
-    "appName": "Drop-down 2"
+    "appName": "Combo box"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",

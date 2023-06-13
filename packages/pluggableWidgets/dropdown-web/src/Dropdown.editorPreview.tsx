@@ -9,7 +9,7 @@ export const preview = (props: DropdownPreviewProps): ReactElement => {
             clearable={props.clearable}
             readOnly={props.readOnly}
             ariaRequired={props.ariaRequired}
-            typeahead="contains"
+            filterType="contains"
         />
     );
 };
