@@ -68,14 +68,6 @@ export async function ci() {
 
         // Spin up cypress docker machine and run the test specs
         startCypress(ip, freePort);
-    } catch (e) {
-        try {
-            execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
-        } catch {
-            // ignore
-        }
-        console.log(cat("results/runtime.log").toString());
-        throw e;
     } finally {
         execSync(`docker rm -f ${runtimeContainerId}`);
         execSync(`docker rm -f cypress`);

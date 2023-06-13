@@ -104,7 +104,6 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
         `--tty`,
         // Spin mxruntime in background, we will kill it later.
         `--detach`,
-        `--rm`,
         `--workdir /source`,
         `--publish ${freePort}:8080`,
         `--env MENDIX_VERSION=${mendixVersion}`,
@@ -136,6 +135,7 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     if (attempts === 0) {
         console.log("Runtime didn't start, printing logs...");
         execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
+        execSync(`docker rm ${runtimeContainerId}`, { stdio: "inherit" });
         throw new Error("Runtime didn't start in time, exiting now...");
     }
 
