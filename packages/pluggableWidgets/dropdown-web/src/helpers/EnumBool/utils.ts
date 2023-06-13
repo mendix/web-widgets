@@ -1,6 +1,6 @@
-import { DropdownContainerProps } from "../../../typings/DropdownProps";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 
-export function extractEnumerationProps(props: DropdownContainerProps) {
+export function extractEnumerationProps(props: ComboboxContainerProps) {
     const attr = props.attributeEnumerationOrBoolean;
     const emptyOption = props.emptyOptionText;
     const clearable = props.clearable;

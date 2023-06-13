@@ -1,8 +1,8 @@
 import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
-import { DropdownPreviewProps } from "../typings/DropdownProps";
+import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 
-export function getProperties(values: DropdownPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (values.optionsSourceType === "enumeration" || values.optionsSourceType === "boolean") {
         // hide attribute
         hidePropertiesIn(defaultProperties, values, [
@@ -31,7 +31,7 @@ export function getProperties(values: DropdownPreviewProps, defaultProperties: P
     return defaultProperties;
 }
 
-export function getPreview(_values: DropdownPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     return {
         type: "RowLayout",
         columnSize: "fixed",

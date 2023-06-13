@@ -2,10 +2,10 @@ import classNames from "classnames";
 import Downshift from "downshift";
 import { createElement, ReactElement } from "react";
 import { ClearButton, DownArrow } from "../assets/icons";
-import { DropdownPreviewProps } from "../../typings/DropdownProps";
+import { ComboboxPreviewProps } from "../../typings/ComboboxProps";
 import "../ui/Dropdown.scss";
 
-export function DropdownPreview(props: Partial<DropdownPreviewProps>): ReactElement {
+export function DropdownPreview(props: Partial<ComboboxPreviewProps>): ReactElement {
     const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
         // @ts-ignore

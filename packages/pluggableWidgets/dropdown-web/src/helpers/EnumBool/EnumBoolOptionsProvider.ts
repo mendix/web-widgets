@@ -1,7 +1,7 @@
 import { EditableValue } from "mendix";
 import { matchSorter } from "match-sorter";
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
-import { FilterTypeEnum } from "../../../typings/DropdownProps";
+import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 
 export class EnumBoolOptionsProvider<T extends boolean | string>
     implements OptionsProvider<T, { attribute: EditableValue<string | boolean> }>

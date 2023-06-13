@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { DropdownContainerProps, FilterTypeEnum } from "../../typings/DropdownProps";
+import { ComboboxContainerProps, FilterTypeEnum } from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
 
@@ -27,7 +27,7 @@ export interface OptionsProvider<T = unknown, P = {}> {
 }
 
 export interface SingleSelector {
-    updateProps(props: DropdownContainerProps): void;
+    updateProps(props: ComboboxContainerProps): void;
     status: Status;
 
     // options related

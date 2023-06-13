@@ -1,7 +1,7 @@
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
 import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { matchSorter } from "match-sorter";
-import { FilterTypeEnum } from "../../../typings/DropdownProps";
+import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
