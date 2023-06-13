@@ -37,12 +37,12 @@ function DropdownFooter(props: DropdownFooterProps): JSX.Element | null {
     );
 }
 
-interface DropdownProps {
+interface ComboboxProps {
     dispatch: ConditionDispatch;
     widgetProps: DatagridDropdownFilterContainerProps;
     associationProps: AssociationProperties;
 }
-function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): ReactElement {
+function Dropdown({ dispatch, widgetProps, associationProps }: ComboboxProps): ReactElement {
     const { association, optionsSource, getOptionLabel } = associationProps;
 
     const id = useDropdownId();

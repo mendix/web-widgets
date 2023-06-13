@@ -1,8 +1,8 @@
 import { createElement, ReactElement } from "react";
-import { DropdownPreviewProps } from "../typings/DropdownProps";
+import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { DropdownPreview } from "./components/DropdownPreview";
 
-export const preview = (props: DropdownPreviewProps): ReactElement => {
+export const preview = (props: ComboboxPreviewProps): ReactElement => {
     return (
         <DropdownPreview
             emptyOptionText={props.emptyOptionText}

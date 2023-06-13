@@ -1,5 +1,5 @@
 import { ObjectItem, ReferenceValue } from "mendix";
-import { DropdownContainerProps } from "../../../typings/DropdownProps";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
@@ -20,7 +20,7 @@ export class AssociationSingleSelector implements SingleSelector {
         this.options = new AssociationOptionsProvider(this.caption, this._valuesMap);
     }
 
-    updateProps(props: DropdownContainerProps) {
+    updateProps(props: ComboboxContainerProps) {
         const [attr, ds, captionProvider, emptyOption, clearable] = extractAssociationProps(props);
         this._attr = attr;
 

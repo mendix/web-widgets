@@ -1,5 +1,5 @@
 import { EditableValue } from "mendix";
-import { DropdownContainerProps } from "../../../typings/DropdownProps";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { extractEnumerationProps } from "./utils";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
@@ -20,7 +20,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.options = new EnumBoolOptionsProvider(this.caption);
     }
 
-    updateProps(props: DropdownContainerProps) {
+    updateProps(props: ComboboxContainerProps) {
         const [attr, emptyOption, clearable] = extractEnumerationProps(props);
         this._attr = attr;
 

@@ -1,6 +1,6 @@
-import { DropdownContainerProps } from "../../../typings/DropdownProps";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 
-export function extractAssociationProps(props: DropdownContainerProps) {
+export function extractAssociationProps(props: ComboboxContainerProps) {
     const attr = props.attributeAssociation;
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'association' but 'attributeAssociation' is not defined.");

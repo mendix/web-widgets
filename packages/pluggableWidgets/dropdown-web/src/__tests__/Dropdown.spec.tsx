@@ -10,11 +10,11 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
-import { DropdownContainerProps } from "../../typings/DropdownProps";
+import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { Dropdown } from "../components/Dropdown";
 
 describe("Drop-down (Association)", () => {
-    let defaultProps: DropdownContainerProps;
+    let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
         defaultProps = {
             name: "drop_down",
