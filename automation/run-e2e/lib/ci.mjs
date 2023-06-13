@@ -10,7 +10,7 @@ import { updateTestProject } from "./update-test-project.mjs";
 import { fetchWithReport } from "./utils.mjs";
 import * as config from "./config.mjs";
 
-const { ls, cat } = sh;
+const { ls } = sh;
 
 export async function ci() {
     console.log(c.cyan("Run e2e tests in CI environment"));
@@ -68,14 +68,6 @@ export async function ci() {
 
         // Spin up cypress docker machine and run the test specs
         startCypress(ip, freePort);
-    } catch (e) {
-        try {
-            execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
-        } catch {
-            // ignore
-        }
-        console.log(cat("results/runtime.log").toString());
-        throw e;
     } finally {
         execSync(`docker rm -f ${runtimeContainerId}`);
         execSync(`docker rm -f cypress`);
