@@ -16,6 +16,7 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
     const actionEvents = useActionEvents(props);
     const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
+    console.log("PROPS", downshiftProps);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -52,7 +53,11 @@ export function Dropdown(props: DropdownContainerProps): ReactElement {
                             {...getInputProps({
                                 disabled: readOnly
                             })}
-                            placeholder={selector.caption.get(selector.currentValue)}
+                            placeholder={
+                                downshiftProps.selectedItem
+                                    ? selector.caption.get(selector.currentValue)
+                                    : props.emptyOptionText?.value
+                            }
                         />
                         {!readOnly && selector.clearable && selector.currentValue !== null && (
                             <button
