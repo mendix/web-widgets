@@ -10,7 +10,7 @@ import { updateTestProject } from "./update-test-project.mjs";
 import { fetchWithReport } from "./utils.mjs";
 import * as config from "./config.mjs";
 
-const { ls, cat } = sh;
+const { ls } = sh;
 
 export async function ci() {
     console.log(c.cyan("Run e2e tests in CI environment"));
