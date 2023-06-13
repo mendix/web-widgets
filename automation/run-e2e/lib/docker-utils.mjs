@@ -134,6 +134,8 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     }
 
     if (attempts === 0) {
+        console.log("Runtime didn't start, printing logs...");
+        execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
         throw new Error("Runtime didn't start in time, exiting now...");
     }
 
