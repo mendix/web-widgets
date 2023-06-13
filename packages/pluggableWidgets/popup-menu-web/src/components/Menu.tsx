@@ -114,8 +114,6 @@ function createMenuOptions(
 }
 
 function correctPosition(element: HTMLElement, position: PositionEnum): void {
-    console.log("CORRECT POS");
-
     const dynamicDocument: Document = element.ownerDocument;
     const dynamicWindow = dynamicDocument.defaultView as Window;
     let boundingRect: DOMRect = element.getBoundingClientRect();
