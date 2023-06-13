@@ -3,7 +3,9 @@ import p from "node:path";
 import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
 import c from "ansi-colors";
+import sh from "shelljs";
 
+const { cat } = sh;
 const REGISTRY = "ghcr.io/mendix/web-widgets";
 
 export function getFullImageName(name, mendixVersion) {
@@ -133,8 +135,10 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     }
 
     if (attempts === 0) {
-        console.log("Runtime didn't start, printing logs...");
+        console.log("Runtime didn't start, printing docker logs...");
         execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
+        console.log("Print runtime.log...");
+        console.log(cat("results/runtime.log").toString());
         execSync(`docker rm ${runtimeContainerId}`, { stdio: "inherit" });
         throw new Error("Runtime didn't start in time, exiting now...");
     }
