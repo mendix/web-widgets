@@ -51,7 +51,7 @@ export function getPreview(_values: DropdownPreviewProps, isDarkMode: boolean): 
                 children: [
                     {
                         type: "Text",
-                        content: "Dropdown",
+                        content: "Combobox",
                         fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
                     }
                 ]

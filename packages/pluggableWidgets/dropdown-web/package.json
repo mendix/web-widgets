@@ -1,6 +1,6 @@
 {
   "name": "@mendix/dropdown-web",
-  "widgetName": "Dropdown",
+  "widgetName": "Combobox",
   "version": "1.0.0",
   "description": "Configurable drop-down widget with suggestions and autocomplete.",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
@@ -14,14 +14,14 @@
     "developmentPort": 3000
   },
   "mxpackage": {
-    "name": "Dropdown",
+    "name": "Combobox",
     "type": "widget",
-    "mpkName": "com.mendix.widget.web.Dropdown.mpk"
+    "mpkName": "com.mendix.widget.web.Combobox.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.17.0",
     "appNumber": -1,
-    "appName": "Combo box"
+    "appName": "Combobox"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
