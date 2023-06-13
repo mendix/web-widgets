@@ -94,6 +94,10 @@ export class Editor extends Component<EditorProps> {
                 return false;
             }
 
+            if (key === "uploadedImages") {
+                return false;
+            }
+
             return prevProps[key] !== nextProps[key];
         });
     }
