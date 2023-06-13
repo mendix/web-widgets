@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-dropdown-filter-web",
   "widgetName": "DatagridDropdownFilter",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
