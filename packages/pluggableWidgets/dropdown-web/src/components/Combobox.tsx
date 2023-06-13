@@ -6,10 +6,10 @@ import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { ClearButton, DownArrow } from "../assets/icons";
 import { useDownshiftProps } from "../hooks/useDownshiftProps";
 import { useGetSelector } from "../hooks/useGetSelector";
-import { DropdownMenu } from "./DropdownMenu";
+import { ComboboxMenu } from "./ComboboxMenu";
 import { Placeholder } from "./Placeholder";
 
-export function Dropdown(props: ComboboxContainerProps): ReactElement {
+export function Combobox(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
@@ -75,7 +75,7 @@ export function Dropdown(props: ComboboxContainerProps): ReactElement {
                             <DownArrow />
                         </div>
                     </div>
-                    <DropdownMenu
+                    <ComboboxMenu
                         dropdownSize={dropdownRef.current?.getBoundingClientRect()}
                         selector={selector}
                         filterType={props.filterType}

@@ -3,9 +3,9 @@ import Downshift from "downshift";
 import { createElement, ReactElement } from "react";
 import { ClearButton, DownArrow } from "../assets/icons";
 import { ComboboxPreviewProps } from "../../typings/ComboboxProps";
-import "../ui/Dropdown.scss";
+import "../ui/Combobox.scss";
 
-export function DropdownPreview(props: Partial<ComboboxPreviewProps>): ReactElement {
+export function ComboboxPreview(props: Partial<ComboboxPreviewProps>): ReactElement {
     const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
         // @ts-ignore

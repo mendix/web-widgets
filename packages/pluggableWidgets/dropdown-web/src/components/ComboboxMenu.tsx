@@ -14,7 +14,7 @@ interface ComboboxMenuProps extends Partial<PropGetters<any>> {
     selectedItem?: string | null;
 }
 
-export function DropdownMenu(props: ComboboxMenuProps): ReactElement {
+export function ComboboxMenu(props: ComboboxMenuProps): ReactElement {
     const { dropdownSize, isOpen, selector, highlightedIndex } = props;
     return createPortal(
         <ul
