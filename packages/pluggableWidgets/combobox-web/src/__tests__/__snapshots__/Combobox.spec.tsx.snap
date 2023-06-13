@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Drop-down (Association) renders dropdown widget 1`] = `
+exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     aria-expanded="false"
     aria-haspopup="listbox"
     aria-labelledby="downshift-0-label"
-    class="widget-dropdown"
+    class="widget-combobox"
     role="combobox"
   >
     <div
       aria-haspopup="true"
       aria-label="open menu"
-      class="form-control widget-dropdown-input-container"
+      class="form-control widget-combobox-input-container"
       data-toggle="true"
       role="button"
       type="button"
@@ -21,17 +21,17 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         aria-autocomplete="list"
         aria-labelledby="downshift-0-label"
         autocomplete="off"
-        class="widget-dropdown-input"
+        class="widget-combobox-input"
         id="downshift-0-input"
         placeholder=""
         tabindex="0"
         value=""
       />
       <button
-        class="widget-dropdown-clear-button"
+        class="widget-combobox-clear-button"
       >
         <svg
-          class="widget-dropdown-clear-button-icon"
+          class="widget-combobox-clear-button-icon"
           fill="currentColor"
           height="10"
           viewBox="0 0 329 329"
@@ -43,10 +43,10 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         </svg>
       </button>
       <div
-        class="widget-dropdown-down-arrow"
+        class="widget-combobox-down-arrow"
       >
         <svg
-          class="widget-dropdown-down-arrow-icon"
+          class="widget-combobox-down-arrow-icon"
           fill="currentColor"
           height="20"
           viewBox="0 0 20 20"

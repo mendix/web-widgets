@@ -11,27 +11,27 @@ export function ComboboxPreview(props: Partial<ComboboxPreviewProps>): ReactElem
         // @ts-ignore
         <Downshift>
             {({ getInputProps, isOpen, getToggleButtonProps }) => (
-                <div className="widget-dropdown">
+                <div className="widget-combobox">
                     <div
                         style={{ backgroundColor }}
-                        className={classNames("form-control", "widget-dropdown-input-container", {
-                            "widget-dropdown-input-container-active": isOpen
+                        className={classNames("form-control", "widget-combobox-input-container", {
+                            "widget-combobox-input-container-active": isOpen
                         })}
                         {...getToggleButtonProps()}
                     >
                         <input
                             style={{ backgroundColor }}
-                            className="widget-dropdown-input"
+                            className="widget-combobox-input"
                             {...{ ...getInputProps() }}
                             placeholder={props.emptyOptionText}
                         />
 
                         {props.clearable && (
-                            <button className="widget-dropdown-clear-button">
+                            <button className="widget-combobox-clear-button">
                                 <ClearButton />
                             </button>
                         )}
-                        <div className="widget-dropdown-down-arrow">
+                        <div className="widget-combobox-down-arrow">
                             <DownArrow />
                         </div>
                     </div>

@@ -11,7 +11,7 @@ import { Placeholder } from "./Placeholder";
 
 export function Combobox(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
-    const dropdownRef = useRef<HTMLInputElement>(null);
+    const comboboxRef = useRef<HTMLInputElement>(null);
     const selector = useGetSelector(props);
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
     const actionEvents = useActionEvents(props);
@@ -33,11 +33,11 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                 highlightedIndex,
                 getToggleButtonProps
             }): JSX.Element => (
-                <div className="widget-dropdown" {...actionEvents}>
+                <div className="widget-combobox" {...actionEvents}>
                     <div
-                        ref={dropdownRef}
-                        className={classNames("form-control", "widget-dropdown-input-container", {
-                            "widget-dropdown-input-container-active":
+                        ref={comboboxRef}
+                        className={classNames("form-control", "widget-combobox-input-container", {
+                            "widget-combobox-input-container-active":
                                 isOpen || document.activeElement === inputRef.current
                         })}
                         {...getToggleButtonProps({
@@ -46,8 +46,8 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                     >
                         <input
                             tabIndex={0}
-                            id="widget-dropdown-input"
-                            className="widget-dropdown-input"
+                            id="widget-combobox-input"
+                            className="widget-combobox-input"
                             ref={inputRef}
                             {...getInputProps({
                                 disabled: readOnly
@@ -60,7 +60,7 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                         />
                         {!readOnly && selector.clearable && selector.currentValue !== null && (
                             <button
-                                className="widget-dropdown-clear-button"
+                                className="widget-combobox-clear-button"
                                 onClick={e => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -71,12 +71,12 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                                 <ClearButton />
                             </button>
                         )}
-                        <div className="widget-dropdown-down-arrow">
+                        <div className="widget-combobox-down-arrow">
                             <DownArrow />
                         </div>
                     </div>
                     <ComboboxMenu
-                        dropdownSize={dropdownRef.current?.getBoundingClientRect()}
+                        comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                         selector={selector}
                         filterType={props.filterType}
                         selectedItem={selectedItem}

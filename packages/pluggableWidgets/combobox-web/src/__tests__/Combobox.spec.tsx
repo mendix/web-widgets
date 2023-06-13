@@ -13,12 +13,12 @@ import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { Combobox } from "../components/Combobox";
 
-describe("Drop-down (Association)", () => {
+describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
         defaultProps = {
-            name: "drop_down",
-            id: "drop_down1",
+            name: "comboBox",
+            id: "comboBox1",
             optionsSourceType: "association",
             attributeAssociation: new ReferenceValueBuilder().withValue({ id: "DefaultValue" as GUID }).build(),
             attributeEnumerationOrBoolean: new EditableValueBuilder<string>().build(),
@@ -37,22 +37,22 @@ describe("Drop-down (Association)", () => {
             filterType: "contains"
         };
     });
-    it("renders dropdown widget", () => {
+    it("renders combobox widget", () => {
         const component = render(<Combobox {...defaultProps} />);
         expect(component.container).toMatchSnapshot();
     });
     it("renders placeholder component in case of unavailable status", () => {
         defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
         const { container } = render(<Combobox {...defaultProps} />);
-        expect(container.getElementsByClassName("widget-dropdown-placeholder")).toHaveLength(1);
+        expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
-    it("opens dropdown menu with all items on trigger", async () => {
+    it("opens combobox menu with all items on trigger", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
     });
-    it("closes dropdown menu on trigger", async () => {
+    it("closes combobox menu on trigger", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
@@ -79,7 +79,7 @@ describe("Drop-down (Association)", () => {
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "Netherlands" });
-        const clearButton = await component.container.getElementsByClassName("widget-dropdown-clear-button")[0];
+        const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
     });
