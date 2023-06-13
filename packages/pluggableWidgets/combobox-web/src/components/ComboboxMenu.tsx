@@ -6,7 +6,7 @@ import { SingleSelector } from "../helpers/types";
 import { FilterTypeEnum } from "../../typings/ComboboxProps";
 
 interface ComboboxMenuProps extends Partial<PropGetters<any>> {
-    dropdownSize: DOMRect | undefined;
+    comboboxSize: DOMRect | undefined;
     isOpen: boolean;
     filterType: FilterTypeEnum;
     selector: SingleSelector;
@@ -15,23 +15,23 @@ interface ComboboxMenuProps extends Partial<PropGetters<any>> {
 }
 
 export function ComboboxMenu(props: ComboboxMenuProps): ReactElement {
-    const { dropdownSize, isOpen, selector, highlightedIndex } = props;
+    const { comboboxSize, isOpen, selector, highlightedIndex } = props;
     return createPortal(
         <ul
-            className={classNames("widget-dropdown-menu", { "widget-dropdown-menu-hidden": !isOpen })}
+            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             {...props.getMenuProps?.()}
             style={{
-                width: dropdownSize?.width,
-                left: dropdownSize?.x,
-                top: (dropdownSize?.top || 0) + (dropdownSize?.height || 0)
+                width: comboboxSize?.width,
+                left: comboboxSize?.x,
+                top: (comboboxSize?.top || 0) + (comboboxSize?.height || 0)
             }}
         >
             {isOpen
                 ? selector.options.getAll(props.filterType).map((item, index) => (
                       <li
-                          className={classNames("widget-dropdown-item", {
-                              "widget-dropdown-item-selected": selector.currentValue === item,
-                              "widget-dropdown-item-highlighted": highlightedIndex === index
+                          className={classNames("widget-combobox-item", {
+                              "widget-combobox-item-selected": selector.currentValue === item,
+                              "widget-combobox-item-highlighted": highlightedIndex === index
                           })}
                           key={JSON.stringify(item)}
                           {...props.getItemProps?.({

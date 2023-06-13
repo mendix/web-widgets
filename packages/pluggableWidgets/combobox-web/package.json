@@ -1,8 +1,8 @@
 {
-  "name": "@mendix/dropdown-web",
+  "name": "@mendix/combobox-web",
   "widgetName": "Combobox",
   "version": "1.0.0",
-  "description": "Configurable drop-down widget with suggestions and autocomplete.",
+  "description": "Configurable Combo box widget with suggestions and autocomplete.",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -25,7 +25,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "dropdown-web"
+    "branchName": "combobox-web"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {

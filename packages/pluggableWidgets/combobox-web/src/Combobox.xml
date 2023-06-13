@@ -4,7 +4,7 @@
     <description />
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Display</studioCategory>
-    <helpUrl>https://docs.mendix.com/appstore/widgets/dropdown</helpUrl>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/combobox</helpUrl>
     <properties>
         <propertyGroup caption="General">
             <!-- OPTIONS SOURCE -->
