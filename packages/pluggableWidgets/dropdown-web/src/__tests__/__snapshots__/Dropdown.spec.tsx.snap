@@ -15,7 +15,6 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
       class="form-control widget-dropdown-input-container"
       data-toggle="true"
       role="button"
-      tabindex="0"
       type="button"
     >
       <input
@@ -25,12 +24,14 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         class="widget-dropdown-input"
         id="downshift-0-input"
         placeholder=""
+        tabindex="0"
         value=""
       />
       <button
         class="widget-dropdown-clear-button"
       >
         <svg
+          class="widget-dropdown-clear-button-icon"
           fill="currentColor"
           height="10"
           viewBox="0 0 329 329"
@@ -45,6 +46,7 @@ exports[`Drop-down (Association) renders dropdown widget 1`] = `
         class="widget-dropdown-down-arrow"
       >
         <svg
+          class="widget-dropdown-down-arrow-icon"
           fill="currentColor"
           height="20"
           viewBox="0 0 20 20"

@@ -1,7 +1,7 @@
 import { EditableValue } from "mendix";
 import { matchSorter } from "match-sorter";
 import { CaptionsProvider, OptionsProvider, Status } from "../types";
-import { TypeaheadEnum } from "../../../typings/DropdownProps";
+import { FilterTypeEnum } from "../../../typings/DropdownProps";
 
 export class EnumBoolOptionsProvider<T extends boolean | string>
     implements OptionsProvider<T, { attribute: EditableValue<string | boolean> }>
@@ -40,7 +40,7 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
         return value?.toString() ?? null;
     }
 
-    getAll(sortType: TypeaheadEnum): string[] {
+    getAll(sortType: FilterTypeEnum): string[] {
         switch (sortType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
