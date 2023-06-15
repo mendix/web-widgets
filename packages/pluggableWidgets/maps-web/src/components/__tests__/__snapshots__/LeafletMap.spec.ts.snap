@@ -13,7 +13,7 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -29,11 +29,15 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="Map &copy; 1987-2020 <a href='https://developer.here.com'>HERE</a>"
         url="https://2.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -51,7 +55,7 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -67,14 +71,18 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>"
         id="mapbox/streets-v11"
         tileSize={512}
         url="https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}"
         zoomOffset={-1}
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -92,7 +100,7 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={true}
       center={
         {
@@ -108,11 +116,15 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -130,7 +142,7 @@ exports[`Leaflet maps renders a map with current location 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -146,17 +158,22 @@ exports[`Leaflet maps renders a map with current location 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-      <ForwardRef(Leaflet(Marker))
+      <ForwardRef(ContainerComponent)
+        eventHandlers={
+          {
+            "click": undefined,
+          }
+        }
         icon={
           NewClass {
             "_initHooksCalled": true,
             "options": {
               "className": "custom-leaflet-map-icon-marker",
-              "html": "<img src=\\"image:url\\" class=\\"custom-leaflet-map-icon-marker-icon\\"}></img>",
+              "html": "<img src="image:url" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />",
             },
           }
         }
@@ -169,7 +186,18 @@ exports[`Leaflet maps renders a map with current location 1`] = `
           }
         }
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        currentLocation={
+          {
+            "latitude": 51.906688,
+            "longitude": 4.48837,
+            "url": "image:url",
+          }
+        }
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -187,7 +215,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -203,17 +231,22 @@ exports[`Leaflet maps renders a map with markers 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-      <ForwardRef(Leaflet(Marker))
+      <ForwardRef(ContainerComponent)
+        eventHandlers={
+          {
+            "click": undefined,
+          }
+        }
         icon={
           NewClass {
             "_initHooksCalled": true,
             "options": {
               "className": "custom-leaflet-map-icon-marker",
-              "html": "<img src=\\"image:url\\" class=\\"custom-leaflet-map-icon-marker-icon\\"}></img>",
+              "html": "<img src="image:url" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />",
             },
           }
         }
@@ -227,7 +260,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
         }
         title="Mendix HQ"
       >
-        <ForwardRef(Leaflet(Popup))>
+        <ForwardRef(OverlayComponent)>
           <span
             style={
               {
@@ -237,15 +270,20 @@ exports[`Leaflet maps renders a map with markers 1`] = `
           >
             Mendix HQ
           </span>
-        </ForwardRef(Leaflet(Popup))>
-      </ForwardRef(Leaflet(Marker))>
-      <ForwardRef(Leaflet(Marker))
+        </ForwardRef(OverlayComponent)>
+      </ForwardRef(ContainerComponent)>
+      <ForwardRef(ContainerComponent)
+        eventHandlers={
+          {
+            "click": undefined,
+          }
+        }
         icon={
           NewClass {
             "_initHooksCalled": true,
             "options": {
               "className": "custom-leaflet-map-icon-marker",
-              "html": "<img src=\\"image:url\\" class=\\"custom-leaflet-map-icon-marker-icon\\"}></img>",
+              "html": "<img src="image:url" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />",
             },
           }
         }
@@ -259,7 +297,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
         }
         title="Gementee Rotterdam"
       >
-        <ForwardRef(Leaflet(Popup))>
+        <ForwardRef(OverlayComponent)>
           <span
             style={
               {
@@ -269,9 +307,28 @@ exports[`Leaflet maps renders a map with markers 1`] = `
           >
             Gementee Rotterdam
           </span>
-        </ForwardRef(Leaflet(Popup))>
-      </ForwardRef(Leaflet(Marker))>
-    </Map>
+        </ForwardRef(OverlayComponent)>
+      </ForwardRef(ContainerComponent)>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={
+          [
+            {
+              "latitude": 51.906688,
+              "longitude": 4.48837,
+              "title": "Mendix HQ",
+              "url": "image:url",
+            },
+            {
+              "latitude": 51.922823,
+              "longitude": 4.479632,
+              "title": "Gementee Rotterdam",
+              "url": "image:url",
+            },
+          ]
+        }
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -289,7 +346,7 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -305,11 +362,15 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -328,7 +389,7 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -344,11 +405,15 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -366,7 +431,7 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -382,11 +447,15 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
@@ -404,7 +473,7 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
   <div
     className="widget-leaflet-maps-wrapper"
   >
-    <Map
+    <ForwardRef(MapContainerComponent)
       attributionControl={false}
       center={
         {
@@ -420,11 +489,15 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
       zoom={10}
       zoomControl={true}
     >
-      <ForwardRef(Leaflet(TileLayer))
+      <ForwardRef(LeafComponent)
         attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    </Map>
+      <SetBoundsComponent
+        autoZoom={true}
+        locations={[]}
+      />
+    </ForwardRef(MapContainerComponent)>
   </div>
 </div>
 `;
