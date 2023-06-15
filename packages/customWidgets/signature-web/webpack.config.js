@@ -45,6 +45,11 @@ const widgetConfig = {
                     from: path.join(process.cwd(), "src/**/*.xml").replace(/\\/g, "/"),
                     toType: "template",
                     to: "./[name][ext]"
+                },
+                {
+                    from: `src/${widgetName}.@(tile|icon)@(.dark|).png`,
+                    to: "./[name][ext]",
+                    toType: "template"
                 }
             ]
         })
