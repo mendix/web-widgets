@@ -2,7 +2,7 @@
 
 exports[`Popup menu renders popup menu 1`] = `
 <Portal
-  containerInfo={<body />}
+  containerInfo={<div />}
 >
   <div
     className="widget-popupmenu-root"
@@ -13,11 +13,11 @@ exports[`Popup menu renders popup menu 1`] = `
         Object {
           "bottom": "initial",
           "display": "flex",
-          "left": 30,
-          "position": "fixed",
-          "top": 11,
+          "left": 0,
+          "position": "absolute",
+          "top": 1,
           "transform": "none",
-          "zIndex": 0,
+          "zIndex": 102,
         }
       }
     >
