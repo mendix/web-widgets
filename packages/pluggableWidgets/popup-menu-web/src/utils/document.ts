@@ -229,7 +229,8 @@ export function moveAbsoluteElementOnScreen(
             getPixelValueAsNumber(element, "right") +
                 (boundingRect.x + boundingRect.width - dynamicWindow.document.documentElement.clientWidth)
         );
-        element.style.left = boundingRect.x - rightValue + "px";
+        element.style.left = "unset";
+        element.style.right = rightValue + "px";
         boundingRect.x -= rightValue;
     }
     if (boundingRect.y + boundingRect.height > dynamicWindow.document.documentElement.clientHeight) {

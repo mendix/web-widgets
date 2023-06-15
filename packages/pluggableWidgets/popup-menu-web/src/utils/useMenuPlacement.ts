@@ -5,10 +5,6 @@ import { PositionEnum } from "../../typings/PopupMenuProps";
 export function useMenuPlacement(anchorElement: HTMLElement | null, position: PositionEnum): CSSProperties | undefined {
     const triggerPosition = usePositionObserver(anchorElement, true);
 
-    const overlayElement = document.getElementsByClassName("modal-dialog")[0] as HTMLElement; // Making sure to get a zIndex higher if a "modal-dialog" exists.
-    const overlayZIndex = overlayElement?.style?.zIndex ?? "";
-    const calculatedZIndex = overlayZIndex ? parseInt(overlayZIndex, 10) + 1 : 0;
-
     if (!triggerPosition) {
         return undefined;
     }
@@ -16,19 +12,19 @@ export function useMenuPlacement(anchorElement: HTMLElement | null, position: Po
     const popupStyles: CSSProperties =
         position === "bottom"
             ? {
-                  top: triggerPosition.height + triggerPosition.top,
-                  left: triggerPosition.left,
+                  left: 0,
+                  top: triggerPosition.height,
                   transform: "none",
                   bottom: "initial"
               }
             : position === "right"
             ? {
-                  top: triggerPosition.top,
-                  left: triggerPosition.left + triggerPosition.width,
+                  top: 0,
+                  left: triggerPosition.width,
                   transform: "none",
-                  bottom: "initial"
+                  right: "initial"
               }
-            : { top: triggerPosition?.top, left: triggerPosition?.left };
+            : { top: 0, left: 0 };
 
-    return { ...popupStyles, zIndex: calculatedZIndex, position: "fixed", display: "flex" };
+    return { ...popupStyles, zIndex: 102, position: "absolute", display: "flex" };
 }
