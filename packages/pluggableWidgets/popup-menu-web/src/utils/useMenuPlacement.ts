@@ -26,5 +26,5 @@ export function useMenuPlacement(anchorElement: HTMLElement | null, position: Po
               }
             : { top: 0, left: 0 };
 
-    return { ...popupStyles, zIndex: 102, position: "absolute", display: "flex" };
+    return { ...popupStyles, zIndex: 1, position: "absolute", display: "flex" };
 }
