@@ -4,25 +4,27 @@ import { PositionEnum } from "../../typings/PopupMenuProps";
 
 export function useMenuPlacement(anchorElement: HTMLElement | null, position: PositionEnum): CSSProperties | undefined {
     const triggerPosition = usePositionObserver(anchorElement, true);
+
     if (!triggerPosition) {
         return undefined;
     }
+
     const popupStyles: CSSProperties =
         position === "bottom"
             ? {
-                  top: triggerPosition.height + triggerPosition.top,
-                  left: triggerPosition.left,
+                  left: 0,
+                  top: triggerPosition.height,
                   transform: "none",
                   bottom: "initial"
               }
             : position === "right"
             ? {
-                  top: triggerPosition.top,
-                  left: triggerPosition.left + triggerPosition.width,
+                  top: 0,
+                  left: triggerPosition.width,
                   transform: "none",
-                  bottom: "initial"
+                  right: "initial"
               }
-            : { top: triggerPosition?.top, left: triggerPosition?.left };
+            : { top: 0, left: 0 };
 
-    return { ...popupStyles, zIndex: 0, position: "fixed", display: "flex" };
+    return { ...popupStyles, zIndex: 1, position: "absolute", display: "flex" };
 }

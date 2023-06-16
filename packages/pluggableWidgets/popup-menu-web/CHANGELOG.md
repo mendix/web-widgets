@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We changed colors in the structure mode preview for dark and light modes.
 
+### Fixed
+
+-   We fixed an issue causing popup menu to appear behind other elements(modal popups)
+
 ## [3.3.0] - 2023-01-04
 
 ### Changed

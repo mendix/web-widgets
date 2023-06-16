@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
-const positionObserverValues = { top: 10, bottom: 20, left: 30, height: 1, width: 2 };
+const positionObserverValues = { top: 670, bottom: 700, left: 900, height: 40, width: 120, x: 900, y: 70 };
 const usePositionMock = jest.fn(() => positionObserverValues);
 jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
     usePositionObserver: () => usePositionMock()
@@ -14,26 +14,27 @@ describe("Menu Placement", () => {
         const { result } = renderHook(() => useMenuPlacement(anchor, "top"));
 
         expect(result.current).toStrictEqual({
-            position: "fixed",
+            position: "absolute",
             display: "flex",
-            zIndex: 0,
-            top: positionObserverValues.top,
-            left: positionObserverValues.left
+            top: 0,
+            left: 0,
+            zIndex: 1
         });
     });
+
     it("Returns the styles for position: RIGHT", () => {
         const anchor = document.createElement("div");
 
         const { result } = renderHook(() => useMenuPlacement(anchor, "right"));
 
         expect(result.current).toStrictEqual({
-            position: "fixed",
+            position: "absolute",
             display: "flex",
-            zIndex: 0,
-            top: positionObserverValues.top,
-            left: positionObserverValues.left + positionObserverValues.width,
+            top: 0,
+            left: positionObserverValues.width,
             transform: "none",
-            bottom: "initial"
+            right: "initial",
+            zIndex: 1
         });
     });
     it("Returns the styles for position: BOTTOM", () => {
@@ -42,13 +43,13 @@ describe("Menu Placement", () => {
         const { result } = renderHook(() => useMenuPlacement(anchor, "bottom"));
 
         expect(result.current).toStrictEqual({
-            position: "fixed",
+            position: "absolute",
             display: "flex",
-            zIndex: 0,
-            top: positionObserverValues.height + positionObserverValues.top,
-            left: positionObserverValues.left,
+            top: positionObserverValues.height,
+            left: 0,
             transform: "none",
-            bottom: "initial"
+            bottom: "initial",
+            zIndex: 1
         });
     });
     it("Returns the styles for position: LEFT", () => {
@@ -57,11 +58,11 @@ describe("Menu Placement", () => {
         const { result } = renderHook(() => useMenuPlacement(anchor, "left"));
 
         expect(result.current).toStrictEqual({
-            position: "fixed",
+            position: "absolute",
             display: "flex",
-            zIndex: 0,
-            top: positionObserverValues.top,
-            left: positionObserverValues.left
+            top: 0,
+            left: 0,
+            zIndex: 1
         });
     });
 });

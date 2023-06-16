@@ -53,7 +53,7 @@ export function Menu(props: MenuProps): ReactElement {
                 {menuOptions}
             </div>
         </div>,
-        document.body
+        anchorElement
     );
 }
 
