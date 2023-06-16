@@ -18,7 +18,7 @@ describe("Menu Placement", () => {
             display: "flex",
             top: 0,
             left: 0,
-            zIndex: 102
+            zIndex: 1
         });
     });
 
@@ -34,7 +34,7 @@ describe("Menu Placement", () => {
             left: positionObserverValues.width,
             transform: "none",
             right: "initial",
-            zIndex: 102
+            zIndex: 1
         });
     });
     it("Returns the styles for position: BOTTOM", () => {
@@ -49,7 +49,7 @@ describe("Menu Placement", () => {
             left: 0,
             transform: "none",
             bottom: "initial",
-            zIndex: 102
+            zIndex: 1
         });
     });
     it("Returns the styles for position: LEFT", () => {
@@ -62,7 +62,7 @@ describe("Menu Placement", () => {
             display: "flex",
             top: 0,
             left: 0,
-            zIndex: 102
+            zIndex: 1
         });
     });
 });
