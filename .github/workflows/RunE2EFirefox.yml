@@ -2,70 +2,70 @@ name: Run E2E test on Firefox
 # This workflow is used to test our widgets against the Firefox browser weekly.
 
 on:
-  schedule:
-    # At 03:00 on every day-of-week.
-    - cron: "0 03 * * 1-5"
+    schedule:
+        # At 03:00 on every day-of-week.
+        - cron: "0 03 * * 1-5"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  e2e:
-    name: Run automated end-to-end tests on Firefox
-    runs-on: ubuntu-latest
+    e2e:
+        name: Run automated end-to-end tests on Firefox
+        runs-on: ubuntu-latest
 
-    permissions:
-      packages: read
-      contents: read
+        permissions:
+            packages: read
+            contents: read
 
-    strategy:
-      # when one test fails, DO NOT cancel the other
-      fail-fast: false
-      matrix:
-        # run 3 copies of the current job in parallel
-        index: [0, 1, 2]
+        strategy:
+            # when one test fails, DO NOT cancel the other
+            fail-fast: false
+            matrix:
+                # run 3 copies of the current job in parallel
+                index: [0, 1, 2]
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-        with:
-          fetch-depth: 0
-      - name: Setup pnpm
-        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
-        with:
-          version: ^7.13.4
-      - name: Setup node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: "Executing E2E tests"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BROWSER_CYPRESS: firefox
-        run: >-
-          node 
-          ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
-          --chunks 3
-          --index ${{ matrix.index }}
-          --event-name ${{ github.event_name }}
-      - name: "Fixing files permissions"
-        if: failure()
-        run: |
-          sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
-          sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
-      - name: "Archive test screenshot diff results"
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
-        if: failure()
-        with:
-          name: test-screenshot-results
-          path: |
-            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/diff/**/*.png
-            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/TESTFAIL_*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
-            ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
-          if-no-files-found: error
+        steps:
+            - name: Checkout
+              uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+              with:
+                  fetch-depth: 0
+            - name: Setup pnpm
+              uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
+              with:
+                  version: ^8.6.2
+            - name: Setup node
+              uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "pnpm"
+            - name: Install dependencies
+              run: pnpm install
+            - name: "Executing E2E tests"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BROWSER_CYPRESS: firefox
+              run: >-
+                  node 
+                  ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
+                  --chunks 3
+                  --index ${{ matrix.index }}
+                  --event-name ${{ github.event_name }}
+            - name: "Fixing files permissions"
+              if: failure()
+              run: |
+                  sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
+                  sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
+            - name: "Archive test screenshot diff results"
+              uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+              if: failure()
+              with:
+                  name: test-screenshot-results
+                  path: |
+                      ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/diff/**/*.png
+                      ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/TESTFAIL_*.png
+                      ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
+                      ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
+                      ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
+                  if-no-files-found: error
