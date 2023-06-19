@@ -1,46 +1,46 @@
 name: Create GitHub release
 
 on:
-  workflow_dispatch:
-    inputs:
-      package:
-        description: "Package name to release (name in package.json)"
-        required: true
+    workflow_dispatch:
+        inputs:
+            package:
+                description: "Package name to release (name in package.json)"
+                required: true
 
 jobs:
-  create-release:
-    name: "Create widget/module release on GitHub"
-    runs-on: ubuntu-latest
-    env:
-      PACKAGE: ${{ github.event.inputs.package }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-        with:
-          fetch-depth: 1
-      - name: Setup pnpm
-        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
-        with:
-          version: ^7.13.4
-      - name: Setup node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-      - name: Search for package in workspace
-        run: >
-          if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
-          then
-            echo "::error::Package $PACKAGE not found in workspace.";
-            exit 1;
-          fi
-      - name: Install dependencies
-        run: pnpm install
-      - name: Create ${{ github.event.inputs.package }} widget release
-        run: pnpm run create-gh-release --filter=$PACKAGE
+    create-release:
+        name: "Create widget/module release on GitHub"
+        runs-on: ubuntu-latest
         env:
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_PAT: ${{ secrets.GH_PAT }}
+            PACKAGE: ${{ github.event.inputs.package }}
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+              with:
+                  fetch-depth: 1
+            - name: Setup pnpm
+              uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # v2.2.4
+              with:
+                  version: ^8.6.2
+            - name: Setup node
+              uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "pnpm"
+            - name: Search for package in workspace
+              run: >
+                  if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
+                  then
+                    echo "::error::Package $PACKAGE not found in workspace.";
+                    exit 1;
+                  fi
+            - name: Install dependencies
+              run: pnpm install
+            - name: Create ${{ github.event.inputs.package }} widget release
+              run: pnpm run create-gh-release --filter=$PACKAGE
+              env:
+                  GH_USERNAME: ${{ secrets.GH_USERNAME }}
+                  GH_EMAIL: ${{ secrets.GH_EMAIL }}
+                  GH_NAME: ${{ secrets.GH_NAME }}
+                  GH_PAT: ${{ secrets.GH_PAT }}

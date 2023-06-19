@@ -1,12 +1,12 @@
 name: "Pull Request Labeler"
 on:
-  - pull_request_target
+    - pull_request_target
 
 jobs:
-  triage:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/labeler@0776a679364a9a16110aac8d0f40f5e11009e327 # v4.0.4
-        with:
-          repo-token: ${{ github.token }}
-          configuration-path: ".github/configs/labeler.yml"
+    triage:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/labeler@0776a679364a9a16110aac8d0f40f5e11009e327 # v4.0.4
+              with:
+                  repo-token: ${{ github.token }}
+                  configuration-path: ".github/configs/labeler.yml"
