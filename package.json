@@ -27,6 +27,9 @@
   },
   "pnpm": {
     "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18"
+      },
       "ignoreMissing": [
         "react-native"
       ]
