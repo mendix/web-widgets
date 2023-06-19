@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-jest": "^24.7.0",
@@ -31,6 +31,6 @@
     "eslint-plugin-react": "~7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.4",
-    "typescript": "4.5.4"
+    "typescript": "5.0.4"
   }
 }

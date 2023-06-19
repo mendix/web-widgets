@@ -1,4 +1,4 @@
-import { Component, ReactElement, createElement } from "react";
+import { Component, ReactElement, createElement, PropsWithChildren } from "react";
 
 import { Panel, PanelProps } from "./Panel";
 import { Playground } from "./Playground";
@@ -23,9 +23,9 @@ interface SeriesPlaygroundState {
     activeOption: string;
 }
 
-export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPlaygroundState> {
+export class SeriesPlayground extends Component<PropsWithChildren<SeriesPlaygroundProps>, SeriesPlaygroundState> {
     state = { activeOption: "layout" };
-    private newSeriesOptions: { layout: string, config: string, seriesOptions: string[] } = {
+    private newSeriesOptions: { layout: string; config: string; seriesOptions: string[] } = {
         layout: this.props.layoutOptions || "{}",
         config: this.props.configurationOptions || "{}",
         seriesOptions: this.props.seriesOptions || []
@@ -34,11 +34,7 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
     private isValid = false;
 
     render() {
-        return createElement(Playground, {},
-            ...this.renderPanels(),
-            this.renderPanelSwitcher(),
-            this.props.children
-        );
+        return createElement(Playground, {}, ...this.renderPanels(), this.renderPanelSwitcher(), this.props.children);
     }
 
     componentWillReceiveProps(nextProps: SeriesPlaygroundProps) {
@@ -62,7 +58,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
 
     private renderLayoutPanels() {
         return [
-            createElement(Panel,
+            createElement(
+                Panel,
                 {
                     key: "layout",
                     heading: "Custom settings"
@@ -73,7 +70,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
                     onValidate: this.onValidate
                 })
             ),
-            createElement(Panel,
+            createElement(
+                Panel,
                 {
                     key: "modeler",
                     heading: "Settings from the Modeler",
@@ -91,7 +89,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
 
     private renderConfigPanels() {
         return [
-            createElement(Panel,
+            createElement(
+                Panel,
                 {
                     key: "config",
                     heading: "Custom settings"
@@ -102,7 +101,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
                     onValidate: this.onValidate
                 })
             ),
-            createElement(Panel,
+            createElement(
+                Panel,
                 {
                     key: "default",
                     heading: "Settings from the Modeler",
@@ -132,7 +132,9 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
     }
 
     private renderPanelSwitcher(): ReactElement<any> | null {
-        return createElement(SidebarHeaderTools, {},
+        return createElement(
+            SidebarHeaderTools,
+            {},
             createElement(Select, {
                 onChange: this.updateView,
                 options: [
@@ -145,7 +147,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
     }
 
     private renderSeriesOptions(seriesOptions: string, index: number): ReactElement<PanelProps> {
-        return createElement(Panel,
+        return createElement(
+            Panel,
             {
                 heading: "Custom settings",
                 key: `options-${index}`
@@ -160,7 +163,8 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
 
     private renderSeriesModelerConfig(index: number): ReactElement<PanelProps> | null {
         if (this.props.modelerSeriesConfigs && this.props.series) {
-            return createElement(Panel,
+            return createElement(
+                Panel,
                 {
                     heading: "Settings from the Modeler",
                     headingClass: "read-only",
@@ -176,19 +180,21 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
         }
 
         return null;
-
     }
 
     private getSeriesOptions(): SelectOption[] {
         return this.props.series
-            ? this.props.series.map((series, index) =>
-                ({ name: series.name, value: `${index}`, isDefaultSelected: false }))
+            ? this.props.series.map((series, index) => ({
+                  name: series.name,
+                  value: `${index}`,
+                  isDefaultSelected: false
+              }))
             : [];
     }
 
     private onValidate = (annotations: object[]) => {
         this.isValid = !annotations.length;
-    }
+    };
 
     private onUpdate = (source: string, value: string) => {
         if (this.timeoutId) {
@@ -205,7 +211,7 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
                 this.isValid = false;
             }
         }, 1000);
-    }
+    };
 
     private updateChart = (source: string, value: string) => {
         const cleanValue = Playground.removeTrailingNewLine(value);
@@ -214,14 +220,18 @@ export class SeriesPlayground extends Component<SeriesPlaygroundProps, SeriesPla
         } else if (source === "config") {
             this.newSeriesOptions.config = cleanValue;
         } else {
-            (this.newSeriesOptions.seriesOptions[ parseInt(source, 10) ]) = cleanValue;
+            this.newSeriesOptions.seriesOptions[parseInt(source, 10)] = cleanValue;
         }
         if (this.props.onChange) {
-            this.props.onChange(this.newSeriesOptions.layout, this.newSeriesOptions.seriesOptions, this.newSeriesOptions.config);
+            this.props.onChange(
+                this.newSeriesOptions.layout,
+                this.newSeriesOptions.seriesOptions,
+                this.newSeriesOptions.config
+            );
         }
-    }
+    };
 
     private updateView = (activeOption: string) => {
         this.setState({ activeOption });
-    }
+    };
 }

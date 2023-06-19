@@ -15,7 +15,7 @@ import { SortComponent, SortOption } from "./components/SortComponent";
 export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
     const id = useRef(`DropdownSort${generateUUID()}`);
 
-    const SortContext = getSortDispatcher() ?? ({} as Context<SortContextValue>);
+    const SortContext = (getSortDispatcher() ?? {}) as Context<SortContextValue>;
     const alertMessage = (
         <Alert bootstrapStyle="danger">
             The Drop-down sort widget must be placed inside the header of the Gallery widget.

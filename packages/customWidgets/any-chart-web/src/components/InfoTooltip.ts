@@ -1,4 +1,4 @@
-import { Component, SyntheticEvent, createElement } from "react";
+import { Component, SyntheticEvent, createElement, PropsWithChildren } from "react";
 import "../ui/InfoTooltip.scss";
 
 export interface InfoTooltipProps {
@@ -10,7 +10,7 @@ interface InfoTooltipState {
     width?: number;
 }
 
-export class InfoTooltip extends Component<InfoTooltipProps, InfoTooltipState> {
+export class InfoTooltip extends Component<PropsWithChildren<InfoTooltipProps>, InfoTooltipState> {
     static defaultProps: Partial<InfoTooltipProps> = {
         show: false
     };
@@ -24,11 +24,15 @@ export class InfoTooltip extends Component<InfoTooltipProps, InfoTooltipState> {
     }
 
     render() {
-        return createElement("div", {
-            className: "widget-info-tooltip glyphicon glyphicon-info-sign",
-            onClick: this.props.onClick,
-            ref: this.getRef
-        }, this.renderInfo());
+        return createElement(
+            "div",
+            {
+                className: "widget-info-tooltip glyphicon glyphicon-info-sign",
+                onClick: this.props.onClick,
+                ref: this.getRef
+            },
+            this.renderInfo()
+        );
     }
 
     componentDidMount() {
@@ -41,15 +45,19 @@ export class InfoTooltip extends Component<InfoTooltipProps, InfoTooltipState> {
 
     private getRef = (node: HTMLDivElement) => {
         this.tooltipNode = node;
-    }
+    };
 
     private renderInfo() {
         if (this.props.show) {
-            return createElement("div", {
-                className: "widget-info-tooltip-info",
-                style: this.state.width && { width: `${this.state.width}px` },
-                onClick: this.onInfoClick
-            }, this.props.children);
+            return createElement(
+                "div",
+                {
+                    className: "widget-info-tooltip-info",
+                    style: this.state.width && { width: `${this.state.width}px` },
+                    onClick: this.onInfoClick
+                },
+                this.props.children
+            );
         }
 
         return null;

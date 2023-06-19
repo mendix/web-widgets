@@ -52,7 +52,7 @@ exports[`Image renders the structure with an image and percentage dimensions 1`]
   <img
     class=""
     src="https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg"
-    style="height:;width:100%"
+    style="width:100%"
   />
 </div>
 `;

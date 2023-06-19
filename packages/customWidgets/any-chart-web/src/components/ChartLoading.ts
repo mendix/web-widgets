@@ -1,11 +1,11 @@
-import { ReactElement, SFC, createElement } from "react";
+import { ReactElement, FunctionComponent, createElement } from "react";
 import "../ui/ChartsLoading.scss";
 
-export const ChartLoading: SFC = () =>
-    createElement("div", { className: "widget-charts-loading-wrapper" },
-        createElement("div", { className: "widget-charts-loading-indicator" },
-            ...generateDivs(12)
-        )
+export const ChartLoading: FunctionComponent = () =>
+    createElement(
+        "div",
+        { className: "widget-charts-loading-wrapper" },
+        createElement("div", { className: "widget-charts-loading-indicator" }, ...generateDivs(12))
     );
 
 export const generateDivs = (amount: number) => {

@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -59,7 +59,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     }, [props.datasource, props.refreshInterval]);
 
     const setPage = useCallback(
-        computePage => {
+        (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
             if (isInfiniteLoad) {
                 props.datasource.setLimit(newPage * props.pageSize);
@@ -142,7 +142,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsSortable={props.columnsSortable}
             data={props.datasource.items ?? []}
             emptyPlaceholderRenderer={useCallback(
-                renderWrapper =>
+                (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
@@ -209,7 +209,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
-            rowClass={useCallback(value => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
+            rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}
             setSortParameters={setSortParameters}
             settings={props.configurationAttribute}

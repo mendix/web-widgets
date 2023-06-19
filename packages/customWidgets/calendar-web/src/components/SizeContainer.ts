@@ -1,4 +1,4 @@
-import { CSSProperties, createElement, FunctionComponent } from "react";
+import { CSSProperties, createElement, FunctionComponent, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
@@ -17,7 +17,7 @@ export interface SizeProps extends Dimensions {
     style?: CSSProperties;
 }
 
-export const SizeContainer: FunctionComponent<SizeProps> = ({
+export const SizeContainer: FunctionComponent<PropsWithChildren<SizeProps>> = ({
     className,
     widthUnit,
     width,

@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 const positionObserverValues = { top: 670, bottom: 700, left: 900, height: 40, width: 120, x: 900, y: 70 };

@@ -16,10 +16,10 @@ exports[`Signature renders the structure correctly 1`] = `
   penType="fountain"
   readOnly={false}
   showGrid={true}
-  style={Object {}}
+  style={{}}
   width={100}
   widthUnit="percentage"
-  wrapperStyle={Object {}}
+  wrapperStyle={{}}
 >
   <Alert
     bootstrapStyle="danger"
@@ -40,7 +40,7 @@ exports[`Signature renders the structure correctly 1`] = `
     showGrid={true}
     width={100}
     widthUnit="percentage"
-    wrapperStyle={Object {}}
+    wrapperStyle={{}}
   />
   <canvas
     className="widget-signature-canvas"
@@ -48,13 +48,7 @@ exports[`Signature renders the structure correctly 1`] = `
   <ResizeDetector
     handleHeight={true}
     handleWidth={true}
-    nodeType="div"
     onResize={[Function]}
-    querySelector={null}
-    refreshRate={1000}
-    skipOnMount={false}
-    targetDomEl={null}
-    targetRef={null}
   />
 </SizeContainer>
 `;

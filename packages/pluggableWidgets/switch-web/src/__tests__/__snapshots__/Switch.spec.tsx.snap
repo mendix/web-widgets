@@ -3,18 +3,18 @@
 exports[`Switch with editable value renders the structure correctly 1`] = `
 <Switch
   booleanAttribute={
-    Object {
+    {
       "displayValue": "Formatted false",
-      "formatter": Object {
-        "config": Object {},
+      "formatter": {
+        "config": {},
         "format": [MockFunction] {
-          "calls": Array [
-            Array [
+          "calls": [
+            [
               false,
             ],
           ],
-          "results": Array [
-            Object {
+          "results": [
+            {
               "type": "return",
               "value": "Formatted false",
             },
@@ -76,18 +76,18 @@ exports[`Switch with editable value renders the structure correctly 1`] = `
 exports[`Switch with readonly value renders the structure correctly 1`] = `
 <Switch
   booleanAttribute={
-    Object {
+    {
       "displayValue": "Formatted false",
-      "formatter": Object {
-        "config": Object {},
+      "formatter": {
+        "config": {},
         "format": [MockFunction] {
-          "calls": Array [
-            Array [
+          "calls": [
+            [
               false,
             ],
           ],
-          "results": Array [
-            Object {
+          "results": [
+            {
               "type": "return",
               "value": "Formatted false",
             },

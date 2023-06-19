@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useEffect, useRef, useState, useCallback } from "react";
+import { createElement, ReactElement, useEffect, useRef, useState, useCallback, SyntheticEvent } from "react";
 import {
     isBehindElement,
     isBehindRandomElement,
@@ -34,7 +34,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     }
 
     const onClickHandle = useCallback(
-        (e): void => {
+        (e: SyntheticEvent): void => {
             e.preventDefault();
             e.stopPropagation();
             setVisibility(prev => !prev);

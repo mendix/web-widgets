@@ -1,5 +1,5 @@
-import { SFC, createElement } from "react";
-import * as classNames from "classnames";
+import { FunctionComponent, createElement } from "react";
+import classNames from "classnames";
 
 export interface IconButtonProps {
     className?: string;
@@ -8,10 +8,10 @@ export interface IconButtonProps {
     onClick?: () => void;
 }
 
-export const IconButton: SFC<IconButtonProps> = ({ className, glyphIcon, onClick, type }) =>
-    createElement(type as string, {
-        className: classNames("glyphicon", `glyphicon-${glyphIcon}`, className),
-        onClick
+export const IconButton: FunctionComponent<IconButtonProps> = props =>
+    createElement(props.type as string, {
+        className: classNames("glyphicon", `glyphicon-${props.glyphIcon}`, props.className as string),
+        onClick: props.onClick
     });
 
 IconButton.defaultProps = { type: "i" };

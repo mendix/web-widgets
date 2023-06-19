@@ -10,7 +10,7 @@ exports[`Rating Container renders correctly the structure 1`] = `
       animate={true}
       empty={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }
@@ -22,7 +22,7 @@ exports[`Rating Container renders correctly the structure 1`] = `
       animate={true}
       full={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }
@@ -46,7 +46,7 @@ exports[`Rating Container renders correctly the structure when disabled 1`] = `
       animate={true}
       empty={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }
@@ -58,7 +58,7 @@ exports[`Rating Container renders correctly the structure when disabled 1`] = `
       animate={true}
       full={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }
@@ -82,7 +82,7 @@ exports[`Rating Container renders correctly the structure without animation 1`] 
       animate={false}
       empty={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }
@@ -94,7 +94,7 @@ exports[`Rating Container renders correctly the structure without animation 1`] 
       animate={false}
       full={true}
       value={
-        Object {
+        {
           "iconClass": "",
           "type": "icon",
         }

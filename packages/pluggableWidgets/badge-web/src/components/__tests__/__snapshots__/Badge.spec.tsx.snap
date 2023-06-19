@@ -48,7 +48,7 @@ exports[`Badge renders custom styles 1`] = `
 <span
   className="widget-badge badge"
   style={
-    Object {
+    {
       "padding": 5,
     }
   }

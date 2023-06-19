@@ -4,7 +4,7 @@ exports[`useIconGenerator returned function returns the icon when icon is animat
 <Icon
   animate={true}
   data={
-    Object {
+    {
       "iconClass": "icon-class",
       "type": "glyph",
     }
@@ -17,7 +17,7 @@ exports[`useIconGenerator returned function without icon animated returns the co
 <Icon
   animate={false}
   data={
-    Object {
+    {
       "iconClass": "collapse-icon-class",
       "type": "glyph",
     }
@@ -30,7 +30,7 @@ exports[`useIconGenerator returned function without icon animated returns the ex
 <Icon
   animate={false}
   data={
-    Object {
+    {
       "iconClass": "expand-icon-class",
       "type": "glyph",
     }

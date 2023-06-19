@@ -37,9 +37,9 @@ export interface TooltipPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    trigger: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    trigger: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     renderMethod: RenderMethodEnum;
-    htmlMessage: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    htmlMessage: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     textMessage: string;
     tooltipPosition: TooltipPositionEnum;
     arrowPosition: ArrowPositionEnum;

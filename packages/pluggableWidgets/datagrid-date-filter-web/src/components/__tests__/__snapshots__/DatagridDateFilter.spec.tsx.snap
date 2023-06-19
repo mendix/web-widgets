@@ -30,7 +30,7 @@ exports[`Date Filter with single instance with multiple attributes renders corre
       class="react-datepicker-wrapper"
     >
       <div
-        class="react-datepicker__input-container"
+        class="react-datepicker__input-container "
       >
         <span
           aria-live="polite"
@@ -97,7 +97,7 @@ exports[`Date Filter with single instance with single attribute renders correctl
       class="react-datepicker-wrapper"
     >
       <div
-        class="react-datepicker__input-container"
+        class="react-datepicker__input-container "
       >
         <span
           aria-live="polite"

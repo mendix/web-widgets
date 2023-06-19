@@ -1,4 +1,4 @@
-import { SFC, createElement } from "react";
+import { FunctionComponent, createElement, PropsWithChildren } from "react";
 import * as classNames from "classnames";
 import { IconButton } from "./IconButton";
 
@@ -12,8 +12,17 @@ export interface MendixButtonProps {
     disabled?: boolean;
 }
 
-export const MendixButton: SFC<MendixButtonProps> = ({ style, className, disabled, glyphIcon, onClick, children }) =>
-    createElement("button", {
+export const MendixButton: FunctionComponent<PropsWithChildren<MendixButtonProps>> = ({
+    style,
+    className,
+    disabled,
+    glyphIcon,
+    onClick,
+    children
+}) =>
+    createElement(
+        "button",
+        {
             className: classNames(`mx-button btn btn-${style}`, className, { disabled }),
             onClick
         },

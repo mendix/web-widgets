@@ -11,24 +11,30 @@ export interface SelectOption {
     isDefaultSelected: boolean;
 }
 
-export class Select extends Component<SelectProps> {
+export class Select extends Component<SelectProps, {}> {
     render() {
-        return createElement("select", { className: "form-control", onChange: this.onChange },
-                this.renderSelectOptions()
-            );
+        return createElement(
+            "select",
+            { className: "form-control", onChange: this.onChange },
+            this.renderSelectOptions()
+        );
     }
 
     private renderSelectOptions(): ReactElement<Partial<HTMLOptionElement>>[] {
         return this.props.options.map((option, index) =>
-            createElement("option", {
-                defaultSelected: option.isDefaultSelected,
-                value: option.value,
-                key: `select-option-${index}`
-            }, option.name)
+            createElement(
+                "option",
+                {
+                    defaultSelected: option.isDefaultSelected,
+                    value: option.value,
+                    key: `select-option-${index}`
+                },
+                option.name
+            )
         );
     }
 
     private onChange = ({ currentTarget }: SyntheticEvent<HTMLSelectElement>) => {
         this.props.onChange(currentTarget.value);
-    }
+    };
 }

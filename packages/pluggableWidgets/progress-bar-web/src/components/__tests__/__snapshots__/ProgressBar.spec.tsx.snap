@@ -11,7 +11,7 @@ exports[`Progress bar has progress bar structure 1`] = `
     <div
       className="progress-bar"
       style={
-        Object {
+        {
           "width": "23%",
         }
       }

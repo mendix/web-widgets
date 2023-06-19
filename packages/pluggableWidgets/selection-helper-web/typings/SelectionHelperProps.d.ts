@@ -31,7 +31,7 @@ export interface SelectionHelperPreviewProps {
     readOnly: boolean;
     renderStyle: RenderStyleEnum;
     checkboxCaption: string;
-    customAllSelected: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customSomeSelected: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customNoneSelected: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    customAllSelected: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customSomeSelected: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customNoneSelected: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
 }

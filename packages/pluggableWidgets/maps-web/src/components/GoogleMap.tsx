@@ -84,6 +84,7 @@ export function GoogleMap(props: GoogleMapsProps): ReactElement {
             {error && <Alert bootstrapStyle="danger">{error}</Alert>}
             <div className="widget-google-maps-wrapper">
                 {isLoaded ? (
+                    // @ts-ignore
                     <GoogleMapComponent
                         mapContainerClassName="widget-google-maps"
                         options={{
@@ -141,6 +142,7 @@ function GoogleMapsMarker({
 }): ReactElement {
     const markerRef = useRef<google.maps.MVCObject>();
     return (
+        // @ts-ignore
         <MarkerComponent
             position={{
                 lat: marker.latitude,
@@ -157,6 +159,7 @@ function GoogleMapsMarker({
             icon={marker.url}
         >
             {selectedMarker === marker && markerRef.current && (
+                // @ts-ignore
                 <InfoWindow
                     anchor={markerRef.current}
                     onCloseClick={() => setSelectedMarker(prev => (prev === marker ? undefined : prev))}

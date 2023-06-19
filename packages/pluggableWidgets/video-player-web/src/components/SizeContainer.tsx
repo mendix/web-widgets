@@ -1,4 +1,4 @@
-import { CSSProperties, Component, createElement } from "react";
+import { CSSProperties, Component, createElement, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels" | "aspectRatio";
@@ -15,7 +15,7 @@ export interface Dimensions {
     tabIndex?: number;
 }
 
-export interface SizeProps extends Dimensions {
+export interface SizeProps extends Dimensions, PropsWithChildren<any> {
     className: string;
     classNameInner?: string;
     style?: CSSProperties;

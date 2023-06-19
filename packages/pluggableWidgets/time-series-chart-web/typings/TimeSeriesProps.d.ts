@@ -49,8 +49,8 @@ export type YAxisRangeModeEnum = "normal" | "tozero" | "nonnegative";
 
 export interface LinesPreviewType {
     dataSet: DataSetEnum;
-    staticDataSource: {} | { type: string } | null;
-    dynamicDataSource: {} | { type: string } | null;
+    staticDataSource: {} | { caption: string } | { type: string } | null;
+    dynamicDataSource: {} | { caption: string } | { type: string } | null;
     staticName: string;
     dynamicName: string;
     groupByAttribute: string;

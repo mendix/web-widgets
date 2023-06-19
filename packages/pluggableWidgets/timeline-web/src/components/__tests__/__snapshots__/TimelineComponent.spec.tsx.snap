@@ -62,7 +62,7 @@ exports[`Timeline hides the timeline header 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }
@@ -172,7 +172,7 @@ exports[`Timeline renders timeline with basic configuration 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }
@@ -375,7 +375,7 @@ exports[`Timeline with action set change style when hovered 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }
@@ -438,7 +438,7 @@ exports[`Timeline with action set change style when hovered 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }
@@ -548,7 +548,7 @@ exports[`Timeline with action set renders with clickable styles 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }
@@ -611,7 +611,7 @@ exports[`Timeline with action set renders with clickable styles 1`] = `
           >
             <Icon
               icon={
-                Object {
+                {
                   "iconUrl": "iconUrl",
                   "type": "image",
                 }

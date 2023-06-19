@@ -1,6 +1,6 @@
 // Disable warning that hooks can be used only in components
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createElement, ReactElement, useCallback } from "react";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
 import { Table, TableColumn } from "./components/Table";
@@ -45,6 +45,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         (columnIndex: number, header: ReactElement) => {
             const column = columns[columnIndex];
             return (
+                // @ts-ignore
                 <Selectable
                     key={`selectable_column_${columnIndex}`}
                     caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
@@ -91,7 +92,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 },
                 [columns, selectableWrapperRenderer]
             )}
-            className={props.className}
+            className={props.class}
             columns={transformColumnProps(columns)}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
@@ -100,7 +101,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsSortable={props.columnsSortable}
             data={data}
             emptyPlaceholderRenderer={useCallback(
-                renderWrapper => (
+                (renderWrapper: (children: ReactNode) => ReactElement) => (
                     <EmptyPlaceholder caption="Empty list message: Place widgets here">
                         {renderWrapper(null)}
                     </EmptyPlaceholder>

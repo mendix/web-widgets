@@ -4,7 +4,7 @@ exports[`Calendar renders the structure correctly 1`] = `
 <div
   className="widget-calendar size-box"
   style={
-    Object {
+    {
       "height": "100px",
       "position": "relative",
       "width": "100px",
@@ -14,7 +14,7 @@ exports[`Calendar renders the structure correctly 1`] = `
   <div
     className="size-box-inner"
     style={
-      Object {
+      {
         "bottom": "0",
         "left": "0",
         "position": "absolute",
@@ -30,7 +30,7 @@ exports[`Calendar should render a structure correctly with percentage 1`] = `
 <div
   className="widget-calendar size-box"
   style={
-    Object {
+    {
       "height": "auto",
       "paddingBottom": "100%",
       "position": "relative",
@@ -41,7 +41,7 @@ exports[`Calendar should render a structure correctly with percentage 1`] = `
   <div
     className="size-box-inner"
     style={
-      Object {
+      {
         "bottom": "0",
         "left": "0",
         "position": "absolute",
@@ -57,7 +57,7 @@ exports[`Calendar should render a structure correctly with percentage of parent 
 <div
   className="widget-calendar size-box"
   style={
-    Object {
+    {
       "height": "100%",
       "position": "relative",
       "width": "100%",
@@ -67,7 +67,7 @@ exports[`Calendar should render a structure correctly with percentage of parent 
   <div
     className="size-box-inner"
     style={
-      Object {
+      {
         "bottom": "0",
         "left": "0",
         "position": "absolute",
@@ -83,7 +83,7 @@ exports[`Calendar should render a structure correctly with pixels 1`] = `
 <div
   className="widget-calendar size-box"
   style={
-    Object {
+    {
       "height": "100px",
       "position": "relative",
       "width": "100px",
@@ -93,7 +93,7 @@ exports[`Calendar should render a structure correctly with pixels 1`] = `
   <div
     className="size-box-inner"
     style={
-      Object {
+      {
         "bottom": "0",
         "left": "0",
         "position": "absolute",

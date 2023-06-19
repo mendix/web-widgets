@@ -1,4 +1,4 @@
-import { CSSProperties, SFC, createElement } from "react";
+import { CSSProperties, FC, createElement, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
@@ -12,14 +12,14 @@ export interface Dimensions {
     height: number;
 }
 
-export interface SizeProps extends Dimensions {
+export interface SizeProps extends Dimensions, PropsWithChildren {
     className: string;
     classNameInner?: string;
     readOnly?: boolean;
     style?: CSSProperties;
 }
 
-export const SizeContainer: SFC<SizeProps> = ({
+export const SizeContainer: FC<SizeProps> = ({
     className,
     classNameInner,
     widthUnit,

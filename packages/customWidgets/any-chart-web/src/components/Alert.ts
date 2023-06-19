@@ -1,4 +1,4 @@
-import { SFC, createElement } from "react";
+import { FunctionComponent, createElement, PropsWithChildren } from "react";
 import * as classNames from "classnames";
 
 export interface AlertProps {
@@ -6,9 +6,13 @@ export interface AlertProps {
     className?: string;
 }
 
-export const Alert: SFC<AlertProps> = ({ bootstrapStyle, className, children }) =>
-    children
-        ? createElement("div", { className: classNames(`alert alert-${bootstrapStyle}`, className) }, children)
+export const Alert: FunctionComponent<PropsWithChildren<AlertProps>> = props =>
+    props.children
+        ? createElement(
+              "div",
+              { className: classNames(`alert alert-${props.bootstrapStyle}`, props.className) },
+              props.children
+          )
         : null;
 
 Alert.displayName = "Alert";

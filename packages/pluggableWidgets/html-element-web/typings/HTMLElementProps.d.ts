@@ -78,12 +78,12 @@ export interface HTMLElementPreviewProps {
     tagName: TagNameEnum;
     tagNameCustom: string;
     tagUseRepeat: boolean;
-    tagContentRepeatDataSource: {} | { type: string } | null;
+    tagContentRepeatDataSource: {} | { caption: string } | { type: string } | null;
     tagContentMode: TagContentModeEnum;
     tagContentHTML: string;
-    tagContentContainer: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    tagContentContainer: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     tagContentRepeatHTML: string;
-    tagContentRepeatContainer: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    tagContentRepeatContainer: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     attributes: AttributesPreviewType[];
     events: EventsPreviewType[];
 }

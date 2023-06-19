@@ -53,9 +53,9 @@ export interface ImagePreviewProps {
     imageObject: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     defaultImageDynamic: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     imageUrl: string;
-    imageIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
+    imageIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     isBackgroundImage: boolean;
-    children: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    children: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     onClickType: OnClickTypeEnum;
     onClick: {} | null;
     alternativeText: string;

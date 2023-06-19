@@ -8,6 +8,7 @@ import "../ui/Dropdown.scss";
 export function DropdownPreview(props: Partial<DropdownPreviewProps>): ReactElement {
     const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
+        // @ts-ignore
         <Downshift>
             {({ getInputProps, isOpen, getToggleButtonProps }) => (
                 <div className="widget-dropdown">

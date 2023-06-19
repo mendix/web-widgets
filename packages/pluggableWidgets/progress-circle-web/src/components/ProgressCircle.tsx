@@ -48,7 +48,7 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
     const alertMessage = getValuesErrorMessage(currentValue, minValue, maxValue);
 
     const setProgressCircleElement = useCallback(
-        (node: HTMLDivElement | null) => {
+        (node: any) => {
             if (node !== null) {
                 const circleElement = new Circle(node, defaultOptions);
                 circleElement.path.className.baseVal = "widget-progress-circle-path";

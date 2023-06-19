@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ComponentType, CSSProperties } from "react";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, WebIcon } from "mendix";
 
 export type GroupByKeyEnum = "day" | "month" | "year";
@@ -48,22 +48,22 @@ export interface TimelinePreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    data: {} | { type: string } | null;
+    data: {} | { caption: string } | { type: string } | null;
     title: string;
     description: string;
     timeIndication: string;
     customVisualization: boolean;
-    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; } | null;
+    icon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     groupEvents: boolean;
     groupAttribute: string;
     groupByKey: GroupByKeyEnum;
     groupByDayOptions: GroupByDayOptionsEnum;
     groupByMonthOptions: GroupByMonthOptionsEnum;
     ungroupedEventsPosition: UngroupedEventsPositionEnum;
-    customIcon: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customGroupHeader: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customTitle: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customEventDateTime: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
-    customDescription: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    customIcon: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customGroupHeader: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customTitle: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customEventDateTime: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    customDescription: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     onClick: {} | null;
 }

@@ -25,5 +25,5 @@ export interface FieldsetPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     legend: string;
-    content: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
 }

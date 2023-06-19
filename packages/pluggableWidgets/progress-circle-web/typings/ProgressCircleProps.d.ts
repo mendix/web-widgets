@@ -56,5 +56,5 @@ export interface ProgressCirclePreviewProps {
     showLabel: boolean;
     labelType: LabelTypeEnum;
     labelText: string;
-    customLabel: { widgetCount: number; renderer: ComponentType<{ caption?: string }> };
+    customLabel: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
 }
