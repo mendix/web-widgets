@@ -23,7 +23,7 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
         if (!needsExecution.current) {
             return;
         }
-        if (props.targetId && props.targetId.status !== "available") {
+        if (props.targetId?.status !== "available") {
             return;
         }
         if (!areParametersReady(props.parameters)) {
@@ -76,7 +76,7 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
         if (!needsExecution.current) {
             return;
         }
-        if (props.targetId && props.targetId.status !== "available") {
+        if (props.targetId?.status !== "available") {
             return;
         }
         if (!areParametersReady(props.parameters)) {

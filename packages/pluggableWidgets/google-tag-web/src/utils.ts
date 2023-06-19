@@ -15,6 +15,10 @@ function prepareValue(p: ParametersType): string | boolean {
         return getPredefinedValue(p.predefinedValue);
     }
 
+    if (typeof p.customValue?.value !== "string") {
+        throw new TypeError("Expected customValue to be a string");
+    }
+
     const value = p.customValue.value;
 
     return value === "false" ? false : value === "true" ? true : replaceFullPathToken(value);
