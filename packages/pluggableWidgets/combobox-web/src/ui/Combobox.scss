@@ -6,7 +6,7 @@ $selected-item: #e6eaff;
 $highlighted-index: #f5f6f6;
 $unselected-item: #ffffff;
 $hover-color: #ced0d3;
-
+$disabled-color: #f8f8f8;
 .widget-combobox {
     flex-grow: 1;
     transition: color 150ms ease 0s;
@@ -88,7 +88,14 @@ $hover-color: #ced0d3;
     }
 
     &-placeholder {
-        background-color: transparent;
-        flex-grow: 1;
+        background-color: $disabled-color !important;
+        justify-content: flex-end !important;
+        border: 1px solid #e7e7e9;
+        cursor: not-allowed;
+        &-down-arrow {
+            svg {
+                fill: $hover-color;
+            }
+        }
     }
 }
