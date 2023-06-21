@@ -21,4 +21,19 @@ describe("datagrid-number-filter-web", () => {
             cy.get(".mx-name-datagrid1 .td").should("have.text", "12test3test3");
         });
     });
+
+    describe("with Default value", () => {
+        it("set init condition (apply filer right after load", () => {
+            // NBSP is coming from "FilterSelector" (facepalm)
+            const NBSP = " ";
+            const expected = [`First nameYear${NBSP}`, "Delia1987", "Lizzie1987"];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid21 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid21 .paging-status").should("have.text", "1 to 2 of 2");
+        });
+    });
 });

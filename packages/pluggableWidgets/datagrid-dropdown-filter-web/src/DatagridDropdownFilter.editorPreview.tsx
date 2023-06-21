@@ -8,7 +8,7 @@ export function preview(props: DatagridDropdownFilterPreviewProps): ReactElement
         <FilterComponent
             ariaLabel={props.ariaLabel}
             className={props.className}
-            defaultValue={props.defaultValue}
+            initialSelected={props.defaultValue}
             options={[{ caption: "optionCaption", value: "option" }]}
             styles={parseStyle(props.style)}
         />

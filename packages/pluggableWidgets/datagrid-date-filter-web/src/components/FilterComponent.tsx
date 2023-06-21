@@ -1,11 +1,11 @@
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
-
+import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
+import { createElement, CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { DefaultFilterEnum } from "../../typings/DatagridDateFilterProps";
-
-import DatePickerComponent from "react-datepicker";
-import { DatePicker, RangeDateValue } from "./DatePicker";
 import classNames from "classnames";
+import DatePickerComponent from "react-datepicker";
+import { useSetInitialConditionEffect } from "../features/initialize";
+import { DatePicker, RangeDateValue } from "./DatePicker";
 
 interface FilterComponentProps {
     adjustable: boolean;
@@ -33,15 +33,24 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [rangeValues, setRangeValues] = useState<RangeDateValue>([props.defaultStartDate, props.defaultEndDate]);
     const pickerRef = useRef<DatePickerComponent | null>(null);
 
-    useEffect(() => {
-        props.updateFilters?.(value, rangeValues, type);
-    }, [value, rangeValues, type]);
+    useWatchValues(
+        (_prev, _next) => {
+            props.updateFilters?.(value, rangeValues, type);
+        },
+        [value, rangeValues, type]
+    );
 
     const focusInput = useCallback(() => {
         if (pickerRef.current) {
             pickerRef.current.setFocus();
         }
     }, [pickerRef.current]);
+
+    useSetInitialConditionEffect({
+        initialFilterType: type,
+        initialFilterValue: value ?? rangeValues,
+        updateFilters: props.updateFilters
+    });
 
     return (
         <div

@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-text-filter-web",
   "widgetName": "DatagridTextFilter",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -22,7 +22,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-text-filter-web"
+    "branchName": "datagrid-text-filter-web-9d04c79"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {

@@ -35,4 +35,24 @@ describe("datagrid-date-filter-web", () => {
         cy.get(".mx-name-layoutGrid1").first().click();
         cy.get(".mx-name-datagrid1 .td").should("contain.text", "10/5/2020");
     });
+
+    describe("with Default value", () => {
+        it("set initial condition (apply filter right after load)", () => {
+            cy.visit("/#/filter_init_condition", { timeout: 1000 });
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid22 [role=row]").eq(1).should("have.text", "Chester2/20/2003");
+            cy.get(".mx-name-dataGrid22 [role=row]").eq(7).should("have.text", "Tyler5/31/2001");
+            cy.get(".mx-name-dataGrid22 [role=row]").should("have.length", 1 + 7);
+        });
+    });
+
+    describe("with Default start and Default end dates", () => {
+        it("set initial condition (apply filter right after load)", () => {
+            cy.visit("/#/filter_init_condition", { timeout: 1000 });
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid21 [role=row]").eq(1).should("have.text", "Jayden4/21/1993");
+            cy.get(".mx-name-dataGrid21 [role=row]").eq(10).should("have.text", "Inez8/13/1992");
+            cy.get(".mx-name-dataGrid21 [role=row]").should("have.length", 1 + 10);
+        });
+    });
 });

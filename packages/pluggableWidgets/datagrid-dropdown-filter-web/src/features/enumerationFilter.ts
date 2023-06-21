@@ -8,9 +8,10 @@ import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { DatagridDropdownFilterContainerProps, FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
-import { FilterComponentProps, FilterOption, FilterValueChangeCallback } from "../components/FilterComponent";
+import { FilterComponentProps } from "../components/FilterComponent";
 import { attributeNotFound, invalidOptionValue, requiredAttributesNotFound } from "./configurationErrors";
 import { AttributeTypeError, ConfigurationError } from "./errors";
+import { Option } from "../utils/types";
 
 type EnumFilterError = ConfigurationError | AttributeTypeError;
 
@@ -31,7 +32,7 @@ function findAttributesByType(multipleAttributes?: { [key: string]: ListAttribut
         .filter(attr => isEnumType(attr.type));
 }
 
-function attributeToOptions(attribute: ListAttributeValue): FilterOption[] {
+function attributeToOptions(attribute: ListAttributeValue): Option[] {
     if (!attribute.universe) {
         return [];
     }
@@ -56,10 +57,7 @@ function isNotAllowedValue(attr: ListAttributeValue, value: string): boolean {
     return !universe.includes(universeValue(attr.type, value));
 }
 
-function validateCustomOptions(
-    attributes: ListAttributeValue[],
-    options: FilterOption[]
-): ConfigurationError | undefined {
+function validateCustomOptions(attributes: ListAttributeValue[], options: Option[]): ConfigurationError | undefined {
     const invalidOption = options.find(option => attributes.every(attr => isNotAllowedValue(attr, option.value)));
 
     if (invalidOption) {
@@ -69,7 +67,7 @@ function validateCustomOptions(
 
 function getFilterCondition(
     listAttribute: ListAttributeValue | undefined,
-    values: FilterOption[]
+    values: Option[]
 ): FilterCondition | undefined {
     if (!listAttribute || !listAttribute.filterable || values.length === 0) {
         return undefined;
@@ -147,7 +145,7 @@ type GetOptionsParams = {
     customOptions: FilterOptionsType[];
 };
 
-export function getOptions(params: GetOptionsParams): ValueMeta<FilterOption[], EnumFilterError> {
+export function getOptions(params: GetOptionsParams): ValueMeta<Option[], EnumFilterError> {
     const { autoOptions, attributes, customOptions } = params;
 
     if (autoOptions) {
@@ -174,8 +172,8 @@ export function getOnChange(
     dispatch: ConditionDispatch,
     attributes: AttrsArray,
     widgetProps: DatagridDropdownFilterContainerProps
-): FilterValueChangeCallback {
-    return (values: FilterOption[]): void => {
+): (values: Option[]) => void {
+    return (values: Option[]): void => {
         const valuesString = values.map(v => v.value).join(",");
         const attributeCurrentValue = widgetProps.valueAttribute?.value || "";
         if (valuesString !== attributeCurrentValue) {
@@ -231,7 +229,7 @@ export function getFilterProps(
     return value({
         updateFilters: onChange,
         options: options.value,
-        defaultValue,
+        initialSelected: defaultValue,
         ariaLabel: ariaLabel?.value,
         className: classProp,
         emptyOptionCaption: emptyOptionCaption?.value,

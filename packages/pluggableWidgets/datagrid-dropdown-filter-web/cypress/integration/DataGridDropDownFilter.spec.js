@@ -39,4 +39,111 @@ describe("datagrid-dropdown-filter-web", () => {
             cy.get(".mx-name-datagrid1 .td").should("have.length", 0);
         });
     });
+
+    describe("with Default value", () => {
+        it("in single mode, set init condition for boolean", () => {
+            const expected = [
+                "First namePets (boolean)",
+                "LorettaYes",
+                "ChadYes",
+                "JosieYes",
+                "ChesterYes",
+                "CoreyYes",
+                "BryanYes",
+                "DonYes",
+                "FloydYes",
+                "CeceliaYes",
+                "OpheliaYes"
+            ];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid21 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid21 .paging-status").should("have.text", "1 to 10 of 27");
+        });
+
+        it("in single mode, set init condition for enum", () => {
+            const expected = [
+                "First nameColor (enum)",
+                "ChesterCyan",
+                "DeliaCyan",
+                "LizzieCyan",
+                "DeanCyan",
+                "MitchellCyan"
+            ];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid22 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid22 .paging-status").should("have.text", "1 to 5 of 5");
+        });
+
+        it("in multi mode, set init condition for boolean", () => {
+            const expected = [
+                "First namePets (boolean)",
+                "LorettaYes",
+                "ChadYes",
+                "JosieYes",
+                "ChesterYes",
+                "CoreyYes",
+                "BryanYes",
+                "DonYes",
+                "FloydYes",
+                "CeceliaYes",
+                "OpheliaYes"
+            ];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid23 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid23 .paging-status").should("have.text", "1 to 10 of 27");
+        });
+
+        it("in multi mode, set init condition for enum", () => {
+            const expected = [
+                "First nameColor (enum)",
+                "ChesterCyan",
+                "DeliaCyan",
+                "LizzieCyan",
+                "DeanCyan",
+                "MitchellCyan"
+            ];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid24 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid24 .paging-status").should("have.text", "1 to 5 of 5");
+        });
+
+        it("in multi mode, with multiple default values, set init condition for enum", () => {
+            const expected = [
+                "First nameColor (enum)",
+                "ChadRed",
+                "JosieRed",
+                "ChesterCyan",
+                "DeliaCyan",
+                "CoreyBlue",
+                "BryanBlue",
+                "LuellaBlue",
+                "LizzieCyan",
+                "DollieRed",
+                "HesterRed"
+            ];
+
+            cy.visit("/#/filter_init_condition");
+            cy.reload(true);
+            cy.get(".mx-name-dataGrid25 [role=row]").each((row, index) => {
+                cy.wrap(row).should("have.text", expected[index]);
+            });
+            cy.get(".mx-name-dataGrid25 .paging-status").should("have.text", "1 to 10 of 19");
+        });
+    });
 });

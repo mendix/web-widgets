@@ -5,6 +5,7 @@ import { Big } from "big.js";
 import classNames from "classnames";
 import { useFilterState, useStateChangeEffects } from "../features/filter-state";
 import { toInputValue } from "../utils/value";
+import { useSetInitialConditionEffect } from "../features/initialize";
 
 interface FilterProps {
     adjustable: boolean;
@@ -83,6 +84,8 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         type: props.initialFilterType
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
+
+    useSetInitialConditionEffect(props);
 
     return (
         <PureFilterInput
