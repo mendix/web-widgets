@@ -21,7 +21,8 @@ describe("Combo box (Association)", () => {
             id: "comboBox1",
             optionsSourceType: "association",
             attributeAssociation: new ReferenceValueBuilder().withValue({ id: "DefaultValue" as GUID }).build(),
-            attributeEnumerationOrBoolean: new EditableValueBuilder<string>().build(),
+            attributeEnumeration: new EditableValueBuilder<string>().build(),
+            attributeBoolean: new EditableValueBuilder<boolean>().build(),
             optionsSourceAssociationDataSource: ListValueBuilder().withItems([
                 { id: "Netherlands" },
                 { id: "France" },
