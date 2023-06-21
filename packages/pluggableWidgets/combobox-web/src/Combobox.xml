@@ -19,12 +19,18 @@
                     </enumerationValues>
                 </property>
 
-                <!-- ENUM OR BOOLEAN -->
-                <property key="attributeEnumerationOrBoolean" type="attribute" required="true">
+                <!-- ENUM OR BOOLEAN SPLIT THESE SO THEY BRING SEPARATE TYPES OF ATTRIBUTES-->
+                <property key="attributeEnumeration" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="attributeBoolean" type="attribute" required="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
                         <attributeType name="Boolean" />
                     </attributeTypes>
                 </property>

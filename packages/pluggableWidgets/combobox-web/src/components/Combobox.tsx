@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Downshift from "downshift";
-import { createElement, ReactElement, useRef } from "react";
+import { createElement, ReactElement, useRef, useState } from "react";
 import { useActionEvents } from "../hooks/useActionEvents";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { ClearButton, DownArrow } from "../assets/icons";
@@ -15,10 +15,21 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
     const selector = useGetSelector(props);
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
     const actionEvents = useActionEvents(props);
-    const readOnly = props.attributeEnumerationOrBoolean?.readOnly ?? props.attributeAssociation?.readOnly;
+    const [focused, setFocused] = useState(false);
+    const readOnly =
+        (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
+        props.attributeAssociation?.readOnly;
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
+    }
+
+    function handleFocus(): void {
+        setFocused(true);
+    }
+
+    function handleBlur(): void {
+        setFocused(false);
     }
 
     return (
@@ -36,20 +47,22 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                 <div className="widget-combobox" {...actionEvents}>
                     <div
                         ref={comboboxRef}
+                        tabIndex={-1}
                         className={classNames("form-control", "widget-combobox-input-container", {
-                            "widget-combobox-input-container-active":
-                                isOpen || document.activeElement === inputRef.current
+                            "widget-combobox-input-container-active": isOpen || focused
                         })}
                         {...getToggleButtonProps({
                             disabled: readOnly
                         })}
                     >
                         <input
-                            tabIndex={0}
                             id="widget-combobox-input"
                             className="widget-combobox-input"
+                            tabIndex={0}
                             ref={inputRef}
                             {...getInputProps({
+                                onFocus: handleFocus,
+                                onBlur: handleBlur,
                                 disabled: readOnly
                             })}
                             placeholder={

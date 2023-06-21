@@ -16,7 +16,8 @@ export interface ComboboxContainerProps {
     tabIndex?: number;
     id: string;
     optionsSourceType: OptionsSourceTypeEnum;
-    attributeEnumerationOrBoolean: EditableValue<string | boolean>;
+    attributeEnumeration: EditableValue<string>;
+    attributeBoolean: EditableValue<boolean>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
@@ -34,7 +35,8 @@ export interface ComboboxContainerProps {
 export interface ComboboxPreviewProps {
     readOnly: boolean;
     optionsSourceType: OptionsSourceTypeEnum;
-    attributeEnumerationOrBoolean: string;
+    attributeEnumeration: string;
+    attributeBoolean: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;

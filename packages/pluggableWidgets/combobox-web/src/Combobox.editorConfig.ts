@@ -14,9 +14,12 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);
+            hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
         }
     } else if (values.optionsSourceType === "association") {
-        hidePropertiesIn(defaultProperties, values, ["attributeEnumerationOrBoolean"]);
+        hidePropertiesIn(defaultProperties, values, ["attributeEnumeration", "attributeBoolean"]);
         if (values.optionsSourceAssociationCaptionType === "attribute") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
         } else {
