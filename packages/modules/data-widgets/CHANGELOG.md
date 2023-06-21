@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We removed dead span styling from module SCSS
+
 ## [2.8.1] DataWidgets - 2023-06-09
 
 ### [2.4.2] DatagridDropdownFilter

@@ -253,26 +253,14 @@ $grid-selected-row-background: $brand-light;
 
     .align-column-left {
         justify-content: flex-start;
-
-        span {
-            justify-content: flex-start;
-        }
     }
 
     .align-column-center {
         justify-content: center;
-
-        span {
-            justify-content: center;
-        }
     }
 
     .align-column-right {
         justify-content: flex-end;
-
-        span {
-            justify-content: flex-end;
-        }
     }
 }
 
