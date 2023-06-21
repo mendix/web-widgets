@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue causing popup menu to appear behind other elements(modal popups). This fix will move popupmenu-menu wrapper DOM in the same level as the trigger button. Thus, custom styling targeting the popup menu might affected.
+
 ## [3.4.0] - 2023-06-05
 
 ### Changed
@@ -13,10 +17,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   We updated the light and dark icons and tiles for the widget.
 
 -   We changed colors in the structure mode preview for dark and light modes.
-
-### Fixed
-
--   We fixed an issue causing popup menu to appear behind other elements(modal popups)
 
 ## [3.3.0] - 2023-01-04
 

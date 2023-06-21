@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+-   We fixed popup menu showing on top of datagrid filter in sticky position.
 -   We removed dead span styling from module SCSS
 
 ### [2.5.2] DatagridDateFilter

@@ -49,7 +49,7 @@ $grid-selected-row-background: $brand-light;
         position: -webkit-sticky; /* Safari */
         position: sticky;
         top: 0;
-        z-index: 1;
+        z-index: 50;
         min-width: 0;
 
         /* Clickable column header (Sortable) */
@@ -221,7 +221,7 @@ $grid-selected-row-background: $brand-light;
         }
 
         > .td-text,
-        * {
+        > * {
             white-space: nowrap;
             word-break: break-word;
             text-overflow: ellipsis;

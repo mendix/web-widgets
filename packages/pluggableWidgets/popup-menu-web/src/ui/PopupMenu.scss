@@ -1,6 +1,11 @@
 .popupmenu {
     position: relative;
     display: inline-flex;
+    overflow: visible;
+}
+
+.table .td > .popupmenu {
+    overflow: visible;
 }
 
 .popupmenu-trigger {
