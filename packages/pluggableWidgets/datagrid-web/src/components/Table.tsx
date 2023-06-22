@@ -222,7 +222,10 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                   onKeyDown={
                                       onClick
                                           ? e => {
-                                                if (e.key === "Enter" || e.key === " ") {
+                                                if (
+                                                    (e.key === "Enter" || e.key === " ") &&
+                                                    e.target === e.currentTarget
+                                                ) {
                                                     e.preventDefault();
                                                     onClick();
                                                 }

@@ -472,7 +472,7 @@ describe("Table", () => {
 
             const [input] = screen.getAllByRole("textbox");
             await user.click(input);
-            await user.keyboard("Hello...{Enter}{Enter}is{Space}it{Space}me{Space}you're{Space}looking{Space}for?");
+            await user.keyboard("Hello...{Enter}{Enter}is it me you're looking for?");
             expect(input).toHaveValue("Hello...\n\nis it me you're looking for?");
         });
     });
