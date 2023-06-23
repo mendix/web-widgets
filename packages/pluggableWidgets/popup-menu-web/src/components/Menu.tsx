@@ -12,7 +12,7 @@ export interface MenuProps extends PopupMenuContainerProps {
     onItemClick: (itemAction: ActionValue) => void;
 }
 export function Menu(props: MenuProps): ReactElement {
-    const popupRef = useRef<HTMLDivElement>(null);
+    const popupRef = useRef<HTMLUListElement>(null);
     const anchorElement = props.anchorElement;
     const popupStyles = useMenuPlacement(anchorElement, props.position);
 
@@ -22,7 +22,7 @@ export function Menu(props: MenuProps): ReactElement {
 
     return createPortal(
         <div className="widget-popupmenu-root">
-            <div
+            <ul
                 ref={popupRef}
                 style={popupStyles}
                 className={classNames(
@@ -33,7 +33,7 @@ export function Menu(props: MenuProps): ReactElement {
                 )}
             >
                 {menuOptions}
-            </div>
+            </ul>
         </div>,
         anchorElement
     );
@@ -55,14 +55,14 @@ function createMenuOptions(
             .filter(item => checkVisibility(item))
             .map((item, index) => {
                 if (item.itemType === "divider") {
-                    return <div key={index} className={"popupmenu-basic-divider"} />;
+                    return <li key={index} className={"popupmenu-basic-divider"} />;
                 } else {
                     const pickedStyle =
                         item.styleClass !== "defaultStyle"
                             ? "popupmenu-basic-item-" + item.styleClass.replace("Style", "")
                             : "";
                     return (
-                        <div
+                        <li
                             key={index}
                             className={classNames("popupmenu-basic-item", pickedStyle)}
                             onClick={e => {
@@ -72,7 +72,7 @@ function createMenuOptions(
                             }}
                         >
                             {item.caption?.value ?? ""}
-                        </div>
+                        </li>
                     );
                 }
             });
@@ -80,7 +80,7 @@ function createMenuOptions(
         return props.customItems
             .filter(item => checkVisibility(item))
             .map((item, index) => (
-                <div
+                <li
                     key={index}
                     className={"popupmenu-custom-item"}
                     onClick={e => {
@@ -90,7 +90,7 @@ function createMenuOptions(
                     }}
                 >
                     {item.content}
-                </div>
+                </li>
             ));
     }
 }

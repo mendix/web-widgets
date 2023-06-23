@@ -5,6 +5,11 @@
     flex-direction: column;
 }
 
+ul.popupmenu-menu {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
 .table .td > .popupmenu {
     overflow: visible;
 }
