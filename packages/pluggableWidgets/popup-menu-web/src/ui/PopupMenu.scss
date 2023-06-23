@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     overflow: visible;
+    flex-direction: column;
 }
 
 .table .td > .popupmenu {
