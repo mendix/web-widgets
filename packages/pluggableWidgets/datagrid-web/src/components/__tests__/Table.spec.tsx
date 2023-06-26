@@ -3,7 +3,7 @@ import * as testingLibrary from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
-import { Table, TableProps } from "../Table";
+import { CellRenderer, Table, TableProps } from "../Table";
 import { objectItems } from "@mendix/pluggable-test-utils";
 import "@testing-library/jest-dom";
 import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
@@ -456,6 +456,24 @@ describe("Table", () => {
             await userEvent.click(cell3);
             expect(onSelect).toHaveBeenCalledTimes(5);
             expect(onSelect).toHaveBeenLastCalledWith(items[1]);
+        });
+    });
+
+    describe("when has interactive element", () => {
+        it("should not prevent default on keyboard input (space and Enter)", async () => {
+            const { render, screen } = testingLibrary;
+            const items = objectItems(3);
+            const onClickAction = jest.fn();
+            const cellRenderer: CellRenderer = (renderWrapper, _value, _columnIndex) =>
+                renderWrapper(<textarea />, undefined, onClickAction);
+            const user = userEvent.setup();
+
+            render(<Table {...mockTableProps()} data={items} cellRenderer={cellRenderer} />);
+
+            const [input] = screen.getAllByRole("textbox");
+            await user.click(input);
+            await user.keyboard("Hello...{Enter}{Enter}is it me you're looking for?");
+            expect(input).toHaveValue("Hello...\n\nis it me you're looking for?");
         });
     });
 });
