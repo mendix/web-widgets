@@ -1,7 +1,7 @@
 {
   "name": "@mendix/google-tag-web",
   "widgetName": "GoogleTag",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "gtag.js integration widget",
   "copyright": "© Mendix Technology BV 2022. All rights reserved.",
   "private": true,
