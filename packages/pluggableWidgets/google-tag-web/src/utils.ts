@@ -59,9 +59,8 @@ export function executeCommand(
 ): void {
     switch (command) {
         case "config": {
-            if (commonGtag!.ensureGtagIncluded(tagId)) {
-                commonGtag!.getGtag()(command, tagId, params);
-            }
+            commonGtag!.ensureGtagIncluded(tagId);
+            commonGtag!.getGtag()(command, tagId, params);
             break;
         }
         case "event": {

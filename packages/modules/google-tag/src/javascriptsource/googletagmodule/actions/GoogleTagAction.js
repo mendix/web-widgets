@@ -60,8 +60,8 @@ export async function GoogleTagAction(command, tagID, eventName, parameters) {
 
 	switch (cmd) {
         case "config": {
-            document.mxGtag.ensureGtagIncluded(tagId);
-            document.mxGtag.getGtag()(cmd, tagId, params);
+            document.mxGtag.ensureGtagIncluded(tagID);
+            document.mxGtag.getGtag()(cmd, tagID, params);
             break;
         }
         case "event": {
