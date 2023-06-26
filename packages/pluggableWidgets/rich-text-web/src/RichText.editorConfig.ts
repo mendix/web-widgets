@@ -1,5 +1,11 @@
 import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
-import { Properties, hidePropertiesIn, transformGroupsIntoTabs, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
+import {
+    Properties,
+    hidePropertiesIn,
+    transformGroupsIntoTabs,
+    hidePropertyIn,
+    Problem
+} from "@mendix/pluggable-widgets-tools";
 
 import { RichTextPreviewProps } from "../typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
@@ -78,4 +84,16 @@ export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): St
 
 export function getCustomCaption(values: RichTextPreviewProps, _platform = "desktop"): string {
     return values.stringAttribute || "Rich Text";
+}
+
+export function check(values: RichTextPreviewProps): Problem[] {
+    const errors: Problem[] = [];
+
+    if (values.enableUploadImages && !values.uploadImageEndpoint) {
+        errors.push({
+            property: "uploadImageEndpoint",
+            message: "The 'uploadImageEndpoint' property is required when 'Upload Image is enabled'."
+        });
+    }
+    return errors;
 }
