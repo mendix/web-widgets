@@ -62,7 +62,7 @@
     "json-source-map": "^0.6.1",
     "plotly.js": "^2.24.2",
     "react-ace": "^10.1.0",
-    "react-redux": "^8.0.5",
+    "react-redux": "^8.1.1",
     "react-resize-detector": "^9.1.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"
