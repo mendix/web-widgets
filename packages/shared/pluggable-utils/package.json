@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@types/big.js": "^6.1.6",
-    "big.js": "^6.0.2",
+    "big.js": "^6.2.1",
     "mendix": "^9.24.2965"
   }
 }
