@@ -191,3 +191,27 @@ describe("CKEditor configuration", () => {
         });
     });
 });
+
+describe("RichText Image Upload", () => {
+    window.mx = {
+        remoteUrl: "https://example.com",
+        session: {
+            getConfig: (value: string) => value + "config"
+        }
+    };
+
+    const uploadImageProps = {
+        ...defaultRichTextProps,
+        enableUploadImages: true,
+        uploadImageEndpoint: "/rest/image/v1/image/demo-editor"
+    };
+
+    it("renders dom elements with upload image enabled", () => {
+        const richText = mount(<RichText {...uploadImageProps} />);
+        expect(richText).toBeDefined();
+        expect(richText.find(`#${uploadImageProps.name}`)).toBeDefined();
+
+        const richTextElement = richText.find(".widget-rich-text");
+        expect(richTextElement?.getElements().length).toBeGreaterThan(0);
+    });
+});
