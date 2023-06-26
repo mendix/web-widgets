@@ -115,6 +115,19 @@ export class Editor extends Component<EditorProps> {
         const onDestroy = this.onDestroy.bind(this);
         const config = getCKEditorConfig(this.widgetProps);
 
+        // By default CKEditor puts the width and height in style which cause problem after sanitization.
+        // So we disallow width and height in style and use properties instead
+        if (this.widgetProps.enableUploadImages) {
+            config.extraAllowedContent = { img: { attributes: [] }, ...config.extraAllowedContent };
+            config.extraAllowedContent.img.attributes = [
+                ...config.extraAllowedContent.img.attributes,
+                "width",
+                "height"
+            ];
+            config.disallowedContent = { img: { styles: [] }, ...config.disallowedContent };
+            config.disallowedContent.img.styles = [...config.disallowedContent.img.styles, "width", "height"];
+        }
+
         return {
             element: this.element,
             editorUrl: this.getEditorUrl(),
