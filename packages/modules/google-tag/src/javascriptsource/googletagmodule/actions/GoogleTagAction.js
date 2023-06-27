@@ -5,6 +5,7 @@
 // - the code between BEGIN USER CODE and END USER CODE
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
+import "mx-global";
 import { Big } from "big.js";
 
 // BEGIN EXTRA CODE
@@ -41,7 +42,7 @@ if (document.mxGtag === undefined) {
 // END EXTRA CODE
 
 /**
- * @param {"GoogleTagModule.GoogleTagCommandType.Config"|"GoogleTagModule.GoogleTagCommandType.Event"} command - Event can be used to send an event. Config can be used to configure advanced configuration parameters and can only be used once.
+ * @param {"GoogleTagModule.GoogleTagCommandType.Config"|"GoogleTagModule.GoogleTagCommandType.Event"} command - Event can be used to send an event. Config can be used to configure advanced configuration parameters.
  * @param {string} tagID - Examples of tag IDs include GT-XXXXXXXXX, G-XXXXXXXXX, and AW-XXXXXXXXX
  * @param {string} eventName
  * @param {MxObject[]} parameters
@@ -55,8 +56,6 @@ export async function GoogleTagAction(command, tagID, eventName, parameters) {
 		return a; 
 	}, {});
 	const cmd = command.split(".").pop().toLowerCase();
-
-	console.log(cmd, params);
 
 	switch (cmd) {
         case "config": {

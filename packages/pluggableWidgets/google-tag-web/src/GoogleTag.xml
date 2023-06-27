@@ -64,7 +64,7 @@
             <!-- Advanced config options -->
             <property key="command" type="enumeration" required="true" defaultValue="event">
                 <caption>Command</caption>
-                <description>Event can be used to send an event. Config can be used to configure advanced configuration parameters and can only be used once.</description>
+                <description>Event can be used to send an event. Config can be used to configure advanced configuration parameters.</description>
                 <enumerationValues>
                     <enumerationValue key="event">Event</enumerationValue>
                     <enumerationValue key="config">Config</enumerationValue>
