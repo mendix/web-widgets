@@ -19,7 +19,7 @@
                     </enumerationValues>
                 </property>
 
-                <!-- ENUM OR BOOLEAN SPLIT THESE SO THEY BRING SEPARATE TYPES OF ATTRIBUTES-->
+                <!-- ENUM & BOOLEAN-->
                 <property key="attributeEnumeration" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
@@ -34,8 +34,7 @@
                         <attributeType name="Boolean" />
                     </attributeTypes>
                 </property>
-                <!-- END ENUM OR BOOLEAN -->
-
+                <!-- END ENUM & BOOLEAN -->
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
