@@ -15,6 +15,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       class="form-control widget-combobox-input-container"
       data-toggle="true"
       role="button"
+      tabindex="-1"
       type="button"
     >
       <input
@@ -23,9 +24,9 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         autocomplete="off"
         class="widget-combobox-input"
         id="downshift-0-input"
-        placeholder=""
+        placeholder="111"
         tabindex="0"
-        value=""
+        value="111"
       />
       <button
         class="widget-combobox-clear-button"
