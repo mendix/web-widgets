@@ -10,6 +10,7 @@ export function getPreviewCss(): string {
 export function preview(props: CarouselPreviewProps): ReactNode {
     return (
         <Carousel
+            id={"Carousel"}
             className={props.className}
             navigation={props.navigation}
             pagination={props.showPagination}

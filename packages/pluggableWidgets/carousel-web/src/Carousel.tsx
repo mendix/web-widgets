@@ -1,4 +1,4 @@
-import { createElement, ReactNode, useCallback, ReactElement, useEffect } from "react";
+import { createElement, ReactNode, useCallback, ReactElement, useId } from "react";
 import { ValueStatus, GUID, ObjectItem } from "mendix";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { CarouselContainerProps } from "../typings/CarouselProps";
@@ -6,17 +6,16 @@ import { Carousel as CarouselComponent } from "./components/Carousel";
 import loadingCircleSvg from "./ui/loading-circle.svg";
 import classNames from "classnames";
 import "./ui/Carousel.scss";
-import Swiper, { Navigation, Pagination, EffectFade, Autoplay } from "swiper";
 
 export function Carousel(props: CarouselContainerProps): ReactNode {
     const { showPagination, loop, tabIndex, navigation, animation, delay, autoplay } = props;
     const onClick = useCallback(() => executeAction(props.onClickAction), [props.onClickAction]);
-
-    useEffect(() => Swiper.use([Navigation, Pagination, EffectFade, Autoplay]), []);
+    const id = useId();
 
     const renderCarousel = (): ReactElement => {
         return (
             <CarouselComponent
+                id={id}
                 className={props.class}
                 tabIndex={tabIndex}
                 pagination={showPagination}
