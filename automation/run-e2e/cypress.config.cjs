@@ -11,18 +11,6 @@ module.exports = defineConfig({
             installLogsPrinter(on, {
                 printLogsToConsole: "onFail"
             });
-            on('task', {
-                log(message) {
-                    console.log(message)
-
-                    return null
-                },
-                table(message) {
-                    console.table(message)
-
-                    return null
-                }
-            });
         },
         baseUrl: "http://localhost:8080",
         retries: 2,
