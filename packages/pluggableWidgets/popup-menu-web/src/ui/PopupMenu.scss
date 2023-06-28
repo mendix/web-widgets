@@ -1,6 +1,16 @@
 .popupmenu {
     position: relative;
-    display: inline-flex;
+    display: flex;
+    overflow: visible;
+}
+
+ul.popupmenu-menu {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
+.table .td > .popupmenu {
+    overflow: visible;
 }
 
 .popupmenu-trigger {

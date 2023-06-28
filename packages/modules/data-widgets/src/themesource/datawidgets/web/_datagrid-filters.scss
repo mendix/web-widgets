@@ -196,6 +196,7 @@ $item-min-height: 32px;
     position: sticky;
     bottom: 0;
     background: inherit;
+    z-index: 50;
 }
 
 .dropdown-footer-item {
