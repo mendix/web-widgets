@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-06-28
+
 ### Changed
 
 -   It is now possible to configure additional tags via "config" command in Advanced mode.

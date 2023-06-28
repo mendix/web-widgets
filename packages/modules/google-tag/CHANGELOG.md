@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.0] GoogleTagModule - 2023-06-28
+
+### [1.2.0] GoogleTag
+
+#### Changed
+
+-   It is now possible to configure additional tags via "config" command in Advanced mode.
+
 ## [2.1.0] GoogleTagModule - 2023-06-05
 
 ### [1.1.0] GoogleTag
