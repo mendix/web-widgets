@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.5.0] - 2023-06-28
+
 ### Changed
 
 -   We changed the DOM Structure to from `div` to `ul` - `li` for accessibility purposes.
