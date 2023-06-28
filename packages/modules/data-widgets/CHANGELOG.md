@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.3] DataWidgets - 2023-06-28
+
+### [2.7.4] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with text input in columns that has textbox or textarea.
+
 ## [2.8.2] DataWidgets - 2023-06-21
 
 ### Fixed
 
 -   We fixed popup menu showing on top of datagrid filter in sticky position.
+
 -   We removed dead span styling from module SCSS
 
 ### [2.5.2] DatagridDateFilter
