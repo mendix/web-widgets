@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.4] - 2023-06-28
+
 ### Fixed
 
 -   We fixed an issue with text input in columns that has textbox or textarea.
