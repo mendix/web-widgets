@@ -53,6 +53,9 @@ $disabled-color: #f8f8f8;
         &-active {
             border: 1px solid $primary-border !important;
         }
+        &-disabled {
+            pointer-events: none !important;
+        }
     }
 
     &-input {
