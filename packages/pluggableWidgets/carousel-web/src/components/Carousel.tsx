@@ -56,7 +56,8 @@ export function Carousel(props: CarouselProps): ReactElement {
         }),
         modules: [A11y, Navigation, Pagination, EffectFade, Autoplay],
         a11y: {
-            enabled: true
+            enabled: true,
+            slideRole: "listitem"
         }
     };
 
