@@ -1,8 +1,8 @@
-import { createElement, ReactNode, ReactElement, useCallback } from "react";
+import { createElement, ReactNode, ReactElement, useCallback, useState } from "react";
 import { GUID } from "mendix";
 import classNames from "classnames";
 import { SwiperOptions, A11y, Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-import { Swiper as ReactSwiper, SwiperSlide } from "swiper/react";
+import { Swiper as ReactSwiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { PaginationOptions } from "swiper/types";
 
 interface CarouselItem {
@@ -26,6 +26,7 @@ export interface CarouselProps {
 
 export function Carousel(props: CarouselProps): ReactElement {
     const { items, pagination, loop, animation, autoplay, delay, navigation, className, tabIndex, id, onClick } = props;
+    const [swiperRef, setSwiperRef] = useState<SwiperClass>();
 
     const generateSliderId = useCallback(
         (item: CarouselItem | undefined): string => {
@@ -63,9 +64,14 @@ export function Carousel(props: CarouselProps): ReactElement {
 
     return (
         <div className={classNames(className, "widget-carousel")} tabIndex={tabIndex}>
-            <ReactSwiper wrapperTag={"ul"} {...options} onClick={onClick}>
-                {items?.map(item => (
-                    <SwiperSlide tag={"li"} key={item.id} id={generateSliderId(item)}>
+            <ReactSwiper wrapperTag={"ul"} {...options} onClick={onClick} onSwiper={setSwiperRef}>
+                {items?.map((item, index) => (
+                    <SwiperSlide
+                        tag={"li"}
+                        aria-hidden={swiperRef?.activeIndex === index}
+                        key={item.id}
+                        id={generateSliderId(item)}
+                    >
                         {item.content}
                     </SwiperSlide>
                 ))}
