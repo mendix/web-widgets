@@ -3,10 +3,17 @@ import { Carousel, CarouselProps } from "../Carousel";
 import renderer from "react-test-renderer";
 import { GUID } from "mendix";
 
+beforeEach(() => {
+    jest.resetAllMocks();
+});
 describe("Carousel", () => {
     const defaultCarouselProps: CarouselProps = {
+        id: "Carousel",
         className: "",
-        items: [{ id: "1" as GUID, content: <div /> }],
+        items: [
+            { id: "1" as GUID, content: <div>test1</div> },
+            { id: "2" as GUID, content: <div>test2</div> }
+        ],
         pagination: true,
         animation: true,
         autoplay: true,
