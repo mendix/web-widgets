@@ -21,7 +21,7 @@ exports[`Carousel renders correctly 1`] = `
         </div>
       </li>
       <li
-        aria-hidden={false}
+        aria-hidden={true}
         className="swiper-slide"
         id="carousel-slide-Carousel-2"
         onLoad={[Function]}
@@ -65,7 +65,7 @@ exports[`Carousel renders correctly without navigation 1`] = `
         </div>
       </li>
       <li
-        aria-hidden={false}
+        aria-hidden={true}
         className="swiper-slide"
         id="carousel-slide-Carousel-2"
         onLoad={[Function]}
@@ -103,7 +103,7 @@ exports[`Carousel renders correctly without pagination 1`] = `
         </div>
       </li>
       <li
-        aria-hidden={false}
+        aria-hidden={true}
         className="swiper-slide"
         id="carousel-slide-Carousel-2"
         onLoad={[Function]}
