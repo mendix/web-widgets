@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { createElement, ReactNode, useId } from "react";
 import { CarouselPreviewProps } from "../typings/CarouselProps";
 import { Carousel } from "./components/Carousel";
 import { GUID } from "mendix";
@@ -8,9 +8,10 @@ export function getPreviewCss(): string {
 }
 
 export function preview(props: CarouselPreviewProps): ReactNode {
+    const id = useId();
     return (
         <Carousel
-            id={"Carousel"}
+            id={id}
             className={props.className}
             navigation={props.navigation}
             pagination={props.showPagination}

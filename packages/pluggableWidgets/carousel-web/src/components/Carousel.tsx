@@ -28,7 +28,7 @@ export function Carousel(props: CarouselProps): ReactElement {
     const { items, pagination, loop, animation, autoplay, delay, navigation, className, tabIndex, id, onClick } = props;
     const [swiperRef, setSwiperRef] = useState<SwiperClass>();
 
-    const generateSliderId = useCallback(
+    const getSlideId = useCallback(
         (item: CarouselItem | undefined): string => {
             return `carousel-slide-${id}-${item?.id}`;
         },
@@ -39,7 +39,7 @@ export function Carousel(props: CarouselProps): ReactElement {
         type: "bullets",
         clickable: true,
         renderBullet: (index, className) =>
-            `<span role="button" aria-controls="${generateSliderId(
+            `<span role="button" aria-controls="${getSlideId(
                 items[index]
             )}" aria-label="Go to slide ${index}" class="${className}"></span>`
     };
@@ -70,7 +70,7 @@ export function Carousel(props: CarouselProps): ReactElement {
                         tag={"li"}
                         aria-hidden={swiperRef?.activeIndex === index}
                         key={item.id}
-                        id={generateSliderId(item)}
+                        id={getSlideId(item)}
                     >
                         {item.content}
                     </SwiperSlide>
