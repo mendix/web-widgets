@@ -26,7 +26,7 @@ export interface CarouselProps {
 
 export function Carousel(props: CarouselProps): ReactElement {
     const { items, pagination, loop, animation, autoplay, delay, navigation, className, tabIndex, id, onClick } = props;
-    const [swiperRef, setSwiperRef] = useState<SwiperClass>();
+    const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const getSlideId = useCallback(
         (item: CarouselItem | undefined): string => {
@@ -62,16 +62,21 @@ export function Carousel(props: CarouselProps): ReactElement {
         }
     };
 
+    const updateSwiperIndex = useCallback((swiper: SwiperClass) => {
+        setActiveIndex(swiper.realIndex);
+    }, []);
+
     return (
         <div className={classNames(className, "widget-carousel")} tabIndex={tabIndex}>
-            <ReactSwiper wrapperTag={"ul"} {...options} onClick={onClick} onSwiper={setSwiperRef}>
+            <ReactSwiper
+                onActiveIndexChange={updateSwiperIndex}
+                wrapperTag={"ul"}
+                {...options}
+                onClick={onClick}
+                onSwiper={updateSwiperIndex}
+            >
                 {items?.map((item, index) => (
-                    <SwiperSlide
-                        tag={"li"}
-                        aria-hidden={swiperRef?.activeIndex === index}
-                        key={item.id}
-                        id={getSlideId(item)}
-                    >
+                    <SwiperSlide tag={"li"} aria-hidden={index !== activeIndex} key={item.id} id={getSlideId(item)}>
                         {item.content}
                     </SwiperSlide>
                 ))}
