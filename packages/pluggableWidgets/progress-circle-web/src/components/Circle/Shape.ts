@@ -1,3 +1,7 @@
+/*
+ * https://github.com/kimmobrunfeldt/progressbar.js/blob/master/src/shape.js
+ */
+
 import { extend, isObject, isString, removeChildren, setStyles, floatEquals } from "./Utils";
 import Path from "./Path";
 import { ShapeOptions } from "./Types";

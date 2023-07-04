@@ -44,8 +44,6 @@ describe("ProgressCircle", () => {
         mount(
             <ProgressCircle currentValue={23} minValue={0} maxValue={100} onClick={onClickSpy} label="23%" class="" />
         );
-        var svg: SVGPathElement = new SVGPathElement();
-        console.log(JSON.stringify(svg));
         expect(Circle).toHaveBeenCalled();
         expect(mockedAnimate).toHaveBeenCalledWith(0.23);
     });

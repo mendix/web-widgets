@@ -1,3 +1,7 @@
+/*
+ * https://github.com/kimmobrunfeldt/progressbar.js/blob/master/src/path.js
+ */
+
 import shifty, { Tweenable } from "shifty";
 import { extend, isFunction, isString } from "./Utils";
 import { ShapeOptions, ShapeRenderFunction } from "./Types";

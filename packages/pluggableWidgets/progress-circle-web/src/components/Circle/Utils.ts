@@ -1,3 +1,7 @@
+/*
+ * https://github.com/kimmobrunfeldt/progressbar.js/blob/master/src/utils.js
+ */
+
 // Utility functions
 
 import React from "react";

@@ -1,3 +1,7 @@
+/*
+ * https://github.com/kimmobrunfeldt/progressbar.js/blob/master/src/circle.js
+ */
+
 import Shape from "./Shape";
 import { ShapeOptions } from "./Types";
 import { render } from "./Utils";
