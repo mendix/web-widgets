@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -38,14 +38,14 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       cypress:
-        specifier: ^12.13.0
-        version: 12.13.0
+        specifier: ^12.16.0
+        version: 12.16.0
       cypress-image-diff-js:
-        specifier: ^1.23.0
-        version: 1.23.0(cypress@12.13.0)
+        specifier: ^1.26.0
+        version: 1.26.0(cypress@12.16.0)
       cypress-terminal-report:
         specifier: ^5.2.0
-        version: 5.2.0(cypress@12.13.0)
+        version: 5.2.0(cypress@12.16.0)
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
@@ -3504,7 +3504,6 @@ packages:
     engines: {node: '>=0.1.90'}
     requiresBuild: true
     dev: false
-    optional: true
 
   /@commitlint/cli@17.6.6:
     resolution: {integrity: sha512-sTKpr2i/Fjs9OmhU+beBxjPavpnLSqZaO6CzwKVq2Tc4UYVTMFgpKOslDhUBVlfAUBfjVO8ParxC/MXkIOevEA==}
@@ -6621,6 +6620,7 @@ packages:
   /colors@1.4.0:
     resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
     engines: {node: '>=0.1.90'}
+    dev: true
 
   /combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
@@ -7099,16 +7099,16 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
-  /cypress-image-diff-js@1.23.0(cypress@12.13.0):
-    resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
+  /cypress-image-diff-js@1.26.0(cypress@12.16.0):
+    resolution: {integrity: sha512-YrojmjE/EoI1O6tmFSYT4rhy2TcURLYtZOpjalhIyXd2HnKKSKgSb2dZmvs20I1RnVw+MQV9OYj+VEAnId+SaQ==}
     hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
       '@babel/runtime': 7.22.5
+      '@colors/colors': 1.5.0
       arg: 4.1.3
-      colors: 1.4.0
-      cypress: 12.13.0
+      cypress: 12.16.0
       cypress-recurse: 1.35.2
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -7122,20 +7122,20 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report@5.2.0(cypress@12.13.0):
+  /cypress-terminal-report@5.2.0(cypress@12.16.0):
     resolution: {integrity: sha512-XKLt7zGmy1LpFxlwwBOyOoN12zKJ+Ot+YRjplyqew4FfVjlakMnkQ9FPLOLa9ocpK6nxZGRQn/qzTtSZ5NoxHg==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 12.13.0
+      cypress: 12.16.0
       fs-extra: 10.1.0
       semver: 7.5.1
       tv4: 1.3.0
     dev: false
 
-  /cypress@12.13.0:
-    resolution: {integrity: sha512-QJlSmdPk+53Zhy69woJMySZQJoWfEWun3X5OOenGsXjRPVfByVTHorxNehbzhZrEzH9RDUDqVcck0ahtlS+N/Q==}
+  /cypress@12.16.0:
+    resolution: {integrity: sha512-mwv1YNe48hm0LVaPgofEhGCtLwNIQEjmj2dJXnAkY1b4n/NE9OtgPph4TyS+tOtYp5CKtRmDvBzWseUXQTjbTg==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     requiresBuild: true
