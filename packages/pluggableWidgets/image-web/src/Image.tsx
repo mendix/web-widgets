@@ -69,6 +69,7 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
             width={props.width}
             heightUnit={props.heightUnit}
             height={props.height}
+            tabIndex={props.tabIndex}
             iconSize={props.iconSize}
             responsive={props.responsive}
             onClickType={props.onClickType}

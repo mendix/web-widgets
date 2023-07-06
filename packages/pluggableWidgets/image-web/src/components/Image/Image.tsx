@@ -19,6 +19,7 @@ export interface ImageProps extends ImageType {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    tabIndex?: number;
     iconSize: number;
     responsive: boolean;
     onClickType: OnClickTypeEnum;
@@ -46,6 +47,7 @@ export const Image: FunctionComponent<ImageProps> = ({
     width,
     heightUnit,
     height,
+    tabIndex,
     iconSize,
     responsive,
     onClickType,
@@ -83,6 +85,7 @@ export const Image: FunctionComponent<ImageProps> = ({
     const hasClickHandler = (onClickType === "action" && onClick) || onClickType === "enlarge";
     const sharedContentProps: ImageContentProps = {
         style,
+        tabIndex: tabIndex ?? 0,
         onClick: hasClickHandler ? onImageClick : undefined,
         altText
     };
