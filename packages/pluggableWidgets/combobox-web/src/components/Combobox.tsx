@@ -11,7 +11,7 @@ import { Placeholder } from "./Placeholder";
 
 export function Combobox(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
-    const comboboxRef = useRef<HTMLInputElement>(null);
+    const comboboxRef = useRef<HTMLDivElement>(null);
     const selector = useGetSelector(props);
     const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
     const actionEvents = useActionEvents(props);
@@ -35,11 +35,11 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
     return (
         <Downshift {...downshiftProps}>
             {({
-                selectItem,
                 getInputProps,
                 getItemProps,
                 selectedItem,
                 getMenuProps,
+                clearSelection,
                 isOpen,
                 highlightedIndex,
                 getToggleButtonProps
@@ -49,7 +49,8 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                         ref={comboboxRef}
                         tabIndex={-1}
                         className={classNames("form-control", "widget-combobox-input-container", {
-                            "widget-combobox-input-container-active": isOpen || focused
+                            "widget-combobox-input-container-active": isOpen || focused,
+                            "widget-combobox-input-container-disabled": readOnly
                         })}
                         {...getToggleButtonProps({
                             disabled: readOnly
@@ -77,8 +78,7 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                                 onClick={e => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    selectItem(null);
-                                    selector.setValue(null);
+                                    clearSelection(() => selector.setValue(null));
                                 }}
                             >
                                 <ClearButton />
