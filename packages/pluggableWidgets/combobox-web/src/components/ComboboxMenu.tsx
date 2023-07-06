@@ -15,11 +15,11 @@ interface ComboboxMenuProps extends Partial<PropGetters<any>> {
 }
 
 export function ComboboxMenu(props: ComboboxMenuProps): ReactElement {
-    const { comboboxSize, isOpen, selector, highlightedIndex } = props;
+    const { comboboxSize, isOpen, selector, highlightedIndex, getMenuProps, getItemProps } = props;
     return createPortal(
         <ul
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            {...props.getMenuProps?.()}
+            {...getMenuProps?.()}
             style={{
                 width: comboboxSize?.width,
                 left: comboboxSize?.x,
@@ -34,7 +34,7 @@ export function ComboboxMenu(props: ComboboxMenuProps): ReactElement {
                               "widget-combobox-item-highlighted": highlightedIndex === index
                           })}
                           key={JSON.stringify(item)}
-                          {...props.getItemProps?.({
+                          {...getItemProps?.({
                               key: JSON.stringify(item),
                               index,
                               item
