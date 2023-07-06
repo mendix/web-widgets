@@ -99,6 +99,18 @@
             </propertyGroup>
             <!-- END GENERAL -->
 
+            <propertyGroup caption="Review">
+                <!-- Empty option -->
+                <property key="selectionType" type="enumeration" defaultValue="checkbox" required="true">
+                    <caption>Selection Type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkboxes</enumerationValue>
+                        <enumerationValue key="selectedTag">Selected Item Tags</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+
             <!-- SYSTEM PROPS -->
             <propertyGroup caption="Label">
                 <systemProperty key="Label" />
