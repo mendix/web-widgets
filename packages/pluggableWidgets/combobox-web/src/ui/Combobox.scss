@@ -77,6 +77,7 @@ $disabled-color: #f8f8f8;
     }
     &-down-arrow {
         display: flex;
+        flex-wrap: wrap;
         align-content: center;
         cursor: pointer;
         border-left: 1px solid $separator-border;
@@ -98,6 +99,29 @@ $disabled-color: #f8f8f8;
         &-down-arrow {
             svg {
                 fill: $hover-color;
+            }
+        }
+    }
+
+    &-selected {
+        &-items {
+            display: flex;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+
+        &-item {
+            font-size: 12px;
+            display: flex;
+            border-radius: 2px;
+            padding-left: 4px;
+            padding-right: 4px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1px 2px;
+            &-remove-icon {
+                padding: "4px";
+                cursor: "pointer";
             }
         }
     }
