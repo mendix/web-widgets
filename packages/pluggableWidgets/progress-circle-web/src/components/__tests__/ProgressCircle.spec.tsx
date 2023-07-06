@@ -1,46 +1,24 @@
 import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
 import { mount, shallow } from "enzyme";
-// import * as ProgressbarJs from "progressbar.js";
 import Circle from "../Circle/Circle";
 import { createElement, FunctionComponent } from "react";
 import { ProgressCircle } from "../ProgressCircle";
-import shifty from "shifty";
-
-// Polyfil for SVG
-// const svgElements : string[] = [
-//     'SVGPathElement'
-//   ];
-
-if (!(window as { [key: string]: any })["SVGPathElement"]) {
-    // eslint-disable-next-line no-eval
-    const Value = eval(`(class SVGPathElement extends window.HTMLElement { }
-    )`);
-
-    Object.defineProperty(window, "SVGPathElement", {
-        value: Value,
-        writable: true
-    });
-
-    eval(`SVGPathElement.prototype.getTotalLength = function getTotalLength(){}`);
-}
-
-// svgElements.forEach((e) => {
-//     if (!(window as { [key: string]: any })[e]) {
-//     // eslint-disable-next-line no-eval
-//     const Value = eval(`(class ${e} extends window.HTMLElement {})`);
-
-//     Object.defineProperty(window, e, {
-//         value: Value,
-//         writable: true,
-//     });
-//     }
-// });
-
-jest.mock("shifty", () => ({
-    interpolate: jest.fn().mockImplementation(() => {})
-}));
 
 const mockedAnimate = jest.fn();
+
+jest.mock("../Circle/Circle", () => {
+    const originalModule = jest.requireActual("../Circle/Circle");
+
+    return jest.fn().mockImplementation(() => ({
+        ...originalModule,
+        path: {
+            className: {
+                baseVal: ""
+            }
+        },
+        animate: mockedAnimate
+    }));
+});
 
 describe("ProgressCircle", () => {
     const onClickSpy = jest.fn();
@@ -64,7 +42,7 @@ describe("ProgressCircle", () => {
         mount(
             <ProgressCircle currentValue={23} minValue={0} maxValue={100} onClick={onClickSpy} label="23%" class="" />
         );
-        expect(shifty.interpolate).toHaveBeenCalled();
+        // const spy = spyOn(Circle, "animate");
         expect(Circle).toHaveBeenCalled();
         expect(mockedAnimate).toHaveBeenCalledWith(0.23);
     });
