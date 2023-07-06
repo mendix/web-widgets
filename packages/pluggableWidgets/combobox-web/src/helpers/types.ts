@@ -11,7 +11,7 @@ export interface CaptionsProvider {
 export interface OptionsProvider<T = unknown, P = {}> {
     status: Status;
 
-    getAll(sortType: FilterTypeEnum): string[];
+    getAll(sortType?: FilterTypeEnum): string[];
 
     // search related
     setSearchTerm(term: string): void;
@@ -40,4 +40,19 @@ export interface SingleSelector {
     clearable: boolean;
     currentValue: string | null;
     setValue(value: string | null): void;
+}
+export interface MultiSelector {
+    updateProps(props: ComboboxContainerProps): void;
+    status: Status;
+
+    // options related
+    options: OptionsProvider;
+
+    // caption related
+    caption: CaptionsProvider;
+
+    // value related
+    clearable: boolean;
+    currentValue: string[] | undefined;
+    setValue(value: string[] | null): void;
 }

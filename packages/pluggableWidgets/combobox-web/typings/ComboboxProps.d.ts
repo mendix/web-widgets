@@ -11,6 +11,8 @@ export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression"
 
 export type FilterTypeEnum = "contains" | "startsWith" | "no";
 
+export type SelectionTypeEnum = "checkbox" | "selectedTag";
+
 export interface ComboboxContainerProps {
     name: string;
     tabIndex?: number;
@@ -26,6 +28,7 @@ export interface ComboboxContainerProps {
     emptyOptionText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
     clearable: boolean;
+    selectionType: SelectionTypeEnum;
     onClickEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
@@ -45,6 +48,7 @@ export interface ComboboxPreviewProps {
     emptyOptionText: string;
     filterType: FilterTypeEnum;
     clearable: boolean;
+    selectionType: SelectionTypeEnum;
     onClickEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
