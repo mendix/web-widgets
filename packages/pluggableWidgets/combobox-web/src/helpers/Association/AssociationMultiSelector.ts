@@ -50,7 +50,6 @@ export class AssociationMultiSelector implements MultiSelector {
         }
 
         this.clearable = clearable;
-        // current value
         this.currentValue = attr.value?.map(value => {
             return value.id;
         });

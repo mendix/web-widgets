@@ -52,7 +52,6 @@ export class AssociationSingleSelector implements SingleSelector {
 
         this.clearable = clearable;
 
-        // current value
         this.currentValue = (attr.value?.id as string) ?? null;
 
         this.status = attr.status;

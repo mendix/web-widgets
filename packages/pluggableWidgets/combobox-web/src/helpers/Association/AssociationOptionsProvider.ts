@@ -23,7 +23,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
         return this.ds?.hasMoreItems ?? false;
     }
 
-    getAll(sortType: FilterTypeEnum): string[] {
+    getAll(sortType: FilterTypeEnum = "contains"): string[] {
         switch (sortType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
