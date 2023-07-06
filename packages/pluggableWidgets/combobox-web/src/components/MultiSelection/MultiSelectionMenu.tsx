@@ -10,13 +10,11 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     highlightedIndex: number | null;
     comboboxSize: DOMRect | undefined;
     selector: MultiSelector;
-    // selector: SingleSelector;
-    // selectedItem?: string | null;
+    withCheckbox: boolean;
 }
 
 export function MultiSelectionMenu(props: MultiSelectionMenuProps) {
-    const { isOpen, getMenuProps, getItemProps, highlightedIndex, comboboxSize, selector, items } = props;
-
+    const { isOpen, getMenuProps, getItemProps, highlightedIndex, comboboxSize, selector, items, withCheckbox } = props;
     return createPortal(
         <ul
             {...getMenuProps?.()}
@@ -32,7 +30,6 @@ export function MultiSelectionMenu(props: MultiSelectionMenuProps) {
                 items.map((item, index) => (
                     <li
                         className={classNames("widget-combobox-item", {
-                            // "widget-combobox-item-selected": selector.currentValue === item,
                             "widget-combobox-item-highlighted": highlightedIndex === index
                         })}
                         key={`${item}${index}`}
@@ -41,11 +38,13 @@ export function MultiSelectionMenu(props: MultiSelectionMenuProps) {
                             index
                         })}
                     >
-                        <input
-                            className="widget-combobox-item-checkbox"
-                            type="checkbox"
-                            checked={selector.currentValue?.includes(item)}
-                        />
+                        {withCheckbox && (
+                            <input
+                                className="widget-combobox-item-checkbox"
+                                type="checkbox"
+                                checked={selector.currentValue?.includes(item)}
+                            />
+                        )}
                         {selector.caption.render(item)}
                     </li>
                 ))}

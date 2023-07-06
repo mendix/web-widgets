@@ -11,7 +11,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const selector = useGetMultiSelector(props);
     const withCheckbox = props.selectionType === "checkbox"; // Add control from config to toggle checkboxes
-    console.log(props.selectionType, withCheckbox);
 
     const readOnly =
         (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
@@ -40,9 +39,11 @@ export function MultiSelection(props: ComboboxContainerProps) {
             }
         }
     });
-    const items = withCheckbox
-        ? selector.options?.getAll()
-        : useMemo(() => selector.options?.getAll().filter(option => !selectedItems.includes(option)), [selectedItems]);
+    const filteredItems = useMemo(
+        () => selector.options?.getAll().filter(option => !selectedItems.includes(option)),
+        [selectedItems]
+    );
+    const items = withCheckbox ? selector.options?.getAll() : filteredItems;
     const { isOpen, reset, getMenuProps, getInputProps, highlightedIndex, getItemProps } = useCombobox({
         items,
         inputValue,
@@ -136,7 +137,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                             onKeyDown: (event: KeyboardEvent) => {
                                 if (event.key === "Backspace" && inputValue === "") {
                                     setActiveIndex(selectedItems.length - 1);
-                                    // closeMenu();
                                 }
                             }
                         })}
@@ -161,6 +161,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                 </div>
             </div>
             <MultiSelectionMenu
+                withCheckbox={withCheckbox}
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
                 isOpen={isOpen}
