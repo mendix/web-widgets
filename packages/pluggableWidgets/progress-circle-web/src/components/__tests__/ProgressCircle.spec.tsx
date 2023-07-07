@@ -42,7 +42,6 @@ describe("ProgressCircle", () => {
         mount(
             <ProgressCircle currentValue={23} minValue={0} maxValue={100} onClick={onClickSpy} label="23%" class="" />
         );
-        // const spy = spyOn(Circle, "animate");
         expect(Circle).toHaveBeenCalled();
         expect(mockedAnimate).toHaveBeenCalledWith(0.23);
     });
