@@ -60,13 +60,12 @@ function ContentIcon(props: ImageContentIcon): ReactElement {
           }
         : {};
 
-    const onClickProps = getImageContentOnClickProps(props.onClick);
+    const onClickProps = getImageContentOnClickProps(props.onClick, props.tabIndex);
 
     return (
         <span
             className={classNames(props.icon, { glyphicon: props.isGlyph })}
             style={{ ...props.style, fontSize: `${props.size}px` }}
-            tabIndex={props.tabIndex ?? 0}
             {...accessibilityProps}
             {...onClickProps}
         />
@@ -83,12 +82,11 @@ export interface ImageContentImage extends ImageContentProps {
 }
 
 function ContentImage(props: ImageContentImage): ReactElement {
-    const onClickProps = getImageContentOnClickProps(props.onClick);
+    const onClickProps = getImageContentOnClickProps(props.onClick, props.tabIndex);
     return (
         <img
             className={props.className}
             src={props.image}
-            tabIndex={props.tabIndex ?? 0}
             style={{
                 ...props.style,
                 height: getStyle(props.height, props.heightUnit),
@@ -100,13 +98,17 @@ function ContentImage(props: ImageContentImage): ReactElement {
     );
 }
 
-function getImageContentOnClickProps(onClick: ImageContentProps["onClick"]): HTMLAttributes<HTMLElement> {
+function getImageContentOnClickProps(
+    onClick: ImageContentProps["onClick"],
+    tabIndex?: number
+): HTMLAttributes<HTMLElement> {
     if (!onClick) {
         return {};
     }
     return {
         onClick,
         role: "button",
+        tabIndex: tabIndex ?? 0,
         onKeyDown: event => {
             if (event.key === "Enter" || event.key === " ") {
                 onClick(event);
