@@ -105,6 +105,21 @@ describe("Image", () => {
             expect(onClickMock).toHaveBeenCalled();
         });
 
+        it("has tabindex if there is an action with OnClick", () => {
+            const onClickMock = jest.fn();
+            const imageRender = mount(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
+            const image = imageRender.find("img");
+
+            expect(image.prop("tabIndex")).not.toBeUndefined();
+        });
+
+        it("has no tabindex if there is no action with OnClick", () => {
+            const imageRender = mount(<Image {...imageProps} />);
+            const image = imageRender.find("img");
+
+            expect(image.prop("tabIndex")).toBeUndefined();
+        });
+
         it("calls the onClick when clicking on a glyph icon", () => {
             const onClickMock = jest.fn();
             const imageRender = mount(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
