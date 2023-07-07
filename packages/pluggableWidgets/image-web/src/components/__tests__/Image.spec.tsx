@@ -110,7 +110,7 @@ describe("Image", () => {
             const imageRender = mount(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
             const image = imageRender.find("img");
 
-            expect(image.prop("tabIndex")).not.toBeUndefined();
+            expect(image.prop("tabIndex")).toBeDefined();
         });
 
         it("has no tabindex if there is no action with OnClick", () => {
