@@ -25,7 +25,6 @@ const imageProps: ImageProps = {
     type: "image",
     image: "https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg",
     height: 300,
-    tabIndex: 1,
     heightUnit: "pixels",
     width: 300,
     widthUnit: "pixels",
@@ -43,7 +42,6 @@ const glyphiconProps: ImageProps = {
     image: "glyphicon-asterisk",
     iconSize: 20,
     height: 0,
-    tabIndex: 1,
     heightUnit: "pixels",
     width: 0,
     widthUnit: "pixels",
@@ -60,7 +58,6 @@ const iconProps: ImageProps = {
     image: "mx-icon mx-icon-asterisk",
     iconSize: 20,
     height: 0,
-    tabIndex: 1,
     heightUnit: "pixels",
     width: 0,
     widthUnit: "pixels",
@@ -110,13 +107,13 @@ describe("Image", () => {
 
         it("has tabindex if there is an action with OnClick", () => {
             const onClickMock = jest.fn();
-
-            const imageRender = mount(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
-
+            const imageRender = mount(
+                <Image {...imageProps} onClick={onClickMock} onClickType="action" tabIndex={1} />
+            );
             const image = imageRender.find("img");
 
             expect(image.prop("tabIndex")).toBeDefined();
-            expect(image.prop("tabIndex")).toBe(imageProps.tabIndex);
+            expect(image.prop("tabIndex")).toBe(1);
         });
 
         it("has no tabindex if there is no action with OnClick", () => {
