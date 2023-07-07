@@ -12,7 +12,6 @@ import {
 import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
 import classNames from "classnames";
-import { createPortal } from "react-dom";
 import { Option, OptionValue } from "../utils/types";
 import { useSelectState } from "../features/select";
 import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
@@ -128,6 +127,7 @@ function SelectComponent(props: SelectProps): ReactElement {
                                 componentRef.current?.querySelector("input")?.focus();
                             }
                         }}
+                        title={option.caption}
                         role="menuitem"
                         tabIndex={0}
                     >
@@ -151,7 +151,7 @@ function SelectComponent(props: SelectProps): ReactElement {
             </ul>
         ) : null;
 
-        return createPortal(
+        return (
             <div
                 className="dropdown-content"
                 onScroll={onContentScroll}
@@ -165,8 +165,7 @@ function SelectComponent(props: SelectProps): ReactElement {
             >
                 {optionsList}
                 {footer}
-            </div>,
-            document.body
+            </div>
         );
     };
 

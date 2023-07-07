@@ -19,6 +19,7 @@ import { SortingRule } from "../features/settings";
 
 export interface HeaderProps {
     className?: string;
+    dataGridName?: string;
     column: ColumnProperty;
     sortable: boolean;
     resizable: boolean;
@@ -97,7 +98,6 @@ export function Header(props: HeaderProps): ReactElement {
 
     return (
         <div
-            aria-label={caption}
             aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
             className={classNames("th", {
                 "hidden-column-preview": props.preview && props.hidable && props.column.hidden
@@ -111,13 +111,20 @@ export function Header(props: HeaderProps): ReactElement {
                     "column-container",
                     canDrag && props.column.id === props.dragOver ? "dragging" : ""
                 )}
-                id={props.column.id}
+                id={
+                    props.dataGridName +
+                    "-" +
+                    (props.column.header.trim().length > 0
+                        ? props.column.header.replace(" ", "-")
+                        : "column" + props.column.id)
+                }
                 {...draggableProps}
             >
                 <div
                     className={classNames("column-header", canSort ? "clickable" : "", props.className)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
                     {...(canSort ? sortProps : undefined)}
+                    aria-label={canSort ? "sort " + caption : caption}
                 >
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}

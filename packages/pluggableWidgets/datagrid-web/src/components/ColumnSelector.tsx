@@ -2,7 +2,6 @@ import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, use
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
 import { ColumnProperty } from "./Table";
-import { createPortal } from "react-dom";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 
 export interface ColumnSelectorProps {
@@ -47,7 +46,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
     const lastHidableColumnIndex = useMemo(() => props.columns.map(c => c.canHide).lastIndexOf(true), [props.columns]);
 
-    const optionsComponent = createPortal(
+    const optionsComponent = (
         <ul
             ref={optionsRef}
             id={`${props.id}-column-selectors`}
@@ -105,8 +104,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                     </li>
                 ) : null;
             })}
-        </ul>,
-        document.body
+        </ul>
     );
 
     const containerClick = useCallback(() => {

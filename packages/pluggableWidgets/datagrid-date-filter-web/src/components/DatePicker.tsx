@@ -14,7 +14,6 @@ import {
 import DatePickerComponent from "react-datepicker";
 import classNames from "classnames";
 import { isDate, isValid } from "date-fns";
-import { createPortal } from "react-dom";
 import replaceAllInserter from "string.prototype.replaceall";
 import { doubleMonthOrDayWhenSingle } from "../utils/utils";
 import CalendarIcon from "./CalendarIcon";
@@ -46,10 +45,7 @@ export const DatePicker = forwardRef(
         const buttonRef = useRef<HTMLButtonElement>(null);
         const portalRef = useRef<HTMLDivElement>(null);
         const id = useMemo(() => `datepicker_` + Math.random(), []);
-        const Portal = createPortal(
-            <div ref={portalRef} id={id} className="date-filter-container" style={{ position: "fixed" }} />,
-            document.body
-        );
+        const Portal = <div ref={portalRef} id={id} className="date-filter-container" style={{ position: "fixed" }} />;
 
         const buttonClick = useCallback(() => {
             setOpen(open => !open);

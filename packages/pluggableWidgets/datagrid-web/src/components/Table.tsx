@@ -278,15 +278,15 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             })}
             style={styles}
         >
-            <div className="table" role="table">
-                <div className="table-header" role="rowgroup">
-                    {(pagingPosition === "top" || pagingPosition === "both") && pagination}
+            <div className="table-header" role="rowgroup">
+                {(pagingPosition === "top" || pagingPosition === "both") && pagination}
+            </div>
+            {gridHeaderWidgets && (
+                <div className="header-filters" role="rowgroup" aria-label={gridHeaderTitle}>
+                    {gridHeaderWidgets}
                 </div>
-                {gridHeaderWidgets && (
-                    <div className="header-filters" role="rowgroup" aria-label={gridHeaderTitle}>
-                        {gridHeaderWidgets}
-                    </div>
-                )}
+            )}
+            <div className="table" role="table">
                 <InfiniteBody
                     className="table-content"
                     hasMoreItems={hasMoreItems}
@@ -312,6 +312,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 Number(column.id),
                                 <Header
                                     key={`headers_column_${column.id}`}
+                                    dataGridName={props.id}
                                     className={`align-column-${column.alignment}`}
                                     column={column}
                                     draggable={columnsDraggable}
@@ -406,9 +407,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             );
                         })}
                 </InfiniteBody>
-                <div className="table-footer" role="rowgroup">
-                    {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
-                </div>
+            </div>
+            <div className="table-footer">
+                {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
             </div>
         </div>
     );
