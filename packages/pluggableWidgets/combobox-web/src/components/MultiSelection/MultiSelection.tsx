@@ -4,6 +4,7 @@ import { ComboboxContainerProps } from "typings/ComboboxProps";
 import { ClearButton, DownArrow } from "../../assets/icons";
 import { useGetMultiSelector } from "../../hooks/useGetSelector";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
+import { Placeholder } from "../Placeholder";
 
 export function MultiSelection(props: ComboboxContainerProps) {
     const [inputValue, setInputValue] = useState("");
@@ -16,6 +17,10 @@ export function MultiSelection(props: ComboboxContainerProps) {
         (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
         props.attributeAssociation?.readOnly;
 
+    if (selector.status === "unavailable") {
+        return <Placeholder />;
+    }
+
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -24,7 +29,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
         selectedItems,
         setSelectedItems
     } = useMultipleSelection({
-        selectedItems: selector.currentValue,
+        selectedItems: selector.currentValue ?? [],
         onStateChange({ selectedItems: newSelectedItems, type }) {
             switch (type) {
                 case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownBackspace:
@@ -47,7 +52,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const { isOpen, reset, getMenuProps, getInputProps, highlightedIndex, getItemProps } = useCombobox({
         items,
         inputValue,
-        selectedItem: null,
+        selectedItem: "",
         itemToString: (v: string | null) => selector.caption.get(v),
         stateReducer(state, actionAndChanges) {
             const { changes, type } = actionAndChanges;
@@ -57,7 +62,8 @@ export function MultiSelection(props: ComboboxContainerProps) {
                 case useCombobox.stateChangeTypes.InputBlur:
                     return {
                         ...changes,
-                        ...(changes.selectedItem && { isOpen: true, highlightedIndex: 0 })
+                        ...(changes.selectedItem && { isOpen: true }),
+                        ...(!withCheckbox && { highlightedIndex: 0 })
                     };
                 default:
                     return changes;
@@ -87,46 +93,43 @@ export function MultiSelection(props: ComboboxContainerProps) {
         <div className="widget-combobox">
             <div className="form-control widget-combobox-input-container" ref={comboboxRef}>
                 <div className="widget-combobox-selected-items">
-                    {withCheckbox ? (
-                        <span>
-                            {selectedItems.map((selectedItemForRender, index) => {
-                                return (
-                                    <span
-                                        className="widget-combobox-selected-item"
-                                        key={`selected-item-${index}`}
-                                        {...getSelectedItemProps({ selectedItem: selectedItemForRender, index })}
-                                    >
-                                        {selector.caption.get(selectedItemForRender)},
-                                    </span>
-                                );
-                            })}
-                        </span>
-                    ) : (
-                        selectedItems.map((selectedItemForRender, index) => {
-                            return (
-                                <span
-                                    className="widget-combobox-selected-item"
-                                    style={{ backgroundColor: "lightgray" }}
-                                    key={`selected-item-${index}`}
-                                    {...getSelectedItemProps({
-                                        selectedItem: selectedItemForRender,
-                                        index
-                                    })}
-                                >
-                                    {selector.caption.render(selectedItemForRender)}
-                                    <span
-                                        className="widget-combobox-selected-item-remove-icon"
-                                        onClick={e => {
-                                            e.stopPropagation();
-                                            removeSelectedItem(selectedItemForRender);
-                                        }}
-                                    >
-                                        <ClearButton size={"8"} />
-                                    </span>
-                                </span>
-                            );
-                        })
-                    )}
+                    {withCheckbox
+                        ? selectedItems.map((item, index) => {
+                              return (
+                                  <span
+                                      className="widget-combobox-selected-item"
+                                      key={`selected-item-${index}`}
+                                      {...getSelectedItemProps({ selectedItem: item, index })}
+                                  >
+                                      {selector.caption.render(item)}
+                                      {index !== selectedItems.length - 1 && ","}
+                                  </span>
+                              );
+                          })
+                        : selectedItems.map((selectedItemForRender, index) => {
+                              return (
+                                  <span
+                                      className="widget-combobox-selected-item"
+                                      style={{ backgroundColor: "lightgray" }}
+                                      key={`selected-item-${index}`}
+                                      {...getSelectedItemProps({
+                                          selectedItem: selectedItemForRender,
+                                          index
+                                      })}
+                                  >
+                                      {selector.caption.render(selectedItemForRender)}
+                                      <span
+                                          className="widget-combobox-selected-item-remove-icon"
+                                          onClick={e => {
+                                              e.stopPropagation();
+                                              removeSelectedItem(selectedItemForRender);
+                                          }}
+                                      >
+                                          <ClearButton size={"8"} />
+                                      </span>
+                                  </span>
+                              );
+                          })}
                     <input
                         ref={inputRef}
                         className="widget-combobox-input"
