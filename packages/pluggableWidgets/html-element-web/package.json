@@ -46,7 +46,6 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/dompurify": "^2.4.0",
     "@types/node": "^18.16.12",
-    "react-test-renderer": "~18.2.0",
     "ts-node": "^10.9.1"
   },
   "dependencies": {

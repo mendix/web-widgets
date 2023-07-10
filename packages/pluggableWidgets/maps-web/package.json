@@ -52,7 +52,6 @@
     "@types/react-leaflet": "^2.8.3",
     "@web-widgets/run-e2e": "workspace:*",
     "cross-env": "^7.0.3",
-    "react-test-renderer": "~18.2.0",
     "ts-node": "^10.9.1"
   },
   "dependencies": {

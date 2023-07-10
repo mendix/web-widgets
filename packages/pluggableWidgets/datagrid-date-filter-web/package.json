@@ -53,7 +53,6 @@
     "@types/node": "^18.16.12",
     "@types/react-datepicker": "^4.11.2",
     "@web-widgets/run-e2e": "workspace:*",
-    "react-test-renderer": "~18.2.0",
     "ts-node": "^10.9.1"
   }
 }

@@ -48,7 +48,6 @@
     "@rollup/plugin-replace": "^2.4.2",
     "@types/node": "^18.16.12",
     "@web-widgets/run-e2e": "workspace:*",
-    "react-test-renderer": "~18.2.0",
     "ts-node": "^10.9.1"
   },
   "dependencies": {
