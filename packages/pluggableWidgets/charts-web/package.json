@@ -64,8 +64,6 @@
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "prettier": "^2.8.4",
-    "rollup": "^2.79.1",
-    "ts-node": "^10.9.1",
-    "typescript": "5.0.4"
+    "ts-node": "^10.9.1"
   }
 }

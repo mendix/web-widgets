@@ -62,12 +62,9 @@
     "eslint": "^7.32.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.5.0",
-    "mendix": "^9.24.2965",
     "prettier": "^2.8.4",
     "react-test-renderer": "~18.2.0",
-    "rollup": "^2.79.1",
-    "ts-node": "^10.9.1",
-    "typescript": "5.0.4"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "classnames": "^2.3.2"

@@ -175,9 +175,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
       zod:
         specifier: ^3.20.6
         version: 3.20.6
@@ -263,9 +260,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -348,9 +342,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       sass:
         specifier: ^1.58.3
         version: 1.58.3
@@ -369,9 +360,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -442,9 +430,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       sass-loader:
         specifier: ^13.2.0
         version: 13.2.0(webpack@5.75.0)
@@ -457,9 +442,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@5.0.1)
@@ -485,9 +467,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/modules/data-widgets:
     dependencies:
@@ -540,9 +519,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/modules/google-tag:
     dependencies:
@@ -568,9 +544,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/modules/web-actions:
     devDependencies:
@@ -586,9 +559,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/accessibility-helper-web:
     dependencies:
@@ -650,24 +620,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/accordion-web:
     dependencies:
@@ -732,24 +693,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/area-chart-web:
     dependencies:
@@ -817,24 +769,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/badge-button-web:
     dependencies:
@@ -902,24 +845,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/badge-web:
     dependencies:
@@ -987,24 +921,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/bar-chart-web:
     dependencies:
@@ -1072,24 +997,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:
@@ -1160,24 +1076,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
@@ -1245,24 +1152,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/carousel-web:
     dependencies:
@@ -1333,9 +1231,6 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1351,18 +1246,12 @@ importers:
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/charts-web:
     dependencies:
@@ -1418,15 +1307,9 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/color-picker-web:
     dependencies:
@@ -1500,24 +1383,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/column-chart-web:
     dependencies:
@@ -1588,24 +1462,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     dependencies:
@@ -1682,24 +1547,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
@@ -1770,24 +1626,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     dependencies:
@@ -1858,24 +1705,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/datagrid-text-filter-web:
     dependencies:
@@ -1940,24 +1778,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/datagrid-web:
     dependencies:
@@ -2031,24 +1860,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/dropdown-sort-web:
     dependencies:
@@ -2113,24 +1933,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/dropdown-web:
     dependencies:
@@ -2195,21 +2006,12 @@ importers:
       eslint:
         specifier: ^7.20.0
         version: 7.32.0
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.68.0
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/fieldset-web:
     dependencies:
@@ -2274,24 +2076,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/gallery-web:
     dependencies:
@@ -2359,24 +2152,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/google-tag-web:
     dependencies:
@@ -2408,15 +2192,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
-      rollup:
-        specifier: ^2.68.0
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/heatmap-chart-web:
     dependencies:
@@ -2490,24 +2268,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/html-element-web:
     dependencies:
@@ -2572,24 +2341,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/image-web:
     dependencies:
@@ -2657,24 +2417,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/language-selector-web:
     dependencies:
@@ -2739,24 +2490,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/line-chart-web:
     dependencies:
@@ -2827,24 +2569,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/maps-web:
     dependencies:
@@ -2936,24 +2669,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/pie-doughnut-chart-web:
     dependencies:
@@ -3027,24 +2751,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/popup-menu-web:
     dependencies:
@@ -3109,24 +2824,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:
@@ -3194,24 +2900,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/progress-circle-web:
     dependencies:
@@ -3282,24 +2979,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/range-slider-web:
     dependencies:
@@ -3382,24 +3070,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/rating-web:
     dependencies:
@@ -3470,24 +3149,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/rich-text-web:
     dependencies:
@@ -3576,9 +3246,6 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
@@ -3588,18 +3255,12 @@ importers:
       recursive-copy:
         specifier: ^2.0.14
         version: 2.0.14
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       through2:
         specifier: ^4.0.2
         version: 4.0.2
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/selection-helper-web:
     devDependencies:
@@ -3636,15 +3297,9 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/slider-web:
     dependencies:
@@ -3727,24 +3382,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/switch-web:
     dependencies:
@@ -3812,24 +3458,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/time-series-chart-web:
     dependencies:
@@ -3900,24 +3537,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/timeline-web:
     dependencies:
@@ -3982,24 +3610,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/tooltip-web:
     dependencies:
@@ -4070,24 +3689,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/tree-node-web:
     dependencies:
@@ -4152,24 +3762,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/pluggableWidgets/video-player-web:
     dependencies:
@@ -4237,24 +3838,15 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/charts:
     dependencies:
@@ -4352,9 +3944,6 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -4367,15 +3956,9 @@ importers:
       rimraf:
         specifier: ^2.7.1
         version: 2.7.1
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/eslint-config-web-widgets:
     dependencies:
@@ -4412,9 +3995,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
     devDependencies:
       eslint:
         specifier: ^7.32.0
@@ -4431,9 +4011,6 @@ importers:
       '@types/jest':
         specifier: ^29.5.2
         version: 29.5.2
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4453,9 +4030,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/pluggable-utils:
     dependencies:
@@ -4465,9 +4039,6 @@ importers:
       big.js:
         specifier: ^6.0.2
         version: 6.2.1
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4484,9 +4055,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/pluggable-widgets-commons:
     dependencies:
@@ -4545,9 +4113,6 @@ importers:
       jest:
         specifier: ^29.4.1
         version: 29.4.1(@types/node@18.16.12)
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -4560,18 +4125,15 @@ importers:
       rimraf:
         specifier: ^2.7.1
         version: 2.7.1
-      rollup:
-        specifier: ^2.79.1
-        version: 2.79.1
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/prettier-config-web-widgets:
     dependencies:
       '@prettier/plugin-xml':
         specifier: ^2.2.0
         version: 2.2.0
+      prettier:
+        specifier: '>= 2.8.4'
+        version: 2.8.4
     devDependencies:
       eslint:
         specifier: ^7.32.0
@@ -4584,9 +4146,6 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4615,18 +4174,12 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/widget-plugin-filtering:
     dependencies:
       '@mendix/widget-kit-web':
         specifier: workspace:*
         version: link:../widget-kit-web
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4643,15 +4196,8 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
   packages/shared/widget-plugin-sorting:
-    dependencies:
-      mendix:
-        specifier: ^9.24.2965
-        version: 9.24.2965
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4668,9 +4214,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      typescript:
-        specifier: 5.0.4
-        version: 5.0.4
 
 packages:
 
@@ -7797,6 +7340,7 @@ packages:
     resolution: {integrity: sha512-Kwc+BYBrnDqvacNxKp1UtcZJnJJnTih2NYmi/ieAKlHdxEPN6sYMwmIwgHdoLHggvml6bf3DYRaH2jt+gzaLjw==}
     dependencies:
       '@types/react': 18.2.9
+    dev: true
 
   /@types/react-plotly.js@2.5.0:
     resolution: {integrity: sha512-bda7N/Y65d1x0FfwhgUXAugGeG9CRIxmkW/yBL8PVFUMvZGpfEnw4bXKjDozBYlOskVfxj6UQ9IKmZI6CZ7/QQ==}
@@ -13597,6 +13141,7 @@ packages:
       '@types/big.js': 6.1.6
       '@types/react': 18.2.9
       '@types/react-native': 0.70.14
+    dev: true
 
   /meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}

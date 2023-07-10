@@ -31,12 +31,10 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
     "eslint": "^7.32.0",
-    "prettier": "^2.8.4",
-    "typescript": "5.0.4"
+    "prettier": "^2.8.4"
   },
   "dependencies": {
     "@types/big.js": "^6.1.6",
-    "big.js": "^6.0.2",
-    "mendix": "^9.24.2965"
+    "big.js": "^6.0.2"
   }
 }

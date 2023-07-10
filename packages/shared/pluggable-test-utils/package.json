@@ -33,13 +33,11 @@
     "@mendix/tsconfig-web-widgets": "workspace:*",
     "eslint": "^7.32.0",
     "jest": "^29.5.0",
-    "prettier": "^2.8.4",
-    "typescript": "5.0.4"
+    "prettier": "^2.8.4"
   },
   "dependencies": {
     "@types/big.js": "^6.1.6",
-    "@types/jest": "^29.5.2",
-    "mendix": "^9.24.2965"
+    "@types/jest": "^29.5.2"
   },
   "peerDependencies": {
     "jest": ">=26.6.3"
