@@ -51,9 +51,6 @@ importers:
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       eslint-plugin-cypress:
         specifier: ^2.13.3
         version: 2.13.3(eslint@7.32.0)
@@ -78,9 +75,6 @@ importers:
       node-fetch:
         specifier: ^2.6.9
         version: 2.6.9
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
@@ -99,12 +93,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       pretty-quick:
         specifier: ^3.1.3
         version: 3.1.3(prettier@2.8.4)
@@ -118,12 +106,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
   automation/utils:
     devDependencies:
@@ -151,9 +133,6 @@ importers:
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       execa:
         specifier: ^5.1.1
         version: 5.1.1
@@ -306,12 +285,6 @@ importers:
       '@types/date-arithmetic':
         specifier: ^3.1.2
         version: 3.1.2
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -327,21 +300,12 @@ importers:
       css-loader:
         specifier: ^6.7.3
         version: 6.7.3(webpack@5.75.0)
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       fork-ts-checker-webpack-plugin:
         specifier: ^7.3.0
         version: 7.3.0(typescript@5.0.4)(webpack@5.75.0)
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       sass:
         specifier: ^1.58.3
         version: 1.58.3
@@ -394,12 +358,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -409,15 +367,9 @@ importers:
       css-loader:
         specifier: ^6.7.3
         version: 6.7.3(webpack@5.75.0)
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
       jest-canvas-mock:
         specifier: ^2.4.0
         version: 2.4.0
@@ -427,9 +379,6 @@ importers:
       mini-css-extract-plugin:
         specifier: ^2.7.2
         version: 2.7.2(webpack@5.75.0)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       sass-loader:
         specifier: ^13.2.0
         version: 13.2.0(webpack@5.75.0)
@@ -513,9 +462,6 @@ importers:
       copy-and-watch:
         specifier: ^0.1.6
         version: 0.1.6
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -538,9 +484,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -553,9 +496,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -590,12 +530,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -608,21 +542,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -663,12 +585,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -681,21 +597,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -742,12 +646,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -757,21 +655,9 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -812,12 +698,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -833,21 +713,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -888,12 +756,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -909,21 +771,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -970,12 +820,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -985,21 +829,9 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1046,12 +878,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1064,21 +890,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1125,12 +939,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1140,21 +948,9 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1198,12 +994,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1219,18 +1009,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1240,9 +1021,6 @@ importers:
       postcss-url:
         specifier: ^10.1.3
         version: 10.1.3(postcss@8.4.21)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1289,24 +1067,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -1347,12 +1113,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1371,21 +1131,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1432,12 +1180,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1450,21 +1192,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1514,12 +1244,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1535,21 +1259,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1596,12 +1308,6 @@ importers:
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1614,21 +1320,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1675,12 +1369,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1693,21 +1381,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1748,12 +1424,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1766,21 +1436,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1830,12 +1488,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1848,21 +1500,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1903,12 +1543,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1921,21 +1555,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1985,9 +1607,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2003,9 +1622,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      eslint:
-        specifier: ^7.20.0
-        version: 7.32.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2043,12 +1659,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2064,21 +1674,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2119,12 +1717,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2140,21 +1732,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2186,12 +1766,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -2238,12 +1812,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2256,21 +1824,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2317,12 +1873,6 @@ importers:
       '@types/dompurify':
         specifier: ^2.4.0
         version: 2.4.0
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2332,18 +1882,9 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2387,12 +1928,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2405,21 +1940,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2460,12 +1983,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2478,21 +1995,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2539,12 +2044,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2557,21 +2056,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2630,12 +2117,6 @@ importers:
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/leaflet':
         specifier: ^1.9.3
         version: 1.9.3
@@ -2657,21 +2138,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2721,12 +2190,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2739,21 +2202,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2794,12 +2245,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2812,21 +2257,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2867,12 +2300,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2888,21 +2315,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2946,12 +2361,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2967,21 +2376,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3031,12 +2428,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3058,21 +2449,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3116,12 +2495,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3137,21 +2510,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3210,12 +2571,6 @@ importers:
       '@types/ckeditor4':
         specifier: ^4.16.5
         version: 4.16.5
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3234,21 +2589,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3282,21 +2625,12 @@ importers:
       '@types/big.js':
         specifier: ^6.0.2
         version: 6.1.6
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -3343,12 +2677,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3370,21 +2698,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3425,12 +2741,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3446,21 +2756,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3507,12 +2805,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3525,21 +2817,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3580,12 +2860,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3598,21 +2872,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3659,12 +2921,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3677,21 +2933,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3732,12 +2976,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3750,21 +2988,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3805,12 +3031,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.2
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3826,21 +3046,9 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3902,12 +3110,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
-      '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -3932,24 +3134,12 @@ importers:
       copy-and-watch:
         specifier: ^0.1.6
         version: 0.1.6
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3992,13 +3182,7 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.0(eslint@7.32.0)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
     devDependencies:
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       eslint-plugin-json:
         specifier: ^3.1.0
         version: 3.1.0
@@ -4008,9 +3192,6 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/jest':
-        specifier: ^29.5.2
-        version: 29.5.2
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4021,15 +3202,6 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
   packages/shared/pluggable-utils:
     dependencies:
@@ -4049,18 +3221,9 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
   packages/shared/pluggable-widgets-commons:
     dependencies:
-      '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -4092,33 +3255,18 @@ importers:
       '@types/big.js':
         specifier: ^6.1.6
         version: 6.1.6
-      '@types/enzyme':
-        specifier: ^3.10.12
-        version: 3.10.12
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      enzyme:
-        specifier: ^3.11.0
-        version: 3.11.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4131,13 +3279,6 @@ importers:
       '@prettier/plugin-xml':
         specifier: ^2.2.0
         version: 2.2.0
-      prettier:
-        specifier: '>= 2.8.4'
-        version: 2.8.4
-    devDependencies:
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
 
   packages/shared/tsconfig-web-widgets: {}
 
@@ -4162,18 +3303,6 @@ importers:
       '@swc/jest':
         specifier: ^0.2.24
         version: 0.2.24(@swc/core@1.3.37)
-      '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      jest:
-        specifier: ^29.4.1
-        version: 29.4.1(@types/node@18.16.12)
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
   packages/shared/widget-plugin-filtering:
     dependencies:
@@ -4190,12 +3319,6 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
   packages/shared/widget-plugin-sorting:
     devDependencies:
@@ -4208,12 +3331,6 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      prettier:
-        specifier: ^2.8.4
-        version: 2.8.4
 
 packages:
 
@@ -6061,48 +5178,6 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /@jest/core@29.5.0:
-    resolution: {integrity: sha512-28UzQc7ulUrOQw1IsN/kv1QES3q2kkbl/wGslyhAclqZ/8cMdB5M68BffkIdSJgKBUt50d3hbwJ92XESlE7LiQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/console': 29.5.0
-      '@jest/reporters': 29.5.0
-      '@jest/test-result': 29.5.0
-      '@jest/transform': 29.5.0
-      '@jest/types': 29.5.0
-      '@types/node': 18.16.12
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      ci-info: 3.8.0
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      jest-changed-files: 29.5.0
-      jest-config: 29.5.0(@types/node@18.16.12)
-      jest-haste-map: 29.5.0
-      jest-message-util: 29.5.0
-      jest-regex-util: 29.4.3
-      jest-resolve: 29.5.0
-      jest-resolve-dependencies: 29.5.0
-      jest-runner: 29.5.0
-      jest-runtime: 29.5.0
-      jest-snapshot: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      jest-watcher: 29.5.0
-      micromatch: 4.0.5
-      pretty-format: 29.5.0
-      slash: 3.0.0
-      strip-ansi: 6.0.1
-    transitivePeerDependencies:
-      - supports-color
-      - ts-node
-    dev: true
-
   /@jest/core@29.5.0(ts-node@10.9.1):
     resolution: {integrity: sha512-28UzQc7ulUrOQw1IsN/kv1QES3q2kkbl/wGslyhAclqZ/8cMdB5M68BffkIdSJgKBUt50d3hbwJ92XESlE7LiQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -6167,6 +5242,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       jest-get-type: 29.4.3
+    dev: true
 
   /@jest/expect@29.5.0:
     resolution: {integrity: sha512-PueDR2HGihN3ciUNGr4uelropW7rqUfTiOn+8u0leg/42UhblPxHkfoh0Ruu3I9Y1962P3u2DY4+h7GVTSVU6g==}
@@ -6244,6 +5320,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@sinclair/typebox': 0.25.24
+    dev: true
 
   /@jest/source-map@29.4.3:
     resolution: {integrity: sha512-qyt/mb6rLyd9j1jUts4EQncvS6Yy3PM9HghnNv86QBlV+zdL2inCdK1tuVlL+J+lpiw2BI67qXOrX3UurBqQ1w==}
@@ -6297,16 +5374,6 @@ packages:
       - supports-color
     dev: true
 
-  /@jest/types@26.6.2:
-    resolution: {integrity: sha512-fC6QCp7Sc5sX6g8Tvbmj4XUTbyrik0akgRy03yjXbQaBWWNWGE7SGtJk98m0N8nzegD/7SggrUlivxo5ax4KWQ==}
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@types/istanbul-lib-coverage': 2.0.4
-      '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.16.12
-      '@types/yargs': 15.0.15
-      chalk: 4.1.2
-
   /@jest/types@27.5.1:
     resolution: {integrity: sha512-Cx46iJ9QpwQTjIdq5VJu2QTMMs3QlEjI0x1QbBP5W1+nMzyc2XmimiRR/CbX9TO0cPTeUlxWMOu8mslYsJ8DEw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -6328,6 +5395,7 @@ packages:
       '@types/node': 18.16.12
       '@types/yargs': 17.0.24
       chalk: 4.1.2
+    dev: true
 
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
@@ -6791,6 +5859,7 @@ packages:
 
   /@sinclair/typebox@0.25.24:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
+    dev: true
 
   /@sinonjs/commons@3.0.0:
     resolution: {integrity: sha512-jXBtWAF4vmdNmZgD5FoKsVLv3rPgDnLgPbU84LIJ3otV44vJlDRokVng5v8NFJdCf/da9legHcKaRuZs4L7faA==}
@@ -7135,13 +6204,6 @@ packages:
     dependencies:
       '@types/trusted-types': 2.0.3
 
-  /@types/enzyme@3.10.12:
-    resolution: {integrity: sha512-xryQlOEIe1TduDWAOphR0ihfebKFSWOXpIsk+70JskCfRfW+xALdnJ0r1ZOTo85F9Qsjk6vtlU7edTYHbls9tA==}
-    dependencies:
-      '@types/cheerio': 0.22.31
-      '@types/react': 18.2.9
-    dev: true
-
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
@@ -7198,28 +6260,26 @@ packages:
 
   /@types/istanbul-lib-coverage@2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
+    dev: true
 
   /@types/istanbul-lib-report@3.0.0:
     resolution: {integrity: sha512-plGgXAPfVKFoYfa9NpYDAkseG+g6Jr294RqeqcqDixSbU34MZVJRi/P+7Y8GDpzkEwLaGZZOpKIEmeVZNtKsrg==}
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
+    dev: true
 
   /@types/istanbul-reports@3.0.1:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
-
-  /@types/jest@26.0.24:
-    resolution: {integrity: sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==}
-    dependencies:
-      jest-diff: 26.6.2
-      pretty-format: 26.6.2
+    dev: true
 
   /@types/jest@29.5.2:
     resolution: {integrity: sha512-mSoZVJF5YzGVCk+FsDxzDuH7s+SCkzrgKZzf0Z0T2WudhBUPoF6ktoTPC4R0ZoCPCV5xUvuU6ias5NvxcBcMMg==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
+    dev: true
 
   /@types/jsdom@20.0.1:
     resolution: {integrity: sha512-d0r18sZPmMQr1eG35u12FZfhIXNrnsPU/g5wvRKCUf/tOGilKKwYMYGqh33BNR6ba+2gkHw1EUiHoN3mn7E5IQ==}
@@ -7410,6 +6470,7 @@ packages:
 
   /@types/stack-utils@2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
 
   /@types/testing-library__jest-dom@5.14.5:
     resolution: {integrity: sha512-SBwbxYoyPIvxHbeHxTZX2Pe/74F/tX2/D3mMvzabdeJ25bBojfW0TyB8BHrbq/9zaaKICJZjLP+8r6AeZMFCuQ==}
@@ -7434,11 +6495,7 @@ packages:
 
   /@types/yargs-parser@21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
-
-  /@types/yargs@15.0.15:
-    resolution: {integrity: sha512-IziEYMU9XoVj8hWg7k+UJrXALkGFjWJhn5QFEv9q4p+v40oZhSuC135M38st8XPjICL7Ey4TV64ferBGUoJhBg==}
-    dependencies:
-      '@types/yargs-parser': 21.0.0
+    dev: true
 
   /@types/yargs@16.0.5:
     resolution: {integrity: sha512-AxO/ADJOBFJScHbWhq2xAhlWP24rY4aCEG/NFaMvbT3X2MgRsLjhjQwsn0Zi5zn0LG9jUhCCZMeX9Dkuw6k+vQ==}
@@ -7450,6 +6507,7 @@ packages:
     resolution: {integrity: sha512-6i0aC7jV6QzQB8ne1joVZ0eSFIstHsCrobmOtghM11yGlH0j43FKL2UhWdELkyps0zuf7qVTUVCCR+tgSlyLLw==}
     dependencies:
       '@types/yargs-parser': 21.0.0
+    dev: true
 
   /@types/yauzl@2.10.0:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
@@ -8112,6 +7170,7 @@ packages:
   /ansi-styles@5.2.0:
     resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
     engines: {node: '>=10'}
+    dev: true
 
   /anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
@@ -9812,13 +8871,10 @@ packages:
     resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
     dev: false
 
-  /diff-sequences@26.6.2:
-    resolution: {integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==}
-    engines: {node: '>= 10.14.2'}
-
   /diff-sequences@29.4.3:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
 
   /diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -10272,6 +9328,7 @@ packages:
   /escape-string-regexp@2.0.0:
     resolution: {integrity: sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==}
     engines: {node: '>=8'}
+    dev: true
 
   /escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
@@ -10632,6 +9689,7 @@ packages:
       jest-matcher-utils: 29.5.0
       jest-message-util: 29.5.0
       jest-util: 29.5.0
+    dev: true
 
   /ext@1.7.0:
     resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
@@ -12023,34 +11081,6 @@ packages:
       - supports-color
     dev: true
 
-  /jest-cli@29.5.0(@types/node@18.16.12):
-    resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0
-      '@jest/test-result': 29.5.0
-      '@jest/types': 29.5.0
-      chalk: 4.1.2
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      import-local: 3.1.0
-      jest-config: 29.5.0(@types/node@18.16.12)
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      prompts: 2.4.2
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-    dev: true
-
   /jest-cli@29.5.0(@types/node@18.16.12)(ts-node@10.9.1):
     resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -12077,45 +11107,6 @@ packages:
       - '@types/node'
       - supports-color
       - ts-node
-    dev: true
-
-  /jest-config@29.5.0(@types/node@18.16.12):
-    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.0
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.5.0
-      '@types/node': 18.16.12
-      babel-jest: 29.5.0(@babel/core@7.21.0)
-      chalk: 4.1.2
-      ci-info: 3.8.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.4.3
-      jest-regex-util: 29.4.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.5
-      parse-json: 5.2.0
-      pretty-format: 29.5.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /jest-config@29.5.0(@types/node@18.16.12)(ts-node@10.9.1):
@@ -12158,15 +11149,6 @@ packages:
       - supports-color
     dev: true
 
-  /jest-diff@26.6.2:
-    resolution: {integrity: sha512-6m+9Z3Gv9wN0WFVasqjCL/06+EFCMTqDEUl/b87HYK2rAPTyfz4ZIuSlPhY51PIQRWx5TaxeF1qmXKe9gfN3sA==}
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 26.6.2
-      jest-get-type: 26.3.0
-      pretty-format: 26.6.2
-
   /jest-diff@29.5.0:
     resolution: {integrity: sha512-LtxijLLZBduXnHSniy0WMdaHjmQnt3g5sa16W4p0HqukYTTsyTW3GD1q41TyGl5YFXj/5B2U6dlh5FM1LIMgxw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -12175,6 +11157,7 @@ packages:
       diff-sequences: 29.4.3
       jest-get-type: 29.4.3
       pretty-format: 29.5.0
+    dev: true
 
   /jest-docblock@29.4.3:
     resolution: {integrity: sha512-fzdTftThczeSD9nZ3fzA/4KkHtnmllawWrXO69vtI+L9WjEIuXWs4AmyME7lN5hU7dB0sHhuPfcKofRsUb/2Fg==}
@@ -12229,13 +11212,10 @@ packages:
       jest-util: 29.5.0
     dev: true
 
-  /jest-get-type@26.3.0:
-    resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
-    engines: {node: '>= 10.14.2'}
-
   /jest-get-type@29.4.3:
     resolution: {integrity: sha512-J5Xez4nRRMjk8emnTpWrlkyb9pfRQQanDrvWHhsR1+VUfbwxi30eVcZFlcdGInRibU4G5LwHXpI7IRHU0CY+gg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
 
   /jest-haste-map@29.5.0:
     resolution: {integrity: sha512-IspOPnnBro8YfVYSw6yDRKh/TiCdRngjxeacCps1cQ9cgVN6+10JUcuJ1EabrgYLOATsIAigxA0rLR9x/YlrSA==}
@@ -12307,6 +11287,7 @@ packages:
       jest-diff: 29.5.0
       jest-get-type: 29.4.3
       pretty-format: 29.5.0
+    dev: true
 
   /jest-message-util@29.5.0:
     resolution: {integrity: sha512-Kijeg9Dag6CKtIDA7O21zNTACqD5MD/8HfIV8pdD94vFyFuer52SigdC3IQMhab3vACxXMiFk+yMHNdbqtyTGA==}
@@ -12321,6 +11302,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       stack-utils: 2.0.6
+    dev: true
 
   /jest-mock@29.5.0:
     resolution: {integrity: sha512-GqOzvdWDE4fAV2bWQLQCkujxYWL7RxjCnj71b5VhDAGOevB3qj3Ovg26A5NI84ZpODxyzaozXLOh2NCgkbvyaw==}
@@ -12479,6 +11461,7 @@ packages:
       ci-info: 3.8.0
       graceful-fs: 4.2.11
       picomatch: 2.3.1
+    dev: true
 
   /jest-validate@29.5.0:
     resolution: {integrity: sha512-pC26etNIi+y3HV8A+tUGr/lph9B18GnzSRAkPaaZJIE1eFdiYm6/CewuiJQ8/RlfHd1u/8Ioi8/sJ+CmbA+zAQ==}
@@ -12532,26 +11515,6 @@ packages:
       jest-util: 29.5.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
-    dev: true
-
-  /jest@29.4.1(@types/node@18.16.12):
-    resolution: {integrity: sha512-cknimw7gAXPDOmj0QqztlxVtBVCw2lYY9CeIE5N6kD+kET1H4H79HSNISJmijb1HF+qk+G+ploJgiDi5k/fRlg==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0
-      '@jest/types': 29.5.0
-      import-local: 3.1.0
-      jest-cli: 29.5.0(@types/node@18.16.12)
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
     dev: true
 
   /jest@29.4.1(@types/node@18.16.12)(ts-node@10.9.1):
@@ -14420,15 +13383,6 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /pretty-format@26.6.2:
-    resolution: {integrity: sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==}
-    engines: {node: '>= 10'}
-    dependencies:
-      '@jest/types': 26.6.2
-      ansi-regex: 5.0.1
-      ansi-styles: 4.3.0
-      react-is: 17.0.2
-
   /pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -14445,6 +13399,7 @@ packages:
       '@jest/schemas': 29.4.3
       ansi-styles: 5.2.0
       react-is: 18.2.0
+    dev: true
 
   /pretty-quick@3.1.3(prettier@2.8.4):
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
@@ -15874,6 +14829,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       escape-string-regexp: 2.0.0
+    dev: true
 
   /static-eval@2.1.0:
     resolution: {integrity: sha512-agtxZ/kWSsCkI5E4QifRwsaPs0P0JmZV6dkLz6ILYfFYQGn+5plctanRN+IC8dJRiFkyXHrwEE3W9Wmx67uDbw==}

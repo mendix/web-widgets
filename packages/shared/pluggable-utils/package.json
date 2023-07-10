@@ -29,9 +29,7 @@
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/tsconfig-web-widgets": "workspace:*",
-    "eslint": "^7.32.0",
-    "prettier": "^2.8.4"
+    "@mendix/tsconfig-web-widgets": "workspace:*"
   },
   "dependencies": {
     "@types/big.js": "^6.1.6",

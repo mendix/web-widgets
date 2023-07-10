@@ -51,8 +51,6 @@
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/big.js": "^6.1.6",
-    "@types/jest": "^29.0.0",
-    "eslint": "^7.32.0",
     "ts-node": "^10.9.1"
   }
 }
