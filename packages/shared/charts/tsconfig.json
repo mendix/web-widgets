@@ -1,5 +1,4 @@
 {
-    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
     "include": ["./src", "./typings"],
     "ts-node": {
         "compilerOptions": {
@@ -12,8 +11,27 @@
         "types": ["mendix-client", "big.js", "jest", "node"],
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "declaration": true,
-        "sourceMap": false,
-        "paths": { "*": ["node_modules/*", "node_modules/@types/*"] }
+        "paths": { "*": ["node_modules/*", "node_modules/@types/*"] },
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "module": "esnext",
+        "target": "es6",
+        "lib": ["esnext", "dom"],
+        "moduleResolution": "node",
+        "declaration": false,
+        "noLib": false,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "strictFunctionTypes": false,
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "useUnknownInCatchVariables": false,
+        "exactOptionalPropertyTypes": false,
     }
 }
