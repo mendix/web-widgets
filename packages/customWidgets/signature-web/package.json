@@ -36,7 +36,6 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.16.12",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "jest-canvas-mock": "^2.4.0",

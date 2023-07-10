@@ -23,7 +23,6 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.16.12",
     "@types/plotly.js": "^2.12.18",
     "@types/react-plotly.js": "^2.5.0",
     "@types/shelljs": "^0.8.11",

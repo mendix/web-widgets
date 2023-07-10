@@ -45,7 +45,6 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.16.12",
     "@types/react-color": "^2.17.6",
     "@web-widgets/run-e2e": "workspace:*",
     "cross-env": "^7.0.3",

@@ -18,7 +18,6 @@
     "changelog": "pnpm --filter @mendix-internal/automation-utils run changelog"
   },
   "devDependencies": {
-    "@types/node": "^18.15.3",
     "husky": "^8.0.3",
     "turbo": "^1.8.3"
   },

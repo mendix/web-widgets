@@ -42,7 +42,6 @@
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
-    "@types/node": "^18.16.12",
     "@types/react-big-calendar": "1.6.4",
     "babel-loader": "^8.3.0",
     "copy-webpack-plugin": "^11.0.0",

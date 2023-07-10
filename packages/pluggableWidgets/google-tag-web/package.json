@@ -42,8 +42,7 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@types/node": "^18.16.12"
+    "@mendix/pluggable-widgets-commons": "workspace:*"
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
