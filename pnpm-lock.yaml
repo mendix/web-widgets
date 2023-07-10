@@ -706,9 +706,15 @@ importers:
 
   packages/pluggableWidgets/carousel-web:
     dependencies:
+      '@types/react-test-renderer':
+        specifier: ^18.0.0
+        version: 18.0.0
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      react-test-renderer:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
       swiper:
         specifier: ^9.4.1
         version: 9.4.1
@@ -1590,6 +1596,9 @@ importers:
       '@types/dompurify':
         specifier: ^2.4.0
         version: 2.4.0
+      '@types/react-test-renderer':
+        specifier: ^18.0.0
+        version: 18.0.0
       ckeditor4:
         specifier: ^4.21.0
         version: 4.21.0
@@ -1602,6 +1611,9 @@ importers:
       dompurify:
         specifier: ^2.4.5
         version: 2.4.5
+      react-test-renderer:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -1867,9 +1879,15 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@types/react-test-renderer':
+        specifier: ^18.0.0
+        version: 18.0.0
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      react-test-renderer:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -5150,6 +5168,12 @@ packages:
     dependencies:
       '@types/react': 18.2.9
     dev: true
+
+  /@types/react-test-renderer@18.0.0:
+    resolution: {integrity: sha512-C7/5FBJ3g3sqUahguGi03O79b8afNeSD6T8/GU50oQrJCU0bVCCGQHaGKUbg2Ce8VQEEqTw8/HiS6lXHHdgkdQ==}
+    dependencies:
+      '@types/react': 18.2.9
+    dev: false
 
   /@types/react@18.2.9:
     resolution: {integrity: sha512-pL3JAesUkF7PEQGxh5XOwdXGV907te6m1/Qe1ERJLgomojS6Ne790QiA7GUl434JEkFA2aAaB6qJ5z4e1zJn/w==}
@@ -12651,7 +12675,6 @@ packages:
       object-assign: 4.1.1
       react: 18.2.0
       react-is: 18.2.0
-    dev: true
 
   /react-test-renderer@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==}
@@ -12662,7 +12685,6 @@ packages:
       react-is: 18.2.0
       react-shallow-renderer: 16.15.0(react@18.2.0)
       scheduler: 0.23.0
-    dev: true
 
   /react@16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
