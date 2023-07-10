@@ -228,9 +228,6 @@ importers:
       ts-loader:
         specifier: ^9.4.2
         version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -310,9 +307,6 @@ importers:
       ts-loader:
         specifier: ^9.4.2
         version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -371,9 +365,6 @@ importers:
       ts-loader:
         specifier: ^9.4.2
         version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@5.0.1)
@@ -393,9 +384,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/modules/data-widgets:
     dependencies:
@@ -439,9 +427,6 @@ importers:
       copy-and-watch:
         specifier: ^0.1.6
         version: 0.1.6
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/modules/google-tag:
     dependencies:
@@ -458,18 +443,12 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/modules/web-actions:
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/accessibility-helper-web:
     dependencies:
@@ -492,9 +471,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/accordion-web:
     dependencies:
@@ -520,9 +496,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/area-chart-web:
     dependencies:
@@ -548,9 +521,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/badge-button-web:
     dependencies:
@@ -579,9 +549,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/badge-web:
     dependencies:
@@ -610,9 +577,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/bar-chart-web:
     dependencies:
@@ -638,9 +602,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:
@@ -672,9 +633,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
@@ -700,9 +658,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/carousel-web:
     dependencies:
@@ -752,9 +707,6 @@ importers:
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/charts-web:
     dependencies:
@@ -795,9 +747,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/color-picker-web:
     dependencies:
@@ -832,9 +781,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/column-chart-web:
     dependencies:
@@ -863,9 +809,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     dependencies:
@@ -903,9 +846,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
@@ -937,9 +877,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     dependencies:
@@ -965,9 +902,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/datagrid-text-filter-web:
     dependencies:
@@ -993,9 +927,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/datagrid-web:
     dependencies:
@@ -1027,9 +958,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/dropdown-sort-web:
     dependencies:
@@ -1058,9 +986,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/dropdown-web:
     dependencies:
@@ -1098,9 +1023,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/fieldset-web:
     dependencies:
@@ -1126,9 +1048,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/gallery-web:
     dependencies:
@@ -1157,9 +1076,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/google-tag-web:
     dependencies:
@@ -1179,9 +1095,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/heatmap-chart-web:
     dependencies:
@@ -1213,9 +1126,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/html-element-web:
     dependencies:
@@ -1241,9 +1151,6 @@ importers:
       '@types/dompurify':
         specifier: ^2.4.0
         version: 2.4.0
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/image-web:
     dependencies:
@@ -1272,9 +1179,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/language-selector-web:
     dependencies:
@@ -1300,9 +1204,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/line-chart-web:
     dependencies:
@@ -1331,9 +1232,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/maps-web:
     dependencies:
@@ -1386,9 +1284,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/pie-doughnut-chart-web:
     dependencies:
@@ -1420,9 +1315,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/popup-menu-web:
     dependencies:
@@ -1448,9 +1340,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:
@@ -1479,9 +1368,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/progress-circle-web:
     dependencies:
@@ -1513,9 +1399,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/range-slider-web:
     dependencies:
@@ -1556,9 +1439,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/rating-web:
     dependencies:
@@ -1587,9 +1467,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/rich-text-web:
     dependencies:
@@ -1651,9 +1528,6 @@ importers:
       through2:
         specifier: ^4.0.2
         version: 4.0.2
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/selection-helper-web:
     devDependencies:
@@ -1675,9 +1549,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/slider-web:
     dependencies:
@@ -1718,9 +1589,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/switch-web:
     dependencies:
@@ -1749,9 +1617,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/time-series-chart-web:
     dependencies:
@@ -1780,9 +1645,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/timeline-web:
     dependencies:
@@ -1808,9 +1670,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/tooltip-web:
     dependencies:
@@ -1842,9 +1701,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/tree-node-web:
     dependencies:
@@ -1870,9 +1726,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/pluggableWidgets/video-player-web:
     dependencies:
@@ -1907,9 +1760,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
 
   packages/shared/charts:
     dependencies:
@@ -3965,7 +3815,7 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /@jest/core@29.5.0(ts-node@10.9.1):
+  /@jest/core@29.5.0:
     resolution: {integrity: sha512-28UzQc7ulUrOQw1IsN/kv1QES3q2kkbl/wGslyhAclqZ/8cMdB5M68BffkIdSJgKBUt50d3hbwJ92XESlE7LiQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -3986,7 +3836,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
-      jest-config: 29.5.0(@types/node@18.16.12)(ts-node@10.9.1)
+      jest-config: 29.5.0(@types/node@18.16.12)
       jest-haste-map: 29.5.0
       jest-message-util: 29.5.0
       jest-regex-util: 29.4.3
@@ -4336,7 +4186,7 @@ packages:
       identity-obj-proxy: 3.0.0
       jasmine: 3.99.0
       jasmine-core: 3.99.1
-      jest: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
+      jest: 29.4.1(@types/node@18.16.12)
       jest-environment-jsdom: 29.5.0
       jest-jasmine2: 29.5.0
       jest-junit: 13.2.0
@@ -9836,7 +9686,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-cli@29.5.0(@types/node@18.16.12)(ts-node@10.9.1):
+  /jest-cli@29.5.0(@types/node@18.16.12):
     resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -9846,14 +9696,14 @@ packages:
       node-notifier:
         optional: true
     dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.1)
+      '@jest/core': 29.5.0
       '@jest/test-result': 29.5.0
       '@jest/types': 29.5.0
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
-      jest-config: 29.5.0(@types/node@18.16.12)(ts-node@10.9.1)
+      jest-config: 29.5.0(@types/node@18.16.12)
       jest-util: 29.5.0
       jest-validate: 29.5.0
       prompts: 2.4.2
@@ -9864,7 +9714,7 @@ packages:
       - ts-node
     dev: true
 
-  /jest-config@29.5.0(@types/node@18.16.12)(ts-node@10.9.1):
+  /jest-config@29.5.0(@types/node@18.16.12):
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -9899,7 +9749,6 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10272,7 +10121,7 @@ packages:
       supports-color: 8.1.1
     dev: true
 
-  /jest@29.4.1(@types/node@18.16.12)(ts-node@10.9.1):
+  /jest@29.4.1(@types/node@18.16.12):
     resolution: {integrity: sha512-cknimw7gAXPDOmj0QqztlxVtBVCw2lYY9CeIE5N6kD+kET1H4H79HSNISJmijb1HF+qk+G+ploJgiDi5k/fRlg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -10282,10 +10131,10 @@ packages:
       node-notifier:
         optional: true
     dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.1)
+      '@jest/core': 29.5.0
       '@jest/types': 29.5.0
       import-local: 3.1.0
-      jest-cli: 29.5.0(@types/node@18.16.12)(ts-node@10.9.1)
+      jest-cli: 29.5.0(@types/node@18.16.12)
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -14072,7 +13921,7 @@ packages:
       babel-jest: 29.5.0(@babel/core@7.21.0)
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.4.1(@types/node@18.16.12)(ts-node@10.9.1)
+      jest: 29.4.1(@types/node@18.16.12)
       jest-util: 29.5.0
       json5: 2.2.3
       lodash.memoize: 4.1.2

@@ -51,7 +51,6 @@
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/react-datepicker": "^4.11.2",
-    "@web-widgets/run-e2e": "workspace:*",
-    "ts-node": "^10.9.1"
+    "@web-widgets/run-e2e": "workspace:*"
   }
 }

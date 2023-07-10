@@ -48,8 +48,7 @@
     "@types/rc-slider": "^8.6.6",
     "@types/rc-tooltip": "^3.7.7",
     "@web-widgets/run-e2e": "workspace:*",
-    "cross-env": "^7.0.3",
-    "ts-node": "^10.9.1"
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

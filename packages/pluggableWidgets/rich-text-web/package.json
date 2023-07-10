@@ -52,8 +52,7 @@
     "@web-widgets/run-e2e": "workspace:*",
     "cross-env": "^7.0.3",
     "recursive-copy": "^2.0.14",
-    "through2": "^4.0.2",
-    "ts-node": "^10.9.1"
+    "through2": "^4.0.2"
   },
   "dependencies": {
     "@types/dompurify": "^2.4.0",

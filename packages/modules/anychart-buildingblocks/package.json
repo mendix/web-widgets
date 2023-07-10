@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "ts-node": "^10.9.1"
+    "@mendix/prettier-config-web-widgets": "workspace:*"
   }
 }

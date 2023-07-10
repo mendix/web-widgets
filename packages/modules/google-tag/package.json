@@ -42,7 +42,6 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "cross-env": "^7.0.3",
-    "ts-node": "^10.9.1"
+    "cross-env": "^7.0.3"
   }
 }
