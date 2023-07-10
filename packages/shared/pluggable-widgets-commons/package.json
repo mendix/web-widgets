@@ -36,7 +36,6 @@
     "@types/big.js": "^6.1.6",
     "@types/react-test-renderer": "^18.0.0",
     "@types/testing-library__jest-dom": "^5.14.5",
-    "identity-obj-proxy": "^3.0.0",
     "mendix-client": "^7.15.8",
     "react-test-renderer": "~18.2.0",
     "rimraf": "^2.7.1"

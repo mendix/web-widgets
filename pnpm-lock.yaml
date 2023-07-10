@@ -367,9 +367,6 @@ importers:
       css-loader:
         specifier: ^6.7.3
         version: 6.7.3(webpack@5.75.0)
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       jest-canvas-mock:
         specifier: ^2.4.0
         version: 2.4.0
@@ -542,9 +539,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -597,9 +591,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -655,9 +646,6 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -713,9 +701,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -771,9 +756,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -829,9 +811,6 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -890,9 +869,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -948,9 +924,6 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1009,9 +982,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1131,9 +1101,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1192,9 +1159,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1259,9 +1223,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1320,9 +1281,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1381,9 +1339,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1436,9 +1391,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1500,9 +1452,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1555,9 +1504,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1674,9 +1620,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1732,9 +1675,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1824,9 +1764,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1882,9 +1819,6 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1940,9 +1874,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1995,9 +1926,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2056,9 +1984,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2138,9 +2063,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2202,9 +2124,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2257,9 +2176,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2315,9 +2231,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2376,9 +2289,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2449,9 +2359,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2510,9 +2417,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2589,9 +2493,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2698,9 +2599,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2756,9 +2654,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2817,9 +2712,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2872,9 +2764,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2933,9 +2822,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2988,9 +2874,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3046,9 +2929,6 @@ importers:
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3134,9 +3014,6 @@ importers:
       copy-and-watch:
         specifier: ^0.1.6
         version: 0.1.6
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -3261,9 +3138,6 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.14.5
         version: 5.14.5
-      identity-obj-proxy:
-        specifier: ^3.0.0
-        version: 3.0.0
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
