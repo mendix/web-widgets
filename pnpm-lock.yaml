@@ -1046,6 +1046,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@types/enzyme':
+        specifier: ^3.10.13
+        version: 3.10.13
       '@web-widgets/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -4929,6 +4932,13 @@ packages:
     resolution: {integrity: sha512-IDBwO5IZhrKvHFUl+clZxgf3hn2b/lU6H1KaBShPkQyGJUQ0xwebezIPSuiyGwfz1UzJWQl4M7BDxtHtCCPlTg==}
     dependencies:
       '@types/trusted-types': 2.0.3
+
+  /@types/enzyme@3.10.13:
+    resolution: {integrity: sha512-FCtoUhmFsud0Yx9fmZk179GkdZ4U9B0GFte64/Md+W/agx0L5SxsIIbhLBOxIb9y2UfBA4WQnaG1Od/UsUQs9Q==}
+    dependencies:
+      '@types/cheerio': 0.22.31
+      '@types/react': 18.2.9
+    dev: true
 
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
