@@ -45,7 +45,6 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/big.js": "^6.1.6",
     "@types/node": "^18.16.12",
     "@types/rc-slider": "^8.6.6",
     "@types/rc-tooltip": "^3.7.7",

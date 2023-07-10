@@ -31,8 +31,5 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*"
-  },
-  "dependencies": {
-    "@types/big.js": "^6.1.6"
   }
 }

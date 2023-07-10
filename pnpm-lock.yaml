@@ -586,9 +586,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -697,9 +694,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -774,9 +768,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -952,9 +943,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1078,9 +1066,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1155,9 +1140,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1343,9 +1325,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -1377,9 +1356,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1414,9 +1390,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/dompurify':
         specifier: ^2.4.0
         version: 2.4.0
@@ -1525,9 +1498,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1629,9 +1599,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1783,9 +1750,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1829,9 +1793,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1929,9 +1890,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.0.2
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -1969,9 +1927,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2055,9 +2010,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2255,9 +2207,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
@@ -2327,10 +2276,6 @@ importers:
         version: 3.1.0
 
   packages/shared/pluggable-test-utils:
-    dependencies:
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2344,9 +2289,6 @@ importers:
 
   packages/shared/pluggable-utils:
     dependencies:
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       big.js:
         specifier: ^6.0.2
         version: 6.2.1
@@ -2379,9 +2321,6 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../prettier-config-web-widgets
-      '@types/big.js':
-        specifier: ^6.1.6
-        version: 6.1.6
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -5253,6 +5192,7 @@ packages:
 
   /@types/big.js@6.1.6:
     resolution: {integrity: sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==}
+    dev: true
 
   /@types/cheerio@0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}

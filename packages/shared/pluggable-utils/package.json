@@ -32,7 +32,6 @@
     "@mendix/tsconfig-web-widgets": "workspace:*"
   },
   "dependencies": {
-    "@types/big.js": "^6.1.6",
     "big.js": "^6.0.2"
   }
 }
