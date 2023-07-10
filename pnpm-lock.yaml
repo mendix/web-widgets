@@ -1,7 +1,7 @@
 lockfileVersion: '6.0'
 
 settings:
-  autoInstallPeers: false
+  autoInstallPeers: true
   excludeLinksFromLockfile: false
 
 overrides:
@@ -210,13 +210,13 @@ importers:
         version: 2.24.2
       react-ace:
         specifier: ^10.1.0
-        version: 10.1.0(react-dom@18.2.0)(react@18.2.0)
+        version: 10.1.0(react-dom@17.0.2)(react@18.2.0)
       react-redux:
         specifier: ^8.0.5
-        version: 8.0.5(@types/react-dom@18.2.4)(@types/react@18.2.9)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+        version: 8.0.5(react-dom@17.0.2)(react@18.2.0)(redux@4.2.1)
       react-resize-detector:
         specifier: ^9.1.0
-        version: 9.1.0(react-dom@18.2.0)(react@18.2.0)
+        version: 9.1.0(react-dom@17.0.2)(react@18.2.0)
       redux:
         specifier: ^4.2.1
         version: 4.2.1
@@ -236,12 +236,6 @@ importers:
       '@types/plotly.js':
         specifier: ~2.12.18
         version: 2.12.18
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       copy-webpack-plugin:
         specifier: ^11.0.0
         version: 11.0.0(webpack@5.75.0)
@@ -260,12 +254,6 @@ importers:
       raw-loader:
         specifier: ^4.0.2
         version: 4.0.2(webpack@5.75.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       sass-loader:
         specifier: ^13.2.0
         version: 13.2.0(webpack@5.75.0)
@@ -298,7 +286,7 @@ importers:
         version: 2.29.4
       react-big-calendar:
         specifier: ^1.8.1
-        version: 1.8.1(react-dom@18.2.0)(react@18.2.0)
+        version: 1.8.1(react-dom@17.0.2)(react@18.2.0)
       react-dnd:
         specifier: 2.6.0
         version: 2.6.0(react@18.2.0)
@@ -333,15 +321,9 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
       '@types/react-big-calendar':
         specifier: 1.6.4
         version: 1.6.4
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       babel-loader:
         specifier: ^8.3.0
         version: 8.3.0(@babel/core@7.21.0)(webpack@5.75.0)
@@ -366,12 +348,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       rollup:
         specifier: ^2.79.1
         version: 2.79.1
@@ -413,7 +389,7 @@ importers:
         version: 2.3.2
       react-resize-detector:
         specifier: ^9.1.0
-        version: 9.1.0(react-dom@18.2.0)(react@18.2.0)
+        version: 9.1.0(react-dom@17.0.2)(react@18.2.0)
       signature_pad:
         specifier: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz
         version: '@github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz'
@@ -439,12 +415,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       copy-webpack-plugin:
         specifier: ^11.0.0
         version: 11.0.0(webpack@5.75.0)
@@ -472,12 +442,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       rollup:
         specifier: ^2.79.1
         version: 2.79.1
@@ -665,12 +629,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -698,12 +656,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -759,12 +711,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -792,12 +738,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -859,12 +799,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -889,12 +823,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -950,12 +878,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -986,12 +908,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1047,12 +963,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1083,12 +993,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1150,12 +1054,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1180,12 +1078,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1247,12 +1139,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1280,12 +1166,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1347,12 +1227,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1377,12 +1251,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1441,12 +1309,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1486,12 +1348,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1617,15 +1473,9 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
       '@types/react-color':
         specifier: ^2.17.6
         version: 2.17.6
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1656,12 +1506,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1723,12 +1567,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1756,12 +1594,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1826,15 +1658,9 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
       '@types/react-datepicker':
         specifier: ^4.11.2
         version: 4.11.2(react-dom@18.2.0)(react@18.2.0)
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1862,12 +1688,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -1929,12 +1749,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1962,12 +1776,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2029,12 +1837,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2062,12 +1864,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2123,12 +1919,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2156,12 +1946,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2226,12 +2010,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2259,12 +2037,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2320,12 +2092,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2353,12 +2119,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2420,12 +2180,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2444,12 +2198,6 @@ importers:
       mendix:
         specifier: ^9.24.2965
         version: 9.24.2965
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2502,12 +2250,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2538,12 +2280,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2599,12 +2335,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2635,12 +2365,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2681,12 +2405,6 @@ importers:
       '@types/jest':
         specifier: ^29.0.0
         version: 29.5.2
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -2751,12 +2469,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2784,12 +2496,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2851,12 +2557,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2878,12 +2578,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2942,12 +2636,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -2975,12 +2663,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3036,12 +2718,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3069,12 +2745,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3136,12 +2806,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3169,12 +2833,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3251,12 +2909,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-leaflet':
         specifier: ^2.8.3
         version: 2.8.3
@@ -3290,12 +2942,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3360,12 +3006,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3393,12 +3033,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3454,12 +3088,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3487,12 +3115,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3548,12 +3170,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3584,12 +3200,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3648,12 +3258,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3684,12 +3288,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3760,12 +3358,6 @@ importers:
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3796,12 +3388,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3860,12 +3446,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -3896,12 +3476,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -3975,12 +3549,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4014,12 +3582,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4065,12 +3627,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -4147,12 +3703,6 @@ importers:
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4183,12 +3733,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4244,12 +3788,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4280,12 +3818,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4347,12 +3879,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4380,12 +3906,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4441,12 +3961,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4474,12 +3988,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4541,12 +4049,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4574,12 +4076,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4635,12 +4131,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -4668,12 +4158,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4729,12 +4213,6 @@ importers:
       '@types/node':
         specifier: ^18.16.12
         version: 18.16.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-resize-detector':
         specifier: ^5.0.0
         version: 5.0.0
@@ -4765,12 +4243,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4850,12 +4322,6 @@ importers:
       '@types/plotly.js':
         specifier: ^2.12.18
         version: 2.12.18
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: ^18.2.0
-        version: 18.2.4
       '@types/react-plotly.js':
         specifier: ^2.5.0
         version: 2.5.0
@@ -4895,12 +4361,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: ~18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ~18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4971,12 +4431,6 @@ importers:
       '@types/jest':
         specifier: ^29.5.2
         version: 29.5.2
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       mendix:
         specifier: ^9.24.2965
         version: 9.24.2965
@@ -5073,12 +4527,6 @@ importers:
       '@types/enzyme':
         specifier: ^3.10.12
         version: 3.10.12
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -5106,12 +4554,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       react-test-renderer:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
@@ -5139,12 +4581,6 @@ importers:
 
   packages/shared/widget-kit-web:
     dependencies:
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -5179,12 +4615,6 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: ~17.0.2
-        version: 17.0.2
-      react-dom:
-        specifier: ~17.0.2
-        version: 17.0.2(react@17.0.2)
       typescript:
         specifier: 5.0.4
         version: 5.0.4
@@ -5207,24 +4637,12 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       typescript:
         specifier: 5.0.4
         version: 5.0.4
@@ -5244,24 +4662,12 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
-      '@types/react':
-        specifier: ^18.2.9
-        version: 18.2.9
-      '@types/react-dom':
-        specifier: 18.2.4
-        version: 18.2.4
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
       typescript:
         specifier: 5.0.4
         version: 5.0.4
@@ -6778,7 +6184,7 @@ packages:
     resolution: {integrity: sha512-68pqLvXsH0OVr6vWYvjTybEAM4piLqpeIYR5wuPnFzjPGKy7oZdIjJAMwMoBCvvio1zMjyzBzj5dCbg4O2JQnA==}
     peerDependencies:
       enzyme: ^3.0.0
-      react: ^18.0.0
+      react: ^18.0.0 || 18
       react-dom: ^18.0.0
     dependencies:
       enzyme: 3.11.0
@@ -7661,7 +7067,7 @@ packages:
   /@react-google-maps/api@2.18.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-KVlUO/Shh+0g/3egWaKmY0sz6+0QOnYkBGvrBMJbz23519LauA+iJFc4NDCmWNHqD5Vhb/Bkg0kSJgq0Stz3Iw==}
     peerDependencies:
-      react: ^16.8 || ^17 || ^18
+      react: ^16.8 || ^17 || ^18 || 18
       react-dom: ^16.8 || ^17 || ^18
     dependencies:
       '@googlemaps/js-api-loader': 1.15.1
@@ -7686,7 +7092,7 @@ packages:
     resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
     peerDependencies:
       leaflet: ^1.9.0
-      react: ^18.0.0
+      react: ^18.0.0 || 18
       react-dom: ^18.0.0
     dependencies:
       leaflet: 1.9.4
@@ -7697,7 +7103,7 @@ packages:
   /@restart/hooks@0.4.9(react@18.2.0):
     resolution: {integrity: sha512-3BekqcwB6Umeya+16XPooARn4qEPW6vNvwYnlofIYe6h9qG1/VeD7UvShCWx11eFz5ELYmwIEshz+MkPX3wjcQ==}
     peerDependencies:
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 18'
     dependencies:
       dequal: 2.0.3
       react: 18.2.0
@@ -8020,7 +7426,7 @@ packages:
     resolution: {integrity: sha512-sXOGON+WNTh3MLE9rve97ftaZukN3oNf2KjDy7YTx6hcTO2uuLHuCGynMDhFwGw/jYf4OJ2Qk0i4i79qMNNkyw==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: ^18.0.0
+      react: ^18.0.0 || 18
       react-dom: ^18.0.0
     dependencies:
       '@babel/runtime': 7.22.5
@@ -8034,7 +7440,7 @@ packages:
     resolution: {integrity: sha512-S04gSNJbYE30TlIMLTzv6QCTzt9AqIF5y6s6SzVFILNcNvbV/jU96GeiTPillGQo+Ny64M/5PV7klNYYgv5Dfg==}
     engines: {node: '>=14'}
     peerDependencies:
-      react: ^18.0.0
+      react: ^18.0.0 || 18
       react-dom: ^18.0.0
     dependencies:
       '@babel/runtime': 7.22.5
@@ -8378,6 +7784,7 @@ packages:
     resolution: {integrity: sha512-G2mHoTMTL4yoydITgOGwWdWMVd8sNgyEP85xVmMKAPUBwQWm9wBPQUmvbeF4V3WBY1P7mmL4BkjQ0SqUpf1snw==}
     dependencies:
       '@types/react': 18.2.9
+    dev: true
 
   /@types/react-leaflet@2.8.3:
     resolution: {integrity: sha512-MeBQnVQe6ikw8dkuZE4F96PvMdQeilZG6/ekk5XxhkSzU3lofedULn3UR/6G0uIHjbRazi4DA8LnLACX0bPhBg==}
@@ -9080,8 +8487,10 @@ packages:
       indent-string: 4.0.0
     dev: false
 
-  /ajv-formats@2.1.1:
+  /ajv-formats@2.1.1(ajv@8.12.0):
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -9830,7 +9239,7 @@ packages:
     resolution: {integrity: sha512-fESgls6SWztKnffCLXM2kDETwsaBADi7REZ8CXUNEhn1vxB9HtD7dOS7lQAf5ESKhMXLFKzyjTw++dD0oSeiww==}
     peerDependencies:
       ckeditor4: ^4.21.0
-      react: ^18
+      react: ^18 || 18
     dependencies:
       ckeditor4: 4.21.0
       ckeditor4-integrations-common: 1.0.0
@@ -11023,7 +10432,7 @@ packages:
   /downshift@7.6.0(react@18.2.0):
     resolution: {integrity: sha512-VSoTVynTAsabou/hbZ6HJHUVhtBiVOjQoBsCPcQq5eAROIGP+9XKMp9asAKQ3cEcUP4oe0fFdD2pziUjhFY33Q==}
     peerDependencies:
-      react: '>=16.12.0'
+      react: '>=16.12.0 || 18'
     dependencies:
       '@babel/runtime': 7.22.5
       compute-scroll-into-view: 2.0.4
@@ -14310,7 +13719,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.2.0
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /mini-svg-data-uri@1.4.4:
@@ -15660,7 +15069,7 @@ packages:
   /rc-animate@2.11.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-1NyuCGFJG/0Y+9RKh5y/i/AalUCA51opyyS/jO2seELpgymZm2u9QV3xwODwEuzkmeQ1BDPxMLmYLcTJedPlkQ==}
     peerDependencies:
-      react: '>=16.9.0'
+      react: '>=16.9.0 || 18'
       react-dom: '>=16.9.0'
     dependencies:
       babel-runtime: 6.26.0
@@ -15726,10 +15135,25 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
+  /react-ace@10.1.0(react-dom@17.0.2)(react@18.2.0):
+    resolution: {integrity: sha512-VkvUjZNhdYTuKOKQpMIZi7uzZZVgzCjM7cLYu6F64V0mejY8a2XTyPUIMszC6A4trbeMIHbK5fYFcT/wkP/8VA==}
+    peerDependencies:
+      react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
+      react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      ace-builds: 1.22.1
+      diff-match-patch: 1.0.5
+      lodash.get: 4.4.2
+      lodash.isequal: 4.5.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 17.0.2(react@18.2.0)
+    dev: false
+
   /react-ace@10.1.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-VkvUjZNhdYTuKOKQpMIZi7uzZZVgzCjM7cLYu6F64V0mejY8a2XTyPUIMszC6A4trbeMIHbK5fYFcT/wkP/8VA==}
     peerDependencies:
-      react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
       react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
       ace-builds: 1.22.1
@@ -15741,10 +15165,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-big-calendar@1.8.1(react-dom@18.2.0)(react@18.2.0):
+  /react-big-calendar@1.8.1(react-dom@17.0.2)(react@18.2.0):
     resolution: {integrity: sha512-yEiScxReMrRCc0qFdZIKY/L6+argK4ZiYzLk5bck8CRYVbHjCCb/6Ictv42kPs/g3Q4RIb8+GUjDzk/uFtu76Q==}
     peerDependencies:
-      react: ^15.3.0 || ^16.0.0 || ^17.0.0
+      react: ^15.3.0 || ^16.0.0 || ^17.0.0 || 18
       react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@babel/runtime': 7.22.5
@@ -15762,8 +15186,8 @@ packages:
       moment-timezone: 0.5.43
       prop-types: 15.8.1
       react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-overlays: 5.2.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 17.0.2(react@18.2.0)
+      react-overlays: 5.2.1(react-dom@17.0.2)(react@18.2.0)
       uncontrollable: 7.2.1(react@18.2.0)
     dev: false
 
@@ -15785,7 +15209,7 @@ packages:
   /react-datepicker@4.12.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-czCEp4T8ctyN9NBMG6Xq6pEpOvMtoqf4U5DxFzJoTtv1/gTX3QNJaWBUwD88j//+eF8gVkNvOW8aTAqpaIJBvw==}
     peerDependencies:
-      react: ^16.9.0 || ^17 || ^18
+      react: ^16.9.0 || ^17 || ^18 || 18
       react-dom: ^16.9.0 || ^17 || ^18
     dependencies:
       '@popperjs/core': 2.11.8
@@ -15821,21 +15245,21 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-dom@17.0.2(react@17.0.2):
+  /react-dom@17.0.2(react@18.2.0):
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2
+      react: 17.0.2 || 18
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      react: 17.0.2
+      react: 18.2.0
       scheduler: 0.20.2
-    dev: true
+    dev: false
 
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
-      react: ^18.2.0
+      react: ^18.2.0 || 18
     dependencies:
       loose-envify: 1.4.0
       react: 18.2.0
@@ -15857,7 +15281,7 @@ packages:
     resolution: {integrity: sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==}
     peerDependencies:
       leaflet: ^1.9.0
-      react: ^18.0.0
+      react: ^18.0.0 || 18
       react-dom: ^18.0.0
     dependencies:
       '@react-leaflet/core': 2.1.0(leaflet@1.9.4)(react-dom@18.2.0)(react@18.2.0)
@@ -15873,17 +15297,35 @@ packages:
   /react-onclickoutside@6.13.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-ty8So6tcUpIb+ZE+1HAhbLROvAIJYyJe/1vRrrcmW+jLsaM+/powDRqxzo6hSh9CuRZGSL1Q8mvcF5WRD93a0A==}
     peerDependencies:
-      react: ^15.5.x || ^16.x || ^17.x || ^18.x
+      react: ^15.5.x || ^16.x || ^17.x || ^18.x || 18
       react-dom: ^15.5.x || ^16.x || ^17.x || ^18.x
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /react-overlays@5.2.1(react-dom@17.0.2)(react@18.2.0):
+    resolution: {integrity: sha512-GLLSOLWr21CqtJn8geSwQfoJufdt3mfdsnIiQswouuQ2MMPns+ihZklxvsTDKD3cR2tF8ELbi5xUsvqVhR6WvA==}
+    peerDependencies:
+      react: '>=16.3.0 || 18'
+      react-dom: '>=16.3.0'
+    dependencies:
+      '@babel/runtime': 7.22.5
+      '@popperjs/core': 2.11.8
+      '@restart/hooks': 0.4.9(react@18.2.0)
+      '@types/warning': 3.0.0
+      dom-helpers: 5.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 17.0.2(react@18.2.0)
+      uncontrollable: 7.2.1(react@18.2.0)
+      warning: 4.0.3
+    dev: false
+
   /react-overlays@5.2.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-GLLSOLWr21CqtJn8geSwQfoJufdt3mfdsnIiQswouuQ2MMPns+ihZklxvsTDKD3cR2tF8ELbi5xUsvqVhR6WvA==}
     peerDependencies:
-      react: '>=16.3.0'
+      react: '>=16.3.0 || 18'
       react-dom: '>=16.3.0'
     dependencies:
       '@babel/runtime': 7.22.5
@@ -15902,7 +15344,7 @@ packages:
     resolution: {integrity: sha512-g93xcyhAVCSt9kV1svqG1clAEdL6k3U+jjuSzfTV7owaSU9Go6Ph8bl25J+jKfKvIGAEYpe4qj++WHJuc9IaeA==}
     peerDependencies:
       plotly.js: '>1.34.0'
-      react: '>0.13.0'
+      react: '>0.13.0 || 18'
     dependencies:
       plotly.js: 2.24.2
       prop-types: 15.8.1
@@ -15913,7 +15355,7 @@ packages:
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
       '@popperjs/core': ^2.0.0
-      react: ^16.8.0 || ^17 || ^18
+      react: ^16.8.0 || ^17 || ^18 || 18
       react-dom: ^16.8.0 || ^17 || ^18
     dependencies:
       '@popperjs/core': 2.11.8
@@ -15922,12 +15364,12 @@ packages:
       react-fast-compare: 3.2.2
       warning: 4.0.3
 
-  /react-redux@8.0.5(@types/react-dom@18.2.4)(@types/react@18.2.9)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1):
+  /react-redux@8.0.5(react-dom@17.0.2)(react@18.2.0)(redux@4.2.1):
     resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
       '@types/react-dom': ^16.8 || ^17.0 || ^18.0
-      react: ^16.8 || ^17.0 || ^18.0
+      react: ^16.8 || ^17.0 || ^18.0 || 18
       react-dom: ^16.8 || ^17.0 || ^18.0
       react-native: '>=0.59'
       redux: ^4
@@ -15945,12 +15387,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.5
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 18.2.9
-      '@types/react-dom': 18.2.4
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
+      react-dom: 17.0.2(react@18.2.0)
       react-is: 18.2.0
       redux: 4.2.1
       use-sync-external-store: 1.2.0(react@18.2.0)
@@ -15961,21 +15401,21 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-resize-detector@9.1.0(react-dom@18.2.0)(react@18.2.0):
+  /react-resize-detector@9.1.0(react-dom@17.0.2)(react@18.2.0):
     resolution: {integrity: sha512-vGFbfkIZp4itJqR4yl+GhjrZHtdlQvou1r10ek0yZUMkizKbPdekKTpPb003IV3b8E5BJFThVG0oocjE3lNsug==}
     peerDependencies:
-      react: ^15.3.0 || ^16.0.0 || ^17.0.0
+      react: ^15.3.0 || ^16.0.0 || ^17.0.0 || 18
       react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0
     dependencies:
       lodash: 4.17.21
       react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
+      react-dom: 17.0.2(react@18.2.0)
     dev: false
 
   /react-shallow-renderer@16.15.0(react@18.2.0):
     resolution: {integrity: sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==}
     peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
     dependencies:
       object-assign: 4.1.1
       react: 18.2.0
@@ -15985,7 +15425,7 @@ packages:
   /react-test-renderer@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==}
     peerDependencies:
-      react: ^18.2.0
+      react: ^18.2.0 || 18
     dependencies:
       react: 18.2.0
       react-is: 18.2.0
@@ -16000,14 +15440,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       prop-types: 15.8.1
-    dev: true
-
-  /react@17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
     dev: true
 
   /react@18.2.0:
@@ -16579,7 +16011,7 @@ packages:
     dependencies:
       klona: 2.0.6
       neo-async: 2.6.2
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /sass@1.58.3:
@@ -16607,7 +16039,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-    dev: true
+    dev: false
 
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -16638,7 +16070,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.12
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1(ajv@8.12.0)
       ajv-keywords: 5.1.0(ajv@8.12.0)
     dev: true
 
@@ -17623,7 +17055,7 @@ packages:
   /uncontrollable@7.2.1(react@18.2.0):
     resolution: {integrity: sha512-svtcfoTADIB0nT9nltgjujTi7BzVmwjZClOmskKu/E8FW9BXzg9os8OLr4f8Dlnk0rYWJIWr4wv9eKUXiQvQwQ==}
     peerDependencies:
-      react: '>=15.0.0'
+      react: '>=15.0.0 || 18'
     dependencies:
       '@babel/runtime': 7.22.5
       '@types/react': 18.2.9
@@ -17708,7 +17140,7 @@ packages:
   /use-sync-external-store@1.2.0(react@18.2.0):
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || 18
     dependencies:
       react: 18.2.0
     dev: false

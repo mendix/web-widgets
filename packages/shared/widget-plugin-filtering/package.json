@@ -35,20 +35,12 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
-    "@types/react": "18.2.9",
-    "@types/react-dom": "18.2.4",
     "eslint": "^7.32.0",
     "prettier": "^2.8.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "typescript": "5.0.4"
   },
   "dependencies": {
     "@mendix/widget-kit-web": "workspace:*",
     "mendix": "^9.24.2965"
-  },
-  "peerDependencies": {
-    "react": "~17.0.2",
-    "react-dom": "~17.0.2"
   }
 }
