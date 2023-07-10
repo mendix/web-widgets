@@ -6,6 +6,7 @@ settings:
 
 overrides:
   '@types/react': ^18.2.9
+  '@types/big.js': ^6.1.6
   d3-color@<3.1.0: '>=3.1.0'
   loader-utils@<1.4.1: '>=1.4.1'
   loader-utils@>=3.0.0 <3.2.1: '>=3.2.1'
@@ -939,9 +940,6 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
-      big.js:
-        specifier: ^6.2.1
-        version: 6.2.1
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -2006,10 +2004,6 @@ importers:
         version: link:../tsconfig-web-widgets
 
   packages/shared/pluggable-utils:
-    dependencies:
-      big.js:
-        specifier: ^6.0.2
-        version: 6.2.1
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4901,10 +4895,6 @@ packages:
       '@babel/types': 7.22.5
     dev: true
 
-  /@types/big.js@0.0.31:
-    resolution: {integrity: sha512-mXFtV8TyQRk6vUpRdIMgrv7/ZrzUaIcQPGB49wasb5jgg1o2HjFJ8fY957sbGrcUIYBKtpXNrPSUtv/ZNrvT4g==}
-    dev: true
-
   /@types/big.js@6.1.6:
     resolution: {integrity: sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==}
     dev: true
@@ -6295,6 +6285,7 @@ packages:
 
   /big.js@6.2.1:
     resolution: {integrity: sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==}
+    dev: true
 
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -10824,7 +10815,7 @@ packages:
   /mendix-client@7.15.8:
     resolution: {integrity: sha512-RazCdCHoLVNKUUeKDkSkIL6Lxx6fUaa4iiy+Ltp9ra8mLQhwyNqD33TIN7YZJ3HDjHc3eWh9cjiZWwh6Jg/cQg==}
     dependencies:
-      '@types/big.js': 0.0.31
+      '@types/big.js': 6.1.6
       '@types/dojo': 1.9.44
     dev: true
 
