@@ -26,6 +26,7 @@ export interface ImageWrapperProps {
 
 export interface ImageContentProps {
     style?: CSSProperties;
+    tabIndex?: number;
     onClick?: ReactEventHandler<HTMLElement>;
     altText?: string;
 }
@@ -59,7 +60,7 @@ function ContentIcon(props: ImageContentIcon): ReactElement {
           }
         : {};
 
-    const onClickProps = getImageContentOnClickProps(props.onClick);
+    const onClickProps = getImageContentOnClickProps(props.onClick, props.tabIndex);
 
     return (
         <span
@@ -81,7 +82,7 @@ export interface ImageContentImage extends ImageContentProps {
 }
 
 function ContentImage(props: ImageContentImage): ReactElement {
-    const onClickProps = getImageContentOnClickProps(props.onClick);
+    const onClickProps = getImageContentOnClickProps(props.onClick, props.tabIndex);
     return (
         <img
             className={props.className}
@@ -97,14 +98,17 @@ function ContentImage(props: ImageContentImage): ReactElement {
     );
 }
 
-function getImageContentOnClickProps(onClick: ImageContentProps["onClick"]): HTMLAttributes<HTMLElement> {
+function getImageContentOnClickProps(
+    onClick: ImageContentProps["onClick"],
+    tabIndex?: number
+): HTMLAttributes<HTMLElement> {
     if (!onClick) {
         return {};
     }
     return {
         onClick,
         role: "button",
-        tabIndex: 0,
+        tabIndex: tabIndex ?? 0,
         onKeyDown: event => {
             if (event.key === "Enter" || event.key === " ") {
                 onClick(event);
