@@ -278,11 +278,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             })}
             style={styles}
         >
-            <div className="table-header" role="rowgroup">
-                {(pagingPosition === "top" || pagingPosition === "both") && pagination}
-            </div>
+            <div className="table-header">{(pagingPosition === "top" || pagingPosition === "both") && pagination}</div>
             {gridHeaderWidgets && (
-                <div className="header-filters" role="rowgroup" aria-label={gridHeaderTitle}>
+                <div className="header-filters" aria-label={gridHeaderTitle}>
                     {gridHeaderWidgets}
                 </div>
             )}
