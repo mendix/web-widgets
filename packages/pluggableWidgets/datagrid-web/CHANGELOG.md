@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with Datagrid 2 widget unnecessary requesting total count of items in virtual scrolling mode.
+
 ## [2.7.4] - 2023-06-28
 
 ### Fixed
