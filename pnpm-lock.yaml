@@ -17,6 +17,7 @@ overrides:
   json5@0.x: '>=1.0.2'
   '@mendix/pluggable-widgets-tools>typescript@4': 5.0.4
   '@mendix/pluggable-widgets-tools>ts-node@9': ^10.9.1
+  prettier: ^2.8.4
 
 importers:
 
@@ -91,9 +92,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
+      prettier:
+        specifier: ^2.8.4
+        version: 2.8.4
       pretty-quick:
         specifier: ^3.1.3
-        version: 3.1.3(prettier@3.0.0)
+        version: 3.1.3(prettier@2.8.4)
 
   automation/snapshot-generator:
     dependencies:
@@ -1847,7 +1851,7 @@ importers:
         version: 24.7.0(@typescript-eslint/eslint-plugin@5.59.9)(eslint@8.44.0)(typescript@5.1.6)
       eslint-plugin-prettier:
         specifier: ^3.4.1
-        version: 3.4.1(eslint-config-prettier@8.8.0)(eslint@8.44.0)(prettier@3.0.0)
+        version: 3.4.1(eslint-config-prettier@8.8.0)(eslint@8.44.0)(prettier@2.8.4)
       eslint-plugin-promise:
         specifier: ^4.3.1
         version: 4.3.1
@@ -2022,7 +2026,7 @@ packages:
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4229,7 +4233,7 @@ packages:
       eslint: 7.32.0
       eslint-config-prettier: 8.8.0(eslint@7.32.0)
       eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.59.9)(eslint@7.32.0)(typescript@5.0.4)
-      eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.8)
+      eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.4)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@7.32.0)
@@ -4252,7 +4256,7 @@ packages:
       postcss: 8.4.21
       postcss-import: 14.1.0(postcss@8.4.21)
       postcss-url: 10.1.3(postcss@8.4.21)
-      prettier: 2.8.8
+      prettier: 2.8.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-test-renderer: 18.2.0(react@18.2.0)
@@ -4360,14 +4364,14 @@ packages:
     resolution: {integrity: sha512-bFvVAZKs59XNmntYjyefn3K4TBykS6E+d6ZW8IcylAs88ZO+TzLhp0dPpi0VKfPzq1Nb+kpDnPRTiwb4zY6NgA==}
     dependencies:
       '@xml-tools/parser': 1.0.11
-      prettier: 2.8.8
+      prettier: 2.8.4
     dev: true
 
   /@prettier/plugin-xml@2.2.0:
     resolution: {integrity: sha512-UWRmygBsyj4bVXvDiqSccwT1kmsorcwQwaIy30yVh8T+Gspx4OlC0shX1y+ZuwXZvgnafmpRYKks0bAu9urJew==}
     dependencies:
       '@xml-tools/parser': 1.0.11
-      prettier: 3.0.0
+      prettier: 2.8.4
     dev: false
 
   /@react-google-maps/api@2.18.1(react-dom@18.2.0)(react@18.2.0):
@@ -4936,8 +4940,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest@29.5.2:
-    resolution: {integrity: sha512-mSoZVJF5YzGVCk+FsDxzDuH7s+SCkzrgKZzf0Z0T2WudhBUPoF6ktoTPC4R0ZoCPCV5xUvuU6ias5NvxcBcMMg==}
+  /@types/jest@29.5.3:
+    resolution: {integrity: sha512-1Nq7YrO/vJE/FYnqYyw0FS8LdrjExSgIiHyKg7xPpn+yi8Q4huZryKnkJatN1ZRH89Kw2v33/8ZMB7DuZeSLlA==}
     dependencies:
       expect: 29.6.1
       pretty-format: 29.6.1
@@ -5136,7 +5140,7 @@ packages:
   /@types/testing-library__jest-dom@5.14.7:
     resolution: {integrity: sha512-PFDoAbR9y8pD9+41oM1Yy0nVCkaRPlklmDZoPCXhNpR0ZO13HAYWqdNEjLtvIiveBmfB/+jdvmuOVeOXehKOaA==}
     dependencies:
-      '@types/jest': 29.5.2
+      '@types/jest': 29.5.3
     dev: true
 
   /@types/tough-cookie@4.0.2:
@@ -6353,8 +6357,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001514
-      electron-to-chromium: 1.4.454
+      caniuse-lite: 1.0.30001515
+      electron-to-chromium: 1.4.455
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11(browserslist@4.21.9)
     dev: true
@@ -6425,13 +6429,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001514
+      caniuse-lite: 1.0.30001515
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001514:
-    resolution: {integrity: sha512-ENcIpYBmwAAOm/V2cXgM7rZUrKKaqisZl4ZAI520FIkqGXUxJjmaIssbRW5HVVR5tyV6ygTLIm15aU8LUmQSaQ==}
+  /caniuse-lite@1.0.30001515:
+    resolution: {integrity: sha512-eEFDwUOZbE24sb+Ecsx3+OvNETqjWIdabMy52oOkIgcUtAsQifjUG9q4U9dgTHJM2mfk4uEPxc0+xuFdJ629QA==}
     dev: true
 
   /canvas-fit@1.5.0:
@@ -7540,7 +7544,7 @@ packages:
       side-channel: 1.0.4
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
-      which-typed-array: 1.1.9
+      which-typed-array: 1.1.10
 
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -7794,8 +7798,8 @@ packages:
       safer-buffer: 2.1.2
     dev: false
 
-  /electron-to-chromium@1.4.454:
-    resolution: {integrity: sha512-pmf1rbAStw8UEQ0sr2cdJtWl48ZMuPD9Sto8HVQOq9vx9j2WgDEN6lYoaqFvqEHYOmGA9oRGn7LqWI9ta0YugQ==}
+  /electron-to-chromium@1.4.455:
+    resolution: {integrity: sha512-8tgdX0Odl24LtmLwxotpJCVjIndN559AvaOtd67u+2mo+IDsgsTF580NB+uuDCqsHw8yFg53l5+imFV9Fw3cbA==}
     dev: true
 
   /element-size@1.1.1:
@@ -7950,7 +7954,7 @@ packages:
       string.prototype.trimstart: 1.0.6
       typed-array-length: 1.0.4
       unbox-primitive: 1.0.2
-      which-typed-array: 1.1.9
+      which-typed-array: 1.1.10
 
   /es-array-method-boxes-properly@1.0.0:
     resolution: {integrity: sha512-wd6JXUmyHmt8T5a2xreUwKcGPq6f1f+WwIJkijUqiGcJz1qqnZgP6XIK+QyIWU5lT7imeNxUll48bziG+TSYcA==}
@@ -8145,7 +8149,7 @@ packages:
       vscode-json-languageservice: 4.2.1
     dev: true
 
-  /eslint-plugin-prettier@3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.8):
+  /eslint-plugin-prettier@3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.4):
     resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -8158,11 +8162,11 @@ packages:
     dependencies:
       eslint: 7.32.0
       eslint-config-prettier: 8.8.0(eslint@7.32.0)
-      prettier: 2.8.8
+      prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-prettier@3.4.1(eslint-config-prettier@8.8.0)(eslint@8.44.0)(prettier@3.0.0):
+  /eslint-plugin-prettier@3.4.1(eslint-config-prettier@8.8.0)(eslint@8.44.0)(prettier@2.8.4):
     resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -8175,7 +8179,7 @@ packages:
     dependencies:
       eslint: 8.44.0
       eslint-config-prettier: 8.8.0(eslint@8.44.0)
-      prettier: 3.0.0
+      prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
     dev: false
 
@@ -8220,7 +8224,7 @@ packages:
       object.values: 1.1.6
       prop-types: 15.8.1
       resolve: 2.0.0-next.4
-      semver: 6.3.0
+      semver: 6.3.1
       string.prototype.matchall: 4.0.8
     dev: true
 
@@ -8244,7 +8248,7 @@ packages:
       object.values: 1.1.6
       prop-types: 15.8.1
       resolve: 2.0.0-next.4
-      semver: 6.3.0
+      semver: 6.3.1
       string.prototype.matchall: 4.0.8
     dev: false
 
@@ -9824,7 +9828,7 @@ packages:
       '@babel/parser': 7.22.7
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10826,7 +10830,7 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
     dependencies:
-      semver: 6.3.0
+      semver: 6.3.1
     dev: true
 
   /make-error@1.3.6:
@@ -11343,7 +11347,7 @@ packages:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.2
-      semver: 5.7.1
+      semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: false
 
@@ -12207,17 +12211,10 @@ packages:
     dependencies:
       fast-diff: 1.3.0
 
-  /prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+  /prettier@2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
-    dev: true
-
-  /prettier@3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: false
 
   /pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -12242,7 +12239,7 @@ packages:
       react-is: 18.2.0
     dev: true
 
-  /pretty-quick@3.1.3(prettier@3.0.0):
+  /pretty-quick@3.1.3(prettier@2.8.4):
     resolution: {integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==}
     engines: {node: '>=10.13'}
     hasBin: true
@@ -12255,7 +12252,7 @@ packages:
       ignore: 5.2.4
       mri: 1.2.0
       multimatch: 4.0.0
-      prettier: 3.0.0
+      prettier: 2.8.4
     dev: false
 
   /probe-image-size@7.2.3:
@@ -13415,13 +13412,13 @@ packages:
       ajv-keywords: 5.1.0(ajv@8.12.0)
     dev: true
 
-  /semver@5.7.1:
-    resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+  /semver@5.7.2:
+    resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
     hasBin: true
     dev: false
 
-  /semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+  /semver@6.3.1:
+    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
   /semver@7.5.2:
@@ -14878,8 +14875,8 @@ packages:
     resolution: {integrity: sha512-iBdZ57RDvnOR9AGBhML2vFZf7h8vmBjhoaZqODJBFWHVtKkDmKuHai3cx5PgVMrX5YDNp27AofYbAwctSS+vhQ==}
     dev: false
 
-  /which-typed-array@1.1.9:
-    resolution: {integrity: sha512-w9c4xkx6mPidwp7180ckYWfMmvxpjlZuIudNtDf4N/tTAUB8VJbX25qZoAsrtGuYNnGw3pa0AXgbGKRB8/EceA==}
+  /which-typed-array@1.1.10:
+    resolution: {integrity: sha512-uxoA5vLUfRPdjCuJ1h5LlYdmTLbYfums398v3WLkM+i/Wltl2/XyZpQWKbN++ck5L64SR/grOHqtXCUKmlZPNA==}
     engines: {node: '>= 0.4'}
     dependencies:
       available-typed-arrays: 1.0.5
