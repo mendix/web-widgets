@@ -18,7 +18,6 @@
     "changelog": "pnpm --filter @mendix-internal/automation-utils run changelog"
   },
   "devDependencies": {
-    "@types/node": "^18.15.3",
     "husky": "^8.0.3",
     "turbo": "^1.8.3"
   },
@@ -27,12 +26,16 @@
   },
   "pnpm": {
     "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18"
+      },
       "ignoreMissing": [
         "react-native"
       ]
     },
     "overrides": {
       "@types/react": "^18.2.9",
+      "@types/big.js": "^6.1.6",
       "d3-color@<3.1.0": ">=3.1.0",
       "loader-utils@<1.4.1": ">=1.4.1",
       "loader-utils@>=3.0.0 <3.2.1": ">=3.2.1",

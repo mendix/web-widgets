@@ -61,11 +61,7 @@
   "devDependencies": {
     "@mendix-internal/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/node": "^18.16.12",
     "concurrently": "^6.5.1",
-    "copy-and-watch": "^0.1.6",
-    "prettier": "^2.8.4",
-    "ts-node": "^10.9.1",
-    "typescript": "5.0.4"
+    "copy-and-watch": "^0.1.6"
   }
 }

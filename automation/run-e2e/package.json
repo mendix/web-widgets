@@ -28,7 +28,6 @@
     "cypress-image-diff-js": "^1.23.0",
     "cypress-terminal-report": "^5.2.0",
     "enquirer": "^2.3.6",
-    "eslint": "^7.32.0",
     "eslint-plugin-cypress": "^2.13.3",
     "find-free-port": "^2.0.0",
     "ip": "^1.1.8",
@@ -37,7 +36,6 @@
     "mochawesome-merge": "^4.3.0",
     "mochawesome-report-generator": "^6.2.0",
     "node-fetch": "^2.6.9",
-    "prettier": "^2.8.4",
     "shelljs": "^0.8.5",
     "yargs-parser": "^21.1.1"
   }

@@ -29,7 +29,7 @@ export function SelectionHelper(props: SelectionHelperContainerProps): ReactElem
             {selection.status === "all" && props.customAllSelected}
             {selection.status === "some" && props.customSomeSelected}
             {selection.status === "none" && props.customNoneSelected}
-            {props.checkboxCaption.value ?? ""}
+            {props.checkboxCaption?.value ?? ""}
         </SelectionHelperComponent>
     );
 }

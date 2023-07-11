@@ -23,7 +23,7 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
         if (!needsExecution.current) {
             return;
         }
-        if (props.targetId && props.targetId.status !== "available") {
+        if (props.targetId?.status !== "available") {
             return;
         }
         if (!areParametersReady(props.parameters)) {
@@ -37,7 +37,7 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
             {
                 send_page_view: false
             },
-            props.targetId && props.targetId.value
+            props.targetId.value
         );
 
         // execute event page_view
@@ -76,9 +76,7 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
         if (!needsExecution.current) {
             return;
         }
-        if (props.targetId && props.targetId.status !== "available") {
-            return;
-        }
+
         if (!areParametersReady(props.parameters)) {
             return;
         }
@@ -88,7 +86,7 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
             props.command,
             props.eventName,
             prepareParameters(props.parameters),
-            props.targetId && props.targetId.value
+            props.targetId?.value ?? ""
         );
 
         needsExecution.current = false;

@@ -10,12 +10,6 @@
     "lint": "eslint --ext .js .",
     "format": "prettier --write ."
   },
-  "peerDependencies": {
-    "prettier": ">= 2.8.4"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0"
-  },
   "dependencies": {
     "@prettier/plugin-xml": "^2.2.0"
   }

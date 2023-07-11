@@ -41,16 +41,6 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/big.js": "^6.0.2",
-    "@types/jest": "^29.0.0",
-    "@types/node": "^18.16.12",
-    "@types/react": "18.2.9",
-    "@types/react-dom": "18.2.4",
-    "cross-env": "^7.0.3",
-    "eslint": "^7.32.0",
-    "prettier": "^2.8.4",
-    "rollup": "^2.79.1",
-    "ts-node": "^10.9.1",
-    "typescript": "5.0.4"
+    "cross-env": "^7.0.3"
   }
 }
