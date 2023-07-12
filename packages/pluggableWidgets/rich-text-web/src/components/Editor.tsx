@@ -49,8 +49,7 @@ export class Editor extends Component<EditorProps> {
         this.onChange = this.onChange.bind(this);
         this.applyChangesDebounce = debounce(this.applyChangesImmediately.bind(this), 500);
         this.onKeyPress = this.onKeyPress.bind(this);
-        this.onPasteContent = this.onPasteContent.bind(this);
-        this.onDropContent = this.onDropContent.bind(this);
+        this.onDropOrPastedFile = this.onDropOrPastedFile.bind(this);
         this.hasFocus = false;
     }
 
@@ -162,14 +161,16 @@ export class Editor extends Component<EditorProps> {
         this.widgetProps.onKeyPress?.execute();
     }
 
-    onPasteContent(event: CKEditorEvent): void {
+    onDropOrPastedFile(event: CKEditorEvent): void {
         if (event.data.dataTransfer.isFileTransfer()) {
             for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
-                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
+                const file = event.data.dataTransfer.getFile(i);
+                if (this.widgetProps.enableUploadImages) {
+                    this.uploadImageToDialog(file);
+                    event.cancel();
+                } else if (file.size > FILE_SIZE_LIMIT) {
                     this.editor.showNotification(
-                        `The image ${
-                            event.data.dataTransfer.getFile(i).name
-                        } is larger than the 1MB limit. Please choose a smaller image and try again.`,
+                        `The image ${file.name} is larger than the 1MB limit. Please choose a smaller image and try again.`,
                         "warning"
                     );
                     event.cancel();
@@ -178,21 +179,69 @@ export class Editor extends Component<EditorProps> {
             }
         }
     }
-    onDropContent(event: CKEditorEvent): void {
-        if (event.data.dataTransfer.isFileTransfer()) {
-            for (let i = 0; i < event.data.dataTransfer.getFilesCount(); i++) {
-                if (event.data.dataTransfer.getFile(i).size > FILE_SIZE_LIMIT) {
-                    this.editor.showNotification(
-                        `The image ${
-                            event.data.dataTransfer.getFile(i).name
-                        } is larger than the 1MB limit. Please choose a smaller image and try again.`,
-                        "warning"
-                    );
-                    event.cancel();
-                    break;
-                }
-            }
+
+    uploadImageToDialog(file: File): void {
+        this.editor.openDialog("image", (dialog: any): void => {
+            window
+                .fetch(this.widgetProps.uploadImageEndpoint, {
+                    method: "POST",
+                    body: file,
+                    headers: {
+                        Origin: window.location.origin,
+                        "Content-Type": "text/html",
+                        "x-csrf-token": window.mx ? window.mx.session.getConfig("csrftoken") : ""
+                    }
+                })
+                .then(response => {
+                    if (!response.ok || response.status >= 400) {
+                        throw Error(
+                            JSON.stringify({
+                                status: response.status,
+                                statusText: response.statusText,
+                                ok: response.ok,
+                                body: response.body
+                            })
+                        );
+                    }
+                    return response.text();
+                })
+                .then(imagePath => {
+                    if (!imagePath) {
+                        return;
+                    }
+
+                    let succeed = false;
+                    let tryCount = 0;
+                    const intervalId = window.setInterval(() => {
+                        succeed = this.updateImageDialog(dialog, imagePath, file.name);
+                        if (succeed || tryCount === 10) {
+                            window.clearInterval(intervalId);
+                        } else {
+                            tryCount++;
+                        }
+                    }, 300);
+                });
+        });
+    }
+
+    updateImageDialog(dialog: any, imagePath: string, fileName: string): boolean {
+        // Fill target elements in image dialog
+        const targetPage = "info";
+        const targetElement = "txtUrl";
+        const targetAlt = "txtAlt";
+
+        const element = dialog.getContentElement(targetPage, targetElement);
+        if (!element) {
+            return false;
         }
+        element.setValue(imagePath);
+        dialog.selectPage(targetPage);
+
+        const altElement = dialog.getContentElement(targetPage, targetAlt);
+        if (altElement) {
+            altElement.setValue(fileName);
+        }
+        return true;
     }
 
     onChange(_event: CKEditorEventPayload<"change">): void {
@@ -207,7 +256,7 @@ export class Editor extends Component<EditorProps> {
         }
     }
 
-    applyChangesImmediately() {
+    applyChangesImmediately(): void {
         // put last seen content to the attribute if it exists
         if (this.lastSentValue !== undefined) {
             this.widgetProps.stringAttribute.setValue(this.lastSentValue);
@@ -219,8 +268,8 @@ export class Editor extends Component<EditorProps> {
         if (this.editor && !this.editor.readOnly) {
             this.editor.on("change", this.onChange);
             this.editor.on("key", this.onKeyPress);
-            this.editor.on("paste", this.onPasteContent);
-            this.editor.on("drop", this.onDropContent);
+            this.editor.on("paste", this.onDropOrPastedFile);
+            this.editor.on("drop", this.onDropOrPastedFile);
             if (this.widgetProps.enableUploadImages) {
                 this.editor.uploadImageEndpoint = this.widgetProps.uploadImageEndpoint;
                 this.editor.uploadImageMaxSize = this.widgetProps.uploadImageMaxSize;
@@ -231,8 +280,8 @@ export class Editor extends Component<EditorProps> {
     removeListeners(): void {
         this.editor?.removeListener("change", this.onChange);
         this.editor?.removeListener("key", this.onKeyPress);
-        this.editor?.removeListener("paste", this.onPasteContent);
-        this.editor?.removeListener("drop", this.onDropContent);
+        this.editor?.removeListener("paste", this.onDropOrPastedFile);
+        this.editor?.removeListener("drop", this.onDropOrPastedFile);
     }
 
     updateImageList(content: string | undefined): void {
@@ -303,7 +352,7 @@ export class Editor extends Component<EditorProps> {
         this.lastSentValue = undefined;
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.cancelRAF = animationLoop(() => {
             if (this.element && this.element.parentElement) {
                 const newHasFocus = this.element.parentElement.contains(document.activeElement);
@@ -318,7 +367,7 @@ export class Editor extends Component<EditorProps> {
         });
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         this.cancelRAF?.();
     }
 
@@ -342,7 +391,7 @@ export class Editor extends Component<EditorProps> {
 function animationLoop(callback: () => void): () => void {
     let requestId: number;
 
-    const requestFrame = () => {
+    const requestFrame = (): void => {
         requestId = window.requestAnimationFrame(() => {
             callback();
             requestFrame();
