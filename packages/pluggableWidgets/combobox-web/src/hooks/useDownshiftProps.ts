@@ -1,16 +1,22 @@
 import Downshift, { DownshiftState, StateChangeOptions } from "downshift";
 import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { ActionValue } from "mendix";
 
 export function useDownshiftProps(
     selector: SingleSelector,
     inputElement: HTMLInputElement | null,
-    emptyOptionText: string | undefined
+    emptyOptionText: string | undefined,
+    onChangeEvent?: ActionValue
 ) {
     return useMemo(() => {
         return {
             itemToString: (v: string | null) => selector.caption.get(v),
-            onChange: (v: string | null) => selector.setValue(v),
+            onChange: (v: string | null) => {
+                executeAction(onChangeEvent);
+                selector.setValue(v);
+            },
             onInputValueChange: (v: string) => selector.options.setSearchTerm(v),
             onStateChange: (state: StateChangeOptions<string>) => {
                 if (state.type === Downshift.stateChangeTypes.clickButton && state.isOpen) {
