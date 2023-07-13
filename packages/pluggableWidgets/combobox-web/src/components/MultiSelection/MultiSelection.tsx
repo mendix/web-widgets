@@ -121,7 +121,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
             <MultiSelectionMenu
                 withCheckbox={withCheckbox}
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
-                comboboxElement={comboboxRef.current}
                 selector={selector}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}
