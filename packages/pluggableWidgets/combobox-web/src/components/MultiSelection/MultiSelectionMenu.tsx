@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift";
-import { ReactPortal, createElement, useMemo } from "react";
+import { ReactPortal, createElement } from "react";
 import { createPortal } from "react-dom";
 import { MultiSelector } from "../../helpers/types";
 
@@ -13,7 +13,6 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     selector: MultiSelector;
     withCheckbox: boolean;
     allItems: string[];
-    comboboxElement: HTMLDivElement | null;
 }
 
 export function MultiSelectionMenu({
@@ -21,7 +20,7 @@ export function MultiSelectionMenu({
     getMenuProps,
     getItemProps,
     highlightedIndex,
-    comboboxElement,
+    comboboxSize,
     selector,
     selectableItems: items,
     withCheckbox,
@@ -30,16 +29,13 @@ export function MultiSelectionMenu({
 }: MultiSelectionMenuProps): ReactPortal {
     const allSelected = allItems.length === selectedItems.length;
     const noneSelected = selectedItems.length < 1;
-    const comboboxPosition = useMemo(() => {
-        return comboboxElement?.getBoundingClientRect();
-    }, [comboboxElement?.getBoundingClientRect()]);
     return createPortal(
         <div
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             style={{
-                width: comboboxPosition?.width,
-                left: comboboxPosition?.x,
-                top: (comboboxPosition?.top || 0) + (comboboxPosition?.height || 0)
+                width: comboboxSize?.width,
+                left: comboboxSize?.x,
+                top: (comboboxSize?.top || 0) + (comboboxSize?.height || 0)
             }}
         >
             <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
