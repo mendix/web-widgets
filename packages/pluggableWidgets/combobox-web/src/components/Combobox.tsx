@@ -64,7 +64,8 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                             {...getInputProps({
                                 onFocus: handleFocus,
                                 onBlur: handleBlur,
-                                disabled: readOnly
+                                disabled: readOnly,
+                                readOnly: props.filterType === "no"
                             })}
                             placeholder={
                                 downshiftProps.selectedItem
