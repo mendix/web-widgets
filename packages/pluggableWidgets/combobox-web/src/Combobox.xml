@@ -130,6 +130,10 @@
                 <caption>On click action</caption>
                 <description />
             </property>
+            <property key="onChangeEvent" type="action" required="false">
+                <caption>On change action</caption>
+                <description />
+            </property>
             <property key="onEnterEvent" type="action" required="false">
                 <caption>On enter action</caption>
                 <description />
