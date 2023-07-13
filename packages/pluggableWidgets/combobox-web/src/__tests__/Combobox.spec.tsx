@@ -35,7 +35,8 @@ describe("Combo box (Association)", () => {
             emptyOptionText: dynamicValue("Select an option 111"),
             ariaRequired: true,
             clearable: true,
-            filterType: "contains"
+            filterType: "contains",
+            selectionType: "checkbox"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
