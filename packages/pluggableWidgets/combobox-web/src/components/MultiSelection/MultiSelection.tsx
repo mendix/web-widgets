@@ -88,6 +88,12 @@ export function MultiSelection(props: ComboboxContainerProps) {
                                 }
                             }
                         })}
+                        placeholder={getSelectedCaptionsPlaceholder(
+                            selector,
+                            selectedItems,
+                            withCheckbox,
+                            props.emptyOptionText
+                        )}
                     />
                 </div>
 
