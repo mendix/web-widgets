@@ -30,6 +30,7 @@ export interface ComboboxContainerProps {
     clearable: boolean;
     selectionType: SelectionTypeEnum;
     onClickEvent?: ActionValue;
+    onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
@@ -50,6 +51,7 @@ export interface ComboboxPreviewProps {
     clearable: boolean;
     selectionType: SelectionTypeEnum;
     onClickEvent: {} | null;
+    onChangeEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     ariaRequired: boolean;
