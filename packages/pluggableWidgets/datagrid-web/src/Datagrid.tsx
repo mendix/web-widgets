@@ -38,7 +38,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     useEffect(() => {
-        props.datasource.requestTotalCount(true);
+        props.datasource.requestTotalCount(!isInfiniteLoad);
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }

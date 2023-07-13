@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with Gallery widget unnecessary requesting total count of items in virtual scrolling mode.
+
 ## [1.3.2] - 2023-05-26
 
 ### Changed
