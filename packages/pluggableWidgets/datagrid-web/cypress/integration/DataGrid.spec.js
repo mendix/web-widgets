@@ -41,7 +41,8 @@ describe("datagrid-web", () => {
 
         it("changes order of data to DESC when clicking sort option", () => {
             cy.get(".mx-name-datagrid1 .column-header").eq(1).should("have.text", "First Name");
-            cy.get(".mx-name-datagrid1 .column-header").eq(1).click().click();
+            cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
+            cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
             cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
