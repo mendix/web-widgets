@@ -1,5 +1,6 @@
 import compareSnapshotCommand from "cypress-image-diff-js";
 import installLogsCollector from "cypress-terminal-report/src/installLogsCollector";
+import "cypress-axe";
 
 console.log("support/commands loaded");
 installLogsCollector();

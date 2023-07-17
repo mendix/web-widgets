@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -40,6 +40,9 @@ importers:
       cypress:
         specifier: ^12.16.0
         version: 12.16.0
+      cypress-axe:
+        specifier: ^1.4.0
+        version: 1.4.0(axe-core@4.7.2)(cypress@12.16.0)
       cypress-image-diff-js:
         specifier: ^1.26.0
         version: 1.26.0(cypress@12.16.0)
@@ -6002,6 +6005,11 @@ packages:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: false
 
+  /axe-core@4.7.2:
+    resolution: {integrity: sha512-zIURGIS1E1Q4pcrMjp+nnEh+16G56eG/MUllJH8yEvw7asDo7Ac9uhC9KIH5jzpITueEZolfYglnCGIuSBz39g==}
+    engines: {node: '>=4'}
+    dev: false
+
   /babel-eslint@10.1.0(eslint@7.32.0):
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
@@ -7099,6 +7107,17 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
+  /cypress-axe@1.4.0(axe-core@4.7.2)(cypress@12.16.0):
+    resolution: {integrity: sha512-Ut7NKfzjyKm0BEbt2WxuKtLkIXmx6FD2j0RwdvO/Ykl7GmB/qRQkwbKLk3VP35+83hiIr8GKD04PDdrTK5BnyA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      axe-core: ^3 || ^4
+      cypress: ^10 || ^11 || ^12
+    dependencies:
+      axe-core: 4.7.2
+      cypress: 12.16.0
+    dev: false
+
   /cypress-image-diff-js@1.26.0(cypress@12.16.0):
     resolution: {integrity: sha512-YrojmjE/EoI1O6tmFSYT4rhy2TcURLYtZOpjalhIyXd2HnKKSKgSb2dZmvs20I1RnVw+MQV9OYj+VEAnId+SaQ==}
     hasBin: true
@@ -8174,7 +8193,7 @@ packages:
       optionator: 0.9.1
       progress: 2.0.3
       regexpp: 3.2.0
-      semver: 7.5.1
+      semver: 7.5.2
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       table: 6.8.1
@@ -13198,7 +13217,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
 
   /serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
