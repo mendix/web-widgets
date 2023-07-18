@@ -85,6 +85,9 @@ $disabled-text-color: #6c7180;
         &:placeholder-shown {
             text-overflow: ellipsis;
         }
+        &-nofilter {
+            cursor: pointer;
+        }
     }
 
     &-clear-button {
