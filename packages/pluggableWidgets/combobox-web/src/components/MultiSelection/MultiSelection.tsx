@@ -13,6 +13,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [_input, setInput] = useState("");
+    const noFilter = props.filterType === "no";
     const selector = useGetMultiSelector(props);
     const {
         getSelectedItemProps,
@@ -43,11 +44,12 @@ export function MultiSelection(props: ComboboxContainerProps) {
     return (
         <div className="widget-combobox" {...useActionEvents}>
             <div
+                ref={comboboxRef}
+                tabIndex={-1}
                 className={classNames("form-control", "widget-combobox-input-container", {
                     "widget-combobox-input-container-active": isOpen,
                     "widget-combobox-input-container-disabled": readOnly
                 })}
-                ref={comboboxRef}
             >
                 <div className="widget-combobox-selected-items">
                     {!withCheckbox &&
@@ -76,7 +78,10 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         })}
                     <input
                         ref={inputRef}
-                        className="widget-combobox-input"
+                        className={classNames("widget-combobox-input", {
+                            "widget-combobox-input-nofilter": noFilter
+                        })}
+                        tabIndex={0}
                         placeholder={getSelectedCaptionsPlaceholder(
                             selector,
                             selectedItems,
@@ -88,13 +93,13 @@ export function MultiSelection(props: ComboboxContainerProps) {
                                 ...getDropdownProps({
                                     preventKeyAction: isOpen
                                 }),
-                                disabled: readOnly,
                                 onKeyDown: (event: KeyboardEvent) => {
                                     if (event.key === "Backspace" && inputValue === "") {
                                         setActiveIndex(selectedItems.length - 1);
                                     }
                                 },
-                                readOnly: props.filterType === "no"
+                                disabled: readOnly,
+                                readOnly: noFilter
                             },
                             { suppressRefError: true }
                         )}
