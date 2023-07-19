@@ -56,7 +56,7 @@
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "@react-google-maps/api": "~2.18.1",
     "classnames": "^2.3.2",
-    "deep-equal": "^2.2.1",
+    "deep-equal": "^2.2.2",
     "leaflet": "^1.9.4",
     "react-leaflet": "^4.2.1"
   }
