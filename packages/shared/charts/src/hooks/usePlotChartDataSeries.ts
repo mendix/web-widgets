@@ -1,5 +1,13 @@
 import Big from "big.js";
-import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttributeValue, ActionValue } from "mendix";
+import {
+    ObjectItem,
+    DynamicValue,
+    ListValue,
+    ListExpressionValue,
+    ListAttributeValue,
+    ActionValue,
+    ListActionValue
+} from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
@@ -24,7 +32,7 @@ interface DataSourceItemGroup {
 
 export type PlotChartSeries = PlotChartDataPoints & MendixChartDataProps;
 
-interface PlotDataSeries {
+export interface PlotDataSeries {
     dataSet: "static" | "dynamic";
     customSeriesOptions: string | undefined;
     groupByAttribute?: ListAttributeValue<string | boolean | Date | Big>;
@@ -36,7 +44,7 @@ interface PlotDataSeries {
     dynamicXAttribute?: ListAttributeValue<Date | Big | string>;
     staticYAttribute?: ListAttributeValue<Date | Big | string>;
     dynamicYAttribute?: ListAttributeValue<Date | Big | string>;
-    onClickAction?: ActionValue;
+    onClickAction?: ActionValue | ListActionValue;
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
 }
@@ -67,7 +75,15 @@ function createActionHandlers({
     onClickAction
 }: Pick<PlotDataSeries, "onClickAction">): Pick<PlotChartSeries, "onClick"> {
     return {
-        onClick: onClickAction ? () => executeAction(onClickAction) : undefined
+        onClick: onClickAction
+            ? () => {
+                  if ("canExecute" in onClickAction) {
+                      executeAction(onClickAction);
+                  } else {
+                      // onClickAction.get
+                  }
+              }
+            : undefined
     };
 }
 
@@ -221,6 +237,7 @@ function extractDataPoints(
             series.dataSet === "dynamic" ? series.dynamicTooltipHoverText : series.staticTooltipHoverText;
         hoverTextData.push(tooltipHoverTextSource?.get(item).value);
     }
+    console.log(xData, yData);
 
     return {
         ...(seriesName ? { name: seriesName } : {}),
