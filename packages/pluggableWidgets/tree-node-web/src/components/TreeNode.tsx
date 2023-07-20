@@ -215,12 +215,18 @@ function TreeNodeBranch(props: TreeNodeBranchProps): ReactElement {
         }
     }, [animateTreeNodeContent, props.animateTreeNodeContent, treeNodeState]);
 
+    const eventTargetIsTextArea = useCallback<(event: SyntheticEvent<HTMLElement>) => boolean>(event => {
+        const target = event.target as Node;
+        return target.nodeName.toLowerCase() === "textarea";
+    }, []);
+
     const eventTargetIsNotCurrentBranch = useCallback<(event: SyntheticEvent<HTMLElement>) => boolean>(event => {
         const target = event.target as Node;
         return (
-            !treeNodeBranchRef.current?.isSameNode(target) &&
-            !treeNodeBranchRef.current?.firstElementChild?.contains(target) &&
-            !treeNodeBranchRef.current?.lastElementChild?.isSameNode(target)
+            (!treeNodeBranchRef.current?.isSameNode(target) &&
+                !treeNodeBranchRef.current?.firstElementChild?.contains(target) &&
+                !treeNodeBranchRef.current?.lastElementChild?.isSameNode(target)) ||
+            eventTargetIsTextArea(event)
         );
     }, []);
 
