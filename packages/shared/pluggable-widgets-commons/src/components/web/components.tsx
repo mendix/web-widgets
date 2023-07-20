@@ -28,6 +28,9 @@ export const Icon = ({ icon, className = "", fallback }: IconProps): ReactElemen
     if (icon?.type === "image") {
         return <img className={className} src={icon.iconUrl} aria-hidden alt="" />;
     }
+    if (icon?.type === "icon") {
+        return <span className={classNames(className, icon.iconClass)} aria-hidden />;
+    }
     return fallback || null;
 };
 

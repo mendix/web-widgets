@@ -18,8 +18,8 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
             ? props.datasource.items?.map(item => mapDataSourceItemToTreeNodeObject(item, props)) ?? []
             : null;
 
-    const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : null;
-    const collapsedIcon = props.collapsedIcon?.status === ValueStatus.Available ? props.collapsedIcon.value : null;
+    const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
+    const collapsedIcon = props.collapsedIcon?.status === ValueStatus.Available ? props.collapsedIcon.value : undefined;
 
     return (
         <TreeNodeComponent
