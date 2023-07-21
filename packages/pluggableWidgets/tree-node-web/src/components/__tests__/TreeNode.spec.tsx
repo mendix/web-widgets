@@ -20,8 +20,8 @@ const defaultProps: TreeNodeProps = {
     startExpanded: false,
     showCustomIcon: false,
     iconPlacement: "right",
-    expandedIcon: null,
-    collapsedIcon: null,
+    expandedIcon: undefined,
+    collapsedIcon: undefined,
     animateIcon: false,
     animateTreeNodeContent: false
 };
