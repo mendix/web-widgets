@@ -19,9 +19,7 @@ export const ChevronIcon = ({ className }: { className: string }): ReactElement 
 export const CustomHeaderIcon = ({ icon }: { icon: WebIcon }): ReactElement => {
     let currentIcon = icon;
     if (icon && icon.type !== "image") {
-        currentIcon = Object.assign({}, icon, {
-            iconClass: classNames(icon.iconClass, "widget-tree-node-branch-header-icon")
-        });
+        currentIcon = { ...icon, iconClass: classNames(icon.iconClass, "widget-tree-node-branch-header-icon") };
     }
     return <Icon icon={currentIcon} />;
 };
