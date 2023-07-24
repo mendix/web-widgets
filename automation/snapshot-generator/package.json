@@ -8,7 +8,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">= v18.16.0"
+    "node": ">= v18.17.0"
   },
   "license": "MIT",
   "scripts": {
