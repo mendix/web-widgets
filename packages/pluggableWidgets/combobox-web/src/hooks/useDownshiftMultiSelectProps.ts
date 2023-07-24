@@ -26,7 +26,9 @@ export function useDownshiftMultiSelectProps(
         setSelectedItems
     } = useMultipleSelection({
         selectedItems: selector.currentValue ?? [],
-        onSelectedItemsChange: useCallback(() => executeAction(onChangeEvent), [onChangeEvent]),
+        onSelectedItemsChange: useCallback(() => {
+            executeAction(onChangeEvent);
+        }, [onChangeEvent]),
         onStateChange({ selectedItems: newSelectedItems, type }) {
             switch (type) {
                 case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownBackspace:
