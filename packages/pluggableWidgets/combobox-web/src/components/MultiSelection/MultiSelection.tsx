@@ -15,6 +15,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const [_input, setInput] = useState("");
     const noFilter = props.filterType === "no";
     const selector = useGetMultiSelector(props);
+    const actionEvents = useActionEvents(props);
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -42,7 +43,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
     }
 
     return (
-        <div className="widget-combobox" {...useActionEvents}>
+        <div className="widget-combobox" {...actionEvents}>
             <div
                 ref={comboboxRef}
                 tabIndex={-1}
@@ -90,6 +91,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         )}
                         {...getInputProps(
                             {
+                                ...useActionEvents,
                                 ...getDropdownProps({
                                     preventKeyAction: isOpen
                                 }),

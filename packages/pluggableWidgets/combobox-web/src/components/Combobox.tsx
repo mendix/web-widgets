@@ -13,7 +13,12 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const selector = useGetSelector(props);
-    const downshiftProps = useDownshiftProps(selector, inputRef.current, props.emptyOptionText?.value);
+    const downshiftProps = useDownshiftProps(
+        selector,
+        inputRef.current,
+        props.emptyOptionText?.value,
+        props.onChangeEvent
+    );
     const actionEvents = useActionEvents(props);
     const [focused, setFocused] = useState(false);
     const readOnly =

@@ -13,7 +13,7 @@ export function useDownshiftProps(
     return useMemo(() => {
         return {
             itemToString: (v: string | null) => selector.caption.get(v),
-            onChange: (v: string | null) => {
+            onChange: (v: string | null, _stateAndHelpers: any) => {
                 executeAction(onChangeEvent);
                 selector.setValue(v);
             },

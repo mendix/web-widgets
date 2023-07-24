@@ -126,10 +126,6 @@
         </propertyGroup>
 
         <propertyGroup caption="Events">
-            <property key="onClickEvent" type="action" required="false">
-                <caption>On click action</caption>
-                <description />
-            </property>
             <property key="onChangeEvent" type="action" required="false">
                 <caption>On change action</caption>
                 <description />

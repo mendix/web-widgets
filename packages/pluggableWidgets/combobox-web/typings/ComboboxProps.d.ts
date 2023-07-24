@@ -29,7 +29,6 @@ export interface ComboboxContainerProps {
     filterType: FilterTypeEnum;
     clearable: boolean;
     selectionType: SelectionTypeEnum;
-    onClickEvent?: ActionValue;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
@@ -50,7 +49,6 @@ export interface ComboboxPreviewProps {
     filterType: FilterTypeEnum;
     clearable: boolean;
     selectionType: SelectionTypeEnum;
-    onClickEvent: {} | null;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
