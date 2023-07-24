@@ -131,7 +131,7 @@ describe("TreeNode", () => {
     const customIconProps: Partial<TreeNodeProps> = {
         showCustomIcon: true,
         expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
-        collapsedIcon: { type: "image", iconUrl: "collapsed-image" }
+        collapsedIcon: { type: "image", iconUrl: "image.png" }
     };
 
     function getExpandedIconFromBranchHeader(header: ReactWrapper<any>): ReactWrapper<any> {
@@ -141,7 +141,7 @@ describe("TreeNode", () => {
     }
 
     function getCollapsedImageFromBranchHeader(header: ReactWrapper<any>): ReactWrapper<any> {
-        return header.findWhere(node => node.type() === "img" && node.prop("src") === "collapsed-image");
+        return header.findWhere(node => node.type() === "img" && node.prop("src") === "image.png");
     }
 
     it("shows custom expanded icon accordingly", () => {
