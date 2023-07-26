@@ -159,8 +159,8 @@ importers:
   packages/customWidgets/any-chart-web:
     dependencies:
       ace-builds:
-        specifier: ^1.22.1
-        version: 1.22.1
+        specifier: ^1.23.4
+        version: 1.23.4
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1770,8 +1770,8 @@ importers:
         specifier: workspace:*
         version: link:../pluggable-widgets-commons
       ace-builds:
-        specifier: ^1.22.1
-        version: 1.22.1
+        specifier: ^1.23.4
+        version: 1.23.4
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -5632,8 +5632,8 @@ packages:
     resolution: {integrity: sha512-d8XPSGjfyzlXC3Xx891DJRyZfqk5JU0BJrDQcsWomFIV1/BIzPW5HDH5iDdWpqWaav0YVIEzT1RHTwWr0FFshA==}
     dev: false
 
-  /ace-builds@1.22.1:
-    resolution: {integrity: sha512-o5RGTPBIiRxguWNors3pT6KuLqj0a2NvNLoqir7/2LLiFm34PJV3BMq4sl9kjPayo4+lmd99m6zAq+XPdhyHQA==}
+  /ace-builds@1.23.4:
+    resolution: {integrity: sha512-a4hKAT2T7KNUQC4LQPW2peuoEsZmLYTn4Dwjkh26A3Z+fQ8/fA2JZNs3V6CqvivhbyMQXQJD1u/0qTCoSS6deA==}
     dev: false
 
   /acorn-globals@7.0.1:
@@ -12264,7 +12264,7 @@ packages:
       react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
       react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      ace-builds: 1.22.1
+      ace-builds: 1.23.4
       diff-match-patch: 1.0.5
       lodash.get: 4.4.2
       lodash.isequal: 4.5.0
@@ -12279,7 +12279,7 @@ packages:
       react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
       react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      ace-builds: 1.22.1
+      ace-builds: 1.23.4
       diff-match-patch: 1.0.5
       lodash.get: 4.4.2
       lodash.isequal: 4.5.0
