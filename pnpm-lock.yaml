@@ -168,8 +168,8 @@ importers:
         specifier: ^4.0.14
         version: 4.0.14
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -859,8 +859,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -940,8 +940,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -1248,8 +1248,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -7427,8 +7427,8 @@ packages:
     resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
     dev: true
 
-  /deep-equal@2.2.1:
-    resolution: {integrity: sha512-lKdkdV6EOGoVn65XaOsPdH4rMxTZOnmFyuIkMjM1i5HHCbfjC97dawgTAy0deYNfuqUqW+Q5VrVaQYtUpSd6yQ==}
+  /deep-equal@2.2.2:
+    resolution: {integrity: sha512-xjVyBf0w5vH0I42jdAZzOKVldmPgSulmiyPRywoyq7HXC9qdgo17kxJE+rdnif5Tz6+pIrpJI8dCpMNLIGkUiA==}
     dependencies:
       array-buffer-byte-length: 1.0.0
       call-bind: 1.0.2
