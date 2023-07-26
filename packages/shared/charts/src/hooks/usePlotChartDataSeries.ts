@@ -237,8 +237,6 @@ function extractDataPoints(
             series.dataSet === "dynamic" ? series.dynamicTooltipHoverText : series.staticTooltipHoverText;
         hoverTextData.push(tooltipHoverTextSource?.get(item).value);
     }
-    console.log(xData, yData);
-
     return {
         ...(seriesName ? { name: seriesName } : {}),
         x: xData,
