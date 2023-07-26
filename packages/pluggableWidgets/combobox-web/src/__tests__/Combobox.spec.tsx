@@ -11,7 +11,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
-import { Combobox } from "../components/Combobox";
+import { SingleSelection } from "../components/SingleSelection/SingleSelection";
 
 describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
@@ -48,22 +48,22 @@ describe("Combo box (Association)", () => {
         }
     });
     it("renders combobox widget", () => {
-        const component = render(<Combobox {...defaultProps} />);
+        const component = render(<SingleSelection {...defaultProps} />);
         expect(component.container).toMatchSnapshot();
     });
     it("renders placeholder component in case of unavailable status", () => {
         defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
-        const { container } = render(<Combobox {...defaultProps} />);
+        const { container } = render(<SingleSelection {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
     it("opens combobox menu with all items on trigger", async () => {
-        const component = render(<Combobox {...defaultProps} />);
+        const component = render(<SingleSelection {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
     });
     it("closes combobox menu on trigger", async () => {
-        const component = render(<Combobox {...defaultProps} />);
+        const component = render(<SingleSelection {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
@@ -71,7 +71,7 @@ describe("Combo box (Association)", () => {
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
     it("sets option to selected item", async () => {
-        const component = render(<Combobox {...defaultProps} />);
+        const component = render(<SingleSelection {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         const option1 = await component.findByText("222");
@@ -81,7 +81,7 @@ describe("Combo box (Association)", () => {
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
     });
     it("removes selected item", async () => {
-        const component = render(<Combobox {...defaultProps} />);
+        const component = render(<SingleSelection {...defaultProps} />);
         const toggleButton = await component.findByLabelText("open menu");
         fireEvent.click(toggleButton);
         const option1 = await component.findByText("222");
