@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
-import { Combobox as SingleSelection } from "./components/Combobox";
+import { SingleSelection as SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 
 import "./ui/Combobox.scss";

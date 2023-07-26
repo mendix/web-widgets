@@ -1,15 +1,15 @@
 import classNames from "classnames";
 import Downshift from "downshift";
 import { createElement, ReactElement, useRef, useState } from "react";
-import { useActionEvents } from "../hooks/useActionEvents";
-import { ComboboxContainerProps } from "../../typings/ComboboxProps";
-import { ClearButton, DownArrow } from "../assets/icons";
-import { useDownshiftProps } from "../hooks/useDownshiftProps";
-import { useGetSelector } from "../hooks/useGetSelector";
-import { ComboboxMenu } from "./ComboboxMenu";
-import { Placeholder } from "./Placeholder";
+import { useActionEvents } from "../../hooks/useActionEvents";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { ClearButton, DownArrow } from "../../assets/icons";
+import { useDownshiftProps } from "../../hooks/useDownshiftProps";
+import { useGetSelector } from "../../hooks/useGetSelector";
+import { SingleSelectionMenu } from "./SingleSelectionMenu";
+import { Placeholder } from "../Placeholder";
 
-export function Combobox(props: ComboboxContainerProps): ReactElement {
+export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const selector = useGetSelector(props);
@@ -94,7 +94,7 @@ export function Combobox(props: ComboboxContainerProps): ReactElement {
                             <DownArrow />
                         </div>
                     </div>
-                    <ComboboxMenu
+                    <SingleSelectionMenu
                         comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                         selector={selector}
                         filterType={props.filterType}

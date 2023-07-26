@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
 import { createPortal } from "react-dom";
-import { SingleSelector } from "../helpers/types";
-import { FilterTypeEnum } from "../../typings/ComboboxProps";
+import { SingleSelector } from "../../helpers/types";
+import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 
 interface ComboboxMenuProps extends Partial<PropGetters<any>> {
     comboboxSize: DOMRect | undefined;
@@ -14,7 +14,7 @@ interface ComboboxMenuProps extends Partial<PropGetters<any>> {
     selectedItem?: string | null;
 }
 
-export function ComboboxMenu(props: ComboboxMenuProps): ReactElement {
+export function SingleSelectionMenu(props: ComboboxMenuProps): ReactElement {
     const { comboboxSize, isOpen, selector, highlightedIndex, getMenuProps, getItemProps } = props;
     return createPortal(
         <ul
