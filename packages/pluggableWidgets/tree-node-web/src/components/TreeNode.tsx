@@ -15,7 +15,6 @@ import {
     useState
 } from "react";
 import classNames from "classnames";
-import { Icon } from "@mendix/pluggable-widgets-commons/components/web";
 import { ShowIconEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 import {
     TreeNodeBranchContextProps,
@@ -29,7 +28,7 @@ import {
     useTreeNodeBranchKeyboardHandler,
     useTreeNodeFocusChangeHandler
 } from "./hooks/TreeNodeAccessibility";
-import { ChevronIcon } from "./ChevronIcon";
+import { ChevronIcon, CustomHeaderIcon } from "./Icons";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 
@@ -46,8 +45,8 @@ export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> 
     startExpanded: TreeNodeBranchProps["startExpanded"];
     showCustomIcon: boolean;
     iconPlacement: TreeNodeBranchProps["iconPlacement"];
-    expandedIcon: WebIcon | null;
-    collapsedIcon: WebIcon | null;
+    expandedIcon?: WebIcon;
+    collapsedIcon?: WebIcon;
     animateIcon: boolean;
     animateTreeNodeContent: TreeNodeBranchProps["animateTreeNodeContent"];
 }
@@ -75,10 +74,7 @@ export function TreeNode({
             }
             const treeNodeIsExpanded = treeNodeState === TreeNodeState.EXPANDED;
             return showCustomIcon ? (
-                <Icon
-                    icon={treeNodeIsExpanded ? expandedIcon : collapsedIcon}
-                    className="widget-tree-node-branch-header-icon"
-                />
+                <CustomHeaderIcon icon={treeNodeIsExpanded ? expandedIcon : collapsedIcon} />
             ) : (
                 <ChevronIcon
                     className={classNames("widget-tree-node-branch-header-icon", {
