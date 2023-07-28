@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with Tooltip widget not displaying correctly when close to a datagrid table header.
+-   We fixed an issue with Tooltip widget triggering unexpectedly due to width of trigger element.
+
 ## [1.3.0] - 2023-06-06
 
 ### Changed
