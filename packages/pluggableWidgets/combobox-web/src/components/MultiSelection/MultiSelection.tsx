@@ -91,7 +91,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         )}
                         {...getInputProps(
                             {
-                                ...useActionEvents,
                                 ...getDropdownProps({
                                     preventKeyAction: isOpen
                                 }),
@@ -112,7 +111,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                     <button
                         className="widget-combobox-clear-button"
                         onClick={e => {
-                            e.preventDefault();
                             e.stopPropagation();
                             selector.setValue(null);
                             reset();

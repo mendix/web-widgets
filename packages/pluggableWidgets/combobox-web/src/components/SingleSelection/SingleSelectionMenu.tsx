@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
-import { createPortal } from "react-dom";
 import { SingleSelector } from "../../helpers/types";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 
@@ -16,14 +15,12 @@ interface ComboboxMenuProps extends Partial<PropGetters<any>> {
 
 export function SingleSelectionMenu(props: ComboboxMenuProps): ReactElement {
     const { comboboxSize, isOpen, selector, highlightedIndex, getMenuProps, getItemProps } = props;
-    return createPortal(
+    return (
         <ul
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            {...getMenuProps?.()}
+            {...getMenuProps?.({}, { suppressRefError: true })}
             style={{
-                width: comboboxSize?.width,
-                left: comboboxSize?.x,
-                top: (comboboxSize?.top || 0) + (comboboxSize?.height || 0)
+                width: comboboxSize?.width
             }}
         >
             {isOpen
@@ -44,7 +41,6 @@ export function SingleSelectionMenu(props: ComboboxMenuProps): ReactElement {
                       </li>
                   ))
                 : null}
-        </ul>,
-        document.body
+        </ul>
     );
 }
