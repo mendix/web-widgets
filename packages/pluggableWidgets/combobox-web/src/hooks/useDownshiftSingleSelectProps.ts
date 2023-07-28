@@ -1,39 +1,44 @@
-import Downshift, { DownshiftState, StateChangeOptions } from "downshift";
+import {
+    useCombobox,
+    UseComboboxState,
+    UseComboboxStateChangeOptions,
+    UseComboboxStateChange,
+    UseComboboxProps
+} from "downshift";
+
 import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue } from "mendix";
 
-export function useDownshiftProps(
+export function useDownshiftSingleSelectProps(
     selector: SingleSelector,
     inputElement: HTMLInputElement | null,
     emptyOptionText: string | undefined,
+    setInputValue: (value: string) => void,
     onChangeEvent?: ActionValue
 ) {
-    return useMemo(() => {
+    const downshiftProps = useMemo((): UseComboboxProps<string> => {
         return {
+            items: selector.options.getAll() ?? [],
             itemToString: (v: string | null) => selector.caption.get(v),
-            onChange: (v: string | null, _stateAndHelpers: any) => {
+            onSelectedItemChange(changes: UseComboboxStateChange<string>) {
                 executeAction(onChangeEvent);
-                selector.setValue(v);
-            },
-            onInputValueChange: (v: string) => selector.options.setSearchTerm(v),
-            onStateChange: (state: StateChangeOptions<string>) => {
-                if (state.type === Downshift.stateChangeTypes.clickButton && state.isOpen) {
-                    inputElement?.focus();
-                }
+                selector.setValue(changes.selectedItem!);
             },
             defaultHighlightedIndex: 0,
             selectedItem: selector.currentValue,
             initialInputValue: selector.caption.get(selector.currentValue),
-            stateReducer: (_state: DownshiftState<string>, changes: StateChangeOptions<string>) => {
-                switch (changes.type) {
-                    case Downshift.stateChangeTypes.clickButton:
+            stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
+                const { changes, type } = actionAndChanges;
+                switch (type) {
+                    case useCombobox.stateChangeTypes.FunctionToggleMenu:
                         return {
                             ...changes,
                             inputValue: ""
                         };
-                    case Downshift.stateChangeTypes.controlledPropUpdatedSelectedItem:
+
+                    case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
                             inputValue:
@@ -41,13 +46,13 @@ export function useDownshiftProps(
                                     ? ""
                                     : selector.caption.get(selector.currentValue)
                         };
-                    case Downshift.stateChangeTypes.keyDownEnter:
-                    case Downshift.stateChangeTypes.clickItem:
-                        return {
-                            ...changes
-                        };
-                    case Downshift.stateChangeTypes.mouseUp:
-                    case Downshift.stateChangeTypes.blurButton:
+
+                    case useCombobox.stateChangeTypes.InputFocus:
+                        setInputValue("");
+                        return { ...changes, inputValue: "" };
+
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+                    case useCombobox.stateChangeTypes.InputBlur:
                     case undefined:
                         return {
                             ...changes,
@@ -56,10 +61,19 @@ export function useDownshiftProps(
                                     ? selector.caption.get(selector.currentValue)
                                     : ""
                         };
+
                     default:
                         return { ...changes };
                 }
+            },
+            onStateChange({ type, inputValue }) {
+                switch (type) {
+                    case useCombobox.stateChangeTypes.InputChange:
+                        selector.options.setSearchTerm(inputValue!);
+                        setInputValue(inputValue!);
+                }
             }
         };
-    }, [selector, inputElement, emptyOptionText, selector.currentValue]);
+    }, [selector, inputElement, emptyOptionText, onChangeEvent, selector.currentValue]);
+    return useCombobox(downshiftProps);
 }

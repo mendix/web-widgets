@@ -106,6 +106,7 @@ function useComboboxProps(
                             ...changes,
                             inputValue: ""
                         };
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
                     case useCombobox.stateChangeTypes.InputBlur:

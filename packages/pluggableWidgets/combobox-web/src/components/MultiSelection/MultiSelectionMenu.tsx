@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift";
-import { ReactPortal, createElement } from "react";
-import { createPortal } from "react-dom";
+import { ReactElement, createElement } from "react";
 import { MultiSelector } from "../../helpers/types";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
@@ -26,16 +25,14 @@ export function MultiSelectionMenu({
     withCheckbox,
     allItems,
     selectedItems
-}: MultiSelectionMenuProps): ReactPortal {
+}: MultiSelectionMenuProps): ReactElement {
     const allSelected = allItems.length === selectedItems.length;
     const noneSelected = selectedItems.length < 1;
-    return createPortal(
+    return (
         <div
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             style={{
-                width: comboboxSize?.width,
-                left: comboboxSize?.x,
-                top: (comboboxSize?.top || 0) + (comboboxSize?.height || 0)
+                width: comboboxSize?.width
             }}
         >
             <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
@@ -56,12 +53,13 @@ export function MultiSelectionMenu({
                                     className="widget-combobox-item-checkbox"
                                     type="checkbox"
                                     checked={selector.currentValue?.includes(item)}
+                                    onChange={() => {}}
                                 />
                             )}
                             {selector.caption.render(item)}
                         </li>
                     ))}
-                <div className="widget-combobox-menu-footer">
+                <div className="widget-combobox-menu-footer" tabIndex={0}>
                     <span
                         className={classNames("widget-combobox-menu-footer-control", {
                             "widget-combobox-menu-footer-control-disabled": allSelected
@@ -88,7 +86,6 @@ export function MultiSelectionMenu({
                     </span>
                 </div>
             </ul>
-        </div>,
-        document.body
+        </div>
     );
 }

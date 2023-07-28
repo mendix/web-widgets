@@ -26,6 +26,22 @@ export interface OptionsProvider<T = unknown, P = {}> {
     _valueToOption(value: T | undefined): string | null;
 }
 
+export interface Selector<T> {
+    updateProps(props: ComboboxContainerProps): void;
+    status: Status;
+
+    // options related
+    options: OptionsProvider;
+
+    // caption related
+    caption: CaptionsProvider;
+
+    // value related
+    clearable: boolean;
+    currentValue: T | null;
+    setValue(value: T | null): void;
+}
+
 export interface SingleSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
