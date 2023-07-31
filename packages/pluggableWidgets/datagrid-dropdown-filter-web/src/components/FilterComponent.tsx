@@ -9,7 +9,7 @@ import {
     useRef,
     useState
 } from "react";
-import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { useOnClickOutside } from "@mendix/pluggable-widgets-commons/dist/components/web";
 import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
 import classNames from "classnames";
 import { Option, OptionValue } from "../utils/types";
@@ -75,10 +75,8 @@ function SelectComponent(props: SelectProps): ReactElement {
         onContentScroll
     } = props;
     const [show, setShow] = useState(false);
-    const [dropdownWidth, setDropdownWidth] = useState(0);
     const componentRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
-    const position = usePositionObserver(componentRef.current, show);
     const isSelected = within(selected);
 
     const onClick = useCallback(
@@ -152,17 +150,7 @@ function SelectComponent(props: SelectProps): ReactElement {
         ) : null;
 
         return (
-            <div
-                className="dropdown-content"
-                onScroll={onContentScroll}
-                ref={optionsRef}
-                style={{
-                    position: "fixed",
-                    width: dropdownWidth,
-                    top: position?.bottom,
-                    left: position?.left
-                }}
-            >
+            <div className="dropdown-content" onScroll={onContentScroll} ref={optionsRef}>
                 {optionsList}
                 {footer}
             </div>
@@ -199,11 +187,6 @@ function SelectComponent(props: SelectProps): ReactElement {
                     }
                 }}
                 aria-haspopup
-                ref={inputRef => {
-                    if (inputRef && inputRef.clientWidth) {
-                        setDropdownWidth(inputRef.clientWidth);
-                    }
-                }}
                 aria-expanded={show}
                 aria-controls={`${id}-dropdown-list`}
                 aria-label={ariaLabel}

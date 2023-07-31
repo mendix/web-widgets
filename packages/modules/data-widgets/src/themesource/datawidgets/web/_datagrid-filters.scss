@@ -212,6 +212,7 @@ $item-min-height: 32px;
 
 .dropdown-container {
     flex: 1;
+    position: relative;
 
     .dropdown-triggerer {
         caret-color: transparent;
@@ -229,7 +230,7 @@ $item-min-height: 32px;
 
     .dropdown-list {
         position: absolute;
-        width: max-content;
+        min-width: 100%;
         left: 0;
         margin: 0 $spacing-small;
         padding: 0;
