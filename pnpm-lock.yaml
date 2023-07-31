@@ -1381,8 +1381,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       shifty:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^3.0.1
+        version: 3.0.1
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -4195,7 +4195,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       make-dir: 3.1.0
       mendix: 9.24.2965
-      metro-react-native-babel-preset: 0.74.1
+      metro-react-native-babel-preset: 0.74.1(@babel/core@7.21.0)
       mime: 3.0.0
       node-fetch: 2.6.9
       postcss: 8.4.21
@@ -10753,8 +10753,10 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset@0.74.1:
+  /metro-react-native-babel-preset@0.74.1(@babel/core@7.21.0):
     resolution: {integrity: sha512-DjsG9nqm5C7cjB2SlgbcNJOn9y5MBUd3bRlCfnoj8CxAeGTGkS+yXd183lHR3C1bhmQNjuUE0abzzpE1CFh6JQ==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.21.0
       '@babel/plugin-proposal-async-generator-functions': 7.20.7(@babel/core@7.21.0)
@@ -13266,8 +13268,8 @@ packages:
       interpret: 1.4.0
       rechoir: 0.6.2
 
-  /shifty@3.0.0:
-    resolution: {integrity: sha512-9VtT8oG8QH5kBTDlMWj8OTNCSLJr/wHF7qIe57WrT3QLrorapfjz5quFdv6+yedyGOyp6L7Ijfn8scss5npEzg==}
+  /shifty@3.0.1:
+    resolution: {integrity: sha512-jGbnl1VR0dG2J+x5u9E0c1gt9QqDjeFrOtopRmKhMw2zmtzZAWG4voYZD5lSpW6THct6G2STxICAPvqfU6J1Pg==}
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
