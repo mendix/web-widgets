@@ -1380,9 +1380,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      progressbar.js:
-        specifier: ^1.1.0
-        version: 1.1.0
+      shifty:
+        specifier: ^3.0.0
+        version: 3.0.0
     devDependencies:
       '@mendix-internal/automation-utils':
         specifier: workspace:*
@@ -4195,7 +4195,7 @@ packages:
       jest-react-hooks-shallow: 1.5.1
       make-dir: 3.1.0
       mendix: 9.24.2965
-      metro-react-native-babel-preset: 0.74.1(@babel/core@7.21.0)
+      metro-react-native-babel-preset: 0.74.1
       mime: 3.0.0
       node-fetch: 2.6.9
       postcss: 8.4.21
@@ -10753,10 +10753,8 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /metro-react-native-babel-preset@0.74.1(@babel/core@7.21.0):
+  /metro-react-native-babel-preset@0.74.1:
     resolution: {integrity: sha512-DjsG9nqm5C7cjB2SlgbcNJOn9y5MBUd3bRlCfnoj8CxAeGTGkS+yXd183lHR3C1bhmQNjuUE0abzzpE1CFh6JQ==}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.21.0
       '@babel/plugin-proposal-async-generator-functions': 7.20.7(@babel/core@7.21.0)
@@ -12057,12 +12055,6 @@ packages:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
 
-  /progressbar.js@1.1.0:
-    resolution: {integrity: sha512-K68/xcyXKo2I6T3PfIkXrRaycxROmWeU4bugb49iulWR25cU94PM0cfZ47S0jDhG5K3vPhZwCOy1fgb5Pgh6UQ==}
-    dependencies:
-      shifty: 2.20.4
-    dev: false
-
   /promise.series@0.2.0:
     resolution: {integrity: sha512-VWQJyU2bcDTgZw8kpfBpB/ejZASlCrzwz5f2hjb/zlujOEB4oeiAhHygAWq8ubsX2GVkD4kCU5V2dwOTaCY5EQ==}
     engines: {node: '>=0.12'}
@@ -13274,8 +13266,8 @@ packages:
       interpret: 1.4.0
       rechoir: 0.6.2
 
-  /shifty@2.20.4:
-    resolution: {integrity: sha512-4Y0qRkg8ME5XN8yGNAwmFOmsIURGFKT9UQfNL6DDJQErYtN5HsjyoBuJn41ZQfTkuu2rIbRMn9qazjKsDpO2TA==}
+  /shifty@3.0.0:
+    resolution: {integrity: sha512-9VtT8oG8QH5kBTDlMWj8OTNCSLJr/wHF7qIe57WrT3QLrorapfjz5quFdv6+yedyGOyp6L7Ijfn8scss5npEzg==}
     optionalDependencies:
       fsevents: 2.3.2
     dev: false

@@ -1,7 +1,8 @@
 import { createElement, CSSProperties, FunctionComponent, ReactNode, useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
-import { Circle, CircleOptions } from "progressbar.js";
+import Circle from "./Circle/Circle";
+import { ShapeOptions } from "./Circle/Types";
 import { calculatePercentage } from "../util";
 
 export interface ProgressCircleProps {
@@ -14,7 +15,7 @@ export interface ProgressCircleProps {
     label: ReactNode;
 }
 
-const defaultOptions: CircleOptions = {
+const defaultOptions: ShapeOptions = {
     duration: 800,
     // These default values are necessary so that progressbar.js at least renders anything, which we override with custom styling.
     // They also need to be equal to the largest size that we have available, since that will determine the size of the bounding box.
@@ -51,8 +52,14 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
         (node: any) => {
             if (node !== null) {
                 const circleElement = new Circle(node, defaultOptions);
-                circleElement.path.className.baseVal = "widget-progress-circle-path";
-                circleElement.trail.className.baseVal = "widget-progress-circle-trail-path";
+                if (circleElement.path) {
+                    circleElement.path.className.baseVal = "widget-progress-circle-path";
+                }
+
+                if (circleElement.trail) {
+                    circleElement.trail.className.baseVal = "widget-progress-circle-trail-path";
+                }
+
                 setProgressCircle(circleElement);
             }
         },
