@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We changed the DOM Structure for dropdown filter to appear inline with .react-datepicker component in order to make the component more accessible.
+
 ## [2.4.3] - 2023-06-21
 
 ### Fixed

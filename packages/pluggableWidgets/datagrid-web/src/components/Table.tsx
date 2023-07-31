@@ -9,7 +9,7 @@ import {
     useState
 } from "react";
 import { ColumnSelector } from "./ColumnSelector";
-import { Header } from "./Header";
+import { Header, WidgetHeader } from "./Header";
 import { AlignmentEnum, ColumnsPreviewType, WidthEnum } from "../../typings/DatagridProps";
 import { Big } from "big.js";
 import classNames from "classnames";
@@ -19,6 +19,7 @@ import { ColumnResizer } from "./ColumnResizer";
 import { InfiniteBody, Pagination, ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
 import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
 import { SelectionMethod } from "../features/selection";
+import { StickyHeaderTable } from "./StickyHeaderTable";
 
 export type TableColumn = Omit<
     ColumnsPreviewType,
@@ -279,12 +280,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             style={styles}
         >
             <div className="table-header">{(pagingPosition === "top" || pagingPosition === "both") && pagination}</div>
-            {gridHeaderWidgets && (
-                <div className="header-filters" aria-label={gridHeaderTitle}>
-                    {gridHeaderWidgets}
-                </div>
-            )}
-            <div className="table" role="table">
+            <WidgetHeader headerWidgets={gridHeaderWidgets} headerTitle={gridHeaderTitle} />
+            <StickyHeaderTable>
                 <InfiniteBody
                     className="table-content"
                     hasMoreItems={hasMoreItems}
@@ -405,7 +402,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                             );
                         })}
                 </InfiniteBody>
-            </div>
+            </StickyHeaderTable>
             <div className="table-footer">
                 {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
             </div>

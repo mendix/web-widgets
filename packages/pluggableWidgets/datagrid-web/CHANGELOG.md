@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We add more accesibility feature to datagrid.
+-   We changed the DOM Structure for filter options to appear inline with .react-datepicker component in order to make the component more accessible.
+
 ## [2.7.5] - 2023-07-13
 
 ### Fixed

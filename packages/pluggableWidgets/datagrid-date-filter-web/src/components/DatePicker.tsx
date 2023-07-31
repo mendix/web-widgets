@@ -43,14 +43,13 @@ export const DatePicker = forwardRef(
     (props: DatePickerProps, ref: MutableRefObject<DatePickerComponent> | null): ReactElement => {
         const [open, setOpen] = useState(false);
         const buttonRef = useRef<HTMLButtonElement>(null);
-        const portalRef = useRef<HTMLDivElement>(null);
+        const dateFilterContainerRef = useRef<HTMLDivElement>(null);
         const id = useMemo(() => `datepicker_` + Math.random(), []);
-        const Portal = <div ref={portalRef} id={id} className="date-filter-container" style={{ position: "fixed" }} />;
 
         const buttonClick = useCallback(() => {
             setOpen(open => !open);
             setTimeout(() => {
-                (portalRef.current?.querySelector(".react-datepicker > button") as HTMLElement)?.focus();
+                (dateFilterContainerRef.current?.querySelector(".react-datepicker > button") as HTMLElement)?.focus();
             }, 10);
         }, []);
 
@@ -64,7 +63,7 @@ export const DatePicker = forwardRef(
 
         return (
             <Fragment>
-                {Portal}
+                <div ref={dateFilterContainerRef} id={id} className="date-filter-container" />
                 <span className="sr-only" id={`${props.id}-label`}>
                     {props.screenReaderInputCaption}
                 </span>

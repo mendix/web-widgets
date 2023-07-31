@@ -1,6 +1,7 @@
 import {
     createElement,
     Dispatch,
+    ReactNode,
     ReactElement,
     SetStateAction,
     DragEvent,
@@ -134,6 +135,31 @@ export function Header(props: HeaderProps): ReactElement {
             {props.resizable && props.column.canResize && props.resizer}
         </div>
     );
+}
+
+export function WidgetHeader(props: { headerWidgets?: ReactNode; headerTitle?: string }): ReactElement | null {
+    const { headerWidgets, headerTitle } = props;
+    if (headerWidgets) {
+        let headerProps:
+            | {
+                  role: string;
+                  ariaLabel: string;
+              }
+            | {} = {};
+        if (headerTitle) {
+            headerProps = {
+                role: "contentinfo",
+                ariaLabel: headerTitle
+            };
+        }
+        return (
+            <div className="header-filters" {...headerProps}>
+                {headerWidgets}
+            </div>
+        );
+    } else {
+        return null;
+    }
 }
 
 function useDraggable(
