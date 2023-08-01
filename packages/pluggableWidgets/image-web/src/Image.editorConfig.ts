@@ -174,8 +174,8 @@ export function getPreview(
     ] {
         const imageObject =
             values.imageObject?.type === "static"
-            ? values.imageObject // static image
-            : values.defaultImageDynamic; // default image for dynamic image
+                ? values.imageObject // static image
+                : values.defaultImageDynamic; // default image for dynamic image
         const previewImage = imageObject?.type === "static" && !!imageObject.imageUrl ? imageObject : undefined;
 
         let width: number | undefined;
@@ -222,6 +222,14 @@ export function check(values: ImagePreviewProps): Problem[] {
     return errors;
 }
 
-export function getCustomCaption(values: any): string {
-    return values.datasource || "Image";
+export function getCustomCaption(props: ImagePreviewProps): string {
+    let caption: string;
+    if (!!props.imageObject) {
+        caption = props.imageObject.type === "static" ? props.imageObject.imageUrl : props.imageObject.entity;
+    } else if (!!props.imageIcon) {
+        caption = props.imageIcon.type === "image" ? props.imageIcon.imageUrl : props.imageIcon.iconClass; // until we have a better alternative
+    } else {
+        caption = props.imageUrl;
+    }
+    return caption === "" ? "(none)" : caption;
 }
