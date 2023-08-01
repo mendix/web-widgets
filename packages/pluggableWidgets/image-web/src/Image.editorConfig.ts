@@ -224,9 +224,9 @@ export function check(values: ImagePreviewProps): Problem[] {
 
 export function getCustomCaption(props: ImagePreviewProps): string {
     let caption: string;
-    if (!!props.imageObject) {
+    if (props.imageObject) {
         caption = props.imageObject.type === "static" ? props.imageObject.imageUrl : props.imageObject.entity;
-    } else if (!!props.imageIcon) {
+    } else if (props.imageIcon) {
         caption = props.imageIcon.type === "image" ? props.imageIcon.imageUrl : props.imageIcon.iconClass; // until we have a better alternative
     } else {
         caption = props.imageUrl;
