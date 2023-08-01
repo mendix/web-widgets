@@ -1,22 +1,16 @@
 import Big from "big.js";
-import {
-    ObjectItem,
-    DynamicValue,
-    ListValue,
-    ListExpressionValue,
-    ListAttributeValue,
-    ActionValue,
-    ListActionValue
-} from "mendix";
+import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttributeValue, ListActionValue } from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+// import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { MendixChartDataProps } from "../components/Chart";
 
 type PlotChartDataPoints = {
     x: Datum[];
     y: Datum[];
+    // Objects used to extract values for x and y arrays;
+    dataSourceItems: ObjectItem[];
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
     // We want this optional.
@@ -44,7 +38,7 @@ export interface PlotDataSeries {
     dynamicXAttribute?: ListAttributeValue<Date | Big | string>;
     staticYAttribute?: ListAttributeValue<Date | Big | string>;
     dynamicYAttribute?: ListAttributeValue<Date | Big | string>;
-    onClickAction?: ActionValue | ListActionValue;
+    onClickAction?: ListActionValue;
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
 }
@@ -76,12 +70,8 @@ function createActionHandlers({
 }: Pick<PlotDataSeries, "onClickAction">): Pick<PlotChartSeries, "onClick"> {
     return {
         onClick: onClickAction
-            ? () => {
-                  if ("canExecute" in onClickAction) {
-                      executeAction(onClickAction);
-                  } else {
-                      // onClickAction.get
-                  }
+            ? (index: number) => {
+                  console.log(index);
               }
             : undefined
     };
