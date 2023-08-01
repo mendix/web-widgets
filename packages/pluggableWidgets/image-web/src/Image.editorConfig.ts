@@ -80,7 +80,7 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "width");
     }
 
-    if (values.datasource === "icon" && values.imageIcon?.type === "glyph") {
+    if (values.datasource === "icon" && (values.imageIcon?.type === "glyph" || values.imageIcon?.type === "icon")) {
         hidePropertiesIn(defaultProperties, values, ["widthUnit", "width", "heightUnit", "height"]);
     } else {
         hidePropertyIn(defaultProperties, values, "iconSize");
