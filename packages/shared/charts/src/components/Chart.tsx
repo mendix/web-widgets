@@ -8,7 +8,7 @@ import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
 
 export interface MendixChartDataProps {
     customSeriesOptions: string | undefined;
-    onClick?: () => void;
+    onClick?: (index?: number) => void;
 }
 
 type ChartDataType = Partial<Data> & MendixChartDataProps;

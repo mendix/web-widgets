@@ -1,12 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { usePlotChartDataSeries, PlotDataSeries, SeriesMapper } from "../usePlotChartDataSeries";
-import {
-    ListValueBuilder,
-    ListAttributeValueBuilder,
-    EditableValueBuilder,
-    objectItems
-} from "@mendix/pluggable-test-utils";
-import { ListAttributeValue, ListValue, ListExpressionValue } from "mendix";
+import { ListAttributeValueBuilder, EditableValueBuilder, list } from "@mendix/pluggable-test-utils";
+import { ListAttributeValue, ListExpressionValue, ListActionValue, ListValue } from "mendix";
 import { dynamicValue } from "@mendix/pluggable-widgets-commons";
 
 function axisAttr(): ListAttributeValue<string> {
@@ -26,10 +21,6 @@ function groupByAttr(groups: string[]): ListAttributeValue<string> {
     return attr;
 }
 
-function list(n: number): ListValue {
-    return ListValueBuilder().withItems(objectItems(n));
-}
-
 function singleData(): PlotDataSeries {
     return {
         dataSet: "static",
@@ -40,11 +31,13 @@ function singleData(): PlotDataSeries {
     };
 }
 
-function multiData(params = { n: 12, groups: ["alpha", "beta"] }): PlotDataSeries {
+function multiData(
+    params: { n: number; groups: string[]; ds?: ListValue } = { n: 12, groups: ["alpha", "beta"] }
+): PlotDataSeries {
     const x = { get: () => dynamicValue(Math.random().toString()) } as unknown as ListExpressionValue<string>;
     return {
         dataSet: "dynamic",
-        dynamicDataSource: list(params.n),
+        dynamicDataSource: params.ds ?? list(params.n),
         dynamicXAttribute: axisAttr(),
         dynamicYAttribute: axisAttr(),
         groupByAttribute: groupByAttr(params.groups),
@@ -111,7 +104,62 @@ describe("with grouping on (multiple series)", () => {
     });
     describe("with ActionValue", () => {
         it("should create onClick prop for each data point", () => {
-            expect(true).toBeFalsy();
+            const set1 = multiData();
+            const set2 = singleData();
+            const set3 = multiData({ n: 4, groups: ["a", "b", "c"] });
+            const actionFn = jest.fn();
+            const listAction = {
+                get: jest.fn().mockRejectedValue(actionFn)
+            } as unknown as ListActionValue;
+            const series: PlotDataSeries[] = [set1, set2, set3].map(x => (x.onClickAction = listAction) && x);
+
+            const { result } = renderHook(
+                (props: { series: PlotDataSeries[]; mapFn: SeriesMapper<PlotDataSeries> }) =>
+                    usePlotChartDataSeries(props.series, props.mapFn),
+                {
+                    initialProps: { series, mapFn: _ => ({}) }
+                }
+            );
+
+            expect(result.current).toHaveLength(6);
+
+            for (const data of result.current ?? []) {
+                expect(data.onClick).toBeInstanceOf(Function);
+            }
+        });
+
+        it("should call actionFn with corresponding ObjectItem", () => {
+            const ds = list(4);
+            const set1 = multiData({ n: 4, groups: ["a", "b"], ds });
+            const actionFn = jest.fn();
+            const listAction = {
+                get: jest.fn().mockRejectedValue(actionFn)
+            } as unknown as ListActionValue;
+            set1.onClickAction = listAction;
+            const series: PlotDataSeries[] = [set1];
+
+            const { result } = renderHook(
+                (props: { series: PlotDataSeries[]; mapFn: SeriesMapper<PlotDataSeries> }) =>
+                    usePlotChartDataSeries(props.series, props.mapFn),
+                {
+                    initialProps: { series, mapFn: _ => ({}) }
+                }
+            );
+
+            expect(result.current).toHaveLength(2);
+
+            const [data1, data2] = result.current ?? [];
+            const [object1, object2, object3, object4] = ds.items ?? [];
+            const data1Objects = [object1, object3];
+            const data2Objects = [object2, object4];
+            data1.onClick?.(0);
+            expect(actionFn).toHaveBeenLastCalledWith(data1Objects[0]);
+            data1.onClick?.(1);
+            expect(actionFn).toHaveBeenLastCalledWith(data1Objects[1]);
+            data2.onClick?.(0);
+            expect(actionFn).toHaveBeenLastCalledWith(data2Objects[0]);
+            data2.onClick?.(1);
+            expect(actionFn).toHaveBeenLastCalledWith(data2Objects[1]);
         });
     });
 });
