@@ -6,12 +6,12 @@ import {
     useMultipleSelection
 } from "downshift";
 import { useCallback, useMemo } from "react";
-import { MultiSelector } from "../helpers/types";
+import { Selector } from "../helpers/types";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue } from "mendix";
 
 export function useDownshiftMultiSelectProps(
-    selector: MultiSelector,
+    selector: Selector<string[]>,
     setInput: (value: string) => void,
     selectionType: string,
     onChangeEvent: ActionValue | undefined,
@@ -84,7 +84,7 @@ export function useDownshiftMultiSelectProps(
 }
 
 function useComboboxProps(
-    selector: MultiSelector,
+    selector: Selector<string[]>,
     selectedItems: string[],
     inputElement: HTMLInputElement | null,
     items: string[],

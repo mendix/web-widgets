@@ -1,8 +1,8 @@
 import { DynamicValue } from "mendix";
-import { MultiSelector } from "./types";
+import { Selector } from "./types";
 
 export function getSelectedCaptionsPlaceholder(
-    selector: MultiSelector,
+    selector: Selector<string | string[]>,
     selectedItems: string[],
     withCheckbox: boolean,
     emptyOptionText: DynamicValue<string> | undefined

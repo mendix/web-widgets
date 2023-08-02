@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift";
 import { ReactElement, createElement } from "react";
-import { MultiSelector } from "../../helpers/types";
+import { Selector } from "../../helpers/types";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     isOpen: boolean;
@@ -9,7 +9,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     selectedItems: string[];
     highlightedIndex: number | null;
     comboboxSize: DOMRect | undefined;
-    selector: MultiSelector;
+    selector: Selector<string[]>;
     withCheckbox: boolean;
     allItems: string[];
 }
@@ -53,7 +53,6 @@ export function MultiSelectionMenu({
                                     className="widget-combobox-item-checkbox"
                                     type="checkbox"
                                     checked={selector.currentValue?.includes(item)}
-                                    onChange={() => {}}
                                 />
                             )}
                             {selector.caption.render(item)}

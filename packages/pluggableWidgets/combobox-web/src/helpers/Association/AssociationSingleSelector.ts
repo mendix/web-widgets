@@ -1,63 +1,18 @@
-import { ObjectItem, ReferenceValue } from "mendix";
+import { ReferenceValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
-import { SingleSelector, Status } from "../types";
-import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
-import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
-import { extractAssociationProps } from "./utils";
+import { SingleSelector } from "../types";
+import { BaseAssociationSelector } from "./BaseAssociationSelector";
 
-export class AssociationSingleSelector implements SingleSelector {
-    status: Status = "unavailable";
-    options: AssociationOptionsProvider;
-    clearable = false;
-    currentValue: string | null = null;
-    caption: AssociationSimpleCaptionsProvider;
-    private _attr: ReferenceValue | undefined;
-
-    private _valuesMap: Map<string, ObjectItem> = new Map();
-
-    constructor() {
-        this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
-        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap);
+export class AssociationSingleSelector
+    extends BaseAssociationSelector<string, ReferenceValue>
+    implements SingleSelector
+{
+    type = "single" as const;
+    updateProps(props: ComboboxContainerProps): void {
+        super.updateProps(props);
+        this.currentValue = this._attr?.value?.id ?? null;
     }
-
-    updateProps(props: ComboboxContainerProps) {
-        const [attr, ds, captionProvider, emptyOption, clearable] = extractAssociationProps(props);
-        this._attr = attr;
-
-        this.caption.updateProps({
-            emptyOptionText: emptyOption,
-            formattingAttributeOrExpression: captionProvider
-        });
-
-        this.options._updateProps({
-            attr,
-            ds
-        });
-
-        if (
-            !attr ||
-            attr.status === "unavailable" ||
-            !ds ||
-            ds.status === "unavailable" ||
-            !captionProvider ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
-            this.status = "unavailable";
-            this.currentValue = null;
-            this.clearable = false;
-
-            return;
-        }
-
-        this.clearable = clearable;
-
-        this.currentValue = (attr.value?.id as string) ?? null;
-
-        this.status = attr.status;
-    }
-
-    setValue(value: string | null) {
+    setValue(value: string | null): void {
         this._attr?.setValue(this.options._optionToValue(value));
     }
 }

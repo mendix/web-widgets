@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
-import { SingleSelector } from "../../helpers/types";
+import { Selector } from "../../helpers/types";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 
 interface ComboboxMenuProps extends Partial<PropGetters<any>> {
     comboboxSize: DOMRect | undefined;
     isOpen: boolean;
     filterType: FilterTypeEnum;
-    selector: SingleSelector;
+    selector: Selector<string>;
     highlightedIndex: number | null;
     selectedItem?: string | null;
 }

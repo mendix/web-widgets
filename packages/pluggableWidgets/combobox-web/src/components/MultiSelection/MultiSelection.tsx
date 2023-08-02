@@ -1,10 +1,11 @@
 import { KeyboardEvent, createElement, useRef, useState } from "react";
 import { getSelectedCaptionsPlaceholder } from "src/helpers/utils";
+import { Selector } from "../../helpers/types";
 import { ComboboxContainerProps } from "typings/ComboboxProps";
 import { ClearButton, DownArrow } from "../../assets/icons";
 import { useActionEvents } from "../../hooks/useActionEvents";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
-import { useGetMultiSelector } from "../../hooks/useGetSelector";
+import { useGetSelector } from "../../hooks/useGetSelector";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 import classNames from "classnames";
@@ -14,7 +15,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [_input, setInput] = useState("");
     const noFilter = props.filterType === "no";
-    const selector = useGetMultiSelector(props);
+    const selector = useGetSelector(props) as Selector<string[]>;
     const actionEvents = useActionEvents(props);
     const {
         getSelectedItemProps,
