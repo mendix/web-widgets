@@ -7,12 +7,12 @@ import {
 } from "downshift";
 
 import { useMemo } from "react";
-import { SingleSelector } from "../helpers/types";
+import { Selector } from "../helpers/types";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ActionValue } from "mendix";
 
 export function useDownshiftSingleSelectProps(
-    selector: SingleSelector,
+    selector: Selector<string>,
     inputElement: HTMLInputElement | null,
     emptyOptionText: string | undefined,
     setInputValue: (value: string) => void,

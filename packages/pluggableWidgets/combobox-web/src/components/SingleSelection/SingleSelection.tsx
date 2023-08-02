@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { createElement, ReactElement, useRef, useState } from "react";
 import { useActionEvents } from "../../hooks/useActionEvents";
+import { Selector } from "../../helpers/types";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { ClearButton, DownArrow } from "../../assets/icons";
 import { useGetSelector } from "../../hooks/useGetSelector";
@@ -12,7 +13,7 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const [_inputValue, setInputValue] = useState<string>("");
     const comboboxRef = useRef<HTMLDivElement>(null);
-    const selector = useGetSelector(props);
+    const selector = useGetSelector(props) as Selector<string>;
     const { getInputProps, toggleMenu, getItemProps, selectedItem, getMenuProps, reset, isOpen, highlightedIndex } =
         useDownshiftSingleSelectProps(
             selector,
@@ -42,7 +43,6 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
                 })}
             >
                 <input
-                    id="widget-combobox-input"
                     className="widget-combobox-input"
                     tabIndex={0}
                     ref={inputRef}

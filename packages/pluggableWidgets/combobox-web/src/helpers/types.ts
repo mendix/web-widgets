@@ -29,6 +29,7 @@ export interface OptionsProvider<T = unknown, P = {}> {
 export interface Selector<T> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
+    type: "single" | "multi";
 
     // options related
     options: OptionsProvider;
@@ -45,6 +46,7 @@ export interface Selector<T> {
 export interface SingleSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
+    type: "single";
 
     // options related
     options: OptionsProvider;
@@ -60,6 +62,7 @@ export interface SingleSelector {
 export interface MultiSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
+    type: "multi";
 
     // options related
     options: OptionsProvider;

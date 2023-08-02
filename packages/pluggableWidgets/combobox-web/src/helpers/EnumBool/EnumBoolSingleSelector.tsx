@@ -7,6 +7,7 @@ import { EnumBoolOptionsProvider } from "./EnumBoolOptionsProvider";
 
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
+    type = "single" as const;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
 
