@@ -42,8 +42,8 @@ export const Chart = ({
             // As this is click handler, this event has single, "clicked" point, so we can destruct.
             const [{ curveNumber, pointIndex }] = event.points;
             const { dataSourceItems, onClick } = data[curveNumber];
-            const object = dataSourceItems[pointIndex];
-            onClick?.(object);
+            const item = dataSourceItems[pointIndex];
+            onClick?.(item);
         },
         [data]
     );
@@ -53,7 +53,6 @@ export const Chart = ({
     return (
         <ReactPlotlyChartComponent
             className="mx-react-plotly-chart"
-            style={{}}
             data={plotlyData}
             config={customConfigOptions}
             layout={customLayoutOptions}
