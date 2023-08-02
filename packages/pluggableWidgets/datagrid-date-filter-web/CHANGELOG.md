@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   We changed the DOM Structure for date filter to appear inline with .react-datepicker component in order to make the component more accessible.
+-   We changed the DOM Structure for date filter to appear inline with the container in order to make the component more accessible.
 
 ## [2.5.2] - 2023-06-21
 

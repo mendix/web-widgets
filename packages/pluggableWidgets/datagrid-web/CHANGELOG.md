@@ -8,8 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   We add more accesibility feature to datagrid.
--   We changed the DOM Structure for filter options to appear inline with .react-datepicker component in order to make the component more accessible.
+-   We improve accesibility feature to datagrid.
+-   We changed the DOM Structure for filter options to appear inline with the container in order to make the component more accessible.
+
+### Fixed
+
+-   We fixed table header sticky position incorrectly overlap with dropdown.
 
 ## [2.7.5] - 2023-07-13
 

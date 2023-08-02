@@ -9,8 +9,9 @@ import {
     useState
 } from "react";
 import { ColumnSelector } from "./ColumnSelector";
-import { Header, WidgetHeader } from "./Header";
-import { AlignmentEnum, ColumnsPreviewType, WidthEnum } from "../../typings/DatagridProps";
+import { Header } from "./Header";
+import { TableHeader, TableFooter } from "./TableHeaderFooter";
+import { AlignmentEnum, ColumnsPreviewType, PagingPositionEnum, WidthEnum } from "../../typings/DatagridProps";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
@@ -62,11 +63,11 @@ export interface TableProps<T extends ObjectItem> {
     paging: boolean;
     page: number;
     pageSize: number;
-    pagingPosition: string;
+    pagingPosition: PagingPositionEnum;
     preview?: boolean;
     rowClass?: (value: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
-    setSortParameters?: (sort?: { columnIndex: number; desc: boolean }) => void;
+    setSortParameters?: (sort?: SortProperty) => void;
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
@@ -81,8 +82,14 @@ export interface ColumnWidth {
     [key: string]: number | undefined;
 }
 
+export interface SortProperty {
+    columnIndex: number;
+    desc: boolean;
+}
+
 export interface ColumnProperty {
     id: string;
+    index: number;
     alignment: AlignmentEnum;
     header: string;
     hidden: boolean;
@@ -184,7 +191,8 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     const tableColumns: ColumnProperty[] = useMemo(
         () =>
             columns.map((column, index) => ({
-                id: index.toString(),
+                id: `${id}-column${index}`,
+                index,
                 accessor: "item",
                 alignment: column.alignment,
                 header: column.header,
@@ -197,7 +205,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                 width: column.width,
                 weight: column.size ?? 1
             })),
-        [columns, filterRendererProp, columnsFilterable, filterRenderer]
+        [id, columns, filterRendererProp, columnsFilterable, filterRenderer]
     );
 
     const visibleColumns = useMemo(
@@ -241,7 +249,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                           );
                       },
                       value,
-                      Number(column.id)
+                      column.index
                   )
                 : null,
         [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
@@ -279,8 +287,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             })}
             style={styles}
         >
-            <div className="table-header">{(pagingPosition === "top" || pagingPosition === "both") && pagination}</div>
-            <WidgetHeader headerWidgets={gridHeaderWidgets} headerTitle={gridHeaderTitle} />
+            <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
+                {gridHeaderWidgets}
+            </TableHeader>
             <StickyHeaderTable>
                 <InfiniteBody
                     className="table-content"
@@ -307,7 +316,6 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 Number(column.id),
                                 <Header
                                     key={`headers_column_${column.id}`}
-                                    dataGridName={props.id}
                                     className={`align-column-${column.alignment}`}
                                     column={column}
                                     draggable={columnsDraggable}
@@ -403,9 +411,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         })}
                 </InfiniteBody>
             </StickyHeaderTable>
-            <div className="table-footer">
-                {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
-            </div>
+            <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
         </div>
     );
 }

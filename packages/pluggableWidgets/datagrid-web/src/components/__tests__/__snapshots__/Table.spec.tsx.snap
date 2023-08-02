@@ -9,9 +9,8 @@ exports[`Table renders the structure correctly 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -33,7 +32,7 @@ exports[`Table renders the structure correctly 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -74,9 +73,8 @@ exports[`Table renders the structure correctly for preview when no header is pro
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -98,7 +96,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
         >
           <div
             class="column-container"
-            id="undefined-column0"
+            id="dg1-column0"
           >
             <div
               aria-label=""
@@ -139,9 +137,8 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -163,7 +160,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -183,7 +180,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test-2"
+            id="dg1-column1"
           >
             <div
               aria-label="Test 2"
@@ -230,9 +227,8 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -254,7 +250,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -299,9 +295,8 @@ exports[`Table renders the structure correctly with dragging 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -323,7 +318,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -364,9 +359,8 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -388,7 +382,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -429,9 +423,8 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -453,7 +446,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -494,9 +487,8 @@ exports[`Table renders the structure correctly with filtering 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -518,7 +510,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -562,9 +554,8 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
     class="table-header"
   />
   <div
-    arialabel="filter title"
+    aria-label="filter title"
     class="header-filters"
-    role="contentinfo"
   >
     <div
       class="my-custom-filters"
@@ -574,9 +565,8 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
   </div>
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -598,7 +588,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -639,9 +629,8 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -666,7 +655,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
           >
             <div
               class="column-container"
-              id="undefined-Test"
+              id="dg1-column0"
             >
               <div
                 aria-label="Test"
@@ -708,9 +697,8 @@ exports[`Table renders the structure correctly with hiding 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -732,7 +720,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -754,7 +742,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
             class="column-selector-content"
           >
             <button
-              aria-controls="undefined-column-selectors"
+              aria-controls="dg1-column-selectors"
               aria-expanded="false"
               aria-haspopup="true"
               aria-label="Column selector"
@@ -811,9 +799,8 @@ exports[`Table renders the structure correctly with paging 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -835,7 +822,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -966,9 +953,8 @@ exports[`Table renders the structure correctly with resizing 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -990,7 +976,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -1031,9 +1017,8 @@ exports[`Table renders the structure correctly with sorting 1`] = `
   />
   <div
     class="sticky-sentinel"
-    style="height:1px"
+    style="height:1px;margin-bottom:-1px"
   />
-  ,
   <div
     class="table"
     role="table"
@@ -1055,7 +1040,7 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         >
           <div
             class="column-container"
-            id="undefined-Test"
+            id="dg1-column0"
           >
             <div
               aria-label="Test"
@@ -1097,9 +1082,8 @@ exports[`Table with selection method checkbox render an extra column and add cla
     />
     <div
       class="sticky-sentinel"
-      style="height: 1px;"
+      style="height: 1px; margin-bottom: -1px;"
     />
-    ,
     <div
       class="table"
       role="table"
@@ -1125,7 +1109,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="column-container"
-              id="undefined-Test"
+              id="dg1-column0"
             >
               <div
                 aria-label="Test"
@@ -1307,9 +1291,8 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
     />
     <div
       class="sticky-sentinel"
-      style="height: 1px;"
+      style="height: 1px; margin-bottom: -1px;"
     />
-    ,
     <div
       class="table"
       role="table"
@@ -1331,7 +1314,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="column-container"
-              id="undefined-Test"
+              id="dg1-column0"
             >
               <div
                 aria-label="Test"

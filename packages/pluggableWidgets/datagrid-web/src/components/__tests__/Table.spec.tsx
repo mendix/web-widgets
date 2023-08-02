@@ -527,6 +527,7 @@ function mockTableProps(): TableProps<ObjectItem> {
         onSelectAll: jest.fn(),
         isSelected: jest.fn(() => false),
         selectionMethod: "none",
-        selectionStatus: undefined
+        selectionStatus: undefined,
+        id: "dg1"
     };
 }

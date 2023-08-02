@@ -1,7 +1,6 @@
 import {
     createElement,
     Dispatch,
-    ReactNode,
     ReactElement,
     SetStateAction,
     DragEvent,
@@ -20,7 +19,6 @@ import { SortingRule } from "../features/settings";
 
 export interface HeaderProps {
     className?: string;
-    dataGridName?: string;
     column: ColumnProperty;
     sortable: boolean;
     resizable: boolean;
@@ -51,7 +49,7 @@ export function Header(props: HeaderProps): ReactElement {
     );
 
     const [sortProperties] = props.sortBy;
-    const isSorted = sortProperties && sortProperties.id === props.column.id;
+    const isSorted = sortProperties && sortProperties.id === props.column.index.toString();
     const isSortedDesc = isSorted && sortProperties.desc;
 
     const sortIcon = canSort ? (
@@ -77,9 +75,9 @@ export function Header(props: HeaderProps): ReactElement {
          * If multisort is allowed in the future this should be changed to append instead of just return a new array
          */
         if (!isSorted) {
-            props.setSortBy([{ id: props.column.id, desc: false }]);
+            props.setSortBy([{ id: props.column.index.toString(), desc: false }]);
         } else if (isSorted && !isSortedDesc) {
-            props.setSortBy([{ id: props.column.id, desc: true }]);
+            props.setSortBy([{ id: props.column.index.toString(), desc: true }]);
         } else {
             props.setSortBy([]);
         }
@@ -112,13 +110,7 @@ export function Header(props: HeaderProps): ReactElement {
                     "column-container",
                     canDrag && props.column.id === props.dragOver ? "dragging" : ""
                 )}
-                id={
-                    props.dataGridName +
-                    "-" +
-                    (props.column.header.trim().length > 0
-                        ? props.column.header.replace(" ", "-")
-                        : "column" + props.column.id)
-                }
+                id={props.column.id}
                 {...draggableProps}
             >
                 <div
@@ -135,31 +127,6 @@ export function Header(props: HeaderProps): ReactElement {
             {props.resizable && props.column.canResize && props.resizer}
         </div>
     );
-}
-
-export function WidgetHeader(props: { headerWidgets?: ReactNode; headerTitle?: string }): ReactElement | null {
-    const { headerWidgets, headerTitle } = props;
-    if (headerWidgets) {
-        let headerProps:
-            | {
-                  role: string;
-                  ariaLabel: string;
-              }
-            | {} = {};
-        if (headerTitle) {
-            headerProps = {
-                role: "contentinfo",
-                ariaLabel: headerTitle
-            };
-        }
-        return (
-            <div className="header-filters" {...headerProps}>
-                {headerWidgets}
-            </div>
-        );
-    } else {
-        return null;
-    }
 }
 
 function useDraggable(
