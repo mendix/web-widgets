@@ -109,6 +109,9 @@ $disabled-text-color: #6c7180;
         cursor: pointer;
         border-left: 1px solid $separator-border;
         padding-left: 4px;
+        span {
+            display: flex;
+        }
         svg {
             fill: $typography-color;
             transition: fill 0.2s ease-in-out;
@@ -147,8 +150,8 @@ $disabled-text-color: #6c7180;
             margin: 1px 2px;
             background-color: $brand-secondary-light;
             &-remove-icon {
-                padding: "4px";
-                cursor: "pointer";
+                padding: 4px;
+                cursor: pointer;
                 color: $brand-primary;
             }
         }
@@ -161,8 +164,8 @@ $disabled-text-color: #6c7180;
             align-items: center;
             margin: 1px 2px;
             &-remove-icon {
-                padding: "4px";
-                cursor: "pointer";
+                padding: 4px;
+                cursor: pointer;
             }
         }
     }
