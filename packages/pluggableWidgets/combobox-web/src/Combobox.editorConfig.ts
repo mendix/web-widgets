@@ -3,7 +3,7 @@ import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
-    if (values.optionsSourceType === "enumeration" || values.optionsSourceType === "boolean") {
+    if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
         // hide attribute
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
