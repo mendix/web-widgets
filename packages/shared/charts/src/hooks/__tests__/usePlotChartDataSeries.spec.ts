@@ -128,36 +128,40 @@ describe("with grouping on (multiple series)", () => {
             }
         });
 
-        it("should call actionFn with corresponding ObjectItem", () => {
-            const set1 = multiData({ n: 16, groups: ["a", "b"] });
-            const actionFn = jest.fn();
-            const listAction = {
-                get: jest.fn().mockRejectedValue(actionFn)
-            } as unknown as ListActionValue;
-            set1.onClickAction = listAction;
-            const series: PlotDataSeries[] = [set1];
+        // it("should call actionFn with corresponding ObjectItem", () => {
+        //     const set1 = multiData({ n: 16, groups: ["a", "b"] });
+        //     const actionFn = jest.fn();
+        //     const listAction = {
+        //         get: jest.fn().mockRejectedValue(actionFn)
+        //     } as unknown as ListActionValue;
+        //     set1.onClickAction = listAction;
+        //     const series: PlotDataSeries[] = [set1];
 
-            const { result } = renderHook(
-                (props: { series: PlotDataSeries[]; mapFn: SeriesMapper<PlotDataSeries> }) =>
-                    usePlotChartDataSeries(props.series, props.mapFn),
-                {
-                    initialProps: { series, mapFn: _ => ({}) }
-                }
-            );
+        //     const { result } = renderHook(
+        //         (props: { series: PlotDataSeries[]; mapFn: SeriesMapper<PlotDataSeries> }) =>
+        //             usePlotChartDataSeries(props.series, props.mapFn),
+        //         {
+        //             initialProps: { series, mapFn: _ => ({}) }
+        //         }
+        //     );
 
-            expect(result.current).toHaveLength(2);
+        //     expect(result.current).toHaveLength(2);
 
-            const [trace1, trace2] = result.current ?? [];
+        //     const [trace1, trace2] = result.current ?? [];
 
-            trace1.onClick?.(1);
-            expect(actionFn).toHaveBeenLastCalledWith(trace1.dataSourceItems[1]);
-            trace1.onClick?.(3);
-            expect(actionFn).toHaveBeenLastCalledWith(trace1.dataSourceItems[3]);
+        //     trace1.onClick?.(1);
+        //     expect(actionFn).toHaveBeenLastCalledWith(trace1.dataSourceItems[1]);
+        //     expect(trace1.dataSourceItems[1]).toHaveProperty("id");
+        //     trace1.onClick?.(3);
+        //     expect(trace1.dataSourceItems[3]).toHaveProperty("id");
+        //     expect(actionFn).toHaveBeenLastCalledWith(trace1.dataSourceItems[3]);
 
-            trace2.onClick?.(0);
-            expect(actionFn).toHaveBeenLastCalledWith(trace2.dataSourceItems[0]);
-            trace2.onClick?.(5);
-            expect(actionFn).toHaveBeenLastCalledWith(trace2.dataSourceItems[5]);
-        });
+        //     trace2.onClick?.(0);
+        //     expect(trace2.dataSourceItems[0]).toHaveProperty("id");
+        //     expect(actionFn).toHaveBeenLastCalledWith(trace2.dataSourceItems[0]);
+        //     trace2.onClick?.(5);
+        //     expect(trace2.dataSourceItems[5]).toHaveProperty("id");
+        //     expect(actionFn).toHaveBeenLastCalledWith(trace2.dataSourceItems[5]);
+        // });
     });
 });

@@ -1,28 +1,20 @@
 import { createElement, Fragment, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 import ReactPlotlyChartComponent, { PlotParams } from "react-plotly.js";
-import { Config, Data, Layout, PlotMouseEvent } from "plotly.js";
+import { Config, Data, Layout } from "plotly.js";
 import deepmerge from "deepmerge";
 import { Playground, useChartsPlaygroundState } from "./Playground/Playground";
 import { CodeEditor } from "./Playground/CodeEditor";
 import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
+import { ExtraTraceProps } from "../types";
 
-export interface MendixChartDataProps {
-    customSeriesOptions: string | undefined;
-    onClick?: (index?: number) => void;
-}
-
-type ChartDataType = Partial<Data> & MendixChartDataProps;
+type PlotTrace = Partial<Data> & ExtraTraceProps;
 export interface ChartProps {
-    data: ChartDataType[];
+    data: PlotTrace[];
     configOptions: Partial<Config>;
     layoutOptions: Partial<Layout>;
     seriesOptions: Partial<Data>;
     customConfig: string | undefined;
     customLayout: string | undefined;
-}
-
-function forceReactPlotlyUpdate(): void {
-    window.dispatchEvent(new Event("resize"));
 }
 
 export const Chart = ({
@@ -33,59 +25,36 @@ export const Chart = ({
     customConfig,
     customLayout
 }: ChartProps): ReactElement => {
-    const hasForceUpdatedReactPlotly = useRef(false);
-
-    useEffect(() => {
-        const dataIsLoaded = data.length > 0;
-        // The lib doesn't autosize the chart properly in the beginning (even with the `responsive` config),
-        // so we manually trigger a refresh once when everything is ready.
-        if (!hasForceUpdatedReactPlotly.current && dataIsLoaded) {
-            forceReactPlotlyUpdate();
-            hasForceUpdatedReactPlotly.current = true;
-        }
-    }, [data]);
-
     const customLayoutOptions = useMemo<Partial<Layout>>(
-        () => deepmerge(layoutOptions, JSON.parse(ifNonEmptyStringElseEmptyObjectString(customLayout))),
+        () => deepmerge(layoutOptions, fromJSON(customLayout)),
         [layoutOptions, customLayout]
     );
 
     const customConfigOptions = useMemo<Partial<Config>>(
-        () => deepmerge(configOptions, JSON.parse(ifNonEmptyStringElseEmptyObjectString(customConfig))),
+        () => deepmerge(configOptions, fromJSON(customConfig)),
         [configOptions, customConfig]
     );
 
-    const customData = useMemo<Array<Partial<Data>>>(
-        () =>
-            data.map(({ customSeriesOptions, ...serie }) =>
-                deepmerge.all([
-                    seriesOptions,
-                    serie,
-                    JSON.parse(ifNonEmptyStringElseEmptyObjectString(customSeriesOptions))
-                ])
-            ),
-        [data, seriesOptions]
-    );
+    const plotlyData = useMemo(() => createPlotlyData(data, seriesOptions), [data, seriesOptions]);
 
     const handleChartClick = useCallback<NonNullable<PlotParams["onClick"]>>(
         event => {
-            getUniqueSeriesIndices(event).forEach(seriesIndex => {
-                if (seriesIndex < data.length) {
-                    const seriesOnClick = data[seriesIndex].onClick;
-                    if (seriesOnClick) {
-                        seriesOnClick();
-                    }
-                }
-            });
+            // As this is click handler, this event has single, "clicked" point, so we can destruct.
+            const [{ curveNumber, pointIndex }] = event.points;
+            const { dataSourceItems, onClick } = data[curveNumber];
+            const object = dataSourceItems[pointIndex];
+            onClick?.(object);
         },
         [data]
     );
+
+    useResizeOnDataReadyEffect(data);
 
     return (
         <ReactPlotlyChartComponent
             className="mx-react-plotly-chart"
             style={{}}
-            data={customData}
+            data={plotlyData}
             config={customConfigOptions}
             layout={customLayoutOptions}
             onClick={handleChartClick}
@@ -93,9 +62,32 @@ export const Chart = ({
     );
 };
 
-function getUniqueSeriesIndices(event: PlotMouseEvent): number[] {
-    const clickedSeriesIndices = event.points.map(point => point.curveNumber);
-    return Array.from(new Set(clickedSeriesIndices));
+function useResizeOnDataReadyEffect(data: unknown[]): void {
+    const hasForceUpdatedReactPlotly = useRef(false);
+
+    useEffect(() => {
+        // The lib doesn't autosize the chart properly in the beginning (even with the `responsive` config),
+        // so we manually trigger a refresh once when everything is ready.
+        if (!hasForceUpdatedReactPlotly.current && data.length > 0) {
+            window.dispatchEvent(new Event("resize"));
+            hasForceUpdatedReactPlotly.current = true;
+        }
+    }, [data]);
+}
+
+function createPlotlyData(traces: PlotTrace[], baseOptions: Partial<Data>): Data[] {
+    return traces.map(trace => {
+        const item: Partial<PlotTrace> = { ...trace };
+        const customTraceOptions = fromJSON(item.customSeriesOptions);
+        // Sanitize trace before passing it to plotly
+        delete item.customSeriesOptions;
+        delete item.dataSourceItems; // Each ObjectItem has recursive refs so, we need to remove this array.
+        return deepmerge.all([baseOptions, item, customTraceOptions]);
+    });
+}
+
+function fromJSON(value: string | null | undefined): object {
+    return JSON.parse(ifNonEmptyStringElseEmptyObjectString(value));
 }
 
 const irrelevantSeriesKeys = ["x", "y", "z", "customSeriesOptions"];

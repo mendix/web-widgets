@@ -3,16 +3,15 @@ import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttribute
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
-// import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { MendixChartDataProps } from "../components/Chart";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { ExtraTraceProps } from "../types";
 
 type PlotChartDataPoints = {
     x: Datum[];
     y: Datum[];
-    // Objects used to extract values for x and y arrays;
-    dataSourceItems: ObjectItem[];
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
+    dataSourceItems: ObjectItem[];
     // We want this optional.
     name?: PlotData["name"];
 };
@@ -24,7 +23,7 @@ interface DataSourceItemGroup {
     items: ObjectItem[];
 }
 
-export type PlotChartSeries = PlotChartDataPoints & MendixChartDataProps;
+export type PlotChartSeries = PlotChartDataPoints & ExtraTraceProps;
 
 export interface PlotDataSeries {
     dataSet: "static" | "dynamic";
@@ -65,16 +64,8 @@ export function usePlotChartDataSeries<T extends PlotDataSeries>(
     return chartSeries;
 }
 
-function createActionHandlers({
-    onClickAction
-}: Pick<PlotDataSeries, "onClickAction">): Pick<PlotChartSeries, "onClick"> {
-    return {
-        onClick: onClickAction
-            ? (index: number) => {
-                  console.log(index);
-              }
-            : undefined
-    };
+function bindListAction(listAction: ListActionValue): (item: ObjectItem) => void {
+    return item => executeAction(listAction.get(item));
 }
 
 function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries | null {
@@ -91,7 +82,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
     }
 
     return {
-        ...createActionHandlers({ onClickAction }),
+        ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
         ...mapSerie(series, dataPoints),
         ...dataPoints,
         customSeriesOptions
@@ -120,7 +111,7 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
             }
 
             return {
-                ...createActionHandlers({ onClickAction }),
+                ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
                 ...mapSerie(series, dataPoints),
                 ...dataPoints,
                 customSeriesOptions
@@ -231,6 +222,7 @@ function extractDataPoints(
         ...(seriesName ? { name: seriesName } : {}),
         x: xData,
         y: yData,
+        dataSourceItems,
         hovertext: hoverTextData.some(text => text !== undefined && text !== "")
             ? (hoverTextData as string[])
             : undefined,
