@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fix security issues on 3rd party components.
+
 ## [3.2.0] - 2023-06-05
 
 ### Changed
