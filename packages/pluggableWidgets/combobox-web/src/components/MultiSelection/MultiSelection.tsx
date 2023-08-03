@@ -17,19 +17,19 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const noFilter = props.filterType === "no";
     const selector = useGetSelector(props) as Selector<string[]>;
     const {
+        isOpen,
+        reset,
+        getToggleButtonProps,
+        getMenuProps,
+        getInputProps,
+        highlightedIndex,
+        getItemProps,
+        inputValue,
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
         setActiveIndex,
         selectedItems,
-        isOpen,
-        inputValue,
-        reset,
-        getMenuProps,
-        getInputProps,
-        highlightedIndex,
-        getItemProps,
-        toggleMenu,
         items,
         withCheckbox
     } = useDownshiftMultiSelectProps(selector, setInput, props.selectionType, props.onChangeEvent, inputRef.current);
@@ -44,7 +44,12 @@ export function MultiSelection(props: ComboboxContainerProps) {
 
     return (
         <Fragment>
-            <ComboboxWrapper ref={comboboxRef} isOpen={isOpen} readOnly={readOnly} toggleMenu={toggleMenu}>
+            <ComboboxWrapper
+                ref={comboboxRef}
+                isOpen={isOpen}
+                readOnly={readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+            >
                 <div className="widget-combobox-selected-items">
                     {!withCheckbox &&
                         selectedItems.map((selectedItemForRender, index) => {
@@ -87,6 +92,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                                 ...getDropdownProps({
                                     preventKeyAction: isOpen
                                 }),
+                                onClick: e => e.stopPropagation(),
                                 onKeyDown: (event: KeyboardEvent) => {
                                     if (event.key === "Backspace" && inputValue === "") {
                                         setActiveIndex(selectedItems.length - 1);

@@ -1,3 +1,4 @@
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 import {
     UseComboboxProps,
     UseComboboxState,
@@ -5,10 +6,9 @@ import {
     useCombobox,
     useMultipleSelection
 } from "downshift";
+import { ActionValue } from "mendix";
 import { useCallback, useMemo } from "react";
 import { Selector } from "../helpers/types";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { ActionValue } from "mendix";
 
 export function useDownshiftMultiSelectProps(
     selector: Selector<string[]>,
@@ -50,34 +50,42 @@ export function useDownshiftMultiSelectProps(
     const withCheckbox = selectionType === "checkbox";
     const items = withCheckbox ? selector.options?.getAll() : filteredItems;
 
-    const { isOpen, reset, getMenuProps, getInputProps, highlightedIndex, getItemProps, inputValue, toggleMenu } =
-        useCombobox(
-            useComboboxProps(
-                selector,
-                selectedItems,
-                inputElement,
-                items,
-                withCheckbox,
-                setSelectedItems,
-                removeSelectedItem,
-                setInput
-            )
-        );
+    const {
+        isOpen,
+        reset,
+        getToggleButtonProps,
+        getMenuProps,
+        getInputProps,
+        highlightedIndex,
+        getItemProps,
+        inputValue
+    } = useCombobox(
+        useComboboxProps(
+            selector,
+            selectedItems,
+            inputElement,
+            items,
+            withCheckbox,
+            setSelectedItems,
+            removeSelectedItem,
+            setInput
+        )
+    );
 
     return {
+        isOpen,
+        reset,
+        getToggleButtonProps,
+        getMenuProps,
+        getInputProps,
+        highlightedIndex,
+        getItemProps,
+        inputValue,
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
         setActiveIndex,
         selectedItems,
-        isOpen,
-        inputValue,
-        reset,
-        getMenuProps,
-        getInputProps,
-        highlightedIndex,
-        getItemProps,
-        toggleMenu,
         items,
         withCheckbox
     };

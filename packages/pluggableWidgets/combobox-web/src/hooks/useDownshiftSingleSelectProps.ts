@@ -32,7 +32,7 @@ export function useDownshiftSingleSelectProps(
             stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
                 switch (type) {
-                    case useCombobox.stateChangeTypes.FunctionToggleMenu:
+                    case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {
                             ...changes,
                             inputValue: ""

@@ -13,14 +13,22 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const [_inputValue, setInputValue] = useState<string>("");
     const selector = useGetSelector(props) as Selector<string>;
-    const { getInputProps, toggleMenu, getItemProps, selectedItem, getMenuProps, reset, isOpen, highlightedIndex } =
-        useDownshiftSingleSelectProps(
-            selector,
-            inputRef.current,
-            props.emptyOptionText?.value,
-            setInputValue,
-            props.onChangeEvent
-        );
+    const {
+        getInputProps,
+        getToggleButtonProps,
+        getItemProps,
+        selectedItem,
+        getMenuProps,
+        reset,
+        isOpen,
+        highlightedIndex
+    } = useDownshiftSingleSelectProps(
+        selector,
+        inputRef.current,
+        props.emptyOptionText?.value,
+        setInputValue,
+        props.onChangeEvent
+    );
     const readOnly =
         (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
         props.attributeAssociation?.readOnly;
@@ -31,13 +39,19 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
 
     return (
         <Fragment>
-            <ComboboxWrapper ref={comboboxRef} isOpen={isOpen} readOnly={readOnly} toggleMenu={toggleMenu}>
+            <ComboboxWrapper
+                ref={comboboxRef}
+                isOpen={isOpen}
+                readOnly={readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+            >
                 <input
                     className="widget-combobox-input"
                     tabIndex={0}
                     ref={inputRef}
                     {...getInputProps(
                         {
+                            onClick: e => e.stopPropagation(),
                             disabled: readOnly,
                             readOnly: props.filterType === "no"
                         },
