@@ -1,13 +1,13 @@
-import { KeyboardEvent, createElement, useRef, useState } from "react";
+import { KeyboardEvent, createElement, useRef, useState, Fragment } from "react";
 import { getSelectedCaptionsPlaceholder } from "src/helpers/utils";
 import { Selector } from "../../helpers/types";
 import { ComboboxContainerProps } from "typings/ComboboxProps";
-import { ClearButton, DownArrow } from "../../assets/icons";
-import { useActionEvents } from "../../hooks/useActionEvents";
+import { ClearButton } from "../../assets/icons";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useGetSelector } from "../../hooks/useGetSelector";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
+import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
 export function MultiSelection(props: ComboboxContainerProps) {
@@ -16,7 +16,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const [_input, setInput] = useState("");
     const noFilter = props.filterType === "no";
     const selector = useGetSelector(props) as Selector<string[]>;
-    const actionEvents = useActionEvents(props);
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -44,15 +43,8 @@ export function MultiSelection(props: ComboboxContainerProps) {
     }
 
     return (
-        <div className="widget-combobox" {...actionEvents}>
-            <div
-                ref={comboboxRef}
-                tabIndex={-1}
-                className={classNames("form-control", "widget-combobox-input-container", {
-                    "widget-combobox-input-container-active": isOpen,
-                    "widget-combobox-input-container-disabled": readOnly
-                })}
-            >
+        <Fragment>
+            <ComboboxWrapper ref={comboboxRef} isOpen={isOpen} readOnly={readOnly} toggleMenu={toggleMenu}>
                 <div className="widget-combobox-selected-items">
                     {!withCheckbox &&
                         selectedItems.map((selectedItemForRender, index) => {
@@ -120,10 +112,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         <ClearButton />
                     </button>
                 )}
-                <div className="widget-combobox-down-arrow" onClick={toggleMenu}>
-                    <DownArrow />
-                </div>
-            </div>
+            </ComboboxWrapper>
             <MultiSelectionMenu
                 withCheckbox={withCheckbox}
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
@@ -136,6 +125,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                 allItems={selector.options?.getAll()}
                 selectedItems={selectedItems}
             />
-        </div>
+        </Fragment>
     );
 }

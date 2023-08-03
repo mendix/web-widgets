@@ -1,18 +1,17 @@
-import classNames from "classnames";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { createElement, ReactElement, useRef, useState } from "react";
-import { useActionEvents } from "../../hooks/useActionEvents";
+import { createElement, ReactElement, useRef, useState, Fragment } from "react";
 import { Selector } from "../../helpers/types";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
-import { ClearButton, DownArrow } from "../../assets/icons";
+import { ClearButton } from "../../assets/icons";
 import { useGetSelector } from "../../hooks/useGetSelector";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 import { Placeholder } from "../Placeholder";
+import { ComboboxWrapper } from "../ComboboxWrapper";
 
 export function SingleSelection(props: ComboboxContainerProps): ReactElement {
+    const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [_inputValue, setInputValue] = useState<string>("");
-    const comboboxRef = useRef<HTMLDivElement>(null);
     const selector = useGetSelector(props) as Selector<string>;
     const { getInputProps, toggleMenu, getItemProps, selectedItem, getMenuProps, reset, isOpen, highlightedIndex } =
         useDownshiftSingleSelectProps(
@@ -22,8 +21,6 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
             setInputValue,
             props.onChangeEvent
         );
-
-    const actionEvents = useActionEvents(props);
     const readOnly =
         (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
         props.attributeAssociation?.readOnly;
@@ -33,15 +30,8 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     }
 
     return (
-        <div className="widget-combobox" {...actionEvents}>
-            <div
-                ref={comboboxRef}
-                tabIndex={-1}
-                className={classNames("form-control", "widget-combobox-input-container", {
-                    "widget-combobox-input-container-active": isOpen,
-                    "widget-combobox-input-container-disabled": readOnly
-                })}
-            >
+        <Fragment>
+            <ComboboxWrapper ref={comboboxRef} isOpen={isOpen} readOnly={readOnly} toggleMenu={toggleMenu}>
                 <input
                     className="widget-combobox-input"
                     tabIndex={0}
@@ -67,10 +57,7 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
                         <ClearButton />
                     </button>
                 )}
-                <div className="widget-combobox-down-arrow" onClick={toggleMenu}>
-                    <DownArrow />
-                </div>
-            </div>
+            </ComboboxWrapper>
             <SingleSelectionMenu
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
@@ -81,6 +68,6 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}
             />
-        </div>
+        </Fragment>
     );
 }
