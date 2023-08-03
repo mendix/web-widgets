@@ -4,7 +4,7 @@ import { usePopper } from "react-popper";
 import classNames from "classnames";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
 import { Placement } from "@popperjs/core/lib/enums";
-import useDocumentKeyDown from "src/utils/useDocumentKeyDown";
+import { useDocumentKeyDown } from "../utils/useDocumentKeyDown";
 
 export interface TooltipProps {
     name?: string;

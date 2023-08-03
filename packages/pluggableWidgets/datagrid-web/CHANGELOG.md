@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   We improve accesibility feature to datagrid.
+-   We improved accessibility of the Datagrid widget.
 -   We changed the DOM Structure for filter options to appear inline with the container in order to make the component more accessible.
 
 ### Fixed
