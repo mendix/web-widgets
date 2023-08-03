@@ -61,14 +61,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                 break;
             case "hover":
                 eventContainer = {
-                    onMouseEnter: onShow,
-                    onMouseLeave: onHide
+                    onPointerEnter: onShow,
+                    onPointerLeave: onHide
                 };
                 break;
             case "hoverFocus":
                 eventContainer = {
-                    onMouseEnter: onShow,
-                    onMouseLeave: onHide,
+                    onPointerEnter: onShow,
+                    onPointerLeave: onHide,
                     onFocus: onShow,
                     onBlur: onHide
                 };
