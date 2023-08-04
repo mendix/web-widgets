@@ -1,3 +1,20 @@
+function terminalLog(violations) {
+    cy.task(
+        "log",
+        `${violations.length} accessibility violation${violations.length === 1 ? "" : "s"} ${
+            violations.length === 1 ? "was" : "were"
+        } detected`
+    );
+    // pluck specific keys to keep the table readable
+    const violationData = violations.map(({ id, impact, description, nodes }) => ({
+        id,
+        impact,
+        description,
+        nodes: nodes.length
+    }));
+
+    cy.task("table", violationData);
+}
 describe("datagrid-dropdown-filter-web", () => {
     const browserName = Cypress.browser.name;
 
@@ -144,6 +161,24 @@ describe("datagrid-dropdown-filter-web", () => {
                 cy.wrap(row).should("have.text", expected[index]);
             });
             cy.get(".mx-name-dataGrid25 .paging-status").should("have.text", "1 to 10 of 19");
+        });
+    });
+    describe("a11y testing:", () => {
+        it("checks accessibility violations", () => {
+            cy.visit("/");
+            cy.injectAxe();
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            // Test the widget at initial load
+            cy.checkA11y(
+                ".mx-name-datagrid1",
+                {
+                    runOnly: {
+                        type: "tag",
+                        values: ["wcag2a"]
+                    }
+                },
+                terminalLog
+            );
         });
     });
 });

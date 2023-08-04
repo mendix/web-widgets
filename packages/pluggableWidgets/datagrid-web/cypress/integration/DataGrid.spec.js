@@ -1,3 +1,20 @@
+function terminalLog(violations) {
+    cy.task(
+        "log",
+        `${violations.length} accessibility violation${violations.length === 1 ? "" : "s"} ${
+            violations.length === 1 ? "was" : "were"
+        } detected`
+    );
+    // pluck specific keys to keep the table readable
+    const violationData = violations.map(({ id, impact, description, nodes }) => ({
+        id,
+        impact,
+        description,
+        nodes: nodes.length
+    }));
+
+    cy.task("table", violationData);
+}
 describe("datagrid-web", () => {
     const browserName = Cypress.browser.name;
     const cleanMendixSession = () => {
@@ -124,6 +141,25 @@ describe("datagrid-web", () => {
             cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1").should("be.visible");
             cy.get(".mx-name-datagrid1").compareSnapshot(`datagrid-${browserName}`, 0.1);
+        });
+    });
+
+    describe("a11y testing:", () => {
+        it("checks accessibility violations", () => {
+            cy.visit("/");
+            cy.injectAxe();
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            // Test the widget at initial load
+            cy.checkA11y(
+                ".mx-name-datagrid1",
+                {
+                    runOnly: {
+                        type: "tag",
+                        values: ["wcag2a"]
+                    }
+                },
+                terminalLog
+            );
         });
     });
 });

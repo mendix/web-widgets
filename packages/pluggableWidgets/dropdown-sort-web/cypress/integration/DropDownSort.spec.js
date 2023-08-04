@@ -1,3 +1,20 @@
+function terminalLog(violations) {
+    cy.task(
+        "log",
+        `${violations.length} accessibility violation${violations.length === 1 ? "" : "s"} ${
+            violations.length === 1 ? "was" : "were"
+        } detected`
+    );
+    // pluck specific keys to keep the table readable
+    const violationData = violations.map(({ id, impact, description, nodes }) => ({
+        id,
+        impact,
+        description,
+        nodes: nodes.length
+    }));
+
+    cy.task("table", violationData);
+}
 describe("dropdown-sort-web", () => {
     beforeEach(() => {
         cy.visit("/");
@@ -17,5 +34,23 @@ describe("dropdown-sort-web", () => {
         cy.get(".mx-name-drop_downSort1").find(".btn").first().click();
         cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
         cy.get(".mx-name-gallery1").find(".widget-gallery-item").first().should("have.text", "test");
+    });
+});
+describe("a11y testing:", () => {
+    it("checks accessibility violations", () => {
+        cy.visit("/");
+        cy.injectAxe();
+        cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+        // Test the widget at initial load
+        cy.checkA11y(
+            ".mx-name-gallery1",
+            {
+                runOnly: {
+                    type: "tag",
+                    values: ["wcag2a"]
+                }
+            },
+            terminalLog
+        );
     });
 });
