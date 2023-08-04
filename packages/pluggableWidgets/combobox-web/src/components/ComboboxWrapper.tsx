@@ -15,7 +15,6 @@ export const ComboboxWrapper = forwardRef(
 
         return (
             <div
-                {...getToggleButtonProps()}
                 ref={ref}
                 tabIndex={-1}
                 className={classNames("form-control", "widget-combobox-input-container", {
@@ -24,7 +23,7 @@ export const ComboboxWrapper = forwardRef(
                 })}
             >
                 {children}
-                <div className="widget-combobox-down-arrow">
+                <div className="widget-combobox-down-arrow" {...getToggleButtonProps()}>
                     <DownArrow />
                 </div>
             </div>

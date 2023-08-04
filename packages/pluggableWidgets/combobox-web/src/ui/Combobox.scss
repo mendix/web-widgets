@@ -75,6 +75,7 @@ $disabled-text-color: #6c7180;
             border: 1px solid $brand-primary !important;
         }
         &-disabled {
+            background-color: $disabled-color !important;
             pointer-events: none !important;
         }
     }
@@ -126,7 +127,7 @@ $disabled-text-color: #6c7180;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
-        &-down-arrow {
+        &-down-arrow-icon {
             svg {
                 fill: $hover-color;
             }

@@ -1,15 +1,13 @@
-import { DynamicValue } from "mendix";
 import { Selector } from "./types";
 
 export function getSelectedCaptionsPlaceholder(
     selector: Selector<string | string[]>,
     selectedItems: string[],
-    withCheckbox: boolean,
-    emptyOptionText: DynamicValue<string> | undefined
+    withCheckbox: boolean
 ): string {
     if (!withCheckbox) {
         if (selectedItems.length === 0) {
-            return emptyOptionText?.value as string;
+            return selector.caption.emptyCaption;
         } else {
             return "";
         }

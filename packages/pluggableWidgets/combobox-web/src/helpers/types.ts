@@ -6,6 +6,7 @@ export type Status = "unavailable" | "loading" | "available";
 export interface CaptionsProvider {
     get(value: string | null): string;
     render(value: string | null): ReactNode;
+    emptyCaption: string;
 }
 
 export interface OptionsProvider<T = unknown, P = {}> {

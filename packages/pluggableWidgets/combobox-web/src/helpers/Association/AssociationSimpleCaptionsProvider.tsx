@@ -9,8 +9,8 @@ interface Props {
 
 export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
-    private emptyCaption = "";
     private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
+    emptyCaption = "";
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 

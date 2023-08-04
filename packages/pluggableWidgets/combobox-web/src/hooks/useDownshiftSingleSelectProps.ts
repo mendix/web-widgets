@@ -3,7 +3,8 @@ import {
     UseComboboxState,
     UseComboboxStateChangeOptions,
     UseComboboxStateChange,
-    UseComboboxProps
+    UseComboboxProps,
+    UseComboboxReturnValue
 } from "downshift";
 
 import { useMemo } from "react";
@@ -13,36 +14,36 @@ import { ActionValue } from "mendix";
 
 export function useDownshiftSingleSelectProps(
     selector: Selector<string>,
-    inputElement: HTMLInputElement | null,
-    emptyOptionText: string | undefined,
     setInputValue: (value: string) => void,
+    inputElement: HTMLInputElement | null,
     onChangeEvent?: ActionValue
-) {
+): UseComboboxReturnValue<string> {
     const downshiftProps = useMemo((): UseComboboxProps<string> => {
         return {
-            items: selector.options.getAll() ?? [],
+            items: [],
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange(changes: UseComboboxStateChange<string>) {
                 executeAction(onChangeEvent);
                 selector.setValue(changes.selectedItem!);
             },
             defaultHighlightedIndex: 0,
-            selectedItem: selector.currentValue,
+            selectedItem: null,
             initialInputValue: selector.caption.get(selector.currentValue),
-            stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
+            stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
                 switch (type) {
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {
                             ...changes,
-                            inputValue: ""
+                            inputValue:
+                                state.isOpen && selector.currentValue ? selector.caption.get(selector.currentValue) : ""
                         };
 
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
                             inputValue:
-                                changes.inputValue === emptyOptionText
+                                changes.inputValue === selector.caption.emptyCaption
                                     ? ""
                                     : selector.caption.get(selector.currentValue)
                         };
@@ -51,13 +52,12 @@ export function useDownshiftSingleSelectProps(
                         setInputValue("");
                         return { ...changes, inputValue: "" };
 
-                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.InputBlur:
                     case undefined:
                         return {
                             ...changes,
                             inputValue:
-                                changes.selectedItem || selector.caption.get(selector.currentValue) !== emptyOptionText
+                                changes.selectedItem || selector.currentValue
                                     ? selector.caption.get(selector.currentValue)
                                     : ""
                         };
@@ -71,9 +71,17 @@ export function useDownshiftSingleSelectProps(
                     case useCombobox.stateChangeTypes.InputChange:
                         selector.options.setSearchTerm(inputValue!);
                         setInputValue(inputValue!);
+                        break;
+
+                    case useCombobox.stateChangeTypes.ToggleButtonClick:
+                        inputElement?.focus();
                 }
             }
         };
-    }, [selector, inputElement, emptyOptionText, onChangeEvent, selector.currentValue]);
-    return useCombobox(downshiftProps);
+    }, [selector, inputElement, onChangeEvent]);
+    return useCombobox({
+        ...downshiftProps,
+        items: selector.options.getAll() ?? [],
+        selectedItem: selector.currentValue
+    });
 }

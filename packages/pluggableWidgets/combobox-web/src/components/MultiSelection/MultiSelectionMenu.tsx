@@ -12,6 +12,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     selector: Selector<string[]>;
     withCheckbox: boolean;
     allItems: string[];
+    setSelectedItems: (v: string[]) => void;
 }
 
 export function MultiSelectionMenu({
@@ -24,7 +25,8 @@ export function MultiSelectionMenu({
     selectableItems: items,
     withCheckbox,
     allItems,
-    selectedItems
+    selectedItems,
+    setSelectedItems
 }: MultiSelectionMenuProps): ReactElement {
     const allSelected = allItems.length === selectedItems.length;
     const noneSelected = selectedItems.length < 1;
@@ -58,13 +60,16 @@ export function MultiSelectionMenu({
                             {selector.caption.render(item)}
                         </li>
                     ))}
-                <div className="widget-combobox-menu-footer" tabIndex={0}>
+                <div className="widget-combobox-menu-footer">
                     <span
+                        tabIndex={0}
+                        role="button"
                         className={classNames("widget-combobox-menu-footer-control", {
                             "widget-combobox-menu-footer-control-disabled": allSelected
                         })}
                         onClick={() => {
                             if (!allSelected) {
+                                setSelectedItems(allItems);
                                 selector.setValue(allItems);
                             }
                         }}
@@ -72,11 +77,14 @@ export function MultiSelectionMenu({
                         Select All
                     </span>
                     <span
+                        tabIndex={0}
+                        role="button"
                         className={classNames("widget-combobox-menu-footer-control", {
                             "widget-combobox-menu-footer-control-disabled": noneSelected
                         })}
                         onClick={() => {
                             if (!noneSelected) {
+                                setSelectedItems([]);
                                 selector.setValue([]);
                             }
                         }}

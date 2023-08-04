@@ -7,12 +7,15 @@ import { useGetSelector } from "../../hooks/useGetSelector";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
+import classNames from "classnames";
 
 export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [_inputValue, setInputValue] = useState<string>("");
+    const noFilter = props.filterType === "no";
     const selector = useGetSelector(props) as Selector<string>;
+
     const {
         getInputProps,
         getToggleButtonProps,
@@ -22,13 +25,7 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(
-        selector,
-        inputRef.current,
-        props.emptyOptionText?.value,
-        setInputValue,
-        props.onChangeEvent
-    );
+    } = useDownshiftSingleSelectProps(selector, setInputValue, inputRef.current, props.onChangeEvent);
     const readOnly =
         (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
         props.attributeAssociation?.readOnly;
@@ -46,26 +43,27 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
                 getToggleButtonProps={getToggleButtonProps}
             >
                 <input
-                    className="widget-combobox-input"
+                    className={classNames("widget-combobox-input", { "widget-combobox-input-nofilter": noFilter })}
                     tabIndex={0}
                     ref={inputRef}
                     {...getInputProps(
                         {
-                            onClick: e => e.stopPropagation(),
                             disabled: readOnly,
                             readOnly: props.filterType === "no"
                         },
                         { suppressRefError: true }
                     )}
-                    placeholder={selectedItem ? selector.caption.get(selectedItem) : props.emptyOptionText?.value}
+                    placeholder={selectedItem ? selector.caption.get(selectedItem) : selector.caption.emptyCaption}
                 />
                 {!readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
                         className="widget-combobox-clear-button"
                         onClick={e => {
                             e.stopPropagation();
-                            selector.setValue(null);
-                            reset();
+                            if (selectedItem) {
+                                selector.setValue(null);
+                                reset();
+                            }
                         }}
                     >
                         <ClearButton />
