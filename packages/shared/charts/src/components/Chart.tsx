@@ -7,6 +7,8 @@ import { CodeEditor } from "./Playground/CodeEditor";
 import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
 import { ExtraTraceProps } from "../types";
 
+const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
+
 type PlotTrace = Partial<Data> & ExtraTraceProps;
 export interface ChartProps {
     data: PlotTrace[];
@@ -54,6 +56,7 @@ export const Chart = ({
         <ReactPlotlyChartComponent
             className="mx-react-plotly-chart"
             data={plotlyData}
+            style={PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ}
             config={customConfigOptions}
             layout={customLayoutOptions}
             onClick={handleChartClick}
