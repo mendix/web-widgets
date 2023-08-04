@@ -190,7 +190,7 @@ export function getPreview(
             return [width, height, previewImage];
         }
 
-        const supportsDynamicImageSize = version?.[0] >= 10 && version?.[1] >= 2; // Mx 10.2 supports images to set their own size by default
+        const supportsDynamicImageSize = (version?.[0] === 10 && version?.[1] >= 2) || version?.[0] > 10; // Mx 10.2 supports images to set their own size by default
         return supportsDynamicImageSize && !!previewImage
             ? [undefined, undefined, previewImage]
             : [100, 100, previewImage];
