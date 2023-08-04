@@ -1,14 +1,14 @@
-import { KeyboardEvent, createElement, useRef, useState, Fragment } from "react";
-import { getSelectedCaptionsPlaceholder } from "src/helpers/utils";
-import { Selector } from "../../helpers/types";
+import classNames from "classnames";
+import { Fragment, KeyboardEvent, createElement, useRef, useState } from "react";
 import { ComboboxContainerProps } from "typings/ComboboxProps";
 import { ClearButton } from "../../assets/icons";
+import { Selector } from "../../helpers/types";
+import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useGetSelector } from "../../hooks/useGetSelector";
+import { ComboboxWrapper } from "../ComboboxWrapper";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
-import { ComboboxWrapper } from "../ComboboxWrapper";
-import classNames from "classnames";
 
 export function MultiSelection(props: ComboboxContainerProps) {
     const comboboxRef = useRef<HTMLDivElement>(null);
@@ -18,7 +18,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
     const selector = useGetSelector(props) as Selector<string[]>;
     const {
         isOpen,
-        reset,
         getToggleButtonProps,
         getMenuProps,
         getInputProps,
@@ -31,7 +30,8 @@ export function MultiSelection(props: ComboboxContainerProps) {
         setActiveIndex,
         selectedItems,
         items,
-        withCheckbox
+        withCheckbox,
+        setSelectedItems
     } = useDownshiftMultiSelectProps(selector, setInput, props.selectionType, props.onChangeEvent, inputRef.current);
 
     const readOnly =
@@ -81,12 +81,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                             "widget-combobox-input-nofilter": noFilter
                         })}
                         tabIndex={0}
-                        placeholder={getSelectedCaptionsPlaceholder(
-                            selector,
-                            selectedItems,
-                            withCheckbox,
-                            props.emptyOptionText
-                        )}
+                        placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems, withCheckbox)}
                         {...getInputProps(
                             {
                                 ...getDropdownProps({
@@ -111,8 +106,10 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         className="widget-combobox-clear-button"
                         onClick={e => {
                             e.stopPropagation();
-                            selector.setValue(null);
-                            reset();
+                            if (selectedItems.length > 0) {
+                                selector.setValue(null);
+                                setSelectedItems([]);
+                            }
                         }}
                     >
                         <ClearButton />
@@ -130,6 +127,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                 getMenuProps={getMenuProps}
                 allItems={selector.options?.getAll()}
                 selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
             />
         </Fragment>
     );

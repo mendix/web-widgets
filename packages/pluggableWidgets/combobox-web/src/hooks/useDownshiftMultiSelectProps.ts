@@ -87,7 +87,8 @@ export function useDownshiftMultiSelectProps(
         setActiveIndex,
         selectedItems,
         items,
-        withCheckbox
+        withCheckbox,
+        setSelectedItems
     };
 }
 
@@ -148,5 +149,5 @@ function useComboboxProps(
                 }
             }
         };
-    }, [selector, selectedItems, items, withCheckbox, inputElement]);
+    }, [selector, selectedItems, items, withCheckbox, inputElement, selector.currentValue]);
 }
