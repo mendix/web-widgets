@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 -   We fixed Atlas icon not displaying properly.
+-   We fixed treenode children not refreshed when updated
 
 ## [1.1.1] - 2023-05-26
 
