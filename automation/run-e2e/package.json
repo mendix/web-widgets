@@ -27,7 +27,7 @@
     "cypress": "^12.16.0",
     "cypress-axe": "^1.4.0",
     "cypress-image-diff-js": "^1.26.0",
-    "cypress-terminal-report": "^5.2.0",
+    "cypress-terminal-report": "^5.3.2",
     "enquirer": "^2.3.6",
     "eslint-plugin-cypress": "^2.13.3",
     "find-free-port": "^2.0.0",
