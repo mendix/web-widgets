@@ -52,16 +52,19 @@ export function MultiSelectionMenu({
                         >
                             {withCheckbox && (
                                 <input
+                                    tabIndex={-1}
                                     className="widget-combobox-item-checkbox"
                                     type="checkbox"
                                     checked={selector.currentValue?.includes(item)}
+                                    // eslint-disable-next-line
+                                    onChange={() => {}}
                                 />
                             )}
                             {selector.caption.render(item)}
                         </li>
                     ))}
                 <div className="widget-combobox-menu-footer">
-                    <span
+                    <button
                         tabIndex={0}
                         role="button"
                         className={classNames("widget-combobox-menu-footer-control", {
@@ -75,8 +78,8 @@ export function MultiSelectionMenu({
                         }}
                     >
                         Select All
-                    </span>
-                    <span
+                    </button>
+                    <button
                         tabIndex={0}
                         role="button"
                         className={classNames("widget-combobox-menu-footer-control", {
@@ -90,7 +93,7 @@ export function MultiSelectionMenu({
                         }}
                     >
                         Unselect All
-                    </span>
+                    </button>
                 </div>
             </ul>
         </div>
