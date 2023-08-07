@@ -11,7 +11,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
-import { SingleSelection } from "../components/SingleSelection/SingleSelection";
+import Combobox from "../Combobox";
 
 describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
@@ -48,49 +48,59 @@ describe("Combo box (Association)", () => {
         }
     });
     it("renders combobox widget", () => {
-        const component = render(<SingleSelection {...defaultProps} />);
+        const component = render(<Combobox {...defaultProps} />);
         expect(component.container).toMatchSnapshot();
     });
     it("renders placeholder component in case of unavailable status", () => {
         defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
-        const { container } = render(<SingleSelection {...defaultProps} />);
+        const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
-    it("opens combobox menu with all items on trigger", async () => {
-        const component = render(<SingleSelection {...defaultProps} />);
-        const toggleButton = await component.findByLabelText("open menu");
-        fireEvent.click(toggleButton);
+    it("toggles combobox menu on: input FOCUS / BLUR", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const toggleButton = await component.findByRole("combobox");
+        fireEvent.focus(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
+        fireEvent.blur(toggleButton);
+        expect(component.queryAllByRole("option")).toHaveLength(0);
     });
-    it("closes combobox menu on trigger", async () => {
-        const component = render(<SingleSelection {...defaultProps} />);
-        const toggleButton = await component.findByLabelText("open menu");
+    it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const toggleButton = await component.container.querySelector(".widget-combobox-down-arrow")!;
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
         fireEvent.click(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
     it("sets option to selected item", async () => {
-        const component = render(<SingleSelection {...defaultProps} />);
-        const toggleButton = await component.findByLabelText("open menu");
-        fireEvent.click(toggleButton);
+        const component = render(<Combobox {...defaultProps} />);
+        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        fireEvent.focus(input);
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
+        expect(input.value).toEqual("222");
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
     });
     it("removes selected item", async () => {
-        const component = render(<SingleSelection {...defaultProps} />);
-        const toggleButton = await component.findByLabelText("open menu");
-        fireEvent.click(toggleButton);
+        const component = render(<Combobox {...defaultProps} />);
+
+        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        fireEvent.focus(input);
+
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
+
+        expect(input.value).toEqual("222");
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
+
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
+
+        expect(input.placeholder).toEqual(defaultProps.emptyOptionText?.value);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
     });
 });

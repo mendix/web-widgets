@@ -37,6 +37,8 @@ $disabled-text-color: #6c7180;
             &-control {
                 display: flex;
                 padding: 10px 12px;
+                border: none;
+                background-color: transparent;
                 justify-content: flex-end;
                 align-items: center;
                 color: $brand-primary;
