@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback, useMemo } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
+import { createElement, ReactElement, useCallback, useMemo, memo } from "react";
+import { ChartWidget, ChartWidgetProps, traceEqual } from "@mendix/shared-charts";
 import { getPlotChartDataTransforms, usePlotChartDataSeries } from "@mendix/shared-charts/hooks";
+import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
 import { TimeSeriesContainerProps } from "../typings/TimeSeriesProps";
 
 const createTimeSeriesChartLayoutOptions = (
@@ -49,52 +50,60 @@ const timeSeriesChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
     hoverinfo: "none"
 };
 
-export function TimeSeries(props: TimeSeriesContainerProps): ReactElement | null {
-    const chartLines = usePlotChartDataSeries(
-        props.lines,
-        useCallback(
-            (line, dataPoints) => ({
-                mode: line.lineStyle === "line" ? "lines" : "lines+markers",
-                fill: line.enableFillArea ? "tonexty" : "none",
-                fillcolor: line.fillColor?.value,
-                line: {
-                    shape: line.interpolation,
-                    color: line.lineColor?.value
-                },
-                marker: {
-                    color: line.markerColor?.value
-                },
-                transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
-            }),
-            []
-        )
-    );
+export const TimeSeries = memo(
+    // disable eslint rule to have nice component name in component tree at devtools
+    // eslint-disable-next-line prefer-arrow-callback
+    function TimeSeries(props: TimeSeriesContainerProps): ReactElement | null {
+        const chartLines = usePlotChartDataSeries(
+            props.lines,
+            useCallback(
+                (line, dataPoints) => ({
+                    mode: line.lineStyle === "line" ? "lines" : "lines+markers",
+                    fill: line.enableFillArea ? "tonexty" : "none",
+                    fillcolor: line.fillColor?.value,
+                    line: {
+                        shape: line.interpolation,
+                        color: line.lineColor?.value
+                    },
+                    marker: {
+                        color: line.markerColor?.value
+                    },
+                    transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+                }),
+                []
+            )
+        );
 
-    const timeSeriesLayout = useMemo<ChartWidgetProps["layoutOptions"]>(
-        () => createTimeSeriesChartLayoutOptions(props.showRangeSlider, props.yAxisRangeMode),
-        [props.showRangeSlider, props.yAxisRangeMode]
-    );
+        const timeSeriesLayout = useMemo<ChartWidgetProps["layoutOptions"]>(
+            () => createTimeSeriesChartLayoutOptions(props.showRangeSlider, props.yAxisRangeMode),
+            [props.showRangeSlider, props.yAxisRangeMode]
+        );
 
-    return (
-        <ChartWidget
-            type="TimeSeries"
-            className={classNames("widget-time-series-chart", props.class)}
-            data={chartLines ?? []}
-            width={props.width}
-            widthUnit={props.widthUnit}
-            height={props.height}
-            heightUnit={props.heightUnit}
-            showLegend={props.showLegend}
-            xAxisLabel={props.xAxisLabel?.value}
-            yAxisLabel={props.yAxisLabel?.value}
-            gridLinesMode={props.gridLines}
-            showSidebarEditor={props.enableDeveloperMode}
-            customLayout={props.customLayout}
-            customConfig={props.customConfigurations}
-            layoutOptions={timeSeriesLayout}
-            configOptions={timeSeriesChartConfigOptions}
-            seriesOptions={timeSeriesChartSeriesOptions}
-            enableThemeConfig={props.enableThemeConfig}
-        />
-    );
-}
+        return (
+            <ChartWidget
+                type="TimeSeries"
+                className={classNames("widget-time-series-chart", props.class)}
+                data={chartLines ?? []}
+                width={props.width}
+                widthUnit={props.widthUnit}
+                height={props.height}
+                heightUnit={props.heightUnit}
+                showLegend={props.showLegend}
+                xAxisLabel={props.xAxisLabel?.value}
+                yAxisLabel={props.yAxisLabel?.value}
+                gridLinesMode={props.gridLines}
+                showSidebarEditor={props.enableDeveloperMode}
+                customLayout={props.customLayout}
+                customConfig={props.customConfigurations}
+                layoutOptions={timeSeriesLayout}
+                configOptions={timeSeriesChartConfigOptions}
+                seriesOptions={timeSeriesChartSeriesOptions}
+                enableThemeConfig={props.enableThemeConfig}
+            />
+        );
+    },
+    (prevProps, nextProps) =>
+        flatEqual(prevProps, nextProps, (oldProp, newProp, propName) => {
+            return propName === "lines" ? flatEqual(oldProp, newProp, traceEqual) : defaultEqual(oldProp, newProp);
+        })
+);
