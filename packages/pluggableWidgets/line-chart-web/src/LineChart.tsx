@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
+import { createElement, ReactElement, useCallback, memo } from "react";
+import { ChartWidget, ChartWidgetProps, traceEqual } from "@mendix/shared-charts";
 import { getPlotChartDataTransforms, usePlotChartDataSeries } from "@mendix/shared-charts/hooks";
+import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
 import { LineChartContainerProps } from "../typings/LineChartProps";
 
 const lineChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
@@ -23,46 +24,54 @@ const lineChartConfigOptions: ChartWidgetProps["configOptions"] = {
 };
 const lineChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 
-export function LineChart(props: LineChartContainerProps): ReactElement | null {
-    const chartLines = usePlotChartDataSeries(
-        props.lines,
-        useCallback(
-            (line, dataPoints) => ({
-                type: "scatter",
-                mode: line.lineStyle === "line" ? "lines" : "lines+markers",
-                line: {
-                    shape: line.interpolation,
-                    color: line.lineColor?.value
-                },
-                marker: {
-                    color: line.markerColor?.value
-                },
-                transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
-            }),
-            []
-        )
-    );
+export const LineChart = memo(
+    // disable eslint rule to have nice component name in component tree at devtools
+    // eslint-disable-next-line prefer-arrow-callback
+    function LineChart(props: LineChartContainerProps): ReactElement | null {
+        const chartLines = usePlotChartDataSeries(
+            props.lines,
+            useCallback(
+                (line, dataPoints) => ({
+                    type: "scatter",
+                    mode: line.lineStyle === "line" ? "lines" : "lines+markers",
+                    line: {
+                        shape: line.interpolation,
+                        color: line.lineColor?.value
+                    },
+                    marker: {
+                        color: line.markerColor?.value
+                    },
+                    transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+                }),
+                []
+            )
+        );
 
-    return (
-        <ChartWidget
-            type="LineChart"
-            className={classNames("widget-line-chart", props.class)}
-            data={chartLines ?? []}
-            width={props.width}
-            widthUnit={props.widthUnit}
-            height={props.height}
-            heightUnit={props.heightUnit}
-            showLegend={props.showLegend}
-            xAxisLabel={props.xAxisLabel?.value}
-            yAxisLabel={props.yAxisLabel?.value}
-            gridLinesMode={props.gridLines}
-            showSidebarEditor={props.enableDeveloperMode}
-            customLayout={props.customLayout}
-            customConfig={props.customConfigurations}
-            layoutOptions={lineChartLayoutOptions}
-            configOptions={lineChartConfigOptions}
-            seriesOptions={lineChartSeriesOptions}
-            enableThemeConfig={props.enableThemeConfig}
-        />
-    );
-}
+        return (
+            <ChartWidget
+                type="LineChart"
+                className={classNames("widget-line-chart", props.class)}
+                data={chartLines ?? []}
+                width={props.width}
+                widthUnit={props.widthUnit}
+                height={props.height}
+                heightUnit={props.heightUnit}
+                showLegend={props.showLegend}
+                xAxisLabel={props.xAxisLabel?.value}
+                yAxisLabel={props.yAxisLabel?.value}
+                gridLinesMode={props.gridLines}
+                showSidebarEditor={props.enableDeveloperMode}
+                customLayout={props.customLayout}
+                customConfig={props.customConfigurations}
+                layoutOptions={lineChartLayoutOptions}
+                configOptions={lineChartConfigOptions}
+                seriesOptions={lineChartSeriesOptions}
+                enableThemeConfig={props.enableThemeConfig}
+            />
+        );
+    },
+    (prev, next) =>
+        flatEqual(prev, next, (oldProp, newProp, propName) => {
+            return propName === "lines" ? flatEqual(oldProp, newProp, traceEqual) : defaultEqual(oldProp, newProp);
+        })
+);
