@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue with parameter not being passed to nanoflow/microflow assigned to on click action.
+-   We fixed an issue where, in 4.0, parameters related to on-click actions were missing. In versions of the widget before 4.0, when you added an on click action to the widget, additional parameters were passed. These parameters are now being passed again.
 
 ## [4.1.0] Charts - 2023-06-06
 
