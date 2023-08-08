@@ -71,8 +71,8 @@ describe("with grouping off (single series)", () => {
             const listAction = {
                 get: jest.fn().mockRejectedValue(actionFn)
             } as unknown as ListActionValue;
-            set1.onClickActionStatic = listAction;
-            set2.onClickActionStatic = listAction;
+            set1.staticOnClickAction = listAction;
+            set2.staticOnClickAction = listAction;
             const { result } = renderHook(
                 (props: { series: PlotDataSeries[]; mapFn: SeriesMapper<PlotDataSeries> }) =>
                     usePlotChartDataSeries(props.series, props.mapFn),
@@ -117,9 +117,9 @@ describe("with grouping on (multiple series)", () => {
             const listAction = {
                 get: jest.fn().mockRejectedValue(actionFn)
             } as unknown as ListActionValue;
-            set1.onClickActionDynamic = listAction;
-            set2.onClickActionStatic = listAction;
-            set3.onClickActionDynamic = listAction;
+            set1.dynamicOnClickAction = listAction;
+            set2.staticOnClickAction = listAction;
+            set3.dynamicOnClickAction = listAction;
             const series: PlotDataSeries[] = [set1, set2, set3];
 
             const { result } = renderHook(
@@ -143,7 +143,7 @@ describe("with grouping on (multiple series)", () => {
             const listAction = {
                 get: jest.fn(item => ({ canExecute: true, execute: () => actionFn(item) }))
             } as unknown as ListActionValue;
-            set1.onClickActionDynamic = listAction;
+            set1.dynamicOnClickAction = listAction;
             const series: PlotDataSeries[] = [set1];
 
             const { result } = renderHook(

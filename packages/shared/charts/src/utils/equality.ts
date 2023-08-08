@@ -2,8 +2,8 @@ import { ListActionValue } from "mendix";
 import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
 
 interface TraceProps {
-    onClickActionStatic?: ListActionValue;
-    onClickActionDynamic?: ListActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
 }
 
 interface ContainerProps {
@@ -12,7 +12,7 @@ interface ContainerProps {
 
 export function traceEqual(a: TraceProps, b: TraceProps): boolean {
     return flatEqual(a, b, (prop1, prop2, key) => {
-        if (key === "onClickActionStatic" || key === "onClickActionDynamic") {
+        if (key === "staticOnClickAction" || key === "dynamicOnClickAction") {
             return true;
         }
 

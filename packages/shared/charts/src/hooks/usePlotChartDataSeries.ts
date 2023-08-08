@@ -37,8 +37,8 @@ export interface PlotDataSeries {
     dynamicXAttribute?: ListAttributeValue<Date | Big | string>;
     staticYAttribute?: ListAttributeValue<Date | Big | string>;
     dynamicYAttribute?: ListAttributeValue<Date | Big | string>;
-    onClickActionStatic?: ListActionValue;
-    onClickActionDynamic?: ListActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
 }
@@ -70,7 +70,7 @@ function bindListAction(listAction: ListActionValue): (item: ObjectItem) => void
 }
 
 function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries | null {
-    const { staticName, dataSet, customSeriesOptions, onClickActionStatic: onClickAction } = series;
+    const { staticName, dataSet, customSeriesOptions, staticOnClickAction: onClickAction } = series;
 
     if (dataSet !== "static") {
         throw Error("Expected series to be static");
@@ -91,7 +91,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
 }
 
 function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries[] | null {
-    const { dataSet, customSeriesOptions, onClickActionDynamic: onClickAction } = series;
+    const { dataSet, customSeriesOptions, dynamicOnClickAction: onClickAction } = series;
 
     if (dataSet !== "dynamic") {
         throw Error("Expected series to be dynamic");

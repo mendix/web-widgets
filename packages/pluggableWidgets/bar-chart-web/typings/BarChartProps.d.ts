@@ -26,8 +26,8 @@ export interface SeriesType {
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
     barColor?: DynamicValue<string>;
-    onClickActionStatic?: ListActionValue;
-    onClickActionDynamic?: ListActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     customSeriesOptions: string;
 }
 
@@ -54,8 +54,8 @@ export interface SeriesPreviewType {
     staticTooltipHoverText: string;
     dynamicTooltipHoverText: string;
     barColor: string;
-    onClickActionStatic: {} | null;
-    onClickActionDynamic: {} | null;
+    staticOnClickAction: {} | null;
+    dynamicOnClickAction: {} | null;
     customSeriesOptions: string;
 }
 

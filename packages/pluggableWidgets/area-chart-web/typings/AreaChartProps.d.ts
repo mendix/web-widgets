@@ -34,8 +34,8 @@ export interface SeriesType {
     lineColor?: DynamicValue<string>;
     markerColor?: DynamicValue<string>;
     fillcolor?: DynamicValue<string>;
-    onClickActionStatic?: ListActionValue;
-    onClickActionDynamic?: ListActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     customSeriesOptions: string;
 }
 
@@ -64,8 +64,8 @@ export interface SeriesPreviewType {
     lineColor: string;
     markerColor: string;
     fillcolor: string;
-    onClickActionStatic: {} | null;
-    onClickActionDynamic: {} | null;
+    staticOnClickAction: {} | null;
+    dynamicOnClickAction: {} | null;
     customSeriesOptions: string;
 }
 
