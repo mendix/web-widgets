@@ -145,11 +145,19 @@
                                     <enumerationValue key="custom">Custom</enumerationValue>
                                 </enumerationValues>
                             </property>
-                            <property key="lineColor" type="textTemplate" required="false" multiline="false">
+                            <property key="staticLineColor" type="textTemplate" required="false" multiline="false" dataSource="staticDataSource">
                                 <caption>Line color</caption>
                                 <description />
                             </property>
-                            <property key="markerColor" type="textTemplate" required="false" multiline="false">
+                            <property key="dynamicLineColor" type="textTemplate" required="false" multiline="false" dataSource="dynamicDataSource">
+                                <caption>Line color</caption>
+                                <description />
+                            </property>
+                            <property key="staticMarkerColor" type="textTemplate" required="false" multiline="false" dataSource="staticDataSource">
+                                <caption>Marker color</caption>
+                                <description />
+                            </property>
+                            <property key="dynamicMarkerColor" type="textTemplate" required="false" multiline="false" dataSource="dynamicDataSource">
                                 <caption>Marker color</caption>
                                 <description />
                             </property>

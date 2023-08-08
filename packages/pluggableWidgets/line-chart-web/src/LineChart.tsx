@@ -30,21 +30,28 @@ export const LineChart = memo(
     function LineChart(props: LineChartContainerProps): ReactElement | null {
         const chartLines = usePlotChartDataSeries(
             props.lines,
-            useCallback(
-                (line, dataPoints) => ({
+            useCallback((line, dataPoints, { getExpressionValue }) => {
+                const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;
+                const markerColorExpression =
+                    line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
+
+                return {
                     type: "scatter",
                     mode: line.lineStyle === "line" ? "lines" : "lines+markers",
                     line: {
                         shape: line.interpolation,
-                        color: line.lineColor?.value
+                        color: lineColorExpression
+                            ? getExpressionValue<string>(lineColorExpression, dataPoints.dataSourceItems)
+                            : undefined
                     },
                     marker: {
-                        color: line.markerColor?.value
+                        color: markerColorExpression
+                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                            : undefined
                     },
                     transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
-                }),
-                []
-            )
+                };
+            }, [])
         );
 
         return (
