@@ -22,7 +22,7 @@ describe("Video Player", () => {
                 .should("contain", "youtube.com")
                 .and("contain", "autoplay=1")
                 .and("contain", "controls=0")
-                .and("contain", "muted=0")
+                .and("contain", "mute=0")
                 .and("contain", "loop=0");
         });
 
