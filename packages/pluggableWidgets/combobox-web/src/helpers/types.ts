@@ -11,6 +11,7 @@ export interface CaptionsProvider {
 
 export interface OptionsProvider<T = unknown, P = {}> {
     status: Status;
+    filterType: FilterTypeEnum;
 
     getAll(sortType?: FilterTypeEnum): string[];
 
@@ -31,6 +32,7 @@ export interface Selector<T> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
     type: "single" | "multi";
+    readOnly: boolean;
 
     // options related
     options: OptionsProvider;
@@ -48,6 +50,7 @@ export interface SingleSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
     type: "single";
+    readOnly: boolean;
 
     // options related
     options: OptionsProvider;
@@ -64,6 +67,7 @@ export interface MultiSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
     type: "multi";
+    readOnly: boolean;
 
     // options related
     options: OptionsProvider;
@@ -73,6 +77,6 @@ export interface MultiSelector {
 
     // value related
     clearable: boolean;
-    currentValue: string[] | undefined;
+    currentValue: string[] | null;
     setValue(value: string[] | null): void;
 }

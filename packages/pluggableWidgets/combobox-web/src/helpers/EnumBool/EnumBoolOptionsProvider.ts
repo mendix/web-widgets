@@ -11,6 +11,7 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
     private searchTerm = "";
     private options: string[] = [];
 
+    filterType: FilterTypeEnum = "contains";
     hasMore = false;
 
     constructor(private caption: CaptionsProvider) {}
@@ -19,11 +20,11 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
         return undefined;
     }
 
-    _updateProps(props: { attribute: EditableValue<string | boolean> }) {
+    _updateProps(props: { attribute: EditableValue<string | boolean>; filterType: FilterTypeEnum }): void {
         if (props.attribute.status === "unavailable") {
             this.options = [];
         }
-
+        this.filterType = props.filterType;
         this.options = (props.attribute.universe ?? []).map(o => o.toString());
         this.isBoolean = typeof props.attribute.universe?.[0] === "boolean";
     }
@@ -40,8 +41,8 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
         return value?.toString() ?? null;
     }
 
-    getAll(sortType: FilterTypeEnum): string[] {
-        switch (sortType) {
+    getAll(): string[] {
+        switch (this.filterType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
             case "startsWith":

@@ -15,6 +15,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
     clearable = true;
+    readOnly = false;
 
     constructor() {
         this.caption = new EnumAndBooleanSimpleCaptionsProvider();
@@ -22,7 +23,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     }
 
     updateProps(props: ComboboxContainerProps) {
-        const [attr, emptyOption, clearable] = extractEnumerationProps(props);
+        const [attr, emptyOption, clearable, filterType] = extractEnumerationProps(props);
         this._attr = attr;
 
         this.caption.updateProps({
@@ -31,7 +32,8 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         });
 
         this.options._updateProps({
-            attribute: attr
+            attribute: attr,
+            filterType
         });
 
         if (!attr || attr.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
@@ -46,6 +48,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.isBoolean = typeof attr.universe?.[0] === "boolean";
         this.clearable = this.isBoolean ? false : clearable;
         this.currentValue = attr.value?.toString() ?? null;
+        this.readOnly = attr.readOnly;
     }
 
     setValue(value: string | null) {

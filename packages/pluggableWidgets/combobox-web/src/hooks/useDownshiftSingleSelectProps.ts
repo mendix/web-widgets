@@ -14,7 +14,6 @@ import { ActionValue } from "mendix";
 
 export function useDownshiftSingleSelectProps(
     selector: Selector<string>,
-    setInputValue: (value: string) => void,
     inputElement: HTMLInputElement | null,
     onChangeEvent?: ActionValue
 ): UseComboboxReturnValue<string> {
@@ -22,9 +21,12 @@ export function useDownshiftSingleSelectProps(
         return {
             items: [],
             itemToString: (v: string | null) => selector.caption.get(v),
-            onSelectedItemChange(changes: UseComboboxStateChange<string>) {
+            onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 executeAction(onChangeEvent);
-                selector.setValue(changes.selectedItem!);
+                selector.setValue(selectedItem ?? null);
+            },
+            onInputValueChange({ inputValue }) {
+                selector.options.setSearchTerm(inputValue!);
             },
             defaultHighlightedIndex: 0,
             selectedItem: null,
@@ -49,7 +51,6 @@ export function useDownshiftSingleSelectProps(
                         };
 
                     case useCombobox.stateChangeTypes.InputFocus:
-                        setInputValue("");
                         return { ...changes, inputValue: "" };
 
                     case useCombobox.stateChangeTypes.InputBlur:
@@ -66,15 +67,9 @@ export function useDownshiftSingleSelectProps(
                         return { ...changes };
                 }
             },
-            onStateChange({ type, inputValue }) {
-                switch (type) {
-                    case useCombobox.stateChangeTypes.InputChange:
-                        selector.options.setSearchTerm(inputValue!);
-                        setInputValue(inputValue!);
-                        break;
-
-                    case useCombobox.stateChangeTypes.ToggleButtonClick:
-                        inputElement?.focus();
+            onStateChange({ type }) {
+                if (type === useCombobox.stateChangeTypes.ToggleButtonClick) {
+                    inputElement?.focus();
                 }
             }
         };

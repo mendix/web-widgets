@@ -11,7 +11,6 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     comboboxSize: DOMRect | undefined;
     selector: Selector<string[]>;
     withCheckbox: boolean;
-    allItems: string[];
     setSelectedItems: (v: string[]) => void;
 }
 
@@ -22,13 +21,12 @@ export function MultiSelectionMenu({
     highlightedIndex,
     comboboxSize,
     selector,
-    selectableItems: items,
+    selectableItems,
     withCheckbox,
-    allItems,
     selectedItems,
     setSelectedItems
 }: MultiSelectionMenuProps): ReactElement {
-    const allSelected = allItems.length === selectedItems.length;
+    const allSelected = selector.options.getAll().length === selectedItems.length;
     const noneSelected = selectedItems.length < 1;
     return (
         <div
@@ -39,7 +37,7 @@ export function MultiSelectionMenu({
         >
             <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen &&
-                    items.map((item, index) => (
+                    selectableItems.map((item, index) => (
                         <li
                             className={classNames("widget-combobox-item", {
                                 "widget-combobox-item-highlighted": highlightedIndex === index
@@ -72,8 +70,7 @@ export function MultiSelectionMenu({
                         })}
                         onClick={() => {
                             if (!allSelected) {
-                                setSelectedItems(allItems);
-                                selector.setValue(allItems);
+                                setSelectedItems(selector.options.getAll());
                             }
                         }}
                     >
@@ -88,7 +85,6 @@ export function MultiSelectionMenu({
                         onClick={() => {
                             if (!noneSelected) {
                                 setSelectedItems([]);
-                                selector.setValue([]);
                             }
                         }}
                     >

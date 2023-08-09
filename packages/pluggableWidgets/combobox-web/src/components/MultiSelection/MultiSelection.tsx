@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, createElement, useRef, useState } from "react";
+import { Fragment, KeyboardEvent, createElement, useRef } from "react";
 import { ComboboxContainerProps } from "typings/ComboboxProps";
 import { ClearButton } from "../../assets/icons";
 import { Selector } from "../../helpers/types";
@@ -13,8 +13,6 @@ import { MultiSelectionMenu } from "./MultiSelectionMenu";
 export function MultiSelection(props: ComboboxContainerProps) {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [_input, setInput] = useState("");
-    const noFilter = props.filterType === "no";
     const selector = useGetSelector(props) as Selector<string[]>;
     const {
         isOpen,
@@ -32,11 +30,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
         items,
         withCheckbox,
         setSelectedItems
-    } = useDownshiftMultiSelectProps(selector, setInput, props.selectionType, props.onChangeEvent, inputRef.current);
-
-    const readOnly =
-        (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
-        props.attributeAssociation?.readOnly;
+    } = useDownshiftMultiSelectProps(selector, props.selectionType, props.onChangeEvent, inputRef.current);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -47,7 +41,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
             <ComboboxWrapper
                 ref={comboboxRef}
                 isOpen={isOpen}
-                readOnly={readOnly}
+                readOnly={selector.readOnly}
                 getToggleButtonProps={getToggleButtonProps}
             >
                 <div className="widget-combobox-selected-items">
@@ -78,7 +72,7 @@ export function MultiSelection(props: ComboboxContainerProps) {
                     <input
                         ref={inputRef}
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": noFilter
+                            "widget-combobox-input-nofilter": selector.options.filterType === "no"
                         })}
                         tabIndex={0}
                         placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems, withCheckbox)}
@@ -93,15 +87,15 @@ export function MultiSelection(props: ComboboxContainerProps) {
                                         setActiveIndex(selectedItems.length - 1);
                                     }
                                 },
-                                disabled: readOnly,
-                                readOnly: noFilter
+                                disabled: selector.readOnly,
+                                readOnly: selector.options.filterType === "no"
                             },
                             { suppressRefError: true }
                         )}
                     />
                 </div>
 
-                {!readOnly && selector.clearable && selector.currentValue !== null && (
+                {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
                         className="widget-combobox-clear-button"
                         onClick={e => {
@@ -125,7 +119,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                 selectableItems={items}
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
-                allItems={selector.options?.getAll()}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
             />

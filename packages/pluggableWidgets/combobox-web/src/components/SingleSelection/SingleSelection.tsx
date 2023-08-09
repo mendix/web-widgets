@@ -1,5 +1,5 @@
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { createElement, ReactElement, useRef, useState, Fragment } from "react";
+import { createElement, ReactElement, useRef, Fragment } from "react";
 import { Selector } from "../../helpers/types";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { ClearButton } from "../../assets/icons";
@@ -12,8 +12,6 @@ import classNames from "classnames";
 export function SingleSelection(props: ComboboxContainerProps): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [_inputValue, setInputValue] = useState<string>("");
-    const noFilter = props.filterType === "no";
     const selector = useGetSelector(props) as Selector<string>;
 
     const {
@@ -25,10 +23,7 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector, setInputValue, inputRef.current, props.onChangeEvent);
-    const readOnly =
-        (props.attributeBoolean?.readOnly || props.attributeEnumeration?.readOnly) ??
-        props.attributeAssociation?.readOnly;
+    } = useDownshiftSingleSelectProps(selector, inputRef.current, props.onChangeEvent);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -39,23 +34,25 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
             <ComboboxWrapper
                 ref={comboboxRef}
                 isOpen={isOpen}
-                readOnly={readOnly}
+                readOnly={selector.readOnly}
                 getToggleButtonProps={getToggleButtonProps}
             >
                 <input
-                    className={classNames("widget-combobox-input", { "widget-combobox-input-nofilter": noFilter })}
+                    className={classNames("widget-combobox-input", {
+                        "widget-combobox-input-nofilter": selector.options.filterType === "no"
+                    })}
                     tabIndex={0}
                     ref={inputRef}
                     {...getInputProps(
                         {
-                            disabled: readOnly,
-                            readOnly: props.filterType === "no"
+                            disabled: selector.readOnly,
+                            readOnly: selector.options.filterType === "no"
                         },
                         { suppressRefError: true }
                     )}
-                    placeholder={selectedItem ? selector.caption.get(selectedItem) : selector.caption.emptyCaption}
+                    placeholder={selector.caption.get(selectedItem)}
                 />
-                {!readOnly && selector.clearable && selector.currentValue !== null && (
+                {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
                         className="widget-combobox-clear-button"
                         onClick={e => {
@@ -73,7 +70,6 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
             <SingleSelectionMenu
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
-                filterType={props.filterType}
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}

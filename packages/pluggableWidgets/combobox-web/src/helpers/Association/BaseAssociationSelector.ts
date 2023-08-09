@@ -11,6 +11,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     clearable = false;
     currentValue: T | null = null;
     caption: AssociationSimpleCaptionsProvider;
+    readOnly = false;
     protected _attr: R | undefined;
 
     private _valuesMap: Map<string, ObjectItem> = new Map();
@@ -21,7 +22,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     }
 
     updateProps(props: ComboboxContainerProps) {
-        const [attr, ds, captionProvider, emptyOption, clearable] = extractAssociationProps(props);
+        const [attr, ds, captionProvider, emptyOption, clearable, filterType] = extractAssociationProps(props);
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
@@ -30,7 +31,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
 
         this.options._updateProps({
             attr,
-            ds
+            ds,
+            filterType
         });
 
         if (
@@ -51,5 +53,6 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
 
         this.clearable = clearable;
         this.status = attr.status;
+        this.readOnly = attr.readOnly;
     }
 }

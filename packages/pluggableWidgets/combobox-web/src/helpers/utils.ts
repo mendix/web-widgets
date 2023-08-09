@@ -13,9 +13,6 @@ export function getSelectedCaptionsPlaceholder(
         }
     }
     const selectedItemCaption = selectedItems.map(v => selector.caption.get(v));
-    if (selectedItemCaption.length >= 3) {
-        return selectedItemCaption.join();
-    } else {
-        return selectedItemCaption.slice(0, selectedItemCaption.length).join();
-    }
+
+    return selectedItemCaption.join();
 }

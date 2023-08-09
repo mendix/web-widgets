@@ -3,6 +3,8 @@ import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 export function extractAssociationProps(props: ComboboxContainerProps) {
     const type = props.attributeAssociation?.type;
     const attr = props.attributeAssociation;
+    const filterType = props.filterType;
+
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'association' but 'attributeAssociation' is not defined.");
     }
@@ -38,6 +40,7 @@ export function extractAssociationProps(props: ComboboxContainerProps) {
         ds,
         captionType === "attribute" ? captionAttribute! : captionExpression!,
         emptyOption,
-        clearable
+        clearable,
+        filterType
     ] as const;
 }

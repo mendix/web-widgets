@@ -30,8 +30,8 @@ $disabled-text-color: #6c7180;
         &-footer {
             display: flex;
             justify-content: space-between;
-            color: #264ae5;
-            border-top: 1px solid #787d87;
+            color: $brand-primary;
+            border-top: 1px solid $separator-border;
             &-control {
                 display: flex;
                 padding: 10px 12px;

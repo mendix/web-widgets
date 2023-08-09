@@ -6,12 +6,14 @@ import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
     ds: ListValue;
+    filterType: FilterTypeEnum;
 }
 
 export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, Props> {
     private searchTerm = "";
     private options: string[] = [];
     private ds?: ListValue;
+    filterType: FilterTypeEnum = "contains";
 
     constructor(private caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {}
 
@@ -23,8 +25,8 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
         return this.ds?.hasMoreItems ?? false;
     }
 
-    getAll(sortType: FilterTypeEnum = "contains"): string[] {
-        switch (sortType) {
+    getAll(): string[] {
+        switch (this.filterType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", { keys: [v => this.caption.get(v)] });
             case "startsWith":
@@ -64,6 +66,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
 
     _updateProps(props: Props): void {
         this.ds = props.ds;
+        this.filterType = props.filterType;
 
         const items = this.ds.items ?? [];
 
