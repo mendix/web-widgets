@@ -32,6 +32,8 @@ export function useDownshiftSingleSelectProps(
             initialInputValue: selector.caption.get(selector.currentValue),
             stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
+                console.log(type);
+
                 switch (type) {
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {
@@ -52,6 +54,7 @@ export function useDownshiftSingleSelectProps(
                     case useCombobox.stateChangeTypes.InputFocus:
                         return { ...changes, inputValue: "" };
 
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.InputBlur:
                     case undefined:
                         return {
