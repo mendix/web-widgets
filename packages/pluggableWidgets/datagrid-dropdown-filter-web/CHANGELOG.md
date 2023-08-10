@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] - 2023-08-10
+
 ### Changed
 
 -   We changed the DOM Structure for dropdown filter to appear inline with the container in order to make the component more accessible.

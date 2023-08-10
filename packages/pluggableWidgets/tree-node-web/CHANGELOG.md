@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.2] - 2023-08-10
+
 ### Fixed
 
 -   We fixed Atlas icon unable to be shown on tree node.
+
 -   We fixed an issue where tree child not directly refreshed after updating the data.
 
 ## [1.1.1] - 2023-05-26
