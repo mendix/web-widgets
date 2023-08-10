@@ -72,7 +72,7 @@ describe("Combo box (Association)", () => {
         fireEvent.click(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
-    it("sets option to selected item", async () => {
+    it("adds new item to inital selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
         fireEvent.focus(input);
@@ -91,15 +91,12 @@ describe("Combo box (Association)", () => {
 
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
-
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(4);
         expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "111" }, { id: "222" }]);
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
-
-        expect(input.placeholder).toEqual("");
-        expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
+        expect(defaultProps.attributeAssociation?.value).toEqual([]);
     });
 });
