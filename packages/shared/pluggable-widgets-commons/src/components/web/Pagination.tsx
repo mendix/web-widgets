@@ -42,7 +42,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
     }`;
 
     return (
-        <div aria-label={props.labelPagination ?? "Pagination"} className="pagination-bar" role="pagination">
+        <div aria-label={props.labelPagination ?? "Pagination"} className="pagination-bar">
             <button
                 className="btn pagination-button"
                 disabled={props.page === 0}

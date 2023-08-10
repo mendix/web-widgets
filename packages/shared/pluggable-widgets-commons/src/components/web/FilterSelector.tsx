@@ -1,7 +1,6 @@
 import { createElement, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useOnClickOutside } from "./utils";
-import { createPortal } from "react-dom";
 import { usePositionObserver } from "./usePositionObserver";
 
 interface FilterSelectorProps<T extends string> {
@@ -36,7 +35,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
         onChange(defaultFilter);
     }, [defaultFilter, onChange]);
 
-    const filterSelectors = createPortal(
+    const filterSelectors = (
         <ul
             ref={filterSelectorsRef}
             id={`${props.id}-filter-selectors`}
@@ -75,8 +74,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                     <div className="filter-label">{option.label}</div>
                 </li>
             ))}
-        </ul>,
-        document.body
+        </ul>
     );
 
     const containerClick = useCallback(() => {

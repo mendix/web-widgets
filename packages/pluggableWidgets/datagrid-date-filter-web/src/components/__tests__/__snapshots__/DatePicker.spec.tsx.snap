@@ -2,6 +2,10 @@
 
 exports[`Date picker component renders correctly 1`] = `
 [
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />,
   <span
     class="sr-only"
     id="undefined-label"
@@ -48,6 +52,10 @@ exports[`Date picker component renders correctly 1`] = `
 
 exports[`Date picker component renders correctly when is not adjustable 1`] = `
 [
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />,
   <span
     class="sr-only"
     id="undefined-label"
@@ -94,6 +102,10 @@ exports[`Date picker component renders correctly when is not adjustable 1`] = `
 
 exports[`Date picker component renders correctly with a11y properties 1`] = `
 [
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />,
   <span
     class="sr-only"
     id="undefined-label"
@@ -142,6 +154,10 @@ exports[`Date picker component renders correctly with a11y properties 1`] = `
 
 exports[`Date picker component renders correctly with different locale and date format 1`] = `
 [
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />,
   <span
     class="sr-only"
     id="undefined-label"

@@ -49,7 +49,7 @@ export function Header(props: HeaderProps): ReactElement {
     );
 
     const [sortProperties] = props.sortBy;
-    const isSorted = sortProperties && sortProperties.id === props.column.id;
+    const isSorted = sortProperties && sortProperties.id === props.column.index.toString();
     const isSortedDesc = isSorted && sortProperties.desc;
 
     const sortIcon = canSort ? (
@@ -75,9 +75,9 @@ export function Header(props: HeaderProps): ReactElement {
          * If multisort is allowed in the future this should be changed to append instead of just return a new array
          */
         if (!isSorted) {
-            props.setSortBy([{ id: props.column.id, desc: false }]);
+            props.setSortBy([{ id: props.column.index.toString(), desc: false }]);
         } else if (isSorted && !isSortedDesc) {
-            props.setSortBy([{ id: props.column.id, desc: true }]);
+            props.setSortBy([{ id: props.column.index.toString(), desc: true }]);
         } else {
             props.setSortBy([]);
         }
@@ -97,7 +97,6 @@ export function Header(props: HeaderProps): ReactElement {
 
     return (
         <div
-            aria-label={caption}
             aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
             className={classNames("th", {
                 "hidden-column-preview": props.preview && props.hidable && props.column.hidden
@@ -118,6 +117,7 @@ export function Header(props: HeaderProps): ReactElement {
                     className={classNames("column-header", canSort ? "clickable" : "", props.className)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
                     {...(canSort ? sortProps : undefined)}
+                    aria-label={canSort ? "sort " + caption : caption}
                 >
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}

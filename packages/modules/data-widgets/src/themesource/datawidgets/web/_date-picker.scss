@@ -94,7 +94,13 @@ $border-color: #d7d7d7 !default;
 }
 
 .react-datepicker__day--in-range:not(.react-datepicker__day--range-start, .react-datepicker__day--range-end),
-.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range, .react-datepicker__day--selecting-range-start) {
+.react-datepicker__day--in-selecting-range:not(
+        .react-datepicker__day--in-range,
+        .react-datepicker__month-text--in-range,
+        .react-datepicker__quarter-text--in-range,
+        .react-datepicker__year-text--in-range,
+        .react-datepicker__day--selecting-range-start
+    ) {
     background-color: $day-range-background;
     color: $day-range-color;
 
@@ -136,5 +142,5 @@ Space between the fields and the popup
  */
 .react-datepicker-popper[data-placement^="bottom"] {
     margin-top: unset;
-    padding-top: 8px;
+    padding-top: 0;
 }

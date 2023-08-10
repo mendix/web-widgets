@@ -28,35 +28,33 @@
 }
 
 .table-bordered-all {
-    .th {
-        border-top-width: 1px;
-        border-top-style: solid;
+    .th,
+    .td {
         border-left-width: 1px;
         border-left-style: solid;
 
         // Column for the visibility when a column can be hidden
         &.column-selector {
             border-left-width: 0;
+        }
+
+        &:last-child,
+        &.column-selector {
             border-right-width: 1px;
             border-right-style: solid;
         }
+    }
+    .th {
+        border-top-width: 1px;
+        border-top-style: solid;
     }
 
     .td {
         border-bottom-width: 1px;
         border-bottom-style: solid;
-        border-left-width: 1px;
-        border-left-style: solid;
 
         &.td-borders {
             border-top-width: 1px;
-        }
-
-        // Column for the visibility when a column can be hidden
-        &.column-selector {
-            border-left-width: 0;
-            border-right-width: 1px;
-            border-right-style: solid;
         }
     }
 }

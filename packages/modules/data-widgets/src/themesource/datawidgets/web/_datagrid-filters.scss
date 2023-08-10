@@ -174,7 +174,6 @@ $item-min-height: 32px;
     background: $background-color;
     border-radius: 8px;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
-    overflow-x: hidden;
     max-height: 40vh;
     z-index: 102;
 }
@@ -183,7 +182,6 @@ $item-min-height: 32px;
     background: $background-color;
     border-radius: 8px;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
-    overflow-x: hidden;
     max-height: 40vh;
     z-index: 140;
 
@@ -214,6 +212,7 @@ $item-min-height: 32px;
 
 .dropdown-container {
     flex: 1;
+    position: relative;
 
     .dropdown-triggerer {
         caret-color: transparent;
@@ -231,7 +230,7 @@ $item-min-height: 32px;
 
     .dropdown-list {
         position: absolute;
-        width: max-content;
+        min-width: 100%;
         left: 0;
         margin: 0 $spacing-small;
         padding: 0;
@@ -277,10 +276,6 @@ $item-min-height: 32px;
             }
         }
     }
-}
-
-.date-filter-container {
-    z-index: 102;
 }
 
 /**
@@ -352,13 +347,13 @@ div:not(.table-compact) > .table {
     .th {
         .filter-selector {
             .filter-selectors {
-                margin: 0 $spacing-medium;
+                margin: 0;
             }
         }
 
         .dropdown-container {
             .dropdown-list {
-                margin: 0 $spacing-medium;
+                margin: 0;
             }
         }
     }

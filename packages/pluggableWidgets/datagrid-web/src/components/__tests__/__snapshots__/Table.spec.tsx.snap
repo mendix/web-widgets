@@ -5,13 +5,16 @@ exports[`Table renders the structure correctly 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -22,7 +25,6 @@ exports[`Table renders the structure correctly 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -30,9 +32,10 @@ exports[`Table renders the structure correctly 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -54,11 +57,10 @@ exports[`Table renders the structure correctly 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -67,13 +69,16 @@ exports[`Table renders the structure correctly for preview when no header is pro
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -84,7 +89,6 @@ exports[`Table renders the structure correctly for preview when no header is pro
         role="row"
       >
         <div
-          aria-label=""
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -92,9 +96,10 @@ exports[`Table renders the structure correctly for preview when no header is pro
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label=""
               class="column-header align-column-center"
             >
               <span>
@@ -116,11 +121,10 @@ exports[`Table renders the structure correctly for preview when no header is pro
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -129,13 +133,16 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -146,7 +153,6 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -154,9 +160,10 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-center"
             >
               <span>
@@ -166,7 +173,6 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           </div>
         </div>
         <div
-          aria-label="Test 2"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -174,9 +180,10 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="column-container"
-            id="1"
+            id="dg1-column1"
           >
             <div
+              aria-label="Test 2"
               class="column-header align-column-right"
             >
               <span>
@@ -204,11 +211,10 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -217,13 +223,16 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -234,7 +243,6 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -242,9 +250,10 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -270,11 +279,10 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -283,13 +291,16 @@ exports[`Table renders the structure correctly with dragging 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -300,7 +311,6 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -308,9 +318,10 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -332,11 +343,10 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -345,13 +355,16 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -362,7 +375,6 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -370,9 +382,10 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -394,11 +407,10 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -407,13 +419,16 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -424,7 +439,6 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -432,9 +446,10 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -456,11 +471,10 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -469,13 +483,16 @@ exports[`Table renders the structure correctly with filtering 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -486,7 +503,6 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -494,9 +510,10 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -522,11 +539,10 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -535,24 +551,26 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    aria-label="filter title"
+    class="header-filters"
+  >
+    <div
+      class="my-custom-filters"
+    >
+      <span />
+    </div>
+  </div>
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
-    <div
-      aria-label="filter title"
-      class="header-filters"
-      role="rowgroup"
-    >
-      <div
-        class="my-custom-filters"
-      >
-        <span />
-      </div>
-    </div>
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -563,7 +581,6 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -571,9 +588,10 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -595,11 +613,10 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -608,13 +625,16 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -628,7 +648,6 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
           class="my-custom-header"
         >
           <div
-            aria-label="Test"
             class="th"
             role="columnheader"
             style="cursor:unset"
@@ -636,9 +655,10 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
           >
             <div
               class="column-container"
-              id="0"
+              id="dg1-column0"
             >
               <div
+                aria-label="Test"
                 class="column-header align-column-left"
               >
                 <span>
@@ -661,11 +681,10 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -674,13 +693,16 @@ exports[`Table renders the structure correctly with hiding 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content infinite-loading"
       role="rowgroup"
@@ -691,7 +713,6 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -699,9 +720,10 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -720,7 +742,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
             class="column-selector-content"
           >
             <button
-              aria-controls="undefined-column-selectors"
+              aria-controls="dg1-column-selectors"
               aria-expanded="false"
               aria-haspopup="true"
               aria-label="Column selector"
@@ -761,11 +783,10 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         />
       </div>
     </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
   </div>
+  <div
+    class="table-footer"
+  />
 </div>
 `;
 
@@ -774,13 +795,16 @@ exports[`Table renders the structure correctly with paging 1`] = `
   class="test widget-datagrid"
 >
   <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
     class="table"
     role="table"
   >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
     <div
       class="table-content"
       role="rowgroup"
@@ -791,7 +815,6 @@ exports[`Table renders the structure correctly with paging 1`] = `
         role="row"
       >
         <div
-          aria-label="Test"
           class="th"
           role="columnheader"
           style="cursor:unset"
@@ -799,9 +822,10 @@ exports[`Table renders the structure correctly with paging 1`] = `
         >
           <div
             class="column-container"
-            id="0"
+            id="dg1-column0"
           >
             <div
+              aria-label="Test"
               class="column-header align-column-left"
             >
               <span>
@@ -823,14 +847,349 @@ exports[`Table renders the structure correctly with paging 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="table-footer"
+  >
+    <div
+      aria-label="Pagination"
+      class="pagination-bar"
+    >
+      <button
+        aria-label="Go to first page"
+        class="btn pagination-button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          <svg
+            class="pagination-icon step-backward"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.19 6.63L11.51 15.61C11.25 15.81 11.25 16.2 11.51 16.4L23.2 25.38C23.53 25.64 24.01 25.4 24.01 24.99V7.02C24.01 6.6 23.53 6.37 23.2 6.63H23.19Z"
+              fill="currentColor"
+            />
+            <path
+              d="M10 6H8V26H10V6Z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        aria-label="Go to previous page"
+        class="btn pagination-button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          <svg
+            class="pagination-icon backward"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.19 6.63L3.51 15.61C3.25 15.81 3.25 16.2 3.51 16.4L14.2 25.38C14.53 25.64 15.01 25.4 15.01 24.99V7.02C15.01 6.6 14.53 6.37 14.2 6.63H14.19Z"
+              fill="currentColor"
+            />
+            <path
+              d="M27.19 6.63L16.5 15.61C16.24 15.81 16.24 16.2 16.5 16.4L27.19 25.38C27.52 25.64 28 25.4 28 24.99V7.02C28 6.6 27.52 6.37 27.19 6.63Z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      </button>
+      <span
+        class="sr-only sr-only-focusable"
+      >
+        Currently showing 11 to 20 
+      </span>
+      <div
+        aria-hidden="true"
+        class="paging-status"
+      >
+        11 to 20 
+      </div>
+      <button
+        aria-label="Go to next page"
+        class="btn pagination-button"
+        disabled=""
+      >
+        <span
+          aria-hidden="true"
+        >
+          <svg
+            class="pagination-icon forward"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.81 6.63C17.48 6.37 17 6.61 17 7.02V24.98C17 25.4 17.48 25.63 17.81 25.37L28.5 16.39C28.76 16.19 28.76 15.8 28.5 15.6L17.81 6.63Z"
+              fill="currentColor"
+            />
+            <path
+              d="M4.81 6.63C4.48 6.37 4 6.61 4 7.02V24.98C4 25.4 4.48 25.63 4.81 25.37L15.5 16.39C15.76 16.19 15.76 15.8 15.5 15.6L4.81 6.63Z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Table renders the structure correctly with resizing 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
+    class="table"
+    role="table"
+  >
+    <div
+      class="table-content infinite-loading"
+      role="rowgroup"
+      style="grid-template-columns:1fr"
+    >
+      <div
+        class="tr"
+        role="row"
+      >
+        <div
+          class="th"
+          role="columnheader"
+          style="cursor:unset"
+          title="Test"
+        >
+          <div
+            class="column-container"
+            id="dg1-column0"
+          >
+            <div
+              aria-label="Test"
+              class="column-header align-column-left"
+            >
+              <span>
+                Test
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tr"
+        role="row"
+      >
+        <div
+          class="td td-borders"
+          role="cell"
+        >
+          Test
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with sorting 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="table-header"
+  />
+  <div
+    class="sticky-sentinel"
+    style="height:1px;margin-bottom:-1px"
+  />
+  <div
+    class="table"
+    role="table"
+  >
+    <div
+      class="table-content infinite-loading"
+      role="rowgroup"
+      style="grid-template-columns:1fr"
+    >
+      <div
+        class="tr"
+        role="row"
+      >
+        <div
+          class="th"
+          role="columnheader"
+          style="cursor:unset"
+          title="Test"
+        >
+          <div
+            class="column-container"
+            id="dg1-column0"
+          >
+            <div
+              aria-label="Test"
+              class="column-header align-column-left"
+            >
+              <span>
+                Test
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tr"
+        role="row"
+      >
+        <div
+          class="td td-borders"
+          role="cell"
+        >
+          Test
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="table-footer"
+  />
+</div>
+`;
+
+exports[`Table with selection method checkbox render an extra column and add class to each selected cell 1`] = `
+<DocumentFragment>
+  <div
+    class="test widget-datagrid widget-datagrid-selection-method-checkbox"
+  >
+    <div
+      class="table-header"
+    />
+    <div
+      class="sticky-sentinel"
+      style="height: 1px; margin-bottom: -1px;"
+    />
+    <div
+      class="table"
+      role="table"
+    >
+      <div
+        class="table-content"
+        role="rowgroup"
+        style="grid-template-columns: fit-content(48px) 1fr;"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th widget-datagrid-col-select"
+            role="columnheader"
+          />
+          <div
+            class="th"
+            role="columnheader"
+            style="cursor: unset;"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select td-borders"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td td-borders"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+        <div
+          class="tr tr-selected"
+          role="row"
+        >
+          <div
+            class="td widget-datagrid-col-select"
+          >
+            <input
+              checked=""
+              tabindex="-1"
+              type="checkbox"
+            />
+          </div>
+          <div
+            class="td"
+            role="cell"
+          >
+            Test
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="table-footer"
-      role="rowgroup"
     >
       <div
         aria-label="Pagination"
         class="pagination-bar"
-        role="pagination"
       >
         <button
           aria-label="Go to first page"
@@ -919,338 +1278,6 @@ exports[`Table renders the structure correctly with paging 1`] = `
       </div>
     </div>
   </div>
-</div>
-`;
-
-exports[`Table renders the structure correctly with resizing 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          aria-label="Test"
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="0"
-          >
-            <div
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
-  </div>
-</div>
-`;
-
-exports[`Table renders the structure correctly with sorting 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-header"
-      role="rowgroup"
-    />
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          aria-label="Test"
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="0"
-          >
-            <div
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-    <div
-      class="table-footer"
-      role="rowgroup"
-    />
-  </div>
-</div>
-`;
-
-exports[`Table with selection method checkbox render an extra column and add class to each selected cell 1`] = `
-<DocumentFragment>
-  <div
-    class="test widget-datagrid widget-datagrid-selection-method-checkbox"
-  >
-    <div
-      class="table"
-      role="table"
-    >
-      <div
-        class="table-header"
-        role="rowgroup"
-      />
-      <div
-        class="table-content"
-        role="rowgroup"
-        style="grid-template-columns: fit-content(48px) 1fr;"
-      >
-        <div
-          class="tr"
-          role="row"
-        >
-          <div
-            class="th widget-datagrid-col-select"
-            role="columnheader"
-          />
-          <div
-            aria-label="Test"
-            class="th"
-            role="columnheader"
-            style="cursor: unset;"
-            title="Test"
-          >
-            <div
-              class="column-container"
-              id="0"
-            >
-              <div
-                class="column-header align-column-left"
-              >
-                <span>
-                  Test
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
-          <div
-            class="td widget-datagrid-col-select td-borders"
-          >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
-            />
-          </div>
-          <div
-            class="td td-borders"
-            role="cell"
-          >
-            Test
-          </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
-          <div
-            class="td widget-datagrid-col-select"
-          >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
-            />
-          </div>
-          <div
-            class="td"
-            role="cell"
-          >
-            Test
-          </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
-          <div
-            class="td widget-datagrid-col-select"
-          >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
-            />
-          </div>
-          <div
-            class="td"
-            role="cell"
-          >
-            Test
-          </div>
-        </div>
-      </div>
-      <div
-        class="table-footer"
-        role="rowgroup"
-      >
-        <div
-          aria-label="Pagination"
-          class="pagination-bar"
-          role="pagination"
-        >
-          <button
-            aria-label="Go to first page"
-            class="btn pagination-button"
-          >
-            <span
-              aria-hidden="true"
-            >
-              <svg
-                class="pagination-icon step-backward"
-                fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M23.19 6.63L11.51 15.61C11.25 15.81 11.25 16.2 11.51 16.4L23.2 25.38C23.53 25.64 24.01 25.4 24.01 24.99V7.02C24.01 6.6 23.53 6.37 23.2 6.63H23.19Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M10 6H8V26H10V6Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
-          <button
-            aria-label="Go to previous page"
-            class="btn pagination-button"
-          >
-            <span
-              aria-hidden="true"
-            >
-              <svg
-                class="pagination-icon backward"
-                fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.19 6.63L3.51 15.61C3.25 15.81 3.25 16.2 3.51 16.4L14.2 25.38C14.53 25.64 15.01 25.4 15.01 24.99V7.02C15.01 6.6 14.53 6.37 14.2 6.63H14.19Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M27.19 6.63L16.5 15.61C16.24 15.81 16.24 16.2 16.5 16.4L27.19 25.38C27.52 25.64 28 25.4 28 24.99V7.02C28 6.6 27.52 6.37 27.19 6.63Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
-          <span
-            class="sr-only sr-only-focusable"
-          >
-            Currently showing 11 to 20 
-          </span>
-          <div
-            aria-hidden="true"
-            class="paging-status"
-          >
-            11 to 20 
-          </div>
-          <button
-            aria-label="Go to next page"
-            class="btn pagination-button"
-            disabled=""
-          >
-            <span
-              aria-hidden="true"
-            >
-              <svg
-                class="pagination-icon forward"
-                fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.81 6.63C17.48 6.37 17 6.61 17 7.02V24.98C17 25.4 17.48 25.63 17.81 25.37L28.5 16.39C28.76 16.19 28.76 15.8 28.5 15.6L17.81 6.63Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M4.81 6.63C4.48 6.37 4 6.61 4 7.02V24.98C4 25.4 4.48 25.63 4.81 25.37L15.5 16.39C15.76 16.19 15.76 15.8 15.5 15.6L4.81 6.63Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 </DocumentFragment>
 `;
 
@@ -1260,13 +1287,16 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
     class="test widget-datagrid widget-datagrid-selection-method-click"
   >
     <div
+      class="table-header"
+    />
+    <div
+      class="sticky-sentinel"
+      style="height: 1px; margin-bottom: -1px;"
+    />
+    <div
       class="table"
       role="table"
     >
-      <div
-        class="table-header"
-        role="rowgroup"
-      />
       <div
         class="table-content"
         role="rowgroup"
@@ -1277,7 +1307,6 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           role="row"
         >
           <div
-            aria-label="Test"
             class="th"
             role="columnheader"
             style="cursor: unset;"
@@ -1285,9 +1314,10 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="column-container"
-              id="0"
+              id="dg1-column0"
             >
               <div
+                aria-label="Test"
                 class="column-header align-column-left"
               >
                 <span>
@@ -1334,100 +1364,98 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="table-footer"
+    >
       <div
-        class="table-footer"
-        role="rowgroup"
+        aria-label="Pagination"
+        class="pagination-bar"
       >
-        <div
-          aria-label="Pagination"
-          class="pagination-bar"
-          role="pagination"
+        <button
+          aria-label="Go to first page"
+          class="btn pagination-button"
         >
-          <button
-            aria-label="Go to first page"
-            class="btn pagination-button"
-          >
-            <span
-              aria-hidden="true"
-            >
-              <svg
-                class="pagination-icon step-backward"
-                fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M23.19 6.63L11.51 15.61C11.25 15.81 11.25 16.2 11.51 16.4L23.2 25.38C23.53 25.64 24.01 25.4 24.01 24.99V7.02C24.01 6.6 23.53 6.37 23.2 6.63H23.19Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M10 6H8V26H10V6Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
-          <button
-            aria-label="Go to previous page"
-            class="btn pagination-button"
-          >
-            <span
-              aria-hidden="true"
-            >
-              <svg
-                class="pagination-icon backward"
-                fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.19 6.63L3.51 15.61C3.25 15.81 3.25 16.2 3.51 16.4L14.2 25.38C14.53 25.64 15.01 25.4 15.01 24.99V7.02C15.01 6.6 14.53 6.37 14.2 6.63H14.19Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M27.19 6.63L16.5 15.61C16.24 15.81 16.24 16.2 16.5 16.4L27.19 25.38C27.52 25.64 28 25.4 28 24.99V7.02C28 6.6 27.52 6.37 27.19 6.63Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
           <span
-            class="sr-only sr-only-focusable"
-          >
-            Currently showing 11 to 20 
-          </span>
-          <div
             aria-hidden="true"
-            class="paging-status"
           >
-            11 to 20 
-          </div>
-          <button
-            aria-label="Go to next page"
-            class="btn pagination-button"
-            disabled=""
-          >
-            <span
-              aria-hidden="true"
+            <svg
+              class="pagination-icon step-backward"
+              fill="currentColor"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                class="pagination-icon forward"
+              <path
+                d="M23.19 6.63L11.51 15.61C11.25 15.81 11.25 16.2 11.51 16.4L23.2 25.38C23.53 25.64 24.01 25.4 24.01 24.99V7.02C24.01 6.6 23.53 6.37 23.2 6.63H23.19Z"
                 fill="currentColor"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.81 6.63C17.48 6.37 17 6.61 17 7.02V24.98C17 25.4 17.48 25.63 17.81 25.37L28.5 16.39C28.76 16.19 28.76 15.8 28.5 15.6L17.81 6.63Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M4.81 6.63C4.48 6.37 4 6.61 4 7.02V24.98C4 25.4 4.48 25.63 4.81 25.37L15.5 16.39C15.76 16.19 15.76 15.8 15.5 15.6L4.81 6.63Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
+              />
+              <path
+                d="M10 6H8V26H10V6Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <button
+          aria-label="Go to previous page"
+          class="btn pagination-button"
+        >
+          <span
+            aria-hidden="true"
+          >
+            <svg
+              class="pagination-icon backward"
+              fill="currentColor"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.19 6.63L3.51 15.61C3.25 15.81 3.25 16.2 3.51 16.4L14.2 25.38C14.53 25.64 15.01 25.4 15.01 24.99V7.02C15.01 6.6 14.53 6.37 14.2 6.63H14.19Z"
+                fill="currentColor"
+              />
+              <path
+                d="M27.19 6.63L16.5 15.61C16.24 15.81 16.24 16.2 16.5 16.4L27.19 25.38C27.52 25.64 28 25.4 28 24.99V7.02C28 6.6 27.52 6.37 27.19 6.63Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <span
+          class="sr-only sr-only-focusable"
+        >
+          Currently showing 11 to 20 
+        </span>
+        <div
+          aria-hidden="true"
+          class="paging-status"
+        >
+          11 to 20 
         </div>
+        <button
+          aria-label="Go to next page"
+          class="btn pagination-button"
+          disabled=""
+        >
+          <span
+            aria-hidden="true"
+          >
+            <svg
+              class="pagination-icon forward"
+              fill="currentColor"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.81 6.63C17.48 6.37 17 6.61 17 7.02V24.98C17 25.4 17.48 25.63 17.81 25.37L28.5 16.39C28.76 16.19 28.76 15.8 28.5 15.6L17.81 6.63Z"
+                fill="currentColor"
+              />
+              <path
+                d="M4.81 6.63C4.48 6.37 4 6.61 4 7.02V24.98C4 25.4 4.48 25.63 4.81 25.37L15.5 16.39C15.76 16.19 15.76 15.8 15.5 15.6L4.81 6.63Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   </div>
