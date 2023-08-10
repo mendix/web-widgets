@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with keyboard input for “form” widgets, when they being put into tree node. Up to this version, pressing “space” or “enter” in widgets like ‘Text box’ or ‘Text area’ was not handled properly and keyboard input was ignored. New version fix this issue and now you should have no issues with keyboard input in child widgets.
+
 ## [1.1.2] - 2023-08-10
 
 ### Fixed
