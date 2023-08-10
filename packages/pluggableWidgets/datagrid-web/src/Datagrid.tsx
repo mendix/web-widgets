@@ -21,6 +21,9 @@ import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
+import { ExportFromDatagrid } from "./features/export";
+
+const exportFromDatagrid = new ExportFromDatagrid();
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -36,6 +39,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const { FilterContext } = useFilterContext();
     const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
+    const [exported, setExported] = useState(false);
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
@@ -57,6 +61,18 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             }, props.refreshInterval * 1000);
         }
     }, [props.datasource, props.refreshInterval]);
+
+    useEffect(() => {
+        if (props.columns) {
+            exportFromDatagrid.addColumns(props.columns);
+        }
+    }, [props.columns]);
+
+    useEffect(() => {
+        if (props.datasource.items && !exported) {
+            exportFromDatagrid.addItems(props.datasource.items);
+        }
+    }, [props.datasource.items, exported]);
 
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
@@ -127,6 +143,23 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const { selectionStatus, selectionMethod } = selectionSettings(props, selection);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
+
+    const memoLoadDataSource = useCallback(() => {
+        if (props.datasource.hasMoreItems && exported === false) {
+            const newOffset = props.datasource.offset + props.pageSize;
+            props.datasource.setOffset(newOffset);
+        }
+        if (props.datasource.hasMoreItems === false && exported === false) {
+            setTimeout(() => {
+                console.info("no more items available");
+                exportFromDatagrid.export();
+                props.datasource.setOffset(0);
+                setExported(true);
+            }, 50);
+        }
+    }, [props.datasource.hasMoreItems, props.datasource.offset, exported]);
+
+    memoLoadDataSource();
 
     return (
         <Table
