@@ -14,9 +14,9 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
     return (
         <div className="widget-combobox" {...actionEvents}>
             {selector.type === "single" ? (
-                <SingleSelection selector={selector} props={props} />
+                <SingleSelection selector={selector} />
             ) : (
-                <MultiSelection selector={selector} props={props} />
+                <MultiSelection selector={selector} />
             )}
         </div>
     );

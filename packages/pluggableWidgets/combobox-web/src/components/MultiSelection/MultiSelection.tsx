@@ -1,14 +1,14 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, createElement, useRef, ReactElement } from "react";
+import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
+import { MultiSelector } from "src/helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
-import { MultiSelectionProps } from "src/helpers/types";
 
-export function MultiSelection({ props, selector }: MultiSelectionProps): ReactElement {
+export function MultiSelection({ selector }: { selector: MultiSelector }): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const {
@@ -25,9 +25,8 @@ export function MultiSelection({ props, selector }: MultiSelectionProps): ReactE
         setActiveIndex,
         selectedItems,
         items,
-        withCheckbox,
         setSelectedItems
-    } = useDownshiftMultiSelectProps(selector, props.selectionType, props.onChangeEvent, inputRef.current);
+    } = useDownshiftMultiSelectProps(selector, inputRef.current);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -42,7 +41,7 @@ export function MultiSelection({ props, selector }: MultiSelectionProps): ReactE
                 getToggleButtonProps={getToggleButtonProps}
             >
                 <div className="widget-combobox-selected-items">
-                    {!withCheckbox &&
+                    {!selector.withCheckbox &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
                                 <span
@@ -72,7 +71,7 @@ export function MultiSelection({ props, selector }: MultiSelectionProps): ReactE
                             "widget-combobox-input-nofilter": selector.options.filterType === "no"
                         })}
                         tabIndex={0}
-                        placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems, withCheckbox)}
+                        placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems)}
                         {...getInputProps(
                             {
                                 ...getDropdownProps({
@@ -107,7 +106,6 @@ export function MultiSelection({ props, selector }: MultiSelectionProps): ReactE
                 )}
             </ComboboxWrapper>
             <MultiSelectionMenu
-                withCheckbox={withCheckbox}
                 comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
                 isOpen={isOpen}

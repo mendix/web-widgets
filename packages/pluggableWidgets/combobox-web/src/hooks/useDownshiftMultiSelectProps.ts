@@ -1,4 +1,3 @@
-import { executeAction } from "@mendix/pluggable-widgets-commons";
 import {
     UseComboboxProps,
     UseComboboxState,
@@ -6,16 +5,10 @@ import {
     useCombobox,
     useMultipleSelection
 } from "downshift";
-import { ActionValue } from "mendix";
 import { useMemo } from "react";
 import { MultiSelector } from "../helpers/types";
 
-export function useDownshiftMultiSelectProps(
-    selector: MultiSelector,
-    selectionType: string,
-    onChangeEvent: ActionValue | undefined,
-    inputElement: HTMLInputElement | null
-) {
+export function useDownshiftMultiSelectProps(selector: MultiSelector, inputElement: HTMLInputElement | null) {
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -27,7 +20,6 @@ export function useDownshiftMultiSelectProps(
         selectedItems: selector.currentValue ?? [],
         onSelectedItemsChange({ selectedItems }) {
             selector.setValue(selectedItems ?? []);
-            executeAction(onChangeEvent);
         },
 
         onStateChange({ selectedItems: newSelectedItems, type }) {
@@ -45,8 +37,7 @@ export function useDownshiftMultiSelectProps(
     });
     const filteredItems = selector.options?.getAll().filter(option => !selectedItems.includes(option));
 
-    const withCheckbox = selectionType === "checkbox";
-    const items = withCheckbox ? selector.options?.getAll() : filteredItems;
+    const items = selector.withCheckbox ? selector.options?.getAll() : filteredItems;
 
     const {
         isOpen,
@@ -58,15 +49,7 @@ export function useDownshiftMultiSelectProps(
         getItemProps,
         inputValue
     } = useCombobox(
-        useComboboxProps(
-            selector,
-            selectedItems,
-            inputElement,
-            items,
-            withCheckbox,
-            removeSelectedItem,
-            setSelectedItems
-        )
+        useComboboxProps(selector, selectedItems, inputElement, items, removeSelectedItem, setSelectedItems)
     );
 
     return {
@@ -84,7 +67,6 @@ export function useDownshiftMultiSelectProps(
         setActiveIndex,
         selectedItems,
         items,
-        withCheckbox,
         setSelectedItems
     };
 }
@@ -94,7 +76,6 @@ function useComboboxProps(
     selectedItems: string[],
     inputElement: HTMLInputElement | null,
     items: string[],
-    withCheckbox: boolean,
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void
 ): UseComboboxProps<string> {
@@ -122,7 +103,7 @@ function useComboboxProps(
                         return {
                             ...changes,
                             ...(changes.selectedItem && { isOpen: true, inputValue: "" }),
-                            ...(withCheckbox &&
+                            ...(selector.withCheckbox &&
                                 changes.selectedItem && { highlightedIndex: items.indexOf(changes.selectedItem) })
                         };
                     default:
@@ -144,5 +125,5 @@ function useComboboxProps(
                 }
             }
         };
-    }, [selector, selectedItems, items, withCheckbox, inputElement, selector.currentValue]);
+    }, [selector, selectedItems, items, inputElement, selector.currentValue]);
 }

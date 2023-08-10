@@ -1,9 +1,10 @@
-import { ObjectItem, ReferenceValue, ReferenceSetValue } from "mendix";
+import { ObjectItem, ReferenceValue, ReferenceSetValue, ActionValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";
@@ -15,6 +16,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     protected _attr: R | undefined;
 
     private _valuesMap: Map<string, ObjectItem> = new Map();
+    private onChangeEvent?: ActionValue;
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
@@ -22,7 +24,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const [attr, ds, captionProvider, emptyOption, clearable, filterType] = extractAssociationProps({ props });
+        const [attr, ds, captionProvider, emptyOption, clearable, filterType, onChangeEvent] =
+            extractAssociationProps(props);
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
@@ -50,9 +53,13 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
 
             return;
         }
-
         this.clearable = clearable;
         this.status = attr.status;
         this.readOnly = attr.readOnly;
+        this.onChangeEvent = onChangeEvent;
+    }
+
+    setValue(_value: T | null): void {
+        executeAction(this.onChangeEvent);
     }
 }

@@ -9,19 +9,13 @@ import {
 
 import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { ActionValue } from "mendix";
 
-export function useDownshiftSingleSelectProps(
-    selector: SingleSelector,
-    onChangeEvent?: ActionValue
-): UseComboboxReturnValue<string> {
+export function useDownshiftSingleSelectProps(selector: SingleSelector): UseComboboxReturnValue<string> {
     const downshiftProps: UseComboboxProps<string> = useMemo(() => {
         return {
             items: [],
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
-                executeAction(onChangeEvent);
                 selector.setValue(selectedItem ?? null);
             },
             onInputValueChange({ inputValue }) {
@@ -32,7 +26,6 @@ export function useDownshiftSingleSelectProps(
             initialInputValue: selector.caption.get(selector.currentValue),
             stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
-                console.log(type);
 
                 switch (type) {
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
@@ -70,7 +63,7 @@ export function useDownshiftSingleSelectProps(
                 }
             }
         };
-    }, [selector, onChangeEvent]);
+    }, [selector]);
 
     return useCombobox({
         ...downshiftProps,

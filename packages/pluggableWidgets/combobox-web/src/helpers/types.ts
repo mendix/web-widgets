@@ -30,16 +30,6 @@ export interface OptionsProvider<T = unknown, P = {}> {
     _valueToOption(value: T | undefined): string | null;
 }
 
-export interface SingleSelectionProps {
-    props: ComboboxContainerProps;
-    selector: SingleSelector;
-}
-
-export interface MultiSelectionProps {
-    props: ComboboxContainerProps;
-    selector: MultiSelector;
-}
-
 export interface SingleSelector {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
@@ -62,6 +52,7 @@ export interface MultiSelector {
     status: Status;
     type: "multi";
     readOnly: boolean;
+    withCheckbox: boolean;
 
     // options related
     options: OptionsProvider;

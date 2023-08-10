@@ -10,7 +10,6 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     highlightedIndex: number | null;
     comboboxSize: DOMRect | undefined;
     selector: MultiSelector;
-    withCheckbox: boolean;
     setSelectedItems: (v: string[]) => void;
 }
 
@@ -22,7 +21,6 @@ export function MultiSelectionMenu({
     comboboxSize,
     selector,
     selectableItems,
-    withCheckbox,
     selectedItems,
     setSelectedItems
 }: MultiSelectionMenuProps): ReactElement {
@@ -48,7 +46,7 @@ export function MultiSelectionMenu({
                                 index
                             })}
                         >
-                            {withCheckbox && (
+                            {selector.withCheckbox && (
                                 <input
                                     tabIndex={-1}
                                     className="widget-combobox-item-checkbox"

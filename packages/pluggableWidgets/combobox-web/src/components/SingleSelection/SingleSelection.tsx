@@ -1,13 +1,13 @@
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { createElement, ReactElement, useRef, Fragment } from "react";
-import { SingleSelectionProps } from "../../helpers/types";
+import { SingleSelector } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
-export function SingleSelection({ props, selector }: SingleSelectionProps): ReactElement {
+export function SingleSelection({ selector }: { selector: SingleSelector }): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const {
         getInputProps,
@@ -18,7 +18,7 @@ export function SingleSelection({ props, selector }: SingleSelectionProps): Reac
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector, props.onChangeEvent);
+    } = useDownshiftSingleSelectProps(selector);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
