@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue where map not centered after automatically zoom into a marker.
+-   We fixed an issue where the map was not centred after automatically zooming into a marker. Now, after zooming, the marker will be put in the centre of the map.
 
 ## [3.2.0] - 2023-06-05
 
