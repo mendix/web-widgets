@@ -8,10 +8,10 @@ import {
 } from "downshift";
 import { ActionValue } from "mendix";
 import { useMemo } from "react";
-import { Selector } from "../helpers/types";
+import { MultiSelector } from "../helpers/types";
 
 export function useDownshiftMultiSelectProps(
-    selector: Selector<string[]>,
+    selector: MultiSelector,
     selectionType: string,
     onChangeEvent: ActionValue | undefined,
     inputElement: HTMLInputElement | null
@@ -43,10 +43,8 @@ export function useDownshiftMultiSelectProps(
             }
         }
     });
-    const filteredItems = useMemo(
-        () => selector.options?.getAll().filter(option => !selectedItems.includes(option)),
-        [selectedItems]
-    );
+    const filteredItems = selector.options?.getAll().filter(option => !selectedItems.includes(option));
+
     const withCheckbox = selectionType === "checkbox";
     const items = withCheckbox ? selector.options?.getAll() : filteredItems;
 
@@ -92,15 +90,15 @@ export function useDownshiftMultiSelectProps(
 }
 
 function useComboboxProps(
-    selector: Selector<string[]>,
+    selector: MultiSelector,
     selectedItems: string[],
     inputElement: HTMLInputElement | null,
     items: string[],
     withCheckbox: boolean,
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void
-) {
-    return useMemo((): UseComboboxProps<string> => {
+): UseComboboxProps<string> {
+    return useMemo(() => {
         return {
             items,
             selectedItem: null,

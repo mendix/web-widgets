@@ -8,7 +8,6 @@ import "../ui/Combobox.scss";
 export function ComboboxPreview(props: Partial<ComboboxPreviewProps>): ReactElement {
     const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
-        // @ts-ignore
         <Downshift>
             {({ getInputProps, isOpen, getToggleButtonProps }) => (
                 <div className="widget-combobox">

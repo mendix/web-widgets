@@ -1,19 +1,14 @@
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { createElement, ReactElement, useRef, Fragment } from "react";
-import { Selector } from "../../helpers/types";
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { SingleSelectionProps } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
-import { useGetSelector } from "../../hooks/useGetSelector";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
-export function SingleSelection(props: ComboboxContainerProps): ReactElement {
+export function SingleSelection({ props, selector }: SingleSelectionProps): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const selector = useGetSelector(props) as Selector<string>;
-
     const {
         getInputProps,
         getToggleButtonProps,
@@ -23,7 +18,7 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector, inputRef.current, props.onChangeEvent);
+    } = useDownshiftSingleSelectProps(selector, props.onChangeEvent);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -42,7 +37,6 @@ export function SingleSelection(props: ComboboxContainerProps): ReactElement {
                         "widget-combobox-input-nofilter": selector.options.filterType === "no"
                     })}
                     tabIndex={0}
-                    ref={inputRef}
                     {...getInputProps(
                         {
                             disabled: selector.readOnly,

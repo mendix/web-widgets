@@ -21,8 +21,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.options = new AssociationOptionsProvider(this.caption, this._valuesMap);
     }
 
-    updateProps(props: ComboboxContainerProps) {
-        const [attr, ds, captionProvider, emptyOption, clearable, filterType] = extractAssociationProps(props);
+    updateProps(props: ComboboxContainerProps): void {
+        const [attr, ds, captionProvider, emptyOption, clearable, filterType] = extractAssociationProps({ props });
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,

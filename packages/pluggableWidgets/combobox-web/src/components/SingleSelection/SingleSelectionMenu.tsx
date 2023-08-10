@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { PropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
-import { Selector } from "../../helpers/types";
+import { SingleSelector } from "../../helpers/types";
 
 interface ComboboxMenuProps extends Partial<PropGetters<any>> {
     comboboxSize: DOMRect | undefined;
     isOpen: boolean;
-    selector: Selector<string>;
+    selector: SingleSelector;
     highlightedIndex: number | null;
     selectedItem?: string | null;
 }

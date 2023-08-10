@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift";
 import { ReactElement, createElement } from "react";
-import { Selector } from "../../helpers/types";
+import { MultiSelector } from "../../helpers/types";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     isOpen: boolean;
@@ -9,7 +9,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     selectedItems: string[];
     highlightedIndex: number | null;
     comboboxSize: DOMRect | undefined;
-    selector: Selector<string[]>;
+    selector: MultiSelector;
     withCheckbox: boolean;
     setSelectedItems: (v: string[]) => void;
 }

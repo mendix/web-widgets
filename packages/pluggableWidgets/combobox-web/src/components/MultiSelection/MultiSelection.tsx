@@ -1,19 +1,16 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, createElement, useRef } from "react";
-import { ComboboxContainerProps } from "typings/ComboboxProps";
+import { Fragment, KeyboardEvent, createElement, useRef, ReactElement } from "react";
 import { ClearButton } from "../../assets/icons";
-import { Selector } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
-import { useGetSelector } from "../../hooks/useGetSelector";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
+import { MultiSelectionProps } from "src/helpers/types";
 
-export function MultiSelection(props: ComboboxContainerProps) {
+export function MultiSelection({ props, selector }: MultiSelectionProps): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const selector = useGetSelector(props) as Selector<string[]>;
     const {
         isOpen,
         getToggleButtonProps,
@@ -101,7 +98,6 @@ export function MultiSelection(props: ComboboxContainerProps) {
                         onClick={e => {
                             e.stopPropagation();
                             if (selectedItems.length > 0) {
-                                selector.setValue(null);
                                 setSelectedItems([]);
                             }
                         }}

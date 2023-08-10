@@ -1,11 +1,11 @@
 import { ReferenceSetValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
-import { Selector } from "../types";
+import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
 
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
-    implements Selector<string[]>
+    implements MultiSelector
 {
     type = "multi" as const;
     updateProps(props: ComboboxContainerProps): void {

@@ -1,6 +1,6 @@
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 
-export function extractAssociationProps(props: ComboboxContainerProps) {
+export function extractAssociationProps({ props }: { props: ComboboxContainerProps }) {
     const type = props.attributeAssociation?.type;
     const attr = props.attributeAssociation;
     const filterType = props.filterType;

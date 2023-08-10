@@ -1,7 +1,7 @@
-import { Selector } from "./types";
+import { MultiSelector } from "./types";
 
 export function getSelectedCaptionsPlaceholder(
-    selector: Selector<string | string[]>,
+    selector: MultiSelector,
     selectedItems: string[],
     withCheckbox: boolean
 ): string {

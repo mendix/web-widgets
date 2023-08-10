@@ -12,11 +12,13 @@ export interface CaptionsProvider {
 export interface OptionsProvider<T = unknown, P = {}> {
     status: Status;
     filterType: FilterTypeEnum;
+    searchTerm: string;
 
-    getAll(sortType?: FilterTypeEnum): string[];
+    getAll(searchTerm?: string): string[];
 
     // search related
     setSearchTerm(term: string): void;
+    onAfterSearchTermChange(callback: () => void): void;
 
     // lazy loading related
     hasMore: boolean;
@@ -28,22 +30,14 @@ export interface OptionsProvider<T = unknown, P = {}> {
     _valueToOption(value: T | undefined): string | null;
 }
 
-export interface Selector<T> {
-    updateProps(props: ComboboxContainerProps): void;
-    status: Status;
-    type: "single" | "multi";
-    readOnly: boolean;
+export interface SingleSelectionProps {
+    props: ComboboxContainerProps;
+    selector: SingleSelector;
+}
 
-    // options related
-    options: OptionsProvider;
-
-    // caption related
-    caption: CaptionsProvider;
-
-    // value related
-    clearable: boolean;
-    currentValue: T | null;
-    setValue(value: T | null): void;
+export interface MultiSelectionProps {
+    props: ComboboxContainerProps;
+    selector: MultiSelector;
 }
 
 export interface SingleSelector {

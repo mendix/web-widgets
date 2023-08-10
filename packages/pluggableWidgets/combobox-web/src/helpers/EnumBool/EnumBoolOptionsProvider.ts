@@ -8,9 +8,10 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
 {
     status: Status = "available";
     private isBoolean = false;
-    private searchTerm = "";
     private options: string[] = [];
+    private trigger?: () => void;
 
+    searchTerm = "";
     filterType: FilterTypeEnum = "contains";
     hasMore = false;
 
@@ -18,6 +19,9 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
 
     loadMore(): void {
         return undefined;
+    }
+    onAfterSearchTermChange(callback: () => void): void {
+        this.trigger = callback;
     }
 
     _updateProps(props: { attribute: EditableValue<string | boolean>; filterType: FilterTypeEnum }): void {
@@ -60,5 +64,6 @@ export class EnumBoolOptionsProvider<T extends boolean | string>
 
     setSearchTerm(term: string): void {
         this.searchTerm = term;
+        this.trigger?.();
     }
 }

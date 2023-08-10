@@ -10,9 +10,10 @@ interface Props {
 }
 
 export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, Props> {
-    private searchTerm = "";
     private options: string[] = [];
     private ds?: ListValue;
+    private trigger?: () => void;
+    searchTerm = "";
     filterType: FilterTypeEnum = "contains";
 
     constructor(private caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {}
@@ -23,6 +24,10 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
 
     get hasMore(): boolean {
         return this.ds?.hasMoreItems ?? false;
+    }
+
+    onAfterSearchTermChange(callback: () => void): void {
+        this.trigger = callback;
     }
 
     getAll(): string[] {
@@ -50,6 +55,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
 
     setSearchTerm(term: string): void {
         this.searchTerm = term;
+        this.trigger?.();
     }
 
     _optionToValue(value: string | null): ObjectItem | undefined {

@@ -10,7 +10,7 @@ interface EnumAndBooleanSimpleCaptionsProviderProps {
 export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     private attr?: EditableValue<string | boolean>;
     emptyCaption = "";
-    updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps) {
+    updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps): void {
         this.attr = props.attribute;
         if (props.emptyOptionText?.status === "unavailable" || !props.emptyOptionText) {
             this.emptyCaption = "";

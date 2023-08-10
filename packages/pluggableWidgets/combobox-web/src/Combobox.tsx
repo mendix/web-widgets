@@ -5,16 +5,18 @@ import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 
 import "./ui/Combobox.scss";
+import { useGetSelector } from "./hooks/useGetSelector";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const actionEvents = useActionEvents(props);
+    const selector = useGetSelector(props);
 
     return (
         <div className="widget-combobox" {...actionEvents}>
-            {props.attributeAssociation?.type === "ReferenceSet" ? (
-                <MultiSelection {...props} />
+            {selector.type === "single" ? (
+                <SingleSelection selector={selector} props={props} />
             ) : (
-                <SingleSelection {...props} />
+                <MultiSelection selector={selector} props={props} />
             )}
         </div>
     );

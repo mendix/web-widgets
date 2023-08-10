@@ -14,7 +14,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
-    updateProps(props: Props) {
+    updateProps(props: Props): void {
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
             this.emptyCaption = "";
         } else {
