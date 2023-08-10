@@ -176,6 +176,10 @@ function TreeNodeBranch(props: TreeNodeBranchProps): ReactElement {
     );
     const [isActualLeafNode, setIsActualLeafNode] = useState<boolean>(props.isUserDefinedLeafNode || !props.children);
 
+    useEffect(() => {
+        setIsActualLeafNode(props.isUserDefinedLeafNode || !props.children);
+    }, [props.children]);
+
     const informParentOfChildNodes = useCallback<TreeNodeBranchContextProps["informParentOfChildNodes"]>(
         numberOfNodes => {
             if (numberOfNodes !== undefined) {

@@ -142,7 +142,6 @@ exports[`Gallery with pagination renders correctly 1`] = `
     <div
       aria-label="Pagination"
       class="pagination-bar"
-      role="pagination"
     >
       <button
         aria-label="Go to first page"

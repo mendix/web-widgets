@@ -6,6 +6,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.5] DataWidgets - 2023-08-10
+
+### Fixed
+
+-   We fixed an issue where a data grid's border went missing if the Hiding property (found in Column capabilities) was set to No.
+
+### [2.6.0] DatagridDateFilter
+
+#### Changed
+
+-   We changed the DOM Structure for date filter to appear inline with the container in order to make the component more accessible.
+
+### [2.5.0] DatagridDropdownFilter
+
+#### Changed
+
+-   We changed the DOM Structure for dropdown filter to appear inline with the container in order to make the component more accessible.
+
+### [2.8.0] Datagrid
+
+#### Changed
+
+-   We improved accessibility of the Datagrid widget.
+
+-   We changed the DOM Structure for filter options to appear inline with the container in order to make the component more accessible.
+
+#### Fixed
+
+-   We fixed table header sticky position incorrectly overlap with dropdown.
+
+### [1.3.4] Gallery
+
+#### Fixed
+
+-   We improved accessibility of the Gallery widget.
+
+### [1.1.2] TreeNode
+
+#### Fixed
+
+-   We fixed Atlas icon unable to be shown on tree node.
+
+-   We fixed an issue where tree child not directly refreshed after updating the data.
+
 ## [2.8.4] DataWidgets - 2023-07-13
 
 ### [2.7.5] Datagrid

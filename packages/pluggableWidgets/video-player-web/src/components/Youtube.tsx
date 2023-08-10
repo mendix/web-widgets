@@ -55,7 +55,7 @@ export class Youtube extends Component<YoutubeProps> {
         let attributes = "?modestbranding=1&rel=0";
         attributes += "&autoplay=" + (this.props.autoPlay ? "1" : "0");
         attributes += "&controls=" + (this.props.showControls ? "1" : "0");
-        attributes += "&muted=" + (this.props.muted ? "1" : "0");
+        attributes += "&mute=" + (this.props.muted ? "1" : "0");
         attributes += "&loop=" + (this.props.loop ? "1" : "0");
         return attributes;
     }
