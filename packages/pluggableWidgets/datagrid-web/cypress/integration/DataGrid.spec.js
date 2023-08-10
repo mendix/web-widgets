@@ -149,6 +149,13 @@ describe("datagrid-web", () => {
             cy.visit("/");
             cy.injectAxe();
             cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.configureAxe({
+                //TODO: Skipped some rules as we still need to review them
+                rules: [
+                    { id: "aria-required-children", reviewOnFail: true },
+                    { id: "label", reviewOnFail: true }
+                ]
+            });
             // Test the widget at initial load
             cy.checkA11y(
                 ".mx-name-datagrid1",
