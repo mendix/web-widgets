@@ -8,6 +8,18 @@ import { objectItems } from "@mendix/pluggable-test-utils";
 import "@testing-library/jest-dom";
 import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
 
+// you can also pass the mock implementation
+// to jest.fn as an argument
+window.IntersectionObserver = jest.fn(() => ({
+    root: null,
+    rootMargin: "",
+    thresholds: [0, 1],
+    disconnect: jest.fn(),
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    takeRecords: jest.fn()
+}));
+
 describe("Table", () => {
     it("renders the structure correctly", () => {
         const component = render(<Table {...mockTableProps()} />);
@@ -515,6 +527,7 @@ function mockTableProps(): TableProps<ObjectItem> {
         onSelectAll: jest.fn(),
         isSelected: jest.fn(() => false),
         selectionMethod: "none",
-        selectionStatus: undefined
+        selectionStatus: undefined,
+        id: "dg1"
     };
 }

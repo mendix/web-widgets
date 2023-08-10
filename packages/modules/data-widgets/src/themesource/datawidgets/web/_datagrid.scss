@@ -17,6 +17,18 @@ $brand-primary: #264ae5 !default;
 $brand-light: #e6eaff !default;
 $grid-selected-row-background: $brand-light;
 
+.sticky-sentinel {
+    &.container-stuck {
+        & + .table {
+            .th {
+                position: -webkit-sticky; /* Safari */
+                position: sticky;
+                z-index: 50;
+            }
+        }
+    }
+}
+
 .table {
     position: relative;
     border-width: 0;
@@ -46,10 +58,7 @@ $grid-selected-row-background: $brand-light;
         border-width: 0;
         border-color: $grid-border-color;
         padding: $spacing-medium;
-        position: -webkit-sticky; /* Safari */
-        position: sticky;
         top: 0;
-        z-index: 50;
         min-width: 0;
 
         /* Clickable column header (Sortable) */

@@ -2,7 +2,6 @@
 
 exports[`Header renders the structure correctly 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -10,8 +9,10 @@ exports[`Header renders the structure correctly 1`] = `
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -24,7 +25,6 @@ exports[`Header renders the structure correctly 1`] = `
 
 exports[`Header renders the structure correctly when draggable 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -33,8 +33,10 @@ exports[`Header renders the structure correctly when draggable 1`] = `
   <div
     class="column-container"
     draggable="true"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -47,7 +49,6 @@ exports[`Header renders the structure correctly when draggable 1`] = `
 
 exports[`Header renders the structure correctly when filterable with custom classes 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -55,8 +56,10 @@ exports[`Header renders the structure correctly when filterable with custom clas
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header my-custom-class"
     >
       <span>
@@ -69,7 +72,6 @@ exports[`Header renders the structure correctly when filterable with custom clas
 
 exports[`Header renders the structure correctly when filterable with custom filter 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -77,8 +79,10 @@ exports[`Header renders the structure correctly when filterable with custom filt
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -99,7 +103,6 @@ exports[`Header renders the structure correctly when filterable with custom filt
 
 exports[`Header renders the structure correctly when filterable with no custom filter 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -107,8 +110,10 @@ exports[`Header renders the structure correctly when filterable with no custom f
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -121,7 +126,6 @@ exports[`Header renders the structure correctly when filterable with no custom f
 
 exports[`Header renders the structure correctly when is hidden and preview 1`] = `
 <div
-  aria-label="Test"
   class="th hidden-column-preview"
   role="columnheader"
   style="cursor:unset"
@@ -129,8 +133,10 @@ exports[`Header renders the structure correctly when is hidden and preview 1`] =
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -143,7 +149,6 @@ exports[`Header renders the structure correctly when is hidden and preview 1`] =
 
 exports[`Header renders the structure correctly when resizable 1`] = `
 <div
-  aria-label="Test"
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -151,8 +156,10 @@ exports[`Header renders the structure correctly when resizable 1`] = `
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="Test"
       class="column-header"
     >
       <span>
@@ -173,7 +180,6 @@ exports[`Header renders the structure correctly when resizable 1`] = `
 
 exports[`Header renders the structure correctly when sortable 1`] = `
 <div
-  aria-label="Test"
   aria-sort="none"
   class="th"
   role="columnheader"
@@ -181,8 +187,10 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label="sort Test"
       class="column-header clickable"
       role="button"
       tabindex="0"
@@ -212,7 +220,6 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 
 exports[`Header renders the structure correctly when value is empty 1`] = `
 <div
-  aria-label=""
   class="th"
   role="columnheader"
   style="cursor:unset"
@@ -220,8 +227,10 @@ exports[`Header renders the structure correctly when value is empty 1`] = `
 >
   <div
     class="column-container"
+    id="dg1-column1"
   >
     <div
+      aria-label=""
       class="column-header"
     >
       <span>

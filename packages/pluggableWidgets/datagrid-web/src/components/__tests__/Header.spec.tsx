@@ -67,6 +67,7 @@ describe("Header", () => {
     it("calls setSortBy store function with correct parameters when sortable", () => {
         const column = {
             id: "sortable",
+            index: 0,
             header: "My sortable column",
             canSort: true
         } as any;
@@ -80,7 +81,7 @@ describe("Header", () => {
         expect(clickableRegion).toHaveLength(1);
 
         clickableRegion.simulate("click");
-        expect(mockedFunction).toBeCalledWith([{ id: "sortable", desc: false }]);
+        expect(mockedFunction).toBeCalledWith([{ id: "0", desc: false }]);
     });
 
     it("renders the structure correctly when filterable with custom classes", () => {
@@ -116,6 +117,8 @@ describe("Header", () => {
 function mockHeaderProps(): HeaderProps {
     return {
         column: {
+            id: "dg1-column1",
+            index: 0,
             header: "Test"
         } as any,
         draggable: false,

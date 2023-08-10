@@ -21,6 +21,10 @@ exports[`Filter component renders correctly 1`] = `
       </button>
     </div>
   </div>
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />
   <span
     class="sr-only"
     id="undefined-label"
@@ -70,6 +74,10 @@ exports[`Filter component renders correctly when not adjustable by user 1`] = `
   class="filter-container"
   data-focusindex="0"
 >
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />
   <span
     class="sr-only"
     id="undefined-label"
@@ -136,6 +144,10 @@ exports[`Filter component renders correctly with aria labels 1`] = `
       </button>
     </div>
   </div>
+  <div
+    class="date-filter-container"
+    id="datepicker_0.123456789"
+  />
   <span
     class="sr-only"
     id="undefined-label"
