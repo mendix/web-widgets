@@ -31,19 +31,18 @@ export type KeyboardHandlerHook = (keyHandlers: KeyHandlers) => KeyboardEventHan
 export const useKeyboardHandler: KeyboardHandlerHook = keyHandlers => {
     return useCallback(
         event => {
+            if (!itCameFromCurrentTarget(event)) {
+                return;
+            }
             if (isKeyValueToHandle(event.key)) {
-                const handlerName = keyValueToHandlerNameMap[event.key];
-                const handlerFn = keyHandlers[handlerName];
+                const handlerFn = keyHandlers[keyValueToHandlerNameMap[event.key]];
 
                 if (!handlerFn) {
                     return;
                 }
-
-                if (itCameFromCurrentTarget(event)) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    handlerFn(event);
-                }
+                event.stopPropagation();
+                event.preventDefault();
+                handlerFn(event);
             }
         },
         [keyHandlers]
