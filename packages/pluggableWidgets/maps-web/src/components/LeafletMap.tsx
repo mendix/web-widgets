@@ -42,7 +42,7 @@ function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocat
 
     if (bounds.isValid()) {
         if (autoZoom) {
-            map.fitBounds(bounds, { padding: [0.5, 0.5] }).invalidateSize();
+            map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
         } else {
             map.panTo(bounds.getCenter(), { animate: false });
         }

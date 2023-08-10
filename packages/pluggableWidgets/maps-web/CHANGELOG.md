@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where map not centered after automatically zoom into a marker.
+
 ## [3.2.0] - 2023-06-05
 
 ### Changed
