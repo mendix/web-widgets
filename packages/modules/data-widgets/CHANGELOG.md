@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where a data grid's border went missing if the Hiding property (found in Column capabilities) was set to No.
+
 ## [2.8.4] DataWidgets - 2023-07-13
 
 ### [2.7.5] Datagrid
