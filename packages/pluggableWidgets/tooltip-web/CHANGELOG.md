@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.3.2] - 2023-08-10
+
 ### Fixed
 
 -   We fixed an issue where Tooltip not closing on escape key press.
