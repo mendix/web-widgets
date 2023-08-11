@@ -14,12 +14,12 @@ describe("datagrid-web filtering multi select", () => {
         rows().should("have.length", 10 + 1);
         column(2).first().should("have.text", "Black");
         column(2).last().should("have.text", "Blue");
-        enumSelect().click();
+        enumSelect().first().click();
         option("Pink").click();
         rows().should("have.length", 5 + 1);
         option("Blush").click();
         rows().should("have.length", 7 + 1);
-        enumSelect().click();
+        enumSelect().first().click();
         column(2).should("have.text", "PinkPinkPinkBlushBlushPinkPink");
     });
 
@@ -37,12 +37,12 @@ describe("datagrid-web filtering multi select", () => {
         ];
 
         column(3).first().should("have.text", expectedColumnText[0]);
-        roleSelect().click();
+        roleSelect().first().click();
         option("Economist").click();
         rows().should("have.length", 5 + 1);
         option("Public librarian").click();
         rows().should("have.length", 9 + 1);
-        roleSelect().click();
+        roleSelect().first().click();
         column(3).each((cell, index) => {
             expect(cell).to.have.text(expectedColumnText[index]);
         });
@@ -52,12 +52,12 @@ describe("datagrid-web filtering multi select", () => {
         rows().should("have.length", 10 + 1);
         column(4).first().should("have.text", "W.R. Berkley Corporation");
         column(4).last().should("have.text", "PETsMART Inc");
-        companySelect().click();
+        companySelect().first().click();
         option("FMC Corp").click();
         rows().should("have.length", 1 + 1);
         option("ALLETE, Inc.").click();
         rows().should("have.length", 5 + 1);
-        companySelect().click();
+        companySelect().first().click();
         column(4).should("have.text", "ALLETE, Inc.FMC CorpALLETE, Inc.ALLETE, Inc.ALLETE, Inc.");
     });
 });
