@@ -24,6 +24,14 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="openNodeOn" type="enumeration" defaultValue="headerClick">
+                    <caption>Open node when</caption>
+                    <description>Define which part of the node, when clicked, should open or close this node. "Header is clicked" means the whole header is clickable, while "Icon is clicked" means only the icon is used to switch node state.</description>
+                    <enumerationValues>
+                        <enumerationValue key="headerClick">Header is clicked</enumerationValue>
+                        <enumerationValue key="iconClick">Icon is clicked</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="headerContent" type="widgets" dataSource="datasource" required="false">
                     <caption>Header</caption>
                     <description />
