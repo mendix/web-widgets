@@ -1,16 +1,12 @@
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 
 export function extractAssociationProps(props: ComboboxContainerProps) {
-    const type = props.attributeAssociation?.type;
     const attr = props.attributeAssociation;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
 
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'association' but 'attributeAssociation' is not defined.");
-    }
-    if (attr.type !== type) {
-        throw new Error(`'attributeAssociation' type is not '${type}'.`);
     }
 
     const ds = props.optionsSourceAssociationDataSource;

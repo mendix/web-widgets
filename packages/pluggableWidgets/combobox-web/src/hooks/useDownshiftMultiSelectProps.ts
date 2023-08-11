@@ -8,7 +8,7 @@ import {
 import { useMemo } from "react";
 import { MultiSelector } from "../helpers/types";
 
-export function useDownshiftMultiSelectProps(selector: MultiSelector, inputElement: HTMLInputElement | null) {
+export function useDownshiftMultiSelectProps(selector: MultiSelector) {
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -35,9 +35,10 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector, inputEleme
             }
         }
     });
-    const filteredItems = selector.options?.getAll().filter(option => !selectedItems.includes(option));
 
-    const items = selector.withCheckbox ? selector.options?.getAll() : filteredItems;
+    const items = selector.withCheckbox
+        ? selector.options.getAll()
+        : selector.options.getAll().filter(option => !selectedItems.includes(option));
 
     const {
         isOpen,
@@ -48,9 +49,7 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector, inputEleme
         highlightedIndex,
         getItemProps,
         inputValue
-    } = useCombobox(
-        useComboboxProps(selector, selectedItems, inputElement, items, removeSelectedItem, setSelectedItems)
-    );
+    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems));
 
     return {
         isOpen,
@@ -74,7 +73,6 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector, inputEleme
 function useComboboxProps(
     selector: MultiSelector,
     selectedItems: string[],
-    inputElement: HTMLInputElement | null,
     items: string[],
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void
@@ -125,5 +123,5 @@ function useComboboxProps(
                 }
             }
         };
-    }, [selector, selectedItems, items, inputElement, selector.currentValue]);
+    }, [selector, selectedItems, items, selector.currentValue]);
 }

@@ -10,7 +10,6 @@ import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
 export function MultiSelection({ selector }: { selector: MultiSelector }): ReactElement {
     const comboboxRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
     const {
         isOpen,
         getToggleButtonProps,
@@ -26,7 +25,7 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
         selectedItems,
         items,
         setSelectedItems
-    } = useDownshiftMultiSelectProps(selector, inputRef.current);
+    } = useDownshiftMultiSelectProps(selector);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;
@@ -66,7 +65,6 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
                             );
                         })}
                     <input
-                        ref={inputRef}
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter": selector.options.filterType === "no"
                         })}

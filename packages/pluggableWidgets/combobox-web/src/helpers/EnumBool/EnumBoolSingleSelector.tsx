@@ -11,11 +11,11 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     type = "single" as const;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
+    private onChangeEvent?: ActionValue;
 
     currentValue: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
-    onChangeEvent?: ActionValue;
     clearable = true;
     readOnly = false;
 

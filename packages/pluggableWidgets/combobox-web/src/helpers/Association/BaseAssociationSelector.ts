@@ -14,9 +14,9 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
     protected _attr: R | undefined;
+    private onChangeEvent?: ActionValue;
 
     private _valuesMap: Map<string, ObjectItem> = new Map();
-    private onChangeEvent?: ActionValue;
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);

@@ -12,7 +12,7 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     emptyCaption = "";
     updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps): void {
         this.attr = props.attribute;
-        if (props.emptyOptionText?.status === "unavailable" || !props.emptyOptionText) {
+        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
             this.emptyCaption = "";
         } else {
             this.emptyCaption = props.emptyOptionText.value!;

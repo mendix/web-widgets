@@ -29,9 +29,7 @@ export function MultiSelectionMenu({
     return (
         <div
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            style={{
-                width: comboboxSize?.width
-            }}
+            style={{ width: comboboxSize?.width }}
         >
             <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen &&

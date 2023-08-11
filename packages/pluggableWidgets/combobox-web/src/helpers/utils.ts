@@ -10,5 +10,5 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
     }
     const selectedItemCaption = selectedItems.map(v => selector.caption.get(v));
 
-    return selectedItemCaption.join();
+    return selectedItemCaption.join(", ");
 }

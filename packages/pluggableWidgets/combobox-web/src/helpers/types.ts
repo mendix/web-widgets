@@ -14,7 +14,7 @@ export interface OptionsProvider<T = unknown, P = {}> {
     filterType: FilterTypeEnum;
     searchTerm: string;
 
-    getAll(searchTerm?: string): string[];
+    getAll(): string[];
 
     // search related
     setSearchTerm(term: string): void;
