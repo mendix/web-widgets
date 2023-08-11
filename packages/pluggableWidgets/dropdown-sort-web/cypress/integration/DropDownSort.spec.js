@@ -49,7 +49,8 @@ describe("a11y testing:", () => {
                 { id: "aria-roles", reviewOnFail: true },
                 { id: "button-name", reviewOnFail: true },
                 { id: "duplicate-id-active", reviewOnFail: true },
-                { id: "duplicate-id", reviewOnFail: true }
+                { id: "duplicate-id", reviewOnFail: true },
+                { id: "aria-allowed-attr", reviewOnFail: true }
             ]
         });
         // Test the widget at initial load
