@@ -79,8 +79,8 @@ export function HeatMap(props: HeatMapContainerProps): ReactElement | null {
                           ...prev,
                           ...curr.map((value, xIndex) =>
                               createHeatMapAnnotation(
-                                  heatmapChartData[0].x[xIndex],
-                                  heatmapChartData[0].y[yIndex],
+                                  heatmapChartData[0].x[xIndex] ?? undefined,
+                                  heatmapChartData[0].y[yIndex] ?? undefined,
                                   value?.toLocaleString() ?? "",
                                   props.valuesColor
                               )

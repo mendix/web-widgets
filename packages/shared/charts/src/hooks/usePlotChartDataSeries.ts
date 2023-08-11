@@ -1,16 +1,17 @@
 import Big from "big.js";
-import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttributeValue, ActionValue } from "mendix";
+import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttributeValue, ListActionValue } from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { MendixChartDataProps } from "../components/Chart";
+import { ExtraTraceProps } from "../types";
 
 type PlotChartDataPoints = {
     x: Datum[];
     y: Datum[];
     hovertext: string[] | undefined;
     hoverinfo: PlotData["hoverinfo"];
+    dataSourceItems: ObjectItem[];
     // We want this optional.
     name?: PlotData["name"];
 };
@@ -22,9 +23,9 @@ interface DataSourceItemGroup {
     items: ObjectItem[];
 }
 
-export type PlotChartSeries = PlotChartDataPoints & MendixChartDataProps;
+export type PlotChartSeries = PlotChartDataPoints & ExtraTraceProps;
 
-interface PlotDataSeries {
+export interface PlotDataSeries {
     dataSet: "static" | "dynamic";
     customSeriesOptions: string | undefined;
     groupByAttribute?: ListAttributeValue<string | boolean | Date | Big>;
@@ -36,7 +37,8 @@ interface PlotDataSeries {
     dynamicXAttribute?: ListAttributeValue<Date | Big | string>;
     staticYAttribute?: ListAttributeValue<Date | Big | string>;
     dynamicYAttribute?: ListAttributeValue<Date | Big | string>;
-    onClickAction?: ActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
 }
@@ -63,16 +65,12 @@ export function usePlotChartDataSeries<T extends PlotDataSeries>(
     return chartSeries;
 }
 
-function createActionHandlers({
-    onClickAction
-}: Pick<PlotDataSeries, "onClickAction">): Pick<PlotChartSeries, "onClick"> {
-    return {
-        onClick: onClickAction ? () => executeAction(onClickAction) : undefined
-    };
+function bindListAction(listAction: ListActionValue): (item: ObjectItem) => void {
+    return item => executeAction(listAction.get(item));
 }
 
 function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries | null {
-    const { staticName, dataSet, customSeriesOptions, onClickAction } = series;
+    const { staticName, dataSet, customSeriesOptions, staticOnClickAction: onClickAction } = series;
 
     if (dataSet !== "static") {
         throw Error("Expected series to be static");
@@ -85,7 +83,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
     }
 
     return {
-        ...createActionHandlers({ onClickAction }),
+        ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
         ...mapSerie(series, dataPoints),
         ...dataPoints,
         customSeriesOptions
@@ -93,7 +91,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
 }
 
 function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries[] | null {
-    const { dataSet, customSeriesOptions, onClickAction } = series;
+    const { dataSet, customSeriesOptions, dynamicOnClickAction: onClickAction } = series;
 
     if (dataSet !== "dynamic") {
         throw Error("Expected series to be dynamic");
@@ -114,7 +112,7 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
             }
 
             return {
-                ...createActionHandlers({ onClickAction }),
+                ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
                 ...mapSerie(series, dataPoints),
                 ...dataPoints,
                 customSeriesOptions
@@ -221,11 +219,11 @@ function extractDataPoints(
             series.dataSet === "dynamic" ? series.dynamicTooltipHoverText : series.staticTooltipHoverText;
         hoverTextData.push(tooltipHoverTextSource?.get(item).value);
     }
-
     return {
         ...(seriesName ? { name: seriesName } : {}),
         x: xData,
         y: yData,
+        dataSourceItems,
         hovertext: hoverTextData.some(text => text !== undefined && text !== "")
             ? (hoverTextData as string[])
             : undefined,

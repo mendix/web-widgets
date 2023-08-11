@@ -152,7 +152,11 @@
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Events">
-                            <property key="onClickAction" type="action" required="false">
+                            <property key="staticOnClickAction" type="action" required="false" dataSource="staticDataSource">
+                                <caption>On click action</caption>
+                                <description />
+                            </property>
+                            <property key="dynamicOnClickAction" type="action" required="false" dataSource="dynamicDataSource">
                                 <caption>On click action</caption>
                                 <description />
                             </property>

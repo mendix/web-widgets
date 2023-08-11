@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 import { Big } from "big.js";
 
 export type DataSetEnum = "static" | "dynamic";
@@ -34,7 +34,8 @@ export interface SeriesType {
     lineColor?: DynamicValue<string>;
     markerColor?: DynamicValue<string>;
     fillcolor?: DynamicValue<string>;
-    onClickAction?: ActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     customSeriesOptions: string;
 }
 
@@ -63,7 +64,8 @@ export interface SeriesPreviewType {
     lineColor: string;
     markerColor: string;
     fillcolor: string;
-    onClickAction: {} | null;
+    staticOnClickAction: {} | null;
+    dynamicOnClickAction: {} | null;
     customSeriesOptions: string;
 }
 

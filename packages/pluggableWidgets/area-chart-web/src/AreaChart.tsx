@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback } from "react";
+import { createElement, ReactElement, useCallback, memo } from "react";
 import { AreaChartContainerProps, SeriesType } from "../typings/AreaChartProps";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
+import { ChartWidget, ChartWidgetProps, containerPropsEqual } from "@mendix/shared-charts";
 import { getPlotChartDataTransforms, SeriesMapper, usePlotChartDataSeries } from "@mendix/shared-charts/hooks";
 
 const areaChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
@@ -23,7 +23,9 @@ const areaChartConfigOptions: ChartWidgetProps["configOptions"] = {
 };
 const areaChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 
-export function AreaChart(props: AreaChartContainerProps): ReactElement {
+// disable eslint rule to have nice component name in component tree at devtools
+// eslint-disable-next-line prefer-arrow-callback
+export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps): ReactElement {
     const mapSeries = useCallback<SeriesMapper<SeriesType>>(
         (line, dataPoints) => ({
             type: "scatter",
@@ -66,4 +68,4 @@ export function AreaChart(props: AreaChartContainerProps): ReactElement {
             enableThemeConfig={props.enableThemeConfig}
         />
     );
-}
+}, containerPropsEqual);
