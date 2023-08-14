@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
+import { Fragment, KeyboardEvent, ReactElement, createElement } from "react";
 import { MultiSelector } from "src/helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
@@ -9,7 +9,6 @@ import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
 export function MultiSelection({ selector }: { selector: MultiSelector }): ReactElement {
-    const comboboxRef = useRef<HTMLDivElement>(null);
     const {
         isOpen,
         getToggleButtonProps,
@@ -33,12 +32,7 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
 
     return (
         <Fragment>
-            <ComboboxWrapper
-                ref={comboboxRef}
-                isOpen={isOpen}
-                readOnly={selector.readOnly}
-                getToggleButtonProps={getToggleButtonProps}
-            >
+            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
                 <div className="widget-combobox-selected-items">
                     {!selector.withCheckbox &&
                         selectedItems.map((selectedItemForRender, index) => {
@@ -104,7 +98,6 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
                 )}
             </ComboboxWrapper>
             <MultiSelectionMenu
-                comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}

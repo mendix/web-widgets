@@ -4,22 +4,23 @@ import { createElement, ReactElement } from "react";
 import { SingleSelector } from "../../helpers/types";
 
 interface ComboboxMenuProps extends Partial<PropGetters<any>> {
-    comboboxSize: DOMRect | undefined;
     isOpen: boolean;
     selector: SingleSelector;
     highlightedIndex: number | null;
     selectedItem?: string | null;
 }
 
-export function SingleSelectionMenu(props: ComboboxMenuProps): ReactElement {
-    const { comboboxSize, isOpen, selector, highlightedIndex, getMenuProps, getItemProps } = props;
+export function SingleSelectionMenu({
+    isOpen,
+    selector,
+    highlightedIndex,
+    getMenuProps,
+    getItemProps
+}: ComboboxMenuProps): ReactElement {
     return (
         <ul
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             {...getMenuProps?.({}, { suppressRefError: true })}
-            style={{
-                width: comboboxSize?.width
-            }}
         >
             {isOpen
                 ? selector.options.getAll().map((item, index) => (

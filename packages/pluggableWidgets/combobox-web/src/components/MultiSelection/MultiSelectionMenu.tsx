@@ -8,7 +8,6 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     selectableItems: string[];
     selectedItems: string[];
     highlightedIndex: number | null;
-    comboboxSize: DOMRect | undefined;
     selector: MultiSelector;
     setSelectedItems: (v: string[]) => void;
 }
@@ -18,7 +17,6 @@ export function MultiSelectionMenu({
     getMenuProps,
     getItemProps,
     highlightedIndex,
-    comboboxSize,
     selector,
     selectableItems,
     selectedItems,
@@ -27,10 +25,7 @@ export function MultiSelectionMenu({
     const allSelected = selector.options.getAll().length === selectedItems.length;
     const noneSelected = selectedItems.length < 1;
     return (
-        <div
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            style={{ width: comboboxSize?.width }}
-        >
+        <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
             <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen &&
                     selectableItems.map((item, index) => (

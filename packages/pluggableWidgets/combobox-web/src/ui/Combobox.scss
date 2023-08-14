@@ -11,12 +11,14 @@ $disabled-color: #f8f8f8;
 $disabled-text-color: #6c7180;
 .widget-combobox {
     flex-grow: 1;
+    position: relative;
     transition: color 150ms ease 0s;
     &-menu {
         position: absolute;
         display: inline;
         border-radius: 7px;
         margin: 4px 0 0 0;
+        width: 100%;
         left: unset;
         padding: 0;
         overflow: hidden;

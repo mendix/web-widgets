@@ -12,7 +12,7 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const selector = useGetSelector(props);
 
     return (
-        <div className="widget-combobox" {...actionEvents}>
+        <div className="widget-combobox" id={props.id} tabIndex={props.tabIndex} {...actionEvents}>
             {selector.type === "single" ? (
                 <SingleSelection selector={selector} />
             ) : (

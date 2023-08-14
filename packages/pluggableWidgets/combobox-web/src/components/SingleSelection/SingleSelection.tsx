@@ -1,5 +1,5 @@
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { createElement, ReactElement, useRef, Fragment } from "react";
+import { createElement, ReactElement, Fragment } from "react";
 import { SingleSelector } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
@@ -8,7 +8,6 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
 export function SingleSelection({ selector }: { selector: SingleSelector }): ReactElement {
-    const comboboxRef = useRef<HTMLDivElement>(null);
     const {
         getInputProps,
         getToggleButtonProps,
@@ -26,12 +25,7 @@ export function SingleSelection({ selector }: { selector: SingleSelector }): Rea
 
     return (
         <Fragment>
-            <ComboboxWrapper
-                ref={comboboxRef}
-                isOpen={isOpen}
-                readOnly={selector.readOnly}
-                getToggleButtonProps={getToggleButtonProps}
-            >
+            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
                 <input
                     className={classNames("widget-combobox-input", {
                         "widget-combobox-input-nofilter": selector.options.filterType === "no"
@@ -62,7 +56,6 @@ export function SingleSelection({ selector }: { selector: SingleSelector }): Rea
                 )}
             </ComboboxWrapper>
             <SingleSelectionMenu
-                comboboxSize={comboboxRef.current?.getBoundingClientRect()}
                 selector={selector}
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
