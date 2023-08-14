@@ -1,3 +1,20 @@
+function terminalLog(violations) {
+    cy.task(
+        "log",
+        `${violations.length} accessibility violation${violations.length === 1 ? "" : "s"} ${
+            violations.length === 1 ? "was" : "were"
+        } detected`
+    );
+    // pluck specific keys to keep the table readable
+    const violationData = violations.map(({ id, impact, description, nodes }) => ({
+        id,
+        impact,
+        description,
+        nodes: nodes.length
+    }));
+
+    cy.task("table", violationData);
+}
 describe("datagrid-web", () => {
     const browserName = Cypress.browser.name;
 
@@ -40,6 +57,31 @@ describe("datagrid-web", () => {
             cy.get(".mx-name-dgMultiSelectionRowClick").compareSnapshot(
                 `datagridMultiSelectionRowClick-${browserName}`,
                 0.1
+            );
+        });
+    });
+    describe("a11y testing:", () => {
+        it("checks accessibility violations", () => {
+            cy.visit("/p/multi-selection");
+            cy.injectAxe();
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.configureAxe({
+                //TODO: Skipped some rules as we still need to review them
+                rules: [
+                    { id: "aria-required-children", reviewOnFail: true },
+                    { id: "label", reviewOnFail: true }
+                ]
+            });
+            // Test the widget at initial load
+            cy.checkA11y(
+                ".mx-name-dgMultiSelectionCheckbox",
+                {
+                    runOnly: {
+                        type: "tag",
+                        values: ["wcag2a"]
+                    }
+                },
+                terminalLog
             );
         });
     });

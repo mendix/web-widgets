@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 import { Big } from "big.js";
 
 export type DataSetEnum = "static" | "dynamic";
@@ -30,7 +30,8 @@ export interface LinesType {
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
     markerColor?: DynamicValue<string>;
-    onClickAction?: ActionValue;
+    staticOnClickAction?: ListActionValue;
+    dynamicOnClickAction?: ListActionValue;
     customSeriesOptions: string;
 }
 
@@ -59,7 +60,8 @@ export interface LinesPreviewType {
     staticTooltipHoverText: string;
     dynamicTooltipHoverText: string;
     markerColor: string;
-    onClickAction: {} | null;
+    staticOnClickAction: {} | null;
+    dynamicOnClickAction: {} | null;
     customSeriesOptions: string;
 }
 

@@ -43,13 +43,12 @@ function invertCompareValue(compareValue: number): number {
     return 0 - compareValue;
 }
 
-type HeatMapHookData = [
-    ChartWidgetProps["data"][number] & {
-        x: Array<string | undefined>;
-        y: Array<string | undefined>;
-        z: Array<Array<number | null>>;
-    }
-];
+type HeatMapPlotData = ChartWidgetProps["data"][number] & {
+    x: Array<string | null>;
+    y: Array<string | null>;
+    z: Array<Array<number | null>>;
+};
+type HeatMapHookData = [HeatMapPlotData];
 
 export const useHeatMapDataSeries = ({
     customSeriesOptions,
@@ -146,10 +145,11 @@ export const useHeatMapDataSeries = ({
                 hovertext: hoverTextValues,
                 onClick,
                 showscale: showScale,
-                x: horizontalValues.map(value => value?.toLocaleString()),
-                y: verticalValues.map(value => value?.toLocaleString()),
+                x: horizontalValues.map(value => value?.toLocaleString() ?? null),
+                y: verticalValues.map(value => value?.toLocaleString() ?? null),
                 z: heatmapValues,
-                zsmooth: smoothColor ? "best" : false
+                zsmooth: smoothColor ? "best" : false,
+                dataSourceItems: []
             }
         ];
     }, [

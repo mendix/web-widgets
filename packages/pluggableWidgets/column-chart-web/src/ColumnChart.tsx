@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback, useMemo } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
+import { createElement, ReactElement, useCallback, useMemo, memo } from "react";
+import { ChartWidget, ChartWidgetProps, containerPropsEqual } from "@mendix/shared-charts";
 import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/hooks";
 import { ColumnChartContainerProps } from "../typings/ColumnChartProps";
 
@@ -29,7 +29,9 @@ const columnChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
     orientation: "v"
 };
 
-export function ColumnChart(props: ColumnChartContainerProps): ReactElement | null {
+// disable eslint rule to have nice component name in component tree at devtools
+// eslint-disable-next-line prefer-arrow-callback
+export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainerProps): ReactElement | null {
     const layoutOptions = useMemo(
         () => ({
             ...columnChartLayoutOptions,
@@ -73,4 +75,4 @@ export function ColumnChart(props: ColumnChartContainerProps): ReactElement | nu
             enableThemeConfig={props.enableThemeConfig}
         />
     );
-}
+}, containerPropsEqual);
