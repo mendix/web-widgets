@@ -127,6 +127,9 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     let runtimeContainerId = "";
     for (let attempts = 100; attempts > 0; --attempts) {
         runtimeContainerId = getContainerId(containerLabel);
+        if (runtimeContainerId) {
+            break;
+        }
     }
 
     if (runtimeContainerId === "") {
