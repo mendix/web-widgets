@@ -108,7 +108,7 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     const args = [
         `run`,
         `--tty`,
-        [`--workdir`, `/source]`],
+        [`--workdir`, `/source`],
         [`--publish`, `${freePort}:8080`],
         [`--env`, `MENDIX_VERSION=${mendixVersion}`],
         [`--entrypoint`, `/bin/bash`],
