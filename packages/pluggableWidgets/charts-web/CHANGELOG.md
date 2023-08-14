@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking changes
 
--   This version includes XML changes in some of the widgets, which means that you may notice that after updating your widget, these settings lost their configured value: `Line color` (Line chart), `Marker color` (Line chart), `On click action` (all widgets except Pie chart and Heat map).
+-   After updating the widget(s) to this version, a few properties will lose their configured values. The following properties should be reconfigured manually (if they were configured before): `Line color` (Line chart), `Marker color` (Line chart), `On click action` (all widgets except Pie chart and Heat map).
 
 ## [4.1.0] Charts - 2023-06-06
 
