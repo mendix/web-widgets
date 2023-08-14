@@ -8,6 +8,7 @@ import {
 } from "@mendix/pluggable-widgets-commons";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
+import { ListExpressionValue } from "mendix";
 import { LineChart } from "../LineChart";
 import { LinesType } from "../../typings/LineChartProps";
 
@@ -60,7 +61,7 @@ describe("The LineChart widget", () => {
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const lineChart = renderLineChart([{ lineColor: dynamicValue("red") }, { lineColor: undefined }]);
+        const lineChart = renderLineChart([{ staticLineColor: exp("red") }, { staticLineColor: undefined }]);
         const data = lineChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("line.color", "red");
@@ -68,7 +69,7 @@ describe("The LineChart widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const lineChart = renderLineChart([{ markerColor: undefined }, { markerColor: dynamicValue("blue") }]);
+        const lineChart = renderLineChart([{ staticMarkerColor: undefined }, { staticMarkerColor: exp("blue") }]);
         const data = lineChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", undefined);
@@ -115,10 +116,14 @@ function setupBasicSeries(overwriteConfig: Partial<LinesType>): LinesType {
         aggregationType: overwriteConfig.aggregationType ?? "avg",
         interpolation: overwriteConfig.interpolation ?? "linear",
         lineStyle: overwriteConfig.lineStyle ?? "line",
-        lineColor: overwriteConfig.lineColor ?? undefined,
-        markerColor: overwriteConfig.markerColor ?? undefined,
+        staticLineColor: overwriteConfig.staticLineColor ?? undefined,
+        staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
         staticDataSource: ListValueBuilder().simple(),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute
     };
+}
+
+function exp(value: string): ListExpressionValue<string> {
+    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

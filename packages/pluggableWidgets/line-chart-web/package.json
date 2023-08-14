@@ -22,7 +22,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "line-chart-web"
+    "branchName": "line-chart-web-3.1.1"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {

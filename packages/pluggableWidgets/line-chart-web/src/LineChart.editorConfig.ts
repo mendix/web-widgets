@@ -42,7 +42,10 @@ export function getProperties(
         }
         // Line styles
         if (line.lineStyle !== "lineWithMarkers") {
-            hideNestedPropertiesIn(defaultProperties, values, "lines", index, ["markerColor"]);
+            hideNestedPropertiesIn(defaultProperties, values, "lines", index, [
+                "staticMarkerColor",
+                "dynamicMarkerColor"
+            ]);
         }
         if (!values.enableAdvancedOptions && platform === "web") {
             hidePropertyIn(defaultProperties, values, "lines", index, "customSeriesOptions");
@@ -72,7 +75,7 @@ export function getPreview(values: LineChartPreviewProps, isDarkMode: boolean): 
         light: { structure: LineChartLight, legend: LineChartLegendLight }
     };
 
-    const getImage = (type: "structure" | "legend") => {
+    const getImage = (type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[colorMode][type];
     };

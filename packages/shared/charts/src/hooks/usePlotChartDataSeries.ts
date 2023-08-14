@@ -1,10 +1,21 @@
 import Big from "big.js";
-import { ObjectItem, DynamicValue, ListValue, ListExpressionValue, ListAttributeValue, ListActionValue } from "mendix";
+import {
+    ObjectItem,
+    DynamicValue,
+    ListValue,
+    ListExpressionValue,
+    ListAttributeValue,
+    ListActionValue,
+    EditableValue
+} from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { Datum, PlotData } from "plotly.js";
 import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { ExtraTraceProps } from "../types";
+
+// Use "value" prop on EditableValue to extract AttributeValue, as AttributeValue not exported.
+type AttributeValue = EditableValue["value"];
 
 type PlotChartDataPoints = {
     x: Datum[];
@@ -43,7 +54,14 @@ export interface PlotDataSeries {
     dynamicTooltipHoverText?: ListExpressionValue<string>;
 }
 
-export type SeriesMapper<T> = (serie: T, dataPoints: PlotChartDataPoints) => Partial<PlotData>;
+type MapperHelpers = {
+    getExpressionValue<T extends AttributeValue = AttributeValue>(
+        attribute: ListExpressionValue<T>,
+        items: ObjectItem[]
+    ): DynamicValue<T>["value"];
+};
+
+export type SeriesMapper<T> = (serie: T, dataPoints: PlotChartDataPoints, helpers: MapperHelpers) => Partial<PlotData>;
 
 export function usePlotChartDataSeries<T extends PlotDataSeries>(
     series: T[],
@@ -84,7 +102,7 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
 
     return {
         ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-        ...mapSerie(series, dataPoints),
+        ...mapSerie(series, dataPoints, mapperHelpers),
         ...dataPoints,
         customSeriesOptions
     };
@@ -113,7 +131,7 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
 
             return {
                 ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-                ...mapSerie(series, dataPoints),
+                ...mapSerie(series, dataPoints, mapperHelpers),
                 ...dataPoints,
                 customSeriesOptions
             };
@@ -261,3 +279,18 @@ export function getPlotChartDataTransforms(
         }
     ];
 }
+
+export const mapperHelpers: MapperHelpers = {
+    // NOTE: For now ignore explicit "return undefined" statements. They exist just to make TS happy.
+    getExpressionValue(attr, items) {
+        for (const item of items) {
+            const dynamicValue = attr.get(item);
+            if (dynamicValue.status !== "available") {
+                return undefined;
+            } else {
+                return dynamicValue.value;
+            }
+        }
+        return undefined;
+    }
+};
