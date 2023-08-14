@@ -4,6 +4,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
 <div>
   <div
     class="widget-combobox"
+    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container widget-combobox-input-container-active"
@@ -68,7 +69,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
     </div>
     <div
       class="widget-combobox-menu"
-      style="width: 0px;"
     >
       <ul
         aria-labelledby="downshift-14-label"
@@ -165,6 +165,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     class="widget-combobox"
+    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container"

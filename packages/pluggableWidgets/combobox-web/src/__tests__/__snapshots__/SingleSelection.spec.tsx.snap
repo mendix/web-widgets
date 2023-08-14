@@ -4,6 +4,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     class="widget-combobox"
+    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container"
