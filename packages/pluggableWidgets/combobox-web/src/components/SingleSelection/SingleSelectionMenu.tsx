@@ -29,7 +29,7 @@ export function SingleSelectionMenu({
                               "widget-combobox-item-selected": selector.currentValue === item,
                               "widget-combobox-item-highlighted": highlightedIndex === index
                           })}
-                          key={JSON.stringify(item)}
+                          key={item}
                           {...getItemProps?.({
                               key: item,
                               index,
