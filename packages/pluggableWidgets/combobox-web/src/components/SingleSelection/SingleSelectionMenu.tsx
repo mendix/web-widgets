@@ -31,7 +31,6 @@ export function SingleSelectionMenu({
                           })}
                           key={item}
                           {...getItemProps?.({
-                              key: item,
                               index,
                               item
                           })}
