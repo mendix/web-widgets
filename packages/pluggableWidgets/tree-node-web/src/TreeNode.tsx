@@ -1,13 +1,14 @@
 import { createElement, ReactElement } from "react";
 import { ObjectItem, ValueStatus } from "mendix";
 import { TreeNodeContainerProps } from "../typings/TreeNodeProps";
-import { TreeNode as TreeNodeComponent, TreeNodeObject } from "./components/TreeNode";
+import { TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";
 
-function mapDataSourceItemToTreeNodeObject(item: ObjectItem, props: TreeNodeContainerProps): TreeNodeObject {
+function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContainerProps): TreeNodeItem {
     return {
         id: item.id,
-        value: props.headerType === "text" ? props.headerCaption?.get(item).value : props.headerContent?.get(item),
-        content: props.children?.get(item)
+        headerContent:
+            props.headerType === "text" ? props.headerCaption?.get(item).value : props.headerContent?.get(item),
+        bodyContent: props.children?.get(item)
     };
 }
 
@@ -15,7 +16,7 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
     // TODO: Handle async states more gracefully?
     const items =
         props.datasource.status === ValueStatus.Available
-            ? props.datasource.items?.map(item => mapDataSourceItemToTreeNodeObject(item, props)) ?? []
+            ? props.datasource.items?.map(item => mapDataSourceItemToTreeNodeItem(item, props)) ?? []
             : null;
 
     const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
@@ -35,6 +36,7 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
             tabIndex={props.tabIndex}
             animateIcon={props.animate && props.animateIcon}
             animateTreeNodeContent={props.animate}
+            openNodeOn={props.openNodeOn}
         />
     );
 }

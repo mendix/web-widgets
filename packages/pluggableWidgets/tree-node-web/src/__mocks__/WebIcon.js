@@ -7,7 +7,6 @@ module.exports = {
                 return createElement("span", { className: "glyphicon " + icon?.iconClass });
             }
             if (icon?.type === "image") {
-                console.log(icon.iconUrl, "iconUrl");
                 return createElement("img", { src: icon.iconUrl });
             }
             if (icon?.type === "icon") {
