@@ -187,7 +187,7 @@ export function check(props: TreeNodePreviewProps): Problem[] {
         errors.push({
             property: "openNodeOn",
             message:
-                'The header icon is required to be visible when "Open node on" set to "Icon is clicked". Right now, the "Show icon" is set to "No".'
+                'The header icon is required to be visible when "Open node on" is set to "Icon is clicked". Right now, the "Show icon" is set to "No".'
         });
     }
 

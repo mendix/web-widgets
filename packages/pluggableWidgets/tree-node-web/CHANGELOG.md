@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking changes
 
--   We changed the widget HTML. As a result, some CSS selectors may be affected. Please check your custom stylus (if used) after updating to this version.
+-   We changed the widget HTML. As a result, some CSS selectors may be affected. Please check your custom styles (if used) after updating to this version.
 
 ### Added
 
