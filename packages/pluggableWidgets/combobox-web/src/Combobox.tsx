@@ -12,11 +12,11 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const selector = useGetSelector(props);
 
     return (
-        <div className="widget-combobox" id={props.id} tabIndex={props.tabIndex} {...actionEvents}>
+        <div className="widget-combobox" id={props.id} {...actionEvents}>
             {selector.type === "single" ? (
-                <SingleSelection selector={selector} />
+                <SingleSelection selector={selector} tabIndex={props.tabIndex!} />
             ) : (
-                <MultiSelection selector={selector} />
+                <MultiSelection selector={selector} tabIndex={props.tabIndex!} />
             )}
         </div>
     );

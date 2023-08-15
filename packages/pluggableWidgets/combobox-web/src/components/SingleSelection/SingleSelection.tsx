@@ -7,7 +7,13 @@ import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
-export function SingleSelection({ selector }: { selector: SingleSelector }): ReactElement {
+export function SingleSelection({
+    selector,
+    tabIndex = 0
+}: {
+    selector: SingleSelector;
+    tabIndex: number;
+}): ReactElement {
     const {
         getInputProps,
         getToggleButtonProps,
@@ -30,7 +36,7 @@ export function SingleSelection({ selector }: { selector: SingleSelector }): Rea
                     className={classNames("widget-combobox-input", {
                         "widget-combobox-input-nofilter": selector.options.filterType === "no"
                     })}
-                    tabIndex={0}
+                    tabIndex={tabIndex}
                     {...getInputProps(
                         {
                             disabled: selector.readOnly,
@@ -42,6 +48,7 @@ export function SingleSelection({ selector }: { selector: SingleSelector }): Rea
                 />
                 {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
+                        tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
                         onClick={e => {
                             e.stopPropagation();

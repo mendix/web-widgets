@@ -26,14 +26,14 @@ export function MultiSelectionMenu({
     const noneSelected = selectedItems.length < 1;
     return (
         <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
-            <ul style={{ padding: 0 }} {...getMenuProps?.({}, { suppressRefError: true })}>
+            <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen &&
                     selectableItems.map((item, index) => (
                         <li
                             className={classNames("widget-combobox-item", {
                                 "widget-combobox-item-highlighted": highlightedIndex === index
                             })}
-                            key={`${item}${index}`}
+                            key={item}
                             {...getItemProps?.({
                                 item,
                                 index

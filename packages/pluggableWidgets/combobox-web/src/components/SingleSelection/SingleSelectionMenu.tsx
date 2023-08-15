@@ -31,7 +31,7 @@ export function SingleSelectionMenu({
                           })}
                           key={JSON.stringify(item)}
                           {...getItemProps?.({
-                              key: JSON.stringify(item),
+                              key: item,
                               index,
                               item
                           })}

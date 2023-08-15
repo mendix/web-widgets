@@ -8,7 +8,7 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-export function MultiSelection({ selector }: { selector: MultiSelector }): ReactElement {
+export function MultiSelection({ selector, tabIndex }: { selector: MultiSelector; tabIndex: number }): ReactElement {
     const {
         isOpen,
         getToggleButtonProps,
@@ -39,7 +39,7 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
                             return (
                                 <span
                                     className="widget-combobox-selected-item"
-                                    key={`selected-item-${index}`}
+                                    key={`selected-item-${selector.caption.get(selectedItemForRender)}`}
                                     {...getSelectedItemProps({
                                         selectedItem: selectedItemForRender,
                                         index
@@ -62,7 +62,7 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter": selector.options.filterType === "no"
                         })}
-                        tabIndex={0}
+                        tabIndex={tabIndex}
                         placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems)}
                         {...getInputProps(
                             {
@@ -85,6 +85,7 @@ export function MultiSelection({ selector }: { selector: MultiSelector }): React
 
                 {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
+                        tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
                         onClick={e => {
                             e.stopPropagation();
