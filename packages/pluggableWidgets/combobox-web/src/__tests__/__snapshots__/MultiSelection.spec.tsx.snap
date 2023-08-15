@@ -24,7 +24,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           id="downshift-14-input"
           placeholder="111"
           role="combobox"
-          tabindex="0"
           value=""
         />
       </div>
@@ -72,9 +71,9 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
     >
       <ul
         aria-labelledby="downshift-14-label"
+        class="widget-combobox-menu-list"
         id="downshift-14-menu"
         role="listbox"
-        style="padding: 0px;"
       >
         <li
           aria-selected="false"
@@ -185,7 +184,6 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           id="downshift-0-input"
           placeholder="111"
           role="combobox"
-          tabindex="0"
           value=""
         />
       </div>
@@ -233,9 +231,9 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     >
       <ul
         aria-labelledby="downshift-0-label"
+        class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"
-        style="padding: 0px;"
       >
         <div
           class="widget-combobox-menu-footer"
