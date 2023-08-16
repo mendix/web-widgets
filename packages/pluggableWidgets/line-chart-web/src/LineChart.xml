@@ -145,21 +145,25 @@
                                     <enumerationValue key="custom">Custom</enumerationValue>
                                 </enumerationValues>
                             </property>
-                            <property key="staticLineColor" type="textTemplate" required="false" multiline="false" dataSource="staticDataSource">
+                            <property key="staticLineColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Line color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="dynamicLineColor" type="textTemplate" required="false" multiline="false" dataSource="dynamicDataSource">
+                            <property key="dynamicLineColor" type="expression" required="false" dataSource="dynamicDataSource">
                                 <caption>Line color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="staticMarkerColor" type="textTemplate" required="false" multiline="false" dataSource="staticDataSource">
+                            <property key="staticMarkerColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Marker color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="dynamicMarkerColor" type="textTemplate" required="false" multiline="false" dataSource="dynamicDataSource">
+                            <property key="dynamicMarkerColor" type="expression" required="false" dataSource="dynamicDataSource">
                                 <caption>Marker color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Events">

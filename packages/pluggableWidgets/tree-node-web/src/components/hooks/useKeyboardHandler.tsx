@@ -1,38 +1,48 @@
-import { KeyboardEvent, KeyboardEventHandler, useCallback } from "react";
+import { SyntheticEvent, KeyboardEventHandler, useCallback } from "react";
 
-type KeyboardKey = "Enter" | "Space" | "Home" | "End" | "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";
+// https://www.w3.org/TR/uievents-key/#key-attr-values
+type KeyAttributeValue = "Enter" | " " | "Home" | "End" | "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";
 
-export type KeyboardHandlerHook = (keyHandlers: {
-    [key in KeyboardKey]?: (event: KeyboardEvent<HTMLElement>) => void;
-}) => KeyboardEventHandler<HTMLElement>;
+type KeyHandlerName = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight" | "Enter" | "Space" | "Home" | "End";
 
-const alternativeKeysMap: { [key in KeyboardKey]?: string[] } = {
-    ArrowDown: ["ArrowDown", "Down"],
-    ArrowLeft: ["ArrowLeft", "Left"],
-    ArrowRight: ["ArrowRight", "Right"],
-    ArrowUp: ["ArrowUp", "Up"],
-    Space: [" "]
+const keyValueToHandlerNameMap: Record<KeyAttributeValue, KeyHandlerName> = {
+    Enter: "Enter",
+    " ": "Space",
+    Home: "Home",
+    End: "End",
+    ArrowUp: "ArrowUp",
+    ArrowDown: "ArrowDown",
+    ArrowLeft: "ArrowLeft",
+    ArrowRight: "ArrowRight"
 };
+
+function isKeyValueToHandle(key: string): key is KeyAttributeValue {
+    return Object.hasOwn(keyValueToHandlerNameMap, key);
+}
+
+function itCameFromCurrentTarget(event: SyntheticEvent): boolean {
+    return event.currentTarget === event.target;
+}
+
+export type KeyHandlers = Partial<Record<KeyHandlerName, KeyboardEventHandler<HTMLElement>>>;
+
+export type KeyboardHandlerHook = (keyHandlers: KeyHandlers) => KeyboardEventHandler<HTMLElement>;
 
 export const useKeyboardHandler: KeyboardHandlerHook = keyHandlers => {
     return useCallback(
         event => {
-            const eventKey = event.key as KeyboardKey;
-            const eventKeyMapped =
-                eventKey in keyHandlers
-                    ? eventKey
-                    : (Object.keys(alternativeKeysMap) as KeyboardKey[]).find(key =>
-                          alternativeKeysMap[key]?.includes(eventKey)
-                      );
-            if (eventKeyMapped) {
-                const keyHandler = keyHandlers[eventKeyMapped];
-                if (keyHandler) {
-                    if (eventKeyMapped === "Enter" || eventKeyMapped === "Space") {
-                        event.stopPropagation();
-                    }
-                    event.preventDefault();
-                    keyHandler(event);
+            if (!itCameFromCurrentTarget(event)) {
+                return;
+            }
+            if (isKeyValueToHandle(event.key)) {
+                const handlerFn = keyHandlers[keyValueToHandlerNameMap[event.key]];
+
+                if (!handlerFn) {
+                    return;
                 }
+                event.stopPropagation();
+                event.preventDefault();
+                handlerFn(event);
             }
         },
         [keyHandlers]
