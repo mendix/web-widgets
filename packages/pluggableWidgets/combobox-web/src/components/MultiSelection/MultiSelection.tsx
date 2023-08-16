@@ -39,7 +39,7 @@ export function MultiSelection({ selector, tabIndex }: { selector: MultiSelector
                             return (
                                 <span
                                     className="widget-combobox-selected-item"
-                                    key={selector.caption.get(selectedItemForRender)}
+                                    key={selectedItemForRender}
                                     {...getSelectedItemProps({
                                         selectedItem: selectedItemForRender,
                                         index
