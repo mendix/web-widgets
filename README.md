@@ -20,7 +20,7 @@ $ pnpm start
 
 ### Prerequisites
 
--   `node` version 16 -- we recommend use [nvm](https://github.com/nvm-sh/nvm) for installing and managin node on you local env, but you can download and [install node from official website](https://nodejs.org/en/download/)
+-   `node` version 18.17 -- we recommend use [nvm](https://github.com/nvm-sh/nvm) for installing and managing node on you local env, but you can download and [install node from official website](https://nodejs.org/en/download/)
 -   `pnpm` veresion 7.3.0 or higher – please visit [Installation](https://pnpm.io/installation) docs section to get instruction on how to install pnpm in your local env.
 
 As we are using [`node-gyp`](https://github.com/nodejs/node-gyp) in our dependencies, please make sure to [install the required dependencies](https://github.com/nodejs/node-gyp#installation) for this library according to your OS.
