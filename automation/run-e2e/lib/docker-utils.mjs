@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import p from "node:path";
 import { fileURLToPath } from "node:url";
 import fetch from "node-fetch";
@@ -102,24 +102,39 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     console.log(`Start mxruntime image`);
 
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
+    const labelPrefix = "e2e.mxruntime";
+    const labelValue = Math.round(Math.random() * (999 - 100)) + 100;
+    const containerLabel = `${labelPrefix}=${labelValue}`;
     const args = [
+        `run`,
         `--tty`,
-        // Spin mxruntime in background, we will kill it later.
-        `--detach`,
-        `--workdir /source`,
-        `--publish ${freePort}:8080`,
-        `--env MENDIX_VERSION=${mendixVersion}`,
-        `--entrypoint /bin/bash`,
-        `--volume ${process.cwd()}:/source`,
+        [`--workdir`, `/source`],
+        [`--publish`, `${freePort}:8080`],
+        [`--env`, `MENDIX_VERSION=${mendixVersion}`],
+        [`--entrypoint`, `/bin/bash`],
+        [`--volume`, `${process.cwd()}:/source`],
         // shared dir should contain two files:
         // runtime.sh
         // m2ee.yaml
-        `--volume ${dockerDir}:/shared:ro`,
+        [`--volume`, `${dockerDir}:/shared:ro`],
+        [`--label`, `${containerLabel}`],
         mxruntimeImage,
         `/shared/runtime.sh`
     ];
-    const command = [`docker run`, ...args].join(" ");
-    const runtimeContainerId = execSync(command, { encoding: "utf-8" }).trim();
+
+    spawn("docker", args.flat(), { stdio: "inherit" });
+
+    let runtimeContainerId = "";
+    for (let attempts = 100; attempts > 0; --attempts) {
+        runtimeContainerId = getContainerId(containerLabel);
+        if (runtimeContainerId) {
+            break;
+        }
+    }
+
+    if (runtimeContainerId === "") {
+        throw new Error("Failed to get runtime container id. Probably container didn't started.");
+    }
 
     let attempts = 60;
     for (; attempts > 0; --attempts) {
@@ -135,11 +150,9 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     }
 
     if (attempts === 0) {
-        console.log("Runtime didn't start, printing docker logs...");
-        execSync(`docker logs ${runtimeContainerId}`, { stdio: "inherit" });
+        console.log("Runtime didn't start");
         console.log("Print runtime.log...");
         console.log(cat("results/runtime.log").toString());
-        execSync(`docker rm ${runtimeContainerId}`, { stdio: "inherit" });
         throw new Error("Runtime didn't start in time, exiting now...");
     }
 
@@ -174,4 +187,8 @@ export function startCypress(ip, freePort) {
     const command = [`docker run`, ...args].join(" ");
 
     execSync(command, { stdio: "inherit" });
+}
+
+export function getContainerId(containerLabel) {
+    return execSync(`docker ps --quiet --filter 'label=${containerLabel}'`, { encoding: "utf-8" }).trim();
 }
