@@ -3,7 +3,7 @@ import { ActionValue } from "mendix";
 import { createElement, ReactElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
-import { useHandleOnClickOutsideElement } from "../utils/useHandleOnClickOutsideElement";
+import { useOnClickOutside } from "@mendix/widget-kit-web/hooks/useOnClickOutside";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 import {
@@ -28,7 +28,7 @@ export function Menu(props: MenuProps): ReactElement {
     const anchorElement = props.anchorElement;
     const popupStyles = useMenuPlacement(anchorElement, props.position);
 
-    useHandleOnClickOutsideElement(popupRef, props.onCloseRequest);
+    useOnClickOutside(popupRef, props.onCloseRequest);
 
     useEffect(() => {
         if (popupRef.current) {
