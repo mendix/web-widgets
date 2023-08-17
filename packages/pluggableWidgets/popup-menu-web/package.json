@@ -1,7 +1,7 @@
 {
   "name": "@mendix/popup-menu-web",
   "widgetName": "PopupMenu",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@mendix/widget-kit-web": "workspace:*",
     "classnames": "^2.3.2"
   }
 }
