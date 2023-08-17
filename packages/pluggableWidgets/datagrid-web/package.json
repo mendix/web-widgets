@@ -50,6 +50,6 @@
     "@mendix/pluggable-test-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@web-widgets/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*"
   }
 }
