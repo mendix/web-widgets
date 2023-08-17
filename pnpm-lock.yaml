@@ -198,7 +198,7 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2(redux@4.2.1)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -262,7 +262,7 @@ importers:
       '@babel/core':
         specifier: ^7.21.0
         version: 7.21.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -332,7 +332,7 @@ importers:
         specifier: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz
         version: '@github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz'
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -381,7 +381,7 @@ importers:
         specifier: workspace:*
         version: link:../../customWidgets/any-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -418,7 +418,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/tree-node-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -437,7 +437,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/google-tag-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -449,7 +449,7 @@ importers:
 
   packages/modules/web-actions:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
 
@@ -459,7 +459,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -484,7 +484,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -512,7 +512,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -534,7 +534,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -562,7 +562,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -593,7 +593,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -618,7 +618,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -649,7 +649,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -677,7 +677,7 @@ importers:
         specifier: ^9.4.1
         version: 9.4.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -738,7 +738,7 @@ importers:
         specifier: workspace:*
         version: link:../time-series-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -763,7 +763,7 @@ importers:
         specifier: ^2.19.3
         version: 2.19.3(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -797,7 +797,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -831,7 +831,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -862,7 +862,7 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -890,7 +890,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -915,7 +915,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -943,7 +943,7 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -971,7 +971,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1005,7 +1005,7 @@ importers:
         specifier: ^6.3.1
         version: 6.3.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1033,7 +1033,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1061,7 +1061,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1086,7 +1086,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1114,7 +1114,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1136,7 +1136,7 @@ importers:
         specifier: ^2.4.7
         version: 2.4.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1167,7 +1167,7 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1192,7 +1192,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1220,7 +1220,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1260,7 +1260,7 @@ importers:
       '@googlemaps/jest-mocks':
         specifier: ^2.10.0
         version: 2.10.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1303,7 +1303,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1328,7 +1328,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1353,7 +1353,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1384,7 +1384,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1418,7 +1418,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1449,7 +1449,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1495,7 +1495,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1534,7 +1534,7 @@ importers:
 
   packages/pluggableWidgets/selection-helper-web:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1568,7 +1568,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1602,7 +1602,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1633,7 +1633,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1658,7 +1658,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1689,7 +1689,7 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1714,7 +1714,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1745,7 +1745,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':

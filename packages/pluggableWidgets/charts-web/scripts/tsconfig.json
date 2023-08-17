@@ -1,4 +1,4 @@
 {
-    "extends": "@mendix-internal/automation-utils/tsconfig",
+    "extends": "@mendix/automation-utils/tsconfig",
     "include": ["."]
 }

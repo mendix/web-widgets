@@ -35,6 +35,6 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*"
+    "@mendix/automation-utils": "workspace:*"
   }
 }

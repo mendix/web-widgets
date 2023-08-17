@@ -1,8 +1,8 @@
 #!/usr/bin/env ts-node-script
 
-import { cp, mkdir, rm, unzip, zip } from "@mendix-internal/automation-utils/shell";
-import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix-internal/automation-utils/steps";
-import { getWidgetInfo, listPackages } from "@mendix-internal/automation-utils/utils";
+import { cp, mkdir, rm, unzip, zip } from "@mendix/automation-utils/shell";
+import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix/automation-utils/steps";
+import { getWidgetInfo, listPackages } from "@mendix/automation-utils/utils";
 import { dirname, join } from "node:path";
 
 // Charts specific steps

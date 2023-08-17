@@ -44,7 +44,7 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-test-utils": "workspace:^1.0.0",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
