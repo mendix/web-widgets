@@ -39,7 +39,7 @@
     "verify": "rui-verify-package-format"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",

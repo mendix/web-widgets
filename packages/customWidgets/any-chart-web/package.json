@@ -31,7 +31,7 @@
     "test": "echo 'FIXME: Finish any-chart-web unit test migration'"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/plotly.js": "~2.12.20",
     "copy-webpack-plugin": "^11.0.0",

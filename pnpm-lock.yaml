@@ -198,7 +198,7 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2(redux@4.2.1)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -262,7 +262,7 @@ importers:
       '@babel/core':
         specifier: ^7.21.0
         version: 7.21.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -332,7 +332,7 @@ importers:
         specifier: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz
         version: '@github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz'
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -381,7 +381,7 @@ importers:
         specifier: workspace:*
         version: link:../../customWidgets/any-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -418,7 +418,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/tree-node-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -437,7 +437,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/google-tag-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -449,7 +449,7 @@ importers:
 
   packages/modules/web-actions:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
 
@@ -459,7 +459,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -471,7 +471,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -484,7 +484,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -496,7 +496,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -512,7 +512,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -534,7 +534,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -546,7 +546,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -562,7 +562,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -574,7 +574,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -593,7 +593,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -618,7 +618,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -630,12 +630,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-replace':
         specifier: ^2.4.2
         version: 2.4.2(rollup@2.79.1)
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
@@ -649,7 +649,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -677,7 +677,7 @@ importers:
         specifier: ^9.4.1
         version: 9.4.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -692,7 +692,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -738,7 +738,7 @@ importers:
         specifier: workspace:*
         version: link:../time-series-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -763,7 +763,7 @@ importers:
         specifier: ^2.19.3
         version: 2.19.3(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -775,12 +775,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-color':
         specifier: ^2.17.6
         version: 2.17.6
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -797,7 +797,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -809,7 +809,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -831,7 +831,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -843,12 +843,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-datepicker':
         specifier: ^4.11.2
         version: 4.11.2(react-dom@18.2.0)(react@18.2.0)
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
@@ -862,7 +862,7 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -874,12 +874,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     dependencies:
@@ -890,7 +890,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -902,7 +902,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -915,7 +915,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -927,7 +927,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -943,7 +943,7 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -958,7 +958,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -971,7 +971,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -983,12 +983,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/enzyme':
         specifier: ^3.10.13
         version: 3.10.13
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/dropdown-web:
     dependencies:
@@ -1005,7 +1005,7 @@ importers:
         specifier: ^6.3.1
         version: 6.3.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1020,7 +1020,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1033,7 +1033,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1045,7 +1045,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1061,7 +1061,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1073,7 +1073,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1086,7 +1086,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1114,7 +1114,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1126,7 +1126,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1136,7 +1136,7 @@ importers:
         specifier: ^2.4.7
         version: 2.4.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1167,7 +1167,7 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1179,7 +1179,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1192,7 +1192,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1204,7 +1204,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1220,7 +1220,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1232,7 +1232,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1260,7 +1260,7 @@ importers:
       '@googlemaps/jest-mocks':
         specifier: ^2.10.0
         version: 2.10.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1272,6 +1272,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
@@ -1281,9 +1284,6 @@ importers:
       '@types/react-leaflet':
         specifier: ^2.8.3
         version: 2.8.3
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1303,7 +1303,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1315,7 +1315,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1331,7 +1331,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1343,7 +1343,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1356,7 +1356,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1368,7 +1368,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1387,7 +1387,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1399,7 +1399,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1421,7 +1421,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1433,15 +1433,15 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1452,7 +1452,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1467,7 +1467,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1498,7 +1498,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1513,6 +1513,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-json':
         specifier: ^4.1.0
         version: 4.1.0(rollup@2.79.1)
@@ -1522,9 +1525,6 @@ importers:
       '@types/sanitize-html':
         specifier: ^1.27.2
         version: 1.27.2
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1537,7 +1537,7 @@ importers:
 
   packages/pluggableWidgets/selection-helper-web:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1571,7 +1571,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1583,15 +1583,15 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1605,7 +1605,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1617,7 +1617,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1636,7 +1636,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1648,7 +1648,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1661,7 +1661,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1673,7 +1673,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1692,7 +1692,7 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1704,7 +1704,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1717,7 +1717,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1729,7 +1729,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1748,7 +1748,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1760,12 +1760,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-resize-detector':
         specifier: ^5.0.0
         version: 5.0.0
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/shared/charts:
     dependencies:

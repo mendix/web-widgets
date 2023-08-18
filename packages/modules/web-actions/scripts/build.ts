@@ -1,8 +1,4 @@
-import {
-    copyJSActions,
-    writeVersionAndLicenseToJSActions,
-    runModuleSteps
-} from "@mendix-internal/automation-utils/steps";
+import { copyJSActions, writeVersionAndLicenseToJSActions, runModuleSteps } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({

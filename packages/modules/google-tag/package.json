@@ -40,7 +40,7 @@
     "@mendix/google-tag-web": "workspace:*"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "cross-env": "^7.0.3"
   }
