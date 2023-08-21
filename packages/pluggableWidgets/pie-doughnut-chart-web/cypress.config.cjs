@@ -1,1 +1,1 @@
-module.exports = require("@web-widgets/run-e2e/cypress.config.cjs");
+module.exports = require("@mendix/run-e2e/cypress.config.cjs");

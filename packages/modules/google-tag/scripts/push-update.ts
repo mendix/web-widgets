@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node-script
 
-import { pushUpdateToTestProject, runModuleSteps } from "@mendix-internal/automation-utils/steps";
+import { pushUpdateToTestProject, runModuleSteps } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
