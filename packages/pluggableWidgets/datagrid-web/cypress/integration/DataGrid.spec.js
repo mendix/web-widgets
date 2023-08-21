@@ -41,7 +41,8 @@ describe("datagrid-web", () => {
 
         it("changes order of data to DESC when clicking sort option", () => {
             cy.get(".mx-name-datagrid1 .column-header").eq(1).should("have.text", "First Name");
-            cy.get(".mx-name-datagrid1 .column-header").eq(1).dblclick();
+            cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
+            cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
             cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
@@ -123,6 +124,32 @@ describe("datagrid-web", () => {
             cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1").should("be.visible");
             cy.get(".mx-name-datagrid1").compareSnapshot(`datagrid-${browserName}`, 0.1);
+        });
+    });
+
+    describe("a11y testing:", () => {
+        it("checks accessibility violations", () => {
+            cy.visit("/");
+            cy.injectAxe();
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.configureAxe({
+                //TODO: Skipped some rules as we still need to review them
+                rules: [
+                    { id: "aria-required-children", reviewOnFail: true },
+                    { id: "label", reviewOnFail: true }
+                ]
+            });
+            // Test the widget at initial load
+            cy.checkA11y(
+                ".mx-name-datagrid1",
+                {
+                    runOnly: {
+                        type: "tag",
+                        values: ["wcag2a"]
+                    }
+                },
+                cy.terminalLog
+            );
         });
     });
 });

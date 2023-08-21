@@ -14,7 +14,6 @@ import {
 import DatePickerComponent from "react-datepicker";
 import classNames from "classnames";
 import { isDate, isValid } from "date-fns";
-import { createPortal } from "react-dom";
 import replaceAllInserter from "string.prototype.replaceall";
 import { doubleMonthOrDayWhenSingle } from "../utils/utils";
 import CalendarIcon from "./CalendarIcon";
@@ -44,17 +43,13 @@ export const DatePicker = forwardRef(
     (props: DatePickerProps, ref: MutableRefObject<DatePickerComponent> | null): ReactElement => {
         const [open, setOpen] = useState(false);
         const buttonRef = useRef<HTMLButtonElement>(null);
-        const portalRef = useRef<HTMLDivElement>(null);
+        const dateFilterContainerRef = useRef<HTMLDivElement>(null);
         const id = useMemo(() => `datepicker_` + Math.random(), []);
-        const Portal = createPortal(
-            <div ref={portalRef} id={id} className="date-filter-container" style={{ position: "fixed" }} />,
-            document.body
-        );
 
         const buttonClick = useCallback(() => {
             setOpen(open => !open);
             setTimeout(() => {
-                (portalRef.current?.querySelector(".react-datepicker > button") as HTMLElement)?.focus();
+                (dateFilterContainerRef.current?.querySelector(".react-datepicker > button") as HTMLElement)?.focus();
             }, 10);
         }, []);
 
@@ -68,7 +63,7 @@ export const DatePicker = forwardRef(
 
         return (
             <Fragment>
-                {Portal}
+                <div ref={dateFilterContainerRef} id={id} className="date-filter-container" />
                 <span className="sr-only" id={`${props.id}-label`}>
                     {props.screenReaderInputCaption}
                 </span>

@@ -15,8 +15,7 @@ import {
     useState
 } from "react";
 import classNames from "classnames";
-import { Icon } from "@mendix/pluggable-widgets-commons/components/web";
-import { ShowIconEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
+import { OpenNodeOnEnum, ShowIconEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 import {
     TreeNodeBranchContextProps,
     TreeNodeBranchContext,
@@ -29,27 +28,28 @@ import {
     useTreeNodeBranchKeyboardHandler,
     useTreeNodeFocusChangeHandler
 } from "./hooks/TreeNodeAccessibility";
-import { ChevronIcon } from "./ChevronIcon";
+import { ChevronIcon, CustomHeaderIcon } from "./Icons";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 
-export interface TreeNodeObject extends ObjectItem {
-    value: string | ReactNode | undefined;
-    content: ReactNode;
+export interface TreeNodeItem extends ObjectItem {
+    headerContent: ReactNode;
+    bodyContent: ReactNode;
 }
 
 export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> {
     class: string;
     style?: CSSProperties;
-    items: TreeNodeObject[] | null;
+    items: TreeNodeItem[] | null;
     isUserDefinedLeafNode: TreeNodeBranchProps["isUserDefinedLeafNode"];
     startExpanded: TreeNodeBranchProps["startExpanded"];
     showCustomIcon: boolean;
     iconPlacement: TreeNodeBranchProps["iconPlacement"];
-    expandedIcon: WebIcon | null;
-    collapsedIcon: WebIcon | null;
+    expandedIcon?: WebIcon;
+    collapsedIcon?: WebIcon;
     animateIcon: boolean;
     animateTreeNodeContent: TreeNodeBranchProps["animateTreeNodeContent"];
+    openNodeOn: OpenNodeOnEnum;
 }
 
 export function TreeNode({
@@ -64,7 +64,8 @@ export function TreeNode({
     collapsedIcon,
     tabIndex,
     animateIcon,
-    animateTreeNodeContent
+    animateTreeNodeContent,
+    openNodeOn
 }: TreeNodeProps): ReactElement | null {
     const { level } = useContext(TreeNodeBranchContext);
 
@@ -75,10 +76,7 @@ export function TreeNode({
             }
             const treeNodeIsExpanded = treeNodeState === TreeNodeState.EXPANDED;
             return showCustomIcon ? (
-                <Icon
-                    icon={treeNodeIsExpanded ? expandedIcon : collapsedIcon}
-                    className="widget-tree-node-branch-header-icon"
-                />
+                <CustomHeaderIcon icon={treeNodeIsExpanded ? expandedIcon : collapsedIcon} />
             ) : (
                 <ChevronIcon
                     className={classNames("widget-tree-node-branch-header-icon", {
@@ -122,30 +120,32 @@ export function TreeNode({
             data-focusindex={tabIndex || 0}
             role={level === 0 ? "tree" : "group"}
         >
-            {items.map(({ id, value, content }) => (
+            {items.map(({ id, headerContent, bodyContent }) => (
                 <TreeNodeBranch
                     key={id}
                     id={id}
-                    value={value}
+                    headerContent={headerContent}
                     isUserDefinedLeafNode={isUserDefinedLeafNode}
                     startExpanded={startExpanded}
                     iconPlacement={iconPlacement}
                     renderHeaderIcon={renderHeaderIcon}
                     changeFocus={changeTreeNodeBranchHeaderFocus}
                     animateTreeNodeContent={animateTreeNodeContent}
+                    openNodeOn={openNodeOn}
                 >
-                    {content}
+                    {bodyContent}
                 </TreeNodeBranch>
             ))}
         </ul>
     );
 }
 interface TreeNodeBranchProps {
-    id: TreeNodeObject["id"];
+    id: TreeNodeItem["id"];
     isUserDefinedLeafNode: boolean;
     startExpanded: boolean;
-    value: TreeNodeObject["value"];
-    children: TreeNodeObject["content"];
+    headerContent: ReactNode;
+    openNodeOn: OpenNodeOnEnum;
+    children: ReactNode;
     iconPlacement: ShowIconEnum;
     renderHeaderIcon: (treeNodeState: TreeNodeState, iconPlacement: Exclude<ShowIconEnum, "no">) => ReactNode;
     changeFocus: TreeNodeFocusChangeHandler;
@@ -154,8 +154,8 @@ interface TreeNodeBranchProps {
 
 const treeNodeBranchUtils = {
     bodyClassName: "widget-tree-node-body",
-    getHeaderId: (id: TreeNodeObject["id"]) => `${id}TreeNodeBranchHeader`,
-    getBodyId: (id: TreeNodeObject["id"]) => `${id}TreeNodeBranchBody`
+    getHeaderId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchHeader`,
+    getBodyId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchBody`
 };
 
 function getTreeNodeAccessibilityProps(isExpanded: boolean): HTMLAttributes<HTMLLIElement> {
@@ -179,6 +179,12 @@ function TreeNodeBranch(props: TreeNodeBranchProps): ReactElement {
         props.startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS
     );
     const [isActualLeafNode, setIsActualLeafNode] = useState<boolean>(props.isUserDefinedLeafNode || !props.children);
+    const isHeaderClickable = props.openNodeOn === "headerClick";
+    const isIconClickable = props.openNodeOn === "iconClick";
+
+    useEffect(() => {
+        setIsActualLeafNode(props.isUserDefinedLeafNode || !props.children);
+    }, [props.children]);
 
     const informParentOfChildNodes = useCallback<TreeNodeBranchContextProps["informParentOfChildNodes"]>(
         numberOfNodes => {
@@ -232,7 +238,7 @@ function TreeNodeBranch(props: TreeNodeBranchProps): ReactElement {
         }
     }, [hasNestedTreeNode, treeNodeState]);
 
-    const toggleTreeNodeContent = useCallback<ReactEventHandler<HTMLLIElement>>(
+    const toggleTreeNodeContent = useCallback<ReactEventHandler<HTMLElement>>(
         event => {
             if (eventTargetIsNotCurrentBranch(event)) {
                 return;
@@ -267,35 +273,35 @@ function TreeNodeBranch(props: TreeNodeBranchProps): ReactElement {
         eventTargetIsNotCurrentBranch
     );
 
-    const onTreeNodeClick = useCallback<ReactEventHandler<HTMLLIElement>>(
-        event => {
-            if (eventTargetIsNotCurrentBranch(event)) {
-                return;
-            }
-            toggleTreeNodeContent(event);
-        },
-        [toggleTreeNodeContent, eventTargetIsNotCurrentBranch]
-    );
+    const onIconClick = isIconClickable ? toggleTreeNodeContent : undefined;
+    const onHeaderClick = isHeaderClickable ? toggleTreeNodeContent : undefined;
 
     return (
         <li
             className="widget-tree-node-branch"
-            onClick={onTreeNodeClick}
             onKeyDown={onHeaderKeyDown}
             ref={treeNodeBranchRef}
             {...treeNodeAccessibilityProps}
         >
             <span
                 className={classNames("widget-tree-node-branch-header", {
-                    "widget-tree-node-branch-header-clickable": !isActualLeafNode,
+                    "widget-tree-node-branch-header-clickable": !isActualLeafNode && isHeaderClickable,
                     "widget-tree-node-branch-header-reversed": props.iconPlacement === "left"
                 })}
                 id={treeNodeBranchUtils.getHeaderId(props.id)}
+                onClick={onHeaderClick}
             >
-                <span className="widget-tree-node-branch-header-value">{props.value}</span>
-                {!isActualLeafNode &&
-                    props.iconPlacement !== "no" &&
-                    props.renderHeaderIcon(treeNodeState, props.iconPlacement)}
+                <span className="widget-tree-node-branch-header-value">{props.headerContent}</span>
+                {!isActualLeafNode && props.iconPlacement !== "no" && (
+                    <span
+                        className={classNames("widget-tree-node-branch-header-icon-container", {
+                            "widget-tree-node-branch-header-clickable": !isActualLeafNode && isIconClickable
+                        })}
+                        onClick={onIconClick}
+                    >
+                        {props.renderHeaderIcon(treeNodeState, props.iconPlacement)}
+                    </span>
+                )}
             </span>
             {((!isActualLeafNode && treeNodeState !== TreeNodeState.COLLAPSED_WITH_JS) || isAnimating) && (
                 <TreeNodeBranchContext.Provider

@@ -4,7 +4,6 @@ exports[`Pagination renders the current page correctly with server side paging 1
 <div
   aria-label="Pagination"
   class="pagination-bar"
-  role="pagination"
 >
   <button
     aria-label="Go to first page"
@@ -99,7 +98,6 @@ exports[`Pagination renders the structure correctly 1`] = `
 <div
   aria-label="Pagination"
   class="pagination-bar"
-  role="pagination"
 >
   <button
     aria-label="Go to first page"

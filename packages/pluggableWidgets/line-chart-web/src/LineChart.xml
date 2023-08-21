@@ -145,17 +145,33 @@
                                     <enumerationValue key="custom">Custom</enumerationValue>
                                 </enumerationValues>
                             </property>
-                            <property key="lineColor" type="textTemplate" required="false" multiline="false">
+                            <property key="staticLineColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Line color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="markerColor" type="textTemplate" required="false" multiline="false">
+                            <property key="dynamicLineColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Line color</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="staticMarkerColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Marker color</caption>
                                 <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="dynamicMarkerColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Marker color</caption>
+                                <description />
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Events">
-                            <property key="onClickAction" type="action" required="false">
+                            <property key="staticOnClickAction" type="action" required="false" dataSource="staticDataSource">
+                                <caption>On click action</caption>
+                                <description />
+                            </property>
+                            <property key="dynamicOnClickAction" type="action" required="false" dataSource="dynamicDataSource">
                                 <caption>On click action</caption>
                                 <description />
                             </property>

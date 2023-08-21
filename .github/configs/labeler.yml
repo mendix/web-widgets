@@ -76,8 +76,8 @@ calendar-web:
   - packages/*/calendar-web/**/*
 signature-web:
   - packages/*/signature-web/**/*
-dropdown-web:
-  - packages/*/dropdown-web/**/*
+combobox-web:
+  - packages/*/combobox-web/**/*
 google-tag-web:
   - packages/*/google-tag-web/**/*
 

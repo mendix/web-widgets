@@ -1,6 +1,6 @@
 {
   "name": "@mendix/charts-web",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
   "private": false,
@@ -55,7 +55,7 @@
     "@mendix/time-series-chart-web": "workspace:*"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "cross-env": "^7.0.3"

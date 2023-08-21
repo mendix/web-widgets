@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-web",
   "widgetName": "Datagrid",
-  "version": "2.7.4",
+  "version": "2.8.0",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -42,14 +42,14 @@
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
-    "deep-equal": "^2.2.1"
+    "deep-equal": "^2.2.2"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-test-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@web-widgets/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*"
   }
 }

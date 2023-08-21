@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node-script
 
-import { getModuleConfigs } from "@mendix-internal/automation-utils/utils";
-import { mkdir } from "@mendix-internal/automation-utils/shell";
+import { getModuleConfigs } from "@mendix/automation-utils/utils";
+import { mkdir } from "@mendix/automation-utils/shell";
 import concurrently from "concurrently";
 import { join } from "path";
 

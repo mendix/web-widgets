@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node-script
 
-import { cp, mkdir, zip, exec } from "@mendix-internal/automation-utils/shell";
-import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix-internal/automation-utils/steps";
+import { cp, mkdir, zip, exec } from "@mendix/automation-utils/shell";
+import { logStep, removeDist, runWidgetSteps, WidgetStepParams } from "@mendix/automation-utils/steps";
 import { dirname, join } from "node:path";
 
 const [, , env] = process.argv;

@@ -2,7 +2,7 @@ import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo
 import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { Table, TableColumn } from "./components/Table";
+import { Table, TableColumn, SortProperty } from "./components/Table";
 import {
     FilterFunction,
     FilterType,
@@ -25,7 +25,7 @@ import "./ui/Datagrid.scss";
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
 
-    const [sortParameters, setSortParameters] = useState<{ columnIndex: number; desc: boolean } | undefined>(undefined);
+    const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
@@ -38,7 +38,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     useEffect(() => {
-        props.datasource.requestTotalCount(true);
+        props.datasource.requestTotalCount(!isInfiniteLoad);
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }

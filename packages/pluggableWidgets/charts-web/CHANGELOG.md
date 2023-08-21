@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.0] Charts - 2023-08-16
+
+### Fixed
+
+-   We fixed an issue where, in 4.0, parameters related to on-click actions were missing. In versions of the widget before 4.0, when you added an on click action to the widget, additional parameters were passed. These parameters are now being passed again.
+
+### Breaking changes
+
+-   After updating the widget(s) to this version, a few properties will lose their configured values. The following properties should be reconfigured manually (if they were configured before): `Line color` (Line chart), `Marker color` (Line chart), `On click action` (all widgets except Pie chart and Heat map).
+
+### [3.1.1] LineChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "line color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "line color" expression editor. With this fix, entity attributes are accessible in the expression editor again for both "line color" and "marker color" settings.
+
 ## [4.1.0] Charts - 2023-06-06
 
 ### [3.1.0] AreaChart

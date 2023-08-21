@@ -8,6 +8,8 @@ import { DynamicValue, ListValue, ListExpressionValue, ListWidgetValue, WebIcon 
 
 export type HeaderTypeEnum = "text" | "custom";
 
+export type OpenNodeOnEnum = "headerClick" | "iconClick";
+
 export type ShowIconEnum = "left" | "right" | "no";
 
 export interface TreeNodeContainerProps {
@@ -18,6 +20,7 @@ export interface TreeNodeContainerProps {
     advancedMode: boolean;
     datasource: ListValue;
     headerType: HeaderTypeEnum;
+    openNodeOn: OpenNodeOnEnum;
     headerContent?: ListWidgetValue;
     headerCaption?: ListExpressionValue<string>;
     hasChildren: boolean;
@@ -42,6 +45,7 @@ export interface TreeNodePreviewProps {
     advancedMode: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     headerType: HeaderTypeEnum;
+    openNodeOn: OpenNodeOnEnum;
     headerContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     headerCaption: string;
     hasChildren: boolean;

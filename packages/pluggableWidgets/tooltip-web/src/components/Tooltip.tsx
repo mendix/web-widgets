@@ -4,6 +4,7 @@ import { usePopper } from "react-popper";
 import classNames from "classnames";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
 import { Placement } from "@popperjs/core/lib/enums";
+import { useDocumentKeyDown } from "../utils/useDocumentKeyDown";
 
 export interface TooltipProps {
     name?: string;
@@ -48,6 +49,12 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
 
     useOnClickOutside([componentReference], () => setShowTooltip(false));
 
+    useDocumentKeyDown(event => {
+        if (event.key === "Escape") {
+            setShowTooltip(false);
+        }
+    });
+
     const onShow = useCallback(() => setShowTooltip(true), []);
     const onHide = useCallback(() => setShowTooltip(false), []);
     const onToggle = useCallback(() => setShowTooltip(showTooltip => !showTooltip), []);
@@ -61,14 +68,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                 break;
             case "hover":
                 eventContainer = {
-                    onMouseEnter: onShow,
-                    onMouseLeave: onHide
+                    onPointerEnter: onShow,
+                    onPointerLeave: onHide
                 };
                 break;
             case "hoverFocus":
                 eventContainer = {
-                    onMouseEnter: onShow,
-                    onMouseLeave: onHide,
+                    onPointerEnter: onShow,
+                    onPointerLeave: onHide,
                     onFocus: onShow,
                     onBlur: onHide
                 };

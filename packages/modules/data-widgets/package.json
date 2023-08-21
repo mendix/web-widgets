@@ -1,7 +1,7 @@
 {
   "name": "@mendix/data-widgets",
   "moduleName": "Data Widgets",
-  "version": "2.8.3",
+  "version": "2.8.6",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -59,7 +59,7 @@
     "@mendix/tree-node-web": "workspace:*"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "concurrently": "^6.5.1",
     "copy-and-watch": "^0.1.6"

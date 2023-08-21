@@ -38,14 +38,17 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       cypress:
-        specifier: ^12.13.0
-        version: 12.13.0
+        specifier: ^12.16.0
+        version: 12.16.0
+      cypress-axe:
+        specifier: ^1.4.0
+        version: 1.4.0(axe-core@4.7.2)(cypress@12.16.0)
       cypress-image-diff-js:
-        specifier: ^1.23.0
-        version: 1.23.0(cypress@12.13.0)
+        specifier: ^1.26.0
+        version: 1.26.0(cypress@12.16.0)
       cypress-terminal-report:
         specifier: ^5.2.0
-        version: 5.2.0(cypress@12.13.0)
+        version: 5.2.0(cypress@12.16.0)
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
@@ -83,11 +86,11 @@ importers:
   automation/scripts:
     dependencies:
       '@commitlint/cli':
-        specifier: ^17.6.6
-        version: 17.6.6
+        specifier: ^17.6.7
+        version: 17.6.7
       '@commitlint/config-conventional':
-        specifier: ^17.6.6
-        version: 17.6.6
+        specifier: ^17.6.7
+        version: 17.6.7
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
@@ -156,8 +159,8 @@ importers:
   packages/customWidgets/any-chart-web:
     dependencies:
       ace-builds:
-        specifier: ^1.22.1
-        version: 1.22.1
+        specifier: ^1.23.4
+        version: 1.23.4
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -165,8 +168,8 @@ importers:
         specifier: ^4.0.14
         version: 4.0.14
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -195,7 +198,7 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2(redux@4.2.1)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -259,7 +262,7 @@ importers:
       '@babel/core':
         specifier: ^7.21.0
         version: 7.21.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -329,7 +332,7 @@ importers:
         specifier: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz
         version: '@github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz'
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -378,7 +381,7 @@ importers:
         specifier: workspace:*
         version: link:../../customWidgets/any-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -415,7 +418,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/tree-node-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -434,7 +437,7 @@ importers:
         specifier: workspace:*
         version: link:../../pluggableWidgets/google-tag-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/prettier-config-web-widgets':
@@ -446,7 +449,7 @@ importers:
 
   packages/modules/web-actions:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
 
@@ -456,7 +459,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -468,7 +471,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -481,7 +484,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -493,7 +496,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -509,7 +512,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -531,7 +534,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -543,7 +546,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -559,7 +562,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -571,7 +574,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -590,7 +593,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -615,7 +618,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -627,12 +630,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-replace':
         specifier: ^2.4.2
         version: 2.4.2(rollup@2.79.1)
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
@@ -646,7 +649,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -674,7 +677,7 @@ importers:
         specifier: ^9.4.1
         version: 9.4.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -689,7 +692,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -735,7 +738,7 @@ importers:
         specifier: workspace:*
         version: link:../time-series-chart-web
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -760,7 +763,7 @@ importers:
         specifier: ^2.19.3
         version: 2.19.3(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -772,12 +775,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-color':
         specifier: ^2.17.6
         version: 2.17.6
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -794,7 +797,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -806,9 +809,46 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+
+  packages/pluggableWidgets/combobox-web:
+    dependencies:
+      '@mendix/pluggable-widgets-commons':
+        specifier: workspace:*
+        version: link:../../shared/pluggable-widgets-commons
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      downshift:
+        specifier: ^7.6.2
+        version: 7.6.2(react@18.2.0)
+      match-sorter:
+        specifier: ^6.3.1
+        version: 6.3.1
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-test-utils':
+        specifier: workspace:^1.0.0
+        version: link:../../shared/pluggable-test-utils
+      '@mendix/pluggable-widgets-tools':
+        specifier: ^9.24.1
+        version: 9.24.1(@types/node@18.16.12)
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:^*
+        version: link:../../../automation/run-e2e
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     dependencies:
@@ -828,7 +868,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -840,12 +880,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-datepicker':
         specifier: ^4.11.2
         version: 4.11.2(react-dom@18.2.0)(react@18.2.0)
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
@@ -856,10 +896,10 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -871,12 +911,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     dependencies:
@@ -887,7 +927,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -899,7 +939,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -912,7 +952,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -924,7 +964,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -937,10 +977,10 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -955,7 +995,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -968,7 +1008,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -980,49 +1020,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/enzyme':
         specifier: ^3.10.13
         version: 3.10.13
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
-
-  packages/pluggableWidgets/dropdown-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      downshift:
-        specifier: ^7.6.0
-        version: 7.6.0(react@18.2.0)
-      match-sorter:
-        specifier: ^6.3.1
-        version: 6.3.1
-    devDependencies:
-      '@mendix-internal/automation-utils':
-        specifier: workspace:*
-        version: link:../../../automation/utils
-      '@mendix/eslint-config-web-widgets':
-        specifier: workspace:*
-        version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-test-utils':
-        specifier: workspace:^1.0.0
-        version: link:../../shared/pluggable-test-utils
-      '@mendix/pluggable-widgets-tools':
-        specifier: ^9.24.1
-        version: 9.24.1(@types/node@18.16.12)
-      '@mendix/prettier-config-web-widgets':
-        specifier: workspace:*
-        version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
-        specifier: workspace:^*
-        version: link:../../../automation/run-e2e
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
 
   packages/pluggableWidgets/fieldset-web:
     dependencies:
@@ -1030,7 +1033,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1042,7 +1045,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1058,7 +1061,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1070,7 +1073,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1083,7 +1086,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1111,7 +1114,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1123,17 +1126,17 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/html-element-web:
     dependencies:
       dompurify:
-        specifier: ^2.4.5
-        version: 2.4.5
+        specifier: ^2.4.7
+        version: 2.4.7
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1164,7 +1167,7 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1176,7 +1179,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1189,7 +1192,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1201,7 +1204,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1217,7 +1220,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1229,7 +1232,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1239,14 +1242,14 @@ importers:
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
       '@react-google-maps/api':
-        specifier: ~2.18.1
-        version: 2.18.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: ~2.19.2
+        version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
       deep-equal:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.2
+        version: 2.2.2
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -1257,7 +1260,7 @@ importers:
       '@googlemaps/jest-mocks':
         specifier: ^2.10.0
         version: 2.10.0
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1269,6 +1272,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
@@ -1278,9 +1284,6 @@ importers:
       '@types/react-leaflet':
         specifier: ^2.8.3
         version: 2.8.3
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1300,7 +1303,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1312,7 +1315,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1321,11 +1324,14 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-kit-web':
+        specifier: workspace:*
+        version: link:../../shared/widget-kit-web
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1337,7 +1343,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1350,7 +1356,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1362,7 +1368,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1377,11 +1383,11 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      progressbar.js:
-        specifier: ^1.1.0
-        version: 1.1.0
+      shifty:
+        specifier: ^3.0.1
+        version: 3.0.1
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1393,7 +1399,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1415,7 +1421,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1427,15 +1433,15 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1446,7 +1452,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1461,7 +1467,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1477,22 +1483,22 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
       ckeditor4:
-        specifier: ^4.21.0
-        version: 4.21.0
+        specifier: ^4.22.1
+        version: 4.22.1
       ckeditor4-react:
-        specifier: ^4.2.0
-        version: 4.2.0(ckeditor4@4.21.0)(react@18.2.0)
+        specifier: ^4.3.0
+        version: 4.3.0(ckeditor4@4.22.1)(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
       dompurify:
-        specifier: ^2.4.5
-        version: 2.4.5
+        specifier: ^2.4.7
+        version: 2.4.7
       react-test-renderer:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1507,18 +1513,18 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@rollup/plugin-json':
         specifier: ^4.1.0
         version: 4.1.0(rollup@2.79.1)
       '@types/ckeditor4':
-        specifier: ^4.16.5
-        version: 4.16.5
+        specifier: ^4.20.2
+        version: 4.20.2
       '@types/sanitize-html':
         specifier: ^1.27.2
         version: 1.27.2
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1531,7 +1537,7 @@ importers:
 
   packages/pluggableWidgets/selection-helper-web:
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1565,7 +1571,7 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1577,15 +1583,15 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6
       '@types/rc-tooltip':
         specifier: ^3.7.7
         version: 3.7.7
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1599,7 +1605,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1611,7 +1617,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
       cross-env:
@@ -1630,7 +1636,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1642,7 +1648,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1655,7 +1661,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1667,7 +1673,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1686,7 +1692,7 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1698,7 +1704,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1711,7 +1717,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1723,7 +1729,7 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
-      '@web-widgets/run-e2e':
+      '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
 
@@ -1742,7 +1748,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mendix-internal/automation-utils':
+      '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
@@ -1754,12 +1760,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
       '@types/react-resize-detector':
         specifier: ^5.0.0
         version: 5.0.0
-      '@web-widgets/run-e2e':
-        specifier: workspace:*
-        version: link:../../../automation/run-e2e
 
   packages/shared/charts:
     dependencies:
@@ -1767,8 +1773,8 @@ importers:
         specifier: workspace:*
         version: link:../pluggable-widgets-commons
       ace-builds:
-        specifier: ^1.22.1
-        version: 1.22.1
+        specifier: ^1.23.4
+        version: 1.23.4
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1794,6 +1800,9 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../eslint-config-web-widgets
+      '@mendix/pluggable-test-utils':
+        specifier: workspace:*
+        version: link:../pluggable-test-utils
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -3504,16 +3513,15 @@ packages:
     engines: {node: '>=0.1.90'}
     requiresBuild: true
     dev: false
-    optional: true
 
-  /@commitlint/cli@17.6.6:
-    resolution: {integrity: sha512-sTKpr2i/Fjs9OmhU+beBxjPavpnLSqZaO6CzwKVq2Tc4UYVTMFgpKOslDhUBVlfAUBfjVO8ParxC/MXkIOevEA==}
+  /@commitlint/cli@17.6.7:
+    resolution: {integrity: sha512-nzZmfO5KIOupYppn1MsnYX/80I+KDlxiwkks3CJT0XT+t34UgqGi3eSyEuzgcIjPlORk5/GMaAEiys78iLfGMg==}
     engines: {node: '>=v14'}
     hasBin: true
     dependencies:
       '@commitlint/format': 17.4.4
-      '@commitlint/lint': 17.6.6
-      '@commitlint/load': 17.5.0
+      '@commitlint/lint': 17.6.7
+      '@commitlint/load': 17.6.7
       '@commitlint/read': 17.5.1
       '@commitlint/types': 17.4.4
       execa: 5.1.1
@@ -3526,23 +3534,23 @@ packages:
       - '@swc/wasm'
     dev: false
 
-  /@commitlint/config-conventional@17.6.6:
-    resolution: {integrity: sha512-phqPz3BDhfj49FUYuuZIuDiw+7T6gNAEy7Yew1IBHqSohVUCWOK2FXMSAExzS2/9X+ET93g0Uz83KjiHDOOFag==}
+  /@commitlint/config-conventional@17.6.7:
+    resolution: {integrity: sha512-4oTpEUC0HRM54QRHBPMOJW1pETp7usxXn9RuNYNWHcmu8wi1mpws95hvS20u2n6HtIkTn0jfn7vHioCm4AGUTw==}
     engines: {node: '>=v14'}
     dependencies:
       conventional-changelog-conventionalcommits: 5.0.0
     dev: false
 
-  /@commitlint/config-validator@17.4.4:
-    resolution: {integrity: sha512-bi0+TstqMiqoBAQDvdEP4AFh0GaKyLFlPPEObgI29utoKEYoPQTvF0EYqIwYYLEoJYhj5GfMIhPHJkTJhagfeg==}
+  /@commitlint/config-validator@17.6.7:
+    resolution: {integrity: sha512-vJSncmnzwMvpr3lIcm0I8YVVDJTzyjy7NZAeXbTXy+MPUdAr9pKyyg7Tx/ebOQ9kqzE6O9WT6jg2164br5UdsQ==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/types': 17.4.4
       ajv: 8.12.0
     dev: false
 
-  /@commitlint/ensure@17.4.4:
-    resolution: {integrity: sha512-AHsFCNh8hbhJiuZ2qHv/m59W/GRE9UeOXbkOqxYMNNg9pJ7qELnFcwj5oYpa6vzTSHtPGKf3C2yUFNy1GGHq6g==}
+  /@commitlint/ensure@17.6.7:
+    resolution: {integrity: sha512-mfDJOd1/O/eIb/h4qwXzUxkmskXDL9vNPnZ4AKYKiZALz4vHzwMxBSYtyL2mUIDeU9DRSpEUins8SeKtFkYHSw==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/types': 17.4.4
@@ -3566,31 +3574,31 @@ packages:
       chalk: 4.1.2
     dev: false
 
-  /@commitlint/is-ignored@17.6.6:
-    resolution: {integrity: sha512-4Fw875faAKO+2nILC04yW/2Vy/wlV3BOYCSQ4CEFzriPEprc1Td2LILmqmft6PDEK5Sr14dT9tEzeaZj0V56Gg==}
+  /@commitlint/is-ignored@17.6.7:
+    resolution: {integrity: sha512-vqyNRqtbq72P2JadaoWiuoLtXIs9SaAWDqdtef6G2zsoXqKFc7vqj1f+thzVgosXG3X/5K9jNp+iYijmvOfc/g==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/types': 17.4.4
       semver: 7.5.2
     dev: false
 
-  /@commitlint/lint@17.6.6:
-    resolution: {integrity: sha512-5bN+dnHcRLkTvwCHYMS7Xpbr+9uNi0Kq5NR3v4+oPNx6pYXt8ACuw9luhM/yMgHYwW0ajIR20wkPAFkZLEMGmg==}
+  /@commitlint/lint@17.6.7:
+    resolution: {integrity: sha512-TW+AozfuOFMrHn+jdwtz0IWu8REKFp0eryOvoBp2r8IXNc4KihKB1spAiUB6SFyHD6hVVeolz12aHnJ3Mb+xVQ==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/is-ignored': 17.6.6
-      '@commitlint/parse': 17.6.5
-      '@commitlint/rules': 17.6.5
+      '@commitlint/is-ignored': 17.6.7
+      '@commitlint/parse': 17.6.7
+      '@commitlint/rules': 17.6.7
       '@commitlint/types': 17.4.4
     dev: false
 
-  /@commitlint/load@17.5.0:
-    resolution: {integrity: sha512-l+4W8Sx4CD5rYFsrhHH8HP01/8jEP7kKf33Xlx2Uk2out/UKoKPYMOIRcDH5ppT8UXLMV+x6Wm5osdRKKgaD1Q==}
+  /@commitlint/load@17.6.7:
+    resolution: {integrity: sha512-QZ2rJTbX55BQdYrCm/p6+hh/pFBgC9nTJxfsrK6xRPe2thiQzHN0AQDBqBwAirn6gIkHrjIbCbtAE6kiDYLjrw==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/config-validator': 17.4.4
+      '@commitlint/config-validator': 17.6.7
       '@commitlint/execute-rule': 17.4.0
-      '@commitlint/resolve-extends': 17.4.4
+      '@commitlint/resolve-extends': 17.6.7
       '@commitlint/types': 17.4.4
       '@types/node': 18.16.12
       chalk: 4.1.2
@@ -3612,8 +3620,8 @@ packages:
     engines: {node: '>=v14'}
     dev: false
 
-  /@commitlint/parse@17.6.5:
-    resolution: {integrity: sha512-0zle3bcn1Hevw5Jqpz/FzEWNo2KIzUbc1XyGg6WrWEoa6GH3A1pbqNF6MvE6rjuy6OY23c8stWnb4ETRZyN+Yw==}
+  /@commitlint/parse@17.6.7:
+    resolution: {integrity: sha512-ibO03BgEns+JJpohpBZYD49mCdSNMg6fTv7vA5yqzEFWkBQk5NWhEBw2yG+Z1UClStIRkMkAYyI2HzoQG9tCQQ==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/types': 17.4.4
@@ -3632,11 +3640,11 @@ packages:
       minimist: 1.2.8
     dev: false
 
-  /@commitlint/resolve-extends@17.4.4:
-    resolution: {integrity: sha512-znXr1S0Rr8adInptHw0JeLgumS11lWbk5xAWFVno+HUFVN45875kUtqjrI6AppmD3JI+4s0uZlqqlkepjJd99A==}
+  /@commitlint/resolve-extends@17.6.7:
+    resolution: {integrity: sha512-PfeoAwLHtbOaC9bGn/FADN156CqkFz6ZKiVDMjuC2N5N0740Ke56rKU7Wxdwya8R8xzLK9vZzHgNbuGhaOVKIg==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/config-validator': 17.4.4
+      '@commitlint/config-validator': 17.6.7
       '@commitlint/types': 17.4.4
       import-fresh: 3.3.0
       lodash.mergewith: 4.6.2
@@ -3644,11 +3652,11 @@ packages:
       resolve-global: 1.0.0
     dev: false
 
-  /@commitlint/rules@17.6.5:
-    resolution: {integrity: sha512-uTB3zSmnPyW2qQQH+Dbq2rekjlWRtyrjDo4aLFe63uteandgkI+cc0NhhbBAzcXShzVk0qqp8SlkQMu0mgHg/A==}
+  /@commitlint/rules@17.6.7:
+    resolution: {integrity: sha512-x/SDwDTN3w3Gr5xkhrIORu96rlKCc8ZLYEMXRqi9+MB33st2mKcGvKa5uJuigHlbl3xm75bAAubATrodVrjguQ==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/ensure': 17.4.4
+      '@commitlint/ensure': 17.6.7
       '@commitlint/message': 17.4.2
       '@commitlint/to-lines': 17.4.0
       '@commitlint/types': 17.4.4
@@ -3726,12 +3734,10 @@ packages:
     dependencies:
       eslint: 7.32.0
       eslint-visitor-keys: 3.4.1
-    dev: false
 
   /@eslint-community/regexpp@4.5.1:
     resolution: {integrity: sha512-Z5ba73P98O1KUYCCJTUeVpja9RcGoMdncZ6T49FCUl2lN38JtCJ+3WgIDBv0AuY4WChU5PmtJmOCTlN6FZTFKQ==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
-    dev: false
 
   /@eslint/eslintrc@0.4.3:
     resolution: {integrity: sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw==}
@@ -3753,17 +3759,17 @@ packages:
     resolution: {integrity: sha512-s+srnInqmzAXJwnx9mEwQYaOweFVfGikxo8bW6HHlnGxVo+YNh5flspLGk8jpBZA4mEn/sqPE2hPYE/9SdnE5A==}
     dev: true
 
-  /@googlemaps/js-api-loader@1.15.1:
-    resolution: {integrity: sha512-AsnEgNsB7S/VdrHGEQUaUM2e5tmjFGKBAfzR/AqO8O7TPq/jQGvoRw5liPBw4EMF38RDsHmKDV89q/X+qiUREQ==}
+  /@googlemaps/js-api-loader@1.16.2:
+    resolution: {integrity: sha512-psGw5u0QM6humao48Hn4lrChOM2/rA43ZCm3tKK9qQsEj1/VzqkCqnvGfEOshDbBQflydfaRovbKwZMF4AyqbA==}
     dependencies:
       fast-deep-equal: 3.1.3
     dev: false
 
-  /@googlemaps/markerclusterer@2.0.15:
-    resolution: {integrity: sha512-/I6Esi5FtyeVHsezN9Kut8zRJoqe7KkTIJXGVqpKFf6BjC7qQ1xRajLMkOz0s8XKgLevbr+KdYjuvmj+LohOGg==}
+  /@googlemaps/markerclusterer@2.3.2:
+    resolution: {integrity: sha512-zb9OQP8XscZp2Npt1uQUYnGKu1miuq4DPP28JyDuFd6HV17HCEcjV9MtBi4muG/iVRXXvuHW9bRCnHbao9ITfw==}
     dependencies:
       fast-deep-equal: 3.1.3
-      supercluster: 7.1.5
+      supercluster: 8.0.1
     dev: false
 
   /@humanwhocodes/config-array@0.5.0:
@@ -4162,8 +4168,8 @@ packages:
       '@types/react-dom': 18.2.4
       '@types/react-native': 0.70.14
       '@types/testing-library__jest-dom': 5.14.5
-      '@typescript-eslint/eslint-plugin': 5.8.1(@typescript-eslint/parser@5.8.1)(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/parser': 5.8.1(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/eslint-plugin': 5.59.9(@typescript-eslint/parser@5.59.9)(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/parser': 5.59.9(eslint@7.32.0)(typescript@5.0.4)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
       babel-jest: 29.5.0(@babel/core@7.21.0)
@@ -4175,7 +4181,7 @@ packages:
       enzyme-to-json: 3.6.2(enzyme@3.11.0)
       eslint: 7.32.0
       eslint-config-prettier: 8.8.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.8.1)(eslint@7.32.0)(typescript@5.0.4)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.59.9)(eslint@7.32.0)(typescript@5.0.4)
       eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.8.0)(eslint@7.32.0)(prettier@2.8.4)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
@@ -4214,7 +4220,7 @@ packages:
       rollup-plugin-re: 1.0.7
       rollup-plugin-terser: 7.0.2(rollup@2.79.1)
       sass: 1.58.3
-      semver: 7.5.1
+      semver: 7.5.2
       shelljs: 0.8.5
       ts-jest: 29.1.0(@babel/core@7.21.0)(babel-jest@29.5.0)(jest@29.4.1)(typescript@5.0.4)
       ts-node: 10.9.1(@types/node@18.16.12)(typescript@5.0.4)
@@ -4312,28 +4318,28 @@ packages:
       prettier: 2.8.4
     dev: false
 
-  /@react-google-maps/api@2.18.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-KVlUO/Shh+0g/3egWaKmY0sz6+0QOnYkBGvrBMJbz23519LauA+iJFc4NDCmWNHqD5Vhb/Bkg0kSJgq0Stz3Iw==}
+  /@react-google-maps/api@2.19.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Vt57XWzCKfsUjKOmFUl2erVVfOePkPK5OigF/f+q7UuV/Nm9KDDy1PMFBx+wNahEqOd6a32BxfsykEhBnbU9wQ==}
     peerDependencies:
       react: ^16.8 || ^17 || ^18 || 18
       react-dom: ^16.8 || ^17 || ^18
     dependencies:
-      '@googlemaps/js-api-loader': 1.15.1
-      '@googlemaps/markerclusterer': 2.0.15
-      '@react-google-maps/infobox': 2.16.0
-      '@react-google-maps/marker-clusterer': 2.16.1
-      '@types/google.maps': 3.50.5
+      '@googlemaps/js-api-loader': 1.16.2
+      '@googlemaps/markerclusterer': 2.3.2
+      '@react-google-maps/infobox': 2.19.2
+      '@react-google-maps/marker-clusterer': 2.19.2
+      '@types/google.maps': 3.53.5
       invariant: 2.2.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@react-google-maps/infobox@2.16.0:
-    resolution: {integrity: sha512-ZojiMS25388RcUHQPycUAerSqdHDom+3dHczVcXHdT/i8fka3O8InkHxXwMhvBoM143ips7mv2BPaYOAJ5f4Nw==}
+  /@react-google-maps/infobox@2.19.2:
+    resolution: {integrity: sha512-6wvBqeJsQ/eFSvoxg+9VoncQvNoVCdmxzxRpLvmjPD+nNC6mHM0vJH1xSqaKijkMrfLJT0nfkTGpovrF896jwg==}
     dev: false
 
-  /@react-google-maps/marker-clusterer@2.16.1:
-    resolution: {integrity: sha512-jOuyqzWLeXvQcoAu6TCVWHAuko+sDt0JjawNHBGqUNLywMtTCvYP0L0PiqJZOUCUeRYGdUy0AKxQ+30vAkvwag==}
+  /@react-google-maps/marker-clusterer@2.19.2:
+    resolution: {integrity: sha512-x9ibmsP0ZVqzyCo1Pitbw+4b6iEXRw/r1TCy3vOUR3eKrzWLnHYZMR325BkZW2r8fnuWE/V3Fp4QZOP9qYORCw==}
     dev: false
 
   /@react-leaflet/core@2.1.0(leaflet@1.9.4)(react-dom@18.2.0)(react@18.2.0):
@@ -4776,8 +4782,8 @@ packages:
       '@types/node': 18.16.12
     dev: true
 
-  /@types/ckeditor4@4.16.5:
-    resolution: {integrity: sha512-tUN9EUWwGvc1WoTKxDs17KSw3G+ZWWNQ0eTbKh9YDucllN1eEcudVcJcKDK7gytcb+1IFF0JkYKpK1Qpz3+wEg==}
+  /@types/ckeditor4@4.20.2:
+    resolution: {integrity: sha512-yfXbcdeOPPEpqtW69lBpaVAuOgr2hIe9WAAKfkz79ubVHXTv3tQ20F44vFTNdPfdYBt+BER6EOkNXj/KcoRJUQ==}
     dev: true
 
   /@types/cross-zip@4.0.0:
@@ -4845,8 +4851,8 @@ packages:
       '@types/node': 18.16.12
     dev: true
 
-  /@types/google.maps@3.50.5:
-    resolution: {integrity: sha512-RuZf1MJtctGlpW+Gd4a/eGtAufUDjMf+eyN1l+B3fbe2YLScJbg8KEljJfb+6vnSPFAeM1/48geVIEg3vqOkxw==}
+  /@types/google.maps@3.53.5:
+    resolution: {integrity: sha512-HoRq4Te8J6krH7hj+TfdYepqegoKZCj3kkaK5gf+ySFSHLvyqYkDvkrtbcVJXQ6QBphQ0h1TF7p4J6sOh4r/zg==}
     dev: false
 
   /@types/graceful-fs@4.1.6:
@@ -5055,7 +5061,6 @@ packages:
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
-    dev: false
 
   /@types/shelljs@0.8.11:
     resolution: {integrity: sha512-x9yaMvEh5BEaZKeVQC4vp3l+QoFj3BXcd4aYfuKSzIIyihjdVARAadYy3SMNIz0WCCdS2vB9JL/U6GQk5PaxQw==}
@@ -5147,33 +5152,6 @@ packages:
       typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@typescript-eslint/eslint-plugin@5.8.1(@typescript-eslint/parser@5.8.1)(eslint@7.32.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-wTZ5oEKrKj/8/366qTM366zqhIKAp6NCMweoRONtfuC07OAU9nVI2GZZdqQ1qD30WAAtcPdkH+npDwtRFdp4Rw==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      '@typescript-eslint/parser': ^5.0.0
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@typescript-eslint/experimental-utils': 5.8.1(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/parser': 5.8.1(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/scope-manager': 5.8.1
-      debug: 4.3.4
-      eslint: 7.32.0
-      functional-red-black-tree: 1.0.1
-      ignore: 5.2.4
-      regexpp: 3.2.0
-      semver: 7.5.1
-      tsutils: 3.21.0(typescript@5.0.4)
-      typescript: 5.0.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /@typescript-eslint/experimental-utils@4.33.0(eslint@7.32.0)(typescript@5.0.4):
     resolution: {integrity: sha512-zeQjOoES5JFjTnAhI5QY7ZviczMzDptls15GFsI6jyUOq0kOf9+WonkhtlIhh0RgHRnqj5gdNxW5j1EvAyYg6Q==}
@@ -5191,24 +5169,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-
-  /@typescript-eslint/experimental-utils@5.8.1(eslint@7.32.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-fbodVnjIDU4JpeXWRDsG5IfIjYBxEvs8EBO8W1+YVdtrc2B9ppfof5sZhVEDOtgTfFHnYQJDI8+qdqLYO4ceww==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-    dependencies:
-      '@types/json-schema': 7.0.12
-      '@typescript-eslint/scope-manager': 5.8.1
-      '@typescript-eslint/types': 5.8.1
-      '@typescript-eslint/typescript-estree': 5.8.1(typescript@5.0.4)
-      eslint: 7.32.0
-      eslint-scope: 5.1.1
-      eslint-utils: 3.0.0(eslint@7.32.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
 
   /@typescript-eslint/parser@5.59.9(eslint@7.32.0)(typescript@5.0.4):
     resolution: {integrity: sha512-FsPkRvBtcLQ/eVK1ivDiNYBjn3TGJdXy2fhXX+rc7czWl4ARwnpArwbihSOHI2Peg9WbtGHrbThfBUkZZGTtvQ==}
@@ -5228,27 +5188,6 @@ packages:
       typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@typescript-eslint/parser@5.8.1(eslint@7.32.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-K1giKHAjHuyB421SoXMXFHHVI4NdNY603uKw92++D3qyxSeYvC10CBJ/GE5Thpo4WTUvu1mmJI2/FFkz38F2Gw==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@typescript-eslint/scope-manager': 5.8.1
-      '@typescript-eslint/types': 5.8.1
-      '@typescript-eslint/typescript-estree': 5.8.1(typescript@5.0.4)
-      debug: 4.3.4
-      eslint: 7.32.0
-      typescript: 5.0.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /@typescript-eslint/scope-manager@4.33.0:
     resolution: {integrity: sha512-5IfJHpgTsTZuONKbODctL4kKuQje/bzBRkwHE8UOZ4f89Zeddg+EGZs8PD8NcN4LdM3ygHWYB3ukPAYjvl/qbQ==}
@@ -5263,15 +5202,6 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.9
       '@typescript-eslint/visitor-keys': 5.59.9
-    dev: false
-
-  /@typescript-eslint/scope-manager@5.8.1:
-    resolution: {integrity: sha512-DGxJkNyYruFH3NIZc3PwrzwOQAg7vvgsHsHCILOLvUpupgkwDZdNq/cXU3BjF4LNrCsVg0qxEyWasys5AiJ85Q==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      '@typescript-eslint/types': 5.8.1
-      '@typescript-eslint/visitor-keys': 5.8.1
-    dev: true
 
   /@typescript-eslint/type-utils@5.59.9(eslint@7.32.0)(typescript@5.0.4):
     resolution: {integrity: sha512-ksEsT0/mEHg9e3qZu98AlSrONAQtrSTljL3ow9CGej8eRo7pe+yaC/mvTjptp23Xo/xIf2mLZKC6KPv4Sji26Q==}
@@ -5291,7 +5221,6 @@ packages:
       typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/types@4.33.0:
     resolution: {integrity: sha512-zKp7CjQzLQImXEpLt2BUw1tvOMPfNoTAfb8l51evhYbOEEzdWyQNmHWWGPR6hwKJDAi+1VXSBmnhL9kyVTTOuQ==}
@@ -5300,12 +5229,6 @@ packages:
   /@typescript-eslint/types@5.59.9:
     resolution: {integrity: sha512-uW8H5NRgTVneSVTfiCVffBb8AbwWSKg7qcA4Ot3JI3MPCJGsB4Db4BhvAODIIYE5mNj7Q+VJkK7JxmRhk2Lyjw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dev: false
-
-  /@typescript-eslint/types@5.8.1:
-    resolution: {integrity: sha512-L/FlWCCgnjKOLefdok90/pqInkomLnAcF9UAzNr+DSqMC3IffzumHTQTrINXhP1gVp9zlHiYYjvozVZDPleLcA==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dev: true
 
   /@typescript-eslint/typescript-estree@4.33.0(typescript@5.0.4):
     resolution: {integrity: sha512-rkWRY1MPFzjwnEVHsxGemDzqqddw2QbTJlICPD9p9I9LfsO8fdmfQPOX3uKfUaGRDFJbfrtm/sXhVXN4E+bzCA==}
@@ -5321,7 +5244,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.1
+      semver: 7.5.2
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -5341,33 +5264,11 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.1
+      semver: 7.5.2
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@typescript-eslint/typescript-estree@5.8.1(typescript@5.0.4):
-    resolution: {integrity: sha512-26lQ8l8tTbG7ri7xEcCFT9ijU5Fk+sx/KRRyyzCv7MQ+rZZlqiDPtMKWLC8P7o+dtCnby4c+OlxuX1tp8WfafQ==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@typescript-eslint/types': 5.8.1
-      '@typescript-eslint/visitor-keys': 5.8.1
-      debug: 4.3.4
-      globby: 11.1.0
-      is-glob: 4.0.3
-      semver: 7.5.1
-      tsutils: 3.21.0(typescript@5.0.4)
-      typescript: 5.0.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /@typescript-eslint/utils@5.59.9(eslint@7.32.0)(typescript@5.0.4):
     resolution: {integrity: sha512-1PuMYsju/38I5Ggblaeb98TOoUvjhRvLpLa1DoTOFaLWqaXl/1iQ1eGurTXgBY58NUdtfTXKP5xBq7q9NDaLKg==}
@@ -5383,11 +5284,10 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.9(typescript@5.0.4)
       eslint: 7.32.0
       eslint-scope: 5.1.1
-      semver: 7.5.1
+      semver: 7.5.2
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: false
 
   /@typescript-eslint/visitor-keys@4.33.0:
     resolution: {integrity: sha512-uqi/2aSz9g2ftcHWf8uLPJA70rUv6yuMW5Bohw+bwcuzaxQIHaKFZCKGoGXIrc9vkTJ3+0txM73K0Hq3d5wgIg==}
@@ -5402,15 +5302,6 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.9
       eslint-visitor-keys: 3.4.1
-    dev: false
-
-  /@typescript-eslint/visitor-keys@5.8.1:
-    resolution: {integrity: sha512-SWgiWIwocK6NralrJarPZlWdr0hZnj5GXHIgfdm8hNkyKvpeQuFyLP6YjSIe9kf3YBIfU6OHSZLYkQ+smZwtNg==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      '@typescript-eslint/types': 5.8.1
-      eslint-visitor-keys: 3.4.1
-    dev: true
 
   /@webassemblyjs/ast@1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
@@ -5630,8 +5521,8 @@ packages:
     resolution: {integrity: sha512-d8XPSGjfyzlXC3Xx891DJRyZfqk5JU0BJrDQcsWomFIV1/BIzPW5HDH5iDdWpqWaav0YVIEzT1RHTwWr0FFshA==}
     dev: false
 
-  /ace-builds@1.22.1:
-    resolution: {integrity: sha512-o5RGTPBIiRxguWNors3pT6KuLqj0a2NvNLoqir7/2LLiFm34PJV3BMq4sl9kjPayo4+lmd99m6zAq+XPdhyHQA==}
+  /ace-builds@1.23.4:
+    resolution: {integrity: sha512-a4hKAT2T7KNUQC4LQPW2peuoEsZmLYTn4Dwjkh26A3Z+fQ8/fA2JZNs3V6CqvivhbyMQXQJD1u/0qTCoSS6deA==}
     dev: false
 
   /acorn-globals@7.0.1:
@@ -6001,6 +5892,11 @@ packages:
 
   /aws4@1.12.0:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
+    dev: false
+
+  /axe-core@4.7.2:
+    resolution: {integrity: sha512-zIURGIS1E1Q4pcrMjp+nnEh+16G56eG/MUllJH8yEvw7asDo7Ac9uhC9KIH5jzpITueEZolfYglnCGIuSBz39g==}
+    engines: {node: '>=4'}
     dev: false
 
   /babel-eslint@10.1.0(eslint@7.32.0):
@@ -6443,20 +6339,20 @@ packages:
     resolution: {integrity: sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==}
     dev: false
 
-  /ckeditor4-react@4.2.0(ckeditor4@4.21.0)(react@18.2.0):
-    resolution: {integrity: sha512-fESgls6SWztKnffCLXM2kDETwsaBADi7REZ8CXUNEhn1vxB9HtD7dOS7lQAf5ESKhMXLFKzyjTw++dD0oSeiww==}
+  /ckeditor4-react@4.3.0(ckeditor4@4.22.1)(react@18.2.0):
+    resolution: {integrity: sha512-pLeh39AHj8jfhQ2SsVy29tklAnwaaSdw5UYZ4HECNTHb1M4dGgTKa6Uy2fqceMnmX5c2G8Ewz9X9tMCLpgZ70w==}
     peerDependencies:
-      ckeditor4: ^4.21.0
+      ckeditor4: ^4.22.1
       react: ^18 || 18
     dependencies:
-      ckeditor4: 4.21.0
+      ckeditor4: 4.22.1
       ckeditor4-integrations-common: 1.0.0
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
-  /ckeditor4@4.21.0:
-    resolution: {integrity: sha512-OAMw68puJcrKFtsPZwIWVB/upYLgJpFw1yTuBBIhoreY+g/f0SttjQY0I/fUwxevVUHvgmRVNeJwNl8qkJPvyw==}
+  /ckeditor4@4.22.1:
+    resolution: {integrity: sha512-Yj4vTHX5YxHwc48gNqUqTm+KLkRr9tuyb4O2VIABu4oKHWRNVIdLdy6vUNe/XNx+RiTavMejfA1MVOU/MxLjqQ==}
     dev: false
 
   /clamp@1.0.1:
@@ -6621,6 +6517,7 @@ packages:
   /colors@1.4.0:
     resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
     engines: {node: '>=0.1.90'}
+    dev: true
 
   /combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
@@ -7099,16 +6996,27 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
-  /cypress-image-diff-js@1.23.0(cypress@12.13.0):
-    resolution: {integrity: sha512-A1faTHAkyfZBosXDMUQS9h+CAHZt7C9WCI6qILVZcorC8RW5WA+ErKk86YXWiPoGBKw8RuNUECZenHHA11lpqg==}
+  /cypress-axe@1.4.0(axe-core@4.7.2)(cypress@12.16.0):
+    resolution: {integrity: sha512-Ut7NKfzjyKm0BEbt2WxuKtLkIXmx6FD2j0RwdvO/Ykl7GmB/qRQkwbKLk3VP35+83hiIr8GKD04PDdrTK5BnyA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      axe-core: ^3 || ^4
+      cypress: ^10 || ^11 || ^12
+    dependencies:
+      axe-core: 4.7.2
+      cypress: 12.16.0
+    dev: false
+
+  /cypress-image-diff-js@1.26.0(cypress@12.16.0):
+    resolution: {integrity: sha512-YrojmjE/EoI1O6tmFSYT4rhy2TcURLYtZOpjalhIyXd2HnKKSKgSb2dZmvs20I1RnVw+MQV9OYj+VEAnId+SaQ==}
     hasBin: true
     peerDependencies:
       cypress: ^9.6.1 || ^10 || ^11 || ^12
     dependencies:
       '@babel/runtime': 7.22.5
+      '@colors/colors': 1.5.0
       arg: 4.1.3
-      colors: 1.4.0
-      cypress: 12.13.0
+      cypress: 12.16.0
       cypress-recurse: 1.35.2
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -7122,20 +7030,20 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report@5.2.0(cypress@12.13.0):
+  /cypress-terminal-report@5.2.0(cypress@12.16.0):
     resolution: {integrity: sha512-XKLt7zGmy1LpFxlwwBOyOoN12zKJ+Ot+YRjplyqew4FfVjlakMnkQ9FPLOLa9ocpK6nxZGRQn/qzTtSZ5NoxHg==}
     peerDependencies:
       cypress: '>=4.10.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 12.13.0
+      cypress: 12.16.0
       fs-extra: 10.1.0
       semver: 7.5.1
       tv4: 1.3.0
     dev: false
 
-  /cypress@12.13.0:
-    resolution: {integrity: sha512-QJlSmdPk+53Zhy69woJMySZQJoWfEWun3X5OOenGsXjRPVfByVTHorxNehbzhZrEzH9RDUDqVcck0ahtlS+N/Q==}
+  /cypress@12.16.0:
+    resolution: {integrity: sha512-mwv1YNe48hm0LVaPgofEhGCtLwNIQEjmj2dJXnAkY1b4n/NE9OtgPph4TyS+tOtYp5CKtRmDvBzWseUXQTjbTg==}
     engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     requiresBuild: true
@@ -7408,8 +7316,8 @@ packages:
     resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
     dev: true
 
-  /deep-equal@2.2.1:
-    resolution: {integrity: sha512-lKdkdV6EOGoVn65XaOsPdH4rMxTZOnmFyuIkMjM1i5HHCbfjC97dawgTAy0deYNfuqUqW+Q5VrVaQYtUpSd6yQ==}
+  /deep-equal@2.2.2:
+    resolution: {integrity: sha512-xjVyBf0w5vH0I42jdAZzOKVldmPgSulmiyPRywoyq7HXC9qdgo17kxJE+rdnif5Tz6+pIrpJI8dCpMNLIGkUiA==}
     dependencies:
       array-buffer-byte-length: 1.0.0
       call-bind: 1.0.2
@@ -7602,8 +7510,8 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
-  /dompurify@2.4.5:
-    resolution: {integrity: sha512-jggCCd+8Iqp4Tsz0nIvpcb22InKEBrGz5dw3EQJMs8HPJDsKbFIO3STYtAvCfDx26Muevn1MHVI0XxjgFfmiSA==}
+  /dompurify@2.4.7:
+    resolution: {integrity: sha512-kxxKlPEDa6Nc5WJi+qRgPbOAbgTpSULL+vI3NUXsZMlkJxTqYI9wg5ZTay2sFrdZRWHPWNi+EdAhcJf81WtoMQ==}
     dev: false
 
   /domutils@2.8.0:
@@ -7634,8 +7542,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /downshift@7.6.0(react@18.2.0):
-    resolution: {integrity: sha512-VSoTVynTAsabou/hbZ6HJHUVhtBiVOjQoBsCPcQq5eAROIGP+9XKMp9asAKQ3cEcUP4oe0fFdD2pziUjhFY33Q==}
+  /downshift@7.6.2(react@18.2.0):
+    resolution: {integrity: sha512-iOv+E1Hyt3JDdL9yYcOgW7nZ7GQ2Uz6YbggwXvKUSleetYhU2nXD482Rz6CzvM4lvI1At34BYruKAL4swRGxaA==}
     peerDependencies:
       react: '>=16.12.0 || 18'
     dependencies:
@@ -7998,25 +7906,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: false
-
-  /eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.8.1)(eslint@7.32.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-wUxdF2bAZiYSKBclsUMrYHH6WxiBreNjyDxbRv345TIvPeoCEgPNEn3Sa+ZrSqsf1Dl9SqqSREXMHExlMMu1DA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>= 4'
-      eslint: '>=5'
-    peerDependenciesMeta:
-      '@typescript-eslint/eslint-plugin':
-        optional: true
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 5.8.1(@typescript-eslint/parser@5.8.1)(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.0.4)
-      eslint: 7.32.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
 
   /eslint-plugin-json@3.1.0:
     resolution: {integrity: sha512-MrlG2ynFEHe7wDGwbUuFPsaT2b1uhuEFhJ+W1f1u+1C2EkXmTYJp4B1aAdQQ8M+CC3t//N/oRKiIVw14L2HR1g==}
@@ -8174,7 +8063,7 @@ packages:
       optionator: 0.9.1
       progress: 2.0.3
       regexpp: 3.2.0
-      semver: 7.5.1
+      semver: 7.5.2
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       table: 6.8.1
@@ -8965,7 +8854,6 @@ packages:
 
   /grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
-    dev: false
 
   /grid-index@1.1.0:
     resolution: {integrity: sha512-HZRwumpOGUrHyxO5bqKZL0B0GlUpwtCAzZ42sgxUPniu33R1LSFH5yrIcBCHjkctCAh3mtWKcKd9J4vDDdeVHA==}
@@ -10050,7 +9938,7 @@ packages:
       jest-util: 29.5.0
       natural-compare: 1.4.0
       pretty-format: 29.5.0
-      semver: 7.5.1
+      semver: 7.5.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10290,6 +10178,10 @@ packages:
 
   /kdbush@3.0.0:
     resolution: {integrity: sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==}
+    dev: false
+
+  /kdbush@4.0.2:
+    resolution: {integrity: sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==}
     dev: false
 
   /kind-of@6.0.3:
@@ -11053,7 +10945,6 @@ packages:
 
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
-    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -11125,7 +11016,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.12.1
-      semver: 7.5.1
+      semver: 7.5.2
       validate-npm-package-license: 3.0.4
     dev: false
 
@@ -12038,12 +11929,6 @@ packages:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
 
-  /progressbar.js@1.1.0:
-    resolution: {integrity: sha512-K68/xcyXKo2I6T3PfIkXrRaycxROmWeU4bugb49iulWR25cU94PM0cfZ47S0jDhG5K3vPhZwCOy1fgb5Pgh6UQ==}
-    dependencies:
-      shifty: 2.20.4
-    dev: false
-
   /promise.series@0.2.0:
     resolution: {integrity: sha512-VWQJyU2bcDTgZw8kpfBpB/ejZASlCrzwz5f2hjb/zlujOEB4oeiAhHygAWq8ubsX2GVkD4kCU5V2dwOTaCY5EQ==}
     engines: {node: '>=0.12'}
@@ -12245,7 +12130,7 @@ packages:
       react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
       react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      ace-builds: 1.22.1
+      ace-builds: 1.23.4
       diff-match-patch: 1.0.5
       lodash.get: 4.4.2
       lodash.isequal: 4.5.0
@@ -12260,7 +12145,7 @@ packages:
       react: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || 18
       react-dom: ^0.13.0 || ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      ace-builds: 1.22.1
+      ace-builds: 1.23.4
       diff-match-patch: 1.0.5
       lodash.get: 4.4.2
       lodash.isequal: 4.5.0
@@ -13198,7 +13083,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
 
   /serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
@@ -13256,8 +13140,8 @@ packages:
       interpret: 1.4.0
       rechoir: 0.6.2
 
-  /shifty@2.20.4:
-    resolution: {integrity: sha512-4Y0qRkg8ME5XN8yGNAwmFOmsIURGFKT9UQfNL6DDJQErYtN5HsjyoBuJn41ZQfTkuu2rIbRMn9qazjKsDpO2TA==}
+  /shifty@3.0.1:
+    resolution: {integrity: sha512-jGbnl1VR0dG2J+x5u9E0c1gt9QqDjeFrOtopRmKhMw2zmtzZAWG4voYZD5lSpW6THct6G2STxICAPvqfU6J1Pg==}
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
@@ -13606,6 +13490,12 @@ packages:
       kdbush: 3.0.0
     dev: false
 
+  /supercluster@8.0.1:
+    resolution: {integrity: sha512-IiOea5kJ9iqzD2t7QJq/cREyLHTtSmUT6gQsweojg9WH2sYJqZK9SswTu6jrscO6D1G5v5vYZ9ru/eq85lXeZQ==}
+    dependencies:
+      kdbush: 4.0.2
+    dev: false
+
   /superscript-text@1.0.0:
     resolution: {integrity: sha512-gwu8l5MtRZ6koO0icVTlmN5pm7Dhh1+Xpe9O4x6ObMAsW+3jPbW14d1DsBq1F4wiI+WOFjXF35pslgec/G8yCQ==}
     dev: false
@@ -13926,7 +13816,7 @@ packages:
       json5: 2.2.3
       lodash.memoize: 4.1.2
       make-error: 1.3.6
-      semver: 7.5.1
+      semver: 7.5.2
       typescript: 5.0.4
       yargs-parser: 21.1.1
     dev: true

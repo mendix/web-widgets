@@ -1,7 +1,7 @@
 {
   "name": "@mendix/video-player-web",
   "widgetName": "VideoPlayer",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Player for YouTube, Dailymotion, Vimeo and Mp4 videos",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "repository": {
@@ -41,12 +41,12 @@
     "e2edev": "run-e2e dev --with-preps"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/react-resize-detector": "^5.0.0",
-    "@web-widgets/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*"
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",

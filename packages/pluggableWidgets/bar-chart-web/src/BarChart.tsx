@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback, useMemo } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
+import { createElement, ReactElement, useCallback, useMemo, memo } from "react";
+import { ChartWidget, ChartWidgetProps, containerPropsEqual } from "@mendix/shared-charts";
 import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/hooks";
 import { BarChartContainerProps } from "../typings/BarChartProps";
 
@@ -28,7 +28,9 @@ const barChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
     type: "bar"
 };
 
-export function BarChart(props: BarChartContainerProps): ReactElement | null {
+// disable eslint rule to have nice component name in component tree at devtools
+// eslint-disable-next-line prefer-arrow-callback
+export const BarChart = memo(function BarChart(props: BarChartContainerProps): ReactElement | null {
     const layoutOptions = useMemo(
         () => ({
             ...barChartLayoutOptions,
@@ -74,4 +76,4 @@ export function BarChart(props: BarChartContainerProps): ReactElement | null {
             enableThemeConfig={props.enableThemeConfig}
         />
     );
-}
+}, containerPropsEqual);

@@ -31,7 +31,7 @@
     "test": "echo 'FIXME: Finish any-chart-web unit test migration'"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/plotly.js": "~2.12.20",
     "copy-webpack-plugin": "^11.0.0",
@@ -46,10 +46,10 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "ace-builds": "^1.22.1",
+    "ace-builds": "^1.23.4",
     "classnames": "^2.3.2",
     "date-format": "^4.0.14",
-    "deep-equal": "^2.2.1",
+    "deep-equal": "^2.2.2",
     "deepmerge": "^4.3.1",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1",

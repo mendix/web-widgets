@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.3_7
+FROM adoptopenjdk/openjdk11:jdk-11.0.19_7-slim
 
 ARG MENDIX_VERSION
 

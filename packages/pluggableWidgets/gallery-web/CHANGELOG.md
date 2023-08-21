@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.3.4] - 2023-08-10
+
+### Fixed
+
+-   We improved accessibility of the Gallery widget.
+
+## [1.3.3] - 2023-07-13
+
+### Fixed
+
+-   We fixed an issue with Gallery widget unnecessary requesting total count of items in virtual scrolling mode.
+
 ## [1.3.2] - 2023-05-26
 
 ### Changed

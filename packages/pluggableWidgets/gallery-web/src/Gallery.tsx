@@ -35,7 +35,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         : props.datasource.offset / props.pageSize;
 
     useEffect(() => {
-        props.datasource.requestTotalCount(true);
+        props.datasource.requestTotalCount(!isInfiniteLoad);
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }

@@ -22,6 +22,10 @@ exports[`Date Filter with single instance with multiple attributes renders corre
         </button>
       </div>
     </div>
+    <div
+      class="date-filter-container"
+      id="datepicker_0.123456789"
+    />
     <span
       class="sr-only"
       id="DateFilter1-label"
@@ -89,6 +93,10 @@ exports[`Date Filter with single instance with single attribute renders correctl
         </button>
       </div>
     </div>
+    <div
+      class="date-filter-container"
+      id="datepicker_0.123456789"
+    />
     <span
       class="sr-only"
       id="DateFilter1-label"

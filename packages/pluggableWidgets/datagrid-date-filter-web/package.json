@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-date-filter-web",
   "widgetName": "DatagridDateFilter",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -46,11 +46,11 @@
     "string.prototype.replaceall": "^1.0.7"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/react-datepicker": "^4.11.2",
-    "@web-widgets/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*"
   }
 }

@@ -10,7 +10,7 @@ import {
     removeDist,
     runModuleSteps,
     writeModuleVersion
-} from "@mendix-internal/automation-utils/steps";
+} from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({

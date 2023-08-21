@@ -20,7 +20,7 @@ export function preview(props: TreeNodePreviewProps): ReactElement | null {
             items={[
                 {
                     id: "1" as GUID,
-                    value:
+                    headerContent:
                         props.headerType === "text" ? (
                             renderTextTemplateWithFallback(props.headerCaption, "[No header caption configured]")
                         ) : (
@@ -28,7 +28,7 @@ export function preview(props: TreeNodePreviewProps): ReactElement | null {
                                 <div />
                             </props.headerContent.renderer>
                         ),
-                    content: (
+                    bodyContent: (
                         <props.children.renderer caption="Place other tree nodes here.">
                             <div />
                         </props.children.renderer>
@@ -43,6 +43,7 @@ export function preview(props: TreeNodePreviewProps): ReactElement | null {
             expandedIcon={mapPreviewIconToWebIcon(props.expandedIcon)}
             animateIcon={false}
             animateTreeNodeContent={false}
+            openNodeOn={"headerClick"}
         />
     );
 }

@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-test-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/plotly.js": "^2.12.20",
@@ -34,7 +35,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
-    "ace-builds": "^1.22.1",
+    "ace-builds": "^1.23.4",
     "classnames": "^2.3.2",
     "deepmerge": "^4.3.1",
     "fast-json-patch": "^3.1.1",

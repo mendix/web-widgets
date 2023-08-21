@@ -1,25 +1,36 @@
 import { RefObject, useEffect } from "react";
 
+function onOuterEvents(
+    refs: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
+    callback: () => void
+): (event: MouseEvent) => void {
+    const nodes = Array.isArray(refs) ? refs : [refs];
+    return (event: MouseEvent) => {
+        const isNotOurChild = nodes.every(({ current: elt }) => elt && !elt.contains(event.target as Node));
+        if (isNotOurChild) {
+            callback();
+        }
+    };
+}
+
 export function useOnClickOutside(
-    ref: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
-    handler: () => void
+    refs: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
+    callback: () => void
 ): void {
     useEffect(() => {
-        const listener = (event: MouseEvent & { target: Node | null }): void => {
-            if (Array.isArray(ref)) {
-                if (ref.some(r => !r.current || r.current.contains(event.target))) {
-                    return;
-                }
-            } else if (!ref.current || ref.current.contains(event.target)) {
-                return;
-            }
-            handler();
-        };
-        document.addEventListener("mousedown", listener);
-        document.addEventListener("touchstart", listener);
+        const { current: elt } = Array.isArray(refs) ? refs[0] : refs;
+
+        if (!elt) {
+            return;
+        }
+
+        const doc = elt.ownerDocument;
+        const listener = onOuterEvents(refs, callback);
+        doc.addEventListener("mousedown", listener);
+        doc.addEventListener("touchstart", listener);
         return () => {
-            document.removeEventListener("mousedown", listener);
-            document.removeEventListener("touchstart", listener);
+            doc.removeEventListener("mousedown", listener);
+            doc.removeEventListener("touchstart", listener);
         };
-    }, [ref, handler]);
+    }, [refs, callback]);
 }

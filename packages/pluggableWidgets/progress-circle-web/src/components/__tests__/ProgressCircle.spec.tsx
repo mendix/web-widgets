@@ -1,25 +1,24 @@
 import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
 import { mount, shallow } from "enzyme";
-import * as ProgressbarJs from "progressbar.js";
+import Circle from "../Circle/Circle";
 import { createElement, FunctionComponent } from "react";
 import { ProgressCircle } from "../ProgressCircle";
 
 const mockedAnimate = jest.fn();
-jest.mock("progressbar.js", () => ({
-    Circle: jest.fn().mockImplementation(() => ({
+
+jest.mock("../Circle/Circle", () => {
+    const originalModule = jest.requireActual("../Circle/Circle");
+
+    return jest.fn().mockImplementation(() => ({
+        ...originalModule,
         path: {
             className: {
                 baseVal: ""
             }
         },
-        trail: {
-            className: {
-                baseVal: ""
-            }
-        },
         animate: mockedAnimate
-    }))
-}));
+    }));
+});
 
 describe("ProgressCircle", () => {
     const onClickSpy = jest.fn();
@@ -39,11 +38,11 @@ describe("ProgressCircle", () => {
         ).toMatchSnapshot();
     });
 
-    it("renders the progressbar.js Circle", () => {
+    it("renders the progressbar Circle", () => {
         mount(
             <ProgressCircle currentValue={23} minValue={0} maxValue={100} onClick={onClickSpy} label="23%" class="" />
         );
-        expect(ProgressbarJs.Circle).toHaveBeenCalled();
+        expect(Circle).toHaveBeenCalled();
         expect(mockedAnimate).toHaveBeenCalledWith(0.23);
     });
 

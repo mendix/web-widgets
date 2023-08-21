@@ -6,7 +6,13 @@ import {
     TextProps,
     structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
-import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
+import {
+    hidePropertiesIn,
+    hidePropertyIn,
+    Problem,
+    Properties,
+    transformGroupsIntoTabs
+} from "@mendix/pluggable-widgets-tools";
 
 import { HeaderTypeEnum, TreeNodePreviewProps } from "../typings/TreeNodeProps";
 
@@ -24,6 +30,7 @@ export function getProperties(
 
     if (values.headerType === "text") {
         hidePropertyIn(defaultProperties, values, "headerContent");
+        hidePropertyIn(defaultProperties, values, "openNodeOn");
     } else if (values.headerType === "custom") {
         hidePropertyIn(defaultProperties, values, "headerCaption");
     }
@@ -171,4 +178,18 @@ function getChevronIconPreview(headerType: HeaderTypeEnum, isDarkMode: boolean):
 
 export function getCustomCaption(values: TreeNodePreviewProps, _platform = "desktop"): string {
     return (values.datasource as { caption?: string }).caption || "Tree node";
+}
+
+export function check(props: TreeNodePreviewProps): Problem[] {
+    const errors: Problem[] = [];
+
+    if (props.openNodeOn === "iconClick" && props.showIcon === "no") {
+        errors.push({
+            property: "openNodeOn",
+            message:
+                'The header icon is required to be visible when "Open node on" is set to "Icon is clicked". Right now, the "Show icon" is set to "No".'
+        });
+    }
+
+    return errors;
 }

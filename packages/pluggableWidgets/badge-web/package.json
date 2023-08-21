@@ -41,11 +41,11 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@web-widgets/run-e2e": "workspace:^*",
+    "@mendix/run-e2e": "workspace:^*",
     "cross-env": "^7.0.3"
   },
   "dependencies": {

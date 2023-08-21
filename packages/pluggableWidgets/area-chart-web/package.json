@@ -1,7 +1,7 @@
 {
   "name": "@mendix/area-chart-web",
   "widgetName": "AreaChart",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "An area chart displays a solid color between the traces of a graph.",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
@@ -37,7 +37,7 @@
     "update-changelog": "rui-update-changelog-widget"
   },
   "devDependencies": {
-    "@mendix-internal/automation-utils": "workspace:*",
+    "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*"
