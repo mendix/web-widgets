@@ -11,11 +11,21 @@ import classNames from "classnames";
 import { isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 
+// Fix type definition for Selectable
+// TODO: Open PR to fix in appdev.
+declare module "mendix/preview/Selectable" {
+    interface SelectableProps<T> {
+        object: T;
+        caption?: string;
+        children: ReactNode;
+    }
+}
+
 const dummyColumns: ColumnsPreviewType[] = [
     {
         header: "Column",
         tooltip: "",
-        attribute: "[No attribute selected]",
+        attribute: "No attribute selected",
         width: "autoFill",
         columnClass: "",
         filter: { renderer: () => <div />, widgetCount: 0 },
@@ -44,8 +54,13 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const selectableWrapperRenderer = useCallback(
         (columnIndex: number, header: ReactElement) => {
             const column = columns[columnIndex];
+
+            // We can't use Selectable when there no columns configured yet, so, just show header.
+            if (columns === dummyColumns) {
+                return header;
+            }
+
             return (
-                // @ts-ignore
                 <Selectable
                     key={`selectable_column_${columnIndex}`}
                     caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
