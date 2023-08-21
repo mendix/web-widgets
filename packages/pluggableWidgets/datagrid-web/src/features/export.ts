@@ -1,65 +1,136 @@
-import { ObjectItem } from "mendix";
+import { useEffect, useState } from "react";
+import { ListValue, ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { ColumnsType } from "../../typings/DatagridProps";
 
-type ExportType = "csv" | "xls" | "sql" | "json";
+// Roman types ideas
+type ColumnDefinition = {
+    name: string;
+    type: string;
+};
 
-export class ExportFromDatagrid {
-    private columns: ColumnsType[];
-    private items: ObjectItem[];
+type RowDataType = string | number | boolean;
 
-    constructor() {
-        this.columns = [];
-        this.items = [];
-    }
+export type Message =
+    | {
+          type: "columns";
+          payload: ColumnDefinition[];
+      }
+    | {
+          type: "data";
+          payload: RowDataType[][];
+      }
+    | {
+          type: "end";
+      };
 
-    addColumns(columns: ColumnsType[]) {
-        this.columns = columns;
-    }
+interface DataExportStream {
+    process(cb: (msg: Message) => Promise<void> | void): void;
+    start(): void;
+    abort(): void;
+}
 
-    addItems(exportItems: ObjectItem[]) {
-        this.items = [...this.items, ...exportItems];
-    }
+interface DataExporter {
+    create(): DataExportStream;
+}
 
-    async export(dataType: ExportType = "json") {
-        switch (dataType) {
-            case "json":
-                if (this.items) {
-                    const json = this.exportJson();
-                    console.info(json);
-                }
-                break;
-            default:
-                console.info("implement CSV, XLS, SQL");
-                break;
+export type DataGridName = string;
+
+export interface DocumentWithDGExportAPI extends Document {
+    // should be Document
+    mxDataGrid2DataExport: Record<DataGridName, DataExporter>;
+}
+// Roman types ideas
+
+type UseDG2ExportApi = {
+    columns: ColumnsType[];
+    datasource: ListValue;
+    name: string;
+    pageSize: number;
+};
+
+type CallbackFunction = (msg: Message) => Promise<void> | void;
+
+export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2ExportApi) => {
+    const [startProcess, setStartProcess] = useState(false);
+    const [sentColumns, setSentColumns] = useState(false);
+    const [callback, setCallback] = useState<CallbackFunction>();
+
+    const dataExportStream: DataExportStream = {
+        process: (cb: CallbackFunction) => {
+            setCallback(() => cb);
+        },
+        start: () => setStartProcess(true),
+        abort: () => {
+            if (callback) {
+                callback({ type: "end" });
+            }
+            if (startProcess) {
+                setStartProcess(false);
+            }
         }
-    }
+    };
 
-    private exportJson() {
-        let exportData: {}[] = [];
+    const create = (): DataExportStream => {
+        return dataExportStream;
+    };
 
-        this.items.forEach(item => {
-            const exportItem = this.columns.reduce((prev, curr) => {
-                const header = curr.header && isAvailable(curr.header) ? curr.header.value ?? "" : "";
+    const exportColumns = (): Message => {
+        const exportColumns: ColumnDefinition[] = columns.map(column => ({
+            name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
+            type: column.attribute?.type.toString() ?? ""
+        }));
+
+        return { type: "columns", payload: exportColumns };
+    };
+
+    const exportData = (data: ObjectItem[]): Message => {
+        const items = data.map(item => {
+            return columns.map(column => {
                 let value = "";
 
-                if (curr.showContentAs === "attribute") {
-                    value = curr.attribute?.get(item)?.displayValue ?? "";
-                } else if (curr.showContentAs === "dynamicText") {
-                    value = curr.dynamicText?.get(item)?.value ?? "";
+                if (column.showContentAs === "attribute") {
+                    value = column.attribute?.get(item)?.displayValue ?? "";
+                } else if (column.showContentAs === "dynamicText") {
+                    value = column.dynamicText?.get(item)?.value ?? "";
                 } else {
                     value = "n/a";
                 }
 
-                return {
-                    ...prev,
-                    [header.replaceAll(" ", "_").toLowerCase()]: value
-                };
-            }, {});
-
-            exportData.push(exportItem);
+                return value;
+            });
         });
 
-        return exportData;
-    }
-}
+        return { type: "data", payload: items };
+    };
+
+    useEffect(() => {
+        if (!(document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport) {
+            (document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport = {};
+        }
+
+        (document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport[name] = { create };
+    }, []);
+
+    useEffect(() => {
+        if (startProcess && callback) {
+            if (sentColumns === false) {
+                callback(exportColumns());
+                setSentColumns(true);
+            }
+
+            if (datasource.items && datasource.hasMoreItems) {
+                callback(exportData(datasource.items));
+                const newOffset = datasource.offset + pageSize;
+                datasource.setOffset(newOffset);
+            }
+
+            if (datasource.items && datasource.hasMoreItems === false) {
+                callback(exportData(datasource.items));
+                callback({ type: "end" });
+                datasource.setOffset(0);
+                setStartProcess(false);
+            }
+        }
+    }, [callback, datasource.hasMoreItems, datasource.items, sentColumns, startProcess]);
+};
