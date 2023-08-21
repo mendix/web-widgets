@@ -1,0 +1,178 @@
+$brand-primary: #264ae5;
+$brand-secondary-light: #e6eaff;
+$separator-border: #808080;
+$typography-color: #3b4251;
+$box-shadow-color: rgba(0, 0, 0, 0.2);
+$selected-item: #e6eaff;
+$highlighted-index: #f5f6f6;
+$unselected-item: #ffffff;
+$hover-color: #ced0d3;
+$disabled-color: #f8f8f8;
+$disabled-text-color: #6c7180;
+.widget-combobox {
+    flex-grow: 1;
+    position: relative;
+    transition: color 150ms ease 0s;
+    &-menu {
+        position: absolute;
+        display: inline;
+        border-radius: 7px;
+        margin: 4px 0 0 0;
+        width: 100%;
+        left: unset;
+        padding: 0;
+        overflow: hidden;
+        z-index: 102;
+        box-shadow: 0px 0px 10px 0px $box-shadow-color;
+        background-color: $unselected-item;
+        list-style-type: "none";
+        &-list {
+            padding: 0;
+        }
+        &-hidden {
+            display: none;
+        }
+        &-footer {
+            display: flex;
+            justify-content: space-between;
+            color: $brand-primary;
+            border-top: 1px solid $separator-border;
+            &-control {
+                display: flex;
+                padding: 10px 12px;
+                border: none;
+                background-color: transparent;
+                justify-content: flex-end;
+                align-items: center;
+                color: $brand-primary;
+                cursor: pointer;
+                &-disabled {
+                    color: $disabled-text-color;
+                }
+            }
+        }
+    }
+
+    &-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        padding: 3px 0 3px 10px;
+        height: fit-content;
+        overflow: hidden;
+        color: $typography-color;
+        background-color: $unselected-item;
+        &-selected {
+            background-color: $selected-item;
+        }
+        &-highlighted {
+            background-color: $highlighted-index;
+        }
+    }
+
+    &-input-container {
+        flex-grow: 1;
+        transition: box-shadow 150ms ease 0s;
+        &-active {
+            border: 1px solid $brand-primary !important;
+        }
+        &-disabled {
+            background-color: $disabled-color !important;
+            pointer-events: none !important;
+        }
+    }
+
+    &-input {
+        flex-grow: 1;
+        border: none;
+        &:placeholder-shown {
+            text-overflow: ellipsis;
+        }
+        &-nofilter {
+            cursor: pointer;
+        }
+    }
+
+    &-clear-button {
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        &-icon {
+            fill: $typography-color;
+            transition: fill 0.2s ease-in-out;
+        }
+        &:hover &-icon {
+            fill: $hover-color;
+        }
+    }
+    &-down-arrow {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        cursor: pointer;
+        border-left: 1px solid $separator-border;
+        padding-left: 4px;
+        span {
+            display: flex;
+        }
+        svg {
+            fill: $typography-color;
+            transition: fill 0.2s ease-in-out;
+        }
+        &:hover svg {
+            fill: $hover-color;
+        }
+    }
+
+    &-placeholder {
+        background-color: $disabled-color !important;
+        justify-content: flex-end !important;
+        border: 1px solid #e7e7e9;
+        cursor: not-allowed;
+        &-down-arrow-icon {
+            svg {
+                fill: $hover-color;
+            }
+        }
+    }
+
+    &-selected {
+        &-items {
+            display: flex;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+
+        &-item {
+            font-size: 12px;
+            display: flex;
+            border-radius: 5px;
+            padding: 4px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1px 2px;
+            background-color: $brand-secondary-light;
+            &-remove-icon {
+                padding: 4px;
+                cursor: pointer;
+                color: $brand-primary;
+            }
+        }
+        &-listitem {
+            display: flex;
+            border-radius: 2px;
+            padding-left: 4px;
+            padding-right: 4px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1px 2px;
+            &-remove-icon {
+                padding: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+}
