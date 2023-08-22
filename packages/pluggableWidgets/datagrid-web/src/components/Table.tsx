@@ -311,9 +311,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 )}
                             </div>
                         )}
-                        {visibleColumns.map(column =>
+                        {visibleColumns.map((column, index) =>
                             headerWrapperRenderer(
-                                Number(column.id),
+                                index,
                                 <Header
                                     key={`headers_column_${column.id}`}
                                     className={`align-column-${column.alignment}`}

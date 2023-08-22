@@ -250,7 +250,7 @@
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
-                <property key="onConfigurationChange" type="action">
+                <property key="onConfigurationChange" type="action" required="false">
                     <caption>On change</caption>
                     <description />
                 </property>
