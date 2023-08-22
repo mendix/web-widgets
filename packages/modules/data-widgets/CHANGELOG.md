@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.6] DataWidgets - 2023-08-22
+
+### [2.8.1] Datagrid
+
+#### Fixed
+
+-   We fixed a rendering issue when viewing "Data grid" in "Design mode" showed an error message instead of the actual widget preview.
+
+### [1.1.3] TreeNode
+
+#### Fixed
+
+-   We fixed an issue with keyboard input for "form" widgets when they were put into a tree node. Up to this version, pressing "space" or "enter" in widgets like ‘Text box’ or ‘Text area’ was not handled properly, and keyboard input was ignored. The new version should have no issues with keyboard input in child widgets.
+
+-   We fixed an issue with the open/close state for the tree node. This issue was visible when any clickable widget was used to customize the tree node header. Starting from this version, you can choose which part of the header (icon or whole header), when clicked, triggers a collapsed or expanded state for the node.
+
+#### Breaking changes
+
+-   We changed the widget HTML. As a result, some CSS selectors may be affected. Please check your custom styles (if used) after updating to this version.
+
+#### Added
+
+-   We added the new property "Open node when". This property controls which element (an icon or a whole header), once clicked, will expand or collapse the node.
+
 ## [2.8.5] DataWidgets - 2023-08-10
 
 ### Fixed
