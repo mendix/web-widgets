@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.1] - 2023-08-22
+
 ### Fixed
 
 -   We fixed a rendering issue when viewing "Data grid" in "Design mode" showed an error message instead of the actual widget preview.
