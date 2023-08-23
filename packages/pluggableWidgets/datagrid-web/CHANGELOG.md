@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue with column capabilities hide option that was unable to be hidden by default.
+
 ## [2.8.1] - 2023-08-22
 
 ### Fixed

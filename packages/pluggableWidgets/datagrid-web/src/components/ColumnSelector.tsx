@@ -60,7 +60,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column: ColumnProperty, index: number) => {
-                const isVisible = !props.hiddenColumns.includes(column.id);
+                const isVisible = !props.hiddenColumns.includes(column.index.toString());
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (
                     <li
@@ -68,7 +68,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            onClick(isVisible, column.id);
+                            onClick(isVisible, column.index.toString());
                         }}
                         onKeyDown={e => {
                             if (e.key === "Enter" || e.key === " ") {

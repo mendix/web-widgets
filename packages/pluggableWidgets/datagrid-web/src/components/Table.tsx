@@ -209,10 +209,12 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     );
 
     const visibleColumns = useMemo(
-        () => tableColumns.filter(c => !hiddenColumns.includes(c.id)).sort((a, b) => sortColumns(columnOrder, a, b)),
+        () =>
+            tableColumns
+                .filter(c => !hiddenColumns.includes(c.index.toString()))
+                .sort((a, b) => sortColumns(columnOrder, a, b)),
         [tableColumns, hiddenColumns, columnOrder]
     );
-
     const renderCell = useCallback(
         (column: ColumnProperty, value: T, rowIndex: number) =>
             visibleColumns.find(c => c.id === column.id) || preview
