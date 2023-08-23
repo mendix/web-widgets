@@ -21,7 +21,8 @@ import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
-import { DataGridName, DocumentWithDGExportAPI, Message, useDG2ExportApi } from "./features/export";
+import { Message, useDG2ExportApi } from "./features/export";
+import { DataGridName, DATAGRID_DATA_EXPORT } from "typings/global";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -143,8 +144,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     return (
         <Table
-            selectionStatus={selectionStatus}
-            selectionMethod={selectionMethod}
             cellRenderer={cellRenderer}
             className={props.class}
             columns={columns}
@@ -190,8 +189,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [FilterContext, customFiltersState, props.columns]
             )}
-            hasMoreItems={props.datasource.hasMoreItems ?? false}
-            headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
+            gridHeaderTitle={props.filterSectionTitle?.value}
             gridHeaderWidgets={useMemo(
                 () => (
                     <FilterContext.Provider
@@ -215,14 +213,20 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 ),
                 [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
             )}
-            gridHeaderTitle={props.filterSectionTitle?.value}
+            hasMoreItems={props.datasource.hasMoreItems ?? false}
+            headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
+            isSelected={selectActionProps.isSelected}
             numberOfItems={props.datasource.totalCount}
+            onSelect={selectActionProps.onSelect}
+            onSelectAll={selectActionProps.onSelectAll}
             page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
+            selectionMethod={selectionMethod}
+            selectionStatus={selectionStatus}
             setPage={setPage}
             setSortParameters={setSortParameters}
             settings={props.configurationAttribute}
@@ -234,9 +238,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [props.columns]
             )}
-            onSelect={selectActionProps.onSelect}
-            onSelectAll={selectActionProps.onSelectAll}
-            isSelected={selectActionProps.isSelected}
         />
     );
 }
@@ -251,7 +252,7 @@ function transformColumnProps(props: ColumnsType[]): TableColumn[] {
 
 function dumpDataFromDataGridToConsole(name: DataGridName) {
     console.info("You asked to dump data from: ", name);
-    const stream = (document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport[name].create();
+    const stream = window[DATAGRID_DATA_EXPORT][name].create();
     console.info("Got data export stream instance, attaching processing function");
     stream.process((msg: Message) => {
         if (!msg) {

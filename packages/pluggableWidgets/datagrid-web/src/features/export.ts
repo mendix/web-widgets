@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ListValue, ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { ColumnsType } from "../../typings/DatagridProps";
+import { DATAGRID_DATA_EXPORT } from "../../typings/global";
 
 // Roman types ideas
 type ColumnDefinition = {
@@ -28,17 +29,6 @@ interface DataExportStream {
     process(cb: (msg: Message) => Promise<void> | void): void;
     start(): void;
     abort(): void;
-}
-
-interface DataExporter {
-    create(): DataExportStream;
-}
-
-export type DataGridName = string;
-
-export interface DocumentWithDGExportAPI extends Document {
-    // should be Document
-    mxDataGrid2DataExport: Record<DataGridName, DataExporter>;
 }
 // Roman types ideas
 
@@ -105,11 +95,11 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     };
 
     useEffect(() => {
-        if (!(document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport) {
-            (document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport = {};
+        if (!window[DATAGRID_DATA_EXPORT]) {
+            window[DATAGRID_DATA_EXPORT] = {};
         }
 
-        (document as any as DocumentWithDGExportAPI).mxDataGrid2DataExport[name] = { create };
+        window[DATAGRID_DATA_EXPORT][name] = { create };
     }, []);
 
     useEffect(() => {
