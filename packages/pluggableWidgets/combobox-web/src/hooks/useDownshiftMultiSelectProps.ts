@@ -63,10 +63,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items =
-        selector.selectedItemsStyle === "text"
-            ? selector.options.getAll()
-            : selector.options.getAll().filter(option => !selectedItems.includes(option));
+    const items = selector.options.getAll();
 
     const {
         isOpen,
