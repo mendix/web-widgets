@@ -84,6 +84,25 @@ describe("datagrid-web", () => {
             cy.get(".mx-name-datagrid1 .column-header").first().contains("First Name");
         });
 
+        it("hide column saved on configuration attribute capability", () => {
+            cy.get(".mx-name-datagrid5 .column-selector-button").click();
+            cy.get(".column-selectors > li").first().click();
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.get(".mx-name-datagrid5 .column-header").first().contains("Last Name");
+            cy.get(".mx-name-textArea1 textarea").should(
+                "have.text",
+                '[{"column":"First Name","sort":false,"sortMethod":"asc","hidden":true,"order":0},{"column":"Last Name","sort":false,"sortMethod":"asc","hidden":false,"order":1}]'
+            );
+        });
+
+        it("hide column by default enabled", () => {
+            cy.get(".mx-name-datagrid6 .column-header").first().contains("First Name");
+            cy.get(".mx-name-datagrid6 .column-selector-button").click();
+            cy.get(".column-selectors > li").first().click();
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.get(".mx-name-datagrid6 .column-header").first().contains("Id");
+        });
+
         it("do not allow to hide last visible column", () => {
             cy.get(".mx-name-datagrid1 .column-header").first().should("be.visible");
             cy.get(".mx-name-datagrid1 .column-selector-button").click();
