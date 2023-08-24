@@ -4,7 +4,6 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     class="widget-combobox"
-    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container"
@@ -15,10 +14,10 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         aria-autocomplete="list"
         aria-controls="downshift-0-menu"
         aria-expanded="false"
-        aria-labelledby="downshift-0-label"
+        aria-labelledby="comboBox1-label"
         autocomplete="off"
         class="widget-combobox-input"
-        id="downshift-0-input"
+        id="comboBox1"
         placeholder="111"
         role="combobox"
         tabindex="0"
@@ -65,7 +64,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       </div>
     </div>
     <ul
-      aria-labelledby="downshift-0-label"
+      aria-labelledby="comboBox1-label"
       class="widget-combobox-menu widget-combobox-menu-hidden"
       id="downshift-0-menu"
       role="listbox"

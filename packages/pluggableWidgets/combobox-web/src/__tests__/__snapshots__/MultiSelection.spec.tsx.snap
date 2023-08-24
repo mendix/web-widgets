@@ -4,7 +4,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
 <div>
   <div
     class="widget-combobox"
-    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container widget-combobox-input-container-active"
@@ -18,10 +17,10 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           aria-autocomplete="list"
           aria-controls="downshift-14-menu"
           aria-expanded="true"
-          aria-labelledby="downshift-14-label"
+          aria-labelledby="comboBox1-label"
           autocomplete="off"
           class="widget-combobox-input"
-          id="downshift-14-input"
+          id="comboBox1"
           placeholder="111"
           role="combobox"
           value=""
@@ -70,20 +69,22 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
       class="widget-combobox-menu"
     >
       <ul
-        aria-labelledby="downshift-14-label"
+        aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
         id="downshift-14-menu"
         role="listbox"
       >
         <li
-          aria-selected="false"
-          class="widget-combobox-item"
+          aria-selected="true"
+          class="widget-combobox-item widget-combobox-item-highlighted"
           id="downshift-14-item-0"
           role="option"
         >
           <input
+            aria-hidden="true"
             checked=""
             class="widget-combobox-item-checkbox"
+            id="downshift-14-item-0-checkbox"
             readonly=""
             tabindex="-1"
             type="checkbox"
@@ -93,13 +94,15 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           </span>
         </li>
         <li
-          aria-selected="true"
+          aria-selected="false"
           class="widget-combobox-item widget-combobox-item-highlighted"
           id="downshift-14-item-1"
           role="option"
         >
           <input
+            aria-hidden="true"
             class="widget-combobox-item-checkbox"
+            id="downshift-14-item-1-checkbox"
             readonly=""
             tabindex="-1"
             type="checkbox"
@@ -115,7 +118,9 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <input
+            aria-hidden="true"
             class="widget-combobox-item-checkbox"
+            id="downshift-14-item-2-checkbox"
             readonly=""
             tabindex="-1"
             type="checkbox"
@@ -131,7 +136,9 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <input
+            aria-hidden="true"
             class="widget-combobox-item-checkbox"
+            id="downshift-14-item-3-checkbox"
             readonly=""
             tabindex="-1"
             type="checkbox"
@@ -150,7 +157,6 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     class="widget-combobox"
-    id="comboBox1"
   >
     <div
       class="form-control widget-combobox-input-container"
@@ -164,10 +170,10 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           aria-autocomplete="list"
           aria-controls="downshift-0-menu"
           aria-expanded="false"
-          aria-labelledby="downshift-0-label"
+          aria-labelledby="comboBox1-label"
           autocomplete="off"
           class="widget-combobox-input"
-          id="downshift-0-input"
+          id="comboBox1"
           placeholder="111"
           role="combobox"
           value=""
@@ -216,7 +222,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       class="widget-combobox-menu widget-combobox-menu-hidden"
     >
       <ul
-        aria-labelledby="downshift-0-label"
+        aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"

@@ -7,13 +7,14 @@ import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
-export function SingleSelection({
-    selector,
-    tabIndex = 0
-}: {
+interface SingleSelectionProps {
     selector: SingleSelector;
     tabIndex: number;
-}): ReactElement {
+    inputId?: string;
+    labelId?: string;
+}
+
+export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSelectionProps): ReactElement {
     const {
         getInputProps,
         getToggleButtonProps,
@@ -23,7 +24,7 @@ export function SingleSelection({
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector);
+    } = useDownshiftSingleSelectProps(selector, options);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;

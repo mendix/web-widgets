@@ -8,7 +8,14 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-export function MultiSelection({ selector, tabIndex }: { selector: MultiSelector; tabIndex: number }): ReactElement {
+interface MultiSelectionProps {
+    selector: MultiSelector;
+    tabIndex: number;
+    inputId?: string;
+    labelId?: string;
+}
+
+export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectionProps): ReactElement {
     const {
         isOpen,
         getToggleButtonProps,
@@ -24,7 +31,7 @@ export function MultiSelection({ selector, tabIndex }: { selector: MultiSelector
         selectedItems,
         items,
         setSelectedItems
-    } = useDownshiftMultiSelectProps(selector);
+    } = useDownshiftMultiSelectProps(selector, options);
 
     if (selector.status === "unavailable") {
         return <Placeholder />;

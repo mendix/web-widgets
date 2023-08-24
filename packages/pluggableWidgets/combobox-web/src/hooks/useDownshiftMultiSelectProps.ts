@@ -25,7 +25,15 @@ export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturn
         items: string[];
     };
 
-export function useDownshiftMultiSelectProps(selector: MultiSelector): UseDownshiftMultiSelectPropsReturnValue {
+interface Options {
+    labelId?: string;
+    inputId?: string;
+}
+
+export function useDownshiftMultiSelectProps(
+    selector: MultiSelector,
+    options?: Options
+): UseDownshiftMultiSelectPropsReturnValue {
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -69,7 +77,7 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector): UseDownsh
         highlightedIndex,
         getItemProps,
         inputValue
-    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems));
+    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems, options));
 
     return {
         isOpen,
@@ -97,12 +105,15 @@ function useComboboxProps(
     selectedItems: string[],
     items: string[],
     removeSelectedItem: (item: string) => void,
-    setSelectedItems: (item: string[]) => void
+    setSelectedItems: (item: string[]) => void,
+    options?: Options
 ): UseComboboxProps<string> {
     return useMemo(() => {
         return {
             items,
             selectedItem: null,
+            inputId: options?.inputId,
+            labelId: options?.labelId,
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
             },

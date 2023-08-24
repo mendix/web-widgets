@@ -10,13 +10,18 @@ import { useGetSelector } from "./hooks/useGetSelector";
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const actionEvents = useActionEvents(props);
     const selector = useGetSelector(props);
+    const commonProps = {
+        tabIndex: props.tabIndex!,
+        inputId: props.id,
+        labelId: `${props.id}-label`
+    };
 
     return (
-        <div className="widget-combobox" id={props.id} {...actionEvents}>
+        <div className="widget-combobox" {...actionEvents}>
             {selector.type === "single" ? (
-                <SingleSelection selector={selector} tabIndex={props.tabIndex!} />
+                <SingleSelection selector={selector} {...commonProps} />
             ) : (
-                <MultiSelection selector={selector} tabIndex={props.tabIndex!} />
+                <MultiSelection selector={selector} {...commonProps} />
             )}
         </div>
     );
