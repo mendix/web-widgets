@@ -12,7 +12,7 @@ import { ComboboxContainerProps, FilterTypeEnum } from "../../../typings/Combobo
 type ExtractionReturnValue = [
     ReferenceValue | ReferenceSetValue,
     ListValue,
-    ListAttributeValue<string> | ListExpressionValue<string> | undefined,
+    ListAttributeValue<string> | ListExpressionValue<string>,
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,

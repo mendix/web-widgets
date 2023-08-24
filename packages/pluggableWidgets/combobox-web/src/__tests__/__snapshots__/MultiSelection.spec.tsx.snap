@@ -84,6 +84,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           <input
             checked=""
             class="widget-combobox-item-checkbox"
+            readonly=""
             tabindex="-1"
             type="checkbox"
           />
@@ -99,6 +100,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         >
           <input
             class="widget-combobox-item-checkbox"
+            readonly=""
             tabindex="-1"
             type="checkbox"
           />
@@ -114,6 +116,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         >
           <input
             class="widget-combobox-item-checkbox"
+            readonly=""
             tabindex="-1"
             type="checkbox"
           />
@@ -129,6 +132,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         >
           <input
             class="widget-combobox-item-checkbox"
+            readonly=""
             tabindex="-1"
             type="checkbox"
           />
@@ -136,24 +140,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             444
           </span>
         </li>
-        <div
-          class="widget-combobox-menu-footer"
-        >
-          <button
-            class="widget-combobox-menu-footer-control"
-            role="button"
-            tabindex="0"
-          >
-            Select All
-          </button>
-          <button
-            class="widget-combobox-menu-footer-control"
-            role="button"
-            tabindex="0"
-          >
-            Unselect All
-          </button>
-        </div>
       </ul>
     </div>
   </div>
@@ -234,26 +220,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
         role="listbox"
-      >
-        <div
-          class="widget-combobox-menu-footer"
-        >
-          <button
-            class="widget-combobox-menu-footer-control"
-            role="button"
-            tabindex="0"
-          >
-            Select All
-          </button>
-          <button
-            class="widget-combobox-menu-footer-control"
-            role="button"
-            tabindex="0"
-          >
-            Unselect All
-          </button>
-        </div>
-      </ul>
+      />
     </div>
   </div>
 </div>

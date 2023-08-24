@@ -43,6 +43,7 @@ export function MultiSelectionMenu({
                                 className="widget-combobox-item-checkbox"
                                 type="checkbox"
                                 checked={selector.currentValue?.includes(item)}
+                                readOnly
                             />
                             {selector.caption.render(item)}
                         </li>
