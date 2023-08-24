@@ -9,7 +9,7 @@ export interface CaptionsProvider {
     emptyCaption: string;
 }
 
-export interface OptionsProvider<T = unknown, P = {}> {
+export interface OptionsProvider<T = unknown, P = object> {
     status: Status;
     filterType: FilterTypeEnum;
     searchTerm: string;
@@ -52,7 +52,7 @@ export interface MultiSelector {
     status: Status;
     type: "multi";
     readOnly: boolean;
-    withCheckbox: boolean;
+    selectedItemsStyle: "text" | "boxes";
 
     // options related
     options: OptionsProvider;

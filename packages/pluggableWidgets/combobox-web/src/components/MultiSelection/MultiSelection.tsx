@@ -34,7 +34,7 @@ export function MultiSelection({ selector, tabIndex }: { selector: MultiSelector
         <Fragment>
             <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
                 <div className="widget-combobox-selected-items">
-                    {!selector.withCheckbox &&
+                    {selector.selectedItemsStyle === "boxes" &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
                                 <span

@@ -18,12 +18,11 @@ export function MultiSelectionMenu({
     getItemProps,
     highlightedIndex,
     selector,
-    selectableItems,
-    selectedItems,
-    setSelectedItems
+    selectableItems
 }: MultiSelectionMenuProps): ReactElement {
-    const allSelected = selector.options.getAll().length === selectedItems.length;
-    const noneSelected = selectedItems.length < 1;
+    // const allOptions = selector.options.getAll();
+    // const allSelected = allOptions.length === selectedItems.length;
+    // const noneSelected = selectedItems.length < 1;
     return (
         <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
@@ -39,50 +38,43 @@ export function MultiSelectionMenu({
                                 index
                             })}
                         >
-                            {selector.withCheckbox && (
-                                <input
-                                    tabIndex={-1}
-                                    className="widget-combobox-item-checkbox"
-                                    type="checkbox"
-                                    checked={selector.currentValue?.includes(item)}
-                                    // eslint-disable-next-line
-                                    onChange={() => {}}
-                                />
-                            )}
+                            <input
+                                tabIndex={-1}
+                                className="widget-combobox-item-checkbox"
+                                type="checkbox"
+                                checked={selector.currentValue?.includes(item)}
+                            />
                             {selector.caption.render(item)}
                         </li>
                     ))}
-                <div className="widget-combobox-menu-footer">
-                    <button
-                        tabIndex={0}
-                        role="button"
-                        className={classNames("widget-combobox-menu-footer-control", {
-                            "widget-combobox-menu-footer-control-disabled": allSelected
-                        })}
-                        onClick={() => {
-                            if (!allSelected) {
-                                setSelectedItems(selector.options.getAll());
-                            }
-                        }}
-                    >
-                        Select All
-                    </button>
-                    <button
-                        tabIndex={0}
-                        role="button"
-                        className={classNames("widget-combobox-menu-footer-control", {
-                            "widget-combobox-menu-footer-control-disabled": noneSelected
-                        })}
-                        onClick={() => {
-                            if (!noneSelected) {
-                                setSelectedItems([]);
-                            }
-                        }}
-                    >
-                        Unselect All
-                    </button>
-                </div>
             </ul>
+            {/* 
+            NOTE: Disable footer as right now is not possible to translate text on buttons.
+            <div className="widget-combobox-menu-footer">
+                <TextButton onClick={() => !allSelected && setSelectedItems(allOptions)} disabled={allSelected}>Select all</TextButton>
+                <TextButton onClick={() => !noneSelected && setSelectedItems([])} disabled={noneSelected}>Unselect all</TextButton>
+            </div> */}
         </div>
     );
 }
+
+// interface TextButtonProps {
+//     onClick: () => void;
+//     disabled?: boolean;
+//     children?: ReactNode;
+// }
+
+// function TextButton({ disabled, children, onClick }: TextButtonProps): ReactElement {
+//     return (
+//         <button
+//             tabIndex={0}
+//             role="button"
+//             className={classNames("widget-combobox-menu-footer-control", {
+//                 "widget-combobox-menu-footer-control-disabled": disabled
+//             })}
+//             onClick={onClick}
+//         >
+//             {children}
+//         </button>
+//     );
+// }

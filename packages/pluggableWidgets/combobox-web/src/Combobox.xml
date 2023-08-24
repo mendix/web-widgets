@@ -100,13 +100,12 @@
             <!-- END GENERAL -->
 
             <propertyGroup caption="Review">
-                <!-- Empty option -->
-                <property key="selectionType" type="enumeration" defaultValue="checkbox" required="true">
-                    <caption>Selection Type</caption>
+                <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
+                    <caption>Show selected items as</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="checkbox">Checkboxes</enumerationValue>
-                        <enumerationValue key="selectedTag">Selected Item Tags</enumerationValue>
+                        <enumerationValue key="text">Text</enumerationValue>
+                        <enumerationValue key="boxes">Boxes</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>

@@ -1,6 +1,25 @@
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import {
+    ActionValue,
+    ReferenceValue,
+    ReferenceSetValue,
+    ListValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    DynamicValue
+} from "mendix";
+import { ComboboxContainerProps, FilterTypeEnum } from "../../../typings/ComboboxProps";
 
-export function extractAssociationProps(props: ComboboxContainerProps) {
+type ExtractionReturnValue = [
+    ReferenceValue | ReferenceSetValue,
+    ListValue,
+    ListAttributeValue<string> | ListExpressionValue<string> | undefined,
+    DynamicValue<string> | undefined,
+    boolean,
+    FilterTypeEnum,
+    ActionValue | undefined
+];
+
+export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.attributeAssociation;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
@@ -40,5 +59,5 @@ export function extractAssociationProps(props: ComboboxContainerProps) {
         clearable,
         filterType,
         onChangeEvent
-    ] as const;
+    ];
 }

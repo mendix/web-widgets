@@ -24,7 +24,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.options = new EnumBoolOptionsProvider(this.caption);
     }
 
-    updateProps(props: ComboboxContainerProps) {
+    updateProps(props: ComboboxContainerProps): void {
         const [attr, emptyOption, clearable, filterType] = extractEnumerationProps(props);
         this._attr = attr;
 
@@ -54,7 +54,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.readOnly = attr.readOnly;
     }
 
-    setValue(value: string | null) {
+    setValue(value: string | null): void {
         this._attr?.setValue(this.options._optionToValue(value));
         executeAction(this.onChangeEvent);
     }

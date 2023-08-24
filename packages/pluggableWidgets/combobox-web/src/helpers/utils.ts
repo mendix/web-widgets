@@ -1,14 +1,12 @@
 import { MultiSelector } from "./types";
 
 export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {
-    if (!selector.withCheckbox) {
-        if (selectedItems.length === 0) {
-            return selector.caption.emptyCaption;
-        } else {
-            return "";
-        }
+    if (selector.selectedItemsStyle !== "text") {
+        return "";
     }
-    const selectedItemCaption = selectedItems.map(v => selector.caption.get(v));
+    if (selectedItems.length === 0) {
+        return selector.caption.emptyCaption;
+    }
 
-    return selectedItemCaption.join(", ");
+    return selectedItems.map(v => selector.caption.get(v)).join(", ");
 }
