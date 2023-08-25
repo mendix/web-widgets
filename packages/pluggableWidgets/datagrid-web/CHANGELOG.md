@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.2] - 2023-08-25
+
 ### Fixed
 
 -   We fixed an issue where columns, which were configured to be hidden by default, remained visible despite visibility settings.
