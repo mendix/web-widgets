@@ -1,10 +1,4 @@
-export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
-
-interface DataExporter {
-    create(): DataExportStream;
-}
-
-export type DataGridName = string;
+import { DATAGRID_DATA_EXPORT, DataExporter, DataGridName } from "../src/features/export"
 
 declare global {
     interface Window {

@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { ListValue, ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { ColumnsType } from "../../typings/DatagridProps";
-import { DATAGRID_DATA_EXPORT } from "../../typings/global";
 
 // Roman types ideas
+export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
+
+export interface DataExporter {
+    create(): DataExportStream;
+}
+
+export type DataGridName = string;
+
 type ColumnDefinition = {
     name: string;
     type: string;
@@ -39,9 +46,13 @@ type UseDG2ExportApi = {
     pageSize: number;
 };
 
+type UseExportAPIReturn = {
+    started: boolean;
+};
+
 type CallbackFunction = (msg: Message) => Promise<void> | void;
 
-export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2ExportApi) => {
+export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2ExportApi): UseExportAPIReturn => {
     const [startProcess, setStartProcess] = useState(false);
     const [sentColumns, setSentColumns] = useState(false);
     const [callback, setCallback] = useState<CallbackFunction>();
@@ -123,4 +134,6 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
             }
         }
     }, [callback, datasource.hasMoreItems, datasource.items, sentColumns, startProcess]);
+
+    return { started: startProcess };
 };

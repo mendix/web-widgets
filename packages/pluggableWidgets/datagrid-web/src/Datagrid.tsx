@@ -1,5 +1,6 @@
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
+import { ObjectItem } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { Table, TableColumn, SortProperty } from "./components/Table";
@@ -21,8 +22,7 @@ import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
-import { Message, useDG2ExportApi } from "./features/export";
-import { DataGridName, DATAGRID_DATA_EXPORT } from "typings/global";
+import { DATAGRID_DATA_EXPORT, DataGridName, Message, useDG2ExportApi } from "./features/export";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -38,7 +38,9 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const { FilterContext } = useFilterContext();
     const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
-    useDG2ExportApi({
+    const [memoizedItems, setItems] = useState<ObjectItem[]>([]);
+
+    const { started } = useDG2ExportApi({
         columns: props.columns,
         datasource: props.datasource,
         name: props.name,
@@ -46,9 +48,15 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     });
 
     useEffect(() => {
+        if (memoizedItems.length === 0 && props.datasource.items) {
+            setItems(props.datasource.items);
+        }
+    }, [props.datasource.items]);
+
+    useEffect(() => {
         setTimeout(() => {
             dumpDataFromDataGridToConsole(props.name);
-        }, 500);
+        }, 50);
     }, []);
 
     useEffect(() => {
@@ -152,7 +160,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={props.datasource.items ?? []}
+            data={started || props.datasource.offset > 0 ? memoizedItems : props.datasource.items ?? []}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
