@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.7] DataWidgets - 2023-08-25
+
+### [2.8.2] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where columns, which were configured to be hidden by default, remained visible despite visibility settings.
+
 ## [2.8.6] DataWidgets - 2023-08-22
 
 ### [2.8.1] Datagrid
