@@ -105,7 +105,7 @@
                     <description />
                     <enumerationValues>
                         <enumerationValue key="text">Text</enumerationValue>
-                        <enumerationValue key="boxes">Boxes</enumerationValue>
+                        <enumerationValue key="boxes">Labels</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>
