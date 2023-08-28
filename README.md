@@ -57,4 +57,4 @@ See [CONTRIBUTING.md](https://github.com/mendix/web-widgets/blob/main/CONTRIBUTI
 
 ## Raising problems/issues
 
--   We encourage everyone to open a support ticket on [Mendix Support](https://support.mendix.com) in case of problems with widgets or scaffolding tools (Pluggable Widgets Generator or Pluggable Widgets Tools).
+-   We encourage everyone to open a support ticket through [Mendix Support](https://support.mendix.com) in case of problems with widgets or scaffolding tools (Pluggable Widgets Generator or Pluggable Widgets Tools).
