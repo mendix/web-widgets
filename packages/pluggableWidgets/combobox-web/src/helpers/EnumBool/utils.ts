@@ -1,6 +1,9 @@
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { EditableValue, DynamicValue } from "mendix";
+import { ComboboxContainerProps, FilterTypeEnum } from "../../../typings/ComboboxProps";
 
-export function extractEnumerationProps(props: ComboboxContainerProps) {
+type ExtractionReturnValue = [EditableValue<string>, DynamicValue<string> | undefined, boolean, FilterTypeEnum];
+
+export function extractEnumerationProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.attributeEnumeration ?? props.attributeBoolean;
     const emptyOption = props.emptyOptionText;
     const clearable = props.clearable;
@@ -12,5 +15,5 @@ export function extractEnumerationProps(props: ComboboxContainerProps) {
         );
     }
 
-    return [attr, emptyOption, clearable, filterType] as const;
+    return [attr, emptyOption, clearable, filterType];
 }

@@ -18,70 +18,41 @@ export function MultiSelectionMenu({
     getItemProps,
     highlightedIndex,
     selector,
-    selectableItems,
-    selectedItems,
-    setSelectedItems
+    selectableItems
 }: MultiSelectionMenuProps): ReactElement {
-    const allSelected = selector.options.getAll().length === selectedItems.length;
-    const noneSelected = selectedItems.length < 1;
     return (
         <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen &&
-                    selectableItems.map((item, index) => (
-                        <li
-                            className={classNames("widget-combobox-item", {
-                                "widget-combobox-item-highlighted": highlightedIndex === index
-                            })}
-                            key={item}
-                            {...getItemProps?.({
-                                item,
-                                index
-                            })}
-                        >
-                            {selector.withCheckbox && (
+                    selectableItems.map((item, index) => {
+                        const isActive = highlightedIndex === index;
+                        const isSelected = selector.currentValue?.includes(item);
+                        const itemProps = getItemProps?.({
+                            item,
+                            index
+                        });
+                        return (
+                            <li
+                                className={classNames("widget-combobox-item", {
+                                    "widget-combobox-item-highlighted": isSelected || isActive
+                                })}
+                                key={item}
+                                {...itemProps}
+                                aria-selected={isSelected}
+                            >
                                 <input
                                     tabIndex={-1}
                                     className="widget-combobox-item-checkbox"
                                     type="checkbox"
-                                    checked={selector.currentValue?.includes(item)}
-                                    // eslint-disable-next-line
-                                    onChange={() => {}}
+                                    checked={isSelected}
+                                    readOnly
+                                    aria-hidden="true"
+                                    id={`${itemProps.id}-checkbox`}
                                 />
-                            )}
-                            {selector.caption.render(item)}
-                        </li>
-                    ))}
-                <div className="widget-combobox-menu-footer">
-                    <button
-                        tabIndex={0}
-                        role="button"
-                        className={classNames("widget-combobox-menu-footer-control", {
-                            "widget-combobox-menu-footer-control-disabled": allSelected
-                        })}
-                        onClick={() => {
-                            if (!allSelected) {
-                                setSelectedItems(selector.options.getAll());
-                            }
-                        }}
-                    >
-                        Select All
-                    </button>
-                    <button
-                        tabIndex={0}
-                        role="button"
-                        className={classNames("widget-combobox-menu-footer-control", {
-                            "widget-combobox-menu-footer-control-disabled": noneSelected
-                        })}
-                        onClick={() => {
-                            if (!noneSelected) {
-                                setSelectedItems([]);
-                            }
-                        }}
-                    >
-                        Unselect All
-                    </button>
-                </div>
+                                {selector.caption.render(item)}
+                            </li>
+                        );
+                    })}
             </ul>
         </div>
     );

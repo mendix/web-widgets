@@ -10,7 +10,17 @@ import {
 import { useMemo } from "react";
 import { SingleSelector } from "../helpers/types";
 
-export function useDownshiftSingleSelectProps(selector: SingleSelector): UseComboboxReturnValue<string> {
+interface Options {
+    inputId?: string;
+    labelId?: string;
+}
+
+export function useDownshiftSingleSelectProps(
+    selector: SingleSelector,
+    options: Options = {}
+): UseComboboxReturnValue<string> {
+    const { inputId, labelId } = options;
+
     const downshiftProps: UseComboboxProps<string> = useMemo(() => {
         return {
             items: [],
@@ -61,9 +71,11 @@ export function useDownshiftSingleSelectProps(selector: SingleSelector): UseComb
                     default:
                         return { ...changes };
                 }
-            }
+            },
+            inputId,
+            labelId
         };
-    }, [selector]);
+    }, [selector, inputId, labelId]);
 
     return useCombobox({
         ...downshiftProps,

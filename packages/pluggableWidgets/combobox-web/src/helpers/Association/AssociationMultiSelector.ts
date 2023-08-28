@@ -8,10 +8,10 @@ export class AssociationMultiSelector
     implements MultiSelector
 {
     type = "multi" as const;
-    withCheckbox = false;
+    selectedItemsStyle: "text" | "boxes" = "text";
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
-        this.withCheckbox = props.selectionType === "checkbox";
+        this.selectedItemsStyle = props.selectedItemsStyle;
         this.currentValue =
             this._attr?.value?.map(value => {
                 return value.id;

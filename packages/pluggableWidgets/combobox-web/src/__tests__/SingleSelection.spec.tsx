@@ -36,7 +36,7 @@ describe("Combo box (Association)", () => {
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
-            selectionType: "checkbox"
+            selectedItemsStyle: "text"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

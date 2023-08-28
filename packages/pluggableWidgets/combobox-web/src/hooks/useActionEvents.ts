@@ -2,7 +2,12 @@ import { executeAction } from "@mendix/pluggable-widgets-commons";
 import { useMemo, FocusEvent } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 
-export function useActionEvents(props: ComboboxContainerProps) {
+type UseActionEventsReturnValue = {
+    onFocus: (e: FocusEvent) => void;
+    onBlur: (e: FocusEvent) => void;
+};
+
+export function useActionEvents(props: ComboboxContainerProps): UseActionEventsReturnValue {
     return useMemo(() => {
         return {
             onFocus: (e: FocusEvent): void => {

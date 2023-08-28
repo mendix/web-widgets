@@ -1,21 +1,48 @@
 import {
     UseComboboxProps,
     UseComboboxState,
+    UseComboboxReturnValue,
     UseComboboxStateChangeOptions,
     useCombobox,
-    useMultipleSelection
+    useMultipleSelection,
+    UseMultipleSelectionReturnValue
 } from "downshift";
 import { useMemo } from "react";
 import { MultiSelector } from "../helpers/types";
 
-export function useDownshiftMultiSelectProps(selector: MultiSelector) {
+export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
+    Pick<
+        UseComboboxReturnValue<string>,
+        | "isOpen"
+        | "reset"
+        | "getToggleButtonProps"
+        | "getMenuProps"
+        | "getInputProps"
+        | "highlightedIndex"
+        | "getItemProps"
+        | "inputValue"
+    > & {
+        items: string[];
+    };
+
+interface Options {
+    labelId?: string;
+    inputId?: string;
+}
+
+export function useDownshiftMultiSelectProps(
+    selector: MultiSelector,
+    options?: Options
+): UseDownshiftMultiSelectPropsReturnValue {
     const {
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
         setActiveIndex,
         selectedItems,
-        setSelectedItems
+        setSelectedItems,
+        activeIndex,
+        addSelectedItem
     } = useMultipleSelection({
         selectedItems: selector.currentValue ?? [],
         onSelectedItemsChange({ selectedItems }) {
@@ -36,9 +63,7 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector) {
         }
     });
 
-    const items = selector.withCheckbox
-        ? selector.options.getAll()
-        : selector.options.getAll().filter(option => !selectedItems.includes(option));
+    const items = selector.options.getAll();
 
     const {
         isOpen,
@@ -49,7 +74,7 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector) {
         highlightedIndex,
         getItemProps,
         inputValue
-    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems));
+    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems, options));
 
     return {
         isOpen,
@@ -66,7 +91,9 @@ export function useDownshiftMultiSelectProps(selector: MultiSelector) {
         setActiveIndex,
         selectedItems,
         items,
-        setSelectedItems
+        setSelectedItems,
+        activeIndex,
+        addSelectedItem
     };
 }
 
@@ -75,12 +102,15 @@ function useComboboxProps(
     selectedItems: string[],
     items: string[],
     removeSelectedItem: (item: string) => void,
-    setSelectedItems: (item: string[]) => void
+    setSelectedItems: (item: string[]) => void,
+    options?: Options
 ): UseComboboxProps<string> {
     return useMemo(() => {
         return {
             items,
             selectedItem: null,
+            inputId: options?.inputId,
+            labelId: options?.labelId,
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
             },
@@ -100,9 +130,11 @@ function useComboboxProps(
                     case useCombobox.stateChangeTypes.InputBlur:
                         return {
                             ...changes,
-                            ...(changes.selectedItem && { isOpen: true, inputValue: "" }),
-                            ...(selector.withCheckbox &&
-                                changes.selectedItem && { highlightedIndex: items.indexOf(changes.selectedItem) })
+                            ...(changes.selectedItem && {
+                                isOpen: true,
+                                inputValue: "",
+                                highlightedIndex: items.indexOf(changes.selectedItem)
+                            })
                         };
                     default:
                         return changes;
@@ -123,5 +155,7 @@ function useComboboxProps(
                 }
             }
         };
-    }, [selector, selectedItems, items, selector.currentValue]);
+        // disable eslint rule as probably we should update props whenever currentValue changes.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selector, selectedItems, items, selector.currentValue, removeSelectedItem, setSelectedItems]);
 }
