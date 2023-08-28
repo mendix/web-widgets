@@ -6,6 +6,7 @@ import { MultiSelection } from "./components/MultiSelection/MultiSelection";
 
 import "./ui/Combobox.scss";
 import { useGetSelector } from "./hooks/useGetSelector";
+import { Placeholder } from "./components/Placeholder";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const actionEvents = useActionEvents(props);
@@ -18,7 +19,9 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
 
     return (
         <div className="widget-combobox" {...actionEvents}>
-            {selector.type === "single" ? (
+            {selector.status === "unavailable" ? (
+                <Placeholder />
+            ) : selector.type === "single" ? (
                 <SingleSelection selector={selector} {...commonProps} />
             ) : (
                 <MultiSelection selector={selector} {...commonProps} />

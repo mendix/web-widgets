@@ -13,9 +13,9 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         class="widget-combobox-selected-items"
       >
         <input
-          aria-activedescendant="downshift-14-item-1"
+          aria-activedescendant="downshift-12-item-1"
           aria-autocomplete="list"
-          aria-controls="downshift-14-menu"
+          aria-controls="downshift-12-menu"
           aria-expanded="true"
           aria-labelledby="comboBox1-label"
           autocomplete="off"
@@ -29,7 +29,9 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
       <button
         class="widget-combobox-clear-button"
       >
-        <span>
+        <span
+          class="widget-combobox-icon-container"
+        >
           <svg
             class="widget-combobox-clear-button-icon"
             fill="currentColor"
@@ -44,15 +46,17 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         </span>
       </button>
       <div
-        aria-controls="downshift-14-menu"
+        aria-controls="downshift-12-menu"
         aria-expanded="true"
         class="widget-combobox-down-arrow"
-        id="downshift-14-toggle-button"
+        id="downshift-12-toggle-button"
         tabindex="-1"
       >
-        <span>
+        <span
+          class="widget-combobox-icon-container"
+        >
           <svg
-            class="widget-combobox-down-arrow-icon"
+            class="widget-combobox-down-arrow-icon active"
             fill="currentColor"
             height="20"
             viewBox="0 0 20 20"
@@ -71,24 +75,35 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
-        id="downshift-14-menu"
+        id="downshift-12-menu"
         role="listbox"
       >
         <li
           aria-selected="true"
           class="widget-combobox-item widget-combobox-item-highlighted"
-          id="downshift-14-item-0"
+          id="downshift-12-item-0"
           role="option"
         >
-          <input
-            aria-hidden="true"
-            checked=""
-            class="widget-combobox-item-checkbox"
-            id="downshift-14-item-0-checkbox"
-            readonly=""
-            tabindex="-1"
-            type="checkbox"
-          />
+          <span
+            class="icon-container"
+          >
+            <svg
+              class="widget-combobox-down-checkbox-icon checked"
+              height="20"
+              viewBox="0 0 24 20"
+              width="24"
+            >
+              <rect
+                height="20"
+                rx="5"
+                width="20"
+                x="2"
+              />
+              <path
+                d="M7 10.3077L10.6923 14L17.4615 6"
+              />
+            </svg>
+          </span>
           <span>
             111
           </span>
@@ -96,17 +111,27 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item widget-combobox-item-highlighted"
-          id="downshift-14-item-1"
+          id="downshift-12-item-1"
           role="option"
         >
-          <input
-            aria-hidden="true"
-            class="widget-combobox-item-checkbox"
-            id="downshift-14-item-1-checkbox"
-            readonly=""
-            tabindex="-1"
-            type="checkbox"
-          />
+          <span
+            class="icon-container"
+          >
+            <svg
+              class="widget-combobox-down-checkbox-icon"
+              height="20"
+              viewBox="0 0 24 20"
+              width="24"
+            >
+              <rect
+                height="19"
+                rx="4.5"
+                width="19"
+                x="2.5"
+                y="0.5"
+              />
+            </svg>
+          </span>
           <span>
             222
           </span>
@@ -114,17 +139,27 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item"
-          id="downshift-14-item-2"
+          id="downshift-12-item-2"
           role="option"
         >
-          <input
-            aria-hidden="true"
-            class="widget-combobox-item-checkbox"
-            id="downshift-14-item-2-checkbox"
-            readonly=""
-            tabindex="-1"
-            type="checkbox"
-          />
+          <span
+            class="icon-container"
+          >
+            <svg
+              class="widget-combobox-down-checkbox-icon"
+              height="20"
+              viewBox="0 0 24 20"
+              width="24"
+            >
+              <rect
+                height="19"
+                rx="4.5"
+                width="19"
+                x="2.5"
+                y="0.5"
+              />
+            </svg>
+          </span>
           <span>
             333
           </span>
@@ -132,17 +167,27 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item"
-          id="downshift-14-item-3"
+          id="downshift-12-item-3"
           role="option"
         >
-          <input
-            aria-hidden="true"
-            class="widget-combobox-item-checkbox"
-            id="downshift-14-item-3-checkbox"
-            readonly=""
-            tabindex="-1"
-            type="checkbox"
-          />
+          <span
+            class="icon-container"
+          >
+            <svg
+              class="widget-combobox-down-checkbox-icon"
+              height="20"
+              viewBox="0 0 24 20"
+              width="24"
+            >
+              <rect
+                height="19"
+                rx="4.5"
+                width="19"
+                x="2.5"
+                y="0.5"
+              />
+            </svg>
+          </span>
           <span>
             444
           </span>
@@ -182,7 +227,9 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       <button
         class="widget-combobox-clear-button"
       >
-        <span>
+        <span
+          class="widget-combobox-icon-container"
+        >
           <svg
             class="widget-combobox-clear-button-icon"
             fill="currentColor"
@@ -203,7 +250,9 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         id="downshift-0-toggle-button"
         tabindex="-1"
       >
-        <span>
+        <span
+          class="widget-combobox-icon-container"
+        >
           <svg
             class="widget-combobox-down-arrow-icon"
             fill="currentColor"

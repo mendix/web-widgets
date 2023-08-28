@@ -1,11 +1,10 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement } from "react";
-import { MultiSelector } from "src/helpers/types";
+import { MultiSelector } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { ComboboxWrapper } from "../ComboboxWrapper";
-import { Placeholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
 interface MultiSelectionProps {
@@ -33,10 +32,6 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
         setSelectedItems
     } = useDownshiftMultiSelectProps(selector, options);
 
-    if (selector.status === "unavailable") {
-        return <Placeholder />;
-    }
-
     return (
         <Fragment>
             <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
@@ -54,13 +49,13 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                                 >
                                     {selector.caption.render(selectedItemForRender)}
                                     <span
-                                        className="widget-combobox-selected-item-remove-icon"
+                                        className="icon widget-combobox-clear-button"
                                         onClick={e => {
                                             e.stopPropagation();
                                             removeSelectedItem(selectedItemForRender);
                                         }}
                                     >
-                                        <ClearButton size={"8"} />
+                                        <ClearButton />
                                     </span>
                                 </span>
                             );
@@ -90,20 +85,23 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                     />
                 </div>
 
-                {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
-                    <button
-                        tabIndex={tabIndex}
-                        className="widget-combobox-clear-button"
-                        onClick={e => {
-                            e.stopPropagation();
-                            if (selectedItems.length > 0) {
-                                setSelectedItems([]);
-                            }
-                        }}
-                    >
-                        <ClearButton />
-                    </button>
-                )}
+                {!selector.readOnly &&
+                    selector.clearable &&
+                    selector.currentValue !== null &&
+                    selector.currentValue.length > 0 && (
+                        <button
+                            tabIndex={tabIndex}
+                            className="widget-combobox-clear-button"
+                            onClick={e => {
+                                e.stopPropagation();
+                                if (selectedItems.length > 0) {
+                                    setSelectedItems([]);
+                                }
+                            }}
+                        >
+                            <ClearButton />
+                        </button>
+                    )}
             </ComboboxWrapper>
             <MultiSelectionMenu
                 selector={selector}

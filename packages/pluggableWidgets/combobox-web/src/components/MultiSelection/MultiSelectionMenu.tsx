@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift";
 import { ReactElement, createElement } from "react";
+import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
@@ -40,15 +41,9 @@ export function MultiSelectionMenu({
                                 {...itemProps}
                                 aria-selected={isSelected}
                             >
-                                <input
-                                    tabIndex={-1}
-                                    className="widget-combobox-item-checkbox"
-                                    type="checkbox"
-                                    checked={isSelected}
-                                    readOnly
-                                    aria-hidden="true"
-                                    id={`${itemProps.id}-checkbox`}
-                                />
+                                {selector.selectedItemsStyle === "text" && (
+                                    <Checkbox checked={selector.currentValue?.includes(item)} />
+                                )}
                                 {selector.caption.render(item)}
                             </li>
                         );
