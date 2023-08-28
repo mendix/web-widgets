@@ -39,7 +39,7 @@ $ export MX_PROJECT_PATH="$HOME/Documents/Mendix/DataBoardApp"
 $ pnpm start
 ```
 
-4. Go to Mendix Studio Pro and run `App>Synchronize App Directory` to update widget code in the project. If your app is already running, restart it.
+4. Go to Mendix Studio Pro and run `App>Synchronize App Directory` to update the widget code in the project. If your app is already running, restart it.
 
 5. Keep code clean: run `pnpm test` and `pnpm lint`.
 
