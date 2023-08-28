@@ -1,6 +1,5 @@
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
-import { ObjectItem } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { Table, TableColumn, SortProperty } from "./components/Table";
@@ -38,9 +37,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const { FilterContext } = useFilterContext();
     const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
-    const [memoizedItems, setItems] = useState<ObjectItem[]>([]);
 
-    const { started } = useDG2ExportApi({
+    const { items } = useDG2ExportApi({
         columns: props.columns,
         datasource: props.datasource,
         name: props.name,
@@ -48,15 +46,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     });
 
     useEffect(() => {
-        if (memoizedItems.length === 0 && props.datasource.items) {
-            setItems(props.datasource.items);
-        }
-    }, [props.datasource.items]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            dumpDataFromDataGridToConsole(props.name);
-        }, 50);
+        dumpDataFromDataGridToConsole(props.name);
     }, []);
 
     useEffect(() => {
@@ -160,7 +150,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={started || props.datasource.offset > 0 ? memoizedItems : props.datasource.items ?? []}
+            data={items}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,

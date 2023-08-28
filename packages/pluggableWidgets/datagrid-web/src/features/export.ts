@@ -47,7 +47,7 @@ type UseDG2ExportApi = {
 };
 
 type UseExportAPIReturn = {
-    started: boolean;
+    items: ObjectItem[];
 };
 
 type CallbackFunction = (msg: Message) => Promise<void> | void;
@@ -56,6 +56,13 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     const [startProcess, setStartProcess] = useState(false);
     const [sentColumns, setSentColumns] = useState(false);
     const [callback, setCallback] = useState<CallbackFunction>();
+    const [memoizedItems, setItems] = useState<ObjectItem[]>([]);
+
+    useEffect(() => {
+        if (memoizedItems.length === 0 && datasource.items) {
+            setItems(datasource.items);
+        }
+    }, [datasource.items]);
 
     const dataExportStream: DataExportStream = {
         process: (cb: CallbackFunction) => {
@@ -63,9 +70,6 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
         },
         start: () => setStartProcess(true),
         abort: () => {
-            if (callback) {
-                callback({ type: "end" });
-            }
             if (startProcess) {
                 setStartProcess(false);
             }
@@ -73,6 +77,10 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     };
 
     const create = (): DataExportStream => {
+        if (startProcess) {
+            throw new Error("There is an export already in progress");
+        }
+
         return dataExportStream;
     };
 
@@ -114,20 +122,33 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     }, []);
 
     useEffect(() => {
+        const runColumnsCallback = async () => {
+            if (!callback) {
+                return;
+            }
+            await callback(exportColumns());
+        };
+        const runDataCallback = async () => {
+            if (!callback || !datasource.items) {
+                return;
+            }
+            await callback(exportData(datasource.items));
+        };
+
         if (startProcess && callback) {
             if (sentColumns === false) {
-                callback(exportColumns());
+                runColumnsCallback();
                 setSentColumns(true);
             }
 
             if (datasource.items && datasource.hasMoreItems) {
-                callback(exportData(datasource.items));
+                runDataCallback();
                 const newOffset = datasource.offset + pageSize;
                 datasource.setOffset(newOffset);
             }
 
             if (datasource.items && datasource.hasMoreItems === false) {
-                callback(exportData(datasource.items));
+                runDataCallback();
                 callback({ type: "end" });
                 datasource.setOffset(0);
                 setStartProcess(false);
@@ -135,5 +156,5 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
         }
     }, [callback, datasource.hasMoreItems, datasource.items, sentColumns, startProcess]);
 
-    return { started: startProcess };
+    return { items: startProcess || datasource.offset > 0 ? memoizedItems : datasource.items ?? [] };
 };
