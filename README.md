@@ -1,14 +1,14 @@
 # Web widgets
 
-A bundle of R&D Platform supported widgets & nanoflow actions for building web apps.
+The repository of platform-supported widgets and modules for Mendix.
 
-**For issues and bugs related to CSS, Widgets, Atlas or JS Actions or this repository please contact** [Mendix Support](https://support.mendix.com)
+**For issues and bugs related to CSS, Widgets, Atlas, JS Actions, or this repository, please contact** [Mendix Support](https://support.mendix.com)
 
 ## Prerequisites
 
--   ![Current node engine](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&color=%23339933) Latest LTS version of [node](https://nodejs.org/en/download)
+-   ![Current node engine](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&color=%23339933) The latest LTS version of [node](https://nodejs.org/en/download)
 
--   ![Current pnpm version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.pnpm&label=pnpm&color=%23f69220) Latest version of [pnpm](https://pnpm.io/installation)
+-   ![Current pnpm version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.pnpm&label=pnpm&color=%23f69220) The latest version of [pnpm](https://pnpm.io/installation)
 
 ## Development
 
@@ -25,7 +25,7 @@ $ cd web-widgets
 $ pnpm install
 ```
 
-3. Go to the widget (package) you want to work, set `MX_PROJECT_PATH` and run `pnpm start`.
+3. Go to the widget (package) you want to work on, set `MX_PROJECT_PATH`, and run `pnpm start`.
 
 ```sh
 $ cd packages/pluggableWidgets/datagrid-web/
@@ -39,7 +39,7 @@ $ export MX_PROJECT_PATH="$HOME/Documents/Mendix/DataBoardApp"
 $ pnpm start
 ```
 
-4. Go to your mendix project and sync with file system to see changes in the widget.
+4. Go to Mendix Studio Pro and run `App>Synchronize App Directory` to update widget code in the project. If your app is already running, restart it.
 
 5. Keep code clean: run `pnpm test` and `pnpm lint`.
 
@@ -57,4 +57,4 @@ See [CONTRIBUTING.md](https://github.com/mendix/web-widgets/blob/main/CONTRIBUTI
 
 ## Raising problems/issues
 
--   We encourage everyone to open a Support ticket on [Mendix Support](https://support.mendix.com) in case of problems with widgets or scaffolding tools (Pluggable Widgets Generator or Pluggable Widgets Tools)
+-   We encourage everyone to open a support ticket on [Mendix Support](https://support.mendix.com) in case of problems with widgets or scaffolding tools (Pluggable Widgets Generator or Pluggable Widgets Tools).
