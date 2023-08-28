@@ -20,9 +20,6 @@ export function MultiSelectionMenu({
     selector,
     selectableItems
 }: MultiSelectionMenuProps): ReactElement {
-    // const allOptions = selector.options.getAll();
-    // const allSelected = allOptions.length === selectedItems.length;
-    // const noneSelected = selectedItems.length < 1;
     return (
         <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
@@ -57,33 +54,6 @@ export function MultiSelectionMenu({
                         );
                     })}
             </ul>
-            {/* 
-            NOTE: Disable footer as right now is not possible to translate text on buttons.
-            <div className="widget-combobox-menu-footer">
-                <TextButton onClick={() => !allSelected && setSelectedItems(allOptions)} disabled={allSelected}>Select all</TextButton>
-                <TextButton onClick={() => !noneSelected && setSelectedItems([])} disabled={noneSelected}>Unselect all</TextButton>
-            </div> */}
         </div>
     );
 }
-
-// interface TextButtonProps {
-//     onClick: () => void;
-//     disabled?: boolean;
-//     children?: ReactNode;
-// }
-
-// function TextButton({ disabled, children, onClick }: TextButtonProps): ReactElement {
-//     return (
-//         <button
-//             tabIndex={0}
-//             role="button"
-//             className={classNames("widget-combobox-menu-footer-control", {
-//                 "widget-combobox-menu-footer-control-disabled": disabled
-//             })}
-//             onClick={onClick}
-//         >
-//             {children}
-//         </button>
-//     );
-// }
