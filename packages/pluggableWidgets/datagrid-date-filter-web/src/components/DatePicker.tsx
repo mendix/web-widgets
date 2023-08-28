@@ -105,6 +105,9 @@ export const DatePicker = forwardRef(
                     onInputClick={() => setOpen(true)}
                     placeholderText={props.placeholder}
                     popperPlacement="bottom-end"
+                    popperProps={{
+                        strategy: "fixed"
+                    }}
                     popperModifiers={[
                         {
                             name: "offset",
