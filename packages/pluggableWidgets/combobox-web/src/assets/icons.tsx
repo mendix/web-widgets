@@ -37,7 +37,7 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
 
 export function Checkbox({ checked }: { checked: boolean | undefined }): ReactElement {
     return (
-        <span className="icon-container">
+        <span className="widget-combobox-icon-container">
             <svg
                 className={classNames("widget-combobox-down-checkbox-icon", {
                     checked

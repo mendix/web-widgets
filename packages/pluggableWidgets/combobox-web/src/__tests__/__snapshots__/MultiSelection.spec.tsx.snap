@@ -85,7 +85,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <span
-            class="icon-container"
+            class="widget-combobox-icon-container"
           >
             <svg
               class="widget-combobox-down-checkbox-icon checked"
@@ -115,7 +115,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <span
-            class="icon-container"
+            class="widget-combobox-icon-container"
           >
             <svg
               class="widget-combobox-down-checkbox-icon"
@@ -143,7 +143,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <span
-            class="icon-container"
+            class="widget-combobox-icon-container"
           >
             <svg
               class="widget-combobox-down-checkbox-icon"
@@ -171,7 +171,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="option"
         >
           <span
-            class="icon-container"
+            class="widget-combobox-icon-container"
           >
             <svg
               class="widget-combobox-down-checkbox-icon"

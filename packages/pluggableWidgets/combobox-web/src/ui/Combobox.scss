@@ -120,9 +120,6 @@ $disabled-text-color: #6c7180;
         cursor: pointer;
         background: transparent;
         border: none;
-        span {
-            display: flex;
-        }
         &-icon {
             fill: $brand-primary;
             transition: fill 0.2s ease-in-out;
@@ -141,9 +138,6 @@ $disabled-text-color: #6c7180;
         align-content: center;
         cursor: pointer;
         padding-left: 4px;
-        span {
-            display: flex;
-        }
 
         &-icon {
             fill: $typography-color;
@@ -221,7 +215,7 @@ $disabled-text-color: #6c7180;
         }
     }
 
-    .icon-container {
+    &-icon-container {
         display: flex;
     }
 }
