@@ -248,7 +248,7 @@ function transformColumnProps(props: ColumnsType[]): TableColumn[] {
     }));
 }
 
-function dumpDataFromDataGridToConsole(name: DataGridName) {
+function dumpDataFromDataGridToConsole(name: DataGridName): void {
     console.info("You asked to dump data from: ", name);
     const stream = window[DATAGRID_DATA_EXPORT][name].create();
     console.info("Got data export stream instance, attaching processing function");

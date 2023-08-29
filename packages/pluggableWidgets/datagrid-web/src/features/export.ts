@@ -58,59 +58,24 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     const [callback, setCallback] = useState<CallbackFunction>();
     const [memoizedItems, setItems] = useState<ObjectItem[]>([]);
 
-    useEffect(() => {
-        if (memoizedItems.length === 0 && datasource.items) {
-            setItems(datasource.items);
-        }
-    }, [datasource.items]);
-
-    const dataExportStream: DataExportStream = {
-        process: (cb: CallbackFunction) => {
-            setCallback(() => cb);
-        },
-        start: () => setStartProcess(true),
-        abort: () => {
-            if (startProcess) {
-                setStartProcess(false);
-            }
-        }
-    };
-
     const create = (): DataExportStream => {
         if (startProcess) {
             throw new Error("There is an export already in progress");
         }
 
-        return dataExportStream;
-    };
-
-    const exportColumns = (): Message => {
-        const exportColumns: ColumnDefinition[] = columns.map(column => ({
-            name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
-            type: column.attribute?.type.toString() ?? ""
-        }));
-
-        return { type: "columns", payload: exportColumns };
-    };
-
-    const exportData = (data: ObjectItem[]): Message => {
-        const items = data.map(item => {
-            return columns.map(column => {
-                let value = "";
-
-                if (column.showContentAs === "attribute") {
-                    value = column.attribute?.get(item)?.displayValue ?? "";
-                } else if (column.showContentAs === "dynamicText") {
-                    value = column.dynamicText?.get(item)?.value ?? "";
-                } else {
-                    value = "n/a";
+        const dataExportStream: DataExportStream = {
+            process: (cb: CallbackFunction) => {
+                setCallback(() => cb);
+            },
+            start: () => setStartProcess(true),
+            abort: () => {
+                if (startProcess) {
+                    setStartProcess(false);
                 }
+            }
+        };
 
-                return value;
-            });
-        });
-
-        return { type: "data", payload: items };
+        return dataExportStream;
     };
 
     useEffect(() => {
@@ -119,20 +84,30 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
         }
 
         window[DATAGRID_DATA_EXPORT][name] = { create };
+
+        return () => {
+            delete window[DATAGRID_DATA_EXPORT][name];
+        };
     }, []);
 
     useEffect(() => {
-        const runColumnsCallback = async () => {
+        if (memoizedItems.length === 0 && datasource.items) {
+            setItems(datasource.items);
+        }
+    }, [datasource.items]);
+
+    useEffect(() => {
+        const runColumnsCallback = async (): Promise<void> => {
             if (!callback) {
                 return;
             }
-            await callback(exportColumns());
+            await callback(exportColumns(columns));
         };
-        const runDataCallback = async () => {
+        const runDataCallback = async (): Promise<void> => {
             if (!callback || !datasource.items) {
                 return;
             }
-            await callback(exportData(datasource.items));
+            await callback(exportData(datasource.items, columns));
         };
 
         if (startProcess && callback) {
@@ -158,3 +133,32 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
 
     return { items: startProcess || datasource.offset > 0 ? memoizedItems : datasource.items ?? [] };
 };
+
+function exportColumns(columns: ColumnsType[]): Message {
+    const exportColumns: ColumnDefinition[] = columns.map(column => ({
+        name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
+        type: column.attribute?.type.toString() ?? ""
+    }));
+
+    return { type: "columns", payload: exportColumns };
+}
+
+function exportData(data: ObjectItem[], columns: ColumnsType[]): Message {
+    const items = data.map(item => {
+        return columns.map(column => {
+            let value = "";
+
+            if (column.showContentAs === "attribute") {
+                value = column.attribute?.get(item)?.displayValue ?? "";
+            } else if (column.showContentAs === "dynamicText") {
+                value = column.dynamicText?.get(item)?.value ?? "";
+            } else {
+                value = "n/a";
+            }
+
+            return value;
+        });
+    });
+
+    return { type: "data", payload: items };
+}
