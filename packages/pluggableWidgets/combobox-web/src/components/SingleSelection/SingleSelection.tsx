@@ -3,7 +3,6 @@ import { createElement, ReactElement, Fragment } from "react";
 import { SingleSelector } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
-import { Placeholder } from "../Placeholder";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
 
@@ -25,10 +24,6 @@ export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSe
         isOpen,
         highlightedIndex
     } = useDownshiftSingleSelectProps(selector, options);
-
-    if (selector.status === "unavailable") {
-        return <Placeholder />;
-    }
 
     return (
         <Fragment>

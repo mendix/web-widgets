@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ComboboxContainerProps, FilterTypeEnum } from "../../typings/ComboboxProps";
+import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
 
@@ -52,7 +52,7 @@ export interface MultiSelector {
     status: Status;
     type: "multi";
     readOnly: boolean;
-    selectedItemsStyle: "text" | "boxes";
+    selectedItemsStyle: SelectedItemsStyleEnum;
 
     // options related
     options: OptionsProvider;

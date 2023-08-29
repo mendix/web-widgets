@@ -1,6 +1,8 @@
 $brand-primary: #264ae5;
+$gray-dark: #606671;
+$gray-primary: #ced0d3;
 $brand-secondary-light: #e6eaff;
-$separator-border: #808080;
+$separator-border: #787d87;
 $typography-color: #3b4251;
 $box-shadow-color: rgba(0, 0, 0, 0.2);
 $selected-item: #e6eaff;
@@ -20,14 +22,15 @@ $disabled-text-color: #6c7180;
         margin: 4px 0 0 0;
         width: 100%;
         left: unset;
-        padding: 0;
+        padding: 10px 0 0;
         overflow: hidden;
-        z-index: 102;
+        z-index: 1;
         box-shadow: 0px 0px 10px 0px $box-shadow-color;
         background-color: $unselected-item;
         list-style-type: "none";
         &-list {
             padding: 0;
+            margin-bottom: 0;
         }
         &-hidden {
             display: none;
@@ -37,6 +40,7 @@ $disabled-text-color: #6c7180;
             justify-content: space-between;
             color: $brand-primary;
             border-top: 1px solid $separator-border;
+            margin-top: 6px;
             &-control {
                 display: flex;
                 padding: 10px 12px;
@@ -60,7 +64,7 @@ $disabled-text-color: #6c7180;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 3px 0 3px 10px;
+        padding: 6px 0 6px 10px;
         height: fit-content;
         overflow: hidden;
         color: $typography-color;
@@ -71,11 +75,24 @@ $disabled-text-color: #6c7180;
         &-highlighted {
             background-color: $highlighted-index;
         }
+
+        & > .icon-container {
+            margin-right: 10px;
+        }
     }
 
     &-input-container {
         flex-grow: 1;
         transition: box-shadow 150ms ease 0s;
+        border: 1px solid $gray-primary !important;
+
+        &.form-control {
+            padding: 4px 8px;
+        }
+
+        &:hover {
+            border: 1px solid $gray-dark !important;
+        }
         &-active {
             border: 1px solid $brand-primary !important;
         }
@@ -86,6 +103,7 @@ $disabled-text-color: #6c7180;
     }
 
     &-input {
+        color: $gray-dark;
         flex-grow: 1;
         border: none;
         &:placeholder-shown {
@@ -97,15 +115,21 @@ $disabled-text-color: #6c7180;
     }
 
     &-clear-button {
-        border: none;
+        display: flex;
+        align-items: center;
         cursor: pointer;
         background: transparent;
+        border: none;
         &-icon {
-            fill: $typography-color;
+            fill: $brand-primary;
             transition: fill 0.2s ease-in-out;
         }
         &:hover &-icon {
             fill: $hover-color;
+        }
+
+        & + .widget-combobox-down-arrow {
+            border-left: 1px solid $separator-border;
         }
     }
     &-down-arrow {
@@ -113,14 +137,15 @@ $disabled-text-color: #6c7180;
         flex-wrap: wrap;
         align-content: center;
         cursor: pointer;
-        border-left: 1px solid $separator-border;
         padding-left: 4px;
-        span {
-            display: flex;
-        }
-        svg {
+
+        &-icon {
             fill: $typography-color;
-            transition: fill 0.2s ease-in-out;
+            transition: fill 0.2s ease-in-out, transform 0.2s;
+            &.active {
+                transform: rotate(180deg);
+                transition: fill 0.2s ease-in-out, transform 0.2s;
+            }
         }
         &:hover svg {
             fill: $hover-color;
@@ -132,7 +157,7 @@ $disabled-text-color: #6c7180;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
-        &-down-arrow-icon {
+        &-down-arrow {
             svg {
                 fill: $hover-color;
             }
@@ -147,32 +172,50 @@ $disabled-text-color: #6c7180;
         }
 
         &-item {
+            color: #000;
             font-size: 12px;
-            display: flex;
-            border-radius: 5px;
-            padding: 4px;
+            display: inline-flex;
+            border-radius: 26px;
+            justify-content: center;
+            padding: 4px 10px;
             flex-wrap: wrap;
             align-items: center;
             margin: 1px 2px;
+            gap: 8px;
             background-color: $brand-secondary-light;
-            &-remove-icon {
-                padding: 4px;
+            &-remove-button {
+                padding: 0px 0px;
+                border: none;
+                background-color: transparent;
                 cursor: pointer;
                 color: $brand-primary;
+                span {
+                    display: flex;
+                    align-items: center;
+                }
             }
         }
-        &-listitem {
-            display: flex;
-            border-radius: 2px;
-            padding-left: 4px;
-            padding-right: 4px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin: 1px 2px;
-            &-remove-icon {
-                padding: 4px;
-                cursor: pointer;
+    }
+
+    &-down-checkbox-icon {
+        fill: transparent;
+        &:not(.checked) rect {
+            stroke: #ced0d3;
+        }
+        &.checked {
+            rect {
+                fill: #264ae5;
+            }
+            path {
+                stroke: white;
+                stroke-width: 2px;
+                stroke-linecap: round;
+                stroke-linejoin: round;
             }
         }
+    }
+
+    &-icon-container {
+        display: flex;
     }
 }

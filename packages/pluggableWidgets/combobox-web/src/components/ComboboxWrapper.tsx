@@ -24,7 +24,7 @@ export const ComboboxWrapper = forwardRef(
             >
                 {children}
                 <div className="widget-combobox-down-arrow" {...getToggleButtonProps()}>
-                    <DownArrow />
+                    <DownArrow isOpen={isOpen} />
                 </div>
             </div>
         );
