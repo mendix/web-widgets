@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.8] DataWidgets - 2023-08-30
+
+### [2.6.1] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed the issue where date filter does not fully visible when datagrid pagination option is set to virtual scrolling.
+
 ## [2.8.7] DataWidgets - 2023-08-25
 
 ### [2.8.2] Datagrid
