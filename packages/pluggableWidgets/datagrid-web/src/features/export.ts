@@ -97,37 +97,37 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     }, [datasource.items]);
 
     useEffect(() => {
-        const runColumnsCallback = async (): Promise<void> => {
-            if (!callback) {
-                return;
-            }
-            await callback(exportColumns(columns));
-        };
-        const runDataCallback = async (): Promise<void> => {
-            if (!callback || !datasource.items) {
-                return;
-            }
-            await callback(exportData(datasource.items, columns));
-        };
+        if (startProcess) {
+            const runColumnsCallback = async (): Promise<void> => {
+                if (!callback) {
+                    return;
+                }
+                await callback(exportColumns(columns));
+                setSentColumns(true);
+            };
+            const runDataCallback = async (): Promise<void> => {
+                if (!callback || !datasource.items) {
+                    return;
+                }
 
-        if (startProcess && callback) {
+                if (datasource.items && datasource.hasMoreItems) {
+                    await callback(exportData(datasource.items, columns));
+                    datasource.setOffset(datasource.offset + pageSize);
+                }
+
+                if (datasource.items && datasource.hasMoreItems === false) {
+                    await callback(exportData(datasource.items, columns));
+                    callback({ type: "end" });
+                    datasource.setOffset(0);
+                    setStartProcess(false);
+                }
+            };
+
             if (sentColumns === false) {
                 runColumnsCallback();
-                setSentColumns(true);
             }
 
-            if (datasource.items && datasource.hasMoreItems) {
-                runDataCallback();
-                const newOffset = datasource.offset + pageSize;
-                datasource.setOffset(newOffset);
-            }
-
-            if (datasource.items && datasource.hasMoreItems === false) {
-                runDataCallback();
-                callback({ type: "end" });
-                datasource.setOffset(0);
-                setStartProcess(false);
-            }
+            runDataCallback();
         }
     }, [callback, datasource.hasMoreItems, datasource.items, sentColumns, startProcess]);
 
