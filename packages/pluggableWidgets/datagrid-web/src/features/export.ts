@@ -3,7 +3,6 @@ import { ListValue, ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/pluggable-widgets-commons";
 import { ColumnsType } from "../../typings/DatagridProps";
 
-// Roman types ideas
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
 
 export interface DataExporter {
@@ -37,7 +36,6 @@ interface DataExportStream {
     start(): void;
     abort(): void;
 }
-// Roman types ideas
 
 type UseDG2ExportApi = {
     columns: ColumnsType[];
