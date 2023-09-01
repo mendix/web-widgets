@@ -21,7 +21,7 @@ import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
-import { DATAGRID_DATA_EXPORT, DataGridName, Message, useDG2ExportApi } from "./features/export";
+import { useDG2ExportApi } from "./features/export";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -44,10 +44,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         name: props.name,
         pageSize: props.pageSize
     });
-
-    useEffect(() => {
-        dumpDataFromDataGridToConsole(props.name);
-    }, []);
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
@@ -246,36 +242,4 @@ function transformColumnProps(props: ColumnsType[]): TableColumn[] {
         header: prop.header && isAvailable(prop.header) ? prop.header.value ?? "" : "",
         sortable: isSortable(prop)
     }));
-}
-
-function dumpDataFromDataGridToConsole(name: DataGridName): void {
-    console.info("You asked to dump data from: ", name);
-    const stream = window[DATAGRID_DATA_EXPORT][name].create();
-    console.info("Got data export stream instance, attaching processing function");
-    stream.process((msg: Message) => {
-        if (!msg) {
-            return;
-        }
-
-        switch (msg.type) {
-            case "columns":
-                console.info("_____Table_Header_______");
-                console.info(msg.payload.map(v => `${v.name} (${v.type})`).join(" | "));
-                console.info("_____End_Table_Header_______");
-
-                console.info("_____Table_Body_______");
-                break;
-            case "data":
-                msg.payload.forEach(item => {
-                    console.info(item.join(" | "));
-                });
-                break;
-            case "end":
-                console.info("_____End_Table_Body_______");
-                console.info("We are done with the data dump!");
-                break;
-        }
-    });
-    console.info("let's start dumping some data");
-    stream.start();
 }
