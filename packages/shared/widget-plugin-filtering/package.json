@@ -35,8 +35,5 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*"
-  },
-  "dependencies": {
-    "@mendix/widget-kit-web": "workspace:*"
   }
 }

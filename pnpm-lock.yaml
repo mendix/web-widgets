@@ -1957,10 +1957,6 @@ importers:
         version: 0.2.24(@swc/core@1.3.37)
 
   packages/shared/widget-plugin-filtering:
-    dependencies:
-      '@mendix/widget-kit-web':
-        specifier: workspace:*
-        version: link:../widget-kit-web
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
