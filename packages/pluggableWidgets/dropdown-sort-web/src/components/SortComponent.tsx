@@ -1,9 +1,6 @@
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
-import {
-    SortDirection,
-    useOnClickOutside,
-    usePositionObserver
-} from "@mendix/pluggable-widgets-commons/components/web";
+import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
+import { SortDirection } from "@mendix/widget-plugin-sorting";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 
