@@ -21,6 +21,7 @@ import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
+import { useDG2ExportApi } from "./features/export";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -36,6 +37,13 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const { FilterContext } = useFilterContext();
     const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
+
+    const { items } = useDG2ExportApi({
+        columns: props.columns,
+        datasource: props.datasource,
+        name: props.name,
+        pageSize: props.pageSize
+    });
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
@@ -130,8 +138,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     return (
         <Table
-            selectionStatus={selectionStatus}
-            selectionMethod={selectionMethod}
             cellRenderer={cellRenderer}
             className={props.class}
             columns={columns}
@@ -140,7 +146,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={props.datasource.items ?? []}
+            data={items}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
@@ -177,8 +183,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [FilterContext, customFiltersState, props.columns]
             )}
-            hasMoreItems={props.datasource.hasMoreItems ?? false}
-            headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
+            gridHeaderTitle={props.filterSectionTitle?.value}
             gridHeaderWidgets={useMemo(
                 () => (
                     <FilterContext.Provider
@@ -202,14 +207,20 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 ),
                 [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
             )}
-            gridHeaderTitle={props.filterSectionTitle?.value}
+            hasMoreItems={props.datasource.hasMoreItems ?? false}
+            headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
+            isSelected={selectActionProps.isSelected}
             numberOfItems={props.datasource.totalCount}
+            onSelect={selectActionProps.onSelect}
+            onSelectAll={selectActionProps.onSelectAll}
             page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
+            selectionMethod={selectionMethod}
+            selectionStatus={selectionStatus}
             setPage={setPage}
             setSortParameters={setSortParameters}
             settings={props.configurationAttribute}
@@ -221,9 +232,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [props.columns]
             )}
-            onSelect={selectActionProps.onSelect}
-            onSelectAll={selectActionProps.onSelectAll}
-            isSelected={selectActionProps.isSelected}
         />
     );
 }
