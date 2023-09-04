@@ -75,6 +75,7 @@ export function getGlobalFilterContextObject(): FilterContextObject {
 
     if (contextObject == null) {
         contextObject = createContext<FilterContextValue | undefined>(undefined);
+        window[CONTEXT_OBJECT_PATH] = contextObject;
     }
 
     return contextObject;
