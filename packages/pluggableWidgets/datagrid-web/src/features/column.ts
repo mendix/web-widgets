@@ -1,4 +1,4 @@
-import { AssociationProperties } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { AssociationProperties } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/pluggable-widgets-commons/dist/utils/ensure";
 import { ColumnsPreviewType, ColumnsType } from "typings/DatagridProps";
 
