@@ -1,7 +1,8 @@
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";
 import { FilterComponent } from "./components/FilterComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterType, getFilterDispatcher } from "@mendix/widget-plugin-filtering";
 import { Big } from "big.js";
 
 import {
