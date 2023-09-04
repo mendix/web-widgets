@@ -2,7 +2,8 @@ import { createElement, useCallback, ReactNode } from "react";
 
 import { BadgeButton as BadgeButtonComponent } from "./components/BadgeButton";
 import { BadgeButtonContainerProps } from "../typings/BadgeButtonProps";
-import { executeAction, isAvailable } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 
 export function BadgeButton(props: BadgeButtonContainerProps): ReactNode {
     const onClick = useCallback(() => {
