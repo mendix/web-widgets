@@ -1,7 +1,6 @@
 import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
+import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
 import {
-    chevronDownIcon,
-    chevronDownIconDark,
     ContainerProps,
     ImageProps,
     StructurePreviewProps,

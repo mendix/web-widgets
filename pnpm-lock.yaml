@@ -898,6 +898,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
