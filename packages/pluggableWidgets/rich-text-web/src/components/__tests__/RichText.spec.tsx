@@ -44,12 +44,18 @@ const defaultRichTextProps: RichTextContainerProps = {
     codeHighlight: false,
     allowedContent: "",
     disallowedContent: "",
+    enableUploadImages: false,
+    uploadImageEndpoint: "",
+    uploadImageMaxSize: 4096,
     id: "1.Dev.Test_ListenTo.richText1_x_1"
 };
 
 describe("RichText", () => {
     window.mx = {
-        remoteUrl: "https://example.com"
+        remoteUrl: "https://example.com",
+        session: {
+            getConfig: (value: string) => value + "config"
+        }
     };
 
     function renderRichText(props = defaultRichTextProps): ReactWrapper {
@@ -183,5 +189,29 @@ describe("CKEditor configuration", () => {
                 "JustifyCenter,JustifyRight,Language,JustifyBlock,Smiley,PageBreak," +
                 "Iframe,TextColor,BGColor,Font,FontSize,ShowBlocks"
         });
+    });
+});
+
+describe("RichText Image Upload", () => {
+    window.mx = {
+        remoteUrl: "https://example.com",
+        session: {
+            getConfig: (value: string) => value + "config"
+        }
+    };
+
+    const uploadImageProps = {
+        ...defaultRichTextProps,
+        enableUploadImages: true,
+        uploadImageEndpoint: "/rest/image/v1/image/demo-editor"
+    };
+
+    it("renders dom elements with upload image enabled", () => {
+        const richText = mount(<RichText {...uploadImageProps} />);
+        expect(richText).toBeDefined();
+        expect(richText.find(`#${uploadImageProps.name}`)).toBeDefined();
+
+        const richTextElement = richText.find(".widget-rich-text");
+        expect(richTextElement?.getElements().length).toBeGreaterThan(0);
     });
 });
