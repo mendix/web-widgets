@@ -1075,6 +1075,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       '@mendix/widget-plugin-sorting':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-sorting

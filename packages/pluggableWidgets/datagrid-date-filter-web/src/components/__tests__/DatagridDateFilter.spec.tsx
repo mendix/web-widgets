@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
-import { Alert, FilterContextValue } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import {
     actionValue,
     dynamicValue,
