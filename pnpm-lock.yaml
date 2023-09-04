@@ -460,10 +460,6 @@ importers:
         version: link:../../../automation/utils
 
   packages/pluggableWidgets/accessibility-helper-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -480,6 +476,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/accordion-web:
     dependencies:
