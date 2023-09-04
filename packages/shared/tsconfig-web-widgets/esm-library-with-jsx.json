@@ -9,7 +9,6 @@
         "lib": ["ES2021", "dom"],
         "moduleResolution": "node",
         "noLib": false,
-        "watch": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "strict": true,
