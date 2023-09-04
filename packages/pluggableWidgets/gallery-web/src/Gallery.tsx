@@ -1,14 +1,7 @@
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import {
-    FilterType,
-    SortInstruction,
-    SortFunction,
-    useFilterContext,
-    useMultipleFiltering,
-    useSortContext
-} from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterType, useFilterContext, useMultipleFiltering } from "@mendix/pluggable-widgets-commons/components/web";
 import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";
 import { and } from "mendix/filters/builders";
@@ -18,6 +11,7 @@ import {
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/pluggable-widgets-commons";
+import { SortInstruction, SortFunction, useSortContext } from "@mendix/widget-plugin-sorting";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);

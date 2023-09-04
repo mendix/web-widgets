@@ -1004,6 +1004,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-sorting':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-sorting
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1057,6 +1060,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-sorting':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-sorting
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -13795,7 +13801,7 @@ packages:
       '@jest/types': ^29.0.0
       babel-jest: ^29.0.0
       esbuild: '*'
-      jest: ^29.0.0
+      jest: ^29.4.1
       typescript: '>=4.3 <6'
     peerDependenciesMeta:
       '@babel/core':

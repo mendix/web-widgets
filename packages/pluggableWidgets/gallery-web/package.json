@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@mendix/widget-plugin-sorting": "workspace:*",
     "classnames": "^2.3.2"
   },
   "devDependencies": {

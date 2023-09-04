@@ -1,14 +1,7 @@
 import { Context, createElement, ReactElement, useCallback, useContext, useMemo, useRef } from "react";
 import { ListAttributeValue } from "mendix";
-import {
-    Alert,
-    generateUUID,
-    getSortDispatcher,
-    SortContextValue,
-    SortDirection,
-    SortInstruction
-} from "@mendix/pluggable-widgets-commons/components/web";
-
+import { Alert, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { SortContextValue, SortDirection, SortInstruction, getSortDispatcher } from "@mendix/widget-plugin-sorting";
 import { DropdownSortContainerProps } from "../typings/DropdownSortProps";
 import { SortComponent, SortOption } from "./components/SortComponent";
 
