@@ -1,8 +1,4 @@
-import {
-    ConditionDispatch,
-    FilterContextValue,
-    FilterType
-} from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { ConditionDispatch, FilterContextValue, FilterType } from "@mendix/widget-plugin-filtering";
 import { error, value, ValueMeta } from "@mendix/pluggable-widgets-commons/dist/utils/valueStatus";
 import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";

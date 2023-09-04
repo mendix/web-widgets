@@ -3,19 +3,14 @@ import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { Table, TableColumn, SortProperty } from "./components/Table";
-import {
-    FilterFunction,
-    FilterType,
-    generateUUID,
-    useFilterContext,
-    useMultipleFiltering
-} from "@mendix/pluggable-widgets-commons/components/web";
+import { generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
 import {
     getGlobalSelectionContext,
     isAvailable,
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/pluggable-widgets-commons";
+import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps, isSortable } from "./features/column";

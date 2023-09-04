@@ -13,13 +13,6 @@
   "exports": {
     ".": "./dist/main.js"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/main.d.ts"
-      ]
-    }
-  },
   "files": [
     "dist",
     "!*.map"

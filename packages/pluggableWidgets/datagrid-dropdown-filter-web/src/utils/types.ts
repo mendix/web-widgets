@@ -1,4 +1,4 @@
-import { FilterContextValue } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import { DatagridDropdownFilterContainerProps } from "typings/DatagridDropdownFilterProps";
 
 export interface FilterProps {
