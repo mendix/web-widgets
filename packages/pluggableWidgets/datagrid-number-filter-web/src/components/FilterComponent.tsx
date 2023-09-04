@@ -1,5 +1,5 @@
 import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
-import { FilterSelector } from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
 import classNames from "classnames";
