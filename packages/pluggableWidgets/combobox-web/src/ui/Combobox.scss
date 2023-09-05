@@ -108,9 +108,17 @@ $disabled-text-color: #6c7180;
         &-icon {
             transition: color 0.2s ease-in-out;
         }
+        path {
+            stroke-width: 0;
+            transition: stroke-width 0.2s ease-in-out;
+        }
         &:hover &-icon {
             color: $brand-primary;
             font-weight: bold;
+
+            path {
+                stroke-width: 1px;
+            }
         }
 
         & + .widget-combobox-down-arrow {
@@ -241,5 +249,6 @@ $disabled-text-color: #6c7180;
 
     &-icon-container {
         display: flex;
+        padding-top: 1px;
     }
 }

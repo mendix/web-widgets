@@ -59,7 +59,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                                             removeSelectedItem(selectedItemForRender);
                                         }}
                                     >
-                                        <ClearButton />
+                                        <ClearButton size={10} />
                                     </span>
                                 </span>
                             );

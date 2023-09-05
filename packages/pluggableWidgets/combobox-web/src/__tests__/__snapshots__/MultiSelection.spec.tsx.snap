@@ -37,9 +37,20 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <span
           class="widget-combobox-icon-container"
         >
-          <span
-            class="widget-combobox-clear-button-icon mx-icon-lined mx-icon-remove"
-          />
+          <svg
+            class="widget-combobox-clear-button-icon"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </span>
       </button>
       <div
@@ -52,9 +63,16 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <span
           class="widget-combobox-icon-container"
         >
-          <span
+          <svg
             class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down active"
-          />
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
         </span>
       </div>
     </div>
@@ -241,9 +259,20 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         <span
           class="widget-combobox-icon-container"
         >
-          <span
-            class="widget-combobox-clear-button-icon mx-icon-lined mx-icon-remove"
-          />
+          <svg
+            class="widget-combobox-clear-button-icon"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </span>
       </button>
       <div
@@ -256,9 +285,16 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         <span
           class="widget-combobox-icon-container"
         >
-          <span
+          <svg
             class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
-          />
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
         </span>
       </div>
     </div>
