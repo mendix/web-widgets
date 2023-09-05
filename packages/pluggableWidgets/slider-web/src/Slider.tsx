@@ -10,7 +10,7 @@ import { Slider as SliderComponent } from "./components/Slider";
 import "./ui/Slider.scss";
 import { isVertical } from "./utils/isVertical";
 import { getStyleProp } from "./utils/getStyleProp";
-import { useScheduleUpdateOnce } from "@mendix/pluggable-widgets-commons";
+import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
 import { ValueStatus } from "mendix";
 
 export default function Slider(props: SliderContainerProps): ReactNode {
