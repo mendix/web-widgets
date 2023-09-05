@@ -1,4 +1,4 @@
-import { getDimensions } from "@mendix/pluggable-widgets-commons";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { CKEditorConfig } from "ckeditor4-react";
 import { PresetEnum, CtItemTypeEnum, RichTextContainerProps } from "../../typings/RichTextProps";
 import {
