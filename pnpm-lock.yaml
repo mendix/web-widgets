@@ -1033,16 +1033,6 @@ importers:
         version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/dropdown-sort-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
-      '@mendix/widget-plugin-sorting':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-sorting
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1050,6 +1040,9 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-widgets-commons':
+        specifier: workspace:*
+        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -1059,9 +1052,18 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-sorting':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-sorting
       '@types/enzyme':
         specifier: ^3.10.13
         version: 3.10.13
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
 
   packages/pluggableWidgets/fieldset-web:
     dependencies:
@@ -6419,7 +6421,6 @@ packages:
 
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
-    dev: false
 
   /clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}

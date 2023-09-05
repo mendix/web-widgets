@@ -1,6 +1,4 @@
 import {
-    chevronDownIcon,
-    chevronDownIconDark,
     ContainerProps,
     ImageProps,
     StructurePreviewProps,
@@ -8,6 +6,7 @@ import {
     structurePreviewPalette
 } from "@mendix/pluggable-widgets-commons";
 import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
+import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
 
 import AscIcon from "./assets/asc.svg";
 import AscIconDark from "./assets/asc-dark.svg";
