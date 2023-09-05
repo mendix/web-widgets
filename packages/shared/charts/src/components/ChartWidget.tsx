@@ -1,6 +1,6 @@
 import { createElement, ReactElement, useMemo } from "react";
 import classNames from "classnames";
-import { Dimensions, getDimensions } from "@mendix/pluggable-widgets-commons";
+import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import {
     ChartTypeEnum,
     CustomLayoutProps,
