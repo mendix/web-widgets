@@ -1133,10 +1133,6 @@ importers:
         version: 7.0.3
 
   packages/pluggableWidgets/google-tag-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*

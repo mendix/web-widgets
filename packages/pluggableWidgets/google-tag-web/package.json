@@ -41,9 +41,6 @@
     "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace"
   },
-  "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*"
-  },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
