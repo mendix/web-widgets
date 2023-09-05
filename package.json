@@ -8,8 +8,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "prepare": "husky install",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
+    "lint": "turbo run lint --continue --concurrency 1",
+    "test": "turbo run test --continue --concurrency 1",
     "build": "turbo run build",
     "release": "turbo run release",
     "create-gh-release": "turbo run create-gh-release",
