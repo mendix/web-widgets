@@ -2055,6 +2055,18 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
 
+  packages/shared/widget-plugin-test-utils:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+
 packages:
 
   /@adobe/css-tools@4.2.0:
