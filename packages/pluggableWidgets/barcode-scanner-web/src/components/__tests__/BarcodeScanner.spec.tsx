@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, render, waitFor, screen } from "@testing-library/react";
 import { createElement } from "react";
-import { Dimensions } from "@mendix/pluggable-widgets-commons";
+import { Dimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { NotFoundException } from "@zxing/library/cjs";
 import { BarcodeScanner } from "../BarcodeScanner";
 

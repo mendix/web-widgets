@@ -1,8 +1,7 @@
 import type { ListValue, ObjectItem } from "mendix";
 import { useRef, useMemo, useEffect } from "react";
-import { tuple } from "../util/tuple.js";
-import { throttle } from "../util/throttle.js";
-import { ValueStatus } from "../constants.js";
+import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
+import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 
 type GetItems = () => void;
 type LoadMore = () => void;
@@ -17,7 +16,7 @@ type LazyListValue = {
 
 const incLimit = (setLimit: SetLimit, list: ListValue, pageSize: number): void => {
     setLimit(current => {
-        if (list.status === ValueStatus.Available && list.hasMoreItems) {
+        if (list.status === "available" && list.hasMoreItems) {
             return current + pageSize;
         }
 
@@ -39,7 +38,7 @@ export function useLazyListValue(
     loadDelayTime = 1000
 ): [GetItems, LoadMore, LazyListValue] {
     const desiredNumberOfItems = useRef<number>(0);
-    const isLoading = list.status === ValueStatus.Loading;
+    const isLoading = list.status === "loading";
     const isFetched = desiredNumberOfItems.current !== 0;
 
     const setLimit: SetLimit = update => {

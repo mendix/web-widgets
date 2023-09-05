@@ -9,7 +9,7 @@ import {
     NotFoundException,
     Result
 } from "@zxing/library/cjs";
-import { useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 
 const hints = new Map();
 // RSS_Expanded is not production ready yet.
