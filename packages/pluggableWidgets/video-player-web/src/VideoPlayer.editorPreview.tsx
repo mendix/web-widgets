@@ -1,4 +1,4 @@
-import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { Component, createElement } from "react";
 import classNames from "classnames";
 

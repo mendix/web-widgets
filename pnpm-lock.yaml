@@ -1786,9 +1786,6 @@ importers:
 
   packages/pluggableWidgets/video-player-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@types/react-test-renderer':
         specifier: ^18.0.0
         version: 18.0.0
@@ -1814,6 +1811,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/react-resize-detector':
         specifier: ^5.0.0
         version: 5.0.0
