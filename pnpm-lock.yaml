@@ -1730,9 +1730,6 @@ importers:
 
   packages/pluggableWidgets/tooltip-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@popperjs/core':
         specifier: ^2.11.8
         version: 2.11.8
@@ -1758,6 +1755,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/tree-node-web:
     dependencies:

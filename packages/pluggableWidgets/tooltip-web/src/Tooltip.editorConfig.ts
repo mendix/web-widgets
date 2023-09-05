@@ -6,7 +6,7 @@ import {
     ContainerProps,
     TextProps,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(values: TooltipPreviewProps, defaultValues: Properties): Properties {

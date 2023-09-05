@@ -1,5 +1,5 @@
 import { createElement, CSSProperties, ReactElement, ReactNode, useCallback, useRef, useState } from "react";
-import { useOnClickOutside } from "@mendix/pluggable-widgets-commons/components/web";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePopper } from "react-popper";
 import classNames from "classnames";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
