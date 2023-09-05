@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { getSelector } from "../helpers/getSelector";
-import { SingleSelector, MultiSelector } from "../helpers/types";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
+import { getSelector } from "../helpers/getSelector";
+import { MultiSelector, SingleSelector } from "../helpers/types";
 
 export function useGetSelector(props: ComboboxContainerProps): SingleSelector | MultiSelector {
     const selectorRef = useRef<SingleSelector | MultiSelector | undefined>(undefined);

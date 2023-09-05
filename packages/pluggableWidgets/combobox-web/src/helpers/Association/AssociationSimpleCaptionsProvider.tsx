@@ -44,6 +44,6 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     }
 
     render(value: string | null): ReactNode {
-        return <span>{this.get(value)}</span>;
+        return <span className="widget-combobox-caption">{this.get(value)}</span>;
     }
 }

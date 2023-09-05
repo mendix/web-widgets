@@ -1,17 +1,15 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement } from "react";
-import { MultiSelector } from "../../helpers/types";
 import { ClearButton } from "../../assets/icons";
+import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { ComboboxWrapper } from "../ComboboxWrapper";
+import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-interface MultiSelectionProps {
+interface MultiSelectionProps extends SelectionBaseProps {
     selector: MultiSelector;
-    tabIndex: number;
-    inputId?: string;
-    labelId?: string;
 }
 
 export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectionProps): ReactElement {
@@ -29,13 +27,19 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
         setActiveIndex,
         selectedItems,
         items,
-        setSelectedItems
+        setSelectedItems,
+        toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options);
 
     return (
         <Fragment>
             <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
-                <div className="widget-combobox-selected-items">
+                <div
+                    className={classNames(
+                        "widget-combobox-selected-items",
+                        `widget-combobox-${selector.selectedItemsStyle}`
+                    )}
+                >
                     {selector.selectedItemsStyle === "boxes" &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
@@ -65,7 +69,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                             "widget-combobox-input-nofilter": selector.options.filterType === "no"
                         })}
                         tabIndex={tabIndex}
-                        placeholder={getSelectedCaptionsPlaceholder(selector, selectedItems)}
+                        placeholder=" "
                         {...getInputProps(
                             {
                                 ...getDropdownProps({
@@ -76,6 +80,13 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                                     if (event.key === "Backspace" && inputValue === "") {
                                         setActiveIndex(selectedItems.length - 1);
                                     }
+                                    if (event.key === " ") {
+                                        if (highlightedIndex >= 0) {
+                                            toggleSelectedItem(highlightedIndex);
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                        }
+                                    }
                                 },
                                 disabled: selector.readOnly,
                                 readOnly: selector.options.filterType === "no"
@@ -83,6 +94,11 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                             { suppressRefError: true }
                         )}
                     />
+                    {selector.selectedItemsStyle === "text" && (
+                        <InputPlaceholder isEmpty={selectedItems.length <= 0}>
+                            {getSelectedCaptionsPlaceholder(selector, selectedItems)}
+                        </InputPlaceholder>
+                    )}
                 </div>
 
                 {!selector.readOnly &&
@@ -112,6 +128,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
+                placeholderText={options.noItemText}
             />
         </Fragment>
     );

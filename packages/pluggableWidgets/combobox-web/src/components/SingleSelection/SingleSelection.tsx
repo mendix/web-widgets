@@ -1,16 +1,15 @@
-import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { createElement, ReactElement, Fragment } from "react";
-import { SingleSelector } from "../../helpers/types";
-import { ClearButton } from "../../assets/icons";
-import { SingleSelectionMenu } from "./SingleSelectionMenu";
-import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
+import { Fragment, ReactElement, createElement, useRef } from "react";
+import { ClearButton } from "../../assets/icons";
+import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
+import { ComboboxWrapper } from "../ComboboxWrapper";
+import { InputPlaceholder } from "../Placeholder";
+import { SingleSelectionMenu } from "./SingleSelectionMenu";
+import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
-interface SingleSelectionProps {
+interface SingleSelectionProps extends SelectionBaseProps {
     selector: SingleSelector;
-    tabIndex: number;
-    inputId?: string;
-    labelId?: string;
 }
 
 export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSelectionProps): ReactElement {
@@ -22,26 +21,44 @@ export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSe
         getMenuProps,
         reset,
         isOpen,
-        highlightedIndex
+        highlightedIndex,
+        openMenu
     } = useDownshiftSingleSelectProps(selector, options);
+    const inputRef = useRef<HTMLInputElement>(null);
 
+    const onContainerClick = useEventCallback(() => {
+        if (selector?.options.filterType === "no" && !isOpen && inputRef?.current === document.activeElement) {
+            openMenu();
+        }
+    });
     return (
         <Fragment>
-            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
-                <input
-                    className={classNames("widget-combobox-input", {
-                        "widget-combobox-input-nofilter": selector.options.filterType === "no"
-                    })}
-                    tabIndex={tabIndex}
-                    {...getInputProps(
-                        {
-                            disabled: selector.readOnly,
-                            readOnly: selector.options.filterType === "no"
-                        },
-                        { suppressRefError: true }
-                    )}
-                    placeholder={selector.caption.get(selectedItem)}
-                />
+            <ComboboxWrapper
+                isOpen={isOpen}
+                onClick={onContainerClick}
+                readOnly={selector.readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+            >
+                <div className="widget-combobox-selected-items">
+                    <input
+                        className={classNames("widget-combobox-input", {
+                            "widget-combobox-input-nofilter": selector.options.filterType === "no"
+                        })}
+                        tabIndex={tabIndex}
+                        {...getInputProps(
+                            {
+                                disabled: selector.readOnly,
+                                readOnly: selector.options.filterType === "no",
+                                ref: inputRef
+                            },
+                            { suppressRefError: true }
+                        )}
+                        placeholder=" "
+                    />
+                    <InputPlaceholder isEmpty={!selector.currentValue}>
+                        {selector.caption.get(selectedItem)}
+                    </InputPlaceholder>
+                </div>
                 {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
                         tabIndex={tabIndex}

@@ -26,6 +26,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     emptyOptionText?: DynamicValue<string>;
+    noItemText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;
@@ -46,6 +47,7 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
     emptyOptionText: string;
+    noItemText: string;
     filterType: FilterTypeEnum;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;

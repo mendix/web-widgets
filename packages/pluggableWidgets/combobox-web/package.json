@@ -34,7 +34,7 @@
     "build": "pluggable-widgets-tools build:web",
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
+    "test": "jest --projects jest.config.js",
     "e2e": "echo \"Skipping this e2e test\"",
     "e2edev": "run-e2e dev --with-preps",
     "release": "pluggable-widgets-tools release:web",

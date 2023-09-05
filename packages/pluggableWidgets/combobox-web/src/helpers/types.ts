@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
-
 export type Status = "unavailable" | "loading" | "available";
 
 export interface CaptionsProvider {
@@ -64,4 +63,12 @@ export interface MultiSelector {
     clearable: boolean;
     currentValue: string[] | null;
     setValue(value: string[] | null): void;
+}
+
+export interface SelectionBaseProps {
+    selector: MultiSelector | SingleSelector;
+    tabIndex: number;
+    inputId: string;
+    labelId?: string;
+    noItemText?: string;
 }

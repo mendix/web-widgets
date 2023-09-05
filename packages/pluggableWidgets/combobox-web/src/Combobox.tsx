@@ -14,7 +14,8 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
     const commonProps = {
         tabIndex: props.tabIndex!,
         inputId: props.id,
-        labelId: `${props.id}-label`
+        labelId: `${props.id}-label`,
+        noItemText: props.noItemText?.value
     };
 
     return (

@@ -1,5 +1,5 @@
 import { executeAction } from "@mendix/pluggable-widgets-commons";
-import { useMemo, FocusEvent } from "react";
+import { FocusEvent, useMemo } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 
 type UseActionEventsReturnValue = {

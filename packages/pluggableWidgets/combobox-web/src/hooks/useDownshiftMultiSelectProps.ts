@@ -1,11 +1,11 @@
 import {
     UseComboboxProps,
-    UseComboboxState,
     UseComboboxReturnValue,
+    UseComboboxState,
     UseComboboxStateChangeOptions,
+    UseMultipleSelectionReturnValue,
     useCombobox,
-    useMultipleSelection,
-    UseMultipleSelectionReturnValue
+    useMultipleSelection
 } from "downshift";
 import { useMemo } from "react";
 import { MultiSelector } from "../helpers/types";
@@ -23,6 +23,7 @@ export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturn
         | "inputValue"
     > & {
         items: string[];
+        toggleSelectedItem: (index: number) => void;
     };
 
 interface Options {
@@ -63,10 +64,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items =
-        selector.selectedItemsStyle === "text"
-            ? selector.options.getAll()
-            : selector.options.getAll().filter(option => !selectedItems.includes(option));
+    const items = selector.options.getAll();
 
     const {
         isOpen,
@@ -78,6 +76,17 @@ export function useDownshiftMultiSelectProps(
         getItemProps,
         inputValue
     } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems, options));
+
+    const toggleSelectedItem = (index: number): void => {
+        const item = items[index];
+        if (item) {
+            if (selectedItems.includes(item)) {
+                removeSelectedItem(item);
+            } else {
+                addSelectedItem(item);
+            }
+        }
+    };
 
     return {
         isOpen,
@@ -96,7 +105,8 @@ export function useDownshiftMultiSelectProps(
         items,
         setSelectedItems,
         activeIndex,
-        addSelectedItem
+        addSelectedItem,
+        toggleSelectedItem
     };
 }
 
@@ -124,17 +134,25 @@ function useComboboxProps(
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
-                            inputValue: ""
+                            inputValue: _state.inputValue
                         };
 
-                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
-                    case useCombobox.stateChangeTypes.InputBlur:
                         return {
                             ...changes,
                             ...(changes.selectedItem && {
                                 isOpen: true,
+                                inputValue: "",
+                                highlightedIndex: items.indexOf(changes.selectedItem)
+                            })
+                        };
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+                    case useCombobox.stateChangeTypes.InputBlur:
+                        return {
+                            ...changes,
+                            ...(changes.selectedItem && {
+                                isOpen: false,
                                 inputValue: "",
                                 highlightedIndex: items.indexOf(changes.selectedItem)
                             })
