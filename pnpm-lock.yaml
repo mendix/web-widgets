@@ -1372,13 +1372,6 @@ importers:
         version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/popup-menu-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1395,6 +1388,15 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:

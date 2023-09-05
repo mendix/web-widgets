@@ -3,7 +3,7 @@ import { ActionValue } from "mendix";
 import { createElement, ReactElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
-import { useOnClickOutside } from "@mendix/widget-kit-web/hooks/useOnClickOutside";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 import {
