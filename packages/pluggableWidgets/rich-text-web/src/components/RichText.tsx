@@ -1,5 +1,5 @@
 import { createElement, useState } from "react";
-import { getDimensions } from "@mendix/pluggable-widgets-commons";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import loadingCircleSvg from "../ui/loading-circle.svg";
 import classNames from "classnames";

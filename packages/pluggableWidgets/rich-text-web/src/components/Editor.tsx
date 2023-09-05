@@ -1,4 +1,4 @@
-import { debounce } from "@mendix/pluggable-widgets-commons";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { CKEditorEventPayload, CKEditorHookProps, CKEditorInstance } from "ckeditor4-react";
 import { Component, createElement } from "react";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
@@ -46,7 +46,7 @@ export class Editor extends Component<EditorProps> {
         this.editorKey = this.getNewKey();
         this.editorHookProps = this.getNewEditorHookProps();
         this.onChange = this.onChange.bind(this);
-        this.applyChangesDebounce = debounce(this.applyChangesImmediately.bind(this), 500);
+        this.applyChangesDebounce = debounce(this.applyChangesImmediately.bind(this), 500)[0];
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onPasteContent = this.onPasteContent.bind(this);
         this.onDropContent = this.onDropContent.bind(this);
