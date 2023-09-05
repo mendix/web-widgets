@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import { createElement } from "react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
-import { buildListExpression, buildWidgetValue, ListValueBuilder } from "@mendix/pluggable-widgets-commons";
+import { buildListExpression, buildWidgetValue, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import Timeline from "../Timeline";
 
 describe("Timeline", () => {

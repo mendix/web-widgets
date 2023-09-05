@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import { createElement } from "react";
-import { actionValue, EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
+import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import TimelineComponent, { getGroupHeaderByType, TimelineComponentProps } from "../TimelineComponent";
 import { BasicItemType, CustomItemType } from "../../Timeline";
 
