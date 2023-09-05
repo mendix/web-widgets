@@ -1,4 +1,4 @@
-import { ImageProps, RowLayoutProps } from "@mendix/pluggable-widgets-commons";
+import { ImageProps, RowLayoutProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Problem } from "@mendix/pluggable-widgets-tools";
 
 import StructurePreviewRatingFilledSVG from "./assets/StructurePreviewRatingFilled.svg";
