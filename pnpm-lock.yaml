@@ -246,6 +246,9 @@ importers:
       date-arithmetic:
         specifier: ^3.1.0
         version: 3.1.0
+      loader-utils:
+        specifier: 1.4.2
+        version: 1.4.2
       moment:
         specifier: ^2.29.4
         version: 2.29.4
@@ -6117,7 +6120,6 @@ packages:
 
   /big.js@5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
-    dev: true
 
   /big.js@6.2.1:
     resolution: {integrity: sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==}
@@ -6738,7 +6740,7 @@ packages:
       normalize-path: 3.0.0
       schema-utils: 4.2.0
       serialize-javascript: 6.0.1
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /core-js-compat@3.31.0:
@@ -6906,7 +6908,7 @@ packages:
       postcss-modules-values: 4.0.0(postcss@8.4.21)
       postcss-value-parser: 4.2.0
       semver: 7.5.1
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /css-select@4.3.0:
@@ -7672,7 +7674,6 @@ packages:
   /emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
     engines: {node: '>= 4'}
-    dev: true
 
   /end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -10186,7 +10187,6 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
-    dev: true
 
   /jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
@@ -10347,7 +10347,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 2.2.3
-    dev: true
 
   /loader-utils@2.0.4:
     resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
@@ -13689,7 +13688,7 @@ packages:
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
       terser: 5.18.0
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /terser@5.18.0:
@@ -13790,7 +13789,7 @@ packages:
   /to-string-loader@1.2.0:
     resolution: {integrity: sha512-KsWUL8FccgBW9FPFm4vYoQbOOcO5m6hKOGYoXjbseD9/4Ft+ravXN5jolQ9kTKYcK4zPt1j+khx97GPGnVoi6A==}
     dependencies:
-      loader-utils: 1.4.2
+      loader-utils: 3.2.1
     dev: true
 
   /topojson-client@3.1.0:
@@ -13890,7 +13889,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.5.1
       typescript: 5.0.4
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
   /ts-node@10.9.1(@types/node@18.16.12)(typescript@5.0.4):

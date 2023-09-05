@@ -60,6 +60,7 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "date-arithmetic": "^3.1.0",
+    "loader-utils": "1.4.2",
     "moment": "^2.29.4",
     "react-big-calendar": "^1.8.1",
     "react-dnd": "2.6.0",
