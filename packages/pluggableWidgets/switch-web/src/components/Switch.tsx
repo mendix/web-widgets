@@ -1,6 +1,6 @@
 import { MouseEvent, KeyboardEvent, createElement } from "react";
 import classNames from "classnames";
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { SwitchContainerProps } from "../../typings/SwitchProps";
 
 export interface SwitchProps extends Pick<SwitchContainerProps, "id" | "tabIndex"> {
