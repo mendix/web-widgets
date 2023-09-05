@@ -1,5 +1,5 @@
 import { ListActionValue } from "mendix";
-import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
+import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 
 interface TraceProps {
     staticOnClickAction?: ListActionValue;
