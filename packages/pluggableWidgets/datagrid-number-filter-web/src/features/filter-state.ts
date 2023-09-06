@@ -1,7 +1,8 @@
 import { ChangeEventHandler, useState, useMemo, useRef, useEffect, MutableRefObject } from "react";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
-import { debounce, useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { toBig } from "../utils/value";
 
 type FilterState = {
@@ -37,7 +38,7 @@ export function useStateChangeEffects(
     inputChangeDelay: number
 ): [MutableRefObject<HTMLInputElement | null>] {
     const stableDispatch = useEventCallback(dispatch);
-    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, inputChangeDelay));
+    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, inputChangeDelay)[0]);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const prevStateRef = useRef(state);
 
