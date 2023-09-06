@@ -1,4 +1,4 @@
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { HTMLAttributes, mount, ReactWrapper, shallow } from "enzyme";
 import { createElement, CSSProperties, FunctionComponent } from "react";
 import { ProgressBar, ProgressBarProps } from "../ProgressBar";
