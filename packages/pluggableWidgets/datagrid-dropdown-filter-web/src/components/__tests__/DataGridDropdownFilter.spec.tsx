@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-test-utils";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import userEvent from "@testing-library/user-event";
