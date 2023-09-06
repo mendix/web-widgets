@@ -3,7 +3,7 @@ import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 const positionObserverValues = { top: 670, bottom: 700, left: 900, height: 40, width: 120, x: 900, y: 70 };
 const usePositionMock = jest.fn(() => positionObserverValues);
-jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
+jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: () => usePositionMock()
 }));
 

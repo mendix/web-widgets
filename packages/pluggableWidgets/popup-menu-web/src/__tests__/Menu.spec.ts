@@ -2,14 +2,14 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
 import { BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
 import { Menu, MenuProps } from "../components/Menu";
-import { actionValue, dynamicValue } from "@mendix/pluggable-widgets-commons";
+import { actionValue, dynamicValue } from "../utils/attrValue";
 import { ValueStatus } from "mendix";
 
 jest.useFakeTimers();
 
 const positionObserverValues = { top: 10, bottom: 20, left: 30, height: 1, width: 2 };
 const usePositionMock = jest.fn(() => positionObserverValues);
-jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
+jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: () => usePositionMock()
 }));
 

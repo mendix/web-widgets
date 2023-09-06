@@ -1,4 +1,4 @@
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ValueStatus } from "mendix";
 import { createElement, FunctionComponent, useCallback } from "react";
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";

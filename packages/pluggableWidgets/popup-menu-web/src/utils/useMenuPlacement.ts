@@ -1,4 +1,4 @@
-import { usePositionObserver } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { CSSProperties } from "react";
 import { PositionEnum } from "../../typings/PopupMenuProps";
 

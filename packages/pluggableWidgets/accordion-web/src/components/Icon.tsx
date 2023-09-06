@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
-import { Icon as InternalIcon } from "@mendix/pluggable-widgets-commons/components/web";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 
 export interface IconProps {
     data?: WebIcon;
@@ -28,7 +28,7 @@ export function Icon({ data, loading, animate }: IconProps): ReactElement | null
     }
 
     return (
-        <InternalIcon
+        <IconInternal
             icon={data}
             className={classNames("widget-accordion-group-header-button-icon", {
                 "widget-accordion-group-header-button-icon-animate": animate

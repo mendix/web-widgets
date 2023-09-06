@@ -1,7 +1,7 @@
 import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent } from "react";
 import classNames from "classnames";
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
-import { Dimensions, getDimensions } from "@mendix/pluggable-widgets-commons";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { useCustomErrorMessage } from "../hooks/useCustomErrorMessage";
 import { useReader } from "../hooks/useReader";
 

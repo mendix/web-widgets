@@ -4,7 +4,7 @@ import {
     RowLayoutProps,
     TextProps,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertyIn, Properties, Problem } from "@mendix/pluggable-widgets-tools";
 import { AttributesListPreviewType, AccessibilityHelperPreviewProps } from "../typings/AccessibilityHelperProps";
 

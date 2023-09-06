@@ -1,4 +1,4 @@
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
 import { createElement, ReactElement, SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";

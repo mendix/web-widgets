@@ -1,0 +1,43 @@
+{
+  "name": "@mendix/widget-plugin-component-kit",
+  "version": "0.1.0",
+  "description": "Common components for the pluggable widgets.",
+  "license": "Apache-2.0",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "type": "module",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "!*.map"
+  ],
+  "scripts": {
+    "compile": "tsc",
+    "format": "prettier --write .",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "prepare": "tsc",
+    "test": "jest",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/tsconfig-web-widgets": "workspace:*",
+    "@swc/core": "^1.3.37",
+    "@swc/jest": "^0.2.24",
+    "classnames": "^2.3.2",
+    "jest-environment-jsdom": "^29.4.1"
+  }
+}

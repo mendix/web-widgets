@@ -460,10 +460,6 @@ importers:
         version: link:../../../automation/utils
 
   packages/pluggableWidgets/accessibility-helper-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -480,12 +476,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/accordion-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -505,6 +501,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/area-chart-web:
     dependencies:
@@ -533,9 +535,6 @@ importers:
 
   packages/pluggableWidgets/badge-button-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -555,15 +554,15 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
 
   packages/pluggableWidgets/badge-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -583,6 +582,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -614,9 +616,6 @@ importers:
 
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@zxing/library':
         specifier: ~0.20.0
         version: 0.20.0
@@ -639,6 +638,15 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@rollup/plugin-replace':
         specifier: ^2.4.2
         version: 2.4.2(rollup@2.79.1)
@@ -1364,16 +1372,6 @@ importers:
         version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/popup-menu-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
-      '@mendix/widget-kit-web':
-        specifier: workspace:*
-        version: link:../../shared/widget-kit-web
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1390,6 +1388,15 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:
@@ -1927,18 +1934,6 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
 
-  packages/shared/pluggable-utils:
-    devDependencies:
-      '@mendix/eslint-config-web-widgets':
-        specifier: workspace:*
-        version: link:../eslint-config-web-widgets
-      '@mendix/prettier-config-web-widgets':
-        specifier: workspace:*
-        version: link:../prettier-config-web-widgets
-      '@mendix/tsconfig-web-widgets':
-        specifier: workspace:*
-        version: link:../tsconfig-web-widgets
-
   packages/shared/pluggable-widgets-commons:
     dependencies:
       classnames:
@@ -1972,11 +1967,7 @@ importers:
 
   packages/shared/tsconfig-web-widgets: {}
 
-  packages/shared/widget-kit-web:
-    dependencies:
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+  packages/shared/widget-plugin-component-kit:
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -1993,6 +1984,12 @@ importers:
       '@swc/jest':
         specifier: ^0.2.24
         version: 0.2.24(@swc/core@1.3.37)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      jest-environment-jsdom:
+        specifier: ^29.4.1
+        version: 29.5.0
 
   packages/shared/widget-plugin-filter-selector:
     devDependencies:
@@ -2027,7 +2024,70 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
 
+  packages/shared/widget-plugin-hooks:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../widget-plugin-platform
+      '@swc/core':
+        specifier: ^1.3.37
+        version: 1.3.37
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.24(@swc/core@1.3.37)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      jest-environment-jsdom:
+        specifier: ^29.4.1
+        version: 29.5.0
+
+  packages/shared/widget-plugin-platform:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@swc/core':
+        specifier: ^1.3.37
+        version: 1.3.37
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.24(@swc/core@1.3.37)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      jest-environment-jsdom:
+        specifier: ^29.4.1
+        version: 29.5.0
+
   packages/shared/widget-plugin-sorting:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+
+  packages/shared/widget-plugin-test-utils:
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
