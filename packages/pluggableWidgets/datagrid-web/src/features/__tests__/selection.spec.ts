@@ -2,8 +2,8 @@ import { SelectionProps, selectionSettings } from "../../features/selection";
 import {
     SelectionSingleValueBuilder as SingleBuilder,
     SelectionMultiValueBuilder as MultiBuilder
-} from "@mendix/pluggable-test-utils";
-import { MultiSelectionHelper, SelectionHelper } from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-test-utils";
+import { MultiSelectionHelper, SelectionHelper } from "@mendix/widget-plugin-grid/selection";
 
 describe("features/selection", () => {
     function props(

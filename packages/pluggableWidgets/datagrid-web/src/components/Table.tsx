@@ -17,8 +17,10 @@ import classNames from "classnames";
 import { EditableValue, ObjectItem } from "mendix";
 import { SortingRule, useSettings } from "../features/settings";
 import { ColumnResizer } from "./ColumnResizer";
-import { InfiniteBody, Pagination, ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
-import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
+import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
+import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
+import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 

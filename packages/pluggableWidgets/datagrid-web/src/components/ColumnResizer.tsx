@@ -1,4 +1,4 @@
-import { useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { createElement, ReactElement, useCallback, useEffect, useRef, useState, MouseEvent, TouchEvent } from "react";
 
 export interface ColumnResizerProps {

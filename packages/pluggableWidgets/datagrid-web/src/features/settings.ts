@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from "react";
 import { EditableValue, ValueStatus } from "mendix";
 import { ColumnWidth, TableColumn } from "../components/Table";
-import { useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 
 declare type Option<T> = T | undefined;
 
