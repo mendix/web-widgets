@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ListValue, ObjectItem } from "mendix";
-import { isAvailable } from "@mendix/pluggable-widgets-commons";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
 
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;

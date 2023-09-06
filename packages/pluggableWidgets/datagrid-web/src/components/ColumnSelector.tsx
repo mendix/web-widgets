@@ -1,6 +1,7 @@
 import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, useMemo, useRef, useState } from "react";
 import { FaEye } from "./icons/FaEye";
-import { useOnClickOutside, usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
+import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { ColumnProperty } from "./Table";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 
