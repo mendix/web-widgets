@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import { DatagridTextFilterPreviewProps } from "../typings/DatagridTextFilterProps";
 import { FilterComponent } from "./components/FilterComponent";
-import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 
 export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
     return (
