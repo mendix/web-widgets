@@ -253,8 +253,8 @@ importers:
         specifier: ^2.29.4
         version: 2.29.4
       react-big-calendar:
-        specifier: ^1.8.1
-        version: 1.8.1(react-dom@17.0.2)(react@18.2.0)
+        specifier: ^1.8.2
+        version: 1.8.2(react-dom@17.0.2)(react@18.2.0)
       react-dnd:
         specifier: 2.6.0
         version: 2.6.0(react@18.2.0)
@@ -12559,8 +12559,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-big-calendar@1.8.1(react-dom@17.0.2)(react@18.2.0):
-    resolution: {integrity: sha512-yEiScxReMrRCc0qFdZIKY/L6+argK4ZiYzLk5bck8CRYVbHjCCb/6Ictv42kPs/g3Q4RIb8+GUjDzk/uFtu76Q==}
+  /react-big-calendar@1.8.2(react-dom@17.0.2)(react@18.2.0):
+    resolution: {integrity: sha512-L6OcmTGT198eD6VmaK/T6IE6SPYSV2lup//V25huCy3KLgONmEPQbX8/m3XnHYKqCEIoIyU8mzIsSmd8eXQVbw==}
     peerDependencies:
       react: ^15.3.0 || ^16.0.0 || ^17.0.0 || 18
       react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0
