@@ -1,6 +1,7 @@
 import { ChangeEventHandler, useState, useMemo, useRef, useEffect, MutableRefObject } from "react";
 import { FilterType } from "../../typings/FilterType";
-import { debounce, useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 
 type FilterState = {
     type: FilterType;
@@ -35,7 +36,7 @@ export function useStateChangeEffects(
     inputChangeDelay: number
 ): [MutableRefObject<HTMLInputElement | null>] {
     const stableDispatch = useEventCallback(dispatch);
-    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, inputChangeDelay));
+    const [stableDispatchDelayed] = useState(() => debounce(stableDispatch, inputChangeDelay)[0]);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const prevStateRef = useRef(state);
 
