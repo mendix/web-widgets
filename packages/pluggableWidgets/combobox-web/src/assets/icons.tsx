@@ -1,5 +1,4 @@
 import classNames from "classnames";
-// import { Icon } from "mendix/components/web/Icon";
 import { createElement, ReactElement } from "react";
 
 export function ClearButton({ size = 14 }): ReactElement {

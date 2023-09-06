@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { PropGetters } from "downshift/typings";
+import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
 import { SingleSelector } from "../../helpers/types";
-import { EmptyItemPlaceholder } from "../Placeholder";
+import { ComboboxMenuWrapper } from "../ComboboxWrapper";
 
-interface ComboboxMenuProps extends Partial<PropGetters<any>> {
+interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<any>> {
     isOpen: boolean;
     selector: SingleSelector;
     highlightedIndex: number | null;
@@ -22,30 +22,27 @@ export function SingleSelectionMenu({
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
     return (
-        <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
-            <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
-                {isOpen ? (
-                    items.length > 0 ? (
-                        items.map((item, index) => (
-                            <li
-                                className={classNames("widget-combobox-item", {
-                                    "widget-combobox-item-selected": selector.currentValue === item,
-                                    "widget-combobox-item-highlighted": highlightedIndex === index
-                                })}
-                                key={item}
-                                {...getItemProps?.({
-                                    index,
-                                    item
-                                })}
-                            >
-                                {selector.caption.render(item)}
-                            </li>
-                        ))
-                    ) : (
-                        <EmptyItemPlaceholder>{placeholderText}</EmptyItemPlaceholder>
-                    )
-                ) : null}
-            </ul>
-        </div>
+        <ComboboxMenuWrapper
+            isOpen={isOpen}
+            isEmpty={items.length <= 0}
+            getMenuProps={getMenuProps}
+            placeholderText={placeholderText}
+        >
+            {items.map((item, index) => (
+                <li
+                    className={classNames("widget-combobox-item", {
+                        "widget-combobox-item-selected": selector.currentValue === item,
+                        "widget-combobox-item-highlighted": highlightedIndex === index
+                    })}
+                    key={item}
+                    {...getItemProps?.({
+                        index,
+                        item
+                    })}
+                >
+                    {selector.caption.render(item)}
+                </li>
+            ))}
+        </ComboboxMenuWrapper>
     );
 }
