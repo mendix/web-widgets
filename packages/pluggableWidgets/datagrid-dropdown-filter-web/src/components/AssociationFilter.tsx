@@ -1,6 +1,6 @@
 import { ConditionDispatch, AssociationProperties, getFilterAssociationProps } from "@mendix/widget-plugin-filtering";
-import { useLazyListValue } from "@mendix/pluggable-widgets-commons/dist/hooks/useLazyListValue";
-import { useOnScrollBottom } from "@mendix/pluggable-widgets-commons/dist/hooks/useOnScrollBottom";
+import { useLazyListValue } from "@mendix/widget-plugin-hooks/useLazyListValue";
+import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";
 import { getOnChange, getOptions } from "../features/referenceFilter";
 import { FilterProps } from "../utils/types";

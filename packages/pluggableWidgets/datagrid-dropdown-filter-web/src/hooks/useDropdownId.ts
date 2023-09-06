@@ -1,4 +1,4 @@
-import { generateUUID } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { useState } from "react";
 
 export function useDropdownId(): string {
