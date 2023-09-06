@@ -4,7 +4,7 @@ import {
     structurePreviewPalette,
     StructurePreviewProps,
     text
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     emptyIcon,
     emptyIconDark,
