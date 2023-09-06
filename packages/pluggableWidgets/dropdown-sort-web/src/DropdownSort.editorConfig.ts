@@ -4,7 +4,7 @@ import {
     StructurePreviewProps,
     text,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
 import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
 
