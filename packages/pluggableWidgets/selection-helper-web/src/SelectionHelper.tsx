@@ -1,8 +1,8 @@
 import { createElement, ReactElement } from "react";
 import { SelectionHelperContainerProps } from "../typings/SelectionHelperProps";
-import { useSelectionContextValue } from "@mendix/pluggable-widgets-commons";
+import { useSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { SelectionHelperComponent } from "./components/SelectionHelperComponent";
-import { Alert } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 
 export function SelectionHelper(props: SelectionHelperContainerProps): ReactElement {
     const contextValue = useSelectionContextValue();
