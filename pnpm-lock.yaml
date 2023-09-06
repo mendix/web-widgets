@@ -1306,9 +1306,6 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@react-google-maps/api':
         specifier: ~2.19.2
         version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
@@ -1343,6 +1340,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
