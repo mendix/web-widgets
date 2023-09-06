@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { createElement, ReactElement, useCallback, memo } from "react";
 import { ChartWidget, ChartWidgetProps, traceEqual } from "@mendix/shared-charts";
 import { getPlotChartDataTransforms, usePlotChartDataSeries } from "@mendix/shared-charts/hooks";
-import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
+import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import { LineChartContainerProps } from "../typings/LineChartProps";
 
 const lineChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {

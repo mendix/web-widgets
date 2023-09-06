@@ -1,5 +1,10 @@
 import { BarChartPreviewProps, BarmodeEnum } from "../typings/BarChartProps";
-import { StructurePreviewProps, ContainerProps, ImageProps, datasource } from "@mendix/pluggable-widgets-commons";
+import {
+    StructurePreviewProps,
+    ContainerProps,
+    ImageProps,
+    datasource
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,

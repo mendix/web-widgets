@@ -510,9 +510,6 @@ importers:
 
   packages/pluggableWidgets/area-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -532,6 +529,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/badge-button-web:
     dependencies:
@@ -591,9 +594,6 @@ importers:
 
   packages/pluggableWidgets/bar-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -613,6 +613,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:
@@ -653,9 +659,6 @@ importers:
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -675,6 +678,12 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/carousel-web:
     dependencies:
@@ -801,9 +810,6 @@ importers:
 
   packages/pluggableWidgets/column-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -826,6 +832,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/combobox-web:
     dependencies:
@@ -1149,9 +1161,6 @@ importers:
 
   packages/pluggableWidgets/heatmap-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -1177,6 +1186,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/html-element-web:
     dependencies:
@@ -1258,9 +1273,6 @@ importers:
 
   packages/pluggableWidgets/line-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -1283,6 +1295,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/maps-web:
     dependencies:
@@ -1338,9 +1356,6 @@ importers:
 
   packages/pluggableWidgets/pie-doughnut-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -1366,6 +1381,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/popup-menu-web:
     devDependencies:
@@ -1691,9 +1712,6 @@ importers:
 
   packages/pluggableWidgets/time-series-chart-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/shared-charts':
         specifier: workspace:*
         version: link:../../shared/charts
@@ -1716,6 +1734,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/timeline-web:
     dependencies:
