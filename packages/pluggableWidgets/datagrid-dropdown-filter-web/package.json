@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@mendix/widget-plugin-filter-selector": "workspace:*",
+    "@mendix/widget-plugin-filtering": "workspace:*",
     "classnames": "^2.3.2",
     "deep-equal": "^2.2.2"
   },
@@ -49,7 +51,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/deep-equal": "^1.0.1",
-    "@mendix/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*",
+    "@types/deep-equal": "^1.0.1"
   }
 }

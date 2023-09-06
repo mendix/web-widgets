@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "@mendix/pluggable-widgets-commons": "workspace:*",
+    "@mendix/widget-plugin-filter-selector": "workspace:*",
+    "@mendix/widget-plugin-filtering": "workspace:*",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "react-datepicker": "^4.12.0",
@@ -50,7 +52,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/react-datepicker": "^4.11.2",
-    "@mendix/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*",
+    "@types/react-datepicker": "^4.11.2"
   }
 }

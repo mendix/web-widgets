@@ -1,8 +1,4 @@
-import {
-    ConditionDispatch,
-    AssociationProperties,
-    getFilterAssociationProps
-} from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { ConditionDispatch, AssociationProperties, getFilterAssociationProps } from "@mendix/widget-plugin-filtering";
 import { useLazyListValue } from "@mendix/pluggable-widgets-commons/dist/hooks/useLazyListValue";
 import { useOnScrollBottom } from "@mendix/pluggable-widgets-commons/dist/hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";

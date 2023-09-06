@@ -2,7 +2,7 @@ import {
     referenceEqualsOneOf,
     referenceSetContainsOneOf
 } from "@mendix/pluggable-widgets-commons/dist/builders/ConditionUtils";
-import { ConditionDispatch } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { ConditionDispatch } from "@mendix/widget-plugin-filtering";
 import { tuple } from "@mendix/pluggable-widgets-commons/dist/utils/tuple";
 import { ActionValue, ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
 import { Option } from "../utils/types";

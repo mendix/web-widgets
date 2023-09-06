@@ -1,9 +1,9 @@
-interface Error<T> {
+export interface Error<T> {
     hasError: true;
     error: T;
 }
 
-interface Success<T> {
+export interface Success<T> {
     hasError: false;
     value: T;
 }

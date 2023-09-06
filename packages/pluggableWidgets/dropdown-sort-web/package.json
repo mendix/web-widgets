@@ -38,16 +38,16 @@
     "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps"
   },
-  "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
-    "classnames": "^2.3.2"
-  },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-filter-selector": "workspace:*",
+    "@mendix/widget-plugin-sorting": "workspace:*",
     "@types/enzyme": "^3.10.13",
-    "@mendix/run-e2e": "workspace:*"
+    "classnames": "^2.3.2"
   }
 }

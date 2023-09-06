@@ -1,4 +1,4 @@
-import { useFilterContextValue } from "@mendix/pluggable-widgets-commons/components/web";
+import { useFilterContextValue } from "@mendix/widget-plugin-filtering";
 import { createElement, Fragment, ReactElement } from "react";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
 import { EnumerationFilter } from "./components/EnumerationFilter";

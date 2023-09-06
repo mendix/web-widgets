@@ -1,5 +1,11 @@
 import {
     ContainerProps,
+    ImageProps,
+    structurePreviewPalette,
+    StructurePreviewProps,
+    text
+} from "@mendix/pluggable-widgets-commons";
+import {
     emptyIcon,
     emptyIconDark,
     equalsIcon,
@@ -8,7 +14,6 @@ import {
     greaterThanEqualIconDark,
     greaterThanIcon,
     greaterThanIconDark,
-    ImageProps,
     notEmptyIcon,
     notEmptyIconDark,
     notEqualIcon,
@@ -16,11 +21,8 @@ import {
     smallerThanEqualIcon,
     smallerThanEqualIconDark,
     smallerThanIcon,
-    smallerThanIconDark,
-    structurePreviewPalette,
-    StructurePreviewProps,
-    text
-} from "@mendix/pluggable-widgets-commons";
+    smallerThanIconDark
+} from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { DatagridNumberFilterPreviewProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";

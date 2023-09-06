@@ -1,9 +1,11 @@
 import {
     ConditionDispatch,
     FilterContextValue,
-    FilterType
-} from "@mendix/pluggable-widgets-commons/dist/components/web";
-import { error, value, ValueMeta } from "@mendix/pluggable-widgets-commons/dist/utils/valueStatus";
+    FilterType,
+    error,
+    value,
+    Result
+} from "@mendix/widget-plugin-filtering";
 import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
@@ -17,7 +19,7 @@ type EnumFilterError = ConfigurationError | AttributeTypeError;
 
 type AttrsArray = ListAttributeValue[];
 
-type AttrsMeta = ValueMeta<AttrsArray, EnumFilterError>;
+type ContextReadResult = Result<AttrsArray, EnumFilterError>;
 
 function isEnumType(type: string): boolean {
     return /Enum|Boolean/.test(type);
@@ -88,7 +90,7 @@ function getFilterCondition(
     return filterValue;
 }
 
-function getSingleAttr(context: FilterContextValue): AttrsMeta {
+function getSingleAttr(context: FilterContextValue): ContextReadResult {
     const { singleAttribute } = context;
 
     if (singleAttribute === undefined) {
@@ -102,7 +104,7 @@ function getSingleAttr(context: FilterContextValue): AttrsMeta {
     return value([singleAttribute]);
 }
 
-function getMultiAttr(context: FilterContextValue): AttrsMeta {
+function getMultiAttr(context: FilterContextValue): ContextReadResult {
     const { multipleAttributes } = context;
     const attributes = findAttributesByType(multipleAttributes) ?? [];
 
@@ -113,7 +115,7 @@ function getMultiAttr(context: FilterContextValue): AttrsMeta {
     return value(attributes);
 }
 
-export function getEnumAttributes(context: FilterContextValue): AttrsMeta {
+export function getEnumAttributes(context: FilterContextValue): ContextReadResult {
     const isMultiAttrMode = !!context.multipleAttributes;
 
     if (isMultiAttrMode) {
@@ -145,7 +147,7 @@ type GetOptionsParams = {
     customOptions: FilterOptionsType[];
 };
 
-export function getOptions(params: GetOptionsParams): ValueMeta<Option[], EnumFilterError> {
+export function getOptions(params: GetOptionsParams): Result<Option[], EnumFilterError> {
     const { autoOptions, attributes, customOptions } = params;
 
     if (autoOptions) {
@@ -190,7 +192,7 @@ export function getOnChange(
     };
 }
 
-type FilterProps = ValueMeta<FilterComponentProps, EnumFilterError>;
+type FilterProps = Result<FilterComponentProps, EnumFilterError>;
 export function getFilterProps(
     context: FilterContextValue,
     widgetProps: DatagridDropdownFilterContainerProps

@@ -1,6 +1,6 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, FilterExpression, LiteralExpression } from "mendix/filters";
-import { FilterValue } from "@mendix/pluggable-widgets-commons/components/web";
+import { FilterValue } from "@mendix/widget-plugin-filtering";
 
 declare type SingleFilterCondition = FilterCondition & {
     arg1: FilterExpression;

@@ -2,7 +2,7 @@ import { Context, createContext, Dispatch, SetStateAction, useState, useContext 
 import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import type { FilterCondition } from "mendix/filters";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
-import { Result, value, error } from "@mendix/widget-kit-web/util";
+import { Result, value, error } from "./result-meta.js";
 
 export type FilterValue = { type: string; value: any };
 
@@ -75,6 +75,7 @@ export function getGlobalFilterContextObject(): FilterContextObject {
 
     if (contextObject == null) {
         contextObject = createContext<FilterContextValue | undefined>(undefined);
+        window[CONTEXT_OBJECT_PATH] = contextObject;
     }
 
     return contextObject;

@@ -8,8 +8,8 @@ overrides:
   '@types/react': ^18.2.9
   '@types/big.js': ^6.1.6
   d3-color@<3.1.0: '>=3.1.0'
-  loader-utils@<1.4.1: '>=1.4.1'
-  loader-utils@>=3.0.0 <3.2.1: '>=3.2.1'
+  loader-utils@1: ^1.4.2
+  loader-utils@3: ^3.2.1
   decode-uri-component@<0.2.1: '>=0.2.1'
   jest: ^29.4.1
   jest-environment-jsdom: ^29.4.1
@@ -246,6 +246,9 @@ importers:
       date-arithmetic:
         specifier: ^3.1.0
         version: 3.1.0
+      loader-utils:
+        specifier: ^1.4.2
+        version: 1.4.2
       moment:
         specifier: ^2.29.4
         version: 2.29.4
@@ -353,6 +356,9 @@ importers:
       jest-canvas-mock:
         specifier: ^2.4.0
         version: 2.4.0
+      loader-utils:
+        specifier: ^1.4.2
+        version: 1.4.2
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -855,6 +861,12 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -892,6 +904,12 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -923,6 +941,12 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -948,6 +972,12 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -973,6 +1003,9 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1000,13 +1033,6 @@ importers:
         version: link:../../../automation/run-e2e
 
   packages/pluggableWidgets/dropdown-sort-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1014,6 +1040,9 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-widgets-commons':
+        specifier: workspace:*
+        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -1023,9 +1052,18 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-filter-selector':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-sorting':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-sorting
       '@types/enzyme':
         specifier: ^3.10.13
         version: 3.10.13
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
 
   packages/pluggableWidgets/fieldset-web:
     dependencies:
@@ -1057,6 +1095,12 @@ importers:
       '@mendix/pluggable-widgets-commons':
         specifier: workspace:*
         version: link:../../shared/pluggable-widgets-commons
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
+      '@mendix/widget-plugin-sorting':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-sorting
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1950,11 +1994,28 @@ importers:
         specifier: ^0.2.24
         version: 0.2.24(@swc/core@1.3.37)
 
-  packages/shared/widget-plugin-filtering:
-    dependencies:
-      '@mendix/widget-kit-web':
+  packages/shared/widget-plugin-filter-selector:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
-        version: link:../widget-kit-web
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@swc/core':
+        specifier: ^1.3.37
+        version: 1.3.37
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.24(@swc/core@1.3.37)
+      jest-environment-jsdom:
+        specifier: ^29.4.1
+        version: 29.5.0
+
+  packages/shared/widget-plugin-filtering:
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -6061,7 +6122,6 @@ packages:
 
   /big.js@5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
-    dev: true
 
   /big.js@6.2.1:
     resolution: {integrity: sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==}
@@ -6361,7 +6421,6 @@ packages:
 
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
-    dev: false
 
   /clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -7616,7 +7675,6 @@ packages:
   /emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
     engines: {node: '>= 4'}
-    dev: true
 
   /end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -10130,7 +10188,6 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
-    dev: true
 
   /jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
@@ -10291,7 +10348,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 2.2.3
-    dev: true
 
   /loader-utils@2.0.4:
     resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
@@ -12356,7 +12412,7 @@ packages:
   /react-redux@8.0.5(react-dom@17.0.2)(react@18.2.0)(redux@4.2.1):
     resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
     peerDependencies:
-      '@types/react': ^16.8 || ^17.0 || ^18.0
+      '@types/react': ^18.2.9
       '@types/react-dom': ^16.8 || ^17.0 || ^18.0
       react: ^16.8 || ^17.0 || ^18.0 || 18
       react-dom: ^16.8 || ^17.0 || ^18.0
@@ -13217,6 +13273,7 @@ packages:
   /source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
 
   /sourcemap-codec@1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
@@ -13795,7 +13852,7 @@ packages:
       '@jest/types': ^29.0.0
       babel-jest: ^29.0.0
       esbuild: '*'
-      jest: ^29.0.0
+      jest: ^29.4.1
       typescript: '>=4.3 <6'
     peerDependenciesMeta:
       '@babel/core':

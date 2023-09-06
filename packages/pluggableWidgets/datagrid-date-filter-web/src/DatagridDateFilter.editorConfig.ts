@@ -1,7 +1,6 @@
 import {
     betweenIcon,
     betweenIconDark,
-    ContainerProps,
     datePickerIcon,
     datePickerIconDark,
     emptyIcon,
@@ -12,7 +11,6 @@ import {
     greaterThanEqualIconDark,
     greaterThanIcon,
     greaterThanIconDark,
-    ImageProps,
     notEmptyIcon,
     notEmptyIconDark,
     notEqualIcon,
@@ -20,7 +18,11 @@ import {
     smallerThanEqualIcon,
     smallerThanEqualIconDark,
     smallerThanIcon,
-    smallerThanIconDark,
+    smallerThanIconDark
+} from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
+import {
+    ContainerProps,
+    ImageProps,
     StructurePreviewProps,
     text,
     structurePreviewPalette
