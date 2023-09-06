@@ -1,5 +1,5 @@
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
-import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
+import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import { createElement, CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { DefaultFilterEnum } from "../../typings/DatagridDateFilterProps";
 import classNames from "classnames";
