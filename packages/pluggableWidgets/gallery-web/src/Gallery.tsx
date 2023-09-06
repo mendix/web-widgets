@@ -6,11 +6,11 @@ import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";
 import { and } from "mendix/filters/builders";
 import {
-    executeAction,
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
     useSelectionHelper
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-grid/selection";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { SortInstruction, SortFunction, useSortContext } from "@mendix/widget-plugin-sorting";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {

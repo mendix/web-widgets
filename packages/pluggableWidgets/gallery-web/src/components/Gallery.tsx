@@ -1,5 +1,6 @@
 import { createElement, ReactElement, ReactNode } from "react";
-import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
+import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ObjectItem } from "mendix";
 import classNames from "classnames";
 
