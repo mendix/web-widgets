@@ -4,7 +4,7 @@ import {
     RowLayoutProps,
     StructurePreviewProps,
     TextProps
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties, transformGroupsIntoTabs, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 
 import { ColorPickerPreviewProps } from "../typings/ColorPickerProps";
