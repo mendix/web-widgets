@@ -5,7 +5,7 @@ import {
     StructurePreviewProps,
     datasource,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hidePropertiesIn,
     hidePropertyIn,
