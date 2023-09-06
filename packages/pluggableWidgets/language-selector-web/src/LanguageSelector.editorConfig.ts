@@ -1,4 +1,7 @@
-import { StructurePreviewProps, structurePreviewPalette } from "@mendix/pluggable-widgets-commons";
+import {
+    StructurePreviewProps,
+    structurePreviewPalette
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties } from "@mendix/pluggable-widgets-tools";
 import { LanguageSelectorPreviewProps } from "typings/LanguageSelectorProps";
 import ArrowDark from "./assets/arrow_dark.svg";
