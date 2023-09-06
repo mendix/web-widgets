@@ -1670,15 +1670,21 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-grid':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-grid
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
