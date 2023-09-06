@@ -46,10 +46,11 @@
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2"
   }
 }
