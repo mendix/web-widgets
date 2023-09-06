@@ -4,7 +4,8 @@ import { ensure } from "@mendix/pluggable-widgets-tools";
 import Big from "big.js";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
 import { ChartProps } from "@mendix/shared-charts/dist/components/Chart";
-import { executeAction, valueAttributeCompareFn } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { compareAttrValuesAsc } from "@mendix/shared-charts/dist/utils/compareAttrValuesAsc";
 
 type PieChartDataSeriesHooks = Pick<
     PieChartContainerProps,
@@ -51,9 +52,10 @@ export const usePieChartDataSeries = ({
                 itemSortValue: seriesSortAttribute?.get(dataSourceItem).value,
                 itemHoverText: tooltipHoverText?.get(dataSourceItem).value
             }));
+            console.dir(dataSourceItems);
             if (seriesSortAttribute) {
                 dataSourceItems.sort(({ itemSortValue: firstItemSortValue }, { itemSortValue: secondItemSortValue }) =>
-                    valueAttributeCompareFn(firstItemSortValue, secondItemSortValue)
+                    compareAttrValuesAsc(firstItemSortValue, secondItemSortValue)
                 );
                 if (seriesSortOrder === "desc") {
                     dataSourceItems.reverse();

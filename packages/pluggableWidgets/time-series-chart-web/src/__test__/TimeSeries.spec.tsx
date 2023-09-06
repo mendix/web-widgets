@@ -5,7 +5,7 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder,
     ListValueBuilder
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
 import { TimeSeries } from "../TimeSeries";

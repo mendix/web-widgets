@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { ChartWidgetProps } from "@mendix/shared-charts";
-import { executeAction, valueAttributeCompareFn } from "@mendix/pluggable-widgets-commons";
+import { compareAttrValuesAsc } from "@mendix/shared-charts/dist/utils/compareAttrValuesAsc";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Big from "big.js";
 
 type HeatMapDataSeriesHooks = Pick<
@@ -98,10 +99,7 @@ export const useHeatMapDataSeries = ({
 
         if (verticalSortAttribute) {
             copiedData.sort((firstValue, secondValue) => {
-                const compareValue = valueAttributeCompareFn(
-                    firstValue.verticalSortValue,
-                    secondValue.verticalSortValue
-                );
+                const compareValue = compareAttrValuesAsc(firstValue.verticalSortValue, secondValue.verticalSortValue);
                 return verticalSortOrder === "desc" ? invertCompareValue(compareValue) : compareValue;
             });
         }
@@ -109,7 +107,7 @@ export const useHeatMapDataSeries = ({
 
         if (horizontalSortAttribute) {
             copiedData.sort((firstValue, secondValue) => {
-                const compareValue = valueAttributeCompareFn(
+                const compareValue = compareAttrValuesAsc(
                     firstValue.horizontalSortValue,
                     secondValue.horizontalSortValue
                 );

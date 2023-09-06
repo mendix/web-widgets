@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts";
-import { EditableValueBuilder, ListAttributeValueBuilder, ListValueBuilder } from "@mendix/pluggable-widgets-commons";
+import { EditableValueBuilder, ListAttributeValueBuilder, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { HeatMap } from "../HeatMap";
 import Big from "big.js";
