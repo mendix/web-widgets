@@ -80,8 +80,8 @@
                     <caption>Placeholder text</caption>
                     <description />
                 </property>
-                <property key="noItemText" type="textTemplate" required="false">
-                    <caption>No item text</caption>
+                <property key="noOptionsText" type="textTemplate" required="false">
+                    <caption>No options text</caption>
                     <description />
                 </property>
 

@@ -1,17 +1,7 @@
-import { usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
 import classNames from "classnames";
-import { UseComboboxGetToggleButtonPropsOptions, UseComboboxPropGetters } from "downshift/typings";
-import {
-    MouseEventHandler,
-    PropsWithChildren,
-    ReactElement,
-    RefObject,
-    createElement,
-    forwardRef,
-    useRef
-} from "react";
+import { UseComboboxGetToggleButtonPropsOptions } from "downshift/typings";
+import { MouseEventHandler, PropsWithChildren, ReactElement, RefObject, createElement, forwardRef } from "react";
 import { DownArrow } from "../assets/icons";
-import { EmptyItemPlaceholder } from "./Placeholder";
 
 interface ComboboxWrapperProps extends PropsWithChildren {
     isOpen: boolean;
@@ -41,35 +31,3 @@ export const ComboboxWrapper = forwardRef(
         );
     }
 );
-
-interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<any>> {
-    isOpen: boolean;
-    isEmpty: boolean;
-    placeholderText?: string | null;
-}
-
-export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
-    const { children, isOpen, isEmpty, placeholderText, getMenuProps } = props;
-    const componentRef = useRef<HTMLDivElement>(null);
-    const position = usePositionObserver(componentRef.current?.parentElement || null, isOpen);
-    return (
-        <div
-            ref={componentRef}
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            style={
-                componentRef.current?.parentElement?.clientWidth
-                    ? {
-                          position: "fixed",
-                          width: componentRef.current?.parentElement?.clientWidth,
-                          top: position?.bottom,
-                          left: position?.left
-                      }
-                    : {}
-            }
-        >
-            <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
-                {isOpen ? isEmpty ? <EmptyItemPlaceholder>{placeholderText}</EmptyItemPlaceholder> : children : null}
-            </ul>
-        </div>
-    );
-}

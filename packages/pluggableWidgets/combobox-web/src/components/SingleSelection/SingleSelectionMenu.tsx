@@ -2,14 +2,14 @@ import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
 import { SingleSelector } from "../../helpers/types";
-import { ComboboxMenuWrapper } from "../ComboboxWrapper";
+import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 
-interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<any>> {
+interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     selector: SingleSelector;
     highlightedIndex: number | null;
     selectedItem?: string | null;
-    placeholderText?: string | null;
+    noOptionsText?: string;
 }
 
 export function SingleSelectionMenu({
@@ -18,7 +18,7 @@ export function SingleSelectionMenu({
     highlightedIndex,
     getMenuProps,
     getItemProps,
-    placeholderText
+    noOptionsText
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
     return (
@@ -26,7 +26,7 @@ export function SingleSelectionMenu({
             isOpen={isOpen}
             isEmpty={items.length <= 0}
             getMenuProps={getMenuProps}
-            placeholderText={placeholderText}
+            noOptionsText={noOptionsText}
         >
             {items.map((item, index) => (
                 <li

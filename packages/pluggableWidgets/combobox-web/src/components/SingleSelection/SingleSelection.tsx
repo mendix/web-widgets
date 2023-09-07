@@ -8,11 +8,11 @@ import { InputPlaceholder } from "../Placeholder";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
 import { useEventCallback } from "@mendix/pluggable-widgets-commons";
 
-interface SingleSelectionProps extends SelectionBaseProps {
-    selector: SingleSelector;
-}
-
-export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSelectionProps): ReactElement {
+export function SingleSelection({
+    selector,
+    tabIndex = 0,
+    ...options
+}: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
         getInputProps,
         getToggleButtonProps,

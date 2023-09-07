@@ -8,11 +8,7 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-interface MultiSelectionProps extends SelectionBaseProps {
-    selector: MultiSelector;
-}
-
-export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectionProps): ReactElement {
+export function MultiSelection({ selector, tabIndex, ...options }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
         isOpen,
         getToggleButtonProps,
@@ -128,7 +124,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: MultiSelectio
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
-                placeholderText={options.noItemText}
+                noOptionsText={options.noOptionsText}
             />
         </Fragment>
     );

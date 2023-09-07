@@ -12,9 +12,9 @@ export function Placeholder(): ReactElement {
     );
 }
 
-export function EmptyItemPlaceholder(props: PropsWithChildren): ReactElement {
+export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
     return (
-        <li className="widget-combobox-item widget-combobox-empty-item" role="option">
+        <li className="widget-combobox-item widget-combobox-no-options" role="option">
             {props.children}
         </li>
     );

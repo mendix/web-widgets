@@ -3,7 +3,7 @@ import { UseComboboxPropGetters } from "downshift/typings";
 import { ReactElement, createElement } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
-import { ComboboxMenuWrapper } from "../ComboboxWrapper";
+import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     isOpen: boolean;
@@ -12,7 +12,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     highlightedIndex: number | null;
     selector: MultiSelector;
     setSelectedItems: (v: string[]) => void;
-    placeholderText?: string | null;
+    noOptionsText?: string;
 }
 
 export function MultiSelectionMenu({
@@ -22,14 +22,14 @@ export function MultiSelectionMenu({
     highlightedIndex,
     selector,
     selectableItems,
-    placeholderText
+    noOptionsText
 }: MultiSelectionMenuProps): ReactElement {
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
             isEmpty={selectableItems.length <= 0}
             getMenuProps={getMenuProps}
-            placeholderText={placeholderText}
+            noOptionsText={noOptionsText}
         >
             {selectableItems.map((item, index) => {
                 const isActive = highlightedIndex === index;
