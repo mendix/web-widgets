@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
-export type SelectorType = "single" | "multi";
-export type SelectionType = SingleSelector | MultiSelector;
+export type SelectionType = "single" | "multi";
+export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
@@ -32,10 +32,10 @@ export interface OptionsProvider<T = unknown, P = object> {
     _valueToOption(value: T | undefined): string | null;
 }
 
-interface SelectorBase<SelectorType, T> {
+interface SelectorBase<T, V> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
-    type: SelectorType;
+    type: T;
     readOnly: boolean;
 
     // options related
@@ -47,8 +47,8 @@ interface SelectorBase<SelectorType, T> {
     // value related
     clearable: boolean;
 
-    currentValue: T | null;
-    setValue(value: T | null): void;
+    currentValue: V | null;
+    setValue(value: V | null): void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
@@ -56,8 +56,8 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
 }
 
-export interface SelectionBaseProps<SelectionType> {
-    selector: SelectionType;
+export interface SelectionBaseProps<Selector> {
+    selector: Selector;
     tabIndex: number;
     inputId: string;
     labelId?: string;

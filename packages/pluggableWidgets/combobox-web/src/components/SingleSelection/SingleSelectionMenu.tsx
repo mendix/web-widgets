@@ -1,8 +1,8 @@
-import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, ReactElement } from "react";
 import { SingleSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
+import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 
 interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -28,21 +28,19 @@ export function SingleSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
         >
-            {items.map((item, index) => (
-                <li
-                    className={classNames("widget-combobox-item", {
-                        "widget-combobox-item-selected": selector.currentValue === item,
-                        "widget-combobox-item-highlighted": highlightedIndex === index
-                    })}
-                    key={item}
-                    {...getItemProps?.({
-                        index,
-                        item
-                    })}
-                >
-                    {selector.caption.render(item)}
-                </li>
-            ))}
+            {isOpen &&
+                items.map((item, index) => (
+                    <ComboboxOptionWrapper
+                        key={item}
+                        isHighlighted={highlightedIndex === index}
+                        isSelected={selector.currentValue === item}
+                        item={item}
+                        getItemProps={getItemProps}
+                        index={index}
+                    >
+                        {selector.caption.render(item)}
+                    </ComboboxOptionWrapper>
+                ))}
         </ComboboxMenuWrapper>
     );
 }

@@ -1,5 +1,5 @@
 import { DynamicValue, EditableValue } from "mendix";
-import { createElement, ReactNode } from "react";
+import { ReactNode, createElement } from "react";
 import { CaptionsProvider } from "../types";
 
 interface EnumAndBooleanSimpleCaptionsProviderProps {

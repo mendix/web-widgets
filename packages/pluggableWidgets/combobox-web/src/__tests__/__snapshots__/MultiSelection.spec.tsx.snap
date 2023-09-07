@@ -86,7 +86,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         role="listbox"
       >
         <li
-          aria-selected="true"
           class="widget-combobox-item widget-combobox-item-highlighted"
           id="downshift-12-item-0"
           role="option"
@@ -118,7 +117,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           </span>
         </li>
         <li
-          aria-selected="false"
           class="widget-combobox-item widget-combobox-item-highlighted"
           id="downshift-12-item-1"
           role="option"
@@ -151,7 +149,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           </span>
         </li>
         <li
-          aria-selected="false"
           class="widget-combobox-item"
           id="downshift-12-item-2"
           role="option"
@@ -184,7 +181,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           </span>
         </li>
         <li
-          aria-selected="false"
           class="widget-combobox-item"
           id="downshift-12-item-3"
           role="option"

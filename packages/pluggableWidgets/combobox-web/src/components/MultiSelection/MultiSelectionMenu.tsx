@@ -1,9 +1,9 @@
-import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { ReactElement, createElement } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
+import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
     isOpen: boolean;
@@ -31,27 +31,23 @@ export function MultiSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
         >
-            {selectableItems.map((item, index) => {
-                const isActive = highlightedIndex === index;
-                const isSelected = selector.currentValue?.includes(item);
-                const itemProps = getItemProps?.({
-                    item,
-                    index
-                });
-                return (
-                    <li
-                        className={classNames("widget-combobox-item", {
-                            "widget-combobox-item-highlighted": isSelected || isActive
-                        })}
-                        key={item}
-                        {...itemProps}
-                        aria-selected={isSelected}
-                    >
-                        <Checkbox checked={selector.currentValue?.includes(item)} />
-                        {selector.caption.render(item)}
-                    </li>
-                );
-            })}
+            {isOpen &&
+                selectableItems.map((item, index) => {
+                    const isActive = highlightedIndex === index;
+                    const isSelected = selector.currentValue?.includes(item);
+                    return (
+                        <ComboboxOptionWrapper
+                            key={item}
+                            isHighlighted={isSelected || isActive}
+                            item={item}
+                            getItemProps={getItemProps}
+                            index={index}
+                        >
+                            <Checkbox checked={selector.currentValue?.includes(item)} />
+                            {selector.caption.render(item)}
+                        </ComboboxOptionWrapper>
+                    );
+                })}
         </ComboboxMenuWrapper>
     );
 }

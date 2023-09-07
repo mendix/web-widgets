@@ -1,10 +1,10 @@
-import { EditableValue, ActionValue } from "mendix";
+import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { ActionValue, EditableValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
-import { extractEnumerationProps } from "./utils";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
 import { EnumBoolOptionsProvider } from "./EnumBoolOptionsProvider";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { extractEnumerationProps } from "./utils";
 
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
