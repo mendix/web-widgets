@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties, hidePropertiesIn, transformGroupsIntoTabs, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 
 import { RichTextPreviewProps } from "../typings/RichTextProps";

@@ -1,6 +1,6 @@
 {
-    "extends": "@mendix/pluggable-widgets-commons/tsconfig.shared",
-    "include": ["./src", "./typings"],
+    "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base",
+    "include": ["./src/**/*"],
     "ts-node": {
         "compilerOptions": {
             "module": "commonjs"
@@ -8,6 +8,7 @@
     },
     "compilerOptions": {
         "baseUrl": "./",
+        "rootDir": "./src",
         "outDir": "./dist",
         "types": ["mendix-client", "big.js", "jest", "node"],
         "noImplicitAny": true,

@@ -1,4 +1,9 @@
-import { StructurePreviewProps, ImageProps, ContainerProps, datasource } from "@mendix/pluggable-widgets-commons";
+import {
+    StructurePreviewProps,
+    ImageProps,
+    ContainerProps,
+    datasource
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, moveProperty, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { HeatMapPreviewProps } from "../typings/HeatMapProps";

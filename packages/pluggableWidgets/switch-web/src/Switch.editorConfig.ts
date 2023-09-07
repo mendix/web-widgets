@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import checkedSVG from "./assets/checked.svg";
 import checkedSVGDark from "./assets/checked-dark.svg";

@@ -21,9 +21,12 @@
   },
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-test-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "@types/plotly.js": "^2.12.20",
     "@types/react-plotly.js": "^2.5.0",
     "@types/shelljs": "^0.8.11",
@@ -34,7 +37,6 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "ace-builds": "^1.23.4",
     "classnames": "^2.3.2",
     "deepmerge": "^4.3.1",

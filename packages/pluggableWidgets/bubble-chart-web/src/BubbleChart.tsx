@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/dist/hooks";
 import { calculateSizeRef } from "./utils";
-import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
+import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {

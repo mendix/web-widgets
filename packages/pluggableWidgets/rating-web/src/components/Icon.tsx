@@ -1,4 +1,4 @@
-import { Icon as InternalIcon } from "@mendix/pluggable-widgets-commons/components/web";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
 import { ReactElement, createElement } from "react";
@@ -24,5 +24,5 @@ export function Icon({ animate, empty, full, value }: IconProps): ReactElement {
             animate
         });
     }
-    return <InternalIcon icon={value} className={className} fallback={<div />} />;
+    return <IconInternal icon={value} className={className} fallback={<div />} />;
 }

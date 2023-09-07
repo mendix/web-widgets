@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import { Rating as RatingComponent } from "./components/Rating";
-import { parseStyle } from "@mendix/pluggable-widgets-commons";
-import { mapPreviewIconToWebIcon } from "@mendix/pluggable-widgets-commons/components/web";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 import { StarRatingPreviewProps } from "../typings/StarRatingProps";
 import { Icon } from "./components/Icon";
 

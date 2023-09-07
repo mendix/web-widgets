@@ -40,10 +40,11 @@
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
-    "@mendix/prettier-config-web-widgets": "workspace:*"
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/shared-charts": "workspace:*",
     "classnames": "^2.3.2"
   }

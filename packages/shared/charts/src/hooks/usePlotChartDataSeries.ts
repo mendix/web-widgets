@@ -9,9 +9,9 @@ import {
     EditableValue
 } from "mendix";
 import { useEffect, useState } from "react";
-import { ensure } from "@mendix/pluggable-widgets-tools";
+import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Datum, PlotData } from "plotly.js";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ExtraTraceProps } from "../types";
 
 // Use "value" prop on EditableValue to extract AttributeValue, as AttributeValue not exported.

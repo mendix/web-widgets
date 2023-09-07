@@ -1,4 +1,9 @@
-import { ContainerProps, ImageProps, StructurePreviewProps, datasource } from "@mendix/pluggable-widgets-commons";
+import {
+    ContainerProps,
+    ImageProps,
+    StructurePreviewProps,
+    datasource
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,

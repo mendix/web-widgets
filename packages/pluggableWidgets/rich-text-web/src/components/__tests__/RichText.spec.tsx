@@ -5,7 +5,8 @@ import { CKEditorConfig } from "ckeditor4-react";
 import { getPreset, defineEnterMode, getToolbarGroupByName, defineAdvancedGroups } from "../../utils/ckeditorConfigs";
 import { mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
-import { getDimensions, EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
+import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { TOOLBAR_GROUP, ToolbarGroup } from "../../utils/ckeditorPresets";
 import { AdvancedConfigType, RichTextContainerProps } from "../../../typings/RichTextProps";
 

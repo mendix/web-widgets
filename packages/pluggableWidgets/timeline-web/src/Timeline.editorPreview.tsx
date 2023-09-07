@@ -7,7 +7,7 @@ import {
 import TimelineComponent from "./components/TimelineComponent";
 import { createElement } from "react";
 import { BasicItemType, CustomItemType, ItemType } from "./Timeline";
-import { mapPreviewIconToWebIcon } from "@mendix/pluggable-widgets-commons/components/web";
+import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 
 declare function require(name: string): string;
 

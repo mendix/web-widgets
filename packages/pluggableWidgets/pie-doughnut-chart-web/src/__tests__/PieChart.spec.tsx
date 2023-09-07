@@ -6,7 +6,7 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder,
     ListValueBuilder
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { PieChart } from "../PieChart";
 import Big from "big.js";
