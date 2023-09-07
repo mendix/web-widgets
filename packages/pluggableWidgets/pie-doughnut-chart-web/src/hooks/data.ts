@@ -52,7 +52,6 @@ export const usePieChartDataSeries = ({
                 itemSortValue: seriesSortAttribute?.get(dataSourceItem).value,
                 itemHoverText: tooltipHoverText?.get(dataSourceItem).value
             }));
-            console.dir(dataSourceItems);
             if (seriesSortAttribute) {
                 dataSourceItems.sort(({ itemSortValue: firstItemSortValue }, { itemSortValue: secondItemSortValue }) =>
                     compareAttrValuesAsc(firstItemSortValue, secondItemSortValue)
