@@ -1,7 +1,7 @@
 import { createElement, ReactElement } from "react";
 import { ProgressCirclePreviewProps } from "../typings/ProgressCircleProps";
 import { ProgressCircle } from "./components/ProgressCircle";
-import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { defaultValues, ProgressCircleValues } from "./progressCircleValues";
 import { calculatePercentage } from "./util";
 

@@ -1,6 +1,6 @@
 import { createElement, ReactNode, useCallback, ReactElement, useId } from "react";
 import { ValueStatus, GUID, ObjectItem } from "mendix";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { CarouselContainerProps } from "../typings/CarouselProps";
 import { Carousel as CarouselComponent } from "./components/Carousel";
 import loadingCircleSvg from "./ui/loading-circle.svg";

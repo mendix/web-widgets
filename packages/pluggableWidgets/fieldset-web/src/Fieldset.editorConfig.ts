@@ -4,7 +4,7 @@ import {
     StructurePreviewProps,
     TextProps,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons/dist";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { FieldsetPreviewProps } from "../typings/FieldsetProps";
 
 export function getPreview(values: FieldsetPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {

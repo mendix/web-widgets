@@ -706,9 +706,6 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -718,6 +715,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -776,9 +776,6 @@ importers:
 
   packages/pluggableWidgets/color-picker-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -801,6 +798,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/react-color':
         specifier: ^2.17.6
         version: 2.17.6
@@ -1086,10 +1089,6 @@ importers:
         version: 2.3.2
 
   packages/pluggableWidgets/fieldset-web:
-    dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1106,6 +1105,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1205,24 +1207,21 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/dompurify':
         specifier: ^2.4.0
         version: 2.4.0
 
   packages/pluggableWidgets/image-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1245,12 +1244,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/language-selector-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1270,6 +1269,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
 
   packages/pluggableWidgets/line-chart-web:
     dependencies:
@@ -1304,9 +1306,6 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@react-google-maps/api':
         specifier: ~2.19.2
         version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
@@ -1341,6 +1340,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
@@ -1417,9 +1422,6 @@ importers:
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1439,15 +1441,18 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
 
   packages/pluggableWidgets/progress-circle-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1470,15 +1475,18 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
 
   packages/pluggableWidgets/range-slider-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1504,6 +1512,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@types/rc-slider':
         specifier: ^8.6.6
         version: 8.6.6

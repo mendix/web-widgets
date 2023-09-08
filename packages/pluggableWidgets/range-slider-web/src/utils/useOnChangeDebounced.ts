@@ -1,6 +1,7 @@
 import { Big } from "big.js";
 import { useMemo } from "react";
-import { debounce, executeAction } from "@mendix/pluggable-widgets-commons";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
 
 type ChangeHandler = (value: [number, number]) => void;
@@ -18,7 +19,7 @@ export const useOnChangeDebounced: UseOnChangeDebounceHook = function useOnChang
     upperBoundAttribute,
     onChange
 }) {
-    const onChangeEnd = useMemo(() => debounce(() => executeAction(onChange), 500), [onChange]);
+    const [onChangeEnd] = useMemo(() => debounce(() => executeAction(onChange), 500), [onChange]);
 
     return {
         onChange: ([lower, upper]: [number, number]) => {
