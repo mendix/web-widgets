@@ -1,5 +1,5 @@
 import { createElement, CSSProperties, ReactElement, ReactNode, useMemo } from "react";
-import { ThreeStateCheckBox } from "@mendix/pluggable-widgets-commons/components/web";
+import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 
 interface Props {
     type: "checkbox" | "custom";

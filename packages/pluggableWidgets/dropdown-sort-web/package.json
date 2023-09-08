@@ -41,12 +41,15 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
     "@mendix/widget-plugin-filter-selector": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-sorting": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "@types/enzyme": "^3.10.13",
     "classnames": "^2.3.2"
   }

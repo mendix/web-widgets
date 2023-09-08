@@ -1,4 +1,4 @@
-import { Alert } from "@mendix/pluggable-widgets-commons/dist/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReactElement, createElement } from "react";
 
 export function ErrorBox<T extends Error>(props: { error: T }): ReactElement {

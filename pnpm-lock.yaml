@@ -881,9 +881,6 @@ importers:
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filter-selector':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filter-selector
@@ -918,15 +915,24 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
       '@types/react-datepicker':
         specifier: ^4.11.2
         version: 4.11.2(react-dom@18.2.0)(react@18.2.0)
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filter-selector':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filter-selector
@@ -955,15 +961,24 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.1
 
   packages/pluggableWidgets/datagrid-number-filter-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filter-selector':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filter-selector
@@ -989,12 +1004,21 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/datagrid-text-filter-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filter-selector':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filter-selector
@@ -1020,12 +1044,21 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/datagrid-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -1042,9 +1075,6 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-test-utils':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-test-utils
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -1054,6 +1084,18 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-grid':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-grid
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/dropdown-sort-web:
     devDependencies:
@@ -1063,9 +1105,6 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
@@ -1075,12 +1114,24 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
       '@mendix/widget-plugin-filter-selector':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filter-selector
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       '@mendix/widget-plugin-sorting':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-sorting
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
       '@types/enzyme':
         specifier: ^3.10.13
         version: 3.10.13
@@ -1114,9 +1165,6 @@ importers:
 
   packages/pluggableWidgets/gallery-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -1142,6 +1190,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-grid':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-grid
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1634,15 +1688,21 @@ importers:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       '@mendix/pluggable-widgets-tools':
         specifier: ^9.24.1
         version: 9.24.1(@types/node@18.16.12)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-grid':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-grid
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -2087,6 +2147,30 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
+
+  packages/shared/widget-plugin-grid:
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@swc/core':
+        specifier: ^1.3.37
+        version: 1.3.37
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.24(@swc/core@1.3.37)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      jest-environment-jsdom:
+        specifier: ^29.4.1
+        version: 29.5.0
 
   packages/shared/widget-plugin-hooks:
     devDependencies:

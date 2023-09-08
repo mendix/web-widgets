@@ -4,9 +4,9 @@ import userEvent from "@testing-library/user-event";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
 import { CellRenderer, Table, TableProps } from "../Table";
-import { objectItems } from "@mendix/pluggable-test-utils";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { MultiSelectionStatus } from "@mendix/pluggable-widgets-commons";
+import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument

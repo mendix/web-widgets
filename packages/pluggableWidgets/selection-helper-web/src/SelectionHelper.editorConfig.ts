@@ -7,7 +7,7 @@ import {
     StructurePreviewProps,
     svgImage,
     text
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import CheckBoxIndeterminateSVG from "./assets/CheckBoxIndeterminate.light.svg";
 

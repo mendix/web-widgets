@@ -40,7 +40,6 @@
     "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "@mendix/widget-plugin-filtering": "workspace:*",
     "classnames": "^2.3.2",
     "deep-equal": "^2.2.2"
@@ -48,9 +47,12 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-test-utils": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-grid": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*"
   }
 }

@@ -3,13 +3,13 @@ import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { Table, TableColumn, SortProperty } from "./components/Table";
-import { generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import {
     getGlobalSelectionContext,
-    isAvailable,
     useCreateSelectionContextValue,
     useSelectionHelper
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-grid/selection";
 import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
