@@ -1,10 +1,10 @@
 import {
-    useCombobox,
-    UseComboboxState,
-    UseComboboxStateChangeOptions,
-    UseComboboxStateChange,
+    UseComboboxProps,
     UseComboboxReturnValue,
-    UseComboboxProps
+    UseComboboxState,
+    UseComboboxStateChange,
+    UseComboboxStateChangeOptions,
+    useCombobox
 } from "downshift";
 
 import { useMemo } from "react";

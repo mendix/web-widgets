@@ -1,4 +1,4 @@
-import { EditableValue, DynamicValue } from "mendix";
+import { DynamicValue, EditableValue } from "mendix";
 import { ComboboxContainerProps, FilterTypeEnum } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [EditableValue<string>, DynamicValue<string> | undefined, boolean, FilterTypeEnum];

@@ -23,11 +23,12 @@ $disabled-text-color: #6c7180;
         width: 100%;
         left: unset;
         padding: 10px 0 0;
-        overflow: hidden;
         z-index: 1;
         box-shadow: 0px 0px 10px 0px $box-shadow-color;
         background-color: $unselected-item;
         list-style-type: "none";
+        max-height: 320px;
+        overflow-y: auto;
         &-list {
             padding: 0;
             margin-bottom: 0;
@@ -35,31 +36,12 @@ $disabled-text-color: #6c7180;
         &-hidden {
             display: none;
         }
-        &-footer {
-            display: flex;
-            justify-content: space-between;
-            color: $brand-primary;
-            border-top: 1px solid $separator-border;
-            margin-top: 6px;
-            &-control {
-                display: flex;
-                padding: 10px 12px;
-                border: none;
-                background-color: transparent;
-                justify-content: flex-end;
-                align-items: center;
-                color: $brand-primary;
-                cursor: pointer;
-                &-disabled {
-                    color: $disabled-text-color;
-                }
-            }
-        }
     }
 
     &-item {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: row;
+        flex-wrap: nowrap;
         align-content: center;
         align-items: center;
         cursor: pointer;
@@ -69,33 +51,33 @@ $disabled-text-color: #6c7180;
         overflow: hidden;
         color: $typography-color;
         background-color: $unselected-item;
+
         &-selected {
             background-color: $selected-item;
         }
-        &-highlighted {
+        &-highlighted,
+        &:focus {
             background-color: $highlighted-index;
         }
-
-        & > .icon-container {
+        & > .widget-combobox-icon-container {
             margin-right: 10px;
+        }
+
+        .widget-combobox-caption {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        &.widget-combobox-no-options {
+            justify-content: center;
         }
     }
 
     &-input-container {
         flex-grow: 1;
         transition: box-shadow 150ms ease 0s;
-        border: 1px solid $gray-primary !important;
 
-        &.form-control {
-            padding: 4px 8px;
-        }
-
-        &:hover {
-            border: 1px solid $gray-dark !important;
-        }
-        &-active {
-            border: 1px solid $brand-primary !important;
-        }
         &-disabled {
             background-color: $disabled-color !important;
             pointer-events: none !important;
@@ -106,9 +88,12 @@ $disabled-text-color: #6c7180;
         color: $gray-dark;
         flex-grow: 1;
         border: none;
-        &:placeholder-shown {
-            text-overflow: ellipsis;
+        padding: 0;
+
+        &:not(:focus) {
+            opacity: 0;
         }
+
         &-nofilter {
             cursor: pointer;
         }
@@ -121,11 +106,19 @@ $disabled-text-color: #6c7180;
         background: transparent;
         border: none;
         &-icon {
-            fill: $brand-primary;
-            transition: fill 0.2s ease-in-out;
+            transition: color 0.2s ease-in-out;
+        }
+        path {
+            stroke-width: 0;
+            transition: stroke-width 0.2s ease-in-out;
         }
         &:hover &-icon {
-            fill: $hover-color;
+            color: $brand-primary;
+            font-weight: bold;
+
+            path {
+                stroke-width: 1px;
+            }
         }
 
         & + .widget-combobox-down-arrow {
@@ -140,15 +133,11 @@ $disabled-text-color: #6c7180;
         padding-left: 4px;
 
         &-icon {
-            fill: $typography-color;
-            transition: fill 0.2s ease-in-out, transform 0.2s;
+            transition: transform 0.2s;
             &.active {
                 transform: rotate(180deg);
-                transition: fill 0.2s ease-in-out, transform 0.2s;
+                transition: transform 0.2s;
             }
-        }
-        &:hover svg {
-            fill: $hover-color;
         }
     }
 
@@ -157,10 +146,23 @@ $disabled-text-color: #6c7180;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
-        &-down-arrow {
-            svg {
-                fill: $hover-color;
-            }
+    }
+
+    &-text-label {
+        color: $typography-color;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        pointer-events: none;
+        display: none;
+
+        &.widget-combobox-text-label-placeholder {
+            color: $gray-dark;
         }
     }
 
@@ -169,18 +171,37 @@ $disabled-text-color: #6c7180;
             display: flex;
             flex-grow: 1;
             flex-wrap: wrap;
+            position: relative;
+
+            &.widget-combobox-boxes {
+                margin: -2px 0;
+                .widget-combobox-input {
+                    &-nofilter,
+                    &:not(:focus) {
+                        width: 1px;
+                    }
+                }
+            }
+
+            input:placeholder-shown,
+            input:not(:focus) {
+                & + .widget-combobox-text-label {
+                    display: block;
+                }
+            }
         }
 
         &-item {
             color: #000;
             font-size: 12px;
+            line-height: 1.334;
             display: inline-flex;
             border-radius: 26px;
             justify-content: center;
-            padding: 4px 10px;
+            padding: 2px 10px;
             flex-wrap: wrap;
             align-items: center;
-            margin: 1px 2px;
+            margin: 2px;
             gap: 8px;
             background-color: $brand-secondary-light;
             &-remove-button {
@@ -199,12 +220,23 @@ $disabled-text-color: #6c7180;
 
     &-down-checkbox-icon {
         fill: transparent;
-        &:not(.checked) rect {
-            stroke: #ced0d3;
+        &:not(.checked) {
+            rect {
+                stroke: $gray-primary;
+            }
+            &:hover,
+            &:focus {
+                path {
+                    stroke: $hover-color;
+                    stroke-width: 2px;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+            }
         }
         &.checked {
             rect {
-                fill: #264ae5;
+                fill: $brand-primary;
             }
             path {
                 stroke: white;
@@ -217,5 +249,6 @@ $disabled-text-color: #6c7180;
 
     &-icon-container {
         display: flex;
+        padding-top: 1px;
     }
 }

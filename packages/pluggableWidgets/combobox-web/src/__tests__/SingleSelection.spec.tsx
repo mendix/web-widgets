@@ -87,6 +87,7 @@ describe("Combo box (Association)", () => {
         const component = render(<Combobox {...defaultProps} />);
 
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        const labelText = await component.container.getElementsByClassName("widget-combobox-text-label")[0];
         fireEvent.focus(input);
 
         const option1 = await component.findByText("222");
@@ -100,7 +101,7 @@ describe("Combo box (Association)", () => {
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
 
-        expect(input.placeholder).toEqual(defaultProps.emptyOptionText?.value);
+        expect(labelText.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
     });
 });
