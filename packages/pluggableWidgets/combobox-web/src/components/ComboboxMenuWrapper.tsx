@@ -4,7 +4,7 @@ import { UseComboboxPropGetters } from "downshift/typings";
 import { PropsWithChildren, ReactElement, createElement, useRef } from "react";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
-interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<any>> {
+interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     isEmpty: boolean;
     noOptionsText?: string;
