@@ -5,7 +5,7 @@ import {
     ListAttributeValueBuilder,
     ListValueBuilder,
     ReferenceSetValueBuilder
-} from "@mendix/pluggable-test-utils";
+} from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
