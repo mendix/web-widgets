@@ -1,4 +1,4 @@
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
