@@ -5,7 +5,7 @@ import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 
-interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
+interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     selectableItems: string[];
     selectedItems: string[];
