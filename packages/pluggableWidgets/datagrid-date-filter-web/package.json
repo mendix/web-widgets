@@ -44,7 +44,7 @@
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "react-datepicker": "^4.12.0",
-    "string.prototype.replaceall": "^1.0.7"
+    "string.prototype.replaceall": "^1.0.8"
   },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
