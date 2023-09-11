@@ -6,6 +6,32 @@ import { ClearButton, DownArrow } from "./assets/icons";
 import { InputPlaceholder } from "./components/Placeholder";
 import "./ui/Combobox.scss";
 
+function getDesignModePlaceholderText(args: ComboboxPreviewProps): string | undefined {
+    const {
+        optionsSourceType,
+        optionsSourceAssociationDataSource,
+        attributeEnumeration,
+        attributeBoolean,
+        emptyOptionText
+    } = args;
+    let returnVal: string | undefined = "";
+    switch (optionsSourceType) {
+        case "association":
+            returnVal = (optionsSourceAssociationDataSource as { caption?: string })?.caption;
+            break;
+        case "enumeration":
+            returnVal = `[${optionsSourceType}, ${attributeEnumeration}]`;
+            break;
+        case "boolean":
+            returnVal = `[${optionsSourceType}, ${attributeBoolean}]`;
+            break;
+        default:
+            returnVal = `[${emptyOptionText}]`;
+    }
+
+    return returnVal || `[${emptyOptionText}]`;
+}
+
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const backgroundColor = props.readOnly ? "#C8C8C8" : undefined;
     return (
@@ -26,10 +52,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                                 {...getInputProps()}
                                 placeholder=" "
                             />
-                            <InputPlaceholder isEmpty>
-                                {(props.optionsSourceAssociationDataSource as { caption?: string })?.caption ||
-                                    props.emptyOptionText}
-                            </InputPlaceholder>
+                            <InputPlaceholder isEmpty>{getDesignModePlaceholderText(props)}</InputPlaceholder>
                         </div>
                         {props.clearable && (
                             <button className="widget-combobox-clear-button">
