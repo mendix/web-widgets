@@ -6,7 +6,7 @@ import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSel
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
-import { useEventCallback } from "@mendix/pluggable-widgets-commons";
+import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 
 export function SingleSelection({
     selector,

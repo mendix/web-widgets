@@ -1,4 +1,4 @@
-import { usePositionObserver } from "@mendix/pluggable-widgets-commons/components/web";
+import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { PropsWithChildren, ReactElement, createElement, useRef } from "react";
