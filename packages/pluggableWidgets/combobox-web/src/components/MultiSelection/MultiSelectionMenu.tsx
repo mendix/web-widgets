@@ -43,7 +43,7 @@ export function MultiSelectionMenu({
                             getItemProps={getItemProps}
                             index={index}
                         >
-                            <Checkbox checked={selector.currentValue?.includes(item)} />
+                            <Checkbox checked={isSelected} />
                             {selector.caption.render(item)}
                         </ComboboxOptionWrapper>
                     );
