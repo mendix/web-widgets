@@ -844,9 +844,6 @@ importers:
 
   packages/pluggableWidgets/combobox-web:
     dependencies:
-      '@mendix/pluggable-widgets-commons':
-        specifier: workspace:*
-        version: link:../../shared/pluggable-widgets-commons
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -875,6 +872,12 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
