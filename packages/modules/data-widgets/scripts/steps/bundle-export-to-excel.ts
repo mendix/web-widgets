@@ -23,7 +23,13 @@ const action: Entry = {
 const xlsxExportTools: Entry = {
     inputOptions: {
         input: "src/javascriptsource/datawidgets/actions/xlsx-export-tools.js",
-        plugins: [resolve(), terser()]
+        plugins: [
+            resolve(),
+            terser({
+                module: true,
+                ecma: 2017
+            })
+        ]
     },
     getOutputOptions: params => ({
         format: "es",
