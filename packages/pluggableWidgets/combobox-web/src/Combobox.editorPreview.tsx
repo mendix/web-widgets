@@ -29,7 +29,7 @@ function getDesignModePlaceholderText(args: ComboboxPreviewProps): string | unde
             returnVal = `[${emptyOptionText}]`;
     }
 
-    return returnVal || `[${emptyOptionText}]`;
+    return returnVal;
 }
 
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
