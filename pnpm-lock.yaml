@@ -2049,43 +2049,6 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  packages/shared/pluggable-test-utils:
-    devDependencies:
-      '@mendix/eslint-config-web-widgets':
-        specifier: workspace:*
-        version: link:../eslint-config-web-widgets
-      '@mendix/prettier-config-web-widgets':
-        specifier: workspace:*
-        version: link:../prettier-config-web-widgets
-      '@mendix/tsconfig-web-widgets':
-        specifier: workspace:*
-        version: link:../tsconfig-web-widgets
-
-  packages/shared/pluggable-widgets-commons:
-    dependencies:
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      date-fns:
-        specifier: ^2.30.0
-        version: 2.30.0
-    devDependencies:
-      '@mendix/eslint-config-web-widgets':
-        specifier: workspace:*
-        version: link:../eslint-config-web-widgets
-      '@mendix/pluggable-widgets-tools':
-        specifier: ^9.24.1
-        version: 9.24.1(@types/node@18.16.12)
-      '@mendix/prettier-config-web-widgets':
-        specifier: workspace:*
-        version: link:../prettier-config-web-widgets
-      mendix-client:
-        specifier: ^7.15.8
-        version: 7.15.8
-      rimraf:
-        specifier: ^2.7.1
-        version: 2.7.1
-
   packages/shared/prettier-config-web-widgets:
     dependencies:
       '@prettier/plugin-xml':
