@@ -1,3 +1,5 @@
+import { datasource } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { ComboboxPreviewProps } from "typings/ComboboxProps";
 import { MultiSelector } from "./types";
 
 export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {
@@ -9,4 +11,27 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
     }
 
     return selectedItems.map(v => selector.caption.get(v)).join(", ");
+}
+
+export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string {
+    const {
+        optionsSourceType,
+        optionsSourceAssociationDataSource,
+        attributeEnumeration,
+        attributeBoolean,
+        emptyOptionText
+    } = args;
+    const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
+    switch (optionsSourceType) {
+        case "association":
+            type DsProperty = { caption?: string };
+            const dsProperty: DsProperty = datasource(optionsSourceAssociationDataSource)().property ?? {};
+            return dsProperty.caption || emptyStringFormat;
+        case "enumeration":
+            return `[${optionsSourceType}, ${attributeEnumeration}]`;
+        case "boolean":
+            return `[${optionsSourceType}, ${attributeBoolean}]`;
+        default:
+            return emptyStringFormat;
+    }
 }
