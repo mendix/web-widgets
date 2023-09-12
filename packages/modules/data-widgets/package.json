@@ -39,7 +39,7 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module",
     "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
-    "build:full": "turbo build:module --filter data-widgets",
+    "build:include-deps": "turbo build:module --filter data-widgets",
     "create-gh-release": "rui-create-gh-release",
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
