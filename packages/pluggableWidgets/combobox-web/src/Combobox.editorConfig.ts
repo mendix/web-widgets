@@ -1,6 +1,7 @@
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
+import { getDatasourcePlaceholderText } from "./helpers/utils";
 
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
@@ -62,4 +63,8 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             }
         ]
     };
+}
+
+export function getCustomCaption(values: ComboboxPreviewProps): string {
+    return getDatasourcePlaceholderText(values);
 }
