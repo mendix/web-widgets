@@ -1,4 +1,4 @@
-import { writeFile } from "fs/promises";
+import { writeFile, readFile } from "node:fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
 import { fgYellow } from "./ansi-colors";
 import {
@@ -128,6 +128,19 @@ export async function copyThemesourceToProject({ config }: ModuleStepParams): Pr
     console.info("Copy module themesource to targetProject");
     mkdir("-p", output.dirs.themesource);
     cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
+}
+
+export function copyActions(files: string[]): (prams: ModuleStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Copy JS Action(s)");
+        for (const file of files) {
+            const src = join(config.paths.javascriptsource, "actions", file);
+            const dest = join(config.output.dirs.javascriptsource, "actions", file);
+            const content = await readFile(src, { encoding: "utf-8" });
+            // Studio Pro require CRLF endings to read action file.
+            await writeFile(dest, content.replaceAll("\n", "\r\n"));
+        }
+    };
 }
 
 export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
