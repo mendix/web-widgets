@@ -1,6 +1,6 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ReferenceValue } from "mendix";
-import { createElement, ReactElement, ReactNode, useMemo } from "react";
+import { createElement, ReactElement, useMemo } from "react";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { AssociationSimpleCaptionsProvider } from "./helpers/Association/AssociationSimpleCaptionsProvider";
@@ -13,9 +13,6 @@ class AssociationPreviewCaptionsProvider extends AssociationSimpleCaptionsProvid
     emptyCaption = "Combo box";
     get(value: string | null): string {
         return value || this.emptyCaption;
-    }
-    render(value: string | null): ReactNode {
-        return <span className="widget-combobox-caption">{this.get(value)}</span>;
     }
 }
 class AssociationPreviewSelector extends BaseAssociationSelector<string, ReferenceValue> implements SingleSelector {
