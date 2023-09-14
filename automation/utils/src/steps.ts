@@ -138,7 +138,7 @@ export function copyActions(files: string[]): (prams: ModuleStepParams) => Promi
             const dest = join(config.output.dirs.javascriptsource, "actions", file);
             const content = await readFile(src, { encoding: "utf-8" });
             // Studio Pro require CRLF endings to read action file.
-            await writeFile(dest, content.replaceAll("\n", "\r\n"));
+            await writeFile(dest, content.replace(/\r\n|\r|\n/g, "\r\n"));
         }
     };
 }
