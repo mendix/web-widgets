@@ -6,7 +6,8 @@ import {
     useCallback,
     useEffect,
     useMemo,
-    useState
+    useState,
+    KeyboardEvent
 } from "react";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
@@ -23,6 +24,7 @@ import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeS
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
+import { Cell } from "./table/Cell";
 
 export type TableColumn = Omit<
     ColumnsPreviewType,
@@ -219,43 +221,35 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     );
     const renderCell = useCallback(
         (column: ColumnProperty, value: T, rowIndex: number) =>
-            visibleColumns.find(c => c.id === column.id) || preview
-                ? cellRenderer(
-                      (children, className, onClickAction) => {
-                          const onClick = rowClickSelectionOn ? () => onSelect(value) : onClickAction;
+            cellRenderer(
+                (children, className, onClickAction) => {
+                    const onClick = rowClickSelectionOn ? () => onSelect(value) : onClickAction;
+                    const onKeyDown = onClick
+                        ? (e: KeyboardEvent) => {
+                              if ((e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
+                                  e.preventDefault();
+                                  onClick();
+                              }
+                          }
+                        : undefined;
 
-                          return (
-                              <div
-                                  key={`row_${value.id}_cell_${column.id}`}
-                                  className={classNames("td", { "td-borders": rowIndex === 0 }, className, {
-                                      clickable: !!onClick,
-                                      "hidden-column-preview": preview && columnsHidable && column.hidden
-                                  })}
-                                  onClick={onClick}
-                                  onKeyDown={
-                                      onClick
-                                          ? e => {
-                                                if (
-                                                    (e.key === "Enter" || e.key === " ") &&
-                                                    e.target === e.currentTarget
-                                                ) {
-                                                    e.preventDefault();
-                                                    onClick();
-                                                }
-                                            }
-                                          : undefined
-                                  }
-                                  role={onClick ? "button" : "cell"}
-                                  tabIndex={onClick ? 0 : undefined}
-                              >
-                                  {children}
-                              </div>
-                          );
-                      },
-                      value,
-                      column.index
-                  )
-                : null,
+                    return (
+                        <Cell
+                            data-row={rowIndex}
+                            key={`row_${value.id}_cell_${column.id}`}
+                            borderTop={rowIndex === 0}
+                            className={className}
+                            onClick={onClick}
+                            onKeyDown={onKeyDown}
+                            previewAsHidden={preview && columnsHidable && column.hidden}
+                        >
+                            {children}
+                        </Cell>
+                    );
+                },
+                value,
+                column.index
+            ),
         [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
     );
 
@@ -386,12 +380,11 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 )}
                                 {visibleColumns.map(cell => renderCell(cell, row.item, rowIndex))}
                                 {columnsHidable && (
-                                    <div
+                                    <Cell
                                         key="cell_column_dropdown"
                                         aria-hidden
-                                        className={classNames("td column-selector", {
-                                            "td-borders": rowIndex === 0
-                                        })}
+                                        className={"column-selector"}
+                                        borderTop={rowIndex === 0}
                                     />
                                 )}
                             </div>
