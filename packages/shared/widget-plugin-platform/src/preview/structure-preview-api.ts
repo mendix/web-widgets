@@ -279,7 +279,8 @@ const paletteDark = {
         topbarData: colorWithAlpha("#3A65E5", 20),
         topbarStandard: colorWithAlpha("#646464", 20),
         buttonInfo: "#579BF9",
-        container: "#313131"
+        container: "#313131",
+        containerDisabled: "#4F4F4F"
     }
 } as const;
 
@@ -293,7 +294,8 @@ const paletteLight = {
         topbarData: "#DCEEFE",
         topbarStandard: "#F7F7F7",
         buttonInfo: "#146FF4",
-        container: "#FFFFFF"
+        container: "#FFFFFF",
+        containerDisabled: "#C8C8C8"
     }
 } as const;
 

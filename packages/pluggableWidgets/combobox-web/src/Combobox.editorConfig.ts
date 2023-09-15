@@ -66,13 +66,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
     return {
         type: "RowLayout",
         columnSize: "grow",
-        backgroundColor: isDarkMode
-            ? _values.readOnly
-                ? "#4F4F4F"
-                : undefined
-            : _values.readOnly
-            ? "#C8C8C8"
-            : "transparent",
+        backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
         borders: true,
         borderWidth: 1,
         borderRadius: 2,
