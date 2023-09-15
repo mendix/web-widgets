@@ -23,7 +23,7 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
 
     return (
-        <div className={classNames("tr", { "tr-selected": props.selected }, props.className)}>
+        <div className={classNames("tr", { "tr-selected": props.selected }, props.className)} role="row">
             {props.selectionMethod === "checkbox" && (
                 <CellElement key="checkbox_cell" borderTop={props.index === 0}>
                     <input

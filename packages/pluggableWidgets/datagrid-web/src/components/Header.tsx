@@ -7,7 +7,8 @@ import {
     DragEventHandler,
     KeyboardEvent,
     useCallback,
-    HTMLAttributes
+    HTMLAttributes,
+    ReactNode
 } from "react";
 import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
@@ -23,6 +24,7 @@ export interface HeaderProps {
     sortable: boolean;
     resizable: boolean;
     filterable: boolean;
+    filterWidget: ReactNode;
     draggable: boolean;
     dragOver: string;
     hidable: boolean;
@@ -122,7 +124,7 @@ export function Header(props: HeaderProps): ReactElement {
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}
                 </div>
-                {/* {props.filterable && props.column.customFilter ? props.column.customFilter : null} */}
+                {props.filterable && props.filterWidget}
             </div>
             {props.resizable && props.column.canResize && props.resizer}
         </div>

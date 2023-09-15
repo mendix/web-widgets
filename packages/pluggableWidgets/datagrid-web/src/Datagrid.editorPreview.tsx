@@ -1,18 +1,12 @@
 /* Disable warning that hooks can be used only in components */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-// import { createElement, ReactElement, ReactNode, useCallback } from "react";
-// import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { Table } from "./components/Table";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
-
-// import { Table, TableColumn } from "./components/Table";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { Selectable } from "mendix/preview/Selectable";
 import { ObjectItem, GUID } from "mendix";
-// import classNames from "classnames";
-// import { isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import { PreviewCell } from "./components/PreviewCell";
 import { fromColumnsPreviewType } from "./models/GridColumn";
@@ -102,19 +96,6 @@ const initColumns: ColumnsPreviewType[] = [
 // columnsSortable={props.columnsSortable}
 //             data={data}
 
-//             filterRenderer={useCallback(
-//                 (renderWrapper, columnIndex) => {
-//                     const column = columns[columnIndex];
-//                     return column.filter ? (
-//                         <column.filter.renderer caption="Place filter widget here">
-//                             {renderWrapper(null)}
-//                         </column.filter.renderer>
-//                     ) : (
-//                         renderWrapper(null)
-//                     );
-//                 },
-//                 [columns]
-//             )}
 //             hasMoreItems={false}
 
 //             headerWrapperRenderer={selectableWrapperRenderer}
@@ -149,7 +130,19 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 ),
                 [EmptyPlaceholder]
             )}
-            filterRenderer={(_x: unknown, _y: unknown) => <span></span>}
+            filterRenderer={useCallback(
+                (renderWrapper, columnIndex) => {
+                    const column = columns[columnIndex];
+                    return column.filter ? (
+                        <column.filter.renderer caption="Place filter widget here">
+                            {renderWrapper(null)}
+                        </column.filter.renderer>
+                    ) : (
+                        renderWrapper(null)
+                    );
+                },
+                [columns]
+            )}
             gridColumns={props.columns.map(fromColumnsPreviewType)}
             gridHeaderWidgets={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">

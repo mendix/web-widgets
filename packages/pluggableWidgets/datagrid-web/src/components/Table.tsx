@@ -1,4 +1,13 @@
-import { createElement, CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useState } from "react";
+import {
+    createElement,
+    CSSProperties,
+    ReactElement,
+    ReactNode,
+    useEffect,
+    useMemo,
+    useState,
+    useCallback
+} from "react";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { TableHeader, TableFooter } from "./TableHeaderFooter";
@@ -18,12 +27,6 @@ import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn, sortColumns } from "../models/GridColumn";
 import { CellComponent } from "../../typings/CellComponent";
 import { Row } from "./Row";
-
-export type CellRenderer<T extends ObjectItem = ObjectItem> = (
-    renderWrapper: (children: ReactNode, className?: string, onClick?: () => void) => ReactElement,
-    value: T,
-    columnIndex: number
-) => ReactElement;
 
 export interface TableProps<C extends Column, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -79,7 +82,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         columnsSortable,
         data: rows,
         emptyPlaceholderRenderer,
-        // filterRenderer: filterRendererProp,
+        filterRenderer: filterRendererProp,
         gridHeaderWidgets,
         gridHeaderTitle,
         hasMoreItems,
@@ -119,6 +122,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
     );
     const checkboxSelectionOn = selectionMethod === "checkbox";
     const rowClickSelectionOn = selectionMethod === "rowClick";
+    const showHeader = !!gridHeaderWidgets || pagingPosition === "top" || pagingPosition === "both";
 
     const { updateSettings } = useSettings(
         settings,
@@ -147,14 +151,14 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         }
     }, [sortBy, setSortParameters]);
 
-    // const filterRenderer = useCallback(
-    //     (children: ReactNode) => (
-    //         <div className="filter" style={{ pointerEvents: isDragging ? "none" : undefined }}>
-    //             {children}
-    //         </div>
-    //     ),
-    //     [isDragging]
-    // );
+    const renderFilterWrapper = useCallback(
+        (children: ReactNode) => (
+            <div className="filter" style={{ pointerEvents: isDragging ? "none" : undefined }}>
+                {children}
+            </div>
+        ),
+        [isDragging]
+    );
 
     const [visibleGridColumns, visibleColumns] = useMemo(() => {
         const visible1 = gridColumns
@@ -194,9 +198,11 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
             })}
             style={styles}
         >
-            <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
-                {gridHeaderWidgets}
-            </TableHeader>
+            {showHeader && (
+                <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
+                    {gridHeaderWidgets}
+                </TableHeader>
+            )}
             <StickyHeaderTable>
                 <InfiniteBody
                     className="table-content"
@@ -228,6 +234,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                     draggable={columnsDraggable}
                                     dragOver={dragOver}
                                     filterable={columnsFilterable}
+                                    filterWidget={filterRendererProp(renderFilterWrapper, column.index)}
                                     hidable={columnsHidable}
                                     isDragging={isDragging}
                                     preview={preview}
