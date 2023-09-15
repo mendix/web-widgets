@@ -4,6 +4,7 @@ import { CellRenderer } from "../components/Table";
 import { ColumnsType } from "../../typings/DatagridProps";
 import classNames from "classnames";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+// import { CellContent } from "../components/CellContent";
 
 interface CellRendererHookProps {
     columns: ColumnsType[];
@@ -11,33 +12,15 @@ interface CellRendererHookProps {
 }
 
 export function useCellRenderer({ onClick, columns }: CellRendererHookProps): CellRenderer {
-    const renderer: CellRenderer = (renderWrapper, value, columnIndex) => {
+    const renderer: CellRenderer = (renderCell, item, columnIndex) => {
         const column = columns[columnIndex];
-        const title = column.tooltip && column.tooltip.get(value)?.value;
-        let content;
 
-        if (column.showContentAs === "attribute") {
-            content = (
-                <span title={title} className="td-text">
-                    {column.attribute?.get(value)?.displayValue ?? ""}
-                </span>
-            );
-        } else if (column.showContentAs === "dynamicText") {
-            content = (
-                <span title={title} className="td-text">
-                    {column.dynamicText?.get(value)?.value ?? ""}
-                </span>
-            );
-        } else {
-            content = <div className="td-custom-content">{column.content?.get(value)}</div>;
-        }
-
-        return renderWrapper(
-            content,
-            classNames(`align-column-${column.alignment}`, column.columnClass?.get(value)?.value, {
+        return renderCell(
+            <span>Fun Fun Fun</span>,
+            classNames(`align-column-${column.alignment}`, column.columnClass?.get(item)?.value, {
                 "wrap-text": column.wrapText
             }),
-            onClick ? () => executeAction(onClick?.get(value)) : undefined
+            onClick ? () => executeAction(onClick?.get(item)) : undefined
         );
     };
 

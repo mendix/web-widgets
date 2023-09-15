@@ -1,0 +1,59 @@
+import { ObjectItem, ListActionValue } from "mendix";
+import { createElement, ReactElement } from "react";
+import { Column } from "../../typings/Column";
+import { CellComponent } from "../../typings/CellComponent";
+import { CellElement } from "./CellElement";
+import classNames from "classnames";
+import { SelectionMethod } from "src/features/selection";
+
+export interface RowProps<C extends Column> {
+    className?: string;
+    CellComponent: CellComponent<C>;
+    columns: C[];
+    item: ObjectItem;
+    index: number;
+    showSelectorCell?: boolean;
+    selectionMethod: SelectionMethod;
+    onSelect: (item: ObjectItem) => void;
+    selected: boolean;
+    rowAction?: ListActionValue;
+}
+
+export function Row<C extends Column>(props: RowProps<C>): ReactElement {
+    const { CellComponent: Cell } = props;
+
+    return (
+        <div className={classNames("tr", { "tr-selected": props.selected }, props.className)}>
+            {props.selectionMethod === "checkbox" && (
+                <CellElement key="checkbox_cell" borderTop={props.index === 0}>
+                    <input
+                        checked={props.selected}
+                        onChange={() => props.onSelect(props.item)}
+                        type="checkbox"
+                        tabIndex={-1}
+                    />
+                </CellElement>
+            )}
+            {props.columns.map((column, columnIndex) => (
+                <Cell
+                    key={`row_${props.index}_col_${columnIndex}`}
+                    column={column}
+                    rowIndex={props.index}
+                    columnIndex={columnIndex}
+                    item={props.item}
+                    onSelect={props.onSelect}
+                    cellClickActAs={props.selectionMethod === "rowClick" ? "selectRow" : "executeAction"}
+                    rowAction={props.rowAction}
+                />
+            ))}
+            {props.showSelectorCell && (
+                <CellElement
+                    key="column_selector_cell"
+                    aria-hidden
+                    className={"column-selector"}
+                    borderTop={props.index === 0}
+                />
+            )}
+        </div>
+    );
+}

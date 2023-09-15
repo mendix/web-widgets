@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from "react";
 import { EditableValue, ValueStatus } from "mendix";
-import { ColumnWidth, TableColumn } from "../components/Table";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
+import { GridColumn } from "../models/GridColumn";
 
 declare type Option<T> = T | undefined;
 
@@ -9,7 +9,7 @@ interface Settings {
     columnOrder: string[];
     hiddenColumns: string[];
     sortBy: SortingRule[];
-    widths: ColumnWidth;
+    widths: ColumnWidthConfig;
 }
 
 interface PersistedSettings {
@@ -24,6 +24,10 @@ interface PersistedSettings {
 export interface SortingRule {
     id: string;
     desc: boolean;
+}
+
+export interface ColumnWidthConfig {
+    [index: string]: number | undefined;
 }
 
 export function createSettings(
@@ -45,15 +49,15 @@ export function createSettings(
 
 export function useSettings(
     settings: Option<EditableValue<string>>,
-    columns: TableColumn[],
+    columns: GridColumn[],
     columnOrder: string[],
     setColumnOrder: Dispatch<SetStateAction<string[]>>,
     hiddenColumns: string[],
     setHiddenColumns: Dispatch<SetStateAction<string[]>>,
     sortBy: SortingRule[],
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>,
-    widths: ColumnWidth,
-    setWidths: Dispatch<SetStateAction<ColumnWidth>>
+    widths: ColumnWidthConfig,
+    setWidths: Dispatch<SetStateAction<ColumnWidthConfig>>
 ): { updateSettings: () => void } {
     const previousLoadedSettings = useRef<string>();
     const shouldUpdate = useRef(true);

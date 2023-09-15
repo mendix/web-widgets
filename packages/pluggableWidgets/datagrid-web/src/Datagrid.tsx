@@ -1,10 +1,9 @@
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ColumnsType, DatagridContainerProps } from "../typings/DatagridProps";
+import { DatagridContainerProps } from "../typings/DatagridProps";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { Table, TableColumn, SortProperty } from "./components/Table";
+import { Table, SortProperty } from "./components/Table";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import {
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
@@ -13,10 +12,12 @@ import {
 import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
 import { useCellRenderer } from "./features/cell";
-import { getColumnAssociationProps, isSortable } from "./features/column";
+import { getColumnAssociationProps } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
 import { useDG2ExportApi } from "./features/export";
+import { fromColumnsType } from "./models/GridColumn";
+import { Cell } from "./components/Cell";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -33,7 +34,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const SelectionContext = getGlobalSelectionContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
-    const { items } = useDG2ExportApi({
+    useDG2ExportApi({
         columns: props.columns,
         datasource: props.datasource,
         name: props.name,
@@ -104,7 +105,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.datasource.setSortOrder(undefined);
     }
 
-    const columns = useMemo(() => transformColumnProps(props.columns), [props.columns]);
+    const gridColumns = useMemo(() => props.columns.map(fromColumnsType), [props.columns]);
 
     /**
      * Multiple filtering properties
@@ -135,13 +136,15 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         <Table
             cellRenderer={cellRenderer}
             className={props.class}
-            columns={columns}
+            columns={props.columns}
+            gridColumns={gridColumns}
+            CellComponent={Cell}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={items}
+            data={props.datasource.items ?? []}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
@@ -227,14 +230,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [props.columns]
             )}
+            rowAction={props.onClick}
         />
     );
-}
-
-function transformColumnProps(props: ColumnsType[]): TableColumn[] {
-    return props.map(prop => ({
-        ...prop,
-        header: prop.header && isAvailable(prop.header) ? prop.header.value ?? "" : "",
-        sortable: isSortable(prop)
-    }));
 }

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { ObjectItem } from "mendix";
 import { MultiSelectionStatus, SelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "typings/DatagridProps";
+import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 
 export type SelectionMethod = ItemSelectionMethodEnum | "none";
 

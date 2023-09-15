@@ -1,6 +1,6 @@
 import { AssociationProperties } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
-import { ColumnsPreviewType, ColumnsType } from "typings/DatagridProps";
+import { ColumnsType } from "../../typings/DatagridProps";
 
 export function getAssociationProps(columnProps: ColumnsType): AssociationProperties {
     const msg = (propName: string): string =>
@@ -25,11 +25,4 @@ export function getColumnAssociationProps(settings: ColumnsType): AssociationPro
     }
 
     return getAssociationProps(settings);
-}
-
-export function isSortable(column: ColumnsType | ColumnsPreviewType): boolean {
-    // Handle case for editorPreview
-    const attrSortable = typeof column.attribute === "string" || !!column.attribute?.sortable;
-
-    return column.sortable && attrSortable;
 }

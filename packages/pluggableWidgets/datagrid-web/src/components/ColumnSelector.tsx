@@ -2,11 +2,11 @@ import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, use
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { ColumnProperty } from "./Table";
+import { GridColumn } from "../models/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 
 export interface ColumnSelectorProps {
-    columns: ColumnProperty[];
+    columns: GridColumn[];
     hiddenColumns: string[];
     id?: string;
     setHiddenColumns: Dispatch<SetStateAction<string[]>>;
@@ -60,7 +60,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined
             }}
         >
-            {props.columns.map((column: ColumnProperty, index: number) => {
+            {props.columns.map((column: GridColumn, index: number) => {
                 const isVisible = !props.hiddenColumns.includes(column.index.toString());
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (

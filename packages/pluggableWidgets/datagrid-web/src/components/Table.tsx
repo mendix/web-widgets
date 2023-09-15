@@ -1,22 +1,13 @@
-import {
-    createElement,
-    CSSProperties,
-    ReactElement,
-    ReactNode,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-    KeyboardEvent
-} from "react";
+import { createElement, CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useState } from "react";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { TableHeader, TableFooter } from "./TableHeaderFooter";
-import { AlignmentEnum, ColumnsPreviewType, PagingPositionEnum, WidthEnum } from "../../typings/DatagridProps";
+import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { Column } from "../../typings/Column";
 import { Big } from "big.js";
 import classNames from "classnames";
-import { EditableValue, ObjectItem } from "mendix";
-import { SortingRule, useSettings } from "../features/settings";
+import { EditableValue, ObjectItem, ListActionValue } from "mendix";
+import { SortingRule, useSettings, ColumnWidthConfig } from "../features/settings";
 import { ColumnResizer } from "./ColumnResizer";
 import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
@@ -24,21 +15,9 @@ import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeS
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
-import { Cell } from "./table/Cell";
-
-export type TableColumn = Omit<
-    ColumnsPreviewType,
-    | "attribute"
-    | "columnClass"
-    | "content"
-    | "dynamicText"
-    | "filter"
-    | "showContentAs"
-    | "tooltip"
-    | "filterAssociation"
-    | "filterAssociationOptions"
-    | "filterAssociationOptionLabel"
->;
+import { GridColumn, sortColumns } from "../models/GridColumn";
+import { CellComponent } from "../../typings/CellComponent";
+import { Row } from "./Row";
 
 export type CellRenderer<T extends ObjectItem = ObjectItem> = (
     renderWrapper: (children: ReactNode, className?: string, onClick?: () => void) => ReactElement,
@@ -46,10 +25,12 @@ export type CellRenderer<T extends ObjectItem = ObjectItem> = (
     columnIndex: number
 ) => ReactElement;
 
-export interface TableProps<T extends ObjectItem> {
+export interface TableProps<C extends Column, T extends ObjectItem = ObjectItem> {
     cellRenderer: CellRenderer<T>;
+    CellComponent: CellComponent<C>;
     className: string;
-    columns: TableColumn[];
+    columns: C[];
+    gridColumns: GridColumn[];
     columnsFilterable: boolean;
     columnsSortable: boolean;
     columnsResizable: boolean;
@@ -80,10 +61,7 @@ export interface TableProps<T extends ObjectItem> {
     onSelect: (item: T) => void;
     onSelectAll: () => void;
     isSelected: (item: T) => boolean;
-}
-
-export interface ColumnWidth {
-    [key: string]: number | undefined;
+    rowAction?: ListActionValue;
 }
 
 export interface SortProperty {
@@ -91,24 +69,8 @@ export interface SortProperty {
     desc: boolean;
 }
 
-export interface ColumnProperty {
-    id: string;
-    index: number;
-    alignment: AlignmentEnum;
-    header: string;
-    hidden: boolean;
-    canHide: boolean;
-    canDrag: boolean;
-    canResize: boolean;
-    canSort: boolean;
-    customFilter: ReactNode;
-    width: WidthEnum;
-    weight: number;
-}
-
-export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement {
+export function Table<C extends Column>(props: TableProps<C>): ReactElement {
     const {
-        cellRenderer,
         className,
         columns,
         columnsDraggable,
@@ -116,9 +78,9 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         columnsHidable,
         columnsResizable,
         columnsSortable,
-        data,
+        data: rows,
         emptyPlaceholderRenderer,
-        filterRenderer: filterRendererProp,
+        // filterRenderer: filterRendererProp,
         gridHeaderWidgets,
         gridHeaderTitle,
         hasMoreItems,
@@ -130,7 +92,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         paging,
         pagingPosition,
         preview,
-        rowClass,
+        // rowClass,
         setPage,
         setSortParameters,
         settings,
@@ -138,7 +100,10 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         selectionStatus,
         selectionMethod,
         onSelect,
-        isSelected
+        isSelected,
+        // NEXT_columns,
+        gridColumns,
+        CellComponent
     } = props;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -150,7 +115,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
             .filter(Boolean) as string[]) ?? []
     );
     const [sortBy, setSortBy] = useState<SortingRule[]>([]);
-    const [columnsWidth, setColumnsWidth] = useState<ColumnWidth>(
+    const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
     );
     const checkboxSelectionOn = selectionMethod === "checkbox";
@@ -158,7 +123,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
 
     const { updateSettings } = useSettings(
         settings,
-        columns,
+        gridColumns,
         columnOrder,
         setColumnOrder,
         hiddenColumns,
@@ -183,77 +148,22 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
         }
     }, [sortBy, setSortParameters]);
 
-    const filterRenderer = useCallback(
-        (children: ReactNode) => (
-            <div className="filter" style={{ pointerEvents: isDragging ? "none" : undefined }}>
-                {children}
-            </div>
-        ),
-        [isDragging]
-    );
+    // const filterRenderer = useCallback(
+    //     (children: ReactNode) => (
+    //         <div className="filter" style={{ pointerEvents: isDragging ? "none" : undefined }}>
+    //             {children}
+    //         </div>
+    //     ),
+    //     [isDragging]
+    // );
 
-    const tableColumns: ColumnProperty[] = useMemo(
-        () =>
-            columns.map((column, index) => ({
-                id: `${id}-column${index}`,
-                index,
-                accessor: "item",
-                alignment: column.alignment,
-                header: column.header,
-                hidden: column.hidable === "hidden",
-                canHide: column.hidable !== "no",
-                canDrag: column.draggable,
-                canResize: column.resizable,
-                canSort: column.sortable,
-                customFilter: columnsFilterable ? filterRendererProp(filterRenderer, index) : null,
-                width: column.width,
-                weight: column.size ?? 1
-            })),
-        [id, columns, filterRendererProp, columnsFilterable, filterRenderer]
-    );
-
-    const visibleColumns = useMemo(
-        () =>
-            tableColumns
-                .filter(c => !hiddenColumns.includes(c.index.toString()))
-                .sort((a, b) => sortColumns(columnOrder, a, b)),
-        [tableColumns, hiddenColumns, columnOrder]
-    );
-    const renderCell = useCallback(
-        (column: ColumnProperty, value: T, rowIndex: number) =>
-            cellRenderer(
-                (children, className, onClickAction) => {
-                    const onClick = rowClickSelectionOn ? () => onSelect(value) : onClickAction;
-                    const onKeyDown = onClick
-                        ? (e: KeyboardEvent) => {
-                              if ((e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
-                                  e.preventDefault();
-                                  onClick();
-                              }
-                          }
-                        : undefined;
-
-                    return (
-                        <Cell
-                            data-row={rowIndex}
-                            key={`row_${value.id}_cell_${column.id}`}
-                            borderTop={rowIndex === 0}
-                            className={className}
-                            onClick={onClick}
-                            onKeyDown={onKeyDown}
-                            previewAsHidden={preview && columnsHidable && column.hidden}
-                        >
-                            {children}
-                        </Cell>
-                    );
-                },
-                value,
-                column.index
-            ),
-        [cellRenderer, columnsHidable, preview, visibleColumns, onSelect, rowClickSelectionOn]
-    );
-
-    const rows = useMemo(() => data.map(item => ({ item })), [data]);
+    const [visibleGridColumns, visibleColumns] = useMemo(() => {
+        const visible1 = gridColumns
+            .filter(c => !hiddenColumns.includes(c.index.toString()))
+            .sort((a, b) => sortColumns(columnOrder, a, b));
+        const visible2 = visible1.map(({ index }) => columns[index]);
+        return [visible1, visible2];
+    }, [hiddenColumns, columnOrder, columns, gridColumns]);
 
     const pagination = paging ? (
         <Pagination
@@ -270,11 +180,11 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
 
     const cssGridStyles = useMemo(
         () =>
-            gridStyle(visibleColumns, columnsWidth, {
+            gridStyle(visibleGridColumns, columnsWidth, {
                 selectItemColumn: checkboxSelectionOn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, visibleColumns, columnsHidable, checkboxSelectionOn]
+        [columnsWidth, visibleGridColumns, columnsHidable, checkboxSelectionOn]
     );
 
     return (
@@ -309,7 +219,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                 )}
                             </div>
                         )}
-                        {visibleColumns.map((column, index) =>
+                        {visibleGridColumns.map((column, index) =>
                             headerWrapperRenderer(
                                 index,
                                 <Header
@@ -340,57 +250,37 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                                     setSortBy={setSortBy}
                                     sortable={columnsSortable}
                                     sortBy={sortBy}
-                                    visibleColumns={visibleColumns}
+                                    visibleColumns={visibleGridColumns}
                                 />
                             )
                         )}
                         {columnsHidable && (
                             <ColumnSelector
                                 key="headers_column_selector"
-                                columns={tableColumns}
+                                columns={gridColumns}
                                 hiddenColumns={hiddenColumns}
                                 id={id}
                                 setHiddenColumns={setHiddenColumns}
                             />
                         )}
                     </div>
-                    {rows.map((row, rowIndex) => {
+                    {rows.map((item, rowIndex) => {
                         return (
-                            <div
-                                key={`row_${row.item.id}`}
-                                className={classNames("tr", rowClass?.(row.item), {
-                                    "tr-selected": isSelected(row.item)
-                                })}
-                                role="row"
-                            >
-                                {checkboxSelectionOn && (
-                                    <div
-                                        key="cell_checkbox"
-                                        className={classNames("td widget-datagrid-col-select", {
-                                            "td-borders": rowIndex === 0
-                                        })}
-                                    >
-                                        <input
-                                            checked={isSelected(row.item)}
-                                            onChange={() => onSelect(row.item)}
-                                            type="checkbox"
-                                            tabIndex={-1}
-                                        />
-                                    </div>
-                                )}
-                                {visibleColumns.map(cell => renderCell(cell, row.item, rowIndex))}
-                                {columnsHidable && (
-                                    <Cell
-                                        key="cell_column_dropdown"
-                                        aria-hidden
-                                        className={"column-selector"}
-                                        borderTop={rowIndex === 0}
-                                    />
-                                )}
-                            </div>
+                            <Row
+                                CellComponent={CellComponent}
+                                key={`row_${rowIndex}`}
+                                item={item}
+                                index={rowIndex}
+                                columns={visibleColumns}
+                                showSelectorCell={columnsHidable}
+                                selectionMethod={selectionMethod}
+                                onSelect={onSelect}
+                                selected={isSelected(item)}
+                                rowAction={props.rowAction}
+                            />
                         );
                     })}
-                    {(data.length === 0 || preview) &&
+                    {(rows.length === 0 || preview) &&
                         emptyPlaceholderRenderer &&
                         emptyPlaceholderRenderer(children => {
                             const colspan = columns.length + (columnsHidable ? 1 : 0) + (checkboxSelectionOn ? 1 : 0);
@@ -413,20 +303,12 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     );
 }
 
-function sortColumns(columnsOrder: string[], columnA: ColumnProperty, columnB: ColumnProperty): number {
-    let columnAValue = columnsOrder.findIndex(c => c === columnA.id);
-    let columnBValue = columnsOrder.findIndex(c => c === columnB.id);
-    if (columnAValue < 0) {
-        columnAValue = Number(columnA.id);
-    }
-    if (columnBValue < 0) {
-        columnBValue = Number(columnB.id);
-    }
-    return columnAValue < columnBValue ? -1 : columnAValue > columnBValue ? 1 : 0;
-}
-
-function gridStyle(visibleColumns: ColumnProperty[], resizeMap: ColumnWidth, optional: OptionalColumns): CSSProperties {
-    const columnSizes = visibleColumns.map(c => {
+function gridStyle(
+    visibleGridColumn: GridColumn[],
+    resizeMap: ColumnWidthConfig,
+    optional: OptionalColumns
+): CSSProperties {
+    const columnSizes = visibleGridColumn.map(c => {
         const columnResizedSize = resizeMap[c.id];
         if (columnResizedSize) {
             return `${columnResizedSize}px`;

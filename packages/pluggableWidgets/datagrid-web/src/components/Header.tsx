@@ -13,13 +13,13 @@ import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
-import { ColumnProperty } from "./Table";
+import { GridColumn } from "../models/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { SortingRule } from "../features/settings";
 
 export interface HeaderProps {
     className?: string;
-    column: ColumnProperty;
+    column: GridColumn;
     sortable: boolean;
     resizable: boolean;
     filterable: boolean;
@@ -34,7 +34,7 @@ export interface HeaderProps {
     setIsDragging: Dispatch<SetStateAction<boolean>>;
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
     sortBy: SortingRule[];
-    visibleColumns: ColumnProperty[];
+    visibleColumns: GridColumn[];
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -122,7 +122,7 @@ export function Header(props: HeaderProps): ReactElement {
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}
                 </div>
-                {props.filterable && props.column.customFilter ? props.column.customFilter : null}
+                {/* {props.filterable && props.column.customFilter ? props.column.customFilter : null} */}
             </div>
             {props.resizable && props.column.canResize && props.resizer}
         </div>
@@ -131,7 +131,7 @@ export function Header(props: HeaderProps): ReactElement {
 
 function useDraggable(
     columnsDraggable: boolean,
-    visibleColumns: ColumnProperty[],
+    visibleColumns: GridColumn[],
     setColumnOrder: (updater: ((columnOrder: string[]) => string[]) | string[]) => void,
     setDragOver: Dispatch<SetStateAction<string>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
