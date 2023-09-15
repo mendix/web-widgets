@@ -4,11 +4,7 @@ import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { Table, SortProperty } from "./components/Table";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import {
-    getGlobalSelectionContext,
-    useCreateSelectionContextValue,
-    useSelectionHelper
-} from "@mendix/widget-plugin-grid/selection";
+import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
 import { getColumnAssociationProps } from "./features/column";
@@ -17,6 +13,7 @@ import "./ui/Datagrid.scss";
 import { useDG2ExportApi } from "./features/export";
 import { fromColumnsType } from "./models/GridColumn";
 import { Cell } from "./components/Cell";
+import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -30,7 +27,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
-    const SelectionContext = getGlobalSelectionContext();
 
     useDG2ExportApi({
         columns: props.columns,
@@ -105,25 +101,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     const gridColumns = useMemo(() => props.columns.map(fromColumnsType), [props.columns]);
 
-    /**
-     * Multiple filtering properties
-     */
-    const filterList = useMemo(
-        () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
-        [props.filterList]
-    );
-    const multipleInitialFilters = useMemo(
-        () =>
-            props.filterList.reduce(
-                (filters, { filter }) => ({
-                    ...filters,
-                    [filter.id]: extractFilters(filter, viewStateFilters.current)
-                }),
-                {}
-            ),
-        [props.filterList]
-    );
-
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectActionProps = useOnSelectProps(selection);
     const { selectionStatus, selectionMethod } = selectionSettings(props, selection);
@@ -179,29 +156,19 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 [FilterContext, customFiltersState, props.columns]
             )}
             gridHeaderTitle={props.filterSectionTitle?.value}
-            gridHeaderWidgets={useMemo(
-                () => (
-                    <FilterContext.Provider
-                        value={{
-                            filterDispatcher: prev => {
-                                if (prev.filterType) {
-                                    const [, filterDispatcher] = multipleFilteringState[prev.filterType];
-                                    filterDispatcher(prev);
-                                    setFiltered(true);
-                                }
-                                return prev;
-                            },
-                            multipleAttributes: filterList,
-                            multipleInitialFilters
-                        }}
+            gridHeaderWidgets={
+                props.filtersPlaceholder && (
+                    <GridHeaderWidgets
+                        filterList={props.filterList}
+                        setFiltered={setFiltered}
+                        viewStateFilters={viewStateFilters.current}
+                        selectionContextValue={selectionContextValue}
+                        state={multipleFilteringState}
                     >
-                        <SelectionContext.Provider value={selectionContextValue}>
-                            {props.filtersPlaceholder}
-                        </SelectionContext.Provider>
-                    </FilterContext.Provider>
-                ),
-                [FilterContext, filterList, multipleInitialFilters, props.filtersPlaceholder, multipleFilteringState]
-            )}
+                        {props.filtersPlaceholder}
+                    </GridHeaderWidgets>
+                )
+            }
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
