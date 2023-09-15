@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
-import { ColumnProperty } from "../Table";
+import { GridColumn } from "../../models/GridColumn";
 
 let useIsElementInViewportMock = jest.fn(() => true);
 
@@ -98,7 +98,7 @@ describe("Column Selector", () => {
                                 header: "Test2",
                                 canHide: true
                             }
-                        ] as ColumnProperty[]
+                        ] as GridColumn[]
                     }
                 />
             );
@@ -150,7 +150,7 @@ describe("Column Selector", () => {
                                 header: "Test4",
                                 canHide: true
                             }
-                        ] as ColumnProperty[]
+                        ] as GridColumn[]
                     }
                 />
             );
@@ -186,7 +186,7 @@ function mockColumnSelectorProps(): ColumnSelectorProps {
                 header: "Test",
                 canHide: true
             }
-        ] as ColumnProperty[],
+        ] as GridColumn[],
         id: "selector-under-test",
         hiddenColumns: [],
         setHiddenColumns: jest.fn()

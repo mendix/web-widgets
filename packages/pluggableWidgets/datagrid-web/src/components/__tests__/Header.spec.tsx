@@ -51,7 +51,7 @@ describe("Header", () => {
 
     it("renders the structure correctly when filterable with custom filter", () => {
         const props = mockHeaderProps();
-        props.column.customFilter = (
+        const filterWidget = (
             <div>
                 <label>Date picker filter</label>
                 <input type="date" />
@@ -59,7 +59,7 @@ describe("Header", () => {
         );
         props.filterable = true;
 
-        const component = render(<Header {...props} />);
+        const component = render(<Header {...props} filterWidget={filterWidget} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -124,6 +124,7 @@ function mockHeaderProps(): HeaderProps {
         draggable: false,
         dragOver: "",
         filterable: false,
+        filterWidget: undefined,
         hidable: false,
         resizable: false,
         resizer: <ColumnResizer setColumnWidth={jest.fn()} />,

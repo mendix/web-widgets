@@ -24,7 +24,7 @@ export interface HeaderProps {
     sortable: boolean;
     resizable: boolean;
     filterable: boolean;
-    filterWidget: ReactNode;
+    filterWidget?: ReactNode;
     draggable: boolean;
     dragOver: string;
     hidable: boolean;

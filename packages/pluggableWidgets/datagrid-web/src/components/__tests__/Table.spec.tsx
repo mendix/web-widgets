@@ -3,10 +3,13 @@ import * as testingLibrary from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GUID, ObjectItem } from "mendix";
 import { createElement } from "react";
-import { CellRenderer, Table, TableProps } from "../Table";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { Table, TableProps } from "../Table";
+import { dynamicValue, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { ColumnsType } from "typings/DatagridProps";
+import { fromColumnsType } from "src/models/GridColumn";
+import { Cell } from "../Cell";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument
@@ -64,10 +67,10 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly with custom filtering", () => {
-        const columns = [
+        const columns: ColumnsType[] = [
             {
-                header: "Test",
-                hasWidgets: false,
+                header: dynamicValue("Test"),
+                showContentAs: "attribute",
                 sortable: false,
                 resizable: false,
                 draggable: false,
@@ -490,10 +493,10 @@ describe("Table", () => {
     });
 });
 
-function mockTableProps(): TableProps<ObjectItem> {
-    const columns = [
+function mockTableProps(): TableProps<ColumnsType, ObjectItem> {
+    const columns: ColumnsType[] = [
         {
-            header: "Test",
+            header: dynamicValue("Test"),
             sortable: false,
             resizable: false,
             draggable: false,
@@ -501,10 +504,13 @@ function mockTableProps(): TableProps<ObjectItem> {
             width: "autoFill" as const,
             size: 1,
             alignment: "left" as const,
-            wrapText: false
+            wrapText: false,
+            showContentAs: "attribute"
         }
     ];
+
     return {
+        CellComponent: Cell,
         setPage: jest.fn(),
         page: 1,
         hasMoreItems: false,
@@ -518,9 +524,9 @@ function mockTableProps(): TableProps<ObjectItem> {
         columnsFilterable: false,
         columnsSortable: false,
         columns,
+        gridColumns: columns.map(fromColumnsType),
         valueForSort: () => "dummy",
         filterRenderer: () => <input type="text" defaultValue="dummy" />,
-        cellRenderer: (renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header),
         headerWrapperRenderer: (_index, header) => header,
         data: [{ id: "123456" as GUID }],
         onSelect: jest.fn(),
