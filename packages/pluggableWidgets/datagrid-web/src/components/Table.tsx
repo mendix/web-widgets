@@ -94,7 +94,6 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         paging,
         pagingPosition,
         preview,
-        // rowClass,
         setPage,
         setSortParameters,
         settings,
@@ -103,7 +102,6 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         selectionMethod,
         onSelect,
         isSelected,
-        // NEXT_columns,
         gridColumns,
         CellComponent
     } = props;

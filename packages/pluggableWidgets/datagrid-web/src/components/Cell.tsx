@@ -1,4 +1,3 @@
-// import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, Fragment, memo } from "react";
 import { ColumnsType, ShowContentAsEnum } from "../../typings/DatagridProps";
@@ -45,12 +44,11 @@ const component = memo((props: CellComponentProps<ColumnsType>) => {
 
     return (
         <CellElement
-            data-row={`[${props.rowIndex}, ${props.columnIndex}]`}
-            borderTop={props.rowIndex === 0}
             alignment={props.column.alignment}
-            wrapText={props.column.wrapText}
+            borderTop={props.rowIndex === 0}
             className={props.column.columnClass?.get(props.item)?.value}
             onClick={onClick}
+            wrapText={props.column.wrapText}
         >
             <CellContent column={props.column} item={props.item} />
         </CellElement>

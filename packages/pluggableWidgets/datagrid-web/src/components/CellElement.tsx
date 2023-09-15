@@ -12,12 +12,10 @@ interface CellElementProps {
     alignment?: AlignmentEnum;
     wrapText?: boolean;
     ["aria-hidden"]?: boolean;
-    ["data-row"]?: string;
 }
 
 const component = memo((props: CellElementProps) => {
     const clickable = !!props.onClick;
-    console.info(props["data-row"], "render");
     return (
         <div
             data-next="yes"

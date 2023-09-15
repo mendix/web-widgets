@@ -45,64 +45,6 @@ const initColumns: ColumnsPreviewType[] = [
     }
 ];
 
-// export function preview(props: DatagridPreviewProps): ReactElement {
-//     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
-//         id: String(index) as GUID
-//     }));
-//     const columns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : dummyColumns;
-
-//     const selectableWrapperRenderer = useCallback(
-//         (columnIndex: number, header: ReactElement) => {
-//             const column = columns[columnIndex];
-
-//             // We can't use Selectable when there no columns configured yet, so, just show header.
-//             if (columns === dummyColumns) {
-//                 return header;
-//             }
-
-//             return (
-//                 <Selectable
-//                     key={`selectable_column_${columnIndex}`}
-//                     caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
-//                     object={column}
-//                 >
-//                     {header}
-//                 </Selectable>
-//             );
-//         },
-//         [columns]
-//     );
-
-//     const selectActionProps = useOnSelectProps(undefined);
-//     const { selectionStatus, selectionMethod } = selectionSettings(props, undefined);
-//     return (
-//         <Table
-//             cellRenderer={useCallback(
-//                 (renderWrapper, _, columnIndex) => {
-//                     const column = columns[columnIndex];
-//                     const className = classNames(`align-column-${column.alignment}`, { "wrap-text": column.wrapText });
-//                     let content;
-
-//                     return selectableWrapperRenderer(columnIndex, content);
-//                 },
-//                 [columns, selectableWrapperRenderer]
-//             )}
-//             className={props.class}
-//             columns={transformColumnProps(columns)}
-// columnsDraggable={props.columnsDraggable}
-// columnsFilterable={props.columnsFilterable}
-// columnsHidable={props.columnsHidable}
-// columnsResizable={props.columnsResizable}
-// columnsSortable={props.columnsSortable}
-//             data={data}
-
-//             hasMoreItems={false}
-
-//             headerWrapperRenderer={selectableWrapperRenderer}
-
-//         />
-//     );
-// }
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
     const selectActionProps = useOnSelectProps(undefined);
@@ -192,13 +134,3 @@ const selectableWrapperRenderer =
 export function getPreviewCss(): string {
     return require("./ui/DatagridPreview.scss");
 }
-
-// function transformColumnProps(props: ColumnsPreviewType[]): TableColumn[] {
-//     return props.map(prop => ({
-//         ...prop,
-//         header: (prop.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : prop.header,
-//         sortable: isSortable(prop),
-//         draggable: false,
-//         resizable: false
-//     }));
-// }
