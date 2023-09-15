@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ListValue, ObjectItem } from "mendix";
+import { ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
 
@@ -39,9 +39,12 @@ interface DataExportStream {
 
 type UseDG2ExportApi = {
     columns: ColumnsType[];
-    datasource: ListValue;
+    hasMoreItems: boolean;
+    items?: ObjectItem[];
     name: string;
+    offset: number;
     pageSize: number;
+    setOffset: (offset: number) => void;
 };
 
 type UseExportAPIReturn = {
@@ -50,7 +53,15 @@ type UseExportAPIReturn = {
 
 type CallbackFunction = (msg: Message) => Promise<void> | void;
 
-export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2ExportApi): UseExportAPIReturn => {
+export const useDG2ExportApi = ({
+    columns,
+    hasMoreItems,
+    items,
+    name,
+    offset,
+    pageSize,
+    setOffset
+}: UseDG2ExportApi): UseExportAPIReturn => {
     const [startProcess, setStartProcess] = useState(false);
     const [sentColumns, setSentColumns] = useState(false);
     const [callback, setCallback] = useState<CallbackFunction>();
@@ -89,10 +100,10 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
     }, []);
 
     useEffect(() => {
-        if (memoizedItems.length === 0 && datasource.items) {
-            setItems(datasource.items);
+        if (memoizedItems.length === 0 && items) {
+            setItems(items);
         }
-    }, [datasource.items]);
+    }, [memoizedItems.length, items]);
 
     useEffect(() => {
         if (startProcess) {
@@ -100,36 +111,38 @@ export const useDG2ExportApi = ({ columns, datasource, name, pageSize }: UseDG2E
                 if (!callback) {
                     return;
                 }
-                await callback(exportColumns(columns));
+                const datagridColumns = exportColumns(columns);
+                await callback(datagridColumns);
                 setSentColumns(true);
             };
             const runDataCallback = async (): Promise<void> => {
-                if (!callback || !datasource.items) {
+                if (!callback || !items) {
                     return;
                 }
 
-                if (datasource.items && datasource.hasMoreItems) {
-                    await callback(exportData(datasource.items, columns));
-                    datasource.setOffset(datasource.offset + pageSize);
+                if (items && hasMoreItems) {
+                    await callback(exportData(items, columns));
+                    setOffset(offset + pageSize);
                 }
 
-                if (datasource.items && datasource.hasMoreItems === false) {
-                    await callback(exportData(datasource.items, columns));
-                    callback({ type: "end" });
-                    datasource.setOffset(0);
+                if (items && hasMoreItems === false) {
+                    await callback(exportData(items, columns));
+                    await callback({ type: "end" });
+                    setOffset(0);
                     setStartProcess(false);
                 }
             };
 
             if (sentColumns === false) {
                 runColumnsCallback();
+            } else {
+                runDataCallback();
             }
-
-            runDataCallback();
         }
-    }, [callback, datasource.hasMoreItems, datasource.items, sentColumns, startProcess]);
+    }, [callback, columns, hasMoreItems, items, sentColumns, startProcess]);
 
-    return { items: startProcess || datasource.offset > 0 ? memoizedItems : datasource.items ?? [] };
+    const exporting = items !== memoizedItems ? true : startProcess;
+    return { items: exporting ? memoizedItems : items ?? [] };
 };
 
 function exportColumns(columns: ColumnsType[]): Message {

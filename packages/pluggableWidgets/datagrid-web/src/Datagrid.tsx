@@ -26,6 +26,21 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
+<<<<<<< HEAD
+=======
+    const SelectionContext = getGlobalSelectionContext();
+    const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
+
+    const { items } = useDG2ExportApi({
+        columns: props.columns,
+        hasMoreItems: props.datasource.hasMoreItems || false,
+        items: props.datasource.items,
+        name: props.name,
+        offset: isInfiniteLoad ? props.datasource.limit : props.datasource.offset,
+        pageSize: props.pageSize,
+        setOffset: isInfiniteLoad ? props.datasource.setLimit : props.datasource.setOffset
+    });
+>>>>>>> 04753714 (feat: update export API to send data properly)
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
