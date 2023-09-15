@@ -13,13 +13,52 @@ import { utils, writeFileXLSX } from './xlsx-export-tools.js';
 // END EXTRA CODE
 
 /**
+ * @param {string} datagridName - The name given to the Datagrid2 widget.
+ * @param {string} fileName - The name of the excel file generated in the export.
+ * @param {boolean} showHeaderColumns - The field to select if the header columns are visible or not on the exported excel file.
  * @returns {Promise.<void>}
  */
-export async function Export_To_Excel() {
+export async function Export_To_Excel(datagridName, fileName, showHeaderColumns) {
 	// BEGIN USER CODE
-    typeof utils.json_to_sheet + typeof writeFileXLSX;
-    function main() {
-        console.log(1);
+    if (!fileName || !datagridName) {
+        return;
     }
+
+    const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export";
+    const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
+    let rows = [];
+
+    stream.process((msg) => {
+        if (!msg) {
+            return;
+        }
+
+        switch (msg.type) {
+            case "columns":
+                if (showHeaderColumns) {
+                    rows = [
+                        ...rows,
+                        msg.payload.map(column => column.name),
+                    ];
+                }
+                break;
+            case "data":
+                rows = [
+                    ...rows,
+                    ...msg.payload
+                ]
+                break;
+            case "end":
+                const worksheet = utils.aoa_to_sheet(rows);
+                const workbook = utils.book_new();
+                utils.book_append_sheet(workbook, worksheet, "Data");
+                const max_width = rows[0].reduce((w, r) => Math.max(w, r.length), 10);
+                worksheet["!cols"] = [ { wch: max_width } ];
+                writeFileXLSX(workbook, `${fileName}.xlsx`);
+                break;
+        }
+    });
+
+    stream.start();
 	// END USER CODE
 }
