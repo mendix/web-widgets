@@ -11,7 +11,6 @@ import {
 } from "@mendix/widget-plugin-grid/selection";
 import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
-import { useCellRenderer } from "./features/cell";
 import { getColumnAssociationProps } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
@@ -32,7 +31,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
     const SelectionContext = getGlobalSelectionContext();
-    const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     useDG2ExportApi({
         columns: props.columns,
@@ -134,7 +132,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     return (
         <Table
-            cellRenderer={cellRenderer}
             className={props.class}
             columns={props.columns}
             gridColumns={gridColumns}

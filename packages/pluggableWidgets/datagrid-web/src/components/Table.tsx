@@ -26,7 +26,6 @@ export type CellRenderer<T extends ObjectItem = ObjectItem> = (
 ) => ReactElement;
 
 export interface TableProps<C extends Column, T extends ObjectItem = ObjectItem> {
-    cellRenderer: CellRenderer<T>;
     CellComponent: CellComponent<C>;
     className: string;
     columns: C[];
@@ -50,7 +49,7 @@ export interface TableProps<C extends Column, T extends ObjectItem = ObjectItem>
     pageSize: number;
     pagingPosition: PagingPositionEnum;
     preview?: boolean;
-    rowClass?: (value: T) => string;
+    rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     setSortParameters?: (sort?: SortProperty) => void;
     settings?: EditableValue<string>;
@@ -268,15 +267,16 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                         return (
                             <Row
                                 CellComponent={CellComponent}
-                                key={`row_${rowIndex}`}
-                                item={item}
-                                index={rowIndex}
+                                className={props.rowClass?.(item)}
                                 columns={visibleColumns}
-                                showSelectorCell={columnsHidable}
-                                selectionMethod={selectionMethod}
+                                index={rowIndex}
+                                item={item}
+                                key={`row_${rowIndex}`}
                                 onSelect={onSelect}
-                                selected={isSelected(item)}
                                 rowAction={props.rowAction}
+                                selected={isSelected(item)}
+                                selectionMethod={selectionMethod}
+                                showSelectorCell={columnsHidable}
                             />
                         );
                     })}
