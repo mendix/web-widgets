@@ -1,7 +1,7 @@
 import { ObjectItem, ListActionValue } from "mendix";
 import { createElement, ReactElement } from "react";
 import { Column } from "../../typings/Column";
-import { CellComponent } from "../../typings/CellComponent";
+import { CellComponent, ClickAction } from "../../typings/CellComponent";
 import { CellElement } from "./CellElement";
 import classNames from "classnames";
 import { SelectionMethod } from "src/features/selection";
@@ -42,7 +42,7 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
                     columnIndex={columnIndex}
                     item={props.item}
                     onSelect={props.onSelect}
-                    cellClickActAs={props.selectionMethod === "rowClick" ? "selectRow" : "executeAction"}
+                    cellClickActAs={resolveClickAction(props.selectionMethod, props.rowAction)}
                     rowAction={props.rowAction}
                 />
             ))}
@@ -56,4 +56,8 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
             )}
         </div>
     );
+}
+
+function resolveClickAction(method: SelectionMethod, action: ListActionValue | undefined): ClickAction {
+    return method !== "none" ? "selectRow" : action !== undefined ? "executeAction" : "none";
 }

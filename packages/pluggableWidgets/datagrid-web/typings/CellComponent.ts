@@ -2,7 +2,7 @@ import { ReactNode, ReactElement } from "react";
 import { ObjectItem, ListActionValue } from "mendix";
 import { Column } from "./Column";
 
-type ClickActions = "selectRow" | "executeAction";
+export type ClickAction = "selectRow" | "executeAction" | "none";
 
 export interface CellComponentProps<C extends Column> {
     children?: ReactNode;
@@ -12,7 +12,7 @@ export interface CellComponentProps<C extends Column> {
     key?: string | number;
     rowIndex: number;
     columnIndex?: number;
-    cellClickActAs: ClickActions;
+    cellClickActAs: ClickAction;
     onSelect?: (item: ObjectItem) => void;
     rowAction?: ListActionValue;
 }

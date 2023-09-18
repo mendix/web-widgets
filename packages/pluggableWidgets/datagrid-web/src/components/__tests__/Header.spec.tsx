@@ -116,8 +116,9 @@ describe("Header", () => {
 
 function mockHeaderProps(): HeaderProps {
     return {
+        tableId: "dg1",
         column: {
-            id: "dg1-column1",
+            id: "1",
             index: 0,
             header: "Test"
         } as any,

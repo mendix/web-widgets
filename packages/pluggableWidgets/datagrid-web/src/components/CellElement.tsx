@@ -18,7 +18,6 @@ const component = memo((props: CellElementProps) => {
     const clickable = !!props.onClick;
     return (
         <div
-            data-next="yes"
             className={classNames(
                 "td",
                 {

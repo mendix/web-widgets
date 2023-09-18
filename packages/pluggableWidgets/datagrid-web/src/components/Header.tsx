@@ -37,6 +37,7 @@ export interface HeaderProps {
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
     sortBy: SortingRule[];
     visibleColumns: GridColumn[];
+    tableId: string;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -112,7 +113,7 @@ export function Header(props: HeaderProps): ReactElement {
                     "column-container",
                     canDrag && props.column.id === props.dragOver ? "dragging" : ""
                 )}
-                id={props.column.id}
+                id={`${props.tableId}-column${props.column.id}`}
                 {...draggableProps}
             >
                 <div

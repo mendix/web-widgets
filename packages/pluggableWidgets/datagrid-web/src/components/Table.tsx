@@ -255,6 +255,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                     sortable={columnsSortable}
                                     sortBy={sortBy}
                                     visibleColumns={visibleGridColumns}
+                                    tableId={`${props.id}`}
                                 />
                             )
                         )}
