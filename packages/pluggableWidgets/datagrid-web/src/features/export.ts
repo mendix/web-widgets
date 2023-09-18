@@ -164,7 +164,6 @@ export const useDG2ExportApi = ({
 
     useEffect(() => {
         if (finished) {
-            console.info({ offset, initialOffset });
             if (offset === initialOffset) {
                 setExporting(false);
                 setResetOffset(false);
