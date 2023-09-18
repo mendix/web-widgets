@@ -90,11 +90,9 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                             { suppressRefError: true }
                         )}
                     />
-                    {selector.selectedItemsStyle === "text" && (
-                        <InputPlaceholder isEmpty={selectedItems.length <= 0}>
-                            {getSelectedCaptionsPlaceholder(selector, selectedItems)}
-                        </InputPlaceholder>
-                    )}
+                    <InputPlaceholder isEmpty={selectedItems.length <= 0}>
+                        {getSelectedCaptionsPlaceholder(selector, selectedItems)}
+                    </InputPlaceholder>
                 </div>
 
                 {!selector.readOnly &&
