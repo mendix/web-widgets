@@ -1,9 +1,10 @@
-import { ColumnWidthConfig, useSettings } from "../../features/settings";
+import { Dispatch, SetStateAction } from "react";
+import { ColumnWidthConfig, useSettings, SortingRule } from "../../features/settings";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { renderHook, RenderHookResult } from "@testing-library/react";
 import { EditableValue } from "mendix";
 import { act } from "react-dom/test-utils";
-import { fromColumnsType } from "../../models/GridColumn";
+import { GridColumn, fromColumnsType } from "../../models/GridColumn";
 import { column } from "../../utils/test-utils";
 
 describe("useSettings Hook", () => {
@@ -252,7 +253,18 @@ function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<{ upda
     );
 }
 
-function mockProperties(): any {
+function mockProperties(): {
+    settings: EditableValue<string>;
+    columns: GridColumn[];
+    columnOrder: string[];
+    setColumnOrder: Dispatch<SetStateAction<string[]>>;
+    hiddenColumns: string[];
+    setHiddenColumns: Dispatch<SetStateAction<string[]>>;
+    sortBy: SortingRule[];
+    setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
+    widths: ColumnWidthConfig;
+    setWidths: Dispatch<SetStateAction<ColumnWidthConfig>>;
+} {
     return {
         settings: new EditableValueBuilder<string>()
             .withValue(
@@ -268,7 +280,7 @@ function mockProperties(): any {
                 ])
             )
             .build(),
-        columns: [column("Column 1", col => (col.hidable = "yes"))],
+        columns: [column("Column 1", col => (col.hidable = "yes"))].map(fromColumnsType),
         columnOrder: [],
         setColumnOrder: jest.fn(),
         hiddenColumns: [],
