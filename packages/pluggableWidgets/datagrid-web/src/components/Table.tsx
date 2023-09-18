@@ -275,9 +275,10 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                 CellComponent={CellComponent}
                                 className={props.rowClass?.(item)}
                                 columns={visibleColumns}
+                                gridColumns={visibleGridColumns}
                                 index={rowIndex}
                                 item={item}
-                                key={`row_${rowIndex}`}
+                                key={`row_${item.id}`}
                                 onSelect={onSelect}
                                 rowAction={props.rowAction}
                                 selected={isSelected(item)}

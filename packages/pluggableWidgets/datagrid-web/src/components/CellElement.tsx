@@ -14,7 +14,8 @@ interface CellElementProps {
     ["aria-hidden"]?: boolean;
 }
 
-const component = memo((props: CellElementProps) => {
+// eslint-disable-next-line prefer-arrow-callback
+const component = memo(function CellElement(props: CellElementProps): ReactElement {
     const clickable = !!props.onClick;
     return (
         <div
@@ -38,8 +39,6 @@ const component = memo((props: CellElementProps) => {
         </div>
     );
 });
-
-component.displayName = "CellElement";
 
 // Override react NamedExoticComponent.
 export const CellElement = component as (props: CellElementProps) => ReactElement;

@@ -6,7 +6,8 @@ import { CellElement } from "./CellElement";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
-const component = memo((props: CellComponentProps<ColumnsType>) => {
+// eslint-disable-next-line prefer-arrow-callback
+const component = memo(function Cell(props: CellComponentProps<ColumnsType>): ReactElement {
     const onClick = useEventCallback(() => {
         const { rowAction, item, cellClickActAs, onSelect } = props;
         if (cellClickActAs === "selectRow") {
@@ -28,8 +29,6 @@ const component = memo((props: CellComponentProps<ColumnsType>) => {
         </CellElement>
     );
 });
-
-component.displayName = "Cell";
 
 export const Cell = component as (props: CellComponentProps<ColumnsType>) => ReactElement;
 

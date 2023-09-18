@@ -4,12 +4,14 @@ import { Column } from "../../typings/Column";
 import { CellComponent, ClickAction } from "../../typings/CellComponent";
 import { CellElement } from "./CellElement";
 import classNames from "classnames";
-import { SelectionMethod } from "src/features/selection";
+import { SelectionMethod } from "../features/selection";
+import { GridColumn } from "../models/GridColumn";
 
 export interface RowProps<C extends Column> {
     className?: string;
     CellComponent: CellComponent<C>;
     columns: C[];
+    gridColumns: GridColumn[];
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
@@ -36,7 +38,7 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
             )}
             {props.columns.map((column, columnIndex) => (
                 <Cell
-                    key={`row_${props.index}_col_${columnIndex}`}
+                    key={`row_${props.item.id}_col_${props.gridColumns[columnIndex].id}`}
                     column={column}
                     rowIndex={props.index}
                     columnIndex={columnIndex}

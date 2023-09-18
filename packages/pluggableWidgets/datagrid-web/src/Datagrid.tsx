@@ -10,7 +10,7 @@ import { extractFilters } from "./features/filters";
 import { getColumnAssociationProps } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
-import { useDG2ExportApi } from "./features/export";
+// import { useDG2ExportApi } from "./features/export";
 import { fromColumnsType } from "./models/GridColumn";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
@@ -28,12 +28,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    useDG2ExportApi({
-        columns: props.columns,
-        datasource: props.datasource,
-        name: props.name,
-        pageSize: props.pageSize
-    });
+    // useDG2ExportApi({
+    //     columns: props.columns,
+    //     datasource: props.datasource,
+    //     name: props.name,
+    //     pageSize: props.pageSize
+    // });
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
@@ -112,6 +112,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             className={props.class}
             columns={props.columns}
             gridColumns={gridColumns}
+            // CellComponent={props => <div>{props.column.content?.get(props.item)}</div>}
             CellComponent={Cell}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}

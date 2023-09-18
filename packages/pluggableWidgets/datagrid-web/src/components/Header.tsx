@@ -43,12 +43,14 @@ export interface HeaderProps {
 export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
+    const colId = (id: string | number): string => toIdAttr(props.tableId, id);
     const draggableProps = useDraggable(
         canDrag,
         props.visibleColumns,
         props.setColumnOrder,
         props.setDragOver,
-        props.setIsDragging
+        props.setIsDragging,
+        colId
     );
 
     const [sortProperties] = props.sortBy;
@@ -111,9 +113,9 @@ export function Header(props: HeaderProps): ReactElement {
             <div
                 className={classNames(
                     "column-container",
-                    canDrag && props.column.id === props.dragOver ? "dragging" : ""
+                    canDrag && colId(props.column.id) === props.dragOver ? "dragging" : ""
                 )}
-                id={`${props.tableId}-column${props.column.id}`}
+                id={colId(props.column.id)}
                 {...draggableProps}
             >
                 <div
@@ -137,7 +139,8 @@ function useDraggable(
     visibleColumns: GridColumn[],
     setColumnOrder: (updater: ((columnOrder: string[]) => string[]) | string[]) => void,
     setDragOver: Dispatch<SetStateAction<string>>,
-    setIsDragging: Dispatch<SetStateAction<boolean>>
+    setIsDragging: Dispatch<SetStateAction<boolean>>,
+    getColId: (id: string | number) => string
 ): {
     draggable?: boolean;
     onDragStart?: DragEventHandler;
@@ -181,13 +184,14 @@ function useDraggable(
             const { id: colOrigin } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData("colDestination");
 
-            const toIndex = visibleColumns.findIndex(col => col.id === colOrigin);
-            const fromIndex = visibleColumns.findIndex(col => col.id === colDestination);
+            const toIndex = visibleColumns.findIndex(col => getColId(col.id) === colOrigin);
+            const fromIndex = visibleColumns.findIndex(col => getColId(col.id) === colDestination);
 
             if (toIndex !== fromIndex) {
                 const newOrder = [...visibleColumns.map(column => column.id)];
+                const id = newOrder[fromIndex];
                 newOrder.splice(fromIndex, 1);
-                newOrder.splice(toIndex, 0, colDestination);
+                newOrder.splice(toIndex, 0, id);
                 setColumnOrder(newOrder);
             }
         },
@@ -205,3 +209,5 @@ function useDraggable(
           }
         : {};
 }
+
+const toIdAttr = (tableId: string, id: string | number): string => `${tableId}-column${id}`;
