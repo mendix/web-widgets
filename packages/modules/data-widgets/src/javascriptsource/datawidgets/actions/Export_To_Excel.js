@@ -26,8 +26,8 @@ export async function Export_To_Excel(datagridName, fileName, showHeaderColumns)
 
     const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export";
     const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
-    let rows = [];
-
+    let worksheet;
+    let headers;
     stream.process((msg) => {
         if (!msg) {
             return;
@@ -35,25 +35,29 @@ export async function Export_To_Excel(datagridName, fileName, showHeaderColumns)
 
         switch (msg.type) {
             case "columns":
+                headers = msg.payload.map(column => column.name);
                 if (showHeaderColumns) {
-                    rows = [
-                        ...rows,
-                        msg.payload.map(column => column.name),
-                    ];
+                    worksheet = utils.aoa_to_sheet([headers]);
                 }
                 break;
             case "data":
-                rows = [
-                    ...rows,
-                    ...msg.payload
-                ]
+                if (worksheet === undefined) {
+                    worksheet = utils.aoa_to_sheet(msg.payload)
+                } else {
+                    utils.sheet_add_aoa(worksheet, msg.payload, { origin: -1 });
+                }
                 break;
             case "end":
-                const worksheet = utils.aoa_to_sheet(rows);
+                if (worksheet === undefined) {
+                    throw new Error("JS Action (Export_To_Excel): failed to create worksheet");
+                }
+                // Set character width for each column
+                // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
+                worksheet["!cols"] = headers.map(header => ({
+                    wch: header.length + 10
+                }));
                 const workbook = utils.book_new();
                 utils.book_append_sheet(workbook, worksheet, "Data");
-                const max_width = rows[0].reduce((w, r) => Math.max(w, r.length), 10);
-                worksheet["!cols"] = [ { wch: max_width } ];
                 writeFileXLSX(workbook, `${fileName}.xlsx`);
                 break;
         }
