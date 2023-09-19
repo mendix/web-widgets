@@ -38,7 +38,8 @@ export function MultiSelectionMenu({
                     return (
                         <ComboboxOptionWrapper
                             key={item}
-                            isHighlighted={isSelected || isActive}
+                            isHighlighted={isActive}
+                            isSelected={isSelected}
                             item={item}
                             getItemProps={getItemProps}
                             index={index}
