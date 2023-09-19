@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useReducer, Dispatch } from "react";
 import { ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
 
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
+const MAX_LIMIT = 500;
 
 export interface DataExporter {
     create(): DataExportStream;
@@ -31,11 +32,17 @@ export type Message =
           type: "end";
       };
 
+interface SteamOptions {
+    limit: number;
+}
+
 interface DataExportStream {
-    process(cb: (msg: Message) => Promise<void> | void): void;
+    process(cb: (msg: Message) => Promise<void> | void, options?: SteamOptions): void;
     start(): void;
     abort(): void;
 }
+
+export type UpdateDataSourceFn = (params: { offset?: number; limit?: number; reload?: boolean }) => void;
 
 type UseDG2ExportApi = {
     columns: ColumnsType[];
@@ -43,8 +50,8 @@ type UseDG2ExportApi = {
     items?: ObjectItem[];
     name: string;
     offset: number;
-    pageSize: number;
-    setOffset: (offset: number) => void;
+    limit?: number;
+    updateDataSource: UpdateDataSourceFn;
 };
 
 type UseExportAPIReturn = {
@@ -52,133 +59,67 @@ type UseExportAPIReturn = {
     items: ObjectItem[];
 };
 
-type CallbackFunction = (msg: Message) => Promise<void> | void;
-
 export const useDG2ExportApi = ({
     columns,
     hasMoreItems,
-    items,
+    items = [],
     name,
     offset,
-    pageSize,
-    setOffset
+    limit = Number.POSITIVE_INFINITY,
+    updateDataSource
 }: UseDG2ExportApi): UseExportAPIReturn => {
-    const [exporting, setExporting] = useState(false);
-    const [finished, setFinished] = useState(false);
-    const [sentColumns, setSentColumns] = useState(false);
-    const [callback, setCallback] = useState<CallbackFunction>();
-    const [memoizedItems, setMemoizedItems] = useState<ObjectItem[]>([]);
-    const [resetOffset, setResetOffset] = useState(false);
-    const [initialOffset, setInitialOffset] = useState<number | undefined>();
+    const [state, dispatch] = useReducer(exportStateReducer, initState());
+    const stateRef = useRef(state);
 
-    const create = (): DataExportStream => {
-        if (exporting) {
-            throw new Error("There is an export already in progress");
+    // Keep params in sync with data source.
+    useEffect(
+        () =>
+            dispatch({
+                type: "DataSourceUpdate",
+                payload: { items, offset, limit, hasMoreItems }
+            }),
+        [items, offset, limit, hasMoreItems]
+    );
+
+    // Run export flow on every state change
+    useEffect(() => {
+        if (state !== stateRef.current) {
+            exportFlow(state, dispatch, updateDataSource);
+            stateRef.current = state;
         }
-
-        const dataExportStream: DataExportStream = {
-            process: (cb: CallbackFunction) => setCallback(() => cb),
-            start: () => setExporting(true),
-            abort: () => {
-                if (exporting) {
-                    setFinished(true);
-                }
-            }
-        };
-
-        return dataExportStream;
-    };
+    }, [state, updateDataSource]);
 
     useEffect(() => {
         if (!window[DATAGRID_DATA_EXPORT]) {
             window[DATAGRID_DATA_EXPORT] = {};
         }
 
+        const create = (): DataExportStream => {
+            if (stateRef.current.exporting) {
+                throw new Error("Data grid (Export): export stream is busy");
+            }
+
+            const dataExportStream: DataExportStream = {
+                process: (callback: CallbackFunction, options) => {
+                    const { limit = 200 } = options ?? {};
+                    dispatch({ type: "Setup", payload: { callback, columns, limit: Math.min(limit, MAX_LIMIT) } });
+                },
+                start: () => dispatch({ type: "Start" }),
+                abort: () => dispatch({ type: "Reset" })
+            };
+
+            return dataExportStream;
+        };
+
         window[DATAGRID_DATA_EXPORT][name] = { create };
 
         return () => {
             delete window[DATAGRID_DATA_EXPORT][name];
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        if (exporting) {
-            const runColumnsCallback = async (): Promise<void> => {
-                if (!callback) {
-                    return;
-                }
-                const datagridColumns = exportColumns(columns);
-                await callback(datagridColumns);
-                setSentColumns(true);
-            };
-
-            const runDataCallback = async (): Promise<void> => {
-                if (!callback || !items) {
-                    return;
-                }
-
-                if (hasMoreItems) {
-                    await callback(exportData(items, columns));
-                    setOffset(offset + pageSize);
-                } else {
-                    await callback(exportData(items, columns));
-                    await callback({ type: "end" });
-                    setFinished(true);
-                }
-            };
-
-            if (initialOffset === undefined) {
-                setInitialOffset(offset);
-            }
-
-            if (memoizedItems.length === 0 && offset === initialOffset) {
-                setMemoizedItems(items!);
-            }
-
-            if (resetOffset === false) {
-                if (offset > 0) {
-                    setOffset(0);
-                } else {
-                    setResetOffset(true);
-                }
-            } else {
-                if (sentColumns === false) {
-                    runColumnsCallback();
-                } else {
-                    runDataCallback();
-                }
-            }
-        }
-    }, [
-        callback,
-        columns,
-        exporting,
-        hasMoreItems,
-        initialOffset,
-        items,
-        memoizedItems.length,
-        offset,
-        resetOffset,
-        sentColumns
-    ]);
-
-    useEffect(() => {
-        if (finished) {
-            if (offset === initialOffset) {
-                setExporting(false);
-                setResetOffset(false);
-                setInitialOffset(undefined);
-                setFinished(false);
-            } else {
-                setOffset(initialOffset || 0);
-            }
-        }
-    }, [offset, finished]);
-
-    return {
-        exporting: exporting,
-        items: exporting ? memoizedItems : items ?? []
-    };
+    return { exporting: state.exporting, items: state.exporting ? state.snapshot.items : items ?? [] };
 };
 
 function exportColumns(columns: ColumnsType[]): Message {
@@ -208,4 +149,231 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): Message {
     });
 
     return { type: "data", payload: items };
+}
+
+type CallbackFunction = (msg: Message) => Promise<void> | void;
+
+interface DataSourceStateSnapshot {
+    items: ObjectItem[];
+    offset: number;
+    limit: number;
+}
+interface BaseState {
+    currentOffset: number;
+    currentItems: ObjectItem[];
+    currentLimit: number;
+    hasMoreItems: boolean;
+}
+
+interface InitState extends BaseState {
+    exporting: false;
+    columns: null;
+    snapshot: null;
+    callback: null;
+    phase: "awaitingCallback";
+}
+
+interface ReadyState extends BaseState {
+    exporting: false;
+    columns: ColumnsType[];
+    snapshot: DataSourceStateSnapshot;
+    callback: CallbackFunction;
+    phase: "readyToStart";
+}
+
+interface WorkingState extends BaseState {
+    exporting: true;
+    columns: ColumnsType[];
+    snapshot: DataSourceStateSnapshot;
+    callback: CallbackFunction;
+    phase: "resetOffset" | "exportColumns" | "awaitingData" | "exportData" | "finished";
+}
+
+type State = WorkingState | ReadyState | InitState;
+
+type Action =
+    | {
+          type: "DataSourceUpdate";
+          payload: { offset: number; items: ObjectItem[]; hasMoreItems: boolean; limit: number };
+      }
+    | {
+          type: "Setup";
+          payload: { callback: CallbackFunction; columns: ColumnsType[]; limit: number };
+      }
+    | {
+          type: "Start";
+      }
+    | {
+          type: "Reset";
+      }
+    | {
+          type: "PageExported";
+      }
+    | {
+          type: "ColumnsExported";
+      }
+    | {
+          type: "Finish";
+      };
+
+function initState(): InitState {
+    return {
+        exporting: false,
+        currentOffset: 0,
+        currentItems: [],
+        currentLimit: Number.POSITIVE_INFINITY,
+        hasMoreItems: true,
+        snapshot: null,
+        callback: null,
+        columns: null,
+        phase: "awaitingCallback"
+    };
+}
+
+function updateIn<T = State, K extends keyof T = keyof T>(state: T, key: K, fn: ((value: T[K]) => T[K]) | T[K]): T {
+    return { ...state, [key]: fn instanceof Function ? fn(state[key]) : fn };
+}
+
+function exportStateReducer(state: State, action: Action): State {
+    if (action.type === "Reset") {
+        return initState();
+    }
+
+    if (action.type === "DataSourceUpdate") {
+        const currentPhase = state.phase;
+        const next: State = {
+            ...state,
+            currentOffset: action.payload.offset,
+            currentLimit: action.payload.limit,
+            currentItems: action.payload.items,
+            hasMoreItems: action.payload.hasMoreItems
+        };
+
+        if (next.exporting && currentPhase === "awaitingData") {
+            next.phase = "exportData";
+        }
+
+        if (next.exporting && currentPhase === "resetOffset") {
+            // Skip to finished if we have no items after resetting offset
+            if (next.currentItems.length === 0) {
+                next.phase = "finished";
+            } else {
+                next.phase = "exportData";
+            }
+        }
+
+        if (next.exporting && currentPhase === "finished") {
+            return {
+                ...initState(),
+                currentLimit: state.snapshot.limit,
+                currentItems: state.snapshot.items,
+                currentOffset: state.snapshot.offset
+            };
+        }
+
+        return next;
+    }
+
+    if (action.type === "Setup" && state.phase === "awaitingCallback") {
+        return {
+            ...state,
+            phase: "readyToStart",
+            snapshot: {
+                items: state.currentItems,
+                offset: state.currentOffset,
+                limit: state.currentLimit
+            },
+            callback: action.payload.callback,
+            columns: action.payload.columns,
+            currentLimit: action.payload.limit,
+            currentOffset: 0
+        };
+    }
+
+    if (action.type === "Start") {
+        if (state.exporting) {
+            return state;
+        }
+
+        if (state.phase === "readyToStart" && state.callback instanceof Function) {
+            return {
+                ...state,
+                phase: "exportColumns",
+                exporting: true
+            };
+        }
+
+        throw new Error("Datagrid (Export): Export start failed: invalid state.");
+    }
+
+    if (action.type === "ColumnsExported") {
+        if (state.exporting && state.phase === "exportColumns") {
+            return updateIn(state, "phase", "resetOffset");
+        }
+    }
+
+    if (action.type === "PageExported") {
+        if (state.exporting && state.phase === "exportData") {
+            return {
+                ...state,
+                phase: "awaitingData"
+            };
+        }
+    }
+
+    if (action.type === "Finish" && state.exporting) {
+        return { ...state, phase: "finished" };
+    }
+
+    return state;
+}
+
+async function exportFlow(
+    state: State,
+    dispatch: Dispatch<Action>,
+    updateDataSource: UpdateDataSourceFn
+): Promise<void> {
+    if (state.exporting === false) {
+        return;
+    }
+
+    if (state.phase === "resetOffset") {
+        updateDataSource({ offset: 0, limit: state.currentLimit, reload: true });
+    }
+
+    if (state.phase === "exportColumns") {
+        const { columns, callback } = state;
+        const datagridColumns = exportColumns(columns);
+        await callback(datagridColumns);
+        dispatch({ type: "ColumnsExported" });
+        return;
+    }
+
+    if (state.phase === "exportData") {
+        const { currentItems, callback, columns } = state;
+        if (currentItems.length > 0) {
+            await callback(exportData(currentItems, columns));
+            dispatch({ type: "PageExported" });
+        }
+        return;
+    }
+
+    if (state.phase === "awaitingData") {
+        const { currentOffset, currentLimit, hasMoreItems } = state;
+        if (hasMoreItems) {
+            updateDataSource({ offset: currentOffset + currentLimit });
+        } else {
+            dispatch({ type: "Finish" });
+        }
+        return;
+    }
+
+    if (state.phase === "finished") {
+        const { snapshot, callback } = state;
+        await callback({ type: "end" });
+        updateDataSource({
+            offset: snapshot.offset,
+            limit: snapshot.limit
+        });
+    }
 }

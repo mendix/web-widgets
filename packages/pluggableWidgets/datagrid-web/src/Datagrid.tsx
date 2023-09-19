@@ -13,6 +13,7 @@ import "./ui/Datagrid.scss";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
 import { Column } from "./helpers/Column";
+import { useDG2ExportApi, UpdateDataSourceFn } from "./features/export";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -26,21 +27,31 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
-<<<<<<< HEAD
-=======
-    const SelectionContext = getGlobalSelectionContext();
-    const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     const { items } = useDG2ExportApi({
         columns: props.columns,
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
-        offset: isInfiniteLoad ? props.datasource.limit : props.datasource.offset,
-        pageSize: props.pageSize,
-        setOffset: isInfiniteLoad ? props.datasource.setLimit : props.datasource.setOffset
+        offset: props.datasource.offset,
+        limit: props.datasource.limit,
+        updateDataSource: useCallback<UpdateDataSourceFn>(
+            ({ offset, limit, reload }) => {
+                if (offset != null) {
+                    props.datasource?.setOffset(offset);
+                }
+
+                if (limit != null) {
+                    props.datasource?.setLimit(limit);
+                }
+
+                if (reload) {
+                    props.datasource.reload();
+                }
+            },
+            [props.datasource]
+        )
     });
->>>>>>> 04753714 (feat: update export API to send data properly)
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);

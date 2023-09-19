@@ -13,12 +13,14 @@ import { utils, writeFileXLSX } from './xlsx-export-tools.js';
 // END EXTRA CODE
 
 /**
- * @param {string} datagridName - The name given to the Datagrid2 widget.
- * @param {string} fileName - The name of the excel file generated in the export.
- * @param {boolean} showHeaderColumns - The field to select if the header columns are visible or not on the exported excel file.
+ * @param {string} datagridName
+ * @param {string} fileName
+ * @param {string} sheetName
+ * @param {boolean} includeColumnHeaders
+ * @param {Big} requestLimit
  * @returns {Promise.<void>}
  */
-export async function Export_To_Excel(datagridName, fileName, showHeaderColumns) {
+export async function Export_To_Excel(datagridName, fileName, sheetName, includeColumnHeaders, requestLimit) {
 	// BEGIN USER CODE
     if (!fileName || !datagridName) {
         return;
@@ -28,6 +30,7 @@ export async function Export_To_Excel(datagridName, fileName, showHeaderColumns)
     const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
     let worksheet;
     let headers;
+    const streamOptions = { limit: requestLimit };
     stream.process((msg) => {
         if (!msg) {
             return;
@@ -36,7 +39,7 @@ export async function Export_To_Excel(datagridName, fileName, showHeaderColumns)
         switch (msg.type) {
             case "columns":
                 headers = msg.payload.map(column => column.name);
-                if (showHeaderColumns) {
+                if (includeColumnHeaders) {
                     worksheet = utils.aoa_to_sheet([headers]);
                 }
                 break;
@@ -48,20 +51,21 @@ export async function Export_To_Excel(datagridName, fileName, showHeaderColumns)
                 }
                 break;
             case "end":
-                if (worksheet === undefined) {
-                    throw new Error("JS Action (Export_To_Excel): failed to create worksheet");
+                if (worksheet) {
+                    // Set character width for each column
+                    // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
+                    worksheet["!cols"] = headers.map(header => ({
+                        wch: header.length + 10
+                    }));
+                    const workbook = utils.book_new();
+                    utils.book_append_sheet(workbook, worksheet, sheetName === "" ? "Data" : sheetName);
+                    writeFileXLSX(workbook, `${fileName}.xlsx`);
+                } else {
+                    console.warn("Export_To_Excel: nothing to export.");
                 }
-                // Set character width for each column
-                // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
-                worksheet["!cols"] = headers.map(header => ({
-                    wch: header.length + 10
-                }));
-                const workbook = utils.book_new();
-                utils.book_append_sheet(workbook, worksheet, "Data");
-                writeFileXLSX(workbook, `${fileName}.xlsx`);
                 break;
         }
-    });
+    }, streamOptions);
 
     stream.start();
 	// END USER CODE
