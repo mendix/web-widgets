@@ -18,55 +18,61 @@ import { utils, writeFileXLSX } from './xlsx-export-tools.js';
  * @param {string} sheetName
  * @param {boolean} includeColumnHeaders
  * @param {Big} requestLimit
- * @returns {Promise.<void>}
+ * @returns {Promise.<boolean>}
  */
 export async function Export_To_Excel(datagridName, fileName, sheetName, includeColumnHeaders, requestLimit) {
 	// BEGIN USER CODE
-    if (!fileName || !datagridName) {
-        return;
+    if (!fileName || !datagridName || !sheetName) {
+        return false;
     }
 
-    const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export";
-    const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
-    let worksheet;
-    let headers;
-    const streamOptions = { limit: requestLimit };
-    stream.process((msg) => {
-        if (!msg) {
-            return;
-        }
-
-        switch (msg.type) {
-            case "columns":
-                headers = msg.payload.map(column => column.name);
-                if (includeColumnHeaders) {
-                    worksheet = utils.aoa_to_sheet([headers]);
-                }
-                break;
-            case "data":
-                if (worksheet === undefined) {
-                    worksheet = utils.aoa_to_sheet(msg.payload)
-                } else {
-                    utils.sheet_add_aoa(worksheet, msg.payload, { origin: -1 });
-                }
-                break;
-            case "end":
-                if (worksheet) {
-                    // Set character width for each column
-                    // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
-                    worksheet["!cols"] = headers.map(header => ({
-                        wch: header.length + 10
-                    }));
-                    const workbook = utils.book_new();
-                    utils.book_append_sheet(workbook, worksheet, sheetName === "" ? "Data" : sheetName);
-                    writeFileXLSX(workbook, `${fileName}.xlsx`);
-                } else {
-                    console.warn("Export_To_Excel: nothing to export.");
-                }
-                break;
-        }
-    }, streamOptions);
-
-    stream.start();
+    return new Promise((resolve, reject) => {
+        const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export";
+        const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
+        let worksheet;
+        let headers;
+        const streamOptions = { limit: requestLimit };
+        stream.process((msg) => {
+            if (!msg) {
+                return;
+            }
+    
+            switch (msg.type) {
+                case "columns":
+                    headers = msg.payload.map(column => column.name);
+                    if (includeColumnHeaders) {
+                        worksheet = utils.aoa_to_sheet([headers]);
+                    }
+                    break;
+                case "data":
+                    if (worksheet === undefined) {
+                        worksheet = utils.aoa_to_sheet(msg.payload)
+                    } else {
+                        utils.sheet_add_aoa(worksheet, msg.payload, { origin: -1 });
+                    }
+                    break;
+                case "end":
+                    if (worksheet) {
+                        // Set character width for each column
+                        // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
+                        worksheet["!cols"] = headers.map(header => ({
+                            wch: header.length + 10
+                        }));
+                        const workbook = utils.book_new();
+                        utils.book_append_sheet(workbook, worksheet, sheetName === "" ? "Data" : sheetName);
+                        writeFileXLSX(workbook, `${fileName}.xlsx`);
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                    break;
+                case "aborted":
+                    resolve(false);
+                    break;
+            }
+        }, streamOptions);
+    
+        stream.start();
+    });
 	// END USER CODE
 }
