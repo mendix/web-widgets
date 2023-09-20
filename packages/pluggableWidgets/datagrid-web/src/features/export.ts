@@ -30,6 +30,9 @@ export type Message =
       }
     | {
           type: "end";
+      }
+    | {
+          type: "aborted";
       };
 
 interface SteamOptions {
@@ -94,6 +97,7 @@ export const useDG2ExportApi = ({
             window[DATAGRID_DATA_EXPORT] = {};
         }
 
+        let dataExporterCleanup: () => void;
         const create = (): DataExportStream => {
             if (stateRef.current.exporting) {
                 throw new Error("Data grid (Export): export stream is busy");
@@ -103,9 +107,10 @@ export const useDG2ExportApi = ({
                 process: (callback: CallbackFunction, options) => {
                     const { limit = 200 } = options ?? {};
                     dispatch({ type: "Setup", payload: { callback, columns, limit: Math.min(limit, MAX_LIMIT) } });
+                    dataExporterCleanup = () => callback({ type: "aborted" });
                 },
                 start: () => dispatch({ type: "Start" }),
-                abort: () => dispatch({ type: "Reset" })
+                abort: () => dispatch({ type: "Abort" })
             };
 
             return dataExportStream;
@@ -114,6 +119,7 @@ export const useDG2ExportApi = ({
         window[DATAGRID_DATA_EXPORT][name] = { create };
 
         return () => {
+            dataExporterCleanup();
             delete window[DATAGRID_DATA_EXPORT][name];
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,7 +192,7 @@ interface WorkingState extends BaseState {
     columns: ColumnsType[];
     snapshot: DataSourceStateSnapshot;
     callback: CallbackFunction;
-    phase: "resetOffset" | "exportColumns" | "awaitingData" | "exportData" | "finished";
+    phase: "resetOffset" | "exportColumns" | "awaitingData" | "exportData" | "finished" | "aborting" | "finally";
 }
 
 type State = WorkingState | ReadyState | InitState;
@@ -214,6 +220,12 @@ type Action =
       }
     | {
           type: "Finish";
+      }
+    | {
+          type: "Abort";
+      }
+    | {
+          type: "ExportEnd";
       };
 
 function initState(): InitState {
@@ -228,10 +240,6 @@ function initState(): InitState {
         columns: null,
         phase: "awaitingCallback"
     };
-}
-
-function updateIn<T = State, K extends keyof T = keyof T>(state: T, key: K, fn: ((value: T[K]) => T[K]) | T[K]): T {
-    return { ...state, [key]: fn instanceof Function ? fn(state[key]) : fn };
 }
 
 function exportStateReducer(state: State, action: Action): State {
@@ -308,7 +316,7 @@ function exportStateReducer(state: State, action: Action): State {
 
     if (action.type === "ColumnsExported") {
         if (state.exporting && state.phase === "exportColumns") {
-            return updateIn(state, "phase", "resetOffset");
+            return { ...state, phase: "resetOffset" };
         }
     }
 
@@ -325,6 +333,14 @@ function exportStateReducer(state: State, action: Action): State {
         return { ...state, phase: "finished" };
     }
 
+    if (action.type === "Abort" && state.exporting) {
+        return { ...state, phase: "aborting" };
+    }
+
+    if (action.type === "ExportEnd" && state.exporting) {
+        return { ...state, phase: "finally" };
+    }
+
     return state;
 }
 
@@ -339,6 +355,7 @@ async function exportFlow(
 
     if (state.phase === "resetOffset") {
         updateDataSource({ offset: 0, limit: state.currentLimit, reload: true });
+        return;
     }
 
     if (state.phase === "exportColumns") {
@@ -368,9 +385,22 @@ async function exportFlow(
         return;
     }
 
+    if (state.phase === "aborting") {
+        const { callback } = state;
+        callback({ type: "aborted" });
+        dispatch({ type: "ExportEnd" });
+        return;
+    }
+
     if (state.phase === "finished") {
-        const { snapshot, callback } = state;
-        await callback({ type: "end" });
+        const { callback } = state;
+        callback({ type: "end" });
+        dispatch({ type: "ExportEnd" });
+        return;
+    }
+
+    if (state.phase === "finally") {
+        const { snapshot } = state;
         updateDataSource({
             offset: snapshot.offset,
             limit: snapshot.limit
