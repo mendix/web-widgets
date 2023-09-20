@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Tabbing and shift tabing whould lose focus on the first/last item of the list
+
 ## [2.4.2] - 2023-06-21
 
 ### Fixed
