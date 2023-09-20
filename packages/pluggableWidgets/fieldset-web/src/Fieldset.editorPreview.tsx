@@ -1,5 +1,5 @@
 import { createElement, ReactElement } from "react";
-import { parseStyle } from "@mendix/pluggable-widgets-commons";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 
 import { Fieldset } from "./components/Fieldset";
 import { FieldsetPreviewProps } from "../typings/FieldsetProps";

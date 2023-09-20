@@ -12,19 +12,6 @@ export function getFullImageName(name, mendixVersion) {
     return `${REGISTRY}/${name}:${mendixVersion}`;
 }
 
-export function checkRegistry(image) {
-    try {
-        execSync(`docker manifest inspect ${image}`, { stdio: "pipe", encoding: "utf-8" });
-        return { exists: true };
-    } catch (error) {
-        if (error.status === 1 && error.stderr === "manifest unknown\n") {
-            return { exists: false };
-        }
-
-        throw error;
-    }
-}
-
 export async function buildImage(name, mendixVersion) {
     const image = getFullImageName(name, mendixVersion);
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
@@ -53,16 +40,6 @@ export async function prepareImage(name, mendixVersion) {
     if (imageId) {
         console.log(`Found ${prettyName} locally.`);
         return image;
-    }
-
-    if (!process.env.SKIP_DOCKER_PULL) {
-        console.log(`Checking ${prettyName} docker image in Github Container Registry...`);
-        const { exists } = checkRegistry(image);
-        if (exists) {
-            console.log(`Success, pull ${prettyName} from registry.`);
-            execSync(`docker pull ${image}`, { stdio: "inherit" });
-            return image;
-        }
     }
 
     console.log(`Image not found, creating new ${prettyName} docker image...`);

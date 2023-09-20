@@ -12,7 +12,7 @@ import { getStepValue } from "./utils/getStepValue";
 import { getStyleProp } from "./utils/getStyleProp";
 import { useOnChangeDebounced } from "./utils/useOnChangeDebounced";
 import { isVertical } from "./utils/isVertical";
-import { useScheduleUpdateOnce } from "@mendix/pluggable-widgets-commons";
+import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
 import { ValueStatus } from "mendix";
 
 export function RangeSlider(props: RangeSliderContainerProps): ReactNode {

@@ -1,4 +1,4 @@
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { mount, shallow } from "enzyme";
 import Circle from "../Circle/Circle";
 import { createElement, FunctionComponent } from "react";

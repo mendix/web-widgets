@@ -1,4 +1,5 @@
-import { createElement, ReactElement } from "react";
+import classNames from "classnames";
+import { PropsWithChildren, ReactElement, createElement } from "react";
 import { DownArrow } from "../assets/icons";
 
 export function Placeholder(): ReactElement {
@@ -8,5 +9,28 @@ export function Placeholder(): ReactElement {
                 <DownArrow />
             </div>
         </div>
+    );
+}
+
+export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
+    return (
+        <li className="widget-combobox-item widget-combobox-no-options" role="option">
+            {props.children}
+        </li>
+    );
+}
+
+interface InputPlaceholderProps extends PropsWithChildren {
+    isEmpty: boolean;
+}
+export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
+    return (
+        <span
+            className={classNames("widget-combobox-text-label", {
+                "widget-combobox-text-label-placeholder": props.isEmpty
+            })}
+        >
+            {props.children}
+        </span>
     );
 }

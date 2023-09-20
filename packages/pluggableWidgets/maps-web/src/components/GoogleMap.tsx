@@ -10,8 +10,8 @@ import { Marker, SharedProps } from "../../typings/shared";
 import { getGoogleMapsStyles } from "../utils/google";
 import { translateZoom } from "../utils/zoom";
 import { Option } from "../utils/data";
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
-import { getDimensions } from "@mendix/pluggable-widgets-commons";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 
 export interface GoogleMapsProps extends SharedProps {
     mapStyles?: string;

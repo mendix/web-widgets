@@ -11,8 +11,7 @@ jest.mock("../../utils/useIsElementInViewport", () => ({
     useIsElementInViewport: () => useIsElementInViewportMock()
 }));
 
-jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
-    ...jest.requireActual("@mendix/pluggable-widgets-commons/dist/components/web"),
+jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
 }));
 

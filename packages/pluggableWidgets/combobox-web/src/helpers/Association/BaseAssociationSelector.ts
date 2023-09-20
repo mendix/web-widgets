@@ -4,7 +4,7 @@ import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";

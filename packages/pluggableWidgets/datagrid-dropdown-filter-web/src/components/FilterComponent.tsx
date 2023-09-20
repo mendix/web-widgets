@@ -9,8 +9,8 @@ import {
     useRef,
     useState
 } from "react";
-import { useOnClickOutside } from "@mendix/pluggable-widgets-commons/dist/components/web";
-import { useWatchValues } from "@mendix/pluggable-widgets-commons/dist/hooks/useWatchValues";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
+import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import classNames from "classnames";
 import { Option, OptionValue } from "../utils/types";
 import { useSelectState } from "../features/select";

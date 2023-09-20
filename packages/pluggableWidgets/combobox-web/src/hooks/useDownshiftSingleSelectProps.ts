@@ -1,10 +1,10 @@
 import {
-    useCombobox,
-    UseComboboxState,
-    UseComboboxStateChangeOptions,
-    UseComboboxStateChange,
+    UseComboboxProps,
     UseComboboxReturnValue,
-    UseComboboxProps
+    UseComboboxState,
+    UseComboboxStateChange,
+    UseComboboxStateChangeOptions,
+    useCombobox
 } from "downshift";
 
 import { useMemo } from "react";
@@ -55,7 +55,11 @@ export function useDownshiftSingleSelectProps(
                         };
 
                     case useCombobox.stateChangeTypes.InputFocus:
-                        return { ...changes, inputValue: "" };
+                        return {
+                            ...changes,
+                            inputValue: "",
+                            highlightedIndex: changes.selectedItem ? -1 : this.defaultHighlightedIndex
+                        };
 
                     case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.InputBlur:

@@ -34,7 +34,7 @@
     "build": "pluggable-widgets-tools build:web",
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
+    "test": "jest --projects jest.config.js",
     "e2e": "echo \"Skipping this e2e test\"",
     "e2edev": "run-e2e dev --with-preps",
     "release": "pluggable-widgets-tools release:web",
@@ -46,14 +46,15 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-test-utils": "workspace:^1.0.0",
     "@mendix/pluggable-widgets-tools": "^9.24.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:^*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
     "downshift": "^7.6.2",
     "match-sorter": "^6.3.1"

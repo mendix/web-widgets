@@ -1,4 +1,4 @@
-import { Dimensions } from "@mendix/pluggable-widgets-commons";
+import { Dimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { CSSProperties } from "react";
 export interface ModeledMarker {
     address?: string;

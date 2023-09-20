@@ -2,7 +2,8 @@ import { createElement, ReactElement, useRef } from "react";
 import { DatagridTextFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridTextFilterProps";
 
 import { FilterComponent } from "./components/FilterComponent";
-import { Alert, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterType, getFilterDispatcher } from "@mendix/widget-plugin-filtering";
 
 import {

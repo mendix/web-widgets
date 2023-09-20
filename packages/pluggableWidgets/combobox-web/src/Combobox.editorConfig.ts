@@ -1,6 +1,13 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
-import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import {
+    ContainerProps,
+    StructurePreviewProps,
+    structurePreviewPalette
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
+import { getDatasourcePlaceholderText } from "./helpers/utils";
+import IconSVG from "./assets/StructurePreviewIcon.svg";
+import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
 
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
@@ -10,7 +17,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationDataSource"
+            "optionsSourceAssociationDataSource",
+            "selectedItemsStyle"
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -34,31 +42,55 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
     return defaultProperties;
 }
 
-export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+function getIconPreview(isDarkMode: boolean): ContainerProps {
     return {
-        type: "RowLayout",
-        columnSize: "fixed",
-        backgroundColor: isDarkMode
-            ? _values.readOnly
-                ? "#4F4F4F"
-                : undefined
-            : _values.readOnly
-            ? "#C8C8C8"
-            : "#F5F5F5",
-        borders: true,
-        borderWidth: 1,
+        type: "Container",
         children: [
             {
                 type: "Container",
+                padding: 1
+            },
+            {
+                type: "Image",
+                document: decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", "")),
+                width: 41,
+                height: 16
+            }
+        ]
+    };
+}
+
+export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+
+    return {
+        type: "RowLayout",
+        columnSize: "grow",
+        backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
+        borders: true,
+        borderWidth: 1,
+        borderRadius: 2,
+        children: [
+            {
+                type: "Container",
+                grow: 1,
                 padding: 4,
                 children: [
                     {
                         type: "Text",
-                        content: "Combobox",
-                        fontColor: isDarkMode ? "#DEDEDE" : "#6B707B"
+                        content: getDatasourcePlaceholderText(_values),
+                        fontColor: palette.text.data
                     }
                 ]
+            },
+            {
+                ...getIconPreview(isDarkMode),
+                ...{ grow: 0, padding: 4 }
             }
         ]
     };
+}
+
+export function getCustomCaption(values: ComboboxPreviewProps): string {
+    return getDatasourcePlaceholderText(values);
 }

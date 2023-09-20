@@ -1,5 +1,5 @@
 import { AssociationProperties } from "@mendix/widget-plugin-filtering";
-import { ensure } from "@mendix/pluggable-widgets-commons/dist/utils/ensure";
+import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { ColumnsPreviewType, ColumnsType } from "typings/DatagridProps";
 
 export function getAssociationProps(columnProps: ColumnsType): AssociationProperties {

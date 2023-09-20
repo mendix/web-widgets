@@ -10,11 +10,6 @@ const defaultOptions = [
     { caption: "3", value: "_3" }
 ];
 
-jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
-    ...jest.requireActual("@mendix/pluggable-widgets-commons/dist/components/web"),
-    usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
-}));
-
 jest.useFakeTimers();
 
 describe("FilterComponent", () => {

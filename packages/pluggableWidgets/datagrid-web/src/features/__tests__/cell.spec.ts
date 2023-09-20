@@ -7,7 +7,7 @@ import {
     buildWidgetValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-test-utils";
 import { ColumnsType } from "../../../typings/DatagridProps";
 
 const col: ColumnsType = {

@@ -5,7 +5,7 @@ import {
     ListAttributeValueBuilder,
     ListValueBuilder,
     ReferenceSetValueBuilder
-} from "@mendix/pluggable-test-utils";
+} from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
@@ -36,7 +36,8 @@ describe("Combo box (Association)", () => {
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
-            selectedItemsStyle: "text"
+            selectedItemsStyle: "text",
+            noOptionsText: dynamicValue("no options found")
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

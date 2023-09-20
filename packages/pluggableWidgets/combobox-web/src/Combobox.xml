@@ -80,6 +80,10 @@
                     <caption>Placeholder text</caption>
                     <description />
                 </property>
+                <property key="noOptionsText" type="textTemplate" required="false">
+                    <caption>No options text</caption>
+                    <description />
+                </property>
 
                 <!-- MISC PROPS -->
                 <property key="filterType" type="enumeration" defaultValue="contains">
@@ -95,20 +99,17 @@
                     <caption>Clearable</caption>
                     <description />
                 </property>
-                <!-- END MISC PROPS -->
-            </propertyGroup>
-            <!-- END GENERAL -->
-
-            <propertyGroup caption="Review">
                 <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
                     <caption>Show selected items as</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="text">Text</enumerationValue>
-                        <enumerationValue key="boxes">Labels</enumerationValue>
+                        <enumerationValue key="boxes">Labels (reference sets only)</enumerationValue>
                     </enumerationValues>
                 </property>
+                <!-- END MISC PROPS -->
             </propertyGroup>
+            <!-- END GENERAL -->
 
             <!-- SYSTEM PROPS -->
             <propertyGroup caption="Label">

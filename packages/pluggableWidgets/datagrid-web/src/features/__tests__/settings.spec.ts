@@ -1,6 +1,6 @@
 import { useSettings } from "../../features/settings";
 import { ColumnWidth, TableColumn } from "../../components/Table";
-import { EditableValueBuilder } from "@mendix/pluggable-widgets-commons";
+import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { HidableEnum } from "../../../typings/DatagridProps";
 import { renderHook, RenderHookResult } from "@testing-library/react";
 import { EditableValue } from "mendix";

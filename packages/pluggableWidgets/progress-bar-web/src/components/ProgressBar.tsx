@@ -1,6 +1,6 @@
 import { createElement, CSSProperties, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
-import { Alert } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { calculatePercentage } from "../util";
 
 export interface ProgressBarProps {

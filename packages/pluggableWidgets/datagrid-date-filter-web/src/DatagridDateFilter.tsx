@@ -5,7 +5,8 @@ import { FilterComponent } from "./components/FilterComponent";
 import { DatagridDateFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridDateFilterProps";
 import { registerLocale } from "react-datepicker";
 import * as locales from "date-fns/locale";
-import { Alert, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { getFilterDispatcher, FilterType } from "@mendix/widget-plugin-filtering";
 
 import { changeTimeToMidnight } from "./utils/utils";
