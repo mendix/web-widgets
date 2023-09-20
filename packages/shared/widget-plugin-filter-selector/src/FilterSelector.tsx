@@ -57,12 +57,13 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                             e.preventDefault();
                             e.stopPropagation();
                             onClick(option.value);
-                        } else if (e.key === "Tab" && index + 1 === props.options.length) {
+                        } else if (
+                            (e.key === "Tab" && ((e.shiftKey && index === 0) || index + 1 === props.options.length)) ||
+                            e.key === "Escape"
+                            // If the user tabs on the last item or shift tabs on the first item, set the focus to the filter selector button
+                        ) {
                             e.preventDefault();
-                            onClick(value);
-                        } else if ((e.key === "Tab" && e.shiftKey && index === 0) || e.key === "Escape") {
-                            e.preventDefault();
-                            componentRef.current?.querySelector("button")?.focus();
+                            setTimeout(() => componentRef.current?.querySelector("button")?.focus(), 100);
                             setShow(false);
                         }
                     }}
