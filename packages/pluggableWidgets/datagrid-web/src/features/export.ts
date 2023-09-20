@@ -1,13 +1,17 @@
-import { useEffect, useRef, useReducer, Dispatch } from "react";
+import { useEffect, useMemo, useReducer, Dispatch } from "react";
 import { ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
 
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
 const MAX_LIMIT = 500;
+const DEFAULT_LIMIT = 200;
+
+const _onOverwrite = Symbol("overwrite");
 
 export interface DataExporter {
     create(): DataExportStream;
+    [_onOverwrite]: () => void;
 }
 
 export type DataGridName = string;
@@ -62,17 +66,99 @@ type UseExportAPIReturn = {
     items: ObjectItem[];
 };
 
-export const useDG2ExportApi = ({
-    columns,
-    hasMoreItems,
+export const useDG2ExportApi = (props: UseDG2ExportApi): UseExportAPIReturn => {
+    const [result, dispatch] = useExportMachine(props);
+
+    useEffect(() => {
+        if (!window[DATAGRID_DATA_EXPORT]) {
+            window[DATAGRID_DATA_EXPORT] = {};
+        }
+
+        let isOverwrittenByOtherDatagrid = false;
+        let isBusy = false;
+        let dataExporterCleanup: (() => void) | undefined;
+        const exporter: DataExporter = {
+            create() {
+                if (isBusy) {
+                    throw new Error("Data grid (Export): export stream is busy");
+                }
+
+                let isReady = false;
+                const dataExportStream: DataExportStream = {
+                    process: (externalCallback: CallbackFunction, options) => {
+                        const { limit = DEFAULT_LIMIT } = options ?? {};
+
+                        const callback: CallbackFunction = msg => {
+                            if (msg.type === "aborted" || msg.type === "end") {
+                                isBusy = false;
+                                isReady = false;
+                            }
+                            externalCallback(msg);
+                        };
+
+                        dispatch({
+                            type: "Setup",
+                            payload: { callback, columns: props.columns, limit: Math.min(limit, MAX_LIMIT) }
+                        });
+
+                        dataExporterCleanup = () => {
+                            if (isBusy) {
+                                callback({ type: "aborted" });
+                            }
+                        };
+
+                        isReady = true;
+                    },
+                    start: () => {
+                        if (isReady) {
+                            dispatch({ type: "Start" });
+                        } else {
+                            throw new Error("Data grid (Export): can't start without handler.");
+                        }
+                    },
+                    abort: () => {
+                        dispatch({ type: "Abort" });
+                    }
+                };
+
+                (window as any).__abort = dataExportStream.abort;
+
+                return dataExportStream;
+            },
+            [_onOverwrite]: (): void => {
+                isOverwrittenByOtherDatagrid = true;
+            }
+        };
+
+        const existingAPI = window[DATAGRID_DATA_EXPORT][props.name];
+
+        if (existingAPI) {
+            existingAPI[_onOverwrite]();
+        }
+
+        window[DATAGRID_DATA_EXPORT][props.name] = exporter;
+
+        return () => {
+            dataExporterCleanup?.();
+            if (isOverwrittenByOtherDatagrid === false) {
+                delete window[DATAGRID_DATA_EXPORT][props.name];
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return result;
+};
+
+function useExportMachine({
     items = [],
-    name,
     offset,
-    limit = Number.POSITIVE_INFINITY,
+    limit = DEFAULT_LIMIT,
+    hasMoreItems,
     updateDataSource
-}: UseDG2ExportApi): UseExportAPIReturn => {
+}: UseDG2ExportApi): [UseExportAPIReturn, Dispatch<Action>] {
     const [state, dispatch] = useReducer(exportStateReducer, initState());
-    const stateRef = useRef(state);
+    const [exportFlow, flowCleanup] = useMemo(createExportFlow, []);
 
     // Keep params in sync with data source.
     useEffect(
@@ -86,47 +172,17 @@ export const useDG2ExportApi = ({
 
     // Run export flow on every state change
     useEffect(() => {
-        if (state !== stateRef.current) {
-            exportFlow(state, dispatch, updateDataSource);
-            stateRef.current = state;
-        }
-    }, [state, updateDataSource]);
-
-    useEffect(() => {
-        if (!window[DATAGRID_DATA_EXPORT]) {
-            window[DATAGRID_DATA_EXPORT] = {};
-        }
-
-        let dataExporterCleanup: () => void;
-        const create = (): DataExportStream => {
-            if (stateRef.current.exporting) {
-                throw new Error("Data grid (Export): export stream is busy");
-            }
-
-            const dataExportStream: DataExportStream = {
-                process: (callback: CallbackFunction, options) => {
-                    const { limit = 200 } = options ?? {};
-                    dispatch({ type: "Setup", payload: { callback, columns, limit: Math.min(limit, MAX_LIMIT) } });
-                    dataExporterCleanup = () => callback({ type: "aborted" });
-                },
-                start: () => dispatch({ type: "Start" }),
-                abort: () => dispatch({ type: "Abort" })
-            };
-
-            return dataExportStream;
-        };
-
-        window[DATAGRID_DATA_EXPORT][name] = { create };
-
-        return () => {
-            dataExporterCleanup();
-            delete window[DATAGRID_DATA_EXPORT][name];
-        };
+        exportFlow(state, dispatch, updateDataSource);
+        // Disable eslint rule to react only on state changes.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [state]);
 
-    return { exporting: state.exporting, items: state.exporting ? state.snapshot.items : items ?? [] };
-};
+    // Disable eslint rule as flowCleanup is stable function.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => flowCleanup, []);
+
+    return [{ exporting: state.exporting, items: state.exporting ? state.snapshot.items : items ?? [] }, dispatch];
+}
 
 function exportColumns(columns: ColumnsType[]): Message {
     const exportColumns: ColumnDefinition[] = columns.map(column => ({
@@ -197,11 +253,13 @@ interface WorkingState extends BaseState {
 
 type State = WorkingState | ReadyState | InitState;
 
+type DataSourceUpdate = {
+    type: "DataSourceUpdate";
+    payload: { offset: number; items: ObjectItem[]; hasMoreItems: boolean; limit: number };
+};
+
 type Action =
-    | {
-          type: "DataSourceUpdate";
-          payload: { offset: number; items: ObjectItem[]; hasMoreItems: boolean; limit: number };
-      }
+    | DataSourceUpdate
     | {
           type: "Setup";
           payload: { callback: CallbackFunction; columns: ColumnsType[]; limit: number };
@@ -242,12 +300,33 @@ function initState(): InitState {
     };
 }
 
+function stateAndPayloadEqual(state: State, { payload }: DataSourceUpdate): boolean {
+    if (
+        state.currentLimit === payload.limit &&
+        state.currentOffset === payload.offset &&
+        state.hasMoreItems === state.hasMoreItems
+    ) {
+        const itemsEqual = state.currentItems.every((a, index) => {
+            const b = payload.items[index];
+            return a.id === b.id;
+        });
+
+        return itemsEqual;
+    }
+
+    return false;
+}
+
 function exportStateReducer(state: State, action: Action): State {
     if (action.type === "Reset") {
         return initState();
     }
 
     if (action.type === "DataSourceUpdate") {
+        if (state.phase === "awaitingCallback" && stateAndPayloadEqual(state, action)) {
+            return state;
+        }
+
         const currentPhase = state.phase;
         const next: State = {
             ...state,
@@ -270,12 +349,12 @@ function exportStateReducer(state: State, action: Action): State {
             }
         }
 
-        if (next.exporting && currentPhase === "finished") {
+        if (next.exporting && currentPhase === "finally") {
             return {
                 ...initState(),
-                currentLimit: state.snapshot.limit,
-                currentItems: state.snapshot.items,
-                currentOffset: state.snapshot.offset
+                currentLimit: action.payload.limit,
+                currentItems: action.payload.items,
+                currentOffset: action.payload.offset
             };
         }
 
@@ -344,66 +423,118 @@ function exportStateReducer(state: State, action: Action): State {
     return state;
 }
 
-async function exportFlow(
-    state: State,
-    dispatch: Dispatch<Action>,
-    updateDataSource: UpdateDataSourceFn
-): Promise<void> {
-    if (state.exporting === false) {
-        return;
-    }
+type ExportFlowFn = (state: State, dispatch: Dispatch<Action>, updateFn: UpdateDataSourceFn) => Promise<void>;
+type ExportFlowCleanup = () => void;
 
-    if (state.phase === "resetOffset") {
-        updateDataSource({ offset: 0, limit: state.currentLimit, reload: true });
-        return;
-    }
+function createExportFlow(): [ExportFlowFn, ExportFlowCleanup] {
+    let controller: FlowController | null = null;
 
-    if (state.phase === "exportColumns") {
-        const { columns, callback } = state;
-        const datagridColumns = exportColumns(columns);
-        await callback(datagridColumns);
-        dispatch({ type: "ColumnsExported" });
-        return;
-    }
-
-    if (state.phase === "exportData") {
-        const { currentItems, callback, columns } = state;
-        if (currentItems.length > 0) {
-            await callback(exportData(currentItems, columns));
-            dispatch({ type: "PageExported" });
+    const getController = (): FlowController => {
+        if (controller === null) {
+            controller = new FlowController();
         }
-        return;
-    }
+        return controller;
+    };
 
-    if (state.phase === "awaitingData") {
-        const { currentOffset, currentLimit, hasMoreItems } = state;
-        if (hasMoreItems) {
-            updateDataSource({ offset: currentOffset + currentLimit });
-        } else {
-            dispatch({ type: "Finish" });
+    const resetController = (): void => {
+        controller = new FlowController();
+    };
+
+    const cleanup = (): void => {
+        getController().abort("unmount");
+    };
+
+    const exportFlow: ExportFlowFn = async (state, dispatch, updateDataSource) => {
+        const controller = getController();
+
+        if (state.exporting === false) {
+            return;
         }
-        return;
+
+        if (state.phase === "resetOffset") {
+            controller.exec(() => updateDataSource({ offset: 0, limit: state.currentLimit, reload: true }));
+            return;
+        }
+
+        if (state.phase === "exportColumns") {
+            const { columns, callback } = state;
+            await controller.exec(() => callback(exportColumns(columns)));
+            controller.exec(() => dispatch({ type: "ColumnsExported" }));
+            return;
+        }
+
+        if (state.phase === "exportData") {
+            const { currentItems, callback, columns } = state;
+            if (currentItems.length > 0) {
+                await controller.exec(() => callback(exportData(currentItems, columns)));
+                controller.exec(() => dispatch({ type: "PageExported" }));
+            }
+            return;
+        }
+
+        if (state.phase === "awaitingData") {
+            const { currentOffset, currentLimit, hasMoreItems } = state;
+            if (hasMoreItems) {
+                controller.exec(() => updateDataSource({ offset: currentOffset + currentLimit }));
+            } else {
+                controller.exec(() => dispatch({ type: "Finish" }));
+            }
+            return;
+        }
+
+        if (state.phase === "aborting") {
+            const { callback } = state;
+            controller.exec(() => callback({ type: "aborted" }));
+            controller.exec(() => dispatch({ type: "ExportEnd" }));
+            controller.abort("abortAction");
+            return;
+        }
+
+        if (state.phase === "finished") {
+            const { callback } = state;
+            controller.exec(() => callback({ type: "end" }));
+            controller.exec(() => dispatch({ type: "ExportEnd" }));
+            return;
+        }
+
+        if (state.phase === "finally") {
+            const { snapshot } = state;
+            if (controller.isAborted === false || controller.abortReason === "abortAction") {
+                updateDataSource({
+                    offset: snapshot.offset,
+                    limit: snapshot.limit
+                });
+            }
+            resetController();
+        }
+    };
+
+    return [exportFlow, cleanup];
+}
+
+type AbortReason = "abortAction" | "unmount";
+
+class FlowController {
+    private aborted = false;
+    private reason: AbortReason | null = null;
+
+    async exec(cb: () => Promise<void> | void): Promise<void> {
+        if (this.isAborted) {
+            return;
+        }
+        await cb();
     }
 
-    if (state.phase === "aborting") {
-        const { callback } = state;
-        callback({ type: "aborted" });
-        dispatch({ type: "ExportEnd" });
-        return;
+    abort(reason: AbortReason): void {
+        this.aborted = true;
+        this.reason = reason;
     }
 
-    if (state.phase === "finished") {
-        const { callback } = state;
-        callback({ type: "end" });
-        dispatch({ type: "ExportEnd" });
-        return;
+    get isAborted(): boolean {
+        return this.aborted;
     }
 
-    if (state.phase === "finally") {
-        const { snapshot } = state;
-        updateDataSource({
-            offset: snapshot.offset,
-            limit: snapshot.limit
-        });
+    get abortReason(): AbortReason | null {
+        return this.reason;
     }
 }
