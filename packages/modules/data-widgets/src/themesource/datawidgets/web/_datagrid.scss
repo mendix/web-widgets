@@ -152,6 +152,26 @@ $grid-selected-row-background: $brand-light;
         }
     }
 
+    /* If Column Header has filter */
+    &:has(.th .column-container .filter:not(:empty)) {
+        .th {
+            &.column-selector {
+                padding: $spacing-medium 0;
+            }
+            /*adjust filter-selector icon to be mid-bottom aligned */
+            .column-selector-content {
+                align-self: flex-end;
+                margin-bottom: 3px;
+            }
+
+            /*adjust checkbox toggle to be mid-bottom aligned */
+            &.widget-datagrid-col-select {
+                align-self: flex-end;
+                margin-bottom: 11px;
+            }
+        }
+    }
+
     /* Column selector for hidable columns */
     .column-selector {
         padding: 0;

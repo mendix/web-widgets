@@ -6,6 +6,15 @@
             margin: 0 $spacing-small;
         }
     }
+
+    &:has(.th .column-container .filter:not(:empty)) {
+        .th {
+            &.column-selector {
+                padding: $spacing-small 0;
+            }
+        }
+    }
+
     .td {
         padding: $spacing-small;
     }
