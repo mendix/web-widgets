@@ -8,9 +8,9 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { Selectable } from "mendix/preview/Selectable";
 import { ObjectItem, GUID } from "mendix";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
-import { PreviewCell } from "./components/PreviewCell";
-import { fromColumnsPreviewType } from "./models/GridColumn";
-
+import { Cell } from "./components/Cell";
+import { GridColumn } from "./typings/GridColumn";
+import { ColumnPreview } from "./helpers/ColumnPreview";
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
 declare module "mendix/preview/Selectable" {
@@ -52,10 +52,12 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
-    const columns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
+    const gridId = Date.now().toString();
+    const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
+    const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
     return (
         <Table
-            CellComponent={PreviewCell}
+            CellComponent={Cell}
             className={props.class}
             columns={columns}
             columnsDraggable={props.columnsDraggable}
@@ -74,7 +76,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const column = columns[columnIndex];
+                    const column = previewColumns[columnIndex];
                     return column.filter ? (
                         <column.filter.renderer caption="Place filter widget here">
                             {renderWrapper(null)}
@@ -83,16 +85,15 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                         renderWrapper(null)
                     );
                 },
-                [columns]
+                [previewColumns]
             )}
-            gridColumns={props.columns.map(fromColumnsPreviewType)}
             gridHeaderWidgets={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
                     <div />
                 </props.filtersPlaceholder.renderer>
             }
             hasMoreItems={false}
-            headerWrapperRenderer={selectableWrapperRenderer(columns)}
+            headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
             isSelected={selectActionProps.isSelected}
             numberOfItems={5}
             onSelect={selectActionProps.onSelect}

@@ -10,10 +10,9 @@ import { extractFilters } from "./features/filters";
 import { getColumnAssociationProps } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
-// import { useDG2ExportApi } from "./features/export";
-import { fromColumnsType } from "./models/GridColumn";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
+import { Column } from "./helpers/Column";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -27,13 +26,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
-
-    // useDG2ExportApi({
-    //     columns: props.columns,
-    //     datasource: props.datasource,
-    //     name: props.name,
-    //     pageSize: props.pageSize
-    // });
 
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
@@ -99,7 +91,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.datasource.setSortOrder(undefined);
     }
 
-    const gridColumns = useMemo(() => props.columns.map(fromColumnsType), [props.columns]);
+    const columns = useMemo(
+        () => props.columns.map((col, index) => new Column(col, index, id.current)),
+        [props.columns]
+    );
 
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectActionProps = useOnSelectProps(selection);
@@ -110,9 +105,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     return (
         <Table
             className={props.class}
-            columns={props.columns}
-            gridColumns={gridColumns}
-            // CellComponent={props => <div>{props.column.content?.get(props.item)}</div>}
+            columns={columns}
             CellComponent={Cell}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
