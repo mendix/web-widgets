@@ -2,14 +2,14 @@ import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, use
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { GridColumn } from "../models/GridColumn";
+import { GridColumn } from "../helpers/GridColumn/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 
 export interface ColumnSelectorProps {
     columns: GridColumn[];
-    hiddenColumns: string[];
+    hiddenColumns: number[];
     id?: string;
-    setHiddenColumns: Dispatch<SetStateAction<string[]>>;
+    setHiddenColumns: Dispatch<SetStateAction<number[]>>;
     label?: string;
 }
 
@@ -29,14 +29,14 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const isInViewport = useIsElementInViewport(optionsRef);
 
     const onClick = useCallback(
-        (isVisible: boolean, id: string) => {
+        (isVisible: boolean, columnNumber: number) => {
             const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
             if (!isLastVisibleColumn) {
                 setHiddenColumns(prev => {
                     if (!isVisible) {
-                        return prev.filter(v => v !== id);
+                        return prev.filter(v => v !== columnNumber);
                     } else {
-                        return [...prev, id];
+                        return [...prev, columnNumber];
                     }
                 });
             }
@@ -60,22 +60,22 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined
             }}
         >
-            {props.columns.map((column: GridColumn, index: number) => {
-                const isVisible = !props.hiddenColumns.includes(column.index.toString());
+            {props.columns.map((column: GridColumn, index) => {
+                const isVisible = !props.hiddenColumns.includes(column.columnNumber);
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (
                     <li
-                        key={index}
+                        key={column.columnNumber}
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            onClick(isVisible, column.index.toString());
+                            onClick(isVisible, column.columnNumber);
                         }}
                         onKeyDown={e => {
                             if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                onClick(isVisible, column.id);
+                                onClick(isVisible, column.columnNumber);
                             } else if (
                                 (e.key === "Tab" &&
                                     (index === lastHidableColumnIndex ||
