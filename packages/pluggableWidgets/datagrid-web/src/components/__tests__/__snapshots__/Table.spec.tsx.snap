@@ -1145,7 +1145,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
           role="row"
         >
           <div
-            class="td td-borders"
+            class="td td-borders widget-datagrid-col-select"
             role="cell"
           >
             <input
@@ -1170,7 +1170,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
           role="row"
         >
           <div
-            class="td"
+            class="td widget-datagrid-col-select"
             role="cell"
           >
             <input
@@ -1195,7 +1195,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
           role="row"
         >
           <div
-            class="td"
+            class="td widget-datagrid-col-select"
             role="cell"
           >
             <input

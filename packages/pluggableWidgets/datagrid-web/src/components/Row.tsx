@@ -31,7 +31,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     return (
         <div className={classNames("tr", { "tr-selected": props.selected }, props.className)} role="row">
             {props.selectionMethod === "checkbox" && (
-                <CellElement key="checkbox_cell" borderTop={props.index === 0}>
+                <CellElement key="checkbox_cell" className="widget-datagrid-col-select" borderTop={props.index === 0}>
                     <input
                         checked={props.selected}
                         onChange={() => props.onSelect(props.item)}
@@ -63,7 +63,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 <CellElement
                     key="column_selector_cell"
                     aria-hidden
-                    className={"column-selector"}
+                    className="column-selector"
                     borderTop={props.index === 0}
                 />
             )}
