@@ -10,6 +10,8 @@ const component = memo(function Cell(props: CellComponentProps<GridColumn>): Rea
             alignment={props.column.alignment}
             borderTop={props.rowIndex === 0}
             className={props.column.columnClass(props.item)}
+            onClick={props.onClick}
+            onKeyDown={props.onKeyDown}
             wrapText={props.column.wrapText}
         >
             {props.column.renderCellContent(props.item)}

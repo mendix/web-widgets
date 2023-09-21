@@ -4,7 +4,8 @@ import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-util
 import { TableProps } from "../components/Table";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
-import { fromColumnsType } from "../models/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
+import { Column } from "../helpers/Column";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -29,8 +30,9 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
     return c;
 };
 
-export function mockTableProps(): TableProps<ColumnsType, ObjectItem> {
-    const columns = [column("Test")];
+export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
+    const id = "dg1";
+    const columnsProp = [column("Test")];
 
     return {
         CellComponent: Cell,
@@ -46,8 +48,7 @@ export function mockTableProps(): TableProps<ColumnsType, ObjectItem> {
         className: "test",
         columnsFilterable: false,
         columnsSortable: false,
-        columns,
-        gridColumns: columns.map(fromColumnsType),
+        columns: columnsProp.map((col, index) => new Column(col, index, id)),
         valueForSort: () => "dummy",
         filterRenderer: () => <input type="text" defaultValue="dummy" />,
         headerWrapperRenderer: (_index, header) => header,
@@ -57,6 +58,6 @@ export function mockTableProps(): TableProps<ColumnsType, ObjectItem> {
         isSelected: jest.fn(() => false),
         selectionMethod: "none",
         selectionStatus: undefined,
-        id: "dg1"
+        id
     };
 }

@@ -2,6 +2,7 @@ import { render, shallow } from "enzyme";
 import { createElement } from "react";
 import { Header, HeaderProps } from "../Header";
 import { ColumnResizer } from "../ColumnResizer";
+import { GridColumn } from "../../typings/GridColumn";
 
 describe("Header", () => {
     it("renders the structure correctly", () => {
@@ -66,8 +67,8 @@ describe("Header", () => {
 
     it("calls setSortBy store function with correct parameters when sortable", () => {
         const column = {
-            id: "sortable",
-            index: 0,
+            columnId: "sortable",
+            columnNumber: 0,
             header: "My sortable column",
             canSort: true
         } as any;
@@ -81,7 +82,7 @@ describe("Header", () => {
         expect(clickableRegion).toHaveLength(1);
 
         clickableRegion.simulate("click");
-        expect(mockedFunction).toBeCalledWith([{ id: "0", desc: false }]);
+        expect(mockedFunction).toBeCalledWith([{ columnNumber: 0, desc: false }]);
     });
 
     it("renders the structure correctly when filterable with custom classes", () => {
@@ -118,10 +119,10 @@ function mockHeaderProps(): HeaderProps {
     return {
         tableId: "dg1",
         column: {
-            id: "1",
-            index: 0,
+            columnId: "dg1-column0",
+            columnNumber: 0,
             header: "Test"
-        } as any,
+        } as GridColumn,
         draggable: false,
         dragOver: "",
         filterable: false,

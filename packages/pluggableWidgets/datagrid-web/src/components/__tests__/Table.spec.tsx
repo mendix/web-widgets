@@ -1,13 +1,13 @@
-import { render } from "enzyme";
-import * as testingLibrary from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { createElement } from "react";
-import { Table } from "../Table";
+import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import * as testingLibrary from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { render } from "enzyme";
+import { createElement } from "react";
+import { Column } from "../../helpers/Column";
 import { column, mockTableProps } from "../../utils/test-utils";
-import { fromColumnsType } from "../../models/GridColumn";
+import { Table } from "../Table";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument
@@ -65,8 +65,12 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly with custom filtering", () => {
-        const columns = [column("Test")];
-        const component = render(<Table {...mockTableProps()} columnsFilterable columns={columns} />);
+        const props = mockTableProps();
+
+        props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        props.columnsFilterable = true;
+
+        const component = render(<Table {...props} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -81,8 +85,7 @@ describe("Table", () => {
 
     it("renders the structure correctly with column alignments", () => {
         const props = mockTableProps();
-        props.columns = [column("Test"), column("Test 2")];
-        props.gridColumns = props.columns.map(fromColumnsType);
+        props.columns = [column("Test"), column("Test 2")].map((col, index) => new Column(col, index, props.id!));
 
         const component = render(<Table {...props} />);
 
@@ -96,8 +99,12 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly for preview when no header is provided", () => {
-        const columns = [column("Test")];
-        const component = render(<Table {...mockTableProps()} preview columns={columns} />);
+        const props = mockTableProps();
+
+        props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        props.preview = true;
+
+        const component = render(<Table {...props} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -373,8 +380,7 @@ describe("Table", () => {
             const props = mockTableProps();
             const columns = [column("Column A"), column("Column B")];
 
-            props.columns = columns;
-            props.gridColumns = columns.map(fromColumnsType);
+            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
 
             render(<Table {...props} data={items} paging selectionMethod={"rowClick"} onSelect={onSelect} />);
 
@@ -422,8 +428,7 @@ describe("Table", () => {
                 return c;
             });
 
-            props.columns = columns;
-            props.gridColumns = columns.map(fromColumnsType);
+            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
 
             const user = userEvent.setup();
 

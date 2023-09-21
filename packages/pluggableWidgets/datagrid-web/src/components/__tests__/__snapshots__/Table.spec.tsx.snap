@@ -1155,9 +1155,8 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td td-borders clickable align-column-left"
-            role="button"
-            tabindex="0"
+            class="td td-borders align-column-left"
+            role="cell"
           >
             <span
               class="td-text"
@@ -1181,9 +1180,8 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td clickable align-column-left"
-            role="button"
-            tabindex="0"
+            class="td align-column-left"
+            role="cell"
           >
             <span
               class="td-text"
@@ -1207,9 +1205,8 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td clickable align-column-left"
-            role="button"
-            tabindex="0"
+            class="td align-column-left"
+            role="cell"
           >
             <span
               class="td-text"

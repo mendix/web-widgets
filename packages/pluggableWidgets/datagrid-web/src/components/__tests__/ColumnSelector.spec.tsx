@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
-import { GridColumn } from "../../models/GridColumn";
+import { GridColumn } from "../../typings/GridColumn";
 
 let useIsElementInViewportMock = jest.fn(() => true);
 
@@ -87,14 +87,12 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
-                                id: "id",
-                                index: 0,
+                                columnNumber: 0,
                                 header: "Test",
                                 canHide: true
                             },
                             {
-                                id: "id2",
-                                index: 1,
+                                columnNumber: 1,
                                 header: "Test2",
                                 canHide: true
                             }
@@ -127,26 +125,22 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
-                                id: "id",
-                                index: 0,
+                                columnNumber: 0,
                                 header: "Test",
                                 canHide: true
                             },
                             {
-                                id: "id2",
-                                index: 1,
+                                columnNumber: 1,
                                 header: "Test2",
                                 canHide: false
                             },
                             {
-                                id: "id3",
-                                index: 2,
+                                columnNumber: 2,
                                 header: "Test3",
                                 canHide: true
                             },
                             {
-                                id: "id4",
-                                index: 3,
+                                columnNumber: 3,
                                 header: "Test4",
                                 canHide: true
                             }
@@ -181,8 +175,7 @@ function mockColumnSelectorProps(): ColumnSelectorProps {
     return {
         columns: [
             {
-                id: "id",
-                index: 1,
+                columnNumber: 1,
                 header: "Test",
                 canHide: true
             }

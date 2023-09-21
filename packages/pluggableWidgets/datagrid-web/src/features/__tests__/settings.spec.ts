@@ -4,8 +4,10 @@ import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { renderHook, RenderHookResult } from "@testing-library/react";
 import { EditableValue } from "mendix";
 import { act } from "react-dom/test-utils";
-import { GridColumn, fromColumnsType } from "../../models/GridColumn";
+import { GridColumn } from "../../typings/GridColumn";
 import { column } from "../../utils/test-utils";
+import { Column } from "../../helpers/Column";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 describe("useSettings Hook", () => {
     beforeEach(() => {
@@ -71,7 +73,7 @@ describe("useSettings Hook", () => {
         renderHook(() =>
             useSettings(
                 settings,
-                columns.map(fromColumnsType),
+                columns.map(toColumn),
                 props.columnOrder,
                 props.setColumnOrder,
                 props.hiddenColumns,
@@ -98,8 +100,8 @@ describe("useSettings Hook", () => {
 
         rerender({
             ...props,
-            columnOrder: ["0"],
-            sortBy: [{ id: "0", desc: true }],
+            columnOrder: [0],
+            sortBy: [{ columnNumber: 0, desc: true }],
             widths: { "0": 130 }
         });
 
@@ -124,11 +126,11 @@ describe("useSettings Hook", () => {
         const initialProps = {
             settings: props.settings,
             columns: props.columns,
-            columnOrder: ["0"],
+            columnOrder: [0],
             setColumnOrder: props.setColumnOrder,
             hiddenColumns: [],
             setHiddenColumns: props.setHiddenColumns,
-            sortBy: [{ id: "0", desc: true }],
+            sortBy: [{ columnNumber: 0, desc: true }],
             setSortBy: props.setSortBy,
             widths: { "0": undefined } as ColumnWidthConfig,
             setWidths: props.setWidths
@@ -146,11 +148,11 @@ describe("useSettings Hook", () => {
         const initialProps = {
             settings: props.settings,
             columns: props.columns,
-            columnOrder: ["0"],
+            columnOrder: [0],
             setColumnOrder: props.setColumnOrder,
             hiddenColumns: [],
             setHiddenColumns: props.setHiddenColumns,
-            sortBy: [{ id: "0", desc: true }],
+            sortBy: [{ columnNumber: 0, desc: true }],
             setSortBy: props.setSortBy,
             widths: { "0": undefined } as ColumnWidthConfig,
             setWidths: props.setWidths
@@ -184,7 +186,7 @@ describe("useSettings Hook", () => {
         // Remains uncalled
         expect(props.settings.setValue).toHaveBeenCalledTimes(0);
 
-        rerender({ ...props, sortBy: [{ id: "0", desc: false }] });
+        rerender({ ...props, sortBy: [{ columnNumber: 0, desc: false }] });
         act(() => {
             // Do not destructure or assign this to a variable earlier, because it's a mutable object and doing so will copy lock it,
             // which interferes with the `useCallback` memoization (https://react-hooks-testing-library.com/usage/basic-hooks#updates).
@@ -196,7 +198,7 @@ describe("useSettings Hook", () => {
             JSON.stringify([{ column: "Column 1", sort: true, sortMethod: "asc", hidden: false, order: 0 }])
         );
 
-        rerender({ ...props, sortBy: [{ id: "0", desc: true }] });
+        rerender({ ...props, sortBy: [{ columnNumber: 0, desc: true }] });
         act(() => {
             result.current.updateSettings();
         });
@@ -210,11 +212,11 @@ describe("useSettings Hook", () => {
 
 type InitProps = {
     settings: EditableValue<string>;
-    hiddenColumns: any[];
-    columnOrder: string[];
+    hiddenColumns: number[];
+    columnOrder: number[];
     columns: any;
     setHiddenColumns: any;
-    sortBy: Array<{ id: string; desc: boolean }>;
+    sortBy: Array<{ columnNumber: number; desc: boolean }>;
     widths: ColumnWidthConfig;
     setSortBy: any;
     setWidths: any;
@@ -256,10 +258,10 @@ function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<{ upda
 function mockProperties(): {
     settings: EditableValue<string>;
     columns: GridColumn[];
-    columnOrder: string[];
-    setColumnOrder: Dispatch<SetStateAction<string[]>>;
-    hiddenColumns: string[];
-    setHiddenColumns: Dispatch<SetStateAction<string[]>>;
+    columnOrder: number[];
+    setColumnOrder: Dispatch<SetStateAction<number[]>>;
+    hiddenColumns: number[];
+    setHiddenColumns: Dispatch<SetStateAction<number[]>>;
     sortBy: SortingRule[];
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
     widths: ColumnWidthConfig;
@@ -280,7 +282,7 @@ function mockProperties(): {
                 ])
             )
             .build(),
-        columns: [column("Column 1", col => (col.hidable = "yes"))].map(fromColumnsType),
+        columns: [column("Column 1", col => (col.hidable = "yes"))].map(toColumn),
         columnOrder: [],
         setColumnOrder: jest.fn(),
         hiddenColumns: [],
@@ -290,4 +292,8 @@ function mockProperties(): {
         widths: { "0": undefined },
         setWidths: jest.fn()
     };
+}
+
+function toColumn(col: ColumnsType, index: number): Column {
+    return new Column(col, index, "dg1");
 }

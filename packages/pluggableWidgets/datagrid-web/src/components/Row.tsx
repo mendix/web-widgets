@@ -80,7 +80,7 @@ function getCellEventHandlers(
     item: ObjectItem
 ): CellHandlers {
     const clickAction: ClickAction =
-        selection !== "none" ? "selectRow" : action !== undefined ? "executeAction" : "none";
+        selection === "rowClick" ? "selectRow" : action !== undefined ? "executeAction" : "none";
 
     const handlers: CellHandlers = {};
 
