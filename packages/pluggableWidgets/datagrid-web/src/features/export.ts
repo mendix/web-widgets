@@ -304,7 +304,8 @@ function stateAndPayloadEqual(state: State, { payload }: DataSourceUpdate): bool
     if (
         state.currentLimit === payload.limit &&
         state.currentOffset === payload.offset &&
-        state.hasMoreItems === state.hasMoreItems
+        state.hasMoreItems === state.hasMoreItems &&
+        state.currentItems.length === payload.items.length
     ) {
         const itemsEqual = state.currentItems.every((a, index) => {
             const b = payload.items[index];
