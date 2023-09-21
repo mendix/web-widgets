@@ -1,10 +1,8 @@
-import { ReactNode, ReactElement } from "react";
-import { ObjectItem, ListActionValue } from "mendix";
-import { Column } from "./Column";
+import { ObjectItem } from "mendix";
+import { DOMAttributes, ReactElement, ReactNode } from "react";
+import { GridColumn } from "./GridColumn";
 
-export type ClickAction = "selectRow" | "executeAction" | "none";
-
-export interface CellComponentProps<C extends Column> {
+export interface CellComponentProps<C extends GridColumn> {
     children?: ReactNode;
     className?: string;
     column: C;
@@ -12,9 +10,8 @@ export interface CellComponentProps<C extends Column> {
     key?: string | number;
     rowIndex: number;
     columnIndex?: number;
-    cellClickActAs: ClickAction;
-    onSelect?: (item: ObjectItem) => void;
-    rowAction?: ListActionValue;
+    onClick?: DOMAttributes<HTMLDivElement>["onClick"];
+    onKeyDown?: DOMAttributes<HTMLDivElement>["onKeyDown"];
 }
 
-export type CellComponent<C extends Column> = (props: CellComponentProps<C>) => ReactElement;
+export type CellComponent<C extends GridColumn> = (props: CellComponentProps<C>) => ReactElement;
