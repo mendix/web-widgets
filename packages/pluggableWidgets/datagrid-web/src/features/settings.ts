@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from "react";
 import { EditableValue, ValueStatus } from "mendix";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
-import { GridColumn } from "../helpers/typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 
 declare type Option<T> = T | undefined;
 

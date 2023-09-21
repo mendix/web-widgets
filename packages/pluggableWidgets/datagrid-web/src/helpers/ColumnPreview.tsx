@@ -1,6 +1,6 @@
 import { createElement, ReactElement } from "react";
 import { AlignmentEnum, ColumnsPreviewType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
-import { GridColumn } from "./typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 
 export class ColumnPreview implements GridColumn {
     alignment: AlignmentEnum;

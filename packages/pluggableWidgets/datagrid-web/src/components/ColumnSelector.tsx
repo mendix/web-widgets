@@ -2,7 +2,7 @@ import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, use
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { GridColumn } from "../helpers/typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 
 export interface ColumnSelectorProps {

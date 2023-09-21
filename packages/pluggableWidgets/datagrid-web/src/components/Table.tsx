@@ -23,7 +23,7 @@ import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeS
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
-import { GridColumn } from "../helpers/typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../../typings/CellComponent";
 import { Row } from "./Row";

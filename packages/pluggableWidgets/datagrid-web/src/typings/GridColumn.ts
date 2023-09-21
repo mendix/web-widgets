@@ -1,6 +1,6 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { AlignmentEnum, HidableEnum, WidthEnum } from "../../../typings/DatagridProps";
+import { AlignmentEnum, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
 
 /**
  * A generic column type for data grid.
