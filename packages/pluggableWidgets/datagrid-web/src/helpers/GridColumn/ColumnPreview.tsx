@@ -7,14 +7,14 @@ export class ColumnPreview implements GridColumn {
     canDrag: boolean;
     canHide: boolean;
     canResize: boolean;
+    columnNumber: number;
     hidable: HidableEnum;
     hidden: boolean;
-    sourceIndex: number;
     weight: number;
     width: WidthEnum;
     private gridId: string;
     private props: ColumnsPreviewType;
-    constructor(props: ColumnsPreviewType, sourceIndex: number, gridId: string) {
+    constructor(props: ColumnsPreviewType, columnNumber: number, gridId: string) {
         this.gridId = gridId;
         this.props = props;
         this.alignment = props.alignment;
@@ -23,7 +23,7 @@ export class ColumnPreview implements GridColumn {
         this.canResize = props.resizable;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.sourceIndex = sourceIndex;
+        this.columnNumber = columnNumber;
         this.weight = props.size ?? 1;
         this.width = props.width;
     }
@@ -32,7 +32,7 @@ export class ColumnPreview implements GridColumn {
         return this.props.sortable;
     }
     get columnId(): string {
-        return `${this.gridId}-column${this.sourceIndex}`;
+        return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;

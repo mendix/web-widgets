@@ -12,10 +12,10 @@ export interface GridColumn {
     canResize: boolean;
     canSort: boolean;
     columnId: string;
+    columnNumber: number;
     header: string;
     hidable: HidableEnum;
     hidden: boolean;
-    sourceIndex: number;
     weight: number;
     width: WidthEnum;
     renderCellContent: (item: ObjectItem) => ReactElement;

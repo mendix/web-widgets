@@ -9,14 +9,14 @@ export class Column implements GridColumn {
     canDrag: boolean;
     canHide: boolean;
     canResize: boolean;
+    columnNumber: number;
     hidable: HidableEnum;
     hidden: boolean;
-    sourceIndex: number;
     weight: number;
     width: WidthEnum;
     private gridId: string;
     private props: ColumnsType;
-    constructor(props: ColumnsType, sourceIndex: number, gridId: string) {
+    constructor(props: ColumnsType, columnNumber: number, gridId: string) {
         this.gridId = gridId;
         this.props = props;
         this.alignment = props.alignment;
@@ -25,7 +25,7 @@ export class Column implements GridColumn {
         this.canResize = props.resizable;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.sourceIndex = sourceIndex;
+        this.columnNumber = columnNumber;
         this.weight = props.size ?? 1;
         this.width = props.width;
     }
@@ -34,7 +34,7 @@ export class Column implements GridColumn {
         return this.props.sortable && !!this.props.attribute?.sortable;
     }
     get columnId(): string {
-        return `${this.gridId}-column${this.sourceIndex}`;
+        return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {
         let value: string | undefined;
