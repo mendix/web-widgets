@@ -1,8 +1,8 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement } from "react";
-import { AlignmentEnum, ColumnsType, HidableEnum, WidthEnum } from "../../../typings/DatagridProps";
-import { GridColumn } from "./GridColumn";
+import { AlignmentEnum, ColumnsType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { GridColumn } from "./typings/GridColumn";
 
 export class Column implements GridColumn {
     alignment: AlignmentEnum;

@@ -1,4 +1,4 @@
-import { GridColumn } from "./GridColumn";
+import { GridColumn } from "./typings/GridColumn";
 
 export function sortColumns(columnsOrder: number[], columnA: GridColumn, columnB: GridColumn): number {
     let columnAValue = columnsOrder.findIndex(c => c === columnA.columnNumber);
