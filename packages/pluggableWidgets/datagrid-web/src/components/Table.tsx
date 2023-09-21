@@ -12,7 +12,6 @@ import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { TableHeader, TableFooter } from "./TableHeaderFooter";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
-import { Column } from "../../typings/Column";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ObjectItem, ListActionValue } from "mendix";
@@ -24,15 +23,15 @@ import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeS
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
-import { GridColumn, sortColumns } from "../models/GridColumn";
+import { GridColumn } from "../helpers/GridColumn/GridColumn";
+import { sortColumns } from "../helpers/GridColumn/utils";
 import { CellComponent } from "../../typings/CellComponent";
 import { Row } from "./Row";
 
-export interface TableProps<C extends Column, T extends ObjectItem = ObjectItem> {
+export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
     columns: C[];
-    gridColumns: GridColumn[];
     columnsFilterable: boolean;
     columnsSortable: boolean;
     columnsResizable: boolean;
@@ -71,7 +70,7 @@ export interface SortProperty {
     desc: boolean;
 }
 
-export function Table<C extends Column>(props: TableProps<C>): ReactElement {
+export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement {
     const {
         className,
         columns,
@@ -102,21 +101,18 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         selectionMethod,
         onSelect,
         isSelected,
-        gridColumns,
         CellComponent
     } = props;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
-    const [columnOrder, setColumnOrder] = useState<string[]>([]);
-    const [hiddenColumns, setHiddenColumns] = useState<string[]>(
-        (columns
-            .map((c, i) => (columnsHidable && c.hidable === "hidden" && !preview ? i.toString() : undefined))
-            .filter(Boolean) as string[]) ?? []
+    const [columnOrder, setColumnOrder] = useState<number[]>([]);
+    const [hiddenColumns, setHiddenColumns] = useState<number[]>(
+        columns.flatMap(c => (columnsHidable && c.hidden && !preview ? [c.columnNumber] : []))
     );
     const [sortBy, setSortBy] = useState<SortingRule[]>([]);
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
-        Object.fromEntries(columns.map((_c, index) => [index.toString(), undefined]))
+        Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
     const checkboxSelectionOn = selectionMethod === "checkbox";
     const rowClickSelectionOn = selectionMethod === "rowClick";
@@ -124,7 +120,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
 
     const { updateSettings } = useSettings(
         settings,
-        gridColumns,
+        columns,
         columnOrder,
         setColumnOrder,
         hiddenColumns,
@@ -158,13 +154,11 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
         [isDragging]
     );
 
-    const [visibleGridColumns, visibleColumns] = useMemo(() => {
-        const visible1 = gridColumns
-            .filter(c => !hiddenColumns.includes(c.index.toString()))
+    const visibleColumns = useMemo(() => {
+        return columns
+            .filter(c => !hiddenColumns.includes(c.columnNumber))
             .sort((a, b) => sortColumns(columnOrder, a, b));
-        const visible2 = visible1.map(({ index }) => columns[index]);
-        return [visible1, visible2];
-    }, [hiddenColumns, columnOrder, columns, gridColumns]);
+    }, [hiddenColumns, columnOrder, columns]);
 
     const pagination = paging ? (
         <Pagination
@@ -181,11 +175,11 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
 
     const cssGridStyles = useMemo(
         () =>
-            gridStyle(visibleGridColumns, columnsWidth, {
+            gridStyle(visibleColumns, columnsWidth, {
                 selectItemColumn: checkboxSelectionOn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, visibleGridColumns, columnsHidable, checkboxSelectionOn]
+        [columnsWidth, visibleColumns, columnsHidable, checkboxSelectionOn]
     );
 
     return (
@@ -222,17 +216,17 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                 )}
                             </div>
                         )}
-                        {visibleGridColumns.map((column, index) =>
+                        {visibleColumns.map((column, index) =>
                             headerWrapperRenderer(
                                 index,
                                 <Header
-                                    key={`headers_column_${column.id}`}
+                                    key={`${column.columnId}`}
                                     className={`align-column-${column.alignment}`}
                                     column={column}
                                     draggable={columnsDraggable}
                                     dragOver={dragOver}
                                     filterable={columnsFilterable}
-                                    filterWidget={filterRendererProp(renderFilterWrapper, column.index)}
+                                    filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
                                     hidable={columnsHidable}
                                     isDragging={isDragging}
                                     preview={preview}
@@ -242,19 +236,19 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                             onResizeEnds={updateSettings}
                                             setColumnWidth={(width: number) =>
                                                 setColumnsWidth(prev => {
-                                                    prev[column.id] = width;
+                                                    prev[column.columnNumber] = width;
                                                     return { ...prev };
                                                 })
                                             }
                                         />
                                     }
-                                    setColumnOrder={(newOrder: string[]) => setColumnOrder(newOrder)}
+                                    setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
                                     setDragOver={setDragOver}
                                     setIsDragging={setIsDragging}
                                     setSortBy={setSortBy}
                                     sortable={columnsSortable}
                                     sortBy={sortBy}
-                                    visibleColumns={visibleGridColumns}
+                                    visibleColumns={visibleColumns}
                                     tableId={`${props.id}`}
                                 />
                             )
@@ -262,7 +256,7 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                         {columnsHidable && (
                             <ColumnSelector
                                 key="headers_column_selector"
-                                columns={gridColumns}
+                                columns={columns}
                                 hiddenColumns={hiddenColumns}
                                 id={id}
                                 setHiddenColumns={setHiddenColumns}
@@ -275,7 +269,6 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
                                 CellComponent={CellComponent}
                                 className={props.rowClass?.(item)}
                                 columns={visibleColumns}
-                                gridColumns={visibleGridColumns}
                                 index={rowIndex}
                                 item={item}
                                 key={`row_${item.id}`}
@@ -310,13 +303,9 @@ export function Table<C extends Column>(props: TableProps<C>): ReactElement {
     );
 }
 
-function gridStyle(
-    visibleGridColumn: GridColumn[],
-    resizeMap: ColumnWidthConfig,
-    optional: OptionalColumns
-): CSSProperties {
-    const columnSizes = visibleGridColumn.map(c => {
-        const columnResizedSize = resizeMap[c.id];
+function gridStyle(columns: GridColumn[], resizeMap: ColumnWidthConfig, optional: OptionalColumns): CSSProperties {
+    const columnSizes = columns.map(c => {
+        const columnResizedSize = resizeMap[c.columnNumber];
         if (columnResizedSize) {
             return `${columnResizedSize}px`;
         }

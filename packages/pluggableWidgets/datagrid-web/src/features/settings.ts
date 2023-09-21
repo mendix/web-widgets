@@ -27,7 +27,7 @@ export interface SortingRule {
 }
 
 export interface ColumnWidthConfig {
-    [index: string]: number | undefined;
+    [columnNumber: string]: number | undefined;
 }
 
 export function createSettings(
