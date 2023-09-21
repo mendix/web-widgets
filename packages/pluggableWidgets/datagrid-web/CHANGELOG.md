@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 -   We removed redundant code to improve widget load time in the browser.
+-   We fixed an issue where column selector and checkbox icon not aligned with filter control.
 
 ## [2.8.2] - 2023-08-25
 
