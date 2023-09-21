@@ -85,7 +85,12 @@ describe("Table", () => {
 
     it("renders the structure correctly with column alignments", () => {
         const props = mockTableProps();
-        props.columns = [column("Test"), column("Test 2")].map((col, index) => new Column(col, index, props.id!));
+        props.columns = [
+            column("Test", col => {
+                col.alignment = "center";
+            }),
+            column("Test 2", col => (col.alignment = "right"))
+        ].map((col, index) => new Column(col, index, props.id!));
 
         const component = render(<Table {...props} />);
 
@@ -101,7 +106,9 @@ describe("Table", () => {
     it("renders the structure correctly for preview when no header is provided", () => {
         const props = mockTableProps();
 
-        props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        props.columns = [column("", col => (col.alignment = "center"))].map(
+            (col, index) => new Column(col, index, props.id!)
+        );
         props.preview = true;
 
         const component = render(<Table {...props} />);

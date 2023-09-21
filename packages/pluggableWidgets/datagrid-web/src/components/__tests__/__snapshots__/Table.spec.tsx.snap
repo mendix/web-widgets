@@ -90,18 +90,18 @@ exports[`Table renders the structure correctly for preview when no header is pro
           class="th"
           role="columnheader"
           style="cursor:unset"
-          title="Test"
+          title=""
         >
           <div
             class="column-container"
             id="dg1-column0"
           >
             <div
-              aria-label="Test"
-              class="column-header align-column-left"
+              aria-label=""
+              class="column-header align-column-center"
             >
               <span>
-                Test
+                 
               </span>
             </div>
           </div>
@@ -112,7 +112,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
         role="row"
       >
         <div
-          class="td td-borders align-column-left"
+          class="td td-borders align-column-center"
           role="cell"
         >
           <span
@@ -163,7 +163,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           >
             <div
               aria-label="Test"
-              class="column-header align-column-left"
+              class="column-header align-column-center"
             >
               <span>
                 Test
@@ -183,7 +183,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           >
             <div
               aria-label="Test 2"
-              class="column-header align-column-left"
+              class="column-header align-column-right"
             >
               <span>
                 Test 2
@@ -197,7 +197,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         role="row"
       >
         <div
-          class="td td-borders align-column-left"
+          class="td td-borders align-column-center"
           role="cell"
         >
           <span
@@ -207,7 +207,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           </span>
         </div>
         <div
-          class="td td-borders align-column-left"
+          class="td td-borders align-column-right"
           role="cell"
         >
           <span
