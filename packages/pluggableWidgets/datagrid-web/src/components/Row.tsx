@@ -1,27 +1,31 @@
-import { ObjectItem, ListActionValue } from "mendix";
-import { createElement, ReactElement } from "react";
-import { Column } from "../../typings/Column";
-import { CellComponent, ClickAction } from "../../typings/CellComponent";
-import { CellElement } from "./CellElement";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
+import { ListActionValue, ObjectItem } from "mendix";
+import { ReactElement, createElement } from "react";
 import { SelectionMethod } from "../features/selection";
-import { GridColumn } from "../models/GridColumn";
+import { CellComponent } from "../typings/CellComponent";
+import { GridColumn } from "../typings/GridColumn";
+import { CellElement } from "./CellElement";
 
-export interface RowProps<C extends Column> {
+type ClickAction = "selectRow" | "executeAction" | "none";
+type onSelect = (item: ObjectItem) => void;
+type onClick = React.MouseEventHandler<HTMLDivElement>;
+type onKeyDown = React.KeyboardEventHandler<HTMLDivElement>;
+
+export interface RowProps<C extends GridColumn> {
     className?: string;
     CellComponent: CellComponent<C>;
     columns: C[];
-    gridColumns: GridColumn[];
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
     selectionMethod: SelectionMethod;
-    onSelect: (item: ObjectItem) => void;
+    onSelect: onSelect;
     selected: boolean;
     rowAction?: ListActionValue;
 }
 
-export function Row<C extends Column>(props: RowProps<C>): ReactElement {
+export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
 
     return (
@@ -36,18 +40,25 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
                     />
                 </CellElement>
             )}
-            {props.columns.map((column, columnIndex) => (
-                <Cell
-                    key={`row_${props.item.id}_col_${props.gridColumns[columnIndex].id}`}
-                    column={column}
-                    rowIndex={props.index}
-                    columnIndex={columnIndex}
-                    item={props.item}
-                    onSelect={props.onSelect}
-                    cellClickActAs={resolveClickAction(props.selectionMethod, props.rowAction)}
-                    rowAction={props.rowAction}
-                />
-            ))}
+            {props.columns.map((column, columnIndex) => {
+                const { onClick, onKeyDown } = getCellEventHandlers(
+                    props.selectionMethod,
+                    props.rowAction,
+                    props.onSelect,
+                    props.item
+                );
+                return (
+                    <Cell
+                        key={`row_${props.item.id}_col_${column.columnNumber}`}
+                        column={column}
+                        rowIndex={props.index}
+                        columnIndex={columnIndex}
+                        item={props.item}
+                        onClick={onClick}
+                        onKeyDown={onKeyDown}
+                    />
+                );
+            })}
             {props.showSelectorCell && (
                 <CellElement
                     key="column_selector_cell"
@@ -60,6 +71,32 @@ export function Row<C extends Column>(props: RowProps<C>): ReactElement {
     );
 }
 
-function resolveClickAction(method: SelectionMethod, action: ListActionValue | undefined): ClickAction {
-    return method !== "none" ? "selectRow" : action !== undefined ? "executeAction" : "none";
+type CellHandlers = { onClick?: onClick; onKeyDown?: onKeyDown };
+
+function getCellEventHandlers(
+    selection: SelectionMethod,
+    action: ListActionValue | undefined,
+    onSelect: onSelect,
+    item: ObjectItem
+): CellHandlers {
+    const clickAction: ClickAction =
+        selection !== "none" ? "selectRow" : action !== undefined ? "executeAction" : "none";
+
+    const handlers: CellHandlers = {};
+
+    if (clickAction === "none") {
+        return handlers;
+    }
+
+    const onClick = clickAction === "selectRow" ? () => onSelect(item) : () => executeAction(action?.get(item));
+
+    handlers.onClick = onClick;
+    handlers.onKeyDown = e => {
+        if ((e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
+            e.preventDefault();
+            onClick();
+        }
+    };
+
+    return handlers;
 }

@@ -25,7 +25,7 @@ import { SelectionMethod } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn } from "../typings/GridColumn";
 import { sortColumns } from "../helpers/utils";
-import { CellComponent } from "../../typings/CellComponent";
+import { CellComponent } from "../typings/CellComponent";
 import { Row } from "./Row";
 
 export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
