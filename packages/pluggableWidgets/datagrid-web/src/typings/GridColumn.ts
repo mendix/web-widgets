@@ -11,12 +11,14 @@ export interface GridColumn {
     canHide: boolean;
     canResize: boolean;
     canSort: boolean;
+    columnClass(item: ObjectItem): string | undefined;
     columnId: string;
     columnNumber: number;
     header: string;
     hidable: HidableEnum;
     hidden: boolean;
+    renderCellContent: (item: ObjectItem) => ReactElement;
     weight: number;
     width: WidthEnum;
-    renderCellContent: (item: ObjectItem) => ReactElement;
+    wrapText: boolean;
 }

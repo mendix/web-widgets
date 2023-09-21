@@ -12,8 +12,11 @@ export class ColumnPreview implements GridColumn {
     hidden: boolean;
     weight: number;
     width: WidthEnum;
+    wrapText: boolean;
+
     private gridId: string;
     private props: ColumnsPreviewType;
+
     constructor(props: ColumnsPreviewType, columnNumber: number, gridId: string) {
         this.gridId = gridId;
         this.props = props;
@@ -26,6 +29,11 @@ export class ColumnPreview implements GridColumn {
         this.columnNumber = columnNumber;
         this.weight = props.size ?? 1;
         this.width = props.width;
+        this.wrapText = props.wrapText;
+    }
+
+    columnClass(_item?: unknown): string | undefined {
+        return undefined;
     }
 
     get canSort(): boolean {

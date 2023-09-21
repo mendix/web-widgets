@@ -14,20 +14,27 @@ export class Column implements GridColumn {
     hidden: boolean;
     weight: number;
     width: WidthEnum;
+    wrapText: boolean;
     private gridId: string;
     private props: ColumnsType;
+
     constructor(props: ColumnsType, columnNumber: number, gridId: string) {
-        this.gridId = gridId;
-        this.props = props;
         this.alignment = props.alignment;
         this.canDrag = props.draggable;
         this.canHide = props.hidable !== "no";
         this.canResize = props.resizable;
+        this.columnNumber = columnNumber;
+        this.gridId = gridId;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.columnNumber = columnNumber;
+        this.props = props;
         this.weight = props.size ?? 1;
         this.width = props.width;
+        this.wrapText = props.wrapText;
+    }
+
+    columnClass(item: ObjectItem): string | undefined {
+        return this.props.columnClass?.get(item).value;
     }
 
     get canSort(): boolean {
