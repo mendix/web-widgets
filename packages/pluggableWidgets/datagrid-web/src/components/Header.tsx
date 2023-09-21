@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
-import { GridColumn } from "../models/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { SortingRule } from "../features/settings";
 
@@ -31,7 +31,7 @@ export interface HeaderProps {
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    setColumnOrder: (updater: string[]) => void;
+    setColumnOrder: (updater: number[]) => void;
     setDragOver: Dispatch<SetStateAction<string>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
@@ -43,18 +43,16 @@ export interface HeaderProps {
 export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
-    const colId = (id: string | number): string => toIdAttr(props.tableId, id);
     const draggableProps = useDraggable(
         canDrag,
         props.visibleColumns,
         props.setColumnOrder,
         props.setDragOver,
-        props.setIsDragging,
-        colId
+        props.setIsDragging
     );
 
     const [sortProperties] = props.sortBy;
-    const isSorted = sortProperties && sortProperties.id === props.column.index.toString();
+    const isSorted = sortProperties && sortProperties.columnNumber === props.column.columnNumber;
     const isSortedDesc = isSorted && sortProperties.desc;
 
     const sortIcon = canSort ? (
@@ -80,9 +78,9 @@ export function Header(props: HeaderProps): ReactElement {
          * If multisort is allowed in the future this should be changed to append instead of just return a new array
          */
         if (!isSorted) {
-            props.setSortBy([{ id: props.column.index.toString(), desc: false }]);
+            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: false }]);
         } else if (isSorted && !isSortedDesc) {
-            props.setSortBy([{ id: props.column.index.toString(), desc: true }]);
+            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: true }]);
         } else {
             props.setSortBy([]);
         }
@@ -111,11 +109,10 @@ export function Header(props: HeaderProps): ReactElement {
             title={caption}
         >
             <div
-                className={classNames(
-                    "column-container",
-                    canDrag && colId(props.column.id) === props.dragOver ? "dragging" : ""
-                )}
-                id={colId(props.column.id)}
+                className={classNames("column-container", {
+                    dragging: canDrag && props.column.columnId === props.dragOver
+                })}
+                id={props.column.columnId}
                 {...draggableProps}
             >
                 <div
@@ -137,10 +134,9 @@ export function Header(props: HeaderProps): ReactElement {
 function useDraggable(
     columnsDraggable: boolean,
     visibleColumns: GridColumn[],
-    setColumnOrder: (updater: ((columnOrder: string[]) => string[]) | string[]) => void,
+    setColumnOrder: (updater: ((columnOrder: number[]) => number[]) | number[]) => void,
     setDragOver: Dispatch<SetStateAction<string>>,
-    setIsDragging: Dispatch<SetStateAction<boolean>>,
-    getColId: (id: string | number) => string
+    setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
     draggable?: boolean;
     onDragStart?: DragEventHandler;
@@ -152,8 +148,8 @@ function useDraggable(
     const handleDragStart = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             setIsDragging(true);
-            const { id } = e.target as HTMLDivElement;
-            e.dataTransfer.setData("colDestination", id);
+            const { id: columnId } = e.target as HTMLDivElement;
+            e.dataTransfer.setData("colDestination", columnId);
         },
         [setIsDragging]
     );
@@ -164,10 +160,10 @@ function useDraggable(
 
     const handleDragEnter = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
-            const { id } = e.target as HTMLDivElement;
+            const { id: columnId } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData("colDestination");
-            if (id !== colDestination) {
-                setDragOver(id);
+            if (columnId !== colDestination) {
+                setDragOver(columnId);
             }
         },
         [setDragOver]
@@ -184,14 +180,14 @@ function useDraggable(
             const { id: colOrigin } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData("colDestination");
 
-            const toIndex = visibleColumns.findIndex(col => getColId(col.id) === colOrigin);
-            const fromIndex = visibleColumns.findIndex(col => getColId(col.id) === colDestination);
+            const toIndex = visibleColumns.findIndex(col => col.columnId === colOrigin);
+            const fromIndex = visibleColumns.findIndex(col => col.columnId === colDestination);
 
             if (toIndex !== fromIndex) {
-                const newOrder = [...visibleColumns.map(column => column.id)];
-                const id = newOrder[fromIndex];
+                const newOrder = [...visibleColumns.map(column => column.columnNumber)];
+                const colNum = newOrder[fromIndex];
                 newOrder.splice(fromIndex, 1);
-                newOrder.splice(toIndex, 0, id);
+                newOrder.splice(toIndex, 0, colNum);
                 setColumnOrder(newOrder);
             }
         },
@@ -209,5 +205,3 @@ function useDraggable(
           }
         : {};
 }
-
-const toIdAttr = (tableId: string, id: string | number): string => `${tableId}-column${id}`;
