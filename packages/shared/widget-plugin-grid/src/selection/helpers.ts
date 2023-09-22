@@ -22,7 +22,12 @@ class SingleSelectionHelper {
 
 export class MultiSelectionHelper {
     type = "Multi" as const;
-    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {}
+    private rangeStart: number | undefined;
+    private rangeEnd: number | undefined;
+
+    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
+        this.rangeStart = undefined;
+    }
 
     isSelected(value: ObjectItem): boolean {
         return this.selectionValue.selection.some(obj => obj.id === value.id);
@@ -30,7 +35,11 @@ export class MultiSelectionHelper {
 
     updateProps(value: SelectionMultiValue, items: ObjectItem[]): void {
         this.selectionValue = value;
-        this.selectableItems = items;
+
+        if (this._itemsEqual(this.selectableItems, items) === false) {
+            this.selectableItems = items;
+            this._resetRange();
+        }
     }
 
     get selectionStatus(): MultiSelectionStatus {
@@ -42,15 +51,117 @@ export class MultiSelectionHelper {
     }
 
     add(value: ObjectItem): void {
-        if (!this.isSelected(value)) {
-            this.selectionValue.setSelection(this.selectionValue.selection.concat(value));
-        }
+        this._add(value);
+        this._setRangeStart(value);
+        this._setRangeEnd(undefined);
     }
 
     remove(value: ObjectItem): void {
         if (this.isSelected(value)) {
             this.selectionValue.setSelection(this.selectionValue.selection.filter(obj => obj.id !== value.id));
         }
+        this._resetRange();
+    }
+
+    private _add(value: ObjectItem): void {
+        if (!this.isSelected(value)) {
+            this.selectionValue.setSelection(this.selectionValue.selection.concat(value));
+        }
+    }
+
+    private _setRangeStart(item: ObjectItem | undefined): void {
+        let index = -1;
+        if (item !== undefined) {
+            index = this.selectableItems.indexOf(item);
+        }
+        this.rangeStart = index > -1 ? index : undefined;
+    }
+
+    private _setRangeEnd(item: ObjectItem | undefined): void {
+        if (item === undefined) {
+            this.rangeEnd = undefined;
+            return;
+        }
+
+        const currentEnd = this.rangeEnd;
+        const nextEnd = this.selectableItems.indexOf(item);
+        this.rangeEnd = nextEnd > -1 ? nextEnd : undefined;
+
+        this._updateSelectionWithRange(this.rangeStart, currentEnd, nextEnd);
+    }
+
+    private _updateSelectionWithRange(
+        start: undefined | number,
+        currentEnd: undefined | number,
+        nextEnd: number
+    ): void {
+        if (start === undefined) {
+            return;
+        }
+
+        if (nextEnd === -1) {
+            return;
+        }
+
+        if (currentEnd === nextEnd) {
+            return;
+        }
+
+        if (currentEnd === undefined) {
+            const itemsToAdd = this._getRange(start, nextEnd);
+            const selection = this._union(this.selectionValue.selection, itemsToAdd);
+            // console.log(selection, itemsToAdd);
+            this.selectionValue.setSelection(selection);
+            return;
+        }
+
+        const itemsToRemove = this._getRange(start, currentEnd);
+        const itemsToAdd = this._getRange(start, nextEnd);
+
+        let selection = [...this.selectionValue.selection];
+        selection = this._diff(selection, itemsToRemove);
+        selection = this._union(selection, itemsToAdd);
+        this.selectionValue.setSelection(selection);
+    }
+
+    private _getRange(start: number, end: number): ObjectItem[] {
+        const len = this.selectableItems.length;
+        const [s, e] = [clamp(start, 0, len), clamp(end, 0, len)].sort();
+        return this.selectableItems.slice(s, e + 1);
+    }
+
+    private _resetRange(): void {
+        this._setRangeStart(undefined);
+        this._setRangeEnd(undefined);
+    }
+
+    private _union(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
+        const union = new Set(selection);
+
+        for (const item of items) {
+            union.add(item);
+        }
+
+        return Array.from(union);
+    }
+
+    private _diff(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
+        const diff = new Set(selection);
+
+        for (const item of items) {
+            if (diff.has(item)) {
+                diff.delete(item);
+            }
+        }
+
+        return Array.from(diff);
+    }
+
+    private _itemsEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
+        if (a.length === b.length) {
+            return a.every((obj, index) => obj.id === b[index].id);
+        }
+        return false;
     }
 
     selectAll(): void {
@@ -62,9 +173,16 @@ export class MultiSelectionHelper {
     }
 
     selectUpTo(value: ObjectItem): void {
-        return undefined;
+        if (this.rangeStart === undefined) {
+            this._add(value);
+            this._setRangeStart(value);
+        } else {
+            this._setRangeEnd(value);
+        }
     }
 }
+
+const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,

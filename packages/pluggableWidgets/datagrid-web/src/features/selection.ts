@@ -5,8 +5,10 @@ import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum }
 
 export type SelectionMethod = ItemSelectionMethodEnum | "none";
 
+export type onSelect = (item: ObjectItem, shiftKey?: boolean) => void;
+
 export type SelectActionProps = {
-    onSelect: (item: ObjectItem) => void;
+    onSelect: onSelect;
     onSelectAll: () => void;
     isSelected: (item: ObjectItem) => boolean;
 };
@@ -24,8 +26,12 @@ export function useOnSelectProps(selection: SelectionHelper | undefined): Select
         }
 
         return {
-            onSelect: item => {
-                if (selection.isSelected(item)) {
+            onSelect: (item, shiftKey) => {
+                shiftKey = shiftKey ?? false;
+
+                if (selection.type === "Multi" && shiftKey) {
+                    selection.selectUpTo(item);
+                } else if (selection.isSelected(item)) {
                     selection.remove(item);
                 } else {
                     selection.add(item);

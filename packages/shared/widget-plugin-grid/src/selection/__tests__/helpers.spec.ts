@@ -2,10 +2,6 @@ import { SelectionMultiValueBuilder, objectItems } from "@mendix/widget-plugin-t
 import { SelectionMultiValue, ObjectItem } from "mendix";
 import { MultiSelectionHelper } from "../helpers";
 
-function smv(): SelectionMultiValue {
-    return new SelectionMultiValueBuilder().build();
-}
-
 describe("MultiSelectionHelper", () => {
     describe("range selection", () => {
         const x = true;
@@ -17,8 +13,8 @@ describe("MultiSelectionHelper", () => {
         const gridState = (): boolean[] => items.map(item => helper.isSelected(item));
 
         beforeEach(() => {
-            selectionValue = smv();
             items = objectItems(numberOfItems);
+            selectionValue = new SelectionMultiValueBuilder().build();
             helper = new MultiSelectionHelper(selectionValue, items);
         });
 
@@ -30,6 +26,7 @@ describe("MultiSelectionHelper", () => {
             expect(gridState()).toEqual([_, x, x, x, _, _, _, _]);
         });
 
+        // eslint-disable-next-line jest/no-focused-tests
         it("preserves the items that were already selected", () => {
             helper.add(items[0]);
             expect(gridState()).toEqual([x, _, _, _, _, _, _, _]);
@@ -37,7 +34,7 @@ describe("MultiSelectionHelper", () => {
             helper.add(items[2]);
             expect(gridState()).toEqual([x, _, x, _, _, _, _, _]);
 
-            helper.selectUpTo(items[4]);
+            helper.add(items[4]);
             expect(gridState()).toEqual([x, _, x, _, x, _, _, _]);
 
             helper.selectUpTo(items[7]);
@@ -186,7 +183,10 @@ describe("MultiSelectionHelper", () => {
             expect(gridState()).toEqual([x, x, _, _, _, _, _, _]);
 
             helper.selectUpTo(items[5]);
-            expect(gridState()).toEqual([x, x, x, _, _, x, _, _]);
+            expect(gridState()).toEqual([x, x, _, _, _, x, _, _]);
+
+            helper.selectUpTo(items[3]);
+            expect(gridState()).toEqual([x, x, _, x, x, x, _, _]);
         });
 
         it("ignores unknown items", () => {

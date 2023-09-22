@@ -2,13 +2,12 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { ReactElement, createElement } from "react";
-import { SelectionMethod } from "../features/selection";
+import { SelectionMethod, onSelect } from "../features/selection";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CellElement } from "./CellElement";
 
 type ClickAction = "selectRow" | "executeAction" | "none";
-type onSelect = (item: ObjectItem) => void;
 type onClick = React.MouseEventHandler<HTMLDivElement>;
 type onKeyDown = React.KeyboardEventHandler<HTMLDivElement>;
 
@@ -25,6 +24,10 @@ export interface RowProps<C extends GridColumn> {
     rowAction?: ListActionValue;
 }
 
+const onChangeStub = () => {
+    /* stub to prevent react warnings */
+};
+
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
 
@@ -34,7 +37,8 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 <CellElement key="checkbox_cell" className="widget-datagrid-col-select" borderTop={props.index === 0}>
                     <input
                         checked={props.selected}
-                        onChange={() => props.onSelect(props.item)}
+                        onClick={event => props.onSelect(props.item, event.shiftKey)}
+                        onChange={onChangeStub}
                         type="checkbox"
                         tabIndex={-1}
                     />
@@ -88,7 +92,10 @@ function getCellEventHandlers(
         return handlers;
     }
 
-    const onClick = clickAction === "selectRow" ? () => onSelect(item) : () => executeAction(action?.get(item));
+    const onClick =
+        clickAction === "selectRow"
+            ? (event?: { shiftKey?: boolean }) => onSelect(item, event?.shiftKey)
+            : () => executeAction(action?.get(item));
 
     handlers.onClick = onClick;
     handlers.onKeyDown = e => {
