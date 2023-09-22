@@ -36,7 +36,6 @@ export function createSettings(
 ): PersistedSettings[] {
     return columns.map(column => {
         const columnIndex = columnOrder.findIndex(o => o === column.columnNumber);
-        console.log(hiddenColumns);
         return {
             column: column.header,
             sort: !!sortBy.find(s => s.columnNumber === column.columnNumber),
@@ -133,9 +132,7 @@ export function useSettings(
                         widths
                     },
                     filteredColumns
-                ) ?? [],
-                null,
-                2
+                ) ?? []
             );
             if (previousLoadedSettings.current !== newSettings && settings.value !== newSettings) {
                 settings.setValue(newSettings);
