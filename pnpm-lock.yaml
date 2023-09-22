@@ -2140,6 +2140,9 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../widget-plugin-test-utils
       '@swc/core':
         specifier: ^1.3.37
         version: 1.3.37

@@ -20,7 +20,7 @@ class SingleSelectionHelper {
     }
 }
 
-class MultiSelectionHelper {
+export class MultiSelectionHelper {
     type = "Multi" as const;
     constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {}
 
@@ -56,8 +56,13 @@ class MultiSelectionHelper {
     selectAll(): void {
         this.selectionValue.setSelection(this.selectableItems);
     }
+
     selectNone(): void {
         this.selectionValue.setSelection([]);
+    }
+
+    selectUpTo(value: ObjectItem): void {
+        return undefined;
     }
 }
 
@@ -100,6 +105,5 @@ export function useSelectionHelper(
 }
 
 export type { SingleSelectionHelper };
-export type { MultiSelectionHelper };
 export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
 export type MultiSelectionStatus = "none" | "all" | "some";
