@@ -36,11 +36,12 @@ export function createSettings(
 ): PersistedSettings[] {
     return columns.map(column => {
         const columnIndex = columnOrder.findIndex(o => o === column.columnNumber);
+        console.log(hiddenColumns);
         return {
             column: column.header,
             sort: !!sortBy.find(s => s.columnNumber === column.columnNumber),
             sortMethod: sortBy.find(s => s.columnNumber === column.columnNumber)?.desc ? "desc" : "asc",
-            hidden: !!hiddenColumns.find(h => h === column.columnNumber),
+            hidden: hiddenColumns.includes(column.columnNumber),
             order: columnIndex > -1 ? columnIndex : column.columnNumber,
             width: widths[column.columnNumber]
         };
@@ -132,7 +133,9 @@ export function useSettings(
                         widths
                     },
                     filteredColumns
-                ) ?? []
+                ) ?? [],
+                null,
+                2
             );
             if (previousLoadedSettings.current !== newSettings && settings.value !== newSettings) {
                 settings.setValue(newSettings);

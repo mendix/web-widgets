@@ -134,11 +134,11 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
     useEffect(() => updateSettings(), [columnOrder, hiddenColumns, sortBy, updateSettings]);
 
     useEffect(() => {
-        const [sortProperties] = sortBy;
-        if (sortProperties && "id" in sortProperties && "desc" in sortProperties) {
+        const [sortingRule] = sortBy;
+        if (sortingRule !== undefined) {
             setSortParameters?.({
-                columnIndex: Number(sortProperties.id),
-                desc: sortProperties.desc ?? false
+                columnIndex: sortingRule.columnNumber,
+                desc: sortingRule.desc
             });
         } else {
             setSortParameters?.(undefined);
