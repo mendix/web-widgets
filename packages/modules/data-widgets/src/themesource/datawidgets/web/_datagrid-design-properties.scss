@@ -12,6 +12,9 @@
             &.column-selector {
                 padding: $spacing-small 0;
             }
+            &.widget-datagrid-col-select {
+                padding-bottom: calc($spacing-small + 11px);
+            }
         }
     }
 
@@ -21,6 +24,13 @@
 
     .dropdown-container .dropdown-list {
         margin: 0 $spacing-small;
+    }
+
+    .column-selector {
+        /* Column content */
+        .column-selector-content {
+            padding-right: $spacing-small;
+        }
     }
 }
 

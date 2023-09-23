@@ -103,7 +103,6 @@ $grid-selected-row-background: $brand-light;
 
         /* Header text */
         .column-header {
-            height: 100%;
             margin: 1px 1px 1px -$dragging-effect-size + 1px;
 
             display: flex;
@@ -166,8 +165,8 @@ $grid-selected-row-background: $brand-light;
 
             /*adjust checkbox toggle to be mid-bottom aligned */
             &.widget-datagrid-col-select {
-                align-self: flex-end;
-                margin-bottom: 11px;
+                align-items: flex-end;
+                padding-bottom: calc($spacing-medium + 11px);
             }
         }
     }
@@ -179,10 +178,10 @@ $grid-selected-row-background: $brand-light;
         /* Column content */
         .column-selector-content {
             align-self: center;
-
+            padding-right: $spacing-medium;
             /* Button containing the eye icon */
             .column-selector-button {
-                $icon-margin: 8px;
+                $icon-margin: 7px;
                 /* 2px as path of icon's path is a bit bigger than outer svg */
                 $icon-slack-size: 2px;
 
@@ -193,8 +192,6 @@ $grid-selected-row-background: $brand-light;
                 width: ($icon-size + $icon-margin * 2 + $icon-slack-size);
 
                 svg {
-                    width: $icon-size;
-                    height: $icon-size;
                     margin: $icon-margin;
                 }
             }
