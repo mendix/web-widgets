@@ -688,8 +688,8 @@ importers:
   packages/pluggableWidgets/carousel-web:
     dependencies:
       '@types/react-test-renderer':
-        specifier: ^18.0.0
-        version: 18.0.0
+        specifier: ^18.0.2
+        version: 18.0.2
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1625,8 +1625,8 @@ importers:
         specifier: ^2.4.0
         version: 2.4.0
       '@types/react-test-renderer':
-        specifier: ^18.0.0
-        version: 18.0.0
+        specifier: ^18.0.2
+        version: 18.0.2
       ckeditor4:
         specifier: ^4.22.1
         version: 4.22.1
@@ -1908,8 +1908,8 @@ importers:
   packages/pluggableWidgets/video-player-web:
     dependencies:
       '@types/react-test-renderer':
-        specifier: ^18.0.0
-        version: 18.0.0
+        specifier: ^18.0.2
+        version: 18.0.2
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -5260,8 +5260,8 @@ packages:
       '@types/react': 18.2.9
     dev: true
 
-  /@types/react-test-renderer@18.0.0:
-    resolution: {integrity: sha512-C7/5FBJ3g3sqUahguGi03O79b8afNeSD6T8/GU50oQrJCU0bVCCGQHaGKUbg2Ce8VQEEqTw8/HiS6lXHHdgkdQ==}
+  /@types/react-test-renderer@18.0.2:
+    resolution: {integrity: sha512-tJzMn+9GHDrdrLe0O4rwJELDfTrmdJbCn/UdYyzjlnPiXYXDl5FBNzdw4PVk2R3hJvSHKFjZcRgvZc12lV0p5Q==}
     dependencies:
       '@types/react': 18.2.9
     dev: false
