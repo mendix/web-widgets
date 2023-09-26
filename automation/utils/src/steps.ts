@@ -130,12 +130,15 @@ export async function copyThemesourceToProject({ config }: ModuleStepParams): Pr
     cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
 }
 
-export function copyActions(files: string[]): (prams: ModuleStepParams) => Promise<void> {
+export function copyActionsFiles(files: string[]): (params: ModuleStepParams) => Promise<void> {
     return async ({ config }) => {
-        logStep("Copy JS Action(s)");
+        logStep("Copy JS Action(s) files");
+        const { paths, output } = config;
+        mkdir("-p", output.dirs.javascriptsource);
+
         for (const file of files) {
-            const src = join(config.paths.javascriptsource, "actions", file);
-            const dest = join(config.output.dirs.javascriptsource, "actions", file);
+            const src = join(paths.javascriptsource, "actions", file);
+            const dest = join(output.dirs.javascriptsource, "actions", file);
             const content = await readFile(src, { encoding: "utf-8" });
             // Studio Pro require CRLF endings to read action file.
             await writeFile(dest, content.replace(/\r\n|\r|\n/g, "\r\n"));

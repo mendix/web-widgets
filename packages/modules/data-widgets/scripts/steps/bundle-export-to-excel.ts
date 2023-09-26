@@ -1,5 +1,5 @@
 import path from "node:path";
-import { ModuleStepParams, logStep, copyActions } from "@mendix/automation-utils/steps";
+import { ModuleStepParams, logStep, copyActionsFiles } from "@mendix/automation-utils/steps";
 import * as rollup from "rollup";
 import type { InputOptions, OutputOptions } from "rollup";
 import resolve from "@rollup/plugin-node-resolve";
@@ -28,7 +28,7 @@ const xlsxExportTools: Entry = {
 };
 
 export async function bundleExportToExcelAction(params: ModuleStepParams): Promise<void> {
-    await copyActions(["Export_To_Excel.js"])(params);
+    await copyActionsFiles(["Export_To_Excel.js"])(params);
 
     logStep("Bundle action dependencies");
     const xlsxBundle = await rollup.rollup(xlsxExportTools.getInputOptions(params));
