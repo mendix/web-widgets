@@ -6,6 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.1] Charts - 2023-09-27
+
+### [3.1.2] AreaChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.2] BarChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.2] BubbleChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.2] ColumnChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.1] HeatMap
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.2] LineChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.1] PieChart
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [3.1.2] TimeSeries
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [4.2.0] Charts - 2023-08-16
 
 ### Fixed
