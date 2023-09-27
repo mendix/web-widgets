@@ -1,4 +1,5 @@
-name: Create GitHub release
+name: Create draft release
+run-name: Draft release for ${{ inputs.package }}
 
 on:
     workflow_dispatch:
