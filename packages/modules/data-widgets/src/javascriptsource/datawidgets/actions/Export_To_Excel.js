@@ -17,10 +17,10 @@ import { utils, writeFileXLSX } from './xlsx-export-tools.js';
  * @param {string} fileName
  * @param {string} sheetName
  * @param {boolean} includeColumnHeaders
- * @param {Big} requestLimit
+ * @param {Big} chunkSize - The number of items fetched and exported per request.
  * @returns {Promise.<boolean>}
  */
-export async function Export_To_Excel(datagridName, fileName, sheetName, includeColumnHeaders, requestLimit) {
+export async function Export_To_Excel(datagridName, fileName, sheetName, includeColumnHeaders, chunkSize) {
 	// BEGIN USER CODE
     if (!fileName || !datagridName || !sheetName) {
         return false;
@@ -31,12 +31,12 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
         const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
         let worksheet;
         let headers;
-        const streamOptions = { limit: requestLimit };
+        const streamOptions = { limit: chunkSize };
         stream.process((msg) => {
             if (!msg) {
                 return;
             }
-    
+
             switch (msg.type) {
                 case "columns":
                     headers = msg.payload.map(column => column.name);
@@ -71,7 +71,7 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
                     break;
             }
         }, streamOptions);
-    
+
         stream.start();
     });
 	// END USER CODE
