@@ -39,19 +39,19 @@ export type Message =
           type: "aborted";
       };
 
-interface SteamOptions {
+interface StreamOptions {
     limit: number;
 }
 
 interface DataExportStream {
-    process(cb: (msg: Message) => Promise<void> | void, options?: SteamOptions): void;
+    process(cb: (msg: Message) => Promise<void> | void, options?: StreamOptions): void;
     start(): void;
     abort(): void;
 }
 
 export type UpdateDataSourceFn = (params: { offset?: number; limit?: number; reload?: boolean }) => void;
 
-type UseDG2ExportApi = {
+type UseExportAPIProps = {
     columns: ColumnsType[];
     hasMoreItems: boolean;
     items?: ObjectItem[];
@@ -66,7 +66,7 @@ type UseExportAPIReturn = {
     items: ObjectItem[];
 };
 
-export const useDG2ExportApi = (props: UseDG2ExportApi): UseExportAPIReturn => {
+export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn => {
     const [result, dispatch] = useExportMachine(props);
 
     useEffect(() => {
@@ -156,7 +156,7 @@ function useExportMachine({
     limit = DEFAULT_LIMIT,
     hasMoreItems,
     updateDataSource
-}: UseDG2ExportApi): [UseExportAPIReturn, Dispatch<Action>] {
+}: UseExportAPIProps): [UseExportAPIReturn, Dispatch<Action>] {
     const [state, dispatch] = useReducer(exportStateReducer, initState());
     const [exportFlow, flowCleanup] = useMemo(createExportFlow, []);
 
@@ -203,7 +203,7 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): Message {
             } else if (column.showContentAs === "dynamicText") {
                 value = column.dynamicText?.get(item)?.value ?? "";
             } else {
-                value = "n/a";
+                value = "n/a (custom content)";
             }
 
             return value;
