@@ -1,14 +1,16 @@
-import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
+import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import * as testingLibrary from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { render } from "enzyme";
-import { createElement } from "react";
+import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
+import { ReactElement, createElement } from "react";
+import { useOnSelectProps } from "../../features/selection";
 import { Column } from "../../helpers/Column";
+import { GridColumn } from "../../typings/GridColumn";
 import { column, mockTableProps } from "../../utils/test-utils";
-import { Table } from "../Table";
-
+import { Table, TableProps } from "../Table";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -256,17 +258,17 @@ describe("Table", () => {
 
             await userEvent.click(checkbox1);
             expect(onSelect).toBeCalledTimes(1);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
             await userEvent.click(checkbox1);
             expect(onSelect).toBeCalledTimes(2);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
 
             await userEvent.click(checkbox3);
             expect(onSelect).toBeCalledTimes(3);
-            expect(onSelect).toHaveBeenLastCalledWith(items[2]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2], false);
             await userEvent.click(checkbox3);
             expect(onSelect).toBeCalledTimes(4);
-            expect(onSelect).toHaveBeenLastCalledWith(items[2]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2], false);
         });
     });
 
@@ -401,41 +403,91 @@ describe("Table", () => {
             // Click cell1 two times
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(1);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(2);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
 
             // Click cell2
             await userEvent.click(cell2);
             expect(onSelect).toHaveBeenCalledTimes(3);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
 
             // Click cell3 and cell4
             await userEvent.click(cell4);
             expect(onSelect).toHaveBeenCalledTimes(4);
-            expect(onSelect).toHaveBeenLastCalledWith(items[1]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1], false);
             await userEvent.click(cell3);
             expect(onSelect).toHaveBeenCalledTimes(5);
-            expect(onSelect).toHaveBeenLastCalledWith(items[1]);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1], false);
         });
     });
 
     describe("when selecting is enabled, allow the user to select multiple rows", () => {
-        const { render, screen, getAllByRole } = testingLibrary;
-        let items: ObjectItem[];
+        const { render, screen } = testingLibrary;
+        let items: ReturnType<typeof objectItems>;
+        let props: ReturnType<typeof mockTableProps>;
+        let user: ReturnType<typeof userEvent.setup>;
+        let selection: SelectionMultiValue;
+        let ds: ListValue;
 
-        beforeEach(() => {});
+        function TableWithSelectionHelper(props: TableProps<GridColumn, ObjectItem>): ReactElement {
+            console.log("type", typeof selection, selection);
+            const helper = useSelectionHelper(selection, ds, undefined);
+            const sp = useOnSelectProps(helper);
+            return <Table {...props} {...sp} />;
+        }
 
-        it("selects multiple rows with shift+click on a row", () => {});
+        beforeEach(() => {
+            ds = list(20);
+            items = ds.items!;
+            user = userEvent.setup();
+            props = mockTableProps();
+            selection = new SelectionMultiValueBuilder().build();
 
-        it("selects multiple rows with shift+click on a checkbox", () => {});
+            props.data = items;
+            props.columns = [
+                column("Name"),
+                column("Description"),
+                column("Amount", col => {
+                    col.showContentAs = "customContent";
+                    col.content = listWidget(() => <input />);
+                })
+            ].map((col, index) => new Column(col, index, props.id!));
+        });
 
-        it("selects all available rows with metaKey+a", () => {});
+        it("selects multiple rows with shift+click on a row", async () => {
+            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(20);
 
-        it("selects all available rows with ctrlKey+a", () => {});
+            await user.click(rows[0].children[0]);
+            expect(selection.selection).toEqual([items[0]]);
+        });
 
-        it("must not select rows, when metaKey+a or ctrlKey+a pressed in custom widget", () => {});
+        it("selects multiple rows with shift+click on a checkbox", () => {
+            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(20);
+        });
+
+        it("selects all available rows with metaKey+a", () => {
+            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(20);
+        });
+
+        it("selects all available rows with ctrlKey+a", () => {
+            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(20);
+        });
+
+        it("must not select rows, when metaKey+a or ctrlKey+a pressed in custom widget", () => {
+            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
+            const rows = screen.getAllByRole("row").slice(1);
+            expect(rows).toHaveLength(20);
+        });
     });
 
     describe("when has interactive element", () => {
