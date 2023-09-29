@@ -421,6 +421,23 @@ describe("Table", () => {
         });
     });
 
+    describe("when selecting is enabled, allow the user to select multiple rows", () => {
+        const { render, screen, getAllByRole } = testingLibrary;
+        let items: ObjectItem[];
+
+        beforeEach(() => {});
+
+        it("selects multiple rows with shift+click on a row", () => {});
+
+        it("selects multiple rows with shift+click on a checkbox", () => {});
+
+        it("selects all available rows with metaKey+a", () => {});
+
+        it("selects all available rows with ctrlKey+a", () => {});
+
+        it("must not select rows, when metaKey+a or ctrlKey+a pressed in custom widget", () => {});
+    });
+
     describe("when has interactive element", () => {
         it("should not prevent default on keyboard input (space and Enter)", async () => {
             const { render, screen } = testingLibrary;
