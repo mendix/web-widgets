@@ -20,8 +20,8 @@
     "root-script:commitlint": "commitlint"
   },
   "dependencies": {
-    "@commitlint/cli": "^17.6.7",
-    "@commitlint/config-conventional": "^17.6.7",
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "pretty-quick": "^3.1.3"
   },
