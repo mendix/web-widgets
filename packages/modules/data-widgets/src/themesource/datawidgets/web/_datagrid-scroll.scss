@@ -1,0 +1,24 @@
+.sticky-sentinel {
+    &.container-stuck {
+        & + .table {
+            .th {
+                position: -webkit-sticky; /* Safari */
+                position: sticky;
+                z-index: 50;
+            }
+        }
+    }
+}
+
+.sticky-table-container.infinite-loading {
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.table {
+    .table-content {
+        &.infinite-loading {
+            overflow-y: scroll;
+        }
+    }
+}
