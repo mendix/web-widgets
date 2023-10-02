@@ -1,12 +1,13 @@
-import { render } from "enzyme";
+import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
 import * as testingLibrary from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { GUID, ObjectItem } from "mendix";
+import { render } from "enzyme";
 import { createElement } from "react";
-import { CellRenderer, Table, TableProps } from "../Table";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
-import "@testing-library/jest-dom";
-import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { Column } from "../../helpers/Column";
+import { column, mockTableProps } from "../../utils/test-utils";
+import { Table } from "../Table";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument
@@ -64,21 +65,12 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly with custom filtering", () => {
-        const columns = [
-            {
-                header: "Test",
-                hasWidgets: false,
-                sortable: false,
-                resizable: false,
-                draggable: false,
-                hidable: "no" as const,
-                width: "autoFill" as const,
-                size: 1,
-                alignment: "left" as const,
-                wrapText: false
-            }
-        ];
-        const component = render(<Table {...mockTableProps()} columnsFilterable columns={columns} />);
+        const props = mockTableProps();
+
+        props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        props.columnsFilterable = true;
+
+        const component = render(<Table {...props} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -92,38 +84,15 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly with column alignments", () => {
-        const columns = [
-            {
-                header: "Test",
-                sortable: false,
-                resizable: false,
-                draggable: false,
-                hidable: "no" as const,
-                width: "autoFill" as const,
-                size: 1,
-                alignment: "center" as const,
-                wrapText: false
-            },
-            {
-                header: "Test 2",
-                sortable: false,
-                resizable: false,
-                draggable: false,
-                hidable: "no" as const,
-                width: "autoFill" as const,
-                size: 1,
-                alignment: "right" as const,
-                wrapText: false
-            }
-        ];
+        const props = mockTableProps();
+        props.columns = [
+            column("Test", col => {
+                col.alignment = "center";
+            }),
+            column("Test 2", col => (col.alignment = "right"))
+        ].map((col, index) => new Column(col, index, props.id!));
 
-        const component = render(
-            <Table
-                {...mockTableProps()}
-                columns={columns}
-                cellRenderer={(renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header)}
-            />
-        );
+        const component = render(<Table {...props} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -135,20 +104,14 @@ describe("Table", () => {
     });
 
     it("renders the structure correctly for preview when no header is provided", () => {
-        const columns = [
-            {
-                header: "",
-                sortable: false,
-                resizable: false,
-                draggable: false,
-                hidable: "no" as const,
-                width: "autoFill" as const,
-                size: 1,
-                alignment: "center" as const,
-                wrapText: false
-            }
-        ];
-        const component = render(<Table {...mockTableProps()} preview columns={columns} />);
+        const props = mockTableProps();
+
+        props.columns = [column("", col => (col.alignment = "center"))].map(
+            (col, index) => new Column(col, index, props.id!)
+        );
+        props.preview = true;
+
+        const component = render(<Table {...props} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -421,25 +384,12 @@ describe("Table", () => {
             const { render, screen, getAllByRole } = testingLibrary;
             const items = objectItems(3);
             const onSelect = jest.fn();
-            const {
-                columns: [columnProps],
-                ...props
-            } = mockTableProps();
-            const col1 = { ...columnProps, header: "Column A" };
-            const col2 = { ...columnProps, header: "Column B" };
-            const columns = [col1, col2];
+            const props = mockTableProps();
+            const columns = [column("Column A"), column("Column B")];
 
-            render(
-                <Table
-                    {...props}
-                    columns={columns}
-                    data={items}
-                    cellRenderer={(renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header)}
-                    paging
-                    selectionMethod={"rowClick"}
-                    onSelect={onSelect}
-                />
-            );
+            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
+
+            render(<Table {...props} data={items} paging selectionMethod={"rowClick"} onSelect={onSelect} />);
 
             const rows = screen.getAllByRole("row").slice(1);
             expect(rows).toHaveLength(3);
@@ -475,12 +425,21 @@ describe("Table", () => {
         it("should not prevent default on keyboard input (space and Enter)", async () => {
             const { render, screen } = testingLibrary;
             const items = objectItems(3);
-            const onClickAction = jest.fn();
-            const cellRenderer: CellRenderer = (renderWrapper, _value, _columnIndex) =>
-                renderWrapper(<textarea />, undefined, onClickAction);
+
+            const props = mockTableProps();
+            const content = listWidget(() => <textarea />);
+            const columns = Array.from(["Monday", "Tuesday", "Wednesday"], header => {
+                const c = column(header);
+                c.showContentAs = "customContent";
+                c.content = content;
+                return c;
+            });
+
+            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
+
             const user = userEvent.setup();
 
-            render(<Table {...mockTableProps()} data={items} cellRenderer={cellRenderer} />);
+            render(<Table {...props} data={items} />);
 
             const [input] = screen.getAllByRole("textbox");
             await user.click(input);
@@ -489,45 +448,3 @@ describe("Table", () => {
         });
     });
 });
-
-function mockTableProps(): TableProps<ObjectItem> {
-    const columns = [
-        {
-            header: "Test",
-            sortable: false,
-            resizable: false,
-            draggable: false,
-            hidable: "no" as const,
-            width: "autoFill" as const,
-            size: 1,
-            alignment: "left" as const,
-            wrapText: false
-        }
-    ];
-    return {
-        setPage: jest.fn(),
-        page: 1,
-        hasMoreItems: false,
-        pageSize: 10,
-        columnsResizable: false,
-        paging: false,
-        pagingPosition: "bottom",
-        columnsHidable: false,
-        columnsDraggable: false,
-        className: "test",
-        columnsFilterable: false,
-        columnsSortable: false,
-        columns,
-        valueForSort: () => "dummy",
-        filterRenderer: () => <input type="text" defaultValue="dummy" />,
-        cellRenderer: (renderWrapper, _, columnIndex) => renderWrapper(columns[columnIndex].header),
-        headerWrapperRenderer: (_index, header) => header,
-        data: [{ id: "123456" as GUID }],
-        onSelect: jest.fn(),
-        onSelectAll: jest.fn(),
-        isSelected: jest.fn(() => false),
-        selectionMethod: "none",
-        selectionStatus: undefined,
-        id: "dg1"
-    };
-}

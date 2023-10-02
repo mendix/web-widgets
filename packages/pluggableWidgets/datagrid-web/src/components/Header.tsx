@@ -7,34 +7,37 @@ import {
     DragEventHandler,
     KeyboardEvent,
     useCallback,
-    HTMLAttributes
+    HTMLAttributes,
+    ReactNode
 } from "react";
 import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
-import { ColumnProperty } from "./Table";
+import { GridColumn } from "../typings/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { SortingRule } from "../features/settings";
 
 export interface HeaderProps {
     className?: string;
-    column: ColumnProperty;
+    column: GridColumn;
     sortable: boolean;
     resizable: boolean;
     filterable: boolean;
+    filterWidget?: ReactNode;
     draggable: boolean;
     dragOver: string;
     hidable: boolean;
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    setColumnOrder: (updater: string[]) => void;
+    setColumnOrder: (updater: number[]) => void;
     setDragOver: Dispatch<SetStateAction<string>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
     sortBy: SortingRule[];
-    visibleColumns: ColumnProperty[];
+    visibleColumns: GridColumn[];
+    tableId: string;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -49,7 +52,7 @@ export function Header(props: HeaderProps): ReactElement {
     );
 
     const [sortProperties] = props.sortBy;
-    const isSorted = sortProperties && sortProperties.id === props.column.index.toString();
+    const isSorted = sortProperties && sortProperties.columnNumber === props.column.columnNumber;
     const isSortedDesc = isSorted && sortProperties.desc;
 
     const sortIcon = canSort ? (
@@ -75,9 +78,9 @@ export function Header(props: HeaderProps): ReactElement {
          * If multisort is allowed in the future this should be changed to append instead of just return a new array
          */
         if (!isSorted) {
-            props.setSortBy([{ id: props.column.index.toString(), desc: false }]);
+            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: false }]);
         } else if (isSorted && !isSortedDesc) {
-            props.setSortBy([{ id: props.column.index.toString(), desc: true }]);
+            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: true }]);
         } else {
             props.setSortBy([]);
         }
@@ -106,11 +109,10 @@ export function Header(props: HeaderProps): ReactElement {
             title={caption}
         >
             <div
-                className={classNames(
-                    "column-container",
-                    canDrag && props.column.id === props.dragOver ? "dragging" : ""
-                )}
-                id={props.column.id}
+                className={classNames("column-container", {
+                    dragging: canDrag && props.column.columnId === props.dragOver
+                })}
+                id={props.column.columnId}
                 {...draggableProps}
             >
                 <div
@@ -122,7 +124,7 @@ export function Header(props: HeaderProps): ReactElement {
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}
                 </div>
-                {props.filterable && props.column.customFilter ? props.column.customFilter : null}
+                {props.filterable && props.filterWidget}
             </div>
             {props.resizable && props.column.canResize && props.resizer}
         </div>
@@ -131,8 +133,8 @@ export function Header(props: HeaderProps): ReactElement {
 
 function useDraggable(
     columnsDraggable: boolean,
-    visibleColumns: ColumnProperty[],
-    setColumnOrder: (updater: ((columnOrder: string[]) => string[]) | string[]) => void,
+    visibleColumns: GridColumn[],
+    setColumnOrder: (updater: ((columnOrder: number[]) => number[]) | number[]) => void,
     setDragOver: Dispatch<SetStateAction<string>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
@@ -146,8 +148,8 @@ function useDraggable(
     const handleDragStart = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             setIsDragging(true);
-            const { id } = e.target as HTMLDivElement;
-            e.dataTransfer.setData("colDestination", id);
+            const { id: columnId } = e.target as HTMLDivElement;
+            e.dataTransfer.setData("colDestination", columnId);
         },
         [setIsDragging]
     );
@@ -158,10 +160,10 @@ function useDraggable(
 
     const handleDragEnter = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
-            const { id } = e.target as HTMLDivElement;
+            const { id: columnId } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData("colDestination");
-            if (id !== colDestination) {
-                setDragOver(id);
+            if (columnId !== colDestination) {
+                setDragOver(columnId);
             }
         },
         [setDragOver]
@@ -178,13 +180,14 @@ function useDraggable(
             const { id: colOrigin } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData("colDestination");
 
-            const toIndex = visibleColumns.findIndex(col => col.id === colOrigin);
-            const fromIndex = visibleColumns.findIndex(col => col.id === colDestination);
+            const toIndex = visibleColumns.findIndex(col => col.columnId === colOrigin);
+            const fromIndex = visibleColumns.findIndex(col => col.columnId === colDestination);
 
             if (toIndex !== fromIndex) {
-                const newOrder = [...visibleColumns.map(column => column.id)];
+                const newOrder = [...visibleColumns.map(column => column.columnNumber)];
+                const colNum = newOrder[fromIndex];
                 newOrder.splice(fromIndex, 1);
-                newOrder.splice(toIndex, 0, colDestination);
+                newOrder.splice(toIndex, 0, colNum);
                 setColumnOrder(newOrder);
             }
         },

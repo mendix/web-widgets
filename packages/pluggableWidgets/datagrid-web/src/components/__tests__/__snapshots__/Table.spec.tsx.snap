@@ -5,9 +5,6 @@ exports[`Table renders the structure correctly 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
   />
@@ -50,10 +47,14 @@ exports[`Table renders the structure correctly 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -68,9 +69,6 @@ exports[`Table renders the structure correctly for preview when no header is pro
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -114,10 +112,14 @@ exports[`Table renders the structure correctly for preview when no header is pro
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-center"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -132,9 +134,6 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -198,16 +197,24 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-center"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
         <div
-          class="td td-borders"
+          class="td td-borders align-column-right"
           role="cell"
         >
-          Test 2
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -222,9 +229,6 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -272,10 +276,14 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -290,9 +298,6 @@ exports[`Table renders the structure correctly with dragging 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -336,10 +341,14 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -354,9 +363,6 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -400,10 +406,14 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -418,9 +428,6 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -464,10 +471,14 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -482,9 +493,6 @@ exports[`Table renders the structure correctly with filtering 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -532,10 +540,14 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -606,10 +618,14 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -624,9 +640,6 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -674,10 +687,14 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -692,9 +709,6 @@ exports[`Table renders the structure correctly with hiding 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -772,14 +786,18 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
         <div
-          aria-hidden="true"
-          class="td column-selector td-borders"
+          class="td td-borders column-selector"
+          role="cell"
         />
       </div>
     </div>
@@ -794,9 +812,6 @@ exports[`Table renders the structure correctly with paging 1`] = `
 <div
   class="test widget-datagrid"
 >
-  <div
-    class="table-header"
-  />
   <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
@@ -840,10 +855,14 @@ exports[`Table renders the structure correctly with paging 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -949,9 +968,6 @@ exports[`Table renders the structure correctly with resizing 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
   />
@@ -994,10 +1010,14 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -1013,9 +1033,6 @@ exports[`Table renders the structure correctly with sorting 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
     class="sticky-sentinel"
     style="height:1px;margin-bottom:-1px"
   />
@@ -1058,10 +1075,14 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         role="row"
       >
         <div
-          class="td td-borders"
+          class="td td-borders align-column-left"
           role="cell"
         >
-          Test
+          <span
+            class="td-text"
+          >
+            Formatted Attr value
+          </span>
         </div>
       </div>
     </div>
@@ -1077,9 +1098,6 @@ exports[`Table with selection method checkbox render an extra column and add cla
   <div
     class="test widget-datagrid widget-datagrid-selection-method-checkbox"
   >
-    <div
-      class="table-header"
-    />
     <div
       class="sticky-sentinel"
       style="height: 1px; margin-bottom: -1px;"
@@ -1127,7 +1145,8 @@ exports[`Table with selection method checkbox render an extra column and add cla
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select td-borders"
+            class="td td-borders widget-datagrid-col-select"
+            role="cell"
           >
             <input
               checked=""
@@ -1136,10 +1155,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td td-borders"
+            class="td td-borders align-column-left"
             role="cell"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
         <div
@@ -1148,6 +1171,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
         >
           <div
             class="td widget-datagrid-col-select"
+            role="cell"
           >
             <input
               checked=""
@@ -1156,10 +1180,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td"
+            class="td align-column-left"
             role="cell"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
         <div
@@ -1168,6 +1196,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
         >
           <div
             class="td widget-datagrid-col-select"
+            role="cell"
           >
             <input
               checked=""
@@ -1176,10 +1205,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
           </div>
           <div
-            class="td"
+            class="td align-column-left"
             role="cell"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
       </div>
@@ -1287,9 +1320,6 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
     class="test widget-datagrid widget-datagrid-selection-method-click"
   >
     <div
-      class="table-header"
-    />
-    <div
       class="sticky-sentinel"
       style="height: 1px; margin-bottom: -1px;"
     />
@@ -1332,11 +1362,15 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           role="row"
         >
           <div
-            class="td td-borders clickable"
+            class="td td-borders clickable align-column-left"
             role="button"
             tabindex="0"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
         <div
@@ -1344,11 +1378,15 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           role="row"
         >
           <div
-            class="td clickable"
+            class="td clickable align-column-left"
             role="button"
             tabindex="0"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
         <div
@@ -1356,11 +1394,15 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           role="row"
         >
           <div
-            class="td clickable"
+            class="td clickable align-column-left"
             role="button"
             tabindex="0"
           >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
       </div>

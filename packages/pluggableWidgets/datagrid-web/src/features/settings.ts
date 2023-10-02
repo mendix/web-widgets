@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from "react";
 import { EditableValue, ValueStatus } from "mendix";
-import { ColumnWidth, TableColumn } from "../components/Table";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
+import { GridColumn } from "../typings/GridColumn";
 
 declare type Option<T> = T | undefined;
 
 interface Settings {
-    columnOrder: string[];
-    hiddenColumns: string[];
+    columnOrder: number[];
+    hiddenColumns: number[];
     sortBy: SortingRule[];
-    widths: ColumnWidth;
+    widths: ColumnWidthConfig;
 }
 
 interface PersistedSettings {
@@ -22,49 +22,53 @@ interface PersistedSettings {
 }
 
 export interface SortingRule {
-    id: string;
+    columnNumber: number;
     desc: boolean;
+}
+
+export interface ColumnWidthConfig {
+    [columnNumber: string]: number | undefined;
 }
 
 export function createSettings(
     { columnOrder, hiddenColumns, sortBy, widths }: Settings,
-    columns: Array<{ header: string; id: string }>
+    columns: Array<{ header: string; columnNumber: number }>
 ): PersistedSettings[] {
-    return columns.map((column, index) => {
-        const columnIndex = columnOrder.findIndex(o => o === column.id);
+    return columns.map(column => {
+        const columnIndex = columnOrder.findIndex(o => o === column.columnNumber);
         return {
             column: column.header,
-            sort: !!sortBy.find(s => s.id === column.id),
-            sortMethod: sortBy.find(s => s.id === column.id)?.desc ? "desc" : "asc",
-            hidden: !!hiddenColumns.find(h => h === column.id),
-            order: columnIndex > -1 ? columnIndex : index,
-            width: widths[column.id]
+            sort: !!sortBy.find(s => s.columnNumber === column.columnNumber),
+            sortMethod: sortBy.find(s => s.columnNumber === column.columnNumber)?.desc ? "desc" : "asc",
+            hidden: hiddenColumns.includes(column.columnNumber),
+            order: columnIndex > -1 ? columnIndex : column.columnNumber,
+            width: widths[column.columnNumber]
         };
     });
 }
 
 export function useSettings(
     settings: Option<EditableValue<string>>,
-    columns: TableColumn[],
-    columnOrder: string[],
-    setColumnOrder: Dispatch<SetStateAction<string[]>>,
-    hiddenColumns: string[],
-    setHiddenColumns: Dispatch<SetStateAction<string[]>>,
+    columns: GridColumn[],
+    columnOrder: number[],
+    setColumnOrder: Dispatch<SetStateAction<number[]>>,
+    hiddenColumns: number[],
+    setHiddenColumns: Dispatch<SetStateAction<number[]>>,
     sortBy: SortingRule[],
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>,
-    widths: ColumnWidth,
-    setWidths: Dispatch<SetStateAction<ColumnWidth>>
+    widths: ColumnWidthConfig,
+    setWidths: Dispatch<SetStateAction<ColumnWidthConfig>>
 ): { updateSettings: () => void } {
     const previousLoadedSettings = useRef<string>();
     const shouldUpdate = useRef(true);
 
     const filteredColumns = useMemo(
         () =>
-            columns.map((c, index) => ({
+            columns.map(c => ({
                 header: c.header,
-                id: index.toString(),
+                columnNumber: c.columnNumber,
                 hidable: c.hidable
-            })) as Array<{ header: string; id: string; hidable: string }>,
+            })) as Array<{ header: string; columnNumber: number; hidable: string }>,
         [columns]
     );
 
@@ -78,19 +82,19 @@ export function useSettings(
             const newSettings = JSON.parse(settings.value) as PersistedSettings[];
             const columns = newSettings.map(columnSettings => ({
                 ...columnSettings,
-                columnId: filteredColumns.find(c => c.header === columnSettings.column)?.id || ""
+                columnNumber: filteredColumns.find(c => c.header === columnSettings.column)?.columnNumber || -1
             }));
 
-            const extractedSettings = {
-                columnOrder: columns.sort((a, b) => a.order - b.order).map(s => s.columnId),
-                hiddenColumns: columns.filter(s => s.hidden).map(s => s.columnId),
+            const extractedSettings: Settings = {
+                columnOrder: columns.sort((a, b) => a.order - b.order).map(s => s.columnNumber),
+                hiddenColumns: columns.filter(s => s.hidden).map(s => s.columnNumber),
                 sortBy: columns
                     .filter(s => s.sort)
                     .map(s => ({
-                        id: s.columnId,
+                        columnNumber: s.columnNumber,
                         desc: s.sortMethod === "desc"
                     })),
-                widths: Object.fromEntries(columns.map(s => [s.columnId, s.width]))
+                widths: Object.fromEntries(columns.map(s => [s.columnNumber, s.width]))
             };
 
             previousLoadedSettings.current = settings.value;

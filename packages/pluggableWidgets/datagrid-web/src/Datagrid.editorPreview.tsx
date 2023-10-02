@@ -1,16 +1,16 @@
-// Disable warning that hooks can be used only in components
+/* Disable warning that hooks can be used only in components */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createElement, ReactElement, ReactNode, useCallback } from "react";
-import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
-import { Table, TableColumn } from "./components/Table";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
+import { Table } from "./components/Table";
+import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { Selectable } from "mendix/preview/Selectable";
 import { ObjectItem, GUID } from "mendix";
-import classNames from "classnames";
-import { isSortable } from "./features/column";
 import { selectionSettings, useOnSelectProps } from "./features/selection";
-
+import { Cell } from "./components/Cell";
+import { GridColumn } from "./typings/GridColumn";
+import { ColumnPreview } from "./helpers/ColumnPreview";
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
 declare module "mendix/preview/Selectable" {
@@ -21,7 +21,7 @@ declare module "mendix/preview/Selectable" {
     }
 }
 
-const dummyColumns: ColumnsPreviewType[] = [
+const initColumns: ColumnsPreviewType[] = [
     {
         header: "Column",
         tooltip: "",
@@ -46,69 +46,20 @@ const dummyColumns: ColumnsPreviewType[] = [
 ];
 
 export function preview(props: DatagridPreviewProps): ReactElement {
-    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
-        id: String(index) as GUID
-    }));
-    const columns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : dummyColumns;
-
-    const selectableWrapperRenderer = useCallback(
-        (columnIndex: number, header: ReactElement) => {
-            const column = columns[columnIndex];
-
-            // We can't use Selectable when there no columns configured yet, so, just show header.
-            if (columns === dummyColumns) {
-                return header;
-            }
-
-            return (
-                <Selectable
-                    key={`selectable_column_${columnIndex}`}
-                    caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
-                    object={column}
-                >
-                    {header}
-                </Selectable>
-            );
-        },
-        [columns]
-    );
-
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
     const selectActionProps = useOnSelectProps(undefined);
     const { selectionStatus, selectionMethod } = selectionSettings(props, undefined);
+    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
+        id: String(index) as GUID
+    }));
+    const gridId = Date.now().toString();
+    const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
+    const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
     return (
         <Table
-            cellRenderer={useCallback(
-                (renderWrapper, _, columnIndex) => {
-                    const column = columns[columnIndex];
-                    const className = classNames(`align-column-${column.alignment}`, { "wrap-text": column.wrapText });
-                    let content;
-                    switch (column.showContentAs) {
-                        case "attribute":
-                            content = renderWrapper(
-                                <span className="td-text">
-                                    {"["}
-                                    {column.attribute.length > 0 ? column.attribute : "No attribute selected"}
-                                    {"]"}
-                                </span>,
-                                className
-                            );
-                            break;
-                        case "dynamicText":
-                            content = renderWrapper(<span className="td-text">{column.dynamicText}</span>, className);
-                            break;
-                        case "customContent":
-                            content = (
-                                <column.content.renderer>{renderWrapper(null, className)}</column.content.renderer>
-                            );
-                    }
-
-                    return selectableWrapperRenderer(columnIndex, content);
-                },
-                [columns, selectableWrapperRenderer]
-            )}
+            CellComponent={Cell}
             className={props.class}
-            columns={transformColumnProps(columns)}
+            columns={columns}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
@@ -125,7 +76,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const column = columns[columnIndex];
+                    const column = previewColumns[columnIndex];
                     return column.filter ? (
                         <column.filter.renderer caption="Place filter widget here">
                             {renderWrapper(null)}
@@ -134,42 +85,53 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                         renderWrapper(null)
                     );
                 },
-                [columns]
+                [previewColumns]
             )}
-            hasMoreItems={false}
             gridHeaderWidgets={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
                     <div />
                 </props.filtersPlaceholder.renderer>
             }
-            headerWrapperRenderer={selectableWrapperRenderer}
+            hasMoreItems={false}
+            headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
+            isSelected={selectActionProps.isSelected}
             numberOfItems={5}
+            onSelect={selectActionProps.onSelect}
+            onSelectAll={selectActionProps.onSelectAll}
             page={0}
             pageSize={props.pageSize ?? 5}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
+            selectionMethod={selectionMethod}
+            selectionStatus={selectionStatus}
             styles={parseStyle(props.style)}
             valueForSort={useCallback(() => undefined, [])}
-            onSelect={selectActionProps.onSelect}
-            onSelectAll={selectActionProps.onSelectAll}
-            isSelected={selectActionProps.isSelected}
-            selectionStatus={selectionStatus}
-            selectionMethod={selectionMethod}
         />
     );
 }
 
+const selectableWrapperRenderer =
+    (columns: ColumnsPreviewType[]) =>
+    (columnIndex: number, header: ReactElement): ReactElement => {
+        const column = columns[columnIndex];
+
+        // We can't use Selectable when there no columns configured yet, so, just show header.
+        if (columns === initColumns) {
+            return header;
+        }
+
+        return (
+            <Selectable
+                key={`selectable_column_${columnIndex}`}
+                caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
+                object={column}
+            >
+                {header}
+            </Selectable>
+        );
+    };
+
 export function getPreviewCss(): string {
     return require("./ui/DatagridPreview.scss");
-}
-
-function transformColumnProps(props: ColumnsPreviewType[]): TableColumn[] {
-    return props.map(prop => ({
-        ...prop,
-        header: (prop.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : prop.header,
-        sortable: isSortable(prop),
-        draggable: false,
-        resizable: false
-    }));
 }

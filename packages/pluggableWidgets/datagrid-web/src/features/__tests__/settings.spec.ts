@@ -1,10 +1,13 @@
-import { useSettings } from "../../features/settings";
-import { ColumnWidth, TableColumn } from "../../components/Table";
+import { Dispatch, SetStateAction } from "react";
+import { ColumnWidthConfig, useSettings, SortingRule } from "../../features/settings";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { HidableEnum } from "../../../typings/DatagridProps";
 import { renderHook, RenderHookResult } from "@testing-library/react";
 import { EditableValue } from "mendix";
 import { act } from "react-dom/test-utils";
+import { GridColumn } from "../../typings/GridColumn";
+import { column } from "../../utils/test-utils";
+import { Column } from "../../helpers/Column";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 describe("useSettings Hook", () => {
     beforeEach(() => {
@@ -37,15 +40,13 @@ describe("useSettings Hook", () => {
     it("calls state functions with correct values", () => {
         const props = mockProperties();
         const columns = [
-            {
-                header: "Column 1",
-                hidable: "yes" as HidableEnum
-            },
-            {
-                header: "Column 2",
-                hidable: "hidden" as HidableEnum
-            }
-        ] as TableColumn[];
+            column("Column 1", col => {
+                col.hidable = "yes";
+            }),
+            column("Column 2", col => {
+                col.hidable = "hidden";
+            })
+        ];
         const settings = new EditableValueBuilder<string>()
             .withValue(
                 JSON.stringify([
@@ -72,7 +73,7 @@ describe("useSettings Hook", () => {
         renderHook(() =>
             useSettings(
                 settings,
-                columns,
+                columns.map(toColumn),
                 props.columnOrder,
                 props.setColumnOrder,
                 props.hiddenColumns,
@@ -99,8 +100,8 @@ describe("useSettings Hook", () => {
 
         rerender({
             ...props,
-            columnOrder: ["0"],
-            sortBy: [{ id: "0", desc: true }],
+            columnOrder: [0],
+            sortBy: [{ columnNumber: 0, desc: true }],
             widths: { "0": 130 }
         });
 
@@ -125,13 +126,13 @@ describe("useSettings Hook", () => {
         const initialProps = {
             settings: props.settings,
             columns: props.columns,
-            columnOrder: ["0"],
+            columnOrder: [0],
             setColumnOrder: props.setColumnOrder,
             hiddenColumns: [],
             setHiddenColumns: props.setHiddenColumns,
-            sortBy: [{ id: "0", desc: true }],
+            sortBy: [{ columnNumber: 0, desc: true }],
             setSortBy: props.setSortBy,
-            widths: { "0": undefined } as ColumnWidth,
+            widths: { "0": undefined } as ColumnWidthConfig,
             setWidths: props.setWidths
         };
 
@@ -147,13 +148,13 @@ describe("useSettings Hook", () => {
         const initialProps = {
             settings: props.settings,
             columns: props.columns,
-            columnOrder: ["0"],
+            columnOrder: [0],
             setColumnOrder: props.setColumnOrder,
             hiddenColumns: [],
             setHiddenColumns: props.setHiddenColumns,
-            sortBy: [{ id: "0", desc: true }],
+            sortBy: [{ columnNumber: 0, desc: true }],
             setSortBy: props.setSortBy,
-            widths: { "0": undefined } as ColumnWidth,
+            widths: { "0": undefined } as ColumnWidthConfig,
             setWidths: props.setWidths
         };
 
@@ -185,7 +186,7 @@ describe("useSettings Hook", () => {
         // Remains uncalled
         expect(props.settings.setValue).toHaveBeenCalledTimes(0);
 
-        rerender({ ...props, sortBy: [{ id: "0", desc: false }] });
+        rerender({ ...props, sortBy: [{ columnNumber: 0, desc: false }] });
         act(() => {
             // Do not destructure or assign this to a variable earlier, because it's a mutable object and doing so will copy lock it,
             // which interferes with the `useCallback` memoization (https://react-hooks-testing-library.com/usage/basic-hooks#updates).
@@ -197,7 +198,7 @@ describe("useSettings Hook", () => {
             JSON.stringify([{ column: "Column 1", sort: true, sortMethod: "asc", hidden: false, order: 0 }])
         );
 
-        rerender({ ...props, sortBy: [{ id: "0", desc: true }] });
+        rerender({ ...props, sortBy: [{ columnNumber: 0, desc: true }] });
         act(() => {
             result.current.updateSettings();
         });
@@ -211,12 +212,12 @@ describe("useSettings Hook", () => {
 
 type InitProps = {
     settings: EditableValue<string>;
-    hiddenColumns: any[];
-    columnOrder: string[];
+    hiddenColumns: number[];
+    columnOrder: number[];
     columns: any;
     setHiddenColumns: any;
-    sortBy: Array<{ id: string; desc: boolean }>;
-    widths: ColumnWidth;
+    sortBy: Array<{ columnNumber: number; desc: boolean }>;
+    widths: ColumnWidthConfig;
     setSortBy: any;
     setWidths: any;
     setColumnOrder: any;
@@ -254,7 +255,18 @@ function renderUseSettingsHook(initialProps: InitProps): RenderHookResult<{ upda
     );
 }
 
-function mockProperties(): any {
+function mockProperties(): {
+    settings: EditableValue<string>;
+    columns: GridColumn[];
+    columnOrder: number[];
+    setColumnOrder: Dispatch<SetStateAction<number[]>>;
+    hiddenColumns: number[];
+    setHiddenColumns: Dispatch<SetStateAction<number[]>>;
+    sortBy: SortingRule[];
+    setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
+    widths: ColumnWidthConfig;
+    setWidths: Dispatch<SetStateAction<ColumnWidthConfig>>;
+} {
     return {
         settings: new EditableValueBuilder<string>()
             .withValue(
@@ -270,12 +282,7 @@ function mockProperties(): any {
                 ])
             )
             .build(),
-        columns: [
-            {
-                header: "Column 1",
-                hidable: "yes" as HidableEnum
-            }
-        ] as TableColumn[],
+        columns: [column("Column 1", col => (col.hidable = "yes"))].map(toColumn),
         columnOrder: [],
         setColumnOrder: jest.fn(),
         hiddenColumns: [],
@@ -285,4 +292,8 @@ function mockProperties(): any {
         widths: { "0": undefined },
         setWidths: jest.fn()
     };
+}
+
+function toColumn(col: ColumnsType, index: number): Column {
+    return new Column(col, index, "dg1");
 }
