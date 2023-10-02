@@ -134,7 +134,7 @@ export function copyActionsFiles(files: string[]): (params: ModuleStepParams) =>
     return async ({ config }) => {
         logStep("Copy JS Action(s) files");
         const { paths, output } = config;
-        mkdir("-p", output.dirs.javascriptsource);
+        mkdir("-p", join(output.dirs.javascriptsource, "actions"));
 
         for (const file of files) {
             const src = join(paths.javascriptsource, "actions", file);
