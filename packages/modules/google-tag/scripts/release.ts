@@ -3,7 +3,7 @@
 import {
     addWidgetsToMpk,
     cloneTestProject,
-    copyJSActions,
+    copyActionsFiles,
     copyWidgetsToProject,
     createModuleMpk,
     moveModuleToDist,
@@ -19,7 +19,7 @@ async function main(): Promise<void> {
             removeDist,
             cloneTestProject,
             copyWidgetsToProject,
-            copyJSActions,
+            copyActionsFiles(["GoogleTagActions.js"]),
             writeVersionAndLicenseToJSActions,
             createModuleMpk,
             addWidgetsToMpk,

@@ -470,6 +470,9 @@ importers:
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:^
+        version: link:../../shared/prettier-config-web-widgets
 
   packages/pluggableWidgets/accessibility-helper-web:
     devDependencies:

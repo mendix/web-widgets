@@ -35,6 +35,7 @@
     "publish-marketplace": "rui-publish-marketplace"
   },
   "devDependencies": {
-    "@mendix/automation-utils": "workspace:*"
+    "@mendix/automation-utils": "workspace:*",
+    "@mendix/prettier-config-web-widgets": "workspace:^"
   }
 }

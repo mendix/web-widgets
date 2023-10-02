@@ -1,5 +1,5 @@
 import {
-    copyJSActions,
+    copyActionsFiles,
     writeVersionAndLicenseToJSActions,
     runModuleSteps,
     copyWidgetsToProject
@@ -8,7 +8,7 @@ import {
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
-        steps: [copyJSActions, writeVersionAndLicenseToJSActions, copyWidgetsToProject]
+        steps: [copyActionsFiles(["GoogleTagActions.js"]), writeVersionAndLicenseToJSActions, copyWidgetsToProject]
     });
 }
 
