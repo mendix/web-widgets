@@ -424,7 +424,7 @@ describe("Table", () => {
     });
 
     describe("when selecting is enabled, allow the user to select multiple rows", () => {
-        const { render, screen, getByRole } = testingLibrary;
+        const { render, screen, getByRole, getAllByRole } = testingLibrary;
         let items: ReturnType<typeof objectItems>;
         let props: ReturnType<typeof mockTableProps>;
         let selection: SelectionMultiValue;
@@ -433,15 +433,7 @@ describe("Table", () => {
         function TableWithSelectionHelper(props: TableProps<GridColumn, ObjectItem>): ReactElement {
             const helper = useSelectionHelper(selection, ds, undefined);
             const sp = useOnSelectProps(helper);
-            return (
-                <Table
-                    {...props}
-                    {...sp}
-                    onSelect={(item, shiftKey) => {
-                        sp.onSelect(item, shiftKey);
-                    }}
-                />
-            );
+            return <Table {...props} {...sp} />;
         }
 
         function setup(
@@ -525,26 +517,70 @@ describe("Table", () => {
             expect(selection.selection).toEqual(items.slice(8, 11));
         });
 
-        it("selects all available rows with metaKey+a", async () => {
+        it("selects all available rows with metaKey+a and method checkbox", async () => {
             const { rows, user } = setup(
                 <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
             );
 
             expect(rows).toHaveLength(20);
 
-            await user.click(rows[2]);
+            const [row] = rows;
+            const [checkbox] = getAllByRole(row, "checkbox");
+            await user.click(checkbox);
+            expect(checkbox).toHaveFocus();
+            expect(selection.selection).toHaveLength(1);
+
             await user.keyboard("{Meta>}a{/Meta}");
             expect(selection.selection).toHaveLength(20);
         });
 
-        it("selects all available rows with ctrlKey+a", async () => {
+        it("selects all available rows with metaKey+a and method rowClick", async () => {
             const { rows, user } = setup(
                 <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
             );
 
             expect(rows).toHaveLength(20);
 
-            await user.click(rows[2]);
+            const [row] = rows;
+            const [cell] = getAllByRole(row, "button");
+            await user.click(cell);
+            expect(cell).toHaveFocus();
+            expect(selection.selection).toHaveLength(1);
+
+            await user.keyboard("{Meta>}a{/Meta}");
+            expect(selection.selection).toHaveLength(20);
+        });
+
+        it("selects all available rows with ctrlKey+a and method checkbox", async () => {
+            const { rows, user } = setup(
+                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
+            );
+
+            expect(rows).toHaveLength(20);
+
+            const [row] = rows;
+            const [checkbox] = getAllByRole(row, "checkbox");
+            await user.click(checkbox);
+            expect(checkbox).toHaveFocus();
+            expect(selection.selection).toHaveLength(1);
+
+            await user.keyboard("{Control>}a{/Control}");
+            expect(selection.selection).toHaveLength(20);
+        });
+
+        it("selects all available rows with ctrlKey+a and method rowClick", async () => {
+            const { rows, user } = setup(
+                <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
+            );
+
+            expect(rows).toHaveLength(20);
+
+            const [row] = rows;
+            const [cell] = getAllByRole(row, "button");
+            await user.click(cell);
+            expect(cell).toHaveFocus();
+            expect(selection.selection).toHaveLength(1);
+
             await user.keyboard("{Control>}a{/Control}");
             expect(selection.selection).toHaveLength(20);
         });
@@ -566,8 +602,6 @@ describe("Table", () => {
 
             await user.keyboard("{Meta>}a{/Meta}");
             expect(selection.selection).toHaveLength(0);
-            // await user.keyboard("{Control>}a{/Control}");
-            // expect(selection.selection).toHaveLength(20);
         });
     });
 

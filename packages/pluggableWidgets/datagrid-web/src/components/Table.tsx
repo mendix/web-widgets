@@ -101,8 +101,6 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
         styles,
         selectionStatus,
         selectionMethod,
-        onSelect,
-        isSelected,
         CellComponent
     } = props;
     const isInfinite = !paging;
@@ -267,9 +265,10 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                                 index={rowIndex}
                                 item={item}
                                 key={`row_${item.id}`}
-                                onSelect={onSelect}
+                                onSelect={props.onSelect}
+                                onSelectAll={props.onSelectAll}
+                                isSelected={props.isSelected}
                                 rowAction={props.rowAction}
-                                selected={isSelected(item)}
                                 selectionMethod={selectionMethod}
                                 showSelectorCell={columnsHidable}
                             />

@@ -1,8 +1,8 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { ReactElement, createElement } from "react";
-import { SelectionMethod, onSelect } from "../features/selection";
+import { ReactElement, createElement, useCallback } from "react";
+import { SelectionMethod, SelectActionProps } from "../features/selection";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CellElement } from "./CellElement";
@@ -11,7 +11,7 @@ type ClickAction = "selectRow" | "executeAction" | "none";
 type onClick = React.MouseEventHandler<HTMLDivElement>;
 type onKeyDown = React.KeyboardEventHandler<HTMLDivElement>;
 
-export interface RowProps<C extends GridColumn> {
+export interface RowProps<C extends GridColumn> extends SelectActionProps {
     className?: string;
     CellComponent: CellComponent<C>;
     columns: C[];
@@ -19,8 +19,6 @@ export interface RowProps<C extends GridColumn> {
     index: number;
     showSelectorCell?: boolean;
     selectionMethod: SelectionMethod;
-    onSelect: onSelect;
-    selected: boolean;
     rowAction?: ListActionValue;
 }
 
@@ -30,13 +28,15 @@ const onChangeStub = () => {
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
+    const onKeyUp = useKeyboardSelectAll(props.onSelectAll);
+    const selected = props.isSelected(props.item);
 
     return (
-        <div className={classNames("tr", { "tr-selected": props.selected }, props.className)} role="row">
+        <div className={classNames("tr", { "tr-selected": selected }, props.className)} role="row" onKeyUp={onKeyUp}>
             {props.selectionMethod === "checkbox" && (
                 <CellElement key="checkbox_cell" className="widget-datagrid-col-select" borderTop={props.index === 0}>
                     <input
-                        checked={props.selected}
+                        checked={selected}
                         onClick={event => props.onSelect(props.item, event.shiftKey)}
                         onChange={onChangeStub}
                         type="checkbox"
@@ -80,7 +80,7 @@ type CellHandlers = { onClick?: onClick; onKeyDown?: onKeyDown };
 function getCellEventHandlers(
     selection: SelectionMethod,
     action: ListActionValue | undefined,
-    onSelect: onSelect,
+    onSelect: SelectActionProps["onSelect"],
     item: ObjectItem
 ): CellHandlers {
     const clickAction: ClickAction =
@@ -94,7 +94,9 @@ function getCellEventHandlers(
 
     const onClick =
         clickAction === "selectRow"
-            ? (event?: { shiftKey?: boolean }) => onSelect(item, event?.shiftKey ?? false)
+            ? (event?: { shiftKey?: boolean }) => {
+                  onSelect(item, event?.shiftKey ?? false);
+              }
             : () => executeAction(action?.get(item));
 
     handlers.onClick = onClick;
@@ -106,4 +108,15 @@ function getCellEventHandlers(
     };
 
     return handlers;
+}
+
+function useKeyboardSelectAll(onSelectAll: () => void): React.KeyboardEventHandler<HTMLDivElement> {
+    return useCallback(
+        event => {
+            if (event.code === "KeyA" && (event.metaKey || event.ctrlKey)) {
+                onSelectAll();
+            }
+        },
+        [onSelectAll]
+    );
 }
