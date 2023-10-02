@@ -20,7 +20,8 @@ interface TextStylingProps extends BaseStylingProps {
 export interface ImageProps extends BaseStylingProps {
     type: "Image";
     document?: string; // svg image
-    data?: string; // base64 image. Will only be read if no svg image is passed
+    data?: string; // base64 image
+    property?: object; // widget image property object from Values API
     width?: number; // sets a fixed maximum width
     height?: number; // sets a fixed maximum height
 }
