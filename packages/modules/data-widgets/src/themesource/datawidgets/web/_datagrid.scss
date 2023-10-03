@@ -99,6 +99,12 @@ $grid-selected-row-background: $brand-light;
                 border-left: $dragging-effect-size solid $dragging-color-effect;
                 padding-left: 0;
             }
+
+            &:not(:has(.filter)) {
+                .column-header {
+                    height: 100%;
+                }
+            }
         }
 
         /* Header text */
@@ -113,6 +119,8 @@ $grid-selected-row-background: $brand-light;
                 flex-grow: 1;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                text-wrap: nowrap;
+                align-self: center;
             }
 
             svg {
