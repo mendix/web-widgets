@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed the sizing issue in Design mode.
+
 ## [1.4.2] - 2023-09-27
 
 ### Fixed
