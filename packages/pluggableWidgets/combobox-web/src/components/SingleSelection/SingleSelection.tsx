@@ -27,7 +27,7 @@ export function SingleSelection({
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onContainerClick = useEventCallback(() => {
-        if (selector?.options.filterType === "no" && !isOpen && inputRef?.current === document.activeElement) {
+        if (selector?.options.filterType === "none" && !isOpen && inputRef?.current === document.activeElement) {
             openMenu();
         }
     });
@@ -42,13 +42,13 @@ export function SingleSelection({
                 <div className="widget-combobox-selected-items">
                     <input
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": selector.options.filterType === "no"
+                            "widget-combobox-input-nofilter": selector.options.filterType === "none"
                         })}
                         tabIndex={tabIndex}
                         {...getInputProps(
                             {
                                 disabled: selector.readOnly,
-                                readOnly: selector.options.filterType === "no",
+                                readOnly: selector.options.filterType === "none",
                                 ref: inputRef
                             },
                             { suppressRefError: true }
