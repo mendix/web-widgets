@@ -9,7 +9,7 @@ export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
-export type FilterTypeEnum = "contains" | "startsWith" | "no";
+export type FilterTypeEnum = "contains" | "startsWith" | "none";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
@@ -26,8 +26,8 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     emptyOptionText?: DynamicValue<string>;
-    noOptionsText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
+    noOptionsText?: DynamicValue<string>;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent?: ActionValue;
@@ -47,8 +47,8 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
     emptyOptionText: string;
-    noOptionsText: string;
     filterType: FilterTypeEnum;
+    noOptionsText: string;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;

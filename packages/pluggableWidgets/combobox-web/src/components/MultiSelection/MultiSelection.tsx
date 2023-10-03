@@ -62,7 +62,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         })}
                     <input
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": selector.options.filterType === "no"
+                            "widget-combobox-input-nofilter": selector.options.filterType === "none"
                         })}
                         tabIndex={tabIndex}
                         placeholder=" "
@@ -85,7 +85,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                                     }
                                 },
                                 disabled: selector.readOnly,
-                                readOnly: selector.options.filterType === "no"
+                                readOnly: selector.options.filterType === "none"
                             },
                             { suppressRefError: true }
                         )}

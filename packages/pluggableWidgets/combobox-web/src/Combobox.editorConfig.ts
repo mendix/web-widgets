@@ -39,6 +39,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
     }
 
+    if (values.filterType === "none") {
+        hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
+    }
+
     return defaultProperties;
 }
 

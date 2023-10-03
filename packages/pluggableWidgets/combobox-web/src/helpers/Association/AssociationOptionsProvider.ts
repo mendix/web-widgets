@@ -39,7 +39,7 @@ export class AssociationOptionsProvider implements OptionsProvider<ObjectItem, P
                     threshold: matchSorter.rankings.WORD_STARTS_WITH,
                     keys: [v => this.caption.get(v)]
                 });
-            case "no":
+            case "none":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.NO_MATCH,
                     keys: [v => this.caption.get(v)]

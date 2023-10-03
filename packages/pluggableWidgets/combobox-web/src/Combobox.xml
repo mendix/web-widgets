@@ -80,11 +80,6 @@
                     <caption>Placeholder text</caption>
                     <description />
                 </property>
-                <property key="noOptionsText" type="textTemplate" required="false">
-                    <caption>No options text</caption>
-                    <description />
-                </property>
-
                 <!-- MISC PROPS -->
                 <property key="filterType" type="enumeration" defaultValue="contains">
                     <caption>Filter type</caption>
@@ -92,8 +87,12 @@
                     <enumerationValues>
                         <enumerationValue key="contains">Contains</enumerationValue>
                         <enumerationValue key="startsWith">Starts-with</enumerationValue>
-                        <enumerationValue key="no">No</enumerationValue>
+                        <enumerationValue key="none">None</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="noOptionsText" type="textTemplate" required="false">
+                    <caption>No options text</caption>
+                    <description />
                 </property>
                 <property key="clearable" type="boolean" defaultValue="true">
                     <caption>Clearable</caption>
