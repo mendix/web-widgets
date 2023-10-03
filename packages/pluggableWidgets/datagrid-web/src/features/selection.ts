@@ -5,11 +5,13 @@ import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum }
 
 export type SelectionMethod = ItemSelectionMethodEnum | "none";
 
+export type onSelectAllReqState = "selectAll" | "deselectAll";
+
 export type onSelect = (item: ObjectItem, shiftKey: boolean) => void;
 
 export type SelectActionProps = {
     onSelect: onSelect;
-    onSelectAll: () => void;
+    onSelectAll: (requestedState?: onSelectAllReqState) => void;
     isSelected: (item: ObjectItem) => boolean;
 };
 
@@ -37,18 +39,23 @@ export function useOnSelectProps(selection: SelectionHelper | undefined): Select
                     selection.add(item);
                 }
             },
-            onSelectAll:
-                selection.type === "Single"
-                    ? () => {
-                          console.warn("Datagrid: calling onSelectAll in single selection mode have no effect");
-                      }
-                    : () => {
-                          if (selection.selectionStatus === "all") {
-                              selection.selectNone();
-                          } else {
-                              selection.selectAll();
-                          }
-                      },
+            onSelectAll(requestedState) {
+                if (selection.type === "Single") {
+                    console.warn("Datagrid: calling onSelectAll in single selection mode have no effect");
+                    return;
+                }
+
+                if (requestedState === "selectAll") {
+                    selection.selectAll();
+                    return;
+                }
+
+                if (selection.selectionStatus === "all") {
+                    selection.selectNone();
+                } else {
+                    selection.selectAll();
+                }
+            },
             isSelected: item => selection.isSelected(item)
         };
     }, [selection]);
@@ -60,22 +67,26 @@ export interface SelectionProps {
     showSelectAllToggle: boolean;
 }
 
-type SelectionSettings = {
+export type SelectionSettings = {
     selectionStatus: MultiSelectionStatus | undefined;
     selectionMethod: SelectionMethod;
+    multiselectable: boolean;
+    ariaMultiselectable: boolean | undefined;
 };
 
 export function selectionSettings(props: SelectionProps, helper: SelectionHelper | undefined): SelectionSettings {
     const { itemSelection, itemSelectionMethod, showSelectAllToggle } = props;
     const isDesignMode = typeof itemSelection === "string";
     const selectionOn = itemSelection !== undefined && itemSelection !== "None";
-    const selectionMulti = isDesignMode ? itemSelection === "Multi" : itemSelection?.type === "Multi";
+    const multiselectable = isDesignMode ? itemSelection === "Multi" : itemSelection?.type === "Multi";
     const methodCheckbox = itemSelectionMethod === "checkbox";
-    const selectAllOn = selectionMulti && methodCheckbox && showSelectAllToggle;
+    const selectAllOn = multiselectable && methodCheckbox && showSelectAllToggle;
     const status = isDesignMode ? "none" : helper?.type === "Multi" ? helper.selectionStatus : undefined;
 
     return {
         selectionStatus: selectAllOn ? status : undefined,
-        selectionMethod: selectionOn ? itemSelectionMethod : "none"
+        selectionMethod: selectionOn ? itemSelectionMethod : "none",
+        multiselectable,
+        ariaMultiselectable: selectionOn ? multiselectable : undefined
     };
 }
