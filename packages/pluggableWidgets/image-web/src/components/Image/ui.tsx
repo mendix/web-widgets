@@ -22,6 +22,7 @@ export interface ImageWrapperProps {
     children:
         | ReactElement<ImageContentIcon | ImageContentImage>
         | [ReactElement<ImageContentIcon | ImageContentImage>, ReactElement<LightboxProps> | false];
+    previewModeStyle: CSSProperties | undefined;
 }
 
 export interface ImageContentProps {
@@ -40,6 +41,7 @@ function Wrapper(props: ImageWrapperProps): ReactElement {
                 props.className,
                 { hidden: !props.hasImage }
             )}
+            style={props.previewModeStyle}
         >
             {props.children}
         </div>

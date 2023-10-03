@@ -89,6 +89,7 @@ export const Image: FunctionComponent<ImageProps> = ({
         onClick: hasClickHandler ? onImageClick : undefined,
         altText
     };
+    const previewModeStyle = previewMode ? { height } : undefined;
 
     const content =
         type === "image" ? (
@@ -130,6 +131,7 @@ export const Image: FunctionComponent<ImageProps> = ({
             className={className}
             responsive={responsive}
             hasImage={image !== undefined && image.length > 0}
+            previewModeStyle={previewModeStyle}
         >
             {content}
             {!previewMode && lightboxIsOpen && (
