@@ -58,6 +58,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.datasource, props.pageSize]);
 
     useEffect(() => {
@@ -138,7 +139,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={props.datasource.items ?? []}
+            data={items}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
