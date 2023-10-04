@@ -26,7 +26,6 @@ describe("MultiSelectionHelper", () => {
             expect(gridState()).toEqual([_, x, x, x, _, _, _, _]);
         });
 
-        // eslint-disable-next-line jest/no-focused-tests
         it("preserves the items that were already selected", () => {
             helper.add(items[0]);
             expect(gridState()).toEqual([x, _, _, _, _, _, _, _]);
