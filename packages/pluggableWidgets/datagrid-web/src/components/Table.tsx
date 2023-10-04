@@ -1,6 +1,7 @@
+import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
-import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { SelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ListActionValue, ObjectItem } from "mendix";
@@ -20,6 +21,8 @@ import { ColumnWidthConfig, SortingRule, useSettings } from "../features/setting
 import { SelectionMethod, SelectActionProps } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn } from "../typings/GridColumn";
+import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
+import { QuickAccessProvider } from "../helpers/useGridProps";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -31,6 +34,14 @@ import { StickyHeaderTable } from "./StickyHeaderTable";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
 
 export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> extends SelectActionProps {
+import { Grid } from "./Grid";
+import { Header } from "./Header";
+import { Root } from "./Root";
+import { Row } from "./Row";
+import { TableFooter, TableHeader } from "./TableHeaderFooter";
+import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
+
+export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
     columns: C[];
@@ -62,6 +73,9 @@ export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectI
     selectionMethod: SelectionMethod;
     selectionStatus?: MultiSelectionStatus;
     rowAction?: ListActionValue;
+    selectionProps: GridSelectionProps;
+    selectionHelper?: SelectionHelper;
+    showSelectAllToggle?: boolean;
 }
 
 export interface SortProperty {
@@ -96,10 +110,7 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
         setSortParameters,
         settings,
         styles,
-        selectionStatus,
-        selectionMethod,
-        onSelect,
-        isSelected,
+        selectionProps,
         CellComponent
     } = props;
     const isInfinite = !paging;
@@ -113,8 +124,6 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
-    const checkboxSelectionOn = selectionMethod === "checkbox";
-    const rowClickSelectionOn = selectionMethod === "rowClick";
     const showHeader = !!gridHeaderWidgets || pagingPosition === "top" || pagingPosition === "both";
 
     const { updateSettings } = useSettings(
@@ -172,13 +181,14 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
         />
     ) : null;
 
+    const showCheckboxColumn = selectionProps.selectionMethod === "checkbox";
     const cssGridStyles = useMemo(
         () =>
             gridStyle(visibleColumns, columnsWidth, {
-                selectItemColumn: checkboxSelectionOn,
+                selectItemColumn: showCheckboxColumn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, visibleColumns, columnsHidable, checkboxSelectionOn]
+        [columnsWidth, visibleColumns, columnsHidable, showCheckboxColumn]
     );
 
     return (
@@ -276,22 +286,114 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                         emptyPlaceholderRenderer &&
                         emptyPlaceholderRenderer(children => {
                             const colspan = columns.length + (columnsHidable ? 1 : 0) + (checkboxSelectionOn ? 1 : 0);
+        <QuickAccessProvider value={props}>
+            <Root
+                className={className}
+                selectionMethod={selectionProps.selectionMethod}
+                selection={selectionProps.selectionType !== "None"}
+                style={styles}
+            >
+                {showHeader && (
+                    <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
+                        {gridHeaderWidgets}
+                    </TableHeader>
+                )}
+                <Grid aria-multiselectable={selectionProps.multiselectable}>
+                    <InfiniteBody
+                        className="table-content"
+                        hasMoreItems={hasMoreItems}
+                        isInfinite={isInfinite}
+                        role="rowgroup"
+                        setPage={setPage}
+                        style={cssGridStyles}
+                    >
+                        <div key="headers_row" className="tr" role="row">
+                            <CheckboxColumnHeader key="headers_column_select_all" />
+                            {visibleColumns.map((column, index) =>
+                                headerWrapperRenderer(
+                                    index,
+                                    <Header
+                                        key={`${column.columnId}`}
+                                        className={`align-column-${column.alignment}`}
+                                        column={column}
+                                        draggable={columnsDraggable}
+                                        dragOver={dragOver}
+                                        filterable={columnsFilterable}
+                                        filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
+                                        hidable={columnsHidable}
+                                        isDragging={isDragging}
+                                        preview={preview}
+                                        resizable={columnsResizable}
+                                        resizer={
+                                            <ColumnResizer
+                                                onResizeEnds={updateSettings}
+                                                setColumnWidth={(width: number) =>
+                                                    setColumnsWidth(prev => {
+                                                        prev[column.columnNumber] = width;
+                                                        return { ...prev };
+                                                    })
+                                                }
+                                            />
+                                        }
+                                        setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
+                                        setDragOver={setDragOver}
+                                        setIsDragging={setIsDragging}
+                                        setSortBy={setSortBy}
+                                        sortable={columnsSortable}
+                                        sortBy={sortBy}
+                                        visibleColumns={visibleColumns}
+                                        tableId={`${props.id}`}
+                                    />
+                                )
+                            )}
+                            {columnsHidable && (
+                                <ColumnSelector
+                                    key="headers_column_selector"
+                                    columns={columns}
+                                    hiddenColumns={hiddenColumns}
+                                    id={id}
+                                    setHiddenColumns={setHiddenColumns}
+                                />
+                            )}
+                        </div>
+                        {rows.map((item, rowIndex) => {
                             return (
-                                <div
-                                    key="row-footer"
-                                    className={classNames("td", { "td-borders": !preview })}
-                                    style={{
-                                        gridColumn: `span ${colspan}`
-                                    }}
-                                >
-                                    <div className="empty-placeholder">{children}</div>
-                                </div>
+                                <Row
+                                    CellComponent={CellComponent}
+                                    className={props.rowClass?.(item)}
+                                    columns={visibleColumns}
+                                    index={rowIndex}
+                                    item={item}
+                                    key={`row_${item.id}`}
+                                    rowAction={props.rowAction}
+                                    showSelectorCell={columnsHidable}
+                                />
                             );
                         })}
-                </div>
-            </StickyHeaderTable>
-            <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
-        </div>
+                        {(rows.length === 0 || preview) &&
+                            emptyPlaceholderRenderer &&
+                            emptyPlaceholderRenderer(children => {
+                                const colspan =
+                                    columns.length +
+                                    (columnsHidable ? 1 : 0) +
+                                    (props.selectionProps.showCheckboxColumn ? 1 : 0);
+                                return (
+                                    <div
+                                        key="row-footer"
+                                        className={classNames("td", { "td-borders": !preview })}
+                                        style={{
+                                            gridColumn: `span ${colspan}`
+                                        }}
+                                    >
+                                        <div className="empty-placeholder">{children}</div>
+                                    </div>
+                                );
+                            })}
+                    </InfiniteBody>
+                </Grid>
+                <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
+            </Root>
+        </QuickAccessProvider>
     );
 }
 

@@ -8,12 +8,12 @@ import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widg
 import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "./features/filters";
 import { getColumnAssociationProps } from "./features/column";
-import { selectionSettings, useOnSelectProps } from "./features/selection";
+// import { selectionSettings, useOnSelectProps } from "./features/selection";
 import "./ui/Datagrid.scss";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
 import { Column } from "./helpers/Column";
-import { useDG2ExportApi, UpdateDataSourceFn } from "./features/export";
+import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -122,10 +122,14 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         [props.columns]
     );
 
-    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
-    const selectActionProps = useOnSelectProps(selection);
-
-    const selectionContextValue = useCreateSelectionContextValue(selection);
+    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
+    const selectionProps = useGridSelectionProps({
+        selection: props.itemSelection,
+        selectionMethod: props.itemSelectionMethod,
+        helper: selectionHelper,
+        showSelectAllToggle: props.showSelectAllToggle
+    });
 
     return (
         <Table
@@ -191,10 +195,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
-            isSelected={selectActionProps.isSelected}
             numberOfItems={props.datasource.totalCount}
-            onSelect={selectActionProps.onSelect}
-            onSelectAll={selectActionProps.onSelectAll}
             page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
@@ -212,7 +213,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 [props.columns]
             )}
             rowAction={props.onClick}
-            {...selectionSettings(props, selection)}
+            selectionProps={selectionProps}
         />
     );
 }

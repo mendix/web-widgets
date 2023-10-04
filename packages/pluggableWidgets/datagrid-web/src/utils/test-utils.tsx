@@ -6,6 +6,7 @@ import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
+import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -34,6 +35,17 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
 
+    const selectionProps: GridSelectionProps = {
+        selectionType: "None",
+        selectionMethod: "checkbox",
+        multiselectable: undefined,
+        showCheckboxColumn: false,
+        showSelectAllToggle: false,
+        onSelect: jest.fn(),
+        onSelectAll: jest.fn(),
+        isSelected: jest.fn(() => false)
+    };
+
     return {
         CellComponent: Cell,
         setPage: jest.fn(),
@@ -53,13 +65,7 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
         filterRenderer: () => <input type="text" defaultValue="dummy" />,
         headerWrapperRenderer: (_index, header) => header,
         data: [{ id: "123456" as GUID }],
-        onSelect: jest.fn(),
-        onSelectAll: jest.fn(),
-        isSelected: jest.fn(() => false),
-        selectionMethod: "none",
-        selectionStatus: undefined,
-        multiselectable: false,
-        ariaMultiselectable: undefined,
-        id
+        id,
+        selectionProps
     };
 }

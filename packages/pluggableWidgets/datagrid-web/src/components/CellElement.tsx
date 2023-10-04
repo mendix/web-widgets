@@ -8,22 +8,23 @@ interface CellElementProps {
     previewAsHidden?: boolean;
     onClick?: DOMAttributes<HTMLDivElement>["onClick"];
     onKeyDown?: DOMAttributes<HTMLDivElement>["onKeyDown"];
+    clickable?: boolean;
     children?: ReactNode;
     alignment?: AlignmentEnum;
     wrapText?: boolean;
     ["aria-hidden"]?: boolean;
+    tabIndex?: number;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
 const component = memo(function CellElement(props: CellElementProps): ReactElement {
-    const clickable = !!props.onClick;
     return (
         <div
             className={classNames(
                 "td",
                 {
                     "td-borders": props.borderTop,
-                    clickable,
+                    clickable: props.clickable,
                     "hidden-column-preview": props.previewAsHidden,
                     "wrap-text": props.wrapText,
                     [`align-column-${props.alignment}`]: typeof props.alignment === "string"
@@ -33,7 +34,7 @@ const component = memo(function CellElement(props: CellElementProps): ReactEleme
             onClick={props.onClick}
             onKeyDown={props.onKeyDown}
             role="gridcell"
-            tabIndex={clickable ? 0 : undefined}
+            tabIndex={props.clickable ? 0 : undefined}
         >
             {props.children}
         </div>

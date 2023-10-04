@@ -1,5 +1,6 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { useEffect, useRef } from "react";
+import { MultiSelectionStatus } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -224,4 +225,3 @@ export function useSelectionHelper(
 
 export type { SingleSelectionHelper };
 export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
-export type MultiSelectionStatus = "none" | "all" | "some";

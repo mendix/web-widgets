@@ -82,7 +82,12 @@ const stopPropagation = (event: { stopPropagation(): void }): void => {
 
 function CustomContent(props: { children: ReactNode }): ReactElement {
     return (
-        <div onClick={stopPropagation} onKeyUp={stopPropagation} className="td-custom-content">
+        <div
+            onClick={stopPropagation}
+            onKeyUp={stopPropagation}
+            onKeyDown={stopPropagation}
+            className="td-custom-content"
+        >
             {props.children}
         </div>
     );

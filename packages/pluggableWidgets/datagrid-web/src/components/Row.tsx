@@ -1,63 +1,51 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { getAriaSelected } from "@mendix/widget-plugin-grid/selection/utils";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { ReactElement, createElement, useCallback } from "react";
-import { SelectionMethod, SelectActionProps } from "../features/selection";
+import { ReactElement, createElement } from "react";
+import { useGridProps } from "../helpers/useGridProps";
+import { useRowEventHandlers } from "../helpers/useRowEventHandlers";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CellElement } from "./CellElement";
 
-type ClickAction = "selectRow" | "executeAction" | "none";
-type onClick = React.MouseEventHandler<HTMLDivElement>;
-type onKeyDown = React.KeyboardEventHandler<HTMLDivElement>;
-
-export interface RowProps<C extends GridColumn> extends SelectActionProps {
+export interface RowProps<C extends GridColumn> {
     className?: string;
     CellComponent: CellComponent<C>;
     columns: C[];
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    selectionMethod: SelectionMethod;
     rowAction?: ListActionValue;
 }
 
-const onChangeStub = () => {
+const onChangeStub = (): void => {
     /* stub to prevent react warnings */
 };
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
-    const onKeyUp = useKeyboardSelectAll(props.onSelectAll);
-    const selected = props.isSelected(props.item);
-
+    const { selectionProps } = useGridProps();
+    const selected = selectionProps.isSelected(props.item);
+    const handlers = useRowEventHandlers(props.item, selectionProps, props.rowAction);
     return (
         <div
+            aria-selected={getAriaSelected(selectionProps.selectionType, props.item, selectionProps.isSelected)}
             className={classNames("tr", { "tr-selected": selected }, props.className)}
+            onClick={event => selectionProps.onSelect(props.item, event.shiftKey)}
             role="row"
-            onKeyDown={() => {
-                document.body.style.userSelect = "none";
-            }}
-            onKeyUp={onKeyUp}
+            {...handlers}
         >
-            {props.selectionMethod === "checkbox" && (
-                <CellElement key="checkbox_cell" className="widget-datagrid-col-select" borderTop={props.index === 0}>
-                    <input
-                        checked={selected}
-                        onClick={event => props.onSelect(props.item, event.shiftKey)}
-                        onChange={onChangeStub}
-                        type="checkbox"
-                        tabIndex={-1}
-                    />
+            {selectionProps.showCheckboxColumn && (
+                <CellElement
+                    key="checkbox_cell"
+                    className="widget-datagrid-col-select"
+                    borderTop={props.index === 0}
+                    clickable
+                >
+                    <input checked={selected} onChange={onChangeStub} type="checkbox" tabIndex={-1} />
                 </CellElement>
             )}
             {props.columns.map((column, columnIndex) => {
-                const { onClick, onKeyDown } = getCellEventHandlers(
-                    props.selectionMethod,
-                    props.rowAction,
-                    props.onSelect,
-                    props.item
-                );
                 return (
                     <Cell
                         key={`row_${props.item.id}_col_${column.columnNumber}`}
@@ -65,8 +53,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         rowIndex={props.index}
                         columnIndex={columnIndex}
                         item={props.item}
-                        onClick={onClick}
-                        onKeyDown={onKeyDown}
+                        clickable
                     />
                 );
             })}
@@ -82,50 +69,74 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     );
 }
 
-type CellHandlers = { onClick?: onClick; onKeyDown?: onKeyDown };
+// function getRowHandlers(
+//     selectionType: SelectionType,
+//     onSelect: onSelect,
+//     rowAction: ListActionValue | undefined,
+//     rowItem: ObjectItem
+// ): RowHandlers {
+//     let action: ((item: ObjectItem, shiftKey: boolean) => void) | undefined;
 
-function getCellEventHandlers(
-    selection: SelectionMethod,
-    action: ListActionValue | undefined,
-    onSelect: SelectActionProps["onSelect"],
-    item: ObjectItem
-): CellHandlers {
-    const clickAction: ClickAction =
-        selection === "rowClick" ? "selectRow" : action !== undefined ? "executeAction" : "none";
+//     if (selectionType === "Multi" || selectionType === "Single") {
+//         action = (item, shiftKey) => onSelect(item, shiftKey);
+//     } else if (rowAction) {
+//         action = item => executeAction(rowAction.get(item));
+//     }
 
-    const handlers: CellHandlers = {};
+//     if (action === undefined) {
+//         return {};
+//     }
 
-    if (clickAction === "none") {
-        return handlers;
-    }
+//     const finalAction = action;
+//     return {
+//         onClick(event) {
+//             finalAction(rowItem, event.shiftKey);
+//         },
+//         onKeyUp(event) {
+//             if (event.code !== "Enter" && event.code !== "Space") {
+//                 return;
+//             }
 
-    const onClick =
-        clickAction === "selectRow"
-            ? (event?: { shiftKey?: boolean }) => {
-                  onSelect(item, event?.shiftKey ?? false);
-              }
-            : () => executeAction(action?.get(item));
+//             if (isOwnCell(event.currentTarget, event.target as Element)) {
+//                 finalAction(rowItem, event.shiftKey);
+//             }
+//         }
+//     };
+// }
 
-    handlers.onClick = onClick;
-    handlers.onKeyDown = e => {
-        if ((e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
-            e.preventDefault();
-            onClick();
-        }
-    };
+// function isOwnCell(row: Element, cell: Element): boolean {
+//     return Array.from(row.children).includes(cell);
+// }
 
-    return handlers;
-}
+// function getCellEventHandlers(
+//     selection: SelectionMethod,
+//     action: ListActionValue | undefined,
+//     onSelect: SelectActionProps["onSelect"],
+//     item: ObjectItem
+// ): CellHandlers {
+//     const clickAction: ClickAction =
+//         selection === "rowClick" ? "selectRow" : action !== undefined ? "executeAction" : "none";
 
-function useKeyboardSelectAll(
-    onSelectAll: SelectActionProps["onSelectAll"]
-): React.KeyboardEventHandler<HTMLDivElement> {
-    return useCallback(
-        event => {
-            if (event.code === "KeyA" && (event.metaKey || event.ctrlKey)) {
-                onSelectAll("selectAll");
-            }
-        },
-        [onSelectAll]
-    );
-}
+//     const handlers: CellHandlers = {};
+
+//     if (clickAction === "none") {
+//         return handlers;
+//     }
+
+//     const onClick =
+//         clickAction === "selectRow"
+//             ? (event?: { shiftKey?: boolean }) => {
+//                   onSelect(item, event?.shiftKey ?? false);
+//               }
+//             : () => executeAction(action?.get(item));
+
+//     handlers.onClick = onClick;
+//     handlers.onKeyDown = e => {
+//         if ((e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
+//             e.preventDefault();
+//             onClick();
+//         }
+//     };
+
+//     return handlers;
+// }
