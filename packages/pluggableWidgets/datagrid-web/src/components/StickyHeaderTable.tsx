@@ -1,6 +1,6 @@
+import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
 import { PropsWithChildren, ReactElement, createElement, useCallback, useEffect, useRef } from "react";
-import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 
 // this wrapper component works by adding "sticky-sentinel" div (and hides it using margin-bottom -1px)
 // in order to detect table going out of viewport
@@ -23,16 +23,18 @@ export function StickyHeaderTable(props: PropsWithChildren<InfiniteBodyProps>): 
     }, []);
 
     useEffect(() => {
+        let observerRefValue: HTMLDivElement | null = null;
         const observer = new IntersectionObserver(observerCallback, { threshold: [0, 1] });
         if (headerContainer.current) {
             observer.observe(headerContainer.current);
+            observerRefValue = headerContainer.current;
         }
         return () => {
-            if (headerContainer.current) {
-                observer.unobserve(headerContainer.current);
+            if (observerRefValue) {
+                observer.unobserve(observerRefValue);
             }
         };
-    }, [headerContainer.current, observerCallback]);
+    }, [observerCallback]);
 
     return (
         <div
