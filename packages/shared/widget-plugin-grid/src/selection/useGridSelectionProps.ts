@@ -29,9 +29,8 @@ export function useGridSelectionProps(params: HookParams): GridSelectionProps {
     const { selectionMethod } = params;
     const selectionType = getSelectionType(params.selection);
     const primaryProps = usePrimarySelectionProps(params.helper);
-    const selectionOn = selectionType !== "None";
-    const showSelectAllToggle = selectionOn && params.showSelectAllToggle;
-    const showCheckboxColumn = selectionOn && selectionMethod === "checkbox";
+    const showSelectAllToggle = selectionType === "Multi" && params.showSelectAllToggle;
+    const showCheckboxColumn = selectionType !== "None" && selectionMethod === "checkbox";
     const keyboard = useKeyboardHandlers(selectionType, primaryProps);
 
     function computeProps(): GridSelectionProps {

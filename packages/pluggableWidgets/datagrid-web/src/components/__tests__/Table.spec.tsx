@@ -1,4 +1,4 @@
-import { MultiSelectionStatus, SelectionHelper, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import * as testingLibrary from "@testing-library/react";
@@ -266,24 +266,19 @@ describe("Table", () => {
             props.selectionProps.showSelectAllToggle = true;
             props.selectionProps.multiselectable = true;
 
-            const renderWithHelperStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                const helper = {
-                    type: "Multi",
-                    selectionStatus: status
-                } as unknown as SelectionHelper;
-
-                return render(<Table {...props} selectionHelper={helper} />);
+            const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
+                return render(<Table {...props} selectionStatus={status} />);
             };
 
-            renderWithHelperStatus("none");
+            renderWithStatus("none");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).not.toBeChecked();
 
             cleanup();
-            renderWithHelperStatus("some");
+            renderWithStatus("some");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
 
             cleanup();
-            renderWithHelperStatus("all");
+            renderWithStatus("all");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
         });
 
@@ -304,6 +299,7 @@ describe("Table", () => {
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
             props.selectionProps.showSelectAllToggle = true;
+            props.selectionStatus = "none";
 
             render(<Table {...props} />);
 
@@ -403,7 +399,13 @@ describe("Table", () => {
                 showSelectAllToggle: false
             });
 
-            return <Table {...props} selectionProps={sp} selectionHelper={helper} />;
+            return (
+                <Table
+                    {...props}
+                    selectionProps={sp}
+                    selectionStatus={helper?.type === "Multi" ? helper.selectionStatus : "unknown"}
+                />
+            );
         }
 
         function setup(
