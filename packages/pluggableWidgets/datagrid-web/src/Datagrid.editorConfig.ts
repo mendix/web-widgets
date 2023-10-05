@@ -179,6 +179,7 @@ export const getPreview = (
                   dynamicText: "Dynamic text",
                   draggable: false,
                   hidable: "no",
+                  visible: "true",
                   size: 1,
                   sortable: false,
                   alignment: "left",

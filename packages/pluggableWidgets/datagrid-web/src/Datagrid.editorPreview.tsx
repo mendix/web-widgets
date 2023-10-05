@@ -35,6 +35,7 @@ const initColumns: ColumnsPreviewType[] = [
         dynamicText: "Dynamic Text",
         draggable: false,
         hidable: "no",
+        visible: "true",
         size: 1,
         sortable: false,
         alignment: "left",

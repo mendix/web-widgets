@@ -92,7 +92,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     }
 
     const columns = useMemo(
-        () => props.columns.map((col, index) => new Column(col, index, id.current)),
+        () =>
+            props.columns
+                .filter(col => col.visible?.value ?? true)
+                .map((col, index) => new Column(col, index, id.current)),
         [props.columns]
     );
 

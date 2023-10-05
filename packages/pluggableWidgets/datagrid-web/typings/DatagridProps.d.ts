@@ -32,6 +32,7 @@ export interface ColumnsType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
+    visible?: DynamicValue<boolean>;
     width: WidthEnum;
     size: number;
     alignment: AlignmentEnum;
@@ -64,6 +65,7 @@ export interface ColumnsPreviewType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
+    visible: string;
     width: WidthEnum;
     size: number | null;
     alignment: AlignmentEnum;

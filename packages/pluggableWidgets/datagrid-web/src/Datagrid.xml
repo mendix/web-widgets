@@ -131,6 +131,11 @@
                                     <enumerationValue key="no">No</enumerationValue>
                                 </enumerationValues>
                             </property>
+                            <property key="visible" type="expression" required="false" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
                         </propertyGroup>
                         <propertyGroup caption="Appearance">
                             <property key="width" type="enumeration" defaultValue="autoFill">
