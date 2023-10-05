@@ -1,6 +1,6 @@
 import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { SelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { Big } from "big.js";
 import classNames from "classnames";
@@ -26,14 +26,14 @@ import { GridPropsProvider } from "../helpers/useGridProps";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
+import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { GridBody } from "./GridBody";
-import { Header } from "./Header";
 import { GridRoot } from "./GridRoot";
+import { Header } from "./Header";
 import { Row } from "./Row";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
-import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 
 export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -68,7 +68,7 @@ export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectI
     selectionStatus?: MultiSelectionStatus;
     rowAction?: ListActionValue;
     selectionProps: GridSelectionProps;
-    selectionHelper?: SelectionHelper;
+    selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
 }
 

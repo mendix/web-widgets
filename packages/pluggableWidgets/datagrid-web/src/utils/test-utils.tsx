@@ -76,6 +76,7 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
         headerWrapperRenderer: (_index, header) => header,
         data: [{ id: "123456" as GUID }],
         id,
-        selectionProps
+        selectionProps,
+        selectionStatus: "unknown"
     };
 }

@@ -108,6 +108,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             styles={parseStyle(props.style)}
             valueForSort={useCallback(() => undefined, [])}
             selectionProps={selectionProps}
+            selectionStatus={"none"}
         />
     );
 }
