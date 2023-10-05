@@ -148,7 +148,7 @@
                     <caption>Tools group</caption>
                     <description />
                 </property>
-                <property key="insertGroup" type="boolean" defaultValue="true">
+                <property key="insertGroup" type="boolean" defaultValue="false">
                     <caption>Insert group</caption>
                     <description />
                 </property>
