@@ -2141,7 +2141,7 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
       '@mendix/widget-plugin-platform':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../widget-plugin-platform
       '@mendix/widget-plugin-test-utils':
         specifier: workspace:*
