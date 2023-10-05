@@ -34,7 +34,7 @@ const component = memo(function CellElement(props: CellElementProps): ReactEleme
             onClick={props.onClick}
             onKeyDown={props.onKeyDown}
             role="gridcell"
-            tabIndex={props.clickable ? 0 : undefined}
+            tabIndex={props.tabIndex ?? (props.clickable ? 0 : undefined)}
         >
             {props.children}
         </div>

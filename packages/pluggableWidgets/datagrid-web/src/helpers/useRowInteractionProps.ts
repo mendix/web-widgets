@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { ListActionValue, ObjectItem } from "mendix";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { removeAllRanges } from "@mendix/widget-plugin-grid/selection/utils";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ListActionValue, ObjectItem } from "mendix";
+import { useMemo } from "react";
 
 /**
  * This is sad, but originally row was behaving like a button when DG has a "On click" action.
@@ -28,7 +28,7 @@ type RowAriaProps = {
 
 type ActionProp = ListActionValue | undefined;
 
-type RowFinalProps = RowEventHandlers & RowAriaProps;
+type RowInteractionProps = RowEventHandlers & RowAriaProps;
 
 function getPattern(selectionType: SelectionType, action: ActionProp): RowPattern {
     if (selectionType === "Single" || selectionType === "Multi") {
@@ -42,7 +42,7 @@ function getPattern(selectionType: SelectionType, action: ActionProp): RowPatter
     return "None";
 }
 
-function rowPropsButton(item: ObjectItem, action: ActionProp): RowFinalProps {
+function rowPropsButton(item: ObjectItem, action: ActionProp): RowInteractionProps {
     const callback = (): void => executeAction(action?.get(item));
 
     return {
@@ -52,14 +52,14 @@ function rowPropsButton(item: ObjectItem, action: ActionProp): RowFinalProps {
                 return;
             }
 
-            if (isOwnCell(event.currentTarget, event.target as Element)) {
+            if (isDirectChild(event.currentTarget, event.target as Element)) {
                 callback();
             }
         }
     };
 }
 
-function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps): RowFinalProps {
+function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps): RowInteractionProps {
     if (selectionProps.selectionType === "None") {
         return {};
     }
@@ -83,16 +83,16 @@ function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps
     };
 }
 
-function isOwnCell(row: Element, cell: Element): boolean {
+function isDirectChild(row: Element, cell: Element): boolean {
     return Array.from(row.children).includes(cell);
 }
 
-export function useRowEventHandlers(
+export function useRowInteractionProps(
     item: ObjectItem,
     selectionProps: GridSelectionProps,
     action: ActionProp
-): RowFinalProps {
-    function computeProps(): RowFinalProps {
+): RowInteractionProps {
+    function computeProps(): RowInteractionProps {
         const pattern = getPattern(selectionProps.selectionType, action);
 
         if (pattern === "RowActAsButton") {

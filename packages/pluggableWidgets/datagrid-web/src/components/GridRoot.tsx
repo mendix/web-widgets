@@ -1,16 +1,16 @@
+import { GridSelectionMethod } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import classNames from "classnames";
 import { ReactElement, createElement } from "react";
-import { GridSelectionMethod } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 
 type P = Omit<JSX.IntrinsicElements["div"], "ref">;
 
-export interface RootProps extends P {
+export interface GridRootProps extends P {
     className?: string;
     selection?: boolean;
     selectionMethod: GridSelectionMethod;
 }
 
-export function Root(props: RootProps): ReactElement {
+export function GridRoot(props: GridRootProps): ReactElement {
     const { className, selectionMethod, selection, children, ...rest } = props;
 
     return (

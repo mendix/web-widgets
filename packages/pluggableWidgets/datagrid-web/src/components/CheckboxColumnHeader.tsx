@@ -1,6 +1,6 @@
-import { createElement, ReactElement, Fragment } from "react";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { getMultiSelectStatus } from "@mendix/widget-plugin-grid/selection/utils";
+import { Fragment, ReactElement, createElement } from "react";
 import { useGridProps } from "../helpers/useGridProps";
 
 export function CheckboxColumnHeader(): ReactElement {

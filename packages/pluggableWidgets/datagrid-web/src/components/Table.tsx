@@ -22,21 +22,15 @@ import { SelectionMethod, SelectActionProps } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn } from "../typings/GridColumn";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
-import { QuickAccessProvider } from "../helpers/useGridProps";
+import { GridPropsProvider } from "../helpers/useGridProps";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
+import { GridBody } from "./GridBody";
 import { Header } from "./Header";
-import { Row } from "./Row";
-import { StickyHeaderTable } from "./StickyHeaderTable";
-import { TableFooter, TableHeader } from "./TableHeaderFooter";
-
-export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> extends SelectActionProps {
-import { Grid } from "./Grid";
-import { Header } from "./Header";
-import { Root } from "./Root";
+import { GridRoot } from "./GridRoot";
 import { Row } from "./Row";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
@@ -192,102 +186,8 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
     );
 
     return (
-        <div
-            className={classNames(className, "widget-datagrid", {
-                "widget-datagrid-selection-method-checkbox": checkboxSelectionOn,
-                "widget-datagrid-selection-method-click": rowClickSelectionOn
-            })}
-            style={styles}
-        >
-            {showHeader && (
-                <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
-                    {gridHeaderWidgets}
-                </TableHeader>
-            )}
-            <StickyHeaderTable isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
-                <div className="table-content" role="rowgroup" style={cssGridStyles}>
-                    <div key="headers_row" className="tr" role="row">
-                        {checkboxSelectionOn && (
-                            <div
-                                key="headers_column_select_all"
-                                className="th widget-datagrid-col-select"
-                                role="columnheader"
-                            >
-                                {selectionStatus && (
-                                    <ThreeStateCheckBox value={selectionStatus} onChange={props.onSelectAll} />
-                                )}
-                            </div>
-                        )}
-                        {visibleColumns.map((column, index) =>
-                            headerWrapperRenderer(
-                                index,
-                                <Header
-                                    key={`${column.columnId}`}
-                                    className={`align-column-${column.alignment}`}
-                                    column={column}
-                                    draggable={columnsDraggable}
-                                    dragOver={dragOver}
-                                    filterable={columnsFilterable}
-                                    filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
-                                    hidable={columnsHidable}
-                                    isDragging={isDragging}
-                                    preview={preview}
-                                    resizable={columnsResizable}
-                                    resizer={
-                                        <ColumnResizer
-                                            onResizeEnds={updateSettings}
-                                            setColumnWidth={(width: number) =>
-                                                setColumnsWidth(prev => {
-                                                    prev[column.columnNumber] = width;
-                                                    return { ...prev };
-                                                })
-                                            }
-                                        />
-                                    }
-                                    setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
-                                    setDragOver={setDragOver}
-                                    setIsDragging={setIsDragging}
-                                    setSortBy={setSortBy}
-                                    sortable={columnsSortable}
-                                    sortBy={sortBy}
-                                    visibleColumns={visibleColumns}
-                                    tableId={`${props.id}`}
-                                />
-                            )
-                        )}
-                        {columnsHidable && (
-                            <ColumnSelector
-                                key="headers_column_selector"
-                                columns={columns}
-                                hiddenColumns={hiddenColumns}
-                                id={id}
-                                setHiddenColumns={setHiddenColumns}
-                            />
-                        )}
-                    </div>
-                    {rows.map((item, rowIndex) => {
-                        return (
-                            <Row
-                                CellComponent={CellComponent}
-                                className={props.rowClass?.(item)}
-                                columns={visibleColumns}
-                                index={rowIndex}
-                                item={item}
-                                key={`row_${item.id}`}
-                                onSelect={onSelect}
-                                rowAction={props.rowAction}
-                                selected={isSelected(item)}
-                                selectionMethod={selectionMethod}
-                                showSelectorCell={columnsHidable}
-                            />
-                        );
-                    })}
-                    {(rows.length === 0 || preview) &&
-                        emptyPlaceholderRenderer &&
-                        emptyPlaceholderRenderer(children => {
-                            const colspan = columns.length + (columnsHidable ? 1 : 0) + (checkboxSelectionOn ? 1 : 0);
-        <QuickAccessProvider value={props}>
-            <Root
+        <GridPropsProvider value={props}>
+            <GridRoot
                 className={className}
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionProps.selectionType !== "None"}
@@ -298,7 +198,7 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                         {gridHeaderWidgets}
                     </TableHeader>
                 )}
-                <Grid aria-multiselectable={selectionProps.multiselectable}>
+                <GridBody aria-multiselectable={selectionProps.multiselectable}>
                     <InfiniteBody
                         className="table-content"
                         hasMoreItems={hasMoreItems}
@@ -390,10 +290,10 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                                 );
                             })}
                     </InfiniteBody>
-                </Grid>
+                </GridBody>
                 <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
-            </Root>
-        </QuickAccessProvider>
+            </GridRoot>
+        </GridPropsProvider>
     );
 }
 

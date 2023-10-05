@@ -1,19 +1,18 @@
-import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DatagridContainerProps } from "../typings/DatagridProps";
+import { FilterFunction, FilterType, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
+import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { Table, SortProperty } from "./components/Table";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { FilterType, FilterFunction, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
-import { extractFilters } from "./features/filters";
-import { getColumnAssociationProps } from "./features/column";
-// import { selectionSettings, useOnSelectProps } from "./features/selection";
-import "./ui/Datagrid.scss";
+import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
+import { SortProperty, Table } from "./components/Table";
+import { getColumnAssociationProps } from "./features/column";
+import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
-import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
+import "./ui/Datagrid.scss";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);

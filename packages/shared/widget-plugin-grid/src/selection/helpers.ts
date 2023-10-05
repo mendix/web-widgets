@@ -111,7 +111,6 @@ export class MultiSelectionHelper {
         if (currentEnd === undefined) {
             const itemsToAdd = this._getRange(start, nextEnd);
             const selection = this._union(this.selectionValue.selection, itemsToAdd);
-            // console.log(selection, itemsToAdd);
             this.selectionValue.setSelection(selection);
             return;
         }

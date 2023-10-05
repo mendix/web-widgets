@@ -3,9 +3,9 @@ import { StickyHeaderTable } from "./StickyHeaderTable";
 
 type P = Omit<JSX.IntrinsicElements["div"], "className" | "role" | "ref">;
 
-export interface GridProps extends P {}
+export interface GridBodyProps extends P {}
 
-export function Grid(props: GridProps): ReactElement {
+export function GridBody(props: GridBodyProps): ReactElement {
     const { children, ...rest } = props;
 
     return (

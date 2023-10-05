@@ -1,3 +1,4 @@
+import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 import { ObjectItem } from "mendix";
 import { useMemo } from "react";
 import { SelectionType } from "./types";
@@ -9,21 +10,14 @@ export type KeyboardTargetProps = {
     onKeyUp?: (event: React.KeyboardEvent<HTMLDivElement>, item: ObjectItem) => void;
 };
 
-function isSelectKeyBiding<T>(event: React.KeyboardEvent<T>): boolean {
-    return event.code === "Space" && event.shiftKey;
+const prefixSet = new Set(["MetaLeft", "MetaRight", "ControlLeft", "ControlRight"]);
+
+function isPrefixKey<T>(event: React.KeyboardEvent<T>): boolean {
+    return prefixSet.has(event.code);
 }
 
-function isSelectAllKyeBiding<T>(event: React.KeyboardEvent<T>): boolean {
+function isTriggerKeysPressed<T>(event: React.KeyboardEvent<T>): boolean {
     return event.code === "KeyA" && (event.metaKey || event.ctrlKey);
-}
-
-// One timerId for all Grids.
-let timerId: ReturnType<typeof setTimeout> | undefined;
-
-function removeTimer(): void {
-    if (timerId !== undefined) {
-        clearTimeout(timerId);
-    }
 }
 
 function createKeyboardHandlers(
@@ -34,32 +28,34 @@ function createKeyboardHandlers(
         return {};
     }
 
-    function onSelectAllEnd(): void {
-        removeTimer();
-        removeAllRanges();
-        document.body.style.userSelect = "";
-    }
+    let shouldCleanup = false;
+
     function onSelectAllStart(): void {
-        removeTimer();
-        timerId = setTimeout(onSelectAllEnd, 100);
+        shouldCleanup = true;
         document.body.style.userSelect = "none";
+        primaryProps.onSelectAll("selectAll");
     }
+
+    function onSelectAllEnd(): void {
+        abortSelectAll();
+        shouldCleanup = false;
+        setTimeout(() => {
+            removeAllRanges();
+            document.body.style.userSelect = "";
+        }, 250);
+    }
+
+    const [runSelectAll, abortSelectAll] = throttle(onSelectAllStart, 500);
 
     const props: KeyboardTargetProps = {
         onKeyDown(event) {
-            if (isSelectAllKyeBiding(event)) {
-                onSelectAllStart();
+            if (isTriggerKeysPressed(event)) {
+                runSelectAll();
             }
         },
-        onKeyUp(event, item) {
-            if (isSelectAllKyeBiding(event)) {
-                primaryProps.onSelectAll("selectAll");
-                event.preventDefault();
-                return;
-            }
-
-            if (isSelectKeyBiding(event)) {
-                primaryProps.onSelect(item, false);
+        onKeyUp(event, _item) {
+            if (shouldCleanup && (isPrefixKey(event) || event.code === "KeyA")) {
+                onSelectAllEnd();
             }
         }
     };

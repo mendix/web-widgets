@@ -10,7 +10,7 @@ type ContextValue = typeof NO_PROPS_VALUE | Props;
 
 const context = createContext<ContextValue>(NO_PROPS_VALUE);
 
-export const QuickAccessProvider: Provider<ContextValue> = context.Provider;
+export const GridPropsProvider: Provider<ContextValue> = context.Provider;
 
 export function useGridProps(): Props {
     const value = useContext(context);
