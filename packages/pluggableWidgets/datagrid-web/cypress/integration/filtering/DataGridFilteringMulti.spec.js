@@ -1,6 +1,6 @@
 describe("datagrid-web filtering multi select", () => {
     const rows = () => cy.get(".mx-name-dataGrid21 [role=row]");
-    const column = n => rows().find(`[role=cell]:nth-child(${n})`);
+    const column = n => rows().find(`[role=gridcell]:nth-child(${n})`);
     const option = label => cy.contains("[role=menuitem]", label);
     const enumSelect = () => cy.get(".mx-name-drop_downFilter1 input");
     const roleSelect = () => cy.get(".mx-name-drop_downFilter3 input");
