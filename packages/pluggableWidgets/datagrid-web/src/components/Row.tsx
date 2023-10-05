@@ -25,6 +25,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
     const { selectionProps } = useGridProps();
     const selected = selectionProps.isSelected(props.item);
+    const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
         props.item,
         selectionProps,
@@ -35,6 +36,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
         <div
             className={classNames("tr", { "tr-selected": selected }, props.className)}
             role="row"
+            aria-selected={ariaSelected}
             {...interactionProps}
         >
             {selectionProps.showCheckboxColumn && (

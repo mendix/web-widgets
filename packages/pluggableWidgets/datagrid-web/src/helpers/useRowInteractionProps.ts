@@ -26,13 +26,9 @@ type RowEventHandlers = {
     onKeyUp?: React.KeyboardEventHandler<HTMLDivElement>;
 };
 
-type RowAriaProps = {
-    "aria-selected"?: boolean | undefined;
-};
-
 type ActionProp = ListActionValue | undefined;
 
-type RowInteractionProps = RowEventHandlers & RowAriaProps;
+type RowInteractionProps = RowEventHandlers;
 
 function getPattern(selectionType: SelectionType, action: ActionProp): RowPattern {
     if (selectionType === "Single" || selectionType === "Multi") {
@@ -73,7 +69,6 @@ function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps
     };
 
     return {
-        "aria-selected": selectionProps.isSelected(item),
         onClick(event) {
             if (event.shiftKey) {
                 removeAllRanges();
