@@ -16,8 +16,12 @@ function isPrefixKey<T>(event: React.KeyboardEvent<T>): boolean {
     return prefixSet.has(event.code);
 }
 
-function isTriggerKeysPressed<T>(event: React.KeyboardEvent<T>): boolean {
+function isSelectAllTrigger<T>(event: React.KeyboardEvent<T>): boolean {
     return event.code === "KeyA" && (event.metaKey || event.ctrlKey);
+}
+
+function isSelectTrigger<T>(event: React.KeyboardEvent<T>): boolean {
+    return event.code === "Space" && event.shiftKey;
 }
 
 function createKeyboardHandlers(
@@ -49,13 +53,19 @@ function createKeyboardHandlers(
 
     const props: KeyboardTargetProps = {
         onKeyDown(event) {
-            if (isTriggerKeysPressed(event)) {
+            if (event.shiftKey) {
+                removeAllRanges();
+            }
+            if (isSelectAllTrigger(event)) {
                 runSelectAll();
             }
         },
-        onKeyUp(event, _item) {
+        onKeyUp(event, item) {
             if (shouldCleanup && (isPrefixKey(event) || event.code === "KeyA")) {
                 onSelectAllEnd();
+            }
+            if (isSelectTrigger(event)) {
+                primaryProps.onSelect(item, false);
             }
         }
     };
