@@ -1,5 +1,4 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { StickyHeaderTable } from "@mendix/widget-plugin-grid/components/StickyHeaderTable";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { Big } from "big.js";
@@ -25,6 +24,7 @@ import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { Header } from "./Header";
 import { Row } from "./Row";
+import { StickyHeaderTable } from "./StickyHeaderTable";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
 
 export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
