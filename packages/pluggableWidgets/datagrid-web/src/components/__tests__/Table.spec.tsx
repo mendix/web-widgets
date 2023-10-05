@@ -159,6 +159,7 @@ describe("Table", () => {
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
+            props.selectionProps.multiselectable = false;
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -259,9 +260,11 @@ describe("Table", () => {
             const props = mockTableProps();
             props.data = objectItems(5);
             props.paging = true;
+            props.selectionProps.selectionType = "Multi";
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
             props.selectionProps.showSelectAllToggle = true;
+            props.selectionProps.multiselectable = true;
 
             const renderWithHelperStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
                 const helper = {
@@ -322,6 +325,7 @@ describe("Table", () => {
             props = mockTableProps();
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "rowClick";
+            props.selectionProps.multiselectable = false;
             props.paging = true;
             props.data = objectItems(3);
         });
