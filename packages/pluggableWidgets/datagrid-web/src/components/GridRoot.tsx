@@ -17,8 +17,8 @@ export function GridRoot(props: GridRootProps): ReactElement {
         <div
             className={classNames(className, "widget-datagrid", {
                 "widget-datagrid-selectable-rows": selection,
-                "widget-datagrid-selection-method-checkbox": selectionMethod === "checkbox",
-                "widget-datagrid-selection-method-click": selectionMethod === "rowClick"
+                "widget-datagrid-selection-method-checkbox": selection && selectionMethod === "checkbox",
+                "widget-datagrid-selection-method-click": selection && selectionMethod === "rowClick"
             })}
             {...rest}
         >

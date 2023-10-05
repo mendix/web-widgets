@@ -16,6 +16,10 @@ import { useMemo } from "react";
  */
 type RowPattern = "RowActAsButton" | "RowActAsSelectable" | "None";
 
+type OtherProps = {
+    cellClickableClass: boolean;
+};
+
 type RowEventHandlers = {
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
@@ -91,19 +95,20 @@ export function useRowInteractionProps(
     item: ObjectItem,
     selectionProps: GridSelectionProps,
     action: ActionProp
-): RowInteractionProps {
-    function computeProps(): RowInteractionProps {
+): [RowInteractionProps, OtherProps] {
+    function computeProps(): [RowInteractionProps, OtherProps] {
         const pattern = getPattern(selectionProps.selectionType, action);
+        let props: RowInteractionProps = {};
 
         if (pattern === "RowActAsButton") {
-            return rowPropsButton(item, action);
+            props = rowPropsButton(item, action);
         }
 
         if (pattern === "RowActAsSelectable") {
-            return rowPropsSelectable(item, selectionProps);
+            props = rowPropsSelectable(item, selectionProps);
         }
 
-        return {};
+        return [props, { cellClickableClass: pattern !== "None" }];
     }
 
     return useMemo(computeProps, [item, selectionProps, action]);

@@ -31,11 +31,8 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
     return c;
 };
 
-export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
-    const id = "dg1";
-    const columnsProp = [column("Test")];
-
-    const selectionProps: GridSelectionProps = {
+export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSelectionProps): GridSelectionProps {
+    const props: GridSelectionProps = {
         selectionType: "None",
         selectionMethod: "checkbox",
         multiselectable: undefined,
@@ -45,6 +42,19 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
         onSelectAll: jest.fn(),
         isSelected: jest.fn(() => false)
     };
+
+    if (patch) {
+        patch(props);
+    }
+
+    return props;
+}
+
+export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
+    const id = "dg1";
+    const columnsProp = [column("Test")];
+
+    const selectionProps = mockSelectionProps();
 
     return {
         CellComponent: Cell,

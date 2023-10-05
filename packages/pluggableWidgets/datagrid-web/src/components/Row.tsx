@@ -25,12 +25,15 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
     const { selectionProps } = useGridProps();
     const selected = selectionProps.isSelected(props.item);
-    const interactionProps = useRowInteractionProps(props.item, selectionProps, props.rowAction);
+    const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
+        props.item,
+        selectionProps,
+        props.rowAction
+    );
 
     return (
         <div
             className={classNames("tr", { "tr-selected": selected }, props.className)}
-            onClick={event => selectionProps.onSelect(props.item, event.shiftKey)}
             role="row"
             {...interactionProps}
         >
@@ -39,7 +42,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     key="checkbox_cell"
                     className="widget-datagrid-col-select"
                     borderTop={props.index === 0}
-                    clickable
+                    clickable={cellClickableClass}
                 >
                     <input checked={selected} onChange={onChangeStub} type="checkbox" tabIndex={-1} />
                 </CellElement>
@@ -52,7 +55,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         rowIndex={props.index}
                         columnIndex={columnIndex}
                         item={props.item}
-                        clickable
+                        clickable={cellClickableClass}
                     />
                 );
             })}
@@ -62,6 +65,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     aria-hidden
                     className="column-selector"
                     borderTop={props.index === 0}
+                    clickable={cellClickableClass}
                 />
             )}
         </div>

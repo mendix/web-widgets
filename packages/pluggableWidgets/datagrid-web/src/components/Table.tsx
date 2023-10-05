@@ -175,14 +175,13 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
         />
     ) : null;
 
-    const showCheckboxColumn = selectionProps.selectionMethod === "checkbox";
     const cssGridStyles = useMemo(
         () =>
             gridStyle(visibleColumns, columnsWidth, {
-                selectItemColumn: showCheckboxColumn,
+                selectItemColumn: selectionProps.showCheckboxColumn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, visibleColumns, columnsHidable, showCheckboxColumn]
+        [columnsWidth, visibleColumns, columnsHidable, selectionProps.showCheckboxColumn]
     );
 
     return (

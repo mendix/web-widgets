@@ -1,4 +1,4 @@
-import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { MultiSelectionStatus, SelectionHelper, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import * as testingLibrary from "@testing-library/react";
@@ -6,11 +6,12 @@ import userEvent from "@testing-library/user-event";
 import { render } from "enzyme";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
-import { useOnSelectProps } from "../../features/selection";
 import { Column } from "../../helpers/Column";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockTableProps } from "../../utils/test-utils";
 import { Table, TableProps } from "../Table";
+import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
+import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -150,32 +151,34 @@ describe("Table", () => {
     });
 
     describe("with selection method checkbox", () => {
-        it("render method class", () => {
-            const { render } = testingLibrary;
-            const items = objectItems(3);
+        const { render, screen } = testingLibrary;
+        let props: ReturnType<typeof mockTableProps>;
 
-            const { container } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} />
-            );
+        beforeEach(() => {
+            props = mockTableProps();
+            props.selectionProps.selectionType = "Single";
+            props.selectionProps.selectionMethod = "checkbox";
+            props.selectionProps.showCheckboxColumn = true;
+            props.paging = true;
+            props.data = objectItems(3);
+        });
+
+        it("render method class", () => {
+            const { container } = render(<Table {...props} />);
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
         });
 
-        it("render an extra column and add class to each selected cell", () => {
-            const { render } = testingLibrary;
-            const items = objectItems(3);
+        it("render an extra column and add class to each selected row", () => {
+            props.selectionProps.isSelected = () => true;
 
-            const { asFragment } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} isSelected={() => true} />
-            );
+            const { asFragment } = render(<Table {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it("set negative tabindex on row checkbox", () => {
-            const { getAllByRole } = testingLibrary.render(
-                <Table {...mockTableProps()} paging selectionMethod={"checkbox"} />
-            );
+            const { getAllByRole } = render(<Table {...props} />);
 
             getAllByRole("checkbox").forEach(elt => {
                 expect(elt).toHaveAttribute("tabindex", "-1");
@@ -183,75 +186,40 @@ describe("Table", () => {
         });
 
         it("render correct number of checked checkboxes", () => {
-            const items = objectItems(6);
-            const [a, b, c, d, e, f] = items;
-            const { rerender } = testingLibrary.render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} />
-            );
+            const [a, b, c, d, e, f] = (props.data = objectItems(6));
+            let selection: ObjectItem[] = [];
+            props.selectionProps.isSelected = item => selection.includes(item);
 
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            const checked = () =>
-                testingLibrary.screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
+            const getChecked = () => screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
 
-            expect(checked()).toHaveLength(0);
+            const { rerender } = render(<Table {...props} />);
 
-            rerender(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={"checkbox"}
-                    isSelected={item => [a, b, c].includes(item)}
-                />
-            );
+            expect(getChecked()).toHaveLength(0);
 
-            expect(checked()).toHaveLength(3);
+            selection = [a, b, c];
+            rerender(<Table {...props} />);
+            expect(getChecked()).toHaveLength(3);
 
-            rerender(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={"checkbox"}
-                    isSelected={item => [c].includes(item)}
-                />
-            );
+            selection = [c];
+            rerender(<Table {...props} />);
+            expect(getChecked()).toHaveLength(1);
 
-            expect(checked()).toHaveLength(1);
+            selection = [d, e];
+            rerender(<Table {...props} />);
+            expect(getChecked()).toHaveLength(2);
 
-            rerender(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={"checkbox"}
-                    isSelected={item => [d, e].includes(item)}
-                />
-            );
-
-            expect(checked()).toHaveLength(2);
-
-            rerender(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionMethod={"checkbox"}
-                    isSelected={item => [f, e, d, a].includes(item)}
-                />
-            );
-
-            expect(checked()).toHaveLength(4);
+            selection = [f, e, d, a];
+            rerender(<Table {...props} />);
+            expect(getChecked()).toHaveLength(4);
         });
 
         it("call onSelect when checkbox is clicked", async () => {
-            const { render, screen } = testingLibrary;
-            const items = objectItems(3);
-            const onSelect = jest.fn();
+            const items = props.data;
+            const onSelect = props.selectionProps.onSelect;
+            props.selectionProps.showCheckboxColumn = true;
 
-            render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"checkbox"} onSelect={onSelect} />
-            );
+            render(<Table {...props} />);
 
             const checkbox1 = screen.getAllByRole("checkbox")[0];
             const checkbox3 = screen.getAllByRole("checkbox")[2];
@@ -272,62 +240,56 @@ describe("Table", () => {
         });
     });
 
-    describe("with selection status", () => {
-        it("not render header checkbox when status is undefined", () => {
-            const { render, screen, queryByRole } = testingLibrary;
-            const items = objectItems(5);
-            render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionStatus={undefined}
-                    selectionMethod={"checkbox"}
-                />
-            );
+    it("not render header checkbox when showCheckboxColumn is false", () => {
+        const { render, screen, queryByRole } = testingLibrary;
+        const props = mockTableProps();
+        props.data = objectItems(5);
+        props.paging = true;
+        props.selectionProps.showCheckboxColumn = false;
 
-            const colheader = screen.getAllByRole("columnheader")[0];
-            expect(queryByRole(colheader, "checkbox")).toBeNull();
-        });
+        render(<Table {...props} />);
 
-        it("render header checkbox if status is given and checkbox state depends on the status", () => {
+        const colheader = screen.getAllByRole("columnheader")[0];
+        expect(queryByRole(colheader, "checkbox")).toBeNull();
+    });
+
+    describe("with multi selection helper", () => {
+        it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
             const { render, screen, queryByRole, cleanup } = testingLibrary;
-            const items = objectItems(5);
-            const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> =>
-                render(
-                    <Table
-                        {...mockTableProps()}
-                        data={items}
-                        paging
-                        selectionStatus={status}
-                        selectionMethod={"checkbox"}
-                    />
-                );
+            const props = mockTableProps();
+            props.data = objectItems(5);
+            props.paging = true;
+            props.selectionProps.selectionMethod = "checkbox";
+            props.selectionProps.showCheckboxColumn = true;
+            props.selectionProps.showSelectAllToggle = true;
 
-            renderWithStatus("none");
+            const renderWithHelperStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
+                const helper = {
+                    type: "Multi",
+                    selectionStatus: status
+                } as unknown as SelectionHelper;
+
+                return render(<Table {...props} selectionHelper={helper} />);
+            };
+
+            renderWithHelperStatus("none");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).not.toBeChecked();
 
             cleanup();
-            renderWithStatus("some");
+            renderWithHelperStatus("some");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
 
             cleanup();
-            renderWithStatus("all");
+            renderWithHelperStatus("all");
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
         });
 
         it("not render header checkbox if method is rowClick", () => {
             const { render, screen, queryByRole } = testingLibrary;
-            const items = objectItems(5);
-            render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionStatus={"some"}
-                    selectionMethod={"rowClick"}
-                />
-            );
+            const props = mockTableProps();
+            props.selectionProps.selectionMethod = "rowClick";
+
+            render(<Table {...props} />);
 
             const colheader = screen.getAllByRole("columnheader")[0];
             expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -335,70 +297,65 @@ describe("Table", () => {
 
         it("call onSelectAll when header checkbox is clicked", async () => {
             const { render, screen } = testingLibrary;
-            const items = objectItems(3);
-            const onSelectAll = jest.fn();
+            const props = mockTableProps();
+            props.selectionProps.selectionMethod = "checkbox";
+            props.selectionProps.showCheckboxColumn = true;
+            props.selectionProps.showSelectAllToggle = true;
 
-            render(
-                <Table
-                    {...mockTableProps()}
-                    data={items}
-                    paging
-                    selectionStatus="none"
-                    selectionMethod={"checkbox"}
-                    onSelectAll={onSelectAll}
-                />
-            );
+            render(<Table {...props} />);
 
             const checkbox = screen.getAllByRole("checkbox")[0];
 
             await userEvent.click(checkbox);
-            expect(onSelectAll).toBeCalledTimes(1);
+            expect(props.selectionProps.onSelectAll).toBeCalledTimes(1);
 
             await userEvent.click(checkbox);
-            expect(onSelectAll).toBeCalledTimes(2);
+            expect(props.selectionProps.onSelectAll).toBeCalledTimes(2);
         });
     });
 
     describe("with selection method rowClick", () => {
-        it("render method class", () => {
-            const { render } = testingLibrary;
-            const items = objectItems(3);
+        const { render, screen, getAllByRole } = testingLibrary;
+        let props: ReturnType<typeof mockTableProps>;
 
-            const { container } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"rowClick"} />
-            );
+        beforeEach(() => {
+            props = mockTableProps();
+            props.selectionProps.selectionType = "Single";
+            props.selectionProps.selectionMethod = "rowClick";
+            props.paging = true;
+            props.data = objectItems(3);
+        });
+
+        it("render method class", () => {
+            const { container } = render(<Table {...props} />);
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
         });
 
         it("add class to each selected cell", () => {
-            const { render } = testingLibrary;
-            const items = objectItems(3);
+            props.selectionProps.isSelected = () => true;
 
-            const { asFragment } = render(
-                <Table {...mockTableProps()} data={items} paging selectionMethod={"rowClick"} isSelected={() => true} />
-            );
+            const { asFragment } = render(<Table {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it("call onSelect when cell is clicked", async () => {
-            const { render, screen, getAllByRole } = testingLibrary;
-            const items = objectItems(3);
-            const onSelect = jest.fn();
-            const props = mockTableProps();
-            const columns = [column("Column A"), column("Column B")];
+            const items = props.data;
+            const onSelect = props.selectionProps.onSelect;
 
-            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
+            props.columns = [column("Column A"), column("Column B")].map(
+                (col, index) => new Column(col, index, props.id!)
+            );
 
-            render(<Table {...props} data={items} paging selectionMethod={"rowClick"} onSelect={onSelect} />);
+            render(<Table {...props} />);
 
             const rows = screen.getAllByRole("row").slice(1);
             expect(rows).toHaveLength(3);
 
             const [row1, row2] = rows;
-            const [cell1, cell2] = getAllByRole(row1, "button");
-            const [cell3, cell4] = getAllByRole(row2, "button");
+            const [cell1, cell2] = getAllByRole(row1, "gridcell");
+            const [cell3, cell4] = getAllByRole(row2, "gridcell");
 
             // Click cell1 two times
             await userEvent.click(cell1);
@@ -430,10 +387,19 @@ describe("Table", () => {
         let selection: SelectionMultiValue;
         let ds: ListValue;
 
-        function TableWithSelectionHelper(props: TableProps<GridColumn, ObjectItem>): ReactElement {
+        function TableWithSelectionHelper({
+            selectionMethod,
+            ...props
+        }: TableProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
             const helper = useSelectionHelper(selection, ds, undefined);
-            const sp = useOnSelectProps(helper);
-            return <Table {...props} {...sp} />;
+            const sp = useGridSelectionProps({
+                helper,
+                selection,
+                selectionMethod,
+                showSelectAllToggle: false
+            });
+
+            return <Table {...props} selectionProps={sp} selectionHelper={helper} />;
         }
 
         function setup(
@@ -455,7 +421,6 @@ describe("Table", () => {
             items = ds.items!;
             props = mockTableProps();
             selection = new SelectionMultiValueBuilder().build();
-
             props.data = items;
             props.columns = [
                 column("Name"),
@@ -468,9 +433,7 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -493,9 +456,7 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a checkbox", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -518,9 +479,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with metaKey+a and method checkbox", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -535,14 +494,12 @@ describe("Table", () => {
         });
 
         it("selects all available rows with metaKey+a and method rowClick", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="rowClick" {...props} />);
 
             expect(rows).toHaveLength(20);
 
             const [row] = rows;
-            const [cell] = getAllByRole(row, "button");
+            const [cell] = getAllByRole(row, "gridcell");
             await user.click(cell);
             expect(cell).toHaveFocus();
             expect(selection.selection).toHaveLength(1);
@@ -552,9 +509,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with ctrlKey+a and method checkbox", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -569,14 +524,12 @@ describe("Table", () => {
         });
 
         it("selects all available rows with ctrlKey+a and method rowClick", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="rowClick" {...props} />);
 
             expect(rows).toHaveLength(20);
 
             const [row] = rows;
-            const [cell] = getAllByRole(row, "button");
+            const [cell] = getAllByRole(row, "gridcell");
             await user.click(cell);
             expect(cell).toHaveFocus();
             expect(selection.selection).toHaveLength(1);
@@ -586,9 +539,7 @@ describe("Table", () => {
         });
 
         it("must not select rows, when metaKey+a or ctrlKey+a pressed in custom widget", async () => {
-            const { rows, user } = setup(
-                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
-            );
+            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
