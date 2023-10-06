@@ -6,11 +6,12 @@ import {
     useRef,
     useLayoutEffect,
     PropsWithChildren,
-    CSSProperties
+    CSSProperties,
+    RefObject
 } from "react";
 import classNames from "classnames";
 
-interface InfiniteBodyProps {
+export interface InfiniteBodyProps {
     className?: string;
     hasMoreItems: boolean;
     isInfinite: boolean;
@@ -19,9 +20,11 @@ interface InfiniteBodyProps {
     style?: CSSProperties;
 }
 
-export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
+export function useInfiniteControl(
+    props: PropsWithChildren<InfiniteBodyProps>
+): [trackScrolling: (e: any) => void, bodySize: number, containerRef: RefObject<HTMLDivElement>] {
     const { setPage, hasMoreItems, isInfinite } = props;
-    const [bodySize, setBodySize] = useState(0);
+    const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const trackScrolling = useCallback(
@@ -52,10 +55,16 @@ export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): React
         setTimeout(() => calculateBodyHeight(), 100);
     }, [calculateBodyHeight]);
 
+    return [trackScrolling, bodySize, containerRef];
+}
+
+export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
+    const { className, isInfinite } = props;
+    const [trackScrolling, bodySize, containerRef] = useInfiniteControl(props);
     return (
         <div
             ref={containerRef}
-            className={classNames(props.className, isInfinite ? "infinite-loading" : "")}
+            className={classNames(className, isInfinite ? "infinite-loading" : "")}
             onScroll={isInfinite ? trackScrolling : undefined}
             role={props.role}
             style={isInfinite && bodySize > 0 ? { ...props.style, maxHeight: bodySize } : props.style}

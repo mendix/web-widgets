@@ -17,18 +17,6 @@ $brand-primary: #264ae5 !default;
 $brand-light: #e6eaff !default;
 $grid-selected-row-background: $brand-light;
 
-.sticky-sentinel {
-    &.container-stuck {
-        & + .table {
-            .th {
-                position: -webkit-sticky; /* Safari */
-                position: sticky;
-                z-index: 50;
-            }
-        }
-    }
-}
-
 .table {
     position: relative;
     border-width: 0;
@@ -38,10 +26,6 @@ $grid-selected-row-background: $brand-light;
     .table-content {
         display: grid;
         position: relative;
-
-        &.infinite-loading {
-            overflow-y: scroll;
-        }
     }
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
