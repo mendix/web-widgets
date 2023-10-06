@@ -4,13 +4,13 @@ import { ReactElement, createElement } from "react";
 
 type P = Omit<JSX.IntrinsicElements["div"], "ref">;
 
-export interface GridRootProps extends P {
+export interface WidgetRootProps extends P {
     className?: string;
     selection?: boolean;
     selectionMethod: GridSelectionMethod;
 }
 
-export function GridRoot(props: GridRootProps): ReactElement {
+export function WidgetRoot(props: WidgetRootProps): ReactElement {
     const { className, selectionMethod, selection, children, ...rest } = props;
 
     return (

@@ -11,7 +11,7 @@ export function GridBody(props: GridBodyProps): ReactElement {
     return (
         <Fragment>
             <StickyHeaderTable />
-            <div className="table" role="grid" {...rest}>
+            <div className="widget-datagrid-grid-body table" role="grid" {...rest}>
                 {children}
             </div>
         </Fragment>

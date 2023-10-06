@@ -10,9 +10,9 @@ type ContextValue = typeof NO_PROPS_VALUE | Props;
 
 const context = createContext<ContextValue>(NO_PROPS_VALUE);
 
-export const GridPropsProvider: Provider<ContextValue> = context.Provider;
+export const WidgetPropsProvider: Provider<ContextValue> = context.Provider;
 
-export function useGridProps(): Props {
+export function useWidgetProps(): Props {
     const value = useContext(context);
 
     if (value === NO_PROPS_VALUE) {

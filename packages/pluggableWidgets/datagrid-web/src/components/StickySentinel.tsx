@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import { createElement, ReactElement, useState, useEffect, useRef } from "react";
 
-// this wrapper component works by adding "sticky-sentinel" div (and hides it using margin-bottom -1px)
-// in order to detect table going out of viewport
-// this allows position: sticky to only applies when container is "stuck"
-// this way we allow any absolute position to still be on top when sticky not "stuck"
-export function StickyHeaderTable(): ReactElement {
+/**
+ * StickySentinel - A small hidden element that uses "IntersectionObserver"
+ * to detect the "scrolled" state of the grid. By toggling the "container-stuck" class
+ * on this element, we can force "position: sticky" for column headers.
+ */
+export function StickySentinel(): ReactElement {
     const sentinelRef = useRef<HTMLDivElement>(null);
     const [ratio, setRatio] = useState(1);
 

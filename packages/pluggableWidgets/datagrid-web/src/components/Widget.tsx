@@ -22,7 +22,7 @@ import { SelectionMethod, SelectActionProps } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn } from "../typings/GridColumn";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
-import { GridPropsProvider } from "../helpers/useGridProps";
+import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -30,12 +30,12 @@ import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { GridBody } from "./GridBody";
-import { GridRoot } from "./GridRoot";
+import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
 
-export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
+export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
     columns: C[];
@@ -77,7 +77,7 @@ export interface SortProperty {
     desc: boolean;
 }
 
-export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement {
+export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
     const {
         className,
         columns,
@@ -185,8 +185,8 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
     );
 
     return (
-        <GridPropsProvider value={props}>
-            <GridRoot
+        <WidgetPropsProvider value={props}>
+            <WidgetRoot
                 className={className}
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionProps.selectionType !== "None"}
@@ -291,8 +291,8 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                     </InfiniteBody>
                 </GridBody>
                 <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
-            </GridRoot>
-        </GridPropsProvider>
+            </WidgetRoot>
+        </WidgetPropsProvider>
     );
 }
 

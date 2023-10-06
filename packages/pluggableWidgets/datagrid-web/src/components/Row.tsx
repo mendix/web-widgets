@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { ReactElement, createElement } from "react";
-import { useGridProps } from "../helpers/useGridProps";
+import { useWidgetProps } from "../helpers/useWidgetProps";
 import { useRowInteractionProps } from "../helpers/useRowInteractionProps";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -23,7 +23,7 @@ const onChangeStub = (): void => {
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
-    const { selectionProps } = useGridProps();
+    const { selectionProps } = useWidgetProps();
     const selected = selectionProps.isSelected(props.item);
     const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
