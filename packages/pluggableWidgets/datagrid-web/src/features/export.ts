@@ -74,6 +74,10 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
             window[DATAGRID_DATA_EXPORT] = {};
         }
 
+        if (!window.DATAGRID_DATA_EXPORT) {
+            window.DATAGRID_DATA_EXPORT = "";
+        }
+
         let isOverwrittenByOtherDatagrid = false;
         let isBusy = false;
         let dataExporterCleanup: (() => void) | undefined;
@@ -137,6 +141,7 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
         }
 
         window[DATAGRID_DATA_EXPORT][props.name] = exporter;
+        window.DATAGRID_DATA_EXPORT = DATAGRID_DATA_EXPORT;
 
         return () => {
             dataExporterCleanup?.();

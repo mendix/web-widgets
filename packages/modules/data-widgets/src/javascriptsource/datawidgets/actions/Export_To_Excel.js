@@ -27,8 +27,9 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
     }
 
     return new Promise((resolve, reject) => {
-        const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export";
-        const stream = window[DATAGRID_DATA_EXPORT][datagridName].create();
+        const stream =
+            window[window.DATAGRID_DATA_EXPORT][datagridName].create();
+
         let worksheet;
         let headers;
         const streamOptions = { limit: chunkSize };
