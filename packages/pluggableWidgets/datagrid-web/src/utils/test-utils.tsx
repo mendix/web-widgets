@@ -58,6 +58,8 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
         isSelected: jest.fn(() => false),
         selectionMethod: "none",
         selectionStatus: undefined,
+        multiselectable: false,
+        ariaMultiselectable: undefined,
         id
     };
 }

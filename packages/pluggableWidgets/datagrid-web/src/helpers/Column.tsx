@@ -1,6 +1,6 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement } from "react";
+import { createElement, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
 
@@ -68,10 +68,22 @@ export class Column implements GridColumn {
                 );
             }
             case "customContent": {
-                return <div className="td-custom-content">{this.props.content?.get(item)}</div>;
+                return <CustomContent>{this.props.content?.get(item)}</CustomContent>;
             }
             default:
                 throw new Error(`Unknown content type: ${this.props.showContentAs}`);
         }
     }
+}
+
+const stopPropagation = (event: { stopPropagation(): void }): void => {
+    event.stopPropagation();
+};
+
+function CustomContent(props: { children: ReactNode }): ReactElement {
+    return (
+        <div onClick={stopPropagation} onKeyUp={stopPropagation} className="td-custom-content">
+            {props.children}
+        </div>
+    );
 }

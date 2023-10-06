@@ -1,13 +1,10 @@
-import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
-import classNames from "classnames";
-import { PropsWithChildren, ReactElement, createElement, useCallback, useEffect, useRef } from "react";
+import { createElement, ReactElement, useCallback, useEffect, useRef } from "react";
 
 // this wrapper component works by adding "sticky-sentinel" div (and hides it using margin-bottom -1px)
 // in order to detect table going out of viewport
 // this allows position: sticky to only applies when container is "stuck"
 // this way we allow any absolute position to still be on top when sticky not "stuck"
-export function StickyHeaderTable(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
-    const { className, isInfinite, children } = props;
+export function StickyHeaderTable(): ReactElement {
     const headerContainer = useRef<HTMLDivElement>(null);
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl(props);
 
@@ -34,20 +31,7 @@ export function StickyHeaderTable(props: PropsWithChildren<InfiniteBodyProps>): 
                 observer.unobserve(observerRefValue);
             }
         };
-    }, [observerCallback]);
+    }, [headerContainer]);
 
-    return (
-        <div
-            className={classNames("sticky-table-container", className, { "infinite-loading": isInfinite })}
-            ref={containerRef}
-            onScroll={isInfinite ? trackScrolling : undefined}
-            role={props.role}
-            style={isInfinite && bodySize > 0 ? { ...props.style, maxHeight: bodySize } : props.style}
-        >
-            <div className="sticky-sentinel" ref={headerContainer} style={{ height: 1, marginBottom: "-1px" }}></div>
-            <div className="table" role="table">
-                {children}
-            </div>
-        </div>
-    );
+    return <div className="sticky-sentinel" ref={headerContainer} style={{ height: 1, marginBottom: "-1px" }} />;
 }

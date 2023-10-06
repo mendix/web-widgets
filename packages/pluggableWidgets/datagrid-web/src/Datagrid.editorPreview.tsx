@@ -48,7 +48,6 @@ const initColumns: ColumnsPreviewType[] = [
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
     const selectActionProps = useOnSelectProps(undefined);
-    const { selectionStatus, selectionMethod } = selectionSettings(props, undefined);
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -103,10 +102,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
-            selectionMethod={selectionMethod}
-            selectionStatus={selectionStatus}
             styles={parseStyle(props.style)}
             valueForSort={useCallback(() => undefined, [])}
+            {...selectionSettings(props, undefined)}
         />
     );
 }

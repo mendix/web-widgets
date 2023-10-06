@@ -32,7 +32,14 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const selected = props.isSelected(props.item);
 
     return (
-        <div className={classNames("tr", { "tr-selected": selected }, props.className)} role="row" onKeyUp={onKeyUp}>
+        <div
+            className={classNames("tr", { "tr-selected": selected }, props.className)}
+            role="row"
+            onKeyDown={() => {
+                document.body.style.userSelect = "none";
+            }}
+            onKeyUp={onKeyUp}
+        >
             {props.selectionMethod === "checkbox" && (
                 <CellElement key="checkbox_cell" className="widget-datagrid-col-select" borderTop={props.index === 0}>
                     <input
@@ -110,11 +117,13 @@ function getCellEventHandlers(
     return handlers;
 }
 
-function useKeyboardSelectAll(onSelectAll: () => void): React.KeyboardEventHandler<HTMLDivElement> {
+function useKeyboardSelectAll(
+    onSelectAll: SelectActionProps["onSelectAll"]
+): React.KeyboardEventHandler<HTMLDivElement> {
     return useCallback(
         event => {
             if (event.code === "KeyA" && (event.metaKey || event.ctrlKey)) {
-                onSelectAll();
+                onSelectAll("selectAll");
             }
         },
         [onSelectAll]

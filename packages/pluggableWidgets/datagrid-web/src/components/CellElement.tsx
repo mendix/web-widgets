@@ -32,7 +32,7 @@ const component = memo(function CellElement(props: CellElementProps): ReactEleme
             )}
             onClick={props.onClick}
             onKeyDown={props.onKeyDown}
-            role={clickable ? "button" : "cell"}
+            role="gridcell"
             tabIndex={clickable ? 0 : undefined}
         >
             {props.children}

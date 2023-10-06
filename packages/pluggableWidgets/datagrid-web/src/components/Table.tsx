@@ -1,7 +1,6 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
-<<<<<<< HEAD
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ListActionValue, ObjectItem } from "mendix";
@@ -18,11 +17,9 @@ import {
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { SelectionMethod } from "../features/selection";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
-=======
 import { SelectionMethod, SelectActionProps } from "../features/selection";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { GridColumn } from "../typings/GridColumn";
->>>>>>> 7c50a9c71 (fix(datagrid-web): change table props and change sort function)
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -101,6 +98,8 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
         styles,
         selectionStatus,
         selectionMethod,
+        onSelect,
+        isSelected,
         CellComponent
     } = props;
     const isInfinite = !paging;
@@ -265,10 +264,9 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                                 index={rowIndex}
                                 item={item}
                                 key={`row_${item.id}`}
-                                onSelect={props.onSelect}
-                                onSelectAll={props.onSelectAll}
-                                isSelected={props.isSelected}
+                                onSelect={onSelect}
                                 rowAction={props.rowAction}
+                                selected={isSelected(item)}
                                 selectionMethod={selectionMethod}
                                 showSelectorCell={columnsHidable}
                             />

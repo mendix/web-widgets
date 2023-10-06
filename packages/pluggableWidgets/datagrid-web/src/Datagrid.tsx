@@ -124,7 +124,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectActionProps = useOnSelectProps(selection);
-    const { selectionStatus, selectionMethod } = selectionSettings(props, selection);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
@@ -201,8 +200,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-            selectionMethod={selectionMethod}
-            selectionStatus={selectionStatus}
             setPage={setPage}
             setSortParameters={setSortParameters}
             settings={props.configurationAttribute}
@@ -215,6 +212,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 [props.columns]
             )}
             rowAction={props.onClick}
+            {...selectionSettings(props, selection)}
         />
     );
 }
