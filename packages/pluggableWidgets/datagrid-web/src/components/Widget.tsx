@@ -1,4 +1,3 @@
-import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
@@ -16,11 +15,6 @@ import {
     useState
 } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
-import { SelectionMethod } from "../features/selection";
-import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
-import { SelectionMethod, SelectActionProps } from "../features/selection";
-import { StickyHeaderTable } from "./StickyHeaderTable";
-import { GridColumn } from "../typings/GridColumn";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { sortColumns } from "../helpers/utils";
@@ -31,12 +25,12 @@ import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
-import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
-import { WidgetHeader } from "./WidgetHeader";
-import { WidgetFooter } from "./WidgetFooter";
 import { WidgetContent } from "./WidgetContent";
+import { WidgetFooter } from "./WidgetFooter";
+import { WidgetHeader } from "./WidgetHeader";
+import { WidgetRoot } from "./WidgetRoot";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
