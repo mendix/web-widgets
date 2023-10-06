@@ -248,27 +248,44 @@ export const getPreview = (
                         : undefined,
                 backgroundColor: isColumnHidden ? modeColor("#4F4F4F", "#DCDCDC") : palette.background.topbarStandard
             })(
-                container({
-                    padding: 8
+                rowLayout({
+                    columnSize: "grow"
                 })(
-                    text({
-                        bold: true,
-                        fontSize: 10,
-                        fontColor: column.header
-                            ? undefined
-                            : isColumnHidden
-                            ? modeColor("#4F4F4F", "#DCDCDC")
-                            : palette.text.secondary
-                    })(column.header ? column.header : "Header")
-                ),
-                ...(hasColumns && values.columnsFilterable
-                    ? [
-                          dropzone(
-                              dropzone.placeholder("Place filter widget here"),
-                              dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
-                          )(column.filter)
-                      ]
-                    : [])
+                    container({
+                        grow: 0,
+                        backgroundColor: "#AEEdAA"
+                    })(
+                        container({
+                            padding: column.visible.trim() === "" || column.visible.trim() === "true" ? 0 : 3
+                        })()
+                    ),
+                    container({
+                        padding: 8
+                    })(
+                        container({
+                            grow: 1,
+                            padding: 8
+                        })(
+                            text({
+                                bold: true,
+                                fontSize: 10,
+                                fontColor: column.header
+                                    ? undefined
+                                    : isColumnHidden
+                                    ? modeColor("#4F4F4F", "#DCDCDC")
+                                    : palette.text.secondary
+                            })(column.header ? column.header : "Header")
+                        ),
+                        ...(hasColumns && values.columnsFilterable
+                            ? [
+                                  dropzone(
+                                      dropzone.placeholder("Place filter widget here"),
+                                      dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                                  )(column.filter)
+                              ]
+                            : [])
+                    )
+                )
             );
             return values.columns.length > 0
                 ? selectable(column, { grow: column.width === "manual" && column.size ? column.size : 1 })(
