@@ -29,7 +29,7 @@ import { GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
-import { GridBody } from "./GridBody";
+import { Grid } from "./GridBody";
 import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
@@ -198,7 +198,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         {headerContent}
                     </WidgetHeader>
                 )}
-                <GridBody aria-multiselectable={selectionProps.multiselectable}>
+                <Grid aria-multiselectable={selectionProps.multiselectable}>
                     <InfiniteBody
                         className="table-content"
                         hasMoreItems={hasMoreItems}
@@ -290,7 +290,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 );
                             })}
                     </InfiniteBody>
-                </GridBody>
+                </Grid>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
         </WidgetPropsProvider>
