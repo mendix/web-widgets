@@ -30,6 +30,7 @@ import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
+import { GridBody } from "./GridBody";
 import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
@@ -201,14 +202,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 )}
                 <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
                     <Grid aria-multiselectable={selectionProps.multiselectable}>
-                        <InfiniteBody
-                            className="table-content"
-                            hasMoreItems={hasMoreItems}
-                            isInfinite={isInfinite}
-                            role="rowgroup"
-                            setPage={setPage}
-                            style={cssGridStyles}
-                        >
+                        <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
                                 {visibleColumns.map((column, index) =>
@@ -291,10 +285,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         </div>
                                     );
                                 })}
-                        </InfiniteBody>
-                    </Grid>{" "}
+                        </GridBody>
+                    </Grid>
                 </WidgetContent>
-
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
         </WidgetPropsProvider>
