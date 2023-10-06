@@ -61,8 +61,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
-    selectionMethod: SelectionMethod;
-    selectionStatus?: MultiSelectionStatus;
     rowAction?: ListActionValue;
     selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
