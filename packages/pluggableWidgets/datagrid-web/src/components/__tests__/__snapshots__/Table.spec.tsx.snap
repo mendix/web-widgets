@@ -595,11 +595,8 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
   class="test widget-datagrid"
 >
   <div
-    class="widget-datagrid-header table-header"
-  />
-  <div
     aria-label="filter title"
-    class="widget-datagrid-header-filters header-filters"
+    class="widget-datagrid-header header-filters"
   >
     <div
       class="my-custom-filters"

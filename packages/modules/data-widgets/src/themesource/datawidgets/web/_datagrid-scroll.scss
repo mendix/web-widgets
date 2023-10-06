@@ -1,5 +1,6 @@
 .sticky-sentinel {
     &.container-stuck {
+        & + .widget-datagrid-gird,
         & + .table {
             .th {
                 position: -webkit-sticky; /* Safari */
@@ -10,7 +11,7 @@
     }
 }
 
-.sticky-table-container.infinite-loading {
+.widget-datagrid-content.infinite-loading {
     overflow-y: auto;
     margin-bottom: 20px;
 }
