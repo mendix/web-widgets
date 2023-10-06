@@ -1,6 +1,7 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+<<<<<<< HEAD
 import { Big } from "big.js";
 import classNames from "classnames";
 import { EditableValue, ListActionValue, ObjectItem } from "mendix";
@@ -17,6 +18,11 @@ import {
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { SelectionMethod } from "../features/selection";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
+=======
+import { SelectionMethod, SelectActionProps } from "../features/selection";
+import { StickyHeaderTable } from "./StickyHeaderTable";
+import { GridColumn } from "../typings/GridColumn";
+>>>>>>> 7c50a9c71 (fix(datagrid-web): change table props and change sort function)
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -27,7 +33,7 @@ import { Row } from "./Row";
 import { StickyHeaderTable } from "./StickyHeaderTable";
 import { TableFooter, TableHeader } from "./TableHeaderFooter";
 
-export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
+export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> extends SelectActionProps {
     CellComponent: CellComponent<C>;
     className: string;
     columns: C[];
@@ -58,9 +64,6 @@ export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectI
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
     selectionMethod: SelectionMethod;
     selectionStatus?: MultiSelectionStatus;
-    onSelect: (item: T) => void;
-    onSelectAll: () => void;
-    isSelected: (item: T) => boolean;
     rowAction?: ListActionValue;
 }
 

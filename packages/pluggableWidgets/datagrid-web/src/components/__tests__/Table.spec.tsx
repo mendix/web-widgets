@@ -424,7 +424,7 @@ describe("Table", () => {
     });
 
     describe("when selecting is enabled, allow the user to select multiple rows", () => {
-        const { render, screen } = testingLibrary;
+        const { render, screen, getByRole } = testingLibrary;
         let items: ReturnType<typeof objectItems>;
         let props: ReturnType<typeof mockTableProps>;
         let user: ReturnType<typeof userEvent.setup>;
@@ -432,10 +432,31 @@ describe("Table", () => {
         let ds: ListValue;
 
         function TableWithSelectionHelper(props: TableProps<GridColumn, ObjectItem>): ReactElement {
-            console.log("type", typeof selection, selection);
             const helper = useSelectionHelper(selection, ds, undefined);
             const sp = useOnSelectProps(helper);
-            return <Table {...props} {...sp} />;
+            return (
+                <Table
+                    {...props}
+                    {...sp}
+                    onSelect={(item, shiftKey) => {
+                        sp.onSelect(item, shiftKey);
+                    }}
+                />
+            );
+        }
+
+        function setup(
+            jsx: ReactElement
+        ): ReturnType<typeof render> & { rows: HTMLElement[]; user: ReturnType<typeof userEvent.setup> } {
+            const result = render(jsx);
+            const user = userEvent.setup();
+            const rows = screen.getAllByRole("row").slice(1);
+
+            return {
+                user,
+                rows,
+                ...result
+            };
         }
 
         beforeEach(() => {
@@ -457,23 +478,60 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
-            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
-            const rows = screen.getAllByRole("row").slice(1);
+            const { rows } = setup(
+                <TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />
+            );
+
             expect(rows).toHaveLength(20);
 
-            await user.click(rows[0].children[0]);
-            expect(selection.selection).toEqual([items[0]]);
+            await user.click(rows[10].children[2]);
+            expect(selection.selection).toEqual([items[10]]);
+
+            await user.keyboard("[ShiftLeft>]");
+
+            await user.click(rows[14].children[2]);
+            expect(selection.selection).toHaveLength(5);
+            expect(selection.selection).toEqual(items.slice(10, 15));
+
+            await user.click(rows[4].children[2]);
+            expect(selection.selection).toHaveLength(7);
+            expect(selection.selection).toEqual(items.slice(4, 11));
+
+            await user.click(rows[8].children[2]);
+            expect(selection.selection).toHaveLength(3);
+            expect(selection.selection).toEqual(items.slice(8, 11));
         });
 
-        it("selects multiple rows with shift+click on a checkbox", () => {
-            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
-            const rows = screen.getAllByRole("row").slice(1);
+        it("selects multiple rows with shift+click on a checkbox", async () => {
+            const { rows } = setup(
+                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
+            );
+
             expect(rows).toHaveLength(20);
+
+            await user.click(getByRole(rows[10], "checkbox"));
+            expect(selection.selection).toEqual([items[10]]);
+
+            await user.keyboard("[ShiftLeft>]");
+
+            await user.click(getByRole(rows[14], "checkbox"));
+            expect(selection.selection).toHaveLength(5);
+            expect(selection.selection).toEqual(items.slice(10, 15));
+
+            await user.click(getByRole(rows[4], "checkbox"));
+            expect(selection.selection).toHaveLength(7);
+            expect(selection.selection).toEqual(items.slice(4, 11));
+
+            await user.click(getByRole(rows[8], "checkbox"));
+            expect(selection.selection).toHaveLength(3);
+            expect(selection.selection).toEqual(items.slice(8, 11));
         });
 
         it("selects all available rows with metaKey+a", () => {
-            render(<TableWithSelectionHelper {...props} selectionMethod="rowClick" selectionStatus="none" />);
-            const rows = screen.getAllByRole("row").slice(1);
+            const { rows } = setup(
+                <TableWithSelectionHelper {...props} selectionMethod="checkbox" selectionStatus="none" />
+            );
+
             expect(rows).toHaveLength(20);
         });
 

@@ -5,7 +5,7 @@ import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum }
 
 export type SelectionMethod = ItemSelectionMethodEnum | "none";
 
-export type onSelect = (item: ObjectItem, shiftKey?: boolean) => void;
+export type onSelect = (item: ObjectItem, shiftKey: boolean) => void;
 
 export type SelectActionProps = {
     onSelect: onSelect;

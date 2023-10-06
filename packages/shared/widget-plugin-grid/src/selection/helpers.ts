@@ -126,7 +126,7 @@ export class MultiSelectionHelper {
 
     private _getRange(start: number, end: number): ObjectItem[] {
         const len = this.selectableItems.length;
-        const [s, e] = [clamp(start, 0, len), clamp(end, 0, len)].sort();
+        const [s, e] = [clamp(start, 0, len), clamp(end, 0, len)].sort((a, b) => a - b);
         return this.selectableItems.slice(s, e + 1);
     }
 

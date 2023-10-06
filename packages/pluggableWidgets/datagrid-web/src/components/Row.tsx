@@ -94,7 +94,7 @@ function getCellEventHandlers(
 
     const onClick =
         clickAction === "selectRow"
-            ? (event?: { shiftKey?: boolean }) => onSelect(item, event?.shiftKey)
+            ? (event?: { shiftKey?: boolean }) => onSelect(item, event?.shiftKey ?? false)
             : () => executeAction(action?.get(item));
 
     handlers.onClick = onClick;
