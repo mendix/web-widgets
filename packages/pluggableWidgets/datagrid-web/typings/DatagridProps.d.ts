@@ -28,11 +28,11 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
+    visible?: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
-    visible?: DynamicValue<boolean>;
     width: WidthEnum;
     size: number;
     alignment: AlignmentEnum;
@@ -61,11 +61,11 @@ export interface ColumnsPreviewType {
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     filterAssociationOptionLabel: string;
+    visible: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
-    visible: string;
     width: WidthEnum;
     size: number | null;
     alignment: AlignmentEnum;

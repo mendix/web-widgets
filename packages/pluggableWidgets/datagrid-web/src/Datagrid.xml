@@ -108,6 +108,11 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
+                            <property key="visible" type="expression" required="false" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">
                             <property key="sortable" type="boolean" defaultValue="true">
@@ -130,11 +135,6 @@
                                     <enumerationValue key="hidden">Yes, hidden by default</enumerationValue>
                                     <enumerationValue key="no">No</enumerationValue>
                                 </enumerationValues>
-                            </property>
-                            <property key="visible" type="expression" required="false" defaultValue="true">
-                                <caption>Visible</caption>
-                                <description />
-                                <returnType type="Boolean" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Appearance">
