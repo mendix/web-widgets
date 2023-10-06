@@ -1,32 +1,31 @@
-import {
-    createElement,
-    CSSProperties,
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useMemo,
-    useState,
-    useCallback
-} from "react";
-import { ColumnSelector } from "./ColumnSelector";
-import { Header } from "./Header";
-import { TableHeader, TableFooter } from "./TableHeaderFooter";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
-import { Big } from "big.js";
-import classNames from "classnames";
-import { EditableValue, ObjectItem, ListActionValue } from "mendix";
-import { SortingRule, useSettings, ColumnWidthConfig } from "../features/settings";
-import { ColumnResizer } from "./ColumnResizer";
-import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { MultiSelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { Big } from "big.js";
+import classNames from "classnames";
+import { EditableValue, ListActionValue, ObjectItem } from "mendix";
+import {
+    CSSProperties,
+    ReactElement,
+    ReactNode,
+    createElement,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState
+} from "react";
+import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { SelectionMethod } from "../features/selection";
-import { StickyHeaderTable } from "./StickyHeaderTable";
-import { GridColumn } from "../typings/GridColumn";
+import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
 import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
+import { GridColumn } from "../typings/GridColumn";
+import { ColumnResizer } from "./ColumnResizer";
+import { ColumnSelector } from "./ColumnSelector";
+import { Header } from "./Header";
 import { Row } from "./Row";
+import { StickyHeaderTable } from "./StickyHeaderTable";
+import { TableFooter, TableHeader } from "./TableHeaderFooter";
 
 export interface TableProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -195,15 +194,8 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                     {gridHeaderWidgets}
                 </TableHeader>
             )}
-            <StickyHeaderTable>
-                <InfiniteBody
-                    className="table-content"
-                    hasMoreItems={hasMoreItems}
-                    isInfinite={isInfinite}
-                    role="rowgroup"
-                    setPage={setPage}
-                    style={cssGridStyles}
-                >
+            <StickyHeaderTable isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
+                <div className="table-content" role="rowgroup" style={cssGridStyles}>
                     <div key="headers_row" className="tr" role="row">
                         {checkboxSelectionOn && (
                             <div
@@ -296,7 +288,7 @@ export function Table<C extends GridColumn>(props: TableProps<C>): ReactElement 
                                 </div>
                             );
                         })}
-                </InfiniteBody>
+                </div>
             </StickyHeaderTable>
             <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
         </div>
