@@ -29,12 +29,13 @@ import { GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
-import { Grid } from "./GridBody";
+import { Grid } from "./Grid";
 import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetFooter } from "./WidgetFooter";
+import { WidgetContent } from "./WidgetContent";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -198,99 +199,102 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         {headerContent}
                     </WidgetHeader>
                 )}
-                <Grid aria-multiselectable={selectionProps.multiselectable}>
-                    <InfiniteBody
-                        className="table-content"
-                        hasMoreItems={hasMoreItems}
-                        isInfinite={isInfinite}
-                        role="rowgroup"
-                        setPage={setPage}
-                        style={cssGridStyles}
-                    >
-                        <div key="headers_row" className="tr" role="row">
-                            <CheckboxColumnHeader key="headers_column_select_all" />
-                            {visibleColumns.map((column, index) =>
-                                headerWrapperRenderer(
-                                    index,
-                                    <Header
-                                        key={`${column.columnId}`}
-                                        className={`align-column-${column.alignment}`}
-                                        column={column}
-                                        draggable={columnsDraggable}
-                                        dragOver={dragOver}
-                                        filterable={columnsFilterable}
-                                        filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
-                                        hidable={columnsHidable}
-                                        isDragging={isDragging}
-                                        preview={preview}
-                                        resizable={columnsResizable}
-                                        resizer={
-                                            <ColumnResizer
-                                                onResizeEnds={updateSettings}
-                                                setColumnWidth={(width: number) =>
-                                                    setColumnsWidth(prev => {
-                                                        prev[column.columnNumber] = width;
-                                                        return { ...prev };
-                                                    })
-                                                }
-                                            />
-                                        }
-                                        setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
-                                        setDragOver={setDragOver}
-                                        setIsDragging={setIsDragging}
-                                        setSortBy={setSortBy}
-                                        sortable={columnsSortable}
-                                        sortBy={sortBy}
-                                        visibleColumns={visibleColumns}
-                                        tableId={`${props.id}`}
+                <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
+                    <Grid aria-multiselectable={selectionProps.multiselectable}>
+                        <InfiniteBody
+                            className="table-content"
+                            hasMoreItems={hasMoreItems}
+                            isInfinite={isInfinite}
+                            role="rowgroup"
+                            setPage={setPage}
+                            style={cssGridStyles}
+                        >
+                            <div key="headers_row" className="tr" role="row">
+                                <CheckboxColumnHeader key="headers_column_select_all" />
+                                {visibleColumns.map((column, index) =>
+                                    headerWrapperRenderer(
+                                        index,
+                                        <Header
+                                            key={`${column.columnId}`}
+                                            className={`align-column-${column.alignment}`}
+                                            column={column}
+                                            draggable={columnsDraggable}
+                                            dragOver={dragOver}
+                                            filterable={columnsFilterable}
+                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
+                                            hidable={columnsHidable}
+                                            isDragging={isDragging}
+                                            preview={preview}
+                                            resizable={columnsResizable}
+                                            resizer={
+                                                <ColumnResizer
+                                                    onResizeEnds={updateSettings}
+                                                    setColumnWidth={(width: number) =>
+                                                        setColumnsWidth(prev => {
+                                                            prev[column.columnNumber] = width;
+                                                            return { ...prev };
+                                                        })
+                                                    }
+                                                />
+                                            }
+                                            setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
+                                            setDragOver={setDragOver}
+                                            setIsDragging={setIsDragging}
+                                            setSortBy={setSortBy}
+                                            sortable={columnsSortable}
+                                            sortBy={sortBy}
+                                            visibleColumns={visibleColumns}
+                                            tableId={`${props.id}`}
+                                        />
+                                    )
+                                )}
+                                {columnsHidable && (
+                                    <ColumnSelector
+                                        key="headers_column_selector"
+                                        columns={columns}
+                                        hiddenColumns={hiddenColumns}
+                                        id={id}
+                                        setHiddenColumns={setHiddenColumns}
                                     />
-                                )
-                            )}
-                            {columnsHidable && (
-                                <ColumnSelector
-                                    key="headers_column_selector"
-                                    columns={columns}
-                                    hiddenColumns={hiddenColumns}
-                                    id={id}
-                                    setHiddenColumns={setHiddenColumns}
-                                />
-                            )}
-                        </div>
-                        {rows.map((item, rowIndex) => {
-                            return (
-                                <Row
-                                    CellComponent={CellComponent}
-                                    className={props.rowClass?.(item)}
-                                    columns={visibleColumns}
-                                    index={rowIndex}
-                                    item={item}
-                                    key={`row_${item.id}`}
-                                    rowAction={props.rowAction}
-                                    showSelectorCell={columnsHidable}
-                                />
-                            );
-                        })}
-                        {(rows.length === 0 || preview) &&
-                            emptyPlaceholderRenderer &&
-                            emptyPlaceholderRenderer(children => {
-                                const colspan =
-                                    columns.length +
-                                    (columnsHidable ? 1 : 0) +
-                                    (props.selectionProps.showCheckboxColumn ? 1 : 0);
+                                )}
+                            </div>
+                            {rows.map((item, rowIndex) => {
                                 return (
-                                    <div
-                                        key="row-footer"
-                                        className={classNames("td", { "td-borders": !preview })}
-                                        style={{
-                                            gridColumn: `span ${colspan}`
-                                        }}
-                                    >
-                                        <div className="empty-placeholder">{children}</div>
-                                    </div>
+                                    <Row
+                                        CellComponent={CellComponent}
+                                        className={props.rowClass?.(item)}
+                                        columns={visibleColumns}
+                                        index={rowIndex}
+                                        item={item}
+                                        key={`row_${item.id}`}
+                                        rowAction={props.rowAction}
+                                        showSelectorCell={columnsHidable}
+                                    />
                                 );
                             })}
-                    </InfiniteBody>
-                </Grid>
+                            {(rows.length === 0 || preview) &&
+                                emptyPlaceholderRenderer &&
+                                emptyPlaceholderRenderer(children => {
+                                    const colspan =
+                                        columns.length +
+                                        (columnsHidable ? 1 : 0) +
+                                        (props.selectionProps.showCheckboxColumn ? 1 : 0);
+                                    return (
+                                        <div
+                                            key="row-footer"
+                                            className={classNames("td", { "td-borders": !preview })}
+                                            style={{
+                                                gridColumn: `span ${colspan}`
+                                            }}
+                                        >
+                                            <div className="empty-placeholder">{children}</div>
+                                        </div>
+                                    );
+                                })}
+                        </InfiniteBody>
+                    </Grid>{" "}
+                </WidgetContent>
+
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
         </WidgetPropsProvider>
