@@ -33,7 +33,8 @@ import { GridBody } from "./GridBody";
 import { WidgetRoot } from "./WidgetRoot";
 import { Header } from "./Header";
 import { Row } from "./Row";
-import { TableFooter, TableHeader } from "./TableHeaderFooter";
+import { WidgetHeader } from "./WidgetHeader";
+import { WidgetFooter } from "./WidgetFooter";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -193,9 +194,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 style={styles}
             >
                 {showHeader && (
-                    <TableHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
+                    <WidgetHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
                         {gridHeaderWidgets}
-                    </TableHeader>
+                    </WidgetHeader>
                 )}
                 <GridBody aria-multiselectable={selectionProps.multiselectable}>
                     <InfiniteBody
@@ -290,7 +291,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             })}
                     </InfiniteBody>
                 </GridBody>
-                <TableFooter pagination={pagination} pagingPosition={pagingPosition} />
+                <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
         </WidgetPropsProvider>
     );
