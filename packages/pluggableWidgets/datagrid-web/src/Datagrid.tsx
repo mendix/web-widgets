@@ -7,7 +7,7 @@ import { and } from "mendix/filters/builders";
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
-import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
+import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { SortProperty, Table } from "./components/Table";
 import { getColumnAssociationProps } from "./features/column";
 import { extractFilters } from "./features/filters";
@@ -180,7 +180,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             gridHeaderTitle={props.filterSectionTitle?.value}
             gridHeaderWidgets={
                 props.filtersPlaceholder && (
-                    <GridHeaderWidgets
+                    <WidgetHeaderContext
                         filterList={props.filterList}
                         setFiltered={setFiltered}
                         viewStateFilters={viewStateFilters.current}
@@ -188,7 +188,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                         state={multipleFilteringState}
                     >
                         {props.filtersPlaceholder}
-                    </GridHeaderWidgets>
+                    </WidgetHeaderContext>
                 )
             }
             hasMoreItems={props.datasource.hasMoreItems ?? false}
