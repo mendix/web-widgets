@@ -58,8 +58,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.datasource, props.pageSize]);
+    }, [props.datasource, props.pageSize, isInfiniteLoad]);
 
     useEffect(() => {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {
