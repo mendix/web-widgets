@@ -8,7 +8,7 @@ import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { SortProperty, Table } from "./components/Table";
+import { SortProperty, Widget } from "./components/Widget";
 import { getColumnAssociationProps } from "./features/column";
 import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
@@ -131,7 +131,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     });
 
     return (
-        <Table
+        <Widget
             className={props.class}
             columns={columns}
             CellComponent={Cell}
@@ -177,8 +177,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [FilterContext, customFiltersState, props.columns]
             )}
-            gridHeaderTitle={props.filterSectionTitle?.value}
-            gridHeaderWidgets={
+            headerTitle={props.filterSectionTitle?.value}
+            headerContent={
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
                         filterList={props.filterList}

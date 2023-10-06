@@ -8,7 +8,7 @@ import { Selectable } from "mendix/preview/Selectable";
 import { ReactElement, ReactNode, createElement, useCallback } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
-import { Table } from "./components/Table";
+import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { GridColumn } from "./typings/GridColumn";
 
@@ -61,7 +61,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
     return (
-        <Table
+        <Widget
             CellComponent={Cell}
             className={props.class}
             columns={columns}
@@ -92,7 +92,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 },
                 [previewColumns]
             )}
-            gridHeaderWidgets={
+            headerContent={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
                     <div />
                 </props.filtersPlaceholder.renderer>
