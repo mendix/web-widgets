@@ -8,8 +8,8 @@ import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
 import { Column } from "../../helpers/Column";
 import { GridColumn } from "../../typings/GridColumn";
-import { column, mockTableProps } from "../../utils/test-utils";
-import { Table, TableProps } from "../Table";
+import { column, mockWidgetProps } from "../../utils/test-utils";
+import { Widget, WidgetProps } from "../Widget";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 // you can also pass the mock implementation
@@ -26,68 +26,68 @@ window.IntersectionObserver = jest.fn(() => ({
 
 describe("Table", () => {
     it("renders the structure correctly", () => {
-        const component = render(<Table {...mockTableProps()} />);
+        const component = render(<Widget {...mockWidgetProps()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with sorting", () => {
-        const component = render(<Table {...mockTableProps()} columnsSortable />);
+        const component = render(<Widget {...mockWidgetProps()} columnsSortable />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with resizing", () => {
-        const component = render(<Table {...mockTableProps()} columnsResizable />);
+        const component = render(<Widget {...mockWidgetProps()} columnsResizable />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dragging", () => {
-        const component = render(<Table {...mockTableProps()} columnsDraggable />);
+        const component = render(<Widget {...mockWidgetProps()} columnsDraggable />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with filtering", () => {
-        const component = render(<Table {...mockTableProps()} columnsFilterable />);
+        const component = render(<Widget {...mockWidgetProps()} columnsFilterable />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with hiding", () => {
-        const component = render(<Table {...mockTableProps()} columnsHidable />);
+        const component = render(<Widget {...mockWidgetProps()} columnsHidable />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with paging", () => {
-        const component = render(<Table {...mockTableProps()} paging />);
+        const component = render(<Widget {...mockWidgetProps()} paging />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with custom filtering", () => {
-        const props = mockTableProps();
+        const props = mockWidgetProps();
 
         props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
         props.columnsFilterable = true;
 
-        const component = render(<Table {...props} />);
+        const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with empty placeholder", () => {
         const component = render(
-            <Table {...mockTableProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
+            <Widget {...mockWidgetProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
         );
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with column alignments", () => {
-        const props = mockTableProps();
+        const props = mockWidgetProps();
         props.columns = [
             column("Test", col => {
                 col.alignment = "center";
@@ -95,34 +95,34 @@ describe("Table", () => {
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index, props.id!));
 
-        const component = render(<Table {...props} />);
+        const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dynamic row class", () => {
-        const component = render(<Table {...mockTableProps()} rowClass={() => "myclass"} />);
+        const component = render(<Widget {...mockWidgetProps()} rowClass={() => "myclass"} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly for preview when no header is provided", () => {
-        const props = mockTableProps();
+        const props = mockWidgetProps();
 
         props.columns = [column("", col => (col.alignment = "center"))].map(
             (col, index) => new Column(col, index, props.id!)
         );
         props.preview = true;
 
-        const component = render(<Table {...props} />);
+        const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header wrapper", () => {
         const component = render(
-            <Table
-                {...mockTableProps()}
+            <Widget
+                {...mockWidgetProps()}
                 headerWrapperRenderer={(index, header) => (
                     <div key={`header_wrapper_${index}`} className="my-custom-header">
                         {header}
@@ -136,14 +136,14 @@ describe("Table", () => {
 
     it("renders the structure correctly with header filters and a11y", () => {
         const component = render(
-            <Table
-                {...mockTableProps()}
-                gridHeaderWidgets={
+            <Widget
+                {...mockWidgetProps()}
+                headerContent={
                     <div className="my-custom-filters">
                         <span />
                     </div>
                 }
-                gridHeaderTitle="filter title"
+                headerTitle="filter title"
             />
         );
 
@@ -152,10 +152,10 @@ describe("Table", () => {
 
     describe("with selection method checkbox", () => {
         const { render, screen } = testingLibrary;
-        let props: ReturnType<typeof mockTableProps>;
+        let props: ReturnType<typeof mockWidgetProps>;
 
         beforeEach(() => {
-            props = mockTableProps();
+            props = mockWidgetProps();
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
@@ -165,7 +165,7 @@ describe("Table", () => {
         });
 
         it("render method class", () => {
-            const { container } = render(<Table {...props} />);
+            const { container } = render(<Widget {...props} />);
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
         });
@@ -173,13 +173,13 @@ describe("Table", () => {
         it("render an extra column and add class to each selected row", () => {
             props.selectionProps.isSelected = () => true;
 
-            const { asFragment } = render(<Table {...props} />);
+            const { asFragment } = render(<Widget {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it("set negative tabindex on row checkbox", () => {
-            const { getAllByRole } = render(<Table {...props} />);
+            const { getAllByRole } = render(<Widget {...props} />);
 
             getAllByRole("checkbox").forEach(elt => {
                 expect(elt).toHaveAttribute("tabindex", "-1");
@@ -194,24 +194,24 @@ describe("Table", () => {
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             const getChecked = () => screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
 
-            const { rerender } = render(<Table {...props} />);
+            const { rerender } = render(<Widget {...props} />);
 
             expect(getChecked()).toHaveLength(0);
 
             selection = [a, b, c];
-            rerender(<Table {...props} />);
+            rerender(<Widget {...props} />);
             expect(getChecked()).toHaveLength(3);
 
             selection = [c];
-            rerender(<Table {...props} />);
+            rerender(<Widget {...props} />);
             expect(getChecked()).toHaveLength(1);
 
             selection = [d, e];
-            rerender(<Table {...props} />);
+            rerender(<Widget {...props} />);
             expect(getChecked()).toHaveLength(2);
 
             selection = [f, e, d, a];
-            rerender(<Table {...props} />);
+            rerender(<Widget {...props} />);
             expect(getChecked()).toHaveLength(4);
         });
 
@@ -220,7 +220,7 @@ describe("Table", () => {
             const onSelect = props.selectionProps.onSelect;
             props.selectionProps.showCheckboxColumn = true;
 
-            render(<Table {...props} />);
+            render(<Widget {...props} />);
 
             const checkbox1 = screen.getAllByRole("checkbox")[0];
             const checkbox3 = screen.getAllByRole("checkbox")[2];
@@ -243,12 +243,12 @@ describe("Table", () => {
 
     it("not render header checkbox when showCheckboxColumn is false", () => {
         const { render, screen, queryByRole } = testingLibrary;
-        const props = mockTableProps();
+        const props = mockWidgetProps();
         props.data = objectItems(5);
         props.paging = true;
         props.selectionProps.showCheckboxColumn = false;
 
-        render(<Table {...props} />);
+        render(<Widget {...props} />);
 
         const colheader = screen.getAllByRole("columnheader")[0];
         expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -257,7 +257,7 @@ describe("Table", () => {
     describe("with multi selection helper", () => {
         it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
             const { render, screen, queryByRole, cleanup } = testingLibrary;
-            const props = mockTableProps();
+            const props = mockWidgetProps();
             props.data = objectItems(5);
             props.paging = true;
             props.selectionProps.selectionType = "Multi";
@@ -267,7 +267,7 @@ describe("Table", () => {
             props.selectionProps.multiselectable = true;
 
             const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                return render(<Table {...props} selectionStatus={status} />);
+                return render(<Widget {...props} selectionStatus={status} />);
             };
 
             renderWithStatus("none");
@@ -284,10 +284,10 @@ describe("Table", () => {
 
         it("not render header checkbox if method is rowClick", () => {
             const { render, screen, queryByRole } = testingLibrary;
-            const props = mockTableProps();
+            const props = mockWidgetProps();
             props.selectionProps.selectionMethod = "rowClick";
 
-            render(<Table {...props} />);
+            render(<Widget {...props} />);
 
             const colheader = screen.getAllByRole("columnheader")[0];
             expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -295,13 +295,13 @@ describe("Table", () => {
 
         it("call onSelectAll when header checkbox is clicked", async () => {
             const { render, screen } = testingLibrary;
-            const props = mockTableProps();
+            const props = mockWidgetProps();
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
             props.selectionProps.showSelectAllToggle = true;
             props.selectionStatus = "none";
 
-            render(<Table {...props} />);
+            render(<Widget {...props} />);
 
             const checkbox = screen.getAllByRole("checkbox")[0];
 
@@ -315,10 +315,10 @@ describe("Table", () => {
 
     describe("with selection method rowClick", () => {
         const { render, screen, getAllByRole } = testingLibrary;
-        let props: ReturnType<typeof mockTableProps>;
+        let props: ReturnType<typeof mockWidgetProps>;
 
         beforeEach(() => {
-            props = mockTableProps();
+            props = mockWidgetProps();
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "rowClick";
             props.selectionProps.multiselectable = false;
@@ -327,7 +327,7 @@ describe("Table", () => {
         });
 
         it("render method class", () => {
-            const { container } = render(<Table {...props} />);
+            const { container } = render(<Widget {...props} />);
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
         });
@@ -335,7 +335,7 @@ describe("Table", () => {
         it("add class to each selected cell", () => {
             props.selectionProps.isSelected = () => true;
 
-            const { asFragment } = render(<Table {...props} />);
+            const { asFragment } = render(<Widget {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -348,7 +348,7 @@ describe("Table", () => {
                 (col, index) => new Column(col, index, props.id!)
             );
 
-            render(<Table {...props} />);
+            render(<Widget {...props} />);
 
             const rows = screen.getAllByRole("row").slice(1);
             expect(rows).toHaveLength(3);
@@ -383,14 +383,14 @@ describe("Table", () => {
     describe("when selecting is enabled, allow the user to select multiple rows", () => {
         const { render, screen, getByRole, getAllByRole } = testingLibrary;
         let items: ReturnType<typeof objectItems>;
-        let props: ReturnType<typeof mockTableProps>;
+        let props: ReturnType<typeof mockWidgetProps>;
         let selection: SelectionMultiValue;
         let ds: ListValue;
 
-        function TableWithSelectionHelper({
+        function WidgetWithSelectionHelper({
             selectionMethod,
             ...props
-        }: TableProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
+        }: WidgetProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
             const helper = useSelectionHelper(selection, ds, undefined);
             const sp = useGridSelectionProps({
                 helper,
@@ -400,7 +400,7 @@ describe("Table", () => {
             });
 
             return (
-                <Table
+                <Widget
                     {...props}
                     selectionProps={sp}
                     selectionStatus={helper?.type === "Multi" ? helper.selectionStatus : "unknown"}
@@ -425,7 +425,7 @@ describe("Table", () => {
         beforeEach(() => {
             ds = list(20);
             items = ds.items!;
-            props = mockTableProps();
+            props = mockWidgetProps();
             selection = new SelectionMultiValueBuilder().build();
             props.data = items;
             props.columns = [
@@ -439,7 +439,7 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -462,7 +462,7 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a checkbox", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -485,7 +485,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with metaKey+a and method checkbox", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -500,7 +500,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with metaKey+a and method rowClick", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="rowClick" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="rowClick" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -515,7 +515,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with ctrlKey+a and method checkbox", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -530,7 +530,7 @@ describe("Table", () => {
         });
 
         it("selects all available rows with ctrlKey+a and method rowClick", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="rowClick" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="rowClick" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -545,7 +545,7 @@ describe("Table", () => {
         });
 
         it("must not select rows, when metaKey+a or ctrlKey+a pressed in custom widget", async () => {
-            const { rows, user } = setup(<TableWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
 
             expect(rows).toHaveLength(20);
 
@@ -567,7 +567,7 @@ describe("Table", () => {
             const { render, screen } = testingLibrary;
             const items = objectItems(3);
 
-            const props = mockTableProps();
+            const props = mockWidgetProps();
             const content = listWidget(() => <textarea />);
             const columns = Array.from(["Monday", "Tuesday", "Wednesday"], header => {
                 const c = column(header);
@@ -580,7 +580,7 @@ describe("Table", () => {
 
             const user = userEvent.setup();
 
-            render(<Table {...props} data={items} />);
+            render(<Widget {...props} data={items} />);
 
             const [input] = screen.getAllByRole("textbox");
             await user.click(input);

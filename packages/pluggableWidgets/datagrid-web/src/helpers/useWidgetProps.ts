@@ -1,11 +1,11 @@
 import { ObjectItem } from "mendix";
 import { createContext, Provider, useContext } from "react";
 import { GridColumn } from "../typings/GridColumn";
-import { TableProps } from "../components/Table";
+import { WidgetProps } from "../components/Widget";
 
 const NO_PROPS_VALUE = Symbol("NO_PROPS_VALUE");
 
-type Props = TableProps<GridColumn, ObjectItem>;
+type Props = WidgetProps<GridColumn, ObjectItem>;
 type ContextValue = typeof NO_PROPS_VALUE | Props;
 
 const context = createContext<ContextValue>(NO_PROPS_VALUE);

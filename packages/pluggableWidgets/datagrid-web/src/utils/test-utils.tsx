@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
 import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
-import { TableProps } from "../components/Table";
+import { WidgetProps } from "../components/Widget";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
@@ -50,7 +50,7 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
     return props;
 }
 
-export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
+export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
 
