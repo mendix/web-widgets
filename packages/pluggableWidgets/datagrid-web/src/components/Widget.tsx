@@ -48,8 +48,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
-    gridHeaderWidgets?: ReactNode;
-    gridHeaderTitle?: string;
+    headerContent?: ReactNode;
+    headerTitle?: string;
     hasMoreItems: boolean;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
@@ -90,8 +90,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         data: rows,
         emptyPlaceholderRenderer,
         filterRenderer: filterRendererProp,
-        gridHeaderWidgets,
-        gridHeaderTitle,
+        headerContent,
+        headerTitle,
         hasMoreItems,
         headerWrapperRenderer,
         id,
@@ -119,7 +119,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
-    const showHeader = !!gridHeaderWidgets || pagingPosition === "top" || pagingPosition === "both";
+    const showHeader = !!headerContent || pagingPosition === "top" || pagingPosition === "both";
 
     const { updateSettings } = useSettings(
         settings,
@@ -194,8 +194,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 style={styles}
             >
                 {showHeader && (
-                    <WidgetHeader headerTitle={gridHeaderTitle} pagination={pagination} pagingPosition={pagingPosition}>
-                        {gridHeaderWidgets}
+                    <WidgetHeader headerTitle={headerTitle} pagination={pagination} pagingPosition={pagingPosition}>
+                        {headerContent}
                     </WidgetHeader>
                 )}
                 <GridBody aria-multiselectable={selectionProps.multiselectable}>
