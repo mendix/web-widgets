@@ -31,6 +31,7 @@ import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
+import { WidgetTopBar } from "./WidgetTopBar";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -113,7 +114,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
-    const showHeader = !!headerContent || pagingPosition === "top" || pagingPosition === "both";
+    const showHeader = !!headerContent;
+    const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
     const { updateSettings } = useSettings(
         settings,
@@ -187,11 +189,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 selection={selectionProps.selectionType !== "None"}
                 style={styles}
             >
-                {showHeader && (
-                    <WidgetHeader headerTitle={headerTitle} pagination={pagination} pagingPosition={pagingPosition}>
-                        {headerContent}
-                    </WidgetHeader>
-                )}
+                {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
+                {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
                 <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
                     <Grid aria-multiselectable={selectionProps.multiselectable}>
                         <GridBody style={cssGridStyles}>

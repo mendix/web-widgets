@@ -1,24 +1,19 @@
-import { createElement, Fragment, ReactNode, PropsWithChildren, ReactElement } from "react";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
 
 interface WidgetHeaderProps extends PropsWithChildren {
-    pagingPosition: PagingPositionEnum;
-    pagination: ReactNode;
     headerTitle?: string;
 }
 
 export function WidgetHeader(props: WidgetHeaderProps): ReactElement | null {
-    const { pagingPosition, pagination, children, headerTitle } = props;
+    const { children, headerTitle } = props;
+
+    if (!children) {
+        return <Fragment />;
+    }
+
     return (
-        <Fragment>
-            <div className="widget-datagrid-header table-header">
-                {(pagingPosition === "top" || pagingPosition === "both") && pagination}
-            </div>
-            {children && (
-                <div className="widget-datagrid-header-filters header-filters" aria-label={headerTitle || undefined}>
-                    {children}
-                </div>
-            )}
-        </Fragment>
+        <div className="widget-datagrid-header header-filters" aria-label={headerTitle || undefined}>
+            {children}
+        </div>
     );
 }
