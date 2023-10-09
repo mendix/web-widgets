@@ -156,6 +156,7 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
 };
 
 function useExportMachine({
+    columns,
     items = [],
     offset,
     limit = DEFAULT_LIMIT,
@@ -174,6 +175,13 @@ function useExportMachine({
             }),
         [items, offset, limit, hasMoreItems]
     );
+
+    useEffect(() => {
+        dispatch({
+            type: "ColumnsUpdate",
+            payload: { columns }
+        });
+    }, [columns]);
 
     // Run export flow on every state change
     useEffect(() => {
@@ -268,6 +276,10 @@ type Action =
     | {
           type: "Setup";
           payload: { callback: CallbackFunction; columns: ColumnsType[]; limit: number };
+      }
+    | {
+          type: "ColumnsUpdate";
+          payload: { columns: ColumnsType[] };
       }
     | {
           type: "Start";
@@ -365,6 +377,15 @@ function exportStateReducer(state: State, action: Action): State {
         }
 
         return next;
+    }
+
+    if (action.type === "ColumnsUpdate") {
+        if (state.phase === "readyToStart" || state.phase === "exportColumns") {
+            return {
+                ...state,
+                columns: action.payload.columns
+            };
+        }
     }
 
     if (action.type === "Setup" && state.phase === "awaitingCallback") {
