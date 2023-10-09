@@ -163,7 +163,7 @@ describe("CKEditor configuration", () => {
                 "Form,Checkbox,Radio,TextField,Textarea,Select," +
                 "Button,ImageButton,HiddenField,Strike,Underline,Subscript," +
                 "Superscript,CopyFormatting,RemoveFormat,CreateDiv,Blockquote,JustifyLeft," +
-                "BidiLtr,Table,BidiRtl,JustifyCenter,JustifyRight,Language,JustifyBlock," +
+                "BidiLtr,Image,Table,BidiRtl,JustifyCenter,JustifyRight,Language,JustifyBlock," +
                 "HorizontalRule,SpecialChar,Smiley,PageBreak,Iframe,Styles,TextColor,BGColor," +
                 "ShowBlocks,Maximize,Format,Font,FontSize,Anchor"
         });
