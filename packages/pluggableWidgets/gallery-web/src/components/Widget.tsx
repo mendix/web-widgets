@@ -5,6 +5,7 @@ import { ObjectItem } from "mendix";
 import classNames from "classnames";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { WidgetHeader } from "./WidgetHeader";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -54,16 +55,12 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     ) : null;
 
     const showTopBar = props.paging && props.paginationPosition === "above";
+    const showHeader = props.showHeader ?? false;
 
     return (
         <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
-            {props.showHeader ? (
-                <div className="widget-gallery-filter" role="section" aria-label={props.headerTitle}>
-                    {props.header}
-                </div>
-            ) : null}
-
+            {showHeader && <WidgetHeader headerTitle={props.headerTitle}>{props.header}</WidgetHeader>}
             {props.items.length > 0 && props.itemRenderer && (
                 <InfiniteBody
                     className={classNames(
