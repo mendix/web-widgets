@@ -9,7 +9,7 @@ export function Grid(props: GridProps): ReactElement {
     const { children, className, ...rest } = props;
 
     return (
-        <div className={classNames("widget-datagrid-gird table", className)} role="grid" {...rest}>
+        <div className={classNames("widget-datagrid-grid table", className)} role="grid" {...rest}>
             {children}
         </div>
     );
