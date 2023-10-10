@@ -8,6 +8,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { ListItem } from "./ListItem";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -68,14 +69,11 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 {props.items.length > 0 && (
                     <ListBox lg={props.desktopItems} md={props.tabletItems} sm={props.phoneItems}>
                         {props.items.map(item =>
-                            props.itemRenderer((selected, children, className, onClick) => {
+                            props.itemRenderer((_, children, className, onClick) => {
                                 return (
-                                    <div
+                                    <ListItem
                                         key={`item_${item.id}`}
-                                        className={classNames("widget-gallery-item", className, {
-                                            "widget-gallery-clickable": !!onClick,
-                                            "widget-gallery-selected": selected
-                                        })}
+                                        className={className}
                                         onClick={onClick}
                                         onKeyDown={
                                             onClick
@@ -87,11 +85,10 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                                                   }
                                                 : undefined
                                         }
-                                        role={onClick ? "button" : "listitem"}
                                         tabIndex={onClick ? 0 : undefined}
                                     >
                                         {children}
-                                    </div>
+                                    </ListItem>
                                 );
                             }, item)
                         )}
