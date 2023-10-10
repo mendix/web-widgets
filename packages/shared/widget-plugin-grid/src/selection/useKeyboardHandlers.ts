@@ -59,6 +59,11 @@ function createKeyboardHandlers(
             if (isSelectAllTrigger(event)) {
                 runSelectAll();
             }
+            // Prevent scroll on space.
+            if (event.code === "Space") {
+                event.preventDefault();
+                event.stopPropagation();
+            }
         },
         onKeyUp(event, item) {
             if (shouldCleanup && (isPrefixKey(event) || event.code === "KeyA")) {
@@ -66,6 +71,11 @@ function createKeyboardHandlers(
             }
             if (isSelectTrigger(event)) {
                 primaryProps.onSelect(item, false);
+            }
+
+            if (event.code === "Space") {
+                event.preventDefault();
+                event.stopPropagation();
             }
         }
     };

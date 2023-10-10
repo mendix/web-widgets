@@ -1,5 +1,5 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { ListBoxSelectionProps } from "@mendix/widget-plugin-grid/selection/useListBoxSelectionProps";
+import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -32,7 +32,7 @@ export interface WidgetProps<T extends ObjectItem> {
     setPage?: (computePage: (prevPage: number) => number) => void;
     tabletItems: number;
     tabIndex?: number;
-    selectionProps: ListBoxSelectionProps;
+    selectionProps: ListOptionSelectionProps;
 }
 
 export function Widget<T extends ObjectItem>(props: WidgetProps<T>): ReactElement {
@@ -61,9 +61,20 @@ export function Widget<T extends ObjectItem>(props: WidgetProps<T>): ReactElemen
             {showHeader && <WidgetHeader headerTitle={props.headerTitle}>{props.header}</WidgetHeader>}
             <WidgetContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
-                    <ListBox lg={props.desktopItems} md={props.tabletItems} sm={props.phoneItems}>
+                    <ListBox
+                        lg={props.desktopItems}
+                        md={props.tabletItems}
+                        sm={props.phoneItems}
+                        selectionType={props.selectionProps.selectionType}
+                        multiselectable={props.selectionProps.multiselectable}
+                    >
                         {props.items.map(item => (
-                            <ListItem key={`item_${item.id}`} helper={props.itemHelper} item={item} />
+                            <ListItem
+                                key={`item_${item.id}`}
+                                helper={props.itemHelper}
+                                item={item}
+                                selectionProps={props.selectionProps}
+                            />
                         ))}
                     </ListBox>
                 )}

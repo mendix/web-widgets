@@ -24,7 +24,7 @@ export class WidgetItem implements GalleryItemHelper {
     }
 
     render(item: ObjectItem): ReactNode {
-        if (this.clickable(item)) {
+        if (this.hasOnClick(item)) {
             return (
                 <ListItemButton onClick={() => executeAction(this._clickValue?.get(item))}>
                     {this._contentValue?.get(item)}
@@ -35,7 +35,7 @@ export class WidgetItem implements GalleryItemHelper {
         return this._contentValue?.get(item);
     }
 
-    clickable(item: ObjectItem): boolean {
+    hasOnClick(item: ObjectItem): boolean {
         return !!this._clickValue?.get(item);
     }
 }

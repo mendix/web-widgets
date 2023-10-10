@@ -3,11 +3,17 @@ import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Widget as GalleryComponent } from "./components/Widget";
 import { useWidgetPreviewItem } from "./helpers/WidgetPreviewItem";
+import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
+
+    const selectionProps = useListOptionSelectionProps({
+        selection: props.itemSelection,
+        helper: undefined
+    });
 
     return (
         <GalleryComponent
@@ -29,7 +35,10 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             showHeader
             hasMoreItems={false}
             items={items}
-            itemHelper={useWidgetPreviewItem({ contentValue: props.content, clickable: typeof props.onClick != null })}
+            itemHelper={useWidgetPreviewItem({
+                contentValue: props.content,
+                hasOnClick: props.onClick !== null
+            })}
             numberOfItems={items.length}
             page={0}
             pageSize={props.pageSize ?? 5}
@@ -38,6 +47,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             preview
             phoneItems={props.phoneItems!}
             tabletItems={props.tabletItems!}
+            selectionProps={selectionProps}
         />
     );
 }

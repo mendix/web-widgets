@@ -5,21 +5,21 @@ import { PrimarySelectionProps, usePrimarySelectionProps } from "./usePrimarySel
 import { useKeyboardHandlers, KeyboardTargetProps } from "./useKeyboardHandlers";
 import { getSelectionType } from "./utils";
 
-export type ListBoxSelectionProps = PrimarySelectionProps &
+export type ListOptionSelectionProps = PrimarySelectionProps &
     KeyboardTargetProps &
     (NoneProps | SingleProps | MultiProps);
 
 type HookParams = {
     selection: WidgetSelectionProperty;
-    helper: SelectionHelper;
+    helper: SelectionHelper | undefined;
 };
 
-export function useListBoxSelectionProps({ selection, helper }: HookParams): ListBoxSelectionProps {
+export function useListOptionSelectionProps({ selection, helper }: HookParams): ListOptionSelectionProps {
     const selectionType = getSelectionType(selection);
     const primaryProps = usePrimarySelectionProps(helper);
     const keyboard = useKeyboardHandlers(selectionType, primaryProps);
 
-    function computeProps(): ListBoxSelectionProps {
+    function computeProps(): ListOptionSelectionProps {
         return {
             ...primaryProps,
             ...keyboard,
