@@ -1,12 +1,15 @@
 import { ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 
-export class WidgetItem implements GalleryItemHelper {
-    private _classValue: ListExpressionValue<string>;
-    private _contentValue: ListWidgetValue;
+type ClassValue = ListExpressionValue<string>;
+type ContentValue = ListWidgetValue;
 
-    constructor(classValue: ListExpressionValue<string>, contentValue: ListWidgetValue) {
+export class WidgetItem implements GalleryItemHelper {
+    private _classValue: ClassValue;
+    private _contentValue: ContentValue;
+
+    constructor(classValue: ClassValue, contentValue: ContentValue) {
         this._classValue = classValue;
         this._contentValue = contentValue;
     }
@@ -18,4 +21,11 @@ export class WidgetItem implements GalleryItemHelper {
     render(item: ObjectItem): ReactNode {
         return this._contentValue.get(item);
     }
+}
+
+export function useWidgetItem(params: { classValue: ClassValue; contentValue: ContentValue }): WidgetItem {
+    return useMemo(
+        () => new WidgetItem(params.classValue, params.contentValue),
+        [params.classValue, params.contentValue]
+    );
 }

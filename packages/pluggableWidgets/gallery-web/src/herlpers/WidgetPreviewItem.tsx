@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ReactNode, createElement } from "react";
+import { ReactNode, createElement, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { GalleryPreviewProps } from "../../typings/GalleryProps";
 
@@ -27,4 +27,11 @@ export class WidgetPreviewItem implements GalleryItemHelper {
             </Renderer>
         );
     }
+}
+
+export function useWidgetPreviewItem(params: { contentValue: ContentValue }): WidgetPreviewItem {
+    return useMemo(
+        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here"),
+        [params.contentValue]
+    );
 }
