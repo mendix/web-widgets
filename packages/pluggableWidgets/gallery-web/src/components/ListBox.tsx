@@ -1,3 +1,4 @@
+import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { createElement, ReactElement, ReactNode } from "react";
 
@@ -8,11 +9,23 @@ interface ListBoxProps extends P {
     lg: number;
     md: number;
     sm: number;
+    selectionType: SelectionType;
+    multiselectable: boolean | undefined;
 }
 
-export function ListBox({ children, className, lg, md, sm, ...rest }: ListBoxProps): ReactElement {
+export function ListBox({
+    children,
+    className,
+    selectionType,
+    multiselectable,
+    lg,
+    md,
+    sm,
+    ...rest
+}: ListBoxProps): ReactElement {
     return (
         <div
+            {...rest}
             className={classNames(
                 "widget-gallery-items",
                 `widget-gallery-lg-${lg}`,
@@ -20,8 +33,8 @@ export function ListBox({ children, className, lg, md, sm, ...rest }: ListBoxPro
                 `widget-gallery-sm-${sm}`,
                 className
             )}
-            role="list"
-            {...rest}
+            role={selectionType === "None" ? "list" : "listbox"}
+            aria-multiselectable={multiselectable}
         >
             {children}
         </div>

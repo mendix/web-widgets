@@ -8,7 +8,7 @@ export function ListItemButton(props: Omit<JSX.IntrinsicElements["div"], "ref">)
             {...kbdHandlers}
             className={classNames("widget-gallery-item-button", props.className)}
             role="button"
-            tabIndex={1}
+            tabIndex={0}
         />
     );
 }

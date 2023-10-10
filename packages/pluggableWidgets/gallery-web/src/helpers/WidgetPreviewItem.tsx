@@ -9,12 +9,12 @@ type ContentValue = GalleryPreviewProps["content"];
 export class WidgetPreviewItem implements GalleryItemHelper {
     private _contentValue: ContentValue;
     private _dropZoneCaption: string;
-    private _clickable: boolean;
+    private _hasOnClick: boolean;
 
-    constructor(contentValue: ContentValue, dropZoneCaption: string, clickable: boolean) {
+    constructor(contentValue: ContentValue, dropZoneCaption: string, hasOnClick: boolean) {
         this._contentValue = contentValue;
         this._dropZoneCaption = dropZoneCaption;
-        this._clickable = clickable;
+        this._hasOnClick = hasOnClick;
     }
 
     itemClass(_: ObjectItem): string | undefined {
@@ -26,25 +26,25 @@ export class WidgetPreviewItem implements GalleryItemHelper {
 
         const content = (
             <Renderer caption={this._dropZoneCaption}>
-                <div />
+                <div style={{ display: "contents" }} />
             </Renderer>
         );
 
-        if (this._clickable) {
+        if (this._hasOnClick) {
             return <ListItemButton>{content}</ListItemButton>;
         }
 
         return content;
     }
 
-    clickable(_: ObjectItem): boolean {
-        return this._clickable;
+    hasOnClick(_: ObjectItem): boolean {
+        return this._hasOnClick;
     }
 }
 
-export function useWidgetPreviewItem(params: { contentValue: ContentValue; clickable: boolean }): WidgetPreviewItem {
+export function useWidgetPreviewItem(params: { contentValue: ContentValue; hasOnClick: boolean }): WidgetPreviewItem {
     return useMemo(
-        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here", params.clickable),
-        [params.contentValue, params.clickable]
+        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here", params.hasOnClick),
+        [params.contentValue, params.hasOnClick]
     );
 }

@@ -4,6 +4,7 @@ import {
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/widget-plugin-grid/selection";
+import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { SortFunction, SortInstruction, useSortContext } from "@mendix/widget-plugin-sorting";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -92,6 +93,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
+
             if (isInfiniteLoad) {
                 props.datasource.setLimit(newPage * props.pageSize);
             } else {
@@ -111,6 +113,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         contentValue: props.content,
         clickValue: props.onClick
     });
+
+    const selectionProps = useListOptionSelectionProps({ selection: props.itemSelection, helper: selection });
 
     return (
         <GalleryComponent
@@ -181,6 +185,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             setPage={setPage}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
+            selectionProps={selectionProps}
         />
     );
 }
