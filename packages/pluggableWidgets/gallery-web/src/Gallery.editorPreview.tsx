@@ -2,7 +2,7 @@ import { GUID, ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Widget";
-import { useWidgetPreviewItem } from "./herlpers/WidgetPreviewItem";
+import { useWidgetPreviewItem } from "./helpers/WidgetPreviewItem";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
