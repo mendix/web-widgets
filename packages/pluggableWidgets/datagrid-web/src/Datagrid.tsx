@@ -4,12 +4,13 @@ import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useG
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
-import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { SortProperty, Widget } from "./components/Widget";
+import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { getColumnAssociationProps } from "./features/column";
+import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
