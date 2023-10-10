@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { mount, render, shallow } from "enzyme";
-import { Gallery, GalleryProps } from "../Gallery";
+import { Gallery, GalleryProps } from "../Widget";
 import { ObjectItem, GUID } from "mendix";
 
 const itemWrapperFunction =

@@ -1,6 +1,6 @@
 import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
-import { Gallery as GalleryComponent } from "./components/Gallery";
+import { Gallery as GalleryComponent } from "./components/Widget";
 import { FilterType, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";

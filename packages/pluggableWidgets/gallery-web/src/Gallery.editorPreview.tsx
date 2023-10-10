@@ -1,6 +1,6 @@
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
-import { Gallery as GalleryComponent } from "./components/Gallery";
+import { Gallery as GalleryComponent } from "./components/Widget";
 import { ObjectItem, GUID } from "mendix";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
