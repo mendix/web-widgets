@@ -7,6 +7,8 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetFooter } from "./WidgetFooter";
+import { WidgetContent } from "./WidgetContent";
+import { ListBox } from "./ListBox";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -63,49 +65,40 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {showHeader && <WidgetHeader headerTitle={props.headerTitle}>{props.header}</WidgetHeader>}
-            {props.items.length > 0 && props.itemRenderer && (
-                <InfiniteBody
-                    className={classNames(
-                        "widget-gallery-items",
-                        `widget-gallery-lg-${props.desktopItems}`,
-                        `widget-gallery-md-${props.tabletItems}`,
-                        `widget-gallery-sm-${props.phoneItems}`
-                    )}
-                    hasMoreItems={props.hasMoreItems}
-                    setPage={props.setPage}
-                    isInfinite={!props.paging}
-                    role="list"
-                >
-                    {props.items.map(item =>
-                        props.itemRenderer((selected, children, className, onClick) => {
-                            return (
-                                <div
-                                    key={`item_${item.id}`}
-                                    className={classNames("widget-gallery-item", className, {
-                                        "widget-gallery-clickable": !!onClick,
-                                        "widget-gallery-selected": selected
-                                    })}
-                                    onClick={onClick}
-                                    onKeyDown={
-                                        onClick
-                                            ? e => {
-                                                  if (e.key === "Enter" || e.key === " ") {
-                                                      e.preventDefault();
-                                                      onClick();
+            <WidgetContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
+                {props.items.length > 0 && (
+                    <ListBox lg={props.desktopItems} md={props.tabletItems} sm={props.phoneItems}>
+                        {props.items.map(item =>
+                            props.itemRenderer((selected, children, className, onClick) => {
+                                return (
+                                    <div
+                                        key={`item_${item.id}`}
+                                        className={classNames("widget-gallery-item", className, {
+                                            "widget-gallery-clickable": !!onClick,
+                                            "widget-gallery-selected": selected
+                                        })}
+                                        onClick={onClick}
+                                        onKeyDown={
+                                            onClick
+                                                ? e => {
+                                                      if (e.key === "Enter" || e.key === " ") {
+                                                          e.preventDefault();
+                                                          onClick();
+                                                      }
                                                   }
-                                              }
-                                            : undefined
-                                    }
-                                    role={onClick ? "button" : "listitem"}
-                                    tabIndex={onClick ? 0 : undefined}
-                                >
-                                    {children}
-                                </div>
-                            );
-                        }, item)
-                    )}
-                </InfiniteBody>
-            )}
+                                                : undefined
+                                        }
+                                        role={onClick ? "button" : "listitem"}
+                                        tabIndex={onClick ? 0 : undefined}
+                                    >
+                                        {children}
+                                    </div>
+                                );
+                            }, item)
+                        )}
+                    </ListBox>
+                )}
+            </WidgetContent>
             {(props.items.length === 0 || props.preview) &&
                 props.emptyPlaceholderRenderer &&
                 props.emptyPlaceholderRenderer(children => (
