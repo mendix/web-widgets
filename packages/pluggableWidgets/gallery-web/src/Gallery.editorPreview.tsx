@@ -29,7 +29,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             showHeader
             hasMoreItems={false}
             items={items}
-            itemHelper={useWidgetPreviewItem({ contentValue: props.content })}
+            itemHelper={useWidgetPreviewItem({ contentValue: props.content, clickable: typeof props.onClick != null })}
             numberOfItems={items.length}
             page={0}
             pageSize={props.pageSize ?? 5}
