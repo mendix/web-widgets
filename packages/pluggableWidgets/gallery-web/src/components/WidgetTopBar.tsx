@@ -1,5 +1,5 @@
 import { createElement, ReactElement, ReactNode } from "react";
 
 export function WidgetTopBar(props: { children: ReactNode }): ReactElement {
-    return <div className="widget-datagrid-top-bar table-header">{props.children}</div>;
+    return <div className="widget-gallery-top-bar">{props.children}</div>;
 }

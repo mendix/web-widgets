@@ -4,6 +4,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ObjectItem } from "mendix";
 import classNames from "classnames";
 import { WidgetRoot } from "./WidgetRoot";
+import { WidgetTopBar } from "./WidgetTopBar";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -52,9 +53,11 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         </div>
     ) : null;
 
+    const showTopBar = props.paging && props.paginationPosition === "above";
+
     return (
         <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
-            {props.paginationPosition === "above" && pagination}
+            {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {props.showHeader ? (
                 <div className="widget-gallery-filter" role="section" aria-label={props.headerTitle}>
                     {props.header}
