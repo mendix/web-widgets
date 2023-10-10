@@ -1,4 +1,4 @@
-import { writeFile } from "fs/promises";
+import { writeFile, readFile } from "node:fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
 import { fgYellow } from "./ansi-colors";
 import {
@@ -47,6 +47,7 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
 
     const { testProject } = info;
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
+    rm("-rf", config.paths.targetProject);
     await clone({
         remoteUrl: testProject.githubUrl,
         branch: testProject.branchName,
@@ -127,6 +128,22 @@ export async function copyThemesourceToProject({ config }: ModuleStepParams): Pr
     console.info("Copy module themesource to targetProject");
     mkdir("-p", output.dirs.themesource);
     cp("-R", `${paths.themesource}/*`, output.dirs.themesource);
+}
+
+export function copyActionsFiles(files: string[]): (params: ModuleStepParams) => Promise<void> {
+    return async ({ config }) => {
+        logStep("Copy JS Action(s) files");
+        const { paths, output } = config;
+        mkdir("-p", join(output.dirs.javascriptsource, "actions"));
+
+        for (const file of files) {
+            const src = join(paths.javascriptsource, "actions", file);
+            const dest = join(output.dirs.javascriptsource, "actions", file);
+            const content = await readFile(src, { encoding: "utf-8" });
+            // Studio Pro require CRLF endings to read action file.
+            await writeFile(dest, content.replace(/\r\n|\r|\n/g, "\r\n"));
+        }
+    };
 }
 
 export async function copyWidgetsToProject({ config }: ModuleStepParams): Promise<void> {
@@ -232,15 +249,6 @@ export async function copyModuleLicense({ config }: ModuleStepParams): Promise<v
     ensureFileExists(license);
     mkdir("-p", output.dirs.themesource);
     cp(license, output.dirs.themesource);
-}
-
-export async function copyJSActions({ config, info }: ModuleStepParams): Promise<void> {
-    logStep("Copy js actions");
-
-    const { paths, output } = config;
-    const source = join(paths.package, "src/javascriptsource", info.moduleFolderNameInModeler, "actions");
-    mkdir("-p", output.dirs.javascriptsource);
-    cp("-R", source, output.dirs.javascriptsource);
 }
 
 export async function writeVersionAndLicenseToJSActions({ config, info }: ModuleStepParams): Promise<void> {

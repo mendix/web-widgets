@@ -13,6 +13,8 @@ import {
     writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
+import { bundleExportToExcelAction } from "./steps/bundle-export-to-excel";
+
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
@@ -21,6 +23,7 @@ async function main(): Promise<void> {
             cloneTestProject,
             copyWidgetsToProject,
             copyThemesourceToProject,
+            bundleExportToExcelAction,
             writeModuleVersion,
             copyModuleLicense,
             createModuleMpk,

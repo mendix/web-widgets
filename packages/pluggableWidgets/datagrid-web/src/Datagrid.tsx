@@ -13,6 +13,7 @@ import "./ui/Datagrid.scss";
 import { Cell } from "./components/Cell";
 import { GridHeaderWidgets } from "./components/GridHeaderWidgets";
 import { Column } from "./helpers/Column";
+import { useDG2ExportApi, UpdateDataSourceFn } from "./features/export";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -27,12 +28,37 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
+    const { items } = useDG2ExportApi({
+        columns: props.columns,
+        hasMoreItems: props.datasource.hasMoreItems || false,
+        items: props.datasource.items,
+        name: props.name,
+        offset: props.datasource.offset,
+        limit: props.datasource.limit,
+        updateDataSource: useCallback<UpdateDataSourceFn>(
+            ({ offset, limit, reload }) => {
+                if (offset != null) {
+                    props.datasource?.setOffset(offset);
+                }
+
+                if (limit != null) {
+                    props.datasource?.setLimit(limit);
+                }
+
+                if (reload) {
+                    props.datasource.reload();
+                }
+            },
+            [props.datasource]
+        )
+    });
+
     useEffect(() => {
         props.datasource.requestTotalCount(!isInfiniteLoad);
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }
-    }, [props.datasource, props.pageSize]);
+    }, [props.datasource, props.pageSize, isInfiniteLoad]);
 
     useEffect(() => {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {
@@ -112,7 +138,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            data={props.datasource.items ?? []}
+            data={items}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
