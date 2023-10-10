@@ -1,14 +1,13 @@
-import { createElement, ReactElement, ReactNode } from "react";
-import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { ObjectItem } from "mendix";
 import classNames from "classnames";
+import { ObjectItem } from "mendix";
+import { createElement, ReactElement, ReactNode } from "react";
+import { ListBox } from "./ListBox";
+import { WidgetContent } from "./WidgetContent";
+import { WidgetFooter } from "./WidgetFooter";
+import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { WidgetHeader } from "./WidgetHeader";
-import { WidgetFooter } from "./WidgetFooter";
-import { WidgetContent } from "./WidgetContent";
-import { ListBox } from "./ListBox";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
