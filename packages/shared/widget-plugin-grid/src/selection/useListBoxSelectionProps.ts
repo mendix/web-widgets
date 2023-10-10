@@ -5,7 +5,9 @@ import { PrimarySelectionProps, usePrimarySelectionProps } from "./usePrimarySel
 import { useKeyboardHandlers, KeyboardTargetProps } from "./useKeyboardHandlers";
 import { getSelectionType } from "./utils";
 
-type ListBoxSelectionProps = PrimarySelectionProps & KeyboardTargetProps & (NoneProps | SingleProps | MultiProps);
+export type ListBoxSelectionProps = PrimarySelectionProps &
+    KeyboardTargetProps &
+    (NoneProps | SingleProps | MultiProps);
 
 type HookParams = {
     selection: WidgetSelectionProperty;

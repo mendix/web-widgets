@@ -1,4 +1,5 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
+import { ListBoxSelectionProps } from "@mendix/widget-plugin-grid/selection/useListBoxSelectionProps";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -10,7 +11,7 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 
-export interface GalleryProps<T extends ObjectItem> {
+export interface WidgetProps<T extends ObjectItem> {
     className?: string;
     desktopItems: number;
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
@@ -31,9 +32,10 @@ export interface GalleryProps<T extends ObjectItem> {
     setPage?: (computePage: (prevPage: number) => number) => void;
     tabletItems: number;
     tabIndex?: number;
+    selectionProps: ListBoxSelectionProps;
 }
 
-export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
+export function Widget<T extends ObjectItem>(props: WidgetProps<T>): ReactElement {
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">
             <Pagination
