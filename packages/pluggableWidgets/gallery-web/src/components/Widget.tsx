@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { WidgetHeader } from "./WidgetHeader";
+import { WidgetFooter } from "./WidgetFooter";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -56,6 +57,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
 
     const showTopBar = props.paging && props.paginationPosition === "above";
     const showHeader = props.showHeader ?? false;
+    const showFooter = props.paging && props.paginationPosition === "below";
 
     return (
         <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
@@ -111,7 +113,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </div>
                 ))}
-            {props.paginationPosition === "below" && pagination}
+            {showFooter && <WidgetFooter>{pagination}</WidgetFooter>}
         </WidgetRoot>
     );
 }
