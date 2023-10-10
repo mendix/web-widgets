@@ -8,17 +8,19 @@ type ContentValue = GalleryPreviewProps["content"];
 export class WidgetPreviewItem implements GalleryItemHelper {
     private _contentValue: ContentValue;
     private _dropZoneCaption: string;
+    private _clickable: boolean;
 
-    constructor(contentValue: ContentValue, dropZoneCaption: string) {
+    constructor(contentValue: ContentValue, dropZoneCaption: string, clickable: boolean) {
         this._contentValue = contentValue;
         this._dropZoneCaption = dropZoneCaption;
+        this._clickable = clickable;
     }
 
-    itemClass(_item: ObjectItem): string | undefined {
+    itemClass(_: ObjectItem): string | undefined {
         return undefined;
     }
 
-    render(_item: ObjectItem): ReactNode {
+    render(_: ObjectItem): ReactNode {
         const { renderer: Renderer } = this._contentValue;
 
         return (
@@ -27,11 +29,15 @@ export class WidgetPreviewItem implements GalleryItemHelper {
             </Renderer>
         );
     }
+
+    clickable(_: ObjectItem): boolean {
+        return this._clickable;
+    }
 }
 
-export function useWidgetPreviewItem(params: { contentValue: ContentValue }): WidgetPreviewItem {
+export function useWidgetPreviewItem(params: { contentValue: ContentValue; clickable: boolean }): WidgetPreviewItem {
     return useMemo(
-        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here"),
-        [params.contentValue]
+        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here", params.clickable),
+        [params.contentValue, params.clickable]
     );
 }

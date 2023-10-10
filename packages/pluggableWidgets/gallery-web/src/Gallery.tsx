@@ -106,7 +106,11 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
     const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || selection?.type === "Multi";
-    const itemHelper = useWidgetItem({ classValue: props.itemClass, contentValue: props.content });
+    const itemHelper = useWidgetItem({
+        classValue: props.itemClass,
+        contentValue: props.content,
+        clickValue: props.onClick
+    });
 
     return (
         <GalleryComponent
