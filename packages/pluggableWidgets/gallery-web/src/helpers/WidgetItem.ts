@@ -2,8 +2,8 @@ import { ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { ReactNode, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 
-type ClassValue = ListExpressionValue<string>;
-type ContentValue = ListWidgetValue;
+type ClassValue = ListExpressionValue<string> | undefined;
+type ContentValue = ListWidgetValue | undefined;
 
 export class WidgetItem implements GalleryItemHelper {
     private _classValue: ClassValue;
@@ -15,11 +15,11 @@ export class WidgetItem implements GalleryItemHelper {
     }
 
     itemClass(item: ObjectItem): string | undefined {
-        return this._classValue.get(item).value;
+        return this._classValue?.get(item).value;
     }
 
     render(item: ObjectItem): ReactNode {
-        return this._contentValue.get(item);
+        return this._contentValue?.get(item);
     }
 }
 
