@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { mount, render, shallow } from "enzyme";
-import { Gallery, GalleryProps } from "../Widget";
+import { Widget, WidgetProps } from "../Widget";
 import { ObjectItem, GUID } from "mendix";
 
 const itemWrapperFunction =
@@ -10,11 +10,11 @@ const itemWrapperFunction =
     }: {
         onClick?: () => void;
         customClass?: string;
-    }): GalleryProps<ObjectItem>["itemRenderer"] =>
+    }): WidgetProps<ObjectItem>["itemRenderer"] =>
     (wrapper, item) =>
         wrapper(false, item.id, customClass, onClick);
 
-const defaultProps: GalleryProps<ObjectItem> = {
+const defaultProps: WidgetProps<ObjectItem> = {
     hasMoreItems: false,
     page: 0,
     pageSize: 10,
@@ -32,14 +32,14 @@ const defaultProps: GalleryProps<ObjectItem> = {
 describe("Gallery", () => {
     describe("DOM Structure", () => {
         it("renders correctly", () => {
-            const gallery = render(<Gallery {...defaultProps} />);
+            const gallery = render(<Widget {...defaultProps} />);
 
             expect(gallery).toMatchSnapshot();
         });
 
         it("renders correctly with onclick event", () => {
             const gallery = render(
-                <Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick: jest.fn() })} />
+                <Widget {...defaultProps} itemRenderer={itemWrapperFunction({ onClick: jest.fn() })} />
             );
 
             expect(gallery).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe("Gallery", () => {
     describe("with events", () => {
         it("triggers correct events on click", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
+            const gallery = mount(<Widget {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
             const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
 
             expect(galleryFirstItem).toBeDefined();
@@ -61,7 +61,7 @@ describe("Gallery", () => {
 
         it("triggers correct events on Enter key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
+            const gallery = mount(<Widget {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
             const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
 
             expect(galleryFirstItem).toBeDefined();
@@ -73,7 +73,7 @@ describe("Gallery", () => {
 
         it("triggers correct events on Space key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
+            const gallery = mount(<Widget {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
             const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
 
             expect(galleryFirstItem).toBeDefined();
@@ -86,19 +86,19 @@ describe("Gallery", () => {
 
     describe("with different configurations per platform", () => {
         it("contains correct classes for desktop", () => {
-            const gallery = shallow(<Gallery {...defaultProps} desktopItems={12} />);
+            const gallery = shallow(<Widget {...defaultProps} desktopItems={12} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-lg-12")).toBeTruthy();
         });
 
         it("contains correct classes for tablet", () => {
-            const gallery = shallow(<Gallery {...defaultProps} tabletItems={6} />);
+            const gallery = shallow(<Widget {...defaultProps} tabletItems={6} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-md-6")).toBeTruthy();
         });
 
         it("contains correct classes for phone", () => {
-            const gallery = shallow(<Gallery {...defaultProps} phoneItems={3} />);
+            const gallery = shallow(<Widget {...defaultProps} phoneItems={3} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-sm-3")).toBeTruthy();
         });
@@ -106,14 +106,14 @@ describe("Gallery", () => {
 
     describe("with custom classes", () => {
         it("contains correct classes in the wrapper", () => {
-            const gallery = shallow(<Gallery {...defaultProps} className="custom-class" />);
+            const gallery = shallow(<Widget {...defaultProps} className="custom-class" />);
 
             expect(gallery.hasClass("custom-class")).toBeTruthy();
         });
 
         it("contains correct classes in the items", () => {
             const gallery = shallow(
-                <Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ customClass: "custom-class" })} />
+                <Widget {...defaultProps} itemRenderer={itemWrapperFunction({ customClass: "custom-class" })} />
             );
             const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
 
@@ -124,7 +124,7 @@ describe("Gallery", () => {
     describe("with pagination", () => {
         it("renders correctly", () => {
             const gallery = render(
-                <Gallery {...defaultProps} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
+                <Widget {...defaultProps} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
             );
 
             expect(gallery).toMatchSnapshot();
@@ -133,7 +133,7 @@ describe("Gallery", () => {
         it("triggers correct events on click next button", () => {
             const setPage = jest.fn();
             const gallery = mount(
-                <Gallery
+                <Widget
                     {...defaultProps}
                     paging
                     paginationPosition="above"
@@ -155,7 +155,7 @@ describe("Gallery", () => {
     describe("with empty option", () => {
         it("renders correctly", () => {
             const gallery = render(
-                <Gallery
+                <Widget
                     {...defaultProps}
                     items={[]}
                     emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
@@ -169,7 +169,7 @@ describe("Gallery", () => {
     describe("with accessibility properties", () => {
         it("renders correctly", () => {
             const gallery = render(
-                <Gallery
+                <Widget
                     {...defaultProps}
                     items={[]}
                     headerTitle="filter title"
@@ -185,7 +185,7 @@ describe("Gallery", () => {
     describe("without filters", () => {
         it("renders structure without header container", () => {
             const filters = { ...defaultProps, showHeader: false, header: undefined };
-            const gallery = render(<Gallery {...filters} />);
+            const gallery = render(<Widget {...filters} />);
 
             expect(gallery).toMatchSnapshot();
         });
