@@ -1,6 +1,6 @@
 .sticky-sentinel {
     &.container-stuck {
-        & + .widget-datagrid-gird,
+        & + .widget-datagrid-grid,
         & + .table {
             .th {
                 position: -webkit-sticky; /* Safari */
