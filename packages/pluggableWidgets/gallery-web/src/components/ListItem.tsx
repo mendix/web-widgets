@@ -1,14 +1,24 @@
 import classNames from "classnames";
-import { createElement, ReactElement, ReactNode } from "react";
+import { ObjectItem } from "mendix";
+import { createElement, ReactElement } from "react";
+import { GalleryItemHelper } from "../typings/GalleryItem";
 
 type P = Omit<JSX.IntrinsicElements["div"], "ref" | "role">;
 
 interface ListItemProps extends P {
-    children?: ReactNode;
     role?: "option" | "listitem";
+    helper: GalleryItemHelper;
+    item: ObjectItem;
 }
 
-export function ListItem({ children, className, role = "listitem", ...rest }: ListItemProps): ReactElement {
+export function ListItem({
+    children,
+    className,
+    role = "listitem",
+    helper,
+    item,
+    ...rest
+}: ListItemProps): ReactElement {
     const selected = false;
     const clickable = false;
 
@@ -20,12 +30,12 @@ export function ListItem({ children, className, role = "listitem", ...rest }: Li
                     "widget-gallery-clickable": clickable,
                     "widget-gallery-selected": selected
                 },
-                className
+                helper.itemClass(item)
             )}
             role={role}
             {...rest}
         >
-            {children}
+            {helper.render(item)}
         </div>
     );
 }
