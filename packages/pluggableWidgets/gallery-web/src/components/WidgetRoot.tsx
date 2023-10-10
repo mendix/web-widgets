@@ -6,7 +6,6 @@ type P = Omit<JSX.IntrinsicElements["div"], "ref">;
 export interface WidgetRootProps extends P {
     className?: string;
     selectable?: boolean;
-    tabIndex?: number;
 }
 
 export function WidgetRoot(props: WidgetRootProps): ReactElement {
@@ -14,7 +13,6 @@ export function WidgetRoot(props: WidgetRootProps): ReactElement {
 
     return (
         <div
-            data-focusindex={props.tabIndex || 0}
             className={classNames(
                 "widget-gallery",
                 {

@@ -3,6 +3,7 @@ import { InfiniteBody } from "@mendix/widget-plugin-grid/components/InfiniteBody
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ObjectItem } from "mendix";
 import classNames from "classnames";
+import { WidgetRoot } from "./WidgetRoot";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -52,7 +53,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     ) : null;
 
     return (
-        <div className={classNames("widget-gallery", props.className)} data-focusindex={props.tabIndex || 0}>
+        <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
             {props.paginationPosition === "above" && pagination}
             {props.showHeader ? (
                 <div className="widget-gallery-filter" role="section" aria-label={props.headerTitle}>
@@ -111,6 +112,6 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                     </div>
                 ))}
             {props.paginationPosition === "below" && pagination}
-        </div>
+        </WidgetRoot>
     );
 }
