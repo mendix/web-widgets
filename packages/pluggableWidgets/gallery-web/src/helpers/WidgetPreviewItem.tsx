@@ -2,6 +2,7 @@ import { ObjectItem } from "mendix";
 import { ReactNode, createElement, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { GalleryPreviewProps } from "../../typings/GalleryProps";
+import { ListItemButton } from "../components/ListItemButton";
 
 type ContentValue = GalleryPreviewProps["content"];
 
@@ -23,11 +24,17 @@ export class WidgetPreviewItem implements GalleryItemHelper {
     render(_: ObjectItem): ReactNode {
         const { renderer: Renderer } = this._contentValue;
 
-        return (
+        const content = (
             <Renderer caption={this._dropZoneCaption}>
                 <div />
             </Renderer>
         );
+
+        if (this._clickable) {
+            return <ListItemButton>{content}</ListItemButton>;
+        }
+
+        return content;
     }
 
     clickable(_: ObjectItem): boolean {
