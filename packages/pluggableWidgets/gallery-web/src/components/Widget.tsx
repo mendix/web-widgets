@@ -1,14 +1,14 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
+import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ListBox } from "./ListBox";
+import { ListItem } from "./ListItem";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ListItem } from "./ListItem";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -20,15 +20,7 @@ export interface GalleryProps<T extends ObjectItem> {
     showHeader: boolean;
     hasMoreItems: boolean;
     items: T[];
-    itemRenderer: (
-        renderWrapper: (
-            selected: boolean,
-            children: ReactNode,
-            className?: string,
-            onClick?: () => void
-        ) => ReactElement,
-        item: T
-    ) => ReactNode;
+    itemHelper: GalleryItemHelper;
     numberOfItems?: number;
     paging: boolean;
     page: number;
@@ -68,30 +60,9 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
             <WidgetContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
                     <ListBox lg={props.desktopItems} md={props.tabletItems} sm={props.phoneItems}>
-                        {props.items.map(item =>
-                            props.itemRenderer((_, children, className, onClick) => {
-                                return (
-                                    <ListItem
-                                        key={`item_${item.id}`}
-                                        className={className}
-                                        onClick={onClick}
-                                        onKeyDown={
-                                            onClick
-                                                ? e => {
-                                                      if (e.key === "Enter" || e.key === " ") {
-                                                          e.preventDefault();
-                                                          onClick();
-                                                      }
-                                                  }
-                                                : undefined
-                                        }
-                                        tabIndex={onClick ? 0 : undefined}
-                                    >
-                                        {children}
-                                    </ListItem>
-                                );
-                            }, item)
-                        )}
+                        {props.items.map(item => (
+                            <ListItem key={`item_${item.id}`} helper={props.itemHelper} item={item} />
+                        ))}
                     </ListBox>
                 )}
             </WidgetContent>
