@@ -3,7 +3,7 @@ import { mount, render, shallow } from "enzyme";
 import { Widget, WidgetProps } from "../Widget";
 import { ObjectItem } from "mendix";
 import { WidgetItemBuilder } from "../../utils/test-utils";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { listAction, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
 function mockSelectionProps(): ListOptionSelectionProps {
@@ -16,6 +16,18 @@ function mockSelectionProps(): ListOptionSelectionProps {
         selectionType: "None",
         multiselectable: undefined
     };
+}
+
+function mockItemHelperWithAction(onClick: () => void) {
+    return WidgetItemBuilder.sample(b =>
+        b.withAction(
+            listAction(mockAction => {
+                const action = mockAction();
+                action.execute = onClick;
+                return action;
+            })
+        )
+    );
 }
 
 function mockProps(): WidgetProps<ObjectItem> {
@@ -45,7 +57,7 @@ describe("Gallery", () => {
         });
 
         it("renders correctly with onclick event", () => {
-            const gallery = render(<Widget {...mockProps()} />);
+            const gallery = render(<Widget {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />);
 
             expect(gallery).toMatchSnapshot();
         });
@@ -54,8 +66,9 @@ describe("Gallery", () => {
     describe("with events", () => {
         it("triggers correct events on click", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Widget {...mockProps()} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const itemHelper = mockItemHelperWithAction(onClick);
+            const gallery = mount(<Widget {...mockProps()} itemHelper={itemHelper} />);
+            const galleryFirstItem = gallery.find("[role=button]").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
