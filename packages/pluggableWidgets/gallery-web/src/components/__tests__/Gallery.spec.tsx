@@ -1,10 +1,11 @@
 import { createElement } from "react";
-import { mount, render, shallow } from "enzyme";
+import { mount, render } from "enzyme";
 import { Widget, WidgetProps } from "../Widget";
 import { ObjectItem } from "mendix";
 import { WidgetItemBuilder } from "../../utils/test-utils";
-import { listAction, objectItems } from "@mendix/widget-plugin-test-utils";
+import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
+import { WidgetItem } from "../../helpers/WidgetItem";
 
 function mockSelectionProps(): ListOptionSelectionProps {
     return {
@@ -18,7 +19,7 @@ function mockSelectionProps(): ListOptionSelectionProps {
     };
 }
 
-function mockItemHelperWithAction(onClick: () => void) {
+function mockItemHelperWithAction(onClick: () => void): WidgetItem {
     return WidgetItemBuilder.sample(b =>
         b.withAction(
             listAction(mockAction => {
@@ -68,7 +69,7 @@ describe("Gallery", () => {
             const onClick = jest.fn();
             const itemHelper = mockItemHelperWithAction(onClick);
             const gallery = mount(<Widget {...mockProps()} itemHelper={itemHelper} />);
-            const galleryFirstItem = gallery.find("[role=button]").at(0);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
@@ -79,24 +80,26 @@ describe("Gallery", () => {
 
         it("triggers correct events on Enter key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Widget {...mockProps()} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const gallery = mount(<Widget {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: "Enter" });
+            galleryFirstItem.simulate("keydown", { key: "Enter", code: "Enter" });
+            galleryFirstItem.simulate("keyup", { key: "Enter", code: "Enter" });
 
             expect(onClick).toBeCalled();
         });
 
         it("triggers correct events on Space key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Widget {...mockProps()} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const gallery = mount(<Widget {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: " " });
+            galleryFirstItem.simulate("keydown", { key: " ", code: "Space" });
+            galleryFirstItem.simulate("keyup", { key: " ", code: "Space" });
 
             expect(onClick).toBeCalled();
         });
@@ -104,19 +107,19 @@ describe("Gallery", () => {
 
     describe("with different configurations per platform", () => {
         it("contains correct classes for desktop", () => {
-            const gallery = shallow(<Widget {...mockProps()} desktopItems={12} />);
+            const gallery = mount(<Widget {...mockProps()} desktopItems={12} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-lg-12")).toBeTruthy();
         });
 
         it("contains correct classes for tablet", () => {
-            const gallery = shallow(<Widget {...mockProps()} tabletItems={6} />);
+            const gallery = mount(<Widget {...mockProps()} tabletItems={6} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-md-6")).toBeTruthy();
         });
 
         it("contains correct classes for phone", () => {
-            const gallery = shallow(<Widget {...mockProps()} phoneItems={3} />);
+            const gallery = mount(<Widget {...mockProps()} phoneItems={3} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-sm-3")).toBeTruthy();
         });
@@ -124,13 +127,18 @@ describe("Gallery", () => {
 
     describe("with custom classes", () => {
         it("contains correct classes in the wrapper", () => {
-            const gallery = shallow(<Widget {...mockProps()} className="custom-class" />);
+            const gallery = mount(<Widget {...mockProps()} className="custom-class" />);
 
             expect(gallery.hasClass("custom-class")).toBeTruthy();
         });
 
         it("contains correct classes in the items", () => {
-            const gallery = shallow(<Widget {...mockProps()} />);
+            const gallery = mount(
+                <Widget
+                    {...mockProps()}
+                    itemHelper={WidgetItemBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
+                />
+            );
             const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
 
             expect(galleryFirstItem.hasClass("custom-class")).toBeTruthy();
