@@ -43,39 +43,58 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
 
 exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
 <div
-  class="widget-gallery"
+  class="widget-gallery my-gallery"
   data-focusindex="0"
 >
   <div
-    class="widget-gallery-filter"
+    class="widget-gallery-header widget-gallery-filter"
     role="section"
   >
     <input />
   </div>
   <div
-    class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2 infinite-loading"
-    role="list"
+    class="widget-gallery-content infinite-loading"
   >
     <div
-      class="widget-gallery-item widget-gallery-clickable"
-      role="button"
-      tabindex="0"
+      class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
+      role="list"
     >
-      11
-    </div>
-    <div
-      class="widget-gallery-item widget-gallery-clickable"
-      role="button"
-      tabindex="0"
-    >
-      22
-    </div>
-    <div
-      class="widget-gallery-item widget-gallery-clickable"
-      role="button"
-      tabindex="0"
-    >
-      33
+      <div
+        class="widget-gallery-item widget-gallery-clickable item-class"
+        role="listitem"
+      >
+        <div
+          class="widget-gallery-item-button"
+          role="button"
+          tabindex="0"
+        >
+          Item content
+        </div>
+      </div>
+      <div
+        class="widget-gallery-item widget-gallery-clickable item-class"
+        role="listitem"
+      >
+        <div
+          class="widget-gallery-item-button"
+          role="button"
+          tabindex="0"
+        >
+          Item content
+        </div>
+      </div>
+      <div
+        class="widget-gallery-item widget-gallery-clickable item-class"
+        role="listitem"
+      >
+        <div
+          class="widget-gallery-item-button"
+          role="button"
+          tabindex="0"
+        >
+          Item content
+        </div>
+      </div>
     </div>
   </div>
 </div>
