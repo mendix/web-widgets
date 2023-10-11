@@ -52,6 +52,7 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
+    const columns = columnsProp.map((col, index) => new Column(col, index, id));
 
     const selectionProps = mockSelectionProps();
 
@@ -69,8 +70,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         className: "test",
         columnsFilterable: false,
         columnsSortable: false,
-        columns: columnsProp.map((col, index) => new Column(col, index, id)),
-        columnsState: { columnsHidden: [], columnsOrder: [] },
+        columns,
+        columnsState: { columnsHidden: [], columnsOrder: [], columns, columnsVisible: [] },
         setHidden: jest.fn(),
         setOrder: jest.fn(),
         valueForSort: () => "dummy",
