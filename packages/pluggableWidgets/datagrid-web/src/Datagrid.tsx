@@ -34,14 +34,18 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     );
 
     const [columnsState, { setHidden, setOrder }] = useColumnsState(() => {
-        return {
+        const initState = {
+            columns,
             columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
-            columnsOrder: []
+            columnsOrder: [],
+            columnsVisible: []
         };
+
+        return updateColumnsVisible(initState);
     });
 
     const { items } = useDG2ExportApi({
-        columns: props.columns,
+        columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,

@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef } from "react";
+import { sortColumns } from "src/helpers/utils";
+import { GridColumn } from "src/typings/GridColumn";
 
 type ColumnsHidden = number[];
 type ColumnsOrder = number[];
@@ -6,6 +8,8 @@ type ColumnsOrder = number[];
 export type ColumnsState = {
     columnsHidden: ColumnsHidden;
     columnsOrder: ColumnsOrder;
+    columns: GridColumn[];
+    columnsVisible: GridColumn[];
 };
 
 type ColumnsStateFunctions = {
@@ -54,10 +58,19 @@ export function useColumnsState(initializer?: ColumnsStateInitializer): [Columns
     return [state, memoizedColumnsStateFunctions];
 }
 
+export function updateColumnsVisible(state: ColumnsState): ColumnsState {
+    return {
+        ...state,
+        columnsVisible: state.columns.filter(column => !state.columnsHidden.includes(column.columnNumber))
+    };
+}
+
 function initColumnsState(): ColumnsState {
     return {
+        columns: [],
         columnsHidden: [],
-        columnsOrder: []
+        columnsOrder: [],
+        columnsVisible: []
     };
 }
 
@@ -68,15 +81,20 @@ type Action =
 function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState {
     switch (action.type) {
         case "SetOrder":
+            const { order } = action.payload;
             return {
                 ...state,
-                columnsOrder: action.payload.order
+                columnsOrder: order,
+                columnsVisible: [...state.columnsVisible.sort((a, b) => sortColumns(order, a, b))]
             };
         case "SetHidden":
-            return {
+            const { hidden } = action.payload;
+            const newState = {
                 ...state,
-                columnsHidden: action.payload.hidden
+                columnsHidden: hidden
             };
+            return updateColumnsVisible(newState);
+
         default:
             throw new Error("unknown action type");
     }
