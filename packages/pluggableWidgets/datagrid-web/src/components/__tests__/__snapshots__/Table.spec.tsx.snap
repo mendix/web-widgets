@@ -12,7 +12,7 @@ exports[`Table renders the structure correctly 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -81,7 +81,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -150,7 +150,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -249,7 +249,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -322,7 +322,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -391,7 +391,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -460,7 +460,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -529,7 +529,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -612,7 +612,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -681,7 +681,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -754,7 +754,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -863,7 +863,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -1022,7 +1022,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -1091,7 +1091,7 @@ exports[`Table renders the structure correctly with sorting 1`] = `
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="widget-datagrid-gird table"
+      class="widget-datagrid-grid table"
       role="grid"
     >
       <div
@@ -1162,7 +1162,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
       />
       <div
         aria-multiselectable="false"
-        class="widget-datagrid-gird table"
+        class="widget-datagrid-grid table"
         role="grid"
       >
         <div
@@ -1397,7 +1397,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
       />
       <div
         aria-multiselectable="false"
-        class="widget-datagrid-gird table"
+        class="widget-datagrid-grid table"
         role="grid"
       >
         <div
