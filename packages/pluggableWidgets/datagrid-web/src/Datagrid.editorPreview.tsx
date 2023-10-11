@@ -60,6 +60,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const gridId = Date.now().toString();
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
+    const [columnsState, { setHidden, setOrder }] = useColumnsState();
     return (
         <Widget
             CellComponent={Cell}
@@ -70,6 +71,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
+            columnsState={columnsState}
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
@@ -106,6 +108,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             pagingPosition={props.pagingPosition}
             preview
             styles={parseStyle(props.style)}
+            setHidden={setHidden}
+            setOrder={setOrder}
             valueForSort={useCallback(() => undefined, [])}
             selectionProps={selectionProps}
             selectionStatus={"none"}
