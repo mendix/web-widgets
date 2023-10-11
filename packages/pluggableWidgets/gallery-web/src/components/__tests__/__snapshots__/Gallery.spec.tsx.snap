@@ -2,36 +2,40 @@
 
 exports[`Gallery DOM Structure renders correctly 1`] = `
 <div
-  class="widget-gallery"
+  class="widget-gallery my-gallery"
   data-focusindex="0"
 >
   <div
-    class="widget-gallery-filter"
+    class="widget-gallery-header widget-gallery-filter"
     role="section"
   >
     <input />
   </div>
   <div
-    class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2 infinite-loading"
-    role="list"
+    class="widget-gallery-content infinite-loading"
   >
     <div
-      class="widget-gallery-item"
-      role="listitem"
+      class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
+      role="list"
     >
-      11
-    </div>
-    <div
-      class="widget-gallery-item"
-      role="listitem"
-    >
-      22
-    </div>
-    <div
-      class="widget-gallery-item"
-      role="listitem"
-    >
-      33
+      <div
+        class="widget-gallery-item item-class"
+        role="listitem"
+      >
+        Item content
+      </div>
+      <div
+        class="widget-gallery-item item-class"
+        role="listitem"
+      >
+        Item content
+      </div>
+      <div
+        class="widget-gallery-item item-class"
+        role="listitem"
+      >
+        Item content
+      </div>
     </div>
   </div>
 </div>

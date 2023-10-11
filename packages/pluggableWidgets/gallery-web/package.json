@@ -52,6 +52,7 @@
     "@mendix/run-e2e": "workspace:*",
     "@mendix/widget-plugin-grid": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "cross-env": "^7.0.3"
   }
 }
