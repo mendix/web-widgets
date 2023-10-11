@@ -1,23 +1,83 @@
-import { ColumnsType } from "../../typings/DatagridProps";
+import { useEffect, useMemo, useReducer, useRef } from "react";
+
+type ColumnsHidden = number[];
+type ColumnsOrder = number[];
 
 export type ColumnsState = {
-    columnsHidden?: number[];
-    columnsOrder?: number[];
+    columnsHidden: ColumnsHidden;
+    columnsOrder: ColumnsOrder;
 };
 
-export function useColumnsState(columns: ColumnsType[], state: ColumnsState | undefined): { columns: ColumnsType[] } {
-    const filteredIndexes = state?.columnsOrder?.reduce((accumulator, currIndex) => {
-        if (state.columnsHidden?.includes(currIndex)) {
-            return accumulator;
-        }
+type ColumnsStateFunctions = {
+    setOrder: React.Dispatch<React.SetStateAction<ColumnsOrder>>;
+    setHidden: React.Dispatch<React.SetStateAction<ColumnsHidden>>;
+};
 
-        return [...accumulator, currIndex];
-    }, []);
+type ColumnsStateInitializer = (columnsState: ColumnsState) => ColumnsState;
 
+export function useColumnsState(initializer?: ColumnsStateInitializer): [ColumnsState, ColumnsStateFunctions] {
+    const [state, dispatch] = useReducer(columnsStateReducer, initColumnsState(), state => {
+        return initializer ? initializer(state) : state;
+    });
+    const stateRef = useRef(state);
+
+    useEffect(() => {
+        stateRef.current = state;
+    });
+
+    const memoizedColumnsStateFunctions = useMemo<ColumnsStateFunctions>(() => {
+        return {
+            setOrder: valueOrFunction => {
+                if (typeof valueOrFunction === "function") {
+                    const value = stateRef.current.columnsOrder;
+                    const newValue = valueOrFunction(value);
+                    if (value !== newValue) {
+                        dispatch({ type: "SetOrder", payload: { order: newValue } });
+                    }
+                } else {
+                    dispatch({ type: "SetOrder", payload: { order: valueOrFunction } });
+                }
+            },
+            setHidden: valueOrFunction => {
+                if (typeof valueOrFunction === "function") {
+                    const value = stateRef.current.columnsHidden;
+                    const newValue = valueOrFunction(value);
+                    if (value !== newValue) {
+                        dispatch({ type: "SetHidden", payload: { hidden: newValue } });
+                    }
+                } else {
+                    dispatch({ type: "SetHidden", payload: { hidden: valueOrFunction } });
+                }
+            }
+        };
+    }, [dispatch]);
+    return [state, memoizedColumnsStateFunctions];
+}
+
+function initColumnsState(): ColumnsState {
     return {
-        columns:
-            filteredIndexes && filteredIndexes?.length > 0
-                ? filteredIndexes.map((index): ColumnsType => columns[index])
-                : columns
+        columnsHidden: [],
+        columnsOrder: []
     };
+}
+
+type Action =
+    | { type: "SetOrder"; payload: { order: ColumnsOrder } }
+    | { type: "SetHidden"; payload: { hidden: ColumnsHidden } };
+
+function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState {
+    switch (action.type) {
+        case "SetOrder":
+            return {
+                ...state,
+                columnsOrder: action.payload.order
+            };
+        case "SetHidden":
+            return {
+                ...state,
+                columnsHidden: action.payload.hidden
+            };
+        default:
+            throw new Error("unknown action type");
+    }
 }

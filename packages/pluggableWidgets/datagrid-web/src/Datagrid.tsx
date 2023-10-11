@@ -28,6 +28,18 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
+    const columns = useMemo(
+        () => props.columns.map((col, index) => new Column(col, index, id.current)),
+        [props.columns]
+    );
+
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(() => {
+        return {
+            columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
+            columnsOrder: []
+        };
+    });
+
     const { items } = useDG2ExportApi({
         columns: props.columns,
         hasMoreItems: props.datasource.hasMoreItems || false,
@@ -136,6 +148,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             className={props.class}
             columns={columns}
             CellComponent={Cell}
+            columnsState={columnsState}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
