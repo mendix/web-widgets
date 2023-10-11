@@ -59,6 +59,7 @@ export function SingleSelection({
                         className="widget-combobox-clear-button"
                         onClick={e => {
                             e.stopPropagation();
+                            inputRef.current?.focus();
                             if (selectedItem) {
                                 selector.setValue(null);
                                 reset();

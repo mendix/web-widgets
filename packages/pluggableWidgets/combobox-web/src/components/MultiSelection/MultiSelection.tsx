@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, ReactElement, createElement } from "react";
+import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
@@ -26,6 +26,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
         setSelectedItems,
         toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     return (
         <Fragment>
@@ -66,29 +67,30 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         })}
                         tabIndex={tabIndex}
                         placeholder=" "
-                        {...getInputProps(
-                            {
-                                ...getDropdownProps({
+                        {...getInputProps({
+                            ...getDropdownProps(
+                                {
                                     preventKeyAction: isOpen
-                                }),
-                                onClick: e => e.stopPropagation(),
-                                onKeyDown: (event: KeyboardEvent) => {
-                                    if (event.key === "Backspace" && inputValue === "") {
-                                        setActiveIndex(selectedItems.length - 1);
-                                    }
-                                    if (event.key === " ") {
-                                        if (highlightedIndex >= 0) {
-                                            toggleSelectedItem(highlightedIndex);
-                                            event.preventDefault();
-                                            event.stopPropagation();
-                                        }
-                                    }
                                 },
-                                disabled: selector.readOnly,
-                                readOnly: selector.options.filterType === "none"
+                                { suppressRefError: true }
+                            ),
+                            ref: inputRef,
+                            onClick: e => e.stopPropagation(),
+                            onKeyDown: (event: KeyboardEvent) => {
+                                if (event.key === "Backspace" && inputValue === "") {
+                                    setActiveIndex(selectedItems.length - 1);
+                                }
+                                if (event.key === " ") {
+                                    if (highlightedIndex >= 0) {
+                                        toggleSelectedItem(highlightedIndex);
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                }
                             },
-                            { suppressRefError: true }
-                        )}
+                            disabled: selector.readOnly,
+                            readOnly: selector.options.filterType === "none"
+                        })}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>
                         {getSelectedCaptionsPlaceholder(selector, selectedItems)}
@@ -104,6 +106,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                             className="widget-combobox-clear-button"
                             onClick={e => {
                                 e.stopPropagation();
+                                inputRef.current?.focus();
                                 if (selectedItems.length > 0) {
                                     setSelectedItems([]);
                                 }
