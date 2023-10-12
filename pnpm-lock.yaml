@@ -912,8 +912,8 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       react-datepicker:
-        specifier: ^4.12.0
-        version: 4.12.0(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^4.18.0
+        version: 4.20.0(react-dom@18.2.0)(react@18.2.0)
       string.prototype.replaceall:
         specifier: ^1.0.8
         version: 1.0.8
@@ -946,8 +946,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
       '@types/react-datepicker':
-        specifier: ^4.11.2
-        version: 4.11.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^4.15.1
+        version: 4.15.2(react-dom@18.2.0)(react@18.2.0)
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
@@ -5283,8 +5283,8 @@ packages:
       '@types/reactcss': 1.2.6
     dev: true
 
-  /@types/react-datepicker@4.11.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ELYyX3lb3K1WltqdlF1hbnaDGgzlF6PIR5T4W38cSEcfrQDIrPE+Ioq5pwRe/KEJ+ihHMjvTVZQkwJx0pWMNHQ==}
+  /@types/react-datepicker@4.15.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-l6L+t/fnaE4/Vqq52bBCSyo2YKgqqfqZDAdjpBJfHCphgf5++BO2k9yOtXGNU2VMAETZtijF921Mlr5TcRUc0A==}
     dependencies:
       '@popperjs/core': 2.11.8
       '@types/react': 18.2.9
@@ -12601,8 +12601,8 @@ packages:
       tinycolor2: 1.6.0
     dev: false
 
-  /react-datepicker@4.12.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-czCEp4T8ctyN9NBMG6Xq6pEpOvMtoqf4U5DxFzJoTtv1/gTX3QNJaWBUwD88j//+eF8gVkNvOW8aTAqpaIJBvw==}
+  /react-datepicker@4.20.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-I29yHN9SabUDSy7Xq3P8+E8E+D2vyeuYAYYWWjeMisGGtsatltV4CSHodyA7W9z0BuGycc/bhSClDbizx4gZHA==}
     peerDependencies:
       react: ^16.9.0 || ^17 || ^18 || 18
       react-dom: ^16.9.0 || ^17 || ^18
@@ -15227,7 +15227,7 @@ packages:
     dev: true
 
   '@cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz':
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
+    resolution: {registry: https://registry.npmjs.org/, tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
     name: xlsx
     version: 0.20.0
     engines: {node: '>=0.8'}
