@@ -1643,11 +1643,11 @@ importers:
         specifier: ^18.0.3
         version: 18.0.3
       ckeditor4:
-        specifier: ^4.22.1
-        version: 4.22.1
+        specifier: ^4.23.0
+        version: 4.23.0
       ckeditor4-react:
         specifier: ^4.3.0
-        version: 4.3.0(ckeditor4@4.22.1)(react@18.2.0)
+        version: 4.3.0(ckeditor4@4.23.0)(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1683,8 +1683,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(rollup@2.79.1)
       '@types/ckeditor4':
-        specifier: ^4.20.2
-        version: 4.20.2
+        specifier: ^4.20.3
+        version: 4.20.3
       '@types/sanitize-html':
         specifier: ^1.27.2
         version: 1.27.2
@@ -5086,8 +5086,8 @@ packages:
       '@types/node': 20.5.1
     dev: true
 
-  /@types/ckeditor4@4.20.2:
-    resolution: {integrity: sha512-yfXbcdeOPPEpqtW69lBpaVAuOgr2hIe9WAAKfkz79ubVHXTv3tQ20F44vFTNdPfdYBt+BER6EOkNXj/KcoRJUQ==}
+  /@types/ckeditor4@4.20.3:
+    resolution: {integrity: sha512-hNkTF9JscWMJ6MdBADMvd+k3rfBpJj4DZm/tk72ZiZY7Gjv3w8XJcdF7JLV7Gwo5SXVpj5PnGok1+mIyiUj2AA==}
     dev: true
 
   /@types/cross-zip@4.0.0:
@@ -6668,20 +6668,20 @@ packages:
     resolution: {integrity: sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==}
     dev: false
 
-  /ckeditor4-react@4.3.0(ckeditor4@4.22.1)(react@18.2.0):
+  /ckeditor4-react@4.3.0(ckeditor4@4.23.0)(react@18.2.0):
     resolution: {integrity: sha512-pLeh39AHj8jfhQ2SsVy29tklAnwaaSdw5UYZ4HECNTHb1M4dGgTKa6Uy2fqceMnmX5c2G8Ewz9X9tMCLpgZ70w==}
     peerDependencies:
       ckeditor4: ^4.22.1
       react: ^18 || 18
     dependencies:
-      ckeditor4: 4.22.1
+      ckeditor4: 4.23.0
       ckeditor4-integrations-common: 1.0.0
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
-  /ckeditor4@4.22.1:
-    resolution: {integrity: sha512-Yj4vTHX5YxHwc48gNqUqTm+KLkRr9tuyb4O2VIABu4oKHWRNVIdLdy6vUNe/XNx+RiTavMejfA1MVOU/MxLjqQ==}
+  /ckeditor4@4.23.0:
+    resolution: {integrity: sha512-K9DUzTa7roj8JffKLm6nOxDF02aPURDK8m7oFibvvkyAaomj24qOgpVdt7yvszmIubeJLbAB6q4k7Euk8jzD1A==}
     dev: false
 
   /clamp@1.0.1:
