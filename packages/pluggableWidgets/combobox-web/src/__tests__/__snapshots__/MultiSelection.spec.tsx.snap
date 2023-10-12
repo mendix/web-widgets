@@ -55,7 +55,6 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
       </button>
       <div
         aria-controls="downshift-12-menu"
-        aria-expanded="true"
         class="widget-combobox-down-arrow"
         id="downshift-12-toggle-button"
         tabindex="-1"
@@ -277,7 +276,6 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       </button>
       <div
         aria-controls="downshift-0-menu"
-        aria-expanded="false"
         class="widget-combobox-down-arrow"
         id="downshift-0-toggle-button"
         tabindex="-1"
