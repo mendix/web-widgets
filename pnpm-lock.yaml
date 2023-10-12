@@ -2042,8 +2042,8 @@ importers:
         specifier: ^8.10.0
         version: 8.10.0(eslint@7.32.0)
       eslint-plugin-cypress:
-        specifier: ^2.12.1
-        version: 2.13.3(eslint@7.32.0)
+        specifier: ^2.15.1
+        version: 2.15.1(eslint@7.32.0)
       eslint-plugin-jest:
         specifier: ^24.7.0
         version: 24.7.0(@typescript-eslint/eslint-plugin@5.59.9)(eslint@7.32.0)(typescript@5.0.4)
@@ -8240,15 +8240,6 @@ packages:
       eslint: 7.32.0
     dev: true
 
-  /eslint-plugin-cypress@2.13.3(eslint@7.32.0):
-    resolution: {integrity: sha512-nAPjZE5WopCsgJwl3vHm5iafpV+ZRO76Z9hMyRygWhmg5ODXDPd+9MaPl7kdJ2azj+sO87H3P1PRnggIrz848g==}
-    peerDependencies:
-      eslint: '>= 3.2.1'
-    dependencies:
-      eslint: 7.32.0
-      globals: 11.12.0
-    dev: false
-
   /eslint-plugin-cypress@2.15.1(eslint@7.32.0):
     resolution: {integrity: sha512-eLHLWP5Q+I4j2AWepYq0PgFEei9/s5LvjuSqWrxurkg1YZ8ltxdvMNmdSf0drnsNo57CTgYY/NIHHLRSWejR7w==}
     peerDependencies:
@@ -9083,6 +9074,7 @@ packages:
   /globals@11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
+    dev: true
 
   /globals@13.20.0:
     resolution: {integrity: sha512-Qg5QtVkCy/kv3FUSlu4ukeZDVf9ee0iXLAUYX13gbR17bnejFTzr4iS9bY7kwCf1NztRNm1t91fjOiyx4CSwPQ==}
