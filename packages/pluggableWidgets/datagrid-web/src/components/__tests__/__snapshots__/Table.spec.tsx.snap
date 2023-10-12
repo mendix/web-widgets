@@ -5,18 +5,18 @@ exports[`Table renders the structure correctly 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -51,7 +51,7 @@ exports[`Table renders the structure correctly 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -64,7 +64,7 @@ exports[`Table renders the structure correctly 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -74,18 +74,18 @@ exports[`Table renders the structure correctly for preview when no header is pro
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -120,7 +120,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
         >
           <div
             class="td td-borders align-column-center"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -133,7 +133,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -143,18 +143,18 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr 1fr"
       >
@@ -209,7 +209,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="td td-borders align-column-center"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -219,7 +219,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           </div>
           <div
             class="td td-borders align-column-right"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -232,7 +232,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -242,18 +242,18 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -292,7 +292,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -305,7 +305,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -315,18 +315,18 @@ exports[`Table renders the structure correctly with dragging 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -361,7 +361,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -374,7 +374,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -384,18 +384,18 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -430,7 +430,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -443,7 +443,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -453,18 +453,18 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -499,7 +499,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -512,7 +512,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -522,18 +522,18 @@ exports[`Table renders the structure correctly with filtering 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -572,7 +572,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -585,7 +585,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -595,11 +595,8 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
     aria-label="filter title"
-    class="header-filters"
+    class="widget-datagrid-header header-filters"
   >
     <div
       class="my-custom-filters"
@@ -608,18 +605,18 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
     </div>
   </div>
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -654,7 +651,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -667,7 +664,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -677,18 +674,18 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -727,7 +724,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -740,7 +737,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -750,18 +747,18 @@ exports[`Table renders the structure correctly with hiding 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr fit-content(50px)"
       >
@@ -832,7 +829,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -842,14 +839,14 @@ exports[`Table renders the structure correctly with hiding 1`] = `
           </div>
           <div
             class="td td-borders column-selector"
-            role="cell"
+            role="gridcell"
           />
         </div>
       </div>
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -859,18 +856,18 @@ exports[`Table renders the structure correctly with paging 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container"
+    class="widget-datagrid-content sticky-table-container"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -905,7 +902,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -918,7 +915,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   >
     <div
       aria-label="Pagination"
@@ -1018,18 +1015,18 @@ exports[`Table renders the structure correctly with resizing 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -1064,7 +1061,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -1077,7 +1074,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -1087,18 +1084,18 @@ exports[`Table renders the structure correctly with sorting 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="sticky-table-container infinite-loading"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
       class="sticky-sentinel"
       style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
         style="grid-template-columns:1fr"
       >
@@ -1133,7 +1130,7 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         >
           <div
             class="td td-borders align-column-left"
-            role="cell"
+            role="gridcell"
           >
             <span
               class="td-text"
@@ -1146,29 +1143,30 @@ exports[`Table renders the structure correctly with sorting 1`] = `
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
 
-exports[`Table with selection method checkbox render an extra column and add class to each selected cell 1`] = `
+exports[`Table with selection method checkbox render an extra column and add class to each selected row 1`] = `
 <DocumentFragment>
   <div
-    class="test widget-datagrid widget-datagrid-selection-method-checkbox"
+    class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-checkbox"
   >
     <div
-      class="sticky-table-container"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
         style="height: 1px; margin-bottom: -1px;"
       />
       <div
-        class="table"
-        role="table"
+        aria-multiselectable="false"
+        class="widget-datagrid-grid table"
+        role="grid"
       >
         <div
-          class="table-content"
+          class="widget-datagrid-grid-body table-content"
           role="rowgroup"
           style="grid-template-columns: fit-content(48px) 1fr;"
         >
@@ -1202,12 +1200,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
-              class="td td-borders widget-datagrid-col-select"
-              role="cell"
+              class="td td-borders clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="0"
             >
               <input
                 checked=""
@@ -1216,8 +1216,9 @@ exports[`Table with selection method checkbox render an extra column and add cla
               />
             </div>
             <div
-              class="td td-borders align-column-left"
-              role="cell"
+              class="td td-borders clickable align-column-left"
+              role="gridcell"
+              tabindex="0"
             >
               <span
                 class="td-text"
@@ -1227,12 +1228,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
-              class="td widget-datagrid-col-select"
-              role="cell"
+              class="td clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="0"
             >
               <input
                 checked=""
@@ -1241,8 +1244,9 @@ exports[`Table with selection method checkbox render an extra column and add cla
               />
             </div>
             <div
-              class="td align-column-left"
-              role="cell"
+              class="td clickable align-column-left"
+              role="gridcell"
+              tabindex="0"
             >
               <span
                 class="td-text"
@@ -1252,12 +1256,14 @@ exports[`Table with selection method checkbox render an extra column and add cla
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
-              class="td widget-datagrid-col-select"
-              role="cell"
+              class="td clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="0"
             >
               <input
                 checked=""
@@ -1266,8 +1272,9 @@ exports[`Table with selection method checkbox render an extra column and add cla
               />
             </div>
             <div
-              class="td align-column-left"
-              role="cell"
+              class="td clickable align-column-left"
+              role="gridcell"
+              tabindex="0"
             >
               <span
                 class="td-text"
@@ -1280,7 +1287,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
       </div>
     </div>
     <div
-      class="table-footer"
+      class="widget-datagrid-footer table-footer"
     >
       <div
         aria-label="Pagination"
@@ -1379,21 +1386,22 @@ exports[`Table with selection method checkbox render an extra column and add cla
 exports[`Table with selection method rowClick add class to each selected cell 1`] = `
 <DocumentFragment>
   <div
-    class="test widget-datagrid widget-datagrid-selection-method-click"
+    class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-click"
   >
     <div
-      class="sticky-table-container"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
         style="height: 1px; margin-bottom: -1px;"
       />
       <div
-        class="table"
-        role="table"
+        aria-multiselectable="false"
+        class="widget-datagrid-grid table"
+        role="grid"
       >
         <div
-          class="table-content"
+          class="widget-datagrid-grid-body table-content"
           role="rowgroup"
           style="grid-template-columns: 1fr;"
         >
@@ -1423,12 +1431,13 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
               class="td td-borders clickable align-column-left"
-              role="button"
+              role="gridcell"
               tabindex="0"
             >
               <span
@@ -1439,12 +1448,13 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
               class="td clickable align-column-left"
-              role="button"
+              role="gridcell"
               tabindex="0"
             >
               <span
@@ -1455,12 +1465,13 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
             </div>
           </div>
           <div
+            aria-selected="true"
             class="tr tr-selected"
             role="row"
           >
             <div
               class="td clickable align-column-left"
-              role="button"
+              role="gridcell"
               tabindex="0"
             >
               <span
@@ -1474,7 +1485,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
       </div>
     </div>
     <div
-      class="table-footer"
+      class="widget-datagrid-footer table-footer"
     >
       <div
         aria-label="Pagination"

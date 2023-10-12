@@ -1,11 +1,12 @@
 import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
 import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
-import { TableProps } from "../components/Table";
+import { WidgetProps } from "../components/Widget";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
+import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -30,9 +31,30 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
     return c;
 };
 
-export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
+export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSelectionProps): GridSelectionProps {
+    const props: GridSelectionProps = {
+        selectionType: "None",
+        selectionMethod: "checkbox",
+        multiselectable: undefined,
+        showCheckboxColumn: false,
+        showSelectAllToggle: false,
+        onSelect: jest.fn(),
+        onSelectAll: jest.fn(),
+        isSelected: jest.fn(() => false)
+    };
+
+    if (patch) {
+        patch(props);
+    }
+
+    return props;
+}
+
+export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
+
+    const selectionProps = mockSelectionProps();
 
     return {
         CellComponent: Cell,
@@ -53,11 +75,8 @@ export function mockTableProps(): TableProps<GridColumn, ObjectItem> {
         filterRenderer: () => <input type="text" defaultValue="dummy" />,
         headerWrapperRenderer: (_index, header) => header,
         data: [{ id: "123456" as GUID }],
-        onSelect: jest.fn(),
-        onSelectAll: jest.fn(),
-        isSelected: jest.fn(() => false),
-        selectionMethod: "none",
-        selectionStatus: undefined,
-        id
+        id,
+        selectionProps,
+        selectionStatus: "unknown"
     };
 }
