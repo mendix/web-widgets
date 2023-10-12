@@ -40,6 +40,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
         tabindex="0"
       >
