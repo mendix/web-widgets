@@ -1529,8 +1529,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       shifty:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -13579,8 +13579,8 @@ packages:
       interpret: 1.4.0
       rechoir: 0.6.2
 
-  /shifty@3.0.1:
-    resolution: {integrity: sha512-jGbnl1VR0dG2J+x5u9E0c1gt9QqDjeFrOtopRmKhMw2zmtzZAWG4voYZD5lSpW6THct6G2STxICAPvqfU6J1Pg==}
+  /shifty@3.0.3:
+    resolution: {integrity: sha512-hNDhs8OsvWUB7GUGJ76/3JyKB3kMCJfbH54nf10ySde9U+Pr/su26CyKryso1DKeQ+le/LTGHSZldPkL3ZrUWw==}
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
@@ -15227,7 +15227,7 @@ packages:
     dev: true
 
   '@cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz':
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
+    resolution: {registry: https://registry.npmjs.org/, tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
     name: xlsx
     version: 0.20.0
     engines: {node: '>=0.8'}
