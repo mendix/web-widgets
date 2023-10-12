@@ -23,6 +23,7 @@ export function ListBox({
     sm,
     ...rest
 }: ListBoxProps): ReactElement {
+    const selectionEnabled = selectionType !== "None";
     return (
         <div
             {...rest}
@@ -33,7 +34,8 @@ export function ListBox({
                 `widget-gallery-sm-${sm}`,
                 className
             )}
-            role={selectionType === "None" ? "list" : "listbox"}
+            role={selectionEnabled ? "listbox" : "list"}
+            aria-label={selectionEnabled ? "Gallery list" : undefined}
             aria-multiselectable={multiselectable}
         >
             {children}
