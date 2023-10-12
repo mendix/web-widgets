@@ -113,6 +113,12 @@ $disabled-text-color: #6c7180;
             stroke-width: 0;
             transition: stroke-width 0.2s ease-in-out;
         }
+
+        &:focus .widget-combobox-icon-container {
+            border-radius: 2px !important;
+            outline: 2px solid $brand-primary !important;
+        }
+
         &:hover &-icon {
             color: $brand-primary;
             font-weight: bold;

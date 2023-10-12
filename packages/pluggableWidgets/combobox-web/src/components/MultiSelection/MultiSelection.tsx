@@ -104,6 +104,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
+                            aria-label="Clear selection"
                             onClick={e => {
                                 e.stopPropagation();
                                 inputRef.current?.focus();
