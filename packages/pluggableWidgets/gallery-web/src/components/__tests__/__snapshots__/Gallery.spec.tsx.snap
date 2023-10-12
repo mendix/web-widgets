@@ -5,12 +5,12 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
   class="widget-gallery my-gallery"
   data-focusindex="0"
 >
-  <div
+  <section
+    aria-label="Gallery header"
     class="widget-gallery-header widget-gallery-filter"
-    role="section"
   >
     <input />
-  </div>
+  </section>
   <div
     class="widget-gallery-content infinite-loading"
   >
@@ -46,12 +46,12 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
   class="widget-gallery my-gallery"
   data-focusindex="0"
 >
-  <div
+  <section
+    aria-label="Gallery header"
     class="widget-gallery-header widget-gallery-filter"
-    role="section"
   >
     <input />
-  </div>
+  </section>
   <div
     class="widget-gallery-content infinite-loading"
   >
@@ -105,13 +105,12 @@ exports[`Gallery with accessibility properties renders correctly 1`] = `
   class="widget-gallery my-gallery"
   data-focusindex="0"
 >
-  <div
+  <section
     aria-label="filter title"
     class="widget-gallery-header widget-gallery-filter"
-    role="section"
   >
     <input />
-  </div>
+  </section>
   <div
     class="widget-gallery-content infinite-loading"
   />
@@ -136,12 +135,12 @@ exports[`Gallery with empty option renders correctly 1`] = `
   class="widget-gallery my-gallery"
   data-focusindex="0"
 >
-  <div
+  <section
+    aria-label="Gallery header"
     class="widget-gallery-header widget-gallery-filter"
-    role="section"
   >
     <input />
-  </div>
+  </section>
   <div
     class="widget-gallery-content infinite-loading"
   />
@@ -287,12 +286,12 @@ exports[`Gallery with pagination renders correctly 1`] = `
       </div>
     </div>
   </div>
-  <div
+  <section
+    aria-label="Gallery header"
     class="widget-gallery-header widget-gallery-filter"
-    role="section"
   >
     <input />
-  </div>
+  </section>
   <div
     class="widget-gallery-content"
   >

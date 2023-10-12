@@ -12,8 +12,8 @@ export function WidgetHeader(props: WidgetHeaderProps): ReactElement | null {
     }
 
     return (
-        <div className="widget-gallery-header widget-gallery-filter" role="section" aria-label={headerTitle}>
+        <section className="widget-gallery-header widget-gallery-filter" aria-label={headerTitle || "Gallery header"}>
             {children}
-        </div>
+        </section>
     );
 }
