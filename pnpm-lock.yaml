@@ -703,8 +703,8 @@ importers:
   packages/pluggableWidgets/carousel-web:
     dependencies:
       '@types/react-test-renderer':
-        specifier: ^18.0.2
-        version: 18.0.2
+        specifier: ^18.0.3
+        version: 18.0.3
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1640,8 +1640,8 @@ importers:
         specifier: ^2.4.0
         version: 2.4.0
       '@types/react-test-renderer':
-        specifier: ^18.0.2
-        version: 18.0.2
+        specifier: ^18.0.3
+        version: 18.0.3
       ckeditor4:
         specifier: ^4.22.1
         version: 4.22.1
@@ -1923,8 +1923,8 @@ importers:
   packages/pluggableWidgets/video-player-web:
     dependencies:
       '@types/react-test-renderer':
-        specifier: ^18.0.2
-        version: 18.0.2
+        specifier: ^18.0.3
+        version: 18.0.3
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -5327,8 +5327,8 @@ packages:
       '@types/react': 18.2.9
     dev: true
 
-  /@types/react-test-renderer@18.0.2:
-    resolution: {integrity: sha512-tJzMn+9GHDrdrLe0O4rwJELDfTrmdJbCn/UdYyzjlnPiXYXDl5FBNzdw4PVk2R3hJvSHKFjZcRgvZc12lV0p5Q==}
+  /@types/react-test-renderer@18.0.3:
+    resolution: {integrity: sha512-4wcNLnY6nIT+L6g94CpzL4CXX2P18JvKPU9CDlaHr3DnbP3GiaQLhDotJqjWlVqOcE4UhLRjp0MtxqwuNKONnA==}
     dependencies:
       '@types/react': 18.2.9
     dev: false
@@ -15227,7 +15227,7 @@ packages:
     dev: true
 
   '@cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz':
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
+    resolution: {registry: https://registry.npmjs.org/, tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
     name: xlsx
     version: 0.20.0
     engines: {node: '>=0.8'}
