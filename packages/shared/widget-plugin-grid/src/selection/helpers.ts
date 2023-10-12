@@ -1,4 +1,5 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useEffect, useRef } from "react";
 import { MultiSelectionStatus } from "./types";
 
@@ -36,11 +37,7 @@ export class MultiSelectionHelper {
 
     updateProps(value: SelectionMultiValue, items: ObjectItem[]): void {
         this.selectionValue = value;
-
-        if (this._itemsEqual(this.selectableItems, items) === false) {
-            this.selectableItems = items;
-            this._resetRange();
-        }
+        this.selectableItems = items;
     }
 
     get selectionStatus(): MultiSelectionStatus {
@@ -136,32 +133,31 @@ export class MultiSelectionHelper {
     }
 
     private _union(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
-        const union = new Set(selection);
+        const union = [...selection];
+        const ids = new Set(selection.map(o => o.id));
 
         for (const item of items) {
-            union.add(item);
+            if (ids.has(item.id)) {
+                continue;
+            }
+            ids.add(item.id);
+            union.push(item);
         }
 
-        return Array.from(union);
+        return union;
     }
 
     private _diff(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
         const diff = new Set(selection);
+        const idsToDelete = new Set(items.map(o => o.id));
 
-        for (const item of items) {
-            if (diff.has(item)) {
+        for (const item of diff) {
+            if (idsToDelete.has(item.id)) {
                 diff.delete(item);
             }
         }
 
         return Array.from(diff);
-    }
-
-    private _itemsEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
-        if (a.length === b.length) {
-            return a.every((obj, index) => obj.id === b[index].id);
-        }
-        return false;
     }
 
     selectAll(): void {
@@ -189,17 +185,23 @@ export function useSelectionHelper(
     dataSource: ListValue,
     onSelectionChange: ActionValue | undefined
 ): SelectionHelper | undefined {
+    const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
+    firstLoadDone.current ||= dataSource?.status !== "loading";
+
     useEffect(() => {
+        const prevObjectList = prevObjectListRef.current;
+        const current = selection?.selection ?? [];
+        const currentObjectList = Array.isArray(current) ? current : [current];
+        if (objectListEqual(prevObjectList, currentObjectList)) {
+            return;
+        } else {
+            prevObjectListRef.current = currentObjectList;
+        }
         if (firstLoadDone.current) {
-            onSelectionChange?.execute();
+            executeAction(onSelectionChange);
         }
     }, [selection?.selection, onSelectionChange]);
-    useEffect(() => {
-        if (dataSource?.status !== "loading") {
-            firstLoadDone.current = true;
-        }
-    }, [dataSource?.status]);
 
     const selectionHelper = useRef<SelectionHelper | undefined>(undefined);
 
@@ -224,3 +226,12 @@ export function useSelectionHelper(
 
 export type { SingleSelectionHelper };
 export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
+
+function objectListEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
+    if (a.length !== b.length) {
+        return false;
+    }
+
+    const setB = new Set(b.map(obj => obj.id));
+    return a.every(obj => setB.has(obj.id));
+}
