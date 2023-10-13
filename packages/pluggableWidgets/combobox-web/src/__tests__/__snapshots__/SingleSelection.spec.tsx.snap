@@ -57,8 +57,11 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
       </button>
       <div
         aria-controls="downshift-0-menu"
+        aria-expanded="false"
+        aria-label="Toggle button"
         class="widget-combobox-down-arrow"
         id="downshift-0-toggle-button"
+        role="button"
         tabindex="-1"
       >
         <span
