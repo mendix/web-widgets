@@ -34,6 +34,7 @@ const defaultRichTextProps: RichTextContainerProps = {
     formsGroup: true,
     separatorGroup: true,
     basicStylesGroup: true,
+    insertGroup: false,
     paragraphGroup: true,
     linksGroup: true,
     separator2Group: true,

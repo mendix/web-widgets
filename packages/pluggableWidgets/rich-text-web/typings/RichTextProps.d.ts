@@ -62,6 +62,7 @@ export interface RichTextContainerProps {
     stylesGroup: boolean;
     colorsGroup: boolean;
     toolsGroup: boolean;
+    insertGroup: boolean;
     othersGroup: boolean;
     advancedConfig: AdvancedConfigType[];
     onKeyPress?: ActionValue;
@@ -100,6 +101,7 @@ export interface RichTextPreviewProps {
     stylesGroup: boolean;
     colorsGroup: boolean;
     toolsGroup: boolean;
+    insertGroup: boolean;
     othersGroup: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
     onKeyPress: {} | null;

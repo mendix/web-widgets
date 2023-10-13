@@ -1,7 +1,7 @@
 describe("datagrid-web filtering single select", () => {
     const browserName = Cypress.browser.name;
     const rows = () => cy.get(".mx-name-dataGrid21 [role=row]");
-    const column = n => rows().find(`[role=cell]:nth-child(${n})`);
+    const column = n => rows().find(`[role=gridcell]:nth-child(${n})`);
     const option = label => cy.contains("[role=menuitem]", label);
     const enumSelect = () => cy.get(".mx-name-drop_downFilter1 input");
     const booleanSelect = () => cy.get(".mx-name-drop_downFilter2 input");

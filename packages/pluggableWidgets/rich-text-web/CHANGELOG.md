@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.2] - 2023-10-12
+
+### Breaking changes
+
+-   Added Insert toolbar group as an option for custom toolbar
+
 ## [2.2.1] - 2023-09-27
 
 ### Fixed

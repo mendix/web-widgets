@@ -35,6 +35,7 @@ export interface WidgetBuildConfig extends CommonBuildConfig {}
 
 export interface ModulePaths extends CommonPaths {
     themesource: string;
+    javascriptsource: string;
 }
 
 export interface ModuleOutputFiles {
@@ -125,7 +126,8 @@ export async function getModuleBuildConfig({
         dist: join(packagePath, "dist"),
         tmp: join(packagePath, "dist/tmp"),
         targetProject: MX_PROJECT_PATH ? MX_PROJECT_PATH : join(packagePath, "tests/testProject"),
-        themesource: join(packagePath, "src/themesource", moduleFolderNameInModeler)
+        themesource: join(packagePath, "src/themesource", moduleFolderNameInModeler),
+        javascriptsource: join(packagePath, "src/javascriptsource", moduleFolderNameInModeler)
     };
 
     const output = {

@@ -1,7 +1,7 @@
 {
   "name": "@mendix/data-widgets",
   "moduleName": "Data Widgets",
-  "version": "2.8.9",
+  "version": "2.9.0",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -39,9 +39,11 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-module",
     "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+    "build:include-deps": "turbo build:module --filter data-widgets",
     "create-gh-release": "rui-create-gh-release",
     "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
     "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+    "create-module-mpk": "turbo release:module --filter data-widgets",
     "start": "ts-node --project scripts/tsconfig.json scripts/start.ts",
     "publish-marketplace": "rui-publish-marketplace",
     "format": "prettier --write .",
@@ -61,7 +63,11 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
     "concurrently": "^6.5.1",
-    "copy-and-watch": "^0.1.6"
+    "copy-and-watch": "^0.1.6",
+    "rollup": "^2.79.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
   }
 }

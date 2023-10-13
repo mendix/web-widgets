@@ -5,7 +5,7 @@ import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection"
 import { getGlobalFilterContextObject, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { extractFilters } from "../features/filters";
 
-interface GridHeaderWidgetsProps {
+interface WidgetHeaderContextProps {
     filterList: FilterListType[];
     selectionContextValue: { status: "all" | "some" | "none"; toggle: () => void } | undefined;
     setFiltered: (val: boolean) => void;
@@ -14,7 +14,7 @@ interface GridHeaderWidgetsProps {
     state: ReturnType<typeof useMultipleFiltering>;
 }
 
-const component = memo((props: GridHeaderWidgetsProps) => {
+const component = memo((props: WidgetHeaderContextProps) => {
     const SelectionContext = getGlobalSelectionContext();
     const FilterContext = getGlobalFilterContextObject();
     const multipleFilteringState = props.state;
@@ -52,7 +52,7 @@ const component = memo((props: GridHeaderWidgetsProps) => {
     );
 });
 
-component.displayName = "GridHeaderWidgets";
+component.displayName = "WidgetHeaderContext";
 
 // Override NamedExoticComponent type
-export const GridHeaderWidgets = component as (props: GridHeaderWidgetsProps) => ReactElement;
+export const WidgetHeaderContext = component as (props: WidgetHeaderContextProps) => ReactElement;

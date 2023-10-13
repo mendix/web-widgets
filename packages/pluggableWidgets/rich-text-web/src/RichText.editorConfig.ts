@@ -25,6 +25,7 @@ const toolbarGroups: Array<keyof RichTextPreviewProps> = [
     "editingGroup",
     "formsGroup",
     "linksGroup",
+    "insertGroup",
     "paragraphGroup",
     "othersGroup",
     "separator2Group"

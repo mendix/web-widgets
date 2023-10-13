@@ -154,7 +154,7 @@ export function startCypress(ip, freePort) {
         // container name
         `--name cypress`,
         // image to run, the entrypoint set to `cypress run` by default
-        `cypress/included:12.16.0`,
+        `cypress/included:13.3.0`,
         // cypress options
         `--browser ${browserCypress} ${headedMode}`.trim(),
         `--e2e`,

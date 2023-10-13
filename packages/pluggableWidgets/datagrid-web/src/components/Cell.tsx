@@ -13,6 +13,7 @@ const component = memo(function Cell(props: CellComponentProps<GridColumn>): Rea
             onClick={props.onClick}
             onKeyDown={props.onKeyDown}
             wrapText={props.column.wrapText}
+            clickable={props.clickable}
         >
             {props.column.renderCellContent(props.item)}
         </CellElement>

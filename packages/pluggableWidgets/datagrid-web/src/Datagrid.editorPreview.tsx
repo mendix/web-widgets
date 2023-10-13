@@ -1,16 +1,17 @@
 /* Disable warning that hooks can be used only in components */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { createElement, ReactElement, ReactNode, useCallback } from "react";
-import { Table } from "./components/Table";
-import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
+import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ObjectItem, GUID } from "mendix";
-import { selectionSettings, useOnSelectProps } from "./features/selection";
+import { ReactElement, ReactNode, createElement, useCallback } from "react";
+import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
-import { GridColumn } from "./typings/GridColumn";
+import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
+import { GridColumn } from "./typings/GridColumn";
+
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
 declare module "mendix/preview/Selectable" {
@@ -47,8 +48,12 @@ const initColumns: ColumnsPreviewType[] = [
 
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const selectActionProps = useOnSelectProps(undefined);
-    const { selectionStatus, selectionMethod } = selectionSettings(props, undefined);
+    const selectionProps = useGridSelectionProps({
+        selection: props.itemSelection,
+        helper: undefined,
+        selectionMethod: props.itemSelectionMethod,
+        showSelectAllToggle: props.showSelectAllToggle
+    });
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -56,7 +61,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
     return (
-        <Table
+        <Widget
             CellComponent={Cell}
             className={props.class}
             columns={columns}
@@ -87,26 +92,23 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 },
                 [previewColumns]
             )}
-            gridHeaderWidgets={
+            headerContent={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
                     <div />
                 </props.filtersPlaceholder.renderer>
             }
             hasMoreItems={false}
             headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-            isSelected={selectActionProps.isSelected}
             numberOfItems={5}
-            onSelect={selectActionProps.onSelect}
-            onSelectAll={selectActionProps.onSelectAll}
             page={0}
             pageSize={props.pageSize ?? 5}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
-            selectionMethod={selectionMethod}
-            selectionStatus={selectionStatus}
             styles={parseStyle(props.style)}
             valueForSort={useCallback(() => undefined, [])}
+            selectionProps={selectionProps}
+            selectionStatus={"none"}
         />
     );
 }
