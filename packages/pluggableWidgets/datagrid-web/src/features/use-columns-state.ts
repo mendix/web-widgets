@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useReducer, useRef } from "react";
-import { sortColumns } from "src/helpers/utils";
-import { GridColumn } from "src/typings/GridColumn";
+import { useMemo, useReducer } from "react";
+import { sortColumns } from "../helpers/utils";
+import { GridColumn } from "../typings/GridColumn";
 
 type ColumnsHidden = number[];
 type ColumnsOrder = number[];
@@ -12,94 +12,114 @@ export type ColumnsState = {
     columnsVisible: GridColumn[];
 };
 
-export type SetOrder = React.Dispatch<React.SetStateAction<ColumnsOrder>>;
+type OrderUpdate = React.SetStateAction<ColumnsOrder>;
 
-export type SetHidden = React.Dispatch<React.SetStateAction<ColumnsHidden>>;
+type HiddenUpdate = React.SetStateAction<ColumnsHidden>;
+
+export type DispatchOrderUpdate = React.Dispatch<OrderUpdate>;
+
+export type DispatchHiddenUpdate = React.Dispatch<HiddenUpdate>;
 
 type ColumnsStateFunctions = {
-    setOrder: SetOrder;
-    setHidden: SetHidden;
+    setOrder: DispatchOrderUpdate;
+    setHidden: DispatchHiddenUpdate;
 };
 
 type ColumnsStateInitializer = (columnsState: ColumnsState) => ColumnsState;
 
-export function useColumnsState(initializer?: ColumnsStateInitializer): [ColumnsState, ColumnsStateFunctions] {
-    const [state, dispatch] = useReducer(columnsStateReducer, initColumnsState(), state => {
-        return initializer ? initializer(state) : state;
-    });
-    const stateRef = useRef(state);
+const defaultState: ColumnsState = Object.freeze({
+    columns: [],
+    columnsHidden: [],
+    columnsOrder: [],
+    columnsVisible: []
+});
 
-    useEffect(() => {
-        stateRef.current = state;
+export function useColumnsState(initializer?: ColumnsStateInitializer): [ColumnsState, ColumnsStateFunctions] {
+    const [state, dispatch] = useReducer(inspect, defaultState, state => {
+        return initializer ? initializer(state) : state;
     });
 
     const memoizedColumnsStateFunctions = useMemo<ColumnsStateFunctions>(() => {
         return {
-            setOrder: valueOrFunction => {
-                if (typeof valueOrFunction === "function") {
-                    const value = stateRef.current.columnsOrder;
-                    const newValue = valueOrFunction(value);
-                    if (value !== newValue) {
-                        dispatch({ type: "SetOrder", payload: { order: newValue } });
-                    }
-                } else {
-                    dispatch({ type: "SetOrder", payload: { order: valueOrFunction } });
-                }
-            },
-            setHidden: valueOrFunction => {
-                if (typeof valueOrFunction === "function") {
-                    const value = stateRef.current.columnsHidden;
-                    const newValue = valueOrFunction(value);
-                    if (value !== newValue) {
-                        dispatch({ type: "SetHidden", payload: { hidden: newValue } });
-                    }
-                } else {
-                    dispatch({ type: "SetHidden", payload: { hidden: valueOrFunction } });
-                }
-            }
+            setOrder: order => dispatch({ type: "SetOrder", payload: { order } }),
+            setHidden: hidden => dispatch({ type: "SetHidden", payload: { hidden } })
         };
     }, [dispatch]);
+
     return [state, memoizedColumnsStateFunctions];
 }
 
-export function updateColumnsVisible(state: ColumnsState): ColumnsState {
-    return {
-        ...state,
-        columnsVisible: state.columns.filter(column => !state.columnsHidden.includes(column.columnNumber))
-    };
-}
-
-function initColumnsState(): ColumnsState {
-    return {
-        columns: [],
-        columnsHidden: [],
-        columnsOrder: [],
-        columnsVisible: []
-    };
-}
-
 type Action =
-    | { type: "SetOrder"; payload: { order: ColumnsOrder } }
-    | { type: "SetHidden"; payload: { hidden: ColumnsHidden } };
+    | { type: "SetOrder"; payload: { order: OrderUpdate } }
+    | { type: "SetHidden"; payload: { hidden: HiddenUpdate } };
+
+function inspect(s: ColumnsState, a: Action): ColumnsState {
+    console.log("prev", s);
+    const next = columnsStateReducer(s, a);
+    console.log("next", next);
+    return next;
+}
 
 function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState {
     switch (action.type) {
-        case "SetOrder":
-            const { order } = action.payload;
-            return {
-                ...state,
-                columnsOrder: order,
-                columnsVisible: [...state.columnsVisible.sort((a, b) => sortColumns(order, a, b))]
-            };
-        case "SetHidden":
-            const { hidden } = action.payload;
-            const newState = {
-                ...state,
-                columnsHidden: hidden
-            };
-            return updateColumnsVisible(newState);
+        case "SetOrder": {
+            const [prev, next] = getPropUpdate(state, "columnsOrder", action.payload.order);
 
+            if (Object.is(prev, next)) {
+                return state;
+            }
+
+            return computeNextState({ ...state, columnsOrder: next });
+        }
+        case "SetHidden": {
+            const [prev, next] = getPropUpdate(state, "columnsHidden", action.payload.hidden);
+
+            if (Object.is(prev, next)) {
+                return state;
+            }
+
+            return computeNextState({ ...state, columnsHidden: next });
+        }
         default:
-            throw new Error("unknown action type");
+            throw new Error("Columns state reducer: unknown action type");
     }
+}
+
+function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]>>(
+    state: S,
+    prop: P,
+    action: A
+): [S[P], S[P]] {
+    const prev = state[prop];
+    const next = typeof action === "function" ? action(prev) : action;
+
+    return [prev, next];
+}
+
+function computeNextState(draftState: ColumnsState): ColumnsState {
+    const visible = draftState.columns
+        .filter(column => !draftState.columnsHidden.includes(column.columnNumber))
+        .sort((a, b) => sortColumns(draftState.columnsOrder, a, b));
+
+    // Re-compute order whenever order or hidden changes.
+    const columnsOrder = visible.map(col => col.columnNumber);
+
+    return {
+        ...draftState,
+        columnsOrder,
+        columnsVisible: visible
+    };
+}
+
+function initColumnsState(columns: GridColumn[]): ColumnsState {
+    return computeNextState({
+        columns,
+        columnsOrder: columns.flatMap(column => (column.hidden ? [] : [column.columnNumber])),
+        columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
+        columnsVisible: []
+    });
+}
+
+export function createInitializer(columns: GridColumn[]): ColumnsStateInitializer {
+    return () => initColumnsState(columns);
 }

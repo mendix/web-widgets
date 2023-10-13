@@ -14,6 +14,7 @@ import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
+import { useColumnsState, createInitializer } from "./features/use-columns-state";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -33,16 +34,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         [props.columns]
     );
 
-    const [columnsState, { setHidden, setOrder }] = useColumnsState(() => {
-        const initState = {
-            columns,
-            columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
-            columnsOrder: [],
-            columnsVisible: []
-        };
-
-        return updateColumnsVisible(initState);
-    });
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(createInitializer(columns));
 
     const { items } = useDG2ExportApi({
         columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
@@ -133,11 +125,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.datasource.setSortOrder(undefined);
     }
 
-    const columns = useMemo(
-        () => props.columns.map((col, index) => new Column(col, index, id.current)),
-        [props.columns]
-    );
-
     const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
     const selectionProps = useGridSelectionProps({
@@ -220,6 +207,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}
             setSortParameters={setSortParameters}
+            setOrder={setOrder}
+            setHidden={setHidden}
             settings={props.configurationAttribute}
             styles={props.style}
             valueForSort={useCallback(
