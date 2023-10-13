@@ -12,9 +12,13 @@ export type ColumnsState = {
     columnsVisible: GridColumn[];
 };
 
+export type SetOrder = React.Dispatch<React.SetStateAction<ColumnsOrder>>;
+
+export type SetHidden = React.Dispatch<React.SetStateAction<ColumnsHidden>>;
+
 type ColumnsStateFunctions = {
-    setOrder: React.Dispatch<React.SetStateAction<ColumnsOrder>>;
-    setHidden: React.Dispatch<React.SetStateAction<ColumnsHidden>>;
+    setOrder: SetOrder;
+    setHidden: SetHidden;
 };
 
 type ColumnsStateInitializer = (columnsState: ColumnsState) => ColumnsState;
