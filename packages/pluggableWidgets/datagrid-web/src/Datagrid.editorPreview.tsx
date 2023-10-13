@@ -11,7 +11,7 @@ import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { GridColumn } from "./typings/GridColumn";
-import { useColumnsState } from "./features/use-columns-state";
+import { createInitializer, useColumnsState } from "./features/use-columns-state";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -61,12 +61,11 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const gridId = Date.now().toString();
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns: GridColumn[] = previewColumns.map((col, index) => new ColumnPreview(col, index, gridId));
-    const [columnsState, { setHidden, setOrder }] = useColumnsState();
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(createInitializer(columns));
     return (
         <Widget
             CellComponent={Cell}
             className={props.class}
-            columns={columns}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}

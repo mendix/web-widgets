@@ -137,7 +137,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     return (
         <Widget
             className={props.class}
-            columns={columns}
             CellComponent={Cell}
             columnsState={columnsState}
             columnsDraggable={props.columnsDraggable}
