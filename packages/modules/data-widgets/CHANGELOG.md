@@ -6,6 +6,72 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.0] DataWidgets - 2023-10-13
+
+### [2.6.2] DatagridDateFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.5.1] DatagridDropdownFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.4.3] DatagridNumberFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.4.3] DatagridTextFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.9.0] Datagrid
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+-   We fixed an issue where column selector and checkbox icon not aligned with filter control.
+
+-   We fixed issues with filter position overlapping below the next container.
+
+#### Changed
+
+-   We changed DOM structure to allow sticky header on virtual scrolling pagination mode.
+
+-   We added keyboard support for multi selection (`Ctrl + A` and `Shift + Click`).
+
+### [1.1.2] DropdownSort
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.3.5] Gallery
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.0.3] SelectionHelper
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.1.4] TreeNode
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [2.8.8] DataWidgets - 2023-08-30
 
 ### [2.6.1] DatagridDateFilter
