@@ -35,7 +35,7 @@ const defaultState: ColumnsState = Object.freeze({
 });
 
 export function useColumnsState(initializer?: ColumnsStateInitializer): [ColumnsState, ColumnsStateFunctions] {
-    const [state, dispatch] = useReducer(inspect, defaultState, state => {
+    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, state => {
         return initializer ? initializer(state) : state;
     });
 
@@ -52,13 +52,6 @@ export function useColumnsState(initializer?: ColumnsStateInitializer): [Columns
 type Action =
     | { type: "SetOrder"; payload: { order: OrderUpdate } }
     | { type: "SetHidden"; payload: { hidden: HiddenUpdate } };
-
-function inspect(s: ColumnsState, a: Action): ColumnsState {
-    console.log("prev", s);
-    const next = columnsStateReducer(s, a);
-    console.log("next", next);
-    return next;
-}
 
 function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState {
     switch (action.type) {
@@ -111,7 +104,7 @@ function computeNextState(draftState: ColumnsState): ColumnsState {
     };
 }
 
-function initColumnsState(columns: GridColumn[]): ColumnsState {
+export function initColumnsState(columns: GridColumn[]): ColumnsState {
     return computeNextState({
         columns,
         columnsOrder: columns.flatMap(column => (column.hidden ? [] : [column.columnNumber])),

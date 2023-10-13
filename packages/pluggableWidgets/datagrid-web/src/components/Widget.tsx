@@ -36,7 +36,6 @@ import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../feat
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
-    columns: C[];
     columnsFilterable: boolean;
     columnsSortable: boolean;
     columnsResizable: boolean;
@@ -79,7 +78,6 @@ export interface SortProperty {
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
     const {
         className,
-        columns,
         columnsDraggable,
         columnsFilterable,
         columnsHidable,
@@ -106,6 +104,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
+    const { columns, columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
+    const columnsToShow = preview ? columns : columnsVisible;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
@@ -116,7 +116,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
-    const { columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
     const { updateSettings } = useSettings(
         settings,
         columns,
@@ -168,11 +167,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const cssGridStyles = useMemo(
         () =>
-            gridStyle(columnsVisible, columnsWidth, {
+            gridStyle(columnsToShow, columnsWidth, {
                 selectItemColumn: selectionProps.showCheckboxColumn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, columnsVisible, columnsHidable, selectionProps.showCheckboxColumn]
+        [columnsWidth, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
     );
 
     const selectionEnabled = selectionProps.selectionType !== "None";
@@ -194,7 +193,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
-                                {columnsVisible.map((column, index) =>
+                                {columnsToShow.map((column, index) =>
                                     headerWrapperRenderer(
                                         index,
                                         <Header
@@ -246,7 +245,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     <Row
                                         CellComponent={CellComponent}
                                         className={props.rowClass?.(item)}
-                                        columns={columnsVisible}
+                                        columns={columnsToShow}
                                         index={rowIndex}
                                         item={item}
                                         key={`row_${item.id}`}
@@ -259,7 +258,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 emptyPlaceholderRenderer &&
                                 emptyPlaceholderRenderer(children => {
                                     const colspan =
-                                        columns.length +
+                                        columnsToShow.length +
                                         (columnsHidable ? 1 : 0) +
                                         (props.selectionProps.showCheckboxColumn ? 1 : 0);
                                     return (
