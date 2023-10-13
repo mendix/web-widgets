@@ -11,6 +11,7 @@ import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { GridColumn } from "./typings/GridColumn";
+import { useColumnsState } from "./features/use-columns-state";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.

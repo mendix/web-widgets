@@ -31,7 +31,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ColumnsState, SetOrder, SetHidden } from "../features/use-columns-state";
+import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -59,8 +59,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     setSortParameters?: (sort?: SortProperty) => void;
-    setOrder: SetOrder;
-    setHidden: SetHidden;
+    setOrder: DispatchOrderUpdate;
+    setHidden: DispatchHiddenUpdate;
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
