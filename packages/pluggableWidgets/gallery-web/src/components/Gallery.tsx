@@ -5,11 +5,11 @@ import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
-import { WidgetContent } from "./GalleryContent";
-import { WidgetFooter } from "./GalleryFooter";
-import { WidgetHeader } from "./GalleryHeader";
-import { WidgetRoot } from "./GalleryRoot";
-import { WidgetTopBar } from "./GalleryTopBar";
+import { GalleryContent } from "./GalleryContent";
+import { GalleryFooter } from "./GalleryFooter";
+import { GalleryHeader } from "./GalleryHeader";
+import { GalleryRoot } from "./GalleryRoot";
+import { GalleryTopBar } from "./GalleryTopBar";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -56,10 +56,10 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     const showFooter = props.paging && props.paginationPosition === "below";
 
     return (
-        <WidgetRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
-            {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
-            {showHeader && <WidgetHeader headerTitle={props.headerTitle}>{props.header}</WidgetHeader>}
-            <WidgetContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
+        <GalleryRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
+            {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
+            {showHeader && <GalleryHeader headerTitle={props.headerTitle}>{props.header}</GalleryHeader>}
+            <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
                     <ListBox
                         lg={props.desktopItems}
@@ -78,7 +78,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         ))}
                     </ListBox>
                 )}
-            </WidgetContent>
+            </GalleryContent>
             {(props.items.length === 0 || props.preview) &&
                 props.emptyPlaceholderRenderer &&
                 props.emptyPlaceholderRenderer(children => (
@@ -86,7 +86,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </div>
                 ))}
-            {showFooter && <WidgetFooter>{pagination}</WidgetFooter>}
-        </WidgetRoot>
+            {showFooter && <GalleryFooter>{pagination}</GalleryFooter>}
+        </GalleryRoot>
     );
 }

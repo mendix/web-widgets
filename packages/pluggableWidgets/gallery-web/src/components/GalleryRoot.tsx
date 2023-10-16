@@ -3,12 +3,12 @@ import { ReactElement, createElement } from "react";
 
 type P = Omit<JSX.IntrinsicElements["div"], "ref">;
 
-export interface WidgetRootProps extends P {
+export interface GalleryRootProps extends P {
     className?: string;
     selectable?: boolean;
 }
 
-export function WidgetRoot(props: WidgetRootProps): ReactElement {
+export function GalleryRoot(props: GalleryRootProps): ReactElement {
     const { className, selectable, children, ...rest } = props;
 
     return (

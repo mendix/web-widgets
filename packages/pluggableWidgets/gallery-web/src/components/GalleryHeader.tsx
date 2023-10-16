@@ -1,10 +1,10 @@
 import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
 
-interface WidgetHeaderProps extends PropsWithChildren {
+interface GalleryHeaderProps extends PropsWithChildren {
     headerTitle?: string;
 }
 
-export function WidgetHeader(props: WidgetHeaderProps): ReactElement | null {
+export function GalleryHeader(props: GalleryHeaderProps): ReactElement | null {
     const { children, headerTitle } = props;
 
     if (!children) {
