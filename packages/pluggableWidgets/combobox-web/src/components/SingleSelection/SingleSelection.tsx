@@ -6,7 +6,6 @@ import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSel
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
-import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 
 export function SingleSelection({
     selector,
@@ -21,24 +20,12 @@ export function SingleSelection({
         getMenuProps,
         reset,
         isOpen,
-        highlightedIndex,
-        openMenu
+        highlightedIndex
     } = useDownshiftSingleSelectProps(selector, options);
     const inputRef = useRef<HTMLInputElement>(null);
-
-    const onContainerClick = useEventCallback(() => {
-        if (selector?.options.filterType === "none" && !isOpen && inputRef?.current === document.activeElement) {
-            openMenu();
-        }
-    });
     return (
         <Fragment>
-            <ComboboxWrapper
-                isOpen={isOpen}
-                onClick={onContainerClick}
-                readOnly={selector.readOnly}
-                getToggleButtonProps={getToggleButtonProps}
-            >
+            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
                 <div className="widget-combobox-selected-items">
                     <input
                         className={classNames("widget-combobox-input", {

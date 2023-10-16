@@ -57,6 +57,7 @@ export function useDownshiftSingleSelectProps(
                     case useCombobox.stateChangeTypes.InputFocus:
                         return {
                             ...changes,
+                            isOpen: state.isOpen,
                             inputValue: "",
                             highlightedIndex: changes.selectedItem ? -1 : this.defaultHighlightedIndex
                         };
@@ -66,6 +67,7 @@ export function useDownshiftSingleSelectProps(
                     case undefined:
                         return {
                             ...changes,
+                            isOpen: false,
                             inputValue:
                                 changes.selectedItem || selector.currentValue
                                     ? selector.caption.get(selector.currentValue)
