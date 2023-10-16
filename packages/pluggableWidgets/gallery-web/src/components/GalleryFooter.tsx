@@ -1,11 +1,7 @@
 import classNames from "classnames";
-import { createElement, ReactNode, ReactElement } from "react";
+import { createElement, ReactElement } from "react";
 
-type P = Omit<JSX.IntrinsicElements["div"], "ref">;
-
-interface GalleryFooterProps extends P {
-    children?: ReactNode;
-}
+type GalleryFooterProps = Omit<JSX.IntrinsicElements["div"], "ref">;
 
 export function GalleryFooter({ children, className, ...rest }: GalleryFooterProps): ReactElement {
     return (

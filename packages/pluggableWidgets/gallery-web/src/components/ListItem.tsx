@@ -5,13 +5,11 @@ import { GalleryItemHelper } from "../typings/GalleryItem";
 import { getAriaSelected, getRole, useListItemInteractionProps } from "../helpers/useListItemInteractionProps";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
-type P = Omit<JSX.IntrinsicElements["div"], "ref" | "role">;
-
-interface ListItemProps extends P {
+type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     helper: GalleryItemHelper;
     item: ObjectItem;
     selectionProps: ListOptionSelectionProps;
-}
+};
 
 export function ListItem({ children, className, helper, item, selectionProps, ...rest }: ListItemProps): ReactElement {
     const interactionProps = useListItemInteractionProps(item, selectionProps);
