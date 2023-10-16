@@ -102,12 +102,14 @@ function computeNextState(draftState: ColumnsState): ColumnsState {
 }
 
 function assertOrder({ columns, columnsOrder }: ColumnsState): void {
-    const s1 = new Set(columns.map(c => c.columnNumber));
-    const s2 = new Set(columnsOrder);
+    const arr1 = columns.map(c => c.columnNumber);
+    const arr2 = [...columnsOrder].sort((a, b) => a - b);
 
-    if (s1.values.length !== s2.values.length) {
-        throw new Error("Invalid columns state: invalid columns order");
+    if (arr1.length === arr2.length && arr2.every((n, index) => n === arr1[index])) {
+        return;
     }
+
+    throw new Error("Invalid columns state: invalid columns order");
 }
 
 export function initColumnsState(columns: GridColumn[]): ColumnsState {
