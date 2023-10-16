@@ -8,9 +8,9 @@ import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selectio
 import { SortFunction, SortInstruction, useSortContext } from "@mendix/widget-plugin-sorting";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
-import { Widget as GalleryComponent } from "./components/Widget";
+import { Widget as GalleryComponent } from "./components/Gallery";
 import { useWidgetItem } from "./helpers/WidgetItem";
 import { extractFilters } from "./utils/filters";
 
