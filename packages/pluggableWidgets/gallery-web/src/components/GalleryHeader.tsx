@@ -1,14 +1,14 @@
-import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
+import { createElement, PropsWithChildren, ReactElement } from "react";
 
-interface GalleryHeaderProps extends PropsWithChildren {
+type GalleryHeaderProps = PropsWithChildren<{
     headerTitle?: string;
-}
+}>;
 
 export function GalleryHeader(props: GalleryHeaderProps): ReactElement | null {
     const { children, headerTitle } = props;
 
     if (!children) {
-        return <Fragment />;
+        return null;
     }
 
     return (

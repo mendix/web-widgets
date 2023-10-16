@@ -1,12 +1,9 @@
 import classNames from "classnames";
 import { ReactElement, createElement } from "react";
 
-type P = Omit<JSX.IntrinsicElements["div"], "ref">;
-
-export interface GalleryRootProps extends P {
-    className?: string;
+export type GalleryRootProps = Omit<JSX.IntrinsicElements["div"], "ref"> & {
     selectable?: boolean;
-}
+};
 
 export function GalleryRoot(props: GalleryRootProps): ReactElement {
     const { className, selectable, children, ...rest } = props;

@@ -1,5 +1,5 @@
-import { createElement, ReactElement, ReactNode } from "react";
+import { createElement, ReactElement, PropsWithChildren } from "react";
 
-export function GalleryTopBar(props: { children: ReactNode }): ReactElement {
+export function GalleryTopBar(props: PropsWithChildren): ReactElement {
     return <div className="widget-gallery-top-bar">{props.children}</div>;
 }
