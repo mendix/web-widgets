@@ -1,4 +1,3 @@
-import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { removeAllRanges } from "@mendix/widget-plugin-grid/selection/utils";
 import { ObjectItem } from "mendix";
@@ -6,21 +5,11 @@ import { useMemo } from "react";
 
 type ListItemRole = "option" | "listitem";
 
-export function getRole(selectionType: SelectionType): ListItemRole {
-    if (selectionType === "Single" || selectionType === "Multi") {
-        return "option";
-    }
-
-    return "listitem";
-}
-
-export function getAriaSelected(selectionType: SelectionType, selected: boolean): boolean | undefined {
-    if (selectionType === "Single" || selectionType === "Multi") {
-        return selected;
-    }
-
-    return undefined;
-}
+type ListItemAriaProps = {
+    role: ListItemRole;
+    "aria-selected": boolean | undefined;
+    tabIndex: number | undefined;
+};
 
 type ListItemHandlers = {
     onClick?: React.MouseEventHandler;
@@ -28,7 +17,28 @@ type ListItemHandlers = {
     onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 };
 
-function optionProps(item: ObjectItem, selectionProps: ListOptionSelectionProps): ListItemHandlers {
+type ListItemInteractionProps = ListItemHandlers & ListItemAriaProps;
+
+export function getAriaProps(
+    item: ObjectItem,
+    { selectionType, isSelected }: ListOptionSelectionProps
+): ListItemAriaProps {
+    if (selectionType === "Single" || selectionType === "Multi") {
+        return {
+            role: "option",
+            "aria-selected": isSelected(item),
+            tabIndex: 0
+        };
+    }
+
+    return {
+        role: "listitem",
+        "aria-selected": undefined,
+        tabIndex: undefined
+    };
+}
+
+function getHandlers(item: ObjectItem, selectionProps: ListOptionSelectionProps): ListItemHandlers {
     if (selectionProps.selectionType === "None") {
         return {};
     }
@@ -50,6 +60,9 @@ function optionProps(item: ObjectItem, selectionProps: ListOptionSelectionProps)
 export function useListItemInteractionProps(
     item: ObjectItem,
     selectionProps: ListOptionSelectionProps
-): ListItemHandlers {
-    return useMemo(() => optionProps(item, selectionProps), [item, selectionProps]);
+): ListItemInteractionProps {
+    return {
+        ...useMemo(() => getHandlers(item, selectionProps), [item, selectionProps]),
+        ...getAriaProps(item, selectionProps)
+    };
 }
