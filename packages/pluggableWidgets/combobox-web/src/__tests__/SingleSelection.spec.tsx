@@ -7,11 +7,19 @@ import {
     ReferenceValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, RenderResult } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
+
+//function helper to ease DOM changes in development
+async function getToggleButton(component: RenderResult) {
+    return await component.container.querySelector(".widget-combobox-down-arrow")!;
+}
+async function getInput(component: RenderResult): Promise<HTMLInputElement> {
+    return (await component.findByRole("combobox")) as HTMLInputElement;
+}
 
 describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
@@ -56,17 +64,9 @@ describe("Combo box (Association)", () => {
         const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
-    it("toggles combobox menu on: input FOCUS / BLUR", async () => {
-        const component = render(<Combobox {...defaultProps} />);
-        const toggleButton = await component.findByRole("combobox");
-        fireEvent.focus(toggleButton);
-        expect(component.getAllByRole("option")).toHaveLength(4);
-        fireEvent.blur(toggleButton);
-        expect(component.queryAllByRole("option")).toHaveLength(0);
-    });
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const toggleButton = await component.container.querySelector(".widget-combobox-down-arrow")!;
+        const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
         fireEvent.click(toggleButton);
@@ -74,8 +74,9 @@ describe("Combo box (Association)", () => {
     });
     it("sets option to selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
-        fireEvent.focus(input);
+        const input = await getInput(component);
+        const toggleButton = await getToggleButton(component);
+        fireEvent.click(toggleButton);
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
         expect(input.value).toEqual("222");
@@ -86,9 +87,10 @@ describe("Combo box (Association)", () => {
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
 
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        const input = await getInput(component);
         const labelText = await component.container.getElementsByClassName("widget-combobox-text-label")[0];
-        fireEvent.focus(input);
+        const toggleButton = await getToggleButton(component);
+        fireEvent.click(toggleButton);
 
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
