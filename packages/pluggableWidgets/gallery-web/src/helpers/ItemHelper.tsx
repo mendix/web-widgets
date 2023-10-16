@@ -8,7 +8,7 @@ type ClassValue = ListExpressionValue<string> | undefined;
 type ContentValue = ListWidgetValue | undefined;
 type ClickValue = ListActionValue | undefined;
 
-export class WidgetItem implements GalleryItemHelper {
+export class ItemHelper implements GalleryItemHelper {
     private _classValue: ClassValue;
     private _contentValue: ContentValue;
     private _clickValue: ClickValue;
@@ -40,13 +40,13 @@ export class WidgetItem implements GalleryItemHelper {
     }
 }
 
-export function useWidgetItem(params: {
+export function useItemHelper(params: {
     classValue: ClassValue;
     contentValue: ContentValue;
     clickValue: ClickValue;
-}): WidgetItem {
+}): ItemHelper {
     return useMemo(
-        () => new WidgetItem(params.classValue, params.contentValue, params.clickValue),
+        () => new ItemHelper(params.classValue, params.contentValue, params.clickValue),
         [params.classValue, params.contentValue, params.clickValue]
     );
 }

@@ -5,7 +5,7 @@ import { ObjectItem } from "mendix";
 import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
-import { WidgetItem } from "../../helpers/WidgetItem";
+import { ItemHelper } from "../../helpers/ItemHelper";
 
 function mockSelectionProps(): ListOptionSelectionProps {
     return {
@@ -19,7 +19,7 @@ function mockSelectionProps(): ListOptionSelectionProps {
     };
 }
 
-function mockItemHelperWithAction(onClick: () => void): WidgetItem {
+function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     return WidgetItemBuilder.sample(b =>
         b.withAction(
             listAction(mockAction => {
