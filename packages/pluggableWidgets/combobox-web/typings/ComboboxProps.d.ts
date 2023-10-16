@@ -39,6 +39,8 @@ export interface ComboboxContainerProps {
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
+    clearButtonAriaLabelSingle: string;
+    clearButtonAriaLabelMulti: string;
 }
 
 export interface ComboboxPreviewProps {
@@ -62,4 +64,6 @@ export interface ComboboxPreviewProps {
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     ariaRequired: boolean;
+    clearButtonAriaLabelSingle: string;
+    clearButtonAriaLabelMulti: string;
 }

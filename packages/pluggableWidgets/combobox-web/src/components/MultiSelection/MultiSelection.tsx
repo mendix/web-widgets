@@ -8,7 +8,12 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-export function MultiSelection({ selector, tabIndex, ...options }: SelectionBaseProps<MultiSelector>): ReactElement {
+export function MultiSelection({
+    selector,
+    tabIndex,
+    clearButtonAriaLabel,
+    ...options
+}: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
         isOpen,
         getToggleButtonProps,
@@ -104,7 +109,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
-                            aria-label="Clear selection"
+                            aria-label={clearButtonAriaLabel}
                             onClick={e => {
                                 e.stopPropagation();
                                 inputRef.current?.focus();
