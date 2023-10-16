@@ -4,3 +4,44 @@
         align-items: center;
     }
 }
+
+.widget-datagrid-modal {
+    &-overlay {
+        background-color: rgba(128, 128, 128, 0.5);
+        position: absolute;
+        inset: 0;
+        animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &-content {
+        animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 4px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        padding: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes contentShow {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes overlayShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
