@@ -3,11 +3,11 @@ import { createElement, ReactNode, ReactElement } from "react";
 
 type P = Omit<JSX.IntrinsicElements["div"], "ref">;
 
-interface WidgetFooterProps extends P {
+interface GalleryFooterProps extends P {
     children?: ReactNode;
 }
 
-export function WidgetFooter({ children, className, ...rest }: WidgetFooterProps): ReactElement {
+export function GalleryFooter({ children, className, ...rest }: GalleryFooterProps): ReactElement {
     return (
         <div className={classNames("widget-gallery-footer", className)} {...rest}>
             {children}

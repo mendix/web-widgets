@@ -4,18 +4,18 @@ import { ReactElement, ReactNode, createElement } from "react";
 
 type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
 
-export type WidgetContentProps = {
+export type GalleryContentProps = {
     className?: string;
     children?: ReactNode;
 } & Pick<InfiniteBodyProps, PickProps>;
 
-export function WidgetContent({
+export function GalleryContent({
     children,
     className,
     hasMoreItems,
     isInfinite,
     setPage
-}: WidgetContentProps): ReactElement {
+}: GalleryContentProps): ReactElement {
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
         hasMoreItems,
         isInfinite,
