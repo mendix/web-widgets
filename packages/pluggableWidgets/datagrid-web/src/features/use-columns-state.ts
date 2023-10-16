@@ -1,5 +1,4 @@
 import { useMemo, useReducer } from "react";
-import { sortColumns } from "../helpers/utils";
 import { GridColumn } from "../typings/GridColumn";
 
 type ColumnsHidden = number[];
@@ -90,24 +89,31 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
 }
 
 function computeNextState(draftState: ColumnsState): ColumnsState {
-    const visible = draftState.columns
-        .filter(column => !draftState.columnsHidden.includes(column.columnNumber))
-        .sort((a, b) => sortColumns(draftState.columnsOrder, a, b));
+    assertOrder(draftState);
 
-    // Re-compute order whenever order or hidden changes.
-    const columnsOrder = visible.map(col => col.columnNumber);
+    const visible = draftState.columnsOrder.flatMap(columnNumber =>
+        draftState.columnsHidden.includes(columnNumber) ? [] : [draftState.columns[columnNumber]]
+    );
 
     return {
         ...draftState,
-        columnsOrder,
         columnsVisible: visible
     };
+}
+
+function assertOrder({ columns, columnsOrder }: ColumnsState): void {
+    const s1 = new Set(columns.map(c => c.columnNumber));
+    const s2 = new Set(columnsOrder);
+
+    if (s1.values.length !== s2.values.length) {
+        throw new Error("Invalid columns state: invalid columns order");
+    }
 }
 
 export function initColumnsState(columns: GridColumn[]): ColumnsState {
     return computeNextState({
         columns,
-        columnsOrder: columns.flatMap(column => (column.hidden ? [] : [column.columnNumber])),
+        columnsOrder: columns.map(col => col.columnNumber),
         columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
         columnsVisible: []
     });
