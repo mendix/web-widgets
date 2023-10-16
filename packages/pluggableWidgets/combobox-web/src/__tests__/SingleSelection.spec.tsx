@@ -13,9 +13,9 @@ import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
-//function helper to ease DOM changes in development
+// function helper to ease DOM changes in development
 async function getToggleButton(component: RenderResult) {
-    return await component.container.querySelector(".widget-combobox-down-arrow")!;
+    return component.container.querySelector(".widget-combobox-down-arrow")!;
 }
 async function getInput(component: RenderResult): Promise<HTMLInputElement> {
     return (await component.findByRole("combobox")) as HTMLInputElement;
