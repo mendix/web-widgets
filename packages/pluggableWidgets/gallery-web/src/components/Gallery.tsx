@@ -52,13 +52,12 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     ) : null;
 
     const showTopBar = props.paging && props.paginationPosition === "above";
-    const showHeader = props.showHeader ?? false;
     const showFooter = props.paging && props.paginationPosition === "below";
 
     return (
         <GalleryRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
             {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
-            {showHeader && <GalleryHeader headerTitle={props.headerTitle}>{props.header}</GalleryHeader>}
+            {props.showHeader && <GalleryHeader headerTitle={props.headerTitle}>{props.header}</GalleryHeader>}
             <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
                     <ListBox
