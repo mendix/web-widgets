@@ -6,7 +6,7 @@ import { ListItemButton } from "../components/ListItemButton";
 
 type ContentValue = GalleryPreviewProps["content"];
 
-export class WidgetPreviewItem implements GalleryItemHelper {
+export class ItemPreviewHelper implements GalleryItemHelper {
     private _contentValue: ContentValue;
     private _dropZoneCaption: string;
     private _hasOnClick: boolean;
@@ -42,9 +42,9 @@ export class WidgetPreviewItem implements GalleryItemHelper {
     }
 }
 
-export function useWidgetPreviewItem(params: { contentValue: ContentValue; hasOnClick: boolean }): WidgetPreviewItem {
+export function useItemPreviewHelper(params: { contentValue: ContentValue; hasOnClick: boolean }): ItemPreviewHelper {
     return useMemo(
-        () => new WidgetPreviewItem(params.contentValue, "Empty list message: Place widgets here", params.hasOnClick),
+        () => new ItemPreviewHelper(params.contentValue, "Empty list message: Place widgets here", params.hasOnClick),
         [params.contentValue, params.hasOnClick]
     );
 }
