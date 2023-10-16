@@ -5,11 +5,11 @@ import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
-import { WidgetContent } from "./WidgetContent";
-import { WidgetFooter } from "./WidgetFooter";
-import { WidgetHeader } from "./WidgetHeader";
-import { WidgetRoot } from "./WidgetRoot";
-import { WidgetTopBar } from "./WidgetTopBar";
+import { WidgetContent } from "./GalleryContent";
+import { WidgetFooter } from "./GalleryFooter";
+import { WidgetHeader } from "./GalleryHeader";
+import { WidgetRoot } from "./GalleryRoot";
+import { WidgetTopBar } from "./GalleryTopBar";
 
 export interface WidgetProps<T extends ObjectItem> {
     className?: string;

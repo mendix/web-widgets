@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { mount, render } from "enzyme";
-import { Widget, WidgetProps } from "../Widget";
+import { Widget, WidgetProps } from "../../components/Gallery";
 import { ObjectItem } from "mendix";
 import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
