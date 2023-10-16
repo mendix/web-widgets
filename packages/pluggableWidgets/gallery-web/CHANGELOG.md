@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   To better align with WAI ARIA web standards, in this release we change how items are selected using the keyboard (when selection is enabled): now to select or deselect items, the user should use the "shift+space" keyboard shortcut.
+
+### Added
+
+-   This version introduces support for the "Select all" keyboard shortcut ("cmd+a" or "ctrl+a") that has effect when selection is enabled for the widget.
+
+-   A new feature: range selection. Starting from this version users may select a "range" of items by clicking on an item while pressing the shift key ("shift+click").
+
+### Breaking changes
+
+-   To provide a better user experience and improve accessibility support, we introduced some minor changes to widget HTML and CSS. The most notable change is a new div element that will wrap each item if you enable the "On click" event in widget settings.
+
 ## [1.3.5] - 2023-10-13
 
 ### Fixed
