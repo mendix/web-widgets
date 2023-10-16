@@ -2,7 +2,7 @@ import { GUID, ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { useWidgetPreviewItem } from "./helpers/WidgetPreviewItem";
+import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
@@ -35,7 +35,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             showHeader
             hasMoreItems={false}
             items={items}
-            itemHelper={useWidgetPreviewItem({
+            itemHelper={useItemPreviewHelper({
                 contentValue: props.content,
                 hasOnClick: props.onClick !== null
             })}
