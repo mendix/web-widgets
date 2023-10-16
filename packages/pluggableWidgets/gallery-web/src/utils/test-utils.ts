@@ -1,6 +1,6 @@
 import { ListExpressionValue, ListWidgetValue, ListActionValue } from "mendix";
 import { listExp, listWidget } from "@mendix/widget-plugin-test-utils";
-import { WidgetItem } from "../helpers/WidgetItem";
+import { ItemHelper } from "../helpers/ItemHelper";
 
 export class WidgetItemBuilder {
     private class: ListExpressionValue<string> | undefined = undefined;
@@ -22,11 +22,11 @@ export class WidgetItemBuilder {
         return this;
     }
 
-    build(): WidgetItem {
-        return new WidgetItem(this.class, this.content, this.action);
+    build(): ItemHelper {
+        return new ItemHelper(this.class, this.content, this.action);
     }
 
-    static sample(patch?: (builder: WidgetItemBuilder) => void): WidgetItem {
+    static sample(patch?: (builder: WidgetItemBuilder) => void): ItemHelper {
         const builder = new WidgetItemBuilder()
             .withItemClass(listExp(() => "item-class"))
             .withContent(listWidget(() => "Item content"));

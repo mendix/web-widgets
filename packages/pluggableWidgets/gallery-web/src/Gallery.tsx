@@ -11,7 +11,7 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { useWidgetItem } from "./helpers/WidgetItem";
+import { useItemHelper } from "./helpers/ItemHelper";
 import { extractFilters } from "./utils/filters";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
@@ -108,7 +108,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
     const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || selection?.type === "Multi";
-    const itemHelper = useWidgetItem({
+    const itemHelper = useItemHelper({
         classValue: props.itemClass,
         contentValue: props.content,
         clickValue: props.onClick
