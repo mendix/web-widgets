@@ -1,7 +1,7 @@
 import { GUID, ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
-import { Widget as GalleryComponent } from "./components/Gallery";
+import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useWidgetPreviewItem } from "./helpers/WidgetPreviewItem";
 import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 

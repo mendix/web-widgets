@@ -10,7 +10,7 @@ import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
-import { Widget as GalleryComponent } from "./components/Gallery";
+import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useWidgetItem } from "./helpers/WidgetItem";
 import { extractFilters } from "./utils/filters";
 

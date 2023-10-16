@@ -11,7 +11,7 @@ import { WidgetHeader } from "./GalleryHeader";
 import { WidgetRoot } from "./GalleryRoot";
 import { WidgetTopBar } from "./GalleryTopBar";
 
-export interface WidgetProps<T extends ObjectItem> {
+export interface GalleryProps<T extends ObjectItem> {
     className?: string;
     desktopItems: number;
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
@@ -35,7 +35,7 @@ export interface WidgetProps<T extends ObjectItem> {
     selectionProps: ListOptionSelectionProps;
 }
 
-export function Widget<T extends ObjectItem>(props: WidgetProps<T>): ReactElement {
+export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">
             <Pagination
