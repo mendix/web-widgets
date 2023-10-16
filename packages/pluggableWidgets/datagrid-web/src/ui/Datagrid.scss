@@ -9,7 +9,13 @@
     &-overlay {
         background-color: rgba(128, 128, 128, 0.5);
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        place-items: center;
+        overflow-y: auto;
         animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -18,11 +24,27 @@
         background-color: rgba(255, 255, 255, 1);
         border-radius: 4px;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
         padding: 10px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        min-width: 202px;
+        max-width: 378px;
+        width: 100%;
+    }
+
+    &-description {
+        color: rgba(38, 74, 229, 1);
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        margin-top: 27px;
+    }
+
+    &-close {
+        color: rgba(59, 66, 81, 1) !important;
+        display: flex !important;
+        justify-content: flex-end;
     }
 }
 
