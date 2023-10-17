@@ -23,7 +23,7 @@ export const ComboboxWrapper = forwardRef(
                 {...getToggleButtonProps()}
             >
                 {children}
-                <div className="widget-combobox-down-arrow">
+                <div className="widget-combobox-down-arrow" {...getToggleButtonProps({ "aria-expanded": undefined })}>
                     <DownArrow isOpen={isOpen} />
                 </div>
             </div>

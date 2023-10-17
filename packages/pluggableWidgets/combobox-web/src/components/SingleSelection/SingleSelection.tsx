@@ -10,7 +10,7 @@ import { SingleSelectionMenu } from "./SingleSelectionMenu";
 export function SingleSelection({
     selector,
     tabIndex = 0,
-    clearButtonAriaLabel,
+    clearButtonAriaLabels,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -58,7 +58,7 @@ export function SingleSelection({
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
-                        aria-label={clearButtonAriaLabel}
+                        aria-label={clearButtonAriaLabels?.clearSelection}
                         onClick={e => {
                             e.stopPropagation();
                             inputRef.current?.focus();

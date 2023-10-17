@@ -46,7 +46,9 @@ describe("Combo box (Association)", () => {
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
-            selectedItemsStyle: "text"
+            selectedItemsStyle: "text",
+            clearButtonAriaLabel: "Clear selection",
+            removeValueAriaLabel: "Remove value"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

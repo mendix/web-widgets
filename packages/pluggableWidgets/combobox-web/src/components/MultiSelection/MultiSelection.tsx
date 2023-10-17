@@ -11,7 +11,7 @@ import { MultiSelectionMenu } from "./MultiSelectionMenu";
 export function MultiSelection({
     selector,
     tabIndex,
-    clearButtonAriaLabel,
+    clearButtonAriaLabels,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
@@ -21,7 +21,6 @@ export function MultiSelection({
         getInputProps,
         highlightedIndex,
         getItemProps,
-        inputValue,
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
@@ -32,6 +31,7 @@ export function MultiSelection({
         toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options);
     const inputRef = useRef<HTMLInputElement>(null);
+    const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
 
     return (
         <Fragment>
@@ -42,7 +42,7 @@ export function MultiSelection({
                         `widget-combobox-${selector.selectedItemsStyle}`
                     )}
                 >
-                    {(selector.selectedItemsStyle === "boxes" || selector.customContentType === "yes") &&
+                    {isSelectedItemsBoxStyle &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
                                 <div
@@ -56,6 +56,8 @@ export function MultiSelection({
                                     {selector.caption.render(selectedItemForRender, "label")}
                                     <span
                                         className="icon widget-combobox-clear-button"
+                                        aria-label={clearButtonAriaLabels?.removeSelection}
+                                        role="button"
                                         onClick={e => {
                                             e.stopPropagation();
                                             removeSelectedItem(selectedItemForRender);
@@ -82,7 +84,12 @@ export function MultiSelection({
                             ref: inputRef,
                             onClick: e => e.stopPropagation(),
                             onKeyDown: (event: KeyboardEvent) => {
-                                if (event.key === "Backspace" && inputValue === "") {
+                                if (
+                                    (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||
+                                    (event.key === "ArrowLeft" &&
+                                        isSelectedItemsBoxStyle &&
+                                        inputRef.current?.selectionStart === 0)
+                                ) {
                                     setActiveIndex(selectedItems.length - 1);
                                 }
                                 if (event.key === " ") {
@@ -109,7 +116,7 @@ export function MultiSelection({
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
-                            aria-label={clearButtonAriaLabel}
+                            aria-label={clearButtonAriaLabels?.clearSelection}
                             onClick={e => {
                                 e.stopPropagation();
                                 inputRef.current?.focus();

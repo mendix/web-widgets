@@ -16,8 +16,10 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         inputId: props.id,
         labelId: `${props.id}-label`,
         noOptionsText: props.noOptionsText?.value,
-        clearButtonAriaLabel:
-            selector.type === "single" ? props.clearButtonAriaLabelSingle : props.clearButtonAriaLabelMulti
+        clearButtonAriaLabels: {
+            clearSelection: props.clearButtonAriaLabel,
+            removeSelection: props.removeValueAriaLabel
+        }
     };
 
     return (
