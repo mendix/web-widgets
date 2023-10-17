@@ -48,9 +48,7 @@ export function SingleSelection({
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentValue}
-                        className={
-                            selector.customContentType === "yes" ? "widget-combobox-placeholder-custom" : undefined
-                        }
+                        type={selector.customContentType === "yes" ? "custom" : "text"}
                     >
                         {selector.caption.render(selectedItem, "label")}
                     </InputPlaceholder>
