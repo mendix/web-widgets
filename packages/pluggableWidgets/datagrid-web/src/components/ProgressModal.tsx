@@ -27,7 +27,13 @@ export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
                     </Dialog.Close>
                     {/* <Dialog.Title /> */}
                     <Dialog.Description className="widget-datagrid-modal-description">
-                        {true ? <p>{`${props.progress}${!!props.total && " / " + props.total}`}</p> : <WarningIcon />}
+                        {true ? (
+                            <p>{`${props.progress}${!!props.total && " / " + props.total}`}</p>
+                        ) : (
+                            <div className="widget-datagrid-modal-warning">
+                                <WarningIcon />
+                            </div>
+                        )}
                     </Dialog.Description>
                     {/* <Dialog.Cancel /> */}
                     {/* <Dialog.Action /> */}

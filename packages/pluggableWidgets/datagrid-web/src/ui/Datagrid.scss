@@ -46,6 +46,10 @@
         display: flex !important;
         justify-content: flex-end;
     }
+
+    &-warning {
+        color: rgba(227, 63, 78, 1);
+    }
 }
 
 @keyframes contentShow {
