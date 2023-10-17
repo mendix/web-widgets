@@ -39,7 +39,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                     {(selector.selectedItemsStyle === "boxes" || selector.customContentType === "yes") &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
-                                <span
+                                <div
                                     className="widget-combobox-selected-item"
                                     key={selectedItemForRender}
                                     {...getSelectedItemProps({
@@ -57,7 +57,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                                     >
                                         <ClearButton size={10} />
                                     </span>
-                                </span>
+                                </div>
                             );
                         })}
                     <input

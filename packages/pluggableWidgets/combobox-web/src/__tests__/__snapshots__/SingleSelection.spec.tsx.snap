@@ -29,7 +29,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           tabindex="0"
           value="111"
         />
-        <span
+        <div
           class="widget-combobox-text-label"
         >
           <span
@@ -37,7 +37,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           >
             111
           </span>
-        </span>
+        </div>
       </div>
       <button
         class="widget-combobox-clear-button"

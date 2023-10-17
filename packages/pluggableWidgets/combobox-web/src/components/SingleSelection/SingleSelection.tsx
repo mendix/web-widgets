@@ -26,7 +26,11 @@ export function SingleSelection({
     return (
         <Fragment>
             <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
-                <div className="widget-combobox-selected-items">
+                <div
+                    className={classNames("widget-combobox-selected-items", {
+                        "widget-combobox-custom-content": selector.customContentType === "yes"
+                    })}
+                >
                     <input
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter": selector.options.filterType === "none"

@@ -14,7 +14,7 @@ import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
 // function helper to ease DOM changes in development
-async function getToggleButton(component: RenderResult) {
+async function getToggleButton(component: RenderResult): Promise<Element> {
     return component.container.querySelector(".widget-combobox-down-arrow")!;
 }
 async function getInput(component: RenderResult): Promise<HTMLInputElement> {
@@ -90,7 +90,9 @@ describe("Combo box (Association)", () => {
         const component = render(<Combobox {...defaultProps} />);
 
         const input = await getInput(component);
-        const labelText = await component.container.getElementsByClassName("widget-combobox-text-label")[0];
+        const labelText = await component.container.querySelector(
+            ".widget-combobox-text-label .widget-combobox-caption"
+        );
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
 
