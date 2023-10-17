@@ -33,7 +33,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           class="widget-combobox-placeholder-text"
         >
           <span
-            class="widget-combobox-caption"
+            class="widget-combobox-caption-text"
           >
             111
           </span>
