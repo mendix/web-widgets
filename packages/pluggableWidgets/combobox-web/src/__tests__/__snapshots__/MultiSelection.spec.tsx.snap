@@ -6,19 +6,19 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
     class="widget-combobox"
   >
     <div
-      aria-controls="downshift-10-menu"
+      aria-controls="downshift-12-menu"
       aria-expanded="true"
       class="form-control widget-combobox-input-container widget-combobox-input-container-active"
-      id="downshift-10-toggle-button"
+      id="downshift-12-toggle-button"
       tabindex="-1"
     >
       <div
         class="widget-combobox-selected-items widget-combobox-text"
       >
         <input
-          aria-activedescendant="downshift-10-item-1"
+          aria-activedescendant="downshift-12-item-1"
           aria-autocomplete="list"
-          aria-controls="downshift-10-menu"
+          aria-controls="downshift-12-menu"
           aria-expanded="true"
           aria-labelledby="comboBox1-label"
           autocomplete="off"
@@ -58,10 +58,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         </span>
       </button>
       <div
-        aria-controls="downshift-10-menu"
         class="widget-combobox-down-arrow"
-        id="downshift-10-toggle-button"
-        tabindex="-1"
       >
         <span
           class="widget-combobox-icon-container"
@@ -85,13 +82,13 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
-        id="downshift-10-menu"
+        id="downshift-12-menu"
         role="listbox"
       >
         <li
           aria-selected="true"
           class="widget-combobox-item widget-combobox-item-selected"
-          id="downshift-10-item-0"
+          id="downshift-12-item-0"
           role="option"
         >
           <span
@@ -123,7 +120,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item widget-combobox-item-highlighted"
-          id="downshift-10-item-1"
+          id="downshift-12-item-1"
           role="option"
         >
           <span
@@ -156,7 +153,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item"
-          id="downshift-10-item-2"
+          id="downshift-12-item-2"
           role="option"
         >
           <span
@@ -189,7 +186,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         <li
           aria-selected="false"
           class="widget-combobox-item"
-          id="downshift-10-item-3"
+          id="downshift-12-item-3"
           role="option"
         >
           <span
@@ -283,10 +280,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         </span>
       </button>
       <div
-        aria-controls="downshift-0-menu"
         class="widget-combobox-down-arrow"
-        id="downshift-0-toggle-button"
-        tabindex="-1"
       >
         <span
           class="widget-combobox-icon-container"
