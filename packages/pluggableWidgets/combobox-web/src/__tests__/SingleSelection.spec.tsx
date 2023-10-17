@@ -91,7 +91,7 @@ describe("Combo box (Association)", () => {
 
         const input = await getInput(component);
         const labelText = await component.container.querySelector(
-            ".widget-combobox-text-label .widget-combobox-caption"
+            ".widget-combobox-label-text .widget-combobox-caption"
         );
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
