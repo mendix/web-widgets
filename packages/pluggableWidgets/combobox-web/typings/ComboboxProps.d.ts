@@ -3,13 +3,16 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ReferenceValue, ReferenceSetValue } from "mendix";
+import { ComponentType, ReactNode } from "react";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type FilterTypeEnum = "contains" | "startsWith" | "none";
+
+export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
@@ -29,6 +32,8 @@ export interface ComboboxContainerProps {
     filterType: FilterTypeEnum;
     noOptionsText?: DynamicValue<string>;
     clearable: boolean;
+    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceAssociationCustomContent?: ListWidgetValue;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -50,6 +55,8 @@ export interface ComboboxPreviewProps {
     filterType: FilterTypeEnum;
     noOptionsText: string;
     clearable: boolean;
+    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { PropsWithChildren, ReactElement, createElement } from "react";
+import { PropsWithChildren, ReactElement, createElement, Fragment } from "react";
 import { DownArrow } from "../assets/icons";
 
 export function Placeholder(): ReactElement {
@@ -22,8 +22,13 @@ export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
 
 interface InputPlaceholderProps extends PropsWithChildren {
     isEmpty: boolean;
+    useWrapper?: boolean;
 }
 export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
+    if (props.useWrapper === false) {
+        return <Fragment>{props.children}</Fragment>;
+    }
+
     return (
         <span
             className={classNames("widget-combobox-text-label", {

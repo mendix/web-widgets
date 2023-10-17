@@ -1,6 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
 import { EnumBoolOptionsProvider } from "./EnumBoolOptionsProvider";
@@ -16,6 +16,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     currentValue: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     clearable = true;
     readOnly = false;
 

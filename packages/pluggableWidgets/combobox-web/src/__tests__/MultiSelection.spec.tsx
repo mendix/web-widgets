@@ -32,6 +32,8 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
+            optionsSourceAssociationCustomContentType: "no",
+            optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamicValue("Select an option 111"),
             ariaRequired: true,
             clearable: true,
