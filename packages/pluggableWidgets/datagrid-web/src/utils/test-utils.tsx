@@ -35,7 +35,6 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
     const props: GridSelectionProps = {
         selectionType: "None",
         selectionMethod: "checkbox",
-        multiselectable: undefined,
         showCheckboxColumn: false,
         showSelectAllToggle: false,
         onSelect: jest.fn(),

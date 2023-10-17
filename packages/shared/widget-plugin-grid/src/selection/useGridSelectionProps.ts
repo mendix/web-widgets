@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { SelectionHelper } from "./helpers";
-import { MultiProps, NoneProps, SelectionType, SingleProps, WidgetSelectionProperty } from "./types";
+import { SelectionType, WidgetSelectionProperty } from "./types";
 import { PrimarySelectionProps, usePrimarySelectionProps } from "./usePrimarySelectionProps";
 import { useKeyboardHandlers, KeyboardTargetProps } from "./useKeyboardHandlers";
 import { getSelectionType } from "./utils";
@@ -15,8 +15,7 @@ export interface GridSelectionSettings {
 
 export type GridSelectionProps = GridSelectionSettings &
     PrimarySelectionProps &
-    KeyboardTargetProps &
-    (NoneProps | SingleProps | MultiProps);
+    KeyboardTargetProps & { selectionType: SelectionType };
 
 type HookParams = {
     helper: SelectionHelper | undefined;
@@ -35,42 +34,21 @@ export function useGridSelectionProps(params: HookParams): GridSelectionProps {
 
     function computeProps(): GridSelectionProps {
         return {
+            selectionType,
             selectionMethod,
             showSelectAllToggle,
             showCheckboxColumn,
             ...primaryProps,
-            ...keyboard,
-            ...getDependentProps(selectionType)
+            ...keyboard
         };
     }
 
     return useMemo(computeProps, [
+        selectionType,
         selectionMethod,
         showSelectAllToggle,
         showCheckboxColumn,
         primaryProps,
-        selectionType,
         keyboard
     ]);
-}
-
-function getDependentProps(selectionType: SelectionType): NoneProps | SingleProps | MultiProps {
-    if (selectionType === "None") {
-        return {
-            selectionType,
-            multiselectable: undefined
-        };
-    }
-
-    if (selectionType === "Single") {
-        return {
-            selectionType,
-            multiselectable: false
-        };
-    }
-
-    return {
-        selectionType,
-        multiselectable: true
-    };
 }

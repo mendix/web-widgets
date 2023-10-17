@@ -14,8 +14,7 @@ function mockSelectionProps(): ListOptionSelectionProps {
         onSelectAll: jest.fn(),
         onKeyDown: jest.fn(),
         onKeyUp: jest.fn(),
-        selectionType: "None",
-        multiselectable: undefined
+        selectionType: "None"
     };
 }
 

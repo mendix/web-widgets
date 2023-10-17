@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 import { SelectionHelper } from "./helpers";
-import { MultiProps, NoneProps, SelectionType, SingleProps, WidgetSelectionProperty } from "./types";
+import { SelectionType, WidgetSelectionProperty } from "./types";
 import { PrimarySelectionProps, usePrimarySelectionProps } from "./usePrimarySelectionProps";
 import { useKeyboardHandlers, KeyboardTargetProps } from "./useKeyboardHandlers";
 import { getSelectionType } from "./utils";
 
-export type ListOptionSelectionProps = PrimarySelectionProps &
-    KeyboardTargetProps &
-    (NoneProps | SingleProps | MultiProps);
+export type ListOptionSelectionProps = PrimarySelectionProps & KeyboardTargetProps & { selectionType: SelectionType };
 
 type HookParams = {
     selection: WidgetSelectionProperty;
@@ -21,32 +19,11 @@ export function useListOptionSelectionProps({ selection, helper }: HookParams): 
 
     function computeProps(): ListOptionSelectionProps {
         return {
+            selectionType,
             ...primaryProps,
-            ...keyboard,
-            ...getDependentProps(selectionType)
+            ...keyboard
         };
     }
 
     return useMemo(computeProps, [selectionType, primaryProps, keyboard]);
-}
-
-function getDependentProps(selectionType: SelectionType): NoneProps | SingleProps | MultiProps {
-    if (selectionType === "None") {
-        return {
-            selectionType,
-            multiselectable: undefined
-        };
-    }
-
-    if (selectionType === "Single") {
-        return {
-            selectionType,
-            multiselectable: false
-        };
-    }
-
-    return {
-        selectionType,
-        multiselectable: true
-    };
 }
