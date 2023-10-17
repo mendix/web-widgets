@@ -172,6 +172,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
                 ]
             )}
             headerTitle={props.filterSectionTitle?.value}
+            ariaLabelListBox={props.ariaLabelListBox?.value}
             showHeader={showHeader}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             items={props.datasource.items ?? []}

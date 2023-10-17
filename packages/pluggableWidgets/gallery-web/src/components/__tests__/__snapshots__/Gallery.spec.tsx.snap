@@ -6,7 +6,7 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
   data-focusindex="0"
 >
   <section
-    aria-label="Gallery header"
+    aria-label="Mock props header aria label"
     class="widget-gallery-header widget-gallery-filter"
   >
     <input />
@@ -15,6 +15,7 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
     class="widget-gallery-content infinite-loading"
   >
     <div
+      aria-label="Mock props ListBox aria label"
       class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
       role="list"
     >
@@ -47,7 +48,7 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
   data-focusindex="0"
 >
   <section
-    aria-label="Gallery header"
+    aria-label="Mock props header aria label"
     class="widget-gallery-header widget-gallery-filter"
   >
     <input />
@@ -56,6 +57,7 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
     class="widget-gallery-content infinite-loading"
   >
     <div
+      aria-label="Mock props ListBox aria label"
       class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
       role="list"
     >
@@ -114,10 +116,9 @@ exports[`Gallery with accessibility properties renders correctly 1`] = `
   <div
     class="widget-gallery-content infinite-loading"
   />
-  <div
+  <section
     aria-label="empty message"
     class="widget-gallery-empty"
-    role="section"
   >
     <div
       class="empty-placeholder"
@@ -126,7 +127,7 @@ exports[`Gallery with accessibility properties renders correctly 1`] = `
         No items found
       </span>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
@@ -136,7 +137,7 @@ exports[`Gallery with empty option renders correctly 1`] = `
   data-focusindex="0"
 >
   <section
-    aria-label="Gallery header"
+    aria-label="Mock props header aria label"
     class="widget-gallery-header widget-gallery-filter"
   >
     <input />
@@ -144,9 +145,8 @@ exports[`Gallery with empty option renders correctly 1`] = `
   <div
     class="widget-gallery-content infinite-loading"
   />
-  <div
+  <section
     class="widget-gallery-empty"
-    role="section"
   >
     <div
       class="empty-placeholder"
@@ -155,7 +155,7 @@ exports[`Gallery with empty option renders correctly 1`] = `
         No items found
       </span>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
@@ -287,7 +287,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
     </div>
   </div>
   <section
-    aria-label="Gallery header"
+    aria-label="Mock props header aria label"
     class="widget-gallery-header widget-gallery-filter"
   >
     <input />
@@ -296,6 +296,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
     class="widget-gallery-content"
   >
     <div
+      aria-label="Mock props ListBox aria label"
       class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
       role="list"
     >
@@ -331,6 +332,7 @@ exports[`Gallery without filters renders structure without header container 1`] 
     class="widget-gallery-content infinite-loading"
   >
     <div
+      aria-label="Mock props ListBox aria label"
       class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
       role="list"
     >

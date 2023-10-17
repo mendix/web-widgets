@@ -164,6 +164,10 @@
                     <caption>Empty message title</caption>
                     <description>Assistive technology will read this upon reaching an empty message section.</description>
                 </property>
+                <property key="ariaLabelListBox" type="textTemplate" required="false">
+                    <caption>ARIA label for gallery</caption>
+                    <description>Assistive technology will read this upon reaching gallery</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>

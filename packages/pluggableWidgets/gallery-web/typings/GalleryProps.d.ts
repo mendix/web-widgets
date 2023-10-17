@@ -56,6 +56,7 @@ export interface GalleryContainerProps {
     sortList: SortListType[];
     filterSectionTitle?: DynamicValue<string>;
     emptyMessageTitle?: DynamicValue<string>;
+    ariaLabelListBox?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -87,4 +88,5 @@ export interface GalleryPreviewProps {
     sortList: SortListPreviewType[];
     filterSectionTitle: string;
     emptyMessageTitle: string;
+    ariaLabelListBox: string;
 }
