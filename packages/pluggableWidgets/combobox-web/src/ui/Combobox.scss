@@ -149,21 +149,23 @@ $disabled-text-color: #6c7180;
         cursor: not-allowed;
     }
 
-    &-text-label {
-        color: $typography-color;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        pointer-events: none;
-        display: none;
+    &-label {
+        &-text {
+            color: $typography-color;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            pointer-events: none;
+            display: none;
 
-        &.widget-combobox-text-label-placeholder {
-            color: $gray-dark;
+            &.widget-combobox-label-text-placeholder {
+                color: $gray-dark;
+            }
         }
     }
 
@@ -182,7 +184,7 @@ $disabled-text-color: #6c7180;
                 right: 0;
                 bottom: 0;
             }
-            &:focus:not(:placeholder-shown) + .widget-combobox-custom-caption {
+            &:focus:not(:placeholder-shown) + .widget-combobox-label-custom {
                 display: none;
             }
         }
@@ -207,7 +209,7 @@ $disabled-text-color: #6c7180;
 
             input:placeholder-shown,
             input:not(:focus) {
-                & + .widget-combobox-text-label {
+                & + .widget-combobox-label-text {
                     display: block;
                 }
             }
