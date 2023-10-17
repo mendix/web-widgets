@@ -147,9 +147,7 @@ $disabled-text-color: #6c7180;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
-    }
 
-    &-label {
         &-text {
             color: $typography-color;
             position: absolute;
@@ -162,10 +160,10 @@ $disabled-text-color: #6c7180;
             white-space: nowrap;
             pointer-events: none;
             display: none;
+        }
 
-            &.widget-combobox-label-text-placeholder {
-                color: $gray-dark;
-            }
+        &-empty {
+            color: $gray-dark;
         }
     }
 
@@ -184,7 +182,7 @@ $disabled-text-color: #6c7180;
                 right: 0;
                 bottom: 0;
             }
-            &:focus:not(:placeholder-shown) + .widget-combobox-label-custom {
+            &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
                 display: none;
             }
         }
@@ -209,7 +207,7 @@ $disabled-text-color: #6c7180;
 
             input:placeholder-shown,
             input:not(:focus) {
-                & + .widget-combobox-label-text {
+                & + .widget-combobox-placeholder-text {
                     display: block;
                 }
             }

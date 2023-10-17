@@ -27,8 +27,8 @@ interface InputPlaceholderProps extends PropsWithChildren {
 export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
     return (
         <div
-            className={classNames(props.className || "widget-combobox-label-text", {
-                "widget-combobox-label-text-placeholder": props.isEmpty
+            className={classNames(props.className || "widget-combobox-placeholder-text", {
+                "widget-combobox-placeholder-empty": props.isEmpty
             })}
         >
             {props.children}
