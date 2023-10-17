@@ -1,19 +1,13 @@
-import { createElement, PropsWithChildren, ReactElement } from "react";
+import { createElement, ReactElement } from "react";
 
-type GalleryHeaderProps = PropsWithChildren<{
-    headerTitle?: string;
-}>;
+type GalleryHeaderProps = Omit<JSX.IntrinsicElements["div"], "ref">;
 
 export function GalleryHeader(props: GalleryHeaderProps): ReactElement | null {
-    const { children, headerTitle } = props;
+    const { children } = props;
 
     if (!children) {
         return null;
     }
 
-    return (
-        <section className="widget-gallery-header widget-gallery-filter" aria-label={headerTitle || "Gallery header"}>
-            {children}
-        </section>
-    );
+    return <section {...props} className="widget-gallery-header widget-gallery-filter" />;
 }

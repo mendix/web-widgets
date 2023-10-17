@@ -33,6 +33,7 @@ export interface GalleryProps<T extends ObjectItem> {
     tabletItems: number;
     tabIndex?: number;
     selectionProps: ListOptionSelectionProps;
+    ariaLabelListBox?: string;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
@@ -57,7 +58,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     return (
         <GalleryRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
             {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
-            {props.showHeader && <GalleryHeader headerTitle={props.headerTitle}>{props.header}</GalleryHeader>}
+            {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
             <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
                     <ListBox
@@ -65,6 +66,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         md={props.tabletItems}
                         sm={props.phoneItems}
                         selectionType={props.selectionProps.selectionType}
+                        aria-label={props.ariaLabelListBox}
                     >
                         {props.items.map(item => (
                             <ListItem
@@ -80,9 +82,9 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
             {(props.items.length === 0 || props.preview) &&
                 props.emptyPlaceholderRenderer &&
                 props.emptyPlaceholderRenderer(children => (
-                    <div className="widget-gallery-empty" role="section" aria-label={props.emptyMessageTitle}>
+                    <section className="widget-gallery-empty" aria-label={props.emptyMessageTitle}>
                         <div className="empty-placeholder">{children}</div>
-                    </div>
+                    </section>
                 ))}
             {showFooter && <GalleryFooter>{pagination}</GalleryFooter>}
         </GalleryRoot>

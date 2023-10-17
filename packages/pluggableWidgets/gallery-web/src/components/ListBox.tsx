@@ -22,7 +22,6 @@ export function ListBox({ children, className, selectionType, lg, md, sm, ...res
                 className
             )}
             role={selectionEnabled ? "listbox" : "list"}
-            aria-label={selectionEnabled ? "Gallery list" : undefined}
             aria-multiselectable={selectionEnabled ? selectionType === "Multi" : undefined}
         >
             {children}

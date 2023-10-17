@@ -40,6 +40,8 @@ function mockProps(): GalleryProps<ObjectItem> {
         tabletItems: 3,
         desktopItems: 4,
         className: "my-gallery",
+        ariaLabelListBox: "Mock props ListBox aria label",
+        headerTitle: "Mock props header aria label",
         items: objectItems(3),
         itemHelper: WidgetItemBuilder.sample(),
         selectionProps: mockSelectionProps(),
