@@ -181,18 +181,22 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         [columnsWidth, visibleColumns, columnsHidable, selectionProps.showCheckboxColumn]
     );
 
+    const selectionEnabled = selectionProps.selectionType !== "None";
+
     return (
         <WidgetPropsProvider value={props}>
             <WidgetRoot
                 className={className}
                 selectionMethod={selectionProps.selectionMethod}
-                selection={selectionProps.selectionType !== "None"}
+                selection={selectionEnabled}
                 style={styles}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
                 <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
-                    <Grid aria-multiselectable={selectionProps.multiselectable}>
+                    <Grid
+                        aria-multiselectable={selectionEnabled ? selectionProps.selectionType === "Multi" : undefined}
+                    >
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />

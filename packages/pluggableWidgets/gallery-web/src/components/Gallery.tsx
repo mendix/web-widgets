@@ -65,7 +65,6 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         md={props.tabletItems}
                         sm={props.phoneItems}
                         selectionType={props.selectionProps.selectionType}
-                        multiselectable={props.selectionProps.multiselectable}
                     >
                         {props.items.map(item => (
                             <ListItem
