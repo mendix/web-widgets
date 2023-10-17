@@ -1,5 +1,7 @@
 import { createElement, FC, ReactElement } from "react";
+import classNames from "classnames";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Progress from "@radix-ui/react-progress";
 
 import { CloseIcon } from "./icons/CloseIcon";
 import { WarningIcon } from "./icons/WarningIcon";
@@ -7,42 +9,62 @@ import { WarningIcon } from "./icons/WarningIcon";
 type ProgressModalProps = {
     failed?: boolean;
     onCancel: () => void;
-    onOpenChange: (open: boolean) => void;
     open: boolean;
     progress: number;
     total?: number;
 };
 
 export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
-    const isPercentage = new Boolean(props.total);
+    const isPercentage = Boolean(props.total);
     const modalContent = isPercentage ? `${props.progress} / ${props.total}` : props.progress;
+    const indicatorStyle = isPercentage
+        ? { transform: `translateX(-${100 - calculatePercentage(props.progress, 0, props.total!)}%)` }
+        : {};
 
     return (
-        <Dialog.Root open={props.open} onOpenChange={props.onOpenChange}>
+        <Dialog.Root open={props.open} onOpenChange={props.onCancel}>
             <Dialog.Overlay className="widget-datagrid-modal-overlay">
                 <Dialog.Content className="widget-datagrid-modal-content">
-                    <Dialog.Close className="widget-datagrid-modal-close" asChild>
+                    <Dialog.Close asChild>
                         <button
-                            className="btn btn-image btn-icon close-button"
-                            onClick={() => props.onOpenChange(false)}
+                            className="btn btn-image btn-icon close-button widget-datagrid-modal-close"
+                            onClick={props.onCancel}
                         >
                             <CloseIcon />
                         </button>
                     </Dialog.Close>
                     {/* <Dialog.Title /> */}
-                    <Dialog.Description className="widget-datagrid-modal-description">
-                        {props.failed ? (
-                            <div className="widget-datagrid-modal-warning">
-                                <WarningIcon />
-                            </div>
-                        ) : (
-                            <p>{modalContent}</p>
-                        )}
+                    <Dialog.Description
+                        className={classNames("widget-datagrid-modal-description", {
+                            "widget-datagrid-modal-warning": props.failed
+                        })}
+                    >
+                        {props.failed ? <WarningIcon /> : <p>{modalContent}</p>}
                     </Dialog.Description>
-                    {/* <Dialog.Cancel /> */}
-                    {/* <Dialog.Action /> */}
+
+                    <Progress.Root className="widget-datagrid-modal-progress" value={props.progress} max={props.total}>
+                        <Progress.Indicator
+                            className={classNames("widget-datagrid-modal-progress-indicator", {
+                                "widget-datagrid-modal-progress-indicator-warning": props.failed,
+                                "widget-datagrid-modal-progress-indicator-indeterminate": !isPercentage
+                            })}
+                            style={indicatorStyle}
+                        />
+                    </Progress.Root>
                 </Dialog.Content>
             </Dialog.Overlay>
         </Dialog.Root>
     );
 };
+
+function calculatePercentage(currentValue: number, minValue: number = 0, maxValue: number): number {
+    if (currentValue < minValue) {
+        return 0;
+    }
+    if (currentValue > maxValue) {
+        return 100;
+    }
+    const range = maxValue - minValue;
+    const percentage = Math.round(((currentValue - minValue) / range) * 100);
+    return Math.abs(percentage);
+}

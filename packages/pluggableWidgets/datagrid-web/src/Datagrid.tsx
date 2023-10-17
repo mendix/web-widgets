@@ -94,6 +94,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
+    const onDialogClose = useCallback(() => {
+        setIsModalOpen(false);
+    }, [setIsModalOpen]);
+
     // TODO: Rewrite this logic with single useReducer (or write
     // custom hook that will use useReducer)
     // eslint-disable-next-line react-hooks/rules-of-hooks
