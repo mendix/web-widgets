@@ -5,6 +5,7 @@ import { CloseIcon } from "./icons/CloseIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 
 type ProgressModalProps = {
+    failed?: boolean;
     onCancel: () => void;
     onOpenChange: (open: boolean) => void;
     open: boolean;
@@ -13,6 +14,9 @@ type ProgressModalProps = {
 };
 
 export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
+    const isPercentage = new Boolean(props.total);
+    const modalContent = isPercentage ? `${props.progress} / ${props.total}` : props.progress;
+
     return (
         <Dialog.Root open={props.open} onOpenChange={props.onOpenChange}>
             <Dialog.Overlay className="widget-datagrid-modal-overlay">
@@ -27,12 +31,12 @@ export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
                     </Dialog.Close>
                     {/* <Dialog.Title /> */}
                     <Dialog.Description className="widget-datagrid-modal-description">
-                        {true ? (
-                            <p>{`${props.progress}${!!props.total && " / " + props.total}`}</p>
-                        ) : (
+                        {props.failed ? (
                             <div className="widget-datagrid-modal-warning">
                                 <WarningIcon />
                             </div>
+                        ) : (
+                            <p>{modalContent}</p>
                         )}
                     </Dialog.Description>
                     {/* <Dialog.Cancel /> */}
