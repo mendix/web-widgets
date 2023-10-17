@@ -30,12 +30,12 @@ export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
     }
 
     return (
-        <span
+        <div
             className={classNames("widget-combobox-text-label", {
                 "widget-combobox-text-label-placeholder": props.isEmpty
             })}
         >
             {props.children}
-        </span>
+        </div>
     );
 }

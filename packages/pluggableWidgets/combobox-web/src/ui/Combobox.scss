@@ -173,12 +173,18 @@ $disabled-text-color: #6c7180;
         flex-grow: 1;
         flex-direction: column;
 
-        .widget-combobox-input:not(:focus) {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        .widget-combobox-input {
+            &:not(:focus),
+            &:placeholder-shown {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+            &:focus:not(:placeholder-shown) + .widget-combobox-custom-caption {
+                display: none;
+            }
         }
     }
 

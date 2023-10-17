@@ -27,6 +27,9 @@ export function useDownshiftSingleSelectProps(
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
+                if (inputId) {
+                    document.getElementById(inputId)?.blur();
+                }
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
@@ -36,7 +39,7 @@ export function useDownshiftSingleSelectProps(
             initialInputValue: selector.caption.get(selector.currentValue),
             stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
-
+                console.log(changes, type);
                 switch (type) {
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {

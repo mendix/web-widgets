@@ -3,7 +3,7 @@ import { ReactNode, createElement } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
 
-export interface Props {
+interface Props {
     emptyOptionText?: DynamicValue<string>;
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
     customContent?: ListWidgetValue | undefined;
@@ -69,7 +69,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         return customContentType === "no" || (placement === "label" && customContentType === "listItem") ? (
             <span className="widget-combobox-caption">{this.get(value)}</span>
         ) : (
-            <div className="widget-combobox-custom-caption">{this.getCustomContent(value)}</div>
+            <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
         );
     }
 }
