@@ -66,7 +66,9 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     render(value: string | null, placement: CaptionPlacement): ReactNode {
         const { customContentType } = this;
 
-        return customContentType === "no" || (placement === "label" && customContentType === "listItem") ? (
+        return customContentType === "no" ||
+            (placement === "label" && customContentType === "listItem") ||
+            value === null ? (
             <span className="widget-combobox-caption">{this.get(value)}</span>
         ) : (
             <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
