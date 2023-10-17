@@ -22,12 +22,12 @@ export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
 
 interface InputPlaceholderProps extends PropsWithChildren {
     isEmpty: boolean;
-    className?: string;
+    type?: "text" | "custom";
 }
 export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
     return (
         <div
-            className={classNames(props.className || "widget-combobox-placeholder-text", {
+            className={classNames(`widget-combobox-placeholder-${props.type ?? "text"}`, {
                 "widget-combobox-placeholder-empty": props.isEmpty
             })}
         >
