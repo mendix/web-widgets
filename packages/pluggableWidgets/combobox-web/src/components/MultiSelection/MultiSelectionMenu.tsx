@@ -45,7 +45,7 @@ export function MultiSelectionMenu({
                             index={index}
                         >
                             <Checkbox checked={isSelected} />
-                            {selector.caption.render(item)}
+                            {selector.caption.render(item, "options")}
                         </ComboboxOptionWrapper>
                     );
                 })}

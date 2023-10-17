@@ -36,7 +36,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         `widget-combobox-${selector.selectedItemsStyle}`
                     )}
                 >
-                    {selector.selectedItemsStyle === "boxes" &&
+                    {(selector.selectedItemsStyle === "boxes" || selector.customContentType === "yes") &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
                                 <span
@@ -47,7 +47,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                                         index
                                     })}
                                 >
-                                    {selector.caption.render(selectedItemForRender)}
+                                    {selector.caption.render(selectedItemForRender, "label")}
                                     <span
                                         className="icon widget-combobox-clear-button"
                                         onClick={e => {

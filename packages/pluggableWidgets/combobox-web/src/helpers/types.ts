@@ -1,13 +1,19 @@
 import { ReactNode } from "react";
-import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    FilterTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum,
+    SelectedItemsStyleEnum
+} from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
+export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null): ReactNode;
+    render(value: string | null, placement?: CaptionPlacement): ReactNode;
     emptyCaption: string;
 }
 
@@ -49,6 +55,8 @@ interface SelectorBase<T, V> {
 
     currentValue: V | null;
     setValue(value: V | null): void;
+
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}

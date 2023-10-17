@@ -67,6 +67,7 @@ $disabled-text-color: #6c7180;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            flex: 1;
         }
 
         &.widget-combobox-no-options {
@@ -163,6 +164,21 @@ $disabled-text-color: #6c7180;
 
         &.widget-combobox-text-label-placeholder {
             color: $gray-dark;
+        }
+    }
+
+    &-custom-content {
+        position: relative;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+
+        .widget-combobox-input:not(:focus) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
     }
 

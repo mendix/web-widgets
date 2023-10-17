@@ -42,8 +42,11 @@ export function SingleSelection({
                         )}
                         placeholder=" "
                     />
-                    <InputPlaceholder isEmpty={!selector.currentValue}>
-                        {selector.caption.get(selectedItem)}
+                    <InputPlaceholder
+                        isEmpty={!selector.currentValue}
+                        useWrapper={selector.customContentType !== "yes"}
+                    >
+                        {selector.caption.render(selectedItem, "label")}
                     </InputPlaceholder>
                 </div>
                 {!selector.readOnly && selector.clearable && selector.currentValue !== null && (

@@ -6,7 +6,7 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
         return selector.caption.emptyCaption;
     }
 
-    if (selector.selectedItemsStyle !== "text") {
+    if (selector.selectedItemsStyle !== "text" || selector.customContentType === "yes") {
         return "";
     }
     return selectedItems.map(v => selector.caption.get(v)).join(", ");
