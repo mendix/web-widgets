@@ -111,7 +111,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             </svg>
           </span>
           <span
-            class="widget-combobox-caption"
+            class="widget-combobox-caption-text"
           >
             111
           </span>
@@ -144,7 +144,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             </svg>
           </span>
           <span
-            class="widget-combobox-caption"
+            class="widget-combobox-caption-text"
           >
             222
           </span>
@@ -177,7 +177,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             </svg>
           </span>
           <span
-            class="widget-combobox-caption"
+            class="widget-combobox-caption-text"
           >
             333
           </span>
@@ -210,7 +210,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             </svg>
           </span>
           <span
-            class="widget-combobox-caption"
+            class="widget-combobox-caption-text"
           >
             444
           </span>

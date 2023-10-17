@@ -28,6 +28,6 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
     }
 
     render(value: string | null): ReactNode {
-        return <span className="widget-combobox-caption">{this.get(value)}</span>;
+        return <span className="widget-combobox-caption-text">{this.get(value)}</span>;
     }
 }

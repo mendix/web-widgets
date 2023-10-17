@@ -69,7 +69,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         return customContentType === "no" ||
             (placement === "label" && customContentType === "listItem") ||
             value === null ? (
-            <span className="widget-combobox-caption">{this.get(value)}</span>
+            <span className="widget-combobox-caption-text">{this.get(value)}</span>
         ) : (
             <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
         );
