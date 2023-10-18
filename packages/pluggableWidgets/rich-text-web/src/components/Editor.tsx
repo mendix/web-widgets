@@ -228,7 +228,7 @@ export class Editor extends Component<EditorProps> {
         // call addListeners immediately.
         // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setData
         if ("data" in args) {
-            this.editor?.setData(args.data, () => this.addListeners());
+            setTimeout(() => this.editor?.setData(args.data, () => this.addListeners()), 50);
         } else {
             this.addListeners();
         }

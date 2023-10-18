@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fix an issue with Editor intermittenly not displaying data.
+
 ## [2.2.2] - 2023-10-12
 
 ### Breaking changes
