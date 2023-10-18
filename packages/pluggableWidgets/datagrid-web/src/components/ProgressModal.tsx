@@ -23,36 +23,36 @@ export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
 
     return (
         <Dialog.Root open={props.open} onOpenChange={props.onCancel}>
-            <Dialog.Overlay className="widget-datagrid-modal-overlay">
-                <Dialog.Content className="widget-datagrid-modal-content">
-                    <Dialog.Close asChild>
-                        <button
-                            className="btn btn-image btn-icon close-button widget-datagrid-modal-close"
-                            onClick={props.onCancel}
-                        >
-                            <CloseIcon />
-                        </button>
-                    </Dialog.Close>
-                    {/* <Dialog.Title /> */}
-                    <Dialog.Description
-                        className={classNames("widget-datagrid-modal-description", {
-                            "widget-datagrid-modal-warning": props.failed
-                        })}
-                    >
-                        {props.failed ? <WarningIcon /> : <p>{modalContent}</p>}
-                    </Dialog.Description>
+            {props.open && <div className="widget-datagrid-modal-overlay" />}
 
-                    <Progress.Root className="widget-datagrid-modal-progress" value={props.progress} max={props.total}>
-                        <Progress.Indicator
-                            className={classNames("widget-datagrid-modal-progress-indicator", {
-                                "widget-datagrid-modal-progress-indicator-warning": props.failed,
-                                "widget-datagrid-modal-progress-indicator-indeterminate": !isPercentage
-                            })}
-                            style={indicatorStyle}
-                        />
-                    </Progress.Root>
-                </Dialog.Content>
-            </Dialog.Overlay>
+            <Dialog.Content className="widget-datagrid-modal-content">
+                <Dialog.Close asChild>
+                    <button
+                        className="btn btn-image btn-icon close-button widget-datagrid-modal-close"
+                        onClick={props.onCancel}
+                    >
+                        <CloseIcon />
+                    </button>
+                </Dialog.Close>
+
+                <Dialog.Description
+                    className={classNames("widget-datagrid-modal-description", {
+                        "widget-datagrid-modal-warning": props.failed
+                    })}
+                >
+                    {props.failed ? <WarningIcon /> : <p>{modalContent}</p>}
+                </Dialog.Description>
+
+                <Progress.Root className="widget-datagrid-modal-progress" value={props.progress} max={props.total}>
+                    <Progress.Indicator
+                        className={classNames("widget-datagrid-modal-progress-indicator", {
+                            "widget-datagrid-modal-progress-indicator-warning": props.failed,
+                            "widget-datagrid-modal-progress-indicator-indeterminate": !isPercentage
+                        })}
+                        style={indicatorStyle}
+                    />
+                </Progress.Root>
+            </Dialog.Content>
         </Dialog.Root>
     );
 };
