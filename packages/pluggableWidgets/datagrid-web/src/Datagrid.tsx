@@ -220,6 +220,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             rowAction={props.onClick}
             selectionProps={selectionProps}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
+            exporting={false}
+            processedRows={0}
         />
     );
 }

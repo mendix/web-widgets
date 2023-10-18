@@ -7,6 +7,7 @@ import { CloseIcon } from "./icons/CloseIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 
 type ProgressModalProps = {
+    container?: HTMLElement | null;
     failed?: boolean;
     onCancel: () => void;
     open: boolean;
@@ -14,45 +15,55 @@ type ProgressModalProps = {
     total?: number;
 };
 
-export const ProgressModal: FC<ProgressModalProps> = (props): ReactElement => {
-    const isPercentage = Boolean(props.total);
-    const modalContent = isPercentage ? `${props.progress} / ${props.total}` : props.progress;
+export const ProgressModal: FC<ProgressModalProps> = ({
+    container,
+    failed,
+    onCancel,
+    open,
+    progress,
+    total
+}): ReactElement => {
+    const isPercentage = Boolean(total);
+    const modalContent = isPercentage ? `${progress} / ${total}` : progress;
     const indicatorStyle = isPercentage
-        ? { transform: `translateX(-${100 - calculatePercentage(props.progress, 0, props.total!)}%)` }
+        ? { transform: `translateX(-${100 - calculatePercentage(progress, 0, total!)}%)` }
         : {};
 
     return (
-        <Dialog.Root open={props.open} onOpenChange={props.onCancel}>
-            {props.open && <div className="widget-datagrid-modal-overlay" />}
+        <Dialog.Root open={open} onOpenChange={onCancel}>
+            <Dialog.Portal container={container}>
+                {open && <div className="widget-datagrid-modal-overlay" />}
+                {/* <Dialog.Overlay className="widget-datagrid-modal-overlay" /> */}
 
-            <Dialog.Content className="widget-datagrid-modal-content">
-                <Dialog.Close asChild>
-                    <button
-                        className="btn btn-image btn-icon close-button widget-datagrid-modal-close"
-                        onClick={props.onCancel}
-                    >
-                        <CloseIcon />
-                    </button>
-                </Dialog.Close>
+                <Dialog.Content className="widget-datagrid-modal-content">
+                    <Dialog.Close asChild>
+                        <button
+                            className="btn btn-image btn-icon close-button widget-datagrid-modal-close"
+                            onClick={onCancel}
+                        >
+                            <CloseIcon />
+                        </button>
+                    </Dialog.Close>
 
-                <Dialog.Description
-                    className={classNames("widget-datagrid-modal-description", {
-                        "widget-datagrid-modal-warning": props.failed
-                    })}
-                >
-                    {props.failed ? <WarningIcon /> : <p>{modalContent}</p>}
-                </Dialog.Description>
-
-                <Progress.Root className="widget-datagrid-modal-progress" value={props.progress} max={props.total}>
-                    <Progress.Indicator
-                        className={classNames("widget-datagrid-modal-progress-indicator", {
-                            "widget-datagrid-modal-progress-indicator-warning": props.failed,
-                            "widget-datagrid-modal-progress-indicator-indeterminate": !isPercentage
+                    <Dialog.Description
+                        className={classNames("widget-datagrid-modal-description", {
+                            "widget-datagrid-modal-warning": failed
                         })}
-                        style={indicatorStyle}
-                    />
-                </Progress.Root>
-            </Dialog.Content>
+                    >
+                        {failed ? <WarningIcon /> : <p>{modalContent}</p>}
+                    </Dialog.Description>
+
+                    <Progress.Root className="widget-datagrid-modal-progress" value={progress} max={total}>
+                        <Progress.Indicator
+                            className={classNames("widget-datagrid-modal-progress-indicator", {
+                                "widget-datagrid-modal-progress-indicator-warning": failed,
+                                "widget-datagrid-modal-progress-indicator-indeterminate": !isPercentage
+                            })}
+                            style={indicatorStyle}
+                        />
+                    </Progress.Root>
+                </Dialog.Content>
+            </Dialog.Portal>
         </Dialog.Root>
     );
 };

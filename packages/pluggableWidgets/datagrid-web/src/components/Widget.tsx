@@ -12,6 +12,7 @@ import {
     useCallback,
     useEffect,
     useMemo,
+    useRef,
     useState
 } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
@@ -25,6 +26,7 @@ import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { Header } from "./Header";
+import { ProgressModal } from "./ProgressModal";
 import { Row } from "./Row";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
@@ -36,25 +38,28 @@ import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../feat
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
-    columnsFilterable: boolean;
-    columnsSortable: boolean;
-    columnsResizable: boolean;
+    columns: C[];
     columnsDraggable: boolean;
+    columnsFilterable: boolean;
     columnsHidable: boolean;
+    columnsResizable: boolean;
+    columnsSortable: boolean;
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
+    exporting: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
+    hasMoreItems: boolean;
     headerContent?: ReactNode;
     headerTitle?: string;
-    hasMoreItems: boolean;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
-    paging: boolean;
     page: number;
     pageSize: number;
+    paging: boolean;
     pagingPosition: PagingPositionEnum;
     preview?: boolean;
+    processedRows: number;
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     setSortParameters?: (sort?: SortProperty) => void;
@@ -85,6 +90,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         columnsSortable,
         data: rows,
         emptyPlaceholderRenderer,
+        exporting,
         filterRenderer: filterRendererProp,
         headerContent,
         headerTitle,
@@ -97,6 +103,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paging,
         pagingPosition,
         preview,
+        processedRows,
         setPage,
         setSortParameters,
         settings,
@@ -113,6 +120,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
+    const [isModalOpen, setIsModalOpen] = useState(true);
+    const containerRef = useRef(null);
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
@@ -142,6 +151,29 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             setSortParameters?.(undefined);
         }
     }, [sortBy, setSortParameters]);
+
+    useEffect(() => {
+        if (exporting !== isModalOpen) {
+            setIsModalOpen(exporting);
+        }
+    }, [exporting, isModalOpen]);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            console.info("running body stuff");
+            // Pushing the change to the end of the call stack
+            const timer = setTimeout(() => {
+                document.body.style.pointerEvents = "";
+            }, 0);
+
+            return () => clearTimeout(timer);
+        } else {
+            document.body.style.pointerEvents = "auto";
+        }
+    });
+
+    console.info(exporting);
+    console.info(setIsModalOpen);
 
     const renderFilterWrapper = useCallback(
         (children: ReactNode) => (
@@ -175,6 +207,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
 
     const selectionEnabled = selectionProps.selectionType !== "None";
+    const onDialogClose = () => {
+        setIsModalOpen(false);
+        window.__abort();
+    };
 
     return (
         <WidgetPropsProvider value={props}>
@@ -183,6 +219,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionEnabled}
                 style={styles}
+                ref={containerRef}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
@@ -278,6 +315,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
+            <ProgressModal
+                container={containerRef.current}
+                onCancel={onDialogClose}
+                open={isModalOpen}
+                progress={processedRows}
+                total={numberOfItems}
+            />
         </WidgetPropsProvider>
     );
 }

@@ -81,6 +81,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 ),
                 [EmptyPlaceholder]
             )}
+            exporting={false}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
                     const column = previewColumns[columnIndex];
@@ -107,6 +108,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
+            processedRows={0}
             styles={parseStyle(props.style)}
             setHidden={setHidden}
             setOrder={setOrder}
