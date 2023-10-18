@@ -115,8 +115,8 @@ $disabled-text-color: #6c7180;
         }
 
         &:focus .widget-combobox-icon-container {
-            border-radius: 2px !important;
-            outline: 2px solid $brand-primary !important;
+            border-radius: 2px;
+            outline: 2px solid $brand-primary;
         }
 
         &:hover &-icon {
