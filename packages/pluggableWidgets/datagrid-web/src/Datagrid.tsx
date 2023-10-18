@@ -13,6 +13,8 @@ import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
+import { ValueStatus } from "mendix";
+import LoadingSpinner from "./components/LoadingSpinner";
 import "./ui/Datagrid.scss";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
@@ -147,6 +149,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
+            loadingIndicatorRenderer={(renderWrapper: (children: ReactNode) => ReactElement) =>
+                props.datasource.status === ValueStatus.Loading ? renderWrapper(<LoadingSpinner />) : null
+            }
+            isLoading={props.datasource.status === ValueStatus.Loading}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
                     const column = props.columns[columnIndex];

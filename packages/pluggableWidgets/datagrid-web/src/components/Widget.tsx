@@ -44,6 +44,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsHidable: boolean;
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
+    loadingIndicatorRenderer?: (renderWrapper: (children: ReactNode) => ReactElement | null) => ReactElement | null;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
     headerContent?: ReactNode;
     headerTitle?: string;
@@ -66,6 +67,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
+    isLoading?: boolean;
 }
 
 export interface SortProperty {
@@ -84,6 +86,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         columnsSortable,
         data: rows,
         emptyPlaceholderRenderer,
+        loadingIndicatorRenderer,
+        isLoading,
         filterRenderer: filterRendererProp,
         headerContent,
         headerTitle,
@@ -257,7 +261,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     />
                                 );
                             })}
-                            {(rows.length === 0 || preview) &&
+                            {!isLoading &&
+                                (rows.length === 0 || preview) &&
                                 emptyPlaceholderRenderer &&
                                 emptyPlaceholderRenderer(children => {
                                     const colspan =
@@ -281,6 +286,30 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
             </WidgetRoot>
+
+            {isLoading && loadingIndicatorRenderer
+                ? loadingIndicatorRenderer(children => (
+                      <div
+                          key="loading-indicator-wrapper"
+                          className="loading-indicator-wrapper"
+                          style={{
+                              gridColumn: `span ${columns.length}`,
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: "rgba(255,255,255,0.8)", // Optional: semi-transparent background
+                              zIndex: 1000 // Ensure it's above the grid
+                          }}
+                      >
+                          {children}
+                      </div>
+                  ))
+                : null}
         </WidgetPropsProvider>
     );
 }
