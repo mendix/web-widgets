@@ -120,7 +120,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
-    const [isModalOpen, setIsModalOpen] = useState(true);
     const containerRef = useRef(null);
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
@@ -151,29 +150,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             setSortParameters?.(undefined);
         }
     }, [sortBy, setSortParameters]);
-
-    useEffect(() => {
-        if (exporting !== isModalOpen) {
-            setIsModalOpen(exporting);
-        }
-    }, [exporting, isModalOpen]);
-
-    useEffect(() => {
-        if (isModalOpen) {
-            console.info("running body stuff");
-            // Pushing the change to the end of the call stack
-            const timer = setTimeout(() => {
-                document.body.style.pointerEvents = "";
-            }, 0);
-
-            return () => clearTimeout(timer);
-        } else {
-            document.body.style.pointerEvents = "auto";
-        }
-    });
-
-    console.info(exporting);
-    console.info(setIsModalOpen);
 
     const renderFilterWrapper = useCallback(
         (children: ReactNode) => (
@@ -208,7 +184,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const selectionEnabled = selectionProps.selectionType !== "None";
     const onDialogClose = () => {
-        setIsModalOpen(false);
         window.__abort();
     };
 
@@ -318,7 +293,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             <ProgressModal
                 container={containerRef.current}
                 onCancel={onDialogClose}
-                open={isModalOpen}
+                open={exporting}
                 progress={processedRows}
                 total={numberOfItems}
             />

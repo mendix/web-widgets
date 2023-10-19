@@ -1,4 +1,4 @@
-import { createElement, FC, ReactElement } from "react";
+import { createElement, FC, ReactElement, useEffect, useState } from "react";
 import classNames from "classnames";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Progress from "@radix-ui/react-progress";
@@ -23,17 +23,42 @@ export const ProgressModal: FC<ProgressModalProps> = ({
     progress,
     total
 }): ReactElement => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const isPercentage = Boolean(total);
     const modalContent = isPercentage ? `${progress} / ${total}` : progress;
     const indicatorStyle = isPercentage
         ? { transform: `translateX(-${100 - calculatePercentage(progress, 0, total!)}%)` }
         : {};
 
+    useEffect(() => {
+        if (open !== isModalOpen) {
+            setIsModalOpen(open);
+        }
+    }, [open, isModalOpen]);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            // Pushing the change to the end of the call stack
+            const timer = setTimeout(() => {
+                document.body.style.pointerEvents = "";
+            }, 0);
+
+            return () => clearTimeout(timer);
+        } else {
+            document.body.style.pointerEvents = "auto";
+        }
+    });
+
     return (
-        <Dialog.Root open={open} onOpenChange={onCancel}>
+        <Dialog.Root
+            open={isModalOpen}
+            onOpenChange={() => {
+                setIsModalOpen(false);
+                onCancel();
+            }}
+        >
             <Dialog.Portal container={container}>
-                {open && <div className="widget-datagrid-modal-overlay" />}
-                {/* <Dialog.Overlay className="widget-datagrid-modal-overlay" /> */}
+                {isModalOpen && <div className="widget-datagrid-modal-overlay" />}
 
                 <Dialog.Content className="widget-datagrid-modal-content">
                     <Dialog.Close asChild>
