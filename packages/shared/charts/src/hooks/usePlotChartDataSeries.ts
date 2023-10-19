@@ -262,7 +262,7 @@ export function getPlotChartDataTransforms(
         {
             type: "aggregate",
             groups: dataPoints.x.map(dataPoint => {
-                if (!dataPoint) {
+                if (dataPoint == null) {
                     return "";
                 }
                 return typeof dataPoint === "string" || typeof dataPoint === "number"
