@@ -7,7 +7,7 @@ import { WarningIcon } from "./icons/WarningIcon";
 
 type ProgressModalProps = {
     failed?: boolean;
-    onCancel: () => void;
+    onCancel?: () => void;
     open: boolean;
     progress: number;
     total?: number;
@@ -35,7 +35,9 @@ export const ProgressModal: FC<ProgressModalProps> = ({
 
     const onCloseClick = useCallback(() => {
         setIsModalOpen(false);
-        onCancel();
+        if (onCancel) {
+            onCancel();
+        }
     }, [onCancel]);
 
     if (!isModalOpen) {

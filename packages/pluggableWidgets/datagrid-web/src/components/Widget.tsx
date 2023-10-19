@@ -53,7 +53,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
-    onDialogClose: () => void;
+    onDialogClose?: () => void;
     page: number;
     pageSize: number;
     paging: boolean;
