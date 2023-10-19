@@ -199,6 +199,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
             numberOfItems={props.datasource.totalCount}
+            onDialogClose={abort}
             page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}

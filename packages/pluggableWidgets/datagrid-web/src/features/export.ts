@@ -68,7 +68,11 @@ type UseExportAPIReturn = {
     processedRows: number;
 };
 
-export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn => {
+type ExportAPIActions = {
+    abort: () => void;
+};
+
+export const useDG2ExportApi = (props: UseExportAPIProps): [UseExportAPIReturn, ExportAPIActions] => {
     const [result, dispatch] = useExportMachine(props);
 
     useEffect(() => {
@@ -127,8 +131,6 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
                     }
                 };
 
-                (window as any).__abort = dataExportStream.abort;
-
                 return dataExportStream;
             },
             [_onOverwrite]: (): void => {
@@ -154,7 +156,8 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return result;
+    const actions = useMemo(() => ({ abort: () => dispatch({ type: "Abort" }) }), [dispatch]);
+    return [result, actions];
 };
 
 function useExportMachine({
