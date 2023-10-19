@@ -93,7 +93,7 @@ export const ProgressModal: FC<ProgressModalProps> = ({
     );
 };
 
-function calculatePercentage(currentValue: number, minValue: number = 0, maxValue: number): number {
+function calculatePercentage(currentValue: number, minValue: number, maxValue: number): number {
     if (currentValue < minValue) {
         return 0;
     }

@@ -182,11 +182,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         [columnsWidth, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
     );
 
-    const selectionEnabled = selectionProps.selectionType !== "None";
-    const onDialogClose = () => {
-        window.__abort();
-    };
-
     return (
         <WidgetPropsProvider value={props}>
             <WidgetRoot
@@ -299,6 +294,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             />
         </WidgetPropsProvider>
     );
+}
+
+function onDialogClose(): void {
+    window.__abort();
 }
 
 function gridStyle(columns: GridColumn[], resizeMap: ColumnWidthConfig, optional: OptionalColumns): CSSProperties {
