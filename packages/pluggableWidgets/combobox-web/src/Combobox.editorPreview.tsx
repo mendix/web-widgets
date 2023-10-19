@@ -5,7 +5,7 @@ import { ComboboxPreviewProps, OptionsSourceAssociationCustomContentTypeEnum } f
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { AssociationSimpleCaptionsProvider } from "./helpers/Association/AssociationSimpleCaptionsProvider";
 import { BaseAssociationSelector } from "./helpers/Association/BaseAssociationSelector";
-import { SingleSelector } from "./helpers/types";
+import { CaptionPlacement, SingleSelector } from "./helpers/types";
 import { getDatasourcePlaceholderText } from "./helpers/utils";
 import "./ui/Combobox.scss";
 
@@ -27,7 +27,7 @@ class AssociationPreviewCaptionsProvider extends AssociationSimpleCaptionsProvid
         }
         if (this.customContentType !== "no") {
             return (
-                <this.customContentRenderer caption="test">
+                <this.customContentRenderer caption={"CUSTOM CONTENT"}>
                     <div />
                 </this.customContentRenderer>
             );
@@ -37,6 +37,11 @@ class AssociationPreviewCaptionsProvider extends AssociationSimpleCaptionsProvid
     updatePreviewProps(props: PreviewProps): void {
         this.customContentRenderer = props.customContentRenderer;
         this.customContentType = props.customContentType;
+    }
+
+    render(value: string | null, placement: CaptionPlacement): ReactNode {
+        // always render custom content dropzone in design mode if type is options only
+        return super.render(value, placement === "label" ? "options" : placement);
     }
 }
 class AssociationPreviewSelector extends BaseAssociationSelector<string, ReferenceValue> implements SingleSelector {
@@ -52,6 +57,11 @@ class AssociationPreviewSelector extends BaseAssociationSelector<string, Referen
             customContentRenderer: props.optionsSourceAssociationCustomContent.renderer,
             customContentType: props.optionsSourceAssociationCustomContentType
         });
+
+        if (props.optionsSourceAssociationCustomContentType === "listItem") {
+            // always render custom content dropzone in design mode if type is options only
+            this.customContentType = "yes";
+        }
     }
 }
 
