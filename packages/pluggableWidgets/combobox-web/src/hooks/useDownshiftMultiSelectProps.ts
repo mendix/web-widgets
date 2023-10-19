@@ -132,6 +132,29 @@ function useComboboxProps(
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
             },
+            getA11yStatusMessage(options) {
+                let message =
+                    selectedItems.length > 0
+                        ? `Selected item${selectedItems.length === 1 ? " is" : "s are"} ${selectedItems
+                              .map(itemId => selector.caption.get(itemId))
+                              .join(",")}.`
+                        : "";
+                if (!options.isOpen) {
+                    message += "";
+                }
+
+                if (!options.resultCount) {
+                    message += "No results are available.";
+                }
+
+                if (options.resultCount !== options.previousResultCount) {
+                    message += `${options.resultCount} result${
+                        options.resultCount === 1 ? " is" : "s are"
+                    } available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.`;
+                }
+
+                return message;
+            },
             itemToString: (v: string | null) => selector.caption.get(v),
             stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
