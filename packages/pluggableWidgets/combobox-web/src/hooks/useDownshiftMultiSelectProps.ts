@@ -141,7 +141,11 @@ function useComboboxProps(
                             ...changes,
                             inputValue: _state.inputValue
                         };
-
+                    case useCombobox.stateChangeTypes.InputFocus:
+                        return {
+                            ...changes,
+                            isOpen: false
+                        };
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
                         return {
