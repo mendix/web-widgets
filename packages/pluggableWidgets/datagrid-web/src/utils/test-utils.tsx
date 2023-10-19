@@ -72,6 +72,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         hasMoreItems: false,
         headerWrapperRenderer: (_index, header) => header,
         id,
+        onDialogClose: jest.fn(),
         page: 1,
         pageSize: 10,
         paging: false,

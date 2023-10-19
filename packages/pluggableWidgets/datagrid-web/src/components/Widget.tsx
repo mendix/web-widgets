@@ -12,7 +12,6 @@ import {
     useCallback,
     useEffect,
     useMemo,
-    useRef,
     useState
 } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
@@ -54,6 +53,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
+    onDialogClose: () => void;
     page: number;
     pageSize: number;
     paging: boolean;
@@ -98,6 +98,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerWrapperRenderer,
         id,
         numberOfItems,
+        onDialogClose,
         page,
         pageSize,
         paging,
@@ -120,7 +121,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
-    const containerRef = useRef(null);
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
@@ -189,7 +189,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionEnabled}
                 style={styles}
-                ref={containerRef}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
@@ -284,20 +283,15 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
+                <ProgressModal
+                    onCancel={onDialogClose}
+                    open={exporting}
+                    progress={processedRows}
+                    total={numberOfItems}
+                />
             </WidgetRoot>
-            <ProgressModal
-                container={containerRef.current}
-                onCancel={onDialogClose}
-                open={exporting}
-                progress={processedRows}
-                total={numberOfItems}
-            />
         </WidgetPropsProvider>
     );
-}
-
-function onDialogClose(): void {
-    window.__abort();
 }
 
 function gridStyle(columns: GridColumn[], resizeMap: ColumnWidthConfig, optional: OptionalColumns): CSSProperties {
