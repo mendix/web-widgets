@@ -21,7 +21,6 @@ export function WidgetRoot(props: WidgetRootProps): ReactElement {
                 "widget-datagrid-selection-method-click": selection && selectionMethod === "rowClick"
             })}
             {...rest}
-            style={{ position: "relative" }}
         >
             {children}
         </div>
