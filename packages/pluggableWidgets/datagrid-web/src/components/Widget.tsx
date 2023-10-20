@@ -53,7 +53,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
-    onDialogClose?: () => void;
+    onExportCancel?: () => void;
     page: number;
     pageSize: number;
     paging: boolean;
@@ -98,7 +98,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerWrapperRenderer,
         id,
         numberOfItems,
-        onDialogClose,
+        onExportCancel,
         page,
         pageSize,
         paging,
@@ -284,7 +284,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
                 <ProgressModal
-                    onCancel={onDialogClose}
+                    onCancel={onExportCancel}
                     open={exporting}
                     progress={processedRows}
                     total={numberOfItems}
