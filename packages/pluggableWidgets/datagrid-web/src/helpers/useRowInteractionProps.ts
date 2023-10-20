@@ -4,6 +4,7 @@ import { removeAllRanges } from "@mendix/widget-plugin-grid/selection/utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ListActionValue, ObjectItem } from "mendix";
 import { useMemo } from "react";
+import { OnClickTriggerEnum } from "typings/DatagridProps";
 
 /**
  * This is sad, but originally row was behaving like a button when DG has a "On click" action.
@@ -22,6 +23,7 @@ type OtherProps = {
 
 type RowEventHandlers = {
     onClick?: React.MouseEventHandler<HTMLDivElement>;
+    onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
     onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
     onKeyUp?: React.KeyboardEventHandler<HTMLDivElement>;
 };
@@ -42,11 +44,14 @@ function getPattern(selectionType: SelectionType, action: ActionProp): RowPatter
     return "None";
 }
 
-function rowPropsButton(item: ObjectItem, action: ActionProp): RowInteractionProps {
+function rowPropsButton(item: ObjectItem, actionTrigger: OnClickTriggerEnum, action: ActionProp): RowInteractionProps {
     const callback = (): void => executeAction(action?.get(item));
+    const callbackSingle = actionTrigger === "single" ? callback : undefined;
+    const callbackDouble = actionTrigger === "double" ? callback : undefined;
 
     return {
-        onClick: callback,
+        onClick: callbackSingle,
+        onDoubleClick: callbackDouble,
         onKeyUp(event) {
             if (event.code !== "Enter" && event.code !== "Space") {
                 return;
@@ -59,22 +64,23 @@ function rowPropsButton(item: ObjectItem, action: ActionProp): RowInteractionPro
     };
 }
 
-function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps): RowInteractionProps {
-    if (selectionProps.selectionType === "None") {
-        return {};
-    }
-
-    const callback = (item: ObjectItem, shiftKey: boolean): void => {
-        selectionProps.onSelect(item, shiftKey);
-    };
+function rowPropsSelectable(
+    item: ObjectItem,
+    selectionProps: GridSelectionProps,
+    actionTrigger: OnClickTriggerEnum,
+    action: ActionProp
+): RowInteractionProps {
+    const callbackSingle = (item: ObjectItem, shiftKey: boolean): void => selectionProps.onSelect(item, shiftKey);
+    const callbackDouble = actionTrigger === "double" ? () => executeAction(action?.get(item)) : undefined;
 
     return {
         onClick(event) {
             if (event.shiftKey) {
                 removeAllRanges();
             }
-            callback(item, event.shiftKey);
+            callbackSingle(item, event.shiftKey);
         },
+        onDoubleClick: callbackDouble,
         onKeyDown: selectionProps.onKeyDown,
         onKeyUp(event) {
             selectionProps.onKeyUp?.(event, item);
@@ -89,6 +95,7 @@ function isDirectChild(row: Element, cell: Element): boolean {
 export function useRowInteractionProps(
     item: ObjectItem,
     selectionProps: GridSelectionProps,
+    actionTrigger: OnClickTriggerEnum,
     action: ActionProp
 ): [RowInteractionProps, OtherProps] {
     function computeProps(): [RowInteractionProps, OtherProps] {
@@ -96,15 +103,15 @@ export function useRowInteractionProps(
         let props: RowInteractionProps = {};
 
         if (pattern === "RowActAsButton") {
-            props = rowPropsButton(item, action);
+            props = rowPropsButton(item, actionTrigger, action);
         }
 
         if (pattern === "RowActAsSelectable") {
-            props = rowPropsSelectable(item, selectionProps);
+            props = rowPropsSelectable(item, selectionProps, actionTrigger, action);
         }
 
         return [props, { cellClickableClass: pattern !== "None" }];
     }
 
-    return useMemo(computeProps, [item, selectionProps, action]);
+    return useMemo(computeProps, [item, selectionProps, actionTrigger, action]);
 }

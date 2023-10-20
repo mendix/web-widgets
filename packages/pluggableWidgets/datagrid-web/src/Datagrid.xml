@@ -213,6 +213,14 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Events">
+                <property key="onClickTrigger" type="enumeration" defaultValue="single">
+                    <caption>On Click trigger</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="single">Single click</enumerationValue>
+                        <enumerationValue key="double">Double click</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="onClick" type="action" required="false" dataSource="datasource">
                     <caption>On click action</caption>
                     <description />

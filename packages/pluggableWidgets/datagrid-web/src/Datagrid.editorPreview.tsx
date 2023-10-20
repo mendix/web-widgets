@@ -108,6 +108,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             pagingPosition={props.pagingPosition}
             preview
             processedRows={0}
+            actionTrigger={props.onClickTrigger}
             styles={parseStyle(props.style)}
             setHidden={() => {
                 return undefined;

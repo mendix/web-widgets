@@ -372,11 +372,12 @@ const checkSortingSettings = (
 };
 
 const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
-    if (values.itemSelection !== "None" && values.onClick !== null) {
+    if (values.itemSelection !== "None" && values.onClick !== null && values.onClickTrigger === "single") {
         return [
             {
                 property: "onClick",
-                message: '"On click action" must be set to "Do nothing" when "Selection" is enabled'
+                message:
+                    '"On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" '
             }
         ];
     }

@@ -14,7 +14,7 @@ import {
     useMemo,
     useState
 } from "react";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { OnClickTriggerEnum, PagingPositionEnum } from "../../typings/DatagridProps";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent } from "../typings/CellComponent";
@@ -67,6 +67,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
+    actionTrigger: OnClickTriggerEnum;
     rowAction?: ListActionValue;
     selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
@@ -259,6 +260,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         index={rowIndex}
                                         item={item}
                                         key={`row_${item.id}`}
+                                        actionTrigger={props.actionTrigger}
                                         rowAction={props.rowAction}
                                         showSelectorCell={columnsHidable}
                                         preview={preview ?? false}

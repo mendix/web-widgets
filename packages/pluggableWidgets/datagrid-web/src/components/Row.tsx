@@ -6,6 +6,7 @@ import { useRowInteractionProps } from "../helpers/useRowInteractionProps";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CellElement } from "./CellElement";
+import { OnClickTriggerEnum } from "typings/DatagridProps";
 
 export interface RowProps<C extends GridColumn> {
     className?: string;
@@ -14,6 +15,7 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
+    actionTrigger: OnClickTriggerEnum;
     rowAction?: ListActionValue;
     preview: boolean;
     selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
@@ -31,6 +33,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
         props.item,
         selectionProps,
+        props.actionTrigger,
         props.rowAction
     );
 
