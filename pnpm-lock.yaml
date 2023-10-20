@@ -44,8 +44,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0(axe-core@4.7.2)(cypress@13.3.0)
       cypress-image-diff-js:
-        specifier: ^1.30.1
-        version: 1.30.1(cypress@13.3.0)
+        specifier: ^1.31.0
+        version: 1.31.0(cypress@13.3.0)
       cypress-terminal-report:
         specifier: ^5.3.7
         version: 5.3.7(cypress@13.3.0)
@@ -7468,8 +7468,8 @@ packages:
       cypress: 13.3.0
     dev: false
 
-  /cypress-image-diff-js@1.30.1(cypress@13.3.0):
-    resolution: {integrity: sha512-tmMkba7ewRIPDEz+F7McVTZR4l/CHy5ijQwTNYMcCqAhKuWz0hTjgtMHgJkhAME9TURbSFMrxIogd3p27zn9zw==}
+  /cypress-image-diff-js@1.31.0(cypress@13.3.0):
+    resolution: {integrity: sha512-W/nSiAReSMrXimOYxi1A/lhoCgWoIMNcJlTfnNlaUjQ5A7wFLs7ItJcaeR6B9DN/8ObI4vHx05MIgkrw/r5MSA==}
     hasBin: true
     peerDependencies:
       cypress: '>=9.6.1'
