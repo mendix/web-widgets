@@ -43,6 +43,7 @@ interface SelectorBase<T, V> {
     status: Status;
     type: T;
     readOnly: boolean;
+    validation?: string;
 
     // options related
     options: OptionsProvider;

@@ -35,7 +35,12 @@ export function MultiSelection({
 
     return (
         <Fragment>
-            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
+            <ComboboxWrapper
+                isOpen={isOpen}
+                readOnly={selector.readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+                validation={selector.validation}
+            >
                 <div
                     className={classNames(
                         "widget-combobox-selected-items",
