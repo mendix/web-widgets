@@ -48,6 +48,8 @@ export type ShowPagingButtonsEnum = "always" | "auto";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
+export type OnClickTriggerEnum = "single" | "double";
+
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
@@ -99,6 +101,7 @@ export interface DatagridContainerProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
+    onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
     columnsSortable: boolean;
@@ -138,6 +141,7 @@ export interface DatagridPreviewProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
+    onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
     columnsSortable: boolean;

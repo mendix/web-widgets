@@ -5,7 +5,7 @@ import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { OnClickTriggerEnum, PagingPositionEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -54,6 +54,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
+    actionTrigger: OnClickTriggerEnum;
     rowAction?: ListActionValue;
     selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
