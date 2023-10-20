@@ -22,12 +22,13 @@ export interface RowProps<C extends GridColumn> {
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell, index: rowIndex } = props;
-    const { selectionProps, preview, selectRowLabel, data } = useWidgetProps();
+    const { selectionProps, preview, selectRowLabel, data, actionTrigger } = useWidgetProps();
     const selected = selectionProps.isSelected(props.item);
     const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
         props.item,
         selectionProps,
+        actionTrigger,
         props.rowAction
     );
     return (

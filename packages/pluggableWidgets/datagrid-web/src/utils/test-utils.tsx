@@ -96,6 +96,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
             swap: jest.fn()
         },
         valueForSort: () => "dummy",
+        actionTrigger: "single",
         selectionProps,
         selectionStatus: "unknown",
         setPage: jest.fn(),

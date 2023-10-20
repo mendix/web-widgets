@@ -224,6 +224,7 @@ function Container(props: Props): ReactElement {
                 },
                 [props.columns]
             )}
+            actionTrigger={props.onClickTrigger}
             rowAction={props.onClick}
             selectionProps={selectionProps}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
