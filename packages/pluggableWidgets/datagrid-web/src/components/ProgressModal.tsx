@@ -1,4 +1,4 @@
-import { createElement, FC, ReactElement, useCallback, useEffect, useState } from "react";
+import { createElement, FC, ReactElement, useCallback } from "react";
 import classNames from "classnames";
 import * as Progress from "@radix-ui/react-progress";
 
@@ -20,27 +20,19 @@ export const ProgressModal: FC<ProgressModalProps> = ({
     progress,
     total
 }): ReactElement | null => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const isPercentage = Boolean(total);
     const modalContent = isPercentage ? `${progress} / ${total}` : progress;
     const indicatorStyle = isPercentage
         ? { transform: `translateX(-${100 - calculatePercentage(progress, 0, total!)}%)` }
         : {};
 
-    useEffect(() => {
-        if (open !== isModalOpen) {
-            setIsModalOpen(open);
-        }
-    }, [open, isModalOpen]);
-
     const onCloseClick = useCallback(() => {
-        setIsModalOpen(false);
         if (onCancel) {
             onCancel();
         }
     }, [onCancel]);
 
-    if (!isModalOpen) {
+    if (!open) {
         return null;
     }
 
