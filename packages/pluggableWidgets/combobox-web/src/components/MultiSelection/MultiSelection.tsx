@@ -87,7 +87,6 @@ export function MultiSelection({
                                 { suppressRefError: true }
                             ),
                             ref: inputRef,
-                            onClick: e => e.stopPropagation(),
                             onKeyDown: (event: KeyboardEvent) => {
                                 if (
                                     (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||

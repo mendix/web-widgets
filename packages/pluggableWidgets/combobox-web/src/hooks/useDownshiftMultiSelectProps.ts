@@ -156,18 +156,18 @@ function useComboboxProps(
                 return message;
             },
             itemToString: (v: string | null) => selector.caption.get(v),
-            stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
+            stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
                 switch (type) {
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
-                            inputValue: _state.inputValue
+                            inputValue: state.inputValue
                         };
                     case useCombobox.stateChangeTypes.InputFocus:
                         return {
                             ...changes,
-                            isOpen: false
+                            isOpen: state.isOpen
                         };
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
