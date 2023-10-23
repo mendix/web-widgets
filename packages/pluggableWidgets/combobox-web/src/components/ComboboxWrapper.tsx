@@ -30,7 +30,7 @@ export const ComboboxWrapper = forwardRef(
                         <DownArrow isOpen={isOpen} />
                     </div>
                 </div>
-                {validation && <ValidationAlert bootstrapStyle="danger">{validation}</ValidationAlert>}
+                {validation && <ValidationAlert>{validation}</ValidationAlert>}
             </Fragment>
         );
     }
