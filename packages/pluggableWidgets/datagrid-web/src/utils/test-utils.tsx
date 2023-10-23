@@ -60,7 +60,6 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     return {
         CellComponent: Cell,
         className: "test",
-        columns: columnsProp.map((col, index) => new Column(col, index, id)),
         columnsDraggable: false,
         columnsFilterable: false,
         columnsHidable: false,
@@ -77,22 +76,13 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        columnsHidable: false,
-        columnsDraggable: false,
-        className: "test",
-        columnsFilterable: false,
-        columnsSortable: false,
         columnsState,
         setHidden: jest.fn(),
         setOrder: jest.fn(),
         valueForSort: () => "dummy",
-        filterRenderer: () => <input type="text" defaultValue="dummy" />,
-        headerWrapperRenderer: (_index, header) => header,
-        data: [{ id: "123456" as GUID }],
-        id,
         selectionProps,
         selectionStatus: "unknown",
         setPage: jest.fn(),
-        valueForSort: () => "dummy"
+        processedRows: 0
     };
 }

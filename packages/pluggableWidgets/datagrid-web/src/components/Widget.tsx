@@ -37,7 +37,6 @@ import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../feat
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
-    columns: C[];
     columnsDraggable: boolean;
     columnsFilterable: boolean;
     columnsHidable: boolean;
@@ -181,6 +180,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             }),
         [columnsWidth, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
     );
+
+    const selectionEnabled = props.selectionProps.selectionType !== "None";
 
     return (
         <WidgetPropsProvider value={props}>
