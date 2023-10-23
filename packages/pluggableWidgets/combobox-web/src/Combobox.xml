@@ -178,7 +178,36 @@
                 </property>
                 <property key="removeValueAriaLabel" type="string" defaultValue="Remove value" required="true">
                     <caption>Remove value</caption>
-                    <description>Used for the individual selected value labels in multi-selection</description>
+                    <description>Used for the individual selected value labels in multi-selection.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Accesibility Status Message ">
+                <property key="i18nSelectedItemSingular" type="string" defaultValue="Selected item is" required="true">
+                    <caption>Selected item (Singular)</caption>
+                    <description>Output example: "Selected item is Avocado."</description>
+                </property>
+                <property key="i18nSelectedItemPlural" type="string" defaultValue="Selected items are" required="true">
+                    <caption>Selected items (Plural)</caption>
+                    <description>
+                        Used when Multi-selection is enabled and there are multiple
+                        selected items. Output example: Selected items are Avocado, Apple, Banana.
+                    </description>
+                </property>
+                <property key="i18nNoResults" type="string" defaultValue="No results are available." required="true">
+                    <caption>No results</caption>
+                    <description>Read when there are no search results for the given input value.</description>
+                </property>
+                <property key="i18nResultSingle" type="string" defaultValue="result is available." required="true">
+                    <caption>Result available (Singular)</caption>
+                    <description>Example output: "1 result is available."</description>
+                </property>
+                <property key="i18nResultPlural" type="string" defaultValue="results are available." required="true">
+                    <caption>Results available (Plural)</caption>
+                    <description>Example output: "8 results are available."</description>
+                </property>
+                <property key="i18nInstructions" type="string" defaultValue="Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select." required="true">
+                    <caption>Instructions</caption>
+                    <description>Instructions to be read after announcing the status.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

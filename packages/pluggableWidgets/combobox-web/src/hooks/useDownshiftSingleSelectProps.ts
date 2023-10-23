@@ -8,7 +8,7 @@ import {
 } from "downshift";
 
 import { useMemo } from "react";
-import { SingleSelector } from "../helpers/types";
+import { A11yStatusMessage, SingleSelector } from "../helpers/types";
 
 interface Options {
     inputId?: string;
@@ -17,7 +17,8 @@ interface Options {
 
 export function useDownshiftSingleSelectProps(
     selector: SingleSelector,
-    options: Options = {}
+    options: Options = {},
+    a11yStatusMessage: A11yStatusMessage
 ): UseComboboxReturnValue<string> {
     const { inputId, labelId } = options;
 
@@ -33,6 +34,27 @@ export function useDownshiftSingleSelectProps(
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
+            },
+            getA11yStatusMessage(options) {
+                const selectedItem = selector.caption.get(selector.currentValue);
+                let message = selectedItem ? a11yStatusMessage.i18nSelectedItemSingular : "";
+                if (!options.isOpen) {
+                    message += "";
+                }
+
+                if (!options.resultCount) {
+                    message += a11yStatusMessage.i18nNoResults;
+                }
+
+                if (options.resultCount !== options.previousResultCount) {
+                    message += `${options.resultCount} ${
+                        options.resultCount === 1
+                            ? a11yStatusMessage.i18nResultSingle
+                            : a11yStatusMessage.i18nResultPlural
+                    } ${a11yStatusMessage.i18nInstructions}`;
+                }
+
+                return message;
             },
             defaultHighlightedIndex: 0,
             selectedItem: null,

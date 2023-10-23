@@ -11,7 +11,7 @@ import { MultiSelectionMenu } from "./MultiSelectionMenu";
 export function MultiSelection({
     selector,
     tabIndex,
-    clearButtonAriaLabels,
+    a11yConfig,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
@@ -29,7 +29,7 @@ export function MultiSelection({
         items,
         setSelectedItems,
         toggleSelectedItem
-    } = useDownshiftMultiSelectProps(selector, options);
+    } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
 
@@ -61,7 +61,7 @@ export function MultiSelection({
                                     {selector.caption.render(selectedItemForRender, "label")}
                                     <span
                                         className="icon widget-combobox-clear-button"
-                                        aria-label={clearButtonAriaLabels?.removeSelection}
+                                        aria-label={a11yConfig.ariaLabels?.removeSelection}
                                         role="button"
                                         onClick={e => {
                                             e.stopPropagation();
@@ -120,7 +120,7 @@ export function MultiSelection({
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
-                            aria-label={clearButtonAriaLabels?.clearSelection}
+                            aria-label={a11yConfig.ariaLabels?.clearSelection}
                             onClick={e => {
                                 e.stopPropagation();
                                 inputRef.current?.focus();

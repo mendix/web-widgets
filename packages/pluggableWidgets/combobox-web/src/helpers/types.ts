@@ -74,8 +74,20 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
-    clearButtonAriaLabels?: {
-        clearSelection: string;
-        removeSelection: string;
+    a11yConfig: {
+        ariaLabels: {
+            clearSelection: string;
+            removeSelection: string;
+        };
+        a11yStatusMessage: A11yStatusMessage;
     };
+}
+
+export interface A11yStatusMessage {
+    i18nSelectedItemSingular: string;
+    i18nSelectedItemPlural: string;
+    i18nNoResults: string;
+    i18nResultSingle: string;
+    i18nResultPlural: string;
+    i18nInstructions: string;
 }

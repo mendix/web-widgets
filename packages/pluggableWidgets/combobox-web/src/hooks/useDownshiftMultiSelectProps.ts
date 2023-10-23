@@ -8,7 +8,7 @@ import {
     useMultipleSelection
 } from "downshift";
 import { useMemo } from "react";
-import { MultiSelector } from "../helpers/types";
+import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
     Pick<
@@ -34,7 +34,8 @@ interface Options {
 
 export function useDownshiftMultiSelectProps(
     selector: MultiSelector,
-    options?: Options
+    options: Options,
+    a11yStatusMessage: A11yStatusMessage
 ): UseDownshiftMultiSelectPropsReturnValue {
     const {
         getSelectedItemProps,
@@ -77,7 +78,17 @@ export function useDownshiftMultiSelectProps(
         getItemProps,
         inputValue,
         setInputValue
-    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems, options));
+    } = useCombobox(
+        useComboboxProps(
+            selector,
+            selectedItems,
+            items,
+            removeSelectedItem,
+            setSelectedItems,
+            a11yStatusMessage,
+            options
+        )
+    );
 
     const toggleSelectedItem = (index: number): void => {
         const item = items[index];
@@ -121,6 +132,7 @@ function useComboboxProps(
     items: string[],
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void,
+    a11yStatusMessage: A11yStatusMessage,
     options?: Options
 ): UseComboboxProps<string> {
     return useMemo(() => {
@@ -135,22 +147,26 @@ function useComboboxProps(
             getA11yStatusMessage(options) {
                 let message =
                     selectedItems.length > 0
-                        ? `Selected item${selectedItems.length === 1 ? " is" : "s are"} ${selectedItems
-                              .map(itemId => selector.caption.get(itemId))
-                              .join(",")}.`
+                        ? `${
+                              selectedItems.length === 1
+                                  ? a11yStatusMessage.i18nSelectedItemSingular
+                                  : a11yStatusMessage.i18nSelectedItemPlural
+                          } ${selectedItems.map(itemId => selector.caption.get(itemId)).join(",")}.`
                         : "";
                 if (!options.isOpen) {
                     message += "";
                 }
 
                 if (!options.resultCount) {
-                    message += "No results are available.";
+                    message += a11yStatusMessage.i18nNoResults;
                 }
 
                 if (options.resultCount !== options.previousResultCount) {
-                    message += `${options.resultCount} result${
-                        options.resultCount === 1 ? " is" : "s are"
-                    } available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.`;
+                    message += `${options.resultCount} ${
+                        options.resultCount === 1
+                            ? a11yStatusMessage.i18nResultSingle
+                            : a11yStatusMessage.i18nResultPlural
+                    } ${a11yStatusMessage.i18nInstructions}`;
                 }
 
                 return message;

@@ -70,7 +70,21 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const commonProps = {
         tabIndex: 1,
         inputId: id,
-        labelId: `${id}-label`
+        labelId: `${id}-label`,
+        a11yConfig: {
+            ariaLabels: {
+                clearSelection: props.clearButtonAriaLabel,
+                removeSelection: props.removeValueAriaLabel
+            },
+            a11yStatusMessage: {
+                i18nSelectedItemSingular: props.i18nSelectedItemSingular,
+                i18nSelectedItemPlural: props.i18nSelectedItemPlural,
+                i18nNoResults: props.i18nNoResults,
+                i18nResultSingle: props.i18nResultSingle,
+                i18nResultPlural: props.i18nResultPlural,
+                i18nInstructions: props.i18nInstructions
+            }
+        }
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
