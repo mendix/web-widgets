@@ -70,4 +70,8 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    clearButtonAriaLabels?: {
+        clearSelection: string;
+        removeSelection: string;
+    };
 }

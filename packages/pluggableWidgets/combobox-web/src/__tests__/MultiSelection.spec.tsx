@@ -39,7 +39,9 @@ describe("Combo box (Association)", () => {
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
-            noOptionsText: dynamicValue("no options found")
+            noOptionsText: dynamicValue("no options found"),
+            clearButtonAriaLabel: "Clear selection",
+            removeValueAriaLabel: "Remove value"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

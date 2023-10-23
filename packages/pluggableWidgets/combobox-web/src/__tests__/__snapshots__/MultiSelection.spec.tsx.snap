@@ -35,6 +35,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
         </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
       >
         <span
@@ -256,6 +257,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
       >
         <span

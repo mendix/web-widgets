@@ -151,12 +151,23 @@
                 <description />
             </property>
         </propertyGroup>
-
         <propertyGroup caption="Accessibility">
-            <property key="ariaRequired" type="boolean" defaultValue="false">
-                <caption>Aria required</caption>
-                <description />
-            </property>
+            <propertyGroup caption="Accessibility">
+                <property key="ariaRequired" type="boolean" defaultValue="false">
+                    <caption>Aria required</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Aria labels">
+                <property key="clearButtonAriaLabel" type="string" defaultValue="Clear selection" required="true">
+                    <caption>Clear selection</caption>
+                    <description />
+                </property>
+                <property key="removeValueAriaLabel" type="string" defaultValue="Remove value" required="true">
+                    <caption>Remove value</caption>
+                    <description>Used for the individual selected value labels in multi-selection</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

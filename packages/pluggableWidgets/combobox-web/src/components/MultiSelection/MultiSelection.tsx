@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, ReactElement, createElement } from "react";
+import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
@@ -8,7 +8,12 @@ import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
 
-export function MultiSelection({ selector, tabIndex, ...options }: SelectionBaseProps<MultiSelector>): ReactElement {
+export function MultiSelection({
+    selector,
+    tabIndex,
+    clearButtonAriaLabels,
+    ...options
+}: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
         isOpen,
         getToggleButtonProps,
@@ -16,7 +21,6 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
         getInputProps,
         highlightedIndex,
         getItemProps,
-        inputValue,
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
@@ -26,6 +30,8 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
         setSelectedItems,
         toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
 
     return (
         <Fragment>
@@ -36,7 +42,7 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         `widget-combobox-${selector.selectedItemsStyle}`
                     )}
                 >
-                    {(selector.selectedItemsStyle === "boxes" || selector.customContentType === "yes") &&
+                    {isSelectedItemsBoxStyle &&
                         selectedItems.map((selectedItemForRender, index) => {
                             return (
                                 <div
@@ -50,6 +56,8 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                                     {selector.caption.render(selectedItemForRender, "label")}
                                     <span
                                         className="icon widget-combobox-clear-button"
+                                        aria-label={clearButtonAriaLabels?.removeSelection}
+                                        role="button"
                                         onClick={e => {
                                             e.stopPropagation();
                                             removeSelectedItem(selectedItemForRender);
@@ -66,29 +74,35 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         })}
                         tabIndex={tabIndex}
                         placeholder=" "
-                        {...getInputProps(
-                            {
-                                ...getDropdownProps({
+                        {...getInputProps({
+                            ...getDropdownProps(
+                                {
                                     preventKeyAction: isOpen
-                                }),
-                                onClick: e => e.stopPropagation(),
-                                onKeyDown: (event: KeyboardEvent) => {
-                                    if (event.key === "Backspace" && inputValue === "") {
-                                        setActiveIndex(selectedItems.length - 1);
-                                    }
-                                    if (event.key === " ") {
-                                        if (highlightedIndex >= 0) {
-                                            toggleSelectedItem(highlightedIndex);
-                                            event.preventDefault();
-                                            event.stopPropagation();
-                                        }
-                                    }
                                 },
-                                disabled: selector.readOnly,
-                                readOnly: selector.options.filterType === "none"
+                                { suppressRefError: true }
+                            ),
+                            ref: inputRef,
+                            onClick: e => e.stopPropagation(),
+                            onKeyDown: (event: KeyboardEvent) => {
+                                if (
+                                    (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||
+                                    (event.key === "ArrowLeft" &&
+                                        isSelectedItemsBoxStyle &&
+                                        inputRef.current?.selectionStart === 0)
+                                ) {
+                                    setActiveIndex(selectedItems.length - 1);
+                                }
+                                if (event.key === " ") {
+                                    if (highlightedIndex >= 0) {
+                                        toggleSelectedItem(highlightedIndex);
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                }
                             },
-                            { suppressRefError: true }
-                        )}
+                            disabled: selector.readOnly,
+                            readOnly: selector.options.filterType === "none"
+                        })}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>
                         {getSelectedCaptionsPlaceholder(selector, selectedItems)}
@@ -102,8 +116,10 @@ export function MultiSelection({ selector, tabIndex, ...options }: SelectionBase
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
+                            aria-label={clearButtonAriaLabels?.clearSelection}
                             onClick={e => {
                                 e.stopPropagation();
+                                inputRef.current?.focus();
                                 if (selectedItems.length > 0) {
                                     setSelectedItems([]);
                                 }
