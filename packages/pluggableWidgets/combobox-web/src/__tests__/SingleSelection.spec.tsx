@@ -49,7 +49,12 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             clearButtonAriaLabel: "Clear selection",
             removeValueAriaLabel: "Remove value",
-            selectionMethod: "checkbox"
+            i18nSelectedItemSingular: "i18nSelectedItemSingular",
+            i18nSelectedItemPlural: "i18nSelectedItemPlural",
+            i18nNoResults: "i18nNoResults",
+            i18nResultSingle: "i18nResultSingle",
+            i18nResultPlural: "i18nResultPlural",
+            i18nInstructions: "i18nInstructions"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
