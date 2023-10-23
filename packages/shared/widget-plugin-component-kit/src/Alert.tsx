@@ -7,7 +7,7 @@ export interface AlertProps {
     bootstrapStyle: "default" | "primary" | "success" | "info" | "warning" | "danger";
 }
 
-//cloning from https://gitlab.rnd.mendix.com/appdev/appdev/-/blob/master/client/src/widgets/web/helpers/Alert.tsx
+// cloning from https://gitlab.rnd.mendix.com/appdev/appdev/-/blob/master/client/src/widgets/web/helpers/Alert.tsx
 export const ValidationAlert = ({ className, bootstrapStyle, children }: AlertProps): JSX.Element | null =>
     Children.count(children) > 0 ? (
         <div className={classNames(`alert alert-${bootstrapStyle} mx-validation-message`, className)} role="alert">
