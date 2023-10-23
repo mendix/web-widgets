@@ -190,6 +190,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionEnabled}
                 style={styles}
+                exporting={exporting}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}

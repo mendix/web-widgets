@@ -107,3 +107,16 @@
         transform: translateX(100%) scaleX(0.5);
     }
 }
+
+.widget-datagrid-exporting {
+    .widget-datagrid-top-bar,
+    .widget-datagrid-header,
+    .widget-datagrid-content,
+    .widget-datagrid-footer {
+        visibility: hidden;
+
+        * {
+            transition: unset;
+        }
+    }
+}
