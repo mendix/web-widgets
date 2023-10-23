@@ -243,6 +243,9 @@ $disabled-text-color: #6c7180;
                     align-items: center;
                 }
             }
+            &:focus-visible {
+                outline: $brand-primary auto 1px;
+            }
         }
     }
 
