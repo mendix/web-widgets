@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We updated actions so that they suggest better names for return variables.
+
 ## [2.8.0] - 2023-06-06
 
 ### Changed
