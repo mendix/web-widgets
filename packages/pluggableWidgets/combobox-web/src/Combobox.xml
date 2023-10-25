@@ -188,10 +188,7 @@
                 </property>
                 <property key="i18nSelectedItemPlural" type="string" defaultValue="Selected items are" required="true">
                     <caption>Selected items (Plural)</caption>
-                    <description>
-                        Used when Multi-selection is enabled and there are multiple
-                        selected items. Output example: Selected items are Avocado, Apple, Banana.
-                    </description>
+                    <description>Used when Multi-selection is enabled and there are multiple selected items. Output example: Selected items are Avocado, Apple, Banana.</description>
                 </property>
                 <property key="i18nNoResults" type="string" defaultValue="No results are available." required="true">
                     <caption>No results</caption>
