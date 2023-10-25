@@ -25,7 +25,6 @@ import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { Header } from "./Header";
-import { ProgressModal } from "./ProgressModal";
 import { Row } from "./Row";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
@@ -33,6 +32,7 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
+import { ExportWidget } from "./ExportWidget";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -285,7 +285,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
-                <ProgressModal
+                <ExportWidget
+                    alertLabel="Export progress"
+                    cancelLabel="Cancel data export"
+                    failed={false}
                     onCancel={onExportCancel}
                     open={exporting}
                     progress={processedRows}

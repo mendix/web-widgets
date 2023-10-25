@@ -1,110 +1,12 @@
+@use "./ExportAlert.scss";
+@use "./PseudoModal.scss";
+@use "./ExportProgress.scss";
+
 .widget-datagrid {
     position: relative;
     .th.widget-datagrid-col-select,
     .td.widget-datagrid-col-select {
         align-items: center;
-    }
-}
-
-.widget-datagrid-modal {
-    &-overlay {
-        animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-        background-color: rgba(128, 128, 128, 0.5);
-        display: grid;
-        overflow-y: auto;
-        place-items: center;
-        position: absolute;
-        inset: 0;
-        z-index: 50;
-    }
-
-    &-content {
-        background-color: rgba(255, 255, 255, 1);
-        border-radius: 4px;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        display: flex;
-        flex-direction: column;
-        padding: 54px;
-        min-width: 200px;
-        max-width: 378px;
-        width: 100%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 50;
-    }
-
-    &-description {
-        color: rgba(38, 74, 229, 1);
-        font-size: 18px;
-        font-weight: 700;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    &-close {
-        color: rgba(59, 66, 81, 1) !important;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    &-warning {
-        color: rgba(227, 63, 78, 1);
-    }
-
-    &-progress {
-        align-items: center;
-        background-color: rgba(240, 241, 242, 1);
-        border-radius: 4px;
-        display: flex;
-        height: 18px;
-        overflow: hidden;
-        position: relative;
-        transform: translateZ(0);
-        width: 100%;
-    }
-
-    &-progress-indicator {
-        background-color: rgba(38, 74, 229, 1);
-        border-radius: 4px;
-        height: 17px;
-        transition: transform 100ms cubic-bezier(0.65, 0, 0.35, 1);
-        width: 100%;
-    }
-
-    &-progress-indicator-warning {
-        background-color: rgba(227, 63, 78, 1);
-    }
-
-    &-progress-indicator-indeterminate {
-        animation: indeterminateAnimation 1s infinite linear;
-        transform-origin: 0% 50%;
-        transition: none;
-    }
-}
-
-@keyframes overlayShow {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes indeterminateAnimation {
-    0% {
-        transform: translateX(0) scaleX(0);
-    }
-    40% {
-        transform: translateX(0) scaleX(0.4);
-    }
-    100% {
-        transform: translateX(100%) scaleX(0.5);
     }
 }
 
