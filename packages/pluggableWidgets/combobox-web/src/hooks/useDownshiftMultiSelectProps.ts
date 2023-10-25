@@ -147,28 +147,18 @@ function useComboboxProps(
             getA11yStatusMessage(options) {
                 let message =
                     selectedItems.length > 0
-                        ? `${
-                              selectedItems.length === 1
-                                  ? a11yStatusMessage.i18nSelectedItemSingular
-                                  : a11yStatusMessage.i18nSelectedItemPlural
-                          } ${selectedItems.map(itemId => selector.caption.get(itemId)).join(",")}.`
+                        ? `${a11yStatusMessage.i18nSelectedValue} ${selectedItems
+                              .map(itemId => selector.caption.get(itemId))
+                              .join(",")}. `
                         : "";
-                if (!options.isOpen) {
-                    message += "";
+
+                if (options.resultCount > 0) {
+                    message += `${a11yStatusMessage.i18nOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.i18nInstructions}`;
+                } else {
+                    message += a11yStatusMessage.i18nNoOption;
                 }
 
-                if (!options.resultCount) {
-                    message += a11yStatusMessage.i18nNoResults;
-                }
-
-                if (options.resultCount !== options.previousResultCount) {
-                    message += `${options.resultCount} ${
-                        options.resultCount === 1
-                            ? a11yStatusMessage.i18nResultSingle
-                            : a11yStatusMessage.i18nResultPlural
-                    } ${a11yStatusMessage.i18nInstructions}`;
-                }
-
+                console.log(message);
                 return message;
             },
             itemToString: (v: string | null) => selector.caption.get(v),

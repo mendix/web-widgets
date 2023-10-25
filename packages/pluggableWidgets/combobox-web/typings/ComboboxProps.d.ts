@@ -44,11 +44,8 @@ export interface ComboboxContainerProps {
     ariaRequired: boolean;
     clearButtonAriaLabel: string;
     removeValueAriaLabel: string;
-    i18nSelectedItemSingular: string;
-    i18nSelectedItemPlural: string;
-    i18nNoResults: string;
-    i18nResultSingle: string;
-    i18nResultPlural: string;
+    i18nSelectedValue: string;
+    i18nOptionsAvailable: string;
     i18nInstructions: string;
 }
 
@@ -76,10 +73,7 @@ export interface ComboboxPreviewProps {
     ariaRequired: boolean;
     clearButtonAriaLabel: string;
     removeValueAriaLabel: string;
-    i18nSelectedItemSingular: string;
-    i18nSelectedItemPlural: string;
-    i18nNoResults: string;
-    i18nResultSingle: string;
-    i18nResultPlural: string;
+    i18nSelectedValue: string;
+    i18nOptionsAvailable: string;
     i18nInstructions: string;
 }

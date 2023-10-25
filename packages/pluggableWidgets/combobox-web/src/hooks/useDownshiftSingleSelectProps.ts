@@ -37,21 +37,12 @@ export function useDownshiftSingleSelectProps(
             },
             getA11yStatusMessage(options) {
                 const selectedItem = selector.caption.get(selector.currentValue);
-                let message = selectedItem ? a11yStatusMessage.i18nSelectedItemSingular : "";
-                if (!options.isOpen) {
-                    message += "";
-                }
+                let message = selectedItem ? `${a11yStatusMessage.i18nSelectedValue} ${selectedItem}. ` : "";
 
-                if (!options.resultCount) {
-                    message += a11yStatusMessage.i18nNoResults;
-                }
-
-                if (options.resultCount !== options.previousResultCount) {
-                    message += `${options.resultCount} ${
-                        options.resultCount === 1
-                            ? a11yStatusMessage.i18nResultSingle
-                            : a11yStatusMessage.i18nResultPlural
-                    } ${a11yStatusMessage.i18nInstructions}`;
+                if (options.resultCount > 0) {
+                    message += `${a11yStatusMessage.i18nOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.i18nInstructions}`;
+                } else {
+                    message += a11yStatusMessage.i18nNoOption;
                 }
 
                 return message;

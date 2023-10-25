@@ -42,11 +42,8 @@ describe("Combo box (Association)", () => {
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: "Clear selection",
             removeValueAriaLabel: "Remove value",
-            i18nSelectedItemSingular: "i18nSelectedItemSingular",
-            i18nSelectedItemPlural: "i18nSelectedItemPlural",
-            i18nNoResults: "i18nNoResults",
-            i18nResultSingle: "i18nResultSingle",
-            i18nResultPlural: "i18nResultPlural",
+            i18nSelectedValue: "Selected value:",
+            i18nOptionsAvailable: "Options available:",
             i18nInstructions: "i18nInstructions"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {

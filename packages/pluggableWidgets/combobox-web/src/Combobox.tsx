@@ -22,12 +22,10 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
                 removeSelection: props.removeValueAriaLabel
             },
             a11yStatusMessage: {
-                i18nSelectedItemSingular: props.i18nSelectedItemSingular,
-                i18nSelectedItemPlural: props.i18nSelectedItemPlural,
-                i18nNoResults: props.i18nNoResults,
-                i18nResultSingle: props.i18nResultSingle,
-                i18nResultPlural: props.i18nResultPlural,
-                i18nInstructions: props.i18nInstructions
+                i18nSelectedValue: props.i18nSelectedValue,
+                i18nOptionsAvailable: props.i18nOptionsAvailable,
+                i18nInstructions: props.i18nInstructions,
+                i18nNoOption: props.noOptionsText?.value as string
             }
         }
     };
