@@ -223,6 +223,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
             exporting={exporting}
             processedRows={processedRows}
+            exportDialogLabel={props.exportDialogLabel?.value}
+            cancelExportLabel={props.cancelExportLabel?.value}
         />
     );
 }

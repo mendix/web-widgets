@@ -72,6 +72,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     columnsState: ColumnsState;
+    exportDialogLabel?: string;
+    cancelExportLabel?: string;
 }
 
 export interface SortProperty {
@@ -286,8 +288,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
                 <ExportWidget
-                    alertLabel="Export progress"
-                    cancelLabel="Cancel data export"
+                    alertLabel={props.exportDialogLabel ?? "Export progress"}
+                    cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
                     failed={false}
                     onCancel={onExportCancel}
                     open={exporting}
