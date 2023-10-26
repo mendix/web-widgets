@@ -14,7 +14,7 @@ import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
-import { useColumnsState, createInitializer } from "./features/use-columns-state";
+import { useColumnsState } from "./features/use-columns-state";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -34,7 +34,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         [props.columns]
     );
 
-    const [columnsState, { setHidden, setOrder }] = useColumnsState(createInitializer(columns));
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(columns);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
