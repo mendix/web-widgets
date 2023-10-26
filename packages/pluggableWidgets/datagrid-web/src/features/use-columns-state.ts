@@ -1,4 +1,4 @@
-import { useMemo, useReducer } from "react";
+import { useMemo, useEffect, useReducer } from "react";
 import { GridColumn } from "../typings/GridColumn";
 
 type ColumnsHidden = number[];
@@ -15,16 +15,19 @@ type OrderUpdate = React.SetStateAction<ColumnsOrder>;
 
 type HiddenUpdate = React.SetStateAction<ColumnsHidden>;
 
+type ColumnsUpdate = React.SetStateAction<GridColumn[]>;
+
 export type DispatchOrderUpdate = React.Dispatch<OrderUpdate>;
 
 export type DispatchHiddenUpdate = React.Dispatch<HiddenUpdate>;
 
+export type DispatchColumnsUpdate = React.Dispatch<ColumnsUpdate>;
+
 type ColumnsStateFunctions = {
     setOrder: DispatchOrderUpdate;
     setHidden: DispatchHiddenUpdate;
+    setColumns: DispatchColumnsUpdate;
 };
-
-type ColumnsStateInitializer = (columnsState: ColumnsState) => ColumnsState;
 
 const defaultState: ColumnsState = Object.freeze({
     columns: [],
@@ -33,48 +36,75 @@ const defaultState: ColumnsState = Object.freeze({
     columnsVisible: []
 });
 
-export function useColumnsState(initializer?: ColumnsStateInitializer): [ColumnsState, ColumnsStateFunctions] {
-    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, state => {
-        return initializer ? initializer(state) : state;
-    });
+export function useColumnsState(columns: GridColumn[]): [ColumnsState, ColumnsStateFunctions] {
+    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, () => initColumnsState(columns));
 
     const memoizedColumnsStateFunctions = useMemo<ColumnsStateFunctions>(() => {
         return {
             setOrder: order => dispatch({ type: "SetOrder", payload: { order } }),
-            setHidden: hidden => dispatch({ type: "SetHidden", payload: { hidden } })
+            setHidden: hidden => dispatch({ type: "SetHidden", payload: { hidden } }),
+            setColumns: columns => dispatch({ type: "SetColumns", payload: { columns } })
         };
     }, [dispatch]);
+
+    useEffect(() => dispatch({ type: "SetColumns", payload: { columns } }), [columns]);
 
     return [state, memoizedColumnsStateFunctions];
 }
 
 type Action =
     | { type: "SetOrder"; payload: { order: OrderUpdate } }
-    | { type: "SetHidden"; payload: { hidden: HiddenUpdate } };
+    | { type: "SetHidden"; payload: { hidden: HiddenUpdate } }
+    | { type: "SetColumns"; payload: { columns: ColumnsUpdate } };
 
 function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState {
     switch (action.type) {
         case "SetOrder": {
-            const [prev, next] = getPropUpdate(state, "columnsOrder", action.payload.order);
-
-            if (Object.is(prev, next)) {
-                return state;
-            }
-
-            return computeNextState({ ...state, columnsOrder: next });
+            return reduceOnPropChange(state, "columnsOrder", action.payload.order, newState => {
+                assertOrderMatchColumns(newState);
+                return computeVisible(newState);
+            });
         }
         case "SetHidden": {
-            const [prev, next] = getPropUpdate(state, "columnsHidden", action.payload.hidden);
-
-            if (Object.is(prev, next)) {
-                return state;
-            }
-
-            return computeNextState({ ...state, columnsHidden: next });
+            return reduceOnPropChange(state, "columnsHidden", action.payload.hidden, computeVisible);
+        }
+        case "SetColumns": {
+            return reduceOnPropChange(
+                state,
+                "columns",
+                action.payload.columns,
+                (newState, prevColumns, nextColumns) => {
+                    if (prevColumns.length !== nextColumns.length) {
+                        return initColumnsState(nextColumns);
+                    }
+                    return newState;
+                }
+            );
         }
         default:
             throw new Error("Columns state reducer: unknown action type");
     }
+}
+
+function reduceOnPropChange<
+    S extends ColumnsState,
+    P extends keyof S,
+    A extends React.SetStateAction<S[P]>,
+    R extends (state: S, prevProp: S[P], nextProp: S[P]) => S
+>(state: S, prop: P, action: A, reduce?: R): S {
+    const [prev, next] = getPropUpdate(state, prop, action);
+
+    if (Object.is(prev, next)) {
+        return state;
+    }
+
+    const newState = { ...state, [prop]: next };
+
+    if (typeof reduce === "function") {
+        return reduce(newState, prev, next);
+    }
+
+    return newState;
 }
 
 function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]>>(
@@ -88,20 +118,16 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
     return [prev, next];
 }
 
-function computeNextState(draftState: ColumnsState): ColumnsState {
-    assertOrder(draftState);
-
-    const visible = draftState.columnsOrder.flatMap(columnNumber =>
-        draftState.columnsHidden.includes(columnNumber) ? [] : [draftState.columns[columnNumber]]
-    );
-
+function computeVisible<S extends ColumnsState>(draftState: S): S {
     return {
         ...draftState,
-        columnsVisible: visible
+        columnsVisible: draftState.columnsOrder.flatMap(columnNumber =>
+            draftState.columnsHidden.includes(columnNumber) ? [] : [draftState.columns[columnNumber]]
+        )
     };
 }
 
-function assertOrder({ columns, columnsOrder }: ColumnsState): void {
+function assertOrderMatchColumns({ columns, columnsOrder }: ColumnsState): void {
     const arr1 = columns.map(c => c.columnNumber);
     const arr2 = [...columnsOrder].sort((a, b) => a - b);
 
@@ -113,14 +139,10 @@ function assertOrder({ columns, columnsOrder }: ColumnsState): void {
 }
 
 export function initColumnsState(columns: GridColumn[]): ColumnsState {
-    return computeNextState({
+    return computeVisible({
         columns,
         columnsOrder: columns.map(col => col.columnNumber),
         columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
         columnsVisible: []
     });
-}
-
-export function createInitializer(columns: GridColumn[]): ColumnsStateInitializer {
-    return () => initColumnsState(columns);
 }
