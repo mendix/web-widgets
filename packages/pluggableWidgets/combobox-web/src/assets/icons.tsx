@@ -34,24 +34,10 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     );
 }
 
-export function Checkbox({ checked }: { checked: boolean | undefined }): ReactElement {
+export function Checkbox({ checked, id }: { checked: boolean | undefined; id?: string }): ReactElement {
     return (
         <span className="widget-combobox-icon-container">
-            <svg
-                className={classNames("widget-combobox-down-checkbox-icon", {
-                    checked
-                })}
-                width="24"
-                height="20"
-                viewBox="0 0 24 20"
-            >
-                {checked ? (
-                    <rect x="2" width="20" height="20" rx="5" />
-                ) : (
-                    <rect x="2.5" y="0.5" width="19" height="19" rx="4.5" />
-                )}
-                <path d="M7 10.3077L10.6923 14L17.4615 6" />
-            </svg>
+            <input type="checkbox" tabIndex={-1} checked={checked} id={id} />
         </span>
     );
 }

@@ -130,6 +130,7 @@ export function MultiSelection({
                     )}
             </ComboboxWrapper>
             <MultiSelectionMenu
+                inputId={options.inputId}
                 selector={selector}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}

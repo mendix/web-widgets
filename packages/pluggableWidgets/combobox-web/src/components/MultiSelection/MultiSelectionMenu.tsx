@@ -13,6 +13,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     selector: MultiSelector;
     setSelectedItems: (v: string[]) => void;
     noOptionsText?: string;
+    inputId?: string;
 }
 
 export function MultiSelectionMenu({
@@ -22,7 +23,8 @@ export function MultiSelectionMenu({
     highlightedIndex,
     selector,
     selectableItems,
-    noOptionsText
+    noOptionsText,
+    inputId
 }: MultiSelectionMenuProps): ReactElement {
     return (
         <ComboboxMenuWrapper
@@ -44,8 +46,8 @@ export function MultiSelectionMenu({
                             getItemProps={getItemProps}
                             index={index}
                         >
-                            <Checkbox checked={isSelected} />
-                            {selector.caption.render(item, "options")}
+                            <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
+                            {selector.caption.render(item, "options", `${inputId}_${item}`)}
                         </ComboboxOptionWrapper>
                     );
                 })}
