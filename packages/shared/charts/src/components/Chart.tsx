@@ -9,6 +9,13 @@ import { ExtraTraceProps } from "../types";
 
 const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
 
+declare module "plotly.js" {
+    interface PlotDatum {
+        /** This array appears on only when aggregation is used */
+        pointIndices?: number[];
+    }
+}
+
 type PlotTrace = Partial<Data> & ExtraTraceProps;
 export interface ChartProps {
     data: PlotTrace[];
@@ -42,9 +49,10 @@ export const Chart = ({
     const handleChartClick = useCallback<NonNullable<PlotParams["onClick"]>>(
         event => {
             // As this is click handler, this event has single, "clicked" point, so we can destruct.
-            const [{ curveNumber, pointIndex }] = event.points;
+            const [{ curveNumber, pointIndex, pointIndices }] = event.points;
             const { dataSourceItems, onClick } = data[curveNumber];
-            const item = dataSourceItems[pointIndex];
+            const itemIndex = getItemIndex(pointIndex, pointIndices);
+            const item = dataSourceItems[itemIndex];
             onClick?.(item);
         },
         [data]
@@ -90,6 +98,16 @@ function createPlotlyData(traces: PlotTrace[], baseOptions: Partial<Data>): Data
 
 function fromJSON(value: string | null | undefined): object {
     return JSON.parse(ifNonEmptyStringElseEmptyObjectString(value));
+}
+
+function getItemIndex(pointIndex: number | undefined, pointIndices: number[] | undefined): number {
+    const index = pointIndex ?? pointIndices?.at(-1);
+
+    if (typeof index !== "number") {
+        throw new Error("Unable to get item index for given point.");
+    }
+
+    return index;
 }
 
 const irrelevantSeriesKeys = ["x", "y", "z", "customSeriesOptions"];
