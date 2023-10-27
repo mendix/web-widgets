@@ -37,7 +37,7 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
 export function Checkbox({ checked, id }: { checked: boolean | undefined; id?: string }): ReactElement {
     return (
         <span className="widget-combobox-icon-container">
-            <input type="checkbox" tabIndex={-1} checked={checked} id={id} />
+            <input type="checkbox" tabIndex={-1} checked={checked} id={id} role="presentation" />
         </span>
     );
 }

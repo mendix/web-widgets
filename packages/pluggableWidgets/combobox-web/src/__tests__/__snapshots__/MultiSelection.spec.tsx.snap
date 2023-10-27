@@ -97,6 +97,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
             <input
               checked=""
               id="comboBox1_111"
+              role="presentation"
               tabindex="-1"
               type="checkbox"
             />
@@ -119,6 +120,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           >
             <input
               id="comboBox1_222"
+              role="presentation"
               tabindex="-1"
               type="checkbox"
             />
@@ -141,6 +143,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           >
             <input
               id="comboBox1_333"
+              role="presentation"
               tabindex="-1"
               type="checkbox"
             />
@@ -163,6 +166,7 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           >
             <input
               id="comboBox1_444"
+              role="presentation"
               tabindex="-1"
               type="checkbox"
             />
