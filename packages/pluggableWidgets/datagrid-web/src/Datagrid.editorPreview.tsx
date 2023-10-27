@@ -5,7 +5,7 @@ import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useG
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ReactElement, ReactNode, createElement, useCallback, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
@@ -57,7 +57,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
-    const [gridId] = useState(() => Date.now().toString());
+    const gridId = useMemo(() => Date.now().toString(), []);
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columnsState = initColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index, gridId)));
 
