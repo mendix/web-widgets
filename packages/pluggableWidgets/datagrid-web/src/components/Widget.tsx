@@ -32,29 +32,33 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
+import { ExportWidget } from "./ExportWidget";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
-    columnsFilterable: boolean;
-    columnsSortable: boolean;
-    columnsResizable: boolean;
     columnsDraggable: boolean;
+    columnsFilterable: boolean;
     columnsHidable: boolean;
+    columnsResizable: boolean;
+    columnsSortable: boolean;
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
+    exporting: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
+    hasMoreItems: boolean;
     headerContent?: ReactNode;
     headerTitle?: string;
-    hasMoreItems: boolean;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
-    paging: boolean;
+    onExportCancel?: () => void;
     page: number;
     pageSize: number;
+    paging: boolean;
     pagingPosition: PagingPositionEnum;
     preview?: boolean;
+    processedRows: number;
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     setSortParameters?: (sort?: SortProperty) => void;
@@ -68,6 +72,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     columnsState: ColumnsState;
+    exportDialogLabel?: string;
+    cancelExportLabel?: string;
 }
 
 export interface SortProperty {
@@ -85,6 +91,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         columnsSortable,
         data: rows,
         emptyPlaceholderRenderer,
+        exporting,
         filterRenderer: filterRendererProp,
         headerContent,
         headerTitle,
@@ -92,11 +99,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerWrapperRenderer,
         id,
         numberOfItems,
+        onExportCancel,
         page,
         pageSize,
         paging,
         pagingPosition,
         preview,
+        processedRows,
         setPage,
         setSortParameters,
         settings,
@@ -174,7 +183,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         [columnsWidth, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
     );
 
-    const selectionEnabled = selectionProps.selectionType !== "None";
+    const selectionEnabled = props.selectionProps.selectionType !== "None";
 
     return (
         <WidgetPropsProvider value={props}>
@@ -183,6 +192,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 selectionMethod={selectionProps.selectionMethod}
                 selection={selectionEnabled}
                 style={styles}
+                exporting={exporting}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
@@ -277,6 +287,15 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
+                <ExportWidget
+                    alertLabel={props.exportDialogLabel ?? "Export progress"}
+                    cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
+                    failed={false}
+                    onCancel={onExportCancel}
+                    open={exporting}
+                    progress={processedRows}
+                    total={numberOfItems}
+                />
             </WidgetRoot>
         </WidgetPropsProvider>
     );

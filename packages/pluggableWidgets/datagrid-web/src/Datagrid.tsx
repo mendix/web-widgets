@@ -36,7 +36,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     const [columnsState, { setHidden, setOrder }] = useColumnsState(createInitializer(columns));
 
-    const { items } = useDG2ExportApi({
+    const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
@@ -199,6 +199,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
             numberOfItems={props.datasource.totalCount}
+            onExportCancel={abort}
             page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
@@ -220,6 +221,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             rowAction={props.onClick}
             selectionProps={selectionProps}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
+            exporting={exporting}
+            processedRows={processedRows}
+            exportDialogLabel={props.exportDialogLabel?.value}
+            cancelExportLabel={props.cancelExportLabel?.value}
         />
     );
 }

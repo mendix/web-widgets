@@ -62,11 +62,17 @@ type UseExportAPIProps = {
 };
 
 type UseExportAPIReturn = {
+    currentLimit: number;
     exporting: boolean;
     items: ObjectItem[];
+    processedRows: number;
 };
 
-export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn => {
+type ExportAPIActions = {
+    abort: () => void;
+};
+
+export const useDG2ExportApi = (props: UseExportAPIProps): [UseExportAPIReturn, ExportAPIActions] => {
     const [result, dispatch] = useExportMachine(props);
 
     useEffect(() => {
@@ -125,8 +131,6 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
                     }
                 };
 
-                (window as any).__abort = dataExportStream.abort;
-
                 return dataExportStream;
             },
             [_onOverwrite]: (): void => {
@@ -152,7 +156,8 @@ export const useDG2ExportApi = (props: UseExportAPIProps): UseExportAPIReturn =>
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return result;
+    const actions = useMemo(() => ({ abort: () => dispatch({ type: "Abort" }) }), [dispatch]);
+    return [result, actions];
 };
 
 function useExportMachine({
@@ -194,7 +199,15 @@ function useExportMachine({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => flowCleanup, []);
 
-    return [{ exporting: state.exporting, items: state.exporting ? state.snapshot.items : items ?? [] }, dispatch];
+    return [
+        {
+            currentLimit: state.currentLimit,
+            exporting: state.exporting,
+            items: state.exporting ? state.snapshot.items : items ?? [],
+            processedRows: state.processedRows
+        },
+        dispatch
+    ];
 }
 
 function exportColumns(columns: ColumnsType[]): Message {
@@ -241,27 +254,30 @@ interface BaseState {
 }
 
 interface InitState extends BaseState {
-    exporting: false;
-    columns: null;
-    snapshot: null;
     callback: null;
+    columns: null;
+    exporting: false;
     phase: "awaitingCallback";
+    processedRows: number;
+    snapshot: null;
 }
 
 interface ReadyState extends BaseState {
-    exporting: false;
-    columns: ColumnsType[];
-    snapshot: DataSourceStateSnapshot;
     callback: CallbackFunction;
+    columns: ColumnsType[];
+    exporting: false;
     phase: "readyToStart";
+    processedRows: number;
+    snapshot: DataSourceStateSnapshot;
 }
 
 interface WorkingState extends BaseState {
-    exporting: true;
-    columns: ColumnsType[];
-    snapshot: DataSourceStateSnapshot;
     callback: CallbackFunction;
+    columns: ColumnsType[];
+    exporting: true;
     phase: "resetOffset" | "exportColumns" | "awaitingData" | "exportData" | "finished" | "aborting" | "finally";
+    processedRows: number;
+    snapshot: DataSourceStateSnapshot;
 }
 
 type State = WorkingState | ReadyState | InitState;
@@ -305,15 +321,16 @@ type Action =
 
 function initState(): InitState {
     return {
-        exporting: false,
-        currentOffset: 0,
-        currentItems: [],
-        currentLimit: Number.POSITIVE_INFINITY,
-        hasMoreItems: true,
-        snapshot: null,
         callback: null,
         columns: null,
-        phase: "awaitingCallback"
+        currentItems: [],
+        currentLimit: Number.POSITIVE_INFINITY,
+        currentOffset: 0,
+        exporting: false,
+        hasMoreItems: true,
+        phase: "awaitingCallback",
+        processedRows: 0,
+        snapshot: null
     };
 }
 
@@ -430,7 +447,8 @@ function exportStateReducer(state: State, action: Action): State {
         if (state.exporting && state.phase === "exportData") {
             return {
                 ...state,
-                phase: "awaitingData"
+                phase: "awaitingData",
+                processedRows: state.processedRows + state.currentLimit
             };
         }
     }
@@ -444,7 +462,7 @@ function exportStateReducer(state: State, action: Action): State {
     }
 
     if (action.type === "ExportEnd" && state.exporting) {
-        return { ...state, phase: "finally" };
+        return { ...state, phase: "finally", processedRows: 0 };
     }
 
     return state;
