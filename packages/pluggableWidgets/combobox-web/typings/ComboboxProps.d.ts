@@ -4,17 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import {
-    ActionValue,
-    DynamicValue,
-    EditableValue,
-    ListValue,
-    ListAttributeValue,
-    ListExpressionValue,
-    ListWidgetValue,
-    ReferenceValue,
-    ReferenceSetValue
-} from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
@@ -54,9 +44,9 @@ export interface ComboboxContainerProps {
     ariaRequired: boolean;
     clearButtonAriaLabel: string;
     removeValueAriaLabel: string;
-    a11ySelectedValue: string;
-    a11yOptionsAvailable: string;
-    a11yInstructions: string;
+    a11ySelectedValue: DynamicValue<string>;
+    a11yOptionsAvailable: DynamicValue<string>;
+    a11yInstructions: DynamicValue<string>;
 }
 
 export interface ComboboxPreviewProps {
@@ -74,10 +64,7 @@ export interface ComboboxPreviewProps {
     noOptionsText: string;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    optionsSourceAssociationCustomContent: {
-        widgetCount: number;
-        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
-    };
+    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;
