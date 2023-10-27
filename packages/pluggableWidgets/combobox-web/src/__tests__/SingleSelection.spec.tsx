@@ -49,9 +49,9 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             clearButtonAriaLabel: "Clear selection",
             removeValueAriaLabel: "Remove value",
-            i18nSelectedValue: "Selected value:",
-            i18nOptionsAvailable: "Options available:",
-            i18nInstructions: "i18nInstructions"
+            a11ySelectedValue: "Selected value:",
+            a11yOptionsAvailable: "Options available:",
+            a11yInstructions: "a11yInstructions"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

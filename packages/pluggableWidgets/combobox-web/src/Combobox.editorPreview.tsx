@@ -77,10 +77,10 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 removeSelection: props.removeValueAriaLabel
             },
             a11yStatusMessage: {
-                i18nSelectedValue: props.i18nSelectedValue,
-                i18nOptionsAvailable: props.i18nOptionsAvailable,
-                i18nInstructions: props.i18nInstructions,
-                i18nNoOption: props.noOptionsText
+                a11ySelectedValue: props.a11ySelectedValue,
+                a11yOptionsAvailable: props.a11yOptionsAvailable,
+                a11yInstructions: props.a11yInstructions,
+                a11yNoOption: props.noOptionsText
             }
         }
     };

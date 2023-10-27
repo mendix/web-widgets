@@ -84,8 +84,8 @@ export interface SelectionBaseProps<Selector> {
 }
 
 export interface A11yStatusMessage {
-    i18nSelectedValue: string;
-    i18nOptionsAvailable: string;
-    i18nInstructions: string;
-    i18nNoOption: string;
+    a11ySelectedValue: string;
+    a11yOptionsAvailable: string;
+    a11yInstructions: string;
+    a11yNoOption: string;
 }

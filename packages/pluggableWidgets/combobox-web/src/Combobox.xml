@@ -182,15 +182,15 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Accesibility Status Message ">
-                <property key="i18nSelectedValue" type="string" defaultValue="Selected value: " required="true">
+                <property key="a11ySelectedValue" type="string" defaultValue="Selected value: " required="true">
                     <caption>Selected value</caption>
                     <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
                 </property>
-                <property key="i18nOptionsAvailable" type="string" defaultValue="Number of options available:" required="true">
+                <property key="a11yOptionsAvailable" type="string" defaultValue="Number of options available:" required="true">
                     <caption>Options available</caption>
                     <description>Output example: "Number of options available: 1"</description>
                 </property>
-                <property key="i18nInstructions" type="string" defaultValue="Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select." required="true">
+                <property key="a11yInstructions" type="string" defaultValue="Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select." required="true">
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                 </property>

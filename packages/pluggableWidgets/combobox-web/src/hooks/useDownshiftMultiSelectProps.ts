@@ -147,18 +147,17 @@ function useComboboxProps(
             getA11yStatusMessage(options) {
                 let message =
                     selectedItems.length > 0
-                        ? `${a11yStatusMessage.i18nSelectedValue} ${selectedItems
+                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItems
                               .map(itemId => selector.caption.get(itemId))
                               .join(",")}. `
                         : "";
 
                 if (options.resultCount > 0) {
-                    message += `${a11yStatusMessage.i18nOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.i18nInstructions}`;
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
                 } else {
-                    message += a11yStatusMessage.i18nNoOption;
+                    message += a11yStatusMessage.a11yNoOption;
                 }
 
-                console.log(message);
                 return message;
             },
             itemToString: (v: string | null) => selector.caption.get(v),

@@ -37,12 +37,12 @@ export function useDownshiftSingleSelectProps(
             },
             getA11yStatusMessage(options) {
                 const selectedItem = selector.caption.get(selector.currentValue);
-                let message = selectedItem ? `${a11yStatusMessage.i18nSelectedValue} ${selectedItem}. ` : "";
+                let message = selectedItem ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. ` : "";
 
                 if (options.resultCount > 0) {
-                    message += `${a11yStatusMessage.i18nOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.i18nInstructions}`;
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
                 } else {
-                    message += a11yStatusMessage.i18nNoOption;
+                    message += a11yStatusMessage.a11yNoOption;
                 }
 
                 return message;
