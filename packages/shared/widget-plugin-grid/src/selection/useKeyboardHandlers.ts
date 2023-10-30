@@ -24,6 +24,19 @@ function isSelectTrigger<T>(event: React.KeyboardEvent<T>): boolean {
     return event.code === "Space" && event.shiftKey;
 }
 
+function isDirectChild(row: Element, cell: Element): boolean {
+    return Array.from(row.children).includes(cell);
+}
+
+function preventScroll<T extends Element = Element>(event: React.KeyboardEvent<T>): void {
+    if (event.code === "Space") {
+        if (isDirectChild(event.currentTarget, event.target as Element) || event.target === event.currentTarget) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+}
+
 function createKeyboardHandlers(
     selectionType: SelectionType,
     primaryProps: PrimarySelectionProps
@@ -60,10 +73,7 @@ function createKeyboardHandlers(
                 runSelectAll();
             }
             // Prevent scroll on space.
-            if (event.code === "Space") {
-                event.preventDefault();
-                event.stopPropagation();
-            }
+            preventScroll(event);
         },
         onKeyUp(event, item) {
             if (shouldCleanup && (isPrefixKey(event) || event.code === "KeyA")) {
@@ -73,10 +83,8 @@ function createKeyboardHandlers(
                 primaryProps.onSelect(item, false);
             }
 
-            if (event.code === "Space") {
-                event.preventDefault();
-                event.stopPropagation();
-            }
+            // Prevent scroll on space.
+            preventScroll(event);
         }
     };
 

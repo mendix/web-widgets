@@ -116,6 +116,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     } = props;
     const { columns, columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
     const columnsToShow = preview ? columns : columnsVisible;
+    const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
+    const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
+
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
@@ -125,7 +128,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
-    const KeyNavProvider = useKeyNavProvider({ rows: props.data.length, columns: columnsVisible.length });
+    const KeyNavProvider = useKeyNavProvider({ rows: props.data.length, columns: columnsVisibleCount });
 
     const { updateSettings } = useSettings(
         settings,
@@ -270,23 +273,17 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             </KeyNavProvider>
                             {(rows.length === 0 || preview) &&
                                 emptyPlaceholderRenderer &&
-                                emptyPlaceholderRenderer(children => {
-                                    const colspan =
-                                        columnsToShow.length +
-                                        (columnsHidable ? 1 : 0) +
-                                        (props.selectionProps.showCheckboxColumn ? 1 : 0);
-                                    return (
-                                        <div
-                                            key="row-footer"
-                                            className={classNames("td", { "td-borders": !preview })}
-                                            style={{
-                                                gridColumn: `span ${colspan}`
-                                            }}
-                                        >
-                                            <div className="empty-placeholder">{children}</div>
-                                        </div>
-                                    );
-                                })}
+                                emptyPlaceholderRenderer(children => (
+                                    <div
+                                        key="row-footer"
+                                        className={classNames("td", { "td-borders": !preview })}
+                                        style={{
+                                            gridColumn: `span ${columnsVisibleCount}`
+                                        }}
+                                    >
+                                        <div className="empty-placeholder">{children}</div>
+                                    </div>
+                                ))}
                         </GridBody>
                     </Grid>
                 </WidgetContent>

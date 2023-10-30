@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { createElement, ReactNode, ReactElement, memo, DOMAttributes, forwardRef } from "react";
 import { AlignmentEnum } from "typings/DatagridProps";
 
-type CellElementProps = {
+export type CellElementProps = {
     className?: string;
     borderTop?: boolean;
     previewAsHidden?: boolean;
