@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { createElement, ReactNode, ReactElement, memo, DOMAttributes } from "react";
+import { createElement, ReactNode, ReactElement, memo, DOMAttributes, forwardRef } from "react";
 import { AlignmentEnum } from "typings/DatagridProps";
 
-interface CellElementProps {
+type CellElementProps = {
     className?: string;
     borderTop?: boolean;
     previewAsHidden?: boolean;
@@ -14,32 +14,35 @@ interface CellElementProps {
     wrapText?: boolean;
     ["aria-hidden"]?: boolean;
     tabIndex?: number;
-}
+} & Omit<JSX.IntrinsicElements["div"], "ref">;
 
-// eslint-disable-next-line prefer-arrow-callback
-const component = memo(function CellElement(props: CellElementProps): ReactElement {
-    return (
-        <div
-            className={classNames(
-                "td",
-                {
-                    "td-borders": props.borderTop,
-                    clickable: props.clickable,
-                    "hidden-column-preview": props.previewAsHidden,
-                    "wrap-text": props.wrapText,
-                    [`align-column-${props.alignment}`]: typeof props.alignment === "string"
-                },
-                props.className
-            )}
-            onClick={props.onClick}
-            onKeyDown={props.onKeyDown}
-            role="gridcell"
-            tabIndex={props.tabIndex ?? (props.clickable ? 0 : undefined)}
-        >
-            {props.children}
-        </div>
-    );
-});
+const component = memo(
+    // eslint-disable-next-line prefer-arrow-callback
+    forwardRef<HTMLDivElement>(function CellElement(
+        { className, borderTop, clickable, previewAsHidden, wrapText, alignment, tabIndex, ...rest }: CellElementProps,
+        ref
+    ): ReactElement {
+        return (
+            <div
+                className={classNames(
+                    "td",
+                    {
+                        "td-borders": borderTop,
+                        clickable,
+                        "hidden-column-preview": previewAsHidden,
+                        "wrap-text": wrapText,
+                        [`align-column-${alignment}`]: typeof alignment === "string"
+                    },
+                    className
+                )}
+                role="gridcell"
+                tabIndex={tabIndex ?? (clickable ? 0 : undefined)}
+                ref={ref}
+                {...rest}
+            />
+        );
+    })
+);
 
 // Override react NamedExoticComponent.
 export const CellElement = component as (props: CellElementProps) => ReactElement;

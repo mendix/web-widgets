@@ -59,14 +59,17 @@ const stopPropagation = (event: { stopPropagation(): void }): void => {
     event.stopPropagation();
 };
 
+const onKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.code === "Tab") {
+        return;
+    }
+
+    event.stopPropagation();
+};
+
 function CustomContent(props: { children: ReactNode }): ReactElement {
     return (
-        <div
-            onClick={stopPropagation}
-            onKeyUp={stopPropagation}
-            onKeyDown={stopPropagation}
-            className="td-custom-content"
-        >
+        <div onClick={stopPropagation} onKeyUp={stopPropagation} onKeyDown={onKeyDown} className="td-custom-content">
             {props.children}
         </div>
     );

@@ -33,6 +33,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
+import { useKeyNavProvider } from "../features/keyboard-navigation/context";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -125,6 +126,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const KeyNavProvider = useKeyNavProvider({ rows: props.data.length, columns: columnsVisible.length });
 
     const { updateSettings } = useSettings(
         settings,
@@ -252,22 +254,24 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     />
                                 )}
                             </div>
-                            {rows.map((item, rowIndex) => {
-                                return (
-                                    <Row
-                                        CellComponent={CellComponent}
-                                        className={props.rowClass?.(item)}
-                                        columns={columnsToShow}
-                                        index={rowIndex}
-                                        item={item}
-                                        key={`row_${item.id}`}
-                                        rowAction={props.rowAction}
-                                        showSelectorCell={columnsHidable}
-                                        preview={preview ?? false}
-                                        selectableWrapper={headerWrapperRenderer}
-                                    />
-                                );
-                            })}
+                            <KeyNavProvider>
+                                {rows.map((item, rowIndex) => {
+                                    return (
+                                        <Row
+                                            CellComponent={CellComponent}
+                                            className={props.rowClass?.(item)}
+                                            columns={columnsToShow}
+                                            index={rowIndex}
+                                            item={item}
+                                            key={`row_${item.id}`}
+                                            rowAction={props.rowAction}
+                                            showSelectorCell={columnsHidable}
+                                            preview={preview ?? false}
+                                            selectableWrapper={headerWrapperRenderer}
+                                        />
+                                    );
+                                })}
+                            </KeyNavProvider>
                             {(rows.length === 0 || preview) &&
                                 emptyPlaceholderRenderer &&
                                 emptyPlaceholderRenderer(children => {
