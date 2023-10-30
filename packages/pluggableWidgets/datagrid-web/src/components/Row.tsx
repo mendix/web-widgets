@@ -40,6 +40,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             role="row"
             aria-selected={ariaSelected}
             {...interactionProps}
+            onClick={selectionProps.selectionMethod === "checkbox" ? undefined : interactionProps.onClick}
         >
             {selectionProps.showCheckboxColumn && (
                 <CellElement
@@ -48,7 +49,13 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     borderTop={props.index === 0}
                     clickable={cellClickableClass}
                 >
-                    <input checked={selected} onChange={onChangeStub} type="checkbox" tabIndex={-1} />
+                    <input
+                        checked={selected}
+                        onChange={onChangeStub}
+                        type="checkbox"
+                        tabIndex={-1}
+                        onClick={interactionProps.onClick}
+                    />
                 </CellElement>
             )}
             {props.columns.map((column, baseIndex) => {
