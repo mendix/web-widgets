@@ -5,7 +5,8 @@ import { useWidgetProps } from "../helpers/useWidgetProps";
 import { useRowInteractionProps } from "../helpers/useRowInteractionProps";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { CellElement } from "./CellElement";
+import { SelectorCell } from "./SelectorCell";
+import { CheckboxCell } from "./CheckboxCell";
 
 export interface RowProps<C extends GridColumn> {
     className?: string;
@@ -19,12 +20,8 @@ export interface RowProps<C extends GridColumn> {
     selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
 }
 
-const onChangeStub = (): void => {
-    /* stub to prevent react warnings */
-};
-
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell } = props;
+    const { CellComponent: Cell, index: rowIndex } = props;
     const { selectionProps, preview } = useWidgetProps();
     const selected = selectionProps.isSelected(props.item);
     const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
@@ -33,7 +30,6 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
         selectionProps,
         props.rowAction
     );
-
     return (
         <div
             className={classNames("tr", { "tr-selected": selected }, props.className)}
@@ -43,20 +39,15 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             onClick={selectionProps.selectionMethod === "checkbox" ? undefined : interactionProps.onClick}
         >
             {selectionProps.showCheckboxColumn && (
-                <CellElement
+                <CheckboxCell
                     key="checkbox_cell"
-                    className="widget-datagrid-col-select"
-                    borderTop={props.index === 0}
+                    borderTop={rowIndex === 0}
                     clickable={cellClickableClass}
-                >
-                    <input
-                        checked={selected}
-                        onChange={onChangeStub}
-                        type="checkbox"
-                        tabIndex={-1}
-                        onClick={interactionProps.onClick}
-                    />
-                </CellElement>
+                    rowIndex={rowIndex}
+                    columnIndex={0}
+                    checked={selected}
+                    onInputClick={interactionProps.onClick}
+                />
             )}
             {props.columns.map((column, baseIndex) => {
                 const cell = (
@@ -64,7 +55,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         key={`row_${props.item.id}_col_${column.columnNumber}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={baseIndex}
+                        columnIndex={selectionProps.showCheckboxColumn ? baseIndex + 1 : baseIndex}
                         item={props.item}
                         clickable={cellClickableClass}
                         preview={preview}
@@ -74,12 +65,13 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 return preview ? props.selectableWrapper(baseIndex, cell) : cell;
             })}
             {props.showSelectorCell && (
-                <CellElement
+                <SelectorCell
                     key="column_selector_cell"
                     aria-hidden
-                    className="column-selector"
-                    borderTop={props.index === 0}
+                    borderTop={rowIndex === 0}
                     clickable={cellClickableClass}
+                    rowIndex={rowIndex}
+                    columnIndex={props.columns.length + (selectionProps.showCheckboxColumn ? 1 : 0)}
                 />
             )}
         </div>

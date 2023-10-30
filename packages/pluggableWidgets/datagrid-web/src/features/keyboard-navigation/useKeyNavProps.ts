@@ -7,6 +7,7 @@ import { PositionString, posString } from "./base";
 type Props = {
     columnIndex: number;
     rowIndex: number;
+    focusTarget?: () => Focusable | null;
 };
 
 interface Focusable {
@@ -21,6 +22,7 @@ type ElementState = {
 type ElementProps = {
     onClick: React.MouseEventHandler;
     onKeyDown: React.KeyboardEventHandler;
+    onFocus: React.FocusEventHandler;
     ref: React.RefObject<Focusable>;
     tabIndex: 0 | -1;
     "data-position": string;
@@ -50,6 +52,7 @@ function createUpdateAction(event: TrackerEvent, elementPos: PositionString): Re
 }
 
 export function useKeyNavProps(props: Props): ElementProps {
+    const focusTargetPropRef = useRef(props.focusTarget);
     const { tracker } = useKeyNavContext();
     const pos = useMemo(() => posString(props.columnIndex, props.rowIndex), [props.columnIndex, props.rowIndex]);
     const [state, setState] = useState<ElementState>({ canFocus: false, active: tracker.anchor === pos });
@@ -58,8 +61,11 @@ export function useKeyNavProps(props: Props): ElementProps {
     useEffect(() => subscribe(tracker, event => setState(createUpdateAction(event, pos))), [tracker, pos]);
 
     useEffect(() => {
+        const { current: focusTarget } = focusTargetPropRef;
+
         if (state.canFocus) {
-            eltRef.current?.focus();
+            const target = typeof focusTarget === "function" ? focusTarget() : eltRef.current;
+            target?.focus();
         }
     }, [state]);
 
@@ -68,6 +74,7 @@ export function useKeyNavProps(props: Props): ElementProps {
         tabIndex: state.active ? 0 : -1,
         "data-position": pos,
         onKeyDown: useCallback(event => tracker.dispatch({ type: "Keyboard", reactEvent: event }), [tracker]),
-        onClick: useCallback(event => tracker.dispatch({ type: "Mouse", reactEvent: event }), [tracker])
+        onClick: useCallback(event => tracker.dispatch({ type: "Mouse", reactEvent: event }), [tracker]),
+        onFocus: useCallback(event => tracker.dispatch({ type: "Focus", reactEvent: event }), [tracker])
     };
 }
