@@ -17,7 +17,7 @@ type Event =
           reactEvent: React.FocusEvent;
       };
 
-export type TrackerEvent = { targetPos: PositionString; shouldFocus: boolean };
+export type TrackerEvent = { lastPos: PositionString; targetPos: PositionString; shouldFocus: boolean };
 export type Listener = (event: TrackerEvent) => void;
 
 export class TabAnchorTracker {
@@ -72,16 +72,18 @@ export class TabAnchorTracker {
     }
 
     private _setAnchor(pos: PositionString): void {
+        const lastPos = this._anchor;
         this._anchor = pos;
         for (const listener of this._listeners) {
-            listener({ targetPos: pos, shouldFocus: false });
+            listener({ lastPos, targetPos: pos, shouldFocus: false });
         }
     }
 
     private _setAnchorAndFocus(pos: PositionString): void {
+        const lastPos = this._anchor;
         this._anchor = pos;
         for (const listener of this._listeners) {
-            listener({ targetPos: pos, shouldFocus: true });
+            listener({ lastPos, targetPos: pos, shouldFocus: true });
         }
     }
 
