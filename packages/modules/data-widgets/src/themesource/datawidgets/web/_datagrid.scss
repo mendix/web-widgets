@@ -235,7 +235,8 @@ $grid-selected-row-background: $brand-light;
         }
 
         &:focus {
-            outline: none;
+            outline: 1px solid $brand-primary;
+            outline-offset: -1px;
         }
 
         &.clickable {
