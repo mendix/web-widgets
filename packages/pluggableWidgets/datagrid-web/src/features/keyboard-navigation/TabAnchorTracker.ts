@@ -11,6 +11,10 @@ type Event =
     | {
           type: "Keyboard";
           reactEvent: React.KeyboardEvent;
+      }
+    | {
+          type: "Focus";
+          reactEvent: React.FocusEvent;
       };
 
 export type TrackerEvent = { targetPos: PositionString; shouldFocus: boolean };
@@ -42,6 +46,8 @@ export class TabAnchorTracker {
     dispatch(event: Event): void {
         if (event.type === "Keyboard") {
             this._handleKeyboardEvent(event.reactEvent);
+        } else if (event.type === "Focus") {
+            this._handleFocusEvent(event.reactEvent);
         } else {
             this._handleMouseEvent(event.reactEvent);
         }
@@ -123,5 +129,15 @@ export class TabAnchorTracker {
         }
 
         this._setAnchorAndFocus(pos);
+    }
+
+    private _handleFocusEvent(event: React.FocusEvent): void {
+        const pos = this._getPosition(event);
+
+        if (pos === this._anchor) {
+            return;
+        }
+
+        this._setAnchor(pos);
     }
 }
