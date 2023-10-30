@@ -181,7 +181,7 @@
                     <description>Used for the individual selected value labels in multi-selection.</description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Accesibility Status Message ">
+            <propertyGroup caption="Accessibility Status Message ">
                 <property key="a11ySelectedValue" type="textTemplate" required="true">
                     <caption>Selected value</caption>
                     <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
