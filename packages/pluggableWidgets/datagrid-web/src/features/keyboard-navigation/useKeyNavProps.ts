@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 
 import { useKeyNavContext } from "./context";
-import { TabAnchorTracker, Listener, TrackerEvent } from "./TabAnchorTracker";
-import { PositionString, posString } from "./base";
+import { TabAnchorTracker, Listener } from "./TabAnchorTracker";
+import { posString } from "./base";
 
 type Props = {
     columnIndex: number;
@@ -15,7 +15,6 @@ interface Focusable {
 }
 
 type ElementState = {
-    active: boolean;
     canFocus: boolean;
 };
 
@@ -33,32 +32,31 @@ function subscribe(tracker: TabAnchorTracker, listener: Listener): () => void {
     return () => tracker.removeListener(listener);
 }
 
-function createUpdateAction(event: TrackerEvent, elementPos: PositionString): React.SetStateAction<ElementState> {
-    return prev => {
-        const active = event.targetPos === elementPos;
-        const canFocus = active && event.shouldFocus;
-
-        // Always return new state if event.shouldFocus is true, to force component re-render.
-        if (canFocus) {
-            return { active: true, canFocus: true };
-        }
-
-        if (prev.active !== active || prev.canFocus !== canFocus) {
-            return { active, canFocus };
-        }
-
-        return prev;
-    };
-}
-
 export function useKeyNavProps(props: Props): ElementProps {
     const focusTargetPropRef = useRef(props.focusTarget);
     const { tracker } = useKeyNavContext();
-    const pos = useMemo(() => posString(props.columnIndex, props.rowIndex), [props.columnIndex, props.rowIndex]);
-    const [state, setState] = useState<ElementState>({ canFocus: false, active: tracker.anchor === pos });
+    const [active, pos] = useMemo(() => {
+        const pos = posString(props.columnIndex, props.rowIndex);
+        return [pos === tracker.anchor, pos];
+    }, [props.columnIndex, props.rowIndex, tracker.anchor]);
+    const [state, setState] = useState<ElementState>({ canFocus: false });
     const eltRef = useRef<Focusable>(null);
 
-    useEffect(() => subscribe(tracker, event => setState(createUpdateAction(event, pos))), [tracker, pos]);
+    useEffect(
+        () =>
+            subscribe(tracker, event =>
+                setState(prev => {
+                    if (event.lastPos === pos) {
+                        return { canFocus: false };
+                    }
+                    if (event.targetPos === pos) {
+                        return { canFocus: event.shouldFocus };
+                    }
+                    return prev;
+                })
+            ),
+        [tracker, pos]
+    );
 
     useEffect(() => {
         const { current: focusTarget } = focusTargetPropRef;
@@ -71,7 +69,7 @@ export function useKeyNavProps(props: Props): ElementProps {
 
     return {
         ref: eltRef,
-        tabIndex: state.active ? 0 : -1,
+        tabIndex: active ? 0 : -1,
         "data-position": pos,
         onKeyDown: useCallback(event => tracker.dispatch({ type: "Keyboard", reactEvent: event }), [tracker]),
         onClick: useCallback(event => tracker.dispatch({ type: "Mouse", reactEvent: event }), [tracker]),
