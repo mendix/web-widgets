@@ -13,7 +13,7 @@ export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null, placement?: CaptionPlacement): ReactNode;
+    render(value: string | null, placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
 }
 

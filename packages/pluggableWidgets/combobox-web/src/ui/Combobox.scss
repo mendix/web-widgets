@@ -68,6 +68,8 @@ $disabled-text-color: #6c7180;
             overflow: hidden;
             white-space: nowrap;
             flex: 1;
+            font-weight: normal;
+            margin: 0;
         }
 
         &.widget-combobox-no-options {
