@@ -9,6 +9,7 @@ import { extractEnumerationProps } from "./utils";
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
     type = "single" as const;
+    validation?: string = undefined;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
     private onChangeEvent?: ActionValue;
@@ -53,6 +54,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.clearable = this.isBoolean ? false : clearable;
         this.currentValue = attr.value?.toString() ?? null;
         this.readOnly = attr.readOnly;
+        this.validation = attr.validation;
     }
 
     setValue(value: string | null): void {

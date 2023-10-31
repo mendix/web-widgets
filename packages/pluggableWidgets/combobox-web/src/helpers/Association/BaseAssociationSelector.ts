@@ -14,6 +14,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
 
@@ -70,6 +71,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
+        this.validation = attr.validation;
     }
 
     setValue(_value: T | null): void {
