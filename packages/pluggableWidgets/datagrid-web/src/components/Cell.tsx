@@ -2,11 +2,11 @@ import { createElement, ReactElement, memo } from "react";
 import { GridColumn } from "../typings/GridColumn";
 import { CellComponentProps } from "../typings/CellComponent";
 import { CellElement } from "./CellElement";
-import { useKeyNavProps } from "../features/keyboard-navigation/useKeyNavProps";
+import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
 
 // eslint-disable-next-line prefer-arrow-callback
 const component = memo(function Cell(props: CellComponentProps<GridColumn>): ReactElement {
-    const keyNavProps = useKeyNavProps({ columnIndex: props.columnIndex ?? -1, rowIndex: props.rowIndex });
+    const keyNavProps = useFocusTargetProps({ columnIndex: props.columnIndex ?? -1, rowIndex: props.rowIndex });
 
     return (
         <CellElement
@@ -19,7 +19,6 @@ const component = memo(function Cell(props: CellComponentProps<GridColumn>): Rea
             {...keyNavProps}
         >
             {props.column.renderCellContent(props.item)}
-            <div key={Date.now()} className="flicker" />
         </CellElement>
     );
 });

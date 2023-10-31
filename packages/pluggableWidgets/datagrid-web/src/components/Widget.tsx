@@ -129,7 +129,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
-    const KeyNavProvider = useKeyNavProvider({ rows: props.data.length, columns: columnsVisibleCount });
+    const KeyNavProvider = useKeyNavProvider({
+        rows: props.data.length,
+        columns: columnsVisibleCount,
+        pageSize: props.pageSize
+    });
 
     const { updateSettings } = useSettings(
         settings,

@@ -1,6 +1,6 @@
 import { createElement, ReactElement, useCallback, useRef } from "react";
 import { CellElement, CellElementProps } from "./CellElement";
-import { useKeyNavProps } from "../features/keyboard-navigation/useKeyNavProps";
+import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;
@@ -17,7 +17,7 @@ export function CheckboxCell({
     ...rest
 }: CheckboxCellProps): ReactElement {
     const inputRef = useRef(null);
-    const keyNavProps = useKeyNavProps({
+    const keyNavProps = useFocusTargetProps({
         columnIndex: columnIndex ?? -1,
         rowIndex,
         focusTarget: useCallback(() => inputRef.current, [])

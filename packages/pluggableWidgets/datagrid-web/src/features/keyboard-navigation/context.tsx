@@ -1,11 +1,11 @@
 import { createContext, useMemo, PropsWithChildren, ReactElement, createElement, useContext } from "react";
-import { TabAnchorTracker } from "./TabAnchorTracker";
-import { useTabAnchorTracker, LayoutProps } from "./useTabAnchorTracker";
+import { FocusTargetController } from "./FocusTargetController";
+import { useFocusTargetController, LayoutProps } from "./useFocusTargetController";
 
 export const defaultValue = Symbol("DefaultKeyNavContextValue");
 
 export type ContextValue = {
-    tracker: TabAnchorTracker;
+    focusController: FocusTargetController;
 };
 
 type Provider = (props: PropsWithChildren) => ReactElement | null;
@@ -13,14 +13,14 @@ type Provider = (props: PropsWithChildren) => ReactElement | null;
 export const context = createContext<typeof defaultValue | ContextValue>(defaultValue);
 
 export function useKeyNavProvider(props: LayoutProps): Provider {
-    const tracker = useTabAnchorTracker(props);
+    const focusController = useFocusTargetController(props);
 
     return useMemo<Provider>(
         () =>
             function Provider({ children }) {
-                return <context.Provider value={{ tracker }}>{children}</context.Provider>;
+                return <context.Provider value={{ focusController }}>{children}</context.Provider>;
             },
-        [tracker]
+        [focusController]
     );
 }
 
