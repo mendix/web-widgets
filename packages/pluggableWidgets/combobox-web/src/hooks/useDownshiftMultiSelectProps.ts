@@ -215,5 +215,16 @@ function useComboboxProps(
         };
         // disable eslint rule as probably we should update props whenever currentValue changes.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selector, selectedItems, items, selector.currentValue, removeSelectedItem, setSelectedItems]);
+    }, [
+        selector,
+        selectedItems,
+        items,
+        selector.currentValue,
+        removeSelectedItem,
+        setSelectedItems,
+        a11yStatusMessage.a11ySelectedValue,
+        a11yStatusMessage.a11yOptionsAvailable,
+        a11yStatusMessage.a11yNoOption,
+        a11yStatusMessage.a11yInstructions
+    ]);
 }

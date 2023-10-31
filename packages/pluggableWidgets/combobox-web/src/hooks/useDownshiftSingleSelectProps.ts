@@ -96,7 +96,15 @@ export function useDownshiftSingleSelectProps(
             inputId,
             labelId
         };
-    }, [selector, inputId, labelId]);
+    }, [
+        selector,
+        inputId,
+        labelId,
+        a11yStatusMessage.a11ySelectedValue,
+        a11yStatusMessage.a11yOptionsAvailable,
+        a11yStatusMessage.a11yNoOption,
+        a11yStatusMessage.a11yInstructions
+    ]);
 
     return useCombobox({
         ...downshiftProps,
