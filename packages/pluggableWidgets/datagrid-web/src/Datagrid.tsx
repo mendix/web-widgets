@@ -212,7 +212,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             onExportCancel={abort}
             page={currentPage}
             pageSize={props.pageSize}
-            paging={props.pagination === "buttons"}
+            paging={
+                props.pagination === "buttons" &&
+                (props.showPagingButtons === "always" ||
+                    (props.showPagingButtons === "whenNecessary" &&
+                        (props.datasource.totalCount ? props.datasource.totalCount > props.datasource.limit : false)))
+            }
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}

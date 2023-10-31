@@ -40,9 +40,11 @@ export interface ColumnsType {
     wrapText: boolean;
 }
 
-export type PaginationEnum = "buttons" | "virtualScrolling" | "none";
+export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
+
+export type ShowPagingButtonsEnum = "always" | "whenNecessary";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
@@ -90,9 +92,10 @@ export interface DatagridContainerProps {
     showSelectAllToggle: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
-    pagination: PaginationEnum;
     pageSize: number;
+    pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -128,9 +131,10 @@ export interface DatagridPreviewProps {
     showSelectAllToggle: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
-    pagination: PaginationEnum;
     pageSize: number | null;
+    pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
