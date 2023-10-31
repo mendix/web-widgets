@@ -1,13 +1,15 @@
-import { PositionString, posString, Position } from "./base";
+import { PositionString, posString, Position } from "./position";
 
 export class VirtualGridLayout {
     readonly rows: number;
     readonly columns: number;
+    readonly pageSize: number;
     private _positions: Set<PositionString>;
 
-    constructor(rows: number, columns: number) {
+    constructor(rows: number, columns: number, pageSize: number) {
         this.columns = columns;
         this.rows = rows;
+        this.pageSize = pageSize;
         this._positions = new Set();
 
         for (let row = 0; row < rows; row += 1) {
