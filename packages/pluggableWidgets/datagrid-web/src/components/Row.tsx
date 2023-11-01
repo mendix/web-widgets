@@ -34,7 +34,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             role="row"
             aria-selected={ariaSelected}
             {...interactionProps}
-            onClick={selectionProps.selectionMethod === "checkbox" ? undefined : interactionProps.onClick}
+            onClick={selectionProps.showCheckboxColumn ? undefined : interactionProps.onClick}
         >
             {selectionProps.showCheckboxColumn && (
                 <CheckboxCell

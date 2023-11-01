@@ -45,16 +45,25 @@ function getPattern(selectionType: SelectionType, action: ActionProp): RowPatter
 function rowPropsButton(item: ObjectItem, action: ActionProp): RowInteractionProps {
     const callback = (): void => executeAction(action?.get(item));
 
+    let pressed = false;
     return {
         onClick: callback,
+        onKeyDown(event) {
+            if (event.code !== "Enter" && event.code !== "Space") {
+                return;
+            }
+            pressed = true;
+        },
         onKeyUp(event) {
             if (event.code !== "Enter" && event.code !== "Space") {
                 return;
             }
 
-            if (isDirectChild(event.currentTarget, event.target as Element)) {
+            if (isDirectChild(event.currentTarget, event.target as Element) && pressed) {
                 callback();
             }
+
+            pressed = false;
         }
     };
 }
