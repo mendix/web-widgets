@@ -21,7 +21,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceAssociationDataSource",
             "optionsSourceAssociationCustomContentType",
             "optionsSourceAssociationCustomContent",
-            "selectedItemsStyle"
+            "selectedItemsStyle",
+            "selectionMethod"
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -48,8 +49,12 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
     }
 
-    if (values.filterType === "none") {
+    if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
         hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
+    }
+
+    if (values.selectionMethod === "rowclick") {
+        hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
     }
 
     return defaultProperties;

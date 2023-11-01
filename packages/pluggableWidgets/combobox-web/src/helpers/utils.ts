@@ -6,7 +6,11 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
         return selector.caption.emptyCaption;
     }
 
-    if (selector.selectedItemsStyle !== "text" || selector.customContentType === "yes") {
+    if (
+        selector.selectedItemsStyle !== "text" ||
+        selector.customContentType === "yes" ||
+        selector.selectionMethod === "rowclick"
+    ) {
         return "";
     }
     return selectedItems.map(v => selector.caption.get(v)).join(", ");

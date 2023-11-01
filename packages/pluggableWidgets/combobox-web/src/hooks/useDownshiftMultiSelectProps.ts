@@ -65,7 +65,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items = selector.options.getAll();
+    const items = selector.getOptions();
 
     const {
         isOpen,

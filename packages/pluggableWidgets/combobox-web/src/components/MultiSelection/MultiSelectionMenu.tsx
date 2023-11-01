@@ -46,7 +46,9 @@ export function MultiSelectionMenu({
                             getItemProps={getItemProps}
                             index={index}
                         >
-                            <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
+                            {selector.selectionMethod === "checkbox" && (
+                                <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
+                            )}
                             {selector.caption.render(item, "options", `${inputId}_${item}`)}
                         </ComboboxOptionWrapper>
                     );
