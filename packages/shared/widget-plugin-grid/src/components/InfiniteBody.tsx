@@ -19,6 +19,7 @@ export interface InfiniteBodyProps {
     setPage?: (computePage: (prevPage: number) => number) => void;
     style?: CSSProperties;
 }
+const offsetBottom = 30;
 
 export function useInfiniteControl(
     props: PropsWithChildren<InfiniteBodyProps>
@@ -35,7 +36,8 @@ export function useInfiniteControl(
              * causing mismatch by 1 pixel point, thus, add magic number 2 as buffer.
              */
             const bottom =
-                Math.floor(e.target.scrollHeight - e.target.scrollTop) <= Math.floor(e.target.clientHeight) + 2;
+                Math.floor(e.target.scrollHeight - offsetBottom - e.target.scrollTop) <=
+                Math.floor(e.target.clientHeight) + 2;
             if (bottom) {
                 if (hasMoreItems && setPage) {
                     setPage(prev => prev + 1);
@@ -47,7 +49,7 @@ export function useInfiniteControl(
 
     const calculateBodyHeight = useCallback((): void => {
         if (isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
-            setBodySize(containerRef.current.clientHeight - 30);
+            setBodySize(containerRef.current.clientHeight - offsetBottom);
         }
     }, [isInfinite, hasMoreItems, bodySize]);
 
