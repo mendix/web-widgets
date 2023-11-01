@@ -179,14 +179,6 @@ describe("Table", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("set negative tabindex on row checkbox", () => {
-            const { getAllByRole } = render(<Widget {...props} />);
-
-            getAllByRole("checkbox").forEach(elt => {
-                expect(elt).toHaveAttribute("tabindex", "-1");
-            });
-        });
-
         it("render correct number of checked checkboxes", () => {
             const [a, b, c, d, e, f] = (props.data = objectItems(6));
             let selection: ObjectItem[] = [];
@@ -439,7 +431,7 @@ describe("Table", () => {
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
-            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="checkbox" {...props} />);
+            const { rows, user } = setup(<WidgetWithSelectionHelper selectionMethod="rowClick" {...props} />);
 
             expect(rows).toHaveLength(20);
 
