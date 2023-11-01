@@ -20,7 +20,7 @@ export interface RowProps<C extends GridColumn> {
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell, index: rowIndex } = props;
-    const { selectionProps, preview } = useWidgetProps();
+    const { selectionProps, preview, selectRowLabel } = useWidgetProps();
     const selected = selectionProps.isSelected(props.item);
     const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
@@ -45,6 +45,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     columnIndex={0}
                     checked={selected}
                     onInputClick={interactionProps.onClick}
+                    checkboxAriaLabel={selectRowLabel}
                 />
             )}
             {props.columns.map((column, baseIndex) => {

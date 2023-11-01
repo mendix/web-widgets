@@ -106,6 +106,7 @@ export interface DatagridContainerProps {
     filterSectionTitle?: DynamicValue<string>;
     exportDialogLabel?: DynamicValue<string>;
     cancelExportLabel?: DynamicValue<string>;
+    selectRowLabel?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -144,4 +145,5 @@ export interface DatagridPreviewProps {
     filterSectionTitle: string;
     exportDialogLabel: string;
     cancelExportLabel: string;
+    selectRowLabel: string;
 }

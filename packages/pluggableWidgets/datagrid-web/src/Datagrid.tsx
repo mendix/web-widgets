@@ -225,6 +225,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             processedRows={processedRows}
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
+            selectRowLabel={props.selectRowLabel?.value}
         />
     );
 }
