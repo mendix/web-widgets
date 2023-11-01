@@ -28,10 +28,14 @@ export function CheckboxCell({
                 checked={checked}
                 type="checkbox"
                 tabIndex={keyNavProps.tabIndex}
+                onChange={stub}
                 onClick={onInputClick}
                 ref={inputRef}
                 aria-label={`Select row ${rowIndex + 1}`}
             />
         </CellElement>
     );
+}
+function stub(): void {
+    // to prevent react test error about checked prop without onChange.
 }

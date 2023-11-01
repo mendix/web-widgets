@@ -67,7 +67,6 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             {props.showSelectorCell && (
                 <SelectorCell
                     key="column_selector_cell"
-                    aria-hidden
                     borderTop={rowIndex === 0}
                     clickable={cellClickableClass}
                     rowIndex={rowIndex}
