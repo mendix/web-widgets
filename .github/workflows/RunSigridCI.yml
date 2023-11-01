@@ -6,6 +6,7 @@ on:
         branches: [main]
 jobs:
     sigridci:
+        if: vars.ENABLE_SIGRID == 'yes'
         runs-on: ubuntu-latest
         steps:
             - name: Check out repository
