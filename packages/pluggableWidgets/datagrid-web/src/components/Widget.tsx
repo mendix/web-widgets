@@ -75,6 +75,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsState: ColumnsState;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
+    selectRowLabel?: string;
 }
 
 export interface SortProperty {

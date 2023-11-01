@@ -7,6 +7,7 @@ export type CheckboxCellProps = CellElementProps & {
     columnIndex?: number;
     checked?: boolean;
     onInputClick?: React.MouseEventHandler;
+    checkboxAriaLabel?: string;
 };
 
 export function CheckboxCell({
@@ -14,6 +15,7 @@ export function CheckboxCell({
     columnIndex,
     checked,
     onInputClick,
+    checkboxAriaLabel,
     ...rest
 }: CheckboxCellProps): ReactElement {
     const inputRef = useRef(null);
@@ -31,7 +33,7 @@ export function CheckboxCell({
                 onChange={stub}
                 onClick={onInputClick}
                 ref={inputRef}
-                aria-label={`Select row ${rowIndex + 1}`}
+                aria-label={`${checkboxAriaLabel ?? "Select row"} ${rowIndex + 1}`}
             />
         </CellElement>
     );
