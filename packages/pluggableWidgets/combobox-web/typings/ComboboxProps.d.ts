@@ -14,6 +14,8 @@ export type FilterTypeEnum = "contains" | "startsWith" | "none";
 
 export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 
+export type SelectionMethodEnum = "checkbox" | "rowclick";
+
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
 export interface ComboboxContainerProps {
@@ -34,6 +36,7 @@ export interface ComboboxContainerProps {
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
+    selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -59,6 +62,7 @@ export interface ComboboxPreviewProps {
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;

@@ -3,7 +3,8 @@ import {
     ComboboxContainerProps,
     FilterTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
-    SelectedItemsStyleEnum
+    SelectedItemsStyleEnum,
+    SelectionMethodEnum
 } from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
@@ -63,6 +64,8 @@ interface SelectorBase<T, V> {
 export interface SingleSelector extends SelectorBase<"single", string> {}
 export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
+    selectionMethod: SelectionMethodEnum;
+    getOptions(): string[];
 }
 
 export interface SelectionBaseProps<Selector> {

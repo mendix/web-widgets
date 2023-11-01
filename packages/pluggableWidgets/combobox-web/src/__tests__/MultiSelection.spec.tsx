@@ -41,7 +41,8 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: "Clear selection",
-            removeValueAriaLabel: "Remove value"
+            removeValueAriaLabel: "Remove value",
+            selectionMethod: "checkbox"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
