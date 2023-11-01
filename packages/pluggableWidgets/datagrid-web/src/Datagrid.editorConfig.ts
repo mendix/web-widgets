@@ -167,26 +167,26 @@ export const getPreview = (
         ? values.columns
         : [
               {
-                  header: "Column",
-                  tooltip: "",
+                  alignment: "left",
                   attribute: "",
-                  width: "autoFit",
                   columnClass: "",
+                  content: { widgetCount: 0, renderer: () => null },
+                  draggable: false,
+                  dynamicText: "Dynamic text",
                   filter: { widgetCount: 0, renderer: () => null },
+                  filterAssociation: "",
+                  filterAssociationOptionLabel: "",
+                  filterAssociationOptions: {},
+                  header: "Column",
+                  hidable: "no",
+                  ignored: false,
                   resizable: false,
                   showContentAs: "attribute",
-                  content: { widgetCount: 0, renderer: () => null },
-                  dynamicText: "Dynamic text",
-                  draggable: false,
-                  hidable: "no",
-                  visible: "true",
                   size: 1,
                   sortable: false,
-                  alignment: "left",
-                  wrapText: false,
-                  filterAssociation: "",
-                  filterAssociationOptions: {},
-                  filterAssociationOptionLabel: ""
+                  tooltip: "",
+                  width: "autoFit",
+                  wrapText: false
               }
           ];
     const columns = rowLayout({
@@ -256,7 +256,7 @@ export const getPreview = (
                         backgroundColor: "#AEEdAA"
                     })(
                         container({
-                            padding: column.visible.trim() === "" || column.visible.trim() === "true" ? 0 : 3
+                            padding: column.ignored === false ? 0 : 3
                         })()
                     ),
                     container({

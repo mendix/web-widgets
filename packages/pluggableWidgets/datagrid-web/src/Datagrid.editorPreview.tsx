@@ -24,26 +24,26 @@ declare module "mendix/preview/Selectable" {
 
 const initColumns: ColumnsPreviewType[] = [
     {
-        header: "Column",
-        tooltip: "",
+        alignment: "left",
         attribute: "No attribute selected",
-        width: "autoFill",
         columnClass: "",
+        content: { renderer: () => <div />, widgetCount: 0 },
+        draggable: false,
+        dynamicText: "Dynamic Text",
         filter: { renderer: () => <div />, widgetCount: 0 },
+        filterAssociation: "",
+        filterAssociationOptionLabel: "",
+        filterAssociationOptions: {},
+        header: "Column",
+        hidable: "no",
+        ignored: false,
         resizable: false,
         showContentAs: "attribute",
-        content: { renderer: () => <div />, widgetCount: 0 },
-        dynamicText: "Dynamic Text",
-        draggable: false,
-        hidable: "no",
-        visible: "true",
         size: 1,
         sortable: false,
-        alignment: "left",
-        wrapText: false,
-        filterAssociation: "",
-        filterAssociationOptions: {},
-        filterAssociationOptionLabel: ""
+        tooltip: "",
+        width: "autoFill",
+        wrapText: false
     }
 ];
 
