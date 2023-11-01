@@ -8,6 +8,7 @@ export type CheckboxCellProps = CellElementProps & {
     checked?: boolean;
     onInputClick?: React.MouseEventHandler;
     checkboxAriaLabel?: string;
+    lastRow?: boolean;
 };
 
 export function CheckboxCell({
@@ -16,6 +17,7 @@ export function CheckboxCell({
     checked,
     onInputClick,
     checkboxAriaLabel,
+    lastRow,
     ...rest
 }: CheckboxCellProps): ReactElement {
     const inputRef = useRef(null);
@@ -32,12 +34,19 @@ export function CheckboxCell({
                 tabIndex={keyNavProps.tabIndex}
                 onChange={stub}
                 onClick={onInputClick}
+                onFocus={lastRow ? scrollParentOnFocus : undefined}
                 ref={inputRef}
                 aria-label={`${checkboxAriaLabel ?? "Select row"} ${rowIndex + 1}`}
             />
         </CellElement>
     );
 }
+function scrollParentOnFocus(event: React.FocusEvent): void {
+    if (typeof event.target.parentElement?.scrollIntoView === "function") {
+        event.target.parentElement.scrollIntoView(false);
+    }
+}
+
 function stub(): void {
     // to prevent react test error about checked prop without onChange.
 }
