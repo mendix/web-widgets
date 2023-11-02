@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useReducer } from "react";
 import { GridColumn } from "../typings/GridColumn";
-import { removeIgnoredColumns } from "src/helpers/removeIgnoredColumns";
+import { removeIgnoredColumns } from "../helpers/removeIgnoredColumns";
 
 type ColumnsHidden = number[];
 type ColumnsOrder = number[];
