@@ -23,7 +23,7 @@ const onChangeStub = (): void => {
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     const { CellComponent: Cell } = props;
-    const { selectionProps } = useWidgetProps();
+    const { selectionProps, preview } = useWidgetProps();
     const selected = selectionProps.isSelected(props.item);
     const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
     const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
@@ -58,6 +58,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         columnIndex={columnIndex}
                         item={props.item}
                         clickable={cellClickableClass}
+                        preview={preview}
                     />
                 );
             })}

@@ -38,7 +38,7 @@ export function SingleSelectionMenu({
                         getItemProps={getItemProps}
                         index={index}
                     >
-                        {selector.caption.render(item)}
+                        {selector.caption.render(item, "options")}
                     </ComboboxOptionWrapper>
                 ))}
         </ComboboxMenuWrapper>

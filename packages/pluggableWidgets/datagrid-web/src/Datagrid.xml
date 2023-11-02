@@ -287,10 +287,24 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
-            <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
-                    <caption>Filter section title</caption>
+                    <caption>Filter section</caption>
                     <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
+                </property>
+                <property key="exportDialogLabel" type="textTemplate" required="false">
+                    <caption>Export progress</caption>
+                    <description>Assistive technology will read this upon reaching a export dialog.</description>
+                    <translations>
+                        <translation lang="en_US">Export progress</translation>
+                    </translations>
+                </property>
+                <property key="cancelExportLabel" type="textTemplate" required="false">
+                    <caption>Cancel data export</caption>
+                    <description>Assistive technology will read this upon reaching a cancel button.</description>
+                    <translations>
+                        <translation lang="en_US">Cancel data export</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

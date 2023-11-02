@@ -63,10 +63,14 @@ $disabled-text-color: #6c7180;
             margin-right: 10px;
         }
 
-        .widget-combobox-caption {
+        .widget-combobox-caption-text {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            flex: 1;
+            font-weight: normal;
+            margin: 0;
+            min-height: 20px;
         }
 
         &.widget-combobox-no-options {
@@ -112,6 +116,12 @@ $disabled-text-color: #6c7180;
             stroke-width: 0;
             transition: stroke-width 0.2s ease-in-out;
         }
+
+        &:focus .widget-combobox-icon-container {
+            border-radius: 2px;
+            outline: 2px solid $brand-primary;
+        }
+
         &:hover &-icon {
             color: $brand-primary;
             font-weight: bold;
@@ -146,23 +156,44 @@ $disabled-text-color: #6c7180;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
+
+        &-text {
+            color: $typography-color;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            pointer-events: none;
+            display: none;
+        }
+
+        &-empty {
+            color: $gray-dark;
+        }
     }
 
-    &-text-label {
-        color: $typography-color;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        pointer-events: none;
-        display: none;
+    &-custom-content {
+        position: relative;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
 
-        &.widget-combobox-text-label-placeholder {
-            color: $gray-dark;
+        .widget-combobox-input {
+            &:not(:focus),
+            &:placeholder-shown {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+            &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
+                display: none;
+            }
         }
     }
 
@@ -185,7 +216,7 @@ $disabled-text-color: #6c7180;
 
             input:placeholder-shown,
             input:not(:focus) {
-                & + .widget-combobox-text-label {
+                & + .widget-combobox-placeholder-text {
                     display: block;
                 }
             }
@@ -214,6 +245,9 @@ $disabled-text-color: #6c7180;
                     display: flex;
                     align-items: center;
                 }
+            }
+            &:focus-visible {
+                outline: $brand-primary auto 1px;
             }
         }
     }

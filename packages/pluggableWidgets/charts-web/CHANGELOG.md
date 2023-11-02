@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.2] Charts - 2023-10-27
+
+### Fixed
+
+-   We fixed an error that was happening when the data source with the aggregation function had an "on click" action. Note: If a data point is aggregated (a single data point on the chart represents multiple entities), only the last entity is passed as a parameter to the associated microflow or nanoflow.
+
 ## [4.2.1] Charts - 2023-09-27
 
 ### [3.1.2] AreaChart

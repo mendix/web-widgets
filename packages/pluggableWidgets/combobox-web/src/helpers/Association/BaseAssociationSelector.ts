@@ -1,5 +1,5 @@
 import { ObjectItem, ReferenceValue, ReferenceSetValue, ActionValue } from "mendix";
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
@@ -13,6 +13,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     currentValue: T | null = null;
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
 
@@ -24,12 +26,23 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const [attr, ds, captionProvider, emptyOption, clearable, filterType, onChangeEvent] =
-            extractAssociationProps(props);
+        const [
+            attr,
+            ds,
+            captionProvider,
+            emptyOption,
+            clearable,
+            filterType,
+            onChangeEvent,
+            customContent,
+            customContentType
+        ] = extractAssociationProps(props);
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
-            formattingAttributeOrExpression: captionProvider
+            formattingAttributeOrExpression: captionProvider,
+            customContent,
+            customContentType
         });
 
         this.options._updateProps({
@@ -57,6 +70,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.status = attr.status;
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
+        this.customContentType = customContentType;
+        this.validation = attr.validation;
     }
 
     setValue(_value: T | null): void {

@@ -1,17 +1,18 @@
-import { createElement, ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { GalleryContainerProps } from "../typings/GalleryProps";
-import { Gallery as GalleryComponent } from "./components/Gallery";
 import { FilterType, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
-import { FilterCondition } from "mendix/filters";
-import { extractFilters } from "./utils/filters";
-import { and } from "mendix/filters/builders";
 import {
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/widget-plugin-grid/selection";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { SortInstruction, SortFunction, useSortContext } from "@mendix/widget-plugin-sorting";
+import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
+import { SortFunction, SortInstruction, useSortContext } from "@mendix/widget-plugin-sorting";
+import { FilterCondition } from "mendix/filters";
+import { and } from "mendix/filters/builders";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { GalleryContainerProps } from "../typings/GalleryProps";
+import { Gallery as GalleryComponent } from "./components/Gallery";
+import { useItemHelper } from "./helpers/ItemHelper";
+import { extractFilters } from "./utils/filters";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
@@ -33,7 +34,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         if (props.datasource.limit === Number.POSITIVE_INFINITY) {
             props.datasource.setLimit(props.pageSize);
         }
-    }, [props.datasource, props.pageSize]);
+    }, [props.datasource, props.pageSize, isInfiniteLoad]);
 
     useEffect(() => {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {
@@ -92,6 +93,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
+
             if (isInfiniteLoad) {
                 props.datasource.setLimit(newPage * props.pageSize);
             } else {
@@ -106,6 +108,13 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
     const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || selection?.type === "Multi";
+    const itemHelper = useItemHelper({
+        classValue: props.itemClass,
+        contentValue: props.content,
+        clickValue: props.onClick
+    });
+
+    const selectionProps = useListOptionSelectionProps({ selection: props.itemSelection, helper: selection });
 
     return (
         <GalleryComponent
@@ -163,31 +172,11 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
                 ]
             )}
             headerTitle={props.filterSectionTitle?.value}
+            ariaLabelListBox={props.ariaLabelListBox?.value}
             showHeader={showHeader}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             items={props.datasource.items ?? []}
-            itemRenderer={useCallback(
-                (renderWrapper, item) =>
-                    renderWrapper(
-                        !!selection?.isSelected(item),
-                        props.content?.get(item),
-                        props.itemClass?.get(item)?.value,
-                        (props.onClick || selection) &&
-                            (() => {
-                                if (props.onClick) {
-                                    executeAction(props.onClick?.get(item));
-                                }
-                                if (selection) {
-                                    if (selection.isSelected(item)) {
-                                        selection.remove(item);
-                                    } else {
-                                        selection.add(item);
-                                    }
-                                }
-                            })
-                    ),
-                [props.content, props.itemClass, props.onClick, selection]
-            )}
+            itemHelper={itemHelper}
             numberOfItems={props.datasource.totalCount}
             page={currentPage}
             pageSize={props.pageSize}
@@ -197,6 +186,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             setPage={setPage}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
+            selectionProps={selectionProps}
         />
     );
 }

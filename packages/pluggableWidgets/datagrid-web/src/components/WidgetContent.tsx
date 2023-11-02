@@ -8,6 +8,7 @@ type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
 export type WidgetContentProps = {
     className?: string;
     children?: ReactNode;
+    style?: React.CSSProperties;
 } & Pick<InfiniteBodyProps, PickProps>;
 
 export function WidgetContent({
@@ -15,6 +16,7 @@ export function WidgetContent({
     className,
     hasMoreItems,
     isInfinite,
+    style,
     setPage
 }: WidgetContentProps): ReactElement {
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
@@ -33,7 +35,7 @@ export function WidgetContent({
             )}
             ref={containerRef}
             onScroll={isInfinite ? trackScrolling : undefined}
-            style={isInfinite && bodySize > 0 ? { maxHeight: bodySize } : undefined}
+            style={isInfinite && bodySize > 0 ? { ...style, maxHeight: bodySize } : style}
         >
             <StickySentinel />
             {children}

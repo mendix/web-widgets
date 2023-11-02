@@ -32,12 +32,17 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
+            optionsSourceAssociationCustomContentType: "no",
+            optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamicValue("Select an option 111"),
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
-            noOptionsText: dynamicValue("no options found")
+            noOptionsText: dynamicValue("no options found"),
+            clearButtonAriaLabel: "Clear selection",
+            removeValueAriaLabel: "Remove value",
+            selectionMethod: "checkbox"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

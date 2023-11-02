@@ -82,7 +82,7 @@ export function useSettings(
             const newSettings = JSON.parse(settings.value) as PersistedSettings[];
             const columns = newSettings.map(columnSettings => ({
                 ...columnSettings,
-                columnNumber: filteredColumns.find(c => c.header === columnSettings.column)?.columnNumber || -1
+                columnNumber: filteredColumns.find(c => c.header === columnSettings.column)?.columnNumber ?? -1
             }));
 
             const extractedSettings: Settings = {

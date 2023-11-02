@@ -10,6 +10,7 @@ import { SingleSelectionMenu } from "./SingleSelectionMenu";
 export function SingleSelection({
     selector,
     tabIndex = 0,
+    clearButtonAriaLabels,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -25,8 +26,17 @@ export function SingleSelection({
     const inputRef = useRef<HTMLInputElement>(null);
     return (
         <Fragment>
-            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
-                <div className="widget-combobox-selected-items">
+            <ComboboxWrapper
+                isOpen={isOpen}
+                readOnly={selector.readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+                validation={selector.validation}
+            >
+                <div
+                    className={classNames("widget-combobox-selected-items", {
+                        "widget-combobox-custom-content": selector.customContentType === "yes"
+                    })}
+                >
                     <input
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter": selector.options.filterType === "none"
@@ -42,16 +52,21 @@ export function SingleSelection({
                         )}
                         placeholder=" "
                     />
-                    <InputPlaceholder isEmpty={!selector.currentValue}>
-                        {selector.caption.get(selectedItem)}
+                    <InputPlaceholder
+                        isEmpty={!selector.currentValue}
+                        type={selector.customContentType === "yes" ? "custom" : "text"}
+                    >
+                        {selector.caption.render(selectedItem, "label")}
                     </InputPlaceholder>
                 </div>
                 {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
+                        aria-label={clearButtonAriaLabels?.clearSelection}
                         onClick={e => {
                             e.stopPropagation();
+                            inputRef.current?.focus();
                             if (selectedItem) {
                                 selector.setValue(null);
                                 reset();

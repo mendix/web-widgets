@@ -1,6 +1,24 @@
+@use "./ExportAlert.scss";
+@use "./PseudoModal.scss";
+@use "./ExportProgress.scss";
+
 .widget-datagrid {
+    position: relative;
     .th.widget-datagrid-col-select,
     .td.widget-datagrid-col-select {
         align-items: center;
+    }
+}
+
+.widget-datagrid-exporting {
+    .widget-datagrid-top-bar,
+    .widget-datagrid-header,
+    .widget-datagrid-content,
+    .widget-datagrid-footer {
+        visibility: hidden;
+
+        * {
+            transition: unset;
+        }
     }
 }

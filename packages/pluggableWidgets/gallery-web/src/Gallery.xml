@@ -155,14 +155,18 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
-            <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
-                    <caption>Filter section title</caption>
+                    <caption>Filter section</caption>
                     <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
                 </property>
                 <property key="emptyMessageTitle" type="textTemplate" required="false">
-                    <caption>Empty message title</caption>
+                    <caption>Empty message</caption>
                     <description>Assistive technology will read this upon reaching an empty message section.</description>
+                </property>
+                <property key="ariaLabelListBox" type="textTemplate" required="false">
+                    <caption>Content description</caption>
+                    <description>Assistive technology will read this upon reaching gallery.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

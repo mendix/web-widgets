@@ -4,7 +4,7 @@ import { SelectionHelper } from "./helpers";
 
 export type onSelect = (item: ObjectItem, shiftKey: boolean) => void;
 
-export type onSelectAll = (requestedState?: "selectAll" | "deselectAll") => void;
+export type onSelectAll = (requestedAction?: "selectAll" | "deselectAll") => void;
 
 export type isSelected = (item: ObjectItem) => boolean;
 
@@ -36,13 +36,13 @@ export function usePrimarySelectionProps(selectionHelper: SelectionHelper | unde
                     selectionHelper.add(item);
                 }
             },
-            onSelectAll(requestedState) {
+            onSelectAll(requestedAction) {
                 if (selectionHelper.type === "Single") {
                     console.warn("Datagrid: calling onSelectAll in single selection mode have no effect");
                     return;
                 }
 
-                if (requestedState === "selectAll") {
+                if (requestedAction === "selectAll") {
                     selectionHelper.selectAll();
                     return;
                 }

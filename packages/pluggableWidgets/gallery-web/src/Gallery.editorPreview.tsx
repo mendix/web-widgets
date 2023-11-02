@@ -1,12 +1,19 @@
+import { GUID, ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { ObjectItem, GUID } from "mendix";
+import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
+import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
+
+    const selectionProps = useListOptionSelectionProps({
+        selection: props.itemSelection,
+        helper: undefined
+    });
 
     return (
         <GalleryComponent
@@ -28,14 +35,10 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             showHeader
             hasMoreItems={false}
             items={items}
-            itemRenderer={useCallback(
-                renderWrapper => (
-                    <props.content.renderer caption="Gallery item: Place widgets here">
-                        {renderWrapper(false, null, "")}
-                    </props.content.renderer>
-                ),
-                [props.content]
-            )}
+            itemHelper={useItemPreviewHelper({
+                contentValue: props.content,
+                hasOnClick: props.onClick !== null
+            })}
             numberOfItems={items.length}
             page={0}
             pageSize={props.pageSize ?? 5}
@@ -44,6 +47,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             preview
             phoneItems={props.phoneItems!}
             tabletItems={props.tabletItems!}
+            selectionProps={selectionProps}
         />
     );
 }

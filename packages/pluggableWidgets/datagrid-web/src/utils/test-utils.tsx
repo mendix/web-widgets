@@ -7,6 +7,7 @@ import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
+import { initColumnsState } from "../features/use-columns-state";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -35,7 +36,6 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
     const props: GridSelectionProps = {
         selectionType: "None",
         selectionMethod: "checkbox",
-        multiselectable: undefined,
         showCheckboxColumn: false,
         showSelectAllToggle: false,
         onSelect: jest.fn(),
@@ -53,30 +53,36 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
-
+    const columns = columnsProp.map((col, index) => new Column(col, index, id));
+    const columnsState = initColumnsState(columns);
     const selectionProps = mockSelectionProps();
 
     return {
         CellComponent: Cell,
-        setPage: jest.fn(),
-        page: 1,
-        hasMoreItems: false,
-        pageSize: 10,
+        className: "test",
+        columnsDraggable: false,
+        columnsFilterable: false,
+        columnsHidable: false,
         columnsResizable: false,
+        columnsSortable: false,
+        data: [{ id: "123456" as GUID }],
+        exporting: false,
+        filterRenderer: () => <input type="text" defaultValue="dummy" />,
+        hasMoreItems: false,
+        headerWrapperRenderer: (_index, header) => header,
+        id,
+        onExportCancel: jest.fn(),
+        page: 1,
+        pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        columnsHidable: false,
-        columnsDraggable: false,
-        className: "test",
-        columnsFilterable: false,
-        columnsSortable: false,
-        columns: columnsProp.map((col, index) => new Column(col, index, id)),
+        columnsState,
+        setHidden: jest.fn(),
+        setOrder: jest.fn(),
         valueForSort: () => "dummy",
-        filterRenderer: () => <input type="text" defaultValue="dummy" />,
-        headerWrapperRenderer: (_index, header) => header,
-        data: [{ id: "123456" as GUID }],
-        id,
         selectionProps,
-        selectionStatus: "unknown"
+        selectionStatus: "unknown",
+        setPage: jest.fn(),
+        processedRows: 0
     };
 }

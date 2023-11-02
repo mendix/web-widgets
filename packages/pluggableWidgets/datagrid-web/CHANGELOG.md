@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.1] - 2023-11-02
+
+### Fixed
+
+-   We fixed an issue where personalization settings were not always correctly restored.
+
+## [2.10.0] - 2023-10-31
+
+### Added
+
+-   A new API that allows data export from data sources configured in the data grid. Together with this addition, we introduce the "Export_To_Excel" JS action, which is a quick and easy way to export and save data as an XLSX document. This action is distributed as a part of "Data Widgets" module.
+
 ## [2.9.0] - 2023-10-13
 
 ### Fixed

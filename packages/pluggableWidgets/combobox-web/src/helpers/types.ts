@@ -1,13 +1,20 @@
 import { ReactNode } from "react";
-import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    FilterTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum,
+    SelectedItemsStyleEnum,
+    SelectionMethodEnum
+} from "../../typings/ComboboxProps";
 
 export type Status = "unavailable" | "loading" | "available";
+export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null): ReactNode;
+    render(value: string | null, placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
 }
 
@@ -37,6 +44,7 @@ interface SelectorBase<T, V> {
     status: Status;
     type: T;
     readOnly: boolean;
+    validation?: string;
 
     // options related
     options: OptionsProvider;
@@ -49,11 +57,15 @@ interface SelectorBase<T, V> {
 
     currentValue: V | null;
     setValue(value: V | null): void;
+
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
 export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
+    selectionMethod: SelectionMethodEnum;
+    getOptions(): string[];
 }
 
 export interface SelectionBaseProps<Selector> {
@@ -62,4 +74,8 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    clearButtonAriaLabels?: {
+        clearSelection: string;
+        removeSelection: string;
+    };
 }

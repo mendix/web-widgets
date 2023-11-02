@@ -3,11 +3,16 @@ import {
     ReferenceValue,
     ReferenceSetValue,
     ListValue,
+    ListWidgetValue,
     ListAttributeValue,
     ListExpressionValue,
     DynamicValue
 } from "mendix";
-import { ComboboxContainerProps, FilterTypeEnum } from "../../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    FilterTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [
     ReferenceValue | ReferenceSetValue,
@@ -16,7 +21,9 @@ type ExtractionReturnValue = [
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
-    ActionValue | undefined
+    ActionValue | undefined,
+    ListWidgetValue | undefined,
+    OptionsSourceAssociationCustomContentTypeEnum
 ];
 
 export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -50,6 +57,8 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
     }
     const emptyOption = props.emptyOptionText;
     const clearable = props.clearable;
+    const customContent = props.optionsSourceAssociationCustomContent;
+    const customContentType = props.optionsSourceAssociationCustomContentType;
 
     return [
         attr,
@@ -58,6 +67,8 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         emptyOption,
         clearable,
         filterType,
-        onChangeEvent
+        onChangeEvent,
+        customContent,
+        customContentType
     ];
 }

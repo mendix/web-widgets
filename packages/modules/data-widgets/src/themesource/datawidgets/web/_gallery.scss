@@ -55,6 +55,7 @@
 
         &:focus-visible {
             outline: 1px solid $brand-primary;
+            outline-offset: -1px;
         }
     }
 
@@ -79,4 +80,8 @@
       */
     @include grid-span(12, "column");
     @include grid-span(12, "row");
+}
+
+.widget-gallery-item-button {
+    width: inherit;
 }

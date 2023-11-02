@@ -1,7 +1,7 @@
 {
   "name": "@mendix/web-actions",
   "moduleName": "Web Actions",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "repository": {
@@ -15,7 +15,7 @@
   },
   "moduleFolderNameInModeler": "webactions",
   "marketplace": {
-    "minimumMXVersion": "9.18.4.62522",
+    "minimumMXVersion": "9.24.0.2965",
     "appNumber": 114337,
     "appName": "Web Actions"
   },
