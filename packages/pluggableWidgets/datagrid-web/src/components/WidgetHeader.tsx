@@ -1,18 +1,18 @@
-import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
+import { createElement, ReactElement } from "react";
 
-interface WidgetHeaderProps extends PropsWithChildren {
+type WidgetHeaderProps = {
     headerTitle?: string;
-}
+} & JSX.IntrinsicElements["div"];
 
 export function WidgetHeader(props: WidgetHeaderProps): ReactElement | null {
-    const { children, headerTitle } = props;
+    const { children, headerTitle, ...rest } = props;
 
     if (!children) {
-        return <Fragment />;
+        return null;
     }
 
     return (
-        <div className="widget-datagrid-header header-filters" aria-label={headerTitle || undefined}>
+        <div {...rest} className="widget-datagrid-header header-filters" aria-label={headerTitle || undefined}>
             {children}
         </div>
     );

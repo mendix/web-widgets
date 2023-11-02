@@ -2,7 +2,8 @@ import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    dropzone
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { getDatasourcePlaceholderText } from "./helpers/utils";
@@ -18,7 +19,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
             "optionsSourceAssociationDataSource",
-            "selectedItemsStyle"
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationCustomContent",
+            "selectedItemsStyle",
+            "selectionMethod"
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -37,10 +41,20 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         if (values.optionsSourceAssociationDataSource === null) {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionType"]);
         }
+
+        if (values.optionsSourceAssociationCustomContentType === "no") {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
+        }
     }
 
-    if (values.filterType === "none") {
+    if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
         hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
+    }
+
+    if (values.selectionMethod === "rowclick") {
+        hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
     }
 
     return defaultProperties;
@@ -80,11 +94,17 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                 grow: 1,
                 padding: 4,
                 children: [
-                    {
-                        type: "Text",
-                        content: getDatasourcePlaceholderText(_values),
-                        fontColor: palette.text.data
-                    }
+                    _values.optionsSourceType === "association" &&
+                    _values.optionsSourceAssociationCustomContentType !== "no"
+                        ? dropzone(
+                              dropzone.placeholder("Configure the combo box: Place widgets here"),
+                              dropzone.hideDataSourceHeaderIf(false)
+                          )(_values.optionsSourceAssociationCustomContent)
+                        : {
+                              type: "Text",
+                              content: getDatasourcePlaceholderText(_values),
+                              fontColor: palette.text.data
+                          }
                 ]
             },
             {

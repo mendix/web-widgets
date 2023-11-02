@@ -104,6 +104,8 @@ export interface DatagridContainerProps {
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
+    exportDialogLabel?: DynamicValue<string>;
+    cancelExportLabel?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -140,4 +142,6 @@ export interface DatagridPreviewProps {
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;
+    exportDialogLabel: string;
+    cancelExportLabel: string;
 }

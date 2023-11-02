@@ -6,9 +6,11 @@ import type {
     ListWidgetValue,
     ObjectItem,
     EditableValue,
-    ListAttributeValue
+    ListAttributeValue,
+    ListActionValue,
+    ActionValue
 } from "mendix";
-import { dynamicValue } from "./builders/DynamicActionValueBuilder.js";
+import { dynamicValue, actionValue } from "./builders/DynamicActionValueBuilder.js";
 import { ListValueBuilder } from "./builders/ListValueBuilder.js";
 import { ListAttributeValueBuilder } from "./builders/ListAttributeValueBuilder.js";
 import { EditableValueBuilder } from "./builders/EditableValueBuilder.js";
@@ -51,4 +53,10 @@ export function listExp<T extends string | boolean | Date | Big>(get: (item: Obj
 
 export function listWidget(get: (item: ObjectItem) => ReactNode): ListWidgetValue {
     return { get } as unknown as ListWidgetValue;
+}
+
+export function listAction(customValue?: (actionFactory: typeof actionValue) => ActionValue): ListActionValue {
+    return {
+        get: () => (typeof customValue === "function" ? customValue(actionValue) : actionValue())
+    } as unknown as ListActionValue;
 }

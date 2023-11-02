@@ -12,6 +12,7 @@ import { column, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
+import { initColumnsState } from "../../features/use-columns-state";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -69,9 +70,9 @@ describe("Table", () => {
 
     it("renders the structure correctly with custom filtering", () => {
         const props = mockWidgetProps();
-
-        props.columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        const columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
         props.columnsFilterable = true;
+        props.columnsState = initColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -88,12 +89,13 @@ describe("Table", () => {
 
     it("renders the structure correctly with column alignments", () => {
         const props = mockWidgetProps();
-        props.columns = [
+        const columns = [
             column("Test", col => {
                 col.alignment = "center";
             }),
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index, props.id!));
+        props.columnsState = initColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -108,11 +110,11 @@ describe("Table", () => {
 
     it("renders the structure correctly for preview when no header is provided", () => {
         const props = mockWidgetProps();
-
-        props.columns = [column("", col => (col.alignment = "center"))].map(
+        const columns = [column("", col => (col.alignment = "center"))].map(
             (col, index) => new Column(col, index, props.id!)
         );
         props.preview = true;
+        props.columnsState = initColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -159,7 +161,6 @@ describe("Table", () => {
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
-            props.selectionProps.multiselectable = false;
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -264,7 +265,6 @@ describe("Table", () => {
             props.selectionProps.selectionMethod = "checkbox";
             props.selectionProps.showCheckboxColumn = true;
             props.selectionProps.showSelectAllToggle = true;
-            props.selectionProps.multiselectable = true;
 
             const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
                 return render(<Widget {...props} selectionStatus={status} />);
@@ -321,7 +321,6 @@ describe("Table", () => {
             props = mockWidgetProps();
             props.selectionProps.selectionType = "Single";
             props.selectionProps.selectionMethod = "rowClick";
-            props.selectionProps.multiselectable = false;
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -343,10 +342,10 @@ describe("Table", () => {
         it("call onSelect when cell is clicked", async () => {
             const items = props.data;
             const onSelect = props.selectionProps.onSelect;
-
-            props.columns = [column("Column A"), column("Column B")].map(
+            const columns = [column("Column A"), column("Column B")].map(
                 (col, index) => new Column(col, index, props.id!)
             );
+            props.columnsState = initColumnsState(columns);
 
             render(<Widget {...props} />);
 
@@ -428,7 +427,7 @@ describe("Table", () => {
             props = mockWidgetProps();
             selection = new SelectionMultiValueBuilder().build();
             props.data = items;
-            props.columns = [
+            const columns = [
                 column("Name"),
                 column("Description"),
                 column("Amount", col => {
@@ -436,6 +435,7 @@ describe("Table", () => {
                     col.content = listWidget(() => <input />);
                 })
             ].map((col, index) => new Column(col, index, props.id!));
+            props.columnsState = initColumnsState(columns);
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -574,9 +574,9 @@ describe("Table", () => {
                 c.showContentAs = "customContent";
                 c.content = content;
                 return c;
-            });
+            }).map((col, index) => new Column(col, index, props.id!));
 
-            props.columns = columns.map((col, index) => new Column(col, index, props.id!));
+            props.columnsState = initColumnsState(columns);
 
             const user = userEvent.setup();
 

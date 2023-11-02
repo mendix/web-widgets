@@ -28,13 +28,14 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           role="combobox"
           value=""
         />
-        <span
-          class="widget-combobox-text-label"
+        <div
+          class="widget-combobox-placeholder-text"
         >
           111
-        </span>
+        </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
       >
         <span
@@ -93,28 +94,20 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           <span
             class="widget-combobox-icon-container"
           >
-            <svg
-              class="widget-combobox-down-checkbox-icon checked"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="20"
-                rx="5"
-                width="20"
-                x="2"
-              />
-              <path
-                d="M7 10.3077L10.6923 14L17.4615 6"
-              />
-            </svg>
+            <input
+              checked=""
+              id="comboBox1_111"
+              role="presentation"
+              tabindex="-1"
+              type="checkbox"
+            />
           </span>
-          <span
-            class="widget-combobox-caption"
+          <label
+            class="widget-combobox-caption-text"
+            for="comboBox1_111"
           >
             111
-          </span>
+          </label>
         </li>
         <li
           aria-selected="false"
@@ -125,29 +118,19 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           <span
             class="widget-combobox-icon-container"
           >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-              <path
-                d="M7 10.3077L10.6923 14L17.4615 6"
-              />
-            </svg>
+            <input
+              id="comboBox1_222"
+              role="presentation"
+              tabindex="-1"
+              type="checkbox"
+            />
           </span>
-          <span
-            class="widget-combobox-caption"
+          <label
+            class="widget-combobox-caption-text"
+            for="comboBox1_222"
           >
             222
-          </span>
+          </label>
         </li>
         <li
           aria-selected="false"
@@ -158,29 +141,19 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           <span
             class="widget-combobox-icon-container"
           >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-              <path
-                d="M7 10.3077L10.6923 14L17.4615 6"
-              />
-            </svg>
+            <input
+              id="comboBox1_333"
+              role="presentation"
+              tabindex="-1"
+              type="checkbox"
+            />
           </span>
-          <span
-            class="widget-combobox-caption"
+          <label
+            class="widget-combobox-caption-text"
+            for="comboBox1_333"
           >
             333
-          </span>
+          </label>
         </li>
         <li
           aria-selected="false"
@@ -191,29 +164,19 @@ exports[`Combo box (Association) adds new item to inital selected item 1`] = `
           <span
             class="widget-combobox-icon-container"
           >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-              <path
-                d="M7 10.3077L10.6923 14L17.4615 6"
-              />
-            </svg>
+            <input
+              id="comboBox1_444"
+              role="presentation"
+              tabindex="-1"
+              type="checkbox"
+            />
           </span>
-          <span
-            class="widget-combobox-caption"
+          <label
+            class="widget-combobox-caption-text"
+            for="comboBox1_444"
           >
             444
-          </span>
+          </label>
         </li>
       </ul>
     </div>
@@ -249,13 +212,14 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           role="combobox"
           value=""
         />
-        <span
-          class="widget-combobox-text-label"
+        <div
+          class="widget-combobox-placeholder-text"
         >
           111
-        </span>
+        </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
       >
         <span

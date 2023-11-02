@@ -3,13 +3,18 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ReferenceValue, ReferenceSetValue } from "mendix";
+import { ComponentType, ReactNode } from "react";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type FilterTypeEnum = "contains" | "startsWith" | "none";
+
+export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
+
+export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
@@ -29,11 +34,16 @@ export interface ComboboxContainerProps {
     filterType: FilterTypeEnum;
     noOptionsText?: DynamicValue<string>;
     clearable: boolean;
+    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceAssociationCustomContent?: ListWidgetValue;
+    selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
+    clearButtonAriaLabel: string;
+    removeValueAriaLabel: string;
 }
 
 export interface ComboboxPreviewProps {
@@ -50,9 +60,14 @@ export interface ComboboxPreviewProps {
     filterType: FilterTypeEnum;
     noOptionsText: string;
     clearable: boolean;
+    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     ariaRequired: boolean;
+    clearButtonAriaLabel: string;
+    removeValueAriaLabel: string;
 }

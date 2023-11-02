@@ -1,0 +1,37 @@
+.widget-datagrid-export-progress {
+    align-items: center;
+    background-color: rgba(240, 241, 242, 1);
+    border-radius: 4px;
+    display: flex;
+    height: 18px;
+    overflow: hidden;
+    position: relative;
+    transform: translateZ(0);
+    width: 100%;
+
+    &-indicator {
+        background-color: rgba(38, 74, 229, 1);
+        border-radius: 4px;
+        height: 17px;
+        transition: transform 100ms cubic-bezier(0.65, 0, 0.35, 1);
+        width: 100%;
+    }
+
+    &-indicator-indeterminate {
+        animation: indeterminateAnimation 1s infinite linear;
+        transform-origin: 0% 50%;
+        transition: none;
+    }
+}
+
+@keyframes indeterminateAnimation {
+    0% {
+        transform: translateX(0) scaleX(0);
+    }
+    40% {
+        transform: translateX(0) scaleX(0.4);
+    }
+    100% {
+        transform: translateX(100%) scaleX(0.5);
+    }
+}

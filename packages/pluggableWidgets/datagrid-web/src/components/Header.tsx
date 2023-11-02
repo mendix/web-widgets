@@ -43,13 +43,7 @@ export interface HeaderProps {
 export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
-    const draggableProps = useDraggable(
-        canDrag,
-        props.visibleColumns,
-        props.setColumnOrder,
-        props.setDragOver,
-        props.setIsDragging
-    );
+    const draggableProps = useDraggable(canDrag, props.setColumnOrder, props.setDragOver, props.setIsDragging);
 
     const [sortProperties] = props.sortBy;
     const isSorted = sortProperties && sortProperties.columnNumber === props.column.columnNumber;
@@ -113,6 +107,7 @@ export function Header(props: HeaderProps): ReactElement {
                     dragging: canDrag && props.column.columnId === props.dragOver
                 })}
                 id={props.column.columnId}
+                data-column-number={props.column.columnNumber}
                 {...draggableProps}
             >
                 <div
@@ -131,9 +126,11 @@ export function Header(props: HeaderProps): ReactElement {
     );
 }
 
+const DATA_FORMAT_NUM = "application/x-mx-widget-web-datagrid-column-number";
+const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
+
 function useDraggable(
     columnsDraggable: boolean,
-    visibleColumns: GridColumn[],
     setColumnOrder: (updater: ((columnOrder: number[]) => number[]) | number[]) => void,
     setDragOver: Dispatch<SetStateAction<string>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
@@ -148,8 +145,9 @@ function useDraggable(
     const handleDragStart = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             setIsDragging(true);
-            const { id: columnId } = e.target as HTMLDivElement;
-            e.dataTransfer.setData("colDestination", columnId);
+            const elt = e.target as HTMLDivElement;
+            e.dataTransfer.setData(DATA_FORMAT_NUM, getColNum(elt));
+            e.dataTransfer.setData(DATA_FORMAT_ID, elt.id);
         },
         [setIsDragging]
     );
@@ -161,7 +159,7 @@ function useDraggable(
     const handleDragEnter = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             const { id: columnId } = e.target as HTMLDivElement;
-            const colDestination = e.dataTransfer.getData("colDestination");
+            const colDestination = e.dataTransfer.getData(DATA_FORMAT_ID);
             if (columnId !== colDestination) {
                 setDragOver(columnId);
             }
@@ -177,21 +175,28 @@ function useDraggable(
     const handleOnDrop = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             handleDragEnd();
-            const { id: colOrigin } = e.target as HTMLDivElement;
-            const colDestination = e.dataTransfer.getData("colDestination");
+            const columnA = colNumFromString(getColNum(e.target as HTMLDivElement));
+            const columnB = colNumFromString(e.dataTransfer.getData(DATA_FORMAT_NUM));
 
-            const toIndex = visibleColumns.findIndex(col => col.columnId === colOrigin);
-            const fromIndex = visibleColumns.findIndex(col => col.columnId === colDestination);
+            setColumnOrder(prevOrder => {
+                const indexA = prevOrder.indexOf(columnA);
+                const indexB = prevOrder.indexOf(columnB);
 
-            if (toIndex !== fromIndex) {
-                const newOrder = [...visibleColumns.map(column => column.columnNumber)];
-                const colNum = newOrder[fromIndex];
-                newOrder.splice(fromIndex, 1);
-                newOrder.splice(toIndex, 0, colNum);
-                setColumnOrder(newOrder);
-            }
+                if (indexA === -1 || indexB === -1) {
+                    throw new Error("Unable to find column in the current order array");
+                }
+
+                if (indexA !== indexB) {
+                    const nextOrder = [...prevOrder];
+                    nextOrder[indexA] = columnB;
+                    nextOrder[indexB] = columnA;
+                    return nextOrder;
+                }
+
+                return prevOrder;
+            });
         },
-        [handleDragEnd, setColumnOrder, visibleColumns]
+        [handleDragEnd, setColumnOrder]
     );
 
     return columnsDraggable
@@ -204,4 +209,21 @@ function useDraggable(
               onDragEnd: handleDragEnd
           }
         : {};
+}
+function getColNum<T extends HTMLElement>(target: T): string {
+    if (!Object.hasOwn(target.dataset, "columnNumber") || target.dataset.columnNumber === undefined) {
+        throw new Error("Element is missing data-column-number value");
+    }
+
+    return target.dataset.columnNumber;
+}
+
+function colNumFromString(data: string): number {
+    const num = parseInt(data, 10);
+
+    if (isNaN(num)) {
+        throw new Error(`Unable to parse column number: ${data}`);
+    }
+
+    return num;
 }

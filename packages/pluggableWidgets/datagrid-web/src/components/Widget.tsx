@@ -17,7 +17,6 @@ import {
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
-import { sortColumns } from "../helpers/utils";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
@@ -32,34 +31,40 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
+import { ExportWidget } from "./ExportWidget";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
     className: string;
-    columns: C[];
-    columnsFilterable: boolean;
-    columnsSortable: boolean;
-    columnsResizable: boolean;
     columnsDraggable: boolean;
+    columnsFilterable: boolean;
     columnsHidable: boolean;
+    columnsResizable: boolean;
+    columnsSortable: boolean;
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     loadingIndicatorRenderer?: (renderWrapper: (children: ReactNode) => ReactElement | null) => ReactElement | null;
+    exporting: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
+    hasMoreItems: boolean;
     headerContent?: ReactNode;
     headerTitle?: string;
-    hasMoreItems: boolean;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id?: string;
     numberOfItems?: number;
-    paging: boolean;
+    onExportCancel?: () => void;
     page: number;
     pageSize: number;
+    paging: boolean;
     pagingPosition: PagingPositionEnum;
     preview?: boolean;
+    processedRows: number;
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     setSortParameters?: (sort?: SortProperty) => void;
+    setOrder: DispatchOrderUpdate;
+    setHidden: DispatchHiddenUpdate;
     settings?: EditableValue<string>;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
@@ -68,6 +73,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     isLoading?: boolean;
+    columnsState: ColumnsState;
+    exportDialogLabel?: string;
+    cancelExportLabel?: string;
 }
 
 export interface SortProperty {
@@ -78,7 +86,6 @@ export interface SortProperty {
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
     const {
         className,
-        columns,
         columnsDraggable,
         columnsFilterable,
         columnsHidable,
@@ -88,6 +95,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         emptyPlaceholderRenderer,
         loadingIndicatorRenderer,
         isLoading,
+        exporting,
         filterRenderer: filterRendererProp,
         headerContent,
         headerTitle,
@@ -95,11 +103,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerWrapperRenderer,
         id,
         numberOfItems,
+        onExportCancel,
         page,
         pageSize,
         paging,
         pagingPosition,
         preview,
+        processedRows,
         setPage,
         setSortParameters,
         settings,
@@ -107,13 +117,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
+    const { columns, columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
+    const columnsToShow = preview ? columns : columnsVisible;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
-    const [columnOrder, setColumnOrder] = useState<number[]>([]);
-    const [hiddenColumns, setHiddenColumns] = useState<number[]>(
-        columns.flatMap(c => (columnsHidable && c.hidden && !preview ? [c.columnNumber] : []))
-    );
     const [sortBy, setSortBy] = useState<SortingRule[]>([]);
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
@@ -124,17 +132,17 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const { updateSettings } = useSettings(
         settings,
         columns,
-        columnOrder,
-        setColumnOrder,
-        hiddenColumns,
-        setHiddenColumns,
+        columnsOrder,
+        props.setOrder,
+        columnsHidden,
+        props.setHidden,
         sortBy,
         setSortBy,
         columnsWidth,
         setColumnsWidth
     );
 
-    useEffect(() => updateSettings(), [columnOrder, hiddenColumns, sortBy, updateSettings]);
+    useEffect(() => updateSettings(), [columnsOrder, columnsHidden, sortBy, updateSettings]);
 
     useEffect(() => {
         const [sortingRule] = sortBy;
@@ -157,12 +165,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         [isDragging]
     );
 
-    const visibleColumns = useMemo(() => {
-        return columns
-            .filter(c => !hiddenColumns.includes(c.columnNumber))
-            .sort((a, b) => sortColumns(columnOrder, a, b));
-    }, [hiddenColumns, columnOrder, columns]);
-
     const pagination = paging ? (
         <Pagination
             canNextPage={hasMoreItems}
@@ -178,29 +180,34 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const cssGridStyles = useMemo(
         () =>
-            gridStyle(visibleColumns, columnsWidth, {
+            gridStyle(columnsToShow, columnsWidth, {
                 selectItemColumn: selectionProps.showCheckboxColumn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [columnsWidth, visibleColumns, columnsHidable, selectionProps.showCheckboxColumn]
+        [columnsWidth, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
     );
+
+    const selectionEnabled = props.selectionProps.selectionType !== "None";
 
     return (
         <WidgetPropsProvider value={props}>
             <WidgetRoot
                 className={className}
                 selectionMethod={selectionProps.selectionMethod}
-                selection={selectionProps.selectionType !== "None"}
+                selection={selectionEnabled}
                 style={styles}
+                exporting={exporting}
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
                 <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
-                    <Grid aria-multiselectable={selectionProps.multiselectable}>
+                    <Grid
+                        aria-multiselectable={selectionEnabled ? selectionProps.selectionType === "Multi" : undefined}
+                    >
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
-                                {visibleColumns.map((column, index) =>
+                                {columnsToShow.map((column, index) =>
                                     headerWrapperRenderer(
                                         index,
                                         <Header
@@ -226,13 +233,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                                     }
                                                 />
                                             }
-                                            setColumnOrder={(newOrder: number[]) => setColumnOrder(newOrder)}
+                                            setColumnOrder={(newOrder: number[]) => props.setOrder(newOrder)}
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
                                             setSortBy={setSortBy}
                                             sortable={columnsSortable}
                                             sortBy={sortBy}
-                                            visibleColumns={visibleColumns}
+                                            visibleColumns={columnsVisible}
                                             tableId={`${props.id}`}
                                         />
                                     )
@@ -241,9 +248,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     <ColumnSelector
                                         key="headers_column_selector"
                                         columns={columns}
-                                        hiddenColumns={hiddenColumns}
+                                        hiddenColumns={columnsHidden}
                                         id={id}
-                                        setHiddenColumns={setHiddenColumns}
+                                        setHiddenColumns={props.setHidden}
                                     />
                                 )}
                             </div>
@@ -252,7 +259,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     <Row
                                         CellComponent={CellComponent}
                                         className={props.rowClass?.(item)}
-                                        columns={visibleColumns}
+                                        columns={columnsToShow}
                                         index={rowIndex}
                                         item={item}
                                         key={`row_${item.id}`}
@@ -266,7 +273,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 emptyPlaceholderRenderer &&
                                 emptyPlaceholderRenderer(children => {
                                     const colspan =
-                                        columns.length +
+                                        columnsToShow.length +
                                         (columnsHidable ? 1 : 0) +
                                         (props.selectionProps.showCheckboxColumn ? 1 : 0);
                                     return (
@@ -285,6 +292,15 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
+                <ExportWidget
+                    alertLabel={props.exportDialogLabel ?? "Export progress"}
+                    cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
+                    failed={false}
+                    onCancel={onExportCancel}
+                    open={exporting}
+                    progress={processedRows}
+                    total={numberOfItems}
+                />
             </WidgetRoot>
 
             {isLoading && loadingIndicatorRenderer

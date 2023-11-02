@@ -15,7 +15,11 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         tabIndex: props.tabIndex!,
         inputId: props.id,
         labelId: `${props.id}-label`,
-        noOptionsText: props.noOptionsText?.value
+        noOptionsText: props.noOptionsText?.value,
+        clearButtonAriaLabels: {
+            clearSelection: props.clearButtonAriaLabel,
+            removeSelection: props.removeValueAriaLabel
+        }
     };
 
     return (

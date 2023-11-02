@@ -98,17 +98,43 @@
                     <caption>Clearable</caption>
                     <description />
                 </property>
+                <property key="optionsSourceAssociationCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceAssociationCustomContent" type="widgets" required="true" dataSource="optionsSourceAssociationDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <!-- END MISC PROPS -->
+            </propertyGroup>
+            <!-- END GENERAL -->
+
+            <!-- MULTI SELECTION (REFERENCE SET) -->
+            <propertyGroup caption="Multi Selection (Reference Set)">
+                <property key="selectionMethod" type="enumeration" defaultValue="checkbox" required="true">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowclick">Row click</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
                     <caption>Show selected items as</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="text">Text</enumerationValue>
-                        <enumerationValue key="boxes">Labels (reference sets only)</enumerationValue>
+                        <enumerationValue key="boxes">Labels</enumerationValue>
                     </enumerationValues>
                 </property>
-                <!-- END MISC PROPS -->
             </propertyGroup>
-            <!-- END GENERAL -->
+            <!-- END MULTI SELECTION (REFERENCE SET) -->
 
             <!-- SYSTEM PROPS -->
             <propertyGroup caption="Label">
@@ -138,12 +164,23 @@
                 <description />
             </property>
         </propertyGroup>
-
         <propertyGroup caption="Accessibility">
-            <property key="ariaRequired" type="boolean" defaultValue="false">
-                <caption>Aria required</caption>
-                <description />
-            </property>
+            <propertyGroup caption="Accessibility">
+                <property key="ariaRequired" type="boolean" defaultValue="false">
+                    <caption>Aria required</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Aria labels">
+                <property key="clearButtonAriaLabel" type="string" defaultValue="Clear selection" required="true">
+                    <caption>Clear selection</caption>
+                    <description />
+                </property>
+                <property key="removeValueAriaLabel" type="string" defaultValue="Remove value" required="true">
+                    <caption>Remove value</caption>
+                    <description>Used for the individual selected value labels in multi-selection</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>
