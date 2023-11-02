@@ -10,6 +10,7 @@ export class ColumnPreview implements GridColumn {
     columnNumber: number;
     hidable: HidableEnum;
     hidden: boolean;
+    ignored: boolean;
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
@@ -26,6 +27,7 @@ export class ColumnPreview implements GridColumn {
         this.canResize = props.resizable;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
+        this.ignored = props.ignored;
         this.columnNumber = columnNumber;
         this.weight = props.size ?? 1;
         this.width = props.width;

@@ -17,6 +17,7 @@ export interface GridColumn {
     header: string;
     hidable: HidableEnum;
     hidden: boolean;
+    ignored: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
     weight: number;
     width: WidthEnum;

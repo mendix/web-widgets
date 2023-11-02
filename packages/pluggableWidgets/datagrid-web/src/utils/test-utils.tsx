@@ -17,6 +17,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         draggable: false,
         header: dynamicValue(header),
         hidable: "no" as const,
+        ignored: false,
         resizable: false,
         showContentAs: "attribute",
         size: 1,
@@ -34,13 +35,14 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
 
 export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSelectionProps): GridSelectionProps {
     const props: GridSelectionProps = {
-        selectionType: "None",
-        selectionMethod: "checkbox",
-        showCheckboxColumn: false,
-        showSelectAllToggle: false,
+        isSelected: jest.fn(() => false),
         onSelect: jest.fn(),
         onSelectAll: jest.fn(),
-        isSelected: jest.fn(() => false)
+        selectionMethod: "checkbox",
+        selectionType: "None",
+        showCheckboxColumn: false,
+        showSelectAllToggle: false,
+        multiselectable: undefined
     };
 
     if (patch) {
