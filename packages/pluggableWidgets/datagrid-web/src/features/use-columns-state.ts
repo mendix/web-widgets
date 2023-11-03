@@ -1,6 +1,5 @@
 import { useMemo, useEffect, useReducer } from "react";
 import { GridColumn } from "../typings/GridColumn";
-import { removeIgnoredColumns } from "../helpers/removeIgnoredColumns";
 
 type ColumnsHidden = number[];
 type ColumnsOrder = number[];
@@ -130,12 +129,10 @@ function assertOrderMatchColumns({ columns, columnsOrder }: ColumnsState): void 
 }
 
 export function initColumnsState(columns: GridColumn[]): ColumnsState {
-    const notIgnoredColumns = removeIgnoredColumns(columns);
-
     return computeVisible({
-        columns: notIgnoredColumns!,
-        columnsOrder: notIgnoredColumns!.map(col => col.columnNumber),
-        columnsHidden: notIgnoredColumns!.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
+        columns: columns!,
+        columnsOrder: columns!.map(col => col.columnNumber),
+        columnsHidden: columns!.flatMap(column => (column.hidden || column.ignored ? [column.columnNumber] : [])),
         columnsVisible: []
     });
 }
