@@ -27,7 +27,7 @@ export class ColumnPreview implements GridColumn {
         this.canResize = props.resizable;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.ignored = props.ignored;
+        this.ignored = props.ignored === "true";
         this.columnNumber = columnNumber;
         this.weight = props.size ?? 1;
         this.width = props.width;

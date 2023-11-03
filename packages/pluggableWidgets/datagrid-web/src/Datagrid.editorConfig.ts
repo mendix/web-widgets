@@ -179,7 +179,7 @@ export const getPreview = (
                   filterAssociationOptions: {},
                   header: "Column",
                   hidable: "no",
-                  ignored: false,
+                  ignored: "false",
                   resizable: false,
                   showContentAs: "attribute",
                   size: 1,
@@ -256,7 +256,7 @@ export const getPreview = (
                         backgroundColor: "#AEEdAA"
                     })(
                         container({
-                            padding: column.ignored === false ? 0 : 3
+                            padding: column.ignored.trim() === "" || column.ignored.trim() === "true" ? 3 : 0
                         })()
                     ),
                     container({

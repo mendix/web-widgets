@@ -28,7 +28,7 @@ export class Column implements GridColumn {
         this.gridId = gridId;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.ignored = props.ignored;
+        this.ignored = props.ignored?.value ?? false;
         this.props = props;
         this.weight = props.size ?? 1;
         this.width = props.width;

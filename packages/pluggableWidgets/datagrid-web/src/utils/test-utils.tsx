@@ -17,7 +17,6 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         draggable: false,
         header: dynamicValue(header),
         hidable: "no" as const,
-        ignored: false,
         resizable: false,
         showContentAs: "attribute",
         size: 1,
