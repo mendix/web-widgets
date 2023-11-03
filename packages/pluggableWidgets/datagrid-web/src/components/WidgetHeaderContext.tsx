@@ -3,7 +3,7 @@ import { FilterCondition } from "mendix/filters";
 import { FilterListType } from "../../typings/DatagridProps";
 import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection";
 import { getGlobalFilterContextObject, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
-import { extractFilters } from "../features/filtering/filters";
+import { extractFilters } from "../features/filtering/extractInitProps";
 
 interface WidgetHeaderContextProps {
     filterList: FilterListType[];

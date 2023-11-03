@@ -11,7 +11,7 @@ import { SortProperty, Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
-import { extractFilters } from "./features/filtering/filters";
+import { extractFilters } from "./features/filtering/extractInitProps";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
