@@ -33,6 +33,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
+import { FilterRenderer } from "../typings/FilterRenderer";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -45,7 +46,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     exporting: boolean;
-    filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
+    filterRenderer: FilterRenderer;
     hasMoreItems: boolean;
     headerContent?: ReactNode;
     headerTitle?: string;

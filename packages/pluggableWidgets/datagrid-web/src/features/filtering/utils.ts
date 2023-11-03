@@ -1,6 +1,6 @@
 import { AssociationProperties } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
-import { ColumnsType } from "../../typings/DatagridProps";
+import { ColumnsType } from "../../../typings/DatagridProps";
 
 export function getAssociationProps(columnProps: ColumnsType): AssociationProperties {
     const msg = (propName: string): string =>
@@ -17,12 +17,4 @@ export function getAssociationProps(columnProps: ColumnsType): AssociationProper
     };
 
     return props;
-}
-
-export function getColumnAssociationProps(settings: ColumnsType): AssociationProperties | undefined {
-    if (!settings.filterAssociation) {
-        return;
-    }
-
-    return getAssociationProps(settings);
 }
