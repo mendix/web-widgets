@@ -1,27 +1,50 @@
 import { ListAttributeValue } from "mendix";
-import { FilterCondition, FilterExpression, LiteralExpression } from "mendix/filters";
+import { FilterCondition, LiteralExpression } from "mendix/filters";
 
-declare type SingleFilterCondition = FilterCondition & {
-    arg1: FilterExpression;
-    arg2: LiteralExpression;
-};
+type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
+type FilterFunction = BinaryExpression["name"];
+type FilterValue = LiteralExpression["value"];
 
-export declare type FilterValue = { type: string; value: any };
+export type ExtractedFilterProps = { type: FilterFunction; value: FilterValue };
 
-export function extractFilters(attribute: ListAttributeValue | undefined, filter?: FilterCondition): FilterValue[] {
-    if (!attribute || !filter) {
+function isBinary(cond: FilterCondition): cond is BinaryExpression {
+    return Object.hasOwn(cond, "arg1") && Object.hasOwn(cond, "arg2");
+}
+
+function isTypedLiteral(exp: object): exp is LiteralExpression {
+    return Object.hasOwn(exp, "type") && Object.hasOwn(exp, "value");
+}
+
+function extractFilterProps(cond: FilterCondition, attr: ListAttributeValue): ExtractedFilterProps | undefined {
+    if (
+        isBinary(cond) &&
+        cond.arg1.type === "attribute" &&
+        cond.arg1.attributeId === attr.id &&
+        isTypedLiteral(cond.arg2)
+    ) {
+        return {
+            type: cond.name,
+            value: cond.arg2.value
+        };
+    }
+}
+
+/**
+ * @remark I have no idea why we return array.
+ * None of data grid settings combination allow
+ * multiple conditions for same attribute.
+ */
+export function extractFilters(
+    attribute: ListAttributeValue | undefined,
+    dataSourceFilter?: FilterCondition
+): ExtractedFilterProps[] {
+    if (!attribute || !dataSourceFilter) {
         return [];
     }
-    const filters = extractAndOrStatements(filter);
-    return filters
-        ? filters
-              .filter((a: SingleFilterCondition) => !!a.arg1 && !!a.arg2)
-              .filter((f: SingleFilterCondition) => f.arg1.type === "attribute" && f.arg1.attributeId === attribute.id)
-              .map((f: SingleFilterCondition) => ({
-                  type: f.name,
-                  value: f.arg2.value
-              }))
-        : [];
+    return (extractAndOrStatements(dataSourceFilter) ?? []).flatMap(cond => {
+        const props = extractFilterProps(cond, attribute);
+        return props ? [props] : [];
+    });
 }
 
 function extractAndOrStatements(filter?: FilterCondition): FilterCondition[] | undefined {
