@@ -46,13 +46,13 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.0.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:^*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@mendix/widget-plugin-component-kit": "workspace:*",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
