@@ -12,7 +12,7 @@ import { column, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
-import { initColumnsState } from "../../features/use-columns-state";
+import { buildColumnsState } from "../../features/use-columns-state";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -72,7 +72,7 @@ describe("Table", () => {
         const props = mockWidgetProps();
         const columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
         props.columnsFilterable = true;
-        props.columnsState = initColumnsState(columns);
+        props.columnsState = buildColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -95,7 +95,7 @@ describe("Table", () => {
             }),
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index, props.id!));
-        props.columnsState = initColumnsState(columns);
+        props.columnsState = buildColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -114,7 +114,7 @@ describe("Table", () => {
             (col, index) => new Column(col, index, props.id!)
         );
         props.preview = true;
-        props.columnsState = initColumnsState(columns);
+        props.columnsState = buildColumnsState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -345,7 +345,7 @@ describe("Table", () => {
             const columns = [column("Column A"), column("Column B")].map(
                 (col, index) => new Column(col, index, props.id!)
             );
-            props.columnsState = initColumnsState(columns);
+            props.columnsState = buildColumnsState(columns);
 
             render(<Widget {...props} />);
 
@@ -435,7 +435,7 @@ describe("Table", () => {
                     col.content = listWidget(() => <input />);
                 })
             ].map((col, index) => new Column(col, index, props.id!));
-            props.columnsState = initColumnsState(columns);
+            props.columnsState = buildColumnsState(columns);
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -576,7 +576,7 @@ describe("Table", () => {
                 return c;
             }).map((col, index) => new Column(col, index, props.id!));
 
-            props.columnsState = initColumnsState(columns);
+            props.columnsState = buildColumnsState(columns);
 
             const user = userEvent.setup();
 

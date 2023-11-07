@@ -7,7 +7,7 @@ import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
-import { initColumnsState } from "../features/use-columns-state";
+import { buildColumnsState } from "../features/use-columns-state";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -55,7 +55,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index, id));
-    const columnsState = initColumnsState(columns);
+    const columnsState = buildColumnsState(columns);
     const selectionProps = mockSelectionProps();
 
     return {

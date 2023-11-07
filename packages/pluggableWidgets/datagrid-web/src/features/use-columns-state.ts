@@ -37,7 +37,7 @@ const defaultState: ColumnsState = Object.freeze({
 });
 
 export function useColumnsState(columns: GridColumn[]): [ColumnsState, ColumnsStateFunctions] {
-    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, () => initColumnsState(columns));
+    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, () => buildColumnsState(columns));
 
     const memoizedColumnsStateFunctions = useMemo<ColumnsStateFunctions>(() => {
         return {
@@ -128,11 +128,13 @@ function assertOrderMatchColumns({ columns, columnsOrder }: ColumnsState): void 
     throw new Error("Invalid columns state: invalid columns order");
 }
 
-export function initColumnsState(columns: GridColumn[]): ColumnsState {
-    return computeVisible({
+export function buildColumnsState(columns: GridColumn[]): ColumnsState {
+    const columnsState: ColumnsState = {
         columns,
-        columnsOrder: columns!.map(col => col.columnNumber),
         columnsHidden: columns!.flatMap(column => (column.hidden || column.ignored ? [column.columnNumber] : [])),
+        columnsOrder: columns!.map(col => col.columnNumber),
         columnsVisible: []
-    });
+    };
+
+    return computeVisible(columnsState);
 }
