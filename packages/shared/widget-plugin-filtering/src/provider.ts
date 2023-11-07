@@ -1,13 +1,11 @@
-import { Context, createContext, Dispatch, SetStateAction, useState, useContext } from "react";
 import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
-import type { FilterCondition, LiteralExpression } from "mendix/filters";
+import type { FilterCondition } from "mendix/filters";
+import { Context, Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
-import { Result, value, error } from "./result-meta.js";
+import { InitialFilterProps } from "./read-init-props.js";
+import { Result, error, value } from "./result-meta.js";
 
-export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
-export type FilterFunction = BinaryExpression["name"];
 export type ListAttributeId = ListAttributeValue["id"];
-export type InitialFilterProps = { type: FilterFunction; value: LiteralExpression["value"] };
 
 export enum FilterType {
     STRING = "string",
