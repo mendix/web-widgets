@@ -12,3 +12,7 @@
 !/tests/TestProjects/Mendix8/theme/favicon.ico
 !/tests/TestProjects/Mendix8/theme/LICENSE
 !/tests/TestProjects/Mendix8/theme/settings.json
+
+/test-results/
+/playwright-report/
+/playwright/.cache/
