@@ -40,17 +40,17 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       cypress:
-        specifier: ^13.3.0
-        version: 13.3.0
+        specifier: ^13.4.0
+        version: 13.4.0
       cypress-axe:
         specifier: ^1.5.0
-        version: 1.5.0(axe-core@4.8.2)(cypress@13.3.0)
+        version: 1.5.0(axe-core@4.8.2)(cypress@13.4.0)
       cypress-image-diff-js:
-        specifier: ^1.31.0
-        version: 1.31.0(cypress@13.3.0)
+        specifier: ^1.32.0
+        version: 1.32.0(cypress@13.4.0)
       cypress-terminal-report:
-        specifier: ^5.3.7
-        version: 5.3.7(cypress@13.3.0)
+        specifier: ^5.3.9
+        version: 5.3.9(cypress@13.4.0)
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
@@ -153,7 +153,7 @@ importers:
         version: 0.8.5
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.8.10)(typescript@5.0.4)
+        version: 10.9.1(@types/node@20.8.10)(typescript@5.1.6)
       zod:
         specifier: ^3.20.6
         version: 3.20.6
@@ -232,7 +232,7 @@ importers:
         version: 13.2.0(webpack@5.75.0)
       ts-loader:
         specifier: ^9.4.2
-        version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
+        version: 9.4.2(typescript@5.1.6)(webpack@5.75.0)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -296,7 +296,7 @@ importers:
         version: 6.7.3(webpack@5.75.0)
       fork-ts-checker-webpack-plugin:
         specifier: ^7.3.0
-        version: 7.3.0(typescript@5.0.4)(webpack@5.75.0)
+        version: 7.3.0(typescript@5.1.6)(webpack@5.75.0)
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -314,7 +314,7 @@ importers:
         version: 1.2.0
       ts-loader:
         specifier: ^9.4.2
-        version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
+        version: 9.4.2(typescript@5.1.6)(webpack@5.75.0)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@4.10.0)
@@ -375,7 +375,7 @@ importers:
         version: 1.2.0
       ts-loader:
         specifier: ^9.4.2
-        version: 9.4.2(typescript@5.0.4)(webpack@5.75.0)
+        version: 9.4.2(typescript@5.1.6)(webpack@5.75.0)
       webpack:
         specifier: ^5.75.0
         version: 5.75.0(webpack-cli@5.0.1)
@@ -2036,7 +2036,7 @@ importers:
         version: 2.7.1
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.8.10)(typescript@5.0.4)
+        version: 10.9.1(@types/node@20.8.10)(typescript@5.1.6)
 
   packages/shared/eslint-config-web-widgets:
     dependencies:
@@ -4827,7 +4827,7 @@ packages:
       '@types/react-native': 0.70.16
       '@types/testing-library__jest-dom': 5.14.9
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
       babel-jest: 29.7.0(@babel/core@7.21.0)
@@ -5658,7 +5658,7 @@ packages:
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.16.12
+      '@types/node': 20.5.1
     dev: true
 
   /@types/google.maps@3.53.5:
@@ -5730,7 +5730,6 @@ packages:
 
   /@types/json-schema@7.0.14:
     resolution: {integrity: sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==}
-    dev: false
 
   /@types/leaflet@1.9.3:
     resolution: {integrity: sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==}
@@ -6000,7 +5999,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
@@ -6051,7 +6050,7 @@ packages:
     peerDependencies:
       eslint: '*'
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.14
       '@typescript-eslint/scope-manager': 4.33.0
       '@typescript-eslint/types': 4.33.0
       '@typescript-eslint/typescript-estree': 4.33.0(typescript@5.0.4)
@@ -6063,7 +6062,7 @@ packages:
       - typescript
     dev: true
 
-  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4):
+  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6):
     resolution: {integrity: sha512-VlJEV0fOQ7BExOsHYAGrgbEiZoi8D+Bl2+f6V2RrXerRSylnp+ZBHmPvaIa8cz0Ajx7WO7Z5RqfgYg7ED1nRhA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -6075,10 +6074,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.0.4)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.1.6)
       debug: 4.3.4
       eslint: 7.32.0
-      typescript: 5.0.4
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6242,7 +6241,6 @@ packages:
       typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/typescript-estree@6.9.1(typescript@5.1.6):
     resolution: {integrity: sha512-U+mUylTHfcqeO7mLWVQ5W/tMLXqVpRv61wm9ZtfE5egz7gtnmqVIw9ryh0mgIlkKk9rZLY3UHygsBSdB9/ftyw==}
@@ -8166,7 +8164,7 @@ packages:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
     dev: true
 
-  /cypress-axe@1.5.0(axe-core@4.8.2)(cypress@13.3.0):
+  /cypress-axe@1.5.0(axe-core@4.8.2)(cypress@13.4.0):
     resolution: {integrity: sha512-Hy/owCjfj+25KMsecvDgo4fC/781ccL+e8p+UUYoadGVM2ogZF9XIKbiM6KI8Y3cEaSreymdD6ZzccbI2bY0lQ==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -8174,11 +8172,11 @@ packages:
       cypress: ^10 || ^11 || ^12 || ^13
     dependencies:
       axe-core: 4.8.2
-      cypress: 13.3.0
+      cypress: 13.4.0
     dev: false
 
-  /cypress-image-diff-js@1.31.0(cypress@13.3.0):
-    resolution: {integrity: sha512-W/nSiAReSMrXimOYxi1A/lhoCgWoIMNcJlTfnNlaUjQ5A7wFLs7ItJcaeR6B9DN/8ObI4vHx05MIgkrw/r5MSA==}
+  /cypress-image-diff-js@1.32.0(cypress@13.4.0):
+    resolution: {integrity: sha512-kSSsIBuo+vMPETgHXO5fc+Z8WlNno5RwrukFY6m8QGtwD6jSDb+FHtCzwYbDzacJDuClWgi6WzfJV7Gx6YuM5g==}
     hasBin: true
     peerDependencies:
       cypress: '>=9.6.1'
@@ -8186,7 +8184,7 @@ packages:
       '@babel/runtime': 7.22.5
       '@colors/colors': 1.5.0
       arg: 4.1.3
-      cypress: 13.3.0
+      cypress: 13.4.0
       cypress-recurse: 1.35.2
       fs-extra: 9.1.0
       handlebars: 4.7.7
@@ -8201,21 +8199,21 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report@5.3.7(cypress@13.3.0):
-    resolution: {integrity: sha512-VQH4oLo5ifofuwA0Jv3qWLzij9YU8bSGOAKKuNwu2pKhBvS3BOG36SM/P8y99G1DbhGPmZImg7DKf0KjXwBc6Q==}
+  /cypress-terminal-report@5.3.9(cypress@13.4.0):
+    resolution: {integrity: sha512-YbwrVnXMK4yu8PDcJsDjBPiYt4L9Q0bK8JlMykORGYIa8HEnGI8grWOM+ewzublPPYdFcAG0AQ2vEf8UZPdeUQ==}
     peerDependencies:
       cypress: '>=10.0.0'
     dependencies:
       chalk: 4.1.2
-      cypress: 13.3.0
+      cypress: 13.4.0
       fs-extra: 10.1.0
       process: 0.11.10
       semver: 7.5.4
       tv4: 1.3.0
     dev: false
 
-  /cypress@13.3.0:
-    resolution: {integrity: sha512-mpI8qcTwLGiA4zEQvTC/U1xGUezVV4V8HQCOYjlEOrVmU1etVvxOjkCXHGwrlYdZU/EPmUiWfsO3yt1o+Q2bgw==}
+  /cypress@13.4.0:
+    resolution: {integrity: sha512-KeWNC9xSHG/ewZURVbaQsBQg2mOKw4XhjJZFKjWbEjgZCdxpPXLpJnfq5Jns1Gvnjp6AlnIfpZfWFlDgVKXdWQ==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     requiresBuild: true
@@ -9820,7 +9818,7 @@ packages:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: false
 
-  /fork-ts-checker-webpack-plugin@7.3.0(typescript@5.0.4)(webpack@5.75.0):
+  /fork-ts-checker-webpack-plugin@7.3.0(typescript@5.1.6)(webpack@5.75.0):
     resolution: {integrity: sha512-IN+XTzusCjR5VgntYFgxbxVx3WraPRnKehBFrf00cMSrtUuW9MsG9dhL6MWpY6MkjC3wVwoujfCDgZZCQwbswA==}
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
@@ -9843,7 +9841,7 @@ packages:
       schema-utils: 3.3.0
       semver: 7.5.1
       tapable: 2.2.1
-      typescript: 5.0.4
+      typescript: 5.1.6
       webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
@@ -15743,7 +15741,7 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-loader@9.4.2(typescript@5.0.4)(webpack@5.75.0):
+  /ts-loader@9.4.2(typescript@5.1.6)(webpack@5.75.0):
     resolution: {integrity: sha512-OmlC4WVmFv5I0PpaxYb+qGeGOdm5giHU7HwDDUjw59emP2UYMHy9fFSDcYgSNoH8sXcj4hGCSEhlDZ9ULeDraA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -15754,7 +15752,7 @@ packages:
       enhanced-resolve: 5.15.0
       micromatch: 4.0.5
       semver: 7.5.1
-      typescript: 5.0.4
+      typescript: 5.1.6
       webpack: 5.75.0(webpack-cli@4.10.0)
     dev: true
 
@@ -15820,6 +15818,37 @@ packages:
       yn: 3.1.1
     dev: true
 
+  /ts-node@10.9.1(@types/node@20.8.10)(typescript@5.1.6):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: <5.2.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 20.8.10
+      acorn: 8.8.2
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.1.6
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
 
@@ -15845,7 +15874,6 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 5.1.6
-    dev: false
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
@@ -16025,7 +16053,6 @@ packages:
     resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: false
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
