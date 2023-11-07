@@ -1,10 +1,13 @@
 import { Context, createContext, Dispatch, SetStateAction, useState, useContext } from "react";
 import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
-import type { FilterCondition } from "mendix/filters";
+import type { FilterCondition, LiteralExpression } from "mendix/filters";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { Result, value, error } from "./result-meta.js";
 
-export type FilterValue = { type: string; value: any };
+export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
+export type FilterFunction = BinaryExpression["name"];
+export type ListAttributeId = ListAttributeValue["id"];
+export type InitialFilterProps = { type: FilterFunction; value: LiteralExpression["value"] };
 
 export enum FilterType {
     STRING = "string",
@@ -14,7 +17,7 @@ export enum FilterType {
     ASSOCIATION = "association"
 }
 
-export interface FilterFunction {
+export interface FilterState {
     getFilterCondition: () => FilterCondition | undefined;
     filterType?: FilterType;
 }
@@ -25,14 +28,14 @@ export interface AssociationProperties {
     getOptionLabel: (item: ObjectItem) => string;
 }
 
-export type ConditionDispatch = Dispatch<FilterFunction>;
+export type DispatchFilterUpdate = Dispatch<FilterState>;
 
 export interface FilterContextValue {
-    filterDispatcher: ConditionDispatch;
+    filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
-    multipleAttributes?: { [id: string]: ListAttributeValue };
-    singleInitialFilter?: FilterValue[];
-    multipleInitialFilters?: { [id: string]: FilterValue[] };
+    singleInitialFilter?: InitialFilterProps[];
+    multipleAttributes?: { [id: ListAttributeId]: ListAttributeValue };
+    multipleInitialFilters?: { [id: ListAttributeId]: InitialFilterProps[] };
     associationProperties?: AssociationProperties;
 }
 
@@ -102,13 +105,15 @@ export function getFilterAssociationProps(
     return value(contextValue.associationProperties);
 }
 
-export function useMultipleFiltering(): {
-    [key: string]: [FilterFunction | undefined, Dispatch<SetStateAction<FilterFunction | undefined>>];
-} {
+export function useMultipleFiltering(): Record<
+    FilterType,
+    [FilterState | undefined, Dispatch<SetStateAction<FilterState | undefined>>]
+> {
     return {
-        [FilterType.STRING]: useState<FilterFunction>(),
-        [FilterType.NUMBER]: useState<FilterFunction>(),
-        [FilterType.DATE]: useState<FilterFunction>(),
-        [FilterType.ENUMERATION]: useState<FilterFunction>()
+        [FilterType.STRING]: useState(),
+        [FilterType.NUMBER]: useState(),
+        [FilterType.DATE]: useState(),
+        [FilterType.ENUMERATION]: useState(),
+        [FilterType.ASSOCIATION]: useState()
     };
 }
