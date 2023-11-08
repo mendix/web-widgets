@@ -40,8 +40,7 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
         selectionMethod: "checkbox",
         selectionType: "None",
         showCheckboxColumn: false,
-        showSelectAllToggle: false,
-        multiselectable: undefined
+        showSelectAllToggle: false
     };
 
     if (patch) {
