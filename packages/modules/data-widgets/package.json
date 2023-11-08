@@ -63,7 +63,7 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.3",
     "concurrently": "^6.5.1",
     "copy-and-watch": "^0.1.6",
