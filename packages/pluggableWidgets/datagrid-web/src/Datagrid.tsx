@@ -10,10 +10,11 @@ import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
 import { useFiltering } from "./features/filtering/useFiltering";
+import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
-    const [filterRenderer, headerRenderer] = useFiltering(props);
+    const [filterRenderer, multiFilterRenderer] = useFiltering(props);
 
     const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
@@ -114,7 +115,13 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             )}
             filterRenderer={filterRenderer}
             headerTitle={props.filterSectionTitle?.value}
-            headerContent={props.filtersPlaceholder && headerRenderer(props.filtersPlaceholder)}
+            headerContent={
+                props.filtersPlaceholder && (
+                    <WidgetHeaderContext selectionHelper={selectionHelper} filterRenderer={multiFilterRenderer}>
+                        {props.filtersPlaceholder}
+                    </WidgetHeaderContext>
+                )
+            }
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}

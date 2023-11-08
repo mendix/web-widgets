@@ -11,13 +11,13 @@ import { ReferenceFilteringProvider } from "./ReferenceFilteringProvider";
 import { SingleAttrFilteringProvider } from "./SingleAttrFilteringProvider";
 import { SetFilterAction, useColumnFilters } from "./useColumnFilters";
 import { useHeaderFilters } from "./useHeaderFilters";
+import { MultiFilterRenderer } from "../../typings/MultiFilterRenderer";
 
-type HeaderRenderer = (children: React.ReactNode) => React.ReactNode;
-function useHeaderRenderer(
+function useMultiFilterRenderer(
     filterList: FilterListType[],
     dispatch: DispatchFilterUpdate,
     datasourceFilter: FilterCondition | undefined
-): HeaderRenderer {
+): MultiFilterRenderer {
     const attributeList = useMemo(() => filterList.map(item => item.filter), [filterList]);
     return function renderHeader(children) {
         return (
@@ -89,7 +89,7 @@ export function useFiltering({
     columns,
     datasource,
     filterList
-}: DatagridContainerProps): [FilterRenderer, HeaderRenderer] {
+}: DatagridContainerProps): [FilterRenderer, MultiFilterRenderer] {
     const [columnFilters, dispatchColumn] = useColumnFilters(columns.length);
     const [headerFilters, dispatchHeader] = useHeaderFilters();
     const finalFilters = useMemo(() => [...columnFilters, ...headerFilters], [columnFilters, headerFilters]);
@@ -98,6 +98,6 @@ export function useFiltering({
 
     return [
         useColumnFilterRenderer(columns, dispatchColumn, datasource.filter),
-        useHeaderRenderer(filterList, dispatchHeader, datasource.filter)
+        useMultiFilterRenderer(filterList, dispatchHeader, datasource.filter)
     ];
 }
