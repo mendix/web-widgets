@@ -38,7 +38,9 @@ function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): In
 
 /**
  * @remark If we have more then one item in array,
- * that means that we have same attribute used in two places.
+ * that means ether:
+ * - that we have same attribute used in two places
+ * - that some of the filters (usually date) use "between"
  */
 export function readInitFilterProps(
     attribute: ListAttributeValue | undefined,
