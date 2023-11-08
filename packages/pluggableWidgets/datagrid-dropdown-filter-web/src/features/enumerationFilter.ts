@@ -1,10 +1,10 @@
 import {
-    ConditionDispatch,
     FilterContextValue,
     FilterType,
     error,
     value,
-    Result
+    Result,
+    DispatchFilterUpdate
 } from "@mendix/widget-plugin-filtering";
 import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";
@@ -171,7 +171,7 @@ export function getOptions(params: GetOptionsParams): Result<Option[], EnumFilte
 }
 
 export function getOnChange(
-    dispatch: ConditionDispatch,
+    dispatch: DispatchFilterUpdate,
     attributes: AttrsArray,
     widgetProps: DatagridDropdownFilterContainerProps
 ): (values: Option[]) => void {
