@@ -11,7 +11,6 @@
         "declaration": false,
         "removeComments": true,
         "noLib": false,
-        "watch": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "strict": true,

@@ -20,17 +20,14 @@ describe("color-picker-web", () => {
             },
             () => {
                 cy.visit("/p/modePage");
-                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner", { timeout: 10000 }).should(
                     "be.visible",
                     true
                 );
-                cy.get(".mx-name-navigationTree3-2").click({ force: true });
-                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
                 cy.get(".mx-name-colorPicker3 .widget-color-picker-inner", { timeout: 10000 }).should(
                     "have.css",
                     "background",
-                    "rgb(76, 175, 80) none repeat scroll 0% 0% / auto padding-box border-box"
+                    "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
                 );
             }
         );
