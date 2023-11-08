@@ -1,4 +1,4 @@
-import { FilterValue } from "@mendix/widget-plugin-filtering";
+import { InitialFilterProps } from "@mendix/widget-plugin-filtering";
 import { DefaultFilterEnum } from "../../typings/DatagridDateFilterProps";
 
 export type DefaultFilterValue = {
@@ -8,7 +8,7 @@ export type DefaultFilterValue = {
     endDate?: Date;
 };
 
-export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | undefined {
+export function translateFilters(filters?: InitialFilterProps[]): DefaultFilterValue | undefined {
     if (filters && filters.length > 0) {
         if (filters.length === 1) {
             const [filter] = filters;
@@ -29,7 +29,7 @@ export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | 
             }
             return {
                 type,
-                value: filter.value
+                value: ensureDate(filter.value)
             };
         } else {
             const [filterStart, filterEnd] = filters;
@@ -41,15 +41,22 @@ export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | 
             } else if (filterStart.type === ">=" && filterEnd.type === "<=") {
                 return {
                     type: "between",
-                    startDate: filterStart.value,
-                    endDate: filterEnd.value
+                    startDate: ensureDate(filterStart.value),
+                    endDate: ensureDate(filterEnd.value)
                 };
             }
             return {
                 type,
-                value: filterStart.value
+                value: ensureDate(filterStart.value)
             };
         }
     }
     return undefined;
+}
+
+function ensureDate(value: unknown): Date {
+    if (value instanceof Date) {
+        return value;
+    }
+    throw new Error(`Datagrid Date Filter: filter value doesn't match filter type: ${value}`);
 }
