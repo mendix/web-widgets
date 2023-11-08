@@ -1,13 +1,13 @@
 import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 import { Big } from "big.js";
-import { FilterValue } from "@mendix/widget-plugin-filtering";
+import { InitialFilterProps } from "@mendix/widget-plugin-filtering";
 
 export type DefaultFilterValue = {
     type: DefaultFilterEnum;
     value: Big;
 };
 
-export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | undefined {
+export function translateFilters(filters?: InitialFilterProps[]): DefaultFilterValue | undefined {
     if (filters && filters.length === 1) {
         const [filter] = filters;
         let type: DefaultFilterEnum = "equal";
@@ -31,10 +31,18 @@ export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | 
                 type = "smallerEqual";
                 break;
         }
+
         return {
             type,
-            value: filter.value
+            value: ensureBig(filter.value)
         };
     }
     return undefined;
+}
+
+function ensureBig(value: unknown): Big {
+    if (value instanceof Big) {
+        return value;
+    }
+    throw new Error(`Datagrid Number Filter: filter value doesn't match filter type: ${value}`);
 }
