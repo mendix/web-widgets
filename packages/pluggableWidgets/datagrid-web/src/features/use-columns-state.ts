@@ -37,7 +37,7 @@ const defaultState: ColumnsState = Object.freeze({
 });
 
 export function useColumnsState(columns: GridColumn[]): [ColumnsState, ColumnsStateFunctions] {
-    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, () => buildColumnsState(columns));
+    const [state, dispatch] = useReducer(columnsStateReducer, defaultState, () => initColumnsState(columns));
 
     const memoizedColumnsStateFunctions = useMemo<ColumnsStateFunctions>(() => {
         return {
@@ -111,9 +111,10 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
 function computeVisible<S extends ColumnsState>(draftState: S): S {
     return {
         ...draftState,
-        columnsVisible: draftState.columnsOrder.flatMap(columnNumber =>
-            draftState.columnsHidden.includes(columnNumber) ? [] : [draftState.columns[columnNumber]]
-        )
+        columnsVisible: draftState.columnsOrder.flatMap(columnNumber => {
+            const column = draftState.columns[columnNumber];
+            return draftState.columnsHidden.includes(columnNumber) || column.ignored ? [] : [column];
+        })
     };
 }
 
@@ -128,13 +129,11 @@ function assertOrderMatchColumns({ columns, columnsOrder }: ColumnsState): void 
     throw new Error("Invalid columns state: invalid columns order");
 }
 
-export function buildColumnsState(columns: GridColumn[]): ColumnsState {
-    const columnsState: ColumnsState = {
+export function initColumnsState(columns: GridColumn[]): ColumnsState {
+    return computeVisible({
         columns,
-        columnsHidden: columns!.flatMap(column => (column.hidden || column.ignored ? [column.columnNumber] : [])),
-        columnsOrder: columns!.map(col => col.columnNumber),
+        columnsOrder: columns.map(col => col.columnNumber),
+        columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
         columnsVisible: []
-    };
-
-    return computeVisible(columnsState);
+    });
 }

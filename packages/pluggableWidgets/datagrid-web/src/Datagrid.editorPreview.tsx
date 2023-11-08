@@ -10,7 +10,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { buildColumnsState } from "./features/use-columns-state";
+import { initColumnsState } from "./features/use-columns-state";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -60,7 +60,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
-    const columnsState = buildColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index, gridId)));
+    const columnsState = initColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index, gridId)));
 
     return (
         <Widget
