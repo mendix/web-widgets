@@ -37,9 +37,8 @@ function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): In
 }
 
 /**
- * @remark I have no idea why we return array.
- * None of data grid settings combination allow
- * multiple conditions for same attribute.
+ * @remark If we have more then one item in array,
+ * that means that we have same attribute used in two places.
  */
 export function readInitFilterProps(
     attribute: ListAttributeValue | undefined,
@@ -48,7 +47,8 @@ export function readInitFilterProps(
     if (!attribute || !dataSourceFilter) {
         return [];
     }
-    return (splitAndOrStatements(dataSourceFilter) ?? []).flatMap(cond => {
+    const cs = splitAndOrStatements(dataSourceFilter) ?? [];
+    return cs.flatMap(cond => {
         const props = getInitPropsByAttr(cond, attribute);
         return props ? [props] : [];
     });
@@ -60,9 +60,21 @@ export function readInitFilterProps(
  * @remark Function is recursive, which is probably side effect. I don't know why.
  * Probably this is needed in case of "grid wide" (multi attr) filters.
  */
-function splitAndOrStatements(filter?: FilterCondition): FilterCondition[] | undefined {
+export function splitAndOrStatements(filter?: FilterCondition): FilterCondition[] | undefined {
     if (filter && filter.type === "function" && (filter.name === "and" || filter.name === "or")) {
         return filter.args.flatMap(splitAndOrStatements).filter(f => f !== undefined) as FilterCondition[];
     }
     return filter ? [filter] : undefined;
+}
+
+export function unwrapAndExpression(filter: FilterCondition | undefined): FilterCondition[] {
+    if (filter === undefined) {
+        return [];
+    }
+
+    if (filter.name === "and") {
+        return [...filter.args];
+    }
+
+    return [filter];
 }

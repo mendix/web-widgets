@@ -28,12 +28,16 @@ export interface AssociationProperties {
 
 export type DispatchFilterUpdate = Dispatch<FilterState>;
 
+export type AttributeMap = Record<ListAttributeId, ListAttributeValue>;
+
+export type InitPropsMap = Record<ListAttributeId, InitialFilterProps[]>;
+
 export interface FilterContextValue {
     filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
     singleInitialFilter?: InitialFilterProps[];
-    multipleAttributes?: { [id: ListAttributeId]: ListAttributeValue };
-    multipleInitialFilters?: { [id: ListAttributeId]: InitialFilterProps[] };
+    multipleAttributes?: AttributeMap;
+    multipleInitialFilters?: InitPropsMap;
     associationProperties?: AssociationProperties;
 }
 

@@ -1,4 +1,6 @@
-import { AssociationProperties } from "@mendix/widget-plugin-filtering";
+import { useMemo } from "react";
+import { FilterCondition } from "mendix/filters";
+import { AssociationProperties, FilterState } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { ColumnsType } from "../../../typings/DatagridProps";
 
@@ -17,4 +19,14 @@ export function getAssociationProps(columnProps: ColumnsType): AssociationProper
     };
 
     return props;
+}
+
+export function filterToCond(state: FilterState | undefined): FilterCondition[] {
+    const cond = state?.getFilterCondition();
+    return cond ? [cond] : [];
+}
+
+export function useOnce<T>(fn: () => T): T {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return useMemo(fn, []);
 }

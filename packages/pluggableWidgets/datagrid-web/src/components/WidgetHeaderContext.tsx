@@ -3,7 +3,6 @@ import { FilterCondition } from "mendix/filters";
 import { FilterListType } from "../../typings/DatagridProps";
 import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection";
 import { getGlobalFilterContextObject, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
-import { extractFilters } from "../features/filtering/extractInitProps";
 
 interface WidgetHeaderContextProps {
     filterList: FilterListType[];
@@ -26,7 +25,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
         props.filterList.reduce(
             (filters, { filter }) => ({
                 ...filters,
-                [filter.id]: extractFilters(filter, props.viewStateFilters)
+                [filter.id]: []
             }),
             {}
         )

@@ -1,14 +1,14 @@
-import { FilterFunction as ConditionValue } from "@mendix/widget-plugin-filtering";
-import { useReducer } from "react";
+import { FilterState } from "@mendix/widget-plugin-filtering";
+import { FilterCondition } from "mendix/filters";
+import { useReducer, useMemo } from "react";
+import { filterToCond } from "./utils";
 
 type State = {
-    filtered: boolean;
-    filters: Array<ConditionValue | undefined>;
+    filters: Array<FilterState | undefined>;
 };
 
 function initState(columns: number): State {
     return {
-        filtered: false,
         filters: Array.from({ length: columns })
     };
 }
@@ -20,7 +20,6 @@ function reducer(state: State, action: SetFilterAction): State {
         nextFilters[action.payload.columnNumber] = action.payload.value;
 
         return {
-            filtered: true,
             filters: nextFilters
         };
     }
@@ -28,13 +27,13 @@ function reducer(state: State, action: SetFilterAction): State {
     return state;
 }
 
-export { ConditionValue };
-
 export type SetFilterAction = {
     type: "SetFilter";
-    payload: { columnNumber: number; value: ConditionValue };
+    payload: { columnNumber: number; value: FilterState };
 };
 
-export function useColumnFilters(columns: number): [State, React.Dispatch<SetFilterAction>] {
-    return useReducer(reducer, columns, initState);
+export function useColumnFilters(columns: number): [FilterCondition[], React.Dispatch<SetFilterAction>] {
+    const [state, dispatch] = useReducer(reducer, columns, initState);
+    const conditions = useMemo(() => state.filters.flatMap(filterToCond), [state]);
+    return [conditions, dispatch];
 }

@@ -13,7 +13,7 @@ import { useFiltering } from "./features/filtering/useFiltering";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
-    const [filterRenderer, HeaderContextProvider] = useFiltering(props);
+    const [filterRenderer, headerRenderer] = useFiltering(props);
 
     const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
@@ -114,9 +114,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             )}
             filterRenderer={filterRenderer}
             headerTitle={props.filterSectionTitle?.value}
-            headerContent={
-                props.filtersPlaceholder && <HeaderContextProvider>{props.filtersPlaceholder}</HeaderContextProvider>
-            }
+            headerContent={props.filtersPlaceholder && headerRenderer(props.filtersPlaceholder)}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={id.current}
