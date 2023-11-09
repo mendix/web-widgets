@@ -1,4 +1,4 @@
-import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
+import { useMenuPlacement } from "../hooks/useMenuPlacement";
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { PropsWithChildren, ReactElement, createElement, useRef } from "react";
@@ -13,7 +13,9 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
     const { children, isOpen, isEmpty, noOptionsText, getMenuProps } = props;
     const componentRef = useRef<HTMLDivElement>(null);
-    const position = usePositionObserver(componentRef.current?.parentElement || null, isOpen);
+    const position = useMenuPlacement(componentRef, isOpen);
+    console.log(position);
+
     return (
         <div
             ref={componentRef}
