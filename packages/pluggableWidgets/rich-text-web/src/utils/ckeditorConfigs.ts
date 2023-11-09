@@ -93,7 +93,7 @@ export function defineAdvancedGroups(widgetProps: RichTextContainerProps): Toolb
     } = {};
     items.forEach(item => {
         const id = item.ctItemToolbar;
-        const type = item.ctItemType !== "seperator" ? item.ctItemType : "-";
+        const type = item.ctItemType !== "separator" ? item.ctItemType : "-";
 
         if (!toolbarObj[id]) {
             toolbarObj[id] = [];

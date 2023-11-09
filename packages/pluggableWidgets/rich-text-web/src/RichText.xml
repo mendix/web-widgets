@@ -160,12 +160,12 @@
                     <caption>Advanced groups</caption>
                     <description />
                     <properties>
-                        <property key="ctItemType" type="enumeration" required="true" defaultValue="seperator">
+                        <property key="ctItemType" type="enumeration" required="true" defaultValue="separator">
                             <caption>Button</caption>
                             <category>Item</category>
                             <description>Button Type</description>
                             <enumerationValues>
-                                <enumerationValue key="seperator">Seperator</enumerationValue>
+                                <enumerationValue key="separator">Separator</enumerationValue>
                                 <enumerationValue key="About">About</enumerationValue>
                                 <enumerationValue key="Anchor">Anchor</enumerationValue>
                                 <enumerationValue key="BGColor">Background Color</enumerationValue>
