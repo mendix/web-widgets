@@ -29,7 +29,8 @@ export interface LinesType {
     sizeref: number;
     staticTooltipHoverText?: ListExpressionValue<string>;
     dynamicTooltipHoverText?: ListExpressionValue<string>;
-    markerColor?: DynamicValue<string>;
+    staticMarkerColor?: ListExpressionValue<string>;
+    dynamicMarkerColor?: ListExpressionValue<string>;
     staticOnClickAction?: ListActionValue;
     dynamicOnClickAction?: ListActionValue;
     customSeriesOptions: string;
@@ -59,7 +60,8 @@ export interface LinesPreviewType {
     sizeref: number | null;
     staticTooltipHoverText: string;
     dynamicTooltipHoverText: string;
-    markerColor: string;
+    staticMarkerColor: string;
+    dynamicMarkerColor: string;
     staticOnClickAction: {} | null;
     dynamicOnClickAction: {} | null;
     customSeriesOptions: string;

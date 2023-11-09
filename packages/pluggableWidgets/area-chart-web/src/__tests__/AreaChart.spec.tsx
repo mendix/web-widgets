@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts";
 import {
     dynamicValue,
@@ -8,8 +7,10 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
-import { AreaChart } from "../AreaChart";
+import { ListExpressionValue } from "mendix";
+import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
+import { AreaChart } from "../AreaChart";
 
 jest.mock("@mendix/shared-charts", () => ({
     ChartWidget: jest.fn(() => null)
@@ -62,7 +63,7 @@ describe("The AreaChart widget", () => {
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const areaChart = renderAreaChart([{ lineColor: dynamicValue("red") }, { lineColor: undefined }]);
+        const areaChart = renderAreaChart([{ staticLineColor: exp("red") }, { staticLineColor: undefined }]);
         const data = areaChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("line.color", "red");
@@ -70,7 +71,7 @@ describe("The AreaChart widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const areaChart = renderAreaChart([{ markerColor: undefined }, { markerColor: dynamicValue("blue") }]);
+        const areaChart = renderAreaChart([{ staticMarkerColor: undefined }, { staticMarkerColor: exp("blue") }]);
         const data = areaChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", undefined);
@@ -78,7 +79,7 @@ describe("The AreaChart widget", () => {
     });
 
     it("sets the area color on the data series based on the fillcolor value", () => {
-        const areaChart = renderAreaChart([{ fillcolor: undefined }, { fillcolor: dynamicValue("#393393") }]);
+        const areaChart = renderAreaChart([{ staticFillColor: undefined }, { staticFillColor: exp("#393393") }]);
         const data = areaChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("fillcolor", undefined);
@@ -125,11 +126,15 @@ function setupBasicSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
         aggregationType: overwriteConfig.aggregationType ?? "avg",
         interpolation: overwriteConfig.interpolation ?? "linear",
         lineStyle: overwriteConfig.lineStyle ?? "line",
-        lineColor: overwriteConfig.lineColor ?? undefined,
-        markerColor: overwriteConfig.markerColor ?? undefined,
-        fillcolor: overwriteConfig.fillcolor ?? undefined,
+        staticLineColor: overwriteConfig.staticLineColor ?? undefined,
+        staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
+        staticFillColor: overwriteConfig.staticFillColor ?? undefined,
         staticDataSource: ListValueBuilder().simple(),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute
     };
+}
+
+function exp(value: string): ListExpressionValue<string> {
+    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

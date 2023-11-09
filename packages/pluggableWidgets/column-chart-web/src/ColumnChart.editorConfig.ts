@@ -34,7 +34,8 @@ export function getProperties(
                 "dynamicYAttribute",
                 "dynamicName",
                 "dynamicTooltipHoverText",
-                "groupByAttribute"
+                "groupByAttribute",
+                "dynamicBarColor"
             ]);
         } else {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -42,7 +43,8 @@ export function getProperties(
                 "staticXAttribute",
                 "staticYAttribute",
                 "staticName",
-                "staticTooltipHoverText"
+                "staticTooltipHoverText",
+                "staticBarColor"
             ]);
         }
 
@@ -81,7 +83,7 @@ export function getPreview(values: ColumnChartPreviewProps, isDarkMode: boolean)
         }
     };
 
-    const getImage = (barMode: BarmodeEnum, type: "structure" | "legend") => {
+    const getImage = (barMode: BarmodeEnum, type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[barMode][colorMode][type];
     };
