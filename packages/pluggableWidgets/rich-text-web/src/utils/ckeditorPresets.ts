@@ -11,6 +11,7 @@ export interface ToolbarItems {
 }
 
 export type GroupType =
+    | "separatorGroup"
     | "documentGroup"
     | "formsGroup"
     | "editingGroup"
