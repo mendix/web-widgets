@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed a regression that was introduced in 2.10.0, where the column was missing a caption if the caption used parameters.
+
 ## [2.10.1] - 2023-11-02
 
 ### Fixed
