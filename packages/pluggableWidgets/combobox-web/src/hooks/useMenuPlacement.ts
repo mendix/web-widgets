@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect, useState, useRef } from "react";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 
 type PositionType = {
@@ -7,47 +7,27 @@ type PositionType = {
 };
 
 export function useMenuPlacement(menuRef: RefObject<HTMLDivElement>, isOpen: boolean): PositionType | undefined {
-    const observer = usePositionObserver(menuRef.current?.parentElement || null, isOpen);
-    const [position, setPosition] = useState<PositionType | undefined>({
-        bottom: observer?.bottom,
-        left: observer?.left
-    });
+    const observer = usePositionObserver(menuRef.current?.parentElement || null, true);
+    const [flip, setFlip] = useState(false);
+    const comboboxMenuRect = useRef<DOMRect>();
 
     useEffect(() => {
-        if (menuRef.current && observer) {
-            const menuRect = menuRef.current.getBoundingClientRect();
-            const spaceBelow = window.innerHeight - menuRect.bottom;
+        if (menuRef.current) {
+            comboboxMenuRect.current = menuRef.current.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - comboboxMenuRect.current.bottom;
             if (spaceBelow < 0) {
-                setPosition({ bottom: observer.top - menuRect.height - 4, left: observer.left }); // 4 is for margin at the bottom
+                setFlip(true);
             }
         }
-    }, [observer, isOpen, menuRef]);
+        // return () => {
+        //     setFlip(false);
+        // };
+    }, [observer, menuRef, isOpen]);
 
-    return position;
+    return flip && observer && comboboxMenuRect.current
+        ? { bottom: observer.top - comboboxMenuRect.current.height - 4, left: observer.left }
+        : {
+              bottom: observer?.bottom,
+              left: observer?.left
+          };
 }
-
-// Also another logic with flipping a bool state to decide the position
-
-// export function useMenuPlacement(menuRef: RefObject<HTMLDivElement>, isOpen: boolean): PositionType | undefined {
-//     const observer = usePositionObserver(menuRef.current?.parentElement || null, isOpen);
-//     const [flip, setFlip] = useState(false);
-//     const menuRect = useRef<DOMRect>();
-
-//     useEffect(() => {
-//         if (menuRef.current && observer) {
-//             menuRect.current = menuRef.current.getBoundingClientRect();
-//             const spaceBelow = window.innerHeight - menuRect.current.bottom;
-//             if (spaceBelow < 0) {
-//                 setFlip(true);
-//             }
-//         }
-//         return () => {
-//             setFlip(false);
-//         };
-//     }, [observer, isOpen, menuRef]);
-
-//     return {
-//         bottom: flip && observer && menuRect.current ? observer?.bottom - menuRect.current?.height : observer?.bottom,
-//         left: observer?.left
-//     };
-// }

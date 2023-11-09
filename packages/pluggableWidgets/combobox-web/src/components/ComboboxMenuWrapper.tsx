@@ -14,7 +14,6 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
     const { children, isOpen, isEmpty, noOptionsText, getMenuProps } = props;
     const componentRef = useRef<HTMLDivElement>(null);
     const position = useMenuPlacement(componentRef, isOpen);
-    console.log(position);
 
     return (
         <div
