@@ -30,9 +30,21 @@ export type ShiftEnterModeEnum = "paragraph" | "breakLines" | "blocks";
 
 export type AdvancedContentFilterEnum = "auto" | "custom";
 
+export interface StylesConfigType {
+    styleName: string;
+    styleElement: string;
+    styleClass: string;
+}
+
 export interface AdvancedConfigPreviewType {
     ctItemType: CtItemTypeEnum;
     ctItemToolbar: string;
+}
+
+export interface StylesConfigPreviewType {
+    styleName: string;
+    styleElement: string;
+    styleClass: string;
 }
 
 export interface RichTextContainerProps {
@@ -74,6 +86,10 @@ export interface RichTextContainerProps {
     advancedContentFilter: AdvancedContentFilterEnum;
     allowedContent: string;
     disallowedContent: string;
+    styleSetName: string;
+    validSelectors: string;
+    skipSelectors: string;
+    stylesConfig: StylesConfigType[];
 }
 
 export interface RichTextPreviewProps {
@@ -113,4 +129,8 @@ export interface RichTextPreviewProps {
     advancedContentFilter: AdvancedContentFilterEnum;
     allowedContent: string;
     disallowedContent: string;
+    styleSetName: string;
+    validSelectors: string;
+    skipSelectors: string;
+    stylesConfig: StylesConfigPreviewType[];
 }

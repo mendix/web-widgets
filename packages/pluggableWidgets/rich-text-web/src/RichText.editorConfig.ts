@@ -56,6 +56,9 @@ export function getProperties(
     } else {
         hidePropertyIn(defaultProperties, values, "advancedMode");
     }
+    if (values.styleSetName === undefined) {
+        hidePropertiesIn(defaultProperties, values, ["stylesConfig", "validSelectors", "skipSelectors"]);
+    }
     return defaultProperties;
 }
 

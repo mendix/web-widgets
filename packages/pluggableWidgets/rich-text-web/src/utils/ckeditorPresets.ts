@@ -10,6 +10,12 @@ export interface ToolbarItems {
     items: string[];
 }
 
+export interface Style {
+    name: string;
+    element: string;
+    attributes: object;
+}
+
 export type GroupType =
     | "documentGroup"
     | "formsGroup"

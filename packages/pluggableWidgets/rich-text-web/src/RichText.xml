@@ -301,6 +301,41 @@
                     <description />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Custom Style Set">
+                <property key="styleSetName" type="string" required="false">
+                    <caption>Name</caption>
+                    <description />
+                </property>
+                <property key="validSelectors" type="string" required="false">
+                    <caption>Valid Selectors</caption>
+                    <description>Define a regular expression for elements and classes from the app's stylesheets, that should be shown in the styles combo box.</description>
+                </property>
+                <property key="skipSelectors" type="string" required="false">
+                    <caption>Skip Selectors</caption>
+                    <description>Define a regular expression for elements and classes from the app's stylesheets, that should not be shown in the styles combo box.</description>
+                </property>
+                <property key="stylesConfig" type="object" isList="true" required="false">
+                    <caption>Styles</caption>
+                    <description />
+                    <properties>
+                        <property key="styleName" type="string" required="true">
+                            <caption>Name</caption>
+                            <category>item</category>
+                            <description>Name of the Style as shown in the dropdown box</description>
+                        </property>
+                        <property key="styleElement" type="string" required="true">
+                            <caption>Element</caption>
+                            <category>item</category>
+                            <description>HTML Element that the style is applied to</description>
+                        </property>
+                        <property key="styleClass" type="string" required="false">
+                            <caption>Class</caption>
+                            <category>item</category>
+                            <description>Style Class of the element as definied in one of the project's stylesheets</description>
+                        </property>
+                    </properties>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

@@ -7,10 +7,11 @@ import {
     ToolbarGroup,
     ToolbarItems,
     GroupType,
-    createCustomToolbar
+    createCustomToolbar,
+    Style
 } from "./ckeditorPresets";
 
-export type PluginName = "codesnippet" | "openlink" | "indent" | "indentlist";
+export type PluginName = "stylesheetparser" | "codesnippet" | "openlink" | "indent" | "indentlist";
 
 const PLUGIN_CONFIGS = {
     openlink: {
@@ -27,6 +28,13 @@ const PLUGIN_CONFIGS = {
         name: "CodeSnippet",
         config: {
             codeSnippet_theme: "idea"
+        }
+    },
+    stylesheetparser: {
+        extraPlugins: "stylesheetparser",
+        name: "StylesheetParser",
+        config: {
+            contentsCss: "theme.compiled.css"
         }
     },
     indent: null,
@@ -112,6 +120,26 @@ export function defineAdvancedGroups(widgetProps: RichTextContainerProps): Toolb
     return toolbarArray;
 }
 
+export function defineStyleSet(widgetProps: RichTextContainerProps): Style[] | string {
+    const { stylesConfig: items } = widgetProps;
+    const styleSet: Style[] = [];
+    if (items.length === 0) {
+        return "default";
+    } else {
+        items.forEach(item => {
+            const styleAttributes = {
+                class: item.styleClass
+            };
+            styleSet.push({
+                name: item.styleName,
+                element: item.styleElement,
+                attributes: styleAttributes
+            });
+        });
+        return styleSet;
+    }
+}
+
 export function getToolbarConfig(widgetProps: RichTextContainerProps): CKEditorConfig {
     const { preset, toolbarConfig } = widgetProps;
 
@@ -139,7 +167,10 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
         width,
         widthUnit,
         height,
-        heightUnit
+        heightUnit,
+        styleSetName,
+        validSelectors,
+        skipSelectors
     } = widgetProps;
 
     const dimensions = getDimensions({
@@ -161,6 +192,7 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
         disableNativeSpellChecker: !spellChecker,
         readOnly: stringAttribute.readOnly,
         removeButtons: "",
+        stylesSet: defineStyleSet(widgetProps),
         ...getToolbarConfig(widgetProps)
     };
 
@@ -168,6 +200,16 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
 
     if (codeHighlight) {
         plugins.push("codesnippet");
+    }
+
+    if (styleSetName) {
+        plugins.push("stylesheetparser");
+        if (validSelectors) {
+            config.stylesheetParser_validSelectors = new RegExp(validSelectors);
+        }
+        if (skipSelectors) {
+            config.stylesheetParser_skipSelectors = new RegExp(skipSelectors);
+        }
     }
 
     for (const plugin of plugins) {
