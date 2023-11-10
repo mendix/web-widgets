@@ -6,7 +6,7 @@ type PositionType = {
     left?: number | undefined;
 };
 
-export function useMenuPlacement(menuRef: RefObject<HTMLDivElement>, isOpen: boolean): PositionType | undefined {
+export function useMenuPlacement(menuRef: RefObject<HTMLDivElement>, isOpen: boolean): PositionType {
     const observer = usePositionObserver(menuRef.current?.parentElement || null, true);
     const [flip, setFlip] = useState(false);
     const comboboxMenuRect = useRef<DOMRect>();
