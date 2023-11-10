@@ -1,13 +1,16 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, FilterExpression, LiteralExpression } from "mendix/filters";
-import { FilterValue } from "@mendix/widget-plugin-filtering";
+import { InitialFilterProps, BinaryExpression } from "@mendix/widget-plugin-filtering";
 
 declare type SingleFilterCondition = FilterCondition & {
     arg1: FilterExpression;
     arg2: LiteralExpression;
 };
 
-export function extractFilters(attribute: ListAttributeValue | undefined, filter?: FilterCondition): FilterValue[] {
+export function extractFilters(
+    attribute: ListAttributeValue | undefined,
+    filter?: FilterCondition
+): InitialFilterProps[] {
     if (!attribute || !filter) {
         return [];
     }
@@ -15,11 +18,17 @@ export function extractFilters(attribute: ListAttributeValue | undefined, filter
     return filters
         ? filters
               .filter((a: SingleFilterCondition) => !!a.arg1 && !!a.arg2)
-              .filter((f: SingleFilterCondition) => f.arg1.type === "attribute" && f.arg1.attributeId === attribute.id)
-              .map((f: SingleFilterCondition) => ({
-                  type: String(f.name),
-                  value: f.arg2.value
-              }))
+              .flatMap((f: BinaryExpression) => {
+                  if (f.arg1.type === "attribute" && f.arg1.attributeId === attribute.id && f.arg2.type === "literal") {
+                      return [
+                          {
+                              type: f.name,
+                              value: f.arg2.value
+                          }
+                      ];
+                  }
+                  return [];
+              })
         : [];
 }
 
