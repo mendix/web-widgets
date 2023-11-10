@@ -19,13 +19,10 @@ export function useMenuPlacement(menuRef: RefObject<HTMLDivElement>, isOpen: boo
                 setFlip(true);
             }
         }
-        // return () => {
-        //     setFlip(false);
-        // };
     }, [observer, menuRef, isOpen]);
 
     return flip && observer && comboboxMenuRect.current
-        ? { bottom: observer.top - comboboxMenuRect.current.height - 4, left: observer.left }
+        ? { bottom: observer.top - comboboxMenuRect.current.height - 4, left: observer.left } // 4 is for bottom margin
         : {
               bottom: observer?.bottom,
               left: observer?.left
