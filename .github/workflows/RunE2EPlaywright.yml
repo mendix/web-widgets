@@ -22,7 +22,7 @@ jobs:
         strategy:
           fail-fast: false
           matrix:
-            project: [chromium]
+            project: [firefox]
             shardIndex: [1, 2, 3]
             shardTotal: [3]
 
@@ -41,15 +41,15 @@ jobs:
             - name: Install dependencies
               run: pnpm install
             - name: Install Playwright Browsers
-              run: npx playwright install --with-deps chromium
+              run: pnpm exec playwright install --with-deps firefox
             - name: Run build and run test project
               run: npm run e2e.playwright
             - name: Run E2E tests
-              run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+              run: pnpm dlx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
             - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
               if: failure()
               with:
                 name: playwright-report-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-                path: ${{ github.workspace }}/packages/atlas/test-results
+                path: ${{ github.workspace }}/packages/**/test-results
                 retention-days: 30
