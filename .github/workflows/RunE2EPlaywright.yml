@@ -43,7 +43,7 @@ jobs:
             - name: Install Playwright Browsers
               run: pnpm exec playwright install --with-deps firefox
             - name: Run build and run test project
-              run: npm run e2e.playwright
+              run: pnpm run e2e.playwright
             - name: Run E2E tests
               run: pnpm dlx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
