@@ -69,17 +69,7 @@ function columnsStateReducer(state: ColumnsState, action: Action): ColumnsState 
             return reduceOnPropChange(state, "columnsHidden", action.payload.hidden, computeVisible);
         }
         case "SetColumns": {
-            return reduceOnPropChange(
-                state,
-                "columns",
-                action.payload.columns,
-                (newState, prevColumns, nextColumns) => {
-                    if (prevColumns.length !== nextColumns.length) {
-                        return initColumnsState(nextColumns);
-                    }
-                    return newState;
-                }
-            );
+            return reduceOnPropChange(state, "columns", action.payload.columns, computeVisible);
         }
         default:
             throw new Error("Columns state reducer: unknown action type");
