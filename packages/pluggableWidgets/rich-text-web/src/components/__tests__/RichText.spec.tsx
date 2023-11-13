@@ -6,7 +6,7 @@ import { getPreset, defineEnterMode, getToolbarGroupByName, defineAdvancedGroups
 import { mount, ReactWrapper } from "enzyme";
 import renderer from "react-test-renderer";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { EditableValueBuilder, ListValueBuilder, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { TOOLBAR_GROUP, ToolbarGroup } from "../../utils/ckeditorPresets";
 import { AdvancedConfigType, RichTextContainerProps } from "../../../typings/RichTextProps";
 
@@ -46,6 +46,11 @@ const defaultRichTextProps: RichTextContainerProps = {
     codeHighlight: false,
     allowedContent: "",
     disallowedContent: "",
+    templates: "default",
+    templateDatasource: ListValueBuilder().simple(),
+    templateTitleAttribute: new ListAttributeValueBuilder<string>().build(),
+    templateDescriptionAttribute: new ListAttributeValueBuilder<string>().build(),
+    templateHtmlAttribute: new ListAttributeValueBuilder<string>().build(),
     id: "1.Dev.Test_ListenTo.richText1_x_1"
 };
 

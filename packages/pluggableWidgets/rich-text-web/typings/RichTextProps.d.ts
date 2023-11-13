@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, ListAttributeValue } from "mendix";
 
 export type EditorTypeEnum = "classic" | "inline";
 
@@ -65,6 +65,11 @@ export interface RichTextContainerProps {
     insertGroup: boolean;
     othersGroup: boolean;
     advancedConfig: AdvancedConfigType[];
+    templates: string;
+    templateDatasource: ListValue;
+    templateTitleAttribute: ListAttributeValue<string>;
+    templateDescriptionAttribute: ListAttributeValue<string>;
+    templateHtmlAttribute: ListAttributeValue<string>;
     onKeyPress?: ActionValue;
     onChange?: ActionValue;
     enterMode: EnterModeEnum;
@@ -104,6 +109,11 @@ export interface RichTextPreviewProps {
     insertGroup: boolean;
     othersGroup: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
+    templates: string;
+    templateDatasource: {} | { caption: string } | { type: string } | null;
+    templateTitleAttribute: string;
+    templateDescriptionAttribute: string;
+    templateHtmlAttribute: string;
     onKeyPress: {} | null;
     onChange: {} | null;
     enterMode: EnterModeEnum;

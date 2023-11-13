@@ -10,6 +10,7 @@
 @use "~ckeditor4/plugins/emoji/skins/default.css" as emoji;
 @use "~ckeditor4/plugins/preview/styles/screen.css";
 @use "~ckeditor4/plugins/copyformatting/styles/copyformatting.css";
+@use "~ckeditor4/plugins/templates/dialogs/templates.css";
 
 .widget-rich-text {
     &.editor-text {
