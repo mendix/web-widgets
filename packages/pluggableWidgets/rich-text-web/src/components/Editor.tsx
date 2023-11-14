@@ -20,7 +20,7 @@ interface EditorProps {
     widgetProps: RichTextContainerProps;
 }
 
-type EditorHookProps = CKEditorHookProps<never>;
+type EditorHookProps = CKEditorHookProps<"beforeLoad">;
 
 interface CKEditorEvent {
     data: any;
@@ -140,6 +140,7 @@ export class Editor extends Component<EditorProps> {
             },
             // Here we ignore hook API and instead use
             // editor instance to subscribe to events.
+            subscribeTo: ["beforeLoad"],
             config: Object.assign(config, {
                 on: {
                     instanceReady(this: CKEditorInstance) {
@@ -163,7 +164,7 @@ export class Editor extends Component<EditorProps> {
 
     onPluginsLoaded(editor: CKEditorInstance): void {
         this.editor = editor;
-        if (this.widgetProps.templates !== "default") {
+        if (this.widgetProps.templates && this.widgetProps.templates !== "default") {
             const datasource = this.widgetProps.templateDatasource;
             if (datasource === undefined) {
                 console.warn("Templates datasource not set for editor " + this.widgetProps.name);

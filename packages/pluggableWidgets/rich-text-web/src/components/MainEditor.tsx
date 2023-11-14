@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useCKEditor, CKEditorHookProps } from "ckeditor4-react";
 
 export interface MainEditorProps {
-    config: CKEditorHookProps<never>;
+    config: CKEditorHookProps<"beforeLoad">;
 }
 
 // Main idea of this component is to make sure it's never rerenders.
