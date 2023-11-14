@@ -13,6 +13,7 @@ function mockSelectionProps(): ListOptionSelectionProps {
         isSelected: jest.fn(() => false),
         onSelect: jest.fn(),
         onSelectAll: jest.fn(),
+        onSelectAdjacent: jest.fn(),
         onKeyDown: jest.fn(),
         onKeyUp: jest.fn(),
         selectionType: "None"

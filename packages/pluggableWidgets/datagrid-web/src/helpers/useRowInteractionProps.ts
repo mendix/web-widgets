@@ -84,7 +84,9 @@ function rowPropsSelectable(item: ObjectItem, selectionProps: GridSelectionProps
             }
             callback(item, event.shiftKey);
         },
-        onKeyDown: selectionProps.onKeyDown,
+        onKeyDown(event) {
+            selectionProps.onKeyDown?.(event, item);
+        },
         onKeyUp(event) {
             selectionProps.onKeyUp?.(event, item);
         }
