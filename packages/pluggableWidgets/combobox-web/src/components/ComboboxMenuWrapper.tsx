@@ -18,7 +18,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
     return (
         <div
             ref={componentRef}
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen || !position })}
+            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             style={
                 componentRef.current?.parentElement?.clientWidth
                     ? {
