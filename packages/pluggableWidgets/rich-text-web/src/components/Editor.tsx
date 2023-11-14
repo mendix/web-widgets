@@ -65,7 +65,7 @@ export class Editor extends Component<EditorProps> {
         this.widgetProps = { ...this.props.widgetProps };
         this.element = this.props.element;
         this.editorKey = this.getNewKey();
-        this.editorHookProps = this.getNewEditorHookProps(/*true*/);
+        this.editorHookProps = this.getNewEditorHookProps();
         this.onChange = this.onChange.bind(this);
         this.applyChangesDebounce = debounce(this.applyChangesImmediately.bind(this), 500)[0];
         this.setDataDebounce = debounce(data => this.editor?.setData(data, () => this.addListeners()), 50)[0];
@@ -95,24 +95,21 @@ export class Editor extends Component<EditorProps> {
         } else {
             const keys = Object.keys(this.widgetProps) as Array<keyof RichTextContainerProps>;
 
-            const prevProps = this.widgetProps;
-            const nextProps = this.props.widgetProps;
-
             return keys.some(key => {
                 // We skip stringAttribute as it always changes. And we
                 // handle updates in componentDidUpdate method.
                 if (key === "stringAttribute") {
                     return false;
                 }
-
                 if (key === "onChange") {
                     return false;
                 }
-
                 if (key === "onKeyPress") {
                     return false;
                 }
 
+                const prevProps = this.widgetProps;
+                const nextProps = this.props.widgetProps;
                 return prevProps[key] !== nextProps[key];
             });
         }
