@@ -83,11 +83,13 @@ export class Editor extends Component<EditorProps> {
     }
 
     getRenderProps(): [number, EditorHookProps] {
-        this.setNewRenderProps();
+        if (this.shouldRebuildEditor()) {
+            this.setNewRenderProps();
+        }
         return [this.editorKey, this.editorHookProps];
     }
 
-    shouldUpdateEditor(): boolean {
+    shouldRebuildEditor(): boolean {
         if (this.element !== this.props.element) {
             return true;
         } else {
