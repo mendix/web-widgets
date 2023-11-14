@@ -1,13 +1,15 @@
 import {
     createElement,
-    ReactElement,
-    useCallback,
-    useState,
-    useRef,
-    useLayoutEffect,
-    PropsWithChildren,
     CSSProperties,
-    RefObject
+    PropsWithChildren,
+    ReactElement,
+    RefObject,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState
 } from "react";
 import classNames from "classnames";
 
@@ -26,6 +28,7 @@ export function useInfiniteControl(
     const { setPage, hasMoreItems, isInfinite } = props;
     const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const isVisible = useOnScreen(containerRef);
 
     const trackScrolling = useCallback(
         (e: any) => {
@@ -46,16 +49,30 @@ export function useInfiniteControl(
     );
 
     const calculateBodyHeight = useCallback((): void => {
-        if (isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
+        if (isVisible && isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
             setBodySize(containerRef.current.clientHeight - 30);
         }
-    }, [isInfinite, hasMoreItems, bodySize]);
+    }, [isInfinite, hasMoreItems, bodySize, isVisible]);
 
     useLayoutEffect(() => {
         setTimeout(() => calculateBodyHeight(), 100);
     }, [calculateBodyHeight]);
 
     return [trackScrolling, bodySize, containerRef];
+}
+
+export function useOnScreen(ref: RefObject<HTMLElement>) {
+    const [isIntersecting, setIntersecting] = useState(false);
+    const observer = useMemo(() => new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting)), [ref]);
+
+    useEffect(() => {
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+        return () => observer.disconnect();
+    }, []);
+
+    return isIntersecting;
 }
 
 export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
