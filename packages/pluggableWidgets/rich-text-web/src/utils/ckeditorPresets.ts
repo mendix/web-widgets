@@ -84,11 +84,7 @@ const TOOLBAR_ITEMS: ToolbarItems[] = [
     { name: "about", items: ["About"] }
 ];
 
-function createPreset(
-    type: "basic" | "standard" | "full",
-    templates = "default",
-    updatePlugins = false
-): CKEditorConfig {
+function createPreset(type: "basic" | "standard" | "full", templates = "default"): CKEditorConfig {
     const config: CKEditorConfig = {};
     let toolbarGroup: Array<ToolbarGroup | string> = [];
     switch (type) {
@@ -112,10 +108,8 @@ function createPreset(
             config.toolbarGroups = toolbarGroup;
             config.removeButtons = "";
             /* TODO temporary removed exportpdf*/
-            if (updatePlugins) {
-                config.extraPlugins =
-                    "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks";
-            }
+            config.extraPlugins =
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks";
             config.templates = templates;
             break;
         default:
@@ -127,8 +121,7 @@ function createPreset(
 function createCustomToolbar(
     groups: Array<string | ToolbarItems>,
     withGroupNames = true,
-    templates = "default",
-    updatePlugins = false
+    templates = "default"
 ): CKEditorConfig {
     if (withGroupNames) {
         return {
@@ -139,19 +132,12 @@ function createCustomToolbar(
                 .filter(item => item)
         };
     } else {
-        if (updatePlugins) {
-            return {
-                extraPlugins:
-                    "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley",
-                toolbar: groups,
-                templates
-            };
-        } else {
-            return {
-                toolbar: groups,
-                templates
-            };
-        }
+        return {
+            extraPlugins:
+                "save,templates,newpage,print,forms,find,selectall,div,divarea,justify,bidi,language,font,colorbutton,showblocks,smiley",
+            toolbar: groups,
+            templates
+        };
     }
 }
 

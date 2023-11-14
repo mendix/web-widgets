@@ -50,14 +50,14 @@ export function defineEnterMode(type: string): number {
     }
 }
 
-export function getPreset(type: PresetEnum, templates = "default", updatePlugins = false): CKEditorConfig {
+export function getPreset(type: PresetEnum, templates = "default"): CKEditorConfig {
     switch (type) {
         case "standard":
             return createPreset("standard");
         case "basic":
             return createPreset("basic");
         case "full":
-            return createPreset("full", templates, updatePlugins);
+            return createPreset("full", templates);
         default:
             return createPreset("basic");
     }
@@ -112,20 +112,20 @@ export function defineAdvancedGroups(widgetProps: RichTextContainerProps): Toolb
     return toolbarArray;
 }
 
-export function getToolbarConfig(widgetProps: RichTextContainerProps, updatePlugins: boolean): CKEditorConfig {
+export function getToolbarConfig(widgetProps: RichTextContainerProps): CKEditorConfig {
     const { preset, toolbarConfig, templates } = widgetProps;
 
     if (preset !== "custom") {
-        return getPreset(preset, templates, updatePlugins);
+        return getPreset(preset, templates);
     }
 
     const isBasic = toolbarConfig === "basic";
     const groupItems = isBasic ? defineBasicGroups(widgetProps) : defineAdvancedGroups(widgetProps);
 
-    return createCustomToolbar(groupItems, isBasic, templates, updatePlugins);
+    return createCustomToolbar(groupItems, isBasic, templates);
 }
 
-export function getCKEditorConfig(widgetProps: RichTextContainerProps, updatePlugins: boolean): CKEditorConfig {
+export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditorConfig {
     const {
         codeHighlight,
         advancedContentFilter,
@@ -161,7 +161,7 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps, updatePlu
         disableNativeSpellChecker: !spellChecker,
         readOnly: stringAttribute.readOnly,
         removeButtons: "",
-        ...getToolbarConfig(widgetProps, updatePlugins)
+        ...getToolbarConfig(widgetProps)
     };
 
     const plugins: PluginName[] = ["openlink", "indent", "indentlist"];
@@ -170,10 +170,8 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps, updatePlu
         plugins.push("codesnippet");
     }
 
-    if (updatePlugins) {
-        for (const plugin of plugins) {
-            addPlugin(plugin, config);
-        }
+    for (const plugin of plugins) {
+        addPlugin(plugin, config);
     }
 
     if (advancedContentFilter === "custom") {
