@@ -35,6 +35,13 @@
             display: none;
         }
     }
+
+    .cke_combo_on a.cke_combo_button,
+    .cke_combo_off a.cke_combo_button:hover,
+    .cke_combo_off a.cke_combo_button:focus,
+    .cke_combo_off a.cke_combo_button:active {
+        padding: 1px;
+    }
 }
 
 .widget-rich-text-loading-spinner {
