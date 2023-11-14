@@ -13,12 +13,12 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
     const { children, isOpen, isEmpty, noOptionsText, getMenuProps } = props;
     const componentRef = useRef<HTMLDivElement>(null);
-    const position = useMenuPlacement(componentRef, isOpen);
+    const position = useMenuPlacement(componentRef.current);
 
     return (
         <div
             ref={componentRef}
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
+            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen || !position })}
             style={
                 componentRef.current?.parentElement?.clientWidth
                     ? {
