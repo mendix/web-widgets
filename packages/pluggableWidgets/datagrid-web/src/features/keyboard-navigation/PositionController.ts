@@ -55,7 +55,6 @@ export class PositionController {
         }
 
         event.preventDefault();
-        event.stopPropagation();
         const targetPos = P.posFromString(this._getTargetPosition(event));
 
         return layout.get(keyHandlers[event.code](targetPos, layout, event));

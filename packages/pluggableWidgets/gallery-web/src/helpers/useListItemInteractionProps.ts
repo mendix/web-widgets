@@ -50,7 +50,9 @@ function getHandlers(item: ObjectItem, selectionProps: ListOptionSelectionProps)
             }
             selectionProps.onSelect(item, event.shiftKey);
         },
-        onKeyDown: selectionProps.onKeyDown,
+        onKeyDown(event) {
+            selectionProps.onKeyDown?.(event, item);
+        },
         onKeyUp(event) {
             selectionProps.onKeyUp?.(event, item);
         }

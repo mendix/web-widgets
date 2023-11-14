@@ -15,7 +15,7 @@ describe("MultiSelectionHelper", () => {
         beforeEach(() => {
             items = objectItems(numberOfItems);
             selectionValue = new SelectionMultiValueBuilder().build();
-            helper = new MultiSelectionHelper(selectionValue, items);
+            helper = new MultiSelectionHelper(selectionValue, items, 5);
         });
 
         it('selects the range on "selectUpTo" fallowed by "selectUpTo"', () => {
