@@ -5,7 +5,7 @@ type PositionType = {
     left?: number | undefined;
 };
 
-export function useMenuPlacement(menuRef: HTMLDivElement | null): PositionType | null {
+export function useMenuPlacement(menuRef: HTMLDivElement | null, isOpen: boolean): PositionType | null {
     const observer = usePositionObserver(menuRef?.parentElement || null, true);
     if (menuRef && observer) {
         const comboboxMenuRect = menuRef.getBoundingClientRect();
