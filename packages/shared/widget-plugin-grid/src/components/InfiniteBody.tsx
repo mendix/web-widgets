@@ -61,7 +61,7 @@ export function useInfiniteControl(
     return [trackScrolling, bodySize, containerRef];
 }
 
-export function useOnScreen(ref: RefObject<HTMLElement>) {
+export function useOnScreen(ref: RefObject<HTMLElement>): boolean {
     const [isIntersecting, setIntersecting] = useState(false);
     const observer = useMemo(() => new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting)), [ref]);
 
