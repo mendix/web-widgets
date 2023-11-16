@@ -48,6 +48,10 @@ export function useDownshiftMultiSelectProps(
         addSelectedItem
     } = useMultipleSelection({
         selectedItems: selector.currentValue ?? [],
+        itemToString: (v: string) => selector.caption.get(v),
+        getA11yRemovalMessage(options) {
+            return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
+        },
         onSelectedItemsChange({ selectedItems }) {
             selector.setValue(selectedItems ?? []);
         },
@@ -151,13 +155,14 @@ function useComboboxProps(
                               .map(itemId => selector.caption.get(itemId))
                               .join(",")}. `
                         : "";
-
-                if (options.previousResultCount !== options.resultCount) {
-                    if (options.resultCount > 0) {
-                        message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
-                    } else {
-                        message += a11yStatusMessage.a11yNoOption;
-                    }
+                if (!options.resultCount) {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+                if (!options.isOpen) {
+                    return message;
+                }
+                if (options.previousResultCount !== options.resultCount || !options.highlightedItem) {
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
                 }
 
                 return message;

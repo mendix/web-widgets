@@ -42,6 +42,7 @@ describe("Combo box (Association)", () => {
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: "Clear selection",
             removeValueAriaLabel: "Remove value",
+            selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
             a11yInstructions: dynamicValue("a11yInstructions")

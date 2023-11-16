@@ -37,12 +37,21 @@ export function useDownshiftSingleSelectProps(
             },
             getA11yStatusMessage(options) {
                 const selectedItem = selector.caption.get(selector.currentValue);
-                let message = selectedItem ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. ` : "";
-
+                let message = selectedItem
+                    ? selector.currentValue
+                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. `
+                        : "No options selected."
+                    : "";
+                if (!options.isOpen) {
+                    return message;
+                }
+                if (!options.resultCount) {
+                    return a11yStatusMessage.a11yNoOption;
+                }
                 if (options.resultCount > 0) {
                     message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
                 } else {
-                    message += a11yStatusMessage.a11yNoOption;
+                    return a11yStatusMessage.a11yNoOption;
                 }
 
                 return message;

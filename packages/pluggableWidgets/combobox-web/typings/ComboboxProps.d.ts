@@ -65,6 +65,7 @@ export interface ComboboxPreviewProps {
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;
