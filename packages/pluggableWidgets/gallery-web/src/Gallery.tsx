@@ -103,7 +103,12 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
-    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selection = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.pageSize
+    );
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
