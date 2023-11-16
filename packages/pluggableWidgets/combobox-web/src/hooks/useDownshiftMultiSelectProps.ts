@@ -152,10 +152,12 @@ function useComboboxProps(
                               .join(",")}. `
                         : "";
 
-                if (options.resultCount > 0) {
-                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
-                } else {
-                    message += a11yStatusMessage.a11yNoOption;
+                if (options.previousResultCount !== options.resultCount) {
+                    if (options.resultCount > 0) {
+                        message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                    } else {
+                        message += a11yStatusMessage.a11yNoOption;
+                    }
                 }
 
                 return message;
