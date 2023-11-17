@@ -5,13 +5,12 @@ import {
     ReactElement,
     RefObject,
     useCallback,
-    useEffect,
     useLayoutEffect,
-    useMemo,
     useRef,
     useState
 } from "react";
 import classNames from "classnames";
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;
@@ -59,20 +58,6 @@ export function useInfiniteControl(
     }, [calculateBodyHeight]);
 
     return [trackScrolling, bodySize, containerRef];
-}
-
-export function useOnScreen(ref: RefObject<HTMLElement>): boolean {
-    const [isIntersecting, setIntersecting] = useState(false);
-    const observer = useMemo(() => new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting)), [ref]);
-
-    useEffect(() => {
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
-        return () => observer.disconnect();
-    }, []);
-
-    return isIntersecting;
 }
 
 export function InfiniteBody(props: PropsWithChildren<InfiniteBodyProps>): ReactElement {
