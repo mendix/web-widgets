@@ -36,7 +36,7 @@ const initColumns: ColumnsPreviewType[] = [
         filterAssociationOptions: {},
         header: "Column",
         hidable: "no",
-        ignored: "false",
+        supress: "false",
         resizable: false,
         showContentAs: "attribute",
         size: 1,

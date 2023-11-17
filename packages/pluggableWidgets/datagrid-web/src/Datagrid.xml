@@ -108,8 +108,8 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
-                            <property key="ignored" type="expression" required="false" defaultValue="false">
-                                <caption>Ignored</caption>
+                            <property key="supress" type="expression" required="false" defaultValue="false">
+                                <caption>Supress</caption>
                                 <description />
                                 <returnType type="Boolean" />
                             </property>

@@ -12,7 +12,7 @@ export class Column implements GridColumn {
     columnNumber: number;
     hidable: HidableEnum;
     hidden: boolean;
-    ignored: boolean;
+    supress: boolean;
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
@@ -28,7 +28,7 @@ export class Column implements GridColumn {
         this.gridId = gridId;
         this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
-        this.ignored = props.ignored?.value ?? false;
+        this.supress = props.supress?.value ?? false;
         this.props = props;
         this.weight = props.size ?? 1;
         this.width = props.width;

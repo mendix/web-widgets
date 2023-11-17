@@ -243,7 +243,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 {columnsHidable && (
                                     <ColumnSelector
                                         key="headers_column_selector"
-                                        columns={columns.filter(column => !column.ignored)}
+                                        columns={columns.filter(column => !column.supress)}
                                         hiddenColumns={columnsHidden}
                                         id={id}
                                         setHiddenColumns={props.setHidden}
