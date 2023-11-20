@@ -436,8 +436,8 @@ importers:
         specifier: ^15.2.3
         version: 15.2.3(rollup@2.79.1)
       '@rollup/plugin-terser':
-        specifier: ^0.4.3
-        version: 0.4.3(rollup@2.79.1)
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@2.79.1)
       concurrently:
         specifier: ^6.5.1
         version: 6.5.1
@@ -4676,12 +4676,7 @@ packages:
     dependencies:
       '@jridgewell/set-array': 1.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
-      '@jridgewell/trace-mapping': 0.3.18
-    dev: true
-
-  /@jridgewell/resolve-uri@3.1.0:
-    resolution: {integrity: sha512-F2msla3tad+Mfht5cJq7LSXcdudKTWCVYUgw6pLFOOHSTtZlj6SWNYAp+AhuqLmWdBO2X5hPrLcu8cVP8fy28w==}
-    engines: {node: '>=6.0.0'}
+      '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
   /@jridgewell/resolve-uri@3.1.1:
@@ -4693,13 +4688,6 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: true
 
-  /@jridgewell/source-map@0.3.3:
-    resolution: {integrity: sha512-b+fsZXeLYi9fEULmfBrhxn4IrPlINf8fiNarzTof004v3lFdntdwa9PF7vFJqm3mg7s+ScJMxXaE3Acp1irZcg==}
-    dependencies:
-      '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.18
-    dev: true
-
   /@jridgewell/source-map@0.3.5:
     resolution: {integrity: sha512-UTYAUj/wviwdsMfzoSJspJxbkH5o1snzwX0//0ENX1u/55kkZZkcTZP6u9bwKGkv+dkk9at4m1Cpt0uY80kcpQ==}
     dependencies:
@@ -4707,19 +4695,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
-  /@jridgewell/sourcemap-codec@1.4.14:
-    resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
-    dev: true
-
   /@jridgewell/sourcemap-codec@1.4.15:
     resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
-
-  /@jridgewell/trace-mapping@0.3.18:
-    resolution: {integrity: sha512-w+niJYzMHdd7USdiH2U6869nqhD2nbfZXND5Yp93qIbEmnDNk7PD48o+YchRVpzMU7M6jVCbenTR7PA1FLQ9pA==}
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.0
-      '@jridgewell/sourcemap-codec': 1.4.14
-    dev: true
 
   /@jridgewell/trace-mapping@0.3.20:
     resolution: {integrity: sha512-R8LcPeWZol2zR8mmH3JeKQ6QRCFb7XgUhV9ZlGhHLGyg4wpPiPZNQOOWhFZhxKw8u//yTbNGI42Bx/3paXEQ+Q==}
@@ -5193,11 +5170,11 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-terser@0.4.3(rollup@2.79.1):
-    resolution: {integrity: sha512-EF0oejTMtkyhrkwCdg0HJ0IpkcaVg1MMSf2olHb2Jp+1mnLM04OhjpJWGma4HobiDTF0WCyViWuvadyE9ch2XA==}
+  /@rollup/plugin-terser@0.4.4(rollup@2.79.1):
+    resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.x || ^3.x
+      rollup: ^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -5205,7 +5182,7 @@ packages:
       rollup: 2.79.1
       serialize-javascript: 6.0.1
       smob: 1.4.0
-      terser: 5.18.0
+      terser: 5.24.0
     dev: true
 
   /@rollup/plugin-typescript@8.5.0(rollup@2.79.1)(typescript@5.0.4):
@@ -15501,19 +15478,8 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
-      terser: 5.18.0
+      terser: 5.24.0
       webpack: 5.75.0(webpack-cli@4.10.0)
-    dev: true
-
-  /terser@5.18.0:
-    resolution: {integrity: sha512-pdL757Ig5a0I+owA42l6tIuEycRuM7FPY4n62h44mRLRfnOxJkkOHd6i89dOpwZlpF6JXBwaAHF6yWzFrt+QyA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      '@jridgewell/source-map': 0.3.3
-      acorn: 8.8.2
-      commander: 2.20.3
-      source-map-support: 0.5.21
     dev: true
 
   /terser@5.24.0:
