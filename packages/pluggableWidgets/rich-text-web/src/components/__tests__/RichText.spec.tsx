@@ -46,6 +46,10 @@ const defaultRichTextProps: RichTextContainerProps = {
     codeHighlight: false,
     allowedContent: "",
     disallowedContent: "",
+    styleSetName: "",
+    validSelectors: "",
+    skipSelectors: "",
+    stylesConfig: [],
     id: "1.Dev.Test_ListenTo.richText1_x_1"
 };
 
