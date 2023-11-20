@@ -42,7 +42,10 @@ describe("Combo box (Association)", () => {
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: "Clear selection",
             removeValueAriaLabel: "Remove value",
-            selectionMethod: "checkbox"
+            selectionMethod: "checkbox",
+            a11ySelectedValue: dynamicValue("Selected value:"),
+            a11yOptionsAvailable: dynamicValue("Options available:"),
+            a11yInstructions: dynamicValue("a11yInstructions")
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
@@ -62,10 +65,10 @@ describe("Combo box (Association)", () => {
         const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
-    it("toggles combobox menu on: input FOCUS / BLUR", async () => {
+    it("toggles combobox menu on: input CLICK(focus) / BLUR", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const toggleButton = await component.findByRole("combobox");
-        fireEvent.focus(toggleButton);
+        fireEvent.click(toggleButton);
         expect(component.getAllByRole("option")).toHaveLength(4);
         fireEvent.blur(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
@@ -81,7 +84,7 @@ describe("Combo box (Association)", () => {
     it("adds new item to inital selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
-        fireEvent.focus(input);
+        fireEvent.click(input);
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
         expect(component.container).toMatchSnapshot();
@@ -93,7 +96,7 @@ describe("Combo box (Association)", () => {
         const component = render(<Combobox {...defaultProps} />);
 
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
-        fireEvent.focus(input);
+        fireEvent.click(input);
 
         const option1 = await component.findByText("222");
         fireEvent.click(option1);

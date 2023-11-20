@@ -8,7 +8,7 @@ import {
 } from "downshift";
 
 import { useMemo } from "react";
-import { SingleSelector } from "../helpers/types";
+import { A11yStatusMessage, SingleSelector } from "../helpers/types";
 
 interface Options {
     inputId?: string;
@@ -17,7 +17,8 @@ interface Options {
 
 export function useDownshiftSingleSelectProps(
     selector: SingleSelector,
-    options: Options = {}
+    options: Options = {},
+    a11yStatusMessage: A11yStatusMessage
 ): UseComboboxReturnValue<string> {
     const { inputId, labelId } = options;
 
@@ -33,6 +34,27 @@ export function useDownshiftSingleSelectProps(
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
+            },
+            getA11yStatusMessage(options) {
+                const selectedItem = selector.caption.get(selector.currentValue);
+                let message = selectedItem
+                    ? selector.currentValue
+                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. `
+                        : "No options selected."
+                    : "";
+                if (!options.isOpen) {
+                    return message;
+                }
+                if (!options.resultCount) {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+                if (options.resultCount > 0) {
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                } else {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+
+                return message;
             },
             defaultHighlightedIndex: 0,
             selectedItem: null,
@@ -83,7 +105,15 @@ export function useDownshiftSingleSelectProps(
             inputId,
             labelId
         };
-    }, [selector, inputId, labelId]);
+    }, [
+        selector,
+        inputId,
+        labelId,
+        a11yStatusMessage.a11ySelectedValue,
+        a11yStatusMessage.a11yOptionsAvailable,
+        a11yStatusMessage.a11yNoOption,
+        a11yStatusMessage.a11yInstructions
+    ]);
 
     return useCombobox({
         ...downshiftProps,

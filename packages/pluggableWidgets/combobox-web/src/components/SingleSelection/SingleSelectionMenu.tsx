@@ -24,7 +24,7 @@ export function SingleSelectionMenu({
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
-            isEmpty={items.length <= 0}
+            isEmpty={items?.length <= 0}
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
         >
