@@ -8,20 +8,13 @@ export type ContextValue = {
     focusController: FocusTargetController;
 };
 
-type Provider = (props: PropsWithChildren) => ReactElement | null;
-
 export const context = createContext<typeof defaultValue | ContextValue>(defaultValue);
 
-export function useKeyNavProvider(props: LayoutProps): Provider {
+export function KeyNavProvider(props: PropsWithChildren<LayoutProps>): ReactElement | null {
     const focusController = useFocusTargetController(props);
+    const value: ContextValue = useMemo(() => ({ focusController }), [focusController]);
 
-    return useMemo<Provider>(
-        () =>
-            function Provider({ children }) {
-                return <context.Provider value={{ focusController }}>{children}</context.Provider>;
-            },
-        [focusController]
-    );
+    return <context.Provider value={value}>{props.children}</context.Provider>;
 }
 
 export function useKeyNavContext(): ContextValue {

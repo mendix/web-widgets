@@ -33,7 +33,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
-import { useKeyNavProvider } from "../features/keyboard-navigation/context";
+import { KeyNavProvider } from "../features/keyboard-navigation/context";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -129,11 +129,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
-    const KeyNavProvider = useKeyNavProvider({
-        rows: props.data.length,
-        columns: columnsVisibleCount,
-        pageSize: props.pageSize
-    });
 
     const { updateSettings } = useSettings(
         settings,
@@ -260,7 +255,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     />
                                 )}
                             </div>
-                            <KeyNavProvider>
+                            <KeyNavProvider
+                                rows={props.data.length}
+                                columns={columnsVisibleCount}
+                                pageSize={props.pageSize}
+                            >
                                 {rows.map((item, rowIndex) => {
                                     return (
                                         <Row
