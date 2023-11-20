@@ -1,20 +1,48 @@
+import { useState, useEffect, useRef, useMemo } from "react";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
-type PositionType = {
-    bottom?: number | undefined;
-    left?: number | undefined;
-};
+export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [React.RefObject<T>, React.CSSProperties] {
+    const ref = useRef<T>(null);
+    const [style, setStyle] = useState<React.CSSProperties>({ visibility: "hidden", position: "fixed" });
+    const [setStyleDebounced, abort] = useMemo(() => debounce(setStyle, 32), [setStyle]);
+    const menuHeight = ref.current?.offsetHeight ?? 0;
+    const targetBox = usePositionObserver(ref.current?.parentElement ?? null, isOpen);
 
-export function useMenuPlacement(menuRef: HTMLDivElement | null, isOpen: boolean): PositionType | null {
-    const observer = usePositionObserver(menuRef?.parentElement || null, isOpen);
-    const comboboxMenuRect = menuRef?.getBoundingClientRect();
-    if (menuRef && observer && comboboxMenuRect && comboboxMenuRect.height !== 0) {
-        const spaceBetween = window.innerHeight - observer.y;
-
-        if (spaceBetween < comboboxMenuRect.height) {
-            return { bottom: observer.top - comboboxMenuRect.height - 4, left: observer.left }; // 4 is for bottom margin
+    useEffect(() => {
+        if (!isOpen) {
+            setStyle(prev => {
+                if (prev.visibility === "hidden") {
+                    return prev;
+                }
+                return { visibility: "hidden", position: "fixed" };
+            });
+            return;
         }
-        return { bottom: observer.bottom, left: observer.left };
+
+        if (targetBox === undefined || ref.current === null) {
+            return;
+        }
+
+        setStyleDebounced({
+            visibility: "visible",
+            position: "fixed",
+            width: targetBox.width,
+            ...getMenuPosition(targetBox, ref.current.getBoundingClientRect())
+        });
+
+        return abort;
+    }, [menuHeight, isOpen, targetBox, setStyleDebounced, abort]);
+
+    return [ref, style];
+}
+
+function getMenuPosition(targetBox: DOMRect, menuBox: DOMRect): React.CSSProperties {
+    const { height } = menuBox;
+    const bottomSpace = window.innerHeight - targetBox.bottom;
+
+    if (bottomSpace < height) {
+        return { bottom: window.innerHeight - targetBox.top, left: targetBox.left };
     }
-    return null;
+    return { top: targetBox.bottom, left: targetBox.left };
 }
