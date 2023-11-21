@@ -238,6 +238,10 @@ $grid-selected-row-background: $brand-light;
             outline: none;
         }
 
+        &.clickable {
+            cursor: pointer;
+        }
+
         > .td-text {
             white-space: nowrap;
             word-break: break-word;
