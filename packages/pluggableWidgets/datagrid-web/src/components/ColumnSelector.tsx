@@ -11,10 +11,11 @@ export interface ColumnSelectorProps {
     id?: string;
     setHiddenColumns: Dispatch<SetStateAction<number[]>>;
     label?: string;
+    visibleLength: number;
 }
 
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
-    const { setHiddenColumns } = props;
+    const { setHiddenColumns, visibleLength } = props;
     const [show, setShow] = useState(false);
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -22,8 +23,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const columnsHidden = props.columns.flatMap(column =>
         props.hiddenColumns.includes(column.columnNumber) ? [column.columnNumber] : []
     );
-    const visibleCount = props.columns.length - columnsHidden.length;
-    const isOnlyOneColumnVisible = visibleCount === 1;
+    const isOnlyOneColumnVisible = visibleLength === 1;
 
     useOnClickOutside([buttonRef, optionsRef], () => setShow(false));
 

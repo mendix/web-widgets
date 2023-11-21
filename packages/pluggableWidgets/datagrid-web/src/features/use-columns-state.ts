@@ -5,10 +5,12 @@ type ColumnsHidden = number[];
 type ColumnsOrder = number[];
 
 export type ColumnsState = {
+    columnsAvailable: GridColumn[];
     columnsHidden: ColumnsHidden;
     columnsOrder: ColumnsOrder;
     columns: GridColumn[];
     columnsVisible: GridColumn[];
+    visibleLength: number;
 };
 
 type OrderUpdate = React.SetStateAction<ColumnsOrder>;
@@ -30,10 +32,12 @@ type ColumnsStateFunctions = {
 };
 
 const defaultState: ColumnsState = Object.freeze({
+    columnsAvailable: [],
     columns: [],
     columnsHidden: [],
     columnsOrder: [],
-    columnsVisible: []
+    columnsVisible: [],
+    visibleLength: 0
 });
 
 export function useColumnsState(columns: GridColumn[]): [ColumnsState, ColumnsStateFunctions] {
@@ -109,12 +113,15 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
 }
 
 function computeVisible<S extends ColumnsState>(draftState: S): S {
+    const columnsVisible = draftState.columnsOrder.flatMap(columnNumber => {
+        const column = draftState.columns[columnNumber];
+        return draftState.columnsHidden.includes(columnNumber) || !column.visible ? [] : [column];
+    });
+
     return {
         ...draftState,
-        columnsVisible: draftState.columnsOrder.flatMap(columnNumber => {
-            const column = draftState.columns[columnNumber];
-            return draftState.columnsHidden.includes(columnNumber) || !column.visible ? [] : [column];
-        })
+        columnsVisible,
+        visibleLength: columnsVisible.length
     };
 }
 
@@ -132,8 +139,10 @@ function assertOrderMatchColumns({ columns, columnsOrder }: ColumnsState): void 
 export function initColumnsState(columns: GridColumn[]): ColumnsState {
     return computeVisible({
         columns,
+        columnsAvailable: columns.filter(column => column.visible),
         columnsOrder: columns.map(col => col.columnNumber),
         columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
-        columnsVisible: []
+        columnsVisible: [],
+        visibleLength: 0
     });
 }
