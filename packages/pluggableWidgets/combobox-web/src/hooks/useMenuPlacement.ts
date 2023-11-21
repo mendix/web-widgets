@@ -10,17 +10,7 @@ export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [React.Ref
     const targetBox = usePositionObserver(ref.current?.parentElement ?? null, isOpen);
 
     useEffect(() => {
-        if (!isOpen) {
-            setStyle(prev => {
-                if (prev.visibility === "hidden") {
-                    return prev;
-                }
-                return { visibility: "hidden", position: "fixed" };
-            });
-            return;
-        }
-
-        if (targetBox === undefined || ref.current === null) {
+        if (targetBox === undefined || ref.current === null || !isOpen) {
             return;
         }
 
