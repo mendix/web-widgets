@@ -18,14 +18,14 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         noOptionsText: props.noOptionsText?.value,
         a11yConfig: {
             ariaLabels: {
-                clearSelection: props.clearButtonAriaLabel?.value as string,
-                removeSelection: props.removeValueAriaLabel?.value as string
+                clearSelection: props.clearButtonAriaLabel?.value ?? "",
+                removeSelection: props.removeValueAriaLabel?.value ?? ""
             },
             a11yStatusMessage: {
-                a11ySelectedValue: props.a11ySelectedValue?.value as string,
-                a11yOptionsAvailable: props.a11yOptionsAvailable?.value as string,
-                a11yInstructions: props.a11yInstructions?.value as string,
-                a11yNoOption: props.noOptionsText?.value as string
+                a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
+                a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
+                a11yInstructions: props.a11yInstructions?.value ?? "",
+                a11yNoOption: props.noOptionsText?.value ?? ""
             }
         }
     };
