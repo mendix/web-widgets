@@ -173,15 +173,15 @@
             </propertyGroup>
             <propertyGroup caption="Aria labels">
                 <property key="clearButtonAriaLabel" type="textTemplate" required="true">
-                    <caption>Clear selection</caption>
-                    <description>Used to clear all selected value.</description>
+                    <caption>Clear selection button</caption>
+                    <description>Used to clear all selected values.</description>
                     <translations>
                         <translation lang="en_US">Clear selection</translation>
                     </translations>
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
-                    <caption>Remove value</caption>
-                    <description>Used for the individual selected value labels in multi-selection.</description>
+                    <caption>Remove value button</caption>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                     </translations>
