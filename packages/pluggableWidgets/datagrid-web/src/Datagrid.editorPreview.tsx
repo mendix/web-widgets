@@ -36,12 +36,12 @@ const initColumns: ColumnsPreviewType[] = [
         filterAssociationOptions: {},
         header: "Column",
         hidable: "no",
-        supress: "false",
         resizable: false,
         showContentAs: "attribute",
         size: 1,
         sortable: false,
         tooltip: "",
+        visible: "false",
         width: "autoFill",
         wrapText: false
     }

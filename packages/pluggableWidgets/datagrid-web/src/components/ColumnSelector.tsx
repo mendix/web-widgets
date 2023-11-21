@@ -19,7 +19,10 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const position = usePositionObserver(buttonRef.current, show);
-    const visibleCount = props.columns.length - props.hiddenColumns.length;
+    const columnsHidden = props.columns.flatMap(column =>
+        props.hiddenColumns.includes(column.columnNumber) ? [column.columnNumber] : []
+    );
+    const visibleCount = props.columns.length - columnsHidden.length;
     const isOnlyOneColumnVisible = visibleCount === 1;
 
     useOnClickOutside([buttonRef, optionsRef], () => setShow(false));
@@ -61,7 +64,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column: GridColumn, index) => {
-                const isVisible = !props.hiddenColumns.includes(column.columnNumber);
+                const isVisible = !columnsHidden.includes(column.columnNumber);
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (
                     <li

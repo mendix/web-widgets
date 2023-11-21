@@ -108,8 +108,8 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
-                            <property key="supress" type="expression" required="false" defaultValue="false">
-                                <caption>Supress</caption>
+                            <property key="visible" type="expression" required="false" defaultValue="true">
+                                <caption>Visible</caption>
                                 <description />
                                 <returnType type="Boolean" />
                             </property>

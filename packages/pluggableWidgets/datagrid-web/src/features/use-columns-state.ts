@@ -113,7 +113,7 @@ function computeVisible<S extends ColumnsState>(draftState: S): S {
         ...draftState,
         columnsVisible: draftState.columnsOrder.flatMap(columnNumber => {
             const column = draftState.columns[columnNumber];
-            return draftState.columnsHidden.includes(columnNumber) || column.supress ? [] : [column];
+            return draftState.columnsHidden.includes(columnNumber) || !column.visible ? [] : [column];
         })
     };
 }
@@ -133,9 +133,7 @@ export function initColumnsState(columns: GridColumn[]): ColumnsState {
     return computeVisible({
         columns,
         columnsOrder: columns.map(col => col.columnNumber),
-        columnsHidden: columns.flatMap(column =>
-            column.supress === false && column.hidden ? [column.columnNumber] : []
-        ),
+        columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
         columnsVisible: []
     });
 }
