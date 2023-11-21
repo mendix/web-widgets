@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { createElement, ReactElement, MouseEvent } from "react";
 
 export function ClearButton({ size = 14 }): ReactElement {
     return (
@@ -37,7 +37,16 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
 export function Checkbox({ checked, id }: { checked: boolean | undefined; id?: string }): ReactElement {
     return (
         <span className="widget-combobox-icon-container">
-            <input type="checkbox" tabIndex={-1} checked={checked} id={id} role="presentation" />
+            <input
+                type="checkbox"
+                tabIndex={-1}
+                checked={checked}
+                id={id}
+                role="presentation"
+                onClick={(e: MouseEvent<HTMLInputElement>) => {
+                    e.preventDefault();
+                }}
+            />
         </span>
     );
 }

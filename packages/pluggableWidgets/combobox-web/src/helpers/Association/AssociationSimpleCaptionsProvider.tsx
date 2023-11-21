@@ -1,5 +1,5 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
-import { ReactNode, createElement } from "react";
+import { ReactNode, createElement, MouseEvent } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
 
@@ -72,7 +72,12 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
             createElement(htmlFor == null ? "span" : "label", {
                 children: this.get(value),
                 className: "widget-combobox-caption-text",
-                htmlFor
+                htmlFor,
+                onClick: htmlFor
+                    ? (e: MouseEvent) => {
+                          e.preventDefault();
+                      }
+                    : undefined
             })
         ) : (
             <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
