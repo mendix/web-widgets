@@ -1,6 +1,6 @@
 import { UseComboboxPropGetters } from "downshift/typings";
 import { ReactElement, createElement } from "react";
-import { Checkbox } from "../../assets/icons";
+import { Checkbox, SelectAll } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
@@ -26,6 +26,8 @@ export function MultiSelectionMenu({
     noOptionsText,
     inputId
 }: MultiSelectionMenuProps): ReactElement {
+    const allSelected = compareArrays(selectableItems, selector.currentValue);
+    console.log(allSelected);
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
@@ -33,6 +35,10 @@ export function MultiSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
         >
+            <div className="widget-combobox-menu-header">
+                <SelectAll allSelected={allSelected} />
+                {/* <UnselectAll /> */}
+            </div>
             {isOpen &&
                 selectableItems.map((item, index) => {
                     const isActive = highlightedIndex === index;
@@ -56,3 +62,7 @@ export function MultiSelectionMenu({
         </ComboboxMenuWrapper>
     );
 }
+
+const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
+    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
+};

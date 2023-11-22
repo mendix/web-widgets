@@ -252,6 +252,16 @@ $disabled-text-color: #6c7180;
         }
     }
 
+    &-select-all-icon {
+        color: $disabled-text-color;
+        &.active {
+            color: $brand-primary;
+        }
+        &:hover {
+            color: $brand-primary;
+        }
+    }
+
     &-down-checkbox-icon {
         fill: transparent;
         &:not(.checked) {
