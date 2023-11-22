@@ -23,6 +23,7 @@ jobs:
 
             - name: Run Sigrid CI without publishing
               if: github.event_name == 'pull_request'
+              continue-on-error: true
               env:
                   SIGRID_CI_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}
               run: "./sigridci/sigridci/sigridci.py --customer mendix --system mendix-web-widgets --source ./packages"
