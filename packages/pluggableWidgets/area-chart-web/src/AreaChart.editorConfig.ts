@@ -33,7 +33,10 @@ export function getProperties(
                 "dynamicYAttribute",
                 "dynamicName",
                 "dynamicTooltipHoverText",
-                "groupByAttribute"
+                "groupByAttribute",
+                "dynamicMarkerColor",
+                "dynamicLineColor",
+                "dynamicFillColor"
             ]);
         } else {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -41,11 +44,17 @@ export function getProperties(
                 "staticXAttribute",
                 "staticYAttribute",
                 "staticName",
-                "staticTooltipHoverText"
+                "staticTooltipHoverText",
+                "staticLineColor",
+                "staticMarkerColor",
+                "staticFillColor"
             ]);
         }
         if (line.lineStyle !== "lineWithMarkers") {
-            hideNestedPropertiesIn(defaultProperties, values, "series", index, ["markerColor"]);
+            hideNestedPropertiesIn(defaultProperties, values, "series", index, [
+                "staticMarkerColor",
+                "dynamicMarkerColor"
+            ]);
         }
         if (!values.enableAdvancedOptions && platform === "web") {
             hidePropertyIn(defaultProperties, values, "series", index, "customSeriesOptions");
@@ -75,7 +84,7 @@ export function getPreview(values: AreaChartPreviewProps, isDarkMode: boolean): 
         light: { structure: AreaChartLightSvg, legend: AreaChartLegendLightSvg }
     };
 
-    const getImage = (type: "structure" | "legend") => {
+    const getImage = (type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[colorMode][type];
     };

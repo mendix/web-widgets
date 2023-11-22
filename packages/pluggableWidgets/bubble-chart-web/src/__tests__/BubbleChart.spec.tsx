@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts";
 import {
     EditableValueBuilder,
@@ -7,9 +6,11 @@ import {
     dynamicValue
 } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
-import { mount, ReactWrapper } from "enzyme";
-import { BubbleChart } from "../BubbleChart";
+import { ReactWrapper, mount } from "enzyme";
+import { ListExpressionValue } from "mendix";
+import { createElement } from "react";
 import { LinesType } from "../../typings/BubbleChartProps";
+import { BubbleChart } from "../BubbleChart";
 
 jest.mock("@mendix/shared-charts", () => ({
     ChartWidget: jest.fn(() => null)
@@ -46,7 +47,7 @@ describe("The Bubble widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const bubbleChart = renderBubbleChart([{ markerColor: dynamicValue("red") }, { markerColor: undefined }]);
+        const bubbleChart = renderBubbleChart([{ staticMarkerColor: exp("red") }, { staticMarkerColor: undefined }]);
         const data = bubbleChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", "red");
@@ -91,11 +92,15 @@ function setupBasicSeries(overwriteConfig: Partial<LinesType>): LinesType {
         dataSet: "static",
         customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
         aggregationType: overwriteConfig.aggregationType ?? "avg",
-        markerColor: overwriteConfig.markerColor ?? undefined,
+        staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
         staticDataSource: ListValueBuilder().simple(),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute,
         autosize: true,
         sizeref: 10
     };
+}
+
+function exp(value: string): ListExpressionValue<string> {
+    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

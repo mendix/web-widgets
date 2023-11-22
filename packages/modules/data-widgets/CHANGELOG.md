@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.3] DataWidgets - 2023-11-21
+
+### [2.10.3] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with clickable rows not having pointer (hand) cursor on hover.
+
 ## [2.10.2] DataWidgets - 2023-11-13
 
 ### [2.10.2] Datagrid

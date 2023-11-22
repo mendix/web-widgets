@@ -55,7 +55,7 @@ export const BubbleChart = memo(
 
         const chartBubbles = usePlotChartDataSeries(
             props.lines,
-            useCallback((line, dataPoints) => {
+            useCallback((line, dataPoints, { getExpressionValue }) => {
                 const size = getSizes(line);
                 const markerOptions = calculateSizeRef(
                     line,
@@ -67,11 +67,15 @@ export const BubbleChart = memo(
                         heightUnit: props.heightUnit
                     }
                 );
+                const markerColorExpression =
+                    line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
                 return {
                     type: "scatter",
                     mode: "markers",
                     marker: {
-                        color: line.markerColor?.value,
+                        color: markerColorExpression
+                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                            : undefined,
                         symbol: ["circle"],
                         size,
                         ...markerOptions

@@ -3,6 +3,7 @@
 const { defineConfig } = require("cypress");
 const getCompareSnapshotsPlugin = require("cypress-image-diff-js/dist/plugin");
 const installLogsPrinter = require("cypress-terminal-report/src/installLogsPrinter");
+const { readExcelFile } = require("./utils/read-excel.cjs");
 
 module.exports = defineConfig({
     e2e: {
@@ -12,6 +13,7 @@ module.exports = defineConfig({
                 printLogsToConsole: "onFail"
             });
             on("task", {
+                readExcelFile,
                 log(message) {
                     console.log(message);
 

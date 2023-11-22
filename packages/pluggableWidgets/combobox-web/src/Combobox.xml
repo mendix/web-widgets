@@ -172,13 +172,19 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
-                <property key="clearButtonAriaLabel" type="string" defaultValue="Clear selection" required="true">
-                    <caption>Clear selection</caption>
-                    <description />
+                <property key="clearButtonAriaLabel" type="textTemplate" required="true">
+                    <caption>Clear selection button</caption>
+                    <description>Used to clear all selected values.</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
                 </property>
-                <property key="removeValueAriaLabel" type="string" defaultValue="Remove value" required="true">
-                    <caption>Remove value</caption>
-                    <description>Used for the individual selected value labels in multi-selection.</description>
+                <property key="removeValueAriaLabel" type="textTemplate" required="true">
+                    <caption>Remove value button</caption>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <translations>
+                        <translation lang="en_US">Remove value</translation>
+                    </translations>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Accessibility Status Message ">

@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.3] Charts - 2023-11-21
+
+### [3.1.3] AreaChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "line color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "line color" expression editor. With this fix, entity attributes are accessible in the expression editor again for all "line color", "marker color", and "fill color" settings.
+
+### [3.1.3] BarChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "bar color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "bar color" expression editor. With this fix, entity attributes are accessible in the expression editor again for "bar color" setting.
+
+### [3.1.3] BubbleChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "marker color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "marker color" expression editor. With this fix, entity attributes are accessible in the expression editor again for "marker color" settings.
+
+### [3.1.3] ColumnChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "column color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "column color" expression editor. With this fix, entity attributes are accessible in the expression editor again for "column color" setting.
+
+### [3.1.2] PieChart
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select entity attributes in the "slice color" expression editor. In versions of the widget before 4.0, after configuring the data source, entity attributes were available in the "slice color" expression editor. With this fix, entity attributes are accessible in the expression editor again for "slice color" setting.
+
 ## [4.2.2] Charts - 2023-10-27
 
 ### Fixed

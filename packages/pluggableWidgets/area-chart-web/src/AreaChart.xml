@@ -145,17 +145,35 @@
                                     <enumerationValue key="custom">Custom</enumerationValue>
                                 </enumerationValues>
                             </property>
-                            <property key="lineColor" type="textTemplate" required="false" multiline="false">
+                            <property key="staticLineColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Line color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="markerColor" type="textTemplate" required="false" multiline="false">
+                            <property key="dynamicLineColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Line color</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="staticMarkerColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Marker color</caption>
                                 <description />
+                                <returnType type="String" />
                             </property>
-                            <property key="fillcolor" type="textTemplate" required="false" multiline="false">
+                            <property key="dynamicMarkerColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Marker color</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="staticFillColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Area fill color</caption>
                                 <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="dynamicFillColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Area fill color</caption>
+                                <description />
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Events">

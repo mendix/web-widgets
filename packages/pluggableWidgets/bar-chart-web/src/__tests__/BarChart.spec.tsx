@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts";
 import {
     dynamicValue,
@@ -8,6 +7,8 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
+import { ListExpressionValue } from "mendix";
+import { createElement } from "react";
 import { SeriesType } from "../../typings/BarChartProps";
 import { BarChart } from "../BarChart";
 
@@ -46,7 +47,7 @@ describe("The BarChart widget", () => {
     });
 
     it("sets the bar color on the data series based on the barColor value", () => {
-        const barChart = renderBarChart([{ barColor: dynamicValue("red") }, { barColor: undefined }]);
+        const barChart = renderBarChart([{ staticBarColor: exp("red") }, { staticBarColor: undefined }]);
         const data = barChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", "red");
@@ -91,9 +92,13 @@ function setupBasicSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
         dataSet: "static",
         customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
         aggregationType: overwriteConfig.aggregationType ?? "avg",
-        barColor: overwriteConfig.barColor ?? undefined,
+        staticBarColor: overwriteConfig.staticBarColor ?? undefined,
         staticDataSource: ListValueBuilder().simple(),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute
     };
+}
+
+function exp(value: string): ListExpressionValue<string> {
+    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

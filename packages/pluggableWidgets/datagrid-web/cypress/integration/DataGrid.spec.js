@@ -1,37 +1,64 @@
+import * as path from "path";
+
 describe("datagrid-web", () => {
     const browserName = Cypress.browser.name;
-    const cleanMendixSession = () => {
-        cy.window().then(window => {
-            // Cypress opens a new session for every test, so it exceeds mendix license limit of 5 sessions, we need to logout after each test.
-            window.mx.session.logout();
+
+    describe("capabilities: export to Excel", () => {
+        it("check if export to Excel generates correct output", () => {
+            const downloadsFolder = Cypress.config("downloadsFolder");
+            const downloadedFilename = path.join(downloadsFolder, "testFilename.xlsx");
+
+            cy.visit("/p/export-excel");
+            cy.get(".mx-name-dataGridExportExcel").should("be.visible");
+            cy.get(".mx-name-exportButton").click({ force: true });
+            cy.log("**Confirm downloaded file**");
+            cy.readFile(downloadedFilename, "binary", { timeout: 15000 }).should(buffer => {
+                expect(buffer.length).to.be.gt(100);
+            });
+
+            cy.log("**The file exists**");
+            cy.task("readExcelFile", downloadedFilename)
+                // returns an array of lines read from Excel file
+                .should("have.length", 51)
+                .then(list => {
+                    expect(list[0], "header line").to.deep.equal([
+                        "First name",
+                        "Birth date",
+                        "Birth year",
+                        "Color (enum)",
+                        "Roles (ref set)"
+                    ]);
+
+                    expect(list[1], "first person").to.deep.equal([
+                        "Loretta",
+                        "2/15/1983",
+                        "1983",
+                        "Black",
+                        "n/a (custom content)"
+                    ]);
+                });
         });
-    };
-
-    beforeEach(() => {
-        cy.visit("/"); // resets page
     });
-
-    afterEach(() => cleanMendixSession());
 
     describe("capabilities: sorting", () => {
         it("applies the default sort order from the data source option", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .column-header").eq(1).should("have.text", "First Name");
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
                 .find("svg")
                 .should("have.attr", "data-icon", "arrows-alt-v");
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .td").should("have.text", "12test3test311test2test210testtest");
         });
 
         it("changes order of data to ASC when clicking sort option", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .column-header").eq(1).should("have.text", "First Name");
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
                 .find("svg")
                 .should("have.attr", "data-icon", "arrows-alt-v");
             cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
                 .find("svg")
@@ -40,10 +67,10 @@ describe("datagrid-web", () => {
         });
 
         it("changes order of data to DESC when clicking sort option", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .column-header").eq(1).should("have.text", "First Name");
             cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
             cy.get(".mx-name-datagrid1 .column-header").eq(1).click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .column-header")
                 .eq(1)
                 .find("svg")
@@ -77,17 +104,17 @@ describe("datagrid-web", () => {
 
     describe("capabilities: hiding", () => {
         it("hides a selected column", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .column-header").first().contains("Age");
             cy.get(".mx-name-datagrid1 .column-selector-button").click();
             cy.get(".column-selectors > li").first().click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1 .column-header").first().contains("First Name");
         });
 
         it("hide column saved on configuration attribute capability", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid5 .column-selector-button").click();
             cy.get(".column-selectors > li").first().click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid5 .column-header").first().contains("Last Name");
             cy.get(".mx-name-textArea1 textarea").should(
                 "have.text",
@@ -96,14 +123,15 @@ describe("datagrid-web", () => {
         });
 
         it("hide column by default enabled", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid6 .column-header").first().contains("First Name");
             cy.get(".mx-name-datagrid6 .column-selector-button").click();
             cy.get(".column-selectors > li").first().click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid6 .column-header").first().contains("Id");
         });
 
         it("do not allow to hide last visible column", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .column-header").first().should("be.visible");
             cy.get(".mx-name-datagrid1 .column-selector-button").click();
             cy.get(".column-selectors input:checked").should("have.length", 3);
@@ -123,16 +151,16 @@ describe("datagrid-web", () => {
 
     describe("capabilities: onClick action", () => {
         it("check the context", () => {
+            cy.visit("/");
             cy.get(".mx-name-datagrid1 .td").first().should("have.text", "12");
             cy.get(".mx-name-datagrid1 .td").first().click();
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-AgeTextBox input").should("have.value", "12");
         });
     });
 
     describe("manual column width", () => {
         it("compares with a screenshot baseline and checks the column width is with correct size", () => {
-            cy.wait(4000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.visit("/");
             cy.get(".mx-name-datagrid7").scrollIntoView();
             cy.get(".mx-name-datagrid7").compareSnapshot(`dataGridColumnContent-${browserName}`, 0.2);
         });
@@ -140,7 +168,8 @@ describe("datagrid-web", () => {
 
     describe("visual testing:", () => {
         it("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", () => {
-            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.visit("/");
+            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-datagrid1").should("be.visible");
             cy.get(".mx-name-datagrid1").compareSnapshot(`datagrid-${browserName}`, 0.1);
         });
@@ -150,7 +179,7 @@ describe("datagrid-web", () => {
         it("checks accessibility violations", () => {
             cy.visit("/");
             cy.injectAxe();
-            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.configureAxe({
                 //TODO: Skipped some rules as we still need to review them
                 rules: [
