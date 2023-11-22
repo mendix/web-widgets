@@ -37,6 +37,7 @@
     "mochawesome-merge": "^4.3.0",
     "mochawesome-report-generator": "^6.2.0",
     "node-fetch": "^2.6.9",
+    "read-excel-file": "^5.7.1",
     "shelljs": "^0.8.5",
     "yargs-parser": "^21.1.1"
   },
