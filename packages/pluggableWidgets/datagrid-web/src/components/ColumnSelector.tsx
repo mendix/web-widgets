@@ -64,7 +64,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column: GridColumn, index) => {
-                const isVisible = !columnsHidden.includes(column.columnNumber);
+                const isVisible = !props.hiddenColumns.includes(column.columnNumber);
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (
                     <li
