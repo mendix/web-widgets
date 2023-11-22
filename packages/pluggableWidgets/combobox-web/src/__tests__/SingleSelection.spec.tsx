@@ -7,7 +7,7 @@ import {
     ReferenceValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render, RenderResult } from "@testing-library/react";
+import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
@@ -75,9 +75,13 @@ describe("Combo box (Association)", () => {
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const toggleButton = await getToggleButton(component);
-        fireEvent.click(toggleButton);
-        expect(component.getAllByRole("option")).toHaveLength(4);
-        fireEvent.click(toggleButton);
+        await act(() => {
+            fireEvent.click(toggleButton);
+        });
+        await waitFor(() => {
+            expect(component.getAllByRole("option")).toHaveLength(4);
+            fireEvent.click(toggleButton);
+        });
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
     it("sets option to selected item", async () => {

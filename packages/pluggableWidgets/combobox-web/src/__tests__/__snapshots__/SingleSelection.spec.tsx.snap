@@ -84,6 +84,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: hidden; position: fixed;"
     >
       <ul
         aria-labelledby="comboBox1-label"
