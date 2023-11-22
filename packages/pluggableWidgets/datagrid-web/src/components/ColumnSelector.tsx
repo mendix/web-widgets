@@ -20,9 +20,6 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const position = usePositionObserver(buttonRef.current, show);
-    const columnsHidden = props.columns.flatMap(column =>
-        props.hiddenColumns.includes(column.columnNumber) ? [column.columnNumber] : []
-    );
     const isOnlyOneColumnVisible = visibleLength === 1;
 
     useOnClickOutside([buttonRef, optionsRef], () => setShow(false));
