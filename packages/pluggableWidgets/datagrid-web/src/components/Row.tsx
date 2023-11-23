@@ -15,6 +15,8 @@ export interface RowProps<C extends GridColumn> {
     index: number;
     showSelectorCell?: boolean;
     rowAction?: ListActionValue;
+    preview: boolean;
+    selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
 }
 
 const onChangeStub = (): void => {
@@ -49,18 +51,20 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     <input checked={selected} onChange={onChangeStub} type="checkbox" tabIndex={-1} />
                 </CellElement>
             )}
-            {props.columns.map((column, columnIndex) => {
-                return (
+            {props.columns.map((column, baseIndex) => {
+                const cell = (
                     <Cell
                         key={`row_${props.item.id}_col_${column.columnNumber}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={columnIndex}
+                        columnIndex={baseIndex}
                         item={props.item}
                         clickable={cellClickableClass}
                         preview={preview}
                     />
                 );
+
+                return preview ? props.selectableWrapper(baseIndex, cell) : cell;
             })}
             {props.showSelectorCell && (
                 <CellElement
