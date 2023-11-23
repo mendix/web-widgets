@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from "react";
 import { EditableValue, ValueStatus } from "mendix";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { GridColumn } from "../typings/GridColumn";
@@ -32,7 +32,7 @@ export interface ColumnWidthConfig {
 
 export function createSettings(
     { columnOrder, hiddenColumns, sortBy, widths }: Settings,
-    columns: Array<{ header: string; columnNumber: number }>
+    columns: GridColumn[]
 ): PersistedSettings[] {
     return columns.map(column => {
         const columnIndex = columnOrder.findIndex(o => o === column.columnNumber);
@@ -62,15 +62,6 @@ export function useSettings(
     const previousLoadedSettings = useRef<string>();
     const shouldUpdate = useRef(true);
 
-    const filteredColumns = useMemo(
-        () =>
-            columns.map(c => ({
-                header: c.header,
-                columnNumber: c.columnNumber
-            })) as Array<{ header: string; columnNumber: number }>,
-        [columns]
-    );
-
     const setColumnOrderStable = useEventCallback(setColumnOrder);
     const setHiddenColumnsStable = useEventCallback(setHiddenColumns);
     const setSortByStable = useEventCallback(setSortBy);
@@ -79,21 +70,21 @@ export function useSettings(
     useEffect(() => {
         if (settings && settings.status !== ValueStatus.Loading && settings.value && settings.value !== prevSettings) {
             const newSettings = JSON.parse(settings.value) as PersistedSettings[];
-            const columns = newSettings.map(columnSettings => ({
+            const columnsSettings = newSettings.map(columnSettings => ({
                 ...columnSettings,
-                columnNumber: filteredColumns.find(c => c.header === columnSettings.column)?.columnNumber ?? -1
+                columnNumber: columns.find(c => c.header === columnSettings.column)?.columnNumber ?? -1
             }));
 
             const extractedSettings: Settings = {
-                columnOrder: columns.sort((a, b) => a.order - b.order).map(s => s.columnNumber),
-                hiddenColumns: columns.filter(s => s.hidden).map(s => s.columnNumber),
-                sortBy: columns
+                columnOrder: columnsSettings.sort((a, b) => a.order - b.order).map(s => s.columnNumber),
+                hiddenColumns: columnsSettings.filter(s => s.hidden).map(s => s.columnNumber),
+                sortBy: columnsSettings
                     .filter(s => s.sort)
                     .map(s => ({
                         columnNumber: s.columnNumber,
                         desc: s.sortMethod === "desc"
                     })),
-                widths: Object.fromEntries(columns.map(s => [s.columnNumber, s.width]))
+                widths: Object.fromEntries(columnsSettings.map(s => [s.columnNumber, s.width]))
             };
 
             previousLoadedSettings.current = settings.value;
@@ -112,7 +103,7 @@ export function useSettings(
         }
     }, [
         settings,
-        filteredColumns,
+        columns,
         prevSettings,
         setColumnOrderStable,
         setHiddenColumnsStable,
@@ -130,7 +121,7 @@ export function useSettings(
                         sortBy,
                         widths
                     },
-                    filteredColumns
+                    columns
                 ) ?? []
             );
             if (previousLoadedSettings.current !== newSettings && settings.value !== newSettings) {
@@ -138,7 +129,7 @@ export function useSettings(
                 previousLoadedSettings.current = newSettings;
             }
         }
-    }, [settings, columnOrder, hiddenColumns, sortBy, widths, filteredColumns]);
+    }, [settings, columnOrder, hiddenColumns, sortBy, widths, columns]);
 
     return { updateSettings };
 }
