@@ -1,7 +1,7 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { AlignmentEnum, ColumnsType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, ColumnsType, WidthEnum } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
 
 export class Column implements GridColumn {
@@ -10,7 +10,6 @@ export class Column implements GridColumn {
     canHide: boolean;
     canResize: boolean;
     columnNumber: number;
-    hidable: HidableEnum;
     hidden: boolean;
     visible: boolean;
     weight: number;
@@ -26,7 +25,6 @@ export class Column implements GridColumn {
         this.canResize = props.resizable;
         this.columnNumber = columnNumber;
         this.gridId = gridId;
-        this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
         this.visible = props.visible?.value ?? false;
         this.props = props;

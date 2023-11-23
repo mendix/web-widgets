@@ -66,9 +66,8 @@ export function useSettings(
         () =>
             columns.map(c => ({
                 header: c.header,
-                columnNumber: c.columnNumber,
-                hidable: c.hidable
-            })) as Array<{ header: string; columnNumber: number; hidable: string }>,
+                columnNumber: c.columnNumber
+            })) as Array<{ header: string; columnNumber: number }>,
         [columns]
     );
 

@@ -1,5 +1,5 @@
 import { createElement, ReactElement } from "react";
-import { AlignmentEnum, ColumnsPreviewType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, ColumnsPreviewType, WidthEnum } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
 
 export class ColumnPreview implements GridColumn {
@@ -8,7 +8,6 @@ export class ColumnPreview implements GridColumn {
     canHide: boolean;
     canResize: boolean;
     columnNumber: number;
-    hidable: HidableEnum;
     hidden: boolean;
     visible: boolean;
     weight: number;
@@ -25,7 +24,6 @@ export class ColumnPreview implements GridColumn {
         this.canDrag = props.draggable;
         this.canHide = props.hidable !== "no";
         this.canResize = props.resizable;
-        this.hidable = props.hidable;
         this.hidden = props.hidable === "hidden";
         this.visible = props.visible === "true";
         this.columnNumber = columnNumber;
