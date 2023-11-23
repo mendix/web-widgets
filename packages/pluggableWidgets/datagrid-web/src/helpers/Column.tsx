@@ -1,4 +1,3 @@
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType, WidthEnum } from "../../typings/DatagridProps";
@@ -44,12 +43,7 @@ export class Column implements GridColumn {
         return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {
-        let value: string | undefined;
-        if (this.props.header && isAvailable(this.props.header)) {
-            value = this.props.header.value;
-        }
-
-        return value ?? "";
+        return this.props.header?.value ?? "";
     }
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
