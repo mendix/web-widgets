@@ -132,8 +132,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
       '@types/cross-zip':
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^4.0.2
+        version: 4.0.2
       '@types/node-fetch':
         specifier: 2.6.2
         version: 2.6.2
@@ -4290,8 +4290,7 @@ packages:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
     dependencies:
       eslint: 8.53.0
-      eslint-visitor-keys: 3.4.3
-    dev: false
+      eslint-visitor-keys: 3.4.1
 
   /@eslint-community/regexpp@4.10.0:
     resolution: {integrity: sha512-Cu96Sd2By9mCNTx2iyKOmq10v22jUVQv0lQnlGNy16oE9589yE+QADPbrMGCkA51cKZSg3Pu/aTJVTGfL/qjUA==}
@@ -5573,8 +5572,8 @@ packages:
     resolution: {integrity: sha512-yfXbcdeOPPEpqtW69lBpaVAuOgr2hIe9WAAKfkz79ubVHXTv3tQ20F44vFTNdPfdYBt+BER6EOkNXj/KcoRJUQ==}
     dev: true
 
-  /@types/cross-zip@4.0.0:
-    resolution: {integrity: sha512-jZRaaM3aib7qgVhCWeo76vVNJW+8+ujJzP/JHPPA4WUp5YBNMsqiyu5uYWg2eS05+jgSfb5NN8eqrAG72Ab2kA==}
+  /@types/cross-zip@4.0.2:
+    resolution: {integrity: sha512-yvTQ6/tWlGdykh6qkVigwmq42gi51qHPdi7e60KRmPCxeYj5QcX8RX0T6jCDIWcHNWLMVw1IuoMehGcwDuzrYw==}
     dev: true
 
   /@types/date-arithmetic@3.1.2:
@@ -14122,7 +14121,7 @@ packages:
       react: '>=16.3.0 || 18'
       react-dom: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.22.5
       '@popperjs/core': 2.11.8
       '@restart/hooks': 0.4.9(react@18.2.0)
       '@types/warning': 3.0.0
