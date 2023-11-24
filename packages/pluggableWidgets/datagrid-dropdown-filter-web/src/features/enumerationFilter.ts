@@ -1,5 +1,5 @@
 import {
-    ConditionDispatch,
+    DispatchFilterUpdate,
     FilterContextValue,
     FilterType,
     error,
@@ -171,7 +171,7 @@ export function getOptions(params: GetOptionsParams): Result<Option[], EnumFilte
 }
 
 export function getOnChange(
-    dispatch: ConditionDispatch,
+    dispatch: DispatchFilterUpdate,
     attributes: AttrsArray,
     widgetProps: DatagridDropdownFilterContainerProps
 ): (values: Option[]) => void {
