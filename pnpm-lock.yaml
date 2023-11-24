@@ -195,8 +195,8 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1
       plotly.js:
-        specifier: ^2.26.2
-        version: 2.26.2
+        specifier: ^2.27.1
+        version: 2.27.1
       react-ace:
         specifier: ^10.1.0
         version: 10.1.0(react-dom@17.0.2)(react@18.2.0)
@@ -220,8 +220,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
       '@types/plotly.js':
-        specifier: ~2.12.27
-        version: 2.12.27
+        specifier: ~2.12.30
+        version: 2.12.30
       copy-webpack-plugin:
         specifier: ^11.0.0
         version: 11.0.0(webpack@5.75.0)
@@ -1996,14 +1996,14 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1
       plotly.js:
-        specifier: ^2.26.2
-        version: 2.26.2
+        specifier: ^2.27.1
+        version: 2.27.1
       react-ace:
         specifier: ^10.1.0
         version: 10.1.0(react-dom@18.2.0)(react@18.2.0)
       react-plotly.js:
         specifier: ^2.6.0
-        version: 2.6.0(plotly.js@2.26.2)(react@18.2.0)
+        version: 2.6.0(plotly.js@2.27.1)(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2027,8 +2027,8 @@ importers:
         specifier: workspace:*
         version: link:../widget-plugin-test-utils
       '@types/plotly.js':
-        specifier: ^2.12.27
-        version: 2.12.27
+        specifier: ^2.12.30
+        version: 2.12.30
       '@types/react-plotly.js':
         specifier: ^2.5.0
         version: 2.5.0
@@ -5754,8 +5754,8 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
-  /@types/plotly.js@2.12.27:
-    resolution: {integrity: sha512-Ah7XuePFNxu2XAHG79GeKN/Ky8dZ0k6hzy49da6AeZFrTqO5wDbtJovp3co3C+iRitp8tA6rIxkltiJ3cjsQWw==}
+  /@types/plotly.js@2.12.30:
+    resolution: {integrity: sha512-/yeGIFTrh5e5Q9HUCVZWDwwxqGyWHYsi4IVhG/1YKaOScslMlimLBIoce/F/Tjw7YahRTbh4xHNDfGxvq51w7Q==}
     dev: true
 
   /@types/prop-types@15.7.9:
@@ -5823,7 +5823,7 @@ packages:
   /@types/react-plotly.js@2.5.0:
     resolution: {integrity: sha512-bda7N/Y65d1x0FfwhgUXAugGeG9CRIxmkW/yBL8PVFUMvZGpfEnw4bXKjDozBYlOskVfxj6UQ9IKmZI6CZ7/QQ==}
     dependencies:
-      '@types/plotly.js': 2.12.27
+      '@types/plotly.js': 2.12.30
       '@types/react': 18.2.36
     dev: true
 
@@ -12639,7 +12639,7 @@ packages:
     dependencies:
       debug: 3.2.7
       iconv-lite: 0.4.24
-      sax: 1.2.4
+      sax: 1.3.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -13119,8 +13119,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /plotly.js@2.26.2:
-    resolution: {integrity: sha512-HJv4n1I1SFTmY1+kzkLzrRyqqWVJ6r0JekvPKP0XtxITr8jugMJNJBFiErlKiPvSz8hcDEMwys5QIdFsK57KYw==}
+  /plotly.js@2.27.1:
+    resolution: {integrity: sha512-XeE0zTJWTxURYrUJqzf73l8lTb+HnyRvvhHkoSIEvWf58ins4saopo9l25kCm+xHAGz8E/2EOncE4DyXsJ34kA==}
     dependencies:
       '@plotly/d3': 3.8.1
       '@plotly/d3-sankey': 0.7.2
@@ -14151,13 +14151,13 @@ packages:
       warning: 4.0.3
     dev: false
 
-  /react-plotly.js@2.6.0(plotly.js@2.26.2)(react@18.2.0):
+  /react-plotly.js@2.6.0(plotly.js@2.27.1)(react@18.2.0):
     resolution: {integrity: sha512-g93xcyhAVCSt9kV1svqG1clAEdL6k3U+jjuSzfTV7owaSU9Go6Ph8bl25J+jKfKvIGAEYpe4qj++WHJuc9IaeA==}
     peerDependencies:
       plotly.js: '>1.34.0'
       react: '>0.13.0 || 18'
     dependencies:
-      plotly.js: 2.26.2
+      plotly.js: 2.27.1
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
@@ -14883,13 +14883,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /sax@1.2.4:
-    resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
-    dev: false
-
   /sax@1.3.0:
     resolution: {integrity: sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==}
-    dev: true
 
   /saxes@6.0.0:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
