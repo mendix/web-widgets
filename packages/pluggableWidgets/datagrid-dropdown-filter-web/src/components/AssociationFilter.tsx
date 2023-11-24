@@ -1,4 +1,8 @@
-import { ConditionDispatch, AssociationProperties, getFilterAssociationProps } from "@mendix/widget-plugin-filtering";
+import {
+    DispatchFilterUpdate,
+    AssociationProperties,
+    getFilterAssociationProps
+} from "@mendix/widget-plugin-filtering";
 import { useLazyListValue } from "@mendix/widget-plugin-hooks/useLazyListValue";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";
@@ -34,7 +38,7 @@ function DropdownFooter(props: DropdownFooterProps): JSX.Element | null {
 }
 
 interface DropdownProps {
-    dispatch: ConditionDispatch;
+    dispatch: DispatchFilterUpdate;
     widgetProps: DatagridDropdownFilterContainerProps;
     associationProps: AssociationProperties;
 }
