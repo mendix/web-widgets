@@ -5,7 +5,7 @@ import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection"
 import {
     getGlobalFilterContextObject,
     useMultipleFiltering,
-    readInitFilterProps
+    readInitFilterValues
 } from "@mendix/widget-plugin-filtering";
 
 interface WidgetHeaderContextProps {
@@ -29,7 +29,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
         props.filterList.reduce(
             (filters, { filter }) => ({
                 ...filters,
-                [filter.id]: readInitFilterProps(filter, props.viewStateFilters)
+                [filter.id]: readInitFilterValues(filter, props.viewStateFilters)
             }),
             {}
         )
