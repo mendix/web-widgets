@@ -26,7 +26,7 @@
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/cross-zip": "^4.0.0",
+    "@types/cross-zip": "^4.0.2",
     "@types/node-fetch": "2.6.2",
     "chalk": "^4.1.2",
     "cross-zip": "^4.0.0",
