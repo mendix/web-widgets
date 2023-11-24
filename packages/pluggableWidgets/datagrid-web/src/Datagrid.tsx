@@ -3,7 +3,7 @@ import {
     FilterType,
     useFilterContext,
     useMultipleFiltering,
-    readInitFilterProps
+    readInitFilterValues
 } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
@@ -166,7 +166,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = readInitFilterProps(attribute, viewStateFilters.current);
+                    const initialFilters = readInitFilterValues(attribute, viewStateFilters.current);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
