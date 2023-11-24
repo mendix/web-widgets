@@ -2,8 +2,7 @@ import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 
 export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
-export type FilterFunction = BinaryExpression["name"];
-export type InitialFilterValue = { type: FilterFunction; value: LiteralExpression["value"] };
+export type InitialFilterValue = { type: BinaryExpression["name"]; value: LiteralExpression["value"] };
 
 const hasOwn = (o: object, k: PropertyKey): boolean => Object.prototype.hasOwnProperty.call(o, k);
 
@@ -20,7 +19,7 @@ function isTypedLiteral(exp: object): exp is LiteralExpression {
  * then it pull name and value from that condition.
  * Typical use case - extract filter init props from datasource.filter property.
  */
-function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterValue | undefined {
+function getInitValueByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterValue | undefined {
     if (
         isBinary(cond) &&
         cond.arg1.type === "attribute" &&
@@ -42,7 +41,7 @@ function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): In
  * - that we have same attribute used in two places
  * - that some of the filters (usually date) use "between"
  */
-export function readInitFilterProps(
+export function readInitFilterValues(
     attribute: ListAttributeValue | undefined,
     dataSourceFilter?: FilterCondition
 ): InitialFilterValue[] {
@@ -51,8 +50,8 @@ export function readInitFilterProps(
     }
     const cs = splitAndOrStatements(dataSourceFilter) ?? [];
     return cs.flatMap(cond => {
-        const props = getInitPropsByAttr(cond, attribute);
-        return props ? [props] : [];
+        const value = getInitValueByAttr(cond, attribute);
+        return value ? [value] : [];
     });
 }
 

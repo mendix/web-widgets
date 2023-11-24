@@ -5,7 +5,11 @@ import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { InitialFilterValue } from "./read-init-props.js";
 import { Result, error, value } from "./result-meta.js";
 
-export type ListAttributeId = ListAttributeValue["id"];
+type ListAttributeId = ListAttributeValue["id"];
+
+type AttributeByAttrId = Record<ListAttributeId, ListAttributeValue>;
+
+type InitValuesByAttrId = Record<ListAttributeId, InitialFilterValue[]>;
 
 export enum FilterType {
     STRING = "string",
@@ -28,16 +32,12 @@ export interface AssociationProperties {
 
 export type DispatchFilterUpdate = Dispatch<FilterState>;
 
-export type AttributeMap = Record<ListAttributeId, ListAttributeValue>;
-
-export type InitPropsMap = Record<ListAttributeId, InitialFilterValue[]>;
-
 export interface FilterContextValue {
     filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
     singleInitialFilter?: InitialFilterValue[];
-    multipleAttributes?: AttributeMap;
-    multipleInitialFilters?: InitPropsMap;
+    multipleAttributes?: AttributeByAttrId;
+    multipleInitialFilters?: InitValuesByAttrId;
     associationProperties?: AssociationProperties;
 }
 

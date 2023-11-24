@@ -1,6 +1,6 @@
 import {
     FilterType,
-    readInitFilterProps,
+    readInitFilterValues,
     useFilterContext,
     useMultipleFiltering
 } from "@mendix/widget-plugin-filtering";
@@ -68,7 +68,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             props.filterList.reduce(
                 (filters, { filter }) => ({
                     ...filters,
-                    [filter.id]: readInitFilterProps(filter, viewStateFilters.current)
+                    [filter.id]: readInitFilterValues(filter, viewStateFilters.current)
                 }),
                 {}
             ),
