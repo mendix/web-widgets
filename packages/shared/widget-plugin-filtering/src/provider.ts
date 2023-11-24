@@ -2,7 +2,7 @@ import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, Lis
 import type { FilterCondition } from "mendix/filters";
 import { Context, Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
-import { InitialFilterProps } from "./read-init-props.js";
+import { InitialFilterValue } from "./read-init-props.js";
 import { Result, error, value } from "./result-meta.js";
 
 export type ListAttributeId = ListAttributeValue["id"];
@@ -30,12 +30,12 @@ export type DispatchFilterUpdate = Dispatch<FilterState>;
 
 export type AttributeMap = Record<ListAttributeId, ListAttributeValue>;
 
-export type InitPropsMap = Record<ListAttributeId, InitialFilterProps[]>;
+export type InitPropsMap = Record<ListAttributeId, InitialFilterValue[]>;
 
 export interface FilterContextValue {
     filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
-    singleInitialFilter?: InitialFilterProps[];
+    singleInitialFilter?: InitialFilterValue[];
     multipleAttributes?: AttributeMap;
     multipleInitialFilters?: InitPropsMap;
     associationProperties?: AssociationProperties;

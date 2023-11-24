@@ -3,7 +3,7 @@ import { FilterCondition, LiteralExpression } from "mendix/filters";
 
 export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
 export type FilterFunction = BinaryExpression["name"];
-export type InitialFilterProps = { type: FilterFunction; value: LiteralExpression["value"] };
+export type InitialFilterValue = { type: FilterFunction; value: LiteralExpression["value"] };
 
 const hasOwn = (o: object, k: PropertyKey): boolean => Object.prototype.hasOwnProperty.call(o, k);
 
@@ -20,7 +20,7 @@ function isTypedLiteral(exp: object): exp is LiteralExpression {
  * then it pull name and value from that condition.
  * Typical use case - extract filter init props from datasource.filter property.
  */
-function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterProps | undefined {
+function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterValue | undefined {
     if (
         isBinary(cond) &&
         cond.arg1.type === "attribute" &&
@@ -45,7 +45,7 @@ function getInitPropsByAttr(cond: FilterCondition, attr: ListAttributeValue): In
 export function readInitFilterProps(
     attribute: ListAttributeValue | undefined,
     dataSourceFilter?: FilterCondition
-): InitialFilterProps[] {
+): InitialFilterValue[] {
     if (!attribute || !dataSourceFilter) {
         return [];
     }
