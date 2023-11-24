@@ -1,4 +1,4 @@
-import { ConditionDispatch } from "@mendix/widget-plugin-filtering";
+import { DispatchFilterUpdate } from "@mendix/widget-plugin-filtering";
 import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 import { ActionValue, ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
 import { referenceEqualsOneOf, referenceSetContainsOneOf } from "../utils/condition";
@@ -24,7 +24,7 @@ export function getOptions<T extends ObjectItem>(items: T[], getLabel: (o: T) =>
 }
 
 export function getOnChange(
-    dispatch: ConditionDispatch,
+    dispatch: DispatchFilterUpdate,
     association: ListReferenceValue | ListReferenceSetValue,
     objectMap: ValueToObjectMap,
     onChangeAction?: ActionValue
