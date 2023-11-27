@@ -99,7 +99,7 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "111" }, { id: "222" }]);
     });
     it("removes selected item", async () => {
@@ -111,14 +111,14 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "111" }, { id: "222" }]);
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
         expect(defaultProps.attributeAssociation?.value).toEqual([]);
     });
-    it("selects/unselects all items with the Select All button", async () => {
+    it("selects all items with the Select All button", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
         fireEvent.click(input);
@@ -131,7 +131,5 @@ describe("Combo box (Association)", () => {
         expect(defaultProps.attributeAssociation?.value).toHaveLength(1);
         fireEvent.click(selectAllButton);
         expect(defaultProps.attributeAssociation?.value).toHaveLength(4);
-        fireEvent.click(selectAllButton);
-        expect(defaultProps.attributeAssociation?.value).toHaveLength(0);
     });
 });

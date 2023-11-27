@@ -16,14 +16,12 @@ export function SelectAllButton({
 }: SelectAllButtonProps): ReactElement {
     const allSelected = compareArrays(selectableItems, currentValue);
     const [isHovered, setIsHovered] = useState(false);
-
     return (
         <Fragment>
             <button
                 className="widget-combobox-menu-header-select-all-button"
                 aria-label={selectAllButtonAriaLabel}
                 onClick={e => {
-                    console.log(selectableItems, currentValue);
                     e.stopPropagation();
                     if (!allSelected) {
                         setSelectedItems(selectableItems);
