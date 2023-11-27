@@ -26,7 +26,7 @@ export class ItemPreviewHelper implements GalleryItemHelper {
 
         const content = (
             <Renderer caption={this._dropZoneCaption}>
-                <div style={{ display: "contents" }} />
+                <div />
             </Renderer>
         );
 
@@ -44,7 +44,7 @@ export class ItemPreviewHelper implements GalleryItemHelper {
 
 export function useItemPreviewHelper(params: { contentValue: ContentValue; hasOnClick: boolean }): ItemPreviewHelper {
     return useMemo(
-        () => new ItemPreviewHelper(params.contentValue, "Empty list message: Place widgets here", params.hasOnClick),
+        () => new ItemPreviewHelper(params.contentValue, "Gallery item: Place widgets here", params.hasOnClick),
         [params.contentValue, params.hasOnClick]
     );
 }

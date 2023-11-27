@@ -27,7 +27,7 @@ export interface GalleryProps<T extends ObjectItem> {
     page: number;
     pageSize: number;
     paginationPosition?: "below" | "above";
-    preview?: boolean;
+    showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
     tabletItems: number;
@@ -79,7 +79,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                     </ListBox>
                 )}
             </GalleryContent>
-            {(props.items.length === 0 || props.preview) &&
+            {(props.items.length === 0 || props.showEmptyStatePreview) &&
                 props.emptyPlaceholderRenderer &&
                 props.emptyPlaceholderRenderer(children => (
                     <section className="widget-gallery-empty" aria-label={props.emptyMessageTitle}>
