@@ -42,6 +42,8 @@ describe("Combo box (Association)", () => {
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
+            selectAllButton: true,
+            selectAllButtonAriaLabel: dynamicValue("Select/Unselect All"),
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
@@ -115,5 +117,21 @@ describe("Combo box (Association)", () => {
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
         expect(defaultProps.attributeAssociation?.value).toEqual([]);
+    });
+    it("selects/unselects all items with the Select All button", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        fireEvent.click(input);
+        await waitFor(() => {
+            expect(component.queryAllByRole("option")).toHaveLength(4);
+        });
+        const selectAllButton = await component.container.getElementsByClassName(
+            "widget-combobox-menu-header-select-all-button"
+        )[0];
+        expect(defaultProps.attributeAssociation?.value).toHaveLength(1);
+        fireEvent.click(selectAllButton);
+        expect(defaultProps.attributeAssociation?.value).toHaveLength(4);
+        fireEvent.click(selectAllButton);
+        expect(defaultProps.attributeAssociation?.value).toHaveLength(0);
     });
 });

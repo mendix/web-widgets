@@ -252,12 +252,30 @@ $disabled-text-color: #6c7180;
         }
     }
 
-    &-select-all-icon {
-        color: $disabled-text-color;
-        &.active {
-            color: $brand-primary;
+    &-menu-header {
+        display: flex;
+        align-items: center;
+        padding: 0px 0 6px 10px;
+        height: fit-content;
+        &-select-all-button {
+            display: flex;
+            align-items: center;
+            padding: 0 0 2px 0;
+            background: transparent;
+            border: none;
         }
-        &:hover {
+    }
+
+    &-select-all-button-icon {
+        color: $disabled-text-color;
+        transition: color 0.2s ease-in-out;
+        &:not(.active) {
+            &:hover {
+                transition: color 0.2s ease-in-out;
+                color: $brand-primary;
+            }
+        }
+        &.active {
             color: $brand-primary;
         }
     }

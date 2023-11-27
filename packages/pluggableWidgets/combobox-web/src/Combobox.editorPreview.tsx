@@ -74,7 +74,8 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel,
-                removeSelection: props.removeValueAriaLabel
+                removeSelection: props.removeValueAriaLabel,
+                selectAll: props.selectAllButtonAriaLabel
             },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue,

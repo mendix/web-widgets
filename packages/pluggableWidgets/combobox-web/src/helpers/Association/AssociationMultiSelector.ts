@@ -1,5 +1,5 @@
 import { ReferenceSetValue } from "mendix";
-import { ComboboxContainerProps, SelectionMethodEnum, SelectedItemsStyleEnum } from "../../../typings/ComboboxProps";
+import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } from "../../../typings/ComboboxProps";
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
 
@@ -10,10 +10,12 @@ export class AssociationMultiSelector
     type = "multi" as const;
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
     selectionMethod: SelectionMethodEnum = "checkbox";
+    selectAllButton: boolean = false;
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
+        this.selectAllButton = props.selectAllButton;
         this.currentValue =
             this._attr?.value?.map(value => {
                 return value.id;

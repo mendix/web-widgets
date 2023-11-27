@@ -34,17 +34,15 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     );
 }
 
-export function UnselectAll({ allSelected }: { allSelected?: boolean }): ReactElement {
+export function UnselectAll(): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
+        <span style={{ display: "flex" }}>
             <svg
-                className={classNames("widget-combobox-select-all-icon", {
-                    active: allSelected
-                })}
-                stroke="currentColor"
-                width={40}
-                height={40}
-                viewBox="0 0 32 32"
+                className="widget-combobox-select-all-button-icon"
+                width={16}
+                height={16}
+                viewBox="0 0 20 20"
+                fill="currentColor"
             >
                 <path
                     id="Subtract"
@@ -66,14 +64,14 @@ export function UnselectAll({ allSelected }: { allSelected?: boolean }): ReactEl
 
 export function SelectAll({ allSelected }: { allSelected?: boolean }): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
+        <span style={{ display: "flex" }}>
             <svg
-                className={classNames("widget-combobox-select-all-icon", {
-                    active: !allSelected
+                className={classNames("widget-combobox-select-all-button-icon", {
+                    active: allSelected
                 })}
-                width={40}
-                height={40}
-                viewBox="0 0 32 32"
+                width={16}
+                height={16}
+                viewBox="0 0 20 20"
                 fill="currentColor"
             >
                 <g>

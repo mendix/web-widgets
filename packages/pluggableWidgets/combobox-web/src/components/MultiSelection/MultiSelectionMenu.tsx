@@ -1,9 +1,10 @@
 import { UseComboboxPropGetters } from "downshift/typings";
 import { ReactElement, createElement } from "react";
-import { Checkbox, SelectAll } from "../../assets/icons";
+import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
+import { SelectAllButton } from "../SelectAllButton";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -13,6 +14,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     selector: MultiSelector;
     setSelectedItems: (v: string[]) => void;
     noOptionsText?: string;
+    selectAllButtonAriaLabel: string;
     inputId?: string;
 }
 
@@ -20,14 +22,14 @@ export function MultiSelectionMenu({
     isOpen,
     getMenuProps,
     getItemProps,
+    setSelectedItems,
     highlightedIndex,
     selector,
     selectableItems,
     noOptionsText,
+    selectAllButtonAriaLabel,
     inputId
 }: MultiSelectionMenuProps): ReactElement {
-    const allSelected = compareArrays(selectableItems, selector.currentValue);
-    console.log(allSelected);
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
@@ -35,10 +37,16 @@ export function MultiSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
         >
-            <div className="widget-combobox-menu-header">
-                <SelectAll allSelected={allSelected} />
-                {/* <UnselectAll /> */}
-            </div>
+            {selector.selectAllButton && (
+                <div className="widget-combobox-menu-header">
+                    <SelectAllButton
+                        setSelectedItems={setSelectedItems}
+                        selectableItems={selectableItems}
+                        currentValue={selector.currentValue}
+                        selectAllButtonAriaLabel={selectAllButtonAriaLabel}
+                    />
+                </div>
+            )}
             {isOpen &&
                 selectableItems.map((item, index) => {
                     const isActive = highlightedIndex === index;
@@ -62,7 +70,3 @@ export function MultiSelectionMenu({
         </ComboboxMenuWrapper>
     );
 }
-
-const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
-    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
-};
