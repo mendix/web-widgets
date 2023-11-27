@@ -44,7 +44,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             pageSize={props.pageSize ?? 5}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
-            preview
+            showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
             phoneItems={props.phoneItems!}
             tabletItems={props.tabletItems!}
             selectionProps={selectionProps}
