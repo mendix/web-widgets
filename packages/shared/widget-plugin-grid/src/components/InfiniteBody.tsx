@@ -1,15 +1,16 @@
 import {
     createElement,
-    ReactElement,
-    useCallback,
-    useState,
-    useRef,
-    useLayoutEffect,
-    PropsWithChildren,
     CSSProperties,
-    RefObject
+    PropsWithChildren,
+    ReactElement,
+    RefObject,
+    useCallback,
+    useLayoutEffect,
+    useRef,
+    useState
 } from "react";
 import classNames from "classnames";
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;
@@ -26,6 +27,7 @@ export function useInfiniteControl(
     const { setPage, hasMoreItems, isInfinite } = props;
     const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const isVisible = useOnScreen(containerRef);
 
     const trackScrolling = useCallback(
         (e: any) => {
@@ -46,10 +48,10 @@ export function useInfiniteControl(
     );
 
     const calculateBodyHeight = useCallback((): void => {
-        if (isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
+        if (isVisible && isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
             setBodySize(containerRef.current.clientHeight - 30);
         }
-    }, [isInfinite, hasMoreItems, bodySize]);
+    }, [isInfinite, hasMoreItems, bodySize, isVisible]);
 
     useLayoutEffect(() => {
         setTimeout(() => calculateBodyHeight(), 100);
