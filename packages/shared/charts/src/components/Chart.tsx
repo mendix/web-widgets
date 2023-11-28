@@ -92,7 +92,15 @@ function createPlotlyData(traces: PlotTrace[], baseOptions: Partial<Data>): Data
         // Sanitize trace before passing it to plotly
         delete item.customSeriesOptions;
         delete item.dataSourceItems; // Each ObjectItem has recursive refs so, we need to remove this array.
-        return deepmerge.all([baseOptions, item, customTraceOptions]);
+
+        return deepmerge.all([baseOptions, item, customTraceOptions], {
+            arrayMerge: (target, source): any[] => {
+                const source1 = target.filter(x => x !== undefined);
+                const source2 = source.filter(x => x !== undefined);
+
+                return deepmerge(source1, source2);
+            }
+        });
     });
 }
 
