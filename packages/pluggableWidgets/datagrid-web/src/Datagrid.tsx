@@ -1,15 +1,7 @@
-import {
-    FilterState,
-    FilterType,
-    useFilterContext,
-    useMultipleFiltering,
-    readInitFilterValues
-} from "@mendix/widget-plugin-filtering";
+import { useFilterContext, readInitFilterValues } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
@@ -20,6 +12,7 @@ import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
+import { useFiltering } from "./features/filtering/useFiltering";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -29,10 +22,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
-    const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
-    const [filtered, setFiltered] = useState(false);
-    const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
+    const [customFiltersState, multipleFilteringState, setFiltered, viewStateFilters] = useFiltering(props);
 
     const columns = useMemo(
         () => props.columns.map((col, index) => new Column(col, index, id.current)),
@@ -74,12 +65,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     }, [props.datasource, props.pageSize, isInfiniteLoad]);
 
     useEffect(() => {
-        if (props.datasource.filter && !filtered && !viewStateFilters.current) {
-            viewStateFilters.current = props.datasource.filter;
-        }
-    }, [props.datasource, props.configurationAttribute, filtered]);
-
-    useEffect(() => {
         if (props.refreshInterval > 0) {
             setTimeout(() => {
                 props.datasource.reload();
@@ -98,29 +83,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         },
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
-
-    // TODO: Rewrite this logic with single useReducer (or write
-    // custom hook that will use useReducer)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.columns.map(() => useState<FilterState>());
-
-    const filters = customFiltersState
-        .map(([customFilter]) => customFilter?.getFilterCondition?.())
-        .filter((filter): filter is FilterCondition => filter !== undefined)
-        .concat(
-            // Concatenating multiple filter state
-            Object.keys(multipleFilteringState)
-                .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
-                .filter((filter): filter is FilterCondition => filter !== undefined)
-        );
-
-    if (filters.length > 0) {
-        props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-    } else if (filtered) {
-        props.datasource.setFilter(undefined);
-    } else {
-        props.datasource.setFilter(viewStateFilters.current);
-    }
 
     if (sortParameters) {
         props.datasource.setSortOrder([
@@ -184,7 +146,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, customFiltersState, props.columns, setFiltered, viewStateFilters]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
