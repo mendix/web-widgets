@@ -50,7 +50,7 @@
     "@types/react-resize-detector": "^5.0.0"
   },
   "dependencies": {
-    "@types/react-test-renderer": "^18.0.6",
+    "@types/react-test-renderer": "^18.0.7",
     "classnames": "^2.3.2",
     "react-test-renderer": "^18.2.0"
   }
