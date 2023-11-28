@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.4] DataWidgets - 2023-11-28
+
+### [2.10.4] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
+
+### [1.4.1] Gallery
+
+#### Fixed
+
+-   We fixed an issue with Gallery widget where infinite scroll was not creating scroll, blocking the user from scrolling and fetching more items.
+
+-   We fixed an editor preview issue with drag-and-drop as well as changed dropzone text to be appropriate.
+
 ## [2.10.3] DataWidgets - 2023-11-21
 
 ### [2.10.3] Datagrid

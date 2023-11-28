@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.4] - 2023-11-28
+
 ### Fixed
 
 -   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
