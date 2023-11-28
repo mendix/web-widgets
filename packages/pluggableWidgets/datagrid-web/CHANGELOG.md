@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue where it was not possible to select column in design mode by clickin on column row.
+-   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
 
 ## [2.10.3] - 2023-11-21
 
