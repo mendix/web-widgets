@@ -319,7 +319,7 @@ const checkAssociationSettings = (
     if (!column.filterAssociationOptionLabel) {
         return {
             property: columnPropPath("filterAssociationOptionLabel", index),
-            message: `A Caption is required when using associations. Please set 'Caption' property for column (${column.header})`
+            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
         };
     }
 };
