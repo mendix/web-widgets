@@ -134,8 +134,8 @@
                     </enumerationValues>
                 </property>
                 <property key="selectAllButton" type="boolean" defaultValue="false" required="true">
-                    <caption>Select or unselect all shown options.</caption>
-                    <description />
+                    <caption>Select/Unselect button</caption>
+                    <description>Add a button to Select/Unselect all shown options.</description>
                 </property>
             </propertyGroup>
             <!-- END MULTI SELECTION (REFERENCE SET) -->
