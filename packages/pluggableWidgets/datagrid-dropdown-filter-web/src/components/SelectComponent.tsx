@@ -22,7 +22,7 @@ interface SelectProps {
     styles?: CSSProperties;
     onSelect: (value: OptionValue) => void;
     onTriggerClick?: () => void;
-    onContentScroll?: UIEventHandler<HTMLDivElement>;
+    onContentScroll?: UIEventHandler<HTMLUListElement>;
 }
 
 export function SelectComponent(props: SelectProps): ReactElement {

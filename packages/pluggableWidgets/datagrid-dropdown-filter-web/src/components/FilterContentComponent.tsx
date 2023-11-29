@@ -12,7 +12,7 @@ interface FilterContentProps {
     id?: string;
     options: Option[];
     multiSelect: boolean;
-    onContentScroll?: UIEventHandler<HTMLDivElement>;
+    onContentScroll?: UIEventHandler<HTMLUListElement>;
     selected: OptionValue[];
     onOptionClick: (option: Option) => void;
     onBlur: () => void;
@@ -31,6 +31,7 @@ export const FilterContentComponent = forwardRef(
                 id={`${id}-dropdown-list`}
                 className="dropdown-list dropdown-content-section"
                 role="menu"
+                onScroll={onContentScroll}
                 data-focusindex={0}
                 style={{
                     position: "fixed",
@@ -88,7 +89,7 @@ export const FilterContentComponent = forwardRef(
         ) : null;
 
         return (
-            <div className="dropdown-content" onScroll={onContentScroll} ref={ref}>
+            <div className="dropdown-content" ref={ref}>
                 {optionsList}
                 {footer}
             </div>
