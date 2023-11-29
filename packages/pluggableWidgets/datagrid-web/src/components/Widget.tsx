@@ -113,7 +113,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
-    const { columns, columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
+    const { columns, columnsOrder, columnsHidden, columnsVisible, columnsAvailable, visibleLength } =
+        props.columnsState;
     const columnsToShow = preview ? columns : columnsVisible;
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -243,10 +244,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 {columnsHidable && (
                                     <ColumnSelector
                                         key="headers_column_selector"
-                                        columns={columns}
+                                        columns={columnsAvailable}
                                         hiddenColumns={columnsHidden}
                                         id={id}
                                         setHiddenColumns={props.setHidden}
+                                        visibleLength={visibleLength}
                                     />
                                 )}
                             </div>

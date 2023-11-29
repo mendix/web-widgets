@@ -28,6 +28,7 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
+    visible?: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -60,6 +61,7 @@ export interface ColumnsPreviewType {
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     filterAssociationOptionLabel: string;
+    visible: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
