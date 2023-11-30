@@ -67,7 +67,12 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 return preview ? props.selectableWrapper(baseIndex, cell) : cell;
             })}
             {props.showSelectorCell && (
-                <SelectorCell key="column_selector_cell" borderTop={rowIndex === 0} clickable={cellClickableClass} />
+                <SelectorCell
+                    key="column_selector_cell"
+                    borderTop={rowIndex === 0}
+                    clickable={cellClickableClass}
+                    tabIndex={-1}
+                />
             )}
         </div>
     );
