@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.4] Charts - 2023-11-30
+
 ### Fixed
 
 -   We fixed chart's custom configuration not properly merged for arrays.
