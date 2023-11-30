@@ -1,13 +1,8 @@
 import { createElement } from "react";
 import { CellElement, CellElementProps } from "./CellElement";
-import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
 
-export type SelectorCellProps = CellElementProps & {
-    rowIndex: number;
-    columnIndex?: number;
-};
+export type SelectorCellProps = CellElementProps;
 
-export function SelectorCell({ rowIndex, columnIndex, ...rest }: SelectorCellProps): React.ReactElement {
-    const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
-    return <CellElement {...rest} {...keyNavProps} className="column-selector" />;
+export function SelectorCell(props: SelectorCellProps): React.ReactElement {
+    return <CellElement {...props} className="column-selector" />;
 }

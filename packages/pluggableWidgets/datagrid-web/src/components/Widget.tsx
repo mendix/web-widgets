@@ -119,6 +119,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         props.columnsState;
     const columnsToShow = preview ? columns : columnsVisible;
     const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
+    const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);
     const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
 
     const isInfinite = !paging;
@@ -259,7 +260,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             </div>
                             <KeyNavProvider
                                 rows={props.data.length}
-                                columns={columnsVisibleCount}
+                                columns={keyboardNavColumnsCount}
                                 pageSize={props.pageSize}
                             >
                                 {rows.map((item, rowIndex) => {
