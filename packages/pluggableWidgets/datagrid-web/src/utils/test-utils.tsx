@@ -38,6 +38,7 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
         isSelected: jest.fn(() => false),
         onSelect: jest.fn(),
         onSelectAll: jest.fn(),
+        onSelectAdjacent: jest.fn(),
         selectionMethod: "checkbox",
         selectionType: "None",
         showCheckboxColumn: false,
