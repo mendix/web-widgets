@@ -875,7 +875,6 @@ exports[`Table renders the structure correctly with hiding 1`] = `
           </div>
           <div
             class="td td-borders column-selector"
-            data-position="1,0"
             role="gridcell"
             tabindex="-1"
           />
