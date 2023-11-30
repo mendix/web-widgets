@@ -1,10 +1,9 @@
 import { UseComboboxPropGetters } from "downshift/typings";
 import { ReactElement, createElement } from "react";
-import { Checkbox } from "../../assets/icons";
+import { Checkbox, SelectAll } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
-import { SelectAllButton } from "../SelectAllButton";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -30,6 +29,7 @@ export function MultiSelectionMenu({
     selectAllButtonAriaLabel,
     inputId
 }: MultiSelectionMenuProps): ReactElement {
+    const allSelected = compareArrays(selectableItems, selector.currentValue);
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
@@ -39,12 +39,20 @@ export function MultiSelectionMenu({
         >
             {selector.selectAllButton && (
                 <div className="widget-combobox-menu-header">
-                    <SelectAllButton
-                        setSelectedItems={setSelectedItems}
-                        selectableItems={selectableItems}
-                        currentValue={selector.currentValue}
-                        selectAllButtonAriaLabel={selectAllButtonAriaLabel}
-                    />
+                    <button
+                        className="widget-combobox-menu-header-select-all-button"
+                        aria-label={selectAllButtonAriaLabel}
+                        onClick={e => {
+                            e.stopPropagation();
+                            if (!allSelected) {
+                                setSelectedItems(selectableItems);
+                            } else {
+                                setSelectedItems([]);
+                            }
+                        }}
+                    >
+                        <SelectAll allSelected={allSelected} />
+                    </button>
                 </div>
             )}
             {isOpen &&
@@ -70,3 +78,7 @@ export function MultiSelectionMenu({
         </ComboboxMenuWrapper>
     );
 }
+
+const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
+    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
+};
