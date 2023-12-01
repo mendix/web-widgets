@@ -1,35 +1,24 @@
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { AlignmentEnum, ColumnsType, WidthEnum } from "../../typings/DatagridProps";
+import { ColumnsType } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
+import { BaseColumn } from "./ColumnBase";
 
-export class Column implements GridColumn {
-    alignment: AlignmentEnum;
-    canDrag: boolean;
-    canHide: boolean;
-    canResize: boolean;
-    columnNumber: number;
-    hidden: boolean;
-    visible: boolean;
-    weight: number;
-    width: WidthEnum;
-    wrapText: boolean;
+export class Column extends BaseColumn implements GridColumn {
     private gridId: string;
     private props: ColumnsType;
 
+    columnNumber: number;
+    visible: boolean;
+
     constructor(props: ColumnsType, columnNumber: number, gridId: string) {
-        this.alignment = props.alignment;
-        this.canDrag = props.draggable;
-        this.canHide = props.hidable !== "no";
-        this.canResize = props.resizable;
-        this.columnNumber = columnNumber;
-        this.gridId = gridId;
-        this.hidden = props.hidable === "hidden";
-        this.visible = props.visible?.value ?? false;
+        super(props);
+
         this.props = props;
-        this.weight = props.size ?? 1;
-        this.width = props.width;
-        this.wrapText = props.wrapText;
+        this.gridId = gridId;
+        this.columnNumber = columnNumber;
+
+        this.visible = props.visible?.value ?? false;
     }
 
     columnClass(item: ObjectItem): string | undefined {
@@ -37,7 +26,7 @@ export class Column implements GridColumn {
     }
 
     get canSort(): boolean {
-        return this.props.sortable && !!this.props.attribute?.sortable;
+        return super.canSort && !!this.props.attribute?.sortable;
     }
     get columnId(): string {
         return `${this.gridId}-column${this.columnNumber}`;
