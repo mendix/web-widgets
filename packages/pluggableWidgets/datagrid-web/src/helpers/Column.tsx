@@ -47,17 +47,13 @@ export class Column implements GridColumn {
     }
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
-            case "attribute": {
-                return (
-                    <span className="td-text" title={this.props.tooltip?.get(item)?.value}>
-                        {this.props.attribute?.get(item)?.displayValue ?? ""}
-                    </span>
-                );
-            }
+            case "attribute":
             case "dynamicText": {
                 return (
                     <span className="td-text" title={this.props.tooltip?.get(item)?.value}>
-                        {this.props.dynamicText?.get(item)?.value ?? ""}
+                        {this.props.showContentAs === "attribute"
+                            ? this.props.attribute?.get(item)?.displayValue
+                            : this.props.dynamicText?.get(item)?.value}
                     </span>
                 );
             }
