@@ -234,16 +234,10 @@ $grid-selected-row-background: $brand-light;
             border-top-style: solid;
         }
 
-        &:focus-within,
         &:focus {
             outline-width: 1px;
             outline-style: solid;
             outline-offset: -1px;
-        }
-        &:focus-within {
-            outline-color: #000;
-        }
-        &:focus {
             outline-color: $brand-primary;
         }
 
