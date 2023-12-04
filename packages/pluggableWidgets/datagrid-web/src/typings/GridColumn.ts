@@ -15,7 +15,7 @@ export interface GridColumn {
     columnId: string;
     columnNumber: number;
     header: string;
-    hidden: boolean;
+    initiallyHidden: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
     visible: boolean;
     weight: number;

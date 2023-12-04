@@ -35,7 +35,7 @@ export class BaseColumn {
         return this.properties.hidable !== "no";
     }
 
-    get hidden(): boolean {
+    get initiallyHidden(): boolean {
         return this.properties.hidable === "hidden";
     }
 

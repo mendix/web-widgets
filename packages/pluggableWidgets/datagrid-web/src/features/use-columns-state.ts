@@ -146,7 +146,7 @@ export function initColumnsState(columns: GridColumn[]): ColumnsState {
         columns,
         columnsAvailable: columns.filter(column => column.visible),
         columnsOrder: columns.map(col => col.columnNumber),
-        columnsHidden: columns.flatMap(column => (column.hidden ? [column.columnNumber] : [])),
+        columnsHidden: columns.flatMap(column => (column.initiallyHidden ? [column.columnNumber] : [])),
         columnsVisible: [],
         visibleLength: 0
     });
