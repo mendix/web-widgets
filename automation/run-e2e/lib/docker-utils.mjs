@@ -154,12 +154,12 @@ export function startCypress(ip, freePort) {
         // container name
         `--name cypress`,
         // image to run, the entrypoint set to `cypress run` by default
-        `cypress/included:13.4.0`,
+        `cypress/included:13.6.0`,
         // cypress options
         `--browser ${browserCypress} ${headedMode}`.trim(),
         `--e2e`,
         `--config-file cypress.config.cjs`,
-        `--config baseUrl=http://${ip}:${freePort},video=true,videoUploadOnPasses=false,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
+        `--config baseUrl=http://${ip}:${freePort},video=true,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
     ];
     const command = [`docker run`, ...args].join(" ");
 
