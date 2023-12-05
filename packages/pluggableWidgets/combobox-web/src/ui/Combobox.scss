@@ -36,6 +36,10 @@ $disabled-text-color: #6c7180;
         &-hidden {
             display: none;
         }
+        &-footer {
+            border-top: 1px solid $gray-primary;
+            padding: 10px;
+        }
     }
 
     &-item {
