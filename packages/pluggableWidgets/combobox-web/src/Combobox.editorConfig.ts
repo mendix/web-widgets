@@ -15,12 +15,12 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         // hide attribute
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
-            "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationDataSource",
-            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
             "selectionMethod"
         ]);
@@ -46,6 +46,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
+        }
+
+        if (values.showFooter === false) {
+            hidePropertiesIn(defaultProperties, values, ["showFooterContent"]);
         }
     }
 
@@ -80,6 +84,29 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
 
 export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    let structurePreviewChildren: StructurePreviewProps[] = [];
+
+    if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            dropzone(
+                dropzone.placeholder("Configure the combo box: Place widgets here"),
+                dropzone.hideDataSourceHeaderIf(false)
+            )(_values.optionsSourceAssociationCustomContent)
+        );
+    } else if (_values.showFooter === true) {
+        structurePreviewChildren.push(
+            dropzone(
+                dropzone.placeholder("Configure footer: place widgets here"),
+                dropzone.hideDataSourceHeaderIf(false)
+            )(_values.showFooterContent)
+        );
+    } else {
+        structurePreviewChildren.push({
+            type: "Text",
+            content: getDatasourcePlaceholderText(_values),
+            fontColor: palette.text.data
+        });
+    }
 
     return {
         type: "RowLayout",
@@ -93,19 +120,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                 type: "Container",
                 grow: 1,
                 padding: 4,
-                children: [
-                    _values.optionsSourceType === "association" &&
-                    _values.optionsSourceAssociationCustomContentType !== "no"
-                        ? dropzone(
-                              dropzone.placeholder("Configure the combo box: Place widgets here"),
-                              dropzone.hideDataSourceHeaderIf(false)
-                          )(_values.optionsSourceAssociationCustomContent)
-                        : {
-                              type: "Text",
-                              content: getDatasourcePlaceholderText(_values),
-                              fontColor: palette.text.data
-                          }
-                ]
+                children: structurePreviewChildren
             },
             {
                 ...getIconPreview(isDarkMode),
