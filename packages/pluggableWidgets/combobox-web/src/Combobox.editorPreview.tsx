@@ -82,7 +82,8 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 a11yInstructions: props.a11yInstructions,
                 a11yNoOption: props.noOptionsText
             }
-        }
+        },
+        showFooter: props.showFooter
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
