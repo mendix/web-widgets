@@ -1,5 +1,5 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { ReactElement, createElement } from "react";
+import { ReactElement, ReactNode, createElement } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
@@ -14,6 +14,8 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     setSelectedItems: (v: string[]) => void;
     noOptionsText?: string;
     inputId?: string;
+    showFooter: boolean;
+    showFooterContent?: ReactNode;
 }
 
 export function MultiSelectionMenu({
@@ -24,7 +26,9 @@ export function MultiSelectionMenu({
     selector,
     selectableItems,
     noOptionsText,
-    inputId
+    inputId,
+    showFooter,
+    showFooterContent
 }: MultiSelectionMenuProps): ReactElement {
     return (
         <ComboboxMenuWrapper
@@ -32,6 +36,8 @@ export function MultiSelectionMenu({
             isEmpty={selectableItems.length <= 0}
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
+            showFooter={showFooter}
+            showFooterContent={showFooterContent}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {

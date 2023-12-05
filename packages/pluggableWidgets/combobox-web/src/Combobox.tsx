@@ -27,7 +27,9 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
                 a11yInstructions: props.a11yInstructions?.value ?? "",
                 a11yNoOption: props.noOptionsText?.value ?? ""
             }
-        }
+        },
+        showFooter: props.showFooter,
+        showFooterContent: props.showFooterContent
     };
 
     return (
