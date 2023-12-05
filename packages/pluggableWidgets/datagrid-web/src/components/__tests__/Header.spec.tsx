@@ -96,7 +96,7 @@ describe("Header", () => {
 
     it("renders the structure correctly when is hidden and preview", () => {
         const props = mockHeaderProps();
-        props.column.hidden = true;
+        props.column.initiallyHidden = true;
         props.hidable = true;
         props.preview = true;
 

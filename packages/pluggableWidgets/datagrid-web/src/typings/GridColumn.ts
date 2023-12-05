@@ -1,6 +1,6 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { AlignmentEnum, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, WidthEnum } from "../../typings/DatagridProps";
 
 /**
  * A generic column type for data grid.
@@ -15,8 +15,7 @@ export interface GridColumn {
     columnId: string;
     columnNumber: number;
     header: string;
-    hidable: HidableEnum;
-    hidden: boolean;
+    initiallyHidden: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
     visible: boolean;
     weight: number;

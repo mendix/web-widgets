@@ -1,45 +1,27 @@
 import { createElement, ReactElement } from "react";
-import { AlignmentEnum, ColumnsPreviewType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { ColumnsPreviewType } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
+import { BaseColumn } from "./ColumnBase";
 
-export class ColumnPreview implements GridColumn {
-    alignment: AlignmentEnum;
-    canDrag: boolean;
-    canHide: boolean;
-    canResize: boolean;
-    columnNumber: number;
-    hidable: HidableEnum;
-    hidden: boolean;
-    visible: boolean;
-    weight: number;
-    width: WidthEnum;
-    wrapText: boolean;
-
+export class ColumnPreview extends BaseColumn implements GridColumn {
     private gridId: string;
     private props: ColumnsPreviewType;
 
+    columnNumber: number;
+    visible: boolean;
+
     constructor(props: ColumnsPreviewType, columnNumber: number, gridId: string) {
+        super(props);
+
         this.gridId = gridId;
         this.props = props;
-        this.alignment = props.alignment;
-        this.canDrag = props.draggable;
-        this.canHide = props.hidable !== "no";
-        this.canResize = props.resizable;
-        this.hidable = props.hidable;
-        this.hidden = props.hidable === "hidden";
-        this.visible = props.visible === "true";
         this.columnNumber = columnNumber;
-        this.weight = props.size ?? 1;
-        this.width = props.width;
-        this.wrapText = props.wrapText;
+
+        this.visible = props.visible === "true";
     }
 
     columnClass(_item?: unknown): string | undefined {
         return undefined;
-    }
-
-    get canSort(): boolean {
-        return this.props.sortable;
     }
     get columnId(): string {
         return `${this.gridId}-column${this.columnNumber}`;
