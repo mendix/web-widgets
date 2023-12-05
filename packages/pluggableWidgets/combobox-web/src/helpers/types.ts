@@ -69,11 +69,13 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
 }
 
 export interface SelectionBaseProps<Selector> {
-    selector: Selector;
-    tabIndex: number;
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    selector: Selector;
+    showFooter: boolean;
+    showFooterContent?: ReactNode;
+    tabIndex: number;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

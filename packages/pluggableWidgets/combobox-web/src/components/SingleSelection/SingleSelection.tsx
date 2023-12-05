@@ -11,6 +11,8 @@ export function SingleSelection({
     selector,
     tabIndex = 0,
     a11yConfig,
+    showFooter,
+    showFooterContent,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -84,6 +86,8 @@ export function SingleSelection({
                 getItemProps={getItemProps}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}
+                showFooter={showFooter}
+                showFooterContent={showFooterContent}
             />
         </Fragment>
     );

@@ -12,6 +12,8 @@ export function MultiSelection({
     selector,
     tabIndex,
     a11yConfig,
+    showFooter,
+    showFooterContent,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
@@ -134,6 +136,8 @@ export function MultiSelection({
                     )}
             </ComboboxWrapper>
             <MultiSelectionMenu
+                showFooter={showFooter}
+                showFooterContent={showFooterContent}
                 inputId={options.inputId}
                 selector={selector}
                 isOpen={isOpen}
