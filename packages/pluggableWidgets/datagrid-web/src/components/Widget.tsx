@@ -214,7 +214,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     headerWrapperRenderer(
                                         index,
                                         <Header
-                                            key={`${column.columnId}`}
+                                            key={`${column.htmlId}`}
                                             className={`align-column-${column.alignment}`}
                                             column={column}
                                             draggable={columnsDraggable}

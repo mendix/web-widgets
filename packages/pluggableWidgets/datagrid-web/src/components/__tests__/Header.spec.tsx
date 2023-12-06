@@ -119,7 +119,7 @@ function mockHeaderProps(): HeaderProps {
     return {
         tableId: "dg1",
         column: {
-            columnId: "dg1-column0",
+            htmlId: "dg1-column0",
             columnNumber: 0,
             header: "Test"
         } as GridColumn,

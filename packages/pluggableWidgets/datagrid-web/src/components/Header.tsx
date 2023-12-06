@@ -105,9 +105,9 @@ export function Header(props: HeaderProps): ReactElement {
         >
             <div
                 className={classNames("column-container", {
-                    dragging: canDrag && props.column.columnId === props.dragOver
+                    dragging: canDrag && props.column.htmlId === props.dragOver
                 })}
-                id={props.column.columnId}
+                id={props.column.htmlId}
                 data-column-number={props.column.columnNumber}
                 {...draggableProps}
             >

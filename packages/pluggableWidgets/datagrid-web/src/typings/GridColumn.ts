@@ -12,7 +12,7 @@ export interface GridColumn {
     canResize: boolean;
     canSort: boolean;
     columnClass(item: ObjectItem): string | undefined;
-    columnId: string;
+    htmlId: string;
     columnNumber: number;
     header: string;
     initiallyHidden: boolean;

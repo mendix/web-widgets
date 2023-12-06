@@ -23,7 +23,7 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     columnClass(_item?: unknown): string | undefined {
         return undefined;
     }
-    get columnId(): string {
+    get htmlId(): string {
         return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {

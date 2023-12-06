@@ -28,7 +28,7 @@ export class Column extends BaseColumn implements GridColumn {
     get canSort(): boolean {
         return super.canSort && !!this.props.attribute?.sortable;
     }
-    get columnId(): string {
+    get htmlId(): string {
         return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {
