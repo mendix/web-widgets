@@ -72,6 +72,7 @@ describe("Slider widget", () => {
 
         it("triggers a microflow after slide", () => {
             cy.visit("/p/after-slide");
+            cy.wait(2000);
             cy.dragAndDrop(
                 ".mx-name-sliderMicroflow .rc-slider-handle",
                 ".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(1)",
@@ -87,6 +88,7 @@ describe("Slider widget", () => {
 
         it("triggers a nanoflow after slide", () => {
             cy.visit("/p/after-slide");
+            cy.wait(2000);
             cy.dragAndDrop(
                 ".mx-name-sliderNanoflow .rc-slider-handle",
                 ".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(1)",
