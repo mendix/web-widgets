@@ -5,16 +5,15 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DatagridContainerProps } from "../typings/DatagridProps";
-import { Cell } from "./components/Cell";
-import { SortProperty, Widget } from "./components/Widget";
-import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { getColumnAssociationProps } from "./features/column";
-import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
-import { extractFilters } from "./features/filters";
-import { Column } from "./helpers/Column";
-import "./ui/Datagrid.scss";
-import { useColumnsState } from "./features/use-columns-state";
+import { DatagridContainerProps } from "../../typings/DatagridProps";
+import { Cell } from "./Cell";
+import { SortProperty, Widget } from "./Widget";
+import { WidgetHeaderContext } from "./WidgetHeaderContext";
+import { getColumnAssociationProps } from "../features/column";
+import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
+import { extractFilters } from "../features/filters";
+import { Column } from "../helpers/Column";
+import { useColumnsState } from "../features/use-columns-state";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
