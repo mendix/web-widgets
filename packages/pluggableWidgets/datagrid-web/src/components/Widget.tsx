@@ -21,7 +21,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ColumnsState, DispatchOrderUpdate } from "../features/use-columns-state";
+import { ColumnsState } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import { GridState } from "../typings/GridState";
@@ -53,8 +53,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     processedRows: number;
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
-
-    setOrder: DispatchOrderUpdate;
+    setOrder: React.Dispatch<React.SetStateAction<ColumnId[]>>;
     setHidden: React.Dispatch<React.SetStateAction<ColumnId[]>>;
     setSort: React.Dispatch<ColumnId>;
     settings?: EditableValue<string>;
@@ -110,7 +109,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
-    const [dragOver, setDragOver] = useState("");
+    const [dragOver, setDragOver] = useState<ColumnId>();
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
         Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
     );
@@ -193,7 +192,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                                     }
                                                 />
                                             }
-                                            setColumnOrder={(newOrder: number[]) => props.setOrder(newOrder)}
+                                            setOrder={props.setOrder}
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
                                             setSort={props.setSort}

@@ -26,13 +26,13 @@ export interface HeaderProps {
     filterable: boolean;
     filterWidget?: ReactNode;
     draggable: boolean;
-    dragOver: string;
+    dragOver: ColumnId | undefined;
     hidable: boolean;
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    setColumnOrder: (updater: number[]) => void;
-    setDragOver: Dispatch<SetStateAction<string>>;
+    setOrder: Dispatch<SetStateAction<ColumnId[]>>;
+    setDragOver: Dispatch<SetStateAction<ColumnId>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
     setSort: Dispatch<ColumnId>;
     sortRule: SortRule | undefined;
@@ -43,7 +43,7 @@ export interface HeaderProps {
 export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
-    const draggableProps = useDraggable(canDrag, props.setColumnOrder, props.setDragOver, props.setIsDragging);
+    const draggableProps = useDraggable(canDrag, props.setOrder, props.setDragOver, props.setIsDragging);
     const isSorted = props.sortRule !== undefined;
     const isSortedDesc = props.sortRule?.[1] === "desc";
 
@@ -75,8 +75,6 @@ export function Header(props: HeaderProps): ReactElement {
         tabIndex: 0
     };
 
-    const htmlId = (columnId: string | number): string => `${props.gridId}-column${columnId}`;
-
     return (
         <div
             aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
@@ -90,10 +88,10 @@ export function Header(props: HeaderProps): ReactElement {
         >
             <div
                 className={classNames("column-container", {
-                    dragging: canDrag && htmlId(props.column.columnId) === props.dragOver
+                    dragging: canDrag && props.column.columnId === props.dragOver
                 })}
-                id={htmlId(props.column.columnId)}
-                data-column-number={props.column.columnNumber}
+                id={`${props.gridId}-column${props.column.columnId}`}
+                data-column-id={props.column.columnId}
                 {...draggableProps}
             >
                 <div
@@ -112,13 +110,12 @@ export function Header(props: HeaderProps): ReactElement {
     );
 }
 
-const DATA_FORMAT_NUM = "application/x-mx-widget-web-datagrid-column-number";
 const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
 
 function useDraggable(
     columnsDraggable: boolean,
-    setColumnOrder: (updater: ((columnOrder: number[]) => number[]) | number[]) => void,
-    setDragOver: Dispatch<SetStateAction<string>>,
+    setColumnOrder: Dispatch<SetStateAction<ColumnId[]>>,
+    setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
     draggable?: boolean;
@@ -132,8 +129,7 @@ function useDraggable(
         (e: DragEvent<HTMLDivElement>): void => {
             setIsDragging(true);
             const elt = e.target as HTMLDivElement;
-            e.dataTransfer.setData(DATA_FORMAT_NUM, getColNum(elt));
-            e.dataTransfer.setData(DATA_FORMAT_ID, elt.id);
+            e.dataTransfer.setData(DATA_FORMAT_ID, elt.dataset.columnId ?? "");
         },
         [setIsDragging]
     );
@@ -144,10 +140,12 @@ function useDraggable(
 
     const handleDragEnter = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
-            const { id: columnId } = e.target as HTMLDivElement;
+            const {
+                dataset: { columnId }
+            } = e.target as HTMLDivElement;
             const colDestination = e.dataTransfer.getData(DATA_FORMAT_ID);
             if (columnId !== colDestination) {
-                setDragOver(columnId);
+                setDragOver(columnId as ColumnId);
             }
         },
         [setDragOver]
@@ -155,14 +153,14 @@ function useDraggable(
 
     const handleDragEnd = useCallback((): void => {
         setIsDragging(false);
-        setDragOver("");
+        setDragOver(undefined);
     }, [setDragOver, setIsDragging]);
 
     const handleOnDrop = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
             handleDragEnd();
-            const columnA = colNumFromString(getColNum(e.target as HTMLDivElement));
-            const columnB = colNumFromString(e.dataTransfer.getData(DATA_FORMAT_NUM));
+            const columnA = (e.target as HTMLDivElement).dataset.columnId as ColumnId;
+            const columnB = e.dataTransfer.getData(DATA_FORMAT_ID) as ColumnId;
 
             setColumnOrder(prevOrder => {
                 const indexA = prevOrder.indexOf(columnA);
@@ -195,21 +193,4 @@ function useDraggable(
               onDragEnd: handleDragEnd
           }
         : {};
-}
-function getColNum<T extends HTMLElement>(target: T): string {
-    if (!Object.hasOwn(target.dataset, "columnNumber") || target.dataset.columnNumber === undefined) {
-        throw new Error("Element is missing data-column-number value");
-    }
-
-    return target.dataset.columnNumber;
-}
-
-function colNumFromString(data: string): number {
-    const num = parseInt(data, 10);
-
-    if (isNaN(num)) {
-        throw new Error(`Unable to parse column number: ${data}`);
-    }
-
-    return num;
 }
