@@ -27,11 +27,11 @@ $disabled-text-color: #6c7180;
         box-shadow: 0px 0px 10px 0px $box-shadow-color;
         background-color: $unselected-item;
         list-style-type: "none";
-        max-height: 320px;
-        overflow-y: auto;
         &-list {
             padding: 0;
             margin-bottom: 0;
+            max-height: 320px;
+            overflow-y: auto;
         }
         &-hidden {
             display: none;
