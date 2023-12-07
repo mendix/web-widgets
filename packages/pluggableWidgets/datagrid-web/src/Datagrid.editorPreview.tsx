@@ -10,7 +10,6 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { initColumnsState } from "./features/use-columns-state";
 import { initGridState } from "./features/grid-state";
 
 // Fix type definition for Selectable
@@ -56,12 +55,11 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         selectionMethod: props.itemSelectionMethod,
         showSelectAllToggle: props.showSelectAllToggle
     });
-    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
-        id: String(index) as GUID
+    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map(() => ({
+        id: Math.random().toString() as GUID
     }));
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
-    const columnsState = initColumnsState(columns);
     const gridState = initGridState(columns);
 
     return (
@@ -73,7 +71,6 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            columnsState={columnsState}
             gridState={gridState}
             data={data}
             emptyPlaceholderRenderer={useCallback(

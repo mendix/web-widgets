@@ -32,6 +32,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
     );
     return (
         <div
+            data-key={`row_${props.item.id}`}
             className={classNames("tr", { "tr-selected": selected }, props.className)}
             role="row"
             aria-selected={ariaSelected}

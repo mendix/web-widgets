@@ -21,7 +21,6 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ColumnsState } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import { GridState } from "../typings/GridState";
@@ -63,7 +62,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    columnsState: ColumnsState;
     gridState: GridState;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
@@ -100,9 +98,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
-    const { columns } = props.columnsState;
     const { sort, columnsAvailable, columnsHidden, columnsVisible } = props.gridState;
-    const columnsToShow = preview ? columns : columnsVisible;
+    const columnsToShow = preview ? Object.values(props.gridState.columns) : columnsVisible;
     const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
     const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);
     const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
@@ -111,7 +108,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState<ColumnId>();
     const [columnsWidth, setColumnsWidth] = useState<ColumnWidthConfig>(
-        Object.fromEntries(columns.map(c => [c.columnNumber, undefined]))
+        Object.fromEntries(Object.values(props.gridState.columns).map(column => [column.columnNumber, undefined]))
     );
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");

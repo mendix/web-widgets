@@ -18,7 +18,6 @@ import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Column } from "../helpers/Column";
-import { useColumnsState } from "../features/use-columns-state";
 import { useGridState } from "../features/grid-state";
 import { GridState } from "../typings/GridState";
 
@@ -40,11 +39,10 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [columnsState] = useColumnsState(props.columns);
     const [gridState, { setSort, setHidden, setOrder }] = useGridState(props.initState);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: columnsState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
+        columns: gridState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
@@ -142,7 +140,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
         <Widget
             className={props.class}
             CellComponent={Cell}
-            columnsState={columnsState}
             gridState={gridState}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
