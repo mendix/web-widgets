@@ -1,7 +1,7 @@
 import { ColumnSettings } from "./ColumnSettings";
 import { ColumnId } from "./GridColumn";
 
-type SortRule = [columnId: ColumnId, dir: "asc" | "desc"];
+export type SortRule = [columnId: ColumnId, dir: "asc" | "desc"];
 
 export interface GridSettings {
     schemaVersion: number;

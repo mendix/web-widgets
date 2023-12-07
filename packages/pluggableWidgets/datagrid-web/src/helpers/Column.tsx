@@ -1,4 +1,4 @@
-import { ObjectItem } from "mendix";
+import { ObjectItem, ValueStatus } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { GridColumn, ColumnId } from "../typings/GridColumn";
@@ -36,6 +36,10 @@ export class Column extends BaseColumn implements GridColumn {
 
     get header(): string {
         return this.props.header?.value ?? "";
+    }
+
+    get status(): ValueStatus {
+        return this.props.visible?.status ?? ValueStatus.Loading;
     }
 
     renderCellContent(item: ObjectItem): ReactElement {

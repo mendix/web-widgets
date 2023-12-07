@@ -13,7 +13,7 @@ interface BaseColumnProps {
 }
 
 export class BaseColumn {
-    constructor(private properties: BaseColumnProps) {}
+    constructor(protected properties: BaseColumnProps) {}
 
     get alignment(): AlignmentEnum {
         return this.properties.alignment;

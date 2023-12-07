@@ -1,5 +1,7 @@
 import { InitState } from "./base";
+import { initGridState } from "../grid-state";
+import { GridColumn } from "../../typings/GridColumn";
 
-export function initFresh(_props: { setInitState: React.Dispatch<InitState> }): [InitState] | undefined {
-    return undefined;
+export function initFresh(props: { columns: GridColumn[] }): [InitState] | undefined {
+    return [initGridState(props.columns)];
 }

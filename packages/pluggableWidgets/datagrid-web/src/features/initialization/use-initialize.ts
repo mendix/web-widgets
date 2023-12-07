@@ -6,13 +6,12 @@ import { initFromSettings } from "./init-from-settings";
 import { initFromViewState } from "./init-from-view-state";
 import { initFresh } from "./init-fresh";
 import { hasViewState } from "./utils";
+import { GridColumn } from "../../typings/GridColumn";
 
-export function useInitialize({
-    datasource,
-    configurationAttribute: settings,
-    pageSize,
-    pagination
-}: DatagridContainerProps): [InitState] {
+export function useInitialize(
+    { datasource, configurationAttribute: settings, pageSize, pagination }: DatagridContainerProps,
+    columns: GridColumn[]
+): [InitState] {
     const [initState, setInitState] = useState<InitState>();
 
     function initialize(): void {
@@ -34,7 +33,7 @@ export function useInitialize({
             });
         } else {
             result = initFresh({
-                setInitState
+                columns
             });
         }
 
@@ -47,7 +46,7 @@ export function useInitialize({
         setInitState(nextState);
     }
 
-    useEffect(initialize, [datasource, settings, initState, pageSize, pagination]);
+    useEffect(initialize, [datasource, settings, initState, pageSize, pagination, columns]);
 
     return [initState];
 }
