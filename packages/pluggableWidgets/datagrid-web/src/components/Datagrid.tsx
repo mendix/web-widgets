@@ -18,7 +18,7 @@ import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Column } from "../helpers/Column";
-import { useGridState } from "../features/grid-state";
+import { useGridState } from "../features/state/grid-state";
 import { GridState } from "../typings/GridState";
 
 type ContainerProps = Omit<DatagridContainerProps, "columns"> & {

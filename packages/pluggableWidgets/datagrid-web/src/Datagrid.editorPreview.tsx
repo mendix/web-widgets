@@ -10,7 +10,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { initGridState } from "./features/grid-state";
+import { initGridState } from "./features/state/grid-state";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.

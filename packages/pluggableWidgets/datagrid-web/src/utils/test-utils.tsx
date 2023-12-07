@@ -7,7 +7,7 @@ import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
-import { initGridState } from "../features/grid-state";
+import { initGridState } from "../features/state/grid-state";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {

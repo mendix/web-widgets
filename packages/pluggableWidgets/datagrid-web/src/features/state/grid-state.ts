@@ -1,7 +1,7 @@
 import { useReducer, useMemo } from "react";
-import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { SortRule } from "../typings/GridSettings";
-import { ColumnsById, GridState } from "../typings/GridState";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
+import { SortRule } from "../../typings/GridSettings";
+import { ColumnsById, GridState } from "../../typings/GridState";
 
 type OrderUpdate = React.SetStateAction<ColumnId[]>;
 
