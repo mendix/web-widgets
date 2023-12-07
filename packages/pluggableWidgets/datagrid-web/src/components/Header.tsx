@@ -37,7 +37,7 @@ export interface HeaderProps {
     setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
     sortBy: SortingRule[];
     visibleColumns: GridColumn[];
-    tableId: string;
+    gridId: string;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -92,6 +92,8 @@ export function Header(props: HeaderProps): ReactElement {
         tabIndex: 0
     };
 
+    const htmlId = (columnId: string | number): string => `${props.gridId}-column${columnId}`;
+
     return (
         <div
             aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
@@ -105,9 +107,9 @@ export function Header(props: HeaderProps): ReactElement {
         >
             <div
                 className={classNames("column-container", {
-                    dragging: canDrag && props.column.columnId === props.dragOver
+                    dragging: canDrag && htmlId(props.column.columnId) === props.dragOver
                 })}
-                id={props.column.columnId}
+                id={htmlId(props.column.columnId)}
                 data-column-number={props.column.columnNumber}
                 {...draggableProps}
             >

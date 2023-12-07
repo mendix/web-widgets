@@ -117,9 +117,9 @@ describe("Header", () => {
 
 function mockHeaderProps(): HeaderProps {
     return {
-        tableId: "dg1",
+        gridId: "dg1",
         column: {
-            columnId: "dg1-column0",
+            columnId: "0",
             columnNumber: 0,
             header: "Test"
         } as GridColumn,
