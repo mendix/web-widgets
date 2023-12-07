@@ -2,6 +2,8 @@ import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { AlignmentEnum, WidthEnum } from "../../typings/DatagridProps";
 
+export type ColumnId = string & { __columnIdTag: never };
+
 /**
  * A generic column type for data grid.
  */
@@ -12,7 +14,7 @@ export interface GridColumn {
     canResize: boolean;
     canSort: boolean;
     columnClass(item: ObjectItem): string | undefined;
-    columnId: string;
+    columnId: ColumnId;
     columnNumber: number;
     header: string;
     initiallyHidden: boolean;

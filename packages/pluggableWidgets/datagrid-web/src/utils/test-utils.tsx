@@ -55,7 +55,7 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
-    const columns = columnsProp.map((col, index) => new Column(col, index, id));
+    const columns = columnsProp.map((col, index) => new Column(col, index));
     const columnsState = initColumnsState(columns);
     const selectionProps = mockSelectionProps();
 

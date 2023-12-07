@@ -243,7 +243,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             sortable={columnsSortable}
                                             sortBy={sortBy}
                                             visibleColumns={columnsVisible}
-                                            tableId={`${props.id}`}
+                                            gridId={`${props.id}`}
                                         />
                                     )
                                 )}
