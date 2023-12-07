@@ -8,13 +8,14 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     isOpen: boolean;
     isEmpty: boolean;
     noOptionsText?: string;
+    preview?: boolean;
     showFooter: boolean;
     showFooterContent?: ReactNode;
 }
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
-    const { children, isOpen, isEmpty, noOptionsText, getMenuProps, showFooter, showFooterContent } = props;
-    const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
+    const { children, isOpen, isEmpty, noOptionsText, preview, getMenuProps, showFooter, showFooterContent } = props;
+    const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen, preview);
 
     return (
         <div
@@ -25,7 +26,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
             </ul>
-            {showFooter && <div className="widget-combobox-menu-footer">{showFooterContent}</div>}
+            {showFooter && showFooterContent && <div className="widget-combobox-menu-footer">{showFooterContent}</div>}
         </div>
     );
 }
