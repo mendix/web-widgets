@@ -10,8 +10,8 @@ import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useG
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DatagridContainerProps } from "../../typings/DatagridProps";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useRef, useState } from "react";
+import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "./Cell";
 import { SortProperty, Widget } from "./Widget";
 import { WidgetHeaderContext } from "./WidgetHeaderContext";
@@ -20,7 +20,12 @@ import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Column } from "../helpers/Column";
 import { useColumnsState } from "../features/use-columns-state";
 
-export default function Datagrid(props: DatagridContainerProps): ReactElement {
+type ContainerProps = Omit<DatagridContainerProps, "columns"> & {
+    columns: Column[];
+    rawColumns: ColumnsType[];
+};
+
+export default function Datagrid(props: ContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
 
     const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
@@ -33,12 +38,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const columns = useMemo(() => props.columns.map((col, index) => new Column(col, index)), [props.columns]);
-
-    const [columnsState, { setHidden, setOrder }] = useColumnsState(columns);
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(props.columns);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
+        columns: columnsState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
@@ -98,7 +101,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     // TODO: Rewrite this logic with single useReducer (or write
     // custom hook that will use useReducer)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.columns.map(() => useState<FilterState>());
+    const customFiltersState = props.rawColumns.map(() => useState<FilterState>());
 
     const filters = customFiltersState
         .map(([customFilter]) => customFilter?.getFilterCondition?.())
@@ -120,7 +123,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
 
     if (sortParameters) {
         props.datasource.setSortOrder([
-            [props.columns[sortParameters.columnIndex].attribute!.id, sortParameters.desc ? "desc" : "asc"]
+            [props.rawColumns[sortParameters.columnIndex].attribute!.id, sortParameters.desc ? "desc" : "asc"]
         ]);
     } else {
         props.datasource.setSortOrder(undefined);
@@ -158,7 +161,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const column = props.columns[columnIndex];
+                    const column = props.rawColumns[columnIndex];
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
@@ -185,7 +188,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, customFiltersState, props.rawColumns]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
@@ -219,10 +222,10 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             styles={props.style}
             valueForSort={useCallback(
                 (value, columnIndex) => {
-                    const column = props.columns[columnIndex];
+                    const column = props.rawColumns[columnIndex];
                     return column.attribute ? column.attribute.get(value).value : "";
                 },
-                [props.columns]
+                [props.rawColumns]
             )}
             rowAction={props.onClick}
             selectionProps={selectionProps}

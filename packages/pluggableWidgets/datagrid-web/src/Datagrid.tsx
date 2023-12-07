@@ -14,5 +14,5 @@ export default function Datagrid(props: DatagridContainerProps): React.ReactElem
         return <span>Loading</span>;
     }
 
-    return <DatagridContainer {...props} />;
+    return <DatagridContainer {...props} columns={columns} rawColumns={props.columns} />;
 }
