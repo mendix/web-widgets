@@ -84,7 +84,7 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
 
 export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-    let structurePreviewChildren: StructurePreviewProps[] = [];
+    const structurePreviewChildren: StructurePreviewProps[] = [];
 
     if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
         structurePreviewChildren.push(

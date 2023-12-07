@@ -34,7 +34,7 @@ export function useMenuStyle<T extends HTMLElement>(
         }
 
         return abort;
-    }, [menuHeight, isOpen, targetBox, setStyleDebounced, abort]);
+    }, [menuHeight, isOpen, targetBox, setStyleDebounced, abort, preview]);
 
     return [ref, style];
 }
