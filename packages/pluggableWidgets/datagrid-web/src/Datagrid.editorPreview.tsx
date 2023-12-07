@@ -119,6 +119,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             setSort={() => {
                 return undefined;
             }}
+            setSize={() => {
+                return undefined;
+            }}
             selectionProps={selectionProps}
             selectionStatus={"none"}
         />

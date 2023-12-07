@@ -39,7 +39,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [gridState, { setSort, setHidden, setOrder }] = useGridState(props.initState);
+    const [gridState, { setSort, setHidden, setOrder, setSize }] = useGridState(props.initState);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: gridState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
@@ -211,6 +211,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             setOrder={setOrder}
             setHidden={setHidden}
             setSort={setSort}
+            setSize={setSize}
             settings={props.configurationAttribute}
             styles={props.style}
             rowAction={props.onClick}

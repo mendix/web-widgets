@@ -83,6 +83,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         setOrder: jest.fn(),
         setPage: jest.fn(),
         setSort: jest.fn(),
+        setSize: jest.fn(),
         selectionProps,
         selectionStatus: "unknown",
         processedRows: 0
