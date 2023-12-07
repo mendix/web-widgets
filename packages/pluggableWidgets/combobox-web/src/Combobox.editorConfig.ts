@@ -93,14 +93,16 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                 dropzone.hideDataSourceHeaderIf(false)
             )(_values.optionsSourceAssociationCustomContent)
         );
-    } else if (_values.showFooter === true) {
+    }
+    if (_values.showFooter === true) {
         structurePreviewChildren.push(
             dropzone(
                 dropzone.placeholder("Configure footer: place widgets here"),
                 dropzone.hideDataSourceHeaderIf(false)
             )(_values.showFooterContent)
         );
-    } else {
+    }
+    if (structurePreviewChildren.length === 0) {
         structurePreviewChildren.push({
             type: "Text",
             content: getDatasourcePlaceholderText(_values),

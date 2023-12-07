@@ -72,6 +72,7 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    preview?: boolean;
     selector: Selector;
     showFooter: boolean;
     showFooterContent?: ReactNode;

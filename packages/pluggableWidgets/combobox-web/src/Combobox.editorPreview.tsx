@@ -83,7 +83,13 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 a11yNoOption: props.noOptionsText
             }
         },
-        showFooter: props.showFooter
+        showFooter: props.showFooter,
+        showFooterContent: (
+            <props.showFooterContent.renderer caption="Place footer widget here">
+                <div />
+            </props.showFooterContent.renderer>
+        ),
+        preview: true
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
