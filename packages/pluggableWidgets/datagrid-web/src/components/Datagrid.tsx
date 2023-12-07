@@ -13,22 +13,24 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useRef, useState } from "react";
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "./Cell";
-import { SortProperty, Widget } from "./Widget";
+import { Widget } from "./Widget";
 import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Column } from "../helpers/Column";
 import { useColumnsState } from "../features/use-columns-state";
+import { useGridState } from "../features/grid-state";
+import { GridState } from "../typings/GridState";
 
 type ContainerProps = Omit<DatagridContainerProps, "columns"> & {
     columns: Column[];
     rawColumns: ColumnsType[];
+    initState: GridState;
 };
 
 export default function Datagrid(props: ContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
 
-    const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
@@ -39,6 +41,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     const { FilterContext } = useFilterContext();
 
     const [columnsState, { setHidden, setOrder }] = useColumnsState(props.columns);
+    const [gridState, { setSort }] = useGridState(props.initState);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: columnsState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
@@ -121,14 +124,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
         props.datasource.setFilter(viewStateFilters.current);
     }
 
-    if (sortParameters) {
-        props.datasource.setSortOrder([
-            [props.rawColumns[sortParameters.columnIndex].attribute!.id, sortParameters.desc ? "desc" : "asc"]
-        ]);
-    } else {
-        props.datasource.setSortOrder(undefined);
-    }
-
     const selectionHelper = useSelectionHelper(
         props.itemSelection,
         props.datasource,
@@ -148,6 +143,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             className={props.class}
             CellComponent={Cell}
             columnsState={columnsState}
+            gridState={gridState}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
@@ -215,18 +211,11 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}
-            setSortParameters={setSortParameters}
             setOrder={setOrder}
             setHidden={setHidden}
+            setSort={setSort}
             settings={props.configurationAttribute}
             styles={props.style}
-            valueForSort={useCallback(
-                (value, columnIndex) => {
-                    const column = props.rawColumns[columnIndex];
-                    return column.attribute ? column.attribute.get(value).value : "";
-                },
-                [props.rawColumns]
-            )}
             rowAction={props.onClick}
             selectionProps={selectionProps}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}

@@ -1,4 +1,6 @@
-export type InitState = unknown;
+import { GridState } from "../../typings/GridState";
+
+export type InitState = GridState;
 
 export interface InitViewState {
     filter?: undefined;

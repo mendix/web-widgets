@@ -9,16 +9,6 @@ type HiddenUpdate = React.SetStateAction<ColumnId[]>;
 
 type SizeUpdate = [ColumnId, number];
 
-export type DispatchOrderUpdate = React.Dispatch<OrderUpdate>;
-
-export type DispatchHiddenUpdate = React.Dispatch<HiddenUpdate>;
-
-export type DispatchColumnsUpdate = React.Dispatch<GridColumn[]>;
-
-export type DispatchSizeUpdate = React.Dispatch<SizeUpdate>;
-
-export type DispatchSortUpdate = React.Dispatch<ColumnId>;
-
 type Action =
     | { type: "SetOrder"; payload: { order: OrderUpdate } }
     | { type: "SetHidden"; payload: { hidden: HiddenUpdate } }
@@ -140,11 +130,11 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
 }
 
 type UpdateFunctions = {
-    setOrder: DispatchOrderUpdate;
-    setHidden: DispatchHiddenUpdate;
-    setColumns: DispatchColumnsUpdate;
-    setSort: DispatchSortUpdate;
-    setSize: DispatchSizeUpdate;
+    setOrder: React.Dispatch<OrderUpdate>;
+    setHidden: React.Dispatch<HiddenUpdate>;
+    setColumns: React.Dispatch<GridColumn[]>;
+    setSort: React.Dispatch<ColumnId>;
+    setSize: React.Dispatch<SizeUpdate>;
 };
 
 export function useGridState(initState: GridState): [GridState, UpdateFunctions] {

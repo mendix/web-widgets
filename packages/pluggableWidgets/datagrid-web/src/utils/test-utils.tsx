@@ -8,6 +8,7 @@ import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { initColumnsState } from "../features/use-columns-state";
+import { initGridState } from "../features/grid-state";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -57,6 +58,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index));
     const columnsState = initColumnsState(columns);
+    const gridState = initGridState(columns);
     const selectionProps = mockSelectionProps();
 
     return {
@@ -79,12 +81,13 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         paging: false,
         pagingPosition: "bottom",
         columnsState,
+        gridState,
         setHidden: jest.fn(),
         setOrder: jest.fn(),
-        valueForSort: () => "dummy",
+        setPage: jest.fn(),
+        setSort: jest.fn(),
         selectionProps,
         selectionStatus: "unknown",
-        setPage: jest.fn(),
         processedRows: 0
     };
 }

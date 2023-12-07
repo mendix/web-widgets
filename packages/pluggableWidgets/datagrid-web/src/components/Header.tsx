@@ -14,9 +14,9 @@ import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
-import { GridColumn } from "../typings/GridColumn";
+import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
-import { SortingRule } from "../features/settings";
+import { SortRule } from "../typings/GridSettings";
 
 export interface HeaderProps {
     className?: string;
@@ -34,8 +34,8 @@ export interface HeaderProps {
     setColumnOrder: (updater: number[]) => void;
     setDragOver: Dispatch<SetStateAction<string>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
-    setSortBy: Dispatch<SetStateAction<SortingRule[]>>;
-    sortBy: SortingRule[];
+    setSort: Dispatch<ColumnId>;
+    sortRule: SortRule | undefined;
     visibleColumns: GridColumn[];
     gridId: string;
 }
@@ -44,10 +44,8 @@ export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
     const draggableProps = useDraggable(canDrag, props.setColumnOrder, props.setDragOver, props.setIsDragging);
-
-    const [sortProperties] = props.sortBy;
-    const isSorted = sortProperties && sortProperties.columnNumber === props.column.columnNumber;
-    const isSortedDesc = isSorted && sortProperties.desc;
+    const isSorted = props.sortRule !== undefined;
+    const isSortedDesc = props.sortRule?.[1] === "desc";
 
     const sortIcon = canSort ? (
         isSorted ? (
@@ -63,22 +61,7 @@ export function Header(props: HeaderProps): ReactElement {
 
     const caption = props.column.header.trim();
 
-    const onSortBy = (): void => {
-        /**
-         * Always analyse previous values to predict the next
-         * 1 - !isSorted turns to asc
-         * 2 - isSortedDesc === false && isSorted turns to desc
-         * 3 - isSortedDesc === true && isSorted turns to unsorted
-         * If multisort is allowed in the future this should be changed to append instead of just return a new array
-         */
-        if (!isSorted) {
-            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: false }]);
-        } else if (isSorted && !isSortedDesc) {
-            props.setSortBy([{ columnNumber: props.column.columnNumber, desc: true }]);
-        } else {
-            props.setSortBy([]);
-        }
-    };
+    const onSortBy = (): void => props.setSort(props.column.columnId);
 
     const sortProps: HTMLAttributes<HTMLDivElement> = {
         onClick: onSortBy,

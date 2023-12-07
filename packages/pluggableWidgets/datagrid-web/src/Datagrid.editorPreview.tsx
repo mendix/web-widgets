@@ -11,6 +11,7 @@ import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { initColumnsState } from "./features/use-columns-state";
+import { initGridState } from "./features/grid-state";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -59,7 +60,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         id: String(index) as GUID
     }));
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
-    const columnsState = initColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index)));
+    const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
+    const columnsState = initColumnsState(columns);
+    const gridState = initGridState(columns);
 
     return (
         <Widget
@@ -71,6 +74,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
             columnsState={columnsState}
+            gridState={gridState}
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
@@ -115,7 +119,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             setOrder={() => {
                 return undefined;
             }}
-            valueForSort={useCallback(() => undefined, [])}
+            setSort={() => {
+                return undefined;
+            }}
             selectionProps={selectionProps}
             selectionStatus={"none"}
         />

@@ -11,7 +11,7 @@ import { GridColumn } from "../../typings/GridColumn";
 export function useInitialize(
     { datasource, configurationAttribute: settings, pageSize, pagination }: DatagridContainerProps,
     columns: GridColumn[]
-): [InitState] {
+): [InitState | undefined] {
     const [initState, setInitState] = useState<InitState>();
 
     function initialize(): void {
