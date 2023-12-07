@@ -21,7 +21,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
+import { ColumnsState, DispatchOrderUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import { GridState } from "../typings/GridState";
@@ -55,7 +55,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     setPage?: (computePage: (prevPage: number) => number) => void;
 
     setOrder: DispatchOrderUpdate;
-    setHidden: DispatchHiddenUpdate;
+    setHidden: React.Dispatch<React.SetStateAction<ColumnId[]>>;
     setSort: React.Dispatch<ColumnId>;
     settings?: EditableValue<string>;
     styles?: CSSProperties;
@@ -101,8 +101,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
-    const { columns, columnsHidden, columnsVisible, columnsAvailable, visibleLength } = props.columnsState;
-    const { sort } = props.gridState;
+    const { columns } = props.columnsState;
+    const { sort, columnsAvailable, columnsHidden, columnsVisible } = props.gridState;
     const columnsToShow = preview ? columns : columnsVisible;
     const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
     const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);
@@ -210,8 +210,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         columns={columnsAvailable}
                                         hiddenColumns={columnsHidden}
                                         id={id}
-                                        setHiddenColumns={props.setHidden}
-                                        visibleLength={visibleLength}
+                                        setHidden={props.setHidden}
+                                        visibleLength={columnsVisible.length}
                                     />
                                 )}
                             </div>
