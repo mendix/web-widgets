@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { ListValue, EditableValue } from "mendix";
 import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
@@ -15,22 +15,15 @@ type Props = {
 };
 
 export function useGridStateWithEffects(props: Props): ReturnType<typeof useGridState> {
-    const ds = useRef(props.datasource);
-    const settings = useRef(props.settings);
     const [state, fns] = useGridState(props.initState);
     const onStateChangeDelayed = useOnStateChangeDelayed();
-
-    useMemo(() => {
-        ds.current = props.datasource;
-        settings.current = props.settings;
-    }, [props.datasource, props.settings]);
 
     useWatchValues((_, [columns]) => fns.setColumns(columns), [props.columns]);
 
     useWatchValues(
         ([prev], [next]) => {
-            onStateChange(prev, next, ds.current, settings.current);
-            onStateChangeDelayed(prev, next, ds.current, settings.current);
+            onStateChange(prev, next, props.datasource, props.settings);
+            onStateChangeDelayed(prev, next, props.datasource, props.settings);
         },
         [state]
     );
