@@ -1,10 +1,7 @@
-import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { GridState } from "../../typings/GridState";
 import { SortRule } from "../../typings/GridSettings";
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
-
-type SortInstruction = ListValue["sortOrder"] extends Array<infer T> ? T : never;
+import { ColumnId, GridColumn, SortInstruction } from "../../typings/GridColumn";
 
 export function getSortInstructions({ sort, columns }: GridState): SortInstruction[] {
     return sort.flatMap(([id, dir]) => {

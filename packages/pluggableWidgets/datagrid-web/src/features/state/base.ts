@@ -1,4 +1,12 @@
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
+import { GridState } from "../../typings/GridState";
+import { ColumnId, GridColumn, SortInstruction } from "../../typings/GridColumn";
+
+export interface InitViewState {
+    filter?: undefined;
+    sortOrder?: SortInstruction[];
+}
+
+export type ComputedInitState = [initState: GridState, initView: InitViewState] | [initState: GridState];
 
 export type OrderUpdate = React.SetStateAction<ColumnId[]>;
 

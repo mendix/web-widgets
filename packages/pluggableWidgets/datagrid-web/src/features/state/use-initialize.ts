@@ -1,14 +1,15 @@
 import { useEffect, useRef } from "react";
 import { ListValue, ValueStatus, EditableValue } from "mendix";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { ComputedInitState, InitState } from "./base";
+import { ComputedInitState } from "./base";
 import { initFromSettings } from "./init-from-settings";
 import { initFromViewState } from "./init-from-view-state";
 import { initFresh } from "./init-fresh";
-import { hasViewState, setViewState } from "./utils";
+import { hasViewState, setViewState } from "./datasource";
 import { Column } from "../../helpers/Column";
+import { GridState } from "../../typings/GridState";
 
-export function useInitialize(props: DatagridContainerProps, columns: Column[]): [InitState | undefined] {
+export function useInitialize(props: DatagridContainerProps, columns: Column[]): [GridState | undefined] {
     const { datasource, pageSize, pagination } = props;
     const [initState] = useInitState(props, columns);
     const isAvailable = (useRef(false).current ||= datasource.status === ValueStatus.Available);
@@ -35,8 +36,8 @@ export function useInitialize(props: DatagridContainerProps, columns: Column[]):
 function useInitState(
     { datasource, configurationAttribute: settings }: DatagridContainerProps,
     columns: Column[]
-): [InitState | undefined] {
-    const computed = useRef<InitState>();
+): [GridState | undefined] {
+    const computed = useRef<GridState>();
 
     if (computed.current) {
         return [computed.current];
@@ -55,7 +56,7 @@ function useInitState(
     const [initState, initViewState] = result;
 
     if (initViewState) {
-        setViewState({ ds: datasource, initViewState });
+        setViewState(datasource, initViewState);
     }
 
     computed.current = initState;
