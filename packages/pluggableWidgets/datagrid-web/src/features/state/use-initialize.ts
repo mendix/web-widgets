@@ -3,11 +3,10 @@ import { ListValue, ValueStatus, EditableValue } from "mendix";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ComputedInitState } from "./base";
 import { initFromSettings } from "./init-from-settings";
-import { initFromViewState } from "./init-from-view-state";
-import { initFresh } from "./init-fresh";
 import { hasViewState, setViewState } from "./datasource";
 import { Column } from "../../helpers/Column";
 import { GridState } from "../../typings/GridState";
+import { initFromDataSource, initGridState } from "./utils";
 
 export function useInitialize(props: DatagridContainerProps, columns: Column[]): [GridState | undefined] {
     const { datasource, pageSize, pagination } = props;
@@ -82,14 +81,9 @@ function initialize(props: {
             settings
         });
     } else if (hasViewState(ds)) {
-        result = initFromViewState({
-            ds,
-            columns
-        });
+        result = [initFromDataSource(ds, columns)];
     } else {
-        result = initFresh({
-            columns
-        });
+        result = [initGridState(columns, ds.filter)];
     }
 
     return result;

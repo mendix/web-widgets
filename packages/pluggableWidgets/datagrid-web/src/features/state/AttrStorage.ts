@@ -6,7 +6,7 @@ export class AttrStorage implements SettingsStorage {
     constructor(private attr: EditableValue<string>) {}
 
     load(): GridSettings | undefined {
-        if (typeof this.attr.value === "string") {
+        if (typeof this.attr.value === "string" && this.attr.value.length > 0) {
             return JSON.parse(this.attr.value);
         }
     }

@@ -1,7 +1,9 @@
+import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { GridState } from "../../typings/GridState";
 import { SortRule } from "../../typings/GridSettings";
 import { ColumnId, GridColumn, SortInstruction } from "../../typings/GridColumn";
+import { Column } from "../../helpers/Column";
 
 export function getSortInstructions({ sort, columns }: GridState): SortInstruction[] {
     return sort.flatMap(([id, dir]) => {
@@ -49,6 +51,16 @@ export function initGridState(columns: GridColumn[], initialFilter?: FilterCondi
         columnsVisible: [],
         initialFilter
     });
+}
+
+export function initFromDataSource(ds: ListValue, columns: Column[]): GridState {
+    const initState = initGridState(columns, ds.filter);
+    initState.sort = ds.sortOrder.flatMap(([attrId, dir]) => {
+        const columnId = columns.find(col => col.attrId === attrId)?.columnId;
+        return columnId ? [[columnId, dir]] : [];
+    });
+
+    return initState;
 }
 
 export function reduceOnPropChange<
