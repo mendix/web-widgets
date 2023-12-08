@@ -5,6 +5,8 @@ import { SortRule } from "../../typings/GridSettings";
 import { ColumnId, GridColumn, SortInstruction } from "../../typings/GridColumn";
 import { Column } from "../../helpers/Column";
 
+const USE_MULTI_SORT = true;
+
 export function getSortInstructions({ sort, columns }: GridState): SortInstruction[] {
     return sort.flatMap(([id, dir]) => {
         const column = columns.find(c => c.columnId === id);
@@ -14,13 +16,24 @@ export function getSortInstructions({ sort, columns }: GridState): SortInstructi
 }
 
 export function computeSort(sort: SortRule[], columnId: ColumnId): SortRule[] {
-    const [[id, dir] = []] = sort;
+    if (USE_MULTI_SORT) {
+        if (sort.some(([id]) => id === columnId)) {
+            return sort.flatMap(rule => {
+                if (rule[0] === columnId) {
+                    return rule[1] === "asc" ? [[columnId, "desc"]] : [];
+                }
+                return [rule];
+            });
+        }
 
-    if (id === columnId) {
-        return dir === "asc" ? [[columnId, "desc"]] : [];
+        return [...sort, [columnId, "asc"]];
+    } else {
+        const [[id, dir] = []] = sort;
+        if (id === columnId) {
+            return dir === "asc" ? [[columnId, "desc"]] : [];
+        }
+        return [[columnId, "asc"]];
     }
-
-    return [[columnId, "asc"]];
 }
 
 export function computeNewState<S extends GridState>(draft: S): S {
