@@ -1,10 +1,11 @@
 import { ListValue } from "mendix";
 import { GridState } from "../../typings/GridState";
 import { GridSettings } from "../../typings/GridSettings";
-import { ColumnId } from "../../typings/GridColumn";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { hasViewState } from "./datasource";
 import { computeNewState, getSortInstructions } from "./utils";
 import { ComputedInitState } from "./base";
+import { SettingsStorage } from "../../typings/SettingsStorage";
 
 export function stateToSettings(state: GridState): GridSettings {
     return {
@@ -61,17 +62,6 @@ export function isSubset<T>(a: Iterable<T>, b: Iterable<T>): [boolean, "<" | ">"
 }
 
 export function computeFromSettings(initState: GridState, settings: GridSettings, ds: ListValue): ComputedInitState {
-    const [result, size] = isSubset(initState.columnsOrder, settings.order);
-
-    if (result === false) {
-        return [initState];
-    }
-
-    // remove extra columns if number of columns is decreased
-    if (Object.is(size, "<")) {
-        settings = filter(settings, initState.columnsOrder);
-    }
-
     const draft = writeSettings(initState, settings);
 
     // skip initView if ds already has a view state
@@ -81,4 +71,24 @@ export function computeFromSettings(initState: GridState, settings: GridSettings
 
     initState = computeNewState(draft);
     return [initState, { sortOrder: getSortInstructions(initState) }];
+}
+
+export function restoreSettings(columns: GridColumn[], storage: SettingsStorage): GridSettings | undefined {
+    const settings = storage.load();
+
+    if (settings === undefined) {
+        return;
+    }
+
+    const ids = columns.map(col => col.columnId);
+    const [result, size] = isSubset(ids, settings.order);
+
+    // Can't proceed with current settings, reset.
+    if (result === false) {
+        storage.reset();
+        return;
+    }
+
+    // remove extra columns if number of columns is decreased
+    return Object.is(size, "<") ? filter(settings, ids) : settings;
 }

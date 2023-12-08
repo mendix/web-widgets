@@ -14,4 +14,8 @@ export class AttrStorage implements SettingsStorage {
     save(settings: GridSettings): void {
         this.attr.setValue(JSON.stringify(settings, null, 2));
     }
+
+    reset(): void {
+        this.attr.setValue(undefined);
+    }
 }

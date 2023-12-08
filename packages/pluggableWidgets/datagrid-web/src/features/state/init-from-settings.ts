@@ -3,7 +3,7 @@ import { GridColumn } from "../../typings/GridColumn";
 import { ComputedInitState } from "./base";
 import { initGridState } from "./utils";
 import { AttrStorage } from "./AttrStorage";
-import { computeFromSettings } from "./setting-utils";
+import { computeFromSettings, restoreSettings } from "./setting-utils";
 
 export function initFromSettings(props: {
     columns: GridColumn[];
@@ -14,12 +14,10 @@ export function initFromSettings(props: {
         return;
     }
 
-    const initState = initGridState(props.columns, props.ds.filter);
-    const settings = new AttrStorage(props.settings).load();
+    const [initState, settings] = [
+        initGridState(props.columns, props.ds.filter),
+        restoreSettings(props.columns, new AttrStorage(props.settings))
+    ];
 
-    if (settings === undefined) {
-        return [initState];
-    }
-
-    return computeFromSettings(initState, settings, props.ds);
+    return settings === undefined ? [initState] : computeFromSettings(initState, settings, props.ds);
 }
