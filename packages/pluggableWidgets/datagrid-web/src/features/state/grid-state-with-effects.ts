@@ -6,6 +6,8 @@ import { GridState } from "../../typings/GridState";
 import { useGridState } from "./grid-state";
 import { GridColumn } from "../../typings/GridColumn";
 import { getSortInstructions } from "./utils";
+import { AttrStorage } from "../settings/AttrStorage";
+import { stateToSettings } from "../settings/utils";
 
 type Props = {
     initState: GridState;
@@ -52,18 +54,12 @@ function onStateChangeDelayed(
     _: GridState,
     next: GridState,
     __: ListValue,
-    settings: EditableValue<string> | undefined
+    attr: EditableValue<string> | undefined
 ): void {
-    settings?.setValue(
-        JSON.stringify(
-            {
-                sort: next.sort,
-                order: next.columnsOrder,
-                hidden: [...next.columnsHidden],
-                size: next.columnsSize
-            },
-            null,
-            2
-        )
-    );
+    if (attr === undefined) {
+        return;
+    }
+
+    const storage = new AttrStorage(attr);
+    storage.save(stateToSettings(next));
 }
