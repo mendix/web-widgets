@@ -13,7 +13,7 @@ export function SingleSelection({
     a11yConfig,
     preview,
     showFooter,
-    showFooterContent,
+    menuFooterContent,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -30,7 +30,7 @@ export function SingleSelection({
     return (
         <Fragment>
             <ComboboxWrapper
-                isOpen={preview && showFooter ? true : isOpen}
+                isOpen={isOpen || (preview === true && showFooter)}
                 readOnly={selector.readOnly}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
@@ -85,10 +85,10 @@ export function SingleSelection({
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
-                isOpen={preview && showFooter ? true : isOpen}
+                isOpen={isOpen || (preview === true && showFooter)}
                 highlightedIndex={highlightedIndex}
                 showFooter={showFooter}
-                showFooterContent={showFooterContent}
+                menuFooterContent={menuFooterContent}
                 preview={preview}
             />
         </Fragment>
