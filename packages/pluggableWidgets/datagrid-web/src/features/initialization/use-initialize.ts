@@ -1,21 +1,29 @@
 import { useState, useEffect } from "react";
-import { ListValue } from "mendix";
+import { ListValue, ValueStatus } from "mendix";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ComputedInitState, InitState, InitViewState } from "./base";
 import { initFromSettings } from "./init-from-settings";
 import { initFromViewState } from "./init-from-view-state";
 import { initFresh } from "./init-fresh";
 import { hasViewState } from "./utils";
-import { GridColumn } from "../../typings/GridColumn";
+import { Column } from "../../helpers/Column";
 
 export function useInitialize(
     { datasource, configurationAttribute: settings, pageSize, pagination }: DatagridContainerProps,
-    columns: GridColumn[]
+    columns: Column[]
 ): [InitState | undefined] {
     const [initState, setInitState] = useState<InitState>();
 
     function initialize(): void {
         if (initState) {
+            return;
+        }
+
+        if (columns.some(column => column.status === ValueStatus.Loading)) {
+            return;
+        }
+
+        if (datasource.status === ValueStatus.Loading) {
             return;
         }
 

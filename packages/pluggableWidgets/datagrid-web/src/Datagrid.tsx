@@ -1,5 +1,4 @@
 import { createElement, useMemo } from "react";
-import { ValueStatus } from "mendix";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import DatagridContainer from "./components/Datagrid";
 import "./ui/Datagrid.scss";
@@ -10,7 +9,7 @@ export default function Datagrid(props: DatagridContainerProps): React.ReactElem
     const columns = useMemo(() => props.columns.map((col, index) => new Column(col, index)), [props.columns]);
     const [initState] = useInitialize(props, columns);
 
-    if (initState === undefined || props.datasource.status === ValueStatus.Loading) {
+    if (initState === undefined) {
         return <span>Loading</span>;
     }
 
