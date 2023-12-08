@@ -26,7 +26,7 @@ export function SingleSelectionMenu({
     showFooter,
     menuFooterContent
 }: ComboboxMenuProps): ReactElement {
-    let items = selector.options.getAll();
+    const items = selector.options.getAll();
 
     return (
         <ComboboxMenuWrapper
