@@ -1,10 +1,12 @@
 import { ListValue, EditableValue } from "mendix";
-import { InitState, ComputedInitState } from "./base";
+import { ComputedInitState } from "./base";
+import { initGridState } from "../state/grid-state";
+import { GridColumn } from "../../typings/GridColumn";
 
-export function initFromSettings(_props: {
-    setInitState: React.Dispatch<InitState>;
+export function initFromSettings(props: {
+    columns: GridColumn[];
     ds: ListValue;
     settings: EditableValue<string>;
 }): ComputedInitState | undefined {
-    return undefined;
+    return [initGridState(props.columns)];
 }

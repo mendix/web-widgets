@@ -23,7 +23,7 @@ export function useInitialize(
         if (settings) {
             result = initFromSettings({
                 ds: datasource,
-                setInitState,
+                columns,
                 settings
             });
         } else if (hasViewState(datasource)) {

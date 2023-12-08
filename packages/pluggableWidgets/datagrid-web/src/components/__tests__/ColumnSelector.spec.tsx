@@ -87,12 +87,14 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
+                                columnId: "0",
                                 columnNumber: 0,
                                 header: "Test",
                                 canHide: true
                             },
                             {
                                 columnNumber: 1,
+                                columnId: "1",
                                 header: "Test2",
                                 canHide: true
                             }
@@ -125,21 +127,25 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
+                                columnId: "0",
                                 columnNumber: 0,
                                 header: "Test",
                                 canHide: true
                             },
                             {
+                                columnId: "1",
                                 columnNumber: 1,
                                 header: "Test2",
                                 canHide: false
                             },
                             {
+                                columnId: "2",
                                 columnNumber: 2,
                                 header: "Test3",
                                 canHide: true
                             },
                             {
+                                columnId: "3",
                                 columnNumber: 3,
                                 header: "Test4",
                                 canHide: true
@@ -175,6 +181,7 @@ function mockColumnSelectorProps(): ColumnSelectorProps {
     return {
         columns: [
             {
+                columnId: "1",
                 columnNumber: 1,
                 header: "Test",
                 canHide: true

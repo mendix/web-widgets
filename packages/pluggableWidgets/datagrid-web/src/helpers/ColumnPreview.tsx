@@ -52,4 +52,8 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
                 return <span>Unknown content type: ${this.props.showContentAs}</span>;
         }
     }
+
+    sortInstruction(): undefined {
+        return undefined;
+    }
 }

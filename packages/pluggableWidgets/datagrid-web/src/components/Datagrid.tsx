@@ -18,8 +18,8 @@ import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Column } from "../helpers/Column";
-import { useGridState } from "../features/state/grid-state";
 import { GridState } from "../typings/GridState";
+import { useGridStateWithEffects } from "../features/state/grid-state-with-effects";
 
 type ContainerProps = Omit<DatagridContainerProps, "columns"> & {
     columns: Column[];
@@ -39,7 +39,12 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [gridState, { setSort, setHidden, setOrder, setSize }] = useGridState(props.initState);
+    const [gridState, { setSort, setHidden, setOrder, setSize }] = useGridStateWithEffects({
+        initState: props.initState,
+        datasource: props.datasource,
+        settings: props.configurationAttribute,
+        columns: props.columns
+    });
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: gridState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
@@ -65,13 +70,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             [props.datasource]
         )
     });
-
-    useEffect(() => {
-        props.datasource.requestTotalCount(!isInfiniteLoad);
-        if (props.datasource.limit === Number.POSITIVE_INFINITY) {
-            props.datasource.setLimit(props.pageSize);
-        }
-    }, [props.datasource, props.pageSize, isInfiniteLoad]);
 
     useEffect(() => {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {

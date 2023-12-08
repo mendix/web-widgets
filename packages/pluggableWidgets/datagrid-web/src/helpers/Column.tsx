@@ -1,7 +1,7 @@
 import { ObjectItem, ValueStatus } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
-import { GridColumn, ColumnId } from "../typings/GridColumn";
+import { GridColumn, ColumnId, SortInstruction } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
 
 export class Column extends BaseColumn implements GridColumn {
@@ -59,6 +59,12 @@ export class Column extends BaseColumn implements GridColumn {
             }
             default:
                 throw new Error(`Unknown content type: ${this.props.showContentAs}`);
+        }
+    }
+
+    sortInstruction(dir: "asc" | "desc"): SortInstruction | undefined {
+        if (this.canSort && this.props.attribute?.id) {
+            return [this.props.attribute.id, dir];
         }
     }
 }
