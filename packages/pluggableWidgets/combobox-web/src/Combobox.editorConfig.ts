@@ -49,7 +49,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
 
         if (values.showFooter === false) {
-            hidePropertiesIn(defaultProperties, values, ["showFooterContent"]);
+            hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
         }
     }
 
@@ -99,7 +99,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             dropzone(
                 dropzone.placeholder("Configure footer: place widgets here"),
                 dropzone.hideDataSourceHeaderIf(false)
-            )(_values.showFooterContent)
+            )(_values.menuFooterContent)
         );
     }
     if (structurePreviewChildren.length === 0) {
