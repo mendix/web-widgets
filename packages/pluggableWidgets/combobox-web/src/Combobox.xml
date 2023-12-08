@@ -115,8 +115,8 @@
                     <caption>Show footer</caption>
                     <description />
                 </property>
-                <property key="showFooterContent" type="widgets" required="false">
-                    <caption>Show footer</caption>
+                <property key="menuFooterContent" type="widgets" required="false">
+                    <caption>Footer content</caption>
                     <description />
                 </property>
                 <!-- END MISC PROPS -->

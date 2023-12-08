@@ -75,7 +75,7 @@ export interface SelectionBaseProps<Selector> {
     preview?: boolean;
     selector: Selector;
     showFooter: boolean;
-    showFooterContent?: ReactNode;
+    menuFooterContent?: ReactNode;
     tabIndex: number;
     a11yConfig: {
         ariaLabels: {

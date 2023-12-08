@@ -12,7 +12,7 @@ interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     noOptionsText?: string;
     preview?: boolean;
     showFooter: boolean;
-    showFooterContent?: ReactNode;
+    menuFooterContent?: ReactNode;
 }
 
 export function SingleSelectionMenu({
@@ -24,12 +24,9 @@ export function SingleSelectionMenu({
     noOptionsText,
     preview,
     showFooter,
-    showFooterContent
+    menuFooterContent
 }: ComboboxMenuProps): ReactElement {
     let items = selector.options.getAll();
-    if (preview && showFooter) {
-        items = ["..."];
-    }
 
     return (
         <ComboboxMenuWrapper
@@ -38,7 +35,7 @@ export function SingleSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
             showFooter={showFooter}
-            showFooterContent={showFooterContent}
+            menuFooterContent={menuFooterContent}
             preview={preview}
         >
             {isOpen &&

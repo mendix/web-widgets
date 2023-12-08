@@ -29,7 +29,7 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
             }
         },
         showFooter: props.showFooter,
-        showFooterContent: props.showFooterContent
+        menuFooterContent: props.menuFooterContent
     };
 
     return (
