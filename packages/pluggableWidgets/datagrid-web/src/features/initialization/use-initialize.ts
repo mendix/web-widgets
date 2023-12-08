@@ -7,7 +7,6 @@ import { initFromViewState } from "./init-from-view-state";
 import { initFresh } from "./init-fresh";
 import { hasViewState, setViewState } from "./utils";
 import { Column } from "../../helpers/Column";
-import { GridState } from "../../typings/GridState";
 
 export function useInitialize(props: DatagridContainerProps, columns: Column[]): [InitState | undefined] {
     const { datasource, pageSize, pagination } = props;
@@ -36,8 +35,8 @@ export function useInitialize(props: DatagridContainerProps, columns: Column[]):
 function useInitState(
     { datasource, configurationAttribute: settings }: DatagridContainerProps,
     columns: Column[]
-): [GridState | undefined] {
-    const computed = useRef<GridState>();
+): [InitState | undefined] {
+    const computed = useRef<InitState>();
 
     if (computed.current) {
         return [computed.current];
