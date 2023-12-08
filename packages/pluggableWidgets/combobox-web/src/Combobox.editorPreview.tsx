@@ -62,6 +62,9 @@ class AssociationPreviewSelector extends BaseAssociationSelector<string, Referen
             // always render custom content dropzone in design mode if type is options only
             this.customContentType = "yes";
         }
+        if (props.showFooter) {
+            this.options.getAll = () => ["..."];
+        }
     }
 }
 
@@ -84,10 +87,10 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
             }
         },
         showFooter: props.showFooter,
-        showFooterContent: (
-            <props.showFooterContent.renderer caption="Place footer widget here">
+        menuFooterContent: (
+            <props.menuFooterContent.renderer caption="Place footer widget here">
                 <div />
-            </props.showFooterContent.renderer>
+            </props.menuFooterContent.renderer>
         ),
         preview: true
     };
