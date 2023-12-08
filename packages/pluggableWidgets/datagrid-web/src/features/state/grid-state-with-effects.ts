@@ -59,7 +59,7 @@ function onStateChangeDelayed(
             {
                 sort: next.sort,
                 order: next.columnsOrder,
-                hidden: next.columnsHidden,
+                hidden: [...next.columnsHidden],
                 size: next.columnsSize
             },
             null,

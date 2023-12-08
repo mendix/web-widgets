@@ -1,7 +1,7 @@
 import { useReducer, useMemo } from "react";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { SortRule } from "../../typings/GridSettings";
-import { ColumnsById, GridState } from "../../typings/GridState";
+import { GridState } from "../../typings/GridState";
 import { OrderUpdate, HiddenUpdate, SizeUpdate, UpdateFunctions } from "./base";
 
 type Action =
@@ -14,17 +14,17 @@ type Action =
 function reducer(state: GridState, action: Action): GridState {
     switch (action.type) {
         case "SetOrder": {
-            return reduceOnPropChange(state, "columnsOrder", action.payload.order, computeVisible);
+            return reduceOnPropChange(state, "columnsOrder", action.payload.order, computeNewState);
         }
 
         case "SetHidden": {
-            return reduceOnPropChange(state, "columnsHidden", action.payload.hidden, computeVisible);
+            return reduceOnPropChange(state, "columnsHidden", action.payload.hidden, computeNewState);
         }
 
         case "ColumnsUpdate": {
-            return reduceOnPropChange(state, "columns", columnMap(action.payload.columns), draftState =>
-                computeVisible({
-                    ...draftState,
+            return reduceOnPropChange(state, "columns", action.payload.columns, draft =>
+                computeNewState({
+                    ...draft,
                     columnsAvailable: action.payload.columns.filter(column => column.visible)
                 })
             );
@@ -63,28 +63,28 @@ function computeSort(sort: SortRule[], columnId: ColumnId): SortRule[] {
     return [[columnId, "asc"]];
 }
 
-function columnMap(columns: GridColumn[]): ColumnsById {
-    return Object.fromEntries(columns.map(column => [column.columnId, column]));
-}
-
-function computeVisible<S extends GridState>(draftState: S): S {
-    const columnsVisible = draftState.columnsOrder.flatMap(columnId => {
-        const column = draftState.columns[columnId];
-        return draftState.columnsHidden.has(columnId) || !column.visible ? [] : [column];
-    });
-
+function computeNewState<S extends GridState>(draft: S): S {
+    const available = sortByOrder(draft.columnsAvailable, draft.columnsOrder);
+    const visible = available.filter(column => !draft.columnsHidden.has(column.columnId));
     return {
-        ...draftState,
-        columnsVisible,
-        visibleLength: columnsVisible.length
+        ...draft,
+        columnsVisible: visible,
+        columnsAvailable: available
     };
 }
 
+function sortByOrder(columns: GridColumn[], order: ColumnId[]): GridColumn[] {
+    const result = [...columns];
+    const index = Object.fromEntries(order.map((id, index) => [id, index]));
+    result.sort((a, b) => index[a.columnId] - index[b.columnId]);
+    return result;
+}
+
 export function initGridState(columns: GridColumn[]): GridState {
-    return computeVisible({
+    return computeNewState({
         sort: [],
         columnsSize: {},
-        columns: columnMap(columns),
+        columns: columns,
         columnsAvailable: columns.filter(column => column.visible),
         columnsOrder: columns.map(col => col.columnId),
         columnsHidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
