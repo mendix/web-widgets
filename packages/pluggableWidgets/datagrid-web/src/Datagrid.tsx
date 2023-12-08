@@ -2,7 +2,7 @@ import { createElement, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import DatagridContainer from "./components/Datagrid";
 import "./ui/Datagrid.scss";
-import { useInitialize } from "./features/initialization/use-initialize";
+import { useInitialize } from "./features/state/use-initialize";
 import { Column } from "./helpers/Column";
 
 export default function Datagrid(props: DatagridContainerProps): React.ReactElement {

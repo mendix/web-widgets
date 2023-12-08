@@ -6,8 +6,8 @@ import { GridState } from "../../typings/GridState";
 import { useGridState } from "./grid-state";
 import { GridColumn } from "../../typings/GridColumn";
 import { getSortInstructions } from "./utils";
-import { AttrStorage } from "../settings/AttrStorage";
-import { stateToSettings } from "../settings/utils";
+import { AttrStorage } from "./AttrStorage";
+import { stateToSettings } from "./setting-utils";
 
 type Props = {
     initState: GridState;
