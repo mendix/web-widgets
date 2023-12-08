@@ -8,4 +8,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
--   We added a new property named "Show footer" which enables the widget to show a footer inside combobox menu. With show footer set to true the developers can add custom footer content like text, button, links, etc.
+-   We added a new property named **Show footer**, enabling the Combobox widget to display a footer within its menu. When **Show footer** is set to **Yes**, developers can include custom footer content such as text, buttons, links, etc.
