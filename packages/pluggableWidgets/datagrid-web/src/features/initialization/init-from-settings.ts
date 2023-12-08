@@ -8,5 +8,5 @@ export function initFromSettings(props: {
     ds: ListValue;
     settings: EditableValue<string>;
 }): ComputedInitState | undefined {
-    return [initGridState(props.columns)];
+    return [initGridState(props.columns, props.ds.filter)];
 }

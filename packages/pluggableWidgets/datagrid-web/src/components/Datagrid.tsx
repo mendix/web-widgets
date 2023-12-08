@@ -34,7 +34,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
-    const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
@@ -70,12 +69,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             [props.datasource]
         )
     });
-
-    useEffect(() => {
-        if (props.datasource.filter && !filtered && !viewStateFilters.current) {
-            viewStateFilters.current = props.datasource.filter;
-        }
-    }, [props.datasource, props.configurationAttribute, filtered]);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -116,8 +109,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
         props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
     } else if (filtered) {
         props.datasource.setFilter(undefined);
-    } else {
-        props.datasource.setFilter(viewStateFilters.current);
     }
 
     const selectionHelper = useSelectionHelper(
@@ -156,7 +147,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = readInitFilterValues(attribute, viewStateFilters.current);
+                    const initialFilters = readInitFilterValues(attribute, gridState.initialFilter);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
@@ -179,6 +170,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                         </FilterContext.Provider>
                     );
                 },
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 [FilterContext, customFiltersState, props.rawColumns]
             )}
             headerTitle={props.filterSectionTitle?.value}
@@ -187,7 +179,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                     <WidgetHeaderContext
                         filterList={props.filterList}
                         setFiltered={setFiltered}
-                        viewStateFilters={viewStateFilters.current}
+                        viewStateFilters={gridState.initialFilter}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}
                     >

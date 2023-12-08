@@ -1,4 +1,5 @@
 import { useReducer, useMemo } from "react";
+import { FilterCondition } from "mendix/filters";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { SortRule } from "../../typings/GridSettings";
 import { GridState } from "../../typings/GridState";
@@ -80,15 +81,16 @@ function sortByOrder(columns: GridColumn[], order: ColumnId[]): GridColumn[] {
     return result;
 }
 
-export function initGridState(columns: GridColumn[]): GridState {
+export function initGridState(columns: GridColumn[], initialFilter?: FilterCondition): GridState {
     return computeNewState({
         sort: [],
         columnsSize: {},
-        columns: columns,
+        columns,
         columnsAvailable: columns.filter(column => column.visible),
         columnsOrder: columns.map(col => col.columnId),
         columnsHidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
-        columnsVisible: []
+        columnsVisible: [],
+        initialFilter
     });
 }
 

@@ -29,7 +29,7 @@ export function useInitialize(
         } else if (hasViewState(datasource)) {
             result = initFromViewState({
                 ds: datasource,
-                setInitState
+                columns
             });
         } else {
             result = initFresh({

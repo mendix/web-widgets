@@ -1,3 +1,4 @@
+import { FilterCondition } from "mendix/filters";
 import { ColumnId, GridColumn } from "./GridColumn";
 import { SortRule } from "./GridSettings";
 
@@ -13,4 +14,6 @@ export type GridState = {
     columnsOrder: ColumnId[];
     columns: GridColumn[];
     columnsVisible: GridColumn[];
+    /** Datasource filter, should be used only to restore filters */
+    readonly initialFilter: FilterCondition | undefined;
 };

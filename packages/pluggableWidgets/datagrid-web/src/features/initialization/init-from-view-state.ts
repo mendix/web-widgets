@@ -1,9 +1,8 @@
 import { ListValue } from "mendix";
-import { ComputedInitState, InitState } from "./base";
+import { ComputedInitState } from "./base";
+import { initGridState } from "../state/grid-state";
+import { GridColumn } from "../../typings/GridColumn";
 
-export function initFromViewState(_props: {
-    setInitState: React.Dispatch<InitState>;
-    ds: ListValue;
-}): ComputedInitState | undefined {
-    return undefined;
+export function initFromViewState(props: { columns: GridColumn[]; ds: ListValue }): ComputedInitState | undefined {
+    return [initGridState(props.columns, props.ds.filter)];
 }
