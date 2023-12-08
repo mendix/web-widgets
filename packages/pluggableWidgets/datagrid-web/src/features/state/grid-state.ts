@@ -2,12 +2,7 @@ import { useReducer, useMemo } from "react";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { SortRule } from "../../typings/GridSettings";
 import { ColumnsById, GridState } from "../../typings/GridState";
-
-type OrderUpdate = React.SetStateAction<ColumnId[]>;
-
-type HiddenUpdate = React.SetStateAction<ColumnId[]>;
-
-type SizeUpdate = [ColumnId, number];
+import { OrderUpdate, HiddenUpdate, SizeUpdate, UpdateFunctions } from "./base";
 
 type Action =
     | { type: "SetOrder"; payload: { order: OrderUpdate } }
@@ -75,7 +70,7 @@ function columnMap(columns: GridColumn[]): ColumnsById {
 function computeVisible<S extends GridState>(draftState: S): S {
     const columnsVisible = draftState.columnsOrder.flatMap(columnId => {
         const column = draftState.columns[columnId];
-        return draftState.columnsHidden.includes(columnId) || !column.visible ? [] : [column];
+        return draftState.columnsHidden.has(columnId) || !column.visible ? [] : [column];
     });
 
     return {
@@ -92,7 +87,7 @@ export function initGridState(columns: GridColumn[]): GridState {
         columns: columnMap(columns),
         columnsAvailable: columns.filter(column => column.visible),
         columnsOrder: columns.map(col => col.columnId),
-        columnsHidden: columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : [])),
+        columnsHidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
         columnsVisible: []
     });
 }
@@ -128,14 +123,6 @@ function getPropUpdate<S, P extends keyof S, A extends React.SetStateAction<S[P]
 
     return [prev, next];
 }
-
-type UpdateFunctions = {
-    setOrder: React.Dispatch<OrderUpdate>;
-    setHidden: React.Dispatch<HiddenUpdate>;
-    setColumns: React.Dispatch<GridColumn[]>;
-    setSort: React.Dispatch<ColumnId>;
-    setSize: React.Dispatch<SizeUpdate>;
-};
 
 export function useGridState(initState: GridState): [GridState, UpdateFunctions] {
     const [state, dispatch] = useReducer(reducer, initState);

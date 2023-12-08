@@ -23,6 +23,7 @@ import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import { ColumnWidthConfig, GridState } from "../typings/GridState";
+import { UpdateFunctions } from "../features/state/base";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -51,10 +52,10 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     processedRows: number;
     rowClass?: (item: T) => string;
     setPage?: (computePage: (prevPage: number) => number) => void;
-    setOrder: React.Dispatch<React.SetStateAction<ColumnId[]>>;
-    setHidden: React.Dispatch<React.SetStateAction<ColumnId[]>>;
-    setSort: React.Dispatch<ColumnId>;
-    setSize: React.Dispatch<[ColumnId, number]>;
+    setOrder: UpdateFunctions["setOrder"];
+    setHidden: UpdateFunctions["setHidden"];
+    setSort: UpdateFunctions["setSort"];
+    setSize: UpdateFunctions["setSize"];
     settings?: EditableValue<string>;
     styles?: CSSProperties;
 

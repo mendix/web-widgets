@@ -1,15 +1,17 @@
-import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, useMemo, useRef, useState } from "react";
+import { createElement, ReactElement, useCallback, useMemo, useRef, useState } from "react";
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
+import { UpdateFunctions } from "../features/state/base";
+import { GridState } from "../typings/GridState";
 
 export interface ColumnSelectorProps {
     columns: GridColumn[];
-    hiddenColumns: ColumnId[];
+    hiddenColumns: GridState["columnsHidden"];
     id?: string;
-    setHidden: Dispatch<SetStateAction<ColumnId[]>>;
+    setHidden: UpdateFunctions["setHidden"];
     label?: string;
     visibleLength: number;
 }
@@ -33,15 +35,17 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
             if (!isLastVisibleColumn) {
                 setHidden(prev => {
+                    const next = new Set(prev);
                     if (!isVisible) {
-                        return prev.filter(v => v !== columnId);
+                        next.delete(columnId);
                     } else {
-                        return [...prev, columnId];
+                        next.add(columnId);
                     }
+                    return next;
                 });
             }
         },
-        [setHidden, isOnlyOneColumnVisible]
+        [isOnlyOneColumnVisible]
     );
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
@@ -61,7 +65,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column: GridColumn, index) => {
-                const isVisible = !props.hiddenColumns.includes(column.columnId);
+                const isVisible = !props.hiddenColumns.has(column.columnId);
                 const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
                 return column.canHide ? (
                     <li

@@ -11,7 +11,7 @@ export type GridState = {
     sort: SortRule[];
     columnsSize: ColumnWidthConfig;
     columnsAvailable: GridColumn[];
-    columnsHidden: ColumnId[];
+    columnsHidden: Set<ColumnId>;
     columnsOrder: ColumnId[];
     columns: ColumnsById;
     columnsVisible: GridColumn[];
