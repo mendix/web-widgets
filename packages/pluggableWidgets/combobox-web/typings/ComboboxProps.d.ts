@@ -37,7 +37,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     showFooter: boolean;
-    showFooterContent?: ReactNode;
+    menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent?: ActionValue;
@@ -68,7 +68,7 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showFooter: boolean;
-    showFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     onChangeEvent: {} | null;

@@ -15,7 +15,7 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     noOptionsText?: string;
     inputId?: string;
     showFooter: boolean;
-    showFooterContent?: ReactNode;
+    menuFooterContent?: ReactNode;
 }
 
 export function MultiSelectionMenu({
@@ -28,7 +28,7 @@ export function MultiSelectionMenu({
     noOptionsText,
     inputId,
     showFooter,
-    showFooterContent
+    menuFooterContent
 }: MultiSelectionMenuProps): ReactElement {
     return (
         <ComboboxMenuWrapper
@@ -37,7 +37,7 @@ export function MultiSelectionMenu({
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
             showFooter={showFooter}
-            showFooterContent={showFooterContent}
+            menuFooterContent={menuFooterContent}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {
