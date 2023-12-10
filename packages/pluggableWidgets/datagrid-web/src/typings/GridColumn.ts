@@ -20,9 +20,9 @@ export interface GridColumn {
     header: string;
     initiallyHidden: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
+    sortInstruction(dir: "asc" | "desc"): SortInstruction | undefined;
     visible: boolean;
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
-    sortInstruction(dir: "asc" | "desc"): SortInstruction | undefined;
 }
