@@ -204,7 +204,7 @@
                     <description />
                     <enumerationValues>
                         <enumerationValue key="always">Always</enumerationValue>
-                        <enumerationValue key="whenNecessary">When necessary</enumerationValue>
+                        <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">

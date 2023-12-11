@@ -14,7 +14,7 @@ export const useShowPagination = (props: ShowPaginationProps): boolean => {
         return (
             pagination === "buttons" &&
             (showPagingButtons === "always" ||
-                (showPagingButtons === "whenNecessary" && (totalCount ? totalCount > limit : false)))
+                (showPagingButtons === "auto" && (totalCount ? totalCount > limit : false)))
         );
     }, [pagination, showPagingButtons, totalCount, limit]);
 };

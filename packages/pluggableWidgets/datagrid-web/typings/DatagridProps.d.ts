@@ -44,7 +44,7 @@ export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
 
-export type ShowPagingButtonsEnum = "always" | "whenNecessary";
+export type ShowPagingButtonsEnum = "always" | "auto";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
