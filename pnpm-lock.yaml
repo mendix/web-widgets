@@ -1107,6 +1107,12 @@ importers:
       deep-equal:
         specifier: ^2.2.2
         version: 2.2.2
+      effector:
+        specifier: ^23.0.0
+        version: 23.0.0
+      effector-react:
+        specifier: ^23.0.1
+        version: 23.0.1(effector@23.0.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -4799,7 +4805,7 @@ packages:
       '@types/react-native': 0.70.16
       '@types/testing-library__jest-dom': 5.14.9
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
       babel-jest: 29.7.0(@babel/core@7.21.0)
@@ -5968,7 +5974,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
@@ -6031,7 +6037,7 @@ packages:
       - typescript
     dev: true
 
-  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6):
+  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4):
     resolution: {integrity: sha512-VlJEV0fOQ7BExOsHYAGrgbEiZoi8D+Bl2+f6V2RrXerRSylnp+ZBHmPvaIa8cz0Ajx7WO7Z5RqfgYg7ED1nRhA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -6043,10 +6049,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.1.6)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.0.4)
       debug: 4.3.4
       eslint: 7.32.0
-      typescript: 5.1.6
+      typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6210,6 +6216,7 @@ packages:
       typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@typescript-eslint/typescript-estree@6.13.2(typescript@5.1.6):
     resolution: {integrity: sha512-SuD8YLQv6WHnOEtKv8D6HZUzOub855cfPnPMKvdM/Bh1plv1f7Q/0iFUDLKKlxHcEstQnaUU4QZskgQq74t+3w==}
@@ -8791,6 +8798,23 @@ packages:
     dependencies:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
+    dev: false
+
+  /effector-react@23.0.1(effector@23.0.0)(react@18.2.0):
+    resolution: {integrity: sha512-rWIv7La4RaCuIfzqTljQewEd7KBzhau6xpTr7w5ZB2FEEnCh5+YtelT73ifeUC+kE5iPr38MwpANyjDGQ1bl0w==}
+    engines: {node: '>=11.0.0'}
+    peerDependencies:
+      effector: ^23.0.0
+      react: '>=16.8.0 <19.0.0 || 18'
+    dependencies:
+      effector: 23.0.0
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /effector@23.0.0:
+    resolution: {integrity: sha512-8lT1iX8ivWRUnJL4XG2OhCZPRZku1XVc7AwbJCChxZhhB6ii/hZgs0GOTeE3BJfvc1BKf97q2hU3Yzp323sCiA==}
+    engines: {node: '>=11.0.0'}
     dev: false
 
   /electron-to-chromium@1.4.431:
@@ -15904,6 +15928,7 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 5.1.6
+    dev: false
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
