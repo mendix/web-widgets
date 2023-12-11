@@ -20,6 +20,7 @@ import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
+import { useShowPagination } from "./utils/useShowPagination";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -212,12 +213,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             onExportCancel={abort}
             page={currentPage}
             pageSize={props.pageSize}
-            paging={
-                props.pagination === "buttons" &&
-                (props.showPagingButtons === "always" ||
-                    (props.showPagingButtons === "whenNecessary" &&
-                        (props.datasource.totalCount ? props.datasource.totalCount > props.datasource.limit : false)))
-            }
+            paging={useShowPagination({
+                pagination: props.pagination,
+                showPagingButtons: props.showPagingButtons,
+                totalCount: props.datasource.totalCount,
+                limit: props.datasource.limit
+            })}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}
