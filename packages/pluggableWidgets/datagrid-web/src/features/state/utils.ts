@@ -46,7 +46,7 @@ export function computeNewState<S extends GridState>(draft: S): S {
     };
 }
 
-function sortByOrder(columns: GridColumn[], order: ColumnId[]): GridColumn[] {
+export function sortByOrder<T extends GridColumn>(columns: T[], order: ColumnId[]): T[] {
     const result = [...columns];
     const index = Object.fromEntries(order.map((id, index) => [id, index]));
     result.sort((a, b) => index[a.columnId] - index[b.columnId]);
