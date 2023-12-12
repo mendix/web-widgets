@@ -7,11 +7,12 @@ import { NoOptionsPlaceholder } from "./Placeholder";
 interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     isEmpty: boolean;
+    selectAllButtonEnabled?: boolean;
     noOptionsText?: string;
 }
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
-    const { children, isOpen, isEmpty, noOptionsText, getMenuProps } = props;
+    const { children, isOpen, isEmpty, noOptionsText, selectAllButtonEnabled, getMenuProps } = props;
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
 
     return (
@@ -21,7 +22,13 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             style={style}
         >
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
-                {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
+                {isOpen ? (
+                    isEmpty && !selectAllButtonEnabled ? (
+                        <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
+                    ) : (
+                        children
+                    )
+                ) : null}
             </ul>
         </div>
     );

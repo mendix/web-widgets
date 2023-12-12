@@ -70,7 +70,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items = selector.getOptions();
+    const items = selector.selectAllButton ? [...selector.getOptions(), "select-all-btn"] : selector.getOptions();
 
     const {
         isOpen,
