@@ -12,9 +12,9 @@ const USE_MULTI_SORT = true;
 type Props = DatagridContainerProps;
 
 export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<InitParams>): GridModel {
-    const hideColumn = createEvent<ColumnId>();
+    const hide = createEvent<ColumnId>();
     const sortBy = createEvent<ColumnId>();
-    const swapColumns = createEvent<[a: ColumnId, b: ColumnId]>();
+    const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
 
     const $columns = createStore<ColumnsType[]>([])
@@ -22,11 +22,11 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         .map<Column[]>(columns => columns.map((columnsType, index) => new Column(columnsType, index)));
 
     const $hidden = createStore<Grid.Hidden>(new Set())
-        .on(hideColumn, reduceHidden)
+        .on(hide, reduceHidden)
         .on(paramsReady, (_, params) => params.hidden);
 
     const $order = createStore<Grid.Order>([])
-        .on(swapColumns, reduceOrder)
+        .on(swap, reduceOrder)
         .on(paramsReady, (_, params) => params.order);
 
     const $settingsHash = $columns.map(getHash);
@@ -52,7 +52,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         available: $available,
         columns: $columns,
         hidden: $hidden,
-        hideColumn,
+        hide,
         order: $order,
         resize,
         settingsHash: $settingsHash,
@@ -60,7 +60,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         sort: $sort,
         sortBy,
         storage: $storage,
-        swapColumns,
+        swap,
         visible: $visible
     };
 }
