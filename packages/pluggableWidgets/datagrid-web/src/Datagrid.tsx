@@ -1,4 +1,10 @@
-import { FilterFunction, FilterType, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
+import {
+    FilterState,
+    FilterType,
+    useFilterContext,
+    useMultipleFiltering,
+    readInitFilterValues
+} from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -11,7 +17,6 @@ import { SortProperty, Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
-import { extractFilters } from "./features/filters";
 import { Column } from "./helpers/Column";
 import { ValueStatus } from "mendix";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -99,7 +104,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
     // TODO: Rewrite this logic with single useReducer (or write
     // custom hook that will use useReducer)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.columns.map(() => useState<FilterFunction>());
+    const customFiltersState = props.columns.map(() => useState<FilterState>());
 
     const filters = customFiltersState
         .map(([customFilter]) => customFilter?.getFilterCondition?.())
@@ -127,7 +132,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.datasource.setSortOrder(undefined);
     }
 
-    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionHelper = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.pageSize
+    );
     const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
     const selectionProps = useGridSelectionProps({
         selection: props.itemSelection,
@@ -162,7 +172,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = extractFilters(attribute, viewStateFilters.current);
+                    const initialFilters = readInitFilterValues(attribute, viewStateFilters.current);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
@@ -231,6 +241,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             processedRows={processedRows}
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
+            selectRowLabel={props.selectRowLabel?.value}
         />
     );
 }

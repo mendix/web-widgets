@@ -42,8 +42,11 @@ export interface ComboboxContainerProps {
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
-    clearButtonAriaLabel: string;
-    removeValueAriaLabel: string;
+    clearButtonAriaLabel: DynamicValue<string>;
+    removeValueAriaLabel: DynamicValue<string>;
+    a11ySelectedValue: DynamicValue<string>;
+    a11yOptionsAvailable: DynamicValue<string>;
+    a11yInstructions: DynamicValue<string>;
 }
 
 export interface ComboboxPreviewProps {
@@ -70,4 +73,7 @@ export interface ComboboxPreviewProps {
     ariaRequired: boolean;
     clearButtonAriaLabel: string;
     removeValueAriaLabel: string;
+    a11ySelectedValue: string;
+    a11yOptionsAvailable: string;
+    a11yInstructions: string;
 }

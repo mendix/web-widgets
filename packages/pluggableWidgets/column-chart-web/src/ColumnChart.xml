@@ -125,9 +125,15 @@
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Appearance">
-                            <property key="barColor" type="textTemplate" required="false" multiline="false">
+                            <property key="staticBarColor" type="expression" required="false" dataSource="staticDataSource">
                                 <caption>Column color</caption>
-                                <description>Color of the column e.g. green, #00FF00, rgb(0,255,0)</description>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="dynamicBarColor" type="expression" required="false" dataSource="dynamicDataSource">
+                                <caption>Column color</caption>
+                                <description />
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Events">

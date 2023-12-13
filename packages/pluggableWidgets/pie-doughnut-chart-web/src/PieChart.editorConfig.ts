@@ -56,7 +56,7 @@ export function getPreview(values: PieChartPreviewProps, isDarkMode: boolean): S
         }
     };
 
-    const getImage = (viewMode: "pie" | "doughnut", type: "structure" | "legend") => {
+    const getImage = (viewMode: "pie" | "doughnut", type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[viewMode][colorMode][type];
     };

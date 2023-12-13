@@ -1,36 +1,24 @@
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { AlignmentEnum, ColumnsType, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { ColumnsType } from "../../typings/DatagridProps";
 import { GridColumn } from "../typings/GridColumn";
+import { BaseColumn } from "./ColumnBase";
 
-export class Column implements GridColumn {
-    alignment: AlignmentEnum;
-    canDrag: boolean;
-    canHide: boolean;
-    canResize: boolean;
-    columnNumber: number;
-    hidable: HidableEnum;
-    hidden: boolean;
-    weight: number;
-    width: WidthEnum;
-    wrapText: boolean;
+export class Column extends BaseColumn implements GridColumn {
     private gridId: string;
     private props: ColumnsType;
 
+    columnNumber: number;
+    visible: boolean;
+
     constructor(props: ColumnsType, columnNumber: number, gridId: string) {
-        this.alignment = props.alignment;
-        this.canDrag = props.draggable;
-        this.canHide = props.hidable !== "no";
-        this.canResize = props.resizable;
-        this.columnNumber = columnNumber;
-        this.gridId = gridId;
-        this.hidable = props.hidable;
-        this.hidden = props.hidable === "hidden";
+        super(props);
+
         this.props = props;
-        this.weight = props.size ?? 1;
-        this.width = props.width;
-        this.wrapText = props.wrapText;
+        this.gridId = gridId;
+        this.columnNumber = columnNumber;
+
+        this.visible = props.visible?.value ?? false;
     }
 
     columnClass(item: ObjectItem): string | undefined {
@@ -38,32 +26,23 @@ export class Column implements GridColumn {
     }
 
     get canSort(): boolean {
-        return this.props.sortable && !!this.props.attribute?.sortable;
+        return super.canSort && !!this.props.attribute?.sortable;
     }
     get columnId(): string {
         return `${this.gridId}-column${this.columnNumber}`;
     }
     get header(): string {
-        let value: string | undefined;
-        if (this.props.header && isAvailable(this.props.header)) {
-            value = this.props.header.value;
-        }
-
-        return value ?? "";
+        return this.props.header?.value ?? "";
     }
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
-            case "attribute": {
-                return (
-                    <span className="td-text" title={this.props.tooltip?.get(item)?.value}>
-                        {this.props.attribute?.get(item)?.displayValue ?? ""}
-                    </span>
-                );
-            }
+            case "attribute":
             case "dynamicText": {
                 return (
                     <span className="td-text" title={this.props.tooltip?.get(item)?.value}>
-                        {this.props.dynamicText?.get(item)?.value ?? ""}
+                        {this.props.showContentAs === "attribute"
+                            ? this.props.attribute?.get(item)?.displayValue
+                            : this.props.dynamicText?.get(item)?.value}
                     </span>
                 );
             }
@@ -80,14 +59,17 @@ const stopPropagation = (event: { stopPropagation(): void }): void => {
     event.stopPropagation();
 };
 
+const onKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.code === "Tab") {
+        return;
+    }
+
+    event.stopPropagation();
+};
+
 function CustomContent(props: { children: ReactNode }): ReactElement {
     return (
-        <div
-            onClick={stopPropagation}
-            onKeyUp={stopPropagation}
-            onKeyDown={stopPropagation}
-            className="td-custom-content"
-        >
+        <div onClick={stopPropagation} onKeyUp={stopPropagation} onKeyDown={onKeyDown} className="td-custom-content">
             {props.children}
         </div>
     );

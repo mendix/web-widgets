@@ -52,7 +52,9 @@ exports[`Table renders the structure correctly 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -122,7 +124,9 @@ exports[`Table renders the structure correctly for preview when no header is pro
         >
           <div
             class="td td-borders align-column-center"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -213,7 +217,9 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="td td-borders align-column-center"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -223,7 +229,9 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           </div>
           <div
             class="td td-borders align-column-right"
+            data-position="1,0"
             role="gridcell"
+            tabindex="-1"
           >
             <span
               class="td-text"
@@ -297,7 +305,9 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -367,7 +377,9 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -437,7 +449,9 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -507,7 +521,9 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -581,7 +597,9 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -661,7 +679,9 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -735,7 +755,9 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -841,7 +863,9 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -852,6 +876,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
           <div
             class="td td-borders column-selector"
             role="gridcell"
+            tabindex="-1"
           />
         </div>
       </div>
@@ -915,7 +940,9 @@ exports[`Table renders the structure correctly with paging 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -1075,7 +1102,9 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -1145,7 +1174,9 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         >
           <div
             class="td td-borders align-column-left"
+            data-position="0,0"
             role="gridcell"
+            tabindex="0"
           >
             <span
               class="td-text"
@@ -1222,19 +1253,22 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td td-borders clickable widget-datagrid-col-select"
+              data-position="0,0"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <input
+                aria-label="Select row 1"
                 checked=""
-                tabindex="-1"
+                tabindex="0"
                 type="checkbox"
               />
             </div>
             <div
               class="td td-borders clickable align-column-left"
+              data-position="1,0"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="td-text"
@@ -1250,10 +1284,12 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td clickable widget-datagrid-col-select"
+              data-position="0,1"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <input
+                aria-label="Select row 2"
                 checked=""
                 tabindex="-1"
                 type="checkbox"
@@ -1261,8 +1297,9 @@ exports[`Table with selection method checkbox render an extra column and add cla
             </div>
             <div
               class="td clickable align-column-left"
+              data-position="1,1"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="td-text"
@@ -1278,10 +1315,12 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td clickable widget-datagrid-col-select"
+              data-position="0,2"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <input
+                aria-label="Select row 3"
                 checked=""
                 tabindex="-1"
                 type="checkbox"
@@ -1289,8 +1328,9 @@ exports[`Table with selection method checkbox render an extra column and add cla
             </div>
             <div
               class="td clickable align-column-left"
+              data-position="1,2"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="td-text"
@@ -1454,6 +1494,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="td td-borders clickable align-column-left"
+              data-position="0,0"
               role="gridcell"
               tabindex="0"
             >
@@ -1471,8 +1512,9 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="td clickable align-column-left"
+              data-position="0,1"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="td-text"
@@ -1488,8 +1530,9 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="td clickable align-column-left"
+              data-position="0,2"
               role="gridcell"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="td-text"

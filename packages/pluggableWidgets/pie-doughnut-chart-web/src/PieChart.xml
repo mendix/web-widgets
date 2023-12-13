@@ -46,9 +46,10 @@
                         <enumerationValue key="desc">Descending</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="seriesColorAttribute" type="textTemplate" required="false" multiline="false" dataSource="seriesDataSource">
+                <property key="seriesColorAttribute" type="expression" required="false" dataSource="seriesDataSource">
                     <caption>Slice color</caption>
                     <description />
+                    <returnType type="String" />
                 </property>
             </propertyGroup>
             <propertyGroup caption="General">

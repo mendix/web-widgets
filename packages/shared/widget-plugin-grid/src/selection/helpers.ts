@@ -27,7 +27,11 @@ export class MultiSelectionHelper {
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
 
-    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
+    constructor(
+        private selectionValue: SelectionMultiValue,
+        private selectableItems: ObjectItem[],
+        private readonly pageSize: number
+    ) {
         this.rangeStart = undefined;
     }
 
@@ -176,6 +180,50 @@ export class MultiSelectionHelper {
             this._setRangeEnd(value);
         }
     }
+
+    _getAdjacentIndex(index: number, direction: "backward" | "forward", unit: "item" | "page" | "edge"): number {
+        const first = 0;
+        const last = this.selectableItems.length - 1;
+        const isForward = direction === "forward";
+
+        if (unit === "edge") {
+            return isForward ? last : first;
+        }
+
+        let result: number;
+        if (unit === "page") {
+            result = isForward ? index + this.pageSize : index - this.pageSize;
+        } else {
+            result = isForward ? index + 1 : index - 1;
+        }
+
+        return Math.max(0, Math.min(result, last));
+    }
+
+    selectUpToAdjacent(
+        value: ObjectItem,
+        shiftKey: boolean,
+        direction: "backward" | "forward",
+        unit: "item" | "page" | "edge"
+    ): void {
+        if (shiftKey === false) {
+            this._resetRange();
+            return;
+        }
+
+        const currentIndex = this.selectableItems.findIndex(item => item.id === value.id);
+        const adjacentIndex = this._getAdjacentIndex(currentIndex, direction, unit);
+
+        if (adjacentIndex === currentIndex) {
+            return;
+        }
+
+        if (this.rangeStart === undefined) {
+            this._setRangeStart(value);
+        }
+
+        this._setRangeEnd(this.selectableItems.at(adjacentIndex));
+    }
 }
 
 const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
@@ -183,7 +231,8 @@ const clamp = (num: number, min: number, max: number): number => Math.min(Math.m
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined
+    onSelectionChange: ActionValue | undefined,
+    pageSize: number
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
@@ -214,7 +263,7 @@ export function useSelectionHelper(
             }
         } else {
             if (!selectionHelper.current) {
-                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? []);
+                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? [], pageSize);
             } else {
                 (selectionHelper.current as MultiSelectionHelper).updateProps(selection, dataSource.items ?? []);
             }

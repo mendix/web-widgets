@@ -33,6 +33,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
+import { KeyNavProvider } from "../features/keyboard-navigation/context";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -76,6 +77,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsState: ColumnsState;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
+    selectRowLabel?: string;
 }
 
 export interface SortProperty {
@@ -117,8 +119,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
-    const { columns, columnsOrder, columnsHidden, columnsVisible } = props.columnsState;
+    const { columns, columnsOrder, columnsHidden, columnsVisible, columnsAvailable, visibleLength } =
+        props.columnsState;
     const columnsToShow = preview ? columns : columnsVisible;
+    const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
+    const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);
+    const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
+
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
     const [dragOver, setDragOver] = useState("");
@@ -247,47 +254,50 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 {columnsHidable && (
                                     <ColumnSelector
                                         key="headers_column_selector"
-                                        columns={columns}
+                                        columns={columnsAvailable}
                                         hiddenColumns={columnsHidden}
                                         id={id}
                                         setHiddenColumns={props.setHidden}
+                                        visibleLength={visibleLength}
                                     />
                                 )}
                             </div>
-                            {rows.map((item, rowIndex) => {
-                                return (
-                                    <Row
-                                        CellComponent={CellComponent}
-                                        className={props.rowClass?.(item)}
-                                        columns={columnsToShow}
-                                        index={rowIndex}
-                                        item={item}
-                                        key={`row_${item.id}`}
-                                        rowAction={props.rowAction}
-                                        showSelectorCell={columnsHidable}
-                                    />
-                                );
-                            })}
+                            <KeyNavProvider
+                                rows={props.data.length}
+                                columns={keyboardNavColumnsCount}
+                                pageSize={props.pageSize}
+                            >
+                                {rows.map((item, rowIndex) => {
+                                    return (
+                                        <Row
+                                            CellComponent={CellComponent}
+                                            className={props.rowClass?.(item)}
+                                            columns={columnsToShow}
+                                            index={rowIndex}
+                                            item={item}
+                                            key={`row_${item.id}`}
+                                            rowAction={props.rowAction}
+                                            showSelectorCell={columnsHidable}
+                                            preview={preview ?? false}
+                                            selectableWrapper={headerWrapperRenderer}
+                                        />
+                                    );
+                                })}
+                            </KeyNavProvider>
                             {!isLoading &&
                                 (rows.length === 0 || preview) &&
                                 emptyPlaceholderRenderer &&
-                                emptyPlaceholderRenderer(children => {
-                                    const colspan =
-                                        columnsToShow.length +
-                                        (columnsHidable ? 1 : 0) +
-                                        (props.selectionProps.showCheckboxColumn ? 1 : 0);
-                                    return (
-                                        <div
-                                            key="row-footer"
-                                            className={classNames("td", { "td-borders": !preview })}
-                                            style={{
-                                                gridColumn: `span ${colspan}`
-                                            }}
-                                        >
-                                            <div className="empty-placeholder">{children}</div>
-                                        </div>
-                                    );
-                                })}
+                                emptyPlaceholderRenderer(children => (
+                                    <div
+                                        key="row-footer"
+                                        className={classNames("td", { "td-borders": !preview })}
+                                        style={{
+                                            gridColumn: `span ${columnsVisibleCount}`
+                                        }}
+                                    >
+                                        <div className="empty-placeholder">{children}</div>
+                                    </div>
+                                ))}
                         </GridBody>
                     </Grid>
                 </WidgetContent>

@@ -6,6 +6,54 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.11.0] DataWidgets - 2023-12-06
+
+### [2.5.2] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed lazy loading in dropdown filter not working issue (Ticket #200943).
+
+### [2.11.0] Datagrid
+
+#### Added
+
+-   We added a new expression property named "Visible" in columns where the developer can select a column's visibility from the Datagrid. When using Datagrid, sometimes columns don't need to be shown. By adding "Visible" expression the developers can specify when they want to display columns. Special thanks to @Andries-Smit for the help on this feature.
+
+-   Improved keyboard navigation for better accessibility, which was implemented according to the WAI ARIA guide. Now it's possible to use arrows, page up, page down, home, and end buttons to navigate focus within a grid. Additionally, ctrl+home moves focus on the top-left corner (first cell), and ctrl+end moves focus on the bottom-right corner (last cell).
+
+## [2.10.4] DataWidgets - 2023-11-28
+
+### [2.10.4] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
+
+### [1.4.1] Gallery
+
+#### Fixed
+
+-   We fixed an issue with Gallery widget where infinite scroll was not creating scroll, blocking the user from scrolling and fetching more items.
+
+-   We fixed an editor preview issue with drag-and-drop as well as changed dropzone text to be appropriate.
+
+## [2.10.3] DataWidgets - 2023-11-21
+
+### [2.10.3] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with clickable rows not having pointer (hand) cursor on hover.
+
+## [2.10.2] DataWidgets - 2023-11-13
+
+### [2.10.2] Datagrid
+
+#### Fixed
+
+-   Fixed a regression that was introduced in 2.10.0, where the column was missing a caption if the caption used parameters.
+
 ## [2.10.1] DataWidgets - 2023-11-02
 
 ### [2.10.1] Datagrid

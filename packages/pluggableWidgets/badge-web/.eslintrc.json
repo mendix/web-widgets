@@ -1,4 +1,5 @@
 {
     "root": true,
-    "extends": ["@mendix/eslint-config-web-widgets/widget-ts"]
+    "extends": ["@mendix/eslint-config-web-widgets/widget-ts"],
+    "ignorePatterns": ["playwright.config.js", "e2e/*.js"]
 }

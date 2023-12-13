@@ -19,7 +19,7 @@ export interface FilterComponentProps {
     styles?: CSSProperties;
     updateFilters?: (values: Option[]) => void;
     onTriggerClick?: () => void;
-    onContentScroll?: UIEventHandler<HTMLDivElement>;
+    onContentScroll?: UIEventHandler<HTMLUListElement>;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {

@@ -41,17 +41,20 @@ export const BarChart = memo(function BarChart(props: BarChartContainerProps): R
 
     const series = usePlotChartDataSeries(
         props.series,
-        useCallback(
-            (dataSeries, dataPoints) => ({
+        useCallback((dataSeries, dataPoints, { getExpressionValue }) => {
+            const barColorExpression =
+                dataSeries.dataSet === "static" ? dataSeries.staticBarColor : dataSeries.dynamicBarColor;
+            return {
                 type: "bar",
                 orientation: "h",
                 marker: {
-                    color: dataSeries.barColor?.value
+                    color: barColorExpression
+                        ? getExpressionValue<string>(barColorExpression, dataPoints.dataSourceItems)
+                        : undefined
                 },
                 transforms: getPlotChartDataTransforms(dataSeries.aggregationType, dataPoints)
-            }),
-            []
-        )
+            };
+        }, [])
     );
 
     return (

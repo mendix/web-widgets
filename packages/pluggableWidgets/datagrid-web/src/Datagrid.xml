@@ -108,6 +108,11 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
+                            <property key="visible" type="expression" required="false" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">
                             <property key="sortable" type="boolean" defaultValue="true">
@@ -304,6 +309,13 @@
                     <description>Assistive technology will read this upon reaching a cancel button.</description>
                     <translations>
                         <translation lang="en_US">Cancel data export</translation>
+                    </translations>
+                </property>
+                <property key="selectRowLabel" type="textTemplate" required="false">
+                    <caption>Select row</caption>
+                    <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
+                    <translations>
+                        <translation lang="en_US">Select row</translation>
                     </translations>
                 </property>
             </propertyGroup>

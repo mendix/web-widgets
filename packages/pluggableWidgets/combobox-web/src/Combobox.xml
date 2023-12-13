@@ -172,13 +172,47 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
-                <property key="clearButtonAriaLabel" type="string" defaultValue="Clear selection" required="true">
-                    <caption>Clear selection</caption>
-                    <description />
+                <property key="clearButtonAriaLabel" type="textTemplate" required="true">
+                    <caption>Clear selection button</caption>
+                    <description>Used to clear all selected values.</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
+                    </translations>
                 </property>
-                <property key="removeValueAriaLabel" type="string" defaultValue="Remove value" required="true">
-                    <caption>Remove value</caption>
-                    <description>Used for the individual selected value labels in multi-selection</description>
+                <property key="removeValueAriaLabel" type="textTemplate" required="true">
+                    <caption>Remove value button</caption>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <translations>
+                        <translation lang="en_US">Remove value</translation>
+                        <translation lang="nl_NL">Waarde verwijderen</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Accessibility Status Message ">
+                <property key="a11ySelectedValue" type="textTemplate" required="true">
+                    <caption>Selected value</caption>
+                    <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
+                    <translations>
+                        <translation lang="en_US">Selected value:</translation>
+                        <translation lang="nl_NL">Geselecteerde waarde:</translation>
+                    </translations>
+                </property>
+                <property key="a11yOptionsAvailable" type="textTemplate" required="true">
+                    <caption>Options available</caption>
+                    <description>Output example: "Number of options available: 1"</description>
+                    <translations>
+                        <translation lang="en_US">Number of options available:</translation>
+                        <translation lang="nl_NL">Aantal beschikbare opties:</translation>
+                    </translations>
+                </property>
+                <property key="a11yInstructions" type="textTemplate" required="true">
+                    <caption>Instructions</caption>
+                    <description>Instructions to be read after announcing the status.</description>
+                    <translations>
+                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
+                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

@@ -43,7 +43,7 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.0.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
@@ -54,7 +54,7 @@
     "shelljs": "^0.8.5"
   },
   "dependencies": {
-    "@types/react-test-renderer": "^18.0.3",
+    "@types/react-test-renderer": "^18.0.7",
     "classnames": "^2.3.2",
     "react-test-renderer": "^18.2.0",
     "swiper": "^9.4.1"

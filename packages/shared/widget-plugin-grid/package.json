@@ -37,6 +37,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-test-utils": "workspace:*",
     "@swc/core": "^1.3.95",

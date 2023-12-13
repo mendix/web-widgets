@@ -1,4 +1,4 @@
-import { FilterValue } from "@mendix/widget-plugin-filtering";
+import { InitialFilterValue } from "@mendix/widget-plugin-filtering";
 import { DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
 
 export type DefaultFilterValue = {
@@ -6,7 +6,7 @@ export type DefaultFilterValue = {
     value: string;
 };
 
-export function translateFilters(filters?: FilterValue[]): DefaultFilterValue | undefined {
+export function translateFilters(filters?: InitialFilterValue[]): DefaultFilterValue | undefined {
     if (filters && filters.length === 1) {
         const [filter] = filters;
         let type: DefaultFilterEnum = "equal";

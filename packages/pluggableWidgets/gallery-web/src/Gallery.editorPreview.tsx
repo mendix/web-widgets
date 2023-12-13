@@ -6,6 +6,7 @@ import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
+    const { emptyPlaceholder } = props;
     const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -21,11 +22,11 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             desktopItems={props.desktopItems!}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
-                    <props.emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
+                    <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
                         {renderWrapper(null)}
-                    </props.emptyPlaceholder.renderer>
+                    </emptyPlaceholder.renderer>
                 ),
-                [props.emptyPlaceholder]
+                [emptyPlaceholder]
             )}
             header={
                 <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
@@ -44,7 +45,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             pageSize={props.pageSize ?? 5}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
-            preview
+            showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
             phoneItems={props.phoneItems!}
             tabletItems={props.tabletItems!}
             selectionProps={selectionProps}

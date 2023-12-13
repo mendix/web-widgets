@@ -42,15 +42,18 @@ export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainer
 
     const series = usePlotChartDataSeries(
         props.series,
-        useCallback(
-            (dataSeries, dataPoints) => ({
+        useCallback((dataSeries, dataPoints, { getExpressionValue }) => {
+            const columnColorExpression =
+                dataSeries.dataSet === "static" ? dataSeries.staticBarColor : dataSeries.dynamicBarColor;
+            return {
                 marker: {
-                    color: dataSeries.barColor?.value
+                    color: columnColorExpression
+                        ? getExpressionValue<string>(columnColorExpression, dataPoints.dataSourceItems)
+                        : undefined
                 },
                 transforms: getPlotChartDataTransforms(dataSeries.aggregationType, dataPoints)
-            }),
-            []
-        )
+            };
+        }, [])
     );
 
     return (

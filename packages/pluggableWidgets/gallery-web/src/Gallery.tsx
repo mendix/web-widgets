@@ -1,4 +1,9 @@
-import { FilterType, useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
+import {
+    FilterType,
+    readInitFilterValues,
+    useFilterContext,
+    useMultipleFiltering
+} from "@mendix/widget-plugin-filtering";
 import {
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
@@ -12,7 +17,6 @@ import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemHelper } from "./helpers/ItemHelper";
-import { extractFilters } from "./utils/filters";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
@@ -64,7 +68,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             props.filterList.reduce(
                 (filters, { filter }) => ({
                     ...filters,
-                    [filter.id]: extractFilters(filter, viewStateFilters.current)
+                    [filter.id]: readInitFilterValues(filter, viewStateFilters.current)
                 }),
                 {}
             ),
@@ -103,7 +107,12 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
-    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selection = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.pageSize
+    );
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 

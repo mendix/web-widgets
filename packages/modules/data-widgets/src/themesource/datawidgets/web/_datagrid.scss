@@ -235,7 +235,14 @@ $grid-selected-row-background: $brand-light;
         }
 
         &:focus {
-            outline: none;
+            outline-width: 1px;
+            outline-style: solid;
+            outline-offset: -1px;
+            outline-color: $brand-primary;
+        }
+
+        &.clickable {
+            cursor: pointer;
         }
 
         > .td-text {
@@ -367,4 +374,8 @@ $grid-selected-row-background: $brand-light;
             background-color: $grid-selected-row-background;
         }
     }
+}
+
+.widget-datagrid-col-select input:focus-visible {
+    outline-offset: 0;
 }

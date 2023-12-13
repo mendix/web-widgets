@@ -28,6 +28,7 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
+    visible?: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -60,6 +61,7 @@ export interface ColumnsPreviewType {
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     filterAssociationOptionLabel: string;
+    visible: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -106,6 +108,7 @@ export interface DatagridContainerProps {
     filterSectionTitle?: DynamicValue<string>;
     exportDialogLabel?: DynamicValue<string>;
     cancelExportLabel?: DynamicValue<string>;
+    selectRowLabel?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -144,4 +147,5 @@ export interface DatagridPreviewProps {
     filterSectionTitle: string;
     exportDialogLabel: string;
     cancelExportLabel: string;
+    selectRowLabel: string;
 }

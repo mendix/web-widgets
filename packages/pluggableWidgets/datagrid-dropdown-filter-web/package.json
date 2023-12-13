@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-dropdown-filter-web",
   "widgetName": "DatagridDropdownFilter",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.0.1",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:*",
     "@mendix/widget-plugin-component-kit": "workspace:*",

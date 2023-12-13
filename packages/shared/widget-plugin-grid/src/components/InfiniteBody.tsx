@@ -1,15 +1,16 @@
 import {
     createElement,
-    ReactElement,
-    useCallback,
-    useState,
-    useRef,
-    useLayoutEffect,
-    PropsWithChildren,
     CSSProperties,
-    RefObject
+    PropsWithChildren,
+    ReactElement,
+    RefObject,
+    useCallback,
+    useLayoutEffect,
+    useRef,
+    useState
 } from "react";
 import classNames from "classnames";
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;
@@ -19,6 +20,7 @@ export interface InfiniteBodyProps {
     setPage?: (computePage: (prevPage: number) => number) => void;
     style?: CSSProperties;
 }
+const offsetBottom = 30;
 
 export function useInfiniteControl(
     props: PropsWithChildren<InfiniteBodyProps>
@@ -26,6 +28,7 @@ export function useInfiniteControl(
     const { setPage, hasMoreItems, isInfinite } = props;
     const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const isVisible = useOnScreen(containerRef);
 
     const trackScrolling = useCallback(
         (e: any) => {
@@ -35,7 +38,8 @@ export function useInfiniteControl(
              * causing mismatch by 1 pixel point, thus, add magic number 2 as buffer.
              */
             const bottom =
-                Math.floor(e.target.scrollHeight - e.target.scrollTop) <= Math.floor(e.target.clientHeight) + 2;
+                Math.floor(e.target.scrollHeight - offsetBottom - e.target.scrollTop) <=
+                Math.floor(e.target.clientHeight) + 2;
             if (bottom) {
                 if (hasMoreItems && setPage) {
                     setPage(prev => prev + 1);
@@ -46,10 +50,10 @@ export function useInfiniteControl(
     );
 
     const calculateBodyHeight = useCallback((): void => {
-        if (isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
-            setBodySize(containerRef.current.clientHeight - 30);
+        if (isVisible && isInfinite && hasMoreItems && bodySize <= 0 && containerRef.current) {
+            setBodySize(containerRef.current.clientHeight - offsetBottom);
         }
-    }, [isInfinite, hasMoreItems, bodySize]);
+    }, [isInfinite, hasMoreItems, bodySize, isVisible]);
 
     useLayoutEffect(() => {
         setTimeout(() => calculateBodyHeight(), 100);

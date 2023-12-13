@@ -6,12 +6,14 @@ import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { ItemHelper } from "../../helpers/ItemHelper";
+import "./__mocks__/intersectionObserverMock";
 
 function mockSelectionProps(): ListOptionSelectionProps {
     return {
         isSelected: jest.fn(() => false),
         onSelect: jest.fn(),
         onSelectAll: jest.fn(),
+        onSelectAdjacent: jest.fn(),
         onKeyDown: jest.fn(),
         onKeyUp: jest.fn(),
         selectionType: "None"
