@@ -1,7 +1,6 @@
 import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { GridState } from "../../typings/GridState";
-import { SortRule } from "../../typings/GridSettings";
+import { GridState, SortRule } from "../../typings/GridState";
 import { ColumnId, GridColumn, SortInstruction } from "../../typings/GridColumn";
 import { Column } from "../../helpers/Column";
 
@@ -37,13 +36,7 @@ export function computeSort(sort: SortRule[], columnId: ColumnId): SortRule[] {
 }
 
 export function computeNewState<S extends GridState>(draft: S): S {
-    const available = sortByOrder(draft.columnsAvailable, draft.columnsOrder);
-    const visible = available.filter(column => !draft.columnsHidden.has(column.columnId));
-    return {
-        ...draft,
-        columnsVisible: visible,
-        columnsAvailable: available
-    };
+    return draft;
 }
 
 export function sortByOrder<T extends GridColumn>(columns: T[], order: ColumnId[]): T[] {
@@ -53,16 +46,16 @@ export function sortByOrder<T extends GridColumn>(columns: T[], order: ColumnId[
     return result;
 }
 
-export function initGridState(columns: GridColumn[], initialFilter?: FilterCondition): GridState {
+export function initGridState(columns: GridColumn[], _?: FilterCondition): GridState {
     return computeNewState({
         sort: [],
-        columnsSize: {},
+        size: {},
         columns,
-        columnsAvailable: columns.filter(column => column.visible),
-        columnsOrder: columns.map(col => col.columnId),
-        columnsHidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
-        columnsVisible: [],
-        initialFilter
+        available: columns.filter(column => column.visible),
+        order: columns.map(col => col.columnId),
+        hidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
+        visible: [],
+        filter: undefined
     });
 }
 

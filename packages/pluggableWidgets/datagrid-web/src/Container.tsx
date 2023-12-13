@@ -1,7 +1,8 @@
 import { createElement, useReducer } from "react";
 import { useGate, useUnit } from "effector-react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
-import { useModel, Model } from "./model";
+import { Model } from "./features/model/base";
+import { useModel } from "./features/model/main";
 import { ColumnId } from "./typings/GridColumn";
 
 type Props = { items?: any[]; model: Model };
@@ -33,19 +34,23 @@ function Controlled(props: Props): React.ReactElement {
                     disabled={s.size < 2}
                     onClick={() => {
                         const [a, b] = s;
-                        model.grid.swapColumns({ a, b });
+                        model.grid.swap([a, b]);
                     }}
                 >
                     Swap
                 </button>
                 <button onClick={() => se("reset")}>Clear</button>
             </div>
+            <div>
+                <button onClick={() => model.grid.setPage(n => n - 1)}>Prev</button>
+                <button onClick={() => model.grid.setPage(n => n + 1)}>Next</button>
+            </div>{" "}
             <div style={{ display: "flex" }}>
                 {available.map(x => (
                     <span key={x.columnId}>
                         <input type="checkbox" onChange={se} value={x.columnId} checked={s.has(x.columnId)} />
                         <strong>{x.header}&nbsp;</strong>
-                        <button onClick={() => model.grid.hideColumn(x.columnId)}>visible</button>&nbsp;
+                        <button onClick={() => model.grid.hide(x.columnId)}>visible</button>&nbsp;
                     </span>
                 ))}
             </div>
@@ -55,7 +60,8 @@ function Controlled(props: Props): React.ReactElement {
                     <tr>
                         {visible.map(x => (
                             <th key={x.columnId}>
-                                <strong>{x.header}</strong> ({x.attrId}); &nbsp;&nbsp;
+                                <strong>{x.header}</strong>
+                                <button onClick={() => model.grid.sortBy(x.columnId)}>sort</button>
                             </th>
                         ))}
                     </tr>
@@ -79,31 +85,13 @@ function Controlled(props: Props): React.ReactElement {
 export function Container(props: DatagridContainerProps): React.ReactElement {
     const model = useModel();
     const loading = useUnit(model.status) === "pending";
-    useGate(model.Gate, props);
+    useGate(model.gate, props);
 
     if (loading) {
         return <div>loading</div>;
     }
     return (
         <div>
-            <div>
-                <button
-                    onClick={() => {
-                        props.datasource.setOffset(props.datasource.offset - props.pageSize);
-                        // props.datasource.setLimit(props.datasource.limit + props.pageSize);
-                    }}
-                >
-                    Prev
-                </button>{" "}
-                <button
-                    onClick={() => {
-                        props.datasource.setOffset(props.datasource.offset + props.pageSize);
-                        // props.datasource.setLimit(props.datasource.limit + props.pageSize);
-                    }}
-                >
-                    Next
-                </button>
-            </div>
             <Controlled items={props.datasource.items} model={model} />;
         </div>
     );

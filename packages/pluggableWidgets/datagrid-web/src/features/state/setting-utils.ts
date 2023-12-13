@@ -5,19 +5,19 @@ import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { hasViewState } from "./datasource";
 import { computeNewState, getSortInstructions } from "./utils";
 import { ComputedInitState } from "./base";
-import { SettingsStorage } from "../../typings/SettingsStorage";
+import { SettingsStorage } from "../storage/base";
 
 export function stateToSettings(state: GridState): GridSettings {
     return {
         schemaVersion: 1,
         columns: state.columns.map(({ columnId }) => ({
             columnId,
-            hidden: state.columnsHidden.has(columnId),
-            size: state.columnsSize[columnId],
+            hidden: true,
+            size: 1,
             filterSettings: undefined
         })),
         sort: state.sort,
-        order: state.columnsOrder,
+        order: [],
         gridWideFilters: undefined,
         settingsHash: undefined
     };
@@ -27,9 +27,9 @@ export function writeSettings(state: GridState, settings: GridSettings): GridSta
     return {
         ...state,
         sort: settings.sort,
-        columnsOrder: settings.order,
-        columnsHidden: new Set(settings.columns.flatMap(col => (col.hidden ? [col.columnId] : []))),
-        columnsSize: Object.fromEntries(settings.columns.map(col => [col.columnId, col.size]))
+        order: settings.order,
+        hidden: new Set(settings.columns.flatMap(col => (col.hidden ? [col.columnId] : []))),
+        size: Object.fromEntries(settings.columns.map(col => [col.columnId, col.size]))
     };
 }
 

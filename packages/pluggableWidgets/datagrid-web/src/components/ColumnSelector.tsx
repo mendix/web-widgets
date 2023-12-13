@@ -5,11 +5,11 @@ import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObse
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 import { UpdateFunctions } from "../features/state/base";
-import { GridState } from "../typings/GridState";
+import * as Grid from "../typings/GridState";
 
 export interface ColumnSelectorProps {
-    columns: GridColumn[];
-    hiddenColumns: GridState["columnsHidden"];
+    columns: Grid.Columns;
+    hiddenColumns: Grid.Hidden;
     id?: string;
     setHidden: UpdateFunctions["setHidden"];
     label?: string;

@@ -46,7 +46,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
     });
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: gridState.columnsVisible.map(column => props.rawColumns[column.columnNumber]),
+        columns: [],
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
@@ -147,7 +147,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = readInitFilterValues(attribute, gridState.initialFilter);
+                    const initialFilters = readInitFilterValues(attribute, undefined);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
@@ -179,7 +179,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                     <WidgetHeaderContext
                         filterList={props.filterList}
                         setFiltered={setFiltered}
-                        viewStateFilters={gridState.initialFilter}
+                        viewStateFilters={undefined}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}
                     >

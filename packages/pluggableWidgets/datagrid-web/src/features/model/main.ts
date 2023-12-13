@@ -23,7 +23,11 @@ function createModel(): Model {
     // Setup all side effects
     setupEffects(propsUpdated, grid);
 
-    return { gate, status: $status } as unknown as Model;
+    propsUpdated.watch(p => console.log("props updated", p));
+    grid.limitChanged.watch(limit => console.log("limit changed", limit));
+    grid.offsetChanged.watch(offset => console.log("offset changed", offset));
+
+    return { gate, status: $status, grid };
 }
 
 export function useModel(): Model {

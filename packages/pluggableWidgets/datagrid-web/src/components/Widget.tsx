@@ -99,7 +99,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         selectionProps,
         CellComponent
     } = props;
-    const { sort, columnsAvailable, columnsHidden, columnsVisible, columnsSize } = props.gridState;
+    const {
+        sort,
+        available: columnsAvailable,
+        hidden: columnsHidden,
+        visible: columnsVisible,
+        size: columnsSize
+    } = props.gridState;
     const columnsToShow = preview ? Object.values(props.gridState.columns) : columnsVisible;
     const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
     const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);

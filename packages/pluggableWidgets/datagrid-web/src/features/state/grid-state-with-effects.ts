@@ -6,7 +6,7 @@ import { GridState } from "../../typings/GridState";
 import { useGridState } from "./grid-state";
 import { GridColumn } from "../../typings/GridColumn";
 import { getSortInstructions } from "./utils";
-import { AttrStorage } from "./AttrStorage";
+import { AttrStorage } from "../storage/AttrStorage";
 import { stateToSettings } from "./setting-utils";
 
 type Props = {
@@ -60,6 +60,6 @@ function onStateChangeDelayed(
         return;
     }
 
-    const storage = new AttrStorage(attr);
+    const storage = new AttrStorage(attr, "");
     storage.save(stateToSettings(next));
 }

@@ -2,7 +2,6 @@ import { useReducer, useMemo } from "react";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { GridState } from "../../typings/GridState";
 import { OrderUpdate, HiddenUpdate, SizeUpdate, UpdateFunctions } from "./base";
-import { computeNewState, computeSort, reduceOnPropChange } from "./utils";
 
 type Action =
     | { type: "SetOrder"; payload: { order: OrderUpdate } }
@@ -11,46 +10,8 @@ type Action =
     | { type: "SortUpdate"; payload: { columnId: ColumnId } }
     | { type: "SizeUpdate"; payload: SizeUpdate };
 
-function reducer(state: GridState, action: Action): GridState {
-    switch (action.type) {
-        case "SetOrder": {
-            return reduceOnPropChange(state, "columnsOrder", action.payload.order, computeNewState);
-        }
-
-        case "SetHidden": {
-            return reduceOnPropChange(state, "columnsHidden", action.payload.hidden, computeNewState);
-        }
-
-        case "ColumnsUpdate": {
-            return reduceOnPropChange(state, "columns", action.payload.columns, draft =>
-                computeNewState({
-                    ...draft,
-                    columnsAvailable: action.payload.columns.filter(column => column.visible)
-                })
-            );
-        }
-
-        case "SizeUpdate": {
-            const [id, width] = action.payload;
-            return {
-                ...state,
-                columnsSize: {
-                    ...state.columnsSize,
-                    [id]: width
-                }
-            };
-        }
-
-        case "SortUpdate": {
-            return {
-                ...state,
-                sort: computeSort(state.sort, action.payload.columnId)
-            };
-        }
-
-        default:
-            throw new Error("Grid state reducer: unknown action type");
-    }
+function reducer(_state: GridState, _action: Action): GridState {
+    return null as unknown as GridState;
 }
 
 export function useGridState(initState: GridState): [GridState, UpdateFunctions] {
