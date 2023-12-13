@@ -28,8 +28,6 @@ export function MultiSelectionMenu({
     selectAllButtonAriaLabel,
     inputId
 }: MultiSelectionMenuProps): ReactElement {
-    const allSelected = compareArrays(selectableItems, selector.currentValue);
-
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
@@ -40,10 +38,7 @@ export function MultiSelectionMenu({
         >
             {selector.selectAllButton && isOpen && (
                 <li
-                    className={classNames("widget-combobox-item", {
-                        "widget-combobox-item-selected": allSelected,
-                        "widget-combobox-item-highlighted": highlightedIndex === selectableItems.length - 1
-                    })}
+                    className="widget-combobox-item"
                     {...getItemProps?.({
                         index: selectableItems.length - 1,
                         item: "select-all-btn"
@@ -51,11 +46,14 @@ export function MultiSelectionMenu({
                     aria-selected={false}
                 >
                     <button
-                        className="widget-combobox-menu-select-all-button"
+                        className={classNames("widget-combobox-menu-select-all-button", {
+                            selected: selector.isAllOptionsSelected(),
+                            highlighted: highlightedIndex === selectableItems.length - 1
+                        })}
                         aria-label={selectAllButtonAriaLabel}
                         tabIndex={-1}
                     >
-                        <SelectAll allSelected={allSelected} />
+                        <SelectAll allSelected={selector.isAllOptionsSelected()} />
                     </button>
                 </li>
             )}
@@ -84,7 +82,3 @@ export function MultiSelectionMenu({
         </ComboboxMenuWrapper>
     );
 }
-
-const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
-    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
-};

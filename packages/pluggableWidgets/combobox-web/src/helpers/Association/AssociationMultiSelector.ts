@@ -2,7 +2,6 @@ import { ReferenceSetValue } from "mendix";
 import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } from "../../../typings/ComboboxProps";
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
-
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
     implements MultiSelector
@@ -35,5 +34,14 @@ export class AssociationMultiSelector
         return this.selectionMethod === "rowclick"
             ? this.options.getAll().filter(option => !this.currentValue?.includes(option))
             : this.options.getAll();
+    }
+
+    isAllOptionsSelected(): boolean {
+        const options = this.getOptions();
+        return this.currentValue
+            ? (options.length === this.currentValue.length &&
+                  options.every(element => this.currentValue?.includes(element))) ||
+                  (options.length === 0 && this.currentValue.length > 0)
+            : false;
     }
 }

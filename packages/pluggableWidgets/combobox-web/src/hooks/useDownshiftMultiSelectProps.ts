@@ -213,8 +213,7 @@ function useComboboxProps(
                     case useCombobox.stateChangeTypes.ItemClick:
                         if (newSelectedItems === SELECT_ALL_BUTTON_ID) {
                             const availableItems = items.filter(item => item !== SELECT_ALL_BUTTON_ID);
-                            const allSelected = compareArrays(availableItems, selector.currentValue);
-                            if (!allSelected) {
+                            if (!selector.isAllOptionsSelected()) {
                                 setSelectedItems([...new Set([...selectedItems, ...availableItems])]);
                             } else {
                                 setSelectedItems([]);
@@ -247,11 +246,3 @@ function useComboboxProps(
         a11yStatusMessage.a11yInstructions
     ]);
 }
-
-const compareArrays = (availableItems: string[] | null, currentValue: string[] | null): boolean | undefined => {
-    return availableItems && currentValue
-        ? (availableItems.length === currentValue.length &&
-              availableItems.every(element => currentValue.includes(element))) ||
-              (availableItems.length === 0 && currentValue.length > 0)
-        : false;
-};
