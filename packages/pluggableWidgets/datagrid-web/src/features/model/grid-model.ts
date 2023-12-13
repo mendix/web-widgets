@@ -17,6 +17,8 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
     const setPage = createEvent<(prevPage: number) => number>();
+    // When setPage is called one of this event will be emitted,
+    // depending on current pagination type.
     const limitChanged = createEvent<number>();
     const offsetChanged = createEvent<number>();
 
@@ -56,7 +58,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     const $pageSize = createStore(0).on(propsUpdate, (_, props) => props.pageSize);
 
     const $currentPage = createStore(0, {
-        // To prevent NaN on first render
+        // To prevent NaN on first update
         updateFilter: page => !isNaN(page)
     }).on(propsUpdate, (_, props) => {
         return props.pagination === "buttons"
