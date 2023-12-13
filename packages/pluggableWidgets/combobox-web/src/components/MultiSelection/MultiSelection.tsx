@@ -142,7 +142,6 @@ export function MultiSelection({
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
                 selectAllButtonAriaLabel={a11yConfig.ariaLabels.selectAll}
                 noOptionsText={options.noOptionsText}
             />

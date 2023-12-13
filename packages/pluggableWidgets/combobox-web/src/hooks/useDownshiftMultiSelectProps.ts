@@ -208,7 +208,6 @@ function useComboboxProps(
                 }
             },
             onStateChange({ type, selectedItem: newSelectedItems }: UseComboboxStateChangeOptions<string>) {
-                console.log(type);
                 switch (type) {
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
@@ -216,7 +215,7 @@ function useComboboxProps(
                             const availableItems = items.filter(item => item !== SELECT_ALL_BUTTON_ID);
                             const allSelected = compareArrays(availableItems, selector.currentValue);
                             if (!allSelected) {
-                                setSelectedItems([...selectedItems, ...availableItems]);
+                                setSelectedItems([...new Set([...selectedItems, ...availableItems])]);
                             } else {
                                 setSelectedItems([]);
                             }
@@ -249,6 +248,10 @@ function useComboboxProps(
     ]);
 }
 
-const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
-    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
+const compareArrays = (availableItems: string[] | null, currentValue: string[] | null): boolean | undefined => {
+    return availableItems && currentValue
+        ? (availableItems.length === currentValue.length &&
+              availableItems.every(element => currentValue.includes(element))) ||
+              (availableItems.length === 0 && currentValue.length > 0)
+        : false;
 };

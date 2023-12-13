@@ -12,7 +12,6 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     selectedItems: string[];
     highlightedIndex: number | null;
     selector: MultiSelector;
-    setSelectedItems: (v: string[]) => void;
     noOptionsText?: string;
     selectAllButtonAriaLabel: string;
     inputId?: string;
@@ -22,7 +21,6 @@ export function MultiSelectionMenu({
     isOpen,
     getMenuProps,
     getItemProps,
-    setSelectedItems,
     highlightedIndex,
     selector,
     selectableItems,
@@ -30,16 +28,7 @@ export function MultiSelectionMenu({
     selectAllButtonAriaLabel,
     inputId
 }: MultiSelectionMenuProps): ReactElement {
-    const availableItems = selector.selectionMethod === "rowclick" ? selector.options.getAll() : selectableItems;
-    const allSelected = compareArrays(availableItems, selector.currentValue);
-    const handleSelectAll = (event: any): void => {
-        event.nativeEvent.preventDownshiftDefault = true;
-        if (!allSelected) {
-            setSelectedItems(availableItems);
-        } else {
-            setSelectedItems([]);
-        }
-    };
+    const allSelected = compareArrays(selectableItems, selector.currentValue);
 
     return (
         <ComboboxMenuWrapper
@@ -59,18 +48,6 @@ export function MultiSelectionMenu({
                         index: selectableItems.length - 1,
                         item: "select-all-btn"
                     })}
-                    onKeyDown={e => {
-                        if (e.key === "Enter") {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            handleSelectAll?.(e);
-                        }
-                    }}
-                    onClick={e => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        handleSelectAll?.(e);
-                    }}
                     aria-selected={false}
                 >
                     <button
