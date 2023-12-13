@@ -24,7 +24,7 @@ function createModel(): Model {
     // Compute InitParams
     setup($status, grid, propsUpdated, initParamsSent);
     // Setup all side effects
-    setupEffects(propsUpdated, grid);
+    setupEffects(propsUpdated, grid, $status);
 
     propsUpdated.watch(p => console.log("props updated", p));
     grid.limitChanged.watch(limit => console.log("limit changed", limit));

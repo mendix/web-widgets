@@ -1,5 +1,5 @@
 import { combine, createEvent, createStore, Event, sample, split } from "effector";
-import { ColumnsType, DatagridContainerProps, PaginationEnum } from "../../../typings/DatagridProps";
+import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridState";
@@ -16,7 +16,9 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     const sortBy = createEvent<ColumnId>();
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
-    const setPage = createEvent<(prevPage: number) => number>();
+    const setPage = createEvent<number>();
+    const nextPage = createEvent<unknown>();
+    const prevPage = createEvent<unknown>();
     // When setPage is called one of this event will be emitted,
     // depending on current pagination type.
     const limitChanged = createEvent<number>();
@@ -53,7 +55,9 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const $storage = createStorage(propsUpdate, $settingsHash);
 
-    const $pagination = createStore<PaginationEnum>("buttons").on(propsUpdate, (_, props) => props.pagination);
+    const $pagingBy = createStore<"limit" | "offset">("offset").on(propsUpdate, (_, props) =>
+        props.pagination === "virtualScrolling" ? "limit" : "offset"
+    );
 
     const $pageSize = createStore(0).on(propsUpdate, (_, props) => props.pageSize);
 
@@ -66,16 +70,19 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
             : props.datasource.limit / props.pageSize;
     });
 
+    const incPage = sample({ clock: nextPage, source: $currentPage, fn: n => n + 1 });
+    const decPage = sample({ clock: prevPage, source: $currentPage, fn: n => n - 1 });
+
     split({
         source: sample({
-            source: [$currentPage, $pageSize],
-            clock: setPage,
-            fn: ([prevPage, pageSize], computePage) => computePage(prevPage) * pageSize
+            source: $pageSize,
+            clock: [setPage, incPage, decPage],
+            fn: (pageSize, newPage) => newPage * pageSize
         }),
-        match: $pagination,
+        match: $pagingBy,
         cases: {
-            virtualScrolling: limitChanged,
-            buttons: offsetChanged
+            limit: limitChanged,
+            offset: offsetChanged
         }
     });
 
@@ -90,6 +97,8 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         order: $order,
         resize,
         setPage,
+        nextPage,
+        prevPage,
         settingsHash: $settingsHash,
         size: $size,
         sort: $sort,

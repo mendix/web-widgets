@@ -29,7 +29,9 @@ export type GridModel = {
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
     visible: Store<Column[]>;
     currentPage: Store<number>;
-    setPage: EventCallable<(prevPage: number) => number>;
+    setPage: EventCallable<number>;
+    nextPage: EventCallable<unknown>;
+    prevPage: EventCallable<unknown>;
     limitChanged: Event<number>;
     offsetChanged: Event<number>;
 };

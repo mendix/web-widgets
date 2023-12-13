@@ -42,9 +42,9 @@ function Controlled(props: Props): React.ReactElement {
                 <button onClick={() => se("reset")}>Clear</button>
             </div>
             <div>
-                <button onClick={() => model.grid.setPage(n => n - 1)}>Prev</button>
-                <button onClick={() => model.grid.setPage(n => n + 1)}>Next</button>
-            </div>{" "}
+                <button onClick={model.grid.prevPage}>Prev</button>
+                <button onClick={model.grid.nextPage}>Next</button>
+            </div>
             <div style={{ display: "flex" }}>
                 {available.map(x => (
                     <span key={x.columnId}>
