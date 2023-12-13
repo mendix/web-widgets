@@ -14,26 +14,29 @@ export type Model = {
     grid: GridModel;
 };
 
-export type GridModel = {
+export type GridEvents = {
+    hide: EventCallable<ColumnId>;
+    limitChanged: Event<number>;
+    nextPage: EventCallable<unknown>;
+    offsetChanged: Event<number>;
+    prevPage: EventCallable<unknown>;
+    resize: EventCallable<[id: ColumnId, size: number]>;
+    setPage: EventCallable<number>;
+    sortBy: EventCallable<ColumnId>;
+    swap: EventCallable<[a: ColumnId, b: ColumnId]>;
+};
+
+export type GridModel = GridEvents & {
     available: Store<Column[]>;
     columns: Store<Column[]>;
+    currentPage: Store<number>;
     hidden: Store<Grid.Hidden>;
-    hide: EventCallable<ColumnId>;
     order: Store<Grid.Order>;
-    resize: EventCallable<[id: ColumnId, size: number]>;
     settingsHash: Store<string>;
     size: Store<Grid.ColumnWidthConfig>;
     sort: Store<Grid.SortOrder>;
-    sortBy: EventCallable<ColumnId>;
     storage: Store<DynamicStorage>;
-    swap: EventCallable<[a: ColumnId, b: ColumnId]>;
     visible: Store<Column[]>;
-    currentPage: Store<number>;
-    setPage: EventCallable<number>;
-    nextPage: EventCallable<unknown>;
-    prevPage: EventCallable<unknown>;
-    limitChanged: Event<number>;
-    offsetChanged: Event<number>;
 };
 
 export type InitParams = {
