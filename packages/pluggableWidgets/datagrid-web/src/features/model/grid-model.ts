@@ -14,19 +14,26 @@ type Props = DatagridContainerProps;
 export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<InitParams>): GridModel {
     const hideColumn = createEvent<ColumnId>();
     const sortBy = createEvent<ColumnId>();
-    const swapColumns = createEvent<{ a: ColumnId; b: ColumnId }>();
+    const swapColumns = createEvent<[a: ColumnId, b: ColumnId]>();
+    const resize = createEvent<[id: ColumnId, size: number]>();
 
     const $columns = createStore<ColumnsType[]>([])
         .on(propsUpdate, (_, props) => props.columns)
         .map<Column[]>(columns => columns.map((columnsType, index) => new Column(columnsType, index)));
 
+    const $hidden = createStore<Grid.Hidden>(new Set())
+        .on(hideColumn, reduceHidden)
+        .on(paramsReady, (_, params) => params.hidden);
+
     const $order = createStore<Grid.Order>([])
         .on(swapColumns, reduceOrder)
         .on(paramsReady, (_, params) => params.order);
 
-    const $hidden = createStore<Grid.Hidden>(new Set())
-        .on(hideColumn, reduceHidden)
-        .on(paramsReady, (_, params) => params.hidden);
+    const $settingsHash = $columns.map(getHash);
+
+    const $size = createStore<Grid.ColumnWidthConfig>({})
+        .on(resize, reduceSize)
+        .on(paramsReady, (_, params) => params.size);
 
     const $sort = createStore<Grid.SortOrder>([]).on(sortBy, USE_MULTI_SORT ? reduceSortMulti : reduceSortSingle);
 
@@ -39,8 +46,6 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
 
-    const $settingsHash = $columns.map(getHash);
-
     const $storage = createStorage(propsUpdate, $settingsHash);
 
     return {
@@ -49,15 +54,18 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         hidden: $hidden,
         hideColumn,
         order: $order,
+        resize,
         settingsHash: $settingsHash,
+        size: $size,
         sort: $sort,
+        sortBy,
         storage: $storage,
         swapColumns,
         visible: $visible
     };
 }
 
-function reduceOrder(prev: Grid.Order, { a, b }: { a: ColumnId; b: ColumnId }): Grid.Order {
+function reduceOrder(prev: Grid.Order, [a, b]: [a: ColumnId, b: ColumnId]): Grid.Order {
     const indexA = prev.indexOf(a);
     const indexB = prev.indexOf(b);
 
@@ -105,4 +113,11 @@ function reduceSortMulti(sort: Grid.SortOrder, columnId: ColumnId): Grid.SortOrd
     }
 
     return [...sort, [columnId, "asc"]];
+}
+
+function reduceSize(prev: Grid.ColumnWidthConfig, [id, size]: [id: ColumnId, size: number]): Grid.ColumnWidthConfig {
+    return {
+        ...prev,
+        [id]: size
+    };
 }

@@ -20,10 +20,13 @@ export type GridModel = {
     hidden: Store<Grid.Hidden>;
     hideColumn: EventCallable<ColumnId>;
     order: Store<Grid.Order>;
+    resize: EventCallable<[id: ColumnId, size: number]>;
     settingsHash: Store<string>;
+    size: Store<Grid.ColumnWidthConfig>;
     sort: Store<Grid.SortOrder>;
+    sortBy: EventCallable<ColumnId>;
     storage: Store<DynamicStorage>;
-    swapColumns: EventCallable<{ a: ColumnId; b: ColumnId }>;
+    swapColumns: EventCallable<[a: ColumnId, b: ColumnId]>;
     visible: Store<Column[]>;
 };
 
