@@ -1,4 +1,4 @@
-import { EventCallable, Store } from "effector";
+import { Event, EventCallable, Store } from "effector";
 import { Gate } from "effector-react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
@@ -28,6 +28,10 @@ export type GridModel = {
     storage: Store<DynamicStorage>;
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
     visible: Store<Column[]>;
+    currentPage: Store<number>;
+    setPage: EventCallable<(prevPage: number) => number>;
+    limitChanged: Event<number>;
+    offsetChanged: Event<number>;
 };
 
 export type InitParams = {

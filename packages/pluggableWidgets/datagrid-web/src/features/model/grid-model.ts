@@ -1,5 +1,5 @@
-import { combine, createEvent, createStore, Event } from "effector";
-import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridProps";
+import { combine, createEvent, createStore, Event, sample, split } from "effector";
+import { ColumnsType, DatagridContainerProps, PaginationEnum } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridState";
@@ -16,6 +16,9 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     const sortBy = createEvent<ColumnId>();
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
+    const setPage = createEvent<(prevPage: number) => number>();
+    const limitChanged = createEvent<number>();
+    const offsetChanged = createEvent<number>();
 
     const $columns = createStore<ColumnsType[]>([])
         .on(propsUpdate, (_, props) => props.columns)
@@ -48,13 +51,43 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const $storage = createStorage(propsUpdate, $settingsHash);
 
+    const $pagination = createStore<PaginationEnum>("buttons").on(propsUpdate, (_, props) => props.pagination);
+
+    const $pageSize = createStore(0).on(propsUpdate, (_, props) => props.pageSize);
+
+    const $currentPage = createStore(0, {
+        // To prevent NaN on first render
+        updateFilter: page => !isNaN(page)
+    }).on(propsUpdate, (_, props) => {
+        return props.pagination === "buttons"
+            ? props.datasource.offset / props.pageSize
+            : props.datasource.limit / props.pageSize;
+    });
+
+    split({
+        source: sample({
+            source: [$currentPage, $pageSize],
+            clock: setPage,
+            fn: ([prevPage, pageSize], computePage) => computePage(prevPage) * pageSize
+        }),
+        match: $pagination,
+        cases: {
+            virtualScrolling: limitChanged,
+            buttons: offsetChanged
+        }
+    });
+
     return {
         available: $available,
         columns: $columns,
+        currentPage: $currentPage,
         hidden: $hidden,
         hide,
+        limitChanged,
+        offsetChanged,
         order: $order,
         resize,
+        setPage,
         settingsHash: $settingsHash,
         size: $size,
         sort: $sort,
