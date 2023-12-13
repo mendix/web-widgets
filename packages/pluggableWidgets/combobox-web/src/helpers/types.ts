@@ -66,6 +66,7 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
+    selectAllButtonId: string;
     getOptions(): string[];
     isAllOptionsSelected(): boolean;
 }
