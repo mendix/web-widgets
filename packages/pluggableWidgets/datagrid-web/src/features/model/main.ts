@@ -13,8 +13,11 @@ function createModel(): Model {
     // Create a Gate.
     // All prop updates will be propagated through the gate.state.updates;
     const gate = createGate<Props>();
-    // widget props wrapped into event.
-    const propsUpdated = gate.state.updates;
+    // widget props wrapped into event
+    const propsUpdated = gate.state.updates.filterMap(props => {
+        // Filter empty object on unmount
+        return Object.keys(props).length > 0 ? props : undefined;
+    });
     const { initParamsReady, initParamsSent, $status } = createInitModel();
     const grid = createGridModel(propsUpdated, initParamsReady);
 

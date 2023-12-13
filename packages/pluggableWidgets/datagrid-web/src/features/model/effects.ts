@@ -1,7 +1,8 @@
 import { ListValue } from "mendix";
-import { clearNode, createEffect, sample, Event } from "effector";
+import { clearNode, createEffect, sample, Event, combine } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel } from "./base";
+import { sortToInst } from "./utils";
 
 type Props = DatagridContainerProps;
 
@@ -21,7 +22,7 @@ export function setupEffects(propsUpdated: Event<Props>, grid: GridModel): void 
     const datasource = propsUpdated.map(props => props.datasource);
     const updateLimitFx = createEffect(([ds, limit]: [ListValue, number]) => ds.setLimit(limit));
     const updateOffsetFx = createEffect(([ds, offset]: [ListValue, number]) => ds.setOffset(offset));
-    updateOffsetFx.watch(payload => console.log("offset fx payload", payload));
+    const updateOrderFx = createEffect(([ds, order]: [ListValue, ListValue["sortOrder"]]) => ds.setSortOrder(order));
 
     sample({
         clock: grid.limitChanged,
@@ -33,9 +34,16 @@ export function setupEffects(propsUpdated: Event<Props>, grid: GridModel): void 
 
     sample({
         clock: grid.offsetChanged,
-        // Take latest datasource
         source: datasource,
         fn: (ds, offset) => [ds, Math.max(offset, 0)] as const,
         target: updateOffsetFx
+    });
+
+    const $inst = combine(grid.columns, grid.sort, (cols, sort) => sortToInst(sort, cols));
+    sample({
+        clock: $inst,
+        source: datasource,
+        fn: (ds, inst) => [ds, inst] as const,
+        target: updateOrderFx
     });
 }

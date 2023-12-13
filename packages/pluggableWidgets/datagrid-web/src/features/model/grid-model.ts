@@ -7,7 +7,7 @@ import { createStorage } from "../storage/storage-model";
 import { GridModel, InitParams } from "./base";
 import { getHash, sortByOrder } from "./utils";
 
-const USE_MULTI_SORT = true;
+const USE_MULTI_SORT = false;
 
 type Props = DatagridContainerProps;
 
