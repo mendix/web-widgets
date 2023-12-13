@@ -74,7 +74,7 @@ export function MultiSelectionMenu({
                     aria-selected={false}
                 >
                     <button
-                        className="widget-combobox-menu-header-select-all-button"
+                        className="widget-combobox-menu-select-all-button"
                         aria-label={selectAllButtonAriaLabel}
                         tabIndex={-1}
                     >

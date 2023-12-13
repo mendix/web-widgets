@@ -37,6 +37,13 @@ $select-all-button-fill: #24276c;
         &-hidden {
             display: none;
         }
+        &-select-all-button {
+            display: flex;
+            align-items: center;
+            padding: 0 0 2px 0;
+            background: transparent;
+            border: none;
+        }
     }
 
     &-item {
@@ -258,13 +265,6 @@ $select-all-button-fill: #24276c;
         align-items: center;
         padding: 0px 0 6px 10px;
         height: fit-content;
-        &-select-all-button {
-            display: flex;
-            align-items: center;
-            padding: 0 0 2px 0;
-            background: transparent;
-            border: none;
-        }
     }
 
     &-select-all-button-icon {

@@ -32,6 +32,8 @@ interface Options {
     inputId?: string;
 }
 
+const SELECT_ALL_BUTTON_ID = "select-all-btn";
+
 export function useDownshiftMultiSelectProps(
     selector: MultiSelector,
     options: Options,
@@ -53,7 +55,7 @@ export function useDownshiftMultiSelectProps(
             return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
         },
         onSelectedItemsChange({ selectedItems }) {
-            selector.setValue(selectedItems ?? []);
+            selector.setValue(selectedItems?.filter(item => item !== SELECT_ALL_BUTTON_ID) ?? []);
         },
 
         onStateChange({ selectedItems: newSelectedItems, type }) {
@@ -70,7 +72,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items = selector.selectAllButton ? [...selector.getOptions(), "select-all-btn"] : selector.getOptions();
+    const items = selector.selectAllButton ? [...selector.getOptions(), SELECT_ALL_BUTTON_ID] : selector.getOptions();
 
     const {
         isOpen,
@@ -206,13 +208,24 @@ function useComboboxProps(
                 }
             },
             onStateChange({ type, selectedItem: newSelectedItems }: UseComboboxStateChangeOptions<string>) {
+                console.log(type);
                 switch (type) {
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
-                        if (newSelectedItems && !selectedItems.includes(newSelectedItems)) {
-                            setSelectedItems([...selectedItems, newSelectedItems]);
-                        } else if (newSelectedItems) {
-                            removeSelectedItem(newSelectedItems);
+                        if (newSelectedItems === SELECT_ALL_BUTTON_ID) {
+                            const availableItems = items.filter(item => item !== SELECT_ALL_BUTTON_ID);
+                            const allSelected = compareArrays(availableItems, selector.currentValue);
+                            if (!allSelected) {
+                                setSelectedItems([...selectedItems, ...availableItems]);
+                            } else {
+                                setSelectedItems([]);
+                            }
+                        } else {
+                            if (newSelectedItems && !selectedItems.includes(newSelectedItems)) {
+                                setSelectedItems([...selectedItems, newSelectedItems]);
+                            } else if (newSelectedItems) {
+                                removeSelectedItem(newSelectedItems);
+                            }
                         }
                         break;
                     default:
@@ -235,3 +248,7 @@ function useComboboxProps(
         a11yStatusMessage.a11yInstructions
     ]);
 }
+
+const compareArrays = (a: string[] | null, b: string[] | null): boolean | undefined => {
+    return a && b ? a.length === b.length && a.every(element => b.includes(element)) : false;
+};
