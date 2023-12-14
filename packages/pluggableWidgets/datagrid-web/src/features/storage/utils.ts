@@ -30,3 +30,7 @@ export function requestLocalStorage(key: string): LocalSettingsStorage | undefin
 
     return new LocalSettingsStorage(key);
 }
+
+export function returnStorage(key: string): boolean {
+    return getSharedKeySet().delete(key);
+}

@@ -24,6 +24,7 @@ export type GridEvents = {
     setPage: EventCallable<number>;
     sortBy: EventCallable<ColumnId>;
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
+    cleanup: EventCallable<unknown>;
 };
 
 export type GridModel = GridEvents & {

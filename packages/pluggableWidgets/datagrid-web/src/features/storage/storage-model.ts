@@ -1,13 +1,17 @@
-import { Event, Store, createEvent, createStore, sample, split } from "effector";
+import { Event, Store, createEvent, createStore, sample, split, createEffect } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { AttrStorage } from "./AttrStorage";
 import { DynamicStorage, StorageDone, StoragePending, StorageReady } from "./base";
-import { requestLocalStorage } from "./utils";
+import { requestLocalStorage, returnStorage } from "./utils";
 
 type Props = DatagridContainerProps;
 type Attr = Exclude<Props["configurationAttribute"], undefined>;
 
-export function createStorage(propsUpdated: Event<Props>, $settingsHash: Store<string>): Store<DynamicStorage> {
+export function storageUnit(
+    propsUpdated: Event<Props>,
+    cleanup: Event<unknown>,
+    $settingsHash: Store<string>
+): Store<DynamicStorage> {
     const computeLocal = createEvent<Props>();
     const computeAttr = createEvent<Props>();
 
@@ -55,6 +59,12 @@ export function createStorage(propsUpdated: Event<Props>, $settingsHash: Store<s
                 : { status: "disabled", value: null, reason: "key already in use" };
         },
         target: $result
+    });
+
+    sample({
+        clock: cleanup,
+        source: $settingsHash,
+        target: createEffect(returnStorage)
     });
 
     return $result;

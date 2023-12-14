@@ -62,6 +62,11 @@ function createModel(): Model {
         target: modelFxs.abortWriteFx
     });
 
+    sample({
+        source: gate.close,
+        target: grid.cleanup
+    });
+
     // Compute InitParams
     const $status = bootstrap(grid, propsUpdated, initParamsSent, modelFxs);
     // Setup all side effects

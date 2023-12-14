@@ -3,7 +3,7 @@ import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridPr
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridState";
-import { createStorage } from "../storage/storage-model";
+import { storageUnit } from "../storage/storage-model";
 import { GridModel, InitParams } from "./base";
 import { getHash, sortByOrder } from "./utils";
 
@@ -23,6 +23,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     // depending on current pagination type.
     const limitChanged = createEvent<number>();
     const offsetChanged = createEvent<number>();
+    const cleanup = createEvent<unknown>();
 
     const $columns = createStore<ColumnsType[]>([])
         .on(propsUpdate, (_, props) => props.columns)
@@ -44,6 +45,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const $sort = createStore<Grid.SortOrder>([])
         .on(sortBy, USE_MULTI_SORT ? reduceSortMulti : reduceSortSingle)
+        .on(hide, reduceSortRemove)
         .on(paramsReady, (_, params) => params.sort);
 
     const $available = combine($columns, $order, (columns, order) => {
@@ -55,7 +57,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
 
-    const $storage = createStorage(propsUpdate, $settingsHash);
+    const $storage = storageUnit(propsUpdate, cleanup, $settingsHash);
 
     const $pagingBy = createStore<"limit" | "offset">("offset").on(propsUpdate, (_, props) =>
         props.pagination === "virtualScrolling" ? "limit" : "offset"
@@ -90,17 +92,18 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     return {
         available: $available,
+        cleanup,
         columns: $columns,
         currentPage: $currentPage,
         hidden: $hidden,
         hide,
         limitChanged,
+        nextPage,
         offsetChanged,
         order: $order,
+        prevPage,
         resize,
         setPage,
-        nextPage,
-        prevPage,
         settingsHash: $settingsHash,
         size: $size,
         sort: $sort,
@@ -159,6 +162,10 @@ function reduceSortMulti(sort: Grid.SortOrder, columnId: ColumnId): Grid.SortOrd
     }
 
     return [...sort, [columnId, "asc"]];
+}
+
+function reduceSortRemove(sort: Grid.SortOrder, columnId: ColumnId): Grid.SortOrder {
+    return sort.flatMap(rule => (rule[0] === columnId ? [] : [rule]));
 }
 
 function reduceSize(prev: Grid.ColumnWidthConfig, [id, size]: [id: ColumnId, size: number]): Grid.ColumnWidthConfig {
