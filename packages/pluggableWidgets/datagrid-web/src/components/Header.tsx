@@ -16,7 +16,7 @@ import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
-import { SortRule } from "../typings/GridModel";
+import * as Grid from "../typings/GridModel";
 
 export interface HeaderProps {
     className?: string;
@@ -31,12 +31,12 @@ export interface HeaderProps {
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    setOrder: Dispatch<SetStateAction<ColumnId[]>>;
+    setOrder: Grid.Actions["swap"];
     setDragOver: Dispatch<SetStateAction<ColumnId>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
-    setSort: Dispatch<ColumnId>;
-    sortRule: SortRule | undefined;
-    visibleColumns: GridColumn[];
+    setSort: Grid.Actions["sortBy"];
+    sortRule: Grid.SortRule | undefined;
+    visibleColumns: Grid.ViewModel["visible"];
     gridId: string;
 }
 
@@ -61,7 +61,9 @@ export function Header(props: HeaderProps): ReactElement {
 
     const caption = props.column.header.trim();
 
-    const onSortBy = (): void => props.setSort(props.column.columnId);
+    const onSortBy = (): void => {
+        props.setSort(props.column.columnId);
+    };
 
     const sortProps: HTMLAttributes<HTMLDivElement> = {
         onClick: onSortBy,
@@ -114,7 +116,7 @@ const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
 
 function useDraggable(
     columnsDraggable: boolean,
-    setColumnOrder: Dispatch<SetStateAction<ColumnId[]>>,
+    setColumnOrder: Grid.Actions["swap"],
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
@@ -162,23 +164,7 @@ function useDraggable(
             const columnA = (e.target as HTMLDivElement).dataset.columnId as ColumnId;
             const columnB = e.dataTransfer.getData(DATA_FORMAT_ID) as ColumnId;
 
-            setColumnOrder(prevOrder => {
-                const indexA = prevOrder.indexOf(columnA);
-                const indexB = prevOrder.indexOf(columnB);
-
-                if (indexA === -1 || indexB === -1) {
-                    throw new Error("Unable to find column in the current order array");
-                }
-
-                if (indexA !== indexB) {
-                    const nextOrder = [...prevOrder];
-                    nextOrder[indexA] = columnB;
-                    nextOrder[indexB] = columnA;
-                    return nextOrder;
-                }
-
-                return prevOrder;
-            });
+            setColumnOrder([columnA, columnB]);
         },
         [handleDragEnd, setColumnOrder]
     );
