@@ -56,7 +56,7 @@ export function storageUnit(
             const storage = requestLocalStorage(hash);
             return storage
                 ? { status: "ready", value: storage }
-                : { status: "disabled", value: null, reason: "key already in use" };
+                : { status: "disabled", value: null, reason: "key is already in use" };
         },
         target: $result
     });
