@@ -1,8 +1,7 @@
-import { EventCallable, Store, createEffect, createEvent, createStore, split } from "effector";
+import { EventCallable, createEffect, createEvent, createStore, split } from "effector";
 import { InitParams, Status } from "./base";
 
 export function createInitModel(): {
-    $status: Store<Status>;
     // Read event for stores
     initParamsReady: EventCallable<InitParams>;
     // Write event for effects/events
@@ -22,5 +21,5 @@ export function createInitModel(): {
         }
     });
 
-    return { initParamsReady, initParamsSent, $status };
+    return { initParamsReady, initParamsSent };
 }

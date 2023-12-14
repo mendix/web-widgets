@@ -18,17 +18,18 @@ function createModel(): Model {
         // Filter empty object on unmount
         return Object.keys(props).length > 0 ? props : undefined;
     });
-    const { initParamsReady, initParamsSent, $status } = createInitModel();
+    const { initParamsReady, initParamsSent } = createInitModel();
     const grid = createGridModel(propsUpdated, initParamsReady);
 
     // Compute InitParams
-    setup($status, grid, propsUpdated, initParamsSent);
+    const $status = setup(grid, propsUpdated, initParamsSent);
     // Setup all side effects
     setupEffects(propsUpdated, grid, $status);
 
-    propsUpdated.watch(p => console.log("props updated", p));
-    grid.limitChanged.watch(limit => console.log("limit changed", limit));
-    grid.offsetChanged.watch(offset => console.log("offset changed", offset));
+    propsUpdated.watch(p => console.log("DEBUG props updated", p));
+    grid.limitChanged.watch(limit => console.log("DEBUG limit changed", limit));
+    grid.offsetChanged.watch(offset => console.log("DEBUG offset changed", offset));
+    $status.watch(v => console.log("DEBUG status", v));
 
     return { gate, status: $status, grid };
 }

@@ -84,7 +84,7 @@ function Controlled(props: Props): React.ReactElement {
 
 export function Container(props: DatagridContainerProps): React.ReactElement {
     const model = useModel();
-    const loading = useUnit(model.status) === "pending";
+    const loading = useUnit(model.status) !== "ready";
     useGate(model.gate, props);
 
     if (loading) {

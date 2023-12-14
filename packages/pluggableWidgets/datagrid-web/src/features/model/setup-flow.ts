@@ -1,29 +1,35 @@
 import { ListValue } from "mendix";
-import { Event, EventCallable, Store, createEffect, sample } from "effector";
+import { Event, EventCallable, Store, createEffect, sample, createStore, createEvent } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel, InitParams, Status } from "./base";
 import { Column } from "../../helpers/Column";
 import { StorageDone } from "../storage/base";
 import { paramsFromColumns, paramsFromSettings, sortToInst } from "./utils";
 
+type InitArgs = { columns: Column[]; ds: ListValue; storage: StorageDone };
+type InitPayload = [InitArgs, InitParams];
+
 export function setup(
-    $status: Store<Status>,
     grid: GridModel,
     propsUpdated: Event<DatagridContainerProps>,
-    initParamsSent: EventCallable<InitParams>
-): void {
-    const params = sample({
+    setupEnd: EventCallable<InitParams>
+): Store<Status> {
+    const payload = createEvent<InitPayload | "pending">();
+    const payloadReady = payload.filterMap(payload => (payload === "pending" ? undefined : payload));
+    const $status = createStore<Status>("pending")
+        .on(payloadReady, () => "waitingDatasource")
+        .on(setupEnd, () => "ready");
+
+    // loading init params
+    sample({
         clock: propsUpdated,
         source: {
             status: $status,
             columns: grid.columns,
             storage: grid.storage
         },
-        fn: ({ status, columns, storage }, { datasource }) => {
-            if (status === "ready") {
-                return "skip";
-            }
-
+        filter: ({ status }) => status === "pending",
+        fn: ({ columns, storage }, { datasource }) => {
             if (
                 datasource.status !== "available" ||
                 columns.some(c => c.status === "loading") ||
@@ -37,26 +43,29 @@ export function setup(
                 ds: datasource,
                 storage
             };
-            return [args, createInitParams(args)] as const;
-        }
+            return [args, createInitParams(args)] as InitPayload;
+        },
+        target: payload
     });
 
-    const paramsReady = params.filterMap(params => (params === "pending" || params === "skip" ? undefined : params));
-
-    // Initialize datasource sort
+    // setting params to datasource
     sample({
-        source: paramsReady,
+        source: payloadReady,
         target: createEffect(([args, params]: [{ columns: Column[]; ds: ListValue }, InitParams]) => {
             args.ds.setSortOrder(sortToInst(params.sort, args.columns));
         })
     });
 
-    // Set init params in the grid model
+    // after params set, send params to the model
     sample({
-        source: paramsReady,
-        fn: ([_, params]) => params,
-        target: initParamsSent
+        clock: sample({ clock: propsUpdated, source: payloadReady, fn: payload => payload }),
+        source: $status,
+        filter: status => status === "waitingDatasource",
+        fn: (_, [__, params]) => params,
+        target: setupEnd
     });
+
+    return $status;
 }
 
 function createInitParams(params: { columns: Column[]; ds: ListValue; storage: StorageDone }): InitParams {

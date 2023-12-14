@@ -6,7 +6,7 @@ import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridState";
 import { DynamicStorage } from "../storage/base";
 
-export type Status = "pending" | "ready";
+export type Status = "pending" | "waitingDatasource" | "ready";
 
 export type Model = {
     gate: Gate<DatagridContainerProps>;
