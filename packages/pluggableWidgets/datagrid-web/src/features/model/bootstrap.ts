@@ -1,24 +1,26 @@
 import { ListValue } from "mendix";
-import { Event, EventCallable, Store, createEffect, sample, createStore, createEvent } from "effector";
+import { Event, EventCallable, Store, sample, createStore, createEvent } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel, InitParams, Status } from "./base";
 import { Column } from "../../helpers/Column";
 import { StorageDone } from "../storage/base";
 import { paramsFromColumns, paramsFromSettings, sortToInst } from "./utils";
+import { ModelEffects } from "./effects";
 
 type InitArgs = { columns: Column[]; ds: ListValue; storage: StorageDone };
 type InitPayload = [InitArgs, InitParams];
 
-export function setup(
+export function bootstrap(
     grid: GridModel,
     propsUpdated: Event<DatagridContainerProps>,
-    setupEnd: EventCallable<InitParams>
+    bootstrapEnd: EventCallable<InitParams>,
+    effects: ModelEffects
 ): Store<Status> {
     const payload = createEvent<InitPayload | "pending">();
     const payloadReady = payload.filterMap(payload => (payload === "pending" ? undefined : payload));
     const $status = createStore<Status>("pending")
         .on(payloadReady, () => "waitingDatasource")
-        .on(setupEnd, () => "ready");
+        .on(bootstrapEnd, () => "ready");
 
     // loading init params
     sample({
@@ -51,9 +53,8 @@ export function setup(
     // setting params to datasource
     sample({
         source: payloadReady,
-        target: createEffect(([args, params]: [{ columns: Column[]; ds: ListValue }, InitParams]) => {
-            args.ds.setSortOrder(sortToInst(params.sort, args.columns));
-        })
+        fn: ([{ ds, columns }, { sort }]) => [ds, sortToInst(sort, columns)] as const,
+        target: effects.updateOrderFx
     });
 
     // after params set, send params to the model
@@ -62,7 +63,7 @@ export function setup(
         source: $status,
         filter: status => status === "waitingDatasource",
         fn: (_, [__, params]) => params,
-        target: setupEnd
+        target: bootstrapEnd
     });
 
     return $status;

@@ -1,94 +1,58 @@
 import { ListValue } from "mendix";
-import { clearNode, createEffect, sample, Event, combine, Store } from "effector";
+import { Effect, clearNode, createDomain } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { GridModel, Status } from "./base";
-import { sortToInst, stateToSettings } from "./utils";
-import * as Grid from "../../typings/GridState";
 import { GridSettings } from "../../typings/GridSettings";
 import { DynamicStorage } from "../storage/base";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
-type Props = DatagridContainerProps;
+export type ModelEffects = {
+    updateLimitFx: Effect<[ListValue, number], void, Error>;
+    updateOffsetFx: Effect<[ListValue, number], void, Error>;
+    updateOrderFx: Effect<[ListValue, ListValue["sortOrder"]], void, Error>;
+    setupDatasourceFx: Effect<DatagridContainerProps, void, Error>;
+    writeSettingsFx: Effect<[GridSettings, DynamicStorage], void, Error>;
+    abortWriteFx: Effect<unknown, void, Error>;
+};
 
-export function setupEffects(propsUpdated: Event<Props>, grid: GridModel, status: Store<Status>): void {
-    const setupDatasourceFx = sample({
-        source: propsUpdated,
-        target: createEffect((props: DatagridContainerProps) => {
-            props.datasource.setLimit(props.pageSize);
-            if (props.pagination === "buttons") {
-                props.datasource.requestTotalCount(props.datasource.hasMoreItems ?? false);
-            }
-            // Preventing calling this effect on future updates.
-            clearNode(setupDatasourceFx);
-        })
+export function effects(): ModelEffects {
+    const domain = createDomain();
+    domain.onCreateEffect(fx => fx.watch(payload => console.log("DEBUG", fx.shortName, payload)));
+    const setupDatasourceFx = domain.createEffect((props: DatagridContainerProps) => {
+        props.datasource.setLimit(props.pageSize);
+        if (props.pagination === "buttons") {
+            props.datasource.requestTotalCount(props.datasource.hasMoreItems ?? false);
+        }
+        // Preventing calling this effect on future updates.
+        clearNode(setupDatasourceFx);
     });
 
-    const datasource = sample({
-        clock: propsUpdated,
-        source: status,
-        // Allow datasource changes only once state is initialized
-        filter: status => status === "ready",
-        fn: (_, props) => props.datasource
-    });
+    setupDatasourceFx.shortName = "setupDatasourceFx";
 
-    const updateLimitFx = createEffect(([ds, limit]: [ListValue, number]) => ds.setLimit(limit));
-    const updateOffsetFx = createEffect(([ds, offset]: [ListValue, number]) => ds.setOffset(offset));
-    const updateOrderFx = createEffect(([ds, order]: [ListValue, ListValue["sortOrder"]]) => ds.setSortOrder(order));
+    const updateLimitFx = domain.createEffect(([ds, limit]: [ListValue, number]) => ds.setLimit(limit));
+    updateLimitFx.shortName = "limitFx";
 
-    sample({
-        clock: grid.limitChanged,
-        // Take latest datasource
-        source: datasource,
-        filter: (ds, limit) => {
-            if (limit > ds.limit) {
-                return !!ds.hasMoreItems;
-            }
-            return limit >= 0;
-        },
-        fn: (ds, limit) => [ds, limit] as const,
-        target: updateLimitFx
-    });
+    const updateOffsetFx = domain.createEffect(([ds, offset]: [ListValue, number]) => ds.setOffset(offset));
+    updateOffsetFx.shortName = "offsetFx";
 
-    sample({
-        clock: grid.offsetChanged,
-        source: datasource,
-        filter: (ds, offset) => {
-            if (offset > ds.offset) {
-                return !!ds.hasMoreItems;
-            }
-            return offset >= 0;
-        },
-        fn: (ds, offset) => [ds, offset] as const,
-        target: updateOffsetFx
-    });
+    const updateOrderFx = domain.createEffect(([ds, order]: [ListValue, ListValue["sortOrder"]]) =>
+        ds.setSortOrder(order)
+    );
+    updateOrderFx.shortName = "orderFx";
 
-    const $inst = combine(grid.columns, grid.sort, (cols, sort) => sortToInst(sort, cols));
-    sample({
-        clock: $inst,
-        source: datasource,
-        fn: (ds, inst) => [ds, inst] as const,
-        target: updateOrderFx
-    });
+    const writeSettings = ([settings, storage]: [GridSettings, DynamicStorage]): void => {
+        if (storage.status !== "ready") {
+            return;
+        }
+        storage.value.save(settings);
+    };
 
-    const $settings = combine<Grid.StorableState>({
-        columns: grid.columns,
-        settingsHash: grid.settingsHash,
-        hidden: grid.hidden,
-        order: grid.order,
-        size: grid.size,
-        sort: grid.sort
-    }).map(stateToSettings);
+    const [write, abortWrite] = debounce(writeSettings, 1000);
 
-    sample({
-        clock: $settings,
-        source: [status, grid.storage] as const,
-        filter: ([status]) => status === "ready",
-        fn: ([_, storage], settings) => [settings, storage] as const,
-        target: createEffect(([settings, storage]: [GridSettings, DynamicStorage]) => {
-            // console.log(JSON.stringify(stateToSettings(state), null, 2));
-            if (storage.status !== "ready") {
-                return;
-            }
-            storage.value.save(settings);
-        })
-    });
+    const writeSettingsFx = domain.createEffect(write);
+    writeSettingsFx.shortName = "writeFx";
+
+    const abortWriteFx = domain.createEffect(abortWrite);
+    abortWriteFx.shortName = "aborted";
+
+    return { updateLimitFx, updateOffsetFx, updateOrderFx, setupDatasourceFx, writeSettingsFx, abortWriteFx };
 }
