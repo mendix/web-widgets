@@ -1,10 +1,10 @@
 import { ListValue } from "mendix";
-import { Event, EventCallable, Store, sample } from "effector";
+import { Event, EventCallable, Store, createEffect, sample } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel, InitParams, Status } from "./base";
 import { Column } from "../../helpers/Column";
 import { StorageDone } from "../storage/base";
-import { paramsFromColumns, paramsFromSettings } from "./utils";
+import { paramsFromColumns, paramsFromSettings, sortToInst } from "./utils";
 
 export function setup(
     $status: Store<Status>,
@@ -12,7 +12,7 @@ export function setup(
     propsUpdated: Event<DatagridContainerProps>,
     initParamsSent: EventCallable<InitParams>
 ): void {
-    const initParamsUpdate = sample({
+    const params = sample({
         clock: propsUpdated,
         source: {
             status: $status,
@@ -32,16 +32,29 @@ export function setup(
                 return "pending";
             }
 
-            return createInitParams({
+            const args = {
                 columns,
                 ds: datasource,
                 storage
-            });
+            };
+            return [args, createInitParams(args)] as const;
         }
     });
 
+    const paramsReady = params.filterMap(params => (params === "pending" || params === "skip" ? undefined : params));
+
+    // Initialize datasource sort
     sample({
-        source: initParamsUpdate.filterMap(params => (params === "pending" || params === "skip" ? undefined : params)),
+        source: paramsReady,
+        target: createEffect(([args, params]: [{ columns: Column[]; ds: ListValue }, InitParams]) => {
+            args.ds.setSortOrder(sortToInst(params.sort, args.columns));
+        })
+    });
+
+    // Set init params in the grid model
+    sample({
+        source: paramsReady,
+        fn: ([_, params]) => params,
         target: initParamsSent
     });
 }

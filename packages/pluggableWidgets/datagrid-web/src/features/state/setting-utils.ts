@@ -19,7 +19,8 @@ export function stateToSettings(state: GridState): GridSettings {
         sort: state.sort,
         order: [],
         gridWideFilters: undefined,
-        settingsHash: undefined
+
+        settingsHash: ""
     };
 }
 
