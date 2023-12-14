@@ -17,6 +17,15 @@ export type Order = ColumnId[];
 
 export type SortOrder = SortRule[];
 
+export interface StorableState {
+    settingsHash: string;
+    columns: Columns;
+    hidden: Hidden;
+    order: Order;
+    size: ColumnWidthConfig;
+    sort: SortOrder;
+}
+
 export interface GridState {
     available: Columns;
     columns: Columns;

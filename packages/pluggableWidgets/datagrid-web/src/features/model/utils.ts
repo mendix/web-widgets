@@ -4,7 +4,7 @@ import { ListValue } from "mendix";
 import { GridSettings } from "../../typings/GridSettings";
 import { InitParams } from "./base";
 import { Column } from "../../helpers/Column";
-import { GridState, SortOrder } from "../../typings/GridState";
+import * as Grid from "../../typings/GridState";
 
 /**
  * Generates 32 bit FNV-1a hash from the given string.
@@ -45,7 +45,7 @@ export function sortByOrder<T extends GridColumn>(columns: T[], order: ColumnId[
     return result;
 }
 
-export function sortToInst(sort: SortOrder, columns: Column[]): SortInstruction[] {
+export function sortToInst(sort: Grid.SortOrder, columns: Column[]): SortInstruction[] {
     return sort.flatMap(([id, dir]) => {
         const column = columns.find(c => c.columnId === id);
         const inst = column?.sortInstruction(dir);
@@ -53,7 +53,7 @@ export function sortToInst(sort: SortOrder, columns: Column[]): SortInstruction[
     });
 }
 
-export function instToSort(inst: SortInstruction[], columns: Column[]): SortOrder {
+export function instToSort(inst: SortInstruction[], columns: Column[]): Grid.SortOrder {
     return inst.flatMap(([attrId, dir]) => {
         const columnId = columns.find(col => col.attrId === attrId)?.columnId;
         return columnId ? [[columnId, dir]] : [];
@@ -80,18 +80,18 @@ export function paramsFromColumns(columns: Column[], ds: ListValue): InitParams 
     };
 }
 
-export function stateToSettings(state: GridState): GridSettings {
+export function stateToSettings(params: Grid.StorableState): GridSettings {
     return {
         schemaVersion: 1,
-        columns: state.columns.map(({ columnId }) => ({
+        settingsHash: params.settingsHash,
+        columns: params.columns.map(({ columnId }) => ({
             columnId,
-            hidden: state.hidden.has(columnId),
-            size: state.size[columnId],
+            hidden: params.hidden.has(columnId),
+            size: params.size[columnId],
             filterSettings: undefined
         })),
-        sort: state.sort,
-        order: state.order,
-        gridWideFilters: undefined,
-        settingsHash: undefined
+        sort: params.sort,
+        order: params.order,
+        gridWideFilters: undefined
     };
 }

@@ -2,7 +2,10 @@ import { ListValue } from "mendix";
 import { clearNode, createEffect, sample, Event, combine, Store } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel, Status } from "./base";
-import { sortToInst } from "./utils";
+import { sortToInst, stateToSettings } from "./utils";
+import * as Grid from "../../typings/GridState";
+import { GridSettings } from "../../typings/GridSettings";
+import { DynamicStorage } from "../storage/base";
 
 type Props = DatagridContainerProps;
 
@@ -64,5 +67,27 @@ export function setupEffects(propsUpdated: Event<Props>, grid: GridModel, status
         source: datasource,
         fn: (ds, inst) => [ds, inst] as const,
         target: updateOrderFx
+    });
+
+    const $settings = combine<Grid.StorableState>({
+        columns: grid.columns,
+        settingsHash: grid.settingsHash,
+        hidden: grid.hidden,
+        order: grid.order,
+        size: grid.size,
+        sort: grid.sort
+    }).map(stateToSettings);
+
+    sample({
+        source: [status, $settings, grid.storage] as const,
+        filter: ([status]) => status === "ready",
+        fn: ([_, ...params]) => params,
+        target: createEffect(([settings, storage]: [GridSettings, DynamicStorage]) => {
+            // console.log(JSON.stringify(stateToSettings(state), null, 2));
+            if (storage.status !== "ready") {
+                return;
+            }
+            storage.value.save(settings);
+        })
     });
 }

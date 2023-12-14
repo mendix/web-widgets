@@ -42,7 +42,9 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         .on(resize, reduceSize)
         .on(paramsReady, (_, params) => params.size);
 
-    const $sort = createStore<Grid.SortOrder>([]).on(sortBy, USE_MULTI_SORT ? reduceSortMulti : reduceSortSingle);
+    const $sort = createStore<Grid.SortOrder>([])
+        .on(sortBy, USE_MULTI_SORT ? reduceSortMulti : reduceSortSingle)
+        .on(paramsReady, (_, params) => params.sort);
 
     const $available = combine($columns, $order, (columns, order) => {
         if (order.length === columns.length) {
