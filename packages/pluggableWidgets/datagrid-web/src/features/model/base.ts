@@ -2,7 +2,6 @@ import { Event, EventCallable, Store } from "effector";
 import { Gate } from "effector-react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
-import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridModel";
 import { DynamicStorage } from "../storage/base";
 
@@ -14,20 +13,7 @@ export type Model = {
     grid: GridModel;
 };
 
-export type GridEvents = {
-    hide: EventCallable<ColumnId>;
-    limitChanged: Event<number>;
-    nextPage: EventCallable<unknown>;
-    offsetChanged: Event<number>;
-    prevPage: EventCallable<unknown>;
-    resize: EventCallable<[id: ColumnId, size: number]>;
-    setPage: EventCallable<number>;
-    sortBy: EventCallable<ColumnId>;
-    swap: EventCallable<[a: ColumnId, b: ColumnId]>;
-    cleanup: EventCallable<unknown>;
-};
-
-export type GridModel = GridEvents & {
+export type GridStores = {
     available: Store<Column[]>;
     columns: Store<Column[]>;
     currentPage: Store<number>;
@@ -39,6 +25,8 @@ export type GridModel = GridEvents & {
     storage: Store<DynamicStorage>;
     visible: Store<Column[]>;
 };
+
+export type GridModel = Grid.Actions & Grid.Events & GridStores;
 
 export type InitParams = {
     filter: Grid.Filter;

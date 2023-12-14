@@ -17,6 +17,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
     const setPage = createEvent<number>();
+    const mapPage = createEvent<(n: number) => number>();
     const nextPage = createEvent<unknown>();
     const prevPage = createEvent<unknown>();
     // When setPage is called one of this event will be emitted,
@@ -76,11 +77,12 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
 
     const incPage = sample({ clock: nextPage, source: $currentPage, fn: n => n + 1 });
     const decPage = sample({ clock: prevPage, source: $currentPage, fn: n => n - 1 });
+    const newPage = sample({ clock: mapPage, source: $currentPage, fn: (n, map) => map(n) });
 
     split({
         source: sample({
             source: $pageSize,
-            clock: [setPage, incPage, decPage],
+            clock: [setPage, incPage, decPage, newPage],
             fn: (pageSize, newPage) => newPage * pageSize
         }),
         match: $pagingBy,
@@ -97,6 +99,7 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
         currentPage: $currentPage,
         hidden: $hidden,
         hide,
+        mapPage,
         limitChanged,
         nextPage,
         offsetChanged,
