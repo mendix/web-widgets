@@ -45,7 +45,7 @@ jobs:
             - name: Run build and run test project
               run: pnpm run --if-present e2e.playwright
             - name: Run E2E tests
-              run: pnpm dlx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+              run: pnpm dlx playwright test --config=./automation/run-e2e/playwright.config.cjs --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
             - uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
               if: failure()
