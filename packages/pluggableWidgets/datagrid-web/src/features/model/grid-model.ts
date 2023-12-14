@@ -2,7 +2,7 @@ import { combine, createEvent, createStore, Event, sample, split } from "effecto
 import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
-import * as Grid from "../../typings/GridState";
+import * as Grid from "../../typings/GridModel";
 import { storageUnit } from "../storage/storage-model";
 import { GridModel, InitParams } from "./base";
 import { getHash, sortByOrder } from "./utils";

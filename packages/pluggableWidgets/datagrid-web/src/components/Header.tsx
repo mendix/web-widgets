@@ -16,7 +16,7 @@ import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { ColumnResizerProps } from "./ColumnResizer";
-import { SortRule } from "../typings/GridState";
+import { SortRule } from "../typings/GridModel";
 
 export interface HeaderProps {
     className?: string;

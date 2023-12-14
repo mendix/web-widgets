@@ -3,7 +3,7 @@ import { Gate } from "effector-react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
-import * as Grid from "../../typings/GridState";
+import * as Grid from "../../typings/GridModel";
 import { DynamicStorage } from "../storage/base";
 
 export type Status = "pending" | "waitingDatasource" | "ready";

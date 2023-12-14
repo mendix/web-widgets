@@ -4,7 +4,7 @@ import { ListValue } from "mendix";
 import { GridSettings } from "../../typings/GridSettings";
 import { InitParams } from "./base";
 import { Column } from "../../helpers/Column";
-import * as Grid from "../../typings/GridState";
+import * as Grid from "../../typings/GridModel";
 
 /**
  * Generates 32 bit FNV-1a hash from the given string.

@@ -1,6 +1,6 @@
 import { ColumnSettings } from "./ColumnSettings";
 import { ColumnId } from "./GridColumn";
-import { SortRule } from "./GridState";
+import { SortRule } from "./GridModel";
 
 export interface GridSettings {
     schemaVersion: number;

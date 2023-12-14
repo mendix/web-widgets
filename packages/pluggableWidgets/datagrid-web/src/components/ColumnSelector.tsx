@@ -5,7 +5,7 @@ import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObse
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
 import { UpdateFunctions } from "../features/state/base";
-import * as Grid from "../typings/GridState";
+import * as Grid from "../typings/GridModel";
 
 export interface ColumnSelectorProps {
     columns: Grid.Columns;

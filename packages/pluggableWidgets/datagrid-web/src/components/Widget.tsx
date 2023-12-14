@@ -22,7 +22,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
-import { ColumnWidthConfig, GridState } from "../typings/GridState";
+import { ColumnWidthConfig, GridState } from "../typings/GridModel";
 import { UpdateFunctions } from "../features/state/base";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {

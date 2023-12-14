@@ -2,7 +2,7 @@ import { sample, Event, combine, Store } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { GridModel, Status } from "./base";
 import { sortToInst, stateToSettings } from "./utils";
-import * as Grid from "../../typings/GridState";
+import * as Grid from "../../typings/GridModel";
 import { ModelEffects } from "./effects";
 
 type Props = DatagridContainerProps;
