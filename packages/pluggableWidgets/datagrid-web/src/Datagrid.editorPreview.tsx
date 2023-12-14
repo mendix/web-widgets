@@ -10,7 +10,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { initGridState } from "./features/state/utils";
+import { ColumnId } from "./typings/GridColumn";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -60,7 +60,30 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     }));
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
-    const gridState = initGridState(columns);
+    const viewModel = {
+        currentPage: 0,
+        columns,
+        available: [],
+        visible: [],
+        order: [],
+        hidden: new Set<ColumnId>(),
+        sort: [],
+        size: {}
+    };
+    const noop = (): void => {
+        return undefined;
+    };
+
+    const actions = {
+        setPage: noop as any,
+        nextPage: noop as any,
+        prevPage: noop as any,
+        mapPage: noop as any,
+        hide: noop as any,
+        swap: noop as any,
+        sortBy: noop as any,
+        resize: noop as any
+    };
 
     return (
         <Widget
@@ -71,7 +94,6 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            gridState={gridState}
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
@@ -103,27 +125,16 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             hasMoreItems={false}
             headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
             numberOfItems={5}
-            page={0}
             pageSize={props.pageSize ?? 5}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
             processedRows={0}
             styles={parseStyle(props.style)}
-            setHidden={() => {
-                return undefined;
-            }}
-            setOrder={() => {
-                return undefined;
-            }}
-            setSort={() => {
-                return undefined;
-            }}
-            setSize={() => {
-                return undefined;
-            }}
             selectionProps={selectionProps}
             selectionStatus={"none"}
+            model={viewModel}
+            actions={actions}
         />
     );
 }

@@ -7,7 +7,7 @@ import { Cell } from "../components/Cell";
 import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
-import { initGridState } from "../features/state/utils";
+import { ViewModel } from "../typings/GridModel";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -56,7 +56,16 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index));
-    const gridState = initGridState(columns);
+    const viewModel: ViewModel = {
+        currentPage: 1,
+        columns,
+        available: [],
+        visible: [],
+        order: [],
+        hidden: new Set(),
+        sort: [],
+        size: {}
+    };
     const selectionProps = mockSelectionProps();
 
     return {
@@ -74,16 +83,20 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         headerWrapperRenderer: (_index, header) => header,
         id,
         onExportCancel: jest.fn(),
-        page: 1,
         pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        gridState,
-        setHidden: jest.fn(),
-        setOrder: jest.fn(),
-        setPage: jest.fn(),
-        setSort: jest.fn(),
-        setSize: jest.fn(),
+        model: viewModel,
+        actions: {
+            setPage: jest.fn() as any,
+            nextPage: jest.fn() as any,
+            prevPage: jest.fn() as any,
+            mapPage: jest.fn() as any,
+            hide: jest.fn() as any,
+            swap: jest.fn() as any,
+            sortBy: jest.fn() as any,
+            resize: jest.fn() as any
+        },
         selectionProps,
         selectionStatus: "unknown",
         processedRows: 0

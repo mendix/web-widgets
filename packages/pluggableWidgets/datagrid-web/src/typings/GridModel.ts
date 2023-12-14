@@ -1,6 +1,6 @@
 import { FilterCondition } from "mendix/filters";
 import { ColumnId, GridColumn } from "./GridColumn";
-import { Event, EventCallable } from "effector";
+import { Event, EventCallable, Store } from "effector";
 
 export interface ColumnWidthConfig {
     [columnId: ColumnId]: number | undefined;
@@ -31,7 +31,6 @@ export interface ViewModel<T extends GridColumn = GridColumn> {
     available: T[];
     columns: T[];
     currentPage: number;
-    filter: Filter;
     hidden: Hidden;
     order: Order;
     size: ColumnWidthConfig;
@@ -54,4 +53,17 @@ export type Events = {
     cleanup: EventCallable<unknown>;
     limitChanged: Event<number>;
     offsetChanged: Event<number>;
+};
+
+export type Model<C = GridColumn, S = unknown> = {
+    available: Store<C[]>;
+    columns: Store<C[]>;
+    currentPage: Store<number>;
+    hidden: Store<Hidden>;
+    order: Store<Order>;
+    settingsHash: Store<string>;
+    size: Store<ColumnWidthConfig>;
+    sort: Store<SortOrder>;
+    storage: Store<S>;
+    visible: Store<C[]>;
 };

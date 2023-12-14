@@ -1,6 +1,6 @@
 import { sample, Event, combine, Store } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { GridModel, Status } from "./base";
+import { Model, Status } from "./base";
 import { sortToInst, stateToSettings } from "./utils";
 import * as Grid from "../../typings/GridModel";
 import { ModelEffects } from "./effects";
@@ -9,7 +9,8 @@ type Props = DatagridContainerProps;
 
 export function setupEffects(
     propsUpdated: Event<Props>,
-    grid: GridModel,
+    grid: Model,
+    events: Grid.Events,
     status: Store<Status>,
     effects: ModelEffects
 ): void {
@@ -27,7 +28,7 @@ export function setupEffects(
     });
 
     sample({
-        clock: grid.limitChanged,
+        clock: events.limitChanged,
         // Take latest datasource
         source: datasource,
         filter: (ds, limit) => {
@@ -41,7 +42,7 @@ export function setupEffects(
     });
 
     sample({
-        clock: grid.offsetChanged,
+        clock: events.offsetChanged,
         source: datasource,
         filter: (ds, offset) => {
             if (offset > ds.offset) {

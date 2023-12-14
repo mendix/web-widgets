@@ -4,14 +4,21 @@ import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridModel";
 import { storageUnit } from "../storage/storage-model";
-import { GridModel, InitParams } from "./base";
+import { Model, InitParams } from "./base";
 import { getHash, sortByOrder } from "./utils";
 
 const USE_MULTI_SORT = false;
 
 type Props = DatagridContainerProps;
 
-export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<InitParams>): GridModel {
+export function createGridModel(
+    propsUpdate: Event<Props>,
+    paramsReady: Event<InitParams>
+): {
+    model: Model;
+    actions: Grid.Actions;
+    events: Grid.Events;
+} {
     const hide = createEvent<ColumnId>();
     const sortBy = createEvent<ColumnId>();
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
@@ -93,27 +100,33 @@ export function createGridModel(propsUpdate: Event<Props>, paramsReady: Event<In
     });
 
     return {
-        available: $available,
-        cleanup,
-        columns: $columns,
-        currentPage: $currentPage,
-        hidden: $hidden,
-        hide,
-        mapPage,
-        limitChanged,
-        nextPage,
-        offsetChanged,
-        order: $order,
-        prevPage,
-        resize,
-        setPage,
-        settingsHash: $settingsHash,
-        size: $size,
-        sort: $sort,
-        sortBy,
-        storage: $storage,
-        swap,
-        visible: $visible
+        model: {
+            available: $available,
+            columns: $columns,
+            currentPage: $currentPage,
+            hidden: $hidden,
+            order: $order,
+            settingsHash: $settingsHash,
+            size: $size,
+            sort: $sort,
+            storage: $storage,
+            visible: $visible
+        },
+        actions: {
+            hide,
+            mapPage,
+            nextPage,
+            prevPage,
+            resize,
+            setPage,
+            sortBy,
+            swap
+        },
+        events: {
+            cleanup,
+            limitChanged,
+            offsetChanged
+        }
     };
 }
 

@@ -4,14 +4,13 @@ import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
-import { UpdateFunctions } from "../features/state/base";
 import * as Grid from "../typings/GridModel";
 
 export interface ColumnSelectorProps {
     columns: Grid.Columns;
     hiddenColumns: Grid.Hidden;
     id?: string;
-    setHidden: UpdateFunctions["setHidden"];
+    setHidden: Grid.Actions["hide"];
     label?: string;
     visibleLength: number;
 }
@@ -34,15 +33,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
         (isVisible: boolean, columnId: ColumnId) => {
             const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
             if (!isLastVisibleColumn) {
-                setHidden(prev => {
-                    const next = new Set(prev);
-                    if (!isVisible) {
-                        next.delete(columnId);
-                    } else {
-                        next.add(columnId);
-                    }
-                    return next;
-                });
+                setHidden(columnId);
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps

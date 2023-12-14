@@ -11,42 +11,37 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useRef, useState } from "react";
-import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
+import { DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "./Cell";
 import { Widget } from "./Widget";
 import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
-import { Column } from "../helpers/Column";
-import { GridState } from "../typings/GridModel";
-import { useGridStateWithEffects } from "../features/state/grid-state-with-effects";
+import { Model } from "../features/model/base";
+import { useStoreMap } from "effector-react";
+import { useViewModel } from "../features/model/use-view-model";
+import { Actions } from "../typings/GridModel";
 
-type ContainerProps = Omit<DatagridContainerProps, "columns"> & {
-    columns: Column[];
-    rawColumns: ColumnsType[];
-    initState: GridState;
+type Props = DatagridContainerProps & {
+    model: Model;
+    actions: Actions;
 };
 
-export default function Datagrid(props: ContainerProps): ReactElement {
+export default function Datagrid(props: Props): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
-
-    const isInfiniteLoad = props.pagination === "virtualScrolling";
-    const currentPage = isInfiniteLoad
-        ? props.datasource.limit / props.pageSize
-        : props.datasource.offset / props.pageSize;
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
+    const { model } = props;
 
-    const [gridState, { setSort, setHidden, setOrder, setSize }] = useGridStateWithEffects({
-        initState: props.initState,
-        datasource: props.datasource,
-        settings: props.configurationAttribute,
-        columns: props.columns
-    });
+    const viewModel = useViewModel(model);
+
+    const exportColumns = useStoreMap(props.model.visible, visible =>
+        visible.map(col => props.columns[col.columnNumber])
+    );
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: [],
+        columns: exportColumns,
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
@@ -78,22 +73,10 @@ export default function Datagrid(props: ContainerProps): ReactElement {
         }
     }, [props.datasource, props.refreshInterval]);
 
-    const setPage = useCallback(
-        (computePage: (prevPage: number) => number) => {
-            const newPage = computePage(currentPage);
-            if (isInfiniteLoad) {
-                props.datasource.setLimit(newPage * props.pageSize);
-            } else {
-                props.datasource.setOffset(newPage * props.pageSize);
-            }
-        },
-        [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
-    );
-
     // TODO: Rewrite this logic with single useReducer (or write
     // custom hook that will use useReducer)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.rawColumns.map(() => useState<FilterState>());
+    const customFiltersState = props.columns.map(() => useState<FilterState>());
 
     const filters = customFiltersState
         .map(([customFilter]) => customFilter?.getFilterCondition?.())
@@ -129,7 +112,6 @@ export default function Datagrid(props: ContainerProps): ReactElement {
         <Widget
             className={props.class}
             CellComponent={Cell}
-            gridState={gridState}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
@@ -143,7 +125,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const column = props.rawColumns[columnIndex];
+                    const column = props.columns[columnIndex];
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
@@ -171,7 +153,7 @@ export default function Datagrid(props: ContainerProps): ReactElement {
                     );
                 },
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                [FilterContext, customFiltersState, props.rawColumns]
+                [FilterContext, customFiltersState, props.columns]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
@@ -192,17 +174,10 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             id={id.current}
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abort}
-            page={currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-            setPage={setPage}
-            setOrder={setOrder}
-            setHidden={setHidden}
-            setSort={setSort}
-            setSize={setSize}
-            settings={props.configurationAttribute}
             styles={props.style}
             rowAction={props.onClick}
             selectionProps={selectionProps}
@@ -212,6 +187,8 @@ export default function Datagrid(props: ContainerProps): ReactElement {
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
+            actions={props.actions}
+            model={viewModel}
         />
     );
 }

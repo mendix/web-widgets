@@ -1,7 +1,7 @@
 import { ListValue } from "mendix";
 import { Event, EventCallable, Store, sample, createStore, createEvent } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { GridModel, InitParams, Status } from "./base";
+import { Model, InitParams, Status } from "./base";
 import { Column } from "../../helpers/Column";
 import { StorageDone } from "../storage/base";
 import { paramsFromColumns, paramsFromSettings, sortToInst } from "./utils";
@@ -11,7 +11,7 @@ type InitArgs = { columns: Column[]; ds: ListValue; storage: StorageDone };
 type InitPayload = [InitArgs, InitParams];
 
 export function bootstrap(
-    grid: GridModel,
+    grid: Model,
     propsUpdated: Event<DatagridContainerProps>,
     bootstrapEnd: EventCallable<InitParams>,
     effects: ModelEffects
