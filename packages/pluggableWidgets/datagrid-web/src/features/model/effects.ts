@@ -79,9 +79,10 @@ export function setupEffects(propsUpdated: Event<Props>, grid: GridModel, status
     }).map(stateToSettings);
 
     sample({
-        source: [status, $settings, grid.storage] as const,
+        clock: $settings,
+        source: [status, grid.storage] as const,
         filter: ([status]) => status === "ready",
-        fn: ([_, ...params]) => params,
+        fn: ([_, storage], settings) => [settings, storage] as const,
         target: createEffect(([settings, storage]: [GridSettings, DynamicStorage]) => {
             // console.log(JSON.stringify(stateToSettings(state), null, 2));
             if (storage.status !== "ready") {
