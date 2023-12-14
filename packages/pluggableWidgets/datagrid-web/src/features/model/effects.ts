@@ -20,7 +20,7 @@ export function effects(): ModelEffects {
     const setupDatasourceFx = domain.createEffect((props: DatagridContainerProps) => {
         props.datasource.setLimit(props.pageSize);
         if (props.pagination === "buttons") {
-            props.datasource.requestTotalCount(props.datasource.hasMoreItems ?? false);
+            props.datasource.requestTotalCount(props.datasource.hasMoreItems ?? true);
         }
         // Preventing calling this effect on future updates.
         clearNode(setupDatasourceFx);
