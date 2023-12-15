@@ -85,7 +85,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         sortBy: noop as any,
         resize: noop as any,
         setFilter: noop as any,
-        setColumnFilter: noop as any
+        setColumnFilter: noop as any,
+        setHeaderFilter: noop as any
     };
 
     return (

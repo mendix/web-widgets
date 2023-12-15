@@ -1,14 +1,12 @@
-import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
 import { FilterState } from "@mendix/widget-plugin-filtering";
-import { createEvent, createStore, Store, EventCallable, sample } from "effector";
+import { createEvent, createStore, Store, sample } from "effector";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
+import { reduceFiltersMap } from "./utils";
+import { Filter, SetColumnFilter } from "../../typings/GridModel";
 
 type ColumnFilters = Map<ColumnId, FilterState>;
 
-export function createColumnFilters(
-    visible: Store<GridColumn[]>
-): [query: Store<FilterCondition | undefined>, setColumnFilter: EventCallable<[ColumnId, FilterState]>] {
+export function createColumnFilters(visible: Store<GridColumn[]>): [filter: Store<Filter>, setFilter: SetColumnFilter] {
     const setColumnFilter = createEvent<[ColumnId, FilterState]>();
 
     const $filters = createStore<ColumnFilters>(new Map())
@@ -27,25 +25,11 @@ export function createColumnFilters(
             return state.size === next.size ? state : next;
         });
 
-    const $finalFilter = sample({
+    const $composedFilter = sample({
         source: $filters,
-        fn: filters => {
-            const conditions = [...filters].flatMap(([_, state]) => {
-                const value = state.getFilterCondition();
-                return value ? [value] : [];
-            });
-
-            switch (conditions.length) {
-                case 0:
-                    return undefined;
-                case 1:
-                    return conditions[0];
-                default:
-                    return and(...conditions);
-            }
-        },
-        target: createStore<FilterCondition | undefined>(undefined, { skipVoid: false })
+        fn: reduceFiltersMap,
+        target: createStore<Filter>(undefined, { skipVoid: false })
     });
 
-    return [$finalFilter, setColumnFilter];
+    return [$composedFilter, setColumnFilter];
 }

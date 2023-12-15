@@ -1,25 +1,20 @@
 import { createElement, ReactElement, memo, useMemo, useState, ReactNode } from "react";
-import { FilterCondition } from "mendix/filters";
 import { FilterListType } from "../../typings/DatagridProps";
 import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection";
-import {
-    getGlobalFilterContextObject,
-    useMultipleFiltering,
-    readInitFilterValues
-} from "@mendix/widget-plugin-filtering";
+import { getGlobalFilterContextObject, readInitFilterValues } from "@mendix/widget-plugin-filtering";
+import { Filter, SetHeaderFilter } from "../typings/GridModel";
 
 interface WidgetHeaderContextProps {
     filterList: FilterListType[];
     selectionContextValue: { status: "all" | "some" | "none"; toggle: () => void } | undefined;
-    viewStateFilters?: FilterCondition;
     children?: ReactNode;
-    state: ReturnType<typeof useMultipleFiltering>;
+    setFilter: SetHeaderFilter;
+    initFilter: Filter;
 }
 
 const component = memo((props: WidgetHeaderContextProps) => {
     const SelectionContext = getGlobalSelectionContext();
     const FilterContext = getGlobalFilterContextObject();
-    const multipleFilteringState = props.state;
     const filterList = useMemo(
         () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
         [props.filterList]
@@ -28,7 +23,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
         props.filterList.reduce(
             (filters, { filter }) => ({
                 ...filters,
-                [filter.id]: readInitFilterValues(filter, props.viewStateFilters)
+                [filter.id]: readInitFilterValues(filter, props.initFilter)
             }),
             {}
         )
@@ -37,13 +32,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
     return (
         <FilterContext.Provider
             value={{
-                filterDispatcher: prev => {
-                    if (prev.filterType) {
-                        const [, filterDispatcher] = multipleFilteringState[prev.filterType];
-                        filterDispatcher(prev);
-                    }
-                    return prev;
-                },
+                filterDispatcher: props.setFilter,
                 multipleAttributes: filterList,
                 multipleInitialFilters
             }}

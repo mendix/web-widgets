@@ -1,16 +1,8 @@
-import {
-    FilterState,
-    FilterType,
-    useFilterContext,
-    useMultipleFiltering,
-    readInitFilterValues
-} from "@mendix/widget-plugin-filtering";
+import { useFilterContext, readInitFilterValues } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
-import { ReactElement, ReactNode, createElement, useCallback, useRef, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useRef } from "react";
 import { DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "./Cell";
 import { Widget } from "./Widget";
@@ -29,7 +21,6 @@ type Props = DatagridContainerProps & {
 
 export default function Datagrid(props: Props): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
-    const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
     const { model, actions } = props;
 
@@ -65,27 +56,6 @@ export default function Datagrid(props: Props): ReactElement {
             [props.datasource]
         )
     });
-
-    // TODO: Rewrite this logic with single useReducer (or write
-    // custom hook that will use useReducer)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.columns.map(() => useState<FilterState>());
-
-    const filters = customFiltersState
-        .map(([customFilter]) => customFilter?.getFilterCondition?.())
-        .filter((filter): filter is FilterCondition => filter !== undefined)
-        .concat(
-            // Concatenating multiple filter state
-            Object.keys(multipleFilteringState)
-                .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
-                .filter((filter): filter is FilterCondition => filter !== undefined)
-        );
-
-    if (filters.length > 0) {
-        actions.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-    } else {
-        actions.setFilter(undefined);
-    }
 
     const selectionHelper = useSelectionHelper(
         props.itemSelection,
@@ -142,16 +112,16 @@ export default function Datagrid(props: Props): ReactElement {
                     );
                 },
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, props.columns]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
                         filterList={props.filterList}
-                        viewStateFilters={undefined}
                         selectionContextValue={selectionContextValue}
-                        state={multipleFilteringState}
+                        setFilter={actions.setHeaderFilter}
+                        initFilter={undefined}
                     >
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>

@@ -19,6 +19,10 @@ export type Order = ColumnId[];
 
 export type SortOrder = SortRule[];
 
+export type SetColumnFilter = EventCallable<[ColumnId, FilterState]>;
+
+export type SetHeaderFilter = EventCallable<FilterState>;
+
 export interface StorableState {
     settingsHash: string;
     columns: Columns;
@@ -50,7 +54,8 @@ export type Actions = {
     setPage: EventCallable<number>;
     sortBy: EventCallable<ColumnId>;
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
-    setColumnFilter: EventCallable<[ColumnId, FilterState]>;
+    setColumnFilter: SetColumnFilter;
+    setHeaderFilter: SetHeaderFilter;
 };
 
 export type Events = {

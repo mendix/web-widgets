@@ -6,7 +6,7 @@ import * as Grid from "../../typings/GridModel";
 import { storageUnit } from "../storage/storage-model";
 import { Model, InitParams } from "./base";
 import { getHash, sortByOrder } from "./utils";
-import { createColumnFilters } from "../filters/column-filters-model";
+import { createFilter } from "../filters/main";
 
 const USE_MULTI_SORT = false;
 
@@ -98,15 +98,10 @@ export function createGridModel(
         }
     });
 
-    const [$columnFilters, setColumnFilter] = createColumnFilters($visible);
-
-    const $filter = createStore<Grid.Filter>(undefined, { skipVoid: false })
-        .on(paramsReady, (_, params) => params.filter)
-        .on($columnFilters.updates, (_, next) => next);
+    const [$filter, setColumnFilter, setHeaderFilter] = createFilter(paramsReady, $visible);
 
     $columns.watch(v => console.log("DEBUG columns changed", v));
     $order.watch(v => console.log("DEBUG order changed", v));
-    $columnFilters.updates.watch(v => console.log("DEBUG filter updates changed", v));
     $filter.watch(v => console.log("DEBUG filter changed", v));
 
     return {
@@ -130,6 +125,7 @@ export function createGridModel(
             prevPage,
             resize,
             setColumnFilter,
+            setHeaderFilter,
             setFilter,
             setPage,
             sortBy,
