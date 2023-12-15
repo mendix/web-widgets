@@ -59,7 +59,7 @@ export function bootstrap(
     const setViewStateFx = createEffect(([{ ds, columns }, params]: InitPayload) => {
         console.log("DEBUG params ready");
         dataReady(params);
-        effects.setViewStateAndReloadFx([ds, sortToInst(params.sort, columns), undefined]);
+        effects.setViewStateAndReloadFx([ds, sortToInst(params.sort, columns), params.filter]);
         viewRestored();
     });
 

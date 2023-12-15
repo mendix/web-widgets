@@ -97,7 +97,9 @@ export function createGridModel(
         }
     });
 
-    const $filter = createStore<Grid.Filter>(undefined, { skipVoid: false });
+    const $filter = createStore<Grid.Filter>(undefined, { skipVoid: false })
+        .on(paramsReady, (_, params) => params.filter)
+        .on(setFilter, (_, next) => next);
 
     $columns.watch(v => console.log("DEBUG columns changed", v));
     $order.watch(v => console.log("DEBUG order changed", v));

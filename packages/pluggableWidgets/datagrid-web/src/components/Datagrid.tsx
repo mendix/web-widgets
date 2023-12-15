@@ -18,7 +18,7 @@ import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Model } from "../features/model/base";
-import { useStoreMap } from "effector-react";
+import { useStoreMap, useUnit } from "effector-react";
 import { useViewModel } from "../features/model/use-view-model";
 import { Actions } from "../typings/GridModel";
 
@@ -32,13 +32,15 @@ export default function Datagrid(props: Props): ReactElement {
     const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
-    const { model } = props;
+    const { model, actions } = props;
 
     const viewModel = useViewModel(model);
 
     const exportColumns = useStoreMap(props.model.visible, visible =>
         visible.map(col => props.columns[col.columnNumber])
     );
+
+    const gridFilter = useUnit(model.filter);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: exportColumns,
@@ -81,9 +83,9 @@ export default function Datagrid(props: Props): ReactElement {
         );
 
     if (filters.length > 0) {
-        props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
+        actions.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
     } else if (filtered) {
-        props.datasource.setFilter(undefined);
+        actions.setFilter(undefined);
     }
 
     const selectionHelper = useSelectionHelper(
@@ -121,7 +123,7 @@ export default function Datagrid(props: Props): ReactElement {
                     const { attribute, filter } = column;
                     const associationProps = getColumnAssociationProps(column);
                     const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = readInitFilterValues(attribute, undefined);
+                    const initialFilters = readInitFilterValues(attribute, gridFilter);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
