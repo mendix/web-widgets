@@ -10,7 +10,7 @@ import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useG
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { ReactElement, ReactNode, createElement, useCallback, useEffect, useRef, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useRef, useState } from "react";
 import { DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "./Cell";
 import { Widget } from "./Widget";
@@ -64,14 +64,6 @@ export default function Datagrid(props: Props): ReactElement {
             [props.datasource]
         )
     });
-
-    useEffect(() => {
-        if (props.refreshInterval > 0) {
-            setTimeout(() => {
-                props.datasource.reload();
-            }, props.refreshInterval * 1000);
-        }
-    }, [props.datasource, props.refreshInterval]);
 
     // TODO: Rewrite this logic with single useReducer (or write
     // custom hook that will use useReducer)
