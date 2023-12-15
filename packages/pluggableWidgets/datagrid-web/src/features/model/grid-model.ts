@@ -1,4 +1,4 @@
-import { combine, createEvent, createStore, Event, sample, split } from "effector";
+import { combine, createEvent, createStore, Event, sample, split, Store } from "effector";
 import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { ColumnId } from "../../typings/GridColumn";
@@ -27,6 +27,7 @@ export function createGridModel(
     const mapPage = createEvent<(n: number) => number>();
     const nextPage = createEvent<unknown>();
     const prevPage = createEvent<unknown>();
+
     // When setPage is called one of this event will be emitted,
     // depending on current pagination type.
     const limitChanged = createEvent<number>();
@@ -36,10 +37,6 @@ export function createGridModel(
     const $columns = createStore<ColumnsType[]>([])
         .on(propsUpdate, (_, props) => props.columns)
         .map<Column[]>(columns => columns.map((columnsType, index) => new Column(columnsType, index)));
-
-    const $hidden = createStore<Grid.Hidden>(new Set())
-        .on(hide, reduceHidden)
-        .on(paramsReady, (_, params) => params.hidden);
 
     const $order = createStore<Grid.Order>([])
         .on(swap, reduceOrder)
@@ -62,6 +59,8 @@ export function createGridModel(
         }
         return columns.filter(column => column.visible);
     });
+
+    const $hidden = createHidden($available, paramsReady, hide);
 
     const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
 
@@ -192,4 +191,34 @@ function reduceSize(prev: Grid.ColumnWidthConfig, [id, size]: [id: ColumnId, siz
         ...prev,
         [id]: size
     };
+}
+
+function createHidden(
+    $available: Store<Column[]>,
+    paramsReady: Event<InitParams>,
+    hide: Event<ColumnId>
+): Store<Grid.Hidden> {
+    const $hidden = createStore<Grid.Hidden>(new Set());
+
+    const initValue = paramsReady.map(params => params.hidden);
+
+    const newValue = sample({
+        clock: hide,
+        source: $hidden,
+        fn: reduceHidden
+    });
+
+    sample({
+        clock: [initValue, newValue],
+        source: $available,
+        // Pass new value only if at least 1 column is visible
+        filter: (available, nextHidden) => {
+            const visibleCount = available.reduce((n, column) => (nextHidden.has(column.columnId) ? n : n + 1), 0);
+            return visibleCount > 0;
+        },
+        fn: (_, next) => next,
+        target: $hidden
+    });
+
+    return $hidden;
 }
