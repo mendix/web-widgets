@@ -20,7 +20,6 @@ export function createGridModel(
     events: Grid.Events;
 } {
     const hide = createEvent<ColumnId>();
-    const resetHidden = createEvent<unknown>();
     const sortBy = createEvent<ColumnId>();
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
@@ -61,15 +60,7 @@ export function createGridModel(
         return columns.filter(column => column.visible);
     });
 
-    const $hidden = createHidden($available, paramsReady, hide, resetHidden);
-
-    const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
-
-    sample({
-        source: $visible,
-        filter: visible => visible.length === 0,
-        target: resetHidden
-    });
+    const [$hidden, $visible] = createHidden($available, paramsReady, hide);
 
     const $storage = storageUnit(propsUpdate, cleanup, $settingsHash);
 
@@ -203,13 +194,13 @@ function reduceSize(prev: Grid.ColumnWidthConfig, [id, size]: [id: ColumnId, siz
 function createHidden(
     $available: Store<Column[]>,
     paramsReady: Event<InitParams>,
-    hide: Event<ColumnId>,
-    resetHidden: Event<unknown>
-): Store<Grid.Hidden> {
+    hide: Event<ColumnId>
+): [Store<Grid.Hidden>, Store<Column[]>] {
+    const resetHidden = createEvent<unknown>();
     const $hidden = createStore<Grid.Hidden>(new Set()).reset(resetHidden);
+    const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
 
     const initValue = paramsReady.map(params => params.hidden);
-
     const newValue = sample({
         clock: hide,
         source: $hidden,
@@ -228,5 +219,11 @@ function createHidden(
         target: $hidden
     });
 
-    return $hidden;
+    sample({
+        source: $visible,
+        filter: visible => visible.length === 0,
+        target: resetHidden
+    });
+
+    return [$hidden, $visible];
 }
