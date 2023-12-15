@@ -31,6 +31,7 @@ export interface ViewModel<T extends GridColumn = GridColumn> {
     available: T[];
     columns: T[];
     currentPage: number;
+    filter: Filter;
     hidden: Hidden;
     order: Order;
     size: ColumnWidthConfig;
@@ -44,6 +45,7 @@ export type Actions = {
     nextPage: EventCallable<unknown>;
     prevPage: EventCallable<unknown>;
     resize: EventCallable<[id: ColumnId, size: number]>;
+    setFilter: EventCallable<Filter>;
     setPage: EventCallable<number>;
     sortBy: EventCallable<ColumnId>;
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
@@ -59,6 +61,7 @@ export type Model<C = GridColumn, S = unknown> = {
     available: Store<C[]>;
     columns: Store<C[]>;
     currentPage: Store<number>;
+    filter: Store<Filter>;
     hidden: Store<Hidden>;
     order: Store<Order>;
     settingsHash: Store<string>;

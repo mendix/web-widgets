@@ -64,7 +64,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         order: [],
         hidden: new Set(),
         sort: [],
-        size: {}
+        size: {},
+        filter: undefined
     };
     const selectionProps = mockSelectionProps();
 
@@ -95,7 +96,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
             hide: jest.fn() as any,
             swap: jest.fn() as any,
             sortBy: jest.fn() as any,
-            resize: jest.fn() as any
+            resize: jest.fn() as any,
+            setFilter: jest.fn() as any
         },
         selectionProps,
         selectionStatus: "unknown",

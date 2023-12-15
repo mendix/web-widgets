@@ -61,14 +61,15 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
     const viewModel = {
-        currentPage: 0,
-        columns,
         available: [],
-        visible: [],
-        order: [],
+        columns,
+        currentPage: 0,
+        filter: undefined,
         hidden: new Set<ColumnId>(),
+        order: [],
+        size: {},
         sort: [],
-        size: {}
+        visible: []
     };
     const noop = (): void => {
         return undefined;
@@ -82,7 +83,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         hide: noop as any,
         swap: noop as any,
         sortBy: noop as any,
-        resize: noop as any
+        resize: noop as any,
+        setFilter: noop as any
     };
 
     return (

@@ -37,6 +37,7 @@ function createModelApi(): GridModelApi {
     setupEffects(propsUpdated, grid.model, grid.events, $status, modelFxs);
 
     propsUpdated.watch(p => log("props updated", p));
+    grid.model.available.watch(v => log("available", v));
     grid.events.limitChanged.watch(limit => log("limit changed", limit));
     grid.events.offsetChanged.watch(offset => log("offset changed", offset));
     $status.watch(v => log("status", v));

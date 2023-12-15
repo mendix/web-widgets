@@ -27,6 +27,7 @@ export function createGridModel(
     const mapPage = createEvent<(n: number) => number>();
     const nextPage = createEvent<unknown>();
     const prevPage = createEvent<unknown>();
+    const setFilter = createEvent<Grid.Filter>();
 
     // When setPage is called one of this event will be emitted,
     // depending on current pagination type.
@@ -96,14 +97,17 @@ export function createGridModel(
         }
     });
 
-    $columns.watch(() => console.log("DEBUG columns changed"));
-    $order.watch(() => console.log("DEBUG order changed"));
+    const $filter = createStore<Grid.Filter>(undefined, { skipVoid: false });
+
+    $columns.watch(v => console.log("DEBUG columns changed", v));
+    $order.watch(v => console.log("DEBUG order changed", v));
 
     return {
         model: {
             available: $available,
             columns: $columns,
             currentPage: $currentPage,
+            filter: $filter,
             hidden: $hidden,
             order: $order,
             settingsHash: $settingsHash,
@@ -118,6 +122,7 @@ export function createGridModel(
             nextPage,
             prevPage,
             resize,
+            setFilter,
             setPage,
             sortBy,
             swap
