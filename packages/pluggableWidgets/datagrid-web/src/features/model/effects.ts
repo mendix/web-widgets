@@ -14,6 +14,7 @@ export type ModelEffects = {
     writeSettingsFx: Effect<[GridSettings, DynamicStorage], void, Error>;
     refreshFx: Effect<[ListValue, number], void, Error>;
     setViewStateAndReloadFx: Effect<[ListValue, ListValue["sortOrder"], ListValue["filter"]], void, Error>;
+    updateFilterFx: Effect<[ListValue, ListValue["filter"]], void, Error>;
     // This gate should be used only for cleanup
     componentGate: Gate<void>;
 };
@@ -48,6 +49,11 @@ export function effects(): ModelEffects {
     );
     updateOrderFx.shortName = "orderFx";
 
+    const updateFilterFx = domain.createEffect(([ds, filter]: [ListValue, ListValue["filter"]]) => {
+        ds.setFilter(filter);
+    });
+    updateFilterFx.shortName = "filterFx";
+
     const writeSettingsFx = createSettingsWriteFx(createFxWithCleanup);
 
     const refreshFx = createRefreshFx(createFxWithCleanup);
@@ -69,6 +75,7 @@ export function effects(): ModelEffects {
         updateLimitFx,
         updateOffsetFx,
         updateOrderFx,
+        updateFilterFx,
         setupDatasourceFx,
         writeSettingsFx,
         refreshFx,

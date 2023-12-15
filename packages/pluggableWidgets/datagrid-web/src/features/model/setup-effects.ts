@@ -62,6 +62,13 @@ export function setupEffects(
         target: effects.updateOrderFx
     });
 
+    sample({
+        clock: grid.filter,
+        source: datasourceUpdated,
+        fn: (ds, filter) => [ds, filter] as const,
+        target: effects.updateFilterFx
+    });
+
     const $settings = combine<Grid.StorableState>({
         columns: grid.columns,
         settingsHash: grid.settingsHash,
