@@ -1,5 +1,5 @@
 import { ListValue } from "mendix";
-import { Event, EventCallable, Store, sample, createStore, createEvent } from "effector";
+import { Event, EventCallable, Store, sample, createStore, createEvent, createEffect } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Model, InitParams, Status } from "./base";
 import { Column } from "../../helpers/Column";
@@ -13,13 +13,15 @@ type InitPayload = [InitArgs, InitParams];
 export function bootstrap(
     grid: Model,
     propsUpdated: Event<DatagridContainerProps>,
-    bootstrapEnd: EventCallable<InitParams>,
+    dataReady: EventCallable<InitParams>,
     effects: ModelEffects
 ): Store<Status> {
     const payload = createEvent<InitPayload | "pending">();
     const payloadReady = payload.filterMap(payload => (payload === "pending" ? undefined : payload));
+    const bootstrapEnd = createEvent();
+    const viewRestored = createEvent();
     const $status = createStore<Status>("pending")
-        .on(payloadReady, () => "waitingDatasource")
+        .on(viewRestored, () => "waitingDatasource")
         .on(bootstrapEnd, () => "ready");
 
     // loading init params
@@ -50,21 +52,27 @@ export function bootstrap(
         target: payload
     });
 
-    // setting params to datasource
-    sample({
-        source: payloadReady,
-        fn: ([{ ds, columns }, { sort }]) => [ds, sortToInst(sort, columns)] as const,
-        target: effects.updateOrderFx
+    const setViewStateFx = createEffect(([{ ds, columns }, params]: InitPayload) => {
+        console.log("DEBUG params ready");
+        dataReady(params);
+        effects.setViewStateAndReloadFx([ds, sortToInst(params.sort, columns), undefined]);
+        viewRestored();
     });
 
     // after params set, send params to the model
     sample({
-        clock: sample({ clock: propsUpdated, source: payloadReady, fn: payload => payload }),
+        clock: payloadReady,
+        target: setViewStateFx
+    });
+
+    sample({
+        clock: propsUpdated,
         source: $status,
         filter: status => status === "waitingDatasource",
-        fn: (_, [__, params]) => params,
         target: bootstrapEnd
     });
+
+    bootstrapEnd.watch(() => console.log("DEBUG bootstrap end"));
 
     return $status;
 }

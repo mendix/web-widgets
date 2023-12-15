@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createGate } from "effector-react";
+import { createGate, useGate } from "effector-react";
 import { GridModelApi } from "./base";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { createInitModel } from "./init-model";
@@ -28,11 +28,6 @@ function createModelApi(): GridModelApi {
 
     sample({
         source: gate.close,
-        target: modelFxs.abortWriteFx
-    });
-
-    sample({
-        source: gate.close,
         target: grid.events.cleanup
     });
 
@@ -46,9 +41,18 @@ function createModelApi(): GridModelApi {
     grid.events.offsetChanged.watch(offset => log("offset changed", offset));
     $status.watch(v => log("status", v));
 
-    return { gate, status: $status, ...grid };
+    return { gate, componentGate: modelFxs.componentGate, status: $status, ...grid };
 }
 
-export function useModelApi(): GridModelApi {
+function useApi(): GridModelApi {
     return useMemo(createModelApi, []);
+}
+
+export function useModelApi(props: DatagridContainerProps): GridModelApi {
+    const api = useApi();
+
+    useGate(api.gate, props);
+    useGate(api.componentGate);
+
+    return api;
 }

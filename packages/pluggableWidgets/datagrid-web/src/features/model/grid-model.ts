@@ -99,6 +99,9 @@ export function createGridModel(
         }
     });
 
+    $columns.watch(() => console.log("DEBUG columns changed"));
+    $order.watch(() => console.log("DEBUG order changed"));
+
     return {
         model: {
             available: $available,

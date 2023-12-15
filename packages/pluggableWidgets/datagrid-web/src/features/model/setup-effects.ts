@@ -1,4 +1,5 @@
-import { sample, Event, combine, Store } from "effector";
+import { ListValue } from "mendix";
+import { sample, Event, combine, Store, createStore } from "effector";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { Model, Status } from "./base";
 import { sortToInst, stateToSettings } from "./utils";
@@ -14,12 +15,10 @@ export function setupEffects(
     status: Store<Status>,
     effects: ModelEffects
 ): void {
-    const datasource = sample({
-        clock: propsUpdated,
-        source: status,
-        // Allow datasource change events once state is initialized
-        filter: status => status === "ready",
-        fn: (_, props) => props.datasource
+    const isReady = status.map(status => status === "ready");
+    const $ds = createStore<ListValue | null>(null).on(propsUpdated, (_, props) => props.datasource);
+    const datasourceUpdated = $ds.updates.filterMap(value => {
+        return value !== null ? value : undefined;
     });
 
     sample({
@@ -28,9 +27,9 @@ export function setupEffects(
     });
 
     sample({
-        clock: events.limitChanged,
+        clock: sample({ clock: events.limitChanged, filter: isReady }),
         // Take latest datasource
-        source: datasource,
+        source: datasourceUpdated,
         filter: (ds, limit) => {
             if (limit > ds.limit) {
                 return !!ds.hasMoreItems;
@@ -42,8 +41,8 @@ export function setupEffects(
     });
 
     sample({
-        clock: events.offsetChanged,
-        source: datasource,
+        clock: sample({ clock: events.offsetChanged, filter: isReady }),
+        source: datasourceUpdated,
         filter: (ds, offset) => {
             if (offset > ds.offset) {
                 return !!ds.hasMoreItems;
@@ -54,10 +53,11 @@ export function setupEffects(
         target: effects.updateOffsetFx
     });
 
-    const $inst = combine(grid.columns, grid.sort, (cols, sort) => sortToInst(sort, cols));
+    const $sortInstructions = combine(grid.columns, grid.sort, (cols, sort) => sortToInst(sort, cols));
     sample({
-        clock: $inst,
-        source: datasource,
+        clock: $sortInstructions,
+        source: datasourceUpdated,
+        filter: isReady,
         fn: (ds, inst) => [ds, inst] as const,
         target: effects.updateOrderFx
     });
@@ -73,9 +73,17 @@ export function setupEffects(
 
     sample({
         clock: $settings,
-        source: [status, grid.storage] as const,
-        filter: ([status]) => status === "ready",
-        fn: ([_, storage], settings) => [settings, storage] as const,
+        source: grid.storage,
+        filter: isReady,
+        fn: (storage, settings) => [settings, storage] as const,
         target: effects.writeSettingsFx
+    });
+
+    sample({
+        clock: propsUpdated,
+        source: datasourceUpdated,
+        filter: isReady,
+        fn: (ds, props) => [ds, props.refreshInterval] as const,
+        target: effects.refreshFx
     });
 }

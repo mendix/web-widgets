@@ -11,6 +11,7 @@ export type Model = Grid.Model<Column, DynamicStorage>;
 
 export type GridModelApi = {
     gate: Gate<DatagridContainerProps>;
+    componentGate: Gate<void>;
     status: Store<Status>;
     model: Model;
     actions: Grid.Actions;

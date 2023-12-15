@@ -4,6 +4,8 @@ import { AttrStorage } from "./AttrStorage";
 import { DynamicStorage, StorageDone, StoragePending, StorageReady } from "./base";
 import { requestLocalStorage, returnStorage } from "./utils";
 
+const ENABLE_LOCAL_STORAGE = true;
+
 type Props = DatagridContainerProps;
 type Attr = Exclude<Props["configurationAttribute"], undefined>;
 
@@ -53,6 +55,9 @@ export function storageUnit(
         source: [$settingsHash, $result] as const,
         filter: ([_, state]) => state.status === "pending",
         fn: ([hash, _state], _props): StorageDone => {
+            if (!ENABLE_LOCAL_STORAGE) {
+                return { status: "disabled", value: null, reason: "disabled by user" };
+            }
             const storage = requestLocalStorage(hash);
             return storage
                 ? { status: "ready", value: storage }

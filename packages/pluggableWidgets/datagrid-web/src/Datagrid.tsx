@@ -2,11 +2,10 @@ import { createElement } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import Container from "./components/Datagrid";
 import { useModelApi } from "./features/model/main";
-import { useGate, useUnit } from "effector-react";
+import { useUnit } from "effector-react";
 
 export default function Datagrid(props: DatagridContainerProps): React.ReactElement {
-    const { gate, status, model, actions } = useModelApi();
-    useGate(gate, props);
+    const { status, model, actions } = useModelApi(props);
 
     const loading = useUnit(status) !== "ready";
 
