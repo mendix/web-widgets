@@ -20,6 +20,7 @@ export function createGridModel(
     events: Grid.Events;
 } {
     const hide = createEvent<ColumnId>();
+    const resetHidden = createEvent<unknown>();
     const sortBy = createEvent<ColumnId>();
     const swap = createEvent<[a: ColumnId, b: ColumnId]>();
     const resize = createEvent<[id: ColumnId, size: number]>();
@@ -60,9 +61,15 @@ export function createGridModel(
         return columns.filter(column => column.visible);
     });
 
-    const $hidden = createHidden($available, paramsReady, hide);
+    const $hidden = createHidden($available, paramsReady, hide, resetHidden);
 
     const $visible = combine($available, $hidden, (columns, hidden) => columns.filter(c => !hidden.has(c.columnId)));
+
+    sample({
+        source: $visible,
+        filter: visible => visible.length === 0,
+        target: resetHidden
+    });
 
     const $storage = storageUnit(propsUpdate, cleanup, $settingsHash);
 
@@ -196,9 +203,10 @@ function reduceSize(prev: Grid.ColumnWidthConfig, [id, size]: [id: ColumnId, siz
 function createHidden(
     $available: Store<Column[]>,
     paramsReady: Event<InitParams>,
-    hide: Event<ColumnId>
+    hide: Event<ColumnId>,
+    resetHidden: Event<unknown>
 ): Store<Grid.Hidden> {
-    const $hidden = createStore<Grid.Hidden>(new Set());
+    const $hidden = createStore<Grid.Hidden>(new Set()).reset(resetHidden);
 
     const initValue = paramsReady.map(params => params.hidden);
 
