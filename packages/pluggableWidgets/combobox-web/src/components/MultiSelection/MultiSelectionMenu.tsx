@@ -4,7 +4,6 @@ import { Checkbox, SelectAll } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
-import classNames from "classnames";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -52,14 +51,14 @@ export function MultiSelectionMenu({
                         >
                             {item === selector.selectAllButtonId ? (
                                 <button
-                                    className={classNames("widget-combobox-menu-select-all-button", {
-                                        selected: selector.isAllOptionsSelected(),
-                                        highlighted: highlightedIndex === selectableItems.length - 1
-                                    })}
+                                    className="widget-combobox-menu-select-all-button"
                                     aria-label={selectAllButtonAriaLabel}
                                     tabIndex={-1}
                                 >
-                                    <SelectAll allSelected={selector.isAllOptionsSelected()} />
+                                    <SelectAll
+                                        allSelected={selector.isAllOptionsSelected()}
+                                        highlighted={highlightedIndex === 0}
+                                    />
                                 </button>
                             ) : (
                                 <Fragment>

@@ -260,19 +260,15 @@ $select-all-button-fill: #24276c;
         }
     }
 
-    &-menu-header {
-        display: flex;
-        align-items: center;
-        padding: 0px 0 6px 10px;
-        height: fit-content;
-    }
-
     &-select-all-button-icon {
         grid-column: 1;
         grid-row: 1;
         color: $disabled-text-color;
         transition: color 0.2s ease-in-out;
         &:not(.active) {
+            &.highlighted {
+                color: $brand-primary;
+            }
             &:hover {
                 color: $brand-primary;
             }
@@ -280,6 +276,10 @@ $select-all-button-fill: #24276c;
         &.active {
             color: $brand-primary;
             transition: opacity 0.1s ease-in-out;
+            &.highlighted {
+                opacity: 0;
+                color: $brand-primary;
+            }
             &:hover {
                 opacity: 0;
                 color: $brand-primary;

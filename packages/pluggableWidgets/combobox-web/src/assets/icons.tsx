@@ -34,7 +34,13 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     );
 }
 
-export function SelectAll({ allSelected }: { allSelected?: boolean }): ReactElement {
+export function SelectAll({
+    allSelected,
+    highlighted
+}: {
+    allSelected?: boolean;
+    highlighted?: boolean;
+}): ReactElement {
     return (
         <span style={{ display: "grid" }}>
             <svg
@@ -62,7 +68,8 @@ export function SelectAll({ allSelected }: { allSelected?: boolean }): ReactElem
             </svg>
             <svg
                 className={classNames("widget-combobox-select-all-button-icon", {
-                    active: allSelected
+                    active: allSelected,
+                    highlighted
                 })}
                 width={16}
                 height={16}
