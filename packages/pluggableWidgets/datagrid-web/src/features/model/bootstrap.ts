@@ -20,6 +20,10 @@ export function bootstrap(
     const payloadReady = payload.filterMap(payload => (payload === "pending" ? undefined : payload));
     const bootstrapEnd = createEvent();
     const viewRestored = createEvent();
+    // pending -- waiting for props to become available
+    // waitingDatasource -- all set, waiting datasource to be updated
+    // By having "waitingDatasource" "step" we prevent ui flickering
+    // ready -- bootstrap is done, we ready to show grid.
     const $status = createStore<Status>("pending")
         .on(viewRestored, () => "waitingDatasource")
         .on(bootstrapEnd, () => "ready");
@@ -59,12 +63,13 @@ export function bootstrap(
         viewRestored();
     });
 
-    // after params set, send params to the model
+    // once payload is ready, reset state and set view state of datasource
     sample({
         clock: payloadReady,
         target: setViewStateFx
     });
 
+    // End bootstrap on next reload
     sample({
         clock: propsUpdated,
         source: $status,
