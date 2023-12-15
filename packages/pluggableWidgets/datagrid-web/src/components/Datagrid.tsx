@@ -29,7 +29,6 @@ type Props = DatagridContainerProps & {
 
 export default function Datagrid(props: Props): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
-    const [filtered, setFiltered] = useState(false);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
     const { model, actions } = props;
@@ -84,7 +83,7 @@ export default function Datagrid(props: Props): ReactElement {
 
     if (filters.length > 0) {
         actions.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-    } else if (filtered) {
+    } else {
         actions.setFilter(undefined);
     }
 
@@ -133,7 +132,6 @@ export default function Datagrid(props: Props): ReactElement {
                         <FilterContext.Provider
                             value={{
                                 filterDispatcher: prev => {
-                                    setFiltered(true);
                                     filterDispatcher(prev);
                                     return prev;
                                 },
@@ -154,7 +152,6 @@ export default function Datagrid(props: Props): ReactElement {
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
                         filterList={props.filterList}
-                        setFiltered={setFiltered}
                         viewStateFilters={undefined}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}

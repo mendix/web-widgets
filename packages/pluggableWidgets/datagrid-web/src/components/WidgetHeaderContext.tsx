@@ -11,7 +11,6 @@ import {
 interface WidgetHeaderContextProps {
     filterList: FilterListType[];
     selectionContextValue: { status: "all" | "some" | "none"; toggle: () => void } | undefined;
-    setFiltered: (val: boolean) => void;
     viewStateFilters?: FilterCondition;
     children?: ReactNode;
     state: ReturnType<typeof useMultipleFiltering>;
@@ -42,7 +41,6 @@ const component = memo((props: WidgetHeaderContextProps) => {
                     if (prev.filterType) {
                         const [, filterDispatcher] = multipleFilteringState[prev.filterType];
                         filterDispatcher(prev);
-                        props.setFiltered(true);
                     }
                     return prev;
                 },
