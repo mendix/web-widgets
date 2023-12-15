@@ -117,11 +117,11 @@ export default function Datagrid(props: Props): ReactElement {
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
             filterRenderer={useCallback(
-                (renderWrapper, columnIndex) => {
-                    const column = props.columns[columnIndex];
-                    const { attribute, filter } = column;
-                    const associationProps = getColumnAssociationProps(column);
-                    const [, filterDispatcher] = customFiltersState[columnIndex];
+                (renderWrapper, column) => {
+                    const rawColumn = props.columns[column.columnNumber];
+                    const { attribute, filter } = rawColumn;
+                    const associationProps = getColumnAssociationProps(rawColumn);
+
                     const initialFilters = readInitFilterValues(attribute, gridFilter);
 
                     if (!attribute && !associationProps) {
@@ -131,10 +131,7 @@ export default function Datagrid(props: Props): ReactElement {
                     return renderWrapper(
                         <FilterContext.Provider
                             value={{
-                                filterDispatcher: prev => {
-                                    filterDispatcher(prev);
-                                    return prev;
-                                },
+                                filterDispatcher: state => actions.setColumnFilter([column.columnId, state]),
                                 singleAttribute: attribute,
                                 singleInitialFilter: initialFilters,
                                 associationProperties: associationProps

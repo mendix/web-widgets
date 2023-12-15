@@ -84,7 +84,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         swap: noop as any,
         sortBy: noop as any,
         resize: noop as any,
-        setFilter: noop as any
+        setFilter: noop as any,
+        setColumnFilter: noop as any
     };
 
     return (
@@ -107,8 +108,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             )}
             exporting={false}
             filterRenderer={useCallback(
-                (renderWrapper, columnIndex) => {
-                    const column = props.columns.at(columnIndex);
+                (renderWrapper, { columnNumber }) => {
+                    const column = props.columns.at(columnNumber);
                     return column?.filter ? (
                         <column.filter.renderer caption="Place filter widget here">
                             {renderWrapper(null)}

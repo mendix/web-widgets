@@ -35,7 +35,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     exporting: boolean;
-    filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
+    filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, column: GridColumn) => ReactElement;
     hasMoreItems: boolean;
     headerContent?: ReactNode;
     headerTitle?: string;
@@ -164,7 +164,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             draggable={columnsDraggable}
                                             dragOver={dragOver}
                                             filterable={columnsFilterable}
-                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
+                                            filterWidget={filterRendererProp(renderFilterWrapper, column)}
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}

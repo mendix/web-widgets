@@ -1,6 +1,7 @@
 import { FilterCondition } from "mendix/filters";
 import { ColumnId, GridColumn } from "./GridColumn";
 import { Event, EventCallable, Store } from "effector";
+import { FilterState } from "@mendix/widget-plugin-filtering";
 
 export interface ColumnWidthConfig {
     [columnId: ColumnId]: number | undefined;
@@ -49,6 +50,7 @@ export type Actions = {
     setPage: EventCallable<number>;
     sortBy: EventCallable<ColumnId>;
     swap: EventCallable<[a: ColumnId, b: ColumnId]>;
+    setColumnFilter: EventCallable<[ColumnId, FilterState]>;
 };
 
 export type Events = {

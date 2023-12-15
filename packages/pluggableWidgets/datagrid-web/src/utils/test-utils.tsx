@@ -97,7 +97,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
             swap: jest.fn() as any,
             sortBy: jest.fn() as any,
             resize: jest.fn() as any,
-            setFilter: jest.fn() as any
+            setFilter: jest.fn() as any,
+            setColumnFilter: jest.fn() as any
         },
         selectionProps,
         selectionStatus: "unknown",
