@@ -65,7 +65,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         hidden: new Set(),
         sort: [],
         size: {},
-        filter: undefined
+        splitFilter: [undefined, undefined]
     };
     const selectionProps = mockSelectionProps();
 

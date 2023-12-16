@@ -13,6 +13,7 @@ export function useViewModel(model: Model): ViewModel<Column> {
         order: model.order,
         size: model.size,
         sort: model.sort,
+        splitFilter: model.splitFilter,
         visible: model.visible
     });
 }

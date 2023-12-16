@@ -10,7 +10,7 @@ import { WidgetHeaderContext } from "./WidgetHeaderContext";
 import { getColumnAssociationProps } from "../features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "../features/export";
 import { Model } from "../features/model/base";
-import { useStoreMap, useUnit } from "effector-react";
+import { useStoreMap } from "effector-react";
 import { useViewModel } from "../features/model/use-view-model";
 import { Actions } from "../typings/GridModel";
 
@@ -25,12 +25,11 @@ export default function Datagrid(props: Props): ReactElement {
     const { model, actions } = props;
 
     const viewModel = useViewModel(model);
+    const [columnFilters, headerFilters] = viewModel.splitFilter;
 
     const exportColumns = useStoreMap(props.model.visible, visible =>
         visible.map(col => props.columns[col.columnNumber])
     );
-
-    const gridFilter = useUnit(model.filter);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: exportColumns,
@@ -92,7 +91,7 @@ export default function Datagrid(props: Props): ReactElement {
                     const { attribute, filter } = rawColumn;
                     const associationProps = getColumnAssociationProps(rawColumn);
 
-                    const initialFilters = readInitFilterValues(attribute, gridFilter);
+                    const initialFilters = readInitFilterValues(attribute, columnFilters);
 
                     if (!attribute && !associationProps) {
                         return renderWrapper(filter);
@@ -112,7 +111,7 @@ export default function Datagrid(props: Props): ReactElement {
                     );
                 },
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                [FilterContext, props.columns]
+                [FilterContext, props.columns, columnFilters]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
@@ -121,7 +120,7 @@ export default function Datagrid(props: Props): ReactElement {
                         filterList={props.filterList}
                         selectionContextValue={selectionContextValue}
                         setFilter={actions.setHeaderFilter}
-                        initFilter={undefined}
+                        initFilter={headerFilters}
                     >
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>

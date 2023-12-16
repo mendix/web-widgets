@@ -11,6 +11,7 @@ import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { ColumnId } from "./typings/GridColumn";
+import { Filter } from "./typings/GridModel";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -69,7 +70,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         order: [],
         size: {},
         sort: [],
-        visible: []
+        visible: [],
+        splitFilter: [undefined, undefined] as [Filter, Filter]
     };
     const noop = (): void => {
         return undefined;

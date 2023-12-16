@@ -4,30 +4,31 @@ import { Filter, SetColumnFilter, SetHeaderFilter } from "../../typings/GridMode
 import { InitParams } from "../model/base";
 import { createColumnFilters } from "./column-filters-model";
 import { createHeaderFilters } from "./header-filters-model";
-import { reduceFilters } from "./utils";
+import { zipFilters } from "./utils";
+
+type ReturnFilters = {
+    filter: Store<Filter>;
+    splitFilter: Store<[columns: Filter, header: Filter]>;
+};
 
 export function createFilter(
     paramsReady: Event<InitParams>,
     visible: Store<GridColumn[]>
-): [filter: Store<Filter>, setColumnFilter: SetColumnFilter, setHeaderFilter: SetHeaderFilter] {
-    const [$columnFilters, setColumnFilter] = createColumnFilters(visible);
-    const [$headerFilters, setHeaderFilter] = createHeaderFilters();
+): [filters: ReturnFilters, setColumnFilter: SetColumnFilter, setHeaderFilter: SetHeaderFilter] {
+    const [$columnFilters, setColumnFilter] = createColumnFilters(visible, paramsReady);
+    const [$headerFilters, setHeaderFilter] = createHeaderFilters(paramsReady);
 
     $columnFilters.updates.watch(v => console.log("DEBUG column filter updates changed", v));
     $headerFilters.updates.watch(v => console.log("DEBUG header filter updates changed", v));
 
-    const $filter = createStore<Filter>(undefined, { skipVoid: false }).on(paramsReady, (_, params) => params.filter);
+    const $splitFilter = createStore<[columns: Filter, header: Filter]>([undefined, undefined], { skipVoid: false });
 
     sample({
         source: [$columnFilters, $headerFilters] as const,
-        // TODO: If one of filters is undefined
-        // we can replace it with "placeholder": eq(true, true)
-        // This "placeholder" is needed to restore filter values later.
-        fn: ([columnFilters, headerFilters]) => {
-            return reduceFilters([columnFilters, headerFilters]);
-        },
-        target: $filter
+        target: $splitFilter
     });
 
-    return [$filter, setColumnFilter, setHeaderFilter];
+    const $filter = $splitFilter.map(([a, b]) => zipFilters(a, b));
+
+    return [{ filter: $filter, splitFilter: $splitFilter }, setColumnFilter, setHeaderFilter];
 }

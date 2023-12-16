@@ -36,7 +36,7 @@ export interface ViewModel<T extends GridColumn = GridColumn> {
     available: T[];
     columns: T[];
     currentPage: number;
-    filter: Filter;
+    splitFilter: [columns: Filter, header: Filter];
     hidden: Hidden;
     order: Order;
     size: ColumnWidthConfig;
@@ -69,6 +69,7 @@ export type Model<C = GridColumn, S = unknown> = {
     columns: Store<C[]>;
     currentPage: Store<number>;
     filter: Store<Filter>;
+    splitFilter: Store<[columns: Filter, header: Filter]>;
     hidden: Store<Hidden>;
     order: Store<Order>;
     settingsHash: Store<string>;

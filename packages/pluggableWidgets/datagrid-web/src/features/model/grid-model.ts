@@ -98,7 +98,10 @@ export function createGridModel(
         }
     });
 
-    const [$filter, setColumnFilter, setHeaderFilter] = createFilter(paramsReady, $visible);
+    const [{ filter: $filter, splitFilter: $splitFilter }, setColumnFilter, setHeaderFilter] = createFilter(
+        paramsReady,
+        $visible
+    );
 
     $columns.watch(v => console.log("DEBUG columns changed", v));
     $order.watch(v => console.log("DEBUG order changed", v));
@@ -110,6 +113,7 @@ export function createGridModel(
             columns: $columns,
             currentPage: $currentPage,
             filter: $filter,
+            splitFilter: $splitFilter,
             hidden: $hidden,
             order: $order,
             settingsHash: $settingsHash,

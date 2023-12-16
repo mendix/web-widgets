@@ -62,8 +62,10 @@ export function setupEffects(
         target: effects.updateOrderFx
     });
 
+    grid.filter.watch(v => console.log("DEBUG filter XXX", v));
     sample({
         clock: grid.filter,
+        filter: isReady,
         source: datasourceUpdated,
         fn: (ds, filter) => [ds, filter] as const,
         target: effects.updateFilterFx

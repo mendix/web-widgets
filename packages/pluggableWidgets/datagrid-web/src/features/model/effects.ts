@@ -49,9 +49,7 @@ export function effects(): ModelEffects {
     );
     updateOrderFx.shortName = "orderFx";
 
-    const updateFilterFx = domain.createEffect(([ds, filter]: [ListValue, ListValue["filter"]]) => {
-        ds.setFilter(filter);
-    });
+    const updateFilterFx = createFilterFx(createFxWithCleanup);
     updateFilterFx.shortName = "filterFx";
 
     const writeSettingsFx = createSettingsWriteFx(createFxWithCleanup);
@@ -82,6 +80,21 @@ export function effects(): ModelEffects {
         componentGate: gate,
         setViewStateAndReloadFx
     };
+}
+
+function createFilterFx(createFx: CreateFxWithCleanup): Effect<[ListValue, ListValue["filter"]], void, Error> {
+    const setFilter = ([ds, filter]: [ListValue, ListValue["filter"]]): void => {
+        console.log("DEBUG filterFx FINAL");
+        ds.setFilter(filter);
+    };
+    // After first render, many filters trying to set their init value to state.
+    // To prevent multiple setFilter calls we debounce all calls in this effect.
+    const [setFilterLazy, abort] = debounce(setFilter, 15);
+
+    return createFx((payload: [ListValue, ListValue["filter"]]): (() => void) => {
+        setFilterLazy(payload);
+        return abort;
+    });
 }
 
 function createSettingsWriteFx(createFx: CreateFxWithCleanup): Effect<[GridSettings, DynamicStorage], void, Error> {

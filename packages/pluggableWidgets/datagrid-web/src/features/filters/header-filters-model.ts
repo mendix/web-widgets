@@ -1,11 +1,14 @@
 import { FilterState, FilterType } from "@mendix/widget-plugin-filtering";
-import { Store, createEvent, createStore, sample } from "effector";
+import { Event, Store, createEvent, createStore, sample } from "effector";
 import { Filter, SetHeaderFilter } from "../../typings/GridModel";
-import { reduceFiltersMap } from "./utils";
+import { reduceFiltersMap, unzipFilter } from "./utils";
+import { InitParams } from "../model/base";
 
 type HeaderFilters = Map<FilterType, FilterState>;
 
-export function createHeaderFilters(): [composedFilter: Store<Filter>, setFilter: SetHeaderFilter] {
+export function createHeaderFilters(
+    _paramsReady: Event<InitParams>
+): [composedFilter: Store<Filter>, setFilter: SetHeaderFilter] {
     const setFilter = createEvent<FilterState>();
 
     const $filters = createStore<HeaderFilters>(new Map()).on(setFilter, (state, filterState) => {
@@ -25,6 +28,15 @@ export function createHeaderFilters(): [composedFilter: Store<Filter>, setFilter
         fn: reduceFiltersMap,
         target: createStore<Filter>(undefined, { skipVoid: false })
     });
+
+    // console.log(typeof unzipFilter);
+
+    $composedFilter.on(_paramsReady, (_, { filter }) => {
+        const [, initFilter] = unzipFilter(filter);
+        return initFilter;
+    });
+
+    setFilter.watch(v => console.log("DEBUG set header filter", v, v?.getFilterCondition()));
 
     return [$composedFilter, setFilter];
 }
