@@ -26,7 +26,7 @@ export function effects(): ModelEffects {
     const gate = createGate<void>();
 
     if (DEBUG) {
-        domain.onCreateEffect(fx => fx.watch(payload => console.log("DEBUG", fx.shortName, payload)));
+        domain.onCreateEffect(fx => fx.watch(payload => console.debug("DEBUG", fx.shortName, payload)));
     }
 
     const createFxWithCleanup = createCleanupHelper(gate, domain);
@@ -57,8 +57,10 @@ export function effects(): ModelEffects {
     updateFilterFx.shortName = "filterFx";
 
     const writeSettingsFx = createSettingsWriteFx(createFxWithCleanup);
+    writeSettingsFx.shortName = "settingsFx";
 
     const refreshFx = createRefreshFx(createFxWithCleanup);
+    refreshFx.shortName = "refreshFx";
 
     const setViewStateAndReloadFx = domain.createEffect(
         ([ds, sort, filter]: [ListValue, ListValue["sortOrder"], ListValue["filter"]]) => {
@@ -71,7 +73,7 @@ export function effects(): ModelEffects {
             ds.reload();
         }
     );
-    setViewStateAndReloadFx.shortName = "setViewStateAndReloadFx";
+    setViewStateAndReloadFx.shortName = "setViewStateFx";
 
     return {
         updateLimitFx,
