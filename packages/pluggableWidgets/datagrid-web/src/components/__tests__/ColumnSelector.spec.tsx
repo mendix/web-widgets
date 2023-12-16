@@ -189,7 +189,7 @@ function mockColumnSelectorProps(): ColumnSelectorProps {
         ] as GridColumn[],
         id: "selector-under-test",
         hiddenColumns: new Set(),
-        setHidden: jest.fn(),
+        setHidden: jest.fn() as any,
         visibleLength: 1
     };
 }

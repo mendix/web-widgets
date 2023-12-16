@@ -52,21 +52,25 @@ export function mockSelectionProps(patch?: (props: GridSelectionProps) => GridSe
     return props;
 }
 
-export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
-    const id = "dg1";
-    const columnsProp = [column("Test")];
-    const columns = columnsProp.map((col, index) => new Column(col, index));
-    const viewModel: ViewModel = {
+export function mockViewModel(columns: Column[]): ViewModel {
+    return {
         currentPage: 1,
         columns,
-        available: [],
-        visible: [],
-        order: [],
+        available: columns,
+        visible: columns,
+        order: columns.map(col => col.columnId),
         hidden: new Set(),
         sort: [],
         size: {},
         splitFilter: [undefined, undefined]
     };
+}
+
+export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
+    const id = "dg1";
+    const columnsProp = [column("Test")];
+    const columns = columnsProp.map((col, index) => new Column(col, index));
+    const viewModel: ViewModel = mockViewModel(columns);
     const selectionProps = mockSelectionProps();
 
     return {

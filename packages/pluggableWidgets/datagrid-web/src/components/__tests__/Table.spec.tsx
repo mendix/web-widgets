@@ -8,7 +8,7 @@ import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
 import { Column } from "../../helpers/Column";
 import { GridColumn } from "../../typings/GridColumn";
-import { column, mockWidgetProps } from "../../utils/test-utils";
+import { column, mockViewModel, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
@@ -71,7 +71,7 @@ describe("Table", () => {
         const props = mockWidgetProps();
         const columns = [column("Test")].map((col, index) => new Column(col, index));
         props.columnsFilterable = true;
-        props.model.columns = columns;
+        props.model = mockViewModel(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -94,7 +94,7 @@ describe("Table", () => {
             }),
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index));
-        props.model.columns = columns;
+        props.model = mockViewModel(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -111,7 +111,7 @@ describe("Table", () => {
         const props = mockWidgetProps();
         const columns = [column("", col => (col.alignment = "center"))].map((col, index) => new Column(col, index));
         props.preview = true;
-        props.model.columns = columns;
+        props.model = mockViewModel(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -332,7 +332,7 @@ describe("Table", () => {
             const items = props.data;
             const onSelect = props.selectionProps.onSelect;
             const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
-            props.model.columns = columns;
+            props.model = mockViewModel(columns);
 
             render(<Widget {...props} />);
 
@@ -422,7 +422,7 @@ describe("Table", () => {
                     col.content = listWidget(() => <input />);
                 })
             ].map((col, index) => new Column(col, index));
-            props.model.columns = columns;
+            props.model = mockViewModel(columns);
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -563,7 +563,7 @@ describe("Table", () => {
                 return c;
             }).map((col, index) => new Column(col, index));
 
-            props.model.columns = columns;
+            props.model = mockViewModel(columns);
 
             const user = userEvent.setup();
 
