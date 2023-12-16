@@ -13,6 +13,7 @@ import { Model } from "../features/model/base";
 import { useStoreMap } from "effector-react";
 import { useViewModel } from "../features/model/use-view-model";
 import { Actions } from "../typings/GridModel";
+import { useShowPagination } from "../utils/useShowPagination";
 
 type Props = DatagridContainerProps & {
     model: Model;
@@ -132,7 +133,12 @@ export default function Datagrid(props: Props): ReactElement {
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abort}
             pageSize={props.pageSize}
-            paging={props.pagination === "buttons"}
+            paging={useShowPagination({
+                pagination: props.pagination,
+                showPagingButtons: props.showPagingButtons,
+                totalCount: props.datasource.totalCount,
+                limit: props.datasource.limit
+            })}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             styles={props.style}
