@@ -18,9 +18,6 @@ export function createFilter(
     const [$columnFilters, setColumnFilter] = createColumnFilters(visible, paramsReady);
     const [$headerFilters, setHeaderFilter] = createHeaderFilters(paramsReady);
 
-    $columnFilters.updates.watch(v => console.log("DEBUG column filter updates changed", v));
-    $headerFilters.updates.watch(v => console.log("DEBUG header filter updates changed", v));
-
     const $splitFilter = createStore<[columns: Filter, header: Filter]>([undefined, undefined], { skipVoid: false });
 
     sample({

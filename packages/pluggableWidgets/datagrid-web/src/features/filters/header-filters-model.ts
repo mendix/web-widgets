@@ -36,7 +36,5 @@ export function createHeaderFilters(
         return initFilter;
     });
 
-    setFilter.watch(v => console.log("DEBUG set header filter", v, v?.getFilterCondition()));
-
     return [$composedFilter, setFilter];
 }
