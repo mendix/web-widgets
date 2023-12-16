@@ -4,7 +4,7 @@ import { AttrStorage } from "./AttrStorage";
 import { DynamicStorage, StorageDone, StoragePending, StorageReady } from "./base";
 import { requestLocalStorage, returnStorage } from "./utils";
 
-const ENABLE_LOCAL_STORAGE = true;
+const ENABLE_LOCAL_STORAGE = false;
 
 type Props = DatagridContainerProps;
 type Attr = Exclude<Props["configurationAttribute"], undefined>;
