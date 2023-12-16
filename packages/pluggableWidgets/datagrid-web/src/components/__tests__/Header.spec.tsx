@@ -73,7 +73,9 @@ describe("Header", () => {
             canSort: true
         } as any;
         const mockedFunction = jest.fn();
-        const component = shallow(<Header {...mockHeaderProps()} column={column} sortable setSort={mockedFunction} />);
+        const component = shallow(
+            <Header {...mockHeaderProps()} column={column} sortable setSort={mockedFunction as any} />
+        );
 
         const clickableRegion = component.find(".column-header");
 
@@ -129,10 +131,10 @@ function mockHeaderProps(): HeaderProps {
         resizable: false,
         resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
         sortable: false,
-        setOrder: jest.fn(),
+        setOrder: jest.fn() as any,
         setDragOver: jest.fn(),
         visibleColumns: [],
-        setSort: jest.fn(),
+        setSort: jest.fn() as any,
         setIsDragging: jest.fn(),
         sortRule: undefined
     };
