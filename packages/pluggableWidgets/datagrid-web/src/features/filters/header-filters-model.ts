@@ -29,8 +29,6 @@ export function createHeaderFilters(
         target: createStore<Filter>(undefined, { skipVoid: false })
     });
 
-    // console.log(typeof unzipFilter);
-
     $composedFilter.on(_paramsReady, (_, { filter }) => {
         const [, initFilter] = unzipFilter(filter);
         return initFilter;

@@ -11,8 +11,6 @@ import { sample } from "effector";
 
 type Props = DatagridContainerProps;
 
-const log = (...args: any[]): void => console.log("DEBUG", performance.now(), ...args);
-
 function createModelApi(): GridModelApi {
     // All prop updates will be propagated through the gate.state.updates;
     const gate = createGate<Props>();
@@ -35,12 +33,6 @@ function createModelApi(): GridModelApi {
     const $status = bootstrap(grid.model, propsUpdated, initParamsSent, modelFxs);
     // Setup all side effects
     setupEffects(propsUpdated, grid.model, grid.events, $status, modelFxs);
-
-    propsUpdated.watch(p => log("props updated", p));
-    grid.model.available.watch(v => log("available", v));
-    grid.events.limitChanged.watch(limit => log("limit changed", limit));
-    grid.events.offsetChanged.watch(offset => log("offset changed", offset));
-    $status.watch(v => log("status", v));
 
     return { gate, componentGate: modelFxs.componentGate, status: $status, ...grid };
 }

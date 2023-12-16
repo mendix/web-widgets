@@ -57,7 +57,6 @@ export function bootstrap(
     });
 
     const setViewStateFx = createEffect(([{ ds, columns }, params]: InitPayload) => {
-        console.log("DEBUG params ready");
         dataReady(params);
         effects.setViewStateAndReloadFx([ds, sortToInst(params.sort, columns), params.filter]);
         viewRestored();
@@ -76,8 +75,6 @@ export function bootstrap(
         filter: status => status === "waitingDatasource",
         target: bootstrapEnd
     });
-
-    bootstrapEnd.watch(() => console.log("DEBUG bootstrap end"));
 
     return $status;
 }

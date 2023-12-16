@@ -19,11 +19,15 @@ export type ModelEffects = {
     componentGate: Gate<void>;
 };
 
+const DEBUG = false;
+
 export function effects(): ModelEffects {
     const domain = createDomain();
     const gate = createGate<void>();
 
-    domain.onCreateEffect(fx => fx.watch(payload => console.log("DEBUG", fx.shortName, payload)));
+    if (DEBUG) {
+        domain.onCreateEffect(fx => fx.watch(payload => console.log("DEBUG", fx.shortName, payload)));
+    }
 
     const createFxWithCleanup = createCleanupHelper(gate, domain);
 
@@ -84,7 +88,6 @@ export function effects(): ModelEffects {
 
 function createFilterFx(createFx: CreateFxWithCleanup): Effect<[ListValue, ListValue["filter"]], void, Error> {
     const setFilter = ([ds, filter]: [ListValue, ListValue["filter"]]): void => {
-        console.log("DEBUG filterFx FINAL");
         ds.setFilter(filter);
     };
     // After first render, many filters trying to set their init value to state.
@@ -99,7 +102,6 @@ function createFilterFx(createFx: CreateFxWithCleanup): Effect<[ListValue, ListV
 
 function createSettingsWriteFx(createFx: CreateFxWithCleanup): Effect<[GridSettings, DynamicStorage], void, Error> {
     const writeSettings = ([settings, storage]: [GridSettings, DynamicStorage]): void => {
-        console.log("DEBUG write");
         if (storage.status === "ready") {
             storage.value.save(settings);
         }
