@@ -25,16 +25,17 @@ function hash(s: string, h = 0x811c9dc5): number {
     return h >>> 0;
 }
 
-export function getHash(columns: GridColumn[]): string {
-    const data = JSON.stringify(
-        columns.map(col => ({
+export function getHash(columns: GridColumn[], gridName: string): string {
+    const data = JSON.stringify({
+        name: gridName,
+        columns: columns.map(col => ({
             columnId: col.columnId,
             canSort: col.canSort,
             canHide: col.canHide,
             canResize: col.canResize,
             canDrag: col.canDrag
         }))
-    );
+    });
     return hash(data).toString();
 }
 
@@ -84,14 +85,14 @@ export function stateToSettings(params: Grid.StorableState): GridSettings {
     return {
         schemaVersion: 1,
         settingsHash: params.settingsHash,
+        name: params.name,
+        sort: params.sort,
+        order: params.order,
         columns: params.columns.map(({ columnId }) => ({
             columnId,
             hidden: params.hidden.has(columnId),
             size: params.size[columnId],
             filterSettings: undefined
-        })),
-        sort: params.sort,
-        order: params.order,
-        gridWideFilters: undefined
+        }))
     };
 }

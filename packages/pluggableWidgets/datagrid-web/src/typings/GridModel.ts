@@ -24,10 +24,11 @@ export type SetColumnFilter = EventCallable<[ColumnId, FilterState]>;
 export type SetHeaderFilter = EventCallable<FilterState>;
 
 export interface StorableState {
-    settingsHash: string;
     columns: Columns;
     hidden: Hidden;
+    name: string;
     order: Order;
+    settingsHash: string;
     size: ColumnWidthConfig;
     sort: SortOrder;
 }
@@ -69,12 +70,13 @@ export type Model<C = GridColumn, S = unknown> = {
     columns: Store<C[]>;
     currentPage: Store<number>;
     filter: Store<Filter>;
-    splitFilter: Store<[columns: Filter, header: Filter]>;
     hidden: Store<Hidden>;
+    name: Store<string>;
     order: Store<Order>;
     settingsHash: Store<string>;
     size: Store<ColumnWidthConfig>;
     sort: Store<SortOrder>;
+    splitFilter: Store<[columns: Filter, header: Filter]>;
     storage: Store<S>;
     visible: Store<C[]>;
 };

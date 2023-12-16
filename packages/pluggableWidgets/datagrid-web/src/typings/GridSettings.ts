@@ -3,11 +3,10 @@ import { ColumnId } from "./GridColumn";
 import { SortRule } from "./GridModel";
 
 export interface GridSettings {
+    columns: ColumnSettings[];
+    name: string;
+    order: ColumnId[];
     schemaVersion: number;
     settingsHash: string;
-    columns: ColumnSettings[];
     sort: SortRule[];
-    order: ColumnId[];
-    /** reserved */
-    gridWideFilters: unknown;
 }

@@ -44,7 +44,8 @@ export function createGridModel(
         .on(swap, reduceOrder)
         .on(paramsReady, (_, params) => params.order);
 
-    const $settingsHash = $columns.map(getHash);
+    const $name = createStore<string>("").on(propsUpdate, (_, props) => props.name);
+    const $settingsHash = combine($columns, $name, getHash);
 
     const $size = createStore<Grid.ColumnWidthConfig>({})
         .on(resize, reduceSize)
@@ -113,12 +114,13 @@ export function createGridModel(
             columns: $columns,
             currentPage: $currentPage,
             filter: $filter,
-            splitFilter: $splitFilter,
             hidden: $hidden,
+            name: $name,
             order: $order,
             settingsHash: $settingsHash,
             size: $size,
             sort: $sort,
+            splitFilter: $splitFilter,
             storage: $storage,
             visible: $visible
         },

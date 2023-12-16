@@ -72,9 +72,10 @@ export function setupEffects(
 
     const $settings = combine<Grid.StorableState>({
         columns: grid.columns,
-        settingsHash: grid.settingsHash,
         hidden: grid.hidden,
+        name: grid.name,
         order: grid.order,
+        settingsHash: grid.settingsHash,
         size: grid.size,
         sort: grid.sort
     }).map(stateToSettings);
