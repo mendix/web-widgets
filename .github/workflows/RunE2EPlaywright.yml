@@ -21,10 +21,6 @@ jobs:
 
         strategy:
           fail-fast: false
-          matrix:
-            project: [firefox]
-            shardIndex: [1, 2, 3]
-            shardTotal: [3]
 
         steps:
             - name: Checkout
@@ -42,11 +38,8 @@ jobs:
               run: pnpm install
             - name: Install Playwright Browsers
               run: pnpm exec playwright install --with-deps firefox
-            - name: Run build and run test project
-              run: pnpm run --if-present e2e.playwright
             - name: Run E2E tests
-              run: pnpm dlx playwright test --config=./automation/run-e2e/playwright.config.cjs --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-
+              run: pnpm -r --workspace-concurrency=1 run --if-present e2e.playwright
             - uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
               if: failure()
               with:
