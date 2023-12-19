@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added pagination visibility configuration named "Show paging buttons" property. User can choose to always show pagination button or automatically hide based on number of data displayed. Thanks to @Andries-Smit for the help on this feature.
 
+### Fixed
+
+-   We fixed issue with data view header in editor config.
+
 ## [2.11.0] - 2023-12-06
 
 ### Added
