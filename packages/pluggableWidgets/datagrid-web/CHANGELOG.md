@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed issue with data view header in editor config.
+-   We fixed issue with header when using custom content in the column.
 
 ## [2.11.0] - 2023-12-06
 
