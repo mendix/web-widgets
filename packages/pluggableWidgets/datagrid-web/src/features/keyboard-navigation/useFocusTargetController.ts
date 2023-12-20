@@ -1,7 +1,7 @@
 import { useRef, useMemo } from "react";
-import { FocusTargetController } from "./FocusTargetController";
-import { VirtualGridLayout } from "./VirtualGridLayout";
-import { PositionController } from "./PositionController";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 
 export type LayoutProps = { rows: number; columns: number; pageSize: number };
 

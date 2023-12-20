@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 
 import { useKeyNavContext } from "./context";
-import { Listener } from "./FocusTargetController";
-import { posString } from "./position";
+import { Listener } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { posString } from "@mendix/widget-plugin-grid/keyboard-navigation/position";
 
 type Props = {
     columnIndex: number;
