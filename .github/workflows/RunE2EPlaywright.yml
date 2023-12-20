@@ -39,6 +39,8 @@ jobs:
             - name: Install Playwright Browsers
               run: pnpm exec playwright install --with-deps firefox
             - name: Run E2E tests
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: pnpm -r --workspace-concurrency=1 run --if-present e2e.playwright
             - uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
               if: failure()
