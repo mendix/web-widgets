@@ -8,7 +8,7 @@ exports[`Popup menu renders popup menu 1`] = `
     className="widget-popupmenu-root"
   >
     <ul
-      className="popupmenu-menu popupmenu-position-bottom popup-portal mx-popup-menu"
+      className="popupmenu-menu popupmenu-position-bottom popup-portal"
       style={
         {
           "bottom": "initial",
