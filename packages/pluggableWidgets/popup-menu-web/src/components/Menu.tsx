@@ -43,12 +43,7 @@ export function Menu(props: MenuProps): ReactElement {
             <ul
                 ref={popupRef}
                 style={popupStyles}
-                className={classNames(
-                    "popupmenu-menu",
-                    `popupmenu-position-${props.position}`,
-                    "popup-portal",
-                    props.class
-                )}
+                className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`, "popup-portal")}
             >
                 {menuOptions}
             </ul>
