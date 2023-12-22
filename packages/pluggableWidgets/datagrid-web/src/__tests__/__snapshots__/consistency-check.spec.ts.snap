@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`consistency check returns error when row select method and action trigger overlap selection: multi by row click 1`] = `
+[
+  {
+    "message": ""On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" ",
+    "property": "onClick",
+  },
+]
+`;
+
+exports[`consistency check returns error when row select method and action trigger overlap selection: single by checkbox 1`] = `
+[
+  {
+    "message": ""On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" ",
+    "property": "onClick",
+  },
+]
+`;
+
+exports[`consistency check returns error when row select method and action trigger overlap selection: single by row click 1`] = `
+[
+  {
+    "message": ""On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" ",
+    "property": "onClick",
+  },
+]
+`;
