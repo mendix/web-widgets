@@ -123,7 +123,7 @@ const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
                 severity: "error",
                 message:
                     "The row click action is ambiguous. " +
-                    'Change "On click trigger" to "Double click" or "Selection method" to "Checkbox"'
+                    'Change "On click trigger" to "Double click" or "Selection method" to "Checkbox".'
             }
         ];
     }

@@ -3,7 +3,7 @@
 exports[`consistency check returns error when row select method and action trigger overlap selection: multi by row click 1`] = `
 [
   {
-    "message": "The row click action is ambiguous. Change "On click trigger" to "Double click" or "Selection method" to "Checkbox"",
+    "message": "The row click action is ambiguous. Change "On click trigger" to "Double click" or "Selection method" to "Checkbox".",
     "severity": "error",
   },
 ]
@@ -12,7 +12,7 @@ exports[`consistency check returns error when row select method and action trigg
 exports[`consistency check returns error when row select method and action trigger overlap selection: single by row click 1`] = `
 [
   {
-    "message": "The row click action is ambiguous. Change "On click trigger" to "Double click" or "Selection method" to "Checkbox"",
+    "message": "The row click action is ambiguous. Change "On click trigger" to "Double click" or "Selection method" to "Checkbox".",
     "severity": "error",
   },
 ]
