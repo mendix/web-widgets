@@ -4,7 +4,13 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridPro
 export function check(values: DatagridPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
-    const columnChecks = [checkAssociationSettings, checkFilteringSettings, checkDisplaySettings, checkSortingSettings];
+    const columnChecks = [
+        checkAssociationSettings,
+        checkFilteringSettings,
+        checkDisplaySettings,
+        checkSortingSettings,
+        checkHidableSettings
+    ];
 
     values.columns.forEach((column: ColumnsPreviewType, index) => {
         for (const check of columnChecks) {
@@ -12,14 +18,6 @@ export function check(values: DatagridPreviewProps): Problem[] {
             if (error) {
                 errors.push(error);
             }
-        }
-
-        if (values.columnsHidable && column.hidable !== "no" && !column.header) {
-            errors.push({
-                property: columnPropPath("hidable", index),
-                message:
-                    "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
-            });
         }
     });
 
@@ -98,13 +96,34 @@ const checkSortingSettings = (
     }
 };
 
+const checkHidableSettings = (
+    values: DatagridPreviewProps,
+    column: ColumnsPreviewType,
+    index: number
+): Problem | undefined => {
+    if (values.columnsHidable && column.hidable !== "no" && !column.header) {
+        return {
+            property: columnPropPath("hidable", index),
+            message:
+                "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
+        };
+    }
+};
+
 const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
-    if (values.itemSelection !== "None" && values.onClick !== null && values.onClickTrigger === "single") {
+    const errors: Problem[] = [];
+
+    if (values.itemSelection === "None" || values.onClick === null) {
+        return errors;
+    }
+
+    if (values.onClickTrigger === "single" && values.itemSelectionMethod === "rowClick") {
         return [
             {
-                property: "onClick",
+                severity: "error",
                 message:
-                    '"On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" '
+                    "The row click action is ambiguous. " +
+                    'Change "On click trigger" to "Double click" or "Selection method" to "Checkbox"'
             }
         ];
     }
