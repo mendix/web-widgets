@@ -13,7 +13,6 @@ import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
-    Problem,
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
@@ -320,116 +319,7 @@ export const getPreview = (
     );
 };
 
-const columnPropPath = (prop: string, index: number): string => `columns/${index + 1}/${prop}`;
-
-const checkAssociationSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.filterAssociation) {
-        return;
-    }
-
-    if (!column.filterAssociationOptionLabel) {
-        return {
-            property: columnPropPath("filterAssociationOptionLabel", index),
-            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
-        };
-    }
-};
-
-const checkFilteringSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.attribute && !column.filterAssociation) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute or reference is required when filtering is enabled. Please select 'Attribute' or 'Reference' property for column (${column.header})`
-        };
-    }
-};
-
-const checkDisplaySettings = (
-    _values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (column.showContentAs === "attribute" && !column.attribute) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column (${column.header})`
-        };
-    }
-};
-
-const checkSortingSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsSortable) {
-        return;
-    }
-
-    if (column.sortable && !column.attribute) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute is required when column sorting is enabled. Select the 'Attribute' property for column (${column.header}) or disable sorting in column settings`
-        };
-    }
-};
-
-const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
-    if (values.itemSelection !== "None" && values.onClick !== null && values.onClickTrigger === "single") {
-        return [
-            {
-                property: "onClick",
-                message:
-                    '"On click action" must be set to "Do nothing" when "Selection" is enabled, or change the click trigger to "Double click" '
-            }
-        ];
-    }
-
-    return [];
-};
-
-export function check(values: DatagridPreviewProps): Problem[] {
-    const errors: Problem[] = [];
-
-    const columnChecks = [checkAssociationSettings, checkFilteringSettings, checkDisplaySettings, checkSortingSettings];
-
-    values.columns.forEach((column: ColumnsPreviewType, index) => {
-        for (const check of columnChecks) {
-            const error = check(values, column, index);
-            if (error) {
-                errors.push(error);
-            }
-        }
-
-        if (values.columnsHidable && column.hidable !== "no" && !column.header) {
-            errors.push({
-                property: columnPropPath("hidable", index),
-                message:
-                    "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
-            });
-        }
-    });
-
-    errors.push(...checkSelectionSettings(values));
-
-    return errors;
-}
+export { check } from "./consistency-check";
 
 export function getCustomCaption(values: DatagridPreviewProps): string {
     type DsProperty = { caption?: string };
