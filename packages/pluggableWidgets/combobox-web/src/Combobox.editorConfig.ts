@@ -3,7 +3,8 @@ import {
     ContainerProps,
     StructurePreviewProps,
     structurePreviewPalette,
-    dropzone
+    dropzone,
+    container
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { getDatasourcePlaceholderText } from "./helpers/utils";
@@ -68,10 +69,7 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
     return {
         type: "Container",
         children: [
-            {
-                type: "Container",
-                padding: 1
-            },
+            container({ padding: 1 })(),
             {
                 type: "Image",
                 document: decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", "")),
@@ -85,6 +83,7 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
 export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
+    let dropdownPreviewChildren: StructurePreviewProps[] = [];
 
     if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
         structurePreviewChildren.push(
@@ -95,12 +94,19 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
         );
     }
     if (_values.showFooter === true) {
-        structurePreviewChildren.push(
-            dropzone(
-                dropzone.placeholder("Configure footer: place widgets here"),
-                dropzone.hideDataSourceHeaderIf(false)
-            )(_values.menuFooterContent)
-        );
+        dropdownPreviewChildren = [
+            container({ padding: 1 })(),
+            container({
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2
+            })(
+                dropzone(
+                    dropzone.placeholder("Configure footer: place widgets here"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(_values.menuFooterContent)
+            )
+        ];
     }
     if (structurePreviewChildren.length === 0) {
         structurePreviewChildren.push({
@@ -111,23 +117,29 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
     }
 
     return {
-        type: "RowLayout",
-        columnSize: "grow",
-        backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
-        borders: true,
-        borderWidth: 1,
-        borderRadius: 2,
+        type: "Container",
         children: [
             {
-                type: "Container",
-                grow: 1,
-                padding: 4,
-                children: structurePreviewChildren
+                type: "RowLayout",
+                columnSize: "grow",
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2,
+                backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
+                children: [
+                    {
+                        type: "Container",
+                        grow: 1,
+                        padding: 4,
+                        children: structurePreviewChildren
+                    },
+                    {
+                        ...getIconPreview(isDarkMode),
+                        ...{ grow: 0, padding: 4 }
+                    }
+                ]
             },
-            {
-                ...getIconPreview(isDarkMode),
-                ...{ grow: 0, padding: 4 }
-            }
+            ...dropdownPreviewChildren
         ]
     };
 }
