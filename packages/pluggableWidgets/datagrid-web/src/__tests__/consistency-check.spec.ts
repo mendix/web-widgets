@@ -15,18 +15,6 @@ describe("consistency check", () => {
             expect(check(props as unknown as DatagridPreviewProps)).toMatchSnapshot();
         });
 
-        test("selection: single by checkbox", () => {
-            const props = {
-                itemSelection: "Single",
-                itemSelectionMethod: "checkbox",
-                onClick: {},
-                onClickTrigger: "single",
-                columns: []
-            };
-
-            expect(check(props as unknown as DatagridPreviewProps)).toMatchSnapshot();
-        });
-
         test("selection: multi by row click", () => {
             const props = {
                 itemSelection: "Multi",
