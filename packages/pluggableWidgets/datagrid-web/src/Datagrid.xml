@@ -227,7 +227,7 @@
             </propertyGroup>
             <propertyGroup caption="Events">
                 <property key="onClickTrigger" type="enumeration" defaultValue="single">
-                    <caption>On Click trigger</caption>
+                    <caption>On click trigger</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="single">Single click</enumerationValue>
