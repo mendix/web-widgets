@@ -34,7 +34,6 @@ export function MultiSelection({
     } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
-
     return (
         <Fragment>
             <ComboboxWrapper
