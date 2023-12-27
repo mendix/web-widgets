@@ -75,7 +75,7 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
-    preview?: boolean;
+    keepMenuOpen?: boolean;
     selector: Selector;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
