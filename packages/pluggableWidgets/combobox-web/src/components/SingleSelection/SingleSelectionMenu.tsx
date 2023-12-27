@@ -10,7 +10,7 @@ interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     highlightedIndex: number | null;
     selectedItem?: string | null;
     noOptionsText?: string;
-    preview?: boolean;
+    alwaysOpen?: boolean;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
 }
@@ -22,7 +22,7 @@ export function SingleSelectionMenu({
     getMenuProps,
     getItemProps,
     noOptionsText,
-    preview,
+    alwaysOpen,
     showFooter,
     menuFooterContent
 }: ComboboxMenuProps): ReactElement {
@@ -36,13 +36,13 @@ export function SingleSelectionMenu({
             noOptionsText={noOptionsText}
             showFooter={showFooter}
             menuFooterContent={menuFooterContent}
-            preview={preview}
+            alwaysOpen={alwaysOpen}
         >
             {isOpen &&
                 items.map((item, index) => (
                     <ComboboxOptionWrapper
                         key={item}
-                        isHighlighted={preview ? false : highlightedIndex === index}
+                        isHighlighted={alwaysOpen ? false : highlightedIndex === index}
                         isSelected={selector.currentValue === item}
                         item={item}
                         getItemProps={getItemProps}
