@@ -11,7 +11,7 @@ export function SingleSelection({
     selector,
     tabIndex = 0,
     a11yConfig,
-    preview,
+    keepMenuOpen,
     showFooter,
     menuFooterContent,
     ...options
@@ -30,7 +30,7 @@ export function SingleSelection({
     return (
         <Fragment>
             <ComboboxWrapper
-                isOpen={isOpen || (preview === true && showFooter)}
+                isOpen={isOpen || keepMenuOpen === true}
                 readOnly={selector.readOnly}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
@@ -85,11 +85,11 @@ export function SingleSelection({
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
-                isOpen={isOpen || (preview === true && showFooter)}
+                isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
                 showFooter={showFooter}
                 menuFooterContent={menuFooterContent}
-                preview={preview}
+                alwaysOpen={keepMenuOpen}
             />
         </Fragment>
     );
