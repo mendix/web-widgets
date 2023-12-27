@@ -111,6 +111,14 @@
                     <caption>Custom content</caption>
                     <description />
                 </property>
+                <property key="showFooter" type="boolean" defaultValue="false">
+                    <caption>Show footer</caption>
+                    <description />
+                </property>
+                <property key="menuFooterContent" type="widgets" required="false">
+                    <caption>Footer content</caption>
+                    <description />
+                </property>
                 <!-- END MISC PROPS -->
             </propertyGroup>
             <!-- END GENERAL -->

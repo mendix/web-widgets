@@ -3,7 +3,8 @@ import {
     ContainerProps,
     StructurePreviewProps,
     structurePreviewPalette,
-    dropzone
+    dropzone,
+    container
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { getDatasourcePlaceholderText } from "./helpers/utils";
@@ -15,12 +16,12 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         // hide attribute
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
-            "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationDataSource",
-            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
@@ -49,6 +50,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
         }
+
+        if (values.showFooter === false) {
+            hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
+        }
     }
 
     if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
@@ -66,10 +71,7 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
     return {
         type: "Container",
         children: [
-            {
-                type: "Container",
-                padding: 1
-            },
+            container({ padding: 1 })(),
             {
                 type: "Image",
                 document: decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", "")),
@@ -82,37 +84,64 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
 
 export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    const structurePreviewChildren: StructurePreviewProps[] = [];
+    let dropdownPreviewChildren: StructurePreviewProps[] = [];
+
+    if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            dropzone(
+                dropzone.placeholder("Configure the combo box: Place widgets here"),
+                dropzone.hideDataSourceHeaderIf(false)
+            )(_values.optionsSourceAssociationCustomContent)
+        );
+    }
+    if (_values.showFooter === true) {
+        dropdownPreviewChildren = [
+            container({ padding: 1 })(),
+            container({
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2
+            })(
+                dropzone(
+                    dropzone.placeholder("Configure footer: place widgets here"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(_values.menuFooterContent)
+            )
+        ];
+    }
+    if (structurePreviewChildren.length === 0) {
+        structurePreviewChildren.push({
+            type: "Text",
+            content: getDatasourcePlaceholderText(_values),
+            fontColor: palette.text.data
+        });
+    }
 
     return {
-        type: "RowLayout",
-        columnSize: "grow",
-        backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
-        borders: true,
-        borderWidth: 1,
-        borderRadius: 2,
+        type: "Container",
         children: [
             {
-                type: "Container",
-                grow: 1,
-                padding: 4,
+                type: "RowLayout",
+                columnSize: "grow",
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2,
+                backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
                 children: [
-                    _values.optionsSourceType === "association" &&
-                    _values.optionsSourceAssociationCustomContentType !== "no"
-                        ? dropzone(
-                              dropzone.placeholder("Configure the combo box: Place widgets here"),
-                              dropzone.hideDataSourceHeaderIf(false)
-                          )(_values.optionsSourceAssociationCustomContent)
-                        : {
-                              type: "Text",
-                              content: getDatasourcePlaceholderText(_values),
-                              fontColor: palette.text.data
-                          }
+                    {
+                        type: "Container",
+                        grow: 1,
+                        padding: 4,
+                        children: structurePreviewChildren
+                    },
+                    {
+                        ...getIconPreview(isDarkMode),
+                        ...{ grow: 0, padding: 4 }
+                    }
                 ]
             },
-            {
-                ...getIconPreview(isDarkMode),
-                ...{ grow: 0, padding: 4 }
-            }
+            ...dropdownPreviewChildren
         ]
     };
 }

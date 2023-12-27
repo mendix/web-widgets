@@ -11,6 +11,9 @@ export function SingleSelection({
     selector,
     tabIndex = 0,
     a11yConfig,
+    keepMenuOpen,
+    showFooter,
+    menuFooterContent,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -27,7 +30,7 @@ export function SingleSelection({
     return (
         <Fragment>
             <ComboboxWrapper
-                isOpen={isOpen}
+                isOpen={isOpen || keepMenuOpen === true}
                 readOnly={selector.readOnly}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
@@ -82,8 +85,11 @@ export function SingleSelection({
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
-                isOpen={isOpen}
+                isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
+                showFooter={showFooter}
+                menuFooterContent={menuFooterContent}
+                alwaysOpen={keepMenuOpen}
             />
         </Fragment>
     );

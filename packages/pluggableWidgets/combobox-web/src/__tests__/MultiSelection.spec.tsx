@@ -47,7 +47,8 @@ describe("Combo box (Association)", () => {
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
-            a11yInstructions: dynamicValue("a11yInstructions")
+            a11yInstructions: dynamicValue("a11yInstructions"),
+            showFooter: false
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

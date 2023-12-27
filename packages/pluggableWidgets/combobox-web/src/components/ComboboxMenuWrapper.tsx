@@ -1,7 +1,7 @@
-import { useMenuStyle } from "../hooks/useMenuPlacement";
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { PropsWithChildren, ReactElement, createElement } from "react";
+import { PropsWithChildren, ReactElement, ReactNode, createElement } from "react";
+import { useMenuStyle } from "../hooks/useMenuPlacement";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
 interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
@@ -9,17 +9,30 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     isEmpty: boolean;
     selectAllButtonEnabled?: boolean;
     noOptionsText?: string;
+    alwaysOpen?: boolean;
+    showFooter: boolean;
+    menuFooterContent?: ReactNode;
 }
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
-    const { children, isOpen, isEmpty, noOptionsText, selectAllButtonEnabled, getMenuProps } = props;
+
+    const { children, isOpen, isEmpty, noOptionsText, selectAllButtonEnabled, alwaysOpen, getMenuProps, showFooter, menuFooterContent } = props;
+
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
 
     return (
         <div
             ref={ref}
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            style={style}
+            style={
+                alwaysOpen
+                    ? {
+                          display: "block",
+                          visibility: "visible",
+                          position: "relative"
+                      }
+                    : style
+            }
         >
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen ? (
@@ -30,6 +43,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     )
                 ) : null}
             </ul>
+            {showFooter && menuFooterContent && <div className="widget-combobox-menu-footer">{menuFooterContent}</div>}
         </div>
     );
 }

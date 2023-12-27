@@ -59,6 +59,9 @@ interface SelectorBase<T, V> {
     setValue(value: V | null): void;
 
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+
+    onEnterEvent?: Function;
+    onLeaveEvent?: Function;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
@@ -72,11 +75,14 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
 }
 
 export interface SelectionBaseProps<Selector> {
-    selector: Selector;
-    tabIndex: number;
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    keepMenuOpen?: boolean;
+    selector: Selector;
+    showFooter: boolean;
+    menuFooterContent?: ReactNode;
+    tabIndex: number;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

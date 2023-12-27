@@ -7,7 +7,7 @@ import {
     useCombobox,
     useMultipleSelection
 } from "downshift";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
@@ -83,7 +83,8 @@ export function useDownshiftMultiSelectProps(
         highlightedIndex,
         getItemProps,
         inputValue,
-        setInputValue
+        setInputValue,
+        closeMenu
     } = useCombobox(
         useComboboxProps(
             selector,
@@ -108,6 +109,8 @@ export function useDownshiftMultiSelectProps(
             }
         }
     };
+
+    selector.onLeaveEvent = useCallback(closeMenu, [closeMenu]);
 
     return {
         isOpen,
@@ -194,7 +197,7 @@ function useComboboxProps(
                             })
                         };
                     case useCombobox.stateChangeTypes.InputKeyDownEscape:
-                    case useCombobox.stateChangeTypes.InputBlur:
+                    case useCombobox.stateChangeTypes.FunctionCloseMenu:
                         return {
                             ...changes,
                             ...(changes.selectedItem && {
@@ -203,6 +206,8 @@ function useComboboxProps(
                                 highlightedIndex: items.indexOf(changes.selectedItem)
                             })
                         };
+                    case useCombobox.stateChangeTypes.InputBlur:
+                        return state;
                     default:
                         return changes;
                 }

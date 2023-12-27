@@ -36,6 +36,8 @@ export interface ComboboxContainerProps {
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
+    showFooter: boolean;
+    menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
@@ -67,6 +69,8 @@ export interface ComboboxPreviewProps {
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    showFooter: boolean;
+    menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;

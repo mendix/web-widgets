@@ -9,8 +9,12 @@ import { useGetSelector } from "./hooks/useGetSelector";
 import { Placeholder } from "./components/Placeholder";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
-    const actionEvents = useActionEvents(props);
     const selector = useGetSelector(props);
+    const actionEvents = useActionEvents({
+        onEnterEvent: props.onEnterEvent,
+        onLeaveEvent: props.onLeaveEvent,
+        selector
+    });
     const commonProps = {
         tabIndex: props.tabIndex!,
         inputId: props.id,
@@ -28,7 +32,9 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
                 a11yInstructions: props.a11yInstructions?.value ?? "",
                 a11yNoOption: props.noOptionsText?.value ?? ""
             }
-        }
+        },
+        showFooter: props.showFooter,
+        menuFooterContent: props.menuFooterContent
     };
 
     return (
