@@ -34,7 +34,6 @@ export function MultiSelection({
     } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
-
     return (
         <Fragment>
             <ComboboxWrapper
@@ -61,17 +60,19 @@ export function MultiSelection({
                                     })}
                                 >
                                     {selector.caption.render(selectedItemForRender, "label")}
-                                    <span
-                                        className="icon widget-combobox-clear-button"
-                                        aria-label={a11yConfig.ariaLabels?.removeSelection}
-                                        role="button"
-                                        onClick={e => {
-                                            e.stopPropagation();
-                                            removeSelectedItem(selectedItemForRender);
-                                        }}
-                                    >
-                                        <ClearButton size={10} />
-                                    </span>
+                                    {!selector.readOnly && (
+                                        <span
+                                            className="icon widget-combobox-clear-button"
+                                            aria-label={a11yConfig.ariaLabels?.removeSelection}
+                                            role="button"
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                removeSelectedItem(selectedItemForRender);
+                                            }}
+                                        >
+                                            <ClearButton size={10} />
+                                        </span>
+                                    )}
                                 </div>
                             );
                         })}
