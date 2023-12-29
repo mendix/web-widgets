@@ -23,7 +23,9 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceAssociationCustomContentType",
             "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
-            "selectionMethod"
+            "selectionMethod",
+            "selectAllButton",
+            "selectAllButtonAriaLabel"
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);

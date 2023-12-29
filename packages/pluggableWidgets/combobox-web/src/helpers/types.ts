@@ -68,7 +68,10 @@ export interface SingleSelector extends SelectorBase<"single", string> {}
 export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
+    selectAllButton: boolean;
+    selectAllButtonId: string;
     getOptions(): string[];
+    isAllOptionsSelected(): boolean;
 }
 
 export interface SelectionBaseProps<Selector> {
@@ -84,6 +87,7 @@ export interface SelectionBaseProps<Selector> {
         ariaLabels: {
             clearSelection: string;
             removeSelection: string;
+            selectAll: string;
         };
         a11yStatusMessage: A11yStatusMessage;
     };

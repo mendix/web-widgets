@@ -23,7 +23,8 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel?.value ?? "",
-                removeSelection: props.removeValueAriaLabel?.value ?? ""
+                removeSelection: props.removeValueAriaLabel?.value ?? "",
+                selectAll: props.selectAllButtonAriaLabel?.value ?? ""
             },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
