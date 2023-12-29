@@ -53,7 +53,7 @@ export function useDownshiftMultiSelectProps(
             return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
         },
         onSelectedItemsChange({ selectedItems }) {
-            selector.setValue(selectedItems ?? []);
+            selector.setValue(selectedItems?.filter(item => item !== selector.selectAllButtonId) ?? []);
         },
 
         onStateChange({ selectedItems: newSelectedItems, type }) {
@@ -70,7 +70,9 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items = selector.getOptions();
+    const items = selector.selectAllButton
+        ? [selector.selectAllButtonId, ...selector.getOptions()]
+        : selector.getOptions();
 
     const {
         isOpen,
@@ -214,10 +216,19 @@ function useComboboxProps(
                 switch (type) {
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
-                        if (newSelectedItems && !selectedItems.includes(newSelectedItems)) {
-                            setSelectedItems([...selectedItems, newSelectedItems]);
-                        } else if (newSelectedItems) {
-                            removeSelectedItem(newSelectedItems);
+                        if (newSelectedItems === selector.selectAllButtonId) {
+                            const availableItems = items.filter(item => item !== selector.selectAllButtonId);
+                            if (!selector.isAllOptionsSelected()) {
+                                setSelectedItems([...new Set([...selectedItems, ...availableItems])]);
+                            } else {
+                                setSelectedItems([]);
+                            }
+                        } else {
+                            if (newSelectedItems && !selectedItems.includes(newSelectedItems)) {
+                                setSelectedItems([...selectedItems, newSelectedItems]);
+                            } else if (newSelectedItems) {
+                                removeSelectedItem(newSelectedItems);
+                            }
                         }
                         break;
                     default:
