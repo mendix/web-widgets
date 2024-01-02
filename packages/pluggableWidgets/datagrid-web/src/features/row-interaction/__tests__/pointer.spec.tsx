@@ -4,6 +4,8 @@ import { render, renderHook, RenderResult } from "@testing-library/react";
 import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
 import { createActionHandlers } from "../action-handlers";
 import { createSelectHandlers } from "../select-handlers";
+import { CellContext, ClickTrigger, SelectionMethod } from "../base";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -28,14 +30,22 @@ describe("grid cell", () => {
 
         test.each(cases)(
             "calls $method when selection method is $sm and click trigger is $ct",
-            async ({ ct: _clickTrigger, sm: _selectionMethod, method }) => {
+            async ({ ct, sm, method }) => {
                 const onExecuteAction = jest.fn();
                 const onSelect = jest.fn();
+
+                const [item] = objectItems(1);
+                const ctx = (): CellContext => ({
+                    item,
+                    selectionMethod: sm as SelectionMethod,
+                    clickTrigger: ct as ClickTrigger
+                });
+
                 const props = renderHook(() =>
-                    useEventSwitch<"div", unknown>(
-                        () => ({}),
-                        [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect)]
-                    )
+                    useEventSwitch<"div", CellContext>(ctx, [
+                        ...createActionHandlers(onExecuteAction),
+                        ...createSelectHandlers(onSelect)
+                    ])
                 ).result.current;
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
