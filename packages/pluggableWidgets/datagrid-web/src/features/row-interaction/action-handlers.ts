@@ -1,17 +1,16 @@
 import { EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { CellContext } from "./base";
 
-type onExecuteAction = (item: unknown) => void;
+type ExecuteActionFx = (item: unknown) => void;
 
-const onClick = (fn: onExecuteAction): EventCaseEntry<"div", unknown, "onClick"> => ({
+const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<"div", CellContext, "onClick"> => ({
     eventName: "onClick",
-    handler: () => fn({})
+    filter: ctx => {
+        return ctx.clickTrigger === "single" && (ctx.selectionMethod === "checkbox" || ctx.selectionMethod === "none");
+    },
+    handler: ({ item }) => execActionFx(item)
 });
 
-const onKeyUp = (fn: onExecuteAction): EventCaseEntry<"div", unknown, "onKeyUp"> => ({
-    eventName: "onKeyUp",
-    handler: () => fn({})
-});
-
-export function createActionHandlers(fn: onExecuteAction): Array<EventCaseEntry<"div", unknown>> {
-    return [onClick(fn), onKeyUp(fn)];
+export function createActionHandlers(execActionFx: ExecuteActionFx): Array<EventCaseEntry<"div", CellContext>> {
+    return [onClick(execActionFx)];
 }
