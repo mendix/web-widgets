@@ -12,9 +12,3 @@ export type EventCaseEntry<
     handler(ctx: Context, event: Event): void;
     filter?(ctx: Context, event: Event): boolean;
 };
-
-export function eventCase<Element extends keyof JSX.IntrinsicElements, Context, EName extends EventName>(
-    entry: EventCaseEntry<Element, Context, EName>
-): EventCaseEntry<Element, Context, EName> {
-    return entry;
-}
