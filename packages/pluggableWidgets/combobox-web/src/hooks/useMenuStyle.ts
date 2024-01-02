@@ -30,9 +30,10 @@ export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [React.Ref
 function getMenuPosition(targetBox: DOMRect, menuBox: DOMRect): React.CSSProperties {
     const { height } = menuBox;
     const bottomSpace = window.innerHeight - targetBox.bottom;
+    const topSpace = targetBox.top - height < 0 ? targetBox.top - height : 0;
 
     if (bottomSpace < height) {
-        return { bottom: window.innerHeight - targetBox.top, left: targetBox.left };
+        return { bottom: window.innerHeight - targetBox.top + topSpace, left: targetBox.left };
     }
     return { top: targetBox.bottom, left: targetBox.left };
 }

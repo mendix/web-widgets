@@ -13,3 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 -   Sorting of the search results now follow the sort order set for Selectable objects.
+
+-   We removed the clear button on selected item labels in read-only state.
+
+-   We fixed the positioning of the menu when it is flipped and collides with top of the viewport.

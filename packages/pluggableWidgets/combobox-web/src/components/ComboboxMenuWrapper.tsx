@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { PropsWithChildren, ReactElement, ReactNode, createElement } from "react";
-import { useMenuStyle } from "../hooks/useMenuPlacement";
+import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
 interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
