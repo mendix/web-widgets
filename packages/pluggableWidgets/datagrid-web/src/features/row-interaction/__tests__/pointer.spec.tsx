@@ -1,8 +1,9 @@
 import { createElement } from "react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { render, renderHook, RenderResult } from "@testing-library/react";
-import { useEventSwitch } from "../use-event-switch";
+import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
 import { createActionHandlers } from "../action-handlers";
+import { createSelectHandlers } from "../select-handlers";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -31,7 +32,10 @@ describe("grid cell", () => {
                 const onExecuteAction = jest.fn();
                 const onSelect = jest.fn();
                 const props = renderHook(() =>
-                    useEventSwitch<"div", unknown>(() => ({}), [...createActionHandlers(onExecuteAction)])
+                    useEventSwitch<"div", unknown>(
+                        () => ({}),
+                        [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect)]
+                    )
                 ).result.current;
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
