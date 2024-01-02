@@ -1,4 +1,4 @@
-import { EventCaseEntry } from "./base";
+import { EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 
 type onExecuteAction = (item: unknown) => void;
 
