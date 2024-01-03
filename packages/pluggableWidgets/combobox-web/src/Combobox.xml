@@ -204,7 +204,8 @@
                     <caption>Select/Unselect all button</caption>
                     <description>Used to select or unselect all available options with multi-selection.</description>
                     <translations>
-                        <translation lang="en_US">Select all button</translation>
+                        <translation lang="en_US">Select all</translation>
+                        <translation lang="nl_NL">Selecteer alles</translation>
                     </translations>
                 </property>
             </propertyGroup>

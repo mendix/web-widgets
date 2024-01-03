@@ -1,6 +1,6 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { ReactElement, ReactNode, createElement, Fragment } from "react";
-import { Checkbox, SelectAll } from "../../assets/icons";
+import { ReactElement, ReactNode, createElement } from "react";
+import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
@@ -12,9 +12,8 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     highlightedIndex: number | null;
     selector: MultiSelector;
     noOptionsText?: string;
-    selectAllButtonAriaLabel: string;
     inputId?: string;
-    showFooter: boolean;
+    menuHeaderContent?: ReactNode;
     menuFooterContent?: ReactNode;
 }
 
@@ -27,9 +26,8 @@ export function MultiSelectionMenu({
     selectableItems,
     noOptionsText,
     inputId,
-    showFooter,
-    menuFooterContent,
-    selectAllButtonAriaLabel
+    menuHeaderContent,
+    menuFooterContent
 }: MultiSelectionMenuProps): ReactElement {
     return (
         <ComboboxMenuWrapper
@@ -37,9 +35,8 @@ export function MultiSelectionMenu({
             isEmpty={selectableItems.length <= 0}
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
-            showFooter={showFooter}
+            menuHeaderContent={menuHeaderContent}
             menuFooterContent={menuFooterContent}
-            selectAllButtonEnabled={selector.selectAllButton}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {
@@ -55,25 +52,10 @@ export function MultiSelectionMenu({
                             getItemProps={getItemProps}
                             index={index}
                         >
-                            {item === selector.selectAllButtonId ? (
-                                <button
-                                    className="widget-combobox-menu-select-all-button"
-                                    aria-label={selectAllButtonAriaLabel}
-                                    tabIndex={-1}
-                                >
-                                    <SelectAll
-                                        allSelected={selector.isAllOptionsSelected()}
-                                        highlighted={highlightedIndex === 0}
-                                    />
-                                </button>
-                            ) : (
-                                <Fragment>
-                                    {selector.selectionMethod === "checkbox" && (
-                                        <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
-                                    )}
-                                    {selector.caption.render(item, "options", `${inputId}_${item}`)}
-                                </Fragment>
+                            {selector.selectionMethod === "checkbox" && (
+                                <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
                             )}
+                            {selector.caption.render(item, "options", `${inputId}_${item}`)}
                         </ComboboxOptionWrapper>
                     );
                 })}

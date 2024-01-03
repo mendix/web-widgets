@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
-import { ClearButton } from "../../assets/icons";
+import { Checkbox, ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
@@ -12,7 +12,6 @@ export function MultiSelection({
     selector,
     tabIndex,
     a11yConfig,
-    showFooter,
     menuFooterContent,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
@@ -137,7 +136,23 @@ export function MultiSelection({
                     )}
             </ComboboxWrapper>
             <MultiSelectionMenu
-                showFooter={showFooter}
+                menuHeaderContent={
+                    selector.selectAllButton ? (
+                        <Checkbox
+                            checked={selector.isAllOptionsSelected()}
+                            focusable
+                            id={`${options.inputId}-select-all-button-${Date.now().toString(36)}`}
+                            ariaLabel={a11yConfig.ariaLabels.selectAll}
+                            onClick={() => {
+                                if (selector.isAllOptionsSelected()) {
+                                    setSelectedItems([]);
+                                } else {
+                                    setSelectedItems(selector.getOptions());
+                                }
+                            }}
+                        />
+                    ) : undefined
+                }
                 menuFooterContent={menuFooterContent}
                 inputId={options.inputId}
                 selector={selector}
@@ -147,7 +162,6 @@ export function MultiSelection({
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
-                selectAllButtonAriaLabel={a11yConfig.ariaLabels.selectAll}
                 noOptionsText={options.noOptionsText}
             />
         </Fragment>

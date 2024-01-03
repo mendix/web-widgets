@@ -2,7 +2,6 @@ import { ReferenceSetValue } from "mendix";
 import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } from "../../../typings/ComboboxProps";
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
@@ -12,7 +11,6 @@ export class AssociationMultiSelector
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
     selectionMethod: SelectionMethodEnum = "checkbox";
     selectAllButton = false;
-    selectAllButtonId = `${generateUUID()}-select-all-button-${Date.now().toString(36)}`;
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
         this.selectedItemsStyle = props.selectedItemsStyle;

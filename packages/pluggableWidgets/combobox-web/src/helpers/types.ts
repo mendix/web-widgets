@@ -69,7 +69,6 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
-    selectAllButtonId: string;
     getOptions(): string[];
     isAllOptionsSelected(): boolean;
 }
@@ -80,7 +79,6 @@ export interface SelectionBaseProps<Selector> {
     noOptionsText?: string;
     keepMenuOpen?: boolean;
     selector: Selector;
-    showFooter: boolean;
     menuFooterContent?: ReactNode;
     tabIndex: number;
     a11yConfig: {
