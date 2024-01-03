@@ -11,7 +11,6 @@ interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     selectedItem?: string | null;
     noOptionsText?: string;
     alwaysOpen?: boolean;
-    showFooter: boolean;
     menuFooterContent?: ReactNode;
 }
 
@@ -23,7 +22,6 @@ export function SingleSelectionMenu({
     getItemProps,
     noOptionsText,
     alwaysOpen,
-    showFooter,
     menuFooterContent
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
@@ -34,7 +32,6 @@ export function SingleSelectionMenu({
             isEmpty={items?.length <= 0}
             getMenuProps={getMenuProps}
             noOptionsText={noOptionsText}
-            showFooter={showFooter}
             menuFooterContent={menuFooterContent}
             alwaysOpen={alwaysOpen}
         >

@@ -7,25 +7,15 @@ import { NoOptionsPlaceholder } from "./Placeholder";
 interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     isEmpty: boolean;
-    selectAllButtonEnabled?: boolean;
     noOptionsText?: string;
     alwaysOpen?: boolean;
-    showFooter: boolean;
+    menuHeaderContent?: ReactNode;
     menuFooterContent?: ReactNode;
 }
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
-    const {
-        children,
-        isOpen,
-        isEmpty,
-        noOptionsText,
-        alwaysOpen,
-        selectAllButtonEnabled,
-        getMenuProps,
-        showFooter,
-        menuFooterContent
-    } = props;
+    const { children, isOpen, isEmpty, noOptionsText, alwaysOpen, getMenuProps, menuHeaderContent, menuFooterContent } =
+        props;
 
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
 
@@ -43,16 +33,13 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     : style
             }
         >
+            {menuHeaderContent && (
+                <div className="widget-combobox-menu-header widget-combobox-item">{menuHeaderContent}</div>
+            )}
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
-                {isOpen ? (
-                    isEmpty && !selectAllButtonEnabled ? (
-                        <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
-                    ) : (
-                        children
-                    )
-                ) : null}
+                {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
             </ul>
-            {showFooter && menuFooterContent && <div className="widget-combobox-menu-footer">{menuFooterContent}</div>}
+            {menuFooterContent && <div className="widget-combobox-menu-footer">{menuFooterContent}</div>}
         </div>
     );
 }

@@ -12,7 +12,6 @@ export function SingleSelection({
     tabIndex = 0,
     a11yConfig,
     keepMenuOpen,
-    showFooter,
     menuFooterContent,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
@@ -87,7 +86,6 @@ export function SingleSelection({
                 getItemProps={getItemProps}
                 isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
-                showFooter={showFooter}
                 menuFooterContent={menuFooterContent}
                 alwaysOpen={keepMenuOpen}
             />

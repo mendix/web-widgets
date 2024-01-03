@@ -11,7 +11,6 @@ $unselected-item: #ffffff;
 $hover-color: #ced0d3;
 $disabled-color: #f8f8f8;
 $disabled-text-color: #6c7180;
-$select-all-button-fill: #24276c;
 .widget-combobox {
     flex-grow: 1;
     position: relative;
@@ -37,21 +36,19 @@ $select-all-button-fill: #24276c;
         &-hidden {
             display: none;
         }
+        &-header,
         &-footer {
-            border-top: 1px solid $gray-primary;
-            padding: 10px;
-
             &:focus,
             &:focus-within {
                 outline: 1px solid $brand-primary;
             }
         }
-        &-select-all-button {
-            display: flex;
-            align-items: center;
-            padding: 0 0 2px 0;
-            background: transparent;
-            border: none;
+        &-header {
+            border-bottom: 1px solid $gray-primary;
+        }
+        &-footer {
+            border-top: 1px solid $gray-primary;
+            padding: 10px;
         }
     }
 
@@ -267,38 +264,6 @@ $select-all-button-fill: #24276c;
                 outline: $brand-primary auto 1px;
             }
         }
-    }
-
-    &-select-all-button-icon {
-        grid-column: 1;
-        grid-row: 1;
-        color: $disabled-text-color;
-        transition: color 0.2s ease-in-out;
-        &:not(.active) {
-            &.highlighted {
-                color: $brand-primary;
-            }
-            &:hover {
-                color: $brand-primary;
-            }
-        }
-        &.active {
-            color: $brand-primary;
-            transition: opacity 0.1s ease-in-out;
-            &.highlighted {
-                opacity: 0;
-                color: $brand-primary;
-            }
-            &:hover {
-                opacity: 0;
-                color: $brand-primary;
-            }
-        }
-    }
-
-    &-unselect-all-button-icon {
-        grid-column: 1;
-        grid-row: 1;
     }
 
     &-down-checkbox-icon {
