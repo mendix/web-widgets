@@ -35,17 +35,16 @@ describe("grid cell", () => {
                 const onSelect = jest.fn();
 
                 const [item] = objectItems(1);
-                const ctx = (): CellContext => ({
-                    item,
-                    selectionMethod: sm as SelectionMethod,
-                    clickTrigger: ct as ClickTrigger
-                });
 
                 const props = renderHook(() =>
-                    useEventSwitch<"div", CellContext>(ctx, [
-                        ...createActionHandlers(onExecuteAction),
-                        ...createSelectHandlers(onSelect)
-                    ])
+                    useEventSwitch<CellContext, HTMLDivElement>(
+                        (): CellContext => ({
+                            item,
+                            selectionMethod: sm as SelectionMethod,
+                            clickTrigger: ct as ClickTrigger
+                        }),
+                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect)]
+                    )
                 ).result.current;
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
