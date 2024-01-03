@@ -118,4 +118,48 @@ describe("grid cell", () => {
             }
         );
     });
+
+    describe("on dblclick event", () => {
+        const cases = [
+            { ct: "single", sm: "rowClick", method: "none" },
+            { ct: "double", sm: "rowClick", method: "onExecuteAction" },
+            { ct: "none", sm: "rowClick", method: "none" },
+            { ct: "single", sm: "checkbox", method: "none" },
+            { ct: "double", sm: "checkbox", method: "onExecuteAction" },
+            { ct: "none", sm: "checkbox", method: "none" },
+            { ct: "single", sm: "none", method: "none" },
+            { ct: "double", sm: "none", method: "onExecuteAction" },
+            { ct: "none", sm: "none", method: "none" }
+        ];
+
+        test.each(cases)(
+            "calls $method when selection method is $sm and click trigger is $ct",
+            async ({ ct, sm, method }) => {
+                const onExecuteAction = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = renderHook(() =>
+                    useEventSwitch<CellContext, HTMLDivElement>(
+                        (): CellContext => ({
+                            item,
+                            selectionMethod: sm as SelectionMethod,
+                            clickTrigger: ct as ClickTrigger
+                        }),
+                        () => [...createActionHandlers(onExecuteAction)]
+                    )
+                ).result.current;
+
+                const { user, getByRole } = setup(<div role="gridcell" {...props} />);
+                await user.dblClick(getByRole("gridcell"));
+
+                if (method === "none") {
+                    expect(onExecuteAction).toHaveBeenCalledTimes(0);
+                } else {
+                    expect(onExecuteAction).toHaveBeenCalledTimes(1);
+                    expect(onExecuteAction).toHaveBeenLastCalledWith(item);
+                }
+            }
+        );
+    });
 });
