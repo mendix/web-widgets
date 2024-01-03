@@ -17,3 +17,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   We removed the clear button on selected item labels in read-only state.
 
 -   We fixed the positioning of the menu when it is flipped and collides with top of the viewport.
+
+-   We fixed single selection combo box losing focus after selecting an item.

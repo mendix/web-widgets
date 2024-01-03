@@ -28,9 +28,6 @@ export function useDownshiftSingleSelectProps(
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
-                if (inputId) {
-                    document.getElementById(inputId)?.blur();
-                }
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
