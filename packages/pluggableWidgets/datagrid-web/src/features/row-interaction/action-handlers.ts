@@ -1,9 +1,9 @@
-import { EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { CellContext } from "./base";
 
 type ExecuteActionFx = (item: unknown) => void;
 
-const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<"div", CellContext, "onClick"> => ({
+const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
     filter: ctx => {
         return ctx.clickTrigger === "single" && (ctx.selectionMethod === "checkbox" || ctx.selectionMethod === "none");
@@ -11,6 +11,8 @@ const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<"div", CellConte
     handler: ({ item }) => execActionFx(item)
 });
 
-export function createActionHandlers(execActionFx: ExecuteActionFx): Array<EventCaseEntry<"div", CellContext>> {
+export function createActionHandlers(
+    execActionFx: ExecuteActionFx
+): Array<ElementEntries<CellContext, HTMLDivElement>> {
     return [onClick(execActionFx)];
 }
