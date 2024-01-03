@@ -11,8 +11,16 @@ const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTM
     handler: ({ item }) => execActionFx(item)
 });
 
+const onDoubleClick = (
+    execActionFx: ExecuteActionFx
+): EventCaseEntry<CellContext, HTMLDivElement, "onDoubleClick"> => ({
+    eventName: "onDoubleClick",
+    filter: ctx => ctx.clickTrigger === "double",
+    handler: ({ item }) => execActionFx(item)
+});
+
 export function createActionHandlers(
     execActionFx: ExecuteActionFx
 ): Array<ElementEntries<CellContext, HTMLDivElement>> {
-    return [onClick(execActionFx)];
+    return [onClick(execActionFx), onDoubleClick(execActionFx)];
 }
