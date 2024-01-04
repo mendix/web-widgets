@@ -40,11 +40,15 @@ describe("grid cell", () => {
                     useEventSwitch<CellContext, HTMLDivElement>(
                         (): CellContext => ({
                             item,
+                            pageSize: 10,
                             selectionMethod: sm as SelectionMethod,
                             selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
                         }),
-                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn())]
+                        () => [
+                            ...createActionHandlers(onExecuteAction),
+                            ...createSelectHandlers(onSelect, jest.fn(), jest.fn())
+                        ]
                     )
                 ).result.current;
 
@@ -92,11 +96,15 @@ describe("grid cell", () => {
                     useEventSwitch<CellContext, HTMLDivElement>(
                         (): CellContext => ({
                             item,
+                            pageSize: 10,
                             selectionMethod: sm as SelectionMethod,
                             selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
                         }),
-                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn())]
+                        () => [
+                            ...createActionHandlers(onExecuteAction),
+                            ...createSelectHandlers(onSelect, jest.fn(), jest.fn())
+                        ]
                     )
                 ).result.current;
 
@@ -145,6 +153,7 @@ describe("grid cell", () => {
                     useEventSwitch<CellContext, HTMLDivElement>(
                         (): CellContext => ({
                             item,
+                            pageSize: 10,
                             selectionMethod: sm as SelectionMethod,
                             selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
