@@ -45,8 +45,9 @@ describe("grid cell", () => {
                     )
                 ).result.current;
 
-                const { user } = setup(<div role="gridcell" {...props} />);
-                await user.keyboard("{Shift>}{Space}{/Shift}");
+                const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+                await user.tab();
+                await user.keyboard("{Shift>}[Space]{/Shift}");
 
                 expect(onSelect).toHaveBeenCalledTimes(n);
                 if (n > 0) {
