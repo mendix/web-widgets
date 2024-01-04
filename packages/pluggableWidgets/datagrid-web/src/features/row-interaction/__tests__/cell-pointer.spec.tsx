@@ -133,7 +133,7 @@ describe("grid cell", () => {
         ];
 
         test.each(cases)(
-            "calls onExecuteAction $n times when selection method is $sm and click trigger is $ct",
+            "calls onExecuteAction $n time(s) when selection method is $sm and click trigger is $ct",
             async ({ ct, sm, n }) => {
                 const onExecuteAction = jest.fn();
 
