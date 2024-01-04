@@ -9,3 +9,5 @@ export type SelectionStatus = "none" | "all" | "some" | "unknown";
 export type WidgetSelectionProperty = SelectionSingleValue | SelectionMultiValue | string | undefined;
 
 export type SelectFx = (item: ObjectItem, shiftKey: boolean) => void;
+
+export type SelectAllFx = (requestedAction?: "selectAll" | "deselectAll") => void;

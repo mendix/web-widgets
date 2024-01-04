@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { ObjectItem } from "mendix";
 import { SelectionHelper } from "./helpers";
+import { SelectAllFx, SelectFx } from "./types";
 
 export type onSelectAdjacent = (
     item: ObjectItem,
@@ -9,15 +10,11 @@ export type onSelectAdjacent = (
     unit: "item" | "page" | "edge"
 ) => void;
 
-export type onSelect = (item: ObjectItem, shiftKey: boolean) => void;
-
-export type onSelectAll = (requestedAction?: "selectAll" | "deselectAll") => void;
-
 export type isSelected = (item: ObjectItem) => boolean;
 
 export type PrimarySelectionProps = {
-    onSelect: onSelect;
-    onSelectAll: onSelectAll;
+    onSelect: SelectFx;
+    onSelectAll: SelectAllFx;
     onSelectAdjacent: onSelectAdjacent;
     isSelected: isSelected;
 };
