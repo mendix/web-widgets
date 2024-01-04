@@ -41,9 +41,10 @@ describe("grid cell", () => {
                         (): CellContext => ({
                             item,
                             selectionMethod: sm as SelectionMethod,
+                            selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
                         }),
-                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect)]
+                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn())]
                     )
                 ).result.current;
 
@@ -92,9 +93,10 @@ describe("grid cell", () => {
                         (): CellContext => ({
                             item,
                             selectionMethod: sm as SelectionMethod,
+                            selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
                         }),
-                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect)]
+                        () => [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn())]
                     )
                 ).result.current;
 
@@ -144,6 +146,7 @@ describe("grid cell", () => {
                         (): CellContext => ({
                             item,
                             selectionMethod: sm as SelectionMethod,
+                            selectionType: "Single",
                             clickTrigger: ct as ClickTrigger
                         }),
                         () => [...createActionHandlers(onExecuteAction)]
