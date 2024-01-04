@@ -1,5 +1,12 @@
 import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { SelectFx, isSelectOneTrigger, preventScrollOnSpace } from "@mendix/widget-plugin-grid/selection";
+import {
+    SelectAllFx,
+    SelectFx,
+    isSelectOneTrigger,
+    onOwnSpaceKeyUp,
+    onSelectAllHotKey
+} from "@mendix/widget-plugin-grid/selection";
+import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { CellContext } from "./base";
 
 const onClick = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
@@ -12,12 +19,29 @@ const onClick = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement
     }
 });
 
-const onShiftSpace = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
+const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
     eventName: "onKeyUp",
     filter: (ctx, event) => ctx.selectionMethod !== "none" && isSelectOneTrigger(event),
     handler: ({ item }) => selectFx(item, false)
 });
 
-export function createSelectHandlers(selectFx: SelectFx): Array<ElementEntries<CellContext, HTMLDivElement>> {
-    return [onClick(selectFx), onShiftSpace(selectFx), preventScrollOnSpace()];
+export function createSelectHandlers(
+    selectFx: SelectFx,
+    selectAllFx: SelectAllFx
+): Array<ElementEntries<CellContext, HTMLDivElement>> {
+    return [
+        onClick(selectFx),
+        onSelectItemHotKey(selectFx),
+        onOwnSpaceKeyUp(e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }),
+        ...onSelectAllHotKey(
+            () => {
+                blockUserSelect();
+                selectAllFx("selectAll");
+            },
+            () => unblockUserSelect()
+        )
+    ];
 }
