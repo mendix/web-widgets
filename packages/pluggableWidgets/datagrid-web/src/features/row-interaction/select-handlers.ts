@@ -1,5 +1,5 @@
 import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { SelectFx, isSelectOneTrigger, preventScrollOnSpace } from "@mendix/widget-plugin-grid/selection";
 import { CellContext } from "./base";
 
 const onClick = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
@@ -12,6 +12,12 @@ const onClick = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement
     }
 });
 
+const onShiftSpace = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
+    eventName: "onKeyUp",
+    filter: (ctx, event) => ctx.selectionMethod !== "none" && isSelectOneTrigger(event),
+    handler: ({ item }) => selectFx(item, false)
+});
+
 export function createSelectHandlers(selectFx: SelectFx): Array<ElementEntries<CellContext, HTMLDivElement>> {
-    return [onClick(selectFx)];
+    return [onClick(selectFx), onShiftSpace(selectFx), preventScrollOnSpace()];
 }
