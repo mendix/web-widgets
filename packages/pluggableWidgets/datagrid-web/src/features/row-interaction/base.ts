@@ -7,6 +7,7 @@ export type ClickTrigger = "single" | "double" | "none";
 
 export interface CellContext {
     item: ObjectItem;
+    pageSize: number;
     selectionMethod: SelectionMethod;
     selectionType: SelectionType;
     clickTrigger: ClickTrigger;

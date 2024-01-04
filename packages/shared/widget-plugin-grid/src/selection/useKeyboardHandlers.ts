@@ -16,9 +16,9 @@ function isPrefixKey<T>(event: React.KeyboardEvent<T>): boolean {
     return prefixSet.has(event.code);
 }
 
-type NavKeyCode = "ArrowUp" | "ArrowDown" | "PageUp" | "PageDown" | "Home" | "End";
-
 const navKeySet = new Set(["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End"]);
+
+type NavKeyCode = typeof navKeySet extends Set<infer T> ? T : never;
 
 function isNavKey(str: string): str is NavKeyCode {
     return navKeySet.has(str);
