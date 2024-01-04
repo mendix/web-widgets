@@ -6,6 +6,7 @@ import { CellContext, ClickTrigger, SelectionMethod } from "../base";
 import { createSelectHandlers } from "../select-handlers";
 import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
+import { createActionHandlers } from "../action-handlers";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -142,6 +143,44 @@ describe("grid cell", () => {
                 if (n > 0) {
                     expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, ...params);
                 }
+            }
+        );
+    });
+
+    describe("on keyup{Space|Enter} event", () => {
+        const cases = [
+            { ct: "single", n: 1, key: "Space" },
+            { ct: "double", n: 1, key: "Space" },
+            { ct: "none", n: 0, key: "Space" },
+            { ct: "single", n: 1, key: "Enter" },
+            { ct: "double", n: 1, key: "Enter" },
+            { ct: "none", n: 0, key: "Enter" }
+        ];
+
+        test.each(cases)(
+            "calls onExecuteAction $n time(s) when click trigger is $ct and key is $key",
+            async ({ ct, n, key }) => {
+                const onExecuteAction = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = renderHook(() =>
+                    useEventSwitch<CellContext, HTMLDivElement>(
+                        (): CellContext => ({
+                            item,
+                            pageSize: 10,
+                            selectionMethod: "none",
+                            selectionType: "None",
+                            clickTrigger: ct as ClickTrigger
+                        }),
+                        () => [...createActionHandlers(onExecuteAction)]
+                    )
+                ).result.current;
+
+                const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+                await user.tab();
+                await user.keyboard(`[${key}]`);
+                expect(onExecuteAction).toHaveBeenCalledTimes(n);
             }
         );
     });

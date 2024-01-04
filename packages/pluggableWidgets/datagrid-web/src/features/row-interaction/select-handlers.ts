@@ -39,13 +39,13 @@ export function createSelectHandlers(
             e.preventDefault();
             e.stopPropagation();
         }),
-        ...onSelectAllHotKey(
+        onSelectAllHotKey(
             () => {
                 blockUserSelect();
                 selectAllFx("selectAll");
             },
             () => unblockUserSelect()
         ),
-        ...onSelectAdjacentHotKey(selectAdjacentFx)
-    ];
+        onSelectAdjacentHotKey(selectAdjacentFx)
+    ].flat();
 }
