@@ -11,3 +11,9 @@ export type WidgetSelectionProperty = SelectionSingleValue | SelectionMultiValue
 export type SelectFx = (item: ObjectItem, shiftKey: boolean) => void;
 
 export type SelectAllFx = (requestedAction?: "selectAll" | "deselectAll") => void;
+
+export type Direction = "forward" | "backward";
+
+export type Size = number | "edge";
+
+export type SelectAdjacentFx = <T>(item: T, shiftKey: boolean, direction: Direction, size: Size) => void;
