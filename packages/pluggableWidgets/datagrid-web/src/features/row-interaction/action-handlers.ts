@@ -19,8 +19,16 @@ const onDoubleClick = (
     handler: ({ item }) => execActionFx(item)
 });
 
+const onSpaceOrEnter = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
+    eventName: "onKeyUp",
+    filter: (ctx, event) => {
+        return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter");
+    },
+    handler: ({ item }) => execActionFx(item)
+});
+
 export function createActionHandlers(
     execActionFx: ExecuteActionFx
 ): Array<ElementEntries<CellContext, HTMLDivElement>> {
-    return [onClick(execActionFx), onDoubleClick(execActionFx)];
+    return [onClick(execActionFx), onDoubleClick(execActionFx), onSpaceOrEnter(execActionFx)];
 }
