@@ -29,6 +29,15 @@ function eventSwitch<Context, Element>(
         },
         onDoubleClick(event) {
             grouped.onDoubleClick?.forEach(entry => exec(contextFn, event, entry));
+        },
+        onKeyUp(event) {
+            grouped.onKeyUp?.forEach(entry => exec(contextFn, event, entry));
+        },
+        onKeyDown(event) {
+            grouped.onKeyDown?.forEach(entry => exec(contextFn, event, entry));
+        },
+        onMouseDown(event) {
+            grouped.onMouseDown?.forEach(entry => exec(contextFn, event, entry));
         }
     };
 }
