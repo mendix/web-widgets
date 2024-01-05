@@ -1,18 +1,17 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useKeyNavContext } from "./context";
-import { Listener } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { posString } from "@mendix/widget-plugin-grid/keyboard-navigation/position";
-
-type Props = {
-    columnIndex: number;
-    rowIndex: number;
-    focusTarget?: () => Focusable | null;
-};
+import { Listener } from "./FocusTargetController";
+import { posString } from "./position";
 
 interface Focusable {
     focus(): void;
 }
+
+type Props = {
+    columnIndex: number;
+    focusTarget?: () => Focusable | null;
+    rowIndex: number;
+};
 
 type ElementState = {
     canFocus: boolean;
@@ -35,7 +34,7 @@ export function useFocusTargetProps(props: Props): ElementProps {
         return [pos === focusController.focusTarget, pos];
     }, [props.columnIndex, props.rowIndex, focusController.focusTarget]);
     const [state, setState] = useState<ElementState>({ canFocus: false });
-    const eltRef = useRef<Focusable>(null);
+    const elementRef = useRef<Focusable>(null);
 
     useEffect(() => {
         const listener: Listener = event =>
@@ -48,6 +47,7 @@ export function useFocusTargetProps(props: Props): ElementProps {
                 }
                 return prev;
             });
+
         focusController.addListener(listener);
         return () => focusController.removeListener(listener);
     }, [focusController, pos]);
@@ -56,13 +56,13 @@ export function useFocusTargetProps(props: Props): ElementProps {
         const { current: focusTarget } = focusTargetPropRef;
 
         if (state.canFocus) {
-            const target = typeof focusTarget === "function" ? focusTarget() : eltRef.current;
+            const target = typeof focusTarget === "function" ? focusTarget() : elementRef.current;
             target?.focus();
         }
     }, [state]);
 
     return {
-        ref: eltRef,
+        ref: elementRef,
         tabIndex: active ? 0 : -1,
         "data-position": pos,
         onKeyDown: useCallback(

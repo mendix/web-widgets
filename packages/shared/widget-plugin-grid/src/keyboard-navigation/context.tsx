@@ -1,6 +1,6 @@
-import { createContext, useMemo, PropsWithChildren, ReactElement, createElement, useContext } from "react";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { useFocusTargetController, LayoutProps } from "./useFocusTargetController";
+import { createContext, createElement, PropsWithChildren, ReactElement, useContext, useMemo } from "react";
+import { FocusTargetController } from "./FocusTargetController";
+import { LayoutProps, useFocusTargetController } from "./useFocusTargetController";
 
 export const defaultValue = Symbol("DefaultKeyNavContextValue");
 
