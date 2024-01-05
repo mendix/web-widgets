@@ -33,7 +33,7 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
-import { KeyNavProvider } from "../features/keyboard-navigation/context";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;

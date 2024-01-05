@@ -1,6 +1,6 @@
 import { createElement, ReactElement, useCallback, useRef } from "react";
 import { CellElement, CellElementProps } from "./CellElement";
-import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;
