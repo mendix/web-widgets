@@ -2,6 +2,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
@@ -10,6 +11,7 @@ import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
+import { useGridPositions } from "src/features/keyboard-navigation/useGridPositions";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -37,6 +39,8 @@ export interface GalleryProps<T extends ObjectItem> {
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
+    const { columnSize, rowSize, getPosition } = useGridPositions(props);
+
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">
             <Pagination
@@ -68,14 +72,18 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         selectionType={props.selectionProps.selectionType}
                         aria-label={props.ariaLabelListBox}
                     >
-                        {props.items.map(item => (
-                            <ListItem
-                                key={`item_${item.id}`}
-                                helper={props.itemHelper}
-                                item={item}
-                                selectionProps={props.selectionProps}
-                            />
-                        ))}
+                        <KeyNavProvider rows={rowSize} columns={columnSize} pageSize={props.pageSize}>
+                            {props.items.map((item, index) => (
+                                <ListItem
+                                    key={`item_${item.id}`}
+                                    helper={props.itemHelper}
+                                    item={item}
+                                    selectionProps={props.selectionProps}
+                                    itemIndex={index}
+                                    getPosition={getPosition}
+                                />
+                            ))}
+                        </KeyNavProvider>
                     </ListBox>
                 )}
             </GalleryContent>
