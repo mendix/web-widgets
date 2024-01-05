@@ -12,3 +12,8 @@ export interface CellContext {
     selectionType: SelectionType;
     clickTrigger: ClickTrigger;
 }
+
+export interface CheckboxContext {
+    item: ObjectItem;
+    selectionMethod: SelectionMethod;
+}
