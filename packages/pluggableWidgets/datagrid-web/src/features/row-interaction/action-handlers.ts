@@ -1,7 +1,8 @@
+import { ObjectItem } from "mendix";
 import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { CellContext } from "./base";
 
-type ExecuteActionFx = (item: unknown) => void;
+export type ExecuteActionFx = (item: ObjectItem) => void;
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",

@@ -1,11 +1,11 @@
 import { useMemo, useRef, useEffect } from "react";
-import { DOMElement, ElementEntries, EventCaseEntry, InferEvent } from "./base";
+import { ElementProps, ElementEntries, EventCaseEntry, InferEvent } from "./base";
 import { groupEntries } from "./utils";
 
 export function useEventSwitch<Context, Element>(
     contextFn: () => Context,
     cases: () => Array<ElementEntries<Context, Element>>
-): DOMElement<Element> {
+): ElementProps<Element> {
     const contextRef = useRef(contextFn);
 
     useEffect(() => {
@@ -18,10 +18,10 @@ export function useEventSwitch<Context, Element>(
     }, []);
 }
 
-function eventSwitch<Context, Element>(
+export function eventSwitch<Context, Element>(
     contextFn: () => Context,
     cases: Array<ElementEntries<Context, Element>>
-): DOMElement<Element> {
+): ElementProps<Element> {
     const grouped = groupEntries(cases);
     return {
         onClick(event) {
@@ -45,8 +45,8 @@ function eventSwitch<Context, Element>(
 function exec<
     Context,
     Element,
-    EventName extends keyof DOMElement<Element>,
-    E extends InferEvent<DOMElement<Element>[EventName]>
+    EventName extends keyof ElementProps<Element>,
+    E extends InferEvent<ElementProps<Element>[EventName]>
 >(contextFn: () => Context, event: E, entry: EventCaseEntry<Context, Element, EventName>): void {
     const ctx = contextFn();
     const canRun = entry.filter ? entry.filter(ctx, event) : true;
