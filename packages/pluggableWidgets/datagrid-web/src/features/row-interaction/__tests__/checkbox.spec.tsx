@@ -4,6 +4,7 @@ import { render, renderHook, RenderResult } from "@testing-library/react";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
 import { CheckboxContext } from "../base";
+import { checkboxHandlers } from "../checkbox-handlers";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -22,7 +23,7 @@ describe("'select row' checkbox", () => {
                     item,
                     selectionMethod: "checkbox"
                 }),
-                () => []
+                () => checkboxHandlers(onSelect)
             )
         ).result.current;
 
@@ -41,7 +42,7 @@ describe("'select row' checkbox", () => {
                     item,
                     selectionMethod: "checkbox"
                 }),
-                () => []
+                () => checkboxHandlers(onSelect)
             )
         ).result.current;
 
@@ -62,7 +63,7 @@ describe("'select row' checkbox", () => {
                     item,
                     selectionMethod: "checkbox"
                 }),
-                () => []
+                () => checkboxHandlers(onSelect)
             )
         ).result.current;
 
