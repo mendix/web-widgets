@@ -8,6 +8,9 @@ import { createSelectHandlers } from "./select-handlers";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
+import { FocusTargetController } from "../keyboard-navigation/FocusTargetController";
+import { FocusTargetFx } from "../keyboard-navigation/base";
+import { createFocusTargetHandlers } from "./focus-target-handlers";
 
 export class CellEventsController {
     constructor(
@@ -15,13 +18,15 @@ export class CellEventsController {
         private selectFx: SelectFx,
         private selectAllFx: SelectAllFx,
         private selectAdjacentFx: SelectAdjacentFx,
-        private executeActionFx: ExecuteActionFx
+        private executeActionFx: ExecuteActionFx,
+        private focusTargetFx: FocusTargetFx
     ) {}
 
     getProps(item: ObjectItem): ElementProps<HTMLDivElement> {
         const entries = [
             ...createSelectHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx),
-            ...createActionHandlers(this.executeActionFx)
+            ...createActionHandlers(this.executeActionFx),
+            ...createFocusTargetHandlers(this.focusTargetFx)
         ];
         return eventSwitch<CellContext, HTMLDivElement>(() => this.contextFactory(item), entries);
     }
@@ -29,7 +34,8 @@ export class CellEventsController {
 
 export function useCellEventsController(
     selectHelper: SelectActionHelper,
-    clickHelper: ClickActionHelper
+    clickHelper: ClickActionHelper,
+    focusController: FocusTargetController
 ): CellEventsController {
     return useMemo(() => {
         const cellContextFactory = (item: ObjectItem): CellContext => ({
@@ -45,7 +51,8 @@ export function useCellEventsController(
             selectHelper.onSelect,
             selectHelper.onSelectAll,
             selectHelper.onSelectAdjacent,
-            clickHelper.onExecuteAction
+            clickHelper.onExecuteAction,
+            focusController.dispatch
         );
-    }, [selectHelper, clickHelper]);
+    }, [selectHelper, clickHelper, focusController]);
 }

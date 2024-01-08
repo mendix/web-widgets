@@ -1,13 +1,13 @@
-import { GridSelectionMethod } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import classNames from "classnames";
 import { ReactElement, createElement } from "react";
+import { SelectionMethod } from "../helpers/SelectActionHelper";
 
 type P = JSX.IntrinsicElements["div"];
 
 export interface WidgetRootProps extends P {
     className?: string;
     selection?: boolean;
-    selectionMethod: GridSelectionMethod;
+    selectionMethod: SelectionMethod;
     exporting?: boolean;
 }
 

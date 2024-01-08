@@ -1,7 +1,6 @@
 /* Disable warning that hooks can be used only in components */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
@@ -12,6 +11,8 @@ import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { ColumnId } from "./typings/GridColumn";
 import * as Grid from "./typings/GridModel";
+import { useSelectActionHelper } from "./helpers/use-select-action-helper";
+import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -50,12 +51,6 @@ const initColumns: ColumnsPreviewType[] = [
 
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const selectionProps = useGridSelectionProps({
-        selection: props.itemSelection,
-        helper: undefined,
-        selectionMethod: props.itemSelectionMethod,
-        showSelectAllToggle: props.showSelectAllToggle
-    });
     const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -75,6 +70,29 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const noop = (..._: unknown[]): void => {
         //
     };
+    const pageSize = props.pageSize ?? 5;
+
+    const selectActionHelper = useSelectActionHelper(
+        {
+            itemSelection: props.itemSelection,
+            itemSelectionMethod: props.itemSelectionMethod,
+            showSelectAllToggle: props.showSelectAllToggle,
+            pageSize
+        },
+        undefined
+    );
+
+    const visibleColumnsCount = selectActionHelper.showCheckboxColumn
+        ? state.visibleColumns.length + 1
+        : state.visibleColumns.length;
+
+    const focusController = useFocusTargetController({
+        rows: data.length,
+        columns: visibleColumnsCount,
+        pageSize
+    });
+
+    const eventsController = { getProps: () => Object.create({}) };
 
     return (
         <Widget
@@ -130,12 +148,15 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             pagingPosition={props.pagingPosition}
             preview
             processedRows={0}
-            actionTrigger={props.onClickTrigger}
             styles={parseStyle(props.style)}
             valueForSort={useCallback(() => undefined, [])}
-            selectionProps={selectionProps}
             selectionStatus={"none"}
             id={gridId}
+            rowClickable={!!(props.itemSelection !== "None" || props.onClick)}
+            selectActionHelper={selectActionHelper}
+            cellEventsController={eventsController}
+            checkboxEventsController={eventsController}
+            focusController={focusController}
         />
     );
 }

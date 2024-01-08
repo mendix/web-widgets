@@ -27,6 +27,10 @@ export function groupEntries<Context, Element>(
                 acc.onMouseDown = acc.onMouseDown ?? [];
                 acc.onMouseDown.push(entry);
                 break;
+            case "onFocus":
+                acc.onFocus = acc.onFocus ?? [];
+                acc.onFocus.push(entry);
+                break;
         }
         return acc;
     }, grouped);

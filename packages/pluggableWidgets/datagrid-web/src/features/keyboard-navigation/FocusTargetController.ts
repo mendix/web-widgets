@@ -40,7 +40,7 @@ export class FocusTargetController {
         }
     }
 
-    dispatch(event: TargetEvent): void {
+    dispatch = (event: TargetEvent): void => {
         const next = this._positionController.dispatch(event, this._layout);
 
         if (next === undefined || next === this._focusTarget) {
@@ -52,7 +52,7 @@ export class FocusTargetController {
         } else {
             this._setTarget(next);
         }
-    }
+    };
 
     private _setTarget(pos: PositionString): void {
         const lastPos = this._focusTarget;
