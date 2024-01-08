@@ -6,3 +6,4 @@ export {
     useCreateSelectionContextValue,
     useSelectionContextValue
 } from "./selection/context.js";
+export { SelectActionHandler } from "./selection/select-action-handler.js";

@@ -1,61 +1,51 @@
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
-import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
-import { PrimarySelectionProps } from "@mendix/widget-plugin-grid/selection/usePrimarySelectionProps";
-import { getSelectionType } from "@mendix/widget-plugin-grid/selection/utils";
-import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
-import { ListActionValue, ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
+import { ObjectItem } from "mendix";
 import { useMemo } from "react";
-import { ItemSelectionMethodEnum, OnClickTriggerEnum } from "../../../typings/DatagridProps";
-import { ExecuteActionFx, createActionHandlers } from "./action-handlers";
+import { createActionHandlers } from "./action-handlers";
 import { CellContext } from "./base";
 import { createSelectHandlers } from "./select-handlers";
-import { getSelectionMethod } from "./utils";
+import { SelectActionHelper } from "../../helpers/SelectActionHelper";
+import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
 
 export class CellEventsController {
     constructor(
         private contextFactory: (item: ObjectItem) => CellContext,
-        private selectionProps: PrimarySelectionProps,
+        private selectFx: SelectFx,
+        private selectAllFx: SelectAllFx,
+        private selectAdjacentFx: SelectAdjacentFx,
         private executeActionFx: ExecuteActionFx
     ) {}
 
     getProps(item: ObjectItem): ElementProps<HTMLDivElement> {
         const entries = [
-            ...createSelectHandlers(
-                this.selectionProps.onSelect,
-                this.selectionProps.onSelectAll,
-                this.selectionProps.onSelectAdjacent as any
-            ),
+            ...createSelectHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx),
             ...createActionHandlers(this.executeActionFx)
         ];
         return eventSwitch<CellContext, HTMLDivElement>(() => this.contextFactory(item), entries);
     }
 }
 
-interface GridProps {
-    pageSize: number;
-    itemSelectionMethod: ItemSelectionMethodEnum;
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    onClickTrigger: OnClickTriggerEnum;
-    onClick?: ListActionValue;
-}
-
 export function useCellEventsController(
-    selectionProps: PrimarySelectionProps,
-    { pageSize, itemSelectionMethod, itemSelection, onClickTrigger, onClick }: GridProps
+    selectHelper: SelectActionHelper,
+    clickHelper: ClickActionHelper
 ): CellEventsController {
-    const cellContextFactory = useEventCallback(
-        (item: ObjectItem): CellContext => ({
+    return useMemo(() => {
+        const cellContextFactory = (item: ObjectItem): CellContext => ({
             item,
-            pageSize,
-            selectionType: getSelectionType(itemSelection),
-            selectionMethod: getSelectionMethod(itemSelectionMethod, itemSelection),
-            clickTrigger: onClick ? onClickTrigger : "none"
-        })
-    );
-    const executeActionFx = useEventCallback((item: ObjectItem) => onClick?.get(item));
-    return useMemo(
-        () => new CellEventsController(cellContextFactory, selectionProps, executeActionFx),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selectionProps]
-    );
+            pageSize: selectHelper.pageSize,
+            selectionType: selectHelper.selectionType,
+            selectionMethod: selectHelper.selectionMethod,
+            clickTrigger: clickHelper.clickTrigger
+        });
+
+        return new CellEventsController(
+            cellContextFactory,
+            selectHelper.onSelect,
+            selectHelper.onSelectAll,
+            selectHelper.onSelectAdjacent,
+            clickHelper.onExecuteAction
+        );
+    }, [selectHelper, clickHelper]);
 }
