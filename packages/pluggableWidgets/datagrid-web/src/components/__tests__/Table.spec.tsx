@@ -406,7 +406,7 @@ describe("Table", () => {
             selectionMethod,
             ...props
         }: WidgetProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
-            const helper = useSelectionHelper(selection, ds, undefined, 10);
+            const helper = useSelectionHelper(selection, ds, undefined);
             const selectHelper = useSelectActionHelper(
                 {
                     itemSelection: selection,

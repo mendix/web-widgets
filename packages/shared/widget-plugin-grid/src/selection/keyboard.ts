@@ -1,3 +1,4 @@
+import { ObjectItem } from "mendix";
 import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 import { EventCaseEntry } from "../event-switch/base";
 import { SelectAdjacentFx, SelectionType } from "./types";
@@ -68,40 +69,40 @@ interface SelectAdjacentContext<T> {
     selectionType: SelectionType;
 }
 
-type NavKeyEntry<T> = EventCaseEntry<SelectAdjacentContext<T>, Element, "onKeyDown">;
+type NavKeyEntry = EventCaseEntry<SelectAdjacentContext<ObjectItem>, Element, "onKeyDown">;
 
-export const onSelectAdjacentHotKey = <Item>(selectAdjacentFx: SelectAdjacentFx): Array<NavKeyEntry<Item>> => {
-    const onArrowUp: NavKeyEntry<Item> = {
+export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavKeyEntry[] => {
+    const onArrowUp: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
         handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "backward", 1)
     };
 
-    const onArrowDown: NavKeyEntry<Item> = {
+    const onArrowDown: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
         handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "forward", 1)
     };
 
-    const onPageUp: NavKeyEntry<Item> = {
+    const onPageUp: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageUp" && ctx.selectionType === "Multi",
         handler: ({ item, pageSize }, event) => selectAdjacentFx(item, event.shiftKey, "backward", pageSize)
     };
 
-    const onPageDown: NavKeyEntry<Item> = {
+    const onPageDown: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageDown" && ctx.selectionType === "Multi",
         handler: ({ item, pageSize }, event) => selectAdjacentFx(item, event.shiftKey, "forward", pageSize)
     };
 
-    const onHome: NavKeyEntry<Item> = {
+    const onHome: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "Home" && ctx.selectionType === "Multi",
         handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "backward", "edge")
     };
 
-    const onEnd: NavKeyEntry<Item> = {
+    const onEnd: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "End" && ctx.selectionType === "Multi",
         handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "forward", "edge")
