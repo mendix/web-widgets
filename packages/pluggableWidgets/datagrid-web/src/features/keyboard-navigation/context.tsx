@@ -1,6 +1,5 @@
 import { createContext, useMemo, PropsWithChildren, ReactElement, createElement, useContext } from "react";
 import { FocusTargetController } from "./FocusTargetController";
-import { useFocusTargetController, LayoutProps } from "./useFocusTargetController";
 
 export const defaultValue = Symbol("DefaultKeyNavContextValue");
 
@@ -10,11 +9,13 @@ export type ContextValue = {
 
 export const context = createContext<typeof defaultValue | ContextValue>(defaultValue);
 
-export function KeyNavProvider(props: PropsWithChildren<LayoutProps>): ReactElement | null {
-    const focusController = useFocusTargetController(props);
+export function KeyNavProvider({
+    focusController,
+    children
+}: PropsWithChildren<{ focusController: FocusTargetController }>): ReactElement | null {
     const value: ContextValue = useMemo(() => ({ focusController }), [focusController]);
 
-    return <context.Provider value={value}>{props.children}</context.Provider>;
+    return <context.Provider value={value}>{children}</context.Provider>;
 }
 
 export function useKeyNavContext(): ContextValue {

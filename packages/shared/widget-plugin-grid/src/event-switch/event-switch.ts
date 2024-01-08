@@ -21,6 +21,9 @@ export function eventSwitch<Context, Element>(
         },
         onMouseDown(event) {
             grouped.onMouseDown?.forEach(entry => exec(contextFn, event, entry));
+        },
+        onFocus(event) {
+            grouped.onFocus?.forEach(entry => exec(contextFn, event, entry));
         }
     };
 }

@@ -1,3 +1,4 @@
+import { ObjectItem } from "mendix";
 import { SelectionHelper } from "./helpers";
 import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelectionProperty } from "./types";
 
@@ -58,5 +59,9 @@ export class SelectActionHandler {
 
     onSelectAdjacent: SelectAdjacentFx = (item, shiftKey, direction, size) => {
         console.log(item, shiftKey, direction, size);
+    };
+
+    isSelected = (item: ObjectItem): boolean => {
+        return this.selectionHelper ? this.selectionHelper.isSelected(item) : false;
     };
 }

@@ -1,6 +1,11 @@
 import { ObjectItem } from "mendix";
-import { DOMAttributes, ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { GridColumn } from "./GridColumn";
+import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
+
+export interface EventsController {
+    getProps(item: ObjectItem): ElementProps<HTMLDivElement>;
+}
 
 export interface CellComponentProps<C extends GridColumn> {
     children?: ReactNode;
@@ -10,10 +15,9 @@ export interface CellComponentProps<C extends GridColumn> {
     key?: string | number;
     rowIndex: number;
     columnIndex?: number;
-    onClick?: DOMAttributes<HTMLDivElement>["onClick"];
-    onKeyDown?: DOMAttributes<HTMLDivElement>["onKeyDown"];
     clickable?: boolean;
     preview?: boolean;
+    eventsController: EventsController;
 }
 
 export type CellComponent<C extends GridColumn> = (props: CellComponentProps<C>) => ReactElement;
