@@ -20,9 +20,10 @@ describe("'select row' checkbox", () => {
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
                 item,
+                selectionType: "Single",
                 selectionMethod: "checkbox"
             }),
-            [...checkboxHandlers(onSelect)]
+            [...checkboxHandlers(onSelect, jest.fn())]
         );
 
         const { user, getByRole } = setup(<input type="checkbox" {...props} />);
@@ -37,9 +38,10 @@ describe("'select row' checkbox", () => {
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
                 item,
+                selectionType: "Single",
                 selectionMethod: "checkbox"
             }),
-            [...checkboxHandlers(onSelect)]
+            [...checkboxHandlers(onSelect, jest.fn())]
         );
 
         const { user, getByRole } = setup(<input type="checkbox" {...props} />);
@@ -50,22 +52,60 @@ describe("'select row' checkbox", () => {
         expect(onSelect).toHaveBeenCalledTimes(1);
         expect(onSelect).toHaveBeenLastCalledWith(item, true);
     });
-    test("on keyup{Space} event calls onSelect", async () => {
+    test("on keyup[Space] event calls onSelect", async () => {
         const onSelect = jest.fn();
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
                 item,
+                selectionType: "Single",
                 selectionMethod: "checkbox"
             }),
-            [...checkboxHandlers(onSelect)]
+            [...checkboxHandlers(onSelect, jest.fn())]
         );
-
         const { user } = setup(<input type="checkbox" {...props} />);
         await user.tab();
         await user.keyboard("[Space]");
 
         expect(onSelect).toHaveBeenCalledTimes(1);
         expect(onSelect).toHaveBeenLastCalledWith(item, false);
+    });
+
+    test("on keydown[ControlLeft+KeyA] event calls onSelectAll when selection type Multi", async () => {
+        const onSelectAll = jest.fn();
+        const [item] = objectItems(1);
+        const props = eventSwitch<CheckboxContext, HTMLInputElement>(
+            () => ({
+                item,
+                selectionType: "Multi",
+                selectionMethod: "checkbox"
+            }),
+            [...checkboxHandlers(jest.fn(), onSelectAll)]
+        );
+        const { user } = setup(<input type="checkbox" {...props} />);
+        await user.tab();
+        await user.keyboard("[ControlLeft>]a[/ControlLeft]");
+
+        expect(onSelectAll).toHaveBeenCalledTimes(1);
+        expect(onSelectAll).toHaveBeenLastCalledWith("selectAll");
+    });
+
+    test("on keydown[MetaLeft+KeyA] event calls onSelectAll when selection type Multi", async () => {
+        const onSelectAll = jest.fn();
+        const [item] = objectItems(1);
+        const props = eventSwitch<CheckboxContext, HTMLInputElement>(
+            () => ({
+                item,
+                selectionType: "Multi",
+                selectionMethod: "checkbox"
+            }),
+            [...checkboxHandlers(jest.fn(), onSelectAll)]
+        );
+        const { user } = setup(<input type="checkbox" {...props} />);
+        await user.tab();
+        await user.keyboard("[MetaLeft>]a[/MetaLeft]");
+
+        expect(onSelectAll).toHaveBeenCalledTimes(1);
+        expect(onSelectAll).toHaveBeenLastCalledWith("selectAll");
     });
 });
