@@ -6,7 +6,6 @@ import {
     readInitFilterValues
 } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -21,6 +20,11 @@ import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
 import { useShowPagination } from "./utils/useShowPagination";
+import { useSelectActionHelper } from "./helpers/use-select-action-helper";
+import { useClickActionHelper } from "./helpers/use-click-action-helper";
+import { useCellEventsController } from "./features/row-interaction/use-cell-events-controller";
+import { useCheckboxEventsController } from "./features/row-interaction/use-checkbox-events-controller";
+import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
@@ -137,13 +141,37 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.onSelectionChange,
         props.pageSize
     );
-    const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
-    const selectionProps = useGridSelectionProps({
-        selection: props.itemSelection,
-        selectionMethod: props.itemSelectionMethod,
-        helper: selectionHelper,
-        showSelectAllToggle: props.showSelectAllToggle
+
+    const selectActionHelper = useSelectActionHelper(
+        {
+            itemSelection: props.itemSelection,
+            itemSelectionMethod: props.itemSelectionMethod,
+            showSelectAllToggle: props.showSelectAllToggle,
+            pageSize: props.pageSize
+        },
+        selectionHelper
+    );
+
+    const clickActionHelper = useClickActionHelper({
+        onClickTrigger: props.onClickTrigger,
+        onClick: props.onClick
     });
+
+    const visibleColumnsCount = selectActionHelper.showCheckboxColumn
+        ? columnsState.columnsVisible.length + 1
+        : columnsState.columnsVisible.length;
+
+    const focusController = useFocusTargetController({
+        rows: items.length,
+        columns: visibleColumnsCount,
+        pageSize: props.pageSize
+    });
+
+    const cellEventsController = useCellEventsController(selectActionHelper, clickActionHelper, focusController);
+
+    const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
+
+    const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
 
     return (
         <Widget
@@ -221,6 +249,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             })}
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
+            rowClickable={!!(props.itemSelection || props.onClick)}
             setPage={setPage}
             setSortParameters={setSortParameters}
             setOrder={setOrder}
@@ -234,15 +263,16 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
                 },
                 [props.columns]
             )}
-            actionTrigger={props.onClickTrigger}
-            rowAction={props.onClick}
-            selectionProps={selectionProps}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
             exporting={exporting}
             processedRows={processedRows}
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
+            selectActionHelper={selectActionHelper}
+            cellEventsController={cellEventsController}
+            checkboxEventsController={checkboxEventsController}
+            focusController={focusController}
         />
     );
 }

@@ -1,6 +1,6 @@
 export type InferEvent<T> = T extends React.EventHandler<infer E> ? E : never;
 
-export type EventName = "onClick" | "onDoubleClick" | "onKeyDown" | "onKeyUp" | "onMouseDown";
+export type EventName = "onClick" | "onDoubleClick" | "onKeyDown" | "onKeyUp" | "onMouseDown" | "onFocus";
 
 export type ElementProps<T> = { [name in EventName]?: React.DOMAttributes<T>[name] };
 
