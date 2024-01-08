@@ -229,10 +229,15 @@ describe("grid cell", () => {
     });
 
     describe("on keyup[Space] event", () => {
-        const cases = ["Single", "Multi"];
+        const cases = [
+            [0, "Single", "rowClick"],
+            [0, "Multi", "rowClick"],
+            [1, "Single", "checkbox"],
+            [1, "Multi", "checkbox"]
+        ];
         test.each(cases)(
-            "don't calls onExecuteAction when selection type is %s",
-            async (selectionType: SelectionType) => {
+            "calls onExecuteAction %s time(s) when selection type is %s and selection method is %s",
+            async (times: number, selectionType: SelectionType, selectionMethod: SelectionMethod) => {
                 const onExecuteAction = jest.fn();
 
                 const [item] = objectItems(1);
@@ -241,7 +246,7 @@ describe("grid cell", () => {
                     (): CellContext => ({
                         item,
                         pageSize: 10,
-                        selectionMethod: "checkbox",
+                        selectionMethod,
                         selectionType,
                         clickTrigger: "single"
                     }),
@@ -250,7 +255,7 @@ describe("grid cell", () => {
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
                 await user.keyboard(`[Space]`);
-                expect(onExecuteAction).toHaveBeenCalledTimes(0);
+                expect(onExecuteAction).toHaveBeenCalledTimes(times);
             }
         );
     });
