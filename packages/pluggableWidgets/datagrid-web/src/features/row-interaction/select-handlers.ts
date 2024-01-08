@@ -4,7 +4,6 @@ import {
     SelectAllFx,
     SelectFx,
     isSelectOneTrigger,
-    onOwnSpaceKeyUp,
     onSelectAdjacentHotKey,
     onSelectAllHotKey
 } from "@mendix/widget-plugin-grid/selection";
@@ -35,10 +34,6 @@ export function createSelectHandlers(
     return [
         onClick(selectFx),
         onSelectItemHotKey(selectFx),
-        onOwnSpaceKeyUp(e => {
-            e.preventDefault();
-            e.stopPropagation();
-        }),
         onSelectAllHotKey(
             () => {
                 blockUserSelect();

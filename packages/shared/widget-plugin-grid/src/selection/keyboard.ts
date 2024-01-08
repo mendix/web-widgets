@@ -14,10 +14,10 @@ export function isOwnSpaceKey<T>(event: React.KeyboardEvent<T>): boolean {
     return event.code === "Space" && event.target === event.currentTarget;
 }
 
-export const onOwnSpaceKeyUp = (
+export const onOwnSpaceKeyDown = (
     handler: (event: React.KeyboardEvent<Element>) => void
-): EventCaseEntry<unknown, Element, "onKeyUp"> => ({
-    eventName: "onKeyUp",
+): EventCaseEntry<unknown, Element, "onKeyDown"> => ({
+    eventName: "onKeyDown",
     filter: (_, event) => isOwnSpaceKey(event),
     handler: (_, event) => handler(event)
 });
