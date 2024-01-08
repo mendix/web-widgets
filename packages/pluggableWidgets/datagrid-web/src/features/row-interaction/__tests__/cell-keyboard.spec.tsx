@@ -143,7 +143,7 @@ describe("grid cell", () => {
         );
     });
 
-    describe("on keyup{Space|Enter} event", () => {
+    describe("on keyup[Space|Enter] event", () => {
         const cases = [
             { ct: "single", n: 1, key: "Space" },
             { ct: "double", n: 1, key: "Space" },
@@ -226,5 +226,59 @@ describe("grid cell", () => {
             await user.keyboard(`[/Enter]`);
             expect(onExecuteAction).toHaveBeenCalledTimes(0);
         });
+    });
+
+    describe("on keyup[Space] event", () => {
+        const cases = ["Single", "Multi"];
+        test.each(cases)(
+            "don't calls onExecuteAction when selection type is %s",
+            async (selectionType: SelectionType) => {
+                const onExecuteAction = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: "checkbox",
+                        selectionType,
+                        clickTrigger: "single"
+                    }),
+                    [...createActionHandlers(onExecuteAction)]
+                );
+                const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+                await user.tab();
+                await user.keyboard(`[Space]`);
+                expect(onExecuteAction).toHaveBeenCalledTimes(0);
+            }
+        );
+    });
+
+    describe("on keyup[Enter] event", () => {
+        const cases = ["Single", "Multi", "None"];
+        test.each(cases)(
+            "calls onExecuteAction even when selection type is %s",
+            async (selectionType: SelectionType) => {
+                const onExecuteAction = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: "checkbox",
+                        selectionType,
+                        clickTrigger: "single"
+                    }),
+                    [...createActionHandlers(onExecuteAction)]
+                );
+                const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+                await user.tab();
+                await user.keyboard(`[Enter]`);
+                expect(onExecuteAction).toHaveBeenCalledTimes(1);
+            }
+        );
     });
 });
