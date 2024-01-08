@@ -13,5 +13,6 @@ export interface CellContext {
 
 export interface CheckboxContext {
     item: ObjectItem;
+    selectionType: SelectionType;
     selectionMethod: SelectionMethod;
 }
