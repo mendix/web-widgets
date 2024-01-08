@@ -19,6 +19,14 @@ const onDoubleClick = (
     handler: ({ item }) => execActionFx(item)
 });
 
+const canTriggerAction = (ctx: CellContext, event: React.KeyboardEvent): boolean => {
+    if (event.code === "Space" && ctx.clickTrigger !== "none") {
+        return ctx.selectionType === "None";
+    }
+
+    return event.code === "Enter" && ctx.clickTrigger !== "none";
+};
+
 const onSpaceOrEnter = (
     execActionFx: ExecuteActionFx
 ): [
@@ -29,18 +37,12 @@ const onSpaceOrEnter = (
     return [
         {
             eventName: "onKeyDown",
-            filter: (ctx, event) => {
-                return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter");
-            },
-            handler: () => {
-                pressed = true;
-            }
+            filter: canTriggerAction,
+            handler: () => (pressed = true)
         },
         {
             eventName: "onKeyUp",
-            filter: (ctx, event) => {
-                return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter") && pressed;
-            },
+            filter: (ctx, event) => canTriggerAction(ctx, event) && pressed,
             handler: ({ item }) => {
                 pressed = false;
                 execActionFx(item);
