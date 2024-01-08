@@ -14,11 +14,10 @@ export type CellElementProps = {
     wrapText?: boolean;
     ["aria-hidden"]?: boolean;
     tabIndex?: number;
-} & Omit<JSX.IntrinsicElements["div"], "ref">;
+} & Omit<JSX.IntrinsicElements["div"], "ref" | "children">;
 
-const component = memo(
-    // eslint-disable-next-line prefer-arrow-callback
-    forwardRef<HTMLDivElement>(function CellElement(
+const component = // eslint-disable-next-line prefer-arrow-callback
+    forwardRef<HTMLDivElement, CellElementProps>(function CellElement(
         { className, borderTop, clickable, previewAsHidden, wrapText, alignment, tabIndex, ...rest }: CellElementProps,
         ref
     ): ReactElement {
@@ -41,8 +40,6 @@ const component = memo(
                 {...rest}
             />
         );
-    })
-);
+    });
 
-// Override react NamedExoticComponent.
-export const CellElement = component as (props: CellElementProps) => ReactElement;
+export const CellElement = memo(component);

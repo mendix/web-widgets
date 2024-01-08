@@ -1,8 +1,7 @@
 import classNames from "classnames";
-import { ListActionValue, ObjectItem } from "mendix";
+import { ObjectItem } from "mendix";
 import { ReactElement, createElement } from "react";
 import { useWidgetProps } from "../helpers/useWidgetProps";
-import { useRowInteractionProps } from "../helpers/useRowInteractionProps";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { SelectorCell } from "./SelectorCell";
@@ -15,41 +14,30 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    rowAction?: ListActionValue;
     preview: boolean;
     selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
 }
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell, index: rowIndex } = props;
-    const { selectionProps, preview, selectRowLabel, data, actionTrigger } = useWidgetProps();
-    const selected = selectionProps.isSelected(props.item);
-    const ariaSelected = selectionProps.selectionType === "None" ? undefined : selected;
-    const [interactionProps, { cellClickableClass }] = useRowInteractionProps(
-        props.item,
-        selectionProps,
-        actionTrigger,
-        props.rowAction
-    );
+    const { CellComponent: Cell } = props;
+    const { selectActionHelper, preview, data, rowClickable, cellEventsController } = useWidgetProps();
+    const selected = selectActionHelper.isSelected(props.item);
+    const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
+    const borderTop = props.index === 0;
+
     return (
         <div
             className={classNames("tr", { "tr-selected": selected }, props.className)}
             role="row"
             aria-selected={ariaSelected}
-            {...interactionProps}
-            onClick={selectionProps.showCheckboxColumn ? undefined : interactionProps.onClick}
         >
-            {selectionProps.showCheckboxColumn && (
+            {selectActionHelper.showCheckboxColumn && (
                 <CheckboxCell
+                    item={props.item}
                     key="checkbox_cell"
-                    borderTop={rowIndex === 0}
-                    clickable={cellClickableClass}
-                    rowIndex={rowIndex}
-                    columnIndex={0}
-                    checked={selected}
-                    onInputClick={interactionProps.onClick}
-                    checkboxAriaLabel={selectRowLabel}
-                    lastRow={rowIndex === data.length - 1}
+                    borderTop={borderTop}
+                    rowIndex={props.index}
+                    lastRow={props.index === data.length - 1}
                 />
             )}
             {props.columns.map((column, baseIndex) => {
@@ -58,22 +46,18 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         key={`row_${props.item.id}_col_${column.columnNumber}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={selectionProps.showCheckboxColumn ? baseIndex + 1 : baseIndex}
+                        columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
                         item={props.item}
-                        clickable={cellClickableClass}
+                        clickable={rowClickable}
                         preview={preview}
+                        eventsController={cellEventsController}
                     />
                 );
 
                 return preview ? props.selectableWrapper(baseIndex, cell) : cell;
             })}
             {props.showSelectorCell && (
-                <SelectorCell
-                    key="column_selector_cell"
-                    borderTop={rowIndex === 0}
-                    clickable={cellClickableClass}
-                    tabIndex={-1}
-                />
+                <SelectorCell key="column_selector_cell" borderTop={borderTop} clickable={rowClickable} tabIndex={-1} />
             )}
         </div>
     );

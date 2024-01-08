@@ -1,46 +1,38 @@
-import { createElement, ReactElement, useCallback, useRef } from "react";
+import { createElement, ReactElement } from "react";
+import { ObjectItem } from "mendix";
 import { CellElement, CellElementProps } from "./CellElement";
 import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
+import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;
-    columnIndex?: number;
-    checked?: boolean;
-    onInputClick?: React.MouseEventHandler;
-    checkboxAriaLabel?: string;
     lastRow?: boolean;
+    item: ObjectItem;
 };
 
-export function CheckboxCell({
-    rowIndex,
-    columnIndex,
-    checked,
-    onInputClick,
-    checkboxAriaLabel,
-    lastRow,
-    ...rest
-}: CheckboxCellProps): ReactElement {
-    const inputRef = useRef(null);
-    const keyNavProps = useFocusTargetProps({
-        columnIndex: columnIndex ?? -1,
-        rowIndex,
-        focusTarget: useCallback(() => inputRef.current, [])
+export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellProps): ReactElement {
+    const keyNavProps = useFocusTargetProps<HTMLInputElement>({
+        columnIndex: 0,
+        rowIndex
     });
+    const { selectActionHelper, checkboxEventsController, selectRowLabel, rowClickable } = useWidgetProps();
     return (
-        <CellElement {...rest} {...keyNavProps} className="widget-datagrid-col-select" tabIndex={-1}>
+        <CellElement {...rest} clickable={rowClickable} className="widget-datagrid-col-select" tabIndex={-1}>
             <input
-                checked={checked}
+                checked={selectActionHelper.isSelected(item)}
                 type="checkbox"
                 tabIndex={keyNavProps.tabIndex}
+                data-position={keyNavProps["data-position"]}
                 onChange={stub}
-                onClick={onInputClick}
                 onFocus={lastRow ? scrollParentOnFocus : undefined}
-                ref={inputRef}
-                aria-label={`${checkboxAriaLabel ?? "Select row"} ${rowIndex + 1}`}
+                ref={keyNavProps.ref}
+                aria-label={`${selectRowLabel ?? "Select row"} ${rowIndex + 1}`}
+                {...checkboxEventsController.getProps(item)}
             />
         </CellElement>
     );
 }
+
 function scrollParentOnFocus(event: React.FocusEvent): void {
     if (typeof event.target.parentElement?.scrollIntoView === "function") {
         event.target.parentElement.scrollIntoView(false);

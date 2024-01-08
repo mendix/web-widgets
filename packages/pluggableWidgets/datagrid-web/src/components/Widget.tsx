@@ -1,13 +1,12 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
-import { OnClickTriggerEnum, PagingPositionEnum } from "../../typings/DatagridProps";
+import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
-import { CellComponent } from "../typings/CellComponent";
+import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
@@ -24,6 +23,8 @@ import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import * as GridModel from "../typings/GridModel";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { FocusTargetController } from "../features/keyboard-navigation/FocusTargetController";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -51,12 +52,11 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     preview?: boolean;
     processedRows: number;
     rowClass?: (item: T) => string;
+    rowClickable: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
     valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
-    actionTrigger: OnClickTriggerEnum;
     rowAction?: ListActionValue;
-    selectionProps: GridSelectionProps;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     state: GridModel.State;
@@ -64,6 +64,12 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
+
+    // Helpers
+    cellEventsController: EventsController;
+    checkboxEventsController: EventsController;
+    selectActionHelper: SelectActionHelper;
+    focusController: FocusTargetController;
 }
 
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
@@ -93,14 +99,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         processedRows,
         setPage,
         styles,
-        selectionProps,
         CellComponent,
         state,
-        actions
+        actions,
+        selectActionHelper
     } = props;
     const columnsToShow = preview ? state.allColumns : state.visibleColumns;
-    const extraColumnsCount = (columnsHidable ? 1 : 0) + (props.selectionProps.showCheckboxColumn ? 1 : 0);
-    const keyboardNavColumnsCount = columnsToShow.length + (props.selectionProps.showCheckboxColumn ? 1 : 0);
+    const extraColumnsCount = (columnsHidable ? 1 : 0) + (selectActionHelper.showCheckboxColumn ? 1 : 0);
     const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
 
     const isInfinite = !paging;
@@ -134,19 +139,19 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const cssGridStyles = useMemo(
         () =>
             gridStyle(columnsToShow, props.state.size, {
-                selectItemColumn: selectionProps.showCheckboxColumn,
+                selectItemColumn: selectActionHelper.showCheckboxColumn,
                 visibilitySelectorColumn: columnsHidable
             }),
-        [props.state.size, columnsToShow, columnsHidable, selectionProps.showCheckboxColumn]
+        [props.state.size, columnsToShow, columnsHidable, selectActionHelper.showCheckboxColumn]
     );
 
-    const selectionEnabled = props.selectionProps.selectionType !== "None";
+    const selectionEnabled = selectActionHelper.selectionType !== "None";
 
     return (
         <WidgetPropsProvider value={props}>
             <WidgetRoot
                 className={className}
-                selectionMethod={selectionProps.selectionMethod}
+                selectionMethod={selectActionHelper.selectionMethod}
                 selection={selectionEnabled}
                 style={styles}
                 exporting={exporting}
@@ -155,7 +160,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
                 <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
                     <Grid
-                        aria-multiselectable={selectionEnabled ? selectionProps.selectionType === "Multi" : undefined}
+                        aria-multiselectable={
+                            selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined
+                        }
                     >
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
@@ -204,11 +211,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     />
                                 )}
                             </div>
-                            <KeyNavProvider
-                                rows={props.data.length}
-                                columns={keyboardNavColumnsCount}
-                                pageSize={props.pageSize}
-                            >
+                            <KeyNavProvider focusController={props.focusController}>
                                 {rows.map((item, rowIndex) => {
                                     return (
                                         <Row
@@ -218,7 +221,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             index={rowIndex}
                                             item={item}
                                             key={`row_${item.id}`}
-                                            rowAction={props.rowAction}
                                             showSelectorCell={columnsHidable}
                                             preview={preview ?? false}
                                             selectableWrapper={headerWrapperRenderer}

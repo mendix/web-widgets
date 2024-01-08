@@ -1,4 +1,4 @@
-import { createElement, ReactElement, memo } from "react";
+import { createElement, ReactElement, memo, useMemo } from "react";
 import { GridColumn } from "../typings/GridColumn";
 import { CellComponentProps } from "../typings/CellComponent";
 import { CellElement } from "./CellElement";
@@ -6,7 +6,11 @@ import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTar
 
 // eslint-disable-next-line prefer-arrow-callback
 const component = memo(function Cell(props: CellComponentProps<GridColumn>): ReactElement {
-    const keyNavProps = useFocusTargetProps({ columnIndex: props.columnIndex ?? -1, rowIndex: props.rowIndex });
+    const keyNavProps = useFocusTargetProps<HTMLDivElement>({
+        columnIndex: props.columnIndex ?? -1,
+        rowIndex: props.rowIndex
+    });
+    const handlers = useMemo(() => props.eventsController.getProps(props.item), [props.item, props.eventsController]);
 
     return (
         <CellElement
@@ -16,7 +20,15 @@ const component = memo(function Cell(props: CellComponentProps<GridColumn>): Rea
             wrapText={props.column.wrapText}
             clickable={props.clickable}
             previewAsHidden={props.preview && (props.column.initiallyHidden || !props.column.visible)}
-            {...keyNavProps}
+            tabIndex={keyNavProps.tabIndex}
+            ref={keyNavProps.ref}
+            data-position={keyNavProps["data-position"]}
+            onClick={handlers.onClick}
+            onDoubleClick={handlers.onDoubleClick}
+            onMouseDown={handlers.onMouseDown}
+            onKeyDown={handlers.onKeyDown}
+            onKeyUp={handlers.onKeyUp}
+            onFocus={handlers.onFocus}
         >
             {props.column.renderCellContent(props.item)}
         </CellElement>

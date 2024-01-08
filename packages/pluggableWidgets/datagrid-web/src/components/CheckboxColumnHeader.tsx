@@ -3,8 +3,8 @@ import { Fragment, ReactElement, createElement } from "react";
 import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectionProps, selectionStatus } = useWidgetProps();
-    const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectionProps;
+    const { selectActionHelper, selectionStatus } = useWidgetProps();
+    const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
 
     if (showCheckboxColumn === false) {
         return <Fragment />;

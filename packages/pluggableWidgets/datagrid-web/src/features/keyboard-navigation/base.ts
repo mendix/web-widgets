@@ -11,3 +11,5 @@ export type TargetEvent =
           type: "Focus";
           reactEvent: React.FocusEvent;
       };
+
+export type FocusTargetFx = (event: TargetEvent) => void;
