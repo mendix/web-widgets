@@ -1,10 +1,10 @@
 import { useMemo, useRef, useEffect } from "react";
-import { ElementProps, ElementEntries, EventCaseEntry, InferEvent } from "./base";
+import { ElementProps, ElementEntry, EventCaseEntry, InferEvent } from "./base";
 import { groupEntries } from "./utils";
 
 export function useEventSwitch<Context, Element>(
     contextFn: () => Context,
-    cases: () => Array<ElementEntries<Context, Element>>
+    cases: () => Array<ElementEntry<Context, Element>>
 ): ElementProps<Element> {
     const contextRef = useRef(contextFn);
 
@@ -20,7 +20,7 @@ export function useEventSwitch<Context, Element>(
 
 export function eventSwitch<Context, Element>(
     contextFn: () => Context,
-    cases: Array<ElementEntries<Context, Element>>
+    cases: Array<ElementEntry<Context, Element>>
 ): ElementProps<Element> {
     const grouped = groupEntries(cases);
     return {

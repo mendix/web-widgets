@@ -1,4 +1,4 @@
-import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import {
     SelectAdjacentFx,
     SelectAllFx,
@@ -31,7 +31,7 @@ export function createSelectHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
     selectAdjacentFx: SelectAdjacentFx
-): Array<ElementEntries<CellContext, HTMLDivElement>> {
+): Array<ElementEntry<CellContext, HTMLDivElement>> {
     return [
         onClick(selectFx),
         onSelectItemHotKey(selectFx),
