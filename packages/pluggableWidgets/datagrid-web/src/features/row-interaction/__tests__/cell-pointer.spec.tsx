@@ -1,11 +1,11 @@
 import { createElement } from "react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { render, renderHook, RenderResult } from "@testing-library/react";
-import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
+import { render, RenderResult } from "@testing-library/react";
 import { createActionHandlers } from "../action-handlers";
 import { createSelectHandlers } from "../select-handlers";
 import { CellContext, ClickTrigger, SelectionMethod } from "../base";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -36,21 +36,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: sm as SelectionMethod,
-                            selectionType: "Single",
-                            clickTrigger: ct as ClickTrigger
-                        }),
-                        () => [
-                            ...createActionHandlers(onExecuteAction),
-                            ...createSelectHandlers(onSelect, jest.fn(), jest.fn())
-                        ]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: sm as SelectionMethod,
+                        selectionType: "Single",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
+                );
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
                 await user.click(getByRole("gridcell"));
@@ -92,21 +87,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: sm as SelectionMethod,
-                            selectionType: "Single",
-                            clickTrigger: ct as ClickTrigger
-                        }),
-                        () => [
-                            ...createActionHandlers(onExecuteAction),
-                            ...createSelectHandlers(onSelect, jest.fn(), jest.fn())
-                        ]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: sm as SelectionMethod,
+                        selectionType: "Single",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
+                );
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
                 await user.keyboard("{Shift>}");
@@ -149,18 +139,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: sm as SelectionMethod,
-                            selectionType: "Single",
-                            clickTrigger: ct as ClickTrigger
-                        }),
-                        () => [...createActionHandlers(onExecuteAction)]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: sm as SelectionMethod,
+                        selectionType: "Single",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createActionHandlers(onExecuteAction)]
+                );
 
                 const { user, getByRole } = setup(<div role="gridcell" {...props} />);
                 await user.dblClick(getByRole("gridcell"));
