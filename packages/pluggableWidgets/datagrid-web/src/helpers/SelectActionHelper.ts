@@ -9,7 +9,7 @@ export class SelectActionHelper extends SelectActionHandler {
 
     constructor(
         selection: WidgetSelectionProperty,
-        selectionHelper: SelectionHelper,
+        selectionHelper: SelectionHelper | undefined,
         _selectionMethod: ItemSelectionMethodEnum,
         _showSelectAllToggle: boolean,
         pageSize: number
