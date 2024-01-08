@@ -5,8 +5,8 @@ import {
     SelectFx,
     isSelectOneTrigger,
     onOwnSpaceKeyUp,
-    onSelectAllHotKey,
-    onSelectAdjacentHotKey
+    onSelectAdjacentHotKey,
+    onSelectAllHotKey
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { CellContext } from "./base";
