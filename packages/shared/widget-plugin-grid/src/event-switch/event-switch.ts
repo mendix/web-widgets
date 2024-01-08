@@ -1,22 +1,5 @@
-import { useMemo, useRef, useEffect } from "react";
 import { ElementProps, ElementEntry, EventCaseEntry, InferEvent } from "./base";
 import { groupEntries } from "./utils";
-
-export function useEventSwitch<Context, Element>(
-    contextFn: () => Context,
-    cases: () => Array<ElementEntry<Context, Element>>
-): ElementProps<Element> {
-    const contextRef = useRef(contextFn);
-
-    useEffect(() => {
-        contextRef.current = contextFn;
-    });
-
-    return useMemo(() => {
-        return eventSwitch(() => contextRef.current(), cases());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-}
 
 export function eventSwitch<Context, Element>(
     contextFn: () => Context,
