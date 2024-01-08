@@ -1253,13 +1253,13 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td td-borders clickable widget-datagrid-col-select"
-              data-position="0,0"
               role="gridcell"
               tabindex="-1"
             >
               <input
                 aria-label="Select row 1"
                 checked=""
+                data-position="0,0"
                 tabindex="0"
                 type="checkbox"
               />
@@ -1284,13 +1284,13 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td clickable widget-datagrid-col-select"
-              data-position="0,1"
               role="gridcell"
               tabindex="-1"
             >
               <input
                 aria-label="Select row 2"
                 checked=""
+                data-position="0,1"
                 tabindex="-1"
                 type="checkbox"
               />
@@ -1315,13 +1315,13 @@ exports[`Table with selection method checkbox render an extra column and add cla
           >
             <div
               class="td clickable widget-datagrid-col-select"
-              data-position="0,2"
               role="gridcell"
               tabindex="-1"
             >
               <input
                 aria-label="Select row 3"
                 checked=""
+                data-position="0,2"
                 tabindex="-1"
                 type="checkbox"
               />
