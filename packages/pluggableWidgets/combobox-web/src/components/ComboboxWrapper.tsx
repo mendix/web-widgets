@@ -23,6 +23,7 @@ export const ComboboxWrapper = forwardRef(
                         "widget-combobox-input-container-active": isOpen,
                         "widget-combobox-input-container-disabled": readOnly
                     })}
+                    role="combobox"
                     {...getToggleButtonProps()}
                 >
                     {children}
