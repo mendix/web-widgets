@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { CellContext } from "./base";
 
 export type ExecuteActionFx = (item: ObjectItem) => void;
@@ -28,8 +28,6 @@ const onSpaceOrEnter = (execActionFx: ExecuteActionFx): EventCaseEntry<CellConte
     handler: ({ item }) => execActionFx(item)
 });
 
-export function createActionHandlers(
-    execActionFx: ExecuteActionFx
-): Array<ElementEntries<CellContext, HTMLDivElement>> {
+export function createActionHandlers(execActionFx: ExecuteActionFx): Array<ElementEntry<CellContext, HTMLDivElement>> {
     return [onClick(execActionFx), onDoubleClick(execActionFx), onSpaceOrEnter(execActionFx)];
 }

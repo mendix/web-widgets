@@ -1,7 +1,7 @@
-import { ElementEntries, EntriesByEvent } from "./base";
+import { ElementEntry, EntriesByEvent } from "./base";
 
 export function groupEntries<Context, Element>(
-    cases: Array<ElementEntries<Context, Element>>
+    cases: Array<ElementEntry<Context, Element>>
 ): EntriesByEvent<Context, Element> {
     const grouped: EntriesByEvent<Context, Element> = {};
 

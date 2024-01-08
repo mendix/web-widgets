@@ -1,4 +1,4 @@
-import { ElementEntries, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { CheckboxContext } from "./base";
 import { SelectFx } from "@mendix/widget-plugin-grid/selection";
 
@@ -8,6 +8,6 @@ const onClick = (selectFx: SelectFx): EventCaseEntry<CheckboxContext, HTMLInputE
     handler: ({ item }, event) => selectFx(item, event.shiftKey)
 });
 
-export function checkboxHandlers(selectFx: SelectFx): Array<ElementEntries<CheckboxContext, HTMLInputElement>> {
+export function checkboxHandlers(selectFx: SelectFx): Array<ElementEntry<CheckboxContext, HTMLInputElement>> {
     return [onClick(selectFx)];
 }
