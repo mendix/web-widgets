@@ -20,7 +20,7 @@ describe("grid cell", () => {
     describe("on click event", () => {
         const cases = [
             { ct: "single", sm: "rowClick", method: "none" },
-            { ct: "double", sm: "rowClick", method: "onSelect" },
+            { ct: "double", sm: "rowClick", method: "none" },
             { ct: "none", sm: "rowClick", method: "onSelect" },
             { ct: "single", sm: "checkbox", method: "onExecuteAction" },
             { ct: "double", sm: "checkbox", method: "none" },
@@ -71,7 +71,7 @@ describe("grid cell", () => {
     describe("on shift+click event", () => {
         const cases = [
             { ct: "single", sm: "rowClick", method: "none" },
-            { ct: "double", sm: "rowClick", method: "onSelect" },
+            { ct: "double", sm: "rowClick", method: "none" },
             { ct: "none", sm: "rowClick", method: "onSelect" },
             { ct: "single", sm: "checkbox", method: "onExecuteAction" },
             { ct: "double", sm: "checkbox", method: "none" },

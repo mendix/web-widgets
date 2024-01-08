@@ -21,7 +21,10 @@ const onDoubleClick = (
 
 const canTriggerAction = (ctx: CellContext, event: React.KeyboardEvent): boolean => {
     if (event.code === "Space" && ctx.clickTrigger !== "none") {
-        return ctx.selectionType === "None" || ctx.selectionMethod === "checkbox";
+        if (event.shiftKey) {
+            return ctx.selectionMethod === "none";
+        }
+        return ctx.selectionMethod === "none" || ctx.selectionMethod === "checkbox";
     }
 
     return event.code === "Enter" && ctx.clickTrigger !== "none";
