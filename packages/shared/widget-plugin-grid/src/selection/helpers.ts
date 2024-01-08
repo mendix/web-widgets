@@ -1,7 +1,7 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useEffect, useRef } from "react";
-import { MultiSelectionStatus } from "./types";
+import { Direction, MultiSelectionStatus, Size } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -27,11 +27,7 @@ export class MultiSelectionHelper {
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
 
-    constructor(
-        private selectionValue: SelectionMultiValue,
-        private selectableItems: ObjectItem[],
-        private readonly pageSize: number
-    ) {
+    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
         this.rangeStart = undefined;
     }
 
@@ -181,7 +177,7 @@ export class MultiSelectionHelper {
         }
     }
 
-    _getAdjacentIndex(index: number, direction: "backward" | "forward", unit: "item" | "page" | "edge"): number {
+    _getAdjacentIndex(index: number, direction: Direction, unit: Size): number {
         const first = 0;
         const last = this.selectableItems.length - 1;
         const isForward = direction === "forward";
@@ -190,22 +186,12 @@ export class MultiSelectionHelper {
             return isForward ? last : first;
         }
 
-        let result: number;
-        if (unit === "page") {
-            result = isForward ? index + this.pageSize : index - this.pageSize;
-        } else {
-            result = isForward ? index + 1 : index - 1;
-        }
+        const result = isForward ? index + unit : index - unit;
 
-        return Math.max(0, Math.min(result, last));
+        return clamp(result, 0, last);
     }
 
-    selectUpToAdjacent(
-        value: ObjectItem,
-        shiftKey: boolean,
-        direction: "backward" | "forward",
-        unit: "item" | "page" | "edge"
-    ): void {
+    selectUpToAdjacent(value: ObjectItem, shiftKey: boolean, direction: Direction, unit: Size): void {
         if (shiftKey === false) {
             this._resetRange();
             return;
@@ -231,8 +217,7 @@ const clamp = (num: number, min: number, max: number): number => Math.min(Math.m
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined,
-    pageSize: number
+    onSelectionChange: ActionValue | undefined
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
@@ -263,7 +248,7 @@ export function useSelectionHelper(
             }
         } else {
             if (!selectionHelper.current) {
-                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? [], pageSize);
+                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? []);
             } else {
                 (selectionHelper.current as MultiSelectionHelper).updateProps(selection, dataSource.items ?? []);
             }
