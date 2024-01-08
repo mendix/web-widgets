@@ -16,4 +16,4 @@ export type Direction = "forward" | "backward";
 
 export type Size = number | "edge";
 
-export type SelectAdjacentFx = <T>(item: T, shiftKey: boolean, direction: Direction, size: Size) => void;
+export type SelectAdjacentFx = (item: ObjectItem, shiftKey: boolean, direction: Direction, size: Size) => void;

@@ -57,8 +57,10 @@ export class SelectActionHandler {
         }
     };
 
-    onSelectAdjacent: SelectAdjacentFx = (item, shiftKey, direction, size) => {
-        console.log(item, shiftKey, direction, size);
+    onSelectAdjacent: SelectAdjacentFx = (...params) => {
+        if (this.selectionHelper?.type === "Multi") {
+            this.selectionHelper.selectUpToAdjacent(...params);
+        }
     };
 
     isSelected = (item: ObjectItem): boolean => {
