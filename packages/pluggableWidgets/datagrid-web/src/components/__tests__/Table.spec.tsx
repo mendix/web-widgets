@@ -14,6 +14,15 @@ import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { initColumnsState } from "../../features/use-columns-state";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { useSelectActionHelper } from "../../helpers/use-select-action-helper";
+import {
+    CheckboxEventsController,
+    useCheckboxEventsController
+} from "../../features/row-interaction/use-checkbox-events-controller";
+import {
+    CellEventsController,
+    useCellEventsController
+} from "../../features/row-interaction/use-cell-events-controller";
+import { ClickActionHelper } from "../../helpers/ClickActionHelper";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -212,6 +221,11 @@ describe("Table", () => {
             const items = props.data;
             const onSelect = jest.fn();
             props.selectActionHelper.onSelect = onSelect;
+            props.checkboxEventsController = new CheckboxEventsController(
+                item => ({ item, selectionMethod: props.selectActionHelper.selectionMethod }),
+                onSelect,
+                jest.fn()
+            );
 
             render(<Widget {...props} />);
 
@@ -307,6 +321,7 @@ describe("Table", () => {
         beforeEach(() => {
             props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5);
+            props.rowClickable = true;
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -329,6 +344,21 @@ describe("Table", () => {
             const items = props.data;
             const onSelect = jest.fn();
             props.selectActionHelper.onSelect = onSelect;
+            props.cellEventsController = new CellEventsController(
+                item => ({
+                    item,
+                    selectionType: props.selectActionHelper.selectionType,
+                    selectionMethod: props.selectActionHelper.selectionMethod,
+                    clickTrigger: "none",
+                    pageSize: props.pageSize
+                }),
+                onSelect,
+                jest.fn(),
+                jest.fn(),
+                jest.fn(),
+                jest.fn()
+            );
+
             const columns = [column("Column A"), column("Column B")].map(
                 (col, index) => new Column(col, index, props.id!)
             );
@@ -378,7 +408,7 @@ describe("Table", () => {
             ...props
         }: WidgetProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
             const helper = useSelectionHelper(selection, ds, undefined, 10);
-            const sp = useSelectActionHelper(
+            const selectHelper = useSelectActionHelper(
                 {
                     itemSelection: selection,
                     itemSelectionMethod: selectionMethod,
@@ -387,11 +417,20 @@ describe("Table", () => {
                 },
                 helper
             );
+            const cellEventsController = useCellEventsController(
+                selectHelper,
+                new ClickActionHelper("single", null),
+                props.focusController
+            );
+
+            const checkboxEventsController = useCheckboxEventsController(selectHelper, props.focusController);
 
             return (
                 <Widget
                     {...props}
-                    selectActionHelper={sp}
+                    selectActionHelper={selectHelper}
+                    cellEventsController={cellEventsController}
+                    checkboxEventsController={checkboxEventsController}
                     selectionStatus={helper?.type === "Multi" ? helper.selectionStatus : "unknown"}
                 />
             );
