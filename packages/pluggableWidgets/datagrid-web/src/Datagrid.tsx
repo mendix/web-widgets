@@ -130,12 +130,7 @@ function Container(props: Props): ReactElement {
         }
     }, [filters, filtered, actions]);
 
-    const selectionHelper = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
-        props.onSelectionChange,
-        props.pageSize
-    );
+    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
 
     const selectActionHelper = useSelectActionHelper(
         {
