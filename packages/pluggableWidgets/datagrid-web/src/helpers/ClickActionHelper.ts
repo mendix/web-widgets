@@ -7,17 +7,19 @@ export type ExecuteActionFx = (item: ObjectItem) => void;
 export type ClickTrigger = "single" | "double" | "none";
 
 export class ClickActionHelper {
-    constructor(private trigger: OnClickTriggerEnum, private listAction?: ListActionValue) {}
+    constructor(private trigger: OnClickTriggerEnum, private listAction?: ListActionValue | null | object) {}
 
     get clickTrigger(): ClickTrigger {
         return this.listAction ? this.trigger : "none";
     }
 
-    update(listAction?: ListActionValue): void {
+    update(listAction?: ListActionValue | null | object): void {
         this.listAction = listAction;
     }
 
     onExecuteAction: ExecuteActionFx = item => {
-        executeAction(this.listAction?.get(item));
+        if (this.listAction && "get" in this.listAction) {
+            executeAction(this.listAction.get(item));
+        }
     };
 }
