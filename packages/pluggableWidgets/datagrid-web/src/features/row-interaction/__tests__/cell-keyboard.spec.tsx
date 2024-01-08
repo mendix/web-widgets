@@ -2,11 +2,13 @@ import { createElement } from "react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { render, RenderResult } from "@testing-library/react";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
-import { CellContext, ClickTrigger, SelectionMethod } from "../base";
+import { CellContext } from "../base";
 import { createSelectHandlers } from "../select-handlers";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { createActionHandlers } from "../action-handlers";
+import { SelectionMethod } from "../../../helpers/SelectActionHelper";
+import { ClickTrigger } from "../../../helpers/ClickActionHelper";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
