@@ -108,4 +108,6 @@ describe("'select row' checkbox", () => {
         expect(onSelectAll).toHaveBeenCalledTimes(1);
         expect(onSelectAll).toHaveBeenLastCalledWith("selectAll");
     });
+
+    // test("on keyup[ArrowUp|PageUp|Home")
 });
