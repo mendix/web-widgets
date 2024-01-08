@@ -1,10 +1,10 @@
 import { createElement } from "react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { render, renderHook, RenderResult } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { CellContext, ClickTrigger, SelectionMethod } from "../base";
 import { createSelectHandlers } from "../select-handlers";
-import { useEventSwitch } from "@mendix/widget-plugin-grid/event-switch/use-event-switch";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { createActionHandlers } from "../action-handlers";
 
@@ -36,18 +36,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: sm as SelectionMethod,
-                            selectionType: "Single",
-                            clickTrigger: ct as ClickTrigger
-                        }),
-                        () => [...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: sm as SelectionMethod,
+                        selectionType: "Single",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
+                );
 
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
@@ -78,18 +76,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: "rowClick",
-                            selectionType: selectionType as SelectionType,
-                            clickTrigger: "none"
-                        }),
-                        () => [...createSelectHandlers(jest.fn(), onSelectAll, jest.fn())]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: "rowClick",
+                        selectionType: selectionType as SelectionType,
+                        clickTrigger: "none"
+                    }),
+                    [...createSelectHandlers(jest.fn(), onSelectAll, jest.fn())]
+                );
 
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
@@ -122,18 +118,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: "rowClick",
-                            selectionType: selectionType as SelectionType,
-                            clickTrigger: "none"
-                        }),
-                        () => [...createSelectHandlers(jest.fn(), jest.fn(), onSelectAdjacent)]
-                    )
-                ).result.current;
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: "rowClick",
+                        selectionType: selectionType as SelectionType,
+                        clickTrigger: "none"
+                    }),
+                    [...createSelectHandlers(jest.fn(), jest.fn(), onSelectAdjacent)]
+                );
 
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
@@ -164,19 +158,16 @@ describe("grid cell", () => {
 
                 const [item] = objectItems(1);
 
-                const props = renderHook(() =>
-                    useEventSwitch<CellContext, HTMLDivElement>(
-                        (): CellContext => ({
-                            item,
-                            pageSize: 10,
-                            selectionMethod: "none",
-                            selectionType: "None",
-                            clickTrigger: ct as ClickTrigger
-                        }),
-                        () => [...createActionHandlers(onExecuteAction)]
-                    )
-                ).result.current;
-
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: "none",
+                        selectionType: "None",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createActionHandlers(onExecuteAction)]
+                );
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
                 await user.keyboard(`[${key}]`);
