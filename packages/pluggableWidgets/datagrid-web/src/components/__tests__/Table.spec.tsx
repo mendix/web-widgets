@@ -218,8 +218,9 @@ describe("Table", () => {
             const onSelect = jest.fn();
             props.selectActionHelper.onSelect = onSelect;
             props.checkboxEventsController = new CheckboxEventsController(
-                item => ({ item, selectionMethod: props.selectActionHelper.selectionMethod }),
+                item => ({ item, selectionMethod: props.selectActionHelper.selectionMethod, selectionType: "Single" }),
                 onSelect,
+                jest.fn(),
                 jest.fn()
             );
 
