@@ -176,5 +176,55 @@ describe("grid cell", () => {
                 expect(onExecuteAction).toHaveBeenCalledTimes(n);
             }
         );
+
+        test("calls onExecuteAction only if keydown[Space] event was emitted earlier on the current target", async () => {
+            const onExecuteAction = jest.fn();
+
+            const [item] = objectItems(1);
+
+            const props = eventSwitch<CellContext, HTMLDivElement>(
+                (): CellContext => ({
+                    item,
+                    pageSize: 10,
+                    selectionMethod: "none",
+                    selectionType: "None",
+                    clickTrigger: "single"
+                }),
+                [...createActionHandlers(onExecuteAction)]
+            );
+            const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+            // start on document.body
+            await user.keyboard(`[Space>]`);
+            // move to focus to cell
+            await user.tab();
+            // release space key
+            await user.keyboard(`[/Space]`);
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
+        });
+
+        test("calls onExecuteAction only if keydown[Enter] event was emitted earlier on the current target", async () => {
+            const onExecuteAction = jest.fn();
+
+            const [item] = objectItems(1);
+
+            const props = eventSwitch<CellContext, HTMLDivElement>(
+                (): CellContext => ({
+                    item,
+                    pageSize: 10,
+                    selectionMethod: "none",
+                    selectionType: "None",
+                    clickTrigger: "single"
+                }),
+                [...createActionHandlers(onExecuteAction)]
+            );
+            const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
+            // start on document.body
+            await user.keyboard(`[Enter>]`);
+            // move to focus to cell
+            await user.tab();
+            // release space enter
+            await user.keyboard(`[/Enter]`);
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
+        });
     });
 });
