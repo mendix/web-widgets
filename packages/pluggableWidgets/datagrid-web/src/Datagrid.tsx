@@ -135,12 +135,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
         props.datasource.setSortOrder(undefined);
     }
 
-    const selectionHelper = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
-        props.onSelectionChange,
-        props.pageSize
-    );
+    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
 
     const selectActionHelper = useSelectActionHelper(
         {
