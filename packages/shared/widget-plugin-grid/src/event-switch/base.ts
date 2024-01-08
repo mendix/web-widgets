@@ -15,7 +15,7 @@ export type EventCaseEntry<
     filter?(ctx: Context, event: Event): boolean;
 };
 
-export type ElementEntries<Context, Element> = {
+export type ElementEntry<Context, Element> = {
     [Name in EventName]: EventCaseEntry<Context, Element, Name>;
 }[EventName];
 
