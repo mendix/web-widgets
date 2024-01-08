@@ -1,6 +1,6 @@
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
 import { useMemo } from "react";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
@@ -15,13 +15,17 @@ export class CheckboxEventsController {
         private contextFactory: (item: ObjectItem) => CheckboxContext,
         private selectFx: SelectFx,
         private selectAllFx: SelectAllFx,
+        private selectAdjacentFx: SelectAdjacentFx,
         private focusTargetFx: FocusTargetFx
     ) {}
 
     getProps = (item: ObjectItem): ElementProps<HTMLInputElement> =>
         eventSwitch<CheckboxContext, HTMLInputElement>(
             () => this.contextFactory(item),
-            [...checkboxHandlers(this.selectFx, this.selectAllFx), ...createFocusTargetHandlers(this.focusTargetFx)]
+            [
+                ...checkboxHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx),
+                ...createFocusTargetHandlers(this.focusTargetFx)
+            ]
         );
 }
 
@@ -32,6 +36,7 @@ export function useCheckboxEventsController(
     return useMemo(() => {
         const contextFactory = (item: ObjectItem): CheckboxContext => ({
             item,
+            pageSize: selectHelper.pageSize,
             selectionType: selectHelper.selectionType,
             selectionMethod: selectHelper.selectionMethod
         });
@@ -39,6 +44,7 @@ export function useCheckboxEventsController(
             contextFactory,
             selectHelper.onSelect,
             selectHelper.onSelectAll,
+            selectHelper.onSelectAdjacent,
             focusController.dispatch
         );
     }, [selectHelper, focusController]);

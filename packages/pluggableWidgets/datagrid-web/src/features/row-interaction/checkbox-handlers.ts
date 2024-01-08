@@ -1,5 +1,11 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { SelectAllFx, SelectFx, onSelectAllHotKey } from "@mendix/widget-plugin-grid/selection";
+import {
+    SelectAdjacentFx,
+    SelectAllFx,
+    SelectFx,
+    onSelectAdjacentHotKey,
+    onSelectAllHotKey
+} from "@mendix/widget-plugin-grid/selection";
 import { CheckboxContext } from "./base";
 import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 
@@ -11,10 +17,12 @@ const onClick = (selectFx: SelectFx): EventCaseEntry<CheckboxContext, HTMLInputE
 
 export function checkboxHandlers(
     selectFx: SelectFx,
-    selectAllFx: SelectAllFx
+    selectAllFx: SelectAllFx,
+    selectAdjacentFx: SelectAdjacentFx
 ): Array<ElementEntry<CheckboxContext, HTMLInputElement>> {
     return [
         onClick(selectFx),
+        ...onSelectAdjacentHotKey(selectAdjacentFx),
         ...onSelectAllHotKey(
             () => {
                 blockUserSelect();
