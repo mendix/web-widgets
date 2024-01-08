@@ -58,7 +58,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     }, [props.menuToggle]);
     const open = visibility && triggerRef.current;
     return (
-        <div ref={triggerRef} className={classNames("popupmenu")} {...onHover} {...onClick}>
+        <div ref={triggerRef} className={classNames("popupmenu", props.class)} {...onHover} {...onClick}>
             <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
             {open ? (
                 <Menu
