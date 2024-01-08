@@ -19,22 +19,44 @@ const onDoubleClick = (
     handler: ({ item }) => execActionFx(item)
 });
 
-const onSpaceOrEnter = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
-    eventName: "onKeyUp",
-    filter: (ctx, event) => {
-        return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter");
-    },
-    handler: ({ item }) => execActionFx(item)
-});
+const onSpaceOrEnter = (
+    execActionFx: ExecuteActionFx
+): [
+    EventCaseEntry<CellContext, HTMLDivElement, "onKeyDown">,
+    EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp">
+] => {
+    let pressed = false;
+    return [
+        {
+            eventName: "onKeyDown",
+            filter: (ctx, event) => {
+                return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter");
+            },
+            handler: () => {
+                pressed = true;
+            }
+        },
+        {
+            eventName: "onKeyUp",
+            filter: (ctx, event) => {
+                return ctx.clickTrigger !== "none" && (event.code === "Space" || event.code === "Enter") && pressed;
+            },
+            handler: ({ item }) => {
+                pressed = false;
+                execActionFx(item);
+            }
+        }
+    ];
+};
 
 export function createActionHandlers(execActionFx: ExecuteActionFx): Array<ElementEntry<CellContext, HTMLDivElement>> {
     return [
         onClick(execActionFx),
         onDoubleClick(execActionFx),
-        onSpaceOrEnter(execActionFx),
         onOwnSpaceKeyDown(e => {
             e.preventDefault();
             e.stopPropagation();
-        })
+        }),
+        ...onSpaceOrEnter(execActionFx)
     ];
 }
