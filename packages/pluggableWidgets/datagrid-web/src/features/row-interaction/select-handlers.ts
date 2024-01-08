@@ -7,17 +7,33 @@ import {
     onSelectAdjacentHotKey,
     onSelectAllHotKey
 } from "@mendix/widget-plugin-grid/selection";
-import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
+import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { CellContext } from "./base";
 
-const onClick = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
+const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
-    filter: ctx => {
-        return ctx.selectionMethod === "rowClick" && (ctx.clickTrigger === "none" || ctx.clickTrigger === "double");
+    filter: (ctx, event) => {
+        if (ctx.selectionMethod === "rowClick") {
+            return ctx.clickTrigger === "double" ? event.metaKey || event.ctrlKey : ctx.clickTrigger === "none";
+        }
+
+        if (ctx.selectionMethod === "checkbox") {
+            return event.metaKey || event.ctrlKey;
+        }
+
+        return false;
     },
-    handler: ({ item }, event) => {
-        selectFx(item, event.shiftKey);
-    }
+    handler: ({ item }, event) => selectFx(item, event.shiftKey)
+});
+
+const onMouseDown = (
+    handler: (ctx: CellContext, event: React.MouseEvent<Element>) => void
+): EventCaseEntry<CellContext, Element, "onMouseDown"> => ({
+    eventName: "onMouseDown",
+    filter: ctx => {
+        return ctx.selectionMethod !== "none" && (ctx.clickTrigger === "none" || ctx.clickTrigger === "double");
+    },
+    handler
 });
 
 const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
@@ -32,7 +48,8 @@ export function createSelectHandlers(
     selectAdjacentFx: SelectAdjacentFx
 ): Array<ElementEntry<CellContext, HTMLDivElement>> {
     return [
-        onClick(selectFx),
+        onMouseDown(removeAllRanges),
+        onSelect(selectFx),
         onSelectItemHotKey(selectFx),
         onSelectAllHotKey(
             () => {

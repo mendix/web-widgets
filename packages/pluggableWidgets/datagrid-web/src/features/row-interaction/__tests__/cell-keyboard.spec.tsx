@@ -20,21 +20,22 @@ function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
 describe("grid cell", () => {
     describe("on shift+space event", () => {
         const cases = [
-            { ct: "single", sm: "rowClick", n: 1 },
-            { ct: "double", sm: "rowClick", n: 1 },
-            { ct: "none", sm: "rowClick", n: 1 },
-            { ct: "single", sm: "checkbox", n: 1 },
-            { ct: "double", sm: "checkbox", n: 1 },
-            { ct: "none", sm: "checkbox", n: 1 },
-            { ct: "single", sm: "none", n: 0 },
-            { ct: "double", sm: "none", n: 0 },
-            { ct: "none", sm: "none", n: 0 }
+            { ct: "single", sm: "rowClick", method: "onSelect" },
+            { ct: "double", sm: "rowClick", method: "onSelect" },
+            { ct: "none", sm: "rowClick", method: "onSelect" },
+            { ct: "single", sm: "checkbox", method: "onSelect" },
+            { ct: "double", sm: "checkbox", method: "onSelect" },
+            { ct: "none", sm: "checkbox", method: "onSelect" },
+            { ct: "single", sm: "none", method: "onExecuteAction" },
+            { ct: "double", sm: "none", method: "onExecuteAction" },
+            { ct: "none", sm: "none", method: "none" }
         ];
 
         test.each(cases)(
-            "calls onSelect $n time(s) when selection method is $sm and click trigger is $ct",
-            async ({ ct, sm, n }) => {
+            "calls $method when selection method is $sm and click trigger is $ct",
+            async ({ ct, sm, method }) => {
                 const onSelect = jest.fn();
+                const onExecuteAction = jest.fn();
 
                 const [item] = objectItems(1);
 
@@ -46,16 +47,22 @@ describe("grid cell", () => {
                         selectionType: "Single",
                         clickTrigger: ct as ClickTrigger
                     }),
-                    [...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
+                    [...createSelectHandlers(onSelect, jest.fn(), jest.fn()), ...createActionHandlers(onExecuteAction)]
                 );
 
                 const { user } = setup(<div role="gridcell" tabIndex={1} {...props} />);
                 await user.tab();
                 await user.keyboard("{Shift>}[Space]{/Shift}");
 
-                expect(onSelect).toHaveBeenCalledTimes(n);
-                if (n > 0) {
-                    expect(onSelect).toHaveBeenLastCalledWith(item, false);
+                if (method === "onSelect") {
+                    expect(onSelect).toHaveBeenCalledTimes(1);
+                    expect(onExecuteAction).toHaveBeenCalledTimes(0);
+                } else if (method === "onExecuteAction") {
+                    expect(onSelect).toHaveBeenCalledTimes(0);
+                    expect(onExecuteAction).toHaveBeenCalledTimes(1);
+                } else {
+                    expect(onSelect).toHaveBeenCalledTimes(0);
+                    expect(onExecuteAction).toHaveBeenCalledTimes(0);
                 }
             }
         );

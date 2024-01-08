@@ -33,6 +33,7 @@ describe("'select row' checkbox", () => {
         expect(onSelect).toHaveBeenCalledTimes(1);
         expect(onSelect).toHaveBeenLastCalledWith(item, false);
     });
+
     test("on shift+click event calls onSelect", async () => {
         const onSelect = jest.fn();
         const [item] = objectItems(1);
@@ -54,6 +55,7 @@ describe("'select row' checkbox", () => {
         expect(onSelect).toHaveBeenCalledTimes(1);
         expect(onSelect).toHaveBeenLastCalledWith(item, true);
     });
+
     test("on keyup[Space] event calls onSelect", async () => {
         const onSelect = jest.fn();
         const [item] = objectItems(1);
