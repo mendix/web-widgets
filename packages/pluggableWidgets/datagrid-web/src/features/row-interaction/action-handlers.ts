@@ -5,8 +5,11 @@ import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
-    filter: ctx => {
-        return ctx.clickTrigger === "single" && (ctx.selectionMethod === "checkbox" || ctx.selectionMethod === "none");
+    filter: (ctx, event) => {
+        if (ctx.clickTrigger === "single" && ctx.selectionMethod === "none") {
+            return true;
+        }
+        return ctx.clickTrigger === "single" && ctx.selectionMethod === "checkbox" && !event.metaKey && !event.ctrlKey;
     },
     handler: ({ item }) => execActionFx(item)
 });

@@ -30,9 +30,7 @@ const onMouseDown = (
     handler: (ctx: CellContext, event: React.MouseEvent<Element>) => void
 ): EventCaseEntry<CellContext, Element, "onMouseDown"> => ({
     eventName: "onMouseDown",
-    filter: ctx => {
-        return ctx.selectionMethod !== "none" && (ctx.clickTrigger === "none" || ctx.clickTrigger === "double");
-    },
+    filter: ctx => ctx.selectionMethod !== "none",
     handler
 });
 
