@@ -23,7 +23,12 @@ const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElemen
 
         return false;
     },
-    handler: ({ item }, event) => selectFx(item, event.shiftKey)
+    handler: ({ item, selectionMethod, clickTrigger }, event) => {
+        const useToggle =
+            selectionMethod === "checkbox" || (clickTrigger === "none" && (event.metaKey || event.ctrlKey));
+
+        selectFx(item, event.shiftKey, useToggle);
+    }
 });
 
 const onMouseDown = (
@@ -37,7 +42,7 @@ const onMouseDown = (
 const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onKeyUp"> => ({
     eventName: "onKeyUp",
     filter: (ctx, event) => ctx.selectionMethod !== "none" && isSelectOneTrigger(event),
-    handler: ({ item }) => selectFx(item, false)
+    handler: ({ item, selectionMethod }) => selectFx(item, false, selectionMethod === "checkbox")
 });
 
 export function createSelectHandlers(
