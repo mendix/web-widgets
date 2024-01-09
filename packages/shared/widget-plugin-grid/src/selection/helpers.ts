@@ -162,10 +162,12 @@ export class MultiSelectionHelper {
 
     selectAll(): void {
         this.selectionValue.setSelection(this.selectableItems);
+        this._resetRange();
     }
 
     selectNone(): void {
         this.selectionValue.setSelection([]);
+        this._resetRange();
     }
 
     selectUpTo(value: ObjectItem): void {
