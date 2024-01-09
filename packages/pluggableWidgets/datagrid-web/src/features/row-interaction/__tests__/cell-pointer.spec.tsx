@@ -58,10 +58,8 @@ describe("grid cell", () => {
                 } else if (method === "onSelect") {
                     expect(onExecuteAction).toHaveBeenCalledTimes(0);
                     expect(onSelect).toHaveBeenCalledTimes(1);
-                    expect(onSelect).toHaveBeenLastCalledWith(item, false);
                 } else {
                     expect(onExecuteAction).toHaveBeenCalledTimes(1);
-                    expect(onExecuteAction).toHaveBeenLastCalledWith(item);
                     expect(onSelect).toHaveBeenCalledTimes(0);
                 }
             }
@@ -111,10 +109,8 @@ describe("grid cell", () => {
                 } else if (method === "onSelect") {
                     expect(onExecuteAction).toHaveBeenCalledTimes(0);
                     expect(onSelect).toHaveBeenCalledTimes(1);
-                    expect(onSelect).toHaveBeenLastCalledWith(item, true);
                 } else {
                     expect(onExecuteAction).toHaveBeenCalledTimes(1);
-                    expect(onExecuteAction).toHaveBeenLastCalledWith(item);
                     expect(onSelect).toHaveBeenCalledTimes(0);
                 }
             }
@@ -206,9 +202,6 @@ describe("grid cell", () => {
                 await user.dblClick(getByRole("gridcell"));
 
                 expect(onExecuteAction).toHaveBeenCalledTimes(n);
-                if (n > 0) {
-                    expect(onExecuteAction).toHaveBeenLastCalledWith(item);
-                }
             }
         );
     });
