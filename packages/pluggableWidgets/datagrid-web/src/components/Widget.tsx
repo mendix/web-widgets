@@ -15,7 +15,7 @@ import {
 } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { ColumnWidthConfig, SortingRule, useSettings } from "../features/settings";
-import { WidgetPropsProvider } from "../helpers/useWidgetProps";
+import { WidgetPropsProvider } from "../helpers/use-widget-props";
 import { CellComponent, EventsController as CellEventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
