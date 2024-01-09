@@ -4,21 +4,10 @@ import { Gallery, GalleryProps } from "../../components/Gallery";
 import { ObjectItem } from "mendix";
 import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
-import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
-
-function mockSelectionProps(): ListOptionSelectionProps {
-    return {
-        isSelected: jest.fn(() => false),
-        onSelect: jest.fn(),
-        onSelectAll: jest.fn(),
-        onSelectAdjacent: jest.fn(),
-        onKeyDown: jest.fn(),
-        onKeyUp: jest.fn(),
-        selectionType: "None"
-    };
-}
+import { ItemSelectHelper } from "../../helpers/ItemSelectHelper";
+import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
 
 function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     return WidgetItemBuilder.sample(b =>
@@ -33,6 +22,7 @@ function mockItemHelperWithAction(onClick: () => void): ItemHelper {
 }
 
 function mockProps(): GalleryProps<ObjectItem> {
+    const selectHelper = new ItemSelectHelper("None", undefined);
     return {
         hasMoreItems: false,
         page: 0,
@@ -46,9 +36,14 @@ function mockProps(): GalleryProps<ObjectItem> {
         headerTitle: "Mock props header aria label",
         items: objectItems(3),
         itemHelper: WidgetItemBuilder.sample(),
-        selectionProps: mockSelectionProps(),
+        selectHelper: new ItemSelectHelper("None", undefined),
         showHeader: true,
-        header: <input />
+        header: <input />,
+        itemEventsController: new ItemEventsController(
+            item => ({ item, selectionType: selectHelper.selectionType }),
+            selectHelper.onSelect,
+            selectHelper.onSelectAll
+        )
     };
 }
 

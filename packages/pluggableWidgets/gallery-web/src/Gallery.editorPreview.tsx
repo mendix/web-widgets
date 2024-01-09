@@ -3,7 +3,8 @@ import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
-import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
+import { useItemSelectHelper } from "./helpers/use-item-select-helper";
+import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -11,10 +12,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         id: String(index) as GUID
     }));
 
-    const selectionProps = useListOptionSelectionProps({
-        selection: props.itemSelection,
-        helper: undefined
-    });
+    const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
+    const itemEventsController = useItemEventsController(selectHelper);
 
     return (
         <GalleryComponent
@@ -48,7 +47,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
             phoneItems={props.phoneItems!}
             tabletItems={props.tabletItems!}
-            selectionProps={selectionProps}
+            selectHelper={selectHelper}
+            itemEventsController={itemEventsController}
         />
     );
 }
