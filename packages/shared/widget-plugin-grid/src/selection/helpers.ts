@@ -61,6 +61,12 @@ export class MultiSelectionHelper {
         this._resetRange();
     }
 
+    reduceTo(value: ObjectItem): void {
+        this.selectionValue.setSelection([value]);
+        this._setRangeStart(value);
+        this._setRangeEnd(undefined);
+    }
+
     private _add(value: ObjectItem): void {
         if (!this.isSelected(value)) {
             this.selectionValue.setSelection(this.selectionValue.selection.concat(value));
@@ -125,6 +131,10 @@ export class MultiSelectionHelper {
         const len = this.selectableItems.length;
         const [s, e] = [clamp(start, 0, len), clamp(end, 0, len)].sort((a, b) => a - b);
         return this.selectableItems.slice(s, e + 1);
+    }
+
+    resetRange(): void {
+        this._resetRange();
     }
 
     private _resetRange(): void {

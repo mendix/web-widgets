@@ -21,14 +21,43 @@ export class SelectActionHandler {
         throw new Error(`Unknown selection type: ${this.selection}`);
     }
 
-    onSelect: SelectFx = (item, shiftKey) => {
+    onSelect: SelectFx = (...params) => {
         if (!this.selectionHelper) {
             return;
         }
 
-        if (this.selectionHelper.type === "Multi" && shiftKey) {
+        if (this.selectionHelper.type === "Multi") {
+            this._onSelectItemMulti(...params);
+        } else {
+            this._onSelectItemSingle(...params);
+        }
+    };
+
+    private _onSelectItemMulti: SelectFx = (item, shiftKey, toggle) => {
+        if (this.selectionHelper?.type !== "Multi") {
+            return;
+        }
+
+        if (shiftKey) {
             this.selectionHelper.selectUpTo(item);
-        } else if (this.selectionHelper.isSelected(item)) {
+            return;
+        }
+
+        if (this.selectionHelper.isSelected(item)) {
+            this.selectionHelper.remove(item);
+        } else if (toggle) {
+            this.selectionHelper.add(item);
+        } else {
+            this.selectionHelper.reduceTo(item);
+        }
+    };
+
+    _onSelectItemSingle: SelectFx = item => {
+        if (this.selectionHelper?.type !== "Single") {
+            return;
+        }
+
+        if (this.selectionHelper.isSelected(item)) {
             this.selectionHelper.remove(item);
         } else {
             this.selectionHelper.add(item);

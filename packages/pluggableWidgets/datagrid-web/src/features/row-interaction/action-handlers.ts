@@ -18,7 +18,13 @@ const onDoubleClick = (
     execActionFx: ExecuteActionFx
 ): EventCaseEntry<CellContext, HTMLDivElement, "onDoubleClick"> => ({
     eventName: "onDoubleClick",
-    filter: ctx => ctx.clickTrigger === "double",
+    filter: (ctx, event) => {
+        if (ctx.selectionMethod === "none") {
+            return ctx.clickTrigger === "double";
+        }
+
+        return ctx.clickTrigger === "double" && !event.metaKey && !event.ctrlKey;
+    },
     handler: ({ item }) => execActionFx(item)
 });
 

@@ -12,7 +12,7 @@ import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/s
 const onClick = (selectFx: SelectFx): EventCaseEntry<CheckboxContext, HTMLInputElement, "onClick"> => ({
     eventName: "onClick",
     filter: ctx => ctx.selectionMethod === "checkbox",
-    handler: ({ item }, event) => selectFx(item, event.shiftKey)
+    handler: ({ item }, event) => selectFx(item, event.shiftKey, true)
 });
 
 export function checkboxHandlers(
