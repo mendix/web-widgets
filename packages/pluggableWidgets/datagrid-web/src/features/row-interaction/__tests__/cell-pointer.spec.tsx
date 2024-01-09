@@ -121,6 +121,56 @@ describe("grid cell", () => {
         );
     });
 
+    describe("on meta/ctrl+click event", () => {
+        const cases = [
+            { ct: "single", sm: "rowClick", method: "none" },
+            { ct: "double", sm: "rowClick", method: "onSelect" },
+            { ct: "none", sm: "rowClick", method: "onSelect" },
+            { ct: "single", sm: "checkbox", method: "onSelect" },
+            { ct: "double", sm: "checkbox", method: "onSelect" },
+            { ct: "none", sm: "checkbox", method: "onSelect" },
+            { ct: "single", sm: "none", method: "onExecuteAction" },
+            { ct: "double", sm: "none", method: "none" },
+            { ct: "none", sm: "none", method: "none" }
+        ];
+
+        test.each(cases)(
+            "calls $method when selection method is $sm and click trigger is $ct",
+            async ({ ct, sm, method }) => {
+                const onExecuteAction = jest.fn();
+                const onSelect = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = eventSwitch<CellContext, HTMLDivElement>(
+                    (): CellContext => ({
+                        item,
+                        pageSize: 10,
+                        selectionMethod: sm as SelectionMethod,
+                        selectionType: "Single",
+                        clickTrigger: ct as ClickTrigger
+                    }),
+                    [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
+                );
+
+                const { user, getByRole } = setup(<div role="gridcell" {...props} />);
+                await user.keyboard("{Control>}");
+                await user.click(getByRole("gridcell"));
+
+                if (method === "none") {
+                    expect(onExecuteAction).toHaveBeenCalledTimes(0);
+                    expect(onSelect).toHaveBeenCalledTimes(0);
+                } else if (method === "onSelect") {
+                    expect(onExecuteAction).toHaveBeenCalledTimes(0);
+                    expect(onSelect).toHaveBeenCalledTimes(1);
+                } else {
+                    expect(onExecuteAction).toHaveBeenCalledTimes(1);
+                    expect(onSelect).toHaveBeenCalledTimes(0);
+                }
+            }
+        );
+    });
+
     describe("on dblclick event", () => {
         const cases = [
             { ct: "single", sm: "rowClick", n: 0 },
