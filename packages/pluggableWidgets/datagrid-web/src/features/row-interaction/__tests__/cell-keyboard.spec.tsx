@@ -237,14 +237,19 @@ describe("grid cell", () => {
 
     describe("on keyup[Space] event", () => {
         const cases = [
-            [0, "Single", "rowClick"],
-            [0, "Multi", "rowClick"],
-            [1, "Single", "checkbox"],
-            [1, "Multi", "checkbox"]
+            [1, "Single", "checkbox", "single"],
+            [1, "Multi", "checkbox", "single"],
+            [1, "Single", "rowClick", "double"],
+            [1, "Multi", "rowClick", "double"]
         ];
         test.each(cases)(
-            "calls onExecuteAction %s time(s) when selection type is %s and selection method is %s",
-            async (times: number, selectionType: SelectionType, selectionMethod: SelectionMethod) => {
+            "calls onExecuteAction %s time(s) when selection type is %s and selection method is %s and click trigger is %s",
+            async (
+                times: number,
+                selectionType: SelectionType,
+                selectionMethod: SelectionMethod,
+                clickTrigger: ClickTrigger
+            ) => {
                 const onExecuteAction = jest.fn();
 
                 const [item] = objectItems(1);
@@ -255,7 +260,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod,
                         selectionType,
-                        clickTrigger: "single"
+                        clickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction)]
                 );
