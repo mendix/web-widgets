@@ -133,10 +133,6 @@ export class MultiSelectionHelper {
         return this.selectableItems.slice(s, e + 1);
     }
 
-    resetRange(): void {
-        this._resetRange();
-    }
-
     private _resetRange(): void {
         this._setRangeStart(undefined);
         this._setRangeEnd(undefined);
