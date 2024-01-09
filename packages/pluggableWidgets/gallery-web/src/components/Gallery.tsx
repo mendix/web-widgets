@@ -1,5 +1,4 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { ListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -10,6 +9,8 @@ import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
+import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -21,7 +22,6 @@ export interface GalleryProps<T extends ObjectItem> {
     showHeader: boolean;
     hasMoreItems: boolean;
     items: T[];
-    itemHelper: GalleryItemHelper;
     numberOfItems?: number;
     paging: boolean;
     page: number;
@@ -32,8 +32,11 @@ export interface GalleryProps<T extends ObjectItem> {
     setPage?: (computePage: (prevPage: number) => number) => void;
     tabletItems: number;
     tabIndex?: number;
-    selectionProps: ListOptionSelectionProps;
     ariaLabelListBox?: string;
+    // Helpers
+    itemHelper: GalleryItemHelper;
+    selectHelper: ItemSelectHelper;
+    itemEventsController: ItemEventsController;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
@@ -65,7 +68,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         lg={props.desktopItems}
                         md={props.tabletItems}
                         sm={props.phoneItems}
-                        selectionType={props.selectionProps.selectionType}
+                        selectionType={props.selectHelper.selectionType}
                         aria-label={props.ariaLabelListBox}
                     >
                         {props.items.map(item => (
@@ -73,7 +76,8 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                                 key={`item_${item.id}`}
                                 helper={props.itemHelper}
                                 item={item}
-                                selectionProps={props.selectionProps}
+                                selectHelper={props.selectHelper}
+                                eventsController={props.itemEventsController}
                             />
                         ))}
                     </ListBox>

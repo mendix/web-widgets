@@ -9,7 +9,6 @@ import {
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/widget-plugin-grid/selection";
-import { useListOptionSelectionProps } from "@mendix/widget-plugin-grid/selection/useListOptionSelectionProps";
 import { SortFunction, SortInstruction, useSortContext } from "@mendix/widget-plugin-sorting";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -17,6 +16,8 @@ import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemHelper } from "./helpers/ItemHelper";
+import { useItemSelectHelper } from "./helpers/use-item-select-helper";
+import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
@@ -107,12 +108,9 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
-    const selection = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
-        props.onSelectionChange,
-        props.pageSize
-    );
+    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectHelper = useItemSelectHelper(props.itemSelection, selection);
+    const itemEventsController = useItemEventsController(selectHelper);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
@@ -122,8 +120,6 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         contentValue: props.content,
         clickValue: props.onClick
     });
-
-    const selectionProps = useListOptionSelectionProps({ selection: props.itemSelection, helper: selection });
 
     return (
         <GalleryComponent
@@ -195,7 +191,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             setPage={setPage}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
-            selectionProps={selectionProps}
+            selectHelper={selectHelper}
+            itemEventsController={itemEventsController}
         />
     );
 }
