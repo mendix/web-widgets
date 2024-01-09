@@ -240,18 +240,18 @@ describe("Table", () => {
             const checkbox3 = screen.getAllByRole("checkbox")[2];
 
             await userEvent.click(checkbox1);
-            expect(onSelect).toBeCalledTimes(1);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
+            expect(onSelect).toHaveBeenCalledTimes(1);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false, true);
             await userEvent.click(checkbox1);
-            expect(onSelect).toBeCalledTimes(2);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
+            expect(onSelect).toHaveBeenCalledTimes(2);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false, true);
 
             await userEvent.click(checkbox3);
-            expect(onSelect).toBeCalledTimes(3);
-            expect(onSelect).toHaveBeenLastCalledWith(items[2], false);
+            expect(onSelect).toHaveBeenCalledTimes(3);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2], false, true);
             await userEvent.click(checkbox3);
-            expect(onSelect).toBeCalledTimes(4);
-            expect(onSelect).toHaveBeenLastCalledWith(items[2], false);
+            expect(onSelect).toHaveBeenCalledTimes(4);
+            expect(onSelect).toHaveBeenLastCalledWith(items[2], false, true);
         });
     });
 
@@ -383,23 +383,23 @@ describe("Table", () => {
             // Click cell1 two times
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(1);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(2);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
 
             // Click cell2
             await userEvent.click(cell2);
             expect(onSelect).toHaveBeenCalledTimes(3);
-            expect(onSelect).toHaveBeenLastCalledWith(items[0], false);
+            expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
 
             // Click cell3 and cell4
             await userEvent.click(cell4);
             expect(onSelect).toHaveBeenCalledTimes(4);
-            expect(onSelect).toHaveBeenLastCalledWith(items[1], false);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1], false, false);
             await userEvent.click(cell3);
             expect(onSelect).toHaveBeenCalledTimes(5);
-            expect(onSelect).toHaveBeenLastCalledWith(items[1], false);
+            expect(onSelect).toHaveBeenLastCalledWith(items[1], false, false);
         });
     });
 
