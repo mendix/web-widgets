@@ -29,6 +29,6 @@ export class SelectActionHelper extends SelectActionHandler {
     }
 
     get showSelectAllToggle(): boolean {
-        return this._showSelectAllToggle;
+        return this._showSelectAllToggle && this.selectionType === "Multi";
     }
 }
