@@ -60,6 +60,7 @@ export function Checkbox({ checked, id, focusable, onClick, ariaLabel }: Checkbo
                                   e.preventDefault();
                               }
                     }
+                    onChange={() => {}}
                 />
             </span>
             {ariaLabel ? <CaptionContent htmlFor={id}>{ariaLabel}</CaptionContent> : undefined}

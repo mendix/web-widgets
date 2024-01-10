@@ -11,6 +11,7 @@ $unselected-item: #ffffff;
 $hover-color: #ced0d3;
 $disabled-color: #f8f8f8;
 $disabled-text-color: #6c7180;
+$menu-outer-padding: 10px;
 .widget-combobox {
     flex-grow: 1;
     position: relative;
@@ -22,9 +23,9 @@ $disabled-text-color: #6c7180;
         margin: 4px 0 4px 0;
         width: 100%;
         left: unset;
-        padding: 10px 0 0;
+        padding: $menu-outer-padding 0 0;
         z-index: 1;
-        box-shadow: 0px 0px 10px 0px $box-shadow-color;
+        box-shadow: 0px 0px $menu-outer-padding 0px $box-shadow-color;
         background-color: $unselected-item;
         list-style-type: "none";
         &-list {
@@ -32,23 +33,33 @@ $disabled-text-color: #6c7180;
             margin-bottom: 0;
             max-height: 320px;
             overflow-y: auto;
+            &:last-child {
+                margin-bottom: $menu-outer-padding;
+            }
         }
         &-hidden {
             display: none;
         }
-        &-header,
+        &-header {
+            border-bottom: 1px solid $gray-primary;
+            &:focus,
+            &:focus-within,
+            &:hover {
+                background-color: $highlighted-index;
+            }
+
+            &:has(input[type="checkbox"]:hover) + .widget-combobox-menu-list input[type="checkbox"]:after {
+                content: "";
+                border-color: $hover-color;
+            }
+        }
         &-footer {
+            border-top: 1px solid $gray-primary;
+            padding: $menu-outer-padding;
             &:focus,
             &:focus-within {
                 outline: 1px solid $brand-primary;
             }
-        }
-        &-header {
-            border-bottom: 1px solid $gray-primary;
-        }
-        &-footer {
-            border-top: 1px solid $gray-primary;
-            padding: 10px;
         }
     }
 
@@ -60,7 +71,7 @@ $disabled-text-color: #6c7180;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 6px 0 6px 10px;
+        padding: 6px 0 6px $menu-outer-padding;
         height: fit-content;
         overflow: hidden;
         color: $typography-color;
@@ -74,7 +85,7 @@ $disabled-text-color: #6c7180;
             background-color: $highlighted-index;
         }
         & > .widget-combobox-icon-container {
-            margin-right: 10px;
+            margin-right: $menu-outer-padding;
         }
 
         .widget-combobox-caption-text {

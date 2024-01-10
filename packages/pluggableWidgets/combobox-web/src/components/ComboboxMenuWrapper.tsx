@@ -13,6 +13,11 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     menuFooterContent?: ReactNode;
 }
 
+function PreventMenuCloseEventHandler(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
     const { children, isOpen, isEmpty, noOptionsText, alwaysOpen, getMenuProps, menuHeaderContent, menuFooterContent } =
         props;
@@ -34,12 +39,21 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             }
         >
             {menuHeaderContent && (
-                <div className="widget-combobox-menu-header widget-combobox-item">{menuHeaderContent}</div>
+                <div
+                    className="widget-combobox-menu-header widget-combobox-item"
+                    onMouseDown={PreventMenuCloseEventHandler}
+                >
+                    {menuHeaderContent}
+                </div>
             )}
             <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
                 {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
             </ul>
-            {menuFooterContent && <div className="widget-combobox-menu-footer">{menuFooterContent}</div>}
+            {menuFooterContent && (
+                <div className="widget-combobox-menu-footer" onMouseDown={PreventMenuCloseEventHandler}>
+                    {menuFooterContent}
+                </div>
+            )}
         </div>
     );
 }

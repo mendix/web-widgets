@@ -2,6 +2,7 @@ import { ReferenceSetValue } from "mendix";
 import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } from "../../../typings/ComboboxProps";
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
@@ -37,12 +38,21 @@ export class AssociationMultiSelector
             : this.options.getAll();
     }
 
-    isAllOptionsSelected(): boolean {
-        const options = this.getOptions();
-        return this.currentValue
-            ? (options.length === this.currentValue.length &&
-                  options.every(element => this.currentValue?.includes(element))) ||
-                  (options.length === 0 && this.currentValue.length > 0)
-            : false;
+    isOptionsSelected(): ThreeStateCheckBoxEnum {
+        const options = this.options.getAll();
+        const unselectedOptions = options.filter(option => !this.currentValue?.includes(option));
+        if (this.currentValue && this.currentValue.length > 0) {
+            if (unselectedOptions.length === 0) {
+                return "all";
+            } else {
+                return "some";
+            }
+        } else {
+            if (options.length === 0) {
+                return "some";
+            } else {
+                return "none";
+            }
+        }
     }
 }

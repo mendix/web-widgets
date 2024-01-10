@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
-import { Checkbox, ClearButton } from "../../assets/icons";
+import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
+import { SelectAllButton } from "./SelectAllButton";
 
 export function MultiSelection({
     selector,
@@ -33,6 +34,7 @@ export function MultiSelection({
     } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
+    const isOptionsSelected = selector.isOptionsSelected();
     return (
         <Fragment>
             <ComboboxWrapper
@@ -138,16 +140,15 @@ export function MultiSelection({
             <MultiSelectionMenu
                 menuHeaderContent={
                     selector.selectAllButton ? (
-                        <Checkbox
-                            checked={selector.isAllOptionsSelected()}
-                            focusable
-                            id={`${options.inputId}-select-all-button-${Date.now().toString(36)}`}
+                        <SelectAllButton
+                            value={isOptionsSelected}
+                            id={`${options.inputId}-select-all-button`}
                             ariaLabel={a11yConfig.ariaLabels.selectAll}
-                            onClick={() => {
-                                if (selector.isAllOptionsSelected()) {
+                            onChange={() => {
+                                if (isOptionsSelected === "all") {
                                     setSelectedItems([]);
                                 } else {
-                                    setSelectedItems(selector.getOptions());
+                                    setSelectedItems(selector.options.getAll());
                                 }
                             }}
                         />
