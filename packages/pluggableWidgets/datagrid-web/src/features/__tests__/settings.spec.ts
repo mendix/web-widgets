@@ -295,5 +295,5 @@ function mockProperties(): {
 }
 
 function toColumn(col: ColumnsType, index: number): Column {
-    return new Column(col, index, "dg1");
+    return new Column(col, index);
 }

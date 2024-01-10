@@ -35,10 +35,7 @@ function Container(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const columns = useMemo(
-        () => props.columns.map((col, index) => new Column(col, index, id.current)),
-        [props.columns]
-    );
+    const columns = useMemo(() => props.columns.map((col, index) => new Column(col, index)), [props.columns]);
 
     const [columnsState, { setHidden, setOrder }] = useColumnsState(columns);
 
