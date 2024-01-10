@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup AWS credentials
-        uses: aws-actions/configure-aws-credentials@3654529dc6db288721684d6c54fefa0c1182728f
+        uses: aws-actions/configure-aws-credentials@ec22c895de138c477d82356ff869c925c3c45dcc
         with:
           role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
