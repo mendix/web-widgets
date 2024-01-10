@@ -22,7 +22,7 @@ import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
 import { useShowPagination } from "./utils/useShowPagination";
 
-export default function Datagrid(props: DatagridContainerProps): ReactElement {
+function Container(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);
 
     const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
@@ -244,4 +244,8 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement {
             selectRowLabel={props.selectRowLabel?.value}
         />
     );
+}
+
+export default function Datagrid(props: DatagridContainerProps): ReactElement {
+    return <Container {...props} />;
 }
