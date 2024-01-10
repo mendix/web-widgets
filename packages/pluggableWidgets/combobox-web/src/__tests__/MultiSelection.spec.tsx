@@ -74,7 +74,7 @@ describe("Combo box (Association)", () => {
         const toggleButton = await component.findByRole("combobox");
         await fireEvent.click(toggleButton);
         await waitFor(() => {
-            expect(component.getAllByRole("option")).toHaveLength(5);
+            expect(component.getAllByRole("option")).toHaveLength(4);
         });
         fireEvent.blur(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
@@ -86,7 +86,7 @@ describe("Combo box (Association)", () => {
 
         fireEvent.click(toggleButton);
         waitFor(() => {
-            expect(component.getAllByRole("option")).toHaveLength(5);
+            expect(component.getAllByRole("option")).toHaveLength(4);
         });
         fireEvent.click(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
@@ -98,7 +98,7 @@ describe("Combo box (Association)", () => {
 
         fireEvent.click(input);
         waitFor(() => {
-            expect(component.queryAllByRole("option")).toHaveLength(5);
+            expect(component.queryAllByRole("option")).toHaveLength(4);
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
@@ -110,7 +110,7 @@ describe("Combo box (Association)", () => {
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
         fireEvent.click(input);
         await waitFor(() => {
-            expect(component.queryAllByRole("option")).toHaveLength(5);
+            expect(component.queryAllByRole("option")).toHaveLength(4);
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
@@ -126,9 +126,9 @@ describe("Combo box (Association)", () => {
         const input = (await component.findByRole("combobox")) as HTMLInputElement;
         fireEvent.click(input);
         await waitFor(() => {
-            expect(component.queryAllByRole("option")).toHaveLength(5);
+            expect(component.queryAllByRole("option")).toHaveLength(4);
         });
-        const selectAllButton = component.queryAllByRole("option")[0];
+        const selectAllButton = await component.container.querySelector(".widget-combobox-menu-header input")!; // component.queryAllByRole("option")[0];
         expect(defaultProps.attributeAssociation?.value).toHaveLength(1);
         fireEvent.click(selectAllButton);
         expect(defaultProps.attributeAssociation?.value).toHaveLength(4);

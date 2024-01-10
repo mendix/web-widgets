@@ -6,6 +6,7 @@ import {
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 
 export type Status = "unavailable" | "loading" | "available";
 export type CaptionPlacement = "label" | "options";
@@ -70,7 +71,7 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
     getOptions(): string[];
-    isAllOptionsSelected(): boolean;
+    isOptionsSelected(): ThreeStateCheckBoxEnum;
 }
 
 export interface SelectionBaseProps<Selector> {

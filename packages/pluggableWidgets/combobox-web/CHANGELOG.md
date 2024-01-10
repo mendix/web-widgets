@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We added a new property named **Show footer**, enabling the Combobox widget to display a footer within its menu. When **Show footer** is set to **Yes**, developers can include custom footer content such as text, buttons, links, etc.
+-   We added a new property named **Select/Unselect button**, enabling the Combobox widget to display a select/unselect all button on the top of the menu list.
 
 ### Fixed
 

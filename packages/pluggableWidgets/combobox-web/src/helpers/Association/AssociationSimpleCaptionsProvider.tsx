@@ -12,15 +12,18 @@ interface Props {
 
 interface CaptionContentProps extends PropsWithChildren {
     htmlFor?: string;
+    onClick?: (e: MouseEvent) => void;
 }
 
 export function CaptionContent(props: CaptionContentProps): ReactElement {
-    const { htmlFor, children } = props;
+    const { htmlFor, children, onClick } = props;
     return createElement(htmlFor == null ? "span" : "label", {
         children,
         className: "widget-combobox-caption-text",
         htmlFor,
-        onClick: htmlFor
+        onClick: onClick
+            ? onClick
+            : htmlFor
             ? (e: MouseEvent) => {
                   e.preventDefault();
               }
