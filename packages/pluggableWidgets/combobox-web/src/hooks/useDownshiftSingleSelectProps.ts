@@ -118,7 +118,9 @@ export function useDownshiftSingleSelectProps(
         selectedItem: selector.currentValue
     });
 
-    selector.onLeaveEvent = useCallback(() => returnVal.closeMenu(), [returnVal.closeMenu]);
+    const { closeMenu } = returnVal;
+
+    selector.onLeaveEvent = useCallback(closeMenu, [closeMenu]);
 
     return returnVal;
 }
