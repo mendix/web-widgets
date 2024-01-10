@@ -1,19 +1,17 @@
 import { createElement, ReactElement } from "react";
 import { ColumnsPreviewType } from "../../typings/DatagridProps";
-import { GridColumn } from "../typings/GridColumn";
+import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
 
 export class ColumnPreview extends BaseColumn implements GridColumn {
-    private gridId: string;
     private props: ColumnsPreviewType;
 
     columnNumber: number;
     visible: boolean;
 
-    constructor(props: ColumnsPreviewType, columnNumber: number, gridId: string) {
+    constructor(props: ColumnsPreviewType, columnNumber: number) {
         super(props);
 
-        this.gridId = gridId;
         this.props = props;
         this.columnNumber = columnNumber;
 
@@ -23,8 +21,8 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     columnClass(_item?: unknown): string | undefined {
         return undefined;
     }
-    get columnId(): string {
-        return `${this.gridId}-column${this.columnNumber}`;
+    get columnId(): ColumnId {
+        return this.columnNumber.toString() as ColumnId;
     }
     get header(): string {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;

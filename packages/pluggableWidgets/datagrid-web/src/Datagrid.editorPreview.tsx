@@ -60,7 +60,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
-    const columnsState = initColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index, gridId)));
+    const columnsState = initColumnsState(previewColumns.map((col, index) => new ColumnPreview(col, index)));
 
     return (
         <Widget
@@ -119,6 +119,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             valueForSort={useCallback(() => undefined, [])}
             selectionProps={selectionProps}
             selectionStatus={"none"}
+            id={gridId}
         />
     );
 }

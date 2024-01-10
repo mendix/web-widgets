@@ -33,7 +33,7 @@ exports[`Table renders the structure correctly 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -105,7 +105,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label=""
@@ -177,7 +177,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -198,7 +198,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
             <div
               class="column-container"
               data-column-number="1"
-              id="dg1-column1"
+              id="1"
             >
               <div
                 aria-label="Test 2"
@@ -282,7 +282,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -358,7 +358,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -430,7 +430,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -502,7 +502,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -574,7 +574,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -660,7 +660,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -735,7 +735,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
               <div
                 class="column-container"
                 data-column-number="0"
-                id="dg1-column0"
+                id="0"
               >
                 <div
                   aria-label="Test"
@@ -808,7 +808,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -921,7 +921,7 @@ exports[`Table renders the structure correctly with paging 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -1083,7 +1083,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -1155,7 +1155,7 @@ exports[`Table renders the structure correctly with sorting 1`] = `
             <div
               class="column-container"
               data-column-number="0"
-              id="dg1-column0"
+              id="0"
             >
               <div
                 aria-label="Test"
@@ -1233,7 +1233,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
               <div
                 class="column-container"
                 data-column-number="0"
-                id="dg1-column0"
+                id="0"
               >
                 <div
                   aria-label="Test"
@@ -1474,7 +1474,7 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
               <div
                 class="column-container"
                 data-column-number="0"
-                id="dg1-column0"
+                id="0"
               >
                 <div
                   aria-label="Test"
