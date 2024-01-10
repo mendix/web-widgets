@@ -1,7 +1,8 @@
-import { EditableValue, ListValue } from "mendix";
+import { ListValue } from "mendix";
 import { PaginationEnum } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { GridSettings } from "../../typings/GridSettings";
+import { SettingsClient } from "../storage/base";
 
 type Settings = GridSettings | undefined;
 type ReadyState = { status: "ready"; settings: Settings };
@@ -18,7 +19,7 @@ export class GridLoader {
         paginationType: PaginationEnum,
         pageSize: number,
         columns: Column[],
-        settingsAttr?: EditableValue<string>
+        settingsClient: SettingsClient
     ): State {
         if (this.status === "ready") {
             return this.ready();
@@ -30,7 +31,7 @@ export class GridLoader {
         }
 
         if (
-            settingsAttr?.status === "loading" ||
+            settingsClient.status === "loading" ||
             datasource.status === "loading" ||
             columns.some(column => column.status === "loading")
         ) {
@@ -38,8 +39,8 @@ export class GridLoader {
         }
 
         let datasourceChanged = false;
-        if (settingsAttr?.status === "available") {
-            this.settings = this.loadSettings(columns, settingsAttr);
+        if (settingsClient.status === "available") {
+            this.settings = settingsClient.settings.load();
             this.setViewState(datasource, this.settings);
             datasource.reload();
             datasourceChanged = true;
@@ -69,10 +70,6 @@ export class GridLoader {
 
     private setViewState(_: ListValue, __: Settings): void {
         console.log("Set view stat");
-    }
-
-    private loadSettings(_: Column[], __: EditableValue<string>): Settings {
-        return undefined;
     }
 
     private ready(): ReadyState {
