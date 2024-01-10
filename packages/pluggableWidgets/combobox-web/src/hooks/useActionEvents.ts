@@ -36,5 +36,5 @@ export function useActionEvents(props: useActionEventsProps): UseActionEventsRet
                 }
             }
         };
-    }, [props.onEnterEvent, props.onLeaveEvent]);
+    }, [props.onEnterEvent, props.onLeaveEvent, props.selector]);
 }
