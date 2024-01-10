@@ -29,7 +29,6 @@ const component = memo(
 
         return (
             <div
-                {...rest}
                 className={classNames(
                     "widget-gallery-item",
                     {
@@ -38,8 +37,9 @@ const component = memo(
                     },
                     helper.itemClass(item)
                 )}
-                {...interactionProps}
                 ref={ref}
+                {...interactionProps}
+                {...rest}
             >
                 {helper.render(item)}
             </div>
@@ -50,7 +50,7 @@ const component = memo(
 export function ListItem(props: ListItemProps): ReactElement {
     const ListItemComponent = component as (props: ListItemProps) => ReactElement;
     const { columnIndex, rowIndex } = props.getPosition(props.itemIndex);
-    const keyNavProps = useFocusTargetProps({ columnIndex, rowIndex });
+    const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
 
     return <ListItemComponent {...props} {...keyNavProps} />;
 }

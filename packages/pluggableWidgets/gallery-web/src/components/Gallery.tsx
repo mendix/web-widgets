@@ -39,7 +39,12 @@ export interface GalleryProps<T extends ObjectItem> {
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
-    const { columnSize, rowSize, getPosition } = useGridPositions(props);
+    const { columnSize, rowSize, getPosition } = useGridPositions({
+        desktopItems: props.desktopItems,
+        phoneItems: props.phoneItems,
+        tabletItems: props.tabletItems,
+        totalItems: props.items.length ?? 0
+    });
 
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">

@@ -1,7 +1,11 @@
 import { ObjectItem } from "mendix";
+import { useLayoutEffect, useState } from "react";
 import { GalleryProps } from "src/components/Gallery";
 
-type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "pageSize" | "phoneItems" | "tabletItems">;
+type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
+    totalItems: number;
+};
+
 export type Positions = {
     columnIndex: number;
     rowIndex: number;
@@ -14,28 +18,42 @@ type GridPositionsReturn = {
 
 export function useGridPositions({
     desktopItems,
-    pageSize,
     phoneItems,
-    tabletItems
+    tabletItems,
+    totalItems
 }: GridPositionsProps): GridPositionsReturn {
-    let columnSize = phoneItems;
-    if (window.innerWidth >= 992 && window.innerWidth < 1200) {
-        columnSize = tabletItems;
-    }
-    if (window.innerWidth >= 1200) {
-        columnSize = desktopItems;
-    }
+    const [columnSize, setColumnSize] = useState(phoneItems);
+
+    useLayoutEffect(() => {
+        function updateColumnSize() {
+            if (window.innerWidth < 768) {
+                setColumnSize(phoneItems);
+            }
+            if (window.innerWidth >= 768 && window.innerWidth < 992) {
+                setColumnSize(tabletItems);
+            }
+            if (window.innerWidth >= 992) {
+                setColumnSize(desktopItems);
+            }
+        }
+
+        window.addEventListener("resize", updateColumnSize);
+        updateColumnSize();
+
+        return () => window.removeEventListener("resize", updateColumnSize);
+    }, []);
 
     const getPosition = (index: number): Positions => {
-        if (index < 0 || index >= pageSize) {
+        if (index < 0 || index >= totalItems) {
             return { columnIndex: -1, rowIndex: -1 };
         }
 
-        const columnIndex = index % pageSize;
+        const columnIndex = index % totalItems;
         const rowIndex = Math.floor(index / columnSize);
 
         return { columnIndex, rowIndex };
     };
 
-    return { columnSize, rowSize: pageSize / columnSize, getPosition };
+    console.info({ columnSize, rowSize: Math.ceil(totalItems / columnSize), totalItems });
+    return { columnSize, rowSize: Math.ceil(totalItems / columnSize), getPosition };
 }
