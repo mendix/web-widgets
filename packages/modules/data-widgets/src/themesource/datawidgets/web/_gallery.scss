@@ -20,6 +20,14 @@
 }
 
 .widget-gallery {
+    .widget-gallery-item {
+        &:focus {
+            outline-color: $brand-primary;
+            outline-offset: -1px;
+            outline-style: solid;
+            outline-width: 1px;
+        }
+    }
     .widget-gallery-items {
         display: grid;
         grid-gap: $spacing-small;
