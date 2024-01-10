@@ -21,10 +21,15 @@ import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
 import { useColumnsState } from "./features/use-columns-state";
 import { useShowPagination } from "./utils/useShowPagination";
+import { useModel } from "./features/model/use-model";
+import { GridSettings } from "./typings/GridSettings";
 
-function Container(props: DatagridContainerProps): ReactElement {
-    const id = useRef(`DataGrid${generateUUID()}`);
+interface Props extends DatagridContainerProps {
+    mappedColumns: Column[];
+    settings: GridSettings | undefined;
+}
 
+function Container(props: Props): ReactElement {
     const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
@@ -35,9 +40,7 @@ function Container(props: DatagridContainerProps): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const columns = useMemo(() => props.columns.map((col, index) => new Column(col, index)), [props.columns]);
-
-    const [columnsState, { setHidden, setOrder }] = useColumnsState(columns);
+    const [columnsState, { setHidden, setOrder }] = useColumnsState(props.mappedColumns);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
@@ -205,7 +208,7 @@ function Container(props: DatagridContainerProps): ReactElement {
             }
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
-            id={id.current}
+            id={useMemo(() => `DataGrid${generateUUID()}`, [])}
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abort}
             page={currentPage}
@@ -243,6 +246,12 @@ function Container(props: DatagridContainerProps): ReactElement {
     );
 }
 
-export default function Datagrid(props: DatagridContainerProps): ReactElement {
-    return <Container {...props} />;
+export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
+    const [initState, mappedColumns] = useModel(props);
+
+    if (initState.status === "pending") {
+        return null;
+    }
+
+    return <Container {...props} settings={initState.settings} mappedColumns={mappedColumns} />;
 }

@@ -46,6 +46,13 @@ export class Column extends BaseColumn implements GridColumn {
         return this.props.attribute?.id;
     }
 
+    setInitParams(): void {
+        // Defer options fetching
+        if (this.props.filterAssociationOptions) {
+            this.props.filterAssociationOptions.setLimit(0);
+        }
+    }
+
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":
