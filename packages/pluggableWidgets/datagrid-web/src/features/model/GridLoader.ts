@@ -3,16 +3,17 @@ import { PaginationEnum } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
 import { GridSettings } from "../../typings/GridSettings";
 import { SettingsClient } from "../storage/base";
+import { InitParams } from "./base";
+import { paramsFromColumns, paramsFromSettings } from "./utils";
 
 type Settings = GridSettings | undefined;
-type ReadyState = { status: "ready"; settings: Settings };
+type ReadyState = { status: "ready"; settings: Settings; initParams: InitParams };
 type PendingState = { status: "pending" };
 export type State = PendingState | ReadyState;
 
 export class GridLoader {
-    private status: "pending" | "ready" = "pending";
+    private state: State = this.pending();
     private initialized = false;
-    private settings: Settings = undefined;
 
     getInitState(
         datasource: ListValue,
@@ -21,8 +22,8 @@ export class GridLoader {
         columns: Column[],
         settingsClient: SettingsClient
     ): State {
-        if (this.status === "ready") {
-            return this.ready();
+        if (this.state.status === "ready") {
+            return this.state;
         }
 
         if (!this.initialized) {
@@ -39,16 +40,17 @@ export class GridLoader {
         }
 
         let datasourceChanged = false;
+        let settings: Settings;
         if (settingsClient.status === "available") {
-            this.settings = settingsClient.settings.load();
-            this.setViewState(datasource, this.settings);
+            settings = settingsClient.settings.load();
+            this.setViewState(datasource, settings);
             datasource.reload();
             datasourceChanged = true;
         }
 
-        this.status = "ready";
+        this.state = this.ready(datasource, columns, settings);
 
-        return datasourceChanged ? this.pending() : this.ready();
+        return datasourceChanged ? this.pending() : this.state;
     }
 
     private setInitParams(
@@ -72,8 +74,12 @@ export class GridLoader {
         console.log("Set view stat");
     }
 
-    private ready(): ReadyState {
-        return { status: "ready", settings: this.settings };
+    private ready(datasource: ListValue, columns: Column[], settings: Settings): ReadyState {
+        return {
+            status: "ready",
+            settings,
+            initParams: settings ? paramsFromSettings(settings, datasource) : paramsFromColumns(columns, datasource)
+        };
     }
 
     private pending(): PendingState {
