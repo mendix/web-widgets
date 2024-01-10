@@ -68,13 +68,6 @@ function Container(props: Props): ReactElement {
     });
 
     useEffect(() => {
-        props.datasource.requestTotalCount(!isInfiniteLoad);
-        if (props.datasource.limit === Number.POSITIVE_INFINITY) {
-            props.datasource.setLimit(props.pageSize);
-        }
-    }, [props.datasource, props.pageSize, isInfiniteLoad]);
-
-    useEffect(() => {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {
             viewStateFilters.current = props.datasource.filter;
         }
