@@ -32,7 +32,7 @@ export function useGridState(
     columns: Grid.Columns,
     onStateChange: StateChangeFx
 ): [Grid.State, Grid.Actions] {
-    const [state, dispatch] = useReducer(columnsStateReducer, { params: initParams, columns }, initGridState);
+    const [state, dispatch] = useReducer(gridStateReducer, { params: initParams, columns }, initGridState);
 
     const memoizedGridActions = useMemo<Grid.Actions>(() => {
         return {
@@ -50,7 +50,7 @@ export function useGridState(
     return [state, memoizedGridActions];
 }
 
-function columnsStateReducer(state: Grid.State, action: Action): Grid.State {
+function gridStateReducer(state: Grid.State, action: Action): Grid.State {
     switch (action.type) {
         case "resize": {
             return {
@@ -59,6 +59,9 @@ function columnsStateReducer(state: Grid.State, action: Action): Grid.State {
             };
         }
         case "setFilter": {
+            if (state.filter === action.payload) {
+                return state;
+            }
             return { ...state, filter: action.payload };
         }
         case "setColumns": {
