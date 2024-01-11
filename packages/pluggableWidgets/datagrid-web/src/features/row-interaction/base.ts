@@ -3,17 +3,15 @@ import { ObjectItem } from "mendix";
 import { ClickTrigger } from "../../helpers/ClickActionHelper";
 import { SelectionMethod } from "../../helpers/SelectActionHelper";
 
-export interface CellContext {
+interface BaseContext {
     item: ObjectItem;
     pageSize: number;
     selectionMethod: SelectionMethod;
     selectionType: SelectionType;
+}
+
+export interface CellContext extends BaseContext {
     clickTrigger: ClickTrigger;
 }
 
-export interface CheckboxContext {
-    item: ObjectItem;
-    pageSize: number;
-    selectionType: SelectionType;
-    selectionMethod: SelectionMethod;
-}
+export interface CheckboxContext extends BaseContext {}
