@@ -18,7 +18,7 @@ export type Filter = FilterCondition | undefined;
 
 export type Hidden = Set<ColumnId>;
 
-export type Order = ColumnId[];
+export type ColumnOrder = ColumnId[];
 
 export type SortOrder = SortRule[];
 
@@ -26,8 +26,35 @@ export interface StorableState {
     columns: Columns;
     hidden: Hidden;
     name: string;
-    order: Order;
+    order: ColumnOrder;
     settingsHash: string;
     size: ColumnWidthConfig;
     sort: SortOrder;
 }
+
+export interface InitParams {
+    filter: Filter;
+    hidden: Hidden;
+    order: ColumnOrder;
+    size: ColumnWidthConfig;
+    sort: SortOrder;
+}
+
+export interface State {
+    allColumns: Columns;
+    availableColumns: Columns;
+    visibleColumns: Columns;
+    filter: Filter;
+    hidden: Hidden;
+    columnOrder: ColumnOrder;
+    size: ColumnWidthConfig;
+    sort: SortOrder;
+}
+
+export type Actions = {
+    toggleHidden: (id: ColumnId) => void;
+    sortBy: (id: ColumnId) => void;
+    swap: (arg: [a: ColumnId, b: ColumnId]) => void;
+    resize: (arg: [id: ColumnId, size: number]) => void;
+    setFilter: (arg: Filter) => void;
+};

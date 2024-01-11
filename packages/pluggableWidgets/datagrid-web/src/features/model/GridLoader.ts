@@ -1,13 +1,13 @@
 import { ListValue } from "mendix";
 import { PaginationEnum } from "../../../typings/DatagridProps";
 import { Column } from "../../helpers/Column";
+import { InitParams } from "../../typings/GridModel";
 import { GridSettings } from "../../typings/GridSettings";
 import { SettingsClient } from "../storage/base";
-import { InitParams } from "./base";
 import { paramsFromColumns, paramsFromSettings } from "./utils";
 
 type Settings = GridSettings | undefined;
-type ReadyState = { status: "ready"; settings: Settings; initParams: InitParams };
+type ReadyState = { status: "ready"; initParams: InitParams };
 type PendingState = { status: "pending" };
 export type State = PendingState | ReadyState;
 
@@ -77,7 +77,6 @@ export class GridLoader {
     private ready(datasource: ListValue, columns: Column[], settings: Settings): ReadyState {
         return {
             status: "ready",
-            settings,
             initParams: settings ? paramsFromSettings(settings, datasource) : paramsFromColumns(columns, datasource)
         };
     }
