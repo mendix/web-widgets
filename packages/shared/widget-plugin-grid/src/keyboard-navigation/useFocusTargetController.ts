@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { FocusTargetController } from "./FocusTargetController";
 import { VirtualGridLayout } from "./VirtualGridLayout";
 import { PositionController } from "./PositionController";
@@ -10,11 +10,13 @@ export function useFocusTargetController({ rows, columns, pageSize }: LayoutProp
 
     return useMemo<FocusTargetController>(() => {
         const layout = new VirtualGridLayout(rows, columns, pageSize);
+
         if (controllerRef.current === null) {
             controllerRef.current = new FocusTargetController(new PositionController(), layout);
         } else {
             controllerRef.current.updateGridLayout(layout);
         }
+
         return controllerRef.current;
     }, [rows, columns, pageSize]);
 }
