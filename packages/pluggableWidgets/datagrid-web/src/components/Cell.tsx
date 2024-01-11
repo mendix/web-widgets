@@ -2,7 +2,7 @@ import { createElement, ReactElement, memo, useMemo } from "react";
 import { GridColumn } from "../typings/GridColumn";
 import { CellComponentProps } from "../typings/CellComponent";
 import { CellElement } from "./CellElement";
-import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 
 // eslint-disable-next-line prefer-arrow-callback
 const component = memo(function Cell(props: CellComponentProps<GridColumn>): ReactElement {

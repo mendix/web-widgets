@@ -21,10 +21,10 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
-import { KeyNavProvider } from "../features/keyboard-navigation/context";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import * as GridModel from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { FocusTargetController } from "../features/keyboard-navigation/FocusTargetController";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { HeaderRefHook } from "../features/model/resizing";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {

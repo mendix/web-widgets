@@ -26,7 +26,7 @@ import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
-import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 
 interface Props extends DatagridContainerProps {
     mappedColumns: Column[];
