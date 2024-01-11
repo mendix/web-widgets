@@ -4,7 +4,7 @@ import { Column } from "../../helpers/Column";
 import { InitParams } from "../../typings/GridModel";
 import { GridSettings } from "../../typings/GridSettings";
 import { SettingsClient } from "../storage/base";
-import { paramsFromColumns, paramsFromSettings } from "./utils";
+import { paramsFromColumns, paramsFromSettings, sortToInst } from "./utils";
 
 type Settings = GridSettings | undefined;
 type ReadyState = { status: "ready"; initParams: InitParams };
@@ -43,9 +43,11 @@ export class GridLoader {
         let settings: Settings;
         if (settingsClient.status === "available") {
             settings = settingsClient.settings.load();
-            this.setViewState(datasource, settings);
-            datasource.reload();
-            datasourceChanged = true;
+            if (settings) {
+                this.setViewState(datasource, settings, columns);
+                datasource.reload();
+                datasourceChanged = true;
+            }
         }
 
         this.state = this.ready(datasource, columns, settings);
@@ -70,8 +72,10 @@ export class GridLoader {
         columns.forEach(col => col.setInitParams());
     }
 
-    private setViewState(_: ListValue, __: Settings): void {
-        console.log("Set view stat");
+    private setViewState(datasource: ListValue, settings: GridSettings, columns: Column[]): void {
+        if (settings.sort.length > 0) {
+            datasource.setSortOrder(sortToInst(settings.sort, columns));
+        }
     }
 
     private ready(datasource: ListValue, columns: Column[], settings: Settings): ReadyState {
