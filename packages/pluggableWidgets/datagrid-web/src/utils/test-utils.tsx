@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
-import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { dynamicValue, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { WidgetProps } from "../components/Widget";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
@@ -8,6 +8,7 @@ import { GridColumn } from "../typings/GridColumn";
 import { Column } from "../helpers/Column";
 import { GridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { initGridState } from "../features/model/use-grid-state";
+import { paramsFromColumns } from "../features/model/utils";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -56,7 +57,10 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index));
-    const columnsState = initGridState(columns);
+    const state = initGridState({
+        params: paramsFromColumns(columns, list(0)),
+        columns
+    });
     const selectionProps = mockSelectionProps();
 
     return {
@@ -78,9 +82,14 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        columnsState,
-        setHidden: jest.fn(),
-        setOrder: jest.fn(),
+        state,
+        actions: {
+            toggleHidden: jest.fn(),
+            resize: jest.fn(),
+            setFilter: jest.fn(),
+            sortBy: jest.fn(),
+            swap: jest.fn()
+        },
         valueForSort: () => "dummy",
         selectionProps,
         selectionStatus: "unknown",

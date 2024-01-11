@@ -13,7 +13,7 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
-import { SortProperty, Widget } from "./components/Widget";
+import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
@@ -30,7 +30,6 @@ interface Props extends DatagridContainerProps {
 }
 
 function Container(props: Props): ReactElement {
-    const [sortParameters, setSortParameters] = useState<SortProperty | undefined>(undefined);
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
@@ -116,14 +115,6 @@ function Container(props: Props): ReactElement {
         props.datasource.setFilter(viewStateFilters.current);
     }
 
-    if (sortParameters) {
-        props.datasource.setSortOrder([
-            [props.columns[sortParameters.columnIndex].attribute!.id, sortParameters.desc ? "desc" : "asc"]
-        ]);
-    } else {
-        props.datasource.setSortOrder(undefined);
-    }
-
     const selectionHelper = useSelectionHelper(
         props.itemSelection,
         props.datasource,
@@ -142,7 +133,6 @@ function Container(props: Props): ReactElement {
         <Widget
             className={props.class}
             CellComponent={Cell}
-            columnsState={columnsState}
             columnsDraggable={props.columnsDraggable}
             columnsFilterable={props.columnsFilterable}
             columnsHidable={props.columnsHidable}
@@ -215,10 +205,6 @@ function Container(props: Props): ReactElement {
             pagingPosition={props.pagingPosition}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             setPage={setPage}
-            setSortParameters={setSortParameters}
-            setOrder={setOrder}
-            setHidden={setHidden}
-            settings={props.configurationAttribute}
             styles={props.style}
             valueForSort={useCallback(
                 (value, columnIndex) => {
@@ -235,6 +221,8 @@ function Container(props: Props): ReactElement {
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
+            state={state}
+            actions={actions}
         />
     );
 }
@@ -246,5 +234,5 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
         return null;
     }
 
-    return <Container {...props} settings={initState.settings} mappedColumns={mappedColumns} />;
+    return <Container {...props} initParams={initState.initParams} mappedColumns={mappedColumns} />;
 }

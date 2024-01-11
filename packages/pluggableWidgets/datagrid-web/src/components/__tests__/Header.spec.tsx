@@ -131,7 +131,7 @@ function mockHeaderProps(): HeaderProps {
         resizable: false,
         resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
         sortable: false,
-        setColumnOrder: jest.fn(),
+        swapColumns: jest.fn(),
         setDragOver: jest.fn(),
         visibleColumns: [],
         setSortBy: jest.fn(),
