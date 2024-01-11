@@ -48,11 +48,22 @@ $menu-outer-padding: 10px;
                 background-color: $highlighted-index;
             }
 
-            &:has(input[type="checkbox"]:hover) + .widget-combobox-menu-list input[type="checkbox"]:after {
+            &:has(input[type="checkbox"]:hover, :focus, :focus-within)
+                + .widget-combobox-menu-list
+                input[type="checkbox"]:after {
                 content: "";
                 border-color: $hover-color;
             }
+
+            &-select-all-button {
+                &.unfocused {
+                    .three-state-checkbox {
+                        outline: none;
+                    }
+                }
+            }
         }
+
         &-footer {
             border-top: 1px solid $gray-primary;
             padding: $menu-outer-padding;

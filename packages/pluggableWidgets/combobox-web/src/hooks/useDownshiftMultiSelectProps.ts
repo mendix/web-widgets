@@ -205,7 +205,7 @@ function useComboboxProps(
                             })
                         };
                     case useCombobox.stateChangeTypes.InputBlur:
-                        return state;
+                        return { ...state, highlightedIndex: -1 };
                     default:
                         return changes;
                 }
