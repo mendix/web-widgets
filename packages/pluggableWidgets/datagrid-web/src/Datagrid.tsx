@@ -19,7 +19,7 @@ import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
-import { useGridState } from "./features/model/use-grid-state";
+import { StateChangeFx, useGridState } from "./features/model/use-grid-state";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useModel } from "./features/model/use-model";
 import { InitParams } from "./typings/GridModel";
@@ -27,6 +27,7 @@ import { InitParams } from "./typings/GridModel";
 interface Props extends DatagridContainerProps {
     mappedColumns: Column[];
     initParams: InitParams;
+    onStateChange: StateChangeFx;
 }
 
 function Container(props: Props): ReactElement {
@@ -39,7 +40,7 @@ function Container(props: Props): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [state, actions] = useGridState(props.initParams, props.mappedColumns);
+    const [state, actions] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: state.visibleColumns.map(column => props.columns[column.columnNumber]),
@@ -70,7 +71,7 @@ function Container(props: Props): ReactElement {
         if (props.datasource.filter && !filtered && !viewStateFilters.current) {
             viewStateFilters.current = props.datasource.filter;
         }
-    }, [props.datasource, props.configurationAttribute, filtered]);
+    }, [props.datasource, filtered]);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -96,24 +97,31 @@ function Container(props: Props): ReactElement {
     // custom hook that will use useReducer)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const customFiltersState = props.columns.map(() => useState<FilterState>());
+    const deps1 = customFiltersState.map(([state]) => state);
+    const deps2 = Object.keys(multipleFilteringState).map((key: FilterType) => multipleFilteringState[key][0]);
 
-    const filters = customFiltersState
-        .map(([customFilter]) => customFilter?.getFilterCondition?.())
-        .filter((filter): filter is FilterCondition => filter !== undefined)
-        .concat(
-            // Concatenating multiple filter state
-            Object.keys(multipleFilteringState)
-                .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
-                .filter((filter): filter is FilterCondition => filter !== undefined)
-        );
+    const filters = useMemo(() => {
+        return customFiltersState
+            .map(([customFilter]) => customFilter?.getFilterCondition?.())
+            .filter((filter): filter is FilterCondition => filter !== undefined)
+            .concat(
+                // Concatenating multiple filter state
+                Object.keys(multipleFilteringState)
+                    .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
+                    .filter((filter): filter is FilterCondition => filter !== undefined)
+            );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [...deps1, ...deps2]);
 
-    if (filters.length > 0) {
-        props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-    } else if (filtered) {
-        props.datasource.setFilter(undefined);
-    } else {
-        props.datasource.setFilter(viewStateFilters.current);
-    }
+    useEffect(() => {
+        if (filters.length > 0) {
+            actions.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
+        } else if (filtered) {
+            actions.setFilter(undefined);
+        } else {
+            actions.setFilter(viewStateFilters.current);
+        }
+    }, [filters, filtered, actions]);
 
     const selectionHelper = useSelectionHelper(
         props.itemSelection,
@@ -228,11 +236,13 @@ function Container(props: Props): ReactElement {
 }
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const [initState, mappedColumns] = useModel(props);
+    const { initState, columns, stateChangeFx: onStateChange } = useModel(props);
 
     if (initState.status === "pending") {
         return null;
     }
 
-    return <Container {...props} initParams={initState.initParams} mappedColumns={mappedColumns} />;
+    return (
+        <Container {...props} initParams={initState.initParams} mappedColumns={columns} onStateChange={onStateChange} />
+    );
 }

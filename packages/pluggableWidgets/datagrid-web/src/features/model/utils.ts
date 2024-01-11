@@ -48,7 +48,7 @@ export function sortByOrder<T extends GridColumn>(columns: T[], order: ColumnId[
 export function sortToInst(sort: Grid.SortOrder, columns: Column[]): Grid.SortInstruction[] {
     return sort.flatMap<Grid.SortInstruction>(([id, dir]) => {
         const { attrId } = columns.find(c => c.columnId === id) ?? {};
-        return attrId ? [attrId, dir] : [];
+        return attrId ? [[attrId, dir]] : [];
     });
 }
 

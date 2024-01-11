@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useReducer } from "react";
+import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridModel";
 import { sortByOrder } from "./utils";
@@ -24,7 +25,13 @@ type InitArg = {
     columns: Grid.Columns;
 };
 
-export function useGridState(initParams: Grid.InitParams, columns: Grid.Columns): [Grid.State, Grid.Actions] {
+export type StateChangeFx = (prev: Grid.State, next: Grid.State) => void;
+
+export function useGridState(
+    initParams: Grid.InitParams,
+    columns: Grid.Columns,
+    onStateChange: StateChangeFx
+): [Grid.State, Grid.Actions] {
     const [state, dispatch] = useReducer(columnsStateReducer, { params: initParams, columns }, initGridState);
 
     const memoizedGridActions = useMemo<Grid.Actions>(() => {
@@ -38,6 +45,7 @@ export function useGridState(initParams: Grid.InitParams, columns: Grid.Columns)
     }, [dispatch]);
 
     useEffect(() => dispatch({ type: "setColumns", payload: columns }), [columns]);
+    useWatchValues(([prevState], [newState]) => onStateChange(prevState, newState), [state]);
 
     return [state, memoizedGridActions];
 }
@@ -84,6 +92,7 @@ function columnsStateReducer(state: Grid.State, action: Action): Grid.State {
             return {
                 ...state,
                 hidden: newHidden,
+                sort: reduceSortRemove(state.sort, action.payload),
                 visibleColumns: computeVisible(state.availableColumns, newHidden)
             };
         }
@@ -156,6 +165,10 @@ function reduceSortSingle(sort: Grid.SortOrder, columnId: ColumnId): Grid.SortOr
         return dir === "asc" ? [[columnId, "desc"]] : [];
     }
     return [[columnId, "asc"]];
+}
+
+function reduceSortRemove(sort: Grid.SortOrder, columnId: ColumnId): Grid.SortOrder {
+    return sort.flatMap(rule => (rule[0] === columnId ? [] : [rule]));
 }
 
 function reduceHidden(prev: Grid.Hidden, id: ColumnId): Grid.Hidden {
