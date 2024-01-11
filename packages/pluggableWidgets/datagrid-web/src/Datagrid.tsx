@@ -24,7 +24,7 @@ import { useSelectActionHelper } from "./helpers/use-select-action-helper";
 import { useClickActionHelper } from "./helpers/use-click-action-helper";
 import { useCellEventsController } from "./features/row-interaction/use-cell-events-controller";
 import { useCheckboxEventsController } from "./features/row-interaction/use-checkbox-events-controller";
-import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement {
     const id = useRef(`DataGrid${generateUUID()}`);

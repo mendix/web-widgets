@@ -32,9 +32,9 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
 import { ExportWidget } from "./ExportWidget";
-import { KeyNavProvider } from "../features/keyboard-navigation/context";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { FocusTargetController } from "../features/keyboard-navigation/FocusTargetController";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 
 interface CheckboxEventsController {
