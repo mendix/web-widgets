@@ -143,6 +143,7 @@ export function MultiSelection({
                         <SelectAllButton
                             value={isOptionsSelected}
                             id={`${options.inputId}-select-all-button`}
+                            unfocused={highlightedIndex >= 0}
                             ariaLabel={a11yConfig.ariaLabels.selectAll}
                             onChange={() => {
                                 if (isOptionsSelected === "all") {
