@@ -9,8 +9,8 @@ exports[`Header renders the structure correctly 1`] = `
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -33,9 +33,9 @@ exports[`Header renders the structure correctly when draggable 1`] = `
 >
   <div
     class="column-container"
-    data-column-number="0"
+    data-column-id="dg1-column0"
     draggable="true"
-    id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -58,8 +58,8 @@ exports[`Header renders the structure correctly when filterable with custom clas
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -82,8 +82,8 @@ exports[`Header renders the structure correctly when filterable with custom filt
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -114,8 +114,8 @@ exports[`Header renders the structure correctly when filterable with no custom f
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -138,8 +138,8 @@ exports[`Header renders the structure correctly when is hidden and preview 1`] =
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -162,8 +162,8 @@ exports[`Header renders the structure correctly when resizable 1`] = `
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="Test"
@@ -194,8 +194,8 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label="sort Test"
@@ -235,8 +235,8 @@ exports[`Header renders the structure correctly when value is empty 1`] = `
 >
   <div
     class="column-container"
-    data-column-number="0"
-    id="dg1-column0"
+    data-column-id="dg1-column0"
+    id="dg1-columndg1-column0"
   >
     <div
       aria-label=""
