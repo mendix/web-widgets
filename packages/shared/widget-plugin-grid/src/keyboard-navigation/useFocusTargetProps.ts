@@ -1,18 +1,17 @@
-import { useState, useRef, useEffect, useMemo } from "react";
-
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useKeyNavContext } from "./context";
 import { Listener } from "./FocusTargetController";
 import { posString } from "./position";
+
+interface Focusable {
+    focus(): void;
+}
 
 type Props = {
     columnIndex: number;
     rowIndex: number;
     focusTarget?: () => Focusable | null;
 };
-
-interface Focusable {
-    focus(): void;
-}
 
 type ElementState = {
     canFocus: boolean;
@@ -25,7 +24,7 @@ type ElementProps<T extends Focusable> = {
 };
 
 export function useFocusTargetProps<T extends Focusable = Focusable>(props: Props): ElementProps<T> {
-    const eltRef = useRef<T>(null);
+    const elementRef = useRef<T>(null);
     const focusTargetPropRef = useRef(props.focusTarget);
     const { focusController } = useKeyNavContext();
     const [active, pos] = useMemo(() => {
@@ -45,6 +44,7 @@ export function useFocusTargetProps<T extends Focusable = Focusable>(props: Prop
                 }
                 return prev;
             });
+
         focusController.addListener(listener);
         return () => focusController.removeListener(listener);
     }, [focusController, pos]);
@@ -53,13 +53,13 @@ export function useFocusTargetProps<T extends Focusable = Focusable>(props: Prop
         const { current: focusTarget } = focusTargetPropRef;
 
         if (state.canFocus) {
-            const target = typeof focusTarget === "function" ? focusTarget() : eltRef.current;
+            const target = typeof focusTarget === "function" ? focusTarget() : elementRef.current;
             target?.focus();
         }
     }, [state]);
 
     return {
-        ref: eltRef,
+        ref: elementRef,
         tabIndex: active ? 0 : -1,
         "data-position": pos
     };

@@ -28,5 +28,7 @@ export class VirtualGridLayout {
         if (this._positions.has(pos)) {
             return pos;
         }
+
+        return undefined;
     }
 }
