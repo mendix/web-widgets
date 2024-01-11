@@ -67,7 +67,7 @@ describe("Header", () => {
 
     it("calls setSortBy store function with correct parameters when sortable", () => {
         const column = {
-            columnId: "sortable",
+            columnId: "0",
             columnNumber: 0,
             header: "My sortable column",
             canSort: true
@@ -82,7 +82,7 @@ describe("Header", () => {
         expect(clickableRegion).toHaveLength(1);
 
         clickableRegion.simulate("click");
-        expect(mockedFunction).toBeCalledWith([{ columnNumber: 0, desc: false }]);
+        expect(mockedFunction).toHaveBeenLastCalledWith("0");
     });
 
     it("renders the structure correctly when filterable with custom classes", () => {
@@ -117,14 +117,14 @@ describe("Header", () => {
 
 function mockHeaderProps(): HeaderProps {
     return {
-        tableId: "dg1",
+        gridId: "dg1",
         column: {
             columnId: "dg1-column0",
             columnNumber: 0,
             header: "Test"
         } as GridColumn,
         draggable: false,
-        dragOver: "",
+        dragOver: undefined,
         filterable: false,
         filterWidget: undefined,
         hidable: false,
@@ -136,6 +136,6 @@ function mockHeaderProps(): HeaderProps {
         visibleColumns: [],
         setSortBy: jest.fn(),
         setIsDragging: jest.fn(),
-        sortBy: []
+        sortRule: undefined
     };
 }

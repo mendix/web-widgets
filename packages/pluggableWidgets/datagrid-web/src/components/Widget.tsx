@@ -189,7 +189,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             sortable={columnsSortable}
                                             sortRule={state.sort.find(([id]) => column.columnId === id)}
                                             visibleColumns={state.visibleColumns}
-                                            tableId={`${props.id}`}
                                         />
                                     )
                                 )}

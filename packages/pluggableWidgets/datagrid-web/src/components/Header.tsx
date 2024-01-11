@@ -39,7 +39,6 @@ export interface HeaderProps {
     setSortBy: Grid.Actions["sortBy"];
     sortRule?: Grid.SortRule;
     visibleColumns: GridColumn[];
-    tableId: string;
 }
 
 export function Header(props: HeaderProps): ReactElement {
