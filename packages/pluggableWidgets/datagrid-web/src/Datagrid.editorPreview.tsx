@@ -10,7 +10,8 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { initGridState } from "./features/model/use-grid-state";
+import { ColumnId } from "./typings/GridColumn";
+import * as Grid from "./typings/GridModel";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -60,7 +61,20 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
-    const columnsState = initGridState(previewColumns.map((col, index) => new ColumnPreview(col, index)));
+    const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
+    const state: Grid.State = {
+        availableColumns: [],
+        allColumns: columns,
+        filter: undefined,
+        hidden: new Set<ColumnId>(),
+        columnOrder: [] as ColumnId[],
+        size: {},
+        sort: [],
+        visibleColumns: []
+    };
+    const noop = (..._: unknown[]): void => {
+        //
+    };
 
     return (
         <Widget
@@ -71,7 +85,14 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            columnsState={columnsState}
+            state={state}
+            actions={{
+                toggleHidden: noop,
+                resize: noop,
+                setFilter: noop,
+                sortBy: noop,
+                swap: noop
+            }}
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
@@ -110,12 +131,6 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             preview
             processedRows={0}
             styles={parseStyle(props.style)}
-            setHidden={() => {
-                return undefined;
-            }}
-            setOrder={() => {
-                return undefined;
-            }}
             valueForSort={useCallback(() => undefined, [])}
             selectionProps={selectionProps}
             selectionStatus={"none"}
