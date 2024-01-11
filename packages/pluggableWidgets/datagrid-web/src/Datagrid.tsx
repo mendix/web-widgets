@@ -19,14 +19,14 @@ import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
-import { useColumnsState } from "./features/use-columns-state";
+import { useGridState } from "./features/model/use-grid-state";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useModel } from "./features/model/use-model";
-import { GridSettings } from "./typings/GridSettings";
+import { InitParams } from "./typings/GridModel";
 
 interface Props extends DatagridContainerProps {
     mappedColumns: Column[];
-    settings: GridSettings | undefined;
+    initParams: InitParams;
 }
 
 function Container(props: Props): ReactElement {
@@ -40,10 +40,10 @@ function Container(props: Props): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [columnsState, { setHidden, setOrder }] = useColumnsState(props.mappedColumns);
+    const [state, actions] = useGridState(props.initParams, props.mappedColumns);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: columnsState.columnsVisible.map(column => props.columns[column.columnNumber]),
+        columns: state.visibleColumns.map(column => props.columns[column.columnNumber]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,

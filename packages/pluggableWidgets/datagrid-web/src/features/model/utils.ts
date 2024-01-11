@@ -2,7 +2,6 @@
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ListValue } from "mendix";
 import { GridSettings } from "../../typings/GridSettings";
-import { InitParams } from "./base";
 import { Column } from "../../helpers/Column";
 import * as Grid from "../../typings/GridModel";
 
@@ -60,7 +59,7 @@ export function instToSort(inst: Grid.SortInstruction[], columns: Column[]): Gri
     });
 }
 
-export function paramsFromSettings(settings: GridSettings, ds: ListValue): InitParams {
+export function paramsFromSettings(settings: GridSettings, ds: ListValue): Grid.InitParams {
     return {
         sort: settings.sort,
         order: settings.order,
@@ -70,7 +69,7 @@ export function paramsFromSettings(settings: GridSettings, ds: ListValue): InitP
     };
 }
 
-export function paramsFromColumns(columns: Column[], ds: ListValue): InitParams {
+export function paramsFromColumns(columns: Column[], ds: ListValue): Grid.InitParams {
     return {
         sort: instToSort(ds.sortOrder, columns),
         size: {},

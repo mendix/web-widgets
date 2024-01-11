@@ -31,7 +31,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/use-columns-state";
+import { ColumnsState, DispatchOrderUpdate, DispatchHiddenUpdate } from "../features/model/use-grid-state";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "../features/keyboard-navigation/context";
 
