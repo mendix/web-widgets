@@ -22,33 +22,28 @@ export type ColumnOrder = ColumnId[];
 
 export type SortOrder = SortRule[];
 
-export interface StorableState {
+interface BaseState {
+    columnOrder: ColumnOrder;
+    hidden: Hidden;
+    size: ColumnWidthConfig;
+    sortOrder: SortOrder;
+}
+
+export interface StorableState extends BaseState {
     columns: Columns;
-    hidden: Hidden;
     name: string;
-    columnOrder: ColumnOrder;
     settingsHash: string;
-    size: ColumnWidthConfig;
-    sortOrder: SortOrder;
 }
 
-export interface InitParams {
+export interface InitParams extends BaseState {
     filter: Filter;
-    hidden: Hidden;
-    columnOrder: ColumnOrder;
-    size: ColumnWidthConfig;
-    sortOrder: SortOrder;
 }
 
-export interface State {
+export interface State extends BaseState {
     allColumns: Columns;
     availableColumns: Columns;
     visibleColumns: Columns;
     filter: Filter;
-    hidden: Hidden;
-    columnOrder: ColumnOrder;
-    size: ColumnWidthConfig;
-    sortOrder: SortOrder;
 }
 
 export type Actions = {

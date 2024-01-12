@@ -187,7 +187,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             setIsDragging={setIsDragging}
                                             setSortBy={actions.sortBy}
                                             sortable={columnsSortable}
-                                            sortRule={state.sort.find(([id]) => column.columnId === id)}
+                                            sortRule={state.sortOrder.find(([id]) => column.columnId === id)}
                                             visibleColumns={state.visibleColumns}
                                         />
                                     )
