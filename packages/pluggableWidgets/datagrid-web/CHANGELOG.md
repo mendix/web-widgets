@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed issue with header when using custom content in the column.
+-   Fixed an issue with the header when using custom content in the column.
+
+-   Fixed an issue that caused the datagrid to crash after changing column settings when the attribute for saving the configuration was provided.
 
 ## [2.11.0] - 2023-12-06
 
