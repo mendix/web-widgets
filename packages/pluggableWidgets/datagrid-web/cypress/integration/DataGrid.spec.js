@@ -118,7 +118,7 @@ describe("datagrid-web", () => {
             cy.get(".mx-name-datagrid5 .column-header").first().contains("Last Name");
             cy.get(".mx-name-textArea1 textarea").should(
                 "have.text",
-                '[{"column":"First Name","sort":false,"sortMethod":"asc","hidden":true,"order":0},{"column":"Last Name","sort":false,"sortMethod":"asc","hidden":false,"order":1}]'
+                '{"schemaVersion":1,"settingsHash":"1354889321","name":"datagrid5","sortOrder":[],"columnOrder":["0","1"],"columns":[{"columnId":"0","hidden":true},{"columnId":"1","hidden":false}]}'
             );
         });
 
