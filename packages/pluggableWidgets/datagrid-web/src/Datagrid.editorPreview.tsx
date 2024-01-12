@@ -69,7 +69,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         hidden: new Set<ColumnId>(),
         columnOrder: [] as ColumnId[],
         size: {},
-        sort: [],
+        sortOrder: [],
         visibleColumns: []
     };
     const noop = (..._: unknown[]): void => {
