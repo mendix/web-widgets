@@ -185,12 +185,12 @@ function reduceHidden(prev: Grid.Hidden, id: ColumnId): Grid.Hidden {
 }
 
 export function initGridState({ params, columns }: InitArg): Grid.State {
-    const availableColumns = computeAvailable(columns, params.order);
+    const availableColumns = computeAvailable(columns, params.columnOrder);
     const visibleColumns = computeVisible(availableColumns, params.hidden);
     return {
         allColumns: columns,
         availableColumns,
-        columnOrder: params.order,
+        columnOrder: params.columnOrder,
         filter: params.filter,
         hidden: params.hidden,
         size: params.size,

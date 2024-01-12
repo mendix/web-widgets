@@ -62,7 +62,7 @@ export function instToSort(inst: Grid.SortInstruction[], columns: Column[]): Gri
 export function paramsFromSettings(settings: GridSettings, ds: ListValue): Grid.InitParams {
     return {
         sortOrder: settings.sortOrder,
-        order: settings.columnOrder,
+        columnOrder: settings.columnOrder,
         hidden: new Set(settings.columns.flatMap(col => (col.hidden ? [col.columnId] : []))),
         size: Object.fromEntries(settings.columns.map(col => [col.columnId, col.size])),
         filter: ds.filter
@@ -74,7 +74,7 @@ export function paramsFromColumns(columns: Column[], ds: ListValue): Grid.InitPa
         sortOrder: instToSort(ds.sortOrder, columns),
         size: {},
         hidden: new Set(columns.flatMap(column => (column.initiallyHidden ? [column.columnId] : []))),
-        order: columns.map(col => col.columnId),
+        columnOrder: columns.map(col => col.columnId),
         filter: ds.filter
     };
 }
@@ -85,7 +85,7 @@ export function stateToSettings(params: Grid.StorableState): GridSettings {
         settingsHash: params.settingsHash,
         name: params.name,
         sortOrder: params.sortOrder,
-        columnOrder: params.order,
+        columnOrder: params.columnOrder,
         columns: params.columns.map(({ columnId }) => ({
             columnId,
             hidden: params.hidden.has(columnId),

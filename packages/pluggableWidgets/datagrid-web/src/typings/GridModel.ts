@@ -26,7 +26,7 @@ export interface StorableState {
     columns: Columns;
     hidden: Hidden;
     name: string;
-    order: ColumnOrder;
+    columnOrder: ColumnOrder;
     settingsHash: string;
     size: ColumnWidthConfig;
     sortOrder: SortOrder;
@@ -35,7 +35,7 @@ export interface StorableState {
 export interface InitParams {
     filter: Filter;
     hidden: Hidden;
-    order: ColumnOrder;
+    columnOrder: ColumnOrder;
     size: ColumnWidthConfig;
     sortOrder: SortOrder;
 }
