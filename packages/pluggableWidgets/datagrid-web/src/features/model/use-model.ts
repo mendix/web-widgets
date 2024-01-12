@@ -45,7 +45,7 @@ export function useModel({
                 name,
                 columns: newState.allColumns,
                 hidden: newState.hidden,
-                order: newState.columnOrder,
+                columnOrder: newState.columnOrder,
                 size: newState.size,
                 sortOrder: newState.sortOrder
             });
