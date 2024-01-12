@@ -49,18 +49,10 @@ $menu-outer-padding: 10px;
             }
 
             &:has(input[type="checkbox"]:hover, :focus, :focus-within)
-                + .widget-combobox-menu-list
-                input[type="checkbox"]:after {
+                + .widget-combobox-menu-list:not(.widget-combobox-menu-highlighted)
+                input[type="checkbox"]:not(:checked):after {
                 content: "";
                 border-color: $hover-color;
-            }
-
-            &-select-all-button {
-                &.unfocused {
-                    .three-state-checkbox {
-                        outline: none;
-                    }
-                }
             }
         }
 

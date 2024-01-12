@@ -8,18 +8,16 @@ interface SelectAllButtonProps extends Partial<UseComboboxPropGetters<string>> {
     id?: string;
     ariaLabel?: string;
     value: ThreeStateCheckBoxEnum;
-    unfocused: boolean;
     onChange?: () => void;
 }
 
-export function SelectAllButton({ id, ariaLabel, value, unfocused, onChange }: SelectAllButtonProps): ReactElement {
+export function SelectAllButton({ id, ariaLabel, value, onChange }: SelectAllButtonProps): ReactElement {
     return (
         <Fragment>
             <span
                 className={classNames(
                     "widget-combobox-menu-header-select-all-button",
-                    "widget-combobox-icon-container",
-                    { unfocused }
+                    "widget-combobox-icon-container"
                 )}
             >
                 <ThreeStateCheckBox value={value} id={id} onChange={onChange} />

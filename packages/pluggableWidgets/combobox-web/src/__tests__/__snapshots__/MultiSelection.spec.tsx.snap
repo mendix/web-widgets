@@ -84,7 +84,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         class="widget-combobox-menu-header widget-combobox-item"
       >
         <span
-          class="widget-combobox-icon-container"
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
         >
           <input
             checked=""
@@ -195,7 +195,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
         class="widget-combobox-menu-header widget-combobox-item"
       >
         <span
-          class="widget-combobox-icon-container"
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
         >
           <input
             checked=""
@@ -306,7 +306,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
         class="widget-combobox-menu-header widget-combobox-item"
       >
         <span
-          class="widget-combobox-icon-container"
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
         >
           <input
             checked=""
