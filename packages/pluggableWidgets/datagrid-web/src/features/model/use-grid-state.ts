@@ -70,7 +70,7 @@ function gridStateReducer(state: Grid.State, action: Action): Grid.State {
         case "sortBy": {
             return {
                 ...state,
-                sort: reduceSortSingle(state.sort, action.payload)
+                sortOrder: reduceSortSingle(state.sortOrder, action.payload)
             };
         }
         case "swap": {
@@ -95,7 +95,7 @@ function gridStateReducer(state: Grid.State, action: Action): Grid.State {
             return {
                 ...state,
                 hidden: newHidden,
-                sort: reduceSortRemove(state.sort, action.payload),
+                sortOrder: reduceSortRemove(state.sortOrder, action.payload),
                 visibleColumns: computeVisible(state.availableColumns, newHidden)
             };
         }
@@ -194,7 +194,7 @@ export function initGridState({ params, columns }: InitArg): Grid.State {
         filter: params.filter,
         hidden: params.hidden,
         size: params.size,
-        sort: params.sort,
+        sortOrder: params.sortOrder,
         visibleColumns
     };
 }
