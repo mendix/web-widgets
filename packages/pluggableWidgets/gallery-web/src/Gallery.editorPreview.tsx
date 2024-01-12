@@ -1,10 +1,12 @@
 import { GUID, ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode, useCallback } from "react";
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
+import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
+import { useGridPositions } from "./features/use-grid-positions";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/use-item-select-helper";
-import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -14,6 +16,18 @@ function Preview(props: GalleryPreviewProps): ReactElement {
 
     const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
     const itemEventsController = useItemEventsController(selectHelper);
+
+    const { columnSize, rowSize, getPosition } = useGridPositions({
+        phoneItems: props.phoneItems ?? 1,
+        tabletItems: props.tabletItems ?? 2,
+        desktopItems: props.desktopItems ?? 3,
+        totalItems: items.length
+    });
+    const focusController = useFocusTargetController({
+        rows: rowSize,
+        columns: columnSize,
+        pageSize: props.pageSize ?? 0
+    });
 
     return (
         <GalleryComponent
@@ -49,6 +63,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             tabletItems={props.tabletItems!}
             selectHelper={selectHelper}
             itemEventsController={itemEventsController}
+            focusController={focusController}
+            getPosition={getPosition}
         />
     );
 }
