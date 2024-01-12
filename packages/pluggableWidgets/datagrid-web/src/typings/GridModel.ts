@@ -29,7 +29,7 @@ export interface StorableState {
     order: ColumnOrder;
     settingsHash: string;
     size: ColumnWidthConfig;
-    sort: SortOrder;
+    sortOrder: SortOrder;
 }
 
 export interface InitParams {
@@ -37,7 +37,7 @@ export interface InitParams {
     hidden: Hidden;
     order: ColumnOrder;
     size: ColumnWidthConfig;
-    sort: SortOrder;
+    sortOrder: SortOrder;
 }
 
 export interface State {
@@ -48,7 +48,7 @@ export interface State {
     hidden: Hidden;
     columnOrder: ColumnOrder;
     size: ColumnWidthConfig;
-    sort: SortOrder;
+    sortOrder: SortOrder;
 }
 
 export type Actions = {

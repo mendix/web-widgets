@@ -73,8 +73,8 @@ export class GridLoader {
     }
 
     private setViewState(datasource: ListValue, settings: GridSettings, columns: Column[]): void {
-        if (settings.sort.length > 0) {
-            datasource.setSortOrder(sortToInst(settings.sort, columns));
+        if (settings.sortOrder.length > 0) {
+            datasource.setSortOrder(sortToInst(settings.sortOrder, columns));
         }
     }
 

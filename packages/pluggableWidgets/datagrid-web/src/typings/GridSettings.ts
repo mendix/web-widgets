@@ -5,8 +5,8 @@ import { SortRule } from "./GridModel";
 export interface GridSettings {
     columns: ColumnSettings[];
     name: string;
-    order: ColumnId[];
+    columnOrder: ColumnId[];
     schemaVersion: number;
     settingsHash: string;
-    sort: SortRule[];
+    sortOrder: SortRule[];
 }

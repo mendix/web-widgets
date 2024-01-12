@@ -35,8 +35,8 @@ export function useModel({
             datasource.setFilter(newState.filter);
         }
 
-        if (prevState.sort !== newState.sort) {
-            datasource.setSortOrder(sortToInst(newState.sort, columns));
+        if (prevState.sortOrder !== newState.sortOrder) {
+            datasource.setSortOrder(sortToInst(newState.sortOrder, columns));
         }
 
         if (settingsClient.status === "available") {
@@ -47,7 +47,7 @@ export function useModel({
                 hidden: newState.hidden,
                 order: newState.columnOrder,
                 size: newState.size,
-                sort: newState.sort
+                sortOrder: newState.sortOrder
             });
 
             writeSettings(settingsClient.settings, settings);
