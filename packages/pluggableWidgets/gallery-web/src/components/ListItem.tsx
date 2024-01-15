@@ -4,7 +4,7 @@ import { createElement, memo, ReactElement, useMemo } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
 import { Positions } from "../features/use-grid-positions";
-import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
@@ -13,7 +13,7 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     helper: GalleryItemHelper;
     item: ObjectItem;
     itemIndex: number;
-    selectHelper: ItemSelectHelper;
+    selectHelper: SelectActionHelper;
     eventsController: ItemEventsController;
 };
 
@@ -39,7 +39,6 @@ const component = memo(function ListItem(props: ListItemProps): ReactElement {
             )}
             {...ariaProps}
             onClick={handlers.onClick}
-            onDoubleClick={handlers.onDoubleClick}
             onFocus={handlers.onFocus}
             onKeyDown={handlers.onKeyDown}
             onKeyUp={handlers.onKeyUp}
