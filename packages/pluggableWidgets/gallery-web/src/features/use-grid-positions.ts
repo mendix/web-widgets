@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GalleryProps } from "../components/Gallery";
 
 type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
@@ -16,44 +16,60 @@ type GridPositionsReturn = {
     getPosition: (index: number) => Positions;
 };
 
-export function useGridPositions({
-    desktopItems,
-    phoneItems,
-    tabletItems,
-    totalItems
-}: GridPositionsProps): GridPositionsReturn {
-    const [columnSize, setColumnSize] = useState(phoneItems);
+function useWindowWidth(): number {
+    const [width, setWidth] = useState(window.innerWidth);
 
-    useLayoutEffect(() => {
-        function updateColumnSize() {
-            if (window.innerWidth < 768) {
-                setColumnSize(phoneItems);
-            }
-            if (window.innerWidth >= 768 && window.innerWidth < 992) {
-                setColumnSize(tabletItems);
-            }
-            if (window.innerWidth >= 992) {
-                setColumnSize(desktopItems);
-            }
+    useEffect(() => {
+        function updateWidth() {
+            setWidth(window.innerWidth);
         }
 
-        window.addEventListener("resize", updateColumnSize);
-        updateColumnSize();
+        window.addEventListener("resize", updateWidth);
 
-        return () => window.removeEventListener("resize", updateColumnSize);
+        return () => window.removeEventListener("resize", updateWidth);
     }, []);
 
-    const getPosition = (index: number): Positions => {
-        if (index < 0 || index >= totalItems) {
-            return { columnIndex: -1, rowIndex: -1 };
-        }
+    return width;
+}
 
-        const columnIndex = index % totalItems;
-        const rowIndex = Math.floor(index / columnSize);
+type Breakpoint = "desktop" | "tablet" | "phone";
 
-        return { columnIndex, rowIndex };
-    };
+function mapBreakpoint(width: number): Breakpoint {
+    if (width < 768) {
+        return "phone";
+    }
 
-    console.info({ columnSize, rowSize: Math.ceil(totalItems / columnSize), totalItems });
-    return { columnSize, rowSize: Math.ceil(totalItems / columnSize), getPosition };
+    if (width >= 768 && width < 992) {
+        return "tablet";
+    }
+
+    return "desktop";
+}
+
+function reduceColumnSize(config: GridPositionsProps, breakpoint: Breakpoint): number {
+    return config[`${breakpoint}Items`];
+}
+
+function getRowIndex(columnSize: number, index: number): number {
+    return Math.floor(index / columnSize);
+}
+
+function getPosition(columnSize: number, totalItems: number, index: number): Positions {
+    if (index < 0 || index >= totalItems) {
+        return { columnIndex: -1, rowIndex: -1 };
+    }
+
+    const columnIndex = index % totalItems;
+    const rowIndex = getRowIndex(columnSize, index);
+
+    return { columnIndex, rowIndex };
+}
+
+export function useGridPositions(config: GridPositionsProps): GridPositionsReturn {
+    const width = useWindowWidth();
+    const breakpoint = mapBreakpoint(width);
+    const columnSize = reduceColumnSize(config, breakpoint);
+    const rowSize = Math.ceil(config.totalItems / columnSize);
+
+    return { columnSize, rowSize, getPosition: index => getPosition(columnSize, config.totalItems, index) };
 }
