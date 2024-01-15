@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.1] - 2024-01-15
+
 ### Changed
 
 -   We changed **Select/Unselect button** caption into **Show Select all** for easier understanding
