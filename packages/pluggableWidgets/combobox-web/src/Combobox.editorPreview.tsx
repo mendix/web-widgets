@@ -92,7 +92,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel,
                 removeSelection: props.removeValueAriaLabel,
-                selectAll: props.selectAllButtonAriaLabel
+                selectAll: props.selectAllButtonCaption
             },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue,

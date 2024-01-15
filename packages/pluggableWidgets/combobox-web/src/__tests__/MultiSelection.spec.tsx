@@ -43,7 +43,7 @@ describe("Combo box (Association)", () => {
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
             selectAllButton: true, // Causes +1 option to be added to the menu
-            selectAllButtonAriaLabel: dynamicValue("Select/Unselect All"),
+            selectAllButtonCaption: dynamicValue("Select All"),
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
