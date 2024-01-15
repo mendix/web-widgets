@@ -112,7 +112,6 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
 
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectHelper = useItemSelectHelper(props.itemSelection, selection);
-    const itemEventsController = useItemEventsController(selectHelper);
     const items = props.datasource.items ?? [];
     const { columnSize, rowSize, getPosition } = useGridPositions({
         desktopItems: props.desktopItems,
@@ -125,6 +124,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         columns: columnSize,
         pageSize: props.pageSize
     });
+    const itemEventsController = useItemEventsController(selectHelper, focusController);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
