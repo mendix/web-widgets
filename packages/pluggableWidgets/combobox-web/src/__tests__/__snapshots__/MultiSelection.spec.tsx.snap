@@ -97,7 +97,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           class="widget-combobox-caption-text"
           for="comboBox1-select-all-button"
         >
-          Select/Unselect All
+          Select All
         </label>
       </div>
       <ul
@@ -208,7 +208,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
           class="widget-combobox-caption-text"
           for="comboBox1-select-all-button"
         >
-          Select/Unselect All
+          Select All
         </label>
       </div>
       <ul
@@ -319,7 +319,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
           class="widget-combobox-caption-text"
           for="comboBox1-select-all-button"
         >
-          Select/Unselect All
+          Select All
         </label>
       </div>
       <ul

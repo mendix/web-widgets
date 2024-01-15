@@ -49,7 +49,7 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
-            selectAllButtonAriaLabel: dynamicValue("Select/Unselect All"),
+            selectAllButtonCaption: dynamicValue("Select All"),
             selectAllButton: false,
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),

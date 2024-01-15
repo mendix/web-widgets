@@ -25,7 +25,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
-            "selectAllButtonAriaLabel"
+            "selectAllButtonCaption"
         ]);
         if (values.optionsSourceType === "boolean") {
             hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -53,6 +53,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
 
         if (values.showFooter === false) {
             hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
+        }
+
+        if (values.selectAllButton === false) {
+            hidePropertiesIn(defaultProperties, values, ["selectAllButtonCaption"]);
         }
     }
 

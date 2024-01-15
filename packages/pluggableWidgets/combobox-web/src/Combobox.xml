@@ -142,8 +142,16 @@
                     </enumerationValues>
                 </property>
                 <property key="selectAllButton" type="boolean" defaultValue="false" required="true">
-                    <caption>Select/Unselect button</caption>
-                    <description>Add a button to Select/Unselect all shown options.</description>
+                    <caption>Show select all</caption>
+                    <description>Add a button to select/deselect all options.</description>
+                </property>
+                <property key="selectAllButtonCaption" type="textTemplate" required="true">
+                    <caption>Caption for select all</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Select all</translation>
+                        <translation lang="nl_NL">Selecteer alles</translation>
+                    </translations>
                 </property>
             </propertyGroup>
             <!-- END MULTI SELECTION (REFERENCE SET) -->
@@ -198,14 +206,6 @@
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>
-                    </translations>
-                </property>
-                <property key="selectAllButtonAriaLabel" type="textTemplate" required="true">
-                    <caption>Select/Unselect all button</caption>
-                    <description>Used to select or unselect all available options with multi-selection.</description>
-                    <translations>
-                        <translation lang="en_US">Select all</translation>
-                        <translation lang="nl_NL">Selecteer alles</translation>
                     </translations>
                 </property>
             </propertyGroup>
