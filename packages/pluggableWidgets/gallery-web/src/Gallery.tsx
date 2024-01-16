@@ -16,7 +16,7 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { useGridPositions } from "./features/use-grid-positions";
+import { getPosition, GridPositionsProps, useGridPositions } from "./features/use-grid-positions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/use-item-select-helper";
 import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
@@ -113,15 +113,21 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectHelper = useItemSelectHelper(props.itemSelection, selection);
     const items = props.datasource.items ?? [];
-    const { columnSize, rowSize, getPosition } = useGridPositions({
+    const config: GridPositionsProps = {
         desktopItems: props.desktopItems,
         phoneItems: props.phoneItems,
         tabletItems: props.tabletItems,
         totalItems: items.length
-    });
+    };
+    const { numberOfColumns, numberOfRows } = useGridPositions(config);
+    const getPositionCallback = useCallback(
+        (index: number) => getPosition(numberOfColumns, items.length, index),
+        [numberOfColumns, items.length]
+    );
+
     const focusController = useFocusTargetController({
-        rows: rowSize,
-        columns: columnSize,
+        rows: numberOfRows,
+        columns: numberOfColumns,
         pageSize: props.pageSize
     });
     const itemEventsController = useItemEventsController(selectHelper, focusController);
@@ -208,7 +214,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             selectHelper={selectHelper}
             itemEventsController={itemEventsController}
             focusController={focusController}
-            getPosition={getPosition}
+            getPosition={getPositionCallback}
         />
     );
 }

@@ -2,7 +2,7 @@ import { ObjectItem } from "mendix";
 import { useEffect, useState } from "react";
 import { GalleryProps } from "../components/Gallery";
 
-type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
+export type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
     totalItems: number;
 };
 
@@ -11,21 +11,17 @@ export type Positions = {
     rowIndex: number;
 };
 type GridPositionsReturn = {
-    columnSize: number;
-    rowSize: number;
-    getPosition: (index: number) => Positions;
+    numberOfColumns: number;
+    numberOfRows: number;
 };
 
 function useWindowWidth(): number {
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-        function updateWidth() {
-            setWidth(window.innerWidth);
-        }
+        const updateWidth = (event: UIEvent): void => setWidth((event.target as Window).innerWidth);
 
         window.addEventListener("resize", updateWidth);
-
         return () => window.removeEventListener("resize", updateWidth);
     }, []);
 
@@ -46,21 +42,21 @@ function mapBreakpoint(width: number): Breakpoint {
     return "desktop";
 }
 
-function reduceColumnSize(config: GridPositionsProps, breakpoint: Breakpoint): number {
+function mapNumberOfColumns(config: GridPositionsProps, breakpoint: Breakpoint): number {
     return config[`${breakpoint}Items`];
 }
 
-function getRowIndex(columnSize: number, index: number): number {
-    return Math.floor(index / columnSize);
+function getRowIndex(numberOfColumns: number, index: number): number {
+    return Math.floor(index / numberOfColumns);
 }
 
-function getPosition(columnSize: number, totalItems: number, index: number): Positions {
+export function getPosition(numberOfColumns: number, totalItems: number, index: number): Positions {
     if (index < 0 || index >= totalItems) {
         return { columnIndex: -1, rowIndex: -1 };
     }
 
     const columnIndex = index % totalItems;
-    const rowIndex = getRowIndex(columnSize, index);
+    const rowIndex = getRowIndex(numberOfColumns, index);
 
     return { columnIndex, rowIndex };
 }
@@ -68,8 +64,11 @@ function getPosition(columnSize: number, totalItems: number, index: number): Pos
 export function useGridPositions(config: GridPositionsProps): GridPositionsReturn {
     const width = useWindowWidth();
     const breakpoint = mapBreakpoint(width);
-    const columnSize = reduceColumnSize(config, breakpoint);
-    const rowSize = Math.ceil(config.totalItems / columnSize);
+    const numberOfColumns = mapNumberOfColumns(config, breakpoint);
+    const numberOfRows = Math.ceil(config.totalItems / numberOfColumns);
 
-    return { columnSize, rowSize, getPosition: index => getPosition(columnSize, config.totalItems, index) };
+    return {
+        numberOfColumns,
+        numberOfRows
+    };
 }
