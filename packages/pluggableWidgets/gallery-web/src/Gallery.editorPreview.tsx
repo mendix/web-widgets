@@ -4,7 +4,7 @@ import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-na
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
-import { useGridPositions } from "./features/use-grid-positions";
+import { getPosition, useGridPositions } from "./features/use-grid-positions";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/use-item-select-helper";
 
@@ -15,19 +15,25 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     }));
 
     const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
-    const itemEventsController = useItemEventsController(selectHelper);
 
-    const { columnSize, rowSize, getPosition } = useGridPositions({
+    const { numberOfColumns, numberOfRows } = useGridPositions({
         phoneItems: props.phoneItems ?? 1,
         tabletItems: props.tabletItems ?? 2,
         desktopItems: props.desktopItems ?? 3,
         totalItems: items.length
     });
+    const getPositionCallback = useCallback(
+        (index: number) => getPosition(numberOfColumns, items.length, index),
+        [numberOfColumns, items.length]
+    );
+
     const focusController = useFocusTargetController({
-        rows: rowSize,
-        columns: columnSize,
+        rows: numberOfRows,
+        columns: numberOfColumns,
         pageSize: props.pageSize ?? 0
     });
+
+    const itemEventsController = useItemEventsController(selectHelper, focusController);
 
     return (
         <GalleryComponent
@@ -64,7 +70,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             selectHelper={selectHelper}
             itemEventsController={itemEventsController}
             focusController={focusController}
-            getPosition={getPosition}
+            getPosition={getPositionCallback}
         />
     );
 }
