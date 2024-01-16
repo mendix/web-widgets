@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.12.0] DataWidgets - 2024-01-16
+
+### [2.12.0] Datagrid
+
+#### Added
+
+-   We added pagination visibility configuration named "Show paging buttons" property. User can choose to always show pagination button or automatically hide based on number of data displayed. Thanks to @Andries-Smit for the help on this feature.
+
+#### Fixed
+
+-   Fixed an issue with the header when using custom content in the column.
+
+-   Fixed an issue that caused the datagrid to crash after changing column settings when the attribute for saving the configuration was provided.
+
 ## [2.11.0] DataWidgets - 2023-12-06
 
 ### [2.5.2] DatagridDropdownFilter
