@@ -345,7 +345,7 @@ describe("Table", () => {
 
         it("call onSelect when cell is clicked", async () => {
             const items = props.data;
-            const onSelect = props.selectActionHelper.onSelect;
+            const onSelect = jest.fn();
             const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
             props.state = mockState(columns);
             props.cellEventsController = new CellEventsController(
