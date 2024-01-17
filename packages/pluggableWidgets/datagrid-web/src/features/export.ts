@@ -219,24 +219,49 @@ function exportColumns(columns: ColumnsType[]): Message {
     return { type: "columns", payload: exportColumns };
 }
 
-function exportData(data: ObjectItem[], columns: ColumnsType[]): Message {
-    const items = data.map(item => {
-        return columns.map(column => {
-            let value = "";
+type ExportDataResult =
+    | {
+          status: "pending";
+      }
+    | {
+          status: "ready";
+          message: Message;
+      };
 
+function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResult {
+    const rows = [];
+    let hasLoadingItem = false;
+
+    for (const item of data) {
+        const row = [];
+        for (const column of columns) {
+            let value = "";
             if (column.showContentAs === "attribute") {
                 value = column.attribute?.get(item)?.displayValue ?? "";
             } else if (column.showContentAs === "dynamicText") {
-                value = column.dynamicText?.get(item)?.value ?? "";
+                const dynamicText = column.dynamicText?.get(item);
+                if (dynamicText?.status === "loading") {
+                    hasLoadingItem = true;
+                } else if (dynamicText?.status === "unavailable") {
+                    value = "n/a";
+                } else {
+                    value = dynamicText?.value ?? "";
+                }
             } else {
                 value = "n/a (custom content)";
             }
+            row.push(value);
+        }
+        rows.push(row);
+    }
 
-            return value;
-        });
-    });
+    if (hasLoadingItem) {
+        return {
+            status: "pending"
+        };
+    }
 
-    return { type: "data", payload: items };
+    return { status: "ready", message: { type: "data", payload: rows } };
 }
 
 type CallbackFunction = (msg: Message) => Promise<void> | void;
@@ -397,7 +422,7 @@ function exportStateReducer(state: State, action: Action): State {
     }
 
     if (action.type === "ColumnsUpdate") {
-        if (state.phase === "readyToStart" || state.phase === "exportColumns") {
+        if (state.phase === "readyToStart" || state.phase === "exportColumns" || state.phase === "exportData") {
             return {
                 ...state,
                 columns: action.payload.columns
@@ -511,8 +536,11 @@ function createExportFlow(): [ExportFlowFn, ExportFlowCleanup] {
         if (state.phase === "exportData") {
             const { currentItems, callback, columns } = state;
             if (currentItems.length > 0) {
-                await controller.exec(() => callback(exportData(currentItems, columns)));
-                controller.exec(() => dispatch({ type: "PageExported" }));
+                const result = exportData(currentItems, columns);
+                if (result.status === "ready") {
+                    await controller.exec(() => callback(result.message));
+                    controller.exec(() => dispatch({ type: "PageExported" }));
+                }
             }
             return;
         }
