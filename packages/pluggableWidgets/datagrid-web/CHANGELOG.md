@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where Dynamic text values cells would be blank in exported .xlsx
+
 ## [2.12.0] - 2024-01-16
 
 ### Added
