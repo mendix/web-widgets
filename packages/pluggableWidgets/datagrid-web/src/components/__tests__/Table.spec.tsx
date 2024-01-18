@@ -8,11 +8,10 @@ import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
 import { Column } from "../../helpers/Column";
 import { GridColumn } from "../../typings/GridColumn";
-import { column, mockWidgetProps } from "../../utils/test-utils";
+import { column, mockState, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { useGridSelectionProps } from "@mendix/widget-plugin-grid/selection/useGridSelectionProps";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
-import { initColumnsState } from "../../features/use-columns-state";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -70,10 +69,9 @@ describe("Table", () => {
 
     it("renders the structure correctly with custom filtering", () => {
         const props = mockWidgetProps();
-        const columns = [column("Test")].map((col, index) => new Column(col, index, props.id!));
+        const columns = [column("Test")].map((col, index) => new Column(col, index));
         props.columnsFilterable = true;
-        props.columnsState = initColumnsState(columns);
-
+        props.state = mockState(columns);
         const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
@@ -94,8 +92,8 @@ describe("Table", () => {
                 col.alignment = "center";
             }),
             column("Test 2", col => (col.alignment = "right"))
-        ].map((col, index) => new Column(col, index, props.id!));
-        props.columnsState = initColumnsState(columns);
+        ].map((col, index) => new Column(col, index));
+        props.state = mockState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -110,11 +108,9 @@ describe("Table", () => {
 
     it("renders the structure correctly for preview when no header is provided", () => {
         const props = mockWidgetProps();
-        const columns = [column("", col => (col.alignment = "center"))].map(
-            (col, index) => new Column(col, index, props.id!)
-        );
+        const columns = [column("", col => (col.alignment = "center"))].map((col, index) => new Column(col, index));
         props.preview = true;
-        props.columnsState = initColumnsState(columns);
+        props.state = mockState(columns);
 
         const component = render(<Widget {...props} />);
 
@@ -334,10 +330,8 @@ describe("Table", () => {
         it("call onSelect when cell is clicked", async () => {
             const items = props.data;
             const onSelect = props.selectionProps.onSelect;
-            const columns = [column("Column A"), column("Column B")].map(
-                (col, index) => new Column(col, index, props.id!)
-            );
-            props.columnsState = initColumnsState(columns);
+            const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
+            props.state = mockState(columns);
 
             render(<Widget {...props} />);
 
@@ -426,8 +420,8 @@ describe("Table", () => {
                     col.showContentAs = "customContent";
                     col.content = listWidget(() => <input />);
                 })
-            ].map((col, index) => new Column(col, index, props.id!));
-            props.columnsState = initColumnsState(columns);
+            ].map((col, index) => new Column(col, index));
+            props.state = mockState(columns);
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -566,9 +560,9 @@ describe("Table", () => {
                 c.showContentAs = "customContent";
                 c.content = content;
                 return c;
-            }).map((col, index) => new Column(col, index, props.id!));
+            }).map((col, index) => new Column(col, index));
 
-            props.columnsState = initColumnsState(columns);
+            props.state = mockState(columns);
 
             const user = userEvent.setup();
 

@@ -7,11 +7,13 @@ import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelec
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
+import { SelectAllButton } from "./SelectAllButton";
 
 export function MultiSelection({
     selector,
     tabIndex,
     a11yConfig,
+    menuFooterContent,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
@@ -32,7 +34,7 @@ export function MultiSelection({
     } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
-
+    const isOptionsSelected = selector.isOptionsSelected();
     return (
         <Fragment>
             <ComboboxWrapper
@@ -59,17 +61,19 @@ export function MultiSelection({
                                     })}
                                 >
                                     {selector.caption.render(selectedItemForRender, "label")}
-                                    <span
-                                        className="icon widget-combobox-clear-button"
-                                        aria-label={a11yConfig.ariaLabels?.removeSelection}
-                                        role="button"
-                                        onClick={e => {
-                                            e.stopPropagation();
-                                            removeSelectedItem(selectedItemForRender);
-                                        }}
-                                    >
-                                        <ClearButton size={10} />
-                                    </span>
+                                    {!selector.readOnly && (
+                                        <span
+                                            className="icon widget-combobox-clear-button"
+                                            aria-label={a11yConfig.ariaLabels?.removeSelection}
+                                            role="button"
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                removeSelectedItem(selectedItemForRender);
+                                            }}
+                                        >
+                                            <ClearButton size={10} />
+                                        </span>
+                                    )}
                                 </div>
                             );
                         })}
@@ -134,6 +138,23 @@ export function MultiSelection({
                     )}
             </ComboboxWrapper>
             <MultiSelectionMenu
+                menuHeaderContent={
+                    selector.selectAllButton ? (
+                        <SelectAllButton
+                            value={isOptionsSelected}
+                            id={`${options.inputId}-select-all-button`}
+                            ariaLabel={a11yConfig.ariaLabels.selectAll}
+                            onChange={() => {
+                                if (isOptionsSelected === "all") {
+                                    setSelectedItems([]);
+                                } else {
+                                    setSelectedItems(selector.options.getAll());
+                                }
+                            }}
+                        />
+                    ) : undefined
+                }
+                menuFooterContent={menuFooterContent}
                 inputId={options.inputId}
                 selector={selector}
                 isOpen={isOpen}
@@ -142,8 +163,10 @@ export function MultiSelection({
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
                 noOptionsText={options.noOptionsText}
+                onOptionClick={() => {
+                    inputRef.current?.focus();
+                }}
             />
         </Fragment>
     );

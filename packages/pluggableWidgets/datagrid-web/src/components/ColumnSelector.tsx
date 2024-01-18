@@ -1,48 +1,31 @@
-import { createElement, Dispatch, ReactElement, SetStateAction, useCallback, useMemo, useRef, useState } from "react";
+import { createElement, ReactElement, useCallback, useMemo, useRef, useState } from "react";
 import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { GridColumn } from "../typings/GridColumn";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
+import * as Grid from "../typings/GridModel";
 
 export interface ColumnSelectorProps {
-    columns: GridColumn[];
-    hiddenColumns: number[];
+    columns: Grid.Columns;
+    hiddenColumns: Grid.Hidden;
     id?: string;
-    setHiddenColumns: Dispatch<SetStateAction<number[]>>;
+    toggleHidden: Grid.Actions["toggleHidden"];
     label?: string;
     visibleLength: number;
 }
 
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
-    const { setHiddenColumns, visibleLength } = props;
+    const { toggleHidden, visibleLength } = props;
     const [show, setShow] = useState(false);
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const position = usePositionObserver(buttonRef.current, show);
-    const isOnlyOneColumnVisible = visibleLength === 1;
 
     useOnClickOutside([buttonRef, optionsRef], () => setShow(false));
 
     const label = props.label ?? "Column selector";
 
     const isInViewport = useIsElementInViewport(optionsRef);
-
-    const onClick = useCallback(
-        (isVisible: boolean, columnNumber: number) => {
-            const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
-            if (!isLastVisibleColumn) {
-                setHiddenColumns(prev => {
-                    if (!isVisible) {
-                        return prev.filter(v => v !== columnNumber);
-                    } else {
-                        return [...prev, columnNumber];
-                    }
-                });
-            }
-        },
-        [setHiddenColumns, isOnlyOneColumnVisible]
-    );
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
     const lastHidableColumnIndex = useMemo(() => props.columns.map(c => c.canHide).lastIndexOf(true), [props.columns]);
@@ -60,22 +43,27 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined
             }}
         >
-            {props.columns.map((column: GridColumn, index) => {
-                const isVisible = !props.hiddenColumns.includes(column.columnNumber);
-                const isLastVisibleColumn = isVisible && isOnlyOneColumnVisible;
+            {props.columns.map((column, index) => {
+                const isVisible = !props.hiddenColumns.has(column.columnId);
+                const isLastVisibleColumn = isVisible && visibleLength === 1;
+                const onClick = (): void => {
+                    if (!isLastVisibleColumn) {
+                        toggleHidden(column.columnId);
+                    }
+                };
                 return column.canHide ? (
                     <li
                         key={column.columnNumber}
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            onClick(isVisible, column.columnNumber);
+                            onClick();
                         }}
                         onKeyDown={e => {
                             if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                onClick(isVisible, column.columnNumber);
+                                onClick();
                             } else if (
                                 (e.key === "Tab" &&
                                     (index === lastHidableColumnIndex ||

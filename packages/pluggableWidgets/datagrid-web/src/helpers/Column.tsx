@@ -1,21 +1,19 @@
-import { ObjectItem } from "mendix";
+import { ObjectItem, ValueStatus, ListAttributeValue } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
-import { GridColumn } from "../typings/GridColumn";
+import { GridColumn, ColumnId } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
 
 export class Column extends BaseColumn implements GridColumn {
-    private gridId: string;
     private props: ColumnsType;
 
     columnNumber: number;
     visible: boolean;
 
-    constructor(props: ColumnsType, columnNumber: number, gridId: string) {
+    constructor(props: ColumnsType, columnNumber: number) {
         super(props);
 
         this.props = props;
-        this.gridId = gridId;
         this.columnNumber = columnNumber;
 
         this.visible = props.visible?.value ?? false;
@@ -28,12 +26,33 @@ export class Column extends BaseColumn implements GridColumn {
     get canSort(): boolean {
         return super.canSort && !!this.props.attribute?.sortable;
     }
-    get columnId(): string {
-        return `${this.gridId}-column${this.columnNumber}`;
+
+    /**
+     * For now it's just a column index. In the future it should be replaced by the platform provided tag/id.
+     */
+    get columnId(): ColumnId {
+        return this.columnNumber.toString() as ColumnId;
     }
+
     get header(): string {
         return this.props.header?.value ?? "";
     }
+
+    get status(): ValueStatus {
+        return this.props.visible?.status ?? ValueStatus.Loading;
+    }
+
+    get attrId(): ListAttributeValue["id"] | undefined {
+        return this.props.attribute?.id;
+    }
+
+    setInitParams(): void {
+        // Defer options fetching
+        if (this.props.filterAssociationOptions) {
+            this.props.filterAssociationOptions.setLimit(0);
+        }
+    }
+
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":

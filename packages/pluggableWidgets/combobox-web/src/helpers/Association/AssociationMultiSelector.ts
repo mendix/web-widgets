@@ -1,7 +1,8 @@
 import { ReferenceSetValue } from "mendix";
-import { ComboboxContainerProps, SelectionMethodEnum, SelectedItemsStyleEnum } from "../../../typings/ComboboxProps";
+import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } from "../../../typings/ComboboxProps";
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
@@ -10,10 +11,12 @@ export class AssociationMultiSelector
     type = "multi" as const;
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
     selectionMethod: SelectionMethodEnum = "checkbox";
+    selectAllButton = false;
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
+        this.selectAllButton = props.selectAllButton;
         this.currentValue =
             this._attr?.value?.map(value => {
                 return value.id;
@@ -33,5 +36,23 @@ export class AssociationMultiSelector
         return this.selectionMethod === "rowclick"
             ? this.options.getAll().filter(option => !this.currentValue?.includes(option))
             : this.options.getAll();
+    }
+
+    isOptionsSelected(): ThreeStateCheckBoxEnum {
+        const options = this.options.getAll();
+        const unselectedOptions = options.filter(option => !this.currentValue?.includes(option));
+        if (this.currentValue && this.currentValue.length > 0) {
+            if (unselectedOptions.length === 0) {
+                return "all";
+            } else {
+                return "some";
+            }
+        } else {
+            if (options.length === 0) {
+                return "some";
+            } else {
+                return "none";
+            }
+        }
     }
 }

@@ -15,6 +15,16 @@ module.exports = defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: "html",
+    webServer: [
+        {
+            command: "run-e2e playwright",
+            url: "http://127.0.0.1:8080",
+            timeout: 120 * 1000,
+            stdout: "pipe",
+            stderr: "pipe",
+            reuseExistingServer: !process.env.CI
+        }
+    ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */

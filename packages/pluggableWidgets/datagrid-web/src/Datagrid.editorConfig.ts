@@ -74,6 +74,7 @@ export function getProperties(
         }
     });
     if (values.pagination !== "buttons") {
+        hidePropertyIn(defaultProperties, values, "showPagingButtons");
         hidePropertyIn(defaultProperties, values, "pagingPosition");
     }
     if (values.showEmptyPlaceholder === "none") {
@@ -156,8 +157,8 @@ export const getPreview = (
     isDarkMode: boolean,
     spVersion: number[] = [0, 0, 0]
 ): StructurePreviewProps => {
-    const [x, y] = spVersion;
-    const canHideDataSourceHeader = x >= 9 && y >= 20;
+    const [major, minor] = spVersion;
+    const canHideDataSourceHeader = major > 9 || (major === 9 && minor >= 20);
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
     const modeColor = (colorDark: string, colorLight: string): string => (isDarkMode ? colorDark : colorLight);

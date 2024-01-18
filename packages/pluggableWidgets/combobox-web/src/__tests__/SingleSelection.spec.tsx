@@ -49,10 +49,13 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
+            selectAllButtonCaption: dynamicValue("Select All"),
+            selectAllButton: false,
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
-            a11yInstructions: dynamicValue("a11yInstructions")
+            a11yInstructions: dynamicValue("a11yInstructions"),
+            showFooter: false
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

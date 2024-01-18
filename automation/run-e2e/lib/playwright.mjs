@@ -85,7 +85,7 @@ export async function playwright() {
     const projectFile = ls("tests/testProject/*.mpr").toString();
     if (!process.argv.includes("--no-exec-mxbuild")) {
         execSync(
-            `docker run --name mxbuild -t -v ${process.cwd()}:/source ` +
+            `docker run --name mxbuild --tty -v ${process.cwd()}:/source ` +
                 `--rm mxbuild:${mendixVersion} bash -c "mx update-widgets --loose-version-check /source/${projectFile} && mxbuild ` +
                 `-o /tmp/automation.mda /source/${projectFile}"`,
             { stdio: "inherit" }
@@ -94,26 +94,12 @@ export async function playwright() {
     }
     // Spin up the runtime and run testProject
     execSync(
-        `docker run --name mxruntime -td -v ${process.cwd()}:/source -v ${dockerDir}:/shared:ro -w /source -p 8080:8080 ` +
+        `docker run --name mxruntime -t -v ${process.cwd()}:/source -v ${dockerDir}:/shared:ro -w /source -p 8080:8080 ` +
             `-e MENDIX_VERSION=${mendixVersion} --entrypoint /bin/bash ` +
-            `--rm mxruntime:${mendixVersion} /shared/runtime.sh`
-    )
-        .toString()
-        .trim();
-
-    let attempts = 60;
-    for (; attempts > 0; --attempts) {
-        try {
-            const response = await fetch(`http://127.0.0.1:8080`);
-            if (response.ok) {
-                attempts = 0;
-            }
-        } catch (e) {
-            console.log(`Could not reach http://127.0.0.1, trying again...`);
-        }
-        await new Promise(resolve => setTimeout(resolve, 3000));
-    }
-    console.log("Runtime started with success.");
+            `--rm mxruntime:${mendixVersion} /shared/runtime.sh`,
+        { stdio: "inherit" }
+    );
+    console.log("Runtime docker started successfully");
 }
 
 async function getMendixVersion(options) {

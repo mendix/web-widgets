@@ -7,7 +7,7 @@ import {
     useCombobox
 } from "downshift";
 
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { A11yStatusMessage, SingleSelector } from "../helpers/types";
 
 interface Options {
@@ -28,9 +28,6 @@ export function useDownshiftSingleSelectProps(
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
-                if (inputId) {
-                    document.getElementById(inputId)?.blur();
-                }
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
@@ -87,8 +84,7 @@ export function useDownshiftSingleSelectProps(
                         };
 
                     case useCombobox.stateChangeTypes.InputKeyDownEscape:
-                    case useCombobox.stateChangeTypes.InputBlur:
-                    case undefined:
+                    case useCombobox.stateChangeTypes.FunctionCloseMenu:
                         return {
                             ...changes,
                             isOpen: false,
@@ -97,7 +93,8 @@ export function useDownshiftSingleSelectProps(
                                     ? selector.caption.get(selector.currentValue)
                                     : ""
                         };
-
+                    case useCombobox.stateChangeTypes.InputBlur:
+                        return state;
                     default:
                         return { ...changes };
                 }
@@ -115,9 +112,15 @@ export function useDownshiftSingleSelectProps(
         a11yStatusMessage.a11yInstructions
     ]);
 
-    return useCombobox({
+    const returnVal = useCombobox({
         ...downshiftProps,
         items: selector.options.getAll() ?? [],
         selectedItem: selector.currentValue
     });
+
+    const { closeMenu } = returnVal;
+
+    selector.onLeaveEvent = useCallback(closeMenu, [closeMenu]);
+
+    return returnVal;
 }

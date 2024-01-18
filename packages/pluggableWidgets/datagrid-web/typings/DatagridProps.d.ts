@@ -44,6 +44,8 @@ export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
 
+export type ShowPagingButtonsEnum = "always" | "auto";
+
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export interface FilterListType {
@@ -93,6 +95,7 @@ export interface DatagridContainerProps {
     pageSize: number;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -131,6 +134,7 @@ export interface DatagridPreviewProps {
     pageSize: number | null;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;

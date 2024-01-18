@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { createElement, ReactElement, MouseEvent } from "react";
+import { MouseEvent, ReactElement, createElement, Fragment } from "react";
+import { CaptionContent } from "../helpers/Association/AssociationSimpleCaptionsProvider";
 
 export function ClearButton({ size = 14 }): ReactElement {
     return (
@@ -34,19 +35,35 @@ export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     );
 }
 
-export function Checkbox({ checked, id }: { checked: boolean | undefined; id?: string }): ReactElement {
+interface CheckboxProps {
+    checked: boolean | undefined;
+    id?: string;
+    focusable?: boolean;
+    onClick?: (e: MouseEvent<HTMLInputElement>) => void;
+    ariaLabel?: string;
+}
+
+export function Checkbox({ checked, id, focusable, onClick, ariaLabel }: CheckboxProps): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
-            <input
-                type="checkbox"
-                tabIndex={-1}
-                checked={checked}
-                id={id}
-                role="presentation"
-                onClick={(e: MouseEvent<HTMLInputElement>) => {
-                    e.preventDefault();
-                }}
-            />
-        </span>
+        <Fragment>
+            <span className="widget-combobox-icon-container">
+                <input
+                    type="checkbox"
+                    tabIndex={focusable ? 0 : -1}
+                    checked={checked}
+                    id={id}
+                    role="presentation"
+                    onClick={
+                        onClick
+                            ? onClick
+                            : (e: MouseEvent<HTMLInputElement>) => {
+                                  e.preventDefault();
+                              }
+                    }
+                    onChange={() => {}}
+                />
+            </span>
+            {ariaLabel ? <CaptionContent htmlFor={id}>{ariaLabel}</CaptionContent> : undefined}
+        </Fragment>
     );
 }

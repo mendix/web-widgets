@@ -42,10 +42,13 @@ describe("Combo box (Association)", () => {
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
+            selectAllButton: true, // Causes +1 option to be added to the menu
+            selectAllButtonCaption: dynamicValue("Select All"),
             selectionMethod: "checkbox",
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
-            a11yInstructions: dynamicValue("a11yInstructions")
+            a11yInstructions: dynamicValue("a11yInstructions"),
+            showFooter: false
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
@@ -75,6 +78,7 @@ describe("Combo box (Association)", () => {
         });
         fireEvent.blur(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
+        expect(component.container).toMatchSnapshot();
     });
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -86,6 +90,7 @@ describe("Combo box (Association)", () => {
         });
         fireEvent.click(toggleButton);
         expect(component.queryAllByRole("option")).toHaveLength(0);
+        expect(component.container).toMatchSnapshot();
     });
     it("adds new item to inital selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -97,7 +102,7 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "111" }, { id: "222" }]);
     });
     it("removes selected item", async () => {
@@ -109,11 +114,23 @@ describe("Combo box (Association)", () => {
         });
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(defaultProps.attributeAssociation?.value).toEqual([{ id: "111" }, { id: "222" }]);
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
         expect(defaultProps.attributeAssociation?.value).toEqual([]);
+    });
+    it("selects all items with the Select All button", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        fireEvent.click(input);
+        await waitFor(() => {
+            expect(component.queryAllByRole("option")).toHaveLength(4);
+        });
+        const selectAllButton = await component.container.querySelector(".widget-combobox-menu-header input")!; // component.queryAllByRole("option")[0];
+        expect(defaultProps.attributeAssociation?.value).toHaveLength(1);
+        fireEvent.click(selectAllButton);
+        expect(defaultProps.attributeAssociation?.value).toHaveLength(4);
     });
 });
