@@ -264,7 +264,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                           key="loading-indicator-wrapper"
                           className="loading-indicator-wrapper"
                           style={{
-                              gridColumn: `span ${columns.length}`,
+                              gridColumn: `span ${state.availableColumns.length}`,
                               position: "absolute",
                               top: 0,
                               left: 0,
