@@ -21,7 +21,7 @@ export class AssociationMultiSelector
             this._attr?.value?.map(value => {
                 return value.id;
             }) ?? null;
-        if (this.selectionMethod === "rowclick") {
+        if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
             this.selectedItemsStyle = "boxes";
         }
     }
