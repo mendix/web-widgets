@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.2] - 2024-01-19
+
 ### Fixed
 
 -   We fixed selected options not showing for custom content type "yes"
