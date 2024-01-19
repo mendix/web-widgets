@@ -229,12 +229,9 @@ type ExportDataResult =
       };
 
 function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResult {
-    const rows = [];
     let hasLoadingItem = false;
-
-    for (const item of data) {
-        const row = [];
-        for (const column of columns) {
+    const items = data.map(item => {
+        return columns.map(column => {
             let value = "";
             if (column.showContentAs === "attribute") {
                 value = column.attribute?.get(item)?.displayValue ?? "";
@@ -250,10 +247,9 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
             } else {
                 value = "n/a (custom content)";
             }
-            row.push(value);
-        }
-        rows.push(row);
-    }
+            return value;
+        });
+    });
 
     if (hasLoadingItem) {
         return {
@@ -261,7 +257,7 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
         };
     }
 
-    return { status: "ready", message: { type: "data", payload: rows } };
+    return { status: "ready", message: { type: "data", payload: items } };
 }
 
 type CallbackFunction = (msg: Message) => Promise<void> | void;
