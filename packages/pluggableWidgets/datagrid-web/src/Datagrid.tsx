@@ -43,7 +43,10 @@ function Container(props: Props): ReactElement {
     const [state, actions] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: state.visibleColumns.map(column => props.columns[column.columnNumber]),
+        columns: useMemo(
+            () => state.visibleColumns.map(column => props.columns[column.columnNumber]),
+            [state.visibleColumns, props.columns]
+        ),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
