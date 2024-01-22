@@ -1,4 +1,4 @@
-import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
+import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { Fragment, ReactElement, createElement } from "react";
 import { useWidgetProps } from "../helpers/useWidgetProps";
 

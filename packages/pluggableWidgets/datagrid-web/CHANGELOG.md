@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We move select all checkbox styling to atlas core. Please update atlas core for correct styling if you are using the select all feature or exclude "Checkbox" from exclusion variables if you want to create your own styling.
+
 ## [2.12.0] - 2024-01-16
 
 ### Added
