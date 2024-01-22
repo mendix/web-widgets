@@ -10,6 +10,7 @@ interface BaseColumnProps {
     alignment: AlignmentEnum;
 
     wrapText: boolean;
+    minWidth: number;
 }
 
 export class BaseColumn {
@@ -49,5 +50,9 @@ export class BaseColumn {
 
     get wrapText(): boolean {
         return this.properties.wrapText;
+    }
+
+    get minWidth(): number {
+        return this.properties.minWidth;
     }
 }

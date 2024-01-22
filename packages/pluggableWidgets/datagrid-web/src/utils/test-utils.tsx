@@ -28,7 +28,8 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         sortable: false,
         width: "autoFill" as const,
         wrapText: false,
-        visible: dynamicValue(true)
+        visible: dynamicValue(true),
+        minWidth: 0
     };
 
     if (patch) {

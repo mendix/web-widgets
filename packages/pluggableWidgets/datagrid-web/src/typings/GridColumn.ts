@@ -23,4 +23,5 @@ export interface GridColumn {
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
+    minWidth: number;
 }

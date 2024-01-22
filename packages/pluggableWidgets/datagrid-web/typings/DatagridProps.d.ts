@@ -13,7 +13,7 @@ export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
 export type HidableEnum = "yes" | "hidden" | "no";
 
-export type WidthEnum = "autoFill" | "autoFit" | "manual";
+export type WidthEnum = "autoFill" | "autoFit" | "maxContent" | "minMaxContent" | "manual";
 
 export type AlignmentEnum = "left" | "center" | "right";
 
@@ -35,6 +35,7 @@ export interface ColumnsType {
     hidable: HidableEnum;
     width: WidthEnum;
     size: number;
+    minWidth: number;
     alignment: AlignmentEnum;
     columnClass?: ListExpressionValue<string>;
     wrapText: boolean;
@@ -72,6 +73,7 @@ export interface ColumnsPreviewType {
     hidable: HidableEnum;
     width: WidthEnum;
     size: number | null;
+    minWidth: number | null;
     alignment: AlignmentEnum;
     columnClass: string;
     wrapText: boolean;

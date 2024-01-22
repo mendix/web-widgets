@@ -45,7 +45,8 @@ const initColumns: ColumnsPreviewType[] = [
         tooltip: "",
         visible: "false",
         width: "autoFill",
-        wrapText: false
+        wrapText: false,
+        minWidth: 0
     }
 ];
 
