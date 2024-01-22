@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed dropdown options directly closing when clicking on scrollbar if placed in popup dialog
+
 ## [1.1.2] - 2024-01-19
 
 ### Fixed

@@ -64,7 +64,8 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 })}
                 {...getMenuProps?.(
                     {
-                        onClick: onOptionClick
+                        onClick: onOptionClick,
+                        onMouseDown: PreventMenuCloseEventHandler
                     },
                     { suppressRefError: true }
                 )}
