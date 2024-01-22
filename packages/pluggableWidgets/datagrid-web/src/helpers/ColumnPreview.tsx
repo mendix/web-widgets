@@ -10,7 +10,10 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     visible: boolean;
 
     constructor(props: ColumnsPreviewType, columnNumber: number) {
-        super(props);
+        super({
+            ...props,
+            minWidth: props.minWidth ?? 0
+        });
 
         this.props = props;
         this.columnNumber = columnNumber;

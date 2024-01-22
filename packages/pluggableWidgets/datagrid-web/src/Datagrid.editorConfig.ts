@@ -56,6 +56,9 @@ export function getProperties(
         if (column.width !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "size");
         }
+        if (column.width !== "minMaxContent") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "minWidth");
+        }
         if (!values.advanced && platform === "web") {
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "columnClass",
@@ -105,6 +108,10 @@ export function getProperties(
                         ? "Auto-fill"
                         : column.width === "autoFit"
                         ? "Auto-fit content"
+                        : column.width === "maxContent"
+                        ? "Max-content"
+                        : column.width === "minMaxContent"
+                        ? "Min-max-content"
                         : `Manual (${column.size})`,
                     alignment ? alignment.charAt(0).toUpperCase() + alignment.slice(1) : ""
                 ];
@@ -187,7 +194,8 @@ export const getPreview = (
                   tooltip: "",
                   visible: "true",
                   width: "autoFit",
-                  wrapText: false
+                  wrapText: false,
+                  minWidth: 0
               }
           ];
     const columns = rowLayout({

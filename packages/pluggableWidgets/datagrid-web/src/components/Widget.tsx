@@ -261,7 +261,8 @@ function gridStyle(
     resizeMap: GridModel.ColumnWidthConfig,
     optional: OptionalColumns
 ): CSSProperties {
-    const columnSizes = columns.map(c => {
+    const columnSizes = columns.map((c, index) => {
+        const isLast = columns.length - 1 === index;
         const columnResizedSize = resizeMap[c.columnId];
         if (columnResizedSize) {
             return `${columnResizedSize}px`;
@@ -269,6 +270,14 @@ function gridStyle(
         switch (c.width) {
             case "autoFit":
                 return "fit-content(100%)";
+            case "maxContent": {
+                const max = isLast ? "1fr" : "max-content";
+                return `minmax(min-content,${max})`;
+            }
+            case "minMaxContent": {
+                const max = isLast ? "1fr" : "max-content";
+                return `minmax(${c.minWidth}px,${max})`;
+            }
             case "manual":
                 return `${c.weight}fr`;
             default:
@@ -279,13 +288,13 @@ function gridStyle(
     const sizes: string[] = [];
 
     if (optional.selectItemColumn) {
-        sizes.push("fit-content(48px)");
+        sizes.push("48px");
     }
 
     sizes.push(...columnSizes);
 
     if (optional.visibilitySelectorColumn) {
-        sizes.push("fit-content(50px)");
+        sizes.push("54px");
     }
 
     return {
