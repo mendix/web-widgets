@@ -18,6 +18,7 @@ import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { getPosition, GridPositionsProps, useGridPositions } from "./features/use-grid-positions";
 import { useItemHelper } from "./helpers/ItemHelper";
+import { useClickActionHelper } from "./helpers/use-click-action-helper";
 import { useItemSelectHelper } from "./helpers/use-item-select-helper";
 import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
 
@@ -130,7 +131,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         columns: numberOfColumns,
         pageSize: props.pageSize
     });
-    const itemEventsController = useItemEventsController(selectHelper, focusController);
+    const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
+    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
