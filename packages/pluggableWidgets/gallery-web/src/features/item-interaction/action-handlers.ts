@@ -11,7 +11,7 @@ const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<EventEntryContex
     handler: ({ item }) => execActionFx(item)
 });
 
-const canExecOnSpaceOrEnter = (ctx: EventEntryContext, event: React.KeyboardEvent): boolean => {
+const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: React.KeyboardEvent): boolean => {
     if (event.code === "Space") {
         return true;
     }

@@ -4,7 +4,17 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    ListValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListWidgetValue,
+    SelectionSingleValue,
+    SelectionMultiValue
+} from "mendix";
 import { Big } from "big.js";
 
 export type PaginationEnum = "buttons" | "virtualScrolling";

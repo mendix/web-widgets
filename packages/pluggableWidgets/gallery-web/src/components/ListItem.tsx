@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { createElement, memo, ReactElement, useMemo } from "react";
+import { createElement, memo, ReactElement, useMemo, RefObject } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
 import { Positions } from "../features/use-grid-positions";
@@ -44,7 +44,7 @@ const component = memo(function ListItem(props: ListItemProps): ReactElement {
             onKeyUp={handlers.onKeyUp}
             onMouseDown={handlers.onMouseDown}
             data-position={keyNavProps["data-position"]}
-            ref={keyNavProps.ref}
+            ref={keyNavProps.ref as RefObject<HTMLDivElement>}
             tabIndex={keyNavProps.tabIndex}
         >
             {helper.render(item)}

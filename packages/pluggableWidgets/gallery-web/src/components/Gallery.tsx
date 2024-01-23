@@ -12,7 +12,7 @@ import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
 import { Positions } from "../features/use-grid-positions";
-import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
@@ -41,7 +41,7 @@ export interface GalleryProps<T extends ObjectItem> {
     focusController: FocusTargetController;
     itemEventsController: ItemEventsController;
     itemHelper: GalleryItemHelper;
-    selectHelper: ItemSelectHelper;
+    selectHelper: SelectActionHelper;
     getPosition: (index: number) => Positions;
 }
 
