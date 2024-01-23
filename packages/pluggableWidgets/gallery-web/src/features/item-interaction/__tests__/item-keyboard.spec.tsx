@@ -35,8 +35,8 @@ describe("gallery item", () => {
             await user.tab();
             await user.keyboard("{Shift>}[Space]{/Shift}");
 
-            expect(onSelect).toHaveBeenCalledTimes(1);
-            expect(onExecuteAction).toHaveBeenCalledTimes(1);
+            expect(onSelect).toHaveBeenCalledTimes(0);
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
         });
     });
 
@@ -118,32 +118,27 @@ describe("gallery item", () => {
 
     describe("on keyup[Space|Enter] event", () => {
         const cases = [
-            { n: 0, key: "Space" },
             { n: 1, key: "Space" },
-            { n: 0, key: "Enter" },
             { n: 1, key: "Enter" }
         ];
 
-        test.each(cases)(
-            "calls onExecuteAction $n time(s) when click trigger is $ct and key is $key",
-            async ({ n, key }) => {
-                const onExecuteAction = jest.fn();
+        test.each(cases)("calls onExecuteAction $n time(s) when key is $key", async ({ n, key }) => {
+            const onExecuteAction = jest.fn();
 
-                const [item] = objectItems(1);
+            const [item] = objectItems(1);
 
-                const props = eventSwitch<EventEntryContext, HTMLDivElement>(
-                    (): EventEntryContext => ({
-                        item,
-                        selectionType: "None"
-                    }),
-                    [...createActionHandlers(onExecuteAction)]
-                );
-                const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
-                await user.tab();
-                await user.keyboard(`[${key}]`);
-                expect(onExecuteAction).toHaveBeenCalledTimes(n);
-            }
-        );
+            const props = eventSwitch<EventEntryContext, HTMLDivElement>(
+                (): EventEntryContext => ({
+                    item,
+                    selectionType: "None"
+                }),
+                [...createActionHandlers(onExecuteAction)]
+            );
+            const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
+            await user.tab();
+            await user.keyboard(`[${key}]`);
+            expect(onExecuteAction).toHaveBeenCalledTimes(n);
+        });
 
         test("calls onExecuteAction only if keydown[Space] event was emitted earlier on the current target", async () => {
             const onExecuteAction = jest.fn();
