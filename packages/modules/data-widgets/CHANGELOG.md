@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.12.1] DataWidgets - 2024-01-23
+
+### [2.12.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where Dynamic text values cells would be blank in exported .xlsx
+
 ## [2.12.0] DataWidgets - 2024-01-16
 
 ### [2.12.0] Datagrid
