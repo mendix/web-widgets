@@ -7,6 +7,7 @@ import { useItemEventsController } from "./features/item-interaction/use-item-ev
 import { getPosition, useGridPositions } from "./features/use-grid-positions";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/use-item-select-helper";
+import { useClickActionHelper } from "./helpers/use-click-action-helper";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -33,7 +34,9 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         pageSize: props.pageSize ?? 0
     });
 
-    const itemEventsController = useItemEventsController(selectHelper, focusController);
+    const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
+
+    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
 
     return (
         <GalleryComponent
