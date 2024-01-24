@@ -18,6 +18,9 @@ export interface CaptionsProvider {
     render(value: string | null, placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
 }
+export interface ValuesProvider<T> {
+    get(key: string | null): T;
+}
 
 export interface OptionsProvider<T = unknown, P = object> {
     status: Status;
@@ -73,7 +76,6 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     getOptions(): string[];
     isOptionsSelected(): ThreeStateCheckBoxEnum;
 }
-
 export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;

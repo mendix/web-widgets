@@ -9,6 +9,16 @@
         <propertyGroup caption="General">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Data source">
+                <property key="source" type="enumeration" defaultValue="context" required="true">
+                    <caption>Source</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="context">Context</enumerationValue>
+                        <enumerationValue key="database">Database</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+
                 <property key="optionsSourceType" type="enumeration" defaultValue="association" required="true">
                     <caption>Type</caption>
                     <description />
@@ -35,6 +45,33 @@
                     </attributeTypes>
                 </property>
                 <!-- END ENUM & BOOLEAN -->
+                <!-- DATABASE / STRING -->
+                <property key="attributeString" type="attribute" required="true">
+                    <caption>Attribute (String)</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceDatabaseDataSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable objects</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseValueExpression" type="expression" dataSource="optionsSourceDatabaseDataSource" required="true">
+                    <caption>Value</caption>
+                    <description />
+                    <returnType assignableTo="attributeString" />
+                </property>
+                <property key="optionsSourceDatabaseCaptionType" type="enumeration" defaultValue="attribute">
+                    <caption>Caption type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <!-- END DATABASE / STRING -->
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
@@ -56,6 +93,7 @@
                         <enumerationValue key="expression">Expression</enumerationValue>
                     </enumerationValues>
                 </property>
+
                 <!-- CAPTIONS -->
                 <property key="optionsSourceAssociationCaptionAttribute" type="attribute" dataSource="optionsSourceAssociationDataSource" required="true">
                     <caption>Caption</caption>
@@ -65,6 +103,18 @@
                     </attributeTypes>
                 </property>
                 <property key="optionsSourceAssociationCaptionExpression" type="expression" dataSource="optionsSourceAssociationDataSource" required="true">
+                    <caption>Caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+                <property key="optionsSourceDatabaseCaptionAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
+                    <caption>Caption</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceDatabaseCaptionExpression" type="expression" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Caption</caption>
                     <description />
                     <returnType type="String" />
@@ -108,6 +158,19 @@
                     </enumerationValues>
                 </property>
                 <property key="optionsSourceAssociationCustomContent" type="widgets" required="true" dataSource="optionsSourceAssociationDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Custom content</caption>
                     <description />
                 </property>
@@ -202,7 +265,10 @@
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
                     <caption>Remove value button</caption>
-                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <description>
+                        Used to remove individual selected values when using labels with
+                        multi-selection.
+                    </description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>
@@ -230,8 +296,14 @@
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                     <translations>
-                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
-                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
+                        <translation lang="en_US">
+                            Use up and down arrow keys to navigate. Press
+                            Enter or Space Bar keys to select.
+                        </translation>
+                        <translation lang="nl_NL">
+                            Gebruik de pijltjestoetsen (omhoog en omlaag) om
+                            te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.
+                        </translation>
                     </translations>
                 </property>
             </propertyGroup>

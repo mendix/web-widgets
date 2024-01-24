@@ -1,0 +1,80 @@
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue
+} from "mendix";
+import {
+    ComboboxContainerProps,
+    FilterTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/ComboboxProps";
+
+type ExtractionReturnValue = [
+    EditableValue<string | Big>,
+    ListValue,
+    ListAttributeValue<string> | ListExpressionValue<string>,
+    DynamicValue<string> | undefined,
+    boolean,
+    FilterTypeEnum,
+    ActionValue | undefined,
+    ListWidgetValue | undefined,
+    OptionsSourceAssociationCustomContentTypeEnum,
+    ListExpressionValue<string | Big>
+];
+
+export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
+    const attr = props.attributeString;
+    const filterType = props.filterType;
+    const onChangeEvent = props.onChangeEvent;
+
+    if (!attr) {
+        throw new Error("'optionsSourceType' type is 'Database' but 'attributeString' is not defined.");
+    }
+
+    const ds = props.optionsSourceDatabaseDataSource;
+    if (!ds) {
+        throw new Error(
+            "'optionsSourceType' type is 'association' but 'optionsSourceAssociationDataSource' is not defined."
+        );
+    }
+    const captionType = props.optionsSourceDatabaseCaptionType;
+    const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
+    const captionExpression = props.optionsSourceDatabaseCaptionExpression;
+
+    if (captionType === "attribute" && !captionAttribute) {
+        throw new Error(
+            "'optionsSourceAssociationCaptionType' type is 'attribute' but 'optionsSourceAssociationCaptionAttribute' is not defined."
+        );
+    }
+    if (captionType === "expression" && !captionExpression) {
+        throw new Error(
+            "'optionsSourceAssociationCaptionType' type is 'expression' but 'optionsSourceAssociationCaptionExpression' is not defined."
+        );
+    }
+    const emptyOption = props.emptyOptionText;
+    const clearable = props.clearable;
+    const customContent = props.optionsSourceAssociationCustomContent;
+    const customContentType = props.optionsSourceAssociationCustomContentType;
+    const valueExpression = props.optionsSourceDatabaseValueExpression;
+
+    if (!valueExpression) {
+        throw new Error("'valueExpression' is not defined");
+    }
+
+    return [
+        attr,
+        ds,
+        captionType === "attribute" ? captionAttribute! : captionExpression!,
+        emptyOption,
+        clearable,
+        filterType,
+        onChangeEvent,
+        customContent,
+        customContentType,
+        valueExpression
+    ];
+}
