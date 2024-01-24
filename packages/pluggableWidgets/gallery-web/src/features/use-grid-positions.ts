@@ -55,9 +55,8 @@ export function getPosition(numberOfColumns: number, totalItems: number, index: 
         return { columnIndex: -1, rowIndex: -1 };
     }
 
-    const columnIndex = index % totalItems;
+    const columnIndex = index % numberOfColumns;
     const rowIndex = getRowIndex(numberOfColumns, index);
-
     return { columnIndex, rowIndex };
 }
 
