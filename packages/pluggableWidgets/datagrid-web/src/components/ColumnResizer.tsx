@@ -5,23 +5,34 @@ export interface ColumnResizerProps {
     minWidth?: number;
     setColumnWidth: (width: number) => void;
     onResizeEnds?: () => void;
+    onResizeStart?: () => void;
 }
 
-export function ColumnResizer({ minWidth = 50, setColumnWidth, onResizeEnds }: ColumnResizerProps): ReactElement {
+export function ColumnResizer({
+    minWidth = 50,
+    setColumnWidth,
+    onResizeEnds,
+    onResizeStart
+}: ColumnResizerProps): ReactElement {
     const [isResizing, setIsResizing] = useState(false);
     const [startPosition, setStartPosition] = useState(0);
     const [currentWidth, setCurrentWidth] = useState(0);
     const resizerReference = useRef<HTMLDivElement>(null);
+    const onStart = useEventCallback(onResizeStart);
 
-    const onStartDrag = useCallback((e: TouchEvent<HTMLDivElement> & MouseEvent<HTMLDivElement>): void => {
-        const mouseX = e.touches ? e.touches[0].screenX : e.screenX;
-        setStartPosition(mouseX);
-        setIsResizing(true);
-        if (resizerReference.current) {
-            const column = resizerReference.current.parentElement!;
-            setCurrentWidth(column.clientWidth);
-        }
-    }, []);
+    const onStartDrag = useCallback(
+        (e: TouchEvent<HTMLDivElement> & MouseEvent<HTMLDivElement>): void => {
+            const mouseX = e.touches ? e.touches[0].screenX : e.screenX;
+            setStartPosition(mouseX);
+            setIsResizing(true);
+            if (resizerReference.current) {
+                const column = resizerReference.current.parentElement!;
+                setCurrentWidth(column.clientWidth);
+            }
+            onStart();
+        },
+        [onStart]
+    );
     const onEndDrag = useCallback((): void => {
         if (!isResizing) {
             return;

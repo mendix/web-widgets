@@ -111,7 +111,9 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 resize: noop,
                 setFilter: noop,
                 sortBy: noop,
-                swap: noop
+                swap: noop,
+                setSize: noop,
+                createSizeSnapshot: noop
             }}
             data={data}
             emptyPlaceholderRenderer={useCallback(

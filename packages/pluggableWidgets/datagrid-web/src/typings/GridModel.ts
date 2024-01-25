@@ -47,9 +47,11 @@ export interface State extends BaseState {
 }
 
 export type Actions = {
-    toggleHidden: (id: ColumnId) => void;
-    sortBy: (id: ColumnId) => void;
-    swap: (arg: [a: ColumnId, b: ColumnId]) => void;
+    createSizeSnapshot: () => void;
     resize: (arg: [id: ColumnId, size: number]) => void;
     setFilter: (arg: Filter) => void;
+    setSize: (arg: ColumnWidthConfig) => void;
+    sortBy: (id: ColumnId) => void;
+    swap: (arg: [a: ColumnId, b: ColumnId]) => void;
+    toggleHidden: (id: ColumnId) => void;
 };
