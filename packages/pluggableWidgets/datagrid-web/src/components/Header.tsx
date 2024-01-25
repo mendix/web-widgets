@@ -18,6 +18,7 @@ import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { ColumnResizerProps } from "./ColumnResizer";
 import * as Grid from "../typings/GridModel";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { HeaderRefHook } from "../features/model/resizing";
 
 export interface HeaderProps {
     className?: string;
@@ -39,6 +40,7 @@ export interface HeaderProps {
     setSortBy: Grid.Actions["sortBy"];
     sortRule?: Grid.SortRule;
     visibleColumns: GridColumn[];
+    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -89,6 +91,7 @@ export function Header(props: HeaderProps): ReactElement {
             role="columnheader"
             style={!props.sortable || !props.column.canSort ? { cursor: "unset" } : undefined}
             title={caption}
+            ref={props.useHeaderRef?.(props.column.columnId)}
         >
             <div
                 className={classNames("column-container", {

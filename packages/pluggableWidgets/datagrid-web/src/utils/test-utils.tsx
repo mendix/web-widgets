@@ -88,7 +88,9 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
             resize: jest.fn(),
             setFilter: jest.fn(),
             sortBy: jest.fn(),
-            swap: jest.fn()
+            swap: jest.fn(),
+            setSize: jest.fn(),
+            createSizeSnapshot: jest.fn()
         },
         valueForSort: () => "dummy",
         selectionStatus: "unknown",

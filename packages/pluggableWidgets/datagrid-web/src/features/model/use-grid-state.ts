@@ -3,6 +3,7 @@ import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridModel";
 import { sortByOrder } from "./utils";
+import { HeaderRefHook, useColumnsElementsMap } from "./resizing";
 
 type NamedAction<Name, Fn> = Fn extends (arg: infer Payload) => void
     ? {
@@ -27,27 +28,44 @@ type InitArg = {
 
 export type StateChangeFx = (prev: Grid.State, next: Grid.State) => void;
 
+export type GridProps = {
+    useHeaderRef: HeaderRefHook<HTMLDivElement>;
+};
+
 export function useGridState(
     initParams: Grid.InitParams,
     columns: Grid.Columns,
     onStateChange: StateChangeFx
-): [Grid.State, Grid.Actions] {
+): [Grid.State, Grid.Actions, GridProps] {
     const [state, dispatch] = useReducer(gridStateReducer, { params: initParams, columns }, initGridState);
+    const [getColumnElementsMap, useHeaderRef] = useColumnsElementsMap<HTMLDivElement>();
 
     const memoizedGridActions = useMemo<Grid.Actions>(() => {
-        return {
+        const actions: Grid.Actions = {
             resize: payload => dispatch({ type: "resize", payload }),
             setFilter: payload => dispatch({ type: "setFilter", payload }),
             sortBy: payload => dispatch({ type: "sortBy", payload }),
             swap: payload => dispatch({ type: "swap", payload }),
-            toggleHidden: payload => dispatch({ type: "toggleHidden", payload })
+            toggleHidden: payload => dispatch({ type: "toggleHidden", payload }),
+            setSize: payload => dispatch({ type: "setSize", payload }),
+            createSizeSnapshot: () =>
+                getColumnElementsMap(elementsMap =>
+                    actions.setSize(
+                        [...elementsMap.entries()].reduce<Grid.ColumnWidthConfig>((config, [id, element]) => {
+                            config[id] = element.clientWidth;
+                            return config;
+                        }, {})
+                    )
+                )
         };
-    }, [dispatch]);
+
+        return actions;
+    }, [dispatch, getColumnElementsMap]);
 
     useEffect(() => dispatch({ type: "setColumns", payload: columns }), [columns]);
     useWatchValues(([prevState], [newState]) => onStateChange(prevState, newState), [state]);
 
-    return [state, memoizedGridActions];
+    return [state, memoizedGridActions, { useHeaderRef }];
 }
 
 function gridStateReducer(state: Grid.State, action: Action): Grid.State {
@@ -99,6 +117,11 @@ function gridStateReducer(state: Grid.State, action: Action): Grid.State {
                 visibleColumns: computeVisible(state.availableColumns, newHidden)
             };
         }
+        case "setSize": {
+            return { ...state, size: action.payload };
+        }
+        default:
+            return state;
     }
 }
 

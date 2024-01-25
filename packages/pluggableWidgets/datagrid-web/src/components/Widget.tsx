@@ -25,6 +25,7 @@ import { KeyNavProvider } from "../features/keyboard-navigation/context";
 import * as GridModel from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "../features/keyboard-navigation/FocusTargetController";
+import { HeaderRefHook } from "../features/model/resizing";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -70,6 +71,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     checkboxEventsController: EventsController;
     selectActionHelper: SelectActionHelper;
     focusController: FocusTargetController;
+    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
@@ -182,9 +184,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}
-                                            resizable={columnsResizable}
+                                            resizable={columnsResizable && columnsToShow.at(-1) !== column}
                                             resizer={
                                                 <ColumnResizer
+                                                    onResizeStart={actions.createSizeSnapshot}
                                                     setColumnWidth={(width: number) =>
                                                         actions.resize([column.columnId, width])
                                                     }
@@ -197,6 +200,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             sortable={columnsSortable}
                                             sortRule={state.sortOrder.find(([id]) => column.columnId === id)}
                                             visibleColumns={state.visibleColumns}
+                                            useHeaderRef={props.useHeaderRef}
                                         />
                                     )
                                 )}
@@ -265,9 +269,10 @@ function gridStyle(
     optional: OptionalColumns
 ): CSSProperties {
     const columnSizes = columns.map(c => {
+        const isLast = columns.at(-1) === c;
         const columnResizedSize = resizeMap[c.columnId];
         if (columnResizedSize) {
-            return `${columnResizedSize}px`;
+            return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
         }
         switch (c.width) {
             case "autoFit": {
