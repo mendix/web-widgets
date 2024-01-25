@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.1] - 2024-01-25
+
 ### Changed
 
 -   We updated styling so that they follow content security policy.
