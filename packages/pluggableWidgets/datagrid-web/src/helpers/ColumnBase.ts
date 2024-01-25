@@ -1,4 +1,4 @@
-import { AlignmentEnum, HidableEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, HidableEnum, MinWidthEnum, WidthEnum } from "../../typings/DatagridProps";
 
 interface BaseColumnProps {
     sortable: boolean;
@@ -10,7 +10,8 @@ interface BaseColumnProps {
     alignment: AlignmentEnum;
 
     wrapText: boolean;
-    minWidth: number;
+    minWidth: MinWidthEnum;
+    minWidthLimit: number;
 }
 
 export class BaseColumn {
@@ -52,7 +53,11 @@ export class BaseColumn {
         return this.properties.wrapText;
     }
 
-    get minWidth(): number {
+    get minWidth(): MinWidthEnum {
         return this.properties.minWidth;
+    }
+
+    get minWidthLimit(): number {
+        return this.properties.minWidthLimit;
     }
 }
