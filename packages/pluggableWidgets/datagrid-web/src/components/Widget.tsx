@@ -264,12 +264,8 @@ function gridStyle(
     resizeMap: GridModel.ColumnWidthConfig,
     optional: OptionalColumns
 ): CSSProperties {
-    const columnSizes = columns.map((c, index) => {
-        const isLast = columns.length - 1 === index;
+    const columnSizes = columns.map(c => {
         const columnResizedSize = resizeMap[c.columnId];
-        if (isLast) {
-            return "auto";
-        }
         if (columnResizedSize) {
             return `${columnResizedSize}px`;
         }
