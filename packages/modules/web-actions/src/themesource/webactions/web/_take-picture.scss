@@ -1,0 +1,153 @@
+/* ==========================================================================
+  Take picture styles
+========================================================================== */
+
+.take-picture-wrapper {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    /* Should be higher than the the video. */
+    z-index: 111;
+}
+.take-picture-video-element {
+    position: absolute;
+    /* Should be higher than the z-index of '.layout-atlas .region-sidebar' so it sits on top of the page. */
+    z-index: 110;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.take-picture-action-control-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    /* should be higher than the video. */
+    z-index: 111;
+    margin-bottom: 74px;
+}
+.take-picture-action-switch-control-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    /* should be higher than the video. */
+    z-index: 111;
+    margin-bottom: 74px;
+}
+.take-picture-close-control-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    /* should be higher than the video. */
+    z-index: 111;
+}
+.take-picture-action-control {
+    background-color: transparent;
+    border-style: none;
+    padding: 0;
+}
+.take-picture-action-spacing {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.take-picture-switch-spacing {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+}
+.take-picture-spacing-div {
+    flex: 1;
+}
+.take-picture-action-control-inner {
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid black;
+    width: 58px;
+    height: 58px;
+}
+.take-picture-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 111;
+}
+.take-picture-save-button {
+    color: white;
+    background-color: #264ae5;
+    width: 100%;
+    border-radius: 4px;
+    height: 40px;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    border-style: none;
+}
+.take-picture-switch-control {
+    background-color: transparent;
+    border-style: none;
+    padding: 0;
+    margin-right: 22.33px;
+}
+.take-picture-close-control {
+    margin: 30px 0 0 30px;
+    border-style: none;
+    padding: 0;
+    background-color: transparent;
+}
+.take-picture-save-control {
+    margin: 30px 30px 0 0;
+    border-style: none;
+    padding: 0;
+    background-color: transparent;
+}
+.take-picture-confirm-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    /* should be higher than the wrapper. */
+    z-index: 112;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.take-picture-image {
+    position: absolute;
+    /* Should be higher than the z-index of '.layout-atlas .region-sidebar' so it sits on top of the page. */
+    z-index: 110;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+/* Overwrite 'atlas_core/web/core/_legacy/_mxui.scss' for this particular widget because otherwise
+    iOS Safari will in certain cases put the top and/or bottom bar on top of the overlay of this widget. */
+
+.mx-scrollcontainer-wrapper:not(.mx-scrollcontainer-nested) {
+    -webkit-overflow-scrolling: auto;
+}

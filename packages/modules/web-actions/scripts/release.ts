@@ -5,7 +5,8 @@ import {
     moveModuleToDist,
     removeDist,
     runModuleSteps,
-    writeVersionAndLicenseToJSActions
+    writeVersionAndLicenseToJSActions,
+    copyThemesourceToProject
 } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
@@ -25,6 +26,7 @@ async function main(): Promise<void> {
                 "SetFocus.js",
                 "TakePicture.js"
             ]),
+            copyThemesourceToProject,
             writeVersionAndLicenseToJSActions,
             createModuleMpk,
             moveModuleToDist

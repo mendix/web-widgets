@@ -1,4 +1,9 @@
-import { copyActionsFiles, writeVersionAndLicenseToJSActions, runModuleSteps } from "@mendix/automation-utils/steps";
+import {
+    copyActionsFiles,
+    writeVersionAndLicenseToJSActions,
+    runModuleSteps,
+    copyThemesourceToProject
+} from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
@@ -15,6 +20,7 @@ async function main(): Promise<void> {
                 "SetFocus.js",
                 "TakePicture.js"
             ]),
+            copyThemesourceToProject,
             writeVersionAndLicenseToJSActions
         ]
     });
