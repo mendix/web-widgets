@@ -379,3 +379,7 @@ $grid-selected-row-background: $brand-light;
 .widget-datagrid-col-select input:focus-visible {
     outline-offset: 0;
 }
+
+.widget-datagrid-content {
+    overflow-y: auto;
+}
