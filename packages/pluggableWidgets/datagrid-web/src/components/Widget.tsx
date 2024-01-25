@@ -267,19 +267,21 @@ function gridStyle(
     const columnSizes = columns.map((c, index) => {
         const isLast = columns.length - 1 === index;
         const columnResizedSize = resizeMap[c.columnId];
+        if (isLast) {
+            return "auto";
+        }
         if (columnResizedSize) {
             return `${columnResizedSize}px`;
         }
         switch (c.width) {
-            case "autoFit":
-                return "fit-content(100%)";
-            case "maxContent": {
-                const max = isLast ? "1fr" : "max-content";
-                return `minmax(min-content,${max})`;
-            }
-            case "minMaxContent": {
-                const max = isLast ? "1fr" : "max-content";
-                return `minmax(${c.minWidth}px,${max})`;
+            case "autoFit": {
+                const min =
+                    c.minWidth === "manual"
+                        ? `${c.minWidthLimit}px`
+                        : c.minWidth === "minContent"
+                        ? "min-content"
+                        : "auto";
+                return `minmax(${min}, auto)`;
             }
             case "manual":
                 return `${c.weight}fr`;

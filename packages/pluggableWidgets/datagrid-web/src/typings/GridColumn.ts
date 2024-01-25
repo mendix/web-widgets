@@ -1,6 +1,6 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { AlignmentEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum, MinWidthEnum, WidthEnum } from "../../typings/DatagridProps";
 
 export type ColumnId = string & { __columnIdTag: never };
 
@@ -23,5 +23,6 @@ export interface GridColumn {
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
-    minWidth: number;
+    minWidth: MinWidthEnum;
+    minWidthLimit: number;
 }
