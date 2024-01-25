@@ -11,7 +11,7 @@ RUN \
     rm /tmp/openjdk.tar.gz && \
 \
     echo "Downloading mxbuild ${MENDIX_VERSION}..." && \
-    wget -q https://cdn.mendix.com/runtime/mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
+    wget -q https://cdn.mendix.com/runtime/net6-mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
     mkdir /tmp/mxbuild && \
     tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild && \
     rm /tmp/mxbuild.tar.gz && \

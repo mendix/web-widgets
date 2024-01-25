@@ -19,6 +19,7 @@ export async function buildImage(name, mendixVersion) {
     const runnumber = process.env.CI && process.env.GITHUB_RUN_ID;
 
     const args = [
+        `--platform=linux/amd64`,
         `--file ${dockerFile}`,
         `--build-arg MENDIX_VERSION=${mendixVersion}`,
         `--tag ${image}`,
@@ -148,6 +149,7 @@ export function startCypress(ip, freePort) {
 
     const args = [
         `--tty`,
+        `--platform=linux/amd64`,
         `--volume ${REPO_ROOT}:/monorepo`,
         `--volume ${REPO_ROOT}/node_modules:/monorepo/node_modules:ro`,
         `--workdir ${startingPoint}`,
