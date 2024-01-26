@@ -22,10 +22,10 @@ import { StateChangeFx, useGridState } from "./features/model/use-grid-state";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useModel } from "./features/model/use-model";
 import { InitParams } from "./typings/GridModel";
-import { useSelectActionHelper } from "./helpers/use-select-action-helper";
-import { useClickActionHelper } from "./helpers/use-click-action-helper";
-import { useCellEventsController } from "./features/row-interaction/use-cell-events-controller";
-import { useCheckboxEventsController } from "./features/row-interaction/use-checkbox-events-controller";
+import { useSelectActionHelper } from "./helpers/SelectActionHelper";
+import { useClickActionHelper } from "./helpers/ClickActionHelper";
+import { useCellEventsController } from "./features/row-interaction/CellEventsController";
+import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
 
 interface Props extends DatagridContainerProps {

@@ -2,7 +2,7 @@ import { createElement, ReactElement } from "react";
 import { ObjectItem } from "mendix";
 import { CellElement, CellElementProps } from "./CellElement";
 import { useFocusTargetProps } from "../features/keyboard-navigation/useFocusTargetProps";
-import { useWidgetProps } from "../helpers/use-widget-props";
+import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;

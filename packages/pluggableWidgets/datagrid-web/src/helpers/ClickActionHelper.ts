@@ -1,6 +1,7 @@
+import { useMemo, useEffect } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ListActionValue, ObjectItem } from "mendix";
-import { OnClickTriggerEnum } from "../../typings/DatagridProps";
+import { DatagridContainerProps, DatagridPreviewProps, OnClickTriggerEnum } from "../../typings/DatagridProps";
 
 export type ExecuteActionFx = (item: ObjectItem) => void;
 
@@ -22,4 +23,17 @@ export class ClickActionHelper {
             executeAction(this.listAction.get(item));
         }
     };
+}
+
+export function useClickActionHelper(
+    props: Pick<DatagridContainerProps | DatagridPreviewProps, "onClick" | "onClickTrigger">
+): ClickActionHelper {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const clickActionHelper = useMemo(() => new ClickActionHelper(props.onClickTrigger, props.onClick), []);
+
+    useEffect(() => {
+        clickActionHelper.update(props.onClick);
+    });
+
+    return clickActionHelper;
 }

@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
-import { WidgetPropsProvider } from "../helpers/use-widget-props";
+import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
