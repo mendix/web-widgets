@@ -793,7 +793,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
       <div
         class="widget-datagrid-grid-body table-content"
         role="rowgroup"
-        style="grid-template-columns:1fr fit-content(50px)"
+        style="grid-template-columns:1fr 54px"
       >
         <div
           class="tr"
@@ -1214,7 +1214,7 @@ exports[`Table with selection method checkbox render an extra column and add cla
         <div
           class="widget-datagrid-grid-body table-content"
           role="rowgroup"
-          style="grid-template-columns: fit-content(48px) 1fr;"
+          style="grid-template-columns: 48px 1fr;"
         >
           <div
             class="tr"
