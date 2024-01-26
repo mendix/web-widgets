@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import { SelectActionHandler, SelectionHelper, WidgetSelectionProperty } from "@mendix/widget-plugin-grid/selection";
-import { ItemSelectionMethodEnum } from "../../typings/DatagridProps";
+import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
 
 export class SelectActionHelper extends SelectActionHandler {
@@ -31,4 +32,25 @@ export class SelectActionHelper extends SelectActionHandler {
     get showSelectAllToggle(): boolean {
         return this._showSelectAllToggle && this.selectionType === "Multi";
     }
+}
+
+export function useSelectActionHelper(
+    props: Pick<
+        DatagridContainerProps | DatagridPreviewProps,
+        "itemSelection" | "itemSelectionMethod" | "showSelectAllToggle" | "pageSize"
+    >,
+    selectionHelper?: SelectionHelper
+): SelectActionHelper {
+    return useMemo(
+        () =>
+            new SelectActionHelper(
+                props.itemSelection,
+                selectionHelper,
+                props.itemSelectionMethod,
+                props.showSelectAllToggle,
+                props.pageSize ?? 5
+            ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [selectionHelper]
+    );
 }

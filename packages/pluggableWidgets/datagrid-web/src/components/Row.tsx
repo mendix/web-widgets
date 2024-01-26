@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement, createElement } from "react";
-import { useWidgetProps } from "../helpers/use-widget-props";
+import { useWidgetProps } from "../helpers/useWidgetProps";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { SelectorCell } from "./SelectorCell";

@@ -16,11 +16,8 @@ import { useSelectActionHelper } from "../../helpers/use-select-action-helper";
 import {
     CheckboxEventsController,
     useCheckboxEventsController
-} from "../../features/row-interaction/use-checkbox-events-controller";
-import {
-    CellEventsController,
-    useCellEventsController
-} from "../../features/row-interaction/use-cell-events-controller";
+} from "../../features/row-interaction/CheckboxEventsController";
+import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { ClickActionHelper } from "../../helpers/ClickActionHelper";
 // you can also pass the mock implementation
 // to jest.fn as an argument
