@@ -1,4 +1,4 @@
-import { Config, Data, Layout } from "plotly.js";
+import { Config, Data, Layout } from "plotly.js-strict-dist";
 import deepMerge from "deepmerge";
 import { useEffect, useState } from "react";
 import { fetchThemeFolderConfigFile } from "./themeFolderConfig";

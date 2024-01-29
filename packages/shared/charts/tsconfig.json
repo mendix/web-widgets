@@ -15,6 +15,9 @@
         "noImplicitReturns": true,
         "declaration": true,
         "sourceMap": false,
-        "paths": { "*": ["node_modules/*", "node_modules/@types/*"] }
+        "paths": {
+            "*": ["node_modules/*", "node_modules/@types/*"],
+            "plotly.js-strict-dist": ["node_modules/@types/plotly.js"]
+        }
     }
 }

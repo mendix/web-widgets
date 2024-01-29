@@ -1,6 +1,7 @@
 import { createElement, Fragment, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
-import ReactPlotlyChartComponent, { PlotParams } from "react-plotly.js";
-import { Config, Data, Layout } from "plotly.js";
+import { PlotParams } from "react-plotly.js";
+import createPlotlyComponent from "react-plotly.js/factory";
+import Plotly, { Config, Data, Layout } from "plotly.js-strict-dist";
 import deepmerge from "deepmerge";
 import { Playground, useChartsPlaygroundState } from "./Playground/Playground";
 import { CodeEditor } from "./Playground/CodeEditor";
@@ -8,8 +9,9 @@ import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
 import { ExtraTraceProps } from "../types";
 
 const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
+const ReactPlotlyChartComponent = createPlotlyComponent(Plotly);
 
-declare module "plotly.js" {
+declare module "plotly.js-strict-dist" {
     interface PlotDatum {
         /** This array appears on only when aggregation is used */
         pointIndices?: number[];

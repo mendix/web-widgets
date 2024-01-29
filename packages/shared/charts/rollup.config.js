@@ -54,7 +54,7 @@ module.exports = args => {
         input: "react-plotly.js",
         output: {
             format: "amd",
-            file: join(outDir, "plotly.js")
+            file: join(outDir, "plotly.js-strict-dist")
         },
         plugins
     };

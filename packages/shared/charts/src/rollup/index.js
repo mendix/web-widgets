@@ -10,17 +10,17 @@ function sharedChardConfig(args) {
     // We define the new library externals for the entry points
     const libraryExternals = [
         /^react-plotly\.js($|\/)/,
-        /(^|\/)shared\/plotly.js$/,
+        /(^|\/)shared\/plotly.js-strict-dist$/,
         /^react-ace($|\/)/,
         /(^|\/)shared\/ace.js$/,
-        /^plotly.js$/
+        /^plotly.js-strict-dist$/
     ];
 
     function copyExternalsToWidget() {
         console.log(green("Copy files for plotly and ace libraries"));
         const outDir = join(process.cwd(), "dist/tmp/widgets/com/mendix/shared");
         const libDir = join(__dirname, "../shared", production ? "prod" : "dev");
-        const files = ["plotly.js", "ace.js", "worker-json.js"].map(f => join(libDir, f));
+        const files = ["plotly.js-strict-dist", "ace.js", "worker-json.js"].map(f => join(libDir, f));
         sh.config.fatal = true;
         sh.mkdir("-p", outDir);
         sh.cp(files, outDir);
@@ -35,7 +35,7 @@ function sharedChardConfig(args) {
         config.output.paths = {
             ...config.output.paths,
             "react-ace": "../../../shared/ace.js",
-            "react-plotly.js": "../../../shared/plotly.js"
+            "react-plotly.js": "../../../shared/plotly.js-strict-dist"
         };
 
         config.plugins = [...config.plugins, commandCopyExternals];

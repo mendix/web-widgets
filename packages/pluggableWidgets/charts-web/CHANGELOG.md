@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We fixed chart's CSP compliant by using plotly-strict bundle.
+
 ## [4.2.4] Charts - 2023-11-30
 
 ### Fixed
