@@ -17,7 +17,7 @@
         "sourceMap": false,
         "paths": {
             "*": ["node_modules/*", "node_modules/@types/*"],
-            "plotly.js-strict-dist": ["node_modules/@types/plotly.js"]
+            "plotly.js-strict-dist": ["node_modules/*", "node_modules/@types/plotly.js"]
         }
     }
 }
