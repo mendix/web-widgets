@@ -6,7 +6,6 @@
             <widgetFile path="BarChart/BarChart.xml" />
             <widgetFile path="BubbleChart/BubbleChart.xml" />
             <widgetFile path="ColumnChart/ColumnChart.xml" />
-            <widgetFile path="HeatMap/HeatMap.xml" />
             <widgetFile path="LineChart/LineChart.xml" />
             <widgetFile path="PieChart/PieChart.xml" />
             <widgetFile path="TimeSeries/TimeSeries.xml" />
@@ -16,7 +15,6 @@
             <file path="com/mendix/widget/web/barchart" />
             <file path="com/mendix/widget/web/bubblechart" />
             <file path="com/mendix/widget/web/columnchart" />
-            <file path="com/mendix/widget/web/heatmap" />
             <file path="com/mendix/widget/web/linechart" />
             <file path="com/mendix/widget/web/piechart" />
             <file path="com/mendix/widget/web/timeseries" />
