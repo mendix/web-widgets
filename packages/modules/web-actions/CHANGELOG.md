@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.10.0] - 2024-01-29
+
 ### Changed
 
 -   We updated styling so that they follow content security policy.
+
 -   The recommended minimum atlas-core version is now version 3
 
 ## [2.9.0] - 2023-10-24
