@@ -238,7 +238,7 @@ function Container(props: Props): ReactElement {
     );
 }
 
-export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
+export function Datagrid__(props: DatagridContainerProps): ReactElement | null {
     const { initState, columns, stateChangeFx: onStateChange } = useModel(props);
 
     if (initState.status === "pending") {
@@ -249,3 +249,5 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
         <Container {...props} initParams={initState.initParams} mappedColumns={columns} onStateChange={onStateChange} />
     );
 }
+
+export { Datagrid as default } from "./DatagridMobx";

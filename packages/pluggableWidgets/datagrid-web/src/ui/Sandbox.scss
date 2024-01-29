@@ -1,0 +1,12 @@
+.changed {
+    animation: changed 300ms linear;
+}
+
+@keyframes changed {
+    from {
+        background-color: red;
+    }
+    to {
+        background-color: transparent;
+    }
+}
