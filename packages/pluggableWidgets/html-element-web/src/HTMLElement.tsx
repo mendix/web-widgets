@@ -31,6 +31,7 @@ export function HTMLElement(props: HTMLElementContainerProps): ReactElement | nu
                         ...prepareEvents(createEventResolver(item), props.events)
                     }}
                     unsafeHTML={prepareHtml(props, item)}
+                    sanitizationConfig={props.sanitizationConfigFull}
                 >
                     {prepareChildren(props, item)}
                 </HTMLTag>

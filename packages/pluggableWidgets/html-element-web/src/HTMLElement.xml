@@ -318,5 +318,13 @@
                 </properties>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <propertyGroup caption="HTML Sanitization">
+                <property key="sanitizationConfigFull" type="string" required="false" multiline="true">
+                    <caption>Sanitization configuration</caption>
+                    <description>Configuration for HTML sanitization in JSON format. Leave blank for default.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
     </properties>
 </widget>

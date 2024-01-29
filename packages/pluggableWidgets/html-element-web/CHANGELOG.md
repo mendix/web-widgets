@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   It is now possible to pass configuration to the underlying HTML sanitization library. This makes it possible to extend default configuration that might be too restrictive for certain advanced use cases.
+
 ## [1.1.1] - 2023-09-27
 
 ### Fixed
