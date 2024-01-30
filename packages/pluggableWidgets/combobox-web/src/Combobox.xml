@@ -124,7 +124,7 @@
             <!-- END GENERAL -->
 
             <!-- MULTI SELECTION (REFERENCE SET) -->
-            <propertyGroup caption="Multi Selection (Reference Set)">
+            <propertyGroup caption="Multiple-selection (reference set)">
                 <property key="selectionMethod" type="enumeration" defaultValue="checkbox" required="true">
                     <caption>Selection method</caption>
                     <description />
@@ -209,7 +209,7 @@
                     </translations>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Accessibility Status Message ">
+            <propertyGroup caption="Accessibility status message ">
                 <property key="a11ySelectedValue" type="textTemplate" required="true">
                     <caption>Selected value</caption>
                     <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
