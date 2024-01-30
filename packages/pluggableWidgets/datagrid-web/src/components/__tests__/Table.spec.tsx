@@ -11,8 +11,7 @@ import { GridColumn } from "../../typings/GridColumn";
 import { column, mockState, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
-import { SelectActionHelper } from "../../helpers/SelectActionHelper";
-import { useSelectActionHelper } from "../../helpers/use-select-action-helper";
+import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
 import {
     CheckboxEventsController,
     useCheckboxEventsController
