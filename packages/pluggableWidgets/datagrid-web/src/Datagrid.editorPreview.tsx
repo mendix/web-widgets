@@ -11,7 +11,7 @@ import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { ColumnId } from "./typings/GridColumn";
 import * as Grid from "./typings/GridModel";
-import { useSelectActionHelper } from "./helpers/use-select-action-helper";
+import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
 
 // Fix type definition for Selectable
