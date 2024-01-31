@@ -52,16 +52,21 @@
                     <attributeTypes>
                         <attributeType name="String" />
                         <attributeType name="Integer" />
+                        <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
                 <property key="optionsSourceDatabaseDataSource" type="datasource" isList="true" required="false">
                     <caption>Selectable objects</caption>
                     <description />
                 </property>
-                <property key="optionsSourceDatabaseValueExpression" type="expression" dataSource="optionsSourceDatabaseDataSource" required="true">
+                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="true">
                     <caption>Value</caption>
                     <description />
-                    <returnType assignableTo="attributeString" />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
                 </property>
                 <property key="optionsSourceDatabaseCaptionType" type="enumeration" defaultValue="attribute">
                     <caption>Caption type</caption>
@@ -70,6 +75,11 @@
                         <enumerationValue key="attribute">Attribute</enumerationValue>
                         <enumerationValue key="expression">Expression</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseEmptyValue" type="expression">
+                    <caption>Empty Value</caption>
+                    <description />
+                    <returnType assignableTo="attributeString" />
                 </property>
                 <!-- END DATABASE / STRING -->
                 <!-- ASSOCIATION -->
