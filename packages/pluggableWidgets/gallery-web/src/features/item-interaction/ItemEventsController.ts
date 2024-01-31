@@ -1,13 +1,16 @@
 import { ObjectItem } from "mendix";
+import { useMemo } from "react";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import { SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createItemHandlers } from "./item-handlers";
 import { createActionHandlers } from "./action-handlers";
-import { ExecuteActionFx } from "../../helpers/ClickActionHelper";
+import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
+import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 
 export class ItemEventsController implements ItemEventsController {
     constructor(
@@ -26,4 +29,22 @@ export class ItemEventsController implements ItemEventsController {
         ];
         return eventSwitch(() => this.contextFactory(item), entries);
     };
+}
+
+export function useItemEventsController(
+    selectHelper: SelectActionHelper,
+    clickHelper: ClickActionHelper,
+    focusController: FocusTargetController
+): ItemEventsController {
+    return useMemo(
+        () =>
+            new ItemEventsController(
+                item => ({ item, selectionType: selectHelper.selectionType }),
+                selectHelper.onSelect,
+                selectHelper.onSelectAll,
+                clickHelper.onExecuteAction,
+                focusController.dispatch
+            ),
+        [selectHelper, focusController]
+    );
 }

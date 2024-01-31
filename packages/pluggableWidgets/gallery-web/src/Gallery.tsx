@@ -16,11 +16,11 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { getPosition, GridPositionsProps, useGridPositions } from "./features/use-grid-positions";
+import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
+import { getPosition, GridPositionsProps, useGridPositions } from "./features/useGridPositions";
+import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemHelper } from "./helpers/ItemHelper";
-import { useClickActionHelper } from "./helpers/use-click-action-helper";
-import { useItemSelectHelper } from "./helpers/use-item-select-helper";
-import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
+import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);

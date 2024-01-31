@@ -11,7 +11,7 @@ import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
-import { Positions } from "../features/use-grid-positions";
+import { Positions } from "../features/useGridPositions";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ItemEventsController } from "../typings/ItemEventsController";
 

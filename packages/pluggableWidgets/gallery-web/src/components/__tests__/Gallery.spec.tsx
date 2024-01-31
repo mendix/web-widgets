@@ -8,7 +8,7 @@ import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
-import { getPosition } from "../../features/use-grid-positions";
+import { getPosition } from "../../features/useGridPositions";
 import { ClickActionHelper } from "../../helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";

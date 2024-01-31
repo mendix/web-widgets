@@ -3,7 +3,7 @@ import { ObjectItem } from "mendix";
 import { createElement, memo, ReactElement, useMemo, RefObject } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
-import { Positions } from "../features/use-grid-positions";
+import { Positions } from "../features/useGridPositions";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ItemEventsController } from "../typings/ItemEventsController";

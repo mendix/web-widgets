@@ -3,11 +3,11 @@ import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
-import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
-import { getPosition, useGridPositions } from "./features/use-grid-positions";
+import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
+import { getPosition, useGridPositions } from "./features/useGridPositions";
+import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
-import { useItemSelectHelper } from "./helpers/use-item-select-helper";
-import { useClickActionHelper } from "./helpers/use-click-action-helper";
+import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -19,8 +19,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
 
     const { numberOfColumns, numberOfRows } = useGridPositions({
         phoneItems: props.phoneItems ?? 1,
-        tabletItems: props.tabletItems ?? 2,
-        desktopItems: props.desktopItems ?? 3,
+        tabletItems: props.tabletItems ?? 1,
+        desktopItems: props.desktopItems ?? 1,
         totalItems: items.length
     });
     const getPositionCallback = useCallback(
