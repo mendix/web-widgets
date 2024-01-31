@@ -47,7 +47,6 @@ export function useDownshiftMultiSelectProps(
         activeIndex,
         addSelectedItem
     } = useMultipleSelection({
-        selectedItems: selector.currentValue ?? [],
         itemToString: (v: string) => selector.caption.get(v),
         getA11yRemovalMessage(options) {
             return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
@@ -231,7 +230,7 @@ function useComboboxProps(
         selector,
         selectedItems,
         items,
-        selector.currentValue,
+        selector.currentId,
         removeSelectedItem,
         setSelectedItems,
         a11yStatusMessage.a11ySelectedValue,

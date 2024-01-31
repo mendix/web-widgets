@@ -10,7 +10,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     status: Status = "unavailable";
     options: AssociationOptionsProvider;
     clearable = false;
-    currentValue: T | null = null;
+    currentId: T | null = null;
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
@@ -61,7 +61,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             emptyOption.status === "unavailable"
         ) {
             this.status = "unavailable";
-            this.currentValue = null;
+            this.currentId = null;
             this.clearable = false;
 
             return;

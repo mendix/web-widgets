@@ -52,8 +52,8 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         this.customContentType = props.customContentType;
     }
 
-    get(value: string | null): string {
-        if (value === null) {
+    get(id: string | null): string {
+        if (id === null) {
             return this.emptyCaption;
         }
         if (!this.formatter) {

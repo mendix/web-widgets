@@ -14,7 +14,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     private _attr: EditableValue<string | boolean> | undefined;
     private onChangeEvent?: ActionValue;
 
-    currentValue: string | null = null;
+    currentId: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
@@ -42,7 +42,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
 
         if (!attr || attr.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
             this.status = "unavailable";
-            this.currentValue = null;
+            this.currentId = null;
             this.clearable = true;
 
             return;
@@ -52,7 +52,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.status = attr.status;
         this.isBoolean = typeof attr.universe?.[0] === "boolean";
         this.clearable = this.isBoolean ? false : clearable;
-        this.currentValue = attr.value?.toString() ?? null;
+        this.currentId = attr.value?.toString() ?? null;
         this.readOnly = attr.readOnly;
         this.validation = attr.validation;
     }

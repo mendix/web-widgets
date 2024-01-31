@@ -17,7 +17,7 @@ export class AssociationMultiSelector
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
         this.selectAllButton = props.selectAllButton;
-        this.currentValue =
+        this.currentId =
             this._attr?.value?.map(value => {
                 return value.id;
             }) ?? null;
@@ -34,14 +34,14 @@ export class AssociationMultiSelector
 
     getOptions(): string[] {
         return this.selectionMethod === "rowclick"
-            ? this.options.getAll().filter(option => !this.currentValue?.includes(option))
+            ? this.options.getAll().filter(option => !this.currentId?.includes(option))
             : this.options.getAll();
     }
 
     isOptionsSelected(): ThreeStateCheckBoxEnum {
         const options = this.options.getAll();
-        const unselectedOptions = options.filter(option => !this.currentValue?.includes(option));
-        if (this.currentValue && this.currentValue.length > 0) {
+        const unselectedOptions = options.filter(option => !this.currentId?.includes(option));
+        if (this.currentId && this.currentId.length > 0) {
             if (unselectedOptions.length === 0) {
                 return "all";
             } else {

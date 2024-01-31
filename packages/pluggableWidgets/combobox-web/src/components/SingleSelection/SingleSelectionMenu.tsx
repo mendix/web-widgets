@@ -40,7 +40,7 @@ export function SingleSelectionMenu({
                     <ComboboxOptionWrapper
                         key={item}
                         isHighlighted={alwaysOpen ? false : highlightedIndex === index}
-                        isSelected={selector.currentValue === item}
+                        isSelected={selector.currentId === item}
                         item={item}
                         getItemProps={getItemProps}
                         index={index}

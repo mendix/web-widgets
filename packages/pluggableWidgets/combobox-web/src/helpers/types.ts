@@ -59,7 +59,7 @@ interface SelectorBase<T, V> {
     // value related
     clearable: boolean;
 
-    currentValue: V | null;
+    currentId: V | null;
     setValue(value: V | null): void;
 
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;

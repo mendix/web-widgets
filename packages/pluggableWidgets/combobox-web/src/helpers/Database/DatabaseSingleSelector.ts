@@ -13,7 +13,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     values: DatabaseValuesProvider<T>;
     options: DatabaseOptionsProvider;
     clearable = false;
-    currentValue: string | null = null;
+    currentId: string | null = null;
     caption: DatabaseCaptionsProvider;
     readOnly = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
@@ -68,7 +68,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             emptyOption.status === "unavailable"
         ) {
             this.status = "unavailable";
-            this.currentValue = null;
+            this.currentId = null;
             this.clearable = false;
 
             return;

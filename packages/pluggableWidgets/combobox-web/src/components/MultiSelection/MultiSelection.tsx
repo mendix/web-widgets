@@ -119,8 +119,8 @@ export function MultiSelection({
 
                 {!selector.readOnly &&
                     selector.clearable &&
-                    selector.currentValue !== null &&
-                    selector.currentValue.length > 0 && (
+                    selector.currentId !== null &&
+                    selector.currentId.length > 0 && (
                         <button
                             tabIndex={tabIndex}
                             className="widget-combobox-clear-button"
