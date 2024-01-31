@@ -77,45 +77,6 @@ describe("gallery item", () => {
         );
     });
 
-    // describe("on keydown event", () => {
-    //     const cases = [
-    //         { selectionType: "None", n: 0, key: "ArrowUp", params: [true, "backward", 1] },
-    //         { selectionType: "Single", n: 0, key: "ArrowDown", params: [true, "forward", 1] },
-    //         { selectionType: "Multi", n: 1, key: "ArrowUp", params: [true, "backward", 1] },
-    //         { selectionType: "Multi", n: 1, key: "ArrowDown", params: [true, "forward", 1] },
-    //         { selectionType: "Multi", n: 1, key: "PageUp", params: [true, "backward", 10] },
-    //         { selectionType: "Multi", n: 1, key: "PageDown", params: [true, "forward", 10] },
-    //         { selectionType: "Multi", n: 1, key: "Home", params: [true, "backward", "edge"] },
-    //         { selectionType: "Multi", n: 1, key: "End", params: [true, "forward", "edge"] }
-    //     ];
-
-    //     test.each(cases)(
-    //         "calls onSelectAdjacent $n time(s) when selection is $selectionType and key is $key",
-    //         async ({ selectionType, n, key, params }) => {
-    //             const onSelectAdjacent = jest.fn();
-
-    //             const [item] = objectItems(1);
-
-    //             const props = eventSwitch<EventEntryContext, HTMLDivElement>(
-    //                 (): EventEntryContext => ({
-    //                     item,
-    //                     selectionType: selectionType as SelectionType
-    //                 }),
-    //                 [...createSelectHandlers(jest.fn(), jest.fn(), onSelectAdjacent)]
-    //             );
-
-    //             const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
-    //             await user.tab();
-    //             await user.keyboard(`{Shift>}[${key}]{/Shift}`);
-
-    //             expect(onSelectAdjacent).toHaveBeenCalledTimes(n);
-    //             if (n > 0) {
-    //                 expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, ...params);
-    //             }
-    //         }
-    //     );
-    // });
-
     describe("on keyup[Space|Enter] event", () => {
         const cases = [
             { n: 1, key: "Space" },
