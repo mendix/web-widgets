@@ -10,7 +10,7 @@ type FilterChannelName = string;
 
 export function useExternalEvents(gridName: string): FilterChannelName {
     const emit = useChannelEmit();
-    const filterChannelName = useMemo(() => generateUUID().toString(), []);
+    const filterChannelName = useMemo(() => `datagrid/${generateUUID()}`, []);
 
     useListenChannelEvents(gridName, events.grid.resetFilters, () => {
         emit(filterChannelName, events.input.clear);

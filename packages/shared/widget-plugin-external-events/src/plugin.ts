@@ -42,7 +42,8 @@ class ExternalEvents implements PluginExternalEvents {
     }
 
     subscribe(channelName: string, eventName: string, listener: Listener): Unsubscribe {
-        return this.getChannel(channelName).on(eventName, listener);
+        this.getChannel(channelName).on(eventName, listener);
+        return () => this.unsubscribe(channelName, eventName, listener);
     }
 
     unsubscribe(channelName: string, eventName: string, listener: Listener): void {
@@ -53,7 +54,7 @@ class ExternalEvents implements PluginExternalEvents {
 
         const listeners = channel.events[eventName];
         if (listeners) {
-            channel.events[eventName] = listeners.filter(fn => fn === listener);
+            channel.events[eventName] = listeners.filter(fn => fn !== listener);
         }
         const listenersTotal = Object.values(channel.events)
             .flat()
