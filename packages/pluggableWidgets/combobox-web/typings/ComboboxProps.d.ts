@@ -35,8 +35,9 @@ export interface ComboboxContainerProps {
     attributeBoolean: EditableValue<boolean>;
     attributeString: EditableValue<string | Big>;
     optionsSourceDatabaseDataSource?: ListValue;
-    optionsSourceDatabaseValueExpression?: ListExpressionValue<string | Big>;
+    optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
+    optionsSourceDatabaseEmptyValue: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
@@ -77,8 +78,9 @@ export interface ComboboxPreviewProps {
     attributeBoolean: string;
     attributeString: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
-    optionsSourceDatabaseValueExpression: string;
+    optionsSourceDatabaseValueAttribute: string;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
+    optionsSourceDatabaseEmptyValue: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;

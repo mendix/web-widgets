@@ -1,37 +1,41 @@
-import { ListExpressionValue, ObjectItem } from "mendix";
+import { ObjectItem, DynamicValue, ListAttributeValue } from "mendix";
 import { ValuesProvider } from "../types";
 
 interface Props {
-    valueExpression: ListExpressionValue<any>;
+    valueAttribute: ListAttributeValue<string | Big>;
+    emptyValue: DynamicValue<string | Big>;
 }
 
-export class DatabaseValuesProvider<T> implements ValuesProvider<T> {
-    private formatter?: ListExpressionValue<any>;
-    emptyValue: T = "" as T;
+export class DatabaseValuesProvider implements ValuesProvider<string | Big> {
+    private attribute?: ListAttributeValue<string | Big>;
+    private emptyValue: DynamicValue<string | Big> | undefined;
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
     updateProps(props: Props): void {
-        this.formatter = props.valueExpression;
+        this.emptyValue = props.emptyValue;
+        this.attribute = props.valueAttribute;
     }
 
-    get(key: string | null): T {
+    get(key: string | null): string | Big | undefined {
         if (key === null) {
-            return this.emptyValue;
+            return this.emptyValue?.value;
         }
-        if (!this.formatter) {
-            throw new Error("AssociationSimpleCaptionRenderer: no formatter available.");
+        if (!this.attribute) {
+            throw new Error("DatabaseValuesProvider: no formatter available.");
         }
         const item = this.optionsMap.get(key);
         if (!item) {
-            return this.emptyValue;
+            return this.emptyValue?.value;
         }
-
-        const captionValue = this.formatter.get(item);
-        if (captionValue.status === "unavailable") {
-            return this.emptyValue;
+        const value = this.attribute.get(item);
+        if (value.status === "unavailable") {
+            return this.emptyValue?.value;
         }
+        return value.value;
+    }
 
-        return (captionValue.value ?? "") as T;
+    getEmptyValue() {
+        return this.emptyValue?.value;
     }
 }

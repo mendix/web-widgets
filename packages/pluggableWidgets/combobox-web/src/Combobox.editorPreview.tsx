@@ -68,7 +68,7 @@ class AssociationPreviewSelector extends BaseAssociationSelector<string, Referen
         this.options = new AssociationPreviewOptionsProvider(this.caption, new Map());
         this.readOnly = props.readOnly;
         this.clearable = props.clearable;
-        this.currentValue = getDatasourcePlaceholderText(props);
+        this.currentId = getDatasourcePlaceholderText(props);
         this.customContentType = props.optionsSourceAssociationCustomContentType;
         (this.caption as AssociationPreviewCaptionsProvider).updatePreviewProps({
             customContentRenderer: props.optionsSourceAssociationCustomContent.renderer,

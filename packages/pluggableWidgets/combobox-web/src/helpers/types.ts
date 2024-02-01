@@ -19,7 +19,7 @@ export interface CaptionsProvider {
     emptyCaption: string;
 }
 export interface ValuesProvider<T> {
-    get(key: string | null): T;
+    get(key: string | null): T | undefined;
 }
 
 export interface OptionsProvider<T = unknown, P = object> {

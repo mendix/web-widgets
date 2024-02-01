@@ -23,7 +23,8 @@ type ExtractionReturnValue = [
     ActionValue | undefined,
     ListWidgetValue | undefined,
     OptionsSourceAssociationCustomContentTypeEnum,
-    ListExpressionValue<string | Big>
+    ListAttributeValue<string | Big>,
+    DynamicValue<string | Big>
 ];
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -56,12 +57,13 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         );
     }
     const emptyOption = props.emptyOptionText;
+    const emptyValue = props.optionsSourceDatabaseEmptyValue;
     const clearable = props.clearable;
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
-    const valueExpression = props.optionsSourceDatabaseValueExpression;
+    const valueAttribute = props.optionsSourceDatabaseValueAttribute;
 
-    if (!valueExpression) {
+    if (!valueAttribute) {
         throw new Error("'valueExpression' is not defined");
     }
 
@@ -75,6 +77,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         onChangeEvent,
         customContent,
         customContentType,
-        valueExpression
+        valueAttribute,
+        emptyValue
     ];
 }

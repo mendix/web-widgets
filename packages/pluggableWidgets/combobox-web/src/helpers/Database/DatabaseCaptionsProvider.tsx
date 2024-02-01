@@ -8,6 +8,7 @@ interface Props {
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
     customContent?: ListWidgetValue | undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    caption?: string;
 }
 
 interface CaptionContentProps extends PropsWithChildren {
@@ -37,6 +38,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     emptyCaption = "";
+    overrideCaption: string | null | undefined = undefined;
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
@@ -50,20 +52,23 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         this.formatter = props.formattingAttributeOrExpression;
         this.customContent = props.customContent;
         this.customContentType = props.customContentType;
+        this.overrideCaption = props.caption;
     }
 
     get(id: string | null): string {
         if (id === null) {
+            if (this.overrideCaption) {
+                return this.overrideCaption;
+            }
             return this.emptyCaption;
         }
         if (!this.formatter) {
             throw new Error("AssociationSimpleCaptionRenderer: no formatter available.");
         }
-        const item = this.optionsMap.get(value);
+        const item = this.optionsMap.get(id);
         if (!item) {
             return this.unavailableCaption;
         }
-
         const captionValue = this.formatter.get(item);
         if (captionValue.status === "unavailable") {
             return this.unavailableCaption;
