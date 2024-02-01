@@ -1,4 +1,4 @@
-import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo } from "react";
+import { ChangeEventHandler, createElement, CSSProperties, ReactElement, useRef, memo, useCallback } from "react";
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
 import { FilterType } from "../../typings/FilterType";
 import { Big } from "big.js";
@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { useFilterState, useStateChangeEffects } from "../features/filter-state";
 import { toInputValue } from "../utils/value";
 import { useSetInitialConditionEffect } from "../features/initialize";
+import { useExternalEvents } from "../helpers/useExternalEvents";
 
 interface FilterProps {
     adjustable: boolean;
@@ -23,6 +24,8 @@ interface FilterComponentProps extends FilterProps {
     inputChangeDelay: number;
     initialFilterValue?: Big;
     updateFilters?: (value: Big | undefined, type: FilterType) => void;
+    name: string;
+    datagridChannelName?: string;
 }
 
 interface FilterInputProps extends FilterProps {
@@ -79,19 +82,20 @@ function FilterInput(props: FilterInputProps): ReactElement {
 const PureFilterInput = memo(FilterInput);
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const [state, onInputChange, onFilterTypeClick] = useFilterState(() => ({
+    const [state, { setValue, setType, resetValue }] = useFilterState(() => ({
         inputValue: toInputValue(props.initialFilterValue),
         type: props.initialFilterType
     }));
     const [inputRef] = useStateChangeEffects(state, (a, b) => props.updateFilters?.(a, b), props.inputChangeDelay);
 
     useSetInitialConditionEffect(props);
+    useExternalEvents({ widgetName: props.name, datagridChannelName: props.datagridChannelName, resetValue });
 
     return (
         <PureFilterInput
             initialFilterType={props.initialFilterType}
-            onFilterTypeClick={onFilterTypeClick}
-            onInputChange={onInputChange}
+            onFilterTypeClick={setType}
+            onInputChange={useCallback(event => setValue(event.target.value), [setValue])}
             inputRef={inputRef}
             inputValue={state.inputValue}
             inputDisabled={state.type === "empty" || state.type === "notEmpty"}
