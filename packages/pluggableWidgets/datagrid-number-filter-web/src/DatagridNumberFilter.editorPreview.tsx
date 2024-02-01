@@ -6,6 +6,7 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 export function preview(props: DatagridNumberFilterPreviewProps): ReactElement {
     return (
         <FilterComponent
+            name="NumberFilter"
             adjustable={props.adjustable}
             className={props.className}
             initialFilterType={props.defaultFilter}
