@@ -6,10 +6,11 @@ interface HTMLTagProps {
     unsafeHTML?: string;
     children: ReactNode;
     attributes: HTMLAttributes<Element> & { [dataAttribute: `data-${string}`]: string };
+    sanitizationConfig?: string;
 }
 
 export function HTMLTag(props: HTMLTagProps): ReactElement {
-    const sanitize = useSanitize();
+    const sanitize = useSanitize(props.sanitizationConfig);
     const Tag = props.tagName;
     const { unsafeHTML } = props;
     if (unsafeHTML !== undefined) {

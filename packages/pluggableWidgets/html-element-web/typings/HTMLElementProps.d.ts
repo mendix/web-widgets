@@ -64,6 +64,7 @@ export interface HTMLElementContainerProps {
     tagContentRepeatContainer?: ListWidgetValue;
     attributes: AttributesType[];
     events: EventsType[];
+    sanitizationConfigFull: string;
 }
 
 export interface HTMLElementPreviewProps {
@@ -86,4 +87,5 @@ export interface HTMLElementPreviewProps {
     tagContentRepeatContainer: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     attributes: AttributesPreviewType[];
     events: EventsPreviewType[];
+    sanitizationConfigFull: string;
 }

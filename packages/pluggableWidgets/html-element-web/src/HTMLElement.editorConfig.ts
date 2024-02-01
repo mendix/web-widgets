@@ -113,6 +113,16 @@ export function getProperties(values: HTMLElementPreviewProps, defaultProperties
     return defaultProperties;
 }
 
+export function checkJson(json: string): string | undefined {
+    try {
+        JSON.parse(json);
+    } catch (e) {
+        if (e instanceof Error) {
+            return e.message;
+        }
+    }
+}
+
 export function check(values: HTMLElementPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
@@ -164,6 +174,17 @@ export function check(values: HTMLElementPreviewProps): Problem[] {
         }
         existingEventNames.add(attr.eventName);
     });
+
+    if (values.sanitizationConfigFull) {
+        const jsonParseError = checkJson(values.sanitizationConfigFull);
+        if (jsonParseError) {
+            errors.push({
+                severity: "error",
+                property: `sanitizationConfigFull`,
+                message: `Incorrect JSON value: ${jsonParseError}`
+            });
+        }
+    }
 
     return errors;
 }
