@@ -2154,6 +2154,22 @@ importers:
         specifier: ^29.4.1
         version: 29.5.0
 
+  packages/shared/widget-plugin-external-events:
+    dependencies:
+      nanoevents:
+        specifier: ^9.0.0
+        version: 9.0.0
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+
   packages/shared/widget-plugin-filter-selector:
     devDependencies:
       '@mendix/eslint-config-web-widgets':
@@ -13865,6 +13881,11 @@ packages:
 
   /murmurhash-js@1.0.0:
     resolution: {integrity: sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw==}
+    dev: false
+
+  /nanoevents@9.0.0:
+    resolution: {integrity: sha512-X8pU7IOpgKXVLPxYUI55ymXc8XuBE+uypfEyEFBtHkD1EX9KavYTVc+vXZHFyHKzA1TaZoVDqklLdQBBrxIuAw==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     dev: false
 
   /nanoid@3.3.3:
