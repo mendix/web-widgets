@@ -33,6 +33,7 @@ export interface AssociationProperties {
 export type DispatchFilterUpdate = Dispatch<FilterState>;
 
 export interface FilterContextValue {
+    eventsChannelName?: string;
     filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
     singleInitialFilter?: InitialFilterValue[];
