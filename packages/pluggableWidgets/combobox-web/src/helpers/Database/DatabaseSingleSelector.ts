@@ -47,23 +47,6 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             emptyValue
         ] = extractDatabaseProps(props);
         this._attr = attr as R;
-        if (attr.status === "available") {
-            if (this.lastSetValue === null || !this._valuesIsEqual(this.lastSetValue, attr.value)) {
-                if (ds.status === "available") {
-                    this.lastSetValue = this._attr.value;
-                    if (!this._valuesIsEqual(this.values.getEmptyValue(), this._attr.value)) {
-                        const obj = this.options.getAll().find(option => {
-                            return this._valuesIsEqual(this._attr?.value, this.values.get(option));
-                        });
-                        if (obj) {
-                            this.currentId = obj;
-                        } else {
-                            this.currentId = null;
-                        }
-                    }
-                }
-            }
-        }
         this.caption.updateProps({
             emptyOptionText: emptyOption,
             formattingAttributeOrExpression: captionProvider,
@@ -97,9 +80,26 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             return;
         }
 
+        if (attr.status === "available") {
+            if (this.lastSetValue === null || !this._valuesIsEqual(this.lastSetValue, attr.value)) {
+                if (ds.status === "available") {
+                    this.lastSetValue = this._attr.value;
+                    if (!this._valuesIsEqual(this.values.getEmptyValue(), attr.value)) {
+                        const obj = this.options.getAll().find(option => {
+                            return this._valuesIsEqual(attr.value, this.values.get(option));
+                        });
+                        if (obj) {
+                            this.currentId = obj;
+                        } else {
+                            this.currentId = null;
+                        }
+                    }
+                }
+            }
+        }
+
         this.clearable = clearable;
         this.status = attr.status;
-
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
