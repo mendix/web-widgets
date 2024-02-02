@@ -1,6 +1,12 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { EventEntryContext } from "./base";
-import { SelectAllFx, SelectFx, onSelectAllHotKey } from "@mendix/widget-plugin-grid/selection";
+import {
+    SelectAdjacentFx,
+    SelectAllFx,
+    SelectFx,
+    onSelectAdjacentHotKey,
+    onSelectAllHotKey
+} from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 
 const onSelect = (selectFx: SelectFx): EventCaseEntry<EventEntryContext, HTMLDivElement, "onClick"> => ({
@@ -22,12 +28,13 @@ const onMouseDown = (
 
 export function createItemHandlers(
     selectFx: SelectFx,
-    selectAllFx: SelectAllFx
+    selectAllFx: SelectAllFx,
+    selectAdjacentFx: SelectAdjacentFx
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
     return [
-        onSelect(selectFx),
         onMouseDown(removeAllRanges),
-        ...onSelectAllHotKey(
+        onSelect(selectFx),
+        onSelectAllHotKey(
             () => {
                 blockUserSelect();
                 selectAllFx("selectAll");
@@ -35,6 +42,7 @@ export function createItemHandlers(
             () => {
                 unblockUserSelect();
             }
-        )
-    ];
+        ),
+        onSelectAdjacentHotKey(selectAdjacentFx)
+    ].flat();
 }
