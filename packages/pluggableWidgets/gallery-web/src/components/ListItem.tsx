@@ -17,9 +17,9 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     eventsController: ItemEventsController;
 };
 
+// eslint-disable-next-line prefer-arrow-callback
 const component = memo(function ListItem(props: ListItemProps): ReactElement {
-    const { children, className, eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } =
-        props;
+    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } = props;
     const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
     const ariaProps = getAriaProps(item, selectHelper);
     const { columnIndex, rowIndex } = getPosition(itemIndex);

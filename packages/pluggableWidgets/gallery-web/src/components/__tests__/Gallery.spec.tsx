@@ -45,7 +45,7 @@ function mockProps(): GalleryProps<ObjectItem> {
         headerTitle: "Mock props header aria label",
         items: objectItems(3),
         itemHelper: WidgetItemBuilder.sample(),
-        selectHelper: selectHelper,
+        selectHelper,
         showHeader: true,
         header: <input />,
         itemEventsController: new ItemEventsController(
@@ -55,7 +55,7 @@ function mockProps(): GalleryProps<ObjectItem> {
             clickHelper.onExecuteAction,
             focusController.dispatch
         ),
-        focusController: focusController,
+        focusController,
         getPosition: (index: number) => getPosition(3, 3, index)
     };
 }
