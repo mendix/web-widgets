@@ -47,6 +47,7 @@ export function useDownshiftMultiSelectProps(
         activeIndex,
         addSelectedItem
     } = useMultipleSelection({
+        selectedItems: selector.currentId ?? [],
         itemToString: (v: string) => selector.caption.get(v),
         getA11yRemovalMessage(options) {
             return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
@@ -224,7 +225,7 @@ function useComboboxProps(
                 }
             }
         };
-        // disable eslint rule as probably we should update props whenever currentValue changes.
+        // disable eslint rule as probably we should update props whenever currentId changes.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         selector,
