@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   Minimum width property for columns that use auto-fill. When needed, you can adjust how the column content is rendered on small screen sizes.
+-   We add a double click option for datagrid's row selection trigger.
 
 ## [2.12.1] - 2024-01-23
 
