@@ -53,7 +53,8 @@ function mockProps(): GalleryProps<ObjectItem> {
             selectHelper.onSelect,
             selectHelper.onSelectAll,
             clickHelper.onExecuteAction,
-            focusController.dispatch
+            focusController.dispatch,
+            selectHelper.onSelectAdjacent
         ),
         focusController,
         getPosition: (index: number) => getPosition(3, 3, index)
