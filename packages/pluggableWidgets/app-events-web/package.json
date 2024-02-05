@@ -1,0 +1,61 @@
+{
+  "name": "@mendix/app-events-web",
+  "widgetName": "AppEvents",
+  "version": "1.0.0",
+  "description": "App events",
+  "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "config": {
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3000
+  },
+  "mxpackage": {
+    "name": "AppEvents",
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.appevents.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "9.24.0",
+    "appNumber": 219304,
+    "appName": "App events"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "app-events-web"
+  },
+  "packagePath": "com.mendix.widget.web",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "format": "pluggable-widgets-tools format",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "test": "jest --projects jest.config.js",
+    "e2e": "echo \"Skipping this e2e test\"",
+    "e2edev": "run-e2e dev --with-preps",
+    "release": "pluggable-widgets-tools release:web",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget"
+  },
+  "devDependencies": {
+    "@mendix/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^10.0.1",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/run-e2e": "workspace:^*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2"
+  }
+}
