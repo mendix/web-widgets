@@ -1,5 +1,5 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { FocusTargetFx } from "../keyboard-navigation/base";
+import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 
 const onClick = (focusTargetFx: FocusTargetFx): EventCaseEntry<unknown, Element, "onClick"> => ({
     eventName: "onClick",

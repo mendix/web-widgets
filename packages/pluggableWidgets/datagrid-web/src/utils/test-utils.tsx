@@ -10,9 +10,9 @@ import { initGridState } from "../features/model/use-grid-state";
 import { paramsFromColumns } from "../features/model/utils";
 import * as Grid from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { FocusTargetController } from "../features/keyboard-navigation/FocusTargetController";
-import { PositionController } from "../features/keyboard-navigation/PositionController";
-import { VirtualGridLayout } from "../features/keyboard-navigation/VirtualGridLayout";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {

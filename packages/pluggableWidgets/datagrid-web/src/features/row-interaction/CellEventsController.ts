@@ -8,8 +8,8 @@ import { createSelectHandlers } from "./select-handlers";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
-import { FocusTargetController } from "../keyboard-navigation/FocusTargetController";
-import { FocusTargetFx } from "../keyboard-navigation/base";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 
 export class CellEventsController {
