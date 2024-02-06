@@ -1,0 +1,6 @@
+.app-events-preview{
+    border: 1px solid gray;
+    border-style: dashed;
+    min-height: 5px;
+    min-width: 100%;
+}
