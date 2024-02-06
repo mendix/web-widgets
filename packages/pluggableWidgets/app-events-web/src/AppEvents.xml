@@ -6,15 +6,24 @@
     <properties>
         <propertyGroup caption="App events">
             <!-- OPTIONS SOURCE -->
-            <propertyGroup caption="Page load">
-                <property key="optionsSourceType" type="enumeration" defaultValue="association" required="true">
-                    <caption>Type</caption>
+            <propertyGroup caption="Component load">
+                <property key="onPageLoad" type="action" required="false">
+                    <caption>Action</caption>
                     <description />
-                    <enumerationValues>
-                        <enumerationValue key="association">Association</enumerationValue>
-                        <enumerationValue key="enumeration">Enumeration</enumerationValue>
-                        <enumerationValue key="boolean">Boolean</enumerationValue>
-                    </enumerationValues>
+                </property>
+                <property key="pageLoadDelay" type="integer" required="true" defaultValue="0">
+                    <caption>Delay</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Component unload">
+                <property key="onPageUnload" type="action" required="false">
+                    <caption>Action</caption>
+                    <description />
+                </property>
+                <property key="pageUnloadDelay" type="integer" required="true" defaultValue="0">
+                    <caption>Delay</caption>
+                    <description />
                 </property>
             </propertyGroup>
             <!-- END OPTIONS SOURCE -->

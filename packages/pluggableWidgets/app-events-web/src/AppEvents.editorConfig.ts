@@ -1,9 +1,13 @@
 import { Properties } from "@mendix/pluggable-widgets-tools";
 import { AppEventsPreviewProps } from "../typings/AppEventsProps";
+import {
+    StructurePreviewProps,
+    structurePreviewPalette
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 export function getProperties(
     _values: AppEventsPreviewProps,
-    defaultProperties: Properties /*, target: Platform*/
+    defaultProperties: Properties /* , target: Platform*/
 ): Properties {
     // Do the values manipulation here to control the visibility of properties in Studio and Studio Pro conditionally.
     /* Example
@@ -29,13 +33,19 @@ export function getProperties(
 //     return errors;
 // }
 
-// export function getPreview(values: NewWidgetTestPreviewProps, isDarkMode: boolean, version: number[]): PreviewProps {
-//     // Customize your pluggable widget appearance for Studio Pro.
-//     return {
-//         type: "Container",
-//         children: []
-//     }
-// }
+export function getPreview(_values: AppEventsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+    const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    return {
+        type: "Container",
+        children: [
+            {
+                type: "Text",
+                content: "App events",
+                fontColor: palette.text.data
+            }
+        ]
+    };
+}
 
 // export function getCustomCaption(values: NewWidgetTestPreviewProps, platform: Platform): string {
 //     return "NewWidgetTest";

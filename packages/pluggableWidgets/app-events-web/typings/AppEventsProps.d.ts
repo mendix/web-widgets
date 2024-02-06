@@ -4,15 +4,17 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-
-export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
+import { ActionValue } from "mendix";
 
 export interface AppEventsContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    optionsSourceType: OptionsSourceTypeEnum;
+    onPageLoad?: ActionValue;
+    pageLoadDelay: number;
+    onPageUnload?: ActionValue;
+    pageUnloadDelay: number;
 }
 
 export interface AppEventsPreviewProps {
@@ -24,5 +26,8 @@ export interface AppEventsPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    optionsSourceType: OptionsSourceTypeEnum;
+    onPageLoad: {} | null;
+    pageLoadDelay: number | null;
+    onPageUnload: {} | null;
+    pageUnloadDelay: number | null;
 }
