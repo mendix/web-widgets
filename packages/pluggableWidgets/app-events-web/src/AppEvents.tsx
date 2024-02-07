@@ -1,7 +1,7 @@
-import { createElement, ReactElement, useEffect } from "react";
+import { createElement, ReactElement, useEffect, useRef } from "react";
 
 import { AppEventsContainerProps } from "../typings/AppEventsProps";
-import { ActionValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 import "./ui/AppEvents.scss";
 
 const executeAction = (action: ActionValue | undefined, delay: number): void => {
@@ -11,8 +11,16 @@ const executeAction = (action: ActionValue | undefined, delay: number): void => 
 };
 
 export default function Appevents(props: AppEventsContainerProps): ReactElement {
-    const { onPageLoad, onPageUnload, pageLoadDelay, pageUnloadDelay } = props;
-
+    const {
+        onPageLoad,
+        onPageUnload,
+        pageLoadDelay,
+        pageUnloadDelay,
+        attributeEvent,
+        onAttributeEventChange,
+        onAttributeEventChangeDelay
+    } = props;
+    const prevAttributeValue = useRef<EditableValue<any> | undefined>(attributeEvent);
     useEffect(() => {
         executeAction(onPageLoad, pageLoadDelay);
         return () => {
@@ -20,6 +28,13 @@ export default function Appevents(props: AppEventsContainerProps): ReactElement 
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (attributeEvent !== prevAttributeValue.current) {
+            prevAttributeValue.current = attributeEvent;
+            executeAction(onAttributeEventChange, onAttributeEventChangeDelay);
+        }
+    }, [attributeEvent]);
 
     return <div className="widget-appevents"></div>;
 }

@@ -26,6 +26,32 @@
                     <description />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="On change">
+                <property key="attributeEvent" type="attribute" required="false">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="AutoNumber" />
+                        <attributeType name="Binary" />
+                        <attributeType name="Boolean" />
+                        <attributeType name="DateTime" />
+                        <attributeType name="Enum" />
+                        <attributeType name="HashString" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="String" />
+                        <attributeType name="Decimal" />
+                    </attributeTypes>
+                </property>
+                <property key="onAttributeEventChange" type="action" required="false">
+                    <caption>Action</caption>
+                    <description />
+                </property>
+                <property key="onAttributeEventChangeDelay" type="integer" required="true" defaultValue="0">
+                    <caption>Delay</caption>
+                    <description />
+                </property>
+            </propertyGroup>
             <!-- END OPTIONS SOURCE -->
         </propertyGroup>
     </properties>

@@ -4,7 +4,8 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
+import { Big } from "big.js";
 
 export interface AppEventsContainerProps {
     name: string;
@@ -15,6 +16,9 @@ export interface AppEventsContainerProps {
     pageLoadDelay: number;
     onPageUnload?: ActionValue;
     pageUnloadDelay: number;
+    attributeEvent?: EditableValue<Big | any | boolean | Date | string>;
+    onAttributeEventChange?: ActionValue;
+    onAttributeEventChangeDelay: number;
 }
 
 export interface AppEventsPreviewProps {
@@ -30,4 +34,7 @@ export interface AppEventsPreviewProps {
     pageLoadDelay: number | null;
     onPageUnload: {} | null;
     pageUnloadDelay: number | null;
+    attributeEvent: string;
+    onAttributeEventChange: {} | null;
+    onAttributeEventChangeDelay: number | null;
 }
