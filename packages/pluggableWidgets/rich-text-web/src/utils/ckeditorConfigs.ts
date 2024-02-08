@@ -161,6 +161,7 @@ export function getCKEditorConfig(widgetProps: RichTextContainerProps): CKEditor
         disableNativeSpellChecker: !spellChecker,
         readOnly: stringAttribute.readOnly,
         removeButtons: "",
+        versionCheck: false,
         ...getToolbarConfig(widgetProps)
     };
 

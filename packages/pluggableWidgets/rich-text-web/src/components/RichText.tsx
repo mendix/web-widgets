@@ -3,13 +3,14 @@ import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensio
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import loadingCircleSvg from "../ui/loading-circle.svg";
 import classNames from "classnames";
+import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Editor } from "./Editor";
 
 export function RichText(props: RichTextContainerProps): JSX.Element | null {
-    const { width: w, height: h, widthUnit, heightUnit, readOnlyStyle, id } = props;
+    const { width: w, height: h, widthUnit, heightUnit, readOnlyStyle, id, stringAttribute } = props;
     const [element, setElement] = useState<HTMLElement | null>(null);
 
-    if (props.stringAttribute.status !== "available") {
+    if (stringAttribute.status !== "available") {
         return <img src={loadingCircleSvg} className="widget-rich-text-loading-spinner" alt="" aria-hidden />;
     }
 
@@ -20,7 +21,7 @@ export function RichText(props: RichTextContainerProps): JSX.Element | null {
         heightUnit
     });
 
-    const readOnly = props.stringAttribute.readOnly;
+    const readOnly = stringAttribute.readOnly;
 
     return (
         <div
@@ -30,6 +31,7 @@ export function RichText(props: RichTextContainerProps): JSX.Element | null {
         >
             <div ref={setElement} />
             {element ? <Editor element={element} widgetProps={props} /> : null}
+            <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </div>
     );
 }
