@@ -7,21 +7,11 @@
         <propertyGroup caption="App events">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Component load">
-                <property key="onPageLoad" type="action" required="false">
+                <property key="onComponentLoad" type="action" required="false">
                     <caption>Action</caption>
                     <description />
                 </property>
-                <property key="pageLoadDelay" type="integer" required="true" defaultValue="0">
-                    <caption>Delay</caption>
-                    <description />
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Component unload">
-                <property key="onPageUnload" type="action" required="false">
-                    <caption>Action</caption>
-                    <description />
-                </property>
-                <property key="pageUnloadDelay" type="integer" required="true" defaultValue="0">
+                <property key="componentLoadDelay" type="integer" required="true" defaultValue="0">
                     <caption>Delay</caption>
                     <description />
                 </property>
