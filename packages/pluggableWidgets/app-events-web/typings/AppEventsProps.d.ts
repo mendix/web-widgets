@@ -12,10 +12,8 @@ export interface AppEventsContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    onPageLoad?: ActionValue;
-    pageLoadDelay: number;
-    onPageUnload?: ActionValue;
-    pageUnloadDelay: number;
+    onComponentLoad?: ActionValue;
+    componentLoadDelay: number;
     attributeEvent?: EditableValue<Big | any | boolean | Date | string>;
     onAttributeEventChange?: ActionValue;
     onAttributeEventChangeDelay: number;
@@ -30,10 +28,8 @@ export interface AppEventsPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    onPageLoad: {} | null;
-    pageLoadDelay: number | null;
-    onPageUnload: {} | null;
-    pageUnloadDelay: number | null;
+    onComponentLoad: {} | null;
+    componentLoadDelay: number | null;
     attributeEvent: string;
     onAttributeEventChange: {} | null;
     onAttributeEventChangeDelay: number | null;
