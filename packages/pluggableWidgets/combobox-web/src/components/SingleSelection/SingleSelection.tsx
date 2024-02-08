@@ -87,6 +87,7 @@ export function SingleSelection({
                 isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
                 menuFooterContent={menuFooterContent}
+                noOptionsText={options.noOptionsText}
                 alwaysOpen={keepMenuOpen}
             />
         </Fragment>

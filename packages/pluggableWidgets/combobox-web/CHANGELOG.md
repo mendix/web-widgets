@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed no options text not shown on single selection.
+
 ### Changed
 
 -   We made a minor change on the configuration labels.
