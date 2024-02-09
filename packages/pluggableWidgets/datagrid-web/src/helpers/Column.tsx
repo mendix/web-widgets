@@ -3,9 +3,12 @@ import { createElement, ReactElement, ReactNode } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { GridColumn, ColumnId } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
+import { Actions, State } from "../typings/GridModel";
 
 export class Column extends BaseColumn implements GridColumn {
     private props: ColumnsType;
+    private unstable_state: State | undefined;
+    private unstable_actions: Actions | undefined;
 
     columnNumber: number;
 
@@ -47,6 +50,16 @@ export class Column extends BaseColumn implements GridColumn {
         return this.props.attribute?.id;
     }
 
+    get isHidden(): boolean {
+        const state = this.unstable_getState();
+
+        return state.hidden.has(this.columnId);
+    }
+
+    toggleHidden(): void {
+        this.unstable_getActions().toggleHidden(this.columnId);
+    }
+
     setInitParams(): void {
         // Defer options fetching
         if (this.props.filterAssociationOptions) {
@@ -72,6 +85,28 @@ export class Column extends BaseColumn implements GridColumn {
             default:
                 throw new Error(`Unknown content type: ${this.props.showContentAs}`);
         }
+    }
+
+    // unstable part, needed for migration to new state management
+    unstable_setStateAndActions(state: State | undefined, actions: Actions | undefined) {
+        this.unstable_state = state;
+        this.unstable_actions = actions;
+    }
+
+    private unstable_getState(): State {
+        if (!this.unstable_state) {
+            throw new Error("State is not available");
+        }
+
+        return this.unstable_state;
+    }
+
+    private unstable_getActions(): Actions {
+        if (!this.unstable_actions) {
+            throw new Error("Actions is not available");
+        }
+
+        return this.unstable_actions;
     }
 }
 

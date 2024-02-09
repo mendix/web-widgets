@@ -30,6 +30,10 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     get isAvailable(): boolean {
         return this.props.visible === "true";
     }
+    get isHidden(): boolean {
+        return this.initiallyHidden;
+    }
+    toggleHidden(): void {}
     renderCellContent(_item?: unknown): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":

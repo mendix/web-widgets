@@ -47,6 +47,9 @@ function Container(props: Props): ReactElement {
 
     const [state, actions, { useHeaderRef }] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
 
+    // this is a temporary solution for enabling columns manage their own state
+    props.mappedColumns.forEach(c => c.unstable_setStateAndActions(state, actions));
+
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: useMemo(
             () => state.visibleColumns.map(column => props.columns[column.columnNumber]),

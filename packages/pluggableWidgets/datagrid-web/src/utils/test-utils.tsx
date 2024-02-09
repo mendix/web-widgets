@@ -62,6 +62,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index));
     const state = mockState(columns);
+    columns.forEach(c => c.unstable_setStateAndActions(state, undefined));
 
     return {
         CellComponent: Cell,

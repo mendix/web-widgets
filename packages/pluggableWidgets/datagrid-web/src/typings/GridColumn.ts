@@ -10,7 +10,6 @@ export type ColumnId = string & { __columnIdTag: never };
 export interface GridColumn {
     alignment: AlignmentEnum;
     canDrag: boolean;
-    canHide: boolean;
     canResize: boolean;
     canSort: boolean;
     columnClass(item: ObjectItem): string | undefined;
@@ -22,4 +21,9 @@ export interface GridColumn {
     isAvailable: boolean;
     wrapText: boolean;
     getCssWidth(): string;
+
+    // hiding
+    canHide: boolean;
+    isHidden: boolean;
+    toggleHidden(): void;
 }
