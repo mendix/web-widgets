@@ -39,7 +39,6 @@ export interface HeaderProps {
     setIsDragging: Dispatch<SetStateAction<boolean>>;
     setSortBy: Grid.Actions["sortBy"];
     sortRule?: Grid.SortRule;
-    visibleColumns: GridColumn[];
     useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 

@@ -3,9 +3,6 @@ import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { ColumnsType } from "../../typings/DatagridProps";
 
 export function getAssociationProps(columnProps: ColumnsType): AssociationProperties {
-    const msg = (propName: string): string =>
-        `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
-
     const association = ensure(columnProps.filterAssociation, msg("filterAssociation"));
     const optionsSource = ensure(columnProps.filterAssociationOptions, msg("filterAssociationOptions"));
     const labelSource = ensure(columnProps.filterAssociationOptionLabel, msg("filterAssociationOptionLabel"));
@@ -26,3 +23,5 @@ export function getColumnAssociationProps(settings: ColumnsType): AssociationPro
 
     return getAssociationProps(settings);
 }
+
+const msg = (propName: string): string => `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;

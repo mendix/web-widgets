@@ -246,13 +246,6 @@ function Container(props: Props): ReactElement {
             rowClickable={!!(props.itemSelection || props.onClick)}
             setPage={setPage}
             styles={props.style}
-            valueForSort={useCallback(
-                (value, columnIndex) => {
-                    const column = props.columns[columnIndex];
-                    return column.attribute ? column.attribute.get(value).value : "";
-                },
-                [props.columns]
-            )}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
             exporting={exporting}
             processedRows={processedRows}

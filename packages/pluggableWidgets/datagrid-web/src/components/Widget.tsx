@@ -1,6 +1,5 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
@@ -56,7 +55,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowClickable: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
-    valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
     rowAction?: ListActionValue;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
@@ -199,7 +197,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             setSortBy={actions.sortBy}
                                             sortable={columnsSortable}
                                             sortRule={state.sortOrder.find(([id]) => column.columnId === id)}
-                                            visibleColumns={state.visibleColumns}
                                             useHeaderRef={props.useHeaderRef}
                                         />
                                     )
