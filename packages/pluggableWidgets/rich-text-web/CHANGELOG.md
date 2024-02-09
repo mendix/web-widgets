@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.3.0] - 2024-02-08
+
 ### Fixed
 
 -   We disabled the version check from CKEditor 4, which generated security alert in all widget instances.
