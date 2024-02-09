@@ -205,9 +205,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                     <ColumnSelector
                                         key="headers_column_selector"
                                         columns={state.availableColumns}
-                                        hiddenColumns={state.hidden}
                                         id={id}
-                                        toggleHidden={actions.toggleHidden}
                                         visibleLength={state.visibleColumns.length}
                                     />
                                 )}

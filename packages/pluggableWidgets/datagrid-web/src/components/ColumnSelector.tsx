@@ -7,15 +7,13 @@ import * as Grid from "../typings/GridModel";
 
 export interface ColumnSelectorProps {
     columns: Grid.Columns;
-    hiddenColumns: Grid.Hidden;
     id?: string;
-    toggleHidden: Grid.Actions["toggleHidden"];
     label?: string;
     visibleLength: number;
 }
 
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
-    const { toggleHidden, visibleLength } = props;
+    const { visibleLength } = props;
     const [show, setShow] = useState(false);
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -44,11 +42,11 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column, index) => {
-                const isVisible = !props.hiddenColumns.has(column.columnId);
+                const isVisible = !column.isHidden;
                 const isLastVisibleColumn = isVisible && visibleLength === 1;
                 const onClick = (): void => {
                     if (!isLastVisibleColumn) {
-                        toggleHidden(column.columnId);
+                        column.toggleHidden();
                     }
                 };
                 return column.canHide ? (
