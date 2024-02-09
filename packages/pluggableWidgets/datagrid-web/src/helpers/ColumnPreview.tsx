@@ -7,7 +7,6 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     private props: ColumnsPreviewType;
 
     columnNumber: number;
-    visible: boolean;
 
     constructor(props: ColumnsPreviewType, columnNumber: number) {
         super({
@@ -17,8 +16,6 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
 
         this.props = props;
         this.columnNumber = columnNumber;
-
-        this.visible = props.visible === "true";
     }
 
     columnClass(_item?: unknown): string | undefined {
@@ -29,6 +26,9 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     }
     get header(): string {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;
+    }
+    get isAvailable(): boolean {
+        return this.props.visible === "true";
     }
     renderCellContent(_item?: unknown): ReactElement {
         switch (this.props.showContentAs) {

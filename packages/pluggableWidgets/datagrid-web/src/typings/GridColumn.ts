@@ -19,7 +19,7 @@ export interface GridColumn {
     header: string;
     initiallyHidden: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
-    visible: boolean;
+    isAvailable: boolean;
     weight: number;
     width: WidthEnum;
     wrapText: boolean;
