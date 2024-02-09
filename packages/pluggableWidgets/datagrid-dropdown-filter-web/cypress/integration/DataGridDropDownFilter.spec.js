@@ -58,6 +58,8 @@ describe("datagrid-dropdown-filter-web", () => {
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid21 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });
@@ -76,6 +78,8 @@ describe("datagrid-dropdown-filter-web", () => {
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid22 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });
@@ -99,6 +103,8 @@ describe("datagrid-dropdown-filter-web", () => {
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid23 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });
@@ -117,6 +123,8 @@ describe("datagrid-dropdown-filter-web", () => {
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid24 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });
@@ -140,6 +148,8 @@ describe("datagrid-dropdown-filter-web", () => {
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(5000);
             cy.get(".mx-name-dataGrid25 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });

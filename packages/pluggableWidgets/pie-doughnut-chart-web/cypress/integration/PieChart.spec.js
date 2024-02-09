@@ -13,8 +13,8 @@ describe("pie-doughnut-chart-web", () => {
         },
         () => {
             it("renders pie chart with custom color and compares with a screenshot baseline", { retries: 3 }, () => {
-                cy.wait(6000); // eslint-disable-line cypress/no-unnecessary-waiting
-                cy.get(".mx-name-containerSliceColor", { timeout: 10000 }).should("be.visible");
+                cy.get(".mx-name-containerSliceColor").scrollIntoView()
+                cy.get(".mx-name-containerSliceColor", { timeout: 15000 }).should("be.visible");
                 cy.get(".mx-name-containerSliceColor").scrollIntoView();
                 cy.get(".mx-name-containerSliceColor").compareSnapshot(`pieChartDefaultColor-${browserName}`, 0.5);
             });

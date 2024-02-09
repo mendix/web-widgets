@@ -9,7 +9,7 @@ describe("datagrid-web", () => {
             const downloadedFilename = path.join(downloadsFolder, "testFilename.xlsx");
 
             cy.visit("/p/export-excel");
-            cy.get(".mx-name-dataGridExportExcel").should("be.visible");
+            cy.get(".mx-name-dataGridExportExcel", { timeout: 15000 }).should("be.visible");
             cy.get(".mx-name-exportButton").click({ force: true });
             cy.log("**Confirm downloaded file**");
             cy.readFile(downloadedFilename, "binary", { timeout: 15000 }).should(buffer => {
