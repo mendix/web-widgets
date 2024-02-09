@@ -155,7 +155,6 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             preview
             processedRows={0}
             styles={parseStyle(props.style)}
-            valueForSort={useCallback(() => undefined, [])}
             selectionStatus={"none"}
             id={gridId}
             rowClickable={!!(props.itemSelection !== "None" || props.onClick)}
