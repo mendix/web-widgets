@@ -8,15 +8,12 @@ export class Column extends BaseColumn implements GridColumn {
     private props: ColumnsType;
 
     columnNumber: number;
-    visible: boolean;
 
     constructor(props: ColumnsType, columnNumber: number) {
         super(props);
 
         this.props = props;
         this.columnNumber = columnNumber;
-
-        this.visible = props.visible?.value ?? false;
     }
 
     columnClass(item: ObjectItem): string | undefined {
@@ -36,6 +33,10 @@ export class Column extends BaseColumn implements GridColumn {
 
     get header(): string {
         return this.props.header?.value ?? "";
+    }
+
+    get isAvailable(): boolean {
+        return this.props.visible?.value ?? false;
     }
 
     get status(): ValueStatus {

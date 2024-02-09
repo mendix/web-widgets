@@ -126,7 +126,7 @@ function gridStateReducer(state: Grid.State, action: Action): Grid.State {
 }
 
 function computeAvailable(allColumns: Grid.Columns, order: Grid.ColumnOrder): Grid.Columns {
-    return sortByOrder(allColumns, order).filter(c => c.visible);
+    return sortByOrder(allColumns, order).filter(c => c.isAvailable);
 }
 
 function computeHidden(available: Grid.Columns, currentHidden: Grid.Hidden, newHidden: Grid.Hidden): Grid.Hidden {
