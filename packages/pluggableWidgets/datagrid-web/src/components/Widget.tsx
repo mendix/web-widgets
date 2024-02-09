@@ -274,21 +274,7 @@ function gridStyle(
         if (columnResizedSize) {
             return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
         }
-        switch (c.width) {
-            case "autoFit": {
-                const min =
-                    c.minWidth === "manual"
-                        ? `${c.minWidthLimit}px`
-                        : c.minWidth === "minContent"
-                        ? "min-content"
-                        : "auto";
-                return `minmax(${min}, auto)`;
-            }
-            case "manual":
-                return `${c.weight}fr`;
-            default:
-                return "1fr";
-        }
+        return c.getCssWidth();
     });
 
     const sizes: string[] = [];
