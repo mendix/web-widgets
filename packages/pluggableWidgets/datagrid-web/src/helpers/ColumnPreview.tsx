@@ -2,6 +2,7 @@ import { createElement, ReactElement } from "react";
 import { ColumnsPreviewType } from "../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
+import { SortRule } from "../typings/GridModel";
 
 export class ColumnPreview extends BaseColumn implements GridColumn {
     private props: ColumnsPreviewType;
@@ -34,6 +35,11 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
         return this.initiallyHidden;
     }
     toggleHidden(): void {}
+    get sortRule(): SortRule | undefined {
+        return undefined;
+    }
+    toggleSort() {}
+
     renderCellContent(_item?: unknown): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":

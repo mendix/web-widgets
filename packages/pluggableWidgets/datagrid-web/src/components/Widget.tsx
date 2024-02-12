@@ -194,9 +194,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             swapColumns={actions.swap}
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
-                                            setSortBy={actions.sortBy}
                                             sortable={columnsSortable}
-                                            sortRule={state.sortOrder.find(([id]) => column.columnId === id)}
                                             useHeaderRef={props.useHeaderRef}
                                         />
                                     )

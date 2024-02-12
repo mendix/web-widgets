@@ -37,8 +37,6 @@ export interface HeaderProps {
     swapColumns: Grid.Actions["swap"];
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
-    setSortBy: Grid.Actions["sortBy"];
-    sortRule?: Grid.SortRule;
     useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
@@ -47,8 +45,10 @@ export function Header(props: HeaderProps): ReactElement {
     const canDrag = props.draggable && (props.column.canDrag ?? false);
     const draggableProps = useDraggable(canDrag, props.swapColumns, props.setDragOver, props.setIsDragging);
 
-    const isSorted = !!props.sortRule;
-    const isSortedDesc = isSorted && props.sortRule?.[1] === "desc";
+    const sortRule = props.column.sortRule;
+
+    const isSorted = !!sortRule;
+    const isSortedDesc = isSorted && sortRule?.[1] === "desc";
 
     const sortIcon = canSort ? (
         isSorted ? (
@@ -65,7 +65,7 @@ export function Header(props: HeaderProps): ReactElement {
     const caption = props.column.header.trim();
 
     const onSortBy = (): void => {
-        props.setSortBy(props.column.columnId);
+        props.column.toggleSort();
     };
 
     const sortProps: HTMLAttributes<HTMLDivElement> = {

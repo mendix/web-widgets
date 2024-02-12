@@ -3,7 +3,7 @@ import { createElement, ReactElement, ReactNode } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { GridColumn, ColumnId } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
-import { Actions, State } from "../typings/GridModel";
+import { Actions, SortRule, State } from "../typings/GridModel";
 
 export class Column extends BaseColumn implements GridColumn {
     private props: ColumnsType;
@@ -58,6 +58,14 @@ export class Column extends BaseColumn implements GridColumn {
 
     toggleHidden(): void {
         this.unstable_getActions().toggleHidden(this.columnId);
+    }
+
+    get sortRule(): SortRule | undefined {
+        return this.unstable_getState().sortOrder.find(([id]) => this.columnId === id);
+    }
+
+    toggleSort() {
+        this.unstable_getActions().sortBy(this.columnId);
     }
 
     setInitParams(): void {
