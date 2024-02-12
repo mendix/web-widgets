@@ -35,7 +35,7 @@ export class DatabaseValuesProvider implements ValuesProvider<string | Big> {
         return value.value;
     }
 
-    getEmptyValue() {
+    getEmptyValue(): string | Big | undefined {
         return this.emptyValue?.value;
     }
 }

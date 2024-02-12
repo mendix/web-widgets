@@ -7,7 +7,7 @@ import { ComponentType, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 import { Big } from "big.js";
 
-export type SourceEnum = "context" | "database" | "custom";
+export type SourceEnum = "context" | "database";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 

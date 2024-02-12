@@ -1,34 +1,14 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
-import { ReactNode, createElement, MouseEvent, PropsWithChildren, ReactElement } from "react";
+import { ReactNode, createElement } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
+import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
     customContent?: ListWidgetValue | undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-}
-
-interface CaptionContentProps extends PropsWithChildren {
-    htmlFor?: string;
-    onClick?: (e: MouseEvent) => void;
-}
-
-export function CaptionContent(props: CaptionContentProps): ReactElement {
-    const { htmlFor, children, onClick } = props;
-    return createElement(htmlFor == null ? "span" : "label", {
-        children,
-        className: "widget-combobox-caption-text",
-        htmlFor,
-        onClick: onClick
-            ? onClick
-            : htmlFor
-            ? (e: MouseEvent) => {
-                  e.preventDefault();
-              }
-            : undefined
-    });
 }
 
 export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
