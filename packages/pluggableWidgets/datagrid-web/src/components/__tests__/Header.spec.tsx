@@ -72,7 +72,7 @@ describe("Header", () => {
             columnNumber: 0,
             header: "My sortable column",
             canSort: true,
-            sortRule: undefined,
+            sortDir: undefined,
             toggleSort: mockedFunction
         } as any;
 
@@ -123,7 +123,7 @@ function mockHeaderProps(): HeaderProps {
             columnId: "dg1-column0",
             columnNumber: 0,
             header: "Test",
-            sortRule: undefined,
+            sortDir: undefined,
             toggleSort: () => undefined
         } as GridColumn,
         draggable: false,

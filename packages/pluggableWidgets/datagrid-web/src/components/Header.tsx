@@ -45,50 +45,19 @@ export function Header(props: HeaderProps): ReactElement {
     const canDrag = props.draggable && (props.column.canDrag ?? false);
     const draggableProps = useDraggable(canDrag, props.swapColumns, props.setDragOver, props.setIsDragging);
 
-    const sortRule = props.column.sortRule;
-
-    const isSorted = !!sortRule;
-    const isSortedDesc = isSorted && sortRule?.[1] === "desc";
-
-    const sortIcon = canSort ? (
-        isSorted ? (
-            isSortedDesc ? (
-                <FaLongArrowAltDown />
-            ) : (
-                <FaLongArrowAltUp />
-            )
-        ) : (
-            <FaArrowsAltV />
-        )
-    ) : null;
-
+    const sortIcon = canSort ? getSortIcon(props.column) : null;
+    const sortProps = canSort ? getSortProps(props.column) : null;
     const caption = props.column.header.trim();
-
-    const onSortBy = (): void => {
-        props.column.toggleSort();
-    };
-
-    const sortProps: HTMLAttributes<HTMLDivElement> = {
-        onClick: onSortBy,
-        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onSortBy();
-            }
-        },
-        role: "button",
-        tabIndex: 0
-    };
 
     return (
         <div
-            aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
+            aria-sort={getAriaSort(canSort, props.column)}
             className={classNames("th", {
                 "hidden-column-preview":
                     props.preview && ((props.hidable && props.column.initiallyHidden) || !props.column.isAvailable)
             })}
             role="columnheader"
-            style={!props.sortable || !props.column.canSort ? { cursor: "unset" } : undefined}
+            style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
             ref={props.useHeaderRef?.(props.column.columnId)}
         >
@@ -101,9 +70,9 @@ export function Header(props: HeaderProps): ReactElement {
                 {...draggableProps}
             >
                 <div
-                    className={classNames("column-header", canSort ? "clickable" : "", props.className)}
+                    className={classNames("column-header", { clickable: canSort }, props.className)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
-                    {...(canSort ? sortProps : undefined)}
+                    {...sortProps}
                     aria-label={canSort ? "sort " + caption : caption}
                 >
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
@@ -183,4 +152,46 @@ function useDraggable(
               onDragEnd: handleDragEnd
           }
         : {};
+}
+
+function getSortIcon(column: GridColumn): ReactNode {
+    switch (column.sortDir) {
+        case "asc":
+            return <FaLongArrowAltUp />;
+        case "desc":
+            return <FaLongArrowAltDown />;
+        default:
+            return <FaArrowsAltV />;
+    }
+}
+
+function getAriaSort(canSort: boolean, column: GridColumn): "ascending" | "descending" | "none" | undefined {
+    if (!canSort) {
+        return undefined;
+    }
+
+    switch (column.sortDir) {
+        case "asc":
+            return "ascending";
+        case "desc":
+            return "descending";
+        default:
+            return "none";
+    }
+}
+
+function getSortProps(column: GridColumn): HTMLAttributes<HTMLDivElement> {
+    return {
+        onClick: () => {
+            column.toggleSort();
+        },
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                column.toggleSort();
+            }
+        },
+        role: "button",
+        tabIndex: 0
+    };
 }
