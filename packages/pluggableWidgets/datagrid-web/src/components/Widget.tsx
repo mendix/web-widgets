@@ -2,7 +2,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
+import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
@@ -136,14 +136,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
-    const cssGridStyles = useMemo(
-        () =>
-            gridStyle(columnsToShow, props.state.size, {
-                selectItemColumn: selectActionHelper.showCheckboxColumn,
-                visibilitySelectorColumn: columnsHidable
-            }),
-        [props.state.size, columnsToShow, columnsHidable, selectActionHelper.showCheckboxColumn]
-    );
+    const cssGridStyles = gridStyle(columnsToShow, {
+        selectItemColumn: selectActionHelper.showCheckboxColumn,
+        visibilitySelectorColumn: columnsHidable
+    });
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -186,9 +182,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             resizer={
                                                 <ColumnResizer
                                                     onResizeStart={actions.createSizeSnapshot}
-                                                    setColumnWidth={(width: number) =>
-                                                        actions.resize([column.columnId, width])
-                                                    }
+                                                    setColumnWidth={(width: number) => column.setSize(width)}
                                                 />
                                             }
                                             swapColumns={actions.swap}
@@ -256,14 +250,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     );
 }
 
-function gridStyle(
-    columns: GridColumn[],
-    resizeMap: GridModel.ColumnWidthConfig,
-    optional: OptionalColumns
-): CSSProperties {
+function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
     const columnSizes = columns.map(c => {
         const isLast = columns.at(-1) === c;
-        const columnResizedSize = resizeMap[c.columnId];
+        const columnResizedSize = c.size;
         if (columnResizedSize) {
             return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
         }

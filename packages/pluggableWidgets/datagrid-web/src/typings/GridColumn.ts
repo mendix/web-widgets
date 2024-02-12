@@ -11,7 +11,6 @@ export type ColumnId = string & { __columnIdTag: never };
 export interface GridColumn {
     alignment: AlignmentEnum;
     canDrag: boolean;
-    canResize: boolean;
 
     columnClass(item: ObjectItem): string | undefined;
     columnId: ColumnId;
@@ -21,7 +20,6 @@ export interface GridColumn {
     renderCellContent: (item: ObjectItem) => ReactElement;
     isAvailable: boolean;
     wrapText: boolean;
-    getCssWidth(): string;
 
     // hiding
     canHide: boolean;
@@ -32,4 +30,10 @@ export interface GridColumn {
     canSort: boolean;
     sortDir: SortDirection | undefined;
     toggleSort(): void;
+
+    // sizing
+    canResize: boolean;
+    size: number | undefined;
+    setSize(size: number): void;
+    getCssWidth(): string;
 }

@@ -72,6 +72,14 @@ export class Column extends BaseColumn implements GridColumn {
         this.unstable_getActions().sortBy(this.columnId);
     }
 
+    get size(): number | undefined {
+        return this.unstable_getState().size[this.columnId];
+    }
+
+    setSize(size: number): void {
+        this.unstable_getActions().resize([this.columnId, size]);
+    }
+
     setInitParams(): void {
         // Defer options fetching
         if (this.props.filterAssociationOptions) {
