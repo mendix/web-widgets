@@ -67,7 +67,7 @@ export function useGridPositions(config: GridPositionsProps): GridPositionsRetur
     const numberOfRows = Math.ceil(config.totalItems / numberOfColumns);
 
     return {
-        numberOfColumns,
+        numberOfColumns: Math.min(numberOfColumns, config.totalItems),
         numberOfRows
     };
 }
