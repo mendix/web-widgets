@@ -66,23 +66,24 @@ describe("Header", () => {
     });
 
     it("calls setSortBy store function with correct parameters when sortable", () => {
+        const mockedFunction = jest.fn();
         const column = {
             columnId: "0",
             columnNumber: 0,
             header: "My sortable column",
-            canSort: true
+            canSort: true,
+            sortRule: undefined,
+            toggleSort: mockedFunction
         } as any;
-        const mockedFunction = jest.fn();
-        const component = shallow(
-            <Header {...mockHeaderProps()} column={column} sortable setSortBy={mockedFunction} />
-        );
+
+        const component = shallow(<Header {...mockHeaderProps()} column={column} sortable />);
 
         const clickableRegion = component.find(".column-header");
 
         expect(clickableRegion).toHaveLength(1);
 
         clickableRegion.simulate("click");
-        expect(mockedFunction).toHaveBeenLastCalledWith("0");
+        expect(mockedFunction).toHaveBeenCalled();
     });
 
     it("renders the structure correctly when filterable with custom classes", () => {
@@ -121,7 +122,9 @@ function mockHeaderProps(): HeaderProps {
         column: {
             columnId: "dg1-column0",
             columnNumber: 0,
-            header: "Test"
+            header: "Test",
+            sortRule: undefined,
+            toggleSort: () => undefined
         } as GridColumn,
         draggable: false,
         dragOver: undefined,
@@ -133,8 +136,6 @@ function mockHeaderProps(): HeaderProps {
         sortable: false,
         swapColumns: jest.fn(),
         setDragOver: jest.fn(),
-        setSortBy: jest.fn(),
-        setIsDragging: jest.fn(),
-        sortRule: undefined
+        setIsDragging: jest.fn()
     };
 }

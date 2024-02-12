@@ -78,6 +78,7 @@ describe("Table", () => {
         const columns = [column("Test")].map((col, index) => new Column(col, index));
         props.columnsFilterable = true;
         props.state = mockState(columns);
+        columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
         const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
@@ -100,6 +101,7 @@ describe("Table", () => {
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index));
         props.state = mockState(columns);
+        columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
 
         const component = render(<Widget {...props} />);
 
@@ -117,6 +119,7 @@ describe("Table", () => {
         const columns = [column("", col => (col.alignment = "center"))].map((col, index) => new Column(col, index));
         props.preview = true;
         props.state = mockState(columns);
+        columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
 
         const component = render(<Widget {...props} />);
 
@@ -344,6 +347,7 @@ describe("Table", () => {
             const onSelect = jest.fn();
             const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
             props.state = mockState(columns);
+            columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
             props.cellEventsController = new CellEventsController(
                 item => ({
                     item,
@@ -460,6 +464,7 @@ describe("Table", () => {
                 })
             ].map((col, index) => new Column(col, index));
             props.state = mockState(columns);
+            columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -601,6 +606,7 @@ describe("Table", () => {
             }).map((col, index) => new Column(col, index));
 
             props.state = mockState(columns);
+            columns.forEach(c => c.unstable_setStateAndActions(props.state, undefined));
 
             const user = userEvent.setup();
 
