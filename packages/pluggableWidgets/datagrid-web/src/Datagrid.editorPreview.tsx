@@ -107,10 +107,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsSortable={props.columnsSortable}
             state={state}
             actions={{
-                toggleHidden: noop,
-                resize: noop,
                 setFilter: noop,
-                sortBy: noop,
                 swap: noop,
                 setSize: noop,
                 createSizeSnapshot: noop

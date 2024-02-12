@@ -58,8 +58,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowAction?: ListActionValue;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    state: GridModel.State;
-    actions: GridModel.Actions;
+    state: Omit<GridModel.State, "size" | "sortOrder" | "hidden" | "columnOrder">;
+    actions: Omit<GridModel.Actions, "resize" | "sortBy" | "toggleHidden">;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;

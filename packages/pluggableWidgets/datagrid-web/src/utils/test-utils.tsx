@@ -85,10 +85,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         pagingPosition: "bottom",
         state,
         actions: {
-            toggleHidden: jest.fn(),
-            resize: jest.fn(),
             setFilter: jest.fn(),
-            sortBy: jest.fn(),
             swap: jest.fn(),
             setSize: jest.fn(),
             createSizeSnapshot: jest.fn()
