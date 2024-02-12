@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { AlignmentEnum } from "../../typings/DatagridProps";
-import { SortRule } from "./GridModel";
+import { SortDirection } from "./GridModel";
 
 export type ColumnId = string & { __columnIdTag: never };
 
@@ -30,6 +30,6 @@ export interface GridColumn {
 
     // sorting
     canSort: boolean;
-    sortRule: SortRule | undefined;
+    sortDir: SortDirection | undefined;
     toggleSort(): void;
 }
