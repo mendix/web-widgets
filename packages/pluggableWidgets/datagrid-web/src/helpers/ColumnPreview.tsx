@@ -40,6 +40,14 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     }
     toggleSort() {}
 
+    get size(): number | undefined {
+        return undefined;
+    }
+
+    setSize(_size: number): void {
+        return undefined;
+    }
+
     renderCellContent(_item?: unknown): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":
