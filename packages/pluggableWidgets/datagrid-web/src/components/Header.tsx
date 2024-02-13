@@ -54,7 +54,7 @@ export function Header(props: HeaderProps): ReactElement {
             aria-sort={getAriaSort(canSort, props.column)}
             className={classNames("th", {
                 "hidden-column-preview":
-                    props.preview && ((props.hidable && props.column.initiallyHidden) || !props.column.isAvailable)
+                    props.preview && (!props.column.isAvailable || (props.hidable && props.column.isHidden))
             })}
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
