@@ -210,7 +210,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             item={item}
                                             key={`row_${item.id}`}
                                             showSelectorCell={columnsHidable}
-                                            preview={preview ?? false}
                                             selectableWrapper={headerWrapperRenderer}
                                         />
                                     );
