@@ -102,9 +102,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         actions,
         selectActionHelper
     } = props;
-    const columnsToShow = preview ? state.allColumns : state.visibleColumns;
     const extraColumnsCount = (columnsHidable ? 1 : 0) + (selectActionHelper.showCheckboxColumn ? 1 : 0);
-    const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
+    const columnsVisibleCount = state.visibleColumns.length + extraColumnsCount;
 
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -134,7 +133,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
-    const cssGridStyles = gridStyle(columnsToShow, {
+    const cssGridStyles = gridStyle(state.visibleColumns, {
         selectItemColumn: selectActionHelper.showCheckboxColumn,
         visibilitySelectorColumn: columnsHidable
     });
@@ -161,7 +160,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
-                                {columnsToShow.map((column, index) =>
+                                {state.visibleColumns.map((column, index) =>
                                     headerWrapperRenderer(
                                         index,
                                         <Header
@@ -176,7 +175,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}
-                                            resizable={columnsResizable && columnsToShow.at(-1) !== column}
+                                            resizable={columnsResizable && state.visibleColumns.at(-1) !== column}
                                             resizer={
                                                 <ColumnResizer
                                                     onResizeStart={actions.createSizeSnapshot}
@@ -205,7 +204,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         <Row
                                             CellComponent={CellComponent}
                                             className={props.rowClass?.(item)}
-                                            columns={columnsToShow}
+                                            columns={state.visibleColumns}
                                             index={rowIndex}
                                             item={item}
                                             key={`row_${item.id}`}
