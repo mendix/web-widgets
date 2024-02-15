@@ -77,7 +77,9 @@ describe("Table", () => {
         const props = mockWidgetProps();
         const columns = [column("Test")].map((col, index) => new Column(col, index));
         props.columnsFilterable = true;
-        props.state = mockState(columns);
+        const state = mockState(columns);
+        props.visibleColumns = state.visibleColumns;
+        props.availableColumns = state.availableColumns;
         const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
@@ -99,7 +101,9 @@ describe("Table", () => {
             }),
             column("Test 2", col => (col.alignment = "right"))
         ].map((col, index) => new Column(col, index));
-        props.state = mockState(columns);
+        const state = mockState(columns);
+        props.visibleColumns = state.visibleColumns;
+        props.availableColumns = state.availableColumns;
 
         const component = render(<Widget {...props} />);
 
@@ -116,7 +120,9 @@ describe("Table", () => {
         const props = mockWidgetProps();
         const columns = [column("", col => (col.alignment = "center"))].map((col, index) => new Column(col, index));
         props.preview = true;
-        props.state = mockState(columns);
+        const state = mockState(columns);
+        props.visibleColumns = state.visibleColumns;
+        props.availableColumns = state.availableColumns;
 
         const component = render(<Widget {...props} />);
 
@@ -343,7 +349,9 @@ describe("Table", () => {
             const items = props.data;
             const onSelect = jest.fn();
             const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
-            props.state = mockState(columns);
+            const state = mockState(columns);
+            props.visibleColumns = state.visibleColumns;
+            props.availableColumns = state.availableColumns;
             props.cellEventsController = new CellEventsController(
                 item => ({
                     item,
@@ -459,7 +467,9 @@ describe("Table", () => {
                     col.content = listWidget(() => <input />);
                 })
             ].map((col, index) => new Column(col, index));
-            props.state = mockState(columns);
+            const state = mockState(columns);
+            props.visibleColumns = state.visibleColumns;
+            props.availableColumns = state.availableColumns;
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -600,7 +610,9 @@ describe("Table", () => {
                 return c;
             }).map((col, index) => new Column(col, index));
 
-            props.state = mockState(columns);
+            const state = mockState(columns);
+            props.visibleColumns = state.visibleColumns;
+            props.availableColumns = state.availableColumns;
 
             const user = userEvent.setup();
 

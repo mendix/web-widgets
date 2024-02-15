@@ -89,7 +89,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        state,
+        visibleColumns: state.visibleColumns,
+        availableColumns: state.availableColumns,
         actions: {
             setFilter: jest.fn(),
             swap: jest.fn(),

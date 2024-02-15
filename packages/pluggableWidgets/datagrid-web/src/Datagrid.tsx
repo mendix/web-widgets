@@ -255,7 +255,8 @@ function Container(props: Props): ReactElement {
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
-            state={state}
+            visibleColumns={state.visibleColumns}
+            availableColumns={state.availableColumns}
             actions={actions}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}

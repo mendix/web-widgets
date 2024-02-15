@@ -57,7 +57,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowAction?: ListActionValue;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    state: Omit<GridModel.State, "size" | "sortOrder" | "hidden" | "columnOrder">;
     actions: Omit<GridModel.Actions, "resize" | "sortBy" | "toggleHidden" | "setColumnElement">;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
@@ -68,6 +67,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     checkboxEventsController: EventsController;
     selectActionHelper: SelectActionHelper;
     focusController: FocusTargetController;
+
+    visibleColumns: GridColumn[];
+    availableColumns: GridColumn[];
 }
 
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
@@ -98,12 +100,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         setPage,
         styles,
         CellComponent,
-        state,
         actions,
-        selectActionHelper
+        selectActionHelper,
+        visibleColumns,
+        availableColumns
     } = props;
-    const extraColumnsCount = (columnsHidable ? 1 : 0) + (selectActionHelper.showCheckboxColumn ? 1 : 0);
-    const columnsVisibleCount = state.visibleColumns.length + extraColumnsCount;
 
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -133,7 +134,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
-    const cssGridStyles = gridStyle(state.visibleColumns, {
+    const cssGridStyles = gridStyle(visibleColumns, {
         selectItemColumn: selectActionHelper.showCheckboxColumn,
         visibilitySelectorColumn: columnsHidable
     });
@@ -160,7 +161,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
-                                {state.visibleColumns.map((column, index) =>
+                                {visibleColumns.map((column, index) =>
                                     headerWrapperRenderer(
                                         index,
                                         <Header
@@ -175,7 +176,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}
-                                            resizable={columnsResizable && state.visibleColumns.at(-1) !== column}
+                                            resizable={columnsResizable && visibleColumns.at(-1) !== column}
                                             resizer={
                                                 <ColumnResizer
                                                     onResizeStart={actions.createSizeSnapshot}
@@ -192,9 +193,9 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 {columnsHidable && (
                                     <ColumnSelector
                                         key="headers_column_selector"
-                                        columns={state.availableColumns}
+                                        columns={availableColumns}
                                         id={id}
-                                        visibleLength={state.visibleColumns.length}
+                                        visibleLength={visibleColumns.length}
                                     />
                                 )}
                             </div>
@@ -204,7 +205,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         <Row
                                             CellComponent={CellComponent}
                                             className={props.rowClass?.(item)}
-                                            columns={state.visibleColumns}
+                                            columns={visibleColumns}
                                             index={rowIndex}
                                             item={item}
                                             key={`row_${item.id}`}
@@ -222,7 +223,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         key="row-footer"
                                         className={classNames("td", { "td-borders": !preview })}
                                         style={{
-                                            gridColumn: `span ${columnsVisibleCount}`
+                                            gridColumn: `span ${
+                                                visibleColumns.length +
+                                                (columnsHidable ? 1 : 0) +
+                                                (selectActionHelper.showCheckboxColumn ? 1 : 0)
+                                            }`
                                         }}
                                     >
                                         <div className="empty-placeholder">{children}</div>
