@@ -9,8 +9,6 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { ColumnId } from "./typings/GridColumn";
-import * as Grid from "./typings/GridModel";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 
@@ -59,16 +57,6 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const gridId = useMemo(() => Date.now().toString(), []);
     const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
     const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
-    const state: Grid.State = {
-        availableColumns: [],
-        allColumns: columns,
-        filter: undefined,
-        hidden: new Set<ColumnId>(),
-        columnOrder: [] as ColumnId[],
-        size: {},
-        sortOrder: [],
-        visibleColumns: columns
-    };
     const noop = (..._: unknown[]): void => {
         //
     };
@@ -84,9 +72,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         undefined
     );
 
-    const visibleColumnsCount = selectActionHelper.showCheckboxColumn
-        ? state.visibleColumns.length + 1
-        : state.visibleColumns.length;
+    const visibleColumnsCount = selectActionHelper.showCheckboxColumn ? columns.length + 1 : columns.length;
 
     const focusController = useFocusTargetController({
         rows: data.length,
@@ -105,8 +91,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            visibleColumns={state.visibleColumns}
-            availableColumns={state.availableColumns}
+            visibleColumns={columns}
+            availableColumns={[]}
             columnsSwap={noop}
             columnsCreateSizeSnapshot={noop}
             data={data}
