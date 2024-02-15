@@ -14,7 +14,6 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    preview: boolean;
     selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
 }
 
