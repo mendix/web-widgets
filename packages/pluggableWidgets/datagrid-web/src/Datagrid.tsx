@@ -257,7 +257,8 @@ function Container(props: Props): ReactElement {
             selectRowLabel={props.selectRowLabel?.value}
             visibleColumns={state.visibleColumns}
             availableColumns={state.availableColumns}
-            actions={actions}
+            columnsCreateSizeSnapshot={actions.createSizeSnapshot}
+            columnsSwap={actions.swap}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
