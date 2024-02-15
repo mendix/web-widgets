@@ -48,6 +48,10 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
         return undefined;
     }
 
+    setHeaderElementRef(_ref?: HTMLDivElement | null): void {
+        return undefined;
+    }
+
     renderCellContent(_item?: unknown): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":

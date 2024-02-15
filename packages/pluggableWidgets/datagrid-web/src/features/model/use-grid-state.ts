@@ -1,9 +1,8 @@
-import { useMemo, useEffect, useReducer } from "react";
+import { useMemo, useEffect, useReducer, useRef } from "react";
 import { useWatchValues } from "@mendix/widget-plugin-hooks/useWatchValues";
 import { ColumnId } from "../../typings/GridColumn";
 import * as Grid from "../../typings/GridModel";
 import { sortByOrder } from "./utils";
-import { HeaderRefHook, useColumnsElementsMap } from "./resizing";
 
 type NamedAction<Name, Fn> = Fn extends (arg: infer Payload) => void
     ? {
@@ -28,17 +27,13 @@ type InitArg = {
 
 export type StateChangeFx = (prev: Grid.State, next: Grid.State) => void;
 
-export type GridProps = {
-    useHeaderRef: HeaderRefHook<HTMLDivElement>;
-};
-
 export function useGridState(
     initParams: Grid.InitParams,
     columns: Grid.Columns,
     onStateChange: StateChangeFx
-): [Grid.State, Grid.Actions, GridProps] {
+): [Grid.State, Grid.Actions] {
     const [state, dispatch] = useReducer(gridStateReducer, { params: initParams, columns }, initGridState);
-    const [getColumnElementsMap, useHeaderRef] = useColumnsElementsMap<HTMLDivElement>();
+    const columnElementsMapRef = useRef<Map<ColumnId, HTMLDivElement>>(new Map());
 
     const memoizedGridActions = useMemo<Grid.Actions>(() => {
         const actions: Grid.Actions = {
@@ -48,24 +43,32 @@ export function useGridState(
             swap: payload => dispatch({ type: "swap", payload }),
             toggleHidden: payload => dispatch({ type: "toggleHidden", payload }),
             setSize: payload => dispatch({ type: "setSize", payload }),
+            setColumnElement: (columnId: ColumnId, ref) => {
+                if (ref) {
+                    columnElementsMapRef.current.set(columnId, ref);
+                } else {
+                    columnElementsMapRef.current.delete(columnId);
+                }
+            },
             createSizeSnapshot: () =>
-                getColumnElementsMap(elementsMap =>
-                    actions.setSize(
-                        [...elementsMap.entries()].reduce<Grid.ColumnWidthConfig>((config, [id, element]) => {
+                actions.setSize(
+                    [...columnElementsMapRef.current.entries()].reduce<Grid.ColumnWidthConfig>(
+                        (config, [id, element]) => {
                             config[id] = element.clientWidth;
                             return config;
-                        }, {})
+                        },
+                        {}
                     )
                 )
         };
 
         return actions;
-    }, [dispatch, getColumnElementsMap]);
+    }, [dispatch, columnElementsMapRef.current]);
 
     useEffect(() => dispatch({ type: "setColumns", payload: columns }), [columns]);
     useWatchValues(([prevState], [newState]) => onStateChange(prevState, newState), [state]);
 
-    return [state, memoizedGridActions, { useHeaderRef }];
+    return [state, memoizedGridActions];
 }
 
 function gridStateReducer(state: Grid.State, action: Action): Grid.State {

@@ -13,6 +13,7 @@ import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { Actions, State } from "../typings/GridModel";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -51,10 +52,16 @@ export function mockSelectionProps(patch?: (props: SelectActionHelper) => Select
 }
 
 export function mockState(columns: Column[]): Grid.State {
-    return initGridState({
+    const state = initGridState({
         params: paramsFromColumns(columns, list(0)),
         columns
     });
+
+    columns.forEach(c =>
+        c.unstable_setStateAndActions(state as State, { setColumnElement: jest.fn() } as unknown as Actions)
+    );
+
+    return state;
 }
 
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
@@ -62,7 +69,6 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const columnsProp = [column("Test")];
     const columns = columnsProp.map((col, index) => new Column(col, index));
     const state = mockState(columns);
-    columns.forEach(c => c.unstable_setStateAndActions(state, undefined));
 
     return {
         CellComponent: Cell,
