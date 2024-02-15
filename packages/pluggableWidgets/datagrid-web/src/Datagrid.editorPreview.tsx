@@ -105,7 +105,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
-            state={state}
+            visibleColumns={state.visibleColumns}
+            availableColumns={state.availableColumns}
             actions={{
                 setFilter: noop,
                 swap: noop,
