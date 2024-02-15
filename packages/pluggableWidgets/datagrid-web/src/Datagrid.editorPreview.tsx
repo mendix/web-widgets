@@ -67,7 +67,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         columnOrder: [] as ColumnId[],
         size: {},
         sortOrder: [],
-        visibleColumns: []
+        visibleColumns: columns
     };
     const noop = (..._: unknown[]): void => {
         //
