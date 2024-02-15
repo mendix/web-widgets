@@ -18,7 +18,6 @@ import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { ColumnResizerProps } from "./ColumnResizer";
 import * as Grid from "../typings/GridModel";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { HeaderRefHook } from "../features/model/resizing";
 
 export interface HeaderProps {
     className?: string;
@@ -37,7 +36,6 @@ export interface HeaderProps {
     swapColumns: Grid.Actions["swap"];
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
-    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -59,7 +57,7 @@ export function Header(props: HeaderProps): ReactElement {
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
-            ref={props.useHeaderRef?.(props.column.columnId)}
+            ref={ref => props.column.setHeaderElementRef(ref)}
         >
             <div
                 className={classNames("column-container", {

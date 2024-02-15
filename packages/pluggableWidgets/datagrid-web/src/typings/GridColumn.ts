@@ -36,4 +36,5 @@ export interface GridColumn {
     size: number | undefined;
     setSize(size: number): void;
     getCssWidth(): string;
+    setHeaderElementRef(ref: HTMLDivElement | null): void;
 }

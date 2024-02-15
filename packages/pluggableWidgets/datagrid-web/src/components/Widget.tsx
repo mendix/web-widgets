@@ -24,7 +24,6 @@ import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/c
 import * as GridModel from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { HeaderRefHook } from "../features/model/resizing";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -59,7 +58,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     state: Omit<GridModel.State, "size" | "sortOrder" | "hidden" | "columnOrder">;
-    actions: Omit<GridModel.Actions, "resize" | "sortBy" | "toggleHidden">;
+    actions: Omit<GridModel.Actions, "resize" | "sortBy" | "toggleHidden" | "setColumnElement">;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
@@ -69,7 +68,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     checkboxEventsController: EventsController;
     selectActionHelper: SelectActionHelper;
     focusController: FocusTargetController;
-    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
@@ -189,7 +187,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
                                             sortable={columnsSortable}
-                                            useHeaderRef={props.useHeaderRef}
                                         />
                                     )
                                 )}

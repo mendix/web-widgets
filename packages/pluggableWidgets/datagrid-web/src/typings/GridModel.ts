@@ -47,6 +47,7 @@ export interface State extends BaseState {
 }
 
 export type Actions = {
+    setColumnElement: (id: ColumnId, ref: HTMLDivElement | null) => void;
     createSizeSnapshot: () => void;
     resize: (arg: [id: ColumnId, size: number]) => void;
     setFilter: (arg: Filter) => void;

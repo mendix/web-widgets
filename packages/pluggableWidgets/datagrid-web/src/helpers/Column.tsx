@@ -87,6 +87,10 @@ export class Column extends BaseColumn implements GridColumn {
         }
     }
 
+    setHeaderElementRef(ref: HTMLDivElement | null): void {
+        this.unstable_getActions().setColumnElement(this.columnId, ref);
+    }
+
     renderCellContent(item: ObjectItem): ReactElement {
         switch (this.props.showContentAs) {
             case "attribute":

@@ -45,7 +45,7 @@ function Container(props: Props): ReactElement {
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
 
-    const [state, actions, { useHeaderRef }] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
+    const [state, actions] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
 
     // this is a temporary solution for enabling columns manage their own state
     props.mappedColumns.forEach(c => c.unstable_setStateAndActions(state, actions));
@@ -261,7 +261,6 @@ function Container(props: Props): ReactElement {
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
-            useHeaderRef={useHeaderRef}
         />
     );
 }
