@@ -31,12 +31,15 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       # Download an artifact from AWS S3 bucket and use it to run E2E
       - name: Run E2E using nightly artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           aws s3 cp s3://${{ env.AWS_S3_BUCKET_NAME }}/modelers/latest-studio-pro.json ./latest-studio-pro.json
           URL=$(jq -r '.url' latest-studio-pro.json)
           echo $URL
-          SP_VERSION=$(echo $url | sed -E 's/.*(-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)-).*/\2/')  
+          SP_VERSION=$(echo $URL | sed -E 's/.*(-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)-).*/\2/')  
           echo $SP_VERSION
+          echo "Starting E2E testing execution..."
           MENDIX_VERSION=$SP_VERSION RC=true pnpm -r --workspace-concurrency=1 run e2e
       - name: "Fixing files permissions"
         if: failure()
