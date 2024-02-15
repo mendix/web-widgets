@@ -21,7 +21,6 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import * as GridModel from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 
@@ -59,7 +58,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowAction?: ListActionValue;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    actions: Omit<GridModel.Actions, "resize" | "sortBy" | "toggleHidden" | "setColumnElement">;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
@@ -72,6 +70,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
     visibleColumns: GridColumn[];
     availableColumns: GridColumn[];
+
+    columnsSwap: (arg: [a: ColumnId, b: ColumnId]) => void;
+    columnsCreateSizeSnapshot: () => void;
 }
 
 export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
@@ -104,7 +105,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         setPage,
         styles,
         CellComponent,
-        actions,
         selectActionHelper,
         visibleColumns,
         availableColumns
@@ -188,11 +188,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             resizable={columnsResizable && visibleColumns.at(-1) !== column}
                                             resizer={
                                                 <ColumnResizer
-                                                    onResizeStart={actions.createSizeSnapshot}
+                                                    onResizeStart={props.columnsCreateSizeSnapshot}
                                                     setColumnWidth={(width: number) => column.setSize(width)}
                                                 />
                                             }
-                                            swapColumns={actions.swap}
+                                            swapColumns={props.columnsSwap}
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
                                             sortable={columnsSortable}
