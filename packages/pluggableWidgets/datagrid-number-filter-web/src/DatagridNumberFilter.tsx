@@ -67,7 +67,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     return alertMessage;
                 }
 
-                const defaultFilter = singleInitialFilter
+                const filterState = singleInitialFilter
                     ? translateFilters(singleInitialFilter)
                     : translateFilters(multipleInitialFilters?.[attributes[0].id]);
 
@@ -86,8 +86,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         datagridChannelName={filterContextValue.eventsChannelName}
                         adjustable={props.adjustable}
                         className={props.class}
-                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
-                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
+                        defaultFilterType={filterState?.type ?? props.defaultFilter}
+                        value={filterState?.value ?? props.defaultValue?.value}
                         inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}

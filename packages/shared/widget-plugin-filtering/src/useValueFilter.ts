@@ -93,7 +93,7 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
             return false;
         }
         this.state[prop] = value;
-        this.dispatchState(this.state);
+        this.dispatchState({ ...this.state });
         return true;
     }
 
@@ -185,7 +185,7 @@ export function useValueFilter<TValue, TFnEnum>(
         []
     );
 
-    useEffect(store.setupEffect, []);
+    useEffect(() => store.setupEffect(), []);
 
     return [state, actions];
 }

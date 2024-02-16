@@ -6,14 +6,16 @@ jest.useFakeTimers();
 
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable initialFilterType="equal" inputChangeDelay={500} />);
+        const component = render(
+            <FilterComponent adjustable defaultFilterType="equal" inputChangeDelay={500} name="Name" />
+        );
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
         const component = render(
-            <FilterComponent adjustable={false} initialFilterType="equal" inputChangeDelay={500} />
+            <FilterComponent adjustable={false} defaultFilterType="equal" inputChangeDelay={500} name="Name" />
         );
 
         expect(component).toMatchSnapshot();
@@ -23,10 +25,11 @@ describe("Filter component", () => {
         const component = render(
             <FilterComponent
                 adjustable
-                initialFilterType="equal"
+                defaultFilterType="equal"
                 inputChangeDelay={500}
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
+                name="Name"
             />
         );
 
@@ -37,10 +40,11 @@ describe("Filter component", () => {
         const updateFiltersHandler = jest.fn();
         const component = mount(
             <FilterComponent
-                initialFilterType="equal"
+                defaultFilterType="equal"
                 adjustable
                 inputChangeDelay={500}
                 updateFilters={updateFiltersHandler}
+                name="Name"
             />
         );
 
@@ -56,10 +60,11 @@ describe("Filter component", () => {
         const updateFiltersHandler = jest.fn();
         const component = mount(
             <FilterComponent
-                initialFilterType="equal"
+                defaultFilterType="equal"
                 adjustable
                 inputChangeDelay={500}
                 updateFilters={updateFiltersHandler}
+                name="Name"
             />
         );
 
@@ -85,9 +90,10 @@ describe("Filter component", () => {
         const component = mount(
             <FilterComponent
                 adjustable
-                initialFilterType="equal"
+                defaultFilterType="equal"
                 inputChangeDelay={500}
                 updateFilters={updateFiltersHandler}
+                name="Name"
             />
         );
 
@@ -113,9 +119,10 @@ describe("Filter component", () => {
         const component = mount(
             <FilterComponent
                 adjustable
-                initialFilterType="equal"
+                defaultFilterType="equal"
                 inputChangeDelay={500}
                 updateFilters={updateFiltersHandler}
+                name="Name"
             />
         );
 
