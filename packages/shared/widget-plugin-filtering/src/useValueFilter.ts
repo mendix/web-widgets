@@ -11,14 +11,14 @@ type Option<T> = T | undefined;
 type State<TFnEnum> = {
     /** Filter function (type) name (e.g >, >=, starts-with, etc). */
     filterFn: TFnEnum;
-    /** HTMLInput value */
+    /** HTMLInput value. */
     inputValue: string;
 };
 
 type Actions<TValue, TFnEnum> = {
     setInputValue: (arg: string) => void;
     setFilterFn: (arg: TFnEnum) => void;
-    setValue: (arg: Option<TValue>) => void;
+    dangerous_setValueAndDoNotDispatch: (arg: Option<TValue>) => void;
     reset: () => void;
 };
 
@@ -33,19 +33,19 @@ type FilterListener<TValue, TFnEnum> = (value: TValue, filterFn: TFnEnum) => voi
 type StateListener<TFnEnum> = (state: State<TFnEnum>) => void;
 
 type Params<TValue, TFnEnum> = {
-    /** Default filter function. Used only during first render. */
+    /** Default filter function. */
     defaultFilterFn: TFnEnum;
-    /** Default filter value. Used only during first render.  */
+    /** Default filter value. */
     defaultValue: TValue;
     /** Function to map input value. */
     mapValue: MapValueFn<Option<TValue>>;
-    /** Function to compare prev value and new value. */
+    /** Function to compare the previous value and the new value. */
     valueEquals: EqualsFn<Option<TValue>>;
     /** Function to map value to string. */
     valueToString: ValueToString<Option<TValue>>;
-    /** Filter change listener. */
+    /** Listener for filter value changes. */
     onFilterChange?: FilterListener<Option<TValue>, TFnEnum>;
-    /** If true, onFilterChange will be called once at first mount. */
+    /** If true, onFilterChange will be called once when mounted. */
     dispatchOnMounted: boolean;
     /** Filter change delay in milliseconds. */
     delay?: number;
@@ -87,7 +87,7 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
         this.filterListener = undefined;
     }
 
-    /** Return true if prop is changed. */
+    /** Returns true if the prop has been changed. */
     set<K extends keyof State<TFnEnum>>(prop: K, value: State<TFnEnum>[K]): boolean {
         if (this.state[prop] === value) {
             return false;
@@ -110,11 +110,13 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 
     /**
-     * Sets value. Return true if value is changed.
+     * Set value without dispatching value update. Returns true if value is changed.
      * @remarks
-     * Please, use this method only in `this.reset` and `this.setFromProps`
+     * As we are planning to implement filter value "saving" with settings for the data grid we need a way to sync
+     * props.value with this store. This is the method you can use to "sync" value into the store.
+     * Please be responsible: only use it if you know what you're doing - most of the time you won't need it.
      */
-    setValue(newValue: Option<TValue>): boolean {
+    dangerous_setValueAndDoNotDispatch(newValue: Option<TValue>): boolean {
         if (this.valueEquals(this._value, newValue)) {
             return false;
         }
@@ -124,14 +126,14 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 
     reset(): void {
-        if (this.setValue(undefined)) {
-            this.dispatchValue(this._value, this.state.filterFn);
+        if (this.dangerous_setValueAndDoNotDispatch(undefined)) {
+            this.dispatchValue();
         }
     }
 
     setupEffect(): () => void {
         if (this.dispatchOnMounted) {
-            this.dispatchValue(this._value, this.state.filterFn);
+            this.dispatchValue();
         }
         return () => this.dispose();
     }
@@ -141,13 +143,9 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
         this.stateListener?.(state);
     }
 
-    /**
-     * Dispatch value update.
-     * @remarks
-     * Please don't use `this`, pass value as args to avoid "sync" loops.
-     */
-    private dispatchValue(value: Option<TValue>, filterFn: TFnEnum): void {
-        this.filterListener?.(value, filterFn);
+    /** Dispatch value update. */
+    private dispatchValue(): void {
+        this.filterListener?.(this._value, this.state.filterFn);
     }
 
     private onInputChange(): void {
@@ -155,11 +153,12 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
         if (this.valueEquals(this._value, newValue)) {
             return;
         }
-        this.dispatchValue(newValue, this.state.filterFn);
+        this._value = newValue;
+        this.dispatchValue();
     }
 
     private onFilterChange(): void {
-        this.dispatchValue(this._value, this.state.filterFn);
+        this.dispatchValue();
     }
 }
 
@@ -179,7 +178,7 @@ export function useValueFilter<TValue, TFnEnum>(
         () => ({
             setInputValue: arg => store.setInputValue(arg),
             setFilterFn: arg => store.setFilterFn(arg),
-            setValue: arg => store.setValue(arg),
+            dangerous_setValueAndDoNotDispatch: arg => store.dangerous_setValueAndDoNotDispatch(arg),
             reset: () => store.reset()
         }),
         []
