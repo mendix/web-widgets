@@ -43,7 +43,9 @@
     "@mendix/widget-plugin-filtering": "workspace:*",
     "@radix-ui/react-progress": "^1.0.3",
     "classnames": "^2.3.2",
-    "deep-equal": "^2.2.3"
+    "deep-equal": "^2.2.3",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5"
   },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",

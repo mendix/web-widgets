@@ -2,7 +2,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState } from "react";
+import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState, useMemo } from "react";
 import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
@@ -23,6 +23,7 @@ import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { observer } from "mobx-react-lite";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -75,7 +76,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsCreateSizeSnapshot: () => void;
 }
 
-export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
+export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const {
         className,
         columnsDraggable,
@@ -181,7 +182,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             draggable={columnsDraggable}
                                             dragOver={dragOver}
                                             filterable={columnsFilterable}
-                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
+                                            filterWidget={useMemo(
+                                                () => filterRendererProp(renderFilterWrapper, column.columnNumber),
+                                                [renderFilterWrapper, column.columnNumber]
+                                            )}
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}
@@ -265,7 +269,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             </WidgetRoot>
         </WidgetPropsProvider>
     );
-}
+});
 
 function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
     const columnSizes = columns.map(c => {
