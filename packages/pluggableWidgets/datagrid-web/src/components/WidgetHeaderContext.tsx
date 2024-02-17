@@ -1,40 +1,20 @@
-import { createElement, ReactElement, memo, useMemo, useState, ReactNode } from "react";
-import { FilterCondition } from "mendix/filters";
-import { FilterListType } from "../../typings/DatagridProps";
+import { createElement, ReactElement, memo, ReactNode } from "react";
+
 import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection";
-import {
-    getGlobalFilterContextObject,
-    useMultipleFiltering,
-    readInitFilterValues
-} from "@mendix/widget-plugin-filtering";
+import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering";
+import { HeaderFiltersStore } from "../helpers/state/HeaderFiltersStore";
 
 interface WidgetHeaderContextProps {
-    filterList: FilterListType[];
     selectionContextValue: { status: "all" | "some" | "none"; toggle: () => void } | undefined;
-    setFiltered: (val: boolean) => void;
-    viewStateFilters?: FilterCondition;
     children?: ReactNode;
     state: ReturnType<typeof useMultipleFiltering>;
     eventsChannelName?: string;
+    headerFilterStore: HeaderFiltersStore;
 }
 
 const component = memo((props: WidgetHeaderContextProps) => {
     const SelectionContext = getGlobalSelectionContext();
     const FilterContext = getGlobalFilterContextObject();
-    const multipleFilteringState = props.state;
-    const filterList = useMemo(
-        () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
-        [props.filterList]
-    );
-    const [multipleInitialFilters] = useState(() =>
-        props.filterList.reduce(
-            (filters, { filter }) => ({
-                ...filters,
-                [filter.id]: readInitFilterValues(filter, props.viewStateFilters)
-            }),
-            {}
-        )
-    );
 
     return (
         <FilterContext.Provider
@@ -42,14 +22,13 @@ const component = memo((props: WidgetHeaderContextProps) => {
                 eventsChannelName: props.eventsChannelName,
                 filterDispatcher: prev => {
                     if (prev.filterType) {
-                        const [, filterDispatcher] = multipleFilteringState[prev.filterType];
-                        filterDispatcher(prev);
-                        props.setFiltered(true);
+                        props.headerFilterStore.setFilter(prev.filterType, prev);
+                        props.headerFilterStore.setDirty();
                     }
                     return prev;
                 },
-                multipleAttributes: filterList,
-                multipleInitialFilters
+                multipleAttributes: props.headerFilterStore.multipleAttributes,
+                multipleInitialFilters: props.headerFilterStore.multipleInitialFilters
             }}
         >
             <SelectionContext.Provider value={props.selectionContextValue}>{props.children}</SelectionContext.Provider>

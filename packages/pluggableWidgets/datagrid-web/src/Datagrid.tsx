@@ -1,7 +1,6 @@
-import { useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
+import { useFilterContext } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
@@ -30,8 +29,7 @@ const Container = observer((props: Props): ReactElement => {
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
-    const initialDatasourceFilters = useRef<FilterCondition | undefined>(undefined);
-    const multipleFilteringState = useMultipleFiltering();
+
     const { FilterContext } = useFilterContext();
     const { columnsStore } = props;
 
@@ -62,12 +60,6 @@ const Container = observer((props: Props): ReactElement => {
             [props.datasource]
         )
     });
-
-    useEffect(() => {
-        if (props.datasource.filter && !columnsStore.headerFilters.isDirty && !initialDatasourceFilters.current) {
-            initialDatasourceFilters.current = props.datasource.filter;
-        }
-    }, [props.datasource, columnsStore.headerFilters.isDirty]);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -155,7 +147,7 @@ const Container = observer((props: Props): ReactElement => {
                                 columnFilter.setFilterState(prev);
                                 return prev;
                             },
-                            ...columnFilter.getFilterContextProps(initialDatasourceFilters.current)
+                            ...columnFilter.getFilterContextProps()
                         }}
                     >
                         {columnFilter.renderFilterWidgets()}
@@ -166,12 +158,10 @@ const Container = observer((props: Props): ReactElement => {
             headerContent={
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
-                        filterList={props.filterList}
-                        setFiltered={() => columnsStore.headerFilters.setDirty()}
-                        viewStateFilters={initialDatasourceFilters.current}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}
                         eventsChannelName={filtersChannelName}
+                        headerFilterStore={columnsStore.headerFilters}
                     >
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>
@@ -245,6 +235,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
     personalizationAttr.current = props.configurationAttribute;
 
     columnsStore.updateProps(props.columns);
+    // todo: re-enable
     columnsStore.settings.setStorageData(props.configurationAttribute?.value);
 
     if (!columnsStore.loaded) {

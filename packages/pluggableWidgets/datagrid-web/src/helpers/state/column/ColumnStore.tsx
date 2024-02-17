@@ -14,6 +14,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { ColumnsStore } from "../ColumnsStore";
 import { ColumnFilterStore, IColumnFilterStore } from "./ColumnFilterStore";
 import { BaseColumnInfo } from "./BaseColumnInfo";
+import { FilterCondition } from "mendix/filters";
 
 export interface IColumnStore extends GridColumn {
     filter: IColumnFilterStore;
@@ -39,11 +40,16 @@ export class ColumnStore implements IColumnStore {
     private _dynamicText?: ListExpressionValue<string> = undefined; // as "dynamicText"
     private _content?: ListWidgetValue = undefined; // as "customContent"
 
-    constructor(props: ColumnsType, columnNumber: number, columnsStore: ColumnsStore) {
+    constructor(
+        props: ColumnsType,
+        columnNumber: number,
+        columnsStore: ColumnsStore,
+        initialFilters: FilterCondition | undefined
+    ) {
         this.columnsStore = columnsStore;
 
         this.baseInfo = new BaseColumnInfo(props); // base props never change, it is safe to no update them
-        this.filter = new ColumnFilterStore(props);
+        this.filter = new ColumnFilterStore(props, initialFilters);
 
         this.columnNumber = columnNumber; // this number also never changes
         this.canDrag = this.baseInfo.draggable && this.columnsStore.dragEnabled;
