@@ -78,6 +78,8 @@ export class ColumnsStore implements IColumnsStore {
             | "columnsHidable"
             | "columnsResizable"
             | "columnsSortable"
+            | "datasource"
+            | "filterList"
         >
     ) {
         this.dragEnabled = props.columnsDraggable;
@@ -87,13 +89,13 @@ export class ColumnsStore implements IColumnsStore {
         this.sortEnabled = props.columnsSortable;
 
         this._allColumns = props.columns.map((columnProps, i) => {
-            return new ColumnStore(columnProps, i, this);
+            return new ColumnStore(columnProps, i, this, props.datasource.filter);
         });
 
         this.visual = new ColumnsVisualStore(this._allColumns);
         this.sorting = new ColumnsSortingStore(this._allColumns);
         this.settings = new GridSettingsStore(this.visual, this.sorting);
-        this.headerFilters = new HeaderFiltersStore();
+        this.headerFilters = new HeaderFiltersStore(props.datasource.filter, props.filterList);
 
         makeObservable<ColumnsStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,

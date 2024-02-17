@@ -18,9 +18,10 @@ export interface IColumnFilterStore {
 
     needsFilterContext: boolean;
 
-    getFilterContextProps(
-        initialFilter: FilterCondition | undefined
-    ): Pick<FilterContextValue, "singleAttribute" | "associationProperties" | "singleInitialFilter">;
+    getFilterContextProps(): Pick<
+        FilterContextValue,
+        "singleAttribute" | "associationProperties" | "singleInitialFilter"
+    >;
 
     renderFilterWidgets(): ReactNode;
 }
@@ -33,7 +34,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
-    constructor(props: ColumnsType) {
+    constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         this.updateProps(props);
         makeObservable(this, {
             attribute: observable,
@@ -63,12 +64,13 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return this.filter;
     }
 
-    getFilterContextProps(
-        initialFilter: FilterCondition | undefined
-    ): Pick<FilterContextValue, "singleAttribute" | "associationProperties" | "singleInitialFilter"> {
+    getFilterContextProps(): Pick<
+        FilterContextValue,
+        "singleAttribute" | "associationProperties" | "singleInitialFilter"
+    > {
         return {
             singleAttribute: this.attribute,
-            singleInitialFilter: readInitFilterValues(this.attribute, initialFilter),
+            singleInitialFilter: readInitFilterValues(this.attribute, this.initialFilters),
             associationProperties: this.getColumnAssociationProps()
         };
     }

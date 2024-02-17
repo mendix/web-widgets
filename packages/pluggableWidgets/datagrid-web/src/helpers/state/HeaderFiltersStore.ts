@@ -1,6 +1,7 @@
-import { FilterState, FilterType } from "@mendix/widget-plugin-filtering";
-import { action, makeObservable, observable } from "mobx";
+import { FilterContextValue, FilterState, FilterType, readInitFilterValues } from "@mendix/widget-plugin-filtering";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
+import { FilterListType } from "../../../typings/DatagridProps";
 
 export class HeaderFiltersStore {
     private filters: Record<FilterType, FilterState | undefined> = {
@@ -13,11 +14,12 @@ export class HeaderFiltersStore {
 
     isDirty = false;
 
-    constructor() {
+    constructor(private initialFilters: FilterCondition | undefined, private filterList: FilterListType[]) {
         makeObservable<typeof this, "filters">(this, {
-            filters: observable.struct,
-
+            filters: observable,
             isDirty: observable,
+
+            conditions: computed.struct,
 
             setFilter: action,
             setDirty: action
@@ -32,6 +34,20 @@ export class HeaderFiltersStore {
         return Object.keys(this.filters)
             .map((key: FilterType) => this.filters[key]?.getFilterCondition?.())
             .filter((filter): filter is FilterCondition => filter !== undefined);
+    }
+
+    get multipleInitialFilters(): FilterContextValue["multipleInitialFilters"] {
+        return this.filterList.reduce(
+            (filters, { filter }) => ({
+                ...filters,
+                [filter.id]: readInitFilterValues(filter, this.initialFilters)
+            }),
+            {}
+        );
+    }
+
+    get multipleAttributes(): FilterContextValue["multipleAttributes"] {
+        return this.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {});
     }
 
     setDirty(): void {
