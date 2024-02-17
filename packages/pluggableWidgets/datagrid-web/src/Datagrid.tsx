@@ -1,10 +1,4 @@
-import {
-    FilterState,
-    FilterType,
-    useFilterContext,
-    useMultipleFiltering,
-    readInitFilterValues
-} from "@mendix/widget-plugin-filtering";
+import { useFilterContext, useMultipleFiltering } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
@@ -14,46 +8,37 @@ import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { getColumnAssociationProps } from "./features/column";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
-import { Column } from "./helpers/Column";
 import "./ui/Datagrid.scss";
-import { StateChangeFx, useGridState } from "./features/model/use-grid-state";
 import { useShowPagination } from "./utils/useShowPagination";
-import { useModel } from "./features/model/use-model";
-import { InitParams } from "./typings/GridModel";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { ColumnsStore, IColumnsStore } from "./helpers/state/ColumnsStore";
+import { autorun } from "mobx";
+import { observer } from "mobx-react-lite";
 
 interface Props extends DatagridContainerProps {
-    mappedColumns: Column[];
-    initParams: InitParams;
-    onStateChange: StateChangeFx;
+    columnsStore: IColumnsStore;
 }
 
-function Container(props: Props): ReactElement {
+const Container = observer((props: Props): ReactElement => {
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
-    const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
-    const [filtered, setFiltered] = useState(false);
+    const initialDatasourceFilters = useRef<FilterCondition | undefined>(undefined);
     const multipleFilteringState = useMultipleFiltering();
     const { FilterContext } = useFilterContext();
-
-    const [state, actions] = useGridState(props.initParams, props.mappedColumns, props.onStateChange);
-
-    // this is a temporary solution for enabling columns manage their own state
-    props.mappedColumns.forEach(c => c.unstable_setStateAndActions(state, actions));
+    const { columnsStore } = props;
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: useMemo(
-            () => state.visibleColumns.map(column => props.columns[column.columnNumber]),
-            [state.visibleColumns, props.columns]
+            () => columnsStore.visibleColumns.map(column => props.columns[column.columnNumber]),
+            [columnsStore.visibleColumns, props.columns]
         ),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
@@ -79,10 +64,10 @@ function Container(props: Props): ReactElement {
     });
 
     useEffect(() => {
-        if (props.datasource.filter && !filtered && !viewStateFilters.current) {
-            viewStateFilters.current = props.datasource.filter;
+        if (props.datasource.filter && !columnsStore.headerFilters.isDirty && !initialDatasourceFilters.current) {
+            initialDatasourceFilters.current = props.datasource.filter;
         }
-    }, [props.datasource, filtered]);
+    }, [props.datasource, columnsStore.headerFilters.isDirty]);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -104,36 +89,6 @@ function Container(props: Props): ReactElement {
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
-    // TODO: Rewrite this logic with single useReducer (or write
-    // custom hook that will use useReducer)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const customFiltersState = props.columns.map(() => useState<FilterState>());
-    const deps1 = customFiltersState.map(([state]) => state);
-    const deps2 = Object.keys(multipleFilteringState).map((key: FilterType) => multipleFilteringState[key][0]);
-
-    const filters = useMemo(() => {
-        return customFiltersState
-            .map(([customFilter]) => customFilter?.getFilterCondition?.())
-            .filter((filter): filter is FilterCondition => filter !== undefined)
-            .concat(
-                // Concatenating multiple filter state
-                Object.keys(multipleFilteringState)
-                    .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
-                    .filter((filter): filter is FilterCondition => filter !== undefined)
-            );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [...deps1, ...deps2]);
-
-    useEffect(() => {
-        if (filters.length > 0) {
-            actions.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-        } else if (filtered) {
-            actions.setFilter(undefined);
-        } else {
-            actions.setFilter(viewStateFilters.current);
-        }
-    }, [filters, filtered, actions]);
-
     const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
 
     const selectActionHelper = useSelectActionHelper(
@@ -154,8 +109,8 @@ function Container(props: Props): ReactElement {
     useOnResetFiltersEvent(props.name, filtersChannelName);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
-        ? state.visibleColumns.length + 1
-        : state.visibleColumns.length;
+        ? columnsStore.visibleColumns.length + 1
+        : columnsStore.visibleColumns.length;
 
     const focusController = useFocusTargetController({
         rows: items.length,
@@ -184,45 +139,36 @@ function Container(props: Props): ReactElement {
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
-            filterRenderer={useCallback(
-                (renderWrapper, columnIndex) => {
-                    const column = props.columns[columnIndex];
-                    const { attribute, filter } = column;
-                    const associationProps = getColumnAssociationProps(column);
-                    const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = readInitFilterValues(attribute, viewStateFilters.current);
+            filterRenderer={useCallback((renderWrapper, columnIndex) => {
+                const columnFilter = columnsStore.availableColumns[columnIndex].filter;
 
-                    if (!attribute && !associationProps) {
-                        return renderWrapper(filter);
-                    }
+                if (!columnFilter.needsFilterContext) {
+                    return renderWrapper(columnFilter.renderFilterWidgets());
+                }
 
-                    return renderWrapper(
-                        <FilterContext.Provider
-                            value={{
-                                eventsChannelName: filtersChannelName,
-                                filterDispatcher: prev => {
-                                    setFiltered(true);
-                                    filterDispatcher(prev);
-                                    return prev;
-                                },
-                                singleAttribute: attribute,
-                                singleInitialFilter: initialFilters,
-                                associationProperties: associationProps
-                            }}
-                        >
-                            {filter}
-                        </FilterContext.Provider>
-                    );
-                },
-                [FilterContext, customFiltersState, props.columns, filtersChannelName]
-            )}
+                return renderWrapper(
+                    <FilterContext.Provider
+                        value={{
+                            eventsChannelName: filtersChannelName,
+                            filterDispatcher: prev => {
+                                columnsStore.headerFilters.setDirty();
+                                columnFilter.setFilterState(prev);
+                                return prev;
+                            },
+                            ...columnFilter.getFilterContextProps(initialDatasourceFilters.current)
+                        }}
+                    >
+                        {columnFilter.renderFilterWidgets()}
+                    </FilterContext.Provider>
+                );
+            }, [])}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
                         filterList={props.filterList}
-                        setFiltered={setFiltered}
-                        viewStateFilters={viewStateFilters.current}
+                        setFiltered={() => columnsStore.headerFilters.setDirty()}
+                        viewStateFilters={initialDatasourceFilters.current}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}
                         eventsChannelName={filtersChannelName}
@@ -255,26 +201,56 @@ function Container(props: Props): ReactElement {
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
-            visibleColumns={state.visibleColumns}
-            availableColumns={state.availableColumns}
-            columnsCreateSizeSnapshot={actions.createSizeSnapshot}
-            columnsSwap={actions.swap}
+            visibleColumns={columnsStore.visibleColumns}
+            availableColumns={columnsStore.availableColumns}
+            columnsCreateSizeSnapshot={() => columnsStore.visual.createSizeSnapshot()}
+            columnsSwap={([a, b]) => columnsStore.visual.swapColumns(a, b)}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
         />
     );
-}
+});
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const { initState, columns, stateChangeFx: onStateChange } = useModel(props);
+    const personalizationAttr = useRef(props.configurationAttribute);
+    const [columnsStore] = useState(() => {
+        const store = new ColumnsStore(props);
 
-    if (initState.status === "pending") {
+        // apply sorting
+        autorun(() => {
+            props.datasource.setSortOrder(store.sorting.sortInstructions);
+        });
+
+        // store settings to personalization attribute
+        autorun(() => {
+            personalizationAttr.current?.setValue(store.settings.settingsData);
+        });
+
+        // apply filters
+        autorun(() => {
+            const filters = store.filterConditions;
+
+            if (filters.length > 0) {
+                props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
+            } else if (store.headerFilters.isDirty) {
+                props.datasource.setFilter(undefined);
+            }
+        });
+
+        return store;
+    });
+
+    personalizationAttr.current = props.configurationAttribute;
+
+    columnsStore.updateProps(props.columns);
+    columnsStore.settings.setStorageData(props.configurationAttribute?.value);
+
+    if (!columnsStore.loaded) {
+        // columns/settings are not yet loaded, we can't render at this point
         return null;
     }
 
-    return (
-        <Container {...props} initParams={initState.initParams} mappedColumns={columns} onStateChange={onStateChange} />
-    );
+    return <Container {...props} columnsStore={columnsStore} />;
 }
