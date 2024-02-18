@@ -17,6 +17,48 @@
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />
+                <property key="preset" type="enumeration" defaultValue="basic">
+                    <caption>Toolbar</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="basic">Basic</enumerationValue>
+                        <enumerationValue key="standard">Standard</enumerationValue>
+                        <enumerationValue key="full">Full</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="toolbarMode" type="enumeration" defaultValue="floating">
+                    <caption>Toolbar mode</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="floating">Floating</enumerationValue>
+                        <enumerationValue key="sliding">Sliding</enumerationValue>
+                        <enumerationValue key="scrolling">Scrolling</enumerationValue>
+                        <enumerationValue key="wrap">Wrap</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="enableMenuBar" type="boolean" defaultValue="false">
+                    <caption>Enable menu bar</caption>
+                    <description />
+                </property>
+                <property key="toolbarLocation" type="enumeration" defaultValue="auto">
+                    <caption>Toolbar location</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="top">Top</enumerationValue>
+                        <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="inline">Inline</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="enableStatusBar" type="boolean" defaultValue="true">
+                    <caption>Enable status bar</caption>
+                    <description />
+                </property>
+                <property key="spellCheck" type="boolean" defaultValue="true">
+                    <caption>Enable spell checking</caption>
+                    <description />
+                </property>
             </propertyGroup>
             <propertyGroup caption="Editability">
                 <systemProperty key="Editability" />
@@ -25,26 +67,63 @@
                 <systemProperty key="Visibility" />
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Dimensions">
+            <propertyGroup caption="Dimensions">
+                <property key="widthUnit" type="enumeration" defaultValue="percentage">
+                    <caption>Width unit</caption>
+                    <description>Percentage: portion of parent size. Pixels: absolute amount of pixels.</description>
+                    <enumerationValues>
+                        <enumerationValue key="percentage">Percentage</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="width" type="integer" defaultValue="100">
+                    <caption>Width</caption>
+                    <description />
+                </property>
+                <property key="heightUnit" type="enumeration" defaultValue="percentageOfWidth">
+                    <caption>Height unit</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="percentageOfWidth">Percentage of width</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentageOfParent">Percentage of parent</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="height" type="integer" defaultValue="75">
+                    <caption>Height</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <propertyGroup caption="Events">
+                <property key="onKeyPress" type="action">
+                    <caption>On key press</caption>
+                    <description />
+                </property>
+                <property key="onChange" type="action">
+                    <caption>On change</caption>
+                    <description />
+                </property>
+                <property key="onBlur" type="action">
+                    <caption>On blur</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Advanced">
             <propertyGroup caption="Advanced">
                 <property key="plugins" type="string" defaultValue="advlist anchor autolink charmap code codesample directionality emoticons fullscreen image importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars searchreplace table template visualblocks visualchars wordcount">
                     <caption>List of plugins</caption>
                     <description />
                 </property>
-                <property key="toolbar" type="string" defaultValue="undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image link media codesample | removeformat | preview code | help">
+                <property key="toolbar" type="string" defaultValue="undo redo | bold italic underline strikethrough | superscript subscript | removeformat | bullist numlist | blockquote | outdent indent | ltr rtl | alignleft aligncenter alignright alignjustify | fontfamily fontsize forecolor backcolor | image link media | blocks | cut copy paste pastetext | codesample preview code | emoticons insertdatetime searchreplace | selectall fullscreen | help">
                     <caption>List of toolbox items</caption>
-                    <description />
-                </property>
-                <property key="enableMenuBar" type="boolean" defaultValue="false">
-                    <caption>Enable menu bar</caption>
                     <description />
                 </property>
                 <property key="menubar" type="string" defaultValue="file edit insert view format table tools help">
                     <caption>List of menubar items</caption>
-                    <description />
-                </property>
-                <property key="editorHeight" type="integer" defaultValue="500">
-                    <caption>Editor height</caption>
                     <description />
                 </property>
             </propertyGroup>

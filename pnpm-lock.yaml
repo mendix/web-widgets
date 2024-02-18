@@ -1722,6 +1722,9 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -6859,10 +6862,6 @@ packages:
       '@types/node': 20.8.10
     dev: true
 
-  /@types/ckeditor4@4.20.2:
-    resolution: {integrity: sha512-yfXbcdeOPPEpqtW69lBpaVAuOgr2hIe9WAAKfkz79ubVHXTv3tQ20F44vFTNdPfdYBt+BER6EOkNXj/KcoRJUQ==}
-    dev: true
-
   /@types/cross-zip@4.0.2:
     resolution: {integrity: sha512-yvTQ6/tWlGdykh6qkVigwmq42gi51qHPdi7e60KRmPCxeYj5QcX8RX0T6jCDIWcHNWLMVw1IuoMehGcwDuzrYw==}
     dev: true
@@ -6883,6 +6882,7 @@ packages:
     resolution: {integrity: sha512-IDBwO5IZhrKvHFUl+clZxgf3hn2b/lU6H1KaBShPkQyGJUQ0xwebezIPSuiyGwfz1UzJWQl4M7BDxtHtCCPlTg==}
     dependencies:
       '@types/trusted-types': 2.0.3
+    dev: true
 
   /@types/enzyme@3.10.13:
     resolution: {integrity: sha512-FCtoUhmFsud0Yx9fmZk179GkdZ4U9B0GFte64/Md+W/agx0L5SxsIIbhLBOxIb9y2UfBA4WQnaG1Od/UsUQs9Q==}
@@ -7217,6 +7217,7 @@ packages:
 
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+    dev: true
 
   /@types/use-sync-external-store@0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
@@ -7272,7 +7273,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
@@ -7347,7 +7348,7 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.0.4)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.1.6)
       debug: 4.3.4
       eslint: 7.32.0
       typescript: 5.0.4
@@ -8882,26 +8883,6 @@ packages:
   /cjs-module-lexer@1.2.3:
     resolution: {integrity: sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==}
     dev: true
-
-  /ckeditor4-integrations-common@1.0.0:
-    resolution: {integrity: sha512-OAoQT/gYrHkg0qgzf6MS/rndYhq3SScLVQ3rtXQeuCE8ju7nFHg3qZ7WGA2XpFxcZzsMP6hhugXqdel5vbcC3g==}
-    dev: false
-
-  /ckeditor4-react@4.3.0(ckeditor4@4.22.1)(react@18.2.0):
-    resolution: {integrity: sha512-pLeh39AHj8jfhQ2SsVy29tklAnwaaSdw5UYZ4HECNTHb1M4dGgTKa6Uy2fqceMnmX5c2G8Ewz9X9tMCLpgZ70w==}
-    peerDependencies:
-      ckeditor4: ^4.22.1
-      react: ^18 || 18
-    dependencies:
-      ckeditor4: 4.22.1
-      ckeditor4-integrations-common: 1.0.0
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
-  /ckeditor4@4.22.1:
-    resolution: {integrity: sha512-Yj4vTHX5YxHwc48gNqUqTm+KLkRr9tuyb4O2VIABu4oKHWRNVIdLdy6vUNe/XNx+RiTavMejfA1MVOU/MxLjqQ==}
-    dev: false
 
   /clamp@1.0.1:
     resolution: {integrity: sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==}
@@ -17126,6 +17107,7 @@ packages:
     resolution: {integrity: sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==}
     dependencies:
       readable-stream: 3.6.2
+    dev: false
 
   /through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
