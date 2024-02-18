@@ -7,7 +7,6 @@ import { HeaderFiltersStore } from "../helpers/state/HeaderFiltersStore";
 interface WidgetHeaderContextProps {
     selectionContextValue: { status: "all" | "some" | "none"; toggle: () => void } | undefined;
     children?: ReactNode;
-    state: ReturnType<typeof useMultipleFiltering>;
     eventsChannelName?: string;
     headerFilterStore: HeaderFiltersStore;
 }
@@ -22,13 +21,12 @@ const component = memo((props: WidgetHeaderContextProps) => {
                 eventsChannelName: props.eventsChannelName,
                 filterDispatcher: prev => {
                     if (prev.filterType) {
-                        props.headerFilterStore.setFilter(prev.filterType, prev);
+                        props.headerFilterStore.setFilterState(prev.filterType, prev);
                         props.headerFilterStore.setDirty();
                     }
                     return prev;
                 },
-                multipleAttributes: props.headerFilterStore.multipleAttributes,
-                multipleInitialFilters: props.headerFilterStore.multipleInitialFilters
+                ...props.headerFilterStore.getFilterContextProps()
             }}
         >
             <SelectionContext.Provider value={props.selectionContextValue}>{props.children}</SelectionContext.Provider>

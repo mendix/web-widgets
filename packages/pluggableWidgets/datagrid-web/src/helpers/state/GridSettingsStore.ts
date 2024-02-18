@@ -1,8 +1,9 @@
 import { SortRule } from "../../typings/GridModel";
 import { ColumnId } from "../../typings/GridColumn";
-import { ColumnsVisualStore } from "./ColumnsVisualStore";
-import { ColumnsSortingStore } from "./ColumnsSortingStore";
 import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { getHash } from "../../features/model/utils";
+import { ColumnsStore } from "./ColumnsStore";
 
 export interface ColumnSettings {
     columnId: ColumnId;
@@ -22,9 +23,12 @@ export interface GridSettings {
 }
 
 export class GridSettingsStore {
+    private gridName: string;
     private storageData: GridSettings | undefined = undefined;
 
-    constructor(private visualState: ColumnsVisualStore, private sortingState: ColumnsSortingStore) {
+    constructor(props: DatagridContainerProps, private columnsStore: ColumnsStore) {
+        this.gridName = props.name;
+
         makeObservable<GridSettingsStore, "storageData" | "setSettings">(this, {
             storageData: observable.struct,
             settingsData: computed,
@@ -40,26 +44,25 @@ export class GridSettingsStore {
         });
     }
 
-    private setSettings(settings: GridSettings) {
-        this.sortingState.fromConfig(settings.sortOrder);
-        this.visualState.applyColumnSettings(settings.columns, settings.columnOrder);
+    private setSettings(settings: GridSettings): void {
+        this.columnsStore.sorting.fromConfig(settings.sortOrder);
+        this.columnsStore.visual.applyColumnSettings(settings.columns, settings.columnOrder);
     }
 
-    setStorageData(storageData: string | undefined) {
+    setStorageData(storageData: string | undefined): void {
         if (storageData) {
             this.storageData = JSON.parse(storageData) as unknown as GridSettings;
         }
     }
 
     get settings(): GridSettings {
-        const sortOrder = this.sortingState.config;
-        const [columns, columnOrder] = this.visualState.columnSettings;
+        const sortOrder = this.columnsStore.sorting.config;
+        const [columns, columnOrder] = this.columnsStore.visual.columnSettings;
 
         return {
-            // TODO: fix me
-            name: "grid1",
-            schemaVersion: 1,
-            settingsHash: "abc123",
+            name: this.gridName,
+            schemaVersion: 2,
+            settingsHash: getHash(this.columnsStore._allColumns, this.gridName),
             columns,
             sortOrder,
             columnOrder

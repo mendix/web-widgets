@@ -4,18 +4,11 @@ import { ColumnSettings } from "../../typings/ColumnSettings";
 import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnsVisualStore {
-    // hide
-    toggleHidden(columnId: ColumnId): void;
-    isHidden(cId: ColumnId): boolean;
-
     // order
     swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void;
 
     // size
-    setSize(columnId: ColumnId, size: number | undefined): void;
-    getSize(columnId: ColumnId): number | undefined;
     createSizeSnapshot(): void;
-    columnSizes: Record<ColumnId, number | undefined>;
 }
 
 export class ColumnsVisualStore implements IColumnsVisualStore {
