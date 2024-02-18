@@ -35,6 +35,9 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private filterAssociationOptionLabel?: ListExpressionValue<string>;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
+        if (props.filterAssociationOptions) {
+            props.filterAssociationOptions.setLimit(0);
+        }
         this.updateProps(props);
         makeObservable<
             ColumnFilterStore,
