@@ -24,12 +24,12 @@
 
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { action, computed, makeObservable, observable, configure } from "mobx";
-import { ColumnsSortingStore, IColumnsSortingStore } from "./ColumnsSortingStore";
+import { ColumnsSortingStore } from "./ColumnsSortingStore";
 import { ColumnsVisualStore, IColumnsVisualStore } from "./ColumnsVisualStore";
 import { ColumnStore, IColumnStore } from "./column/ColumnStore";
 import { GridSettingsStore } from "./GridSettingsStore";
-import { HeaderFiltersStore } from "./HeaderFiltersStore";
 import { FilterCondition } from "mendix/filters";
+import { SortInstruction } from "../../typings/GridModel";
 
 configure({ isolateGlobalState: true });
 
@@ -48,20 +48,16 @@ export interface IColumnsStore {
 
     // nester stores
     visual: IColumnsVisualStore;
-    sorting: IColumnsSortingStore;
-    settings: GridSettingsStore;
-    headerFilters: HeaderFiltersStore;
 
     updateProps(props: DatagridContainerProps["columns"]): void;
 }
 
 export class ColumnsStore implements IColumnsStore {
-    private readonly _allColumns: ColumnStore[];
+    readonly _allColumns: ColumnStore[];
 
     visual: ColumnsVisualStore;
     sorting: ColumnsSortingStore;
     settings: GridSettingsStore;
-    headerFilters: HeaderFiltersStore;
 
     dragEnabled: boolean;
     filterEnabled: boolean;
@@ -69,19 +65,7 @@ export class ColumnsStore implements IColumnsStore {
     resizeEnabled: boolean;
     sortEnabled: boolean;
 
-    constructor(
-        props: Pick<
-            DatagridContainerProps,
-            | "columns"
-            | "columnsDraggable"
-            | "columnsFilterable"
-            | "columnsHidable"
-            | "columnsResizable"
-            | "columnsSortable"
-            | "datasource"
-            | "filterList"
-        >
-    ) {
+    constructor(props: DatagridContainerProps) {
         this.dragEnabled = props.columnsDraggable;
         this.filterEnabled = props.columnsFilterable;
         this.hideEnabled = props.columnsHidable;
@@ -93,9 +77,8 @@ export class ColumnsStore implements IColumnsStore {
         });
 
         this.visual = new ColumnsVisualStore(this._allColumns);
-        this.sorting = new ColumnsSortingStore(this._allColumns);
-        this.settings = new GridSettingsStore(this.visual, this.sorting);
-        this.headerFilters = new HeaderFiltersStore(props.datasource.filter, props.filterList);
+        this.sorting = new ColumnsSortingStore(this._allColumns, props.datasource.sortOrder);
+        this.settings = new GridSettingsStore(props, this);
 
         makeObservable<ColumnsStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,
@@ -148,29 +131,11 @@ export class ColumnsStore implements IColumnsStore {
 
     get filterConditions(): FilterCondition[] {
         return this.visibleColumns
-            .map(column => column.filter.filterState)
-            .map(customFilter => customFilter?.getFilterCondition?.())
-            .filter((filter): filter is FilterCondition => filter !== undefined)
-            .concat(this.headerFilters.conditions);
+            .map(column => column.filter.condition)
+            .filter((filter): filter is FilterCondition => filter !== undefined);
+    }
+
+    get sortInstructions(): SortInstruction[] | undefined {
+        return this.sorting.sortInstructions;
     }
 }
-
-// class Storage {
-//     // this possibly doesn't need to be reactive?
-//     setValue(newValue: string);
-//     getValue(): string;
-// }
-//
-// class ColumnAndStorageState {
-//     columnsState: ColumnsState;
-//     columnsLoaded: boolean;
-//     storageLoaded: boolean;
-//
-//     onStorageLoad() {
-//         // if storage loaded - restore columns config from it
-//         // columns config
-//     }
-//     onColumnsLoad() {
-//
-//     }
-// }

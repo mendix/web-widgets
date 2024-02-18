@@ -68,7 +68,7 @@ export class Column extends BaseColumn implements GridColumn {
         return rule[1];
     }
 
-    toggleSort() {
+    toggleSort(): void {
         this.unstable_getActions().sortBy(this.columnId);
     }
 
@@ -112,7 +112,7 @@ export class Column extends BaseColumn implements GridColumn {
     }
 
     // unstable part, needed for migration to new state management
-    unstable_setStateAndActions(state: State | undefined, actions: Actions | undefined) {
+    unstable_setStateAndActions(state: State | undefined, actions: Actions | undefined): void {
         this.unstable_state = state;
         this.unstable_actions = actions;
     }

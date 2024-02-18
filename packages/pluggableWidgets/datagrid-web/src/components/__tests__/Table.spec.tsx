@@ -199,19 +199,19 @@ describe("Table", () => {
             expect(getChecked()).toHaveLength(0);
 
             selection = [a, b, c];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(3);
 
             selection = [c];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(1);
 
             selection = [d, e];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(2);
 
             selection = [f, e, d, a];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(4);
         });
 

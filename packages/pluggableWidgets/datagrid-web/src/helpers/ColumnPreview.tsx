@@ -38,7 +38,7 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
     get sortDir(): SortDirection | undefined {
         return undefined;
     }
-    toggleSort() {}
+    toggleSort(): void {}
 
     get size(): number | undefined {
         return undefined;

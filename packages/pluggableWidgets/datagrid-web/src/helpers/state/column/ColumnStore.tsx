@@ -134,7 +134,7 @@ export class ColumnStore implements IColumnStore {
     get size(): number | undefined {
         return this.columnsStore.visual.getSize(this.columnId);
     }
-    setSize(size: number | undefined) {
+    setSize(size: number | undefined): void {
         this.columnsStore.visual.setSize(this.columnId, size);
     }
 
@@ -191,11 +191,11 @@ export class ColumnStore implements IColumnStore {
         return this._attribute?.id;
     }
 
-    setHeaderElementRef(ref: HTMLDivElement | null) {
+    setHeaderElementRef(ref: HTMLDivElement | null): void {
         this.headerElementRef = ref;
     }
 
-    takeSizeSnapshot() {
+    takeSizeSnapshot(): void {
         const size = this.headerElementRef?.clientWidth;
         if (size) {
             this.setSize(size);
@@ -226,7 +226,7 @@ export class ColumnStore implements IColumnStore {
         return this._columnClass?.get(item).value;
     }
 
-    private isLastVisible() {
+    private isLastVisible(): boolean {
         return this.columnsStore.visibleColumns.at(-1) === this;
     }
 

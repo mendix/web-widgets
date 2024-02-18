@@ -4,16 +4,19 @@ import { SortInstruction, SortOrder, SortRule } from "../../typings/GridModel";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { ColumnStore } from "./column/ColumnStore";
 
-export interface IColumnsSortingStore {
-    rule: SortRule | undefined;
-    toggleSort(columnId: ColumnId): void;
-    sortInstructions: SortInstruction[] | undefined;
-}
-
-export class ColumnsSortingStore implements IColumnsSortingStore {
+export class ColumnsSortingStore {
     rule: SortRule | undefined = undefined;
 
-    constructor(private allColumns: ColumnStore[]) {
+    constructor(private allColumns: ColumnStore[], initialSort: SortInstruction[] | undefined) {
+        if (initialSort && initialSort.length) {
+            const [[attrId, dir]] = initialSort;
+            const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
+            if (!cId) {
+                throw new Error(`Unknown attribute id: '${attrId}'`);
+            }
+
+            this.rule = [cId, dir];
+        }
         makeObservable(this, {
             rule: observable,
 
@@ -55,7 +58,7 @@ export class ColumnsSortingStore implements IColumnsSortingStore {
         return [[attrId, dir]];
     }
 
-    fromConfig(config: SortOrder) {
+    fromConfig(config: SortOrder): void {
         if (config && config.length) {
             const [columnId, dir] = config[0];
             this.rule = [columnId, dir];

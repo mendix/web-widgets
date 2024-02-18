@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
@@ -13,7 +13,6 @@ import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
 
 export interface IColumnFilterStore {
-    filterState: FilterState | undefined;
     setFilterState(newState: FilterState | undefined): void;
 
     needsFilterContext: boolean;
@@ -27,21 +26,32 @@ export interface IColumnFilterStore {
 }
 
 export class ColumnFilterStore implements IColumnFilterStore {
-    filterState: FilterState | undefined = undefined;
+    private filterState: FilterState | undefined = undefined;
 
-    attribute?: ListAttributeValue<string | Big | boolean | Date>;
-    filter?: ReactNode;
-    filterAssociation?: ListReferenceValue | ListReferenceSetValue;
-    filterAssociationOptions?: ListValue;
-    filterAssociationOptionLabel?: ListExpressionValue<string>;
+    private attribute?: ListAttributeValue<string | Big | boolean | Date>;
+    private filter?: ReactNode;
+    private filterAssociation?: ListReferenceValue | ListReferenceSetValue;
+    private filterAssociationOptions?: ListValue;
+    private filterAssociationOptionLabel?: ListExpressionValue<string>;
+
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         this.updateProps(props);
-        makeObservable(this, {
+        makeObservable<
+            ColumnFilterStore,
+            | "filterState"
+            | "attribute"
+            | "filter"
+            | "filterAssociation"
+            | "filterAssociationOptions"
+            | "filterAssociationOptionLabel"
+        >(this, {
             attribute: observable,
             filter: observable,
             filterAssociation: observable,
             filterAssociationOptions: observable,
             filterAssociationOptionLabel: observable,
+
+            condition: computed,
 
             filterState: observable.ref,
             setFilterState: action
@@ -91,8 +101,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
         };
     }
 
-    setFilterState(newState: FilterState | undefined) {
+    setFilterState(newState: FilterState | undefined): void {
         this.filterState = newState;
+    }
+
+    get condition(): FilterCondition | undefined {
+        if (!this.filterState) {
+            return undefined;
+        }
+
+        return this.filterState.getFilterCondition();
     }
 }
 

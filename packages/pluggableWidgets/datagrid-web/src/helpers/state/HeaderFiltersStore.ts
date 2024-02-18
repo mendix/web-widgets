@@ -1,9 +1,13 @@
 import { FilterContextValue, FilterState, FilterType, readInitFilterValues } from "@mendix/widget-plugin-filtering";
 import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
-import { FilterListType } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, FilterListType } from "../../../typings/DatagridProps";
 
 export class HeaderFiltersStore {
+    isDirty = false;
+
+    private initialFilters: FilterCondition | undefined;
+    private filterList: FilterListType[];
     private filters: Record<FilterType, FilterState | undefined> = {
         [FilterType.STRING]: undefined,
         [FilterType.NUMBER]: undefined,
@@ -12,42 +16,47 @@ export class HeaderFiltersStore {
         [FilterType.ASSOCIATION]: undefined
     };
 
-    isDirty = false;
+    constructor(props: DatagridContainerProps) {
+        this.initialFilters = props.datasource.filter;
+        this.filterList = props.filterList;
 
-    constructor(private initialFilters: FilterCondition | undefined, private filterList: FilterListType[]) {
         makeObservable<typeof this, "filters">(this, {
             filters: observable,
             isDirty: observable,
 
-            conditions: computed.struct,
+            filterConditions: computed.struct,
 
-            setFilter: action,
+            setFilterState: action,
             setDirty: action
         });
     }
 
-    setFilter(type: FilterType, filter: FilterState | undefined) {
+    setFilterState(type: FilterType, filter: FilterState | undefined): void {
         this.filters[type] = filter;
     }
 
-    get conditions(): FilterCondition[] {
+    get filterConditions(): FilterCondition[] {
         return Object.keys(this.filters)
             .map((key: FilterType) => this.filters[key]?.getFilterCondition?.())
             .filter((filter): filter is FilterCondition => filter !== undefined);
     }
 
-    get multipleInitialFilters(): FilterContextValue["multipleInitialFilters"] {
-        return this.filterList.reduce(
+    getFilterContextProps(): Pick<FilterContextValue, "multipleAttributes" | "multipleInitialFilters"> {
+        const multipleAttributes = this.filterList.reduce(
+            (filters, { filter }) => ({ ...filters, [filter.id]: filter }),
+            {}
+        );
+        const multipleInitialFilters = this.filterList.reduce(
             (filters, { filter }) => ({
                 ...filters,
                 [filter.id]: readInitFilterValues(filter, this.initialFilters)
             }),
             {}
         );
-    }
-
-    get multipleAttributes(): FilterContextValue["multipleAttributes"] {
-        return this.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {});
+        return {
+            multipleAttributes,
+            multipleInitialFilters
+        };
     }
 
     setDirty(): void {

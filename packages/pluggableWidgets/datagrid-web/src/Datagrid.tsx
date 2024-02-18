@@ -16,12 +16,14 @@ import { useCellEventsController } from "./features/row-interaction/CellEventsCo
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { ColumnsStore, IColumnsStore } from "./helpers/state/ColumnsStore";
+import { IColumnsStore } from "./helpers/state/ColumnsStore";
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
+import { RootGridStore } from "./helpers/state/RootGridStore";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnsStore;
+    rootStore: RootGridStore;
 }
 
 const Container = observer((props: Props): ReactElement => {
@@ -31,7 +33,7 @@ const Container = observer((props: Props): ReactElement => {
         : props.datasource.offset / props.pageSize;
 
     const { FilterContext } = useFilterContext();
-    const { columnsStore } = props;
+    const { columnsStore, rootStore } = props;
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: useMemo(
@@ -143,7 +145,7 @@ const Container = observer((props: Props): ReactElement => {
                         value={{
                             eventsChannelName: filtersChannelName,
                             filterDispatcher: prev => {
-                                columnsStore.headerFilters.setDirty();
+                                rootStore.headerFiltersStore.setDirty();
                                 columnFilter.setFilterState(prev);
                                 return prev;
                             },
@@ -159,9 +161,8 @@ const Container = observer((props: Props): ReactElement => {
                 props.filtersPlaceholder && (
                     <WidgetHeaderContext
                         selectionContextValue={selectionContextValue}
-                        state={multipleFilteringState}
                         eventsChannelName={filtersChannelName}
-                        headerFilterStore={columnsStore.headerFilters}
+                        headerFilterStore={rootStore.headerFiltersStore}
                     >
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>
@@ -205,26 +206,31 @@ const Container = observer((props: Props): ReactElement => {
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
     const personalizationAttr = useRef(props.configurationAttribute);
-    const [columnsStore] = useState(() => {
-        const store = new ColumnsStore(props);
+    const [rootStore] = useState(() => {
+        const store = new RootGridStore(props);
 
         // apply sorting
         autorun(() => {
-            props.datasource.setSortOrder(store.sorting.sortInstructions);
+            props.datasource.setSortOrder(store.sortInstructions);
         });
 
         // store settings to personalization attribute
         autorun(() => {
-            personalizationAttr.current?.setValue(store.settings.settingsData);
+            personalizationAttr.current?.setValue(store.settingsStore.settingsData);
         });
 
         // apply filters
         autorun(() => {
             const filters = store.filterConditions;
 
+            if (!filters) {
+                // filters are not changes, don't apply them
+                return;
+            }
+
             if (filters.length > 0) {
                 props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-            } else if (store.headerFilters.isDirty) {
+            } else {
                 props.datasource.setFilter(undefined);
             }
         });
@@ -234,14 +240,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
 
     personalizationAttr.current = props.configurationAttribute;
 
-    columnsStore.updateProps(props.columns);
-    // todo: re-enable
-    columnsStore.settings.setStorageData(props.configurationAttribute?.value);
+    rootStore.updateProps(props);
 
-    if (!columnsStore.loaded) {
+    if (!rootStore.isLoaded) {
         // columns/settings are not yet loaded, we can't render at this point
         return null;
     }
 
-    return <Container {...props} columnsStore={columnsStore} />;
+    return <Container {...props} rootStore={rootStore} columnsStore={rootStore.columnsStore} />;
 }
