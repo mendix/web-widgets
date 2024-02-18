@@ -23,6 +23,7 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
+    const { current: defaultValue } = useRef(props.defaultValue?.value);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -87,7 +88,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilterType={filterState?.type ?? props.defaultFilter}
-                        value={filterState?.value ?? props.defaultValue?.value}
+                        value={filterState?.value ?? defaultValue}
                         inputChangeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}

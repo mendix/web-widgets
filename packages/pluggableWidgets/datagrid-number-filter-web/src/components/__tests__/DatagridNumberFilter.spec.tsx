@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import {
     actionValue,
@@ -9,7 +8,6 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 
 import DatagridNumberFilter from "../../DatagridNumberFilter";
@@ -129,11 +127,9 @@ describe("Number Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'"
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
 
             afterAll(() => {
@@ -161,11 +157,9 @@ describe("Number Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    'The Number filter widget can\'t be used with the filters options you have selected. It requires a "Autonumber, Decimal, Integer or Long" attribute to be selected.'
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
 
             afterAll(() => {
@@ -179,11 +173,9 @@ describe("Number Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
         });
     });
