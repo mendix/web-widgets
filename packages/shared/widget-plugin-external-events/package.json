@@ -9,28 +9,35 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "type": "module",
-  "main": "./dist/main.js",
   "exports": {
-    ".": "./dist/main.js"
+    "./*": "./dist/*.js"
   },
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/main.d.ts"
+        "dist/*"
       ]
     }
   },
+  "files": [
+    "dist",
+    "!*.map"
+  ],
   "scripts": {
-    "prepare": "tsc",
-    "lint": "eslint --ext .ts,.tsx ./src",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
     "format": "prettier --write .",
-    "dev": "tsc --watch",
-    "compile": "tsc"
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "prepare": "pnpm build",
+    "test": "jest"
   },
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/tsconfig-web-widgets": "workspace:*"
+    "@mendix/tsconfig-web-widgets": "workspace:*",
+    "@swc/core": "^1.3.37",
+    "@swc/jest": "^0.2.24",
+    "jest-environment-jsdom": "^29.4.1"
   },
   "dependencies": {
     "nanoevents": "^9.0.0"

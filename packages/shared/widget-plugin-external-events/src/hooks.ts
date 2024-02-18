@@ -1,5 +1,6 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { PluginExternalEvents, requirePlugin } from "./plugin";
+import { $events } from "./common";
 
 type Emit = PluginExternalEvents["emit"];
 
@@ -14,11 +15,26 @@ export function useListenChannelEvents(
     eventName: string,
     listener: (...args: any[]) => any
 ): void {
+    const JEST_BUG_KEY = useMemo(() => Math.random(), []);
+
     useEffect((): void | (() => void) => {
         if (channelName !== undefined) {
-            const events = requirePlugin();
-            return events.subscribe(channelName, eventName, listener);
+            return requirePlugin().subscribe(channelName, eventName, listener);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [channelName, eventName]);
+    }, [channelName, eventName, JEST_BUG_KEY]);
+}
+
+type Params = {
+    /** Widget name in settings. */
+    widgetName: string;
+    /** Event listener callback. */
+    listener: () => void;
+    /** Event channel name from parent */
+    parentChannelName?: string;
+};
+
+export function useFilterResetEvent({ widgetName, parentChannelName, listener }: Params): void {
+    useListenChannelEvents(widgetName, $events.reset.value, listener);
+    useListenChannelEvents(parentChannelName, $events.reset.value, listener);
 }

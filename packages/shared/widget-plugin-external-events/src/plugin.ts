@@ -11,6 +11,7 @@ export interface PluginExternalEvents {
 
 class ExternalEvents implements PluginExternalEvents {
     private channels: Map<string, Emitter>;
+    readonly id = Math.random().toString().slice(2);
 
     constructor() {
         this.channels = new Map<string, Emitter>();
@@ -68,7 +69,7 @@ class ExternalEvents implements PluginExternalEvents {
 
 declare global {
     interface Window {
-        [pluginPathExternalEvents]?: PluginExternalEvents;
+        [pluginPathExternalEvents]: PluginExternalEvents;
     }
 }
 
