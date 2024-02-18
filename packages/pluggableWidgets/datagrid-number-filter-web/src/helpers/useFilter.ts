@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useResetEvent, useValueFilter } from "@mendix/widget-plugin-filtering";
+import { useValueFilter } from "@mendix/widget-plugin-filtering";
+import { useFilterResetEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useCallback, useRef, useEffect } from "react";
 import { FilterComponentProps, FilterInputProps } from "../components/typings";
 import * as ValueUtils from "../utils/value";
@@ -7,21 +8,24 @@ import * as ValueUtils from "../utils/value";
 export function useFilter(props: FilterComponentProps): FilterInputProps {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const [state, { setFilterFn, setInputValue, reset, setValue }] = useValueFilter({
+    const [state, { setFilterFn, setInputValue, reset, dangerous_setValueAndDoNotDispatch }] = useValueFilter({
         defaultValue: props.value,
         defaultFilterFn: props.defaultFilterType,
         dispatchOnMounted: props.value !== undefined,
+        delay: props.inputChangeDelay,
         mapValue: ValueUtils.toBig,
         valueEquals: ValueUtils.equals,
         valueToString: ValueUtils.toString,
         onFilterChange: props.updateFilters
     });
 
-    useEffect(() => setValue(props.value), [props.value]);
+    useEffect(() => {
+        dangerous_setValueAndDoNotDispatch(props.value);
+    }, [props.value]);
 
-    useResetEvent({
+    useFilterResetEvent({
         widgetName: props.name,
-        datagridChannelName: props.datagridChannelName,
+        parentChannelName: props.datagridChannelName,
         listener: reset
     });
 
