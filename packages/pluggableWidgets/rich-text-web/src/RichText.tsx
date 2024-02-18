@@ -1,8 +1,14 @@
 import { createElement } from "react";
 import { RichTextContainerProps } from "../typings/RichTextProps";
+import BundledEditor from "./components/Editor";
 import "./ui/RichText.scss";
-import { RichText as Component } from "./components/RichText";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    return createElement(Component, props);
+    const { stringAttribute } = props;
+
+    if (stringAttribute.status === "loading") {
+        return <div></div>;
+    }
+
+    return <BundledEditor {...props} />;
 }
