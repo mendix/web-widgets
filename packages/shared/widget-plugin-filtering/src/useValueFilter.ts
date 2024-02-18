@@ -51,6 +51,7 @@ type Params<TValue, TFnEnum> = {
     delay?: number;
 };
 
+/** A self-contained value store that can (but not require) be  synchronized with `value` from props. */
 class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     clearTimers: () => void;
     mapValue: MapValueFn<Option<TValue>>;
