@@ -2,7 +2,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState, useMemo } from "react";
+import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState } from "react";
 import { PagingPositionEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
@@ -173,10 +173,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
                                             draggable={columnsDraggable}
                                             dragOver={dragOver}
                                             filterable={columnsFilterable}
-                                            filterWidget={useMemo(
-                                                () => filterRendererProp(renderFilterWrapper, column.columnNumber),
-                                                [renderFilterWrapper, column.columnNumber]
-                                            )}
+                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}

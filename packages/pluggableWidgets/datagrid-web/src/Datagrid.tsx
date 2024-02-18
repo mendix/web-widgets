@@ -133,29 +133,32 @@ const Container = observer((props: Props): ReactElement => {
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
-            filterRenderer={useCallback((renderWrapper, columnIndex) => {
-                const columnFilter = columnsStore.availableColumns[columnIndex].filter;
+            filterRenderer={useCallback(
+                (renderWrapper, columnIndex) => {
+                    const columnFilter = columnsStore.availableColumns[columnIndex].filter;
 
-                if (!columnFilter.needsFilterContext) {
-                    return renderWrapper(columnFilter.renderFilterWidgets());
-                }
+                    if (!columnFilter.needsFilterContext) {
+                        return renderWrapper(columnFilter.renderFilterWidgets());
+                    }
 
-                return renderWrapper(
-                    <FilterContext.Provider
-                        value={{
-                            eventsChannelName: filtersChannelName,
-                            filterDispatcher: prev => {
-                                rootStore.headerFiltersStore.setDirty();
-                                columnFilter.setFilterState(prev);
-                                return prev;
-                            },
-                            ...columnFilter.getFilterContextProps()
-                        }}
-                    >
-                        {columnFilter.renderFilterWidgets()}
-                    </FilterContext.Provider>
-                );
-            }, [])}
+                    return renderWrapper(
+                        <FilterContext.Provider
+                            value={{
+                                eventsChannelName: filtersChannelName,
+                                filterDispatcher: prev => {
+                                    rootStore.headerFiltersStore.setDirty();
+                                    columnFilter.setFilterState(prev);
+                                    return prev;
+                                },
+                                ...columnFilter.getFilterContextProps()
+                            }}
+                        >
+                            {columnFilter.renderFilterWidgets()}
+                        </FilterContext.Provider>
+                    );
+                },
+                [FilterContext, columnsStore.availableColumns, rootStore.headerFiltersStore, filtersChannelName]
+            )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (

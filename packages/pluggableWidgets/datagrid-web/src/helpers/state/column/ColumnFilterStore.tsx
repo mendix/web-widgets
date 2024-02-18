@@ -48,13 +48,13 @@ export class ColumnFilterStore implements IColumnFilterStore {
             | "filterAssociationOptions"
             | "filterAssociationOptionLabel"
         >(this, {
-            attribute: observable,
-            filter: observable,
-            filterAssociation: observable,
-            filterAssociationOptions: observable,
-            filterAssociationOptionLabel: observable,
+            attribute: observable.ref,
+            filter: observable.ref,
+            filterAssociation: observable.ref,
+            filterAssociationOptions: observable.ref,
+            filterAssociationOptionLabel: observable.ref,
 
-            condition: computed,
+            condition: computed.struct,
 
             filterState: observable.ref,
             setFilterState: action
