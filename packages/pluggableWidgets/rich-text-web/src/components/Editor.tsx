@@ -1,7 +1,7 @@
-import { createElement, useEffect, useRef, useState, ReactElement, useCallback } from "react";
+import { ReactElement, createElement, useCallback, useEffect, useRef, useState } from "react";
 
 import { Editor } from "@tinymce/tinymce-react";
-import { Editor as TinyMCEEditor } from "tinymce";
+import { EditorEvent, Editor as TinyMCEEditor } from "tinymce";
 
 import "react-dom";
 import "tinymce/tinymce";
@@ -22,6 +22,7 @@ import "tinymce/plugins/code";
 import "tinymce/plugins/codesample";
 import "tinymce/plugins/directionality";
 import "tinymce/plugins/emoticons";
+import "tinymce/plugins/emoticons/js/emojis";
 import "tinymce/plugins/fullscreen";
 import "tinymce/plugins/help";
 import "tinymce/plugins/help/js/i18n/keynav/en";
@@ -42,7 +43,6 @@ import "tinymce/plugins/template";
 import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
-import "tinymce/plugins/emoticons/js/emojis";
 
 import contentCss from "tinymce/skins/content/default/content.min.css";
 import { RichTextContainerProps } from "typings/RichTextProps";
@@ -50,19 +50,42 @@ import { RichTextContainerProps } from "typings/RichTextProps";
 type EditorState = "loading" | "ready";
 
 export default function BundledEditor(props: RichTextContainerProps): ReactElement {
-    const { plugins, toolbar, stringAttribute, enableMenuBar, menubar } = props;
+    const {
+        plugins,
+        toolbar,
+        stringAttribute,
+        enableMenuBar,
+        menubar,
+        onBlur,
+        onChange,
+        onKeyPress,
+        toolbarMode,
+        enableStatusBar,
+        toolbarLocation,
+        spellCheck
+    } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const [editorState, setEditorState] = useState<EditorState>("loading");
     const [editorValue, setEditorValue] = useState(stringAttribute.value ?? "");
+
+    const _toolbarLocation = toolbarLocation === "inline" ? "auto" : toolbarLocation;
 
     useEffect(() => {
         if (stringAttribute?.status === "available" && editorState === "ready") {
             setEditorValue(stringAttribute.value ?? "");
         }
     }, [stringAttribute, editorState]);
+
+    useEffect(() => {
+        editorRef.current?.mode.set(stringAttribute.readOnly ? "readonly" : "design");
+    }, [stringAttribute.readOnly, editorState]);
+
     const onEditorChange = useCallback(
         (value: string, _editor: TinyMCEEditor) => {
             setEditorValue(value);
+            if (onChange?.canExecute) {
+                onChange.execute();
+            }
         },
         [editorState]
     );
@@ -71,7 +94,20 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
         if (editorRef.current && stringAttribute?.status === "available" && editorState === "ready") {
             stringAttribute?.setValue(editorValue);
         }
+
+        if (onBlur?.canExecute) {
+            onBlur.execute();
+        }
     }, [stringAttribute, editorState, editorValue]);
+
+    const onEditorKeyPress = useCallback(
+        (_event: EditorEvent<KeyboardEvent>, _editor: TinyMCEEditor) => {
+            if (onKeyPress?.canExecute) {
+                onKeyPress.execute();
+            }
+        },
+        [editorState]
+    );
 
     return (
         <Editor
@@ -94,9 +130,16 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
                 ),
                 promotion: false,
                 branding: false,
+                readonly: stringAttribute.readOnly,
+                toolbar_mode: toolbarMode,
+                statusbar: enableStatusBar,
+                toolbar_location: _toolbarLocation,
+                inline: toolbarLocation === "inline",
+                browser_spellcheck: spellCheck,
                 base_url: "widgets/com/mendix/widget/custom/richtext"
             }}
             onBlur={onEditorBlur}
+            onKeyPress={onEditorKeyPress}
         />
     );
 }

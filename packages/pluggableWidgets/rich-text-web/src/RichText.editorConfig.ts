@@ -8,6 +8,9 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (!values.enableMenuBar) {
         hidePropertiesIn(defaultProperties, values, ["menubar"]);
     }
+    if (values.preset !== "custom") {
+        hidePropertiesIn(defaultProperties, values, ["toolbar"]);
+    }
     return defaultProperties;
 }
 
