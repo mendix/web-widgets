@@ -27,7 +27,6 @@ import { action, computed, makeObservable, observable, configure } from "mobx";
 import { ColumnsSortingStore } from "./ColumnsSortingStore";
 import { ColumnsVisualStore, IColumnsVisualStore } from "./ColumnsVisualStore";
 import { ColumnStore, IColumnStore } from "./column/ColumnStore";
-import { GridSettingsStore } from "./GridSettingsStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/GridModel";
 
@@ -57,7 +56,6 @@ export class ColumnsStore implements IColumnsStore {
 
     visual: ColumnsVisualStore;
     sorting: ColumnsSortingStore;
-    settings: GridSettingsStore;
 
     dragEnabled: boolean;
     filterEnabled: boolean;
@@ -78,7 +76,6 @@ export class ColumnsStore implements IColumnsStore {
 
         this.visual = new ColumnsVisualStore(this._allColumns);
         this.sorting = new ColumnsSortingStore(this._allColumns, props.datasource.sortOrder);
-        this.settings = new GridSettingsStore(props, this);
 
         makeObservable<ColumnsStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,

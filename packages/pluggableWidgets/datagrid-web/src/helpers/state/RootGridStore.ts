@@ -28,6 +28,7 @@ export class RootGridStore {
 
     updateProps(props: DatagridContainerProps): void {
         this.columnsStore.updateProps(props.columns);
+        this.settingsStore.updateProps(props);
     }
 
     get isLoaded(): boolean {
