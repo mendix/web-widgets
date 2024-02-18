@@ -118,6 +118,8 @@ export class ColumnsVisualStore implements IColumnsVisualStore {
             // hidden
             if (conf.hidden) {
                 this.columnHidden.add(cId);
+            } else {
+                this.columnHidden.delete(cId);
             }
         });
 

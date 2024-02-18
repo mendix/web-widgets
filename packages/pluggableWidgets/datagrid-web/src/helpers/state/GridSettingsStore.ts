@@ -4,6 +4,7 @@ import { action, autorun, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../features/model/utils";
 import { ColumnsStore } from "./ColumnsStore";
+import { EditableValue, ValueStatus } from "mendix";
 
 export interface ColumnSettings {
     columnId: ColumnId;
@@ -24,34 +25,60 @@ export interface GridSettings {
 
 export class GridSettingsStore {
     private gridName: string;
-    private storageData: GridSettings | undefined = undefined;
+
+    private storageAttr: EditableValue<string> | undefined;
+    private storedSettings: GridSettings | undefined = undefined;
 
     constructor(props: DatagridContainerProps, private columnsStore: ColumnsStore) {
         this.gridName = props.name;
+        this.storageAttr = props.configurationAttribute;
 
-        makeObservable<GridSettingsStore, "storageData" | "setSettings">(this, {
-            storageData: observable.struct,
-            settingsData: computed,
+        makeObservable<GridSettingsStore, "storageAttr" | "storedSettings" | "applySettings" | "readStorageData">(
+            this,
+            {
+                storageAttr: observable.ref,
+                storedSettings: observable.struct,
+                settingsData: computed,
 
-            setStorageData: action,
-            setSettings: action
+                readStorageData: action,
+                applySettings: action,
+                updateProps: action
+            }
+        );
+
+        // todo: dispose those autoruns on unmount
+        autorun(() => {
+            if (this.storageAttr && this.storageAttr.status === ValueStatus.Available) {
+                this.readStorageData(this.storageAttr.value);
+            }
         });
 
         autorun(() => {
-            if (this.storageData !== undefined) {
-                this.setSettings(this.storageData);
+            if (this.storedSettings !== undefined) {
+                this.applySettings(this.storedSettings);
+            }
+        });
+
+        autorun(() => {
+            if (this.storageAttr && !this.storageAttr.readOnly) {
+                this.storageAttr.setValue(this.settingsData);
             }
         });
     }
 
-    private setSettings(settings: GridSettings): void {
+    updateProps(props: DatagridContainerProps): void {
+        this.storageAttr = props.configurationAttribute;
+    }
+
+    private applySettings(settings: GridSettings): void {
         this.columnsStore.sorting.fromConfig(settings.sortOrder);
         this.columnsStore.visual.applyColumnSettings(settings.columns, settings.columnOrder);
     }
 
-    setStorageData(storageData: string | undefined): void {
+    private readStorageData(storageData: string | undefined): void {
+        // todo: handle old settings formats
         if (storageData) {
-            this.storageData = JSON.parse(storageData) as unknown as GridSettings;
+            this.storedSettings = JSON.parse(storageData) as unknown as GridSettings;
         }
     }
 

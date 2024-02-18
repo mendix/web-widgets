@@ -2,7 +2,7 @@ import { useFilterContext } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { and } from "mendix/filters/builders";
-import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useState } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
@@ -208,18 +208,12 @@ const Container = observer((props: Props): ReactElement => {
 });
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const personalizationAttr = useRef(props.configurationAttribute);
     const [rootStore] = useState(() => {
         const store = new RootGridStore(props);
 
         // apply sorting
         autorun(() => {
             props.datasource.setSortOrder(store.sortInstructions);
-        });
-
-        // store settings to personalization attribute
-        autorun(() => {
-            personalizationAttr.current?.setValue(store.settingsStore.settingsData);
         });
 
         // apply filters
@@ -240,8 +234,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
 
         return store;
     });
-
-    personalizationAttr.current = props.configurationAttribute;
 
     rootStore.updateProps(props);
 
