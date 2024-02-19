@@ -1,4 +1,5 @@
-import { useEffect, useCallback, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useCallback } from "react";
 import { PluginExternalEvents, requirePlugin } from "./plugin";
 import { $events } from "./common";
 
@@ -15,14 +16,11 @@ export function useListenChannelEvents(
     eventName: string,
     listener: (...args: any[]) => any
 ): void {
-    const JEST_BUG_KEY = useMemo(() => Math.random(), []);
-
     useEffect((): void | (() => void) => {
         if (channelName !== undefined) {
             return requirePlugin().subscribe(channelName, eventName, listener);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [channelName, eventName, JEST_BUG_KEY]);
+    }, [channelName, eventName]);
 }
 
 type Params = {

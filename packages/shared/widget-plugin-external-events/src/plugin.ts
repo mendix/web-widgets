@@ -69,7 +69,7 @@ class ExternalEvents implements PluginExternalEvents {
 
 declare global {
     interface Window {
-        [pluginPathExternalEvents]: PluginExternalEvents;
+        [pluginPathExternalEvents]?: PluginExternalEvents;
     }
 }
 
@@ -85,4 +85,8 @@ function requirePlugin(): PluginExternalEvents {
     return (window[pluginPathExternalEvents] ??= pluginSetup());
 }
 
-export { requirePlugin };
+function deletePlugin(): void {
+    delete window[pluginPathExternalEvents];
+}
+
+export { requirePlugin, deletePlugin };

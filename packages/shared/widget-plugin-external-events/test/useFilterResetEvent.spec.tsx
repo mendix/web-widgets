@@ -2,8 +2,7 @@ import { createElement } from "react";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { useFilterResetEvent } from "../src/hooks";
-import { requirePlugin } from "../src/plugin";
-import { deletePlugin } from "./utils";
+import { requirePlugin, deletePlugin } from "../src/plugin";
 
 function Filter(props: { widgetName: string; parentChannelName: string; listener: jest.Mock }): null {
     useFilterResetEvent({
