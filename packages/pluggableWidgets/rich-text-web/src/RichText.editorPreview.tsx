@@ -12,7 +12,3 @@ export function preview(props: RichTextPreviewProps): ReactElement {
         </div>
     );
 }
-
-export function getPreviewCss() {
-    return "";
-}

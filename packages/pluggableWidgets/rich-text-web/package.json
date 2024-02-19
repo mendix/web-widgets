@@ -10,7 +10,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "rich-text-web"
+    "branchName": "rich-text-v3-web"
   },
   "license": "Apache-2.0",
   "mxpackage": {
@@ -19,7 +19,7 @@
     "mpkName": "RichText.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.24.0",
     "appNumber": 74889,
     "appName": "Rich Text"
   },
