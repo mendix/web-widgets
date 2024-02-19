@@ -12,6 +12,7 @@ import "tinymce/themes/silver";
 
 import "tinymce/icons/default";
 
+import "tinymce/plugins/accordion";
 import "tinymce/plugins/advlist";
 import "tinymce/plugins/anchor";
 import "tinymce/plugins/autolink";
@@ -44,17 +45,23 @@ import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
+const PLUGINS =
+    "accordion advlist anchor autolink charmap code codesample directionality emoticons fullscreen image importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars searchreplace table template visualblocks visualchars wordcount";
+
 import contentCss from "tinymce/skins/content/default/content.min.css";
 import { RichTextContainerProps } from "typings/RichTextProps";
 
 type EditorState = "loading" | "ready";
 
-export default function BundledEditor(props: RichTextContainerProps): ReactElement {
+interface BundledEditorProps extends RichTextContainerProps {
+    toolbar: string;
+    menubar: string | boolean;
+}
+
+export default function BundledEditor(props: BundledEditorProps): ReactElement {
     const {
-        plugins,
         toolbar,
         stringAttribute,
-        enableMenuBar,
         menubar,
         onBlur,
         onChange,
@@ -62,7 +69,10 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
         toolbarMode,
         enableStatusBar,
         toolbarLocation,
-        spellCheck
+        spellCheck,
+        highlight_on_focus,
+        resize,
+        sanitizeContent
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const [editorState, setEditorState] = useState<EditorState>("loading");
@@ -87,6 +97,7 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
                 onChange.execute();
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
     );
 
@@ -98,6 +109,7 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
         if (onBlur?.canExecute) {
             onBlur.execute();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stringAttribute, editorState, editorValue]);
 
     const onEditorKeyPress = useCallback(
@@ -106,6 +118,7 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
                 onKeyPress.execute();
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
     );
 
@@ -119,9 +132,9 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
             initialValue=""
             onEditorChange={onEditorChange}
             init={{
-                plugins,
+                plugins: PLUGINS,
                 toolbar,
-                menubar: enableMenuBar ? menubar : false,
+                menubar,
                 width: "100%",
                 skin: false,
                 content_css: false,
@@ -136,7 +149,10 @@ export default function BundledEditor(props: RichTextContainerProps): ReactEleme
                 toolbar_location: _toolbarLocation,
                 inline: toolbarLocation === "inline",
                 browser_spellcheck: spellCheck,
-                base_url: "widgets/com/mendix/widget/custom/richtext"
+                base_url: "widgets/com/mendix/widget/custom/richtext",
+                highlight_on_focus,
+                resize: resize === "both" ? "both" : resize === "true",
+                xss_sanitization: sanitizeContent
             }}
             onBlur={onEditorBlur}
             onKeyPress={onEditorKeyPress}
