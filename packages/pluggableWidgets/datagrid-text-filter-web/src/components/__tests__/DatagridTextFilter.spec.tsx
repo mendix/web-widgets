@@ -6,10 +6,11 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
+import { requirePlugin, deletePlugin } from "@mendix/widget-plugin-external-events/plugin";
 
 const commonProps = {
     class: "filter-custom-class",
@@ -219,6 +220,61 @@ describe("Text Filter", () => {
         afterAll(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
+        });
+    });
+
+    describe("events", () => {
+        let dispatch: jest.Mock;
+        let parentChannelName: string;
+        let ctx: FilterContextValue;
+        beforeEach(() => {
+            dispatch = jest.fn();
+            parentChannelName = Math.random().toString(36).slice(-10);
+            ctx = {
+                filterDispatcher: dispatch,
+                eventsChannelName: parentChannelName,
+                singleAttribute: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
+            };
+            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext(ctx);
+            deletePlugin();
+        });
+
+        it("resets value on external event", async () => {
+            const plugin = requirePlugin();
+
+            expect(dispatch).toHaveBeenCalledTimes(0);
+
+            render(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("foo")} name="widget_x" />);
+
+            const input = screen.getByRole("textbox");
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(input).toHaveValue("foo");
+
+            act(() => plugin.emit("widget_x", "reset.value"));
+
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            const [{ getFilterCondition }] = dispatch.mock.lastCall;
+            expect(input).toHaveValue("");
+            expect(getFilterCondition()).toEqual(undefined);
+        });
+
+        it("resets value on parent event", async () => {
+            const plugin = requirePlugin();
+
+            expect(dispatch).toHaveBeenCalledTimes(0);
+
+            render(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("bar")} name="widget_x" />);
+
+            const input = screen.getByRole("textbox");
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(input).toHaveValue("bar");
+
+            act(() => plugin.emit(parentChannelName, "reset.value"));
+
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            const [{ getFilterCondition }] = dispatch.mock.lastCall;
+            expect(input).toHaveValue("");
+            expect(getFilterCondition()).toEqual(undefined);
         });
     });
 });
