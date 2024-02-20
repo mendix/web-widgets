@@ -3,48 +3,39 @@ import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { useState, useMemo, useEffect } from "react";
 import { FilterCondition } from "mendix/filters";
+import { ValueHelper } from "./typings";
 
 type FilterFunction = FilterCondition["name"];
 
-type Option<T> = T | undefined;
+type Optional<T> = T | undefined;
 
-type State<TFnEnum> = {
+type State<TFilterEnum> = {
     /** Filter function (type) name (e.g >, >=, starts-with, etc). */
-    filterFn: TFnEnum;
+    filterFn: TFilterEnum;
     /** HTMLInput value. */
     inputValue: string;
 };
 
-type Actions<TValue, TFnEnum> = {
+type Actions<TValue, TFilterEnum> = {
     setInputValue: (arg: string) => void;
-    setFilterFn: (arg: TFnEnum) => void;
-    dangerous_setValueAndDoNotDispatch: (arg: Option<TValue>) => void;
+    setFilterFn: (arg: TFilterEnum) => void;
+    dangerous_setValueAndDoNotDispatch: (arg: Optional<TValue>) => void;
     reset: () => void;
 };
 
-type EqualsFn<T> = (a: T, b: T) => boolean;
+type FilterListener<TValue, TFilterEnum> = (value: TValue, filterFn: TFilterEnum) => void;
 
-type MapValueFn<T> = (arg: string) => T;
+type StateListener<TFilterEnum> = (state: State<TFilterEnum>) => void;
 
-type ValueToString<T> = (arg: T) => string;
-
-type FilterListener<TValue, TFnEnum> = (value: TValue, filterFn: TFnEnum) => void;
-
-type StateListener<TFnEnum> = (state: State<TFnEnum>) => void;
-
-type Params<TValue, TFnEnum> = {
+type Params<TValue, TFilterEnum> = {
     /** Default filter function. */
-    defaultFilterFn: TFnEnum;
+    defaultFilter: TFilterEnum;
     /** Default filter value. */
     defaultValue: TValue;
-    /** Function to map input value. */
-    mapValue: MapValueFn<Option<TValue>>;
-    /** Function to compare the previous value and the new value. */
-    valueEquals: EqualsFn<Option<TValue>>;
-    /** Function to map value to string. */
-    valueToString: ValueToString<Option<TValue>>;
+    /** Helper to compare and convert value. */
+    valueHelper: ValueHelper<Optional<TValue>>;
     /** Listener for filter value changes. */
-    onFilterChange?: FilterListener<Option<TValue>, TFnEnum>;
+    onFilterChange: FilterListener<Optional<TValue>, TFilterEnum>;
     /** If true, onFilterChange will be called once when mounted. */
     dispatchOnMounted: boolean;
     /** Filter change delay in milliseconds. */
@@ -52,33 +43,29 @@ type Params<TValue, TFnEnum> = {
 };
 
 /** A self-contained value store that can (but not require) be  synchronized with `value` from props. */
-class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
+class ValueFilterStore<TValue, TFilterEnum = FilterFunction> {
     clearTimers: () => void;
-    mapValue: MapValueFn<Option<TValue>>;
-    valueEquals: EqualsFn<Option<TValue>>;
-    valueToString: ValueToString<Option<TValue>>;
-    private filterListener: FilterListener<Option<TValue>, TFnEnum> | undefined;
-    private stateListener: StateListener<TFnEnum> | undefined;
-    private _value: Option<TValue>;
-    state: State<TFnEnum>;
+    valueHelper: ValueHelper<Optional<TValue>>;
+    private filterListener: FilterListener<Optional<TValue>, TFilterEnum> | undefined;
+    private stateListener: StateListener<TFilterEnum> | undefined;
+    private _value: Optional<TValue>;
+    state: State<TFilterEnum>;
     dispatchOnMounted: boolean;
 
-    constructor(params: Params<Option<TValue>, TFnEnum>) {
+    constructor(params: Params<Optional<TValue>, TFilterEnum>) {
         this._value = params.defaultValue;
         this.filterListener = params.onFilterChange;
         this.dispatchOnMounted = params.dispatchOnMounted;
-        this.mapValue = params.mapValue;
-        this.valueEquals = params.valueEquals;
-        this.valueToString = params.valueToString;
+        this.valueHelper = params.valueHelper;
 
         this.state = {
-            inputValue: this.valueToString(params.defaultValue),
-            filterFn: params.defaultFilterFn
+            inputValue: this.valueHelper.toString(params.defaultValue),
+            filterFn: params.defaultFilter
         };
         [this.onInputChange, this.clearTimers] = debounce(this.onInputChange.bind(this), params.delay ?? 500);
     }
 
-    addStateChangeListener(fn: StateListener<TFnEnum>): void {
+    addStateChangeListener(fn: StateListener<TFilterEnum>): void {
         this.stateListener = fn;
     }
 
@@ -89,7 +76,7 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 
     /** Returns true if the prop has been changed. */
-    set<K extends keyof State<TFnEnum>>(prop: K, value: State<TFnEnum>[K]): boolean {
+    set<K extends keyof State<TFilterEnum>>(prop: K, value: State<TFilterEnum>[K]): boolean {
         if (this.state[prop] === value) {
             return false;
         }
@@ -104,7 +91,7 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
         }
     }
 
-    setFilterFn(arg: TFnEnum): void {
+    setFilterFn(arg: TFilterEnum): void {
         if (this.set("filterFn", arg)) {
             this.onFilterChange();
         }
@@ -117,12 +104,12 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
      * props.value with this store. This is the method you can use to "sync" value into the store.
      * Please be responsible: only use it if you know what you're doing - most of the time you won't need it.
      */
-    dangerous_setValueAndDoNotDispatch(newValue: Option<TValue>): boolean {
-        if (this.valueEquals(this._value, newValue)) {
+    dangerous_setValueAndDoNotDispatch(newValue: Optional<TValue>): boolean {
+        if (this.valueHelper.equals(this._value, newValue)) {
             return false;
         }
         this._value = newValue;
-        this.set("inputValue", this.valueToString(newValue));
+        this.set("inputValue", this.valueHelper.toString(newValue));
         return true;
     }
 
@@ -140,7 +127,7 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 
     /** Dispatch state update. */
-    private dispatchState(state: State<TFnEnum>): void {
+    private dispatchState(state: State<TFilterEnum>): void {
         this.stateListener?.(state);
     }
 
@@ -150,8 +137,8 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 
     private onInputChange(): void {
-        const newValue = this.mapValue(this.state.inputValue);
-        if (this.valueEquals(this._value, newValue)) {
+        const newValue = this.valueHelper.fromString(this.state.inputValue);
+        if (this.valueHelper.equals(this._value, newValue)) {
             return;
         }
         this._value = newValue;
@@ -163,9 +150,9 @@ class ValueFilterStore<TValue, TFnEnum = FilterFunction> {
     }
 }
 
-export function useValueFilter<TValue, TFnEnum>(
-    params: Params<TValue, TFnEnum>
-): [State<TFnEnum>, Actions<TValue, TFnEnum>] {
+export function useValueFilterState<TValue, TFilterEnum>(
+    params: Params<TValue, TFilterEnum>
+): [State<TFilterEnum>, Actions<TValue, TFilterEnum>] {
     const onFilterChange = useEventCallback(params.onFilterChange);
 
     const store = useMemo(() => new ValueFilterStore({ ...params, onFilterChange }), []);
@@ -175,7 +162,7 @@ export function useValueFilter<TValue, TFnEnum>(
         return store.state;
     });
 
-    const actions = useMemo<Actions<TValue, TFnEnum>>(
+    const actions = useMemo<Actions<TValue, TFilterEnum>>(
         () => ({
             setInputValue: arg => store.setInputValue(arg),
             setFilterFn: arg => store.setFilterFn(arg),
