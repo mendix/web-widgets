@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   Load More as Pagination Type so that additional records will only be loaded when clicked on Load More button.
+
 ## [2.15.0] - 2024-03-27
 
 ### Added

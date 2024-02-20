@@ -47,6 +47,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     numberOfItems?: number;
     onExportCancel?: () => void;
     page: number;
+    paginationType: string;
+
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -94,6 +96,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         numberOfItems,
         onExportCancel,
         page,
+        paginationType,
         pageSize,
         paging,
         pagingPosition,
@@ -160,7 +163,12 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
-                <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
+                <WidgetContent
+                    isInfinite={isInfinite}
+                    hasMoreItems={hasMoreItems}
+                    setPage={setPage}
+                    paginationType={paginationType}
+                >
                     <Grid
                         aria-multiselectable={
                             selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined
@@ -249,6 +257,15 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
+                {rows.length !== 0 && "LoadMore" === paginationType && (
+                    <button
+                        className="btn btn-primary widget-datagrid-load-more"
+                        onClick={() => setPage && setPage(prev => prev + 1)}
+                        tabIndex={0}
+                    >
+                        Load More
+                    </button>
+                )}
                 <ExportWidget
                     alertLabel={props.exportDialogLabel ?? "Export progress"}
                     cancelLabel={props.cancelExportLabel ?? "Cancel data export"}

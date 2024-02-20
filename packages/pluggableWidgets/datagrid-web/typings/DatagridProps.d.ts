@@ -44,7 +44,7 @@ export interface ColumnsType {
     wrapText: boolean;
 }
 
-export type PaginationEnum = "buttons" | "virtualScrolling";
+export type PaginationEnum = "buttons" | "virtualScrolling" | "LoadMore";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
 

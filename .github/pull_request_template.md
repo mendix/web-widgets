@@ -46,7 +46,8 @@ Uncomment relevant sections below by removing `<!--` at the beginning of the lin
 <!-- Bug fix (non-breaking change which fixes an issue)
 <!---->
 
-<!-- New feature (non-breaking change which adds functionality)
+New feature (non-breaking change which adds functionality)
+
 <!---->
 
 <!-- Breaking change (fix or feature that would cause existing functionality to change)
@@ -64,11 +65,10 @@ Try to explain WHAT and WHY you change, fix or refactor.
 
 ### Description
 
-<!--
-Please uncomment and fill in the following section
-to describe which part of the package needs to be tested
-and how it can be tested.
+Added Load More as 3rd pagination type because sometimes we need load more button instead of virtual scrolling as we have in List View widget
+so i have changed xml to add this option, just rendering this button when this type is selected with appropiate conditions and i have tested with cases like with filters applied or when there is no result etc and have taken care no other functionality is affected by my changes.
+and it can be simple tested by selecting it from widget itself.
 -->
-<!--
-### What should be covered while testing?
+
+Testing could cover scenarios like behavious when filters applied or when there is no result found.
 -->
