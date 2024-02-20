@@ -25,7 +25,6 @@ const component = memo(function ListItem(props: ListItemProps): ReactElement {
     const { columnIndex, rowIndex } = getPosition(itemIndex);
     const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
-    console.info("Listview has handlers", { handlers });
 
     return (
         <div
