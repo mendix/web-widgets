@@ -12,7 +12,7 @@ export type SelectFx = (item: ObjectItem, shiftKey: boolean, toggle?: boolean) =
 
 export type SelectAllFx = (requestedAction?: "selectAll" | "deselectAll") => void;
 
-export type Direction = "forward" | "backward";
+export type Direction = "forward" | "backward" | "pageup" | "pagedown" | "home" | "end";
 
 export type Size = number | "edge";
 
