@@ -26,6 +26,7 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridTextFilter(props: DatagridTextFilterContainerProps): ReactElement {
     const id = useRef(`TextFilter${generateUUID()}`);
+    const { current: defaultValue } = useRef(props.defaultValue?.value);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -70,7 +71,7 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                     return alertMessage;
                 }
 
-                const defaultFilter = singleInitialFilter
+                const parentFilter = singleInitialFilter
                     ? translateFilters(singleInitialFilter)
                     : translateFilters(multipleInitialFilters?.[attributes[0].id]);
 
@@ -87,16 +88,18 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                     <FilterComponent
                         adjustable={props.adjustable}
                         className={props.class}
-                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
-                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
-                        inputChangeDelay={props.delay}
+                        defaultFilter={parentFilter?.type ?? props.defaultFilter}
+                        value={parentFilter?.value ?? defaultValue}
+                        changeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
                         screenReaderInputCaption={props.screenReaderInputCaption?.value}
                         styles={props.style}
                         tabIndex={props.tabIndex}
-                        updateFilters={(value: string, type: DefaultFilterEnum): void => {
+                        datagridChannelName={filterContextValue.eventsChannelName ?? ""}
+                        name={props.name}
+                        onChange={(value: string, type: DefaultFilterEnum): void => {
                             props.valueAttribute?.setValue(value);
                             props.onChange?.execute();
                             const conditions = attributes

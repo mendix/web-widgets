@@ -31,6 +31,16 @@ exports[`Text Filter with single instance with multiple attributes renders corre
 </DocumentFragment>
 `;
 
+exports[`Text Filter with single instance with no context renders error message 1`] = `
+<DocumentFragment>
+  <div
+    class="alert alert-danger"
+  >
+    The Text filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget.
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Text Filter with single instance with single attribute renders correctly 1`] = `
 <DocumentFragment>
   <div
@@ -58,6 +68,26 @@ exports[`Text Filter with single instance with single attribute renders correctl
       type="text"
       value=""
     />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Text Filter with single instance with wrong attribute's type renders error message 1`] = `
+<DocumentFragment>
+  <div
+    class="alert alert-danger"
+  >
+    The attribute type being used for Text filter is not 'Hashed string or String'
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Text Filter with single instance with wrong multiple attributes' types renders error message 1`] = `
+<DocumentFragment>
+  <div
+    class="alert alert-danger"
+  >
+    The Text filter widget can't be used with the filters options you have selected. It requires a "Hashed string or String" attribute to be selected.
   </div>
 </DocumentFragment>
 `;
