@@ -16,7 +16,7 @@ import {
 type ExtractionReturnValue = [
     EditableValue<string | Big>,
     ListValue,
-    ListAttributeValue<string> | ListExpressionValue<string>,
+    ListAttributeValue<string> | ListExpressionValue<string> | undefined,
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
@@ -38,24 +38,11 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
 
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
-        throw new Error(
-            "'optionsSourceType' type is 'association' but 'optionsSourceAssociationDataSource' is not defined."
-        );
+        throw new Error("'optionsSourceType' type is 'database' but 'optionsSourceDatabaseDataSource' is not defined.");
     }
     const captionType = props.optionsSourceDatabaseCaptionType;
     const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
     const captionExpression = props.optionsSourceDatabaseCaptionExpression;
-
-    if (captionType === "attribute" && !captionAttribute) {
-        throw new Error(
-            "'optionsSourceAssociationCaptionType' type is 'attribute' but 'optionsSourceAssociationCaptionAttribute' is not defined."
-        );
-    }
-    if (captionType === "expression" && !captionExpression) {
-        throw new Error(
-            "'optionsSourceAssociationCaptionType' type is 'expression' but 'optionsSourceAssociationCaptionExpression' is not defined."
-        );
-    }
     const emptyOption = props.emptyOptionText;
     const emptyValue = props.optionsSourceDatabaseEmptyValue;
     const clearable = props.clearable;
@@ -70,7 +57,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     return [
         attr,
         ds,
-        captionType === "attribute" ? captionAttribute! : captionExpression!,
+        captionType === "attribute" ? captionAttribute : captionExpression,
         emptyOption,
         clearable,
         filterType,

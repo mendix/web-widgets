@@ -116,14 +116,14 @@
                     <description />
                     <returnType type="String" />
                 </property>
-                <property key="optionsSourceDatabaseCaptionAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
+                <property key="optionsSourceDatabaseCaptionAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="false">
                     <caption>Caption</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
-                <property key="optionsSourceDatabaseCaptionExpression" type="expression" dataSource="optionsSourceDatabaseDataSource">
+                <property key="optionsSourceDatabaseCaptionExpression" type="expression" dataSource="optionsSourceDatabaseDataSource" required="false">
                     <caption>Caption</caption>
                     <description />
                     <returnType type="String" />

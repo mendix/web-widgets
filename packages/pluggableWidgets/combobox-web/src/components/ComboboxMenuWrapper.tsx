@@ -15,7 +15,7 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     onOptionClick?: (e: MouseEvent) => void;
 }
 
-function PreventMenuCloseEventHandler(e: React.MouseEvent) {
+function PreventMenuCloseEventHandler(e: React.MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
 }

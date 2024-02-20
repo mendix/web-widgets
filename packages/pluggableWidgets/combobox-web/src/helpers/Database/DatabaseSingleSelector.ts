@@ -52,6 +52,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,
+            attribute: valueAttribute,
             caption: this._attr.displayValue
         });
 
@@ -65,12 +66,20 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             emptyValue
         });
 
+        console.log([
+            !attr,
+            attr.status === "unavailable",
+            !ds,
+            ds.status === "unavailable",
+            !emptyOption,
+            emptyOption?.status === "unavailable"
+        ]);
+
         if (
             !attr ||
             attr.status === "unavailable" ||
             !ds ||
             ds.status === "unavailable" ||
-            !captionProvider ||
             !emptyOption ||
             emptyOption.status === "unavailable"
         ) {

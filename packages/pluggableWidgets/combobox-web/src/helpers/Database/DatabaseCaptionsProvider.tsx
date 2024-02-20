@@ -6,9 +6,10 @@ import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
-    formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
+    formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string> | undefined;
     customContent?: ListWidgetValue | undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    attribute: ListAttributeValue<string | Big>;
     caption?: string;
 }
 
@@ -17,6 +18,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
     private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    attribute?: ListAttributeValue<string | Big>;
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
 
@@ -32,6 +34,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         this.formatter = props.formattingAttributeOrExpression;
         this.customContent = props.customContent;
         this.customContentType = props.customContentType;
+        this.attribute = props.attribute;
         this.overrideCaption = props.caption;
     }
 
@@ -42,19 +45,22 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
             }
             return this.emptyCaption;
         }
-        if (!this.formatter) {
-            throw new Error("AssociationSimpleCaptionRenderer: no formatter available.");
+        if (!this.formatter && this.attribute) {
+            const item = this.optionsMap.get(id);
+            if (item) {
+                return this.attribute.get(item).displayValue;
+            }
         }
         const item = this.optionsMap.get(id);
         if (!item) {
             return this.unavailableCaption;
         }
-        const captionValue = this.formatter.get(item);
-        if (captionValue.status === "unavailable") {
+        const captionValue = this.formatter?.get(item);
+        if (captionValue?.status === "unavailable") {
             return this.unavailableCaption;
         }
 
-        return captionValue.value ?? "";
+        return captionValue?.value ?? "";
     }
 
     getCustomContent(value: string | null): ReactNode | null {
