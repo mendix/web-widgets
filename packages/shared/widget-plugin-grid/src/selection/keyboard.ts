@@ -110,3 +110,58 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
 
     return [onArrowUp, onArrowDown, onPageUp, onPageDown, onHome, onEnd];
 };
+
+export const onSelectCategoryAdjacentHotKey = (
+    selectAdjacentFx: SelectAdjacentFx,
+    numberOfColumns: number
+): NavKeyEntry[] => {
+    const onArrowUp: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "backward", numberOfColumns)
+    };
+
+    const onArrowDown: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "forward", numberOfColumns)
+    };
+
+    const onArrowLeft: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "ArrowLeft" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "backward", 1)
+    };
+
+    const onArrowRight: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "ArrowRight" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "forward", 1)
+    };
+
+    const onPageUp: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "PageUp" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "pageup", numberOfColumns)
+    };
+
+    const onPageDown: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "PageDown" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "pagedown", numberOfColumns)
+    };
+
+    const onHome: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "Home" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "home", numberOfColumns)
+    };
+
+    const onEnd: NavKeyEntry = {
+        eventName: "onKeyDown",
+        filter: (ctx, event) => event.code === "End" && ctx.selectionType === "Multi",
+        handler: ({ item }, event) => selectAdjacentFx(item, event.shiftKey, "end", numberOfColumns)
+    };
+
+    return [onArrowUp, onArrowDown, onArrowLeft, onArrowRight, onPageUp, onPageDown, onHome, onEnd];
+};
