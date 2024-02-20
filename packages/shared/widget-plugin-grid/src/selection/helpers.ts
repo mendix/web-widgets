@@ -194,9 +194,29 @@ export class MultiSelectionHelper {
             return isForward ? last : first;
         }
 
+        if (direction !== "backward" && direction !== "forward") {
+            const { columnIndex } = getPosition(unit, this.selectableItems.length, index);
+
+            if (direction === "pageup") {
+                return columnIndex;
+            }
+
+            if (direction === "pagedown") {
+                return this.selectableItems.length - (unit - columnIndex);
+            }
+
+            if (direction === "home") {
+                return index - columnIndex;
+            }
+
+            if (direction === "end") {
+                return index + (unit - (columnIndex + 1));
+            }
+        }
+
         const result = isForward ? index + unit : index - unit;
 
-        return clamp(result, 0, last);
+        return clamp(result, first, last);
     }
 
     selectUpToAdjacent(value: ObjectItem, shiftKey: boolean, direction: Direction, unit: Size): void {
@@ -276,4 +296,23 @@ function objectListEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
 
     const setB = new Set(b.map(obj => obj.id));
     return a.every(obj => setB.has(obj.id));
+}
+
+export type Positions = {
+    columnIndex: number;
+    rowIndex: number;
+};
+
+function getRowIndex(index: number, numberOfColumns: number): number {
+    return Math.floor(index / numberOfColumns);
+}
+
+export function getPosition(numberOfColumns: number, totalItems: number, index: number): Positions {
+    if (index < 0 || index >= totalItems) {
+        return { columnIndex: -1, rowIndex: -1 };
+    }
+
+    const columnIndex = index % numberOfColumns;
+    const rowIndex = getRowIndex(index, numberOfColumns);
+    return { columnIndex, rowIndex };
 }
