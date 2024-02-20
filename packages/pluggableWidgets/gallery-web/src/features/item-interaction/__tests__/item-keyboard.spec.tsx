@@ -28,7 +28,7 @@ describe("gallery item", () => {
                     item,
                     selectionType: "Single"
                 }),
-                [...createItemHandlers(onSelect, jest.fn(), jest.fn())]
+                [...createItemHandlers(onSelect, jest.fn(), jest.fn(), 1)]
             );
 
             const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
@@ -62,7 +62,7 @@ describe("gallery item", () => {
                         item,
                         selectionType: selectionType as SelectionType
                     }),
-                    [...createItemHandlers(jest.fn(), onSelectAll, jest.fn())]
+                    [...createItemHandlers(jest.fn(), onSelectAll, jest.fn(), 1)]
                 );
 
                 const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);

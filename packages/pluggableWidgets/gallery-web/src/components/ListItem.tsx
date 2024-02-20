@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { createElement, memo, ReactElement, useMemo, RefObject } from "react";
+import { createElement, ReactElement, useMemo, RefObject } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
 import { Positions } from "../features/useGridPositions";
@@ -17,8 +17,7 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     eventsController: ItemEventsController;
 };
 
-// eslint-disable-next-line prefer-arrow-callback
-const component = memo(function ListItem(props: ListItemProps): ReactElement {
+export function ListItem(props: ListItemProps): ReactElement {
     const { eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } = props;
     const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
     const ariaProps = getAriaProps(item, selectHelper);
@@ -50,6 +49,4 @@ const component = memo(function ListItem(props: ListItemProps): ReactElement {
             {helper.render(item)}
         </div>
     );
-});
-
-export const ListItem = component as (props: ListItemProps) => ReactElement;
+}
