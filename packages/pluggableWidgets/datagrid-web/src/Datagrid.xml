@@ -201,6 +201,7 @@
                     <enumerationValues>
                         <enumerationValue key="buttons">Paging buttons</enumerationValue>
                         <enumerationValue key="virtualScrolling">Virtual scrolling</enumerationValue>
+                        <enumerationValue key="LoadMore">Load More</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="pagingPosition" type="enumeration" defaultValue="bottom">
