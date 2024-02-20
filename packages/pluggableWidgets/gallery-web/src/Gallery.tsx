@@ -132,7 +132,12 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         pageSize: props.pageSize
     });
     const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
-    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
+    const itemEventsController = useItemEventsController(
+        selectHelper,
+        clickActionHelper,
+        focusController,
+        numberOfColumns
+    );
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 

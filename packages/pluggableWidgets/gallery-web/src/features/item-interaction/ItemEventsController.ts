@@ -19,12 +19,13 @@ export class ItemEventsController implements ItemEventsController {
         private selectAllFx: SelectAllFx,
         private executeActionFx: ExecuteActionFx,
         private focusTargetFx: FocusTargetFx,
-        private selectAdjacentFx: SelectAdjacentFx
+        private selectAdjacentFx: SelectAdjacentFx,
+        private numberOfColumns: number
     ) {}
 
     getProps = (item: ObjectItem): ElementProps<HTMLDivElement> => {
         const entries = [
-            ...createItemHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx),
+            ...createItemHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx, this.numberOfColumns),
             ...createFocusTargetHandlers(this.focusTargetFx),
             ...createActionHandlers(this.executeActionFx)
         ];
@@ -35,7 +36,8 @@ export class ItemEventsController implements ItemEventsController {
 export function useItemEventsController(
     selectHelper: SelectActionHelper,
     clickHelper: ClickActionHelper,
-    focusController: FocusTargetController
+    focusController: FocusTargetController,
+    numberOfColumns: number
 ): ItemEventsController {
     return useMemo(
         () =>
@@ -45,8 +47,9 @@ export function useItemEventsController(
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,
                 focusController.dispatch,
-                selectHelper.onSelectAdjacent
+                selectHelper.onSelectAdjacent,
+                numberOfColumns
             ),
-        [selectHelper, focusController]
+        [selectHelper, focusController, numberOfColumns]
     );
 }

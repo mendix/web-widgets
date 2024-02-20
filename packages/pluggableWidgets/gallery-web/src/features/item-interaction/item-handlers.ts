@@ -4,7 +4,7 @@ import {
     SelectAdjacentFx,
     SelectAllFx,
     SelectFx,
-    onSelectAdjacentHotKey,
+    onSelectCategoryAdjacentHotKey,
     onSelectAllHotKey
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
@@ -29,7 +29,8 @@ const onMouseDown = (
 export function createItemHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
-    selectAdjacentFx: SelectAdjacentFx
+    selectAdjacentFx: SelectAdjacentFx,
+    numberOfColumns: number
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
     return [
         onMouseDown(removeAllRanges),
@@ -43,6 +44,6 @@ export function createItemHandlers(
                 unblockUserSelect();
             }
         ),
-        onSelectAdjacentHotKey(selectAdjacentFx)
+        onSelectCategoryAdjacentHotKey(selectAdjacentFx, numberOfColumns)
     ].flat();
 }
