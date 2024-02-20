@@ -1,55 +1,52 @@
-import { createElement, ReactElement, useRef, memo } from "react";
-import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
-import { FilterType } from "../../typings/FilterType";
-import classNames from "classnames";
-import { FilterInputProps, FilterComponentProps } from "../components/typings";
-import { useFilter } from "../helpers/useFilter";
+import {
+    BaseProps,
+    BigHelper,
+    FilterList,
+    InputWithFilters,
+    useInputProps
+} from "@mendix/widget-plugin-filtering/controls";
+import { createElement } from "react";
+import { DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 
-const selectorOptions = [
-    { value: "greater", label: "Greater than" },
-    { value: "greaterEqual", label: "Greater than or equal" },
-    { value: "equal", label: "Equal" },
-    { value: "notEqual", label: "Not equal" },
-    { value: "smaller", label: "Smaller than" },
-    { value: "smallerEqual", label: "Smaller than or equal" },
-    { value: "empty", label: "Empty" },
-    { value: "notEmpty", label: "Not empty" }
-] as Array<{ value: FilterType; label: string }>;
+const filterDefs: Record<DefaultFilterEnum, string> = {
+    greater: "Greater than",
+    greaterEqual: "Greater than or equal",
+    equal: "Equal",
+    notEqual: "Not equal",
+    smaller: "Smaller than",
+    smallerEqual: "Smaller than or equal",
+    empty: "Empty",
+    notEmpty: "Not empty"
+};
 
-function FilterInput(props: FilterInputProps): ReactElement {
-    const { current: defaultFilterType } = useRef(props.defaultFilterType);
+const filters: FilterList<DefaultFilterEnum> = Object.entries(filterDefs).map(
+    ([value, label]: [DefaultFilterEnum, string]) => ({
+        value,
+        label
+    })
+);
 
-    return (
-        <div
-            className={classNames("filter-container", props.className)}
-            data-focusindex={props.tabIndex ?? 0}
-            style={props.styles}
-        >
-            {props.adjustable && (
-                <FilterSelector
-                    ariaLabel={props.screenReaderButtonCaption}
-                    id={props.id}
-                    defaultFilter={defaultFilterType}
-                    onChange={props.onFilterTypeClick}
-                    options={selectorOptions}
-                />
-            )}
-            <input
-                aria-label={props.screenReaderInputCaption}
-                className={classNames("form-control", { "filter-input": props.adjustable })}
-                disabled={props.inputDisabled}
-                onChange={props.onInputChange}
-                placeholder={props.placeholder}
-                ref={props.inputRef}
-                type="number"
-                value={props.inputValue}
-            />
-        </div>
-    );
+export interface FilterComponentProps extends BaseProps {
+    defaultFilter: DefaultFilterEnum;
+    value: Big | undefined;
+    onChange: (value: Big | undefined, type: DefaultFilterEnum) => void;
+    datagridChannelName: string;
+    changeDelay?: number;
 }
 
-const PureFilterInput = memo(FilterInput);
-
-export function FilterComponent(props: FilterComponentProps): ReactElement {
-    return <PureFilterInput {...useFilter(props)} />;
+export function FilterComponent(props: FilterComponentProps): React.ReactElement {
+    const { defaultFilter, value, onChange, datagridChannelName, changeDelay, ...baseProps } = props;
+    const inputProps = useInputProps({
+        name: baseProps.name,
+        parentChannelName: datagridChannelName,
+        inputType: "number",
+        inputDisabled: filter => filter === "empty" || filter === "notEmpty",
+        changeDelay,
+        defaultFilter,
+        filters,
+        value,
+        onChange,
+        valueHelper: BigHelper
+    });
+    return <InputWithFilters {...baseProps} {...inputProps} />;
 }

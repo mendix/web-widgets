@@ -6,15 +6,18 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 export function preview(props: DatagridNumberFilterPreviewProps): ReactElement {
     return (
         <FilterComponent
-            name="NumberFilter"
             adjustable={props.adjustable}
+            changeDelay={props.delay ?? 500}
             className={props.className}
-            defaultFilterType={props.defaultFilter}
-            inputChangeDelay={props.delay ?? 500}
+            datagridChannelName=""
+            defaultFilter={props.defaultFilter}
+            name="NumberFilter"
+            onChange={() => {}}
             placeholder={props.placeholder}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
+            value={undefined}
         />
     );
 }

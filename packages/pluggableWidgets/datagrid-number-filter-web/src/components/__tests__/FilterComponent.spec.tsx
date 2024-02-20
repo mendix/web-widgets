@@ -1,10 +1,9 @@
 import "@testing-library/jest-dom";
-import { createElement } from "react";
-import userEvent, { UserEvent } from "@testing-library/user-event";
 import { render, RenderResult } from "@testing-library/react";
-import { FilterComponent } from "../FilterComponent";
-import { FilterComponentProps } from "../typings";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import Big from "big.js";
+import { createElement } from "react";
+import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 
 jest.useFakeTimers();
 
@@ -17,19 +16,25 @@ function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     };
 }
 
+const commonProps: FilterComponentProps = {
+    adjustable: true,
+    defaultFilter: "equal",
+    changeDelay: 500,
+    name: "Name",
+    value: undefined,
+    onChange: () => {},
+    datagridChannelName: ""
+};
+
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(
-            <FilterComponent adjustable defaultFilterType="equal" inputChangeDelay={500} name="Name" />
-        );
+        const component = render(<FilterComponent {...commonProps} />);
 
         expect(component.container.firstChild).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(
-            <FilterComponent adjustable={false} defaultFilterType="equal" inputChangeDelay={500} name="Name" />
-        );
+        const component = render(<FilterComponent {...commonProps} adjustable={false} />);
 
         expect(component.container.firstChild).toMatchSnapshot();
     });
@@ -37,12 +42,9 @@ describe("Filter component", () => {
     it("renders correctly with aria labels", () => {
         const component = render(
             <FilterComponent
-                adjustable
-                defaultFilterType="equal"
-                inputChangeDelay={500}
+                {...commonProps}
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
-                name="Name"
             />
         );
 
@@ -50,112 +52,79 @@ describe("Filter component", () => {
     });
 
     it("calls updateFilters when input value changes", async () => {
-        const updateFiltersHandler: jest.Mock<FilterComponentProps["updateFilters"]> = jest.fn();
-        const { user, getByRole } = setup(
-            <FilterComponent
-                defaultFilterType="equal"
-                adjustable
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-                name="Name"
-            />
-        );
+        const onChange: jest.Mock<FilterComponentProps["onChange"]> = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
 
         const input = getByRole("spinbutton");
         await user.type(input, "42");
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(1);
-        const [value] = updateFiltersHandler.mock.lastCall;
+        expect(onChange).toHaveBeenCalledTimes(1);
+        const [value] = onChange.mock.lastCall;
         expect(value).toBeInstanceOf(Big);
         expect(value.toNumber()).toEqual(42);
     });
 
     it("debounces calls for updateFilters when value changes with integer", async () => {
-        const updateFiltersHandler = jest.fn();
-        const { user, getByRole } = setup(
-            <FilterComponent
-                defaultFilterType="equal"
-                adjustable
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-                name="Name"
-            />
-        );
+        const onChange: jest.Mock<FilterComponentProps["onChange"]> = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
 
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         const input = getByRole("spinbutton");
         await user.type(input, "42");
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         await user.clear(input);
         await user.type(input, "32");
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         await user.clear(input);
         await user.type(input, "22");
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(1);
-        const [value] = updateFiltersHandler.mock.lastCall;
+        expect(onChange).toHaveBeenCalledTimes(1);
+        const [value] = onChange.mock.lastCall;
         expect(value).toBeInstanceOf(Big);
         expect(value.toNumber()).toEqual(22);
     });
 
     it("debounces calls for updateFilters when value changes with decimals", async () => {
-        const updateFiltersHandler = jest.fn();
-        const { user, getByRole } = setup(
-            <FilterComponent
-                defaultFilterType="equal"
-                adjustable
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-                name="Name"
-            />
-        );
-
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        const onChange: jest.Mock<FilterComponentProps["onChange"]> = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         const input = getByRole("spinbutton");
         await user.type(input, "2.200102");
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         await user.clear(input);
         await user.type(input, "3.294234");
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         await user.clear(input);
         await user.type(input, "5.000001");
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(1);
-        const [value] = updateFiltersHandler.mock.lastCall;
+        expect(onChange).toHaveBeenCalledTimes(1);
+        const [value] = onChange.mock.lastCall;
         expect(value).toBeInstanceOf(Big);
         expect(value.toNumber()).toEqual(5.000001);
     });
 
     it("debounces calls for updateFilters when value is cleared", async () => {
-        const updateFiltersHandler = jest.fn();
-        const { user, getByRole } = setup(
-            <FilterComponent
-                defaultFilterType="equal"
-                adjustable
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-                name="Name"
-            />
-        );
+        const onChange: jest.Mock<FilterComponentProps["onChange"]> = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
 
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         const input = getByRole("spinbutton");
         await user.type(input, "42");
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         let value;
-        [value] = updateFiltersHandler.mock.lastCall;
+        [value] = onChange.mock.lastCall;
         expect(input).toHaveValue(42);
         expect(value).toBeInstanceOf(Big);
         expect(value.toNumber()).toEqual(42);
@@ -163,10 +132,10 @@ describe("Filter component", () => {
         await user.clear(input);
 
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
 
         jest.advanceTimersByTime(1);
-        [value] = updateFiltersHandler.mock.lastCall;
+        [value] = onChange.mock.lastCall;
         expect(input).toHaveValue(null);
         expect(value).toBe(undefined);
     });

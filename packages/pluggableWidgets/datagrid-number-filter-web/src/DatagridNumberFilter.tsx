@@ -84,19 +84,19 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                 return (
                     <FilterComponent
                         name={props.name}
-                        datagridChannelName={filterContextValue.eventsChannelName}
+                        datagridChannelName={filterContextValue.eventsChannelName ?? ""}
                         adjustable={props.adjustable}
                         className={props.class}
-                        defaultFilterType={filterState?.type ?? props.defaultFilter}
+                        defaultFilter={filterState?.type ?? props.defaultFilter}
                         value={filterState?.value ?? defaultValue}
-                        inputChangeDelay={props.delay}
+                        changeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
                         screenReaderInputCaption={props.screenReaderInputCaption?.value}
                         styles={props.style}
                         tabIndex={props.tabIndex}
-                        updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
+                        onChange={(value: Big | undefined, type: DefaultFilterEnum): void => {
                             props.valueAttribute?.setValue(value);
                             props.onChange?.execute();
                             const conditions = attributes
