@@ -14,6 +14,8 @@ export function preview(props: DatagridDateFilterPreviewProps): ReactElement {
             screenReaderCalendarCaption={props.screenReaderCalendarCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
+            name="DateFilter"
+            datagridChannelName=""
         />
     );
 }
