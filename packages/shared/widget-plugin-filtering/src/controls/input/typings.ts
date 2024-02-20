@@ -44,7 +44,7 @@ export interface InputHookProps<TValue, TFilterEnum> {
     onChange: (value: Optional<TValue>, filter: TFilterEnum) => void;
     valueHelper: ValueHelper<TValue>;
     changeDelay?: number;
-    parentChannelName: string;
+    parentChannelName: string | null;
     name: string;
     inputDisabled?: (filter: TFilterEnum) => boolean;
     inputType: "text" | "number";

@@ -97,7 +97,7 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                         screenReaderInputCaption={props.screenReaderInputCaption?.value}
                         styles={props.style}
                         tabIndex={props.tabIndex}
-                        datagridChannelName={filterContextValue.eventsChannelName ?? ""}
+                        datagridChannelName={filterContextValue.eventsChannelName ?? null}
                         name={props.name}
                         onChange={(value: string, type: DefaultFilterEnum): void => {
                             props.valueAttribute?.setValue(value);
