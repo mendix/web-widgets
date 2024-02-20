@@ -6,13 +6,13 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 
 import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
-
+import { deletePlugin, requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
 const commonProps = {
     class: "filter-custom-class",
     tabIndex: 0,
@@ -200,6 +200,65 @@ describe("Number Filter", () => {
         afterAll(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
+        });
+    });
+
+    describe("events", () => {
+        let dispatch: jest.Mock;
+        let parentChannelName: string;
+        let ctx: FilterContextValue;
+        beforeEach(() => {
+            dispatch = jest.fn();
+            parentChannelName = Math.random().toString(36).slice(-10);
+            ctx = {
+                filterDispatcher: dispatch,
+                eventsChannelName: parentChannelName,
+                singleAttribute: new ListAttributeValueBuilder().withType("Long").withFilterable(true).build()
+            };
+            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext(ctx);
+            deletePlugin();
+        });
+
+        it("resets value on external event", async () => {
+            const plugin = requirePlugin();
+
+            expect(dispatch).toHaveBeenCalledTimes(0);
+
+            render(
+                <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} name="widget_x" />
+            );
+
+            const input = screen.getByRole("spinbutton");
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(input).toHaveValue(100);
+
+            act(() => plugin.emit("widget_x", "reset.value"));
+
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            const [{ getFilterCondition }] = dispatch.mock.lastCall;
+            expect(input).toHaveValue(null);
+            expect(getFilterCondition()).toEqual(undefined);
+        });
+
+        it("resets value on parent event", async () => {
+            const plugin = requirePlugin();
+
+            expect(dispatch).toHaveBeenCalledTimes(0);
+
+            render(
+                <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} name="widget_x" />
+            );
+
+            const input = screen.getByRole("spinbutton");
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(input).toHaveValue(100);
+
+            act(() => plugin.emit(parentChannelName, "reset.value"));
+
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            const [{ getFilterCondition }] = dispatch.mock.lastCall;
+            expect(input).toHaveValue(null);
+            expect(getFilterCondition()).toEqual(undefined);
         });
     });
 });
