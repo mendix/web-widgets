@@ -14,6 +14,8 @@ export interface AppEventsContainerProps {
     tabIndex?: number;
     onComponentLoad?: ActionValue;
     componentLoadDelay: number;
+    componentLoadRepeat: boolean;
+    componentLoadRepeatInterval: number;
     attributeEvent?: EditableValue<Big | any | boolean | Date | string>;
     onAttributeEventChange?: ActionValue;
     onAttributeEventChangeDelay: number;
@@ -30,6 +32,8 @@ export interface AppEventsPreviewProps {
     readOnly: boolean;
     onComponentLoad: {} | null;
     componentLoadDelay: number | null;
+    componentLoadRepeat: boolean;
+    componentLoadRepeatInterval: number | null;
     attributeEvent: string;
     onAttributeEventChange: {} | null;
     onAttributeEventChangeDelay: number | null;

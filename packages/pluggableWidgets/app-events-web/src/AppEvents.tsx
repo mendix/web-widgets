@@ -1,36 +1,47 @@
-import { createElement, ReactElement, useEffect, useRef } from "react";
 import classnames from "classnames";
+import { EditableValue } from "mendix";
+import { ReactElement, createElement, useRef } from "react";
 import { AppEventsContainerProps } from "../typings/AppEventsProps";
-import { ActionValue, EditableValue } from "mendix";
+import { useActionTimer } from "./hooks/timer";
 import "./ui/AppEvents.scss";
-
-const executeAction = (action: ActionValue | undefined, delay: number): void => {
-    if (action !== undefined) {
-        setTimeout(action.execute, delay * 1000);
-    }
-};
 
 export default function Appevents(props: AppEventsContainerProps): ReactElement {
     const {
         class: className,
         onComponentLoad,
         componentLoadDelay,
+        componentLoadRepeat,
+        componentLoadRepeatInterval,
         attributeEvent,
         onAttributeEventChange,
         onAttributeEventChangeDelay
     } = props;
     const prevAttributeValue = useRef<EditableValue<any> | undefined>(attributeEvent);
-    useEffect(() => {
-        executeAction(onComponentLoad, componentLoadDelay);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    useActionTimer({
+        canExecute: onComponentLoad?.canExecute,
+        execute: onComponentLoad?.execute,
+        delay: componentLoadDelay,
+        interval: componentLoadRepeatInterval,
+        repeat: componentLoadRepeat
+    });
 
-    useEffect(() => {
-        if (attributeEvent !== prevAttributeValue.current) {
-            prevAttributeValue.current = attributeEvent;
-            executeAction(onAttributeEventChange, onAttributeEventChangeDelay);
-        }
-    }, [attributeEvent]);
-
+    useActionTimer({
+        canExecute: onAttributeEventChange?.canExecute,
+        execute: () => {
+            if (prevAttributeValue?.current?.value === undefined) {
+                // ignore initial load
+                prevAttributeValue.current = attributeEvent;
+            } else {
+                if (attributeEvent?.value !== prevAttributeValue.current?.value) {
+                    prevAttributeValue.current = attributeEvent;
+                    onAttributeEventChange?.execute();
+                }
+            }
+        },
+        delay: onAttributeEventChangeDelay,
+        interval: 0,
+        repeat: false,
+        attribute: attributeEvent
+    });
     return <div className={classnames("widget-appevents", className)}></div>;
 }
