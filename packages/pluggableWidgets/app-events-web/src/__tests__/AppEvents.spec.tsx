@@ -14,7 +14,9 @@ describe("App events (load)", () => {
             class: "app-events",
             onComponentLoad: actionValue(),
             componentLoadDelay: 0,
-            onAttributeEventChangeDelay: 0
+            onAttributeEventChangeDelay: 0,
+            componentLoadRepeat: false,
+            componentLoadRepeatInterval: 0
         };
     });
     it("render app events", async () => {
