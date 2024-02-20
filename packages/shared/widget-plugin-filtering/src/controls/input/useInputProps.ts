@@ -25,7 +25,7 @@ export function useInputProps<TValue, TFilterEnum>(
 
     useFilterResetEvent({
         widgetName: props.name,
-        parentChannelName: props.parentChannelName,
+        parentChannelName: props.parentChannelName ?? undefined,
         listener: reset
     });
 

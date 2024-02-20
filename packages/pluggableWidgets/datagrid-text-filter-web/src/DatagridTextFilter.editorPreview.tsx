@@ -8,13 +8,15 @@ export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
         <FilterComponent
             adjustable={props.adjustable}
             className={props.className}
-            initialFilterType={props.defaultFilter}
-            inputChangeDelay={props.delay ?? 500}
+            defaultFilter={props.defaultFilter}
+            changeDelay={props.delay ?? 500}
             placeholder={props.placeholder}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
-            initialFilterValue={props.defaultValue}
+            value={props.defaultValue}
+            onChange={() => {}}
+            datagridChannelName=""
             name="TextFilter"
         />
     );

@@ -33,7 +33,7 @@ export interface FilterComponentProps extends BaseProps {
     defaultFilter: DefaultFilterEnum;
     value: string | undefined;
     onChange: (value: string | undefined, type: DefaultFilterEnum) => void;
-    datagridChannelName: string;
+    datagridChannelName: string | null;
     changeDelay?: number;
 }
 
