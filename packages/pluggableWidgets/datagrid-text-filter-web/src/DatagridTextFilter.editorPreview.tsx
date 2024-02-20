@@ -15,6 +15,7 @@ export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
             initialFilterValue={props.defaultValue}
+            name="TextFilter"
         />
     );
 }

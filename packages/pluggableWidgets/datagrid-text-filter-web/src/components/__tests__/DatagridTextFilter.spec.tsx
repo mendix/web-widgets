@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterContextValue } from "@mendix/widget-plugin-filtering";
 import {
     actionValue,
@@ -9,7 +8,6 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
 
@@ -99,6 +97,9 @@ describe("Text Filter", () => {
                 await user.type(screen.getByRole("textbox"), "B");
 
                 jest.runOnlyPendingTimers();
+
+                expect(attribute.setValue).toHaveBeenCalled();
+                expect(action.execute).toHaveBeenCalled();
             });
 
             afterAll(() => {
@@ -145,11 +146,9 @@ describe("Text Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridTextFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridTextFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The attribute type being used for Text filter is not 'Hashed string or String'"
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
 
             afterAll(() => {
@@ -177,11 +176,9 @@ describe("Text Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridTextFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridTextFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    'The Text filter widget can\'t be used with the filters options you have selected. It requires a "Hashed string or String" attribute to be selected.'
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
 
             afterAll(() => {
@@ -195,11 +192,9 @@ describe("Text Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridTextFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridTextFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
-                    "The Text filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
-                );
+                expect(asFragment()).toMatchSnapshot();
             });
         });
     });
