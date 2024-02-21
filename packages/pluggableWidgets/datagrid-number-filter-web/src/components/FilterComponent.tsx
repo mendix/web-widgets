@@ -30,15 +30,15 @@ export interface FilterComponentProps extends BaseProps {
     defaultFilter: DefaultFilterEnum;
     value: Big | undefined;
     onChange: (value: Big | undefined, type: DefaultFilterEnum) => void;
-    datagridChannelName: string | null;
+    parentChannelName: string | null;
     changeDelay?: number;
 }
 
 export function FilterComponent(props: FilterComponentProps): React.ReactElement {
-    const { defaultFilter, value, onChange, datagridChannelName, changeDelay, ...baseProps } = props;
+    const { defaultFilter, value, onChange, parentChannelName, changeDelay, ...baseProps } = props;
     const inputProps = useInputProps({
         name: baseProps.name,
-        parentChannelName: datagridChannelName,
+        parentChannelName,
         inputType: "number",
         inputDisabled: filter => filter === "empty" || filter === "notEmpty",
         changeDelay,

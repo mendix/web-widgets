@@ -16,7 +16,7 @@ export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
             styles={parseStyle(props.style)}
             value={props.defaultValue}
             onChange={() => {}}
-            datagridChannelName=""
+            parentChannelName={null}
             name="TextFilter"
         />
     );

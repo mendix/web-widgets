@@ -9,7 +9,7 @@ export function preview(props: DatagridNumberFilterPreviewProps): ReactElement {
             adjustable={props.adjustable}
             changeDelay={props.delay ?? 500}
             className={props.className}
-            datagridChannelName=""
+            parentChannelName={null}
             defaultFilter={props.defaultFilter}
             name="NumberFilter"
             onChange={() => {}}
