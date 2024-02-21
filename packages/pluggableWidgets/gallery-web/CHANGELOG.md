@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   A new hook that subscribes the widget to external events.
+
 ## [1.5.0] - 2024-03-06
 
 ### Added
