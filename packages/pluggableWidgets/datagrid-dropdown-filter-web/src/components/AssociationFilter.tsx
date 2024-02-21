@@ -41,8 +41,9 @@ interface DropdownProps {
     dispatch: DispatchFilterUpdate;
     widgetProps: DatagridDropdownFilterContainerProps;
     associationProps: AssociationProperties;
+    eventsChannelName: string | null;
 }
-function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): ReactElement {
+function Dropdown({ dispatch, widgetProps, associationProps, eventsChannelName }: DropdownProps): ReactElement {
     const { association, optionsSource, getOptionLabel } = associationProps;
 
     const id = useDropdownId();
@@ -63,6 +64,8 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
 
     return (
         <FilterComponent
+            name={widgetProps.name}
+            parentChannelName={eventsChannelName}
             id={id}
             updateFilters={onChange}
             options={options}
@@ -92,6 +95,7 @@ export function AssociationFilter({ context, widgetProps }: FilterProps): ReactE
             widgetProps={widgetProps}
             associationProps={associationProps.value}
             dispatch={context.filterDispatcher}
+            eventsChannelName={context.eventsChannelName ?? null}
         />
     );
 }

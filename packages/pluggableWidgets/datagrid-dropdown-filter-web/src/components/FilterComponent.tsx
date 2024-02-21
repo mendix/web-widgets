@@ -4,6 +4,7 @@ import { useSelectState } from "../features/select";
 import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
 import { Option } from "../utils/types";
 import { SelectComponent } from "./SelectComponent";
+import { useFilterResetEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 export interface FilterComponentProps {
     ariaLabel?: string;
@@ -20,12 +21,17 @@ export interface FilterComponentProps {
     updateFilters?: (values: Option[]) => void;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
+    name: string;
+    parentChannelName: string | null;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
     const multiSelect = !!props.multiSelect;
     const options = finalizeOptions(props.options, { multiSelect, emptyOptionCaption: props.emptyOptionCaption });
-    const [state, { toggle, setSelected }] = useSelectState(options, parseInitValues(props.initialSelected ?? ""));
+    const [state, { toggle, setSelected, reset }] = useSelectState(
+        options,
+        parseInitValues(props.initialSelected ?? "")
+    );
 
     const onSelect = useCallback((value: string) => {
         if (multiSelect) {
@@ -44,6 +50,12 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         },
         [state.selected]
     );
+
+    useFilterResetEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName ?? undefined,
+        listener: reset
+    });
 
     return (
         <SelectComponent
