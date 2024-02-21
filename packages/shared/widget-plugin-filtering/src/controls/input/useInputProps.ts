@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useFilterResetEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useCallback, useRef, useEffect } from "react";
 import { useValueFilterState } from "./useValueFilterState";
 import { InputHookProps, InputProps } from "./typings";
@@ -23,7 +23,7 @@ export function useInputProps<TValue, TFilterEnum>(
         dangerous_setValueAndDoNotDispatch(props.value);
     }, [props.value]);
 
-    useFilterResetEvent({
+    useOnResetValueEvent({
         widgetName: props.name,
         parentChannelName: props.parentChannelName ?? undefined,
         listener: reset
