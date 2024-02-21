@@ -229,6 +229,8 @@ export function getFilterProps(
     const onChange = getOnChange(context.filterDispatcher, attributes.value, widgetProps);
 
     return value({
+        name: widgetProps.name,
+        parentChannelName: context.eventsChannelName ?? null,
         updateFilters: onChange,
         options: options.value,
         initialSelected: defaultValue,
