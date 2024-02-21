@@ -21,8 +21,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceDatabaseCustomContent",
             "optionsSourceDatabaseCustomContentType",
             "optionsSourceDatabaseDataSource",
-            "optionsSourceDatabaseValueAttribute",
-            "optionsSourceDatabaseEmptyValue"
+            "optionsSourceDatabaseDefaultValue",
+            "optionsSourceDatabaseValueAttribute"
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
             hidePropertiesIn(defaultProperties, values, [

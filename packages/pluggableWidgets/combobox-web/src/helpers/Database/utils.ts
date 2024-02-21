@@ -12,6 +12,7 @@ import {
     FilterTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
+import Big from "big.js";
 
 type ExtractionReturnValue = [
     EditableValue<string | Big>,
@@ -44,11 +45,18 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
     const captionExpression = props.optionsSourceDatabaseCaptionExpression;
     const emptyOption = props.emptyOptionText;
-    const emptyValue = props.optionsSourceDatabaseEmptyValue;
+    const emptyValue = props.optionsSourceDatabaseDefaultValue;
     const clearable = props.clearable;
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
     const valueAttribute = props.optionsSourceDatabaseValueAttribute;
+
+    if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
+        throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
+    }
+    if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
+        throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+    }
 
     if (!valueAttribute) {
         throw new Error("'valueExpression' is not defined");

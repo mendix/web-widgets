@@ -52,7 +52,7 @@ describe("Combo box (Association)", () => {
             source: "context",
             attributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
-            optionsSourceDatabaseEmptyValue: dynamicValue("empty value"),
+            optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
             optionsSourceDatabaseCustomContentType: "yes"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {

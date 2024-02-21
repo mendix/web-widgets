@@ -37,7 +37,7 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseDataSource?: ListValue;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
-    optionsSourceDatabaseEmptyValue: DynamicValue<string | Big>;
+    optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
@@ -80,7 +80,7 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceDatabaseValueAttribute: string;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
-    optionsSourceDatabaseEmptyValue: string;
+    optionsSourceDatabaseDefaultValue: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;

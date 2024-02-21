@@ -44,17 +44,25 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
         optionsSourceAssociationDataSource,
         attributeEnumeration,
         attributeBoolean,
-        emptyOptionText
+        attributeString,
+        emptyOptionText,
+        source,
+        optionsSourceDatabaseDataSource
     } = args;
     const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
-    switch (optionsSourceType) {
-        case "association":
-            return (optionsSourceAssociationDataSource as { caption?: string })?.caption || emptyStringFormat;
-        case "enumeration":
-            return `[${optionsSourceType}, ${attributeEnumeration}]`;
-        case "boolean":
-            return `[${optionsSourceType}, ${attributeBoolean}]`;
-        default:
-            return emptyStringFormat;
+    if (source === "context") {
+        switch (optionsSourceType) {
+            case "association":
+                return (optionsSourceAssociationDataSource as { caption?: string })?.caption || emptyStringFormat;
+            case "enumeration":
+                return `[${optionsSourceType}, ${attributeEnumeration}]`;
+            case "boolean":
+                return `[${optionsSourceType}, ${attributeBoolean}]`;
+            default:
+                return emptyStringFormat;
+        }
+    } else if (source === "database" && optionsSourceDatabaseDataSource) {
+        return (optionsSourceDatabaseDataSource as { caption?: string })?.caption || `${source}, ${attributeString}`;
     }
+    return emptyStringFormat;
 }
