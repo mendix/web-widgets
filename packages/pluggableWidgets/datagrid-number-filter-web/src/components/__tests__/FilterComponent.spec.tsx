@@ -23,7 +23,7 @@ const commonProps: FilterComponentProps = {
     name: "Name",
     value: undefined,
     onChange: () => {},
-    datagridChannelName: ""
+    parentChannelName: null
 };
 
 describe("Filter component", () => {

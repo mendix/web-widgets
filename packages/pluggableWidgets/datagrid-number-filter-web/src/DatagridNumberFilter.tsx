@@ -84,7 +84,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                 return (
                     <FilterComponent
                         name={props.name}
-                        datagridChannelName={filterContextValue.eventsChannelName ?? null}
+                        parentChannelName={filterContextValue.eventsChannelName ?? null}
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={parentFilter?.type ?? props.defaultFilter}

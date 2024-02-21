@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 
 const commonProps: FilterComponentProps = {
     name: "DateFilter",
-    datagridChannelName: null,
+    parentChannelName: null,
     adjustable: true,
     defaultFilter: "equal"
 };

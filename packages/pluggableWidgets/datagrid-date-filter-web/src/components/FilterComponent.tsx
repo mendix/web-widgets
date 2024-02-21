@@ -27,7 +27,7 @@ export interface FilterComponentProps {
     styles?: CSSProperties;
     updateFilters?: (value: Date | undefined, rangeValues: RangeDateValue, type: DefaultFilterEnum) => void;
     name: string;
-    datagridChannelName: string | null;
+    parentChannelName: string | null;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
@@ -42,7 +42,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
 
     useOnResetValueEvent({
         widgetName: props.name,
-        parentChannelName: props.datagridChannelName ?? undefined,
+        parentChannelName: props.parentChannelName ?? undefined,
         listener: reset
     });
 

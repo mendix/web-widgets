@@ -227,6 +227,10 @@ export class MultiSelectionHelper {
             this._resetRange();
             return;
         }
+        if (this.rangeStart === undefined) {
+            this.reduceTo(value);
+            return;
+        }
 
         const currentIndex = this.selectableItems.findIndex(item => item.id === value.id);
         let adjacentIndex: number = -1;
