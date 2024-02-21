@@ -141,6 +141,7 @@ export function copyActionsFiles(files: string[]): (params: ModuleStepParams) =>
             const dest = join(output.dirs.javascriptsource, "actions", file);
             const content = await readFile(src, { encoding: "utf-8" });
             // Studio Pro require CRLF endings to read action file.
+            console.log(">", dest);
             await writeFile(dest, content.replace(/\r\n|\r|\n/g, "\r\n"));
         }
     };
