@@ -6,7 +6,7 @@ import classNames from "classnames";
 import DatePickerComponent from "react-datepicker";
 import { useSetInitialConditionEffect } from "../features/initialize";
 import { DatePicker, RangeDateValue } from "./DatePicker";
-import { useFilterResetEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 export interface FilterComponentProps {
     adjustable: boolean;
@@ -40,7 +40,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         setRangeValues([undefined, undefined]);
     }, []);
 
-    useFilterResetEvent({
+    useOnResetValueEvent({
         widgetName: props.name,
         parentChannelName: props.datagridChannelName ?? undefined,
         listener: reset

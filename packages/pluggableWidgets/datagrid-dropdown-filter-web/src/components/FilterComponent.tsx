@@ -4,7 +4,7 @@ import { useSelectState } from "../features/select";
 import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
 import { Option } from "../utils/types";
 import { SelectComponent } from "./SelectComponent";
-import { useFilterResetEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 export interface FilterComponentProps {
     ariaLabel?: string;
@@ -51,7 +51,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         [state.selected]
     );
 
-    useFilterResetEvent({
+    useOnResetValueEvent({
         widgetName: props.name,
         parentChannelName: props.parentChannelName ?? undefined,
         listener: reset

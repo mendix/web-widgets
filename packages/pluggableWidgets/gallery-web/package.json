@@ -40,6 +40,7 @@
     "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
   },
   "dependencies": {
+    "@mendix/widget-plugin-external-events": "workspace:*",
     "@mendix/widget-plugin-filtering": "workspace:*",
     "@mendix/widget-plugin-sorting": "workspace:*",
     "classnames": "^2.3.2"

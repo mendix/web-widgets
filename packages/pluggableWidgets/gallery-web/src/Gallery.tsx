@@ -11,6 +11,8 @@ import {
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/widget-plugin-grid/selection";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { SortFunction, SortInstruction, useSortContext } from "@mendix/widget-plugin-sorting";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -149,6 +151,9 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         clickValue: props.onClick
     });
 
+    const filtersChannel = useMemo(() => `gallery/${generateUUID()}`, []);
+    useOnResetFiltersEvent(props.name, filtersChannel);
+
     return (
         <GalleryComponent
             className={props.class}
@@ -172,6 +177,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
                                     }
                                     return prev;
                                 },
+                                eventsChannelName: filtersChannel,
                                 multipleAttributes: filterList,
                                 multipleInitialFilters: initialFilters
                             }}
