@@ -1,11 +1,11 @@
 import { createElement } from "react";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import { useFilterResetEvent } from "../src/hooks";
+import { useOnResetValueEvent } from "../src/hooks/useOnResetValueEvent";
 import { requirePlugin, deletePlugin } from "../src/plugin";
 
 function Filter(props: { widgetName: string; parentChannelName: string; listener: jest.Mock }): null {
-    useFilterResetEvent({
+    useOnResetValueEvent({
         widgetName: props.widgetName,
         parentChannelName: props.parentChannelName,
         listener: props.listener
@@ -13,7 +13,7 @@ function Filter(props: { widgetName: string; parentChannelName: string; listener
     return null;
 }
 
-describe("useFilterResetEvent", () => {
+describe("useOnResetValueEvent", () => {
     beforeEach(() => deletePlugin());
 
     it("calls listener when event is fired", () => {

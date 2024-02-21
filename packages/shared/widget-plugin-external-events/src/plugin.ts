@@ -1,10 +1,18 @@
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
-type Listener = (...args: any[]) => void;
 
 const pluginPathExternalEvents = "com.mendix.widgets.web.plugin.externalEvents" as const;
 
+export type Listener = (...args: any[]) => void;
+export type Emit = (channelName: string, eventName: string, ...args: any[]) => void;
+
+declare global {
+    interface Window {
+        [pluginPathExternalEvents]?: PluginExternalEvents;
+    }
+}
+
 export interface PluginExternalEvents {
-    emit(channelName: string, eventName: string, ...args: any[]): void;
+    emit: Emit;
     subscribe(channelName: string, eventName: string, callback: Listener): Unsubscribe;
     unsubscribe(channelName: string, eventName: string, callback: Listener): void;
 }
@@ -64,12 +72,6 @@ class ExternalEvents implements PluginExternalEvents {
         if (listenersTotal === 0) {
             this.disposeChannel(channelName);
         }
-    }
-}
-
-declare global {
-    interface Window {
-        [pluginPathExternalEvents]?: PluginExternalEvents;
     }
 }
 

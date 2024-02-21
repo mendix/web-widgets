@@ -1,3 +1,2 @@
-export { requirePlugin } from "./plugin.js";
-export * from "./hooks.js";
+export { requirePlugin, deletePlugin } from "./plugin.js";
 export { $events } from "./common.js";
