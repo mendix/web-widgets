@@ -113,15 +113,14 @@ export class MultiSelectionHelper {
 
         if (currentEnd === undefined) {
             const itemsToAdd = this._getRange(start, nextEnd);
-            const selection = this._union(this.selectionValue.selection, itemsToAdd);
-            this.selectionValue.setSelection(selection);
+            this.selectionValue.setSelection(itemsToAdd);
             return;
         }
 
         const itemsToRemove = this._getRange(start, currentEnd);
         const itemsToAdd = this._getRange(start, nextEnd);
 
-        let selection = [...this.selectionValue.selection];
+        let selection: ObjectItem[] = [];
         selection = this._diff(selection, itemsToRemove);
         selection = this._union(selection, itemsToAdd);
         this.selectionValue.setSelection(selection);
