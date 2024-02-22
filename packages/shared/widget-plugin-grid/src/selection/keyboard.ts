@@ -111,7 +111,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
     return [onArrowUp, onArrowDown, onPageUp, onPageDown, onHome, onEnd];
 };
 
-export const onSelectCategoryAdjacentHotKey = (
+export const onSelectGridAdjacentHotKey = (
     selectAdjacentFx: SelectAdjacentFx,
     numberOfColumns: number
 ): NavKeyEntry[] => {
