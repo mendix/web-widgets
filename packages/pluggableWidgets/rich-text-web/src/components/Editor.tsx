@@ -40,16 +40,13 @@ import "tinymce/plugins/quickbars";
 import "tinymce/plugins/save";
 import "tinymce/plugins/searchreplace";
 import "tinymce/plugins/table";
-import "tinymce/plugins/template";
 import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
-const PLUGINS =
-    "accordion advlist anchor autolink charmap code codesample directionality emoticons fullscreen image importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars searchreplace table template visualblocks visualchars wordcount";
-
 import contentCss from "tinymce/skins/content/default/content.min.css";
 import { RichTextContainerProps } from "typings/RichTextProps";
+import { DEFAULT_CONFIG } from "../utils/contants";
 
 type EditorState = "loading" | "ready";
 
@@ -72,7 +69,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         spellCheck,
         highlight_on_focus,
         resize,
-        sanitizeContent
+        extended_valid_elements
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const [editorState, setEditorState] = useState<EditorState>("loading");
@@ -132,27 +129,21 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
             initialValue=""
             onEditorChange={onEditorChange}
             init={{
-                plugins: PLUGINS,
+                ...DEFAULT_CONFIG,
                 toolbar,
                 menubar,
-                width: "100%",
-                skin: false,
-                content_css: false,
                 content_style: [contentCss, "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join(
                     "\n"
                 ),
-                promotion: false,
-                branding: false,
                 readonly: stringAttribute.readOnly,
                 toolbar_mode: toolbarMode,
                 statusbar: enableStatusBar,
                 toolbar_location: _toolbarLocation,
                 inline: toolbarLocation === "inline",
                 browser_spellcheck: spellCheck,
-                base_url: "widgets/com/mendix/widget/custom/richtext",
                 highlight_on_focus,
                 resize: resize === "both" ? "both" : resize === "true",
-                xss_sanitization: sanitizeContent
+                extended_valid_elements: extended_valid_elements?.value ?? ""
             }}
             onBlur={onEditorBlur}
             onKeyPress={onEditorKeyPress}

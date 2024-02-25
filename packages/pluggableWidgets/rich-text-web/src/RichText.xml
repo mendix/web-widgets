@@ -118,9 +118,9 @@
         </propertyGroup>
         <propertyGroup caption="Advanced">
             <propertyGroup caption="Advanced">
-                <property key="sanitizeContent" type="boolean" defaultValue="true">
-                    <caption>Sanitize content</caption>
-                    <description>The strict sanitize rules will remove all unsupported HTML tags and attributes before displaying. WARNING disabling this option is a security risk for XSS attacks</description>
+                <property key="extended_valid_elements" type="textTemplate" required="false">
+                    <caption>Additional valid elements</caption>
+                    <description>Additional sanitization rules to allow certain tag, sample: script[src|async]</description>
                 </property>
                 <property key="spellCheck" type="boolean" defaultValue="false">
                     <caption>Enable spell checking</caption>
@@ -173,7 +173,7 @@
                     <description />
                 </property>
                 <property key="paragraph" type="boolean" defaultValue="true">
-                    <caption>Clipboard</caption>
+                    <caption>Paragraph</caption>
                     <description />
                 </property>
                 <property key="document" type="boolean" defaultValue="true">
