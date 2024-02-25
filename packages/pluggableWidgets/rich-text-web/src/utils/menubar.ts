@@ -37,7 +37,7 @@ function defineBasicGroups(widgetProps: Partial<RichTextContainerProps>): string
         menubarGroups.find(menu => menu === prop) && enabled ? [prop] : []
     );
 
-    return enabledGroups;
+    return enabledGroups.map(menu => menu.replace("Menubar", "").toLowerCase());
 }
 
 function defineAdvancedGroups(widgetProps: Partial<RichTextContainerProps>): string[] {

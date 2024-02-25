@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
 export type MenubarModeEnum = "hide" | "basic" | "full" | "custom";
 
@@ -60,7 +60,7 @@ export interface RichTextContainerProps {
     onKeyPress?: ActionValue;
     onChange?: ActionValue;
     onBlur?: ActionValue;
-    sanitizeContent: boolean;
+    extended_valid_elements?: DynamicValue<string>;
     spellCheck: boolean;
     highlight_on_focus: boolean;
     resize: ResizeEnum;
@@ -114,7 +114,7 @@ export interface RichTextPreviewProps {
     onKeyPress: {} | null;
     onChange: {} | null;
     onBlur: {} | null;
-    sanitizeContent: boolean;
+    extended_valid_elements: string;
     spellCheck: boolean;
     highlight_on_focus: boolean;
     resize: ResizeEnum;
