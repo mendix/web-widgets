@@ -27,9 +27,7 @@ const xlsxExportTools: Entry = {
     })
 };
 
-export async function bundleExportToExcelAction(params: ModuleStepParams): Promise<void> {
-    await copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js"])(params);
-
+export async function bundleXLSX(params: ModuleStepParams): Promise<void> {
     logStep("Bundle action dependencies");
     const xlsxBundle = await rollup.rollup(xlsxExportTools.getInputOptions(params));
     await xlsxBundle.write(xlsxExportTools.getOutputOptions(params));
