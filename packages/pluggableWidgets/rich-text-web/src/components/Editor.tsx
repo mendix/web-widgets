@@ -57,6 +57,7 @@ interface BundledEditorProps extends RichTextContainerProps {
 
 export default function BundledEditor(props: BundledEditorProps): ReactElement {
     const {
+        id,
         toolbar,
         stringAttribute,
         menubar,
@@ -72,11 +73,17 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         extended_valid_elements
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
+    const [canRenderEditor, setCanRenderEditor] = useState<boolean>(false);
     const [editorState, setEditorState] = useState<EditorState>("loading");
     const [editorValue, setEditorValue] = useState(stringAttribute.value ?? "");
 
     const _toolbarLocation = toolbarLocation === "inline" ? "auto" : toolbarLocation;
 
+    useEffect(() => {
+        setTimeout(() => {
+            setCanRenderEditor(true);
+        }, 100);
+    }, []);
     useEffect(() => {
         if (stringAttribute?.status === "available" && editorState === "ready") {
             setEditorValue(stringAttribute.value ?? "");
@@ -118,9 +125,17 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
     );
+    if (!canRenderEditor) {
+        // this is to make sure that tinymce.init is ready to be triggered on the page
+        // react page needs "mx-progress" a couple of milisecond to be rendered
+        // use the next tick to trigger tinymce.init for consistent result
+        // especially if we have multiple editor in single page
+        return <div></div>;
+    }
 
     return (
         <Editor
+            id={`tinymceeditor_${id}`}
             onInit={(_evt, editor: TinyMCEEditor) => {
                 editorRef.current = editor;
                 setEditorState("ready");
