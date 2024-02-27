@@ -43,12 +43,12 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="toolbarMode" type="enumeration" defaultValue="floating">
+                <property key="toolbarMode" type="enumeration" defaultValue="sliding">
                     <caption>Mode</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="floating">Floating</enumerationValue>
                         <enumerationValue key="sliding">Sliding</enumerationValue>
+                        <enumerationValue key="floating">Floating</enumerationValue>
                         <enumerationValue key="scrolling">Scrolling</enumerationValue>
                         <enumerationValue key="wrap">Wrap</enumerationValue>
                     </enumerationValues>

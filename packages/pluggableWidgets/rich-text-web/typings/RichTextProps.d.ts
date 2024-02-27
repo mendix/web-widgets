@@ -9,7 +9,7 @@ export type MenubarModeEnum = "hide" | "basic" | "full" | "custom";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
-export type ToolbarModeEnum = "floating" | "sliding" | "scrolling" | "wrap";
+export type ToolbarModeEnum = "sliding" | "floating" | "scrolling" | "wrap";
 
 export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "inline";
 
