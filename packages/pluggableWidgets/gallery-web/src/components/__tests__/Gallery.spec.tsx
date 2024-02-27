@@ -8,11 +8,11 @@ import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
-import { getPosition } from "../../features/useGridPositions";
 import { ClickActionHelper } from "../../helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
 
 function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     return WidgetItemBuilder.sample(b =>
@@ -54,11 +54,11 @@ function mockProps(): GalleryProps<ObjectItem> {
             selectHelper.onSelectAll,
             clickHelper.onExecuteAction,
             focusController.dispatch,
-            selectHelper.onSelectAdjacent,
+            selectHelper.onSelectAdjacentGrid,
             3
         ),
         focusController,
-        getPosition: (index: number) => getPosition(3, 3, index)
+        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index)
     };
 }
 
