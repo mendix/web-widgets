@@ -6,11 +6,7 @@ export type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" |
     totalItems: number;
 };
 
-export type Positions = {
-    columnIndex: number;
-    rowIndex: number;
-};
-type GridPositionsReturn = {
+type GridPositionReturn = {
     numberOfColumns: number;
     numberOfRows: number;
 };
@@ -46,21 +42,7 @@ function mapNumberOfColumns(config: GridPositionsProps, breakpoint: Breakpoint):
     return config[`${breakpoint}Items`];
 }
 
-function getRowIndex(numberOfColumns: number, index: number): number {
-    return Math.floor(index / numberOfColumns);
-}
-
-export function getPosition(numberOfColumns: number, totalItems: number, index: number): Positions {
-    if (index < 0 || index >= totalItems) {
-        return { columnIndex: -1, rowIndex: -1 };
-    }
-
-    const columnIndex = index % numberOfColumns;
-    const rowIndex = getRowIndex(numberOfColumns, index);
-    return { columnIndex, rowIndex };
-}
-
-export function useGridPositions(config: GridPositionsProps): GridPositionsReturn {
+export function useGridPositions(config: GridPositionsProps): GridPositionReturn {
     const width = useWindowWidth();
     const breakpoint = mapBreakpoint(width);
     const numberOfColumns = mapNumberOfColumns(config, breakpoint);
