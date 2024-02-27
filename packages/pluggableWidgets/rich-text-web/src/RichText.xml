@@ -102,12 +102,8 @@
         </propertyGroup>
         <propertyGroup caption="Events">
             <propertyGroup caption="Events">
-                <property key="onKeyPress" type="action">
-                    <caption>On key press</caption>
-                    <description />
-                </property>
-                <property key="onChange" type="action">
-                    <caption>On change</caption>
+                <property key="onFocus" type="action">
+                    <caption>On focus</caption>
                     <description />
                 </property>
                 <property key="onBlur" type="action">
