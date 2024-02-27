@@ -17,3 +17,11 @@ export type Direction = "forward" | "backward" | "pageup" | "pagedown" | "home" 
 export type Size = number | "edge";
 
 export type SelectAdjacentFx = (item: ObjectItem, shiftKey: boolean, direction: Direction, size: Size) => void;
+
+export type SelectAdjacentInGridFx = (
+    item: ObjectItem,
+    shiftKey: boolean,
+    direction: Direction,
+    size: Size,
+    numberOfColumns?: number
+) => void;
