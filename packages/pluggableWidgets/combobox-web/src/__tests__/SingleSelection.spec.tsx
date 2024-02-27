@@ -55,7 +55,12 @@ describe("Combo box (Association)", () => {
             a11ySelectedValue: dynamicValue("Selected value:"),
             a11yOptionsAvailable: dynamicValue("Options available:"),
             a11yInstructions: dynamicValue("a11yInstructions"),
-            showFooter: false
+            showFooter: false,
+            source: "context",
+            attributeString: new EditableValueBuilder<string | Big>().build(),
+            optionsSourceDatabaseCaptionType: "attribute",
+            optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
+            optionsSourceDatabaseCustomContentType: "yes"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

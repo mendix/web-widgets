@@ -55,13 +55,13 @@ export function SingleSelection({
                         placeholder=" "
                     />
                     <InputPlaceholder
-                        isEmpty={!selector.currentValue}
+                        isEmpty={!selector.currentId}
                         type={selector.customContentType === "yes" ? "custom" : "text"}
                     >
                         {selector.caption.render(selectedItem, "label")}
                     </InputPlaceholder>
                 </div>
-                {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
+                {!selector.readOnly && selector.clearable && selector.currentId !== null && (
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"

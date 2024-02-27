@@ -45,7 +45,7 @@ export function MultiSelectionMenu({
             {isOpen &&
                 selectableItems.map((item, index) => {
                     const isActive = highlightedIndex === index;
-                    const isSelected = selector.currentValue?.includes(item);
+                    const isSelected = selector.currentId?.includes(item);
 
                     return (
                         <ComboboxOptionWrapper

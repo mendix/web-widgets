@@ -9,6 +9,15 @@
         <propertyGroup caption="General">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Data source">
+                <property key="source" type="enumeration" defaultValue="context" required="true">
+                    <caption>Source</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="context">Context</enumerationValue>
+                        <enumerationValue key="database">Database</enumerationValue>
+                    </enumerationValues>
+                </property>
+
                 <property key="optionsSourceType" type="enumeration" defaultValue="association" required="true">
                     <caption>Type</caption>
                     <description />
@@ -35,6 +44,57 @@
                     </attributeTypes>
                 </property>
                 <!-- END ENUM & BOOLEAN -->
+                <!-- DATABASE / STRING -->
+                <property key="optionsSourceDatabaseDataSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable objects</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseCaptionType" type="enumeration" defaultValue="attribute">
+                    <caption>Caption type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseCaptionAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="false">
+                    <caption>Caption</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceDatabaseCaptionExpression" type="expression" dataSource="optionsSourceDatabaseDataSource" required="false">
+                    <caption>Caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Attribute">
+                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="true">
+                    <caption>Value</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="attributeString" type="attribute" required="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceDatabaseDefaultValue" type="expression">
+                    <caption>Default value</caption>
+                    <description />
+                    <returnType assignableTo="attributeString" />
+                </property>
+                <!-- END DATABASE / STRING -->
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
@@ -108,6 +168,19 @@
                     </enumerationValues>
                 </property>
                 <property key="optionsSourceAssociationCustomContent" type="widgets" required="true" dataSource="optionsSourceAssociationDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Custom content</caption>
                     <description />
                 </property>

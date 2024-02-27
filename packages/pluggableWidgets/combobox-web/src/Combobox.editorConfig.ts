@@ -12,10 +12,70 @@ import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
 
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
-    if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
-        // hide attribute
+    if (values.source === "context") {
+        hidePropertiesIn(defaultProperties, values, [
+            "attributeString",
+            "optionsSourceDatabaseCaptionAttribute",
+            "optionsSourceDatabaseCaptionExpression",
+            "optionsSourceDatabaseCaptionType",
+            "optionsSourceDatabaseCustomContent",
+            "optionsSourceDatabaseCustomContentType",
+            "optionsSourceDatabaseDataSource",
+            "optionsSourceDatabaseDefaultValue",
+            "optionsSourceDatabaseValueAttribute"
+        ]);
+        if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
+            hidePropertiesIn(defaultProperties, values, [
+                "attributeAssociation",
+                "optionsSourceAssociationCaptionAttribute",
+                "optionsSourceAssociationCaptionExpression",
+                "optionsSourceAssociationCaptionType",
+                "optionsSourceAssociationCustomContent",
+                "optionsSourceAssociationCustomContentType",
+                "optionsSourceAssociationDataSource",
+                "selectedItemsStyle",
+                "selectionMethod",
+                "selectAllButton",
+                "selectAllButtonCaption"
+            ]);
+            if (values.optionsSourceType === "boolean") {
+                hidePropertiesIn(defaultProperties, values, ["clearable"]);
+                hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
+            } else {
+                hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
+            }
+        } else if (values.optionsSourceType === "association") {
+            hidePropertiesIn(defaultProperties, values, ["attributeEnumeration", "attributeBoolean"]);
+            if (values.optionsSourceAssociationCaptionType === "attribute") {
+                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
+            } else {
+                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
+            }
+
+            if (values.optionsSourceAssociationDataSource === null) {
+                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionType"]);
+            }
+
+            if (values.optionsSourceAssociationCustomContentType === "no") {
+                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
+            } else {
+                hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
+            }
+
+            if (values.showFooter === false) {
+                hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
+            }
+
+            if (values.selectAllButton === false) {
+                hidePropertiesIn(defaultProperties, values, ["selectAllButtonCaption"]);
+            }
+        }
+    } else if (values.source === "database") {
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
+            "attributeEnumeration",
+            "attributeBoolean",
+            "optionsSourceType",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
             "optionsSourceAssociationCaptionType",
@@ -27,36 +87,15 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButton",
             "selectAllButtonCaption"
         ]);
-        if (values.optionsSourceType === "boolean") {
-            hidePropertiesIn(defaultProperties, values, ["clearable"]);
-            hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
+        if (values.optionsSourceDatabaseCaptionType === "attribute") {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionExpression"]);
         } else {
-            hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionAttribute"]);
         }
-    } else if (values.optionsSourceType === "association") {
-        hidePropertiesIn(defaultProperties, values, ["attributeEnumeration", "attributeBoolean"]);
-        if (values.optionsSourceAssociationCaptionType === "attribute") {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
-        } else {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
-        }
-
-        if (values.optionsSourceAssociationDataSource === null) {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionType"]);
-        }
-
-        if (values.optionsSourceAssociationCustomContentType === "no") {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
+        if (values.optionsSourceDatabaseCustomContentType === "no") {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
-        }
-
-        if (values.showFooter === false) {
-            hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
-        }
-
-        if (values.selectAllButton === false) {
-            hidePropertiesIn(defaultProperties, values, ["selectAllButtonCaption"]);
         }
     }
 

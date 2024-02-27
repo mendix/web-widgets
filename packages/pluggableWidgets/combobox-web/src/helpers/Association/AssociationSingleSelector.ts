@@ -10,7 +10,7 @@ export class AssociationSingleSelector
     type = "single" as const;
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
-        this.currentValue = this._attr?.value?.id ?? null;
+        this.currentId = this._attr?.value?.id ?? null;
     }
     setValue(value: string | null): void {
         this._attr?.setValue(this.options._optionToValue(value));

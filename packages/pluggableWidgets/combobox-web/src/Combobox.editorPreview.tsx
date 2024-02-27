@@ -3,14 +3,11 @@ import { ReferenceValue } from "mendix";
 import { ComponentType, ReactElement, ReactNode, createElement, useMemo } from "react";
 import { ComboboxPreviewProps, OptionsSourceAssociationCustomContentTypeEnum } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
-import {
-    AssociationSimpleCaptionsProvider,
-    CaptionContent
-} from "./helpers/Association/AssociationSimpleCaptionsProvider";
 import { AssociationOptionsProvider } from "./helpers/Association/AssociationOptionsProvider";
+import { AssociationSimpleCaptionsProvider } from "./helpers/Association/AssociationSimpleCaptionsProvider";
 import { BaseAssociationSelector } from "./helpers/Association/BaseAssociationSelector";
 import { CaptionPlacement, SingleSelector } from "./helpers/types";
-import { getDatasourcePlaceholderText } from "./helpers/utils";
+import { CaptionContent, getDatasourcePlaceholderText } from "./helpers/utils";
 import "./ui/Combobox.scss";
 
 interface PreviewProps {
@@ -68,7 +65,7 @@ class AssociationPreviewSelector extends BaseAssociationSelector<string, Referen
         this.options = new AssociationPreviewOptionsProvider(this.caption, new Map());
         this.readOnly = props.readOnly;
         this.clearable = props.clearable;
-        this.currentValue = getDatasourcePlaceholderText(props);
+        this.currentId = getDatasourcePlaceholderText(props);
         this.customContentType = props.optionsSourceAssociationCustomContentType;
         (this.caption as AssociationPreviewCaptionsProvider).updatePreviewProps({
             customContentRenderer: props.optionsSourceAssociationCustomContent.renderer,
