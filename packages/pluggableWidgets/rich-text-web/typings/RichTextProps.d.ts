@@ -57,8 +57,7 @@ export interface RichTextContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
-    onKeyPress?: ActionValue;
-    onChange?: ActionValue;
+    onFocus?: ActionValue;
     onBlur?: ActionValue;
     extended_valid_elements?: DynamicValue<string>;
     spellCheck: boolean;
@@ -111,8 +110,7 @@ export interface RichTextPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
-    onKeyPress: {} | null;
-    onChange: {} | null;
+    onFocus: {} | null;
     onBlur: {} | null;
     extended_valid_elements: string;
     spellCheck: boolean;

@@ -62,8 +62,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         stringAttribute,
         menubar,
         onBlur,
-        onChange,
-        onKeyPress,
+        onFocus,
         toolbarMode,
         enableStatusBar,
         toolbarLocation,
@@ -97,9 +96,6 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
     const onEditorChange = useCallback(
         (value: string, _editor: TinyMCEEditor) => {
             setEditorValue(value);
-            if (onChange?.canExecute) {
-                onChange.execute();
-            }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
@@ -116,10 +112,10 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stringAttribute, editorState, editorValue]);
 
-    const onEditorKeyPress = useCallback(
-        (_event: EditorEvent<KeyboardEvent>, _editor: TinyMCEEditor) => {
-            if (onKeyPress?.canExecute) {
-                onKeyPress.execute();
+    const onEditorFocus = useCallback(
+        (_event: EditorEvent<null>, _editor: TinyMCEEditor) => {
+            if (onFocus?.canExecute) {
+                onFocus.execute();
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,7 +157,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 extended_valid_elements: extended_valid_elements?.value ?? ""
             }}
             onBlur={onEditorBlur}
-            onKeyPress={onEditorKeyPress}
+            onFocus={onEditorFocus}
         />
     );
 }

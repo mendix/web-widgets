@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+-   Due to the end of life support, We have now build a new rich text editor with different engine: TinyMCE. This is a major version upgrade and you will loose your current widget configurations upon updating.
+
 ## [2.3.0] - 2024-02-08
 
 ### Fixed
