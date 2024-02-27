@@ -47,7 +47,7 @@ export function useItemEventsController(
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,
                 focusController.dispatch,
-                selectHelper.onSelectAdjacent,
+                selectHelper.onSelectAdjacentGrid,
                 numberOfColumns
             ),
         [selectHelper, focusController, numberOfColumns]
