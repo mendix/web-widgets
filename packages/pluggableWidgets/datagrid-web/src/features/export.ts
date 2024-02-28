@@ -276,7 +276,7 @@ interface BaseState {
 
 interface InitState extends BaseState {
     callback: null;
-    columns: null;
+    columns: ColumnsType[] | null;
     exporting: false;
     phase: "awaitingCallback";
     processedRows: number;
@@ -418,7 +418,12 @@ function exportStateReducer(state: State, action: Action): State {
     }
 
     if (action.type === "ColumnsUpdate") {
-        if (state.phase === "readyToStart" || state.phase === "exportColumns" || state.phase === "exportData") {
+        if (
+            state.phase === "readyToStart" ||
+            state.phase === "exportColumns" ||
+            state.phase === "exportData" ||
+            state.phase === "awaitingCallback"
+        ) {
             return {
                 ...state,
                 columns: action.payload.columns
@@ -436,7 +441,7 @@ function exportStateReducer(state: State, action: Action): State {
                 limit: state.currentLimit
             },
             callback: action.payload.callback,
-            columns: action.payload.columns,
+            columns: state.columns || action.payload.columns,
             currentLimit: action.payload.limit,
             currentOffset: 0
         };
