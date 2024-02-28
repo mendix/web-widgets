@@ -8,8 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking changes
 
--   Due to the end of life for CKEditor4, We have now build a new rich text editor with different engine: TinyMCE. This is a major version upgrade.
-    The widget configuration is changing, please review your configuration after updating.
+-   Due to the end of life for CKEditor4, We have now build a new rich text editor with different engine, TinyMCE. This is a major version upgrade. The widget configuration is changing, please review your configuration after updating.
 
 ## [2.3.0] - 2024-02-08
 
