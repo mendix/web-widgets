@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
-import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { SelectAdjacentInGridFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
@@ -19,7 +19,7 @@ export class ItemEventsController implements ItemEventsController {
         private selectAllFx: SelectAllFx,
         private executeActionFx: ExecuteActionFx,
         private focusTargetFx: FocusTargetFx,
-        private selectAdjacentFx: SelectAdjacentFx,
+        private selectAdjacentFx: SelectAdjacentInGridFx,
         private numberOfColumns: number
     ) {}
 

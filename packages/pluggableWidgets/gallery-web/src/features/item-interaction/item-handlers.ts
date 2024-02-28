@@ -1,7 +1,7 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { EventEntryContext } from "./base";
 import {
-    SelectAdjacentFx,
+    SelectAdjacentInGridFx,
     SelectAllFx,
     SelectFx,
     onSelectGridAdjacentHotKey,
@@ -36,7 +36,7 @@ const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<EventEntryContex
 export function createItemHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
-    selectAdjacentFx: SelectAdjacentFx,
+    selectAdjacentFx: SelectAdjacentInGridFx,
     numberOfColumns: number
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
     return [
