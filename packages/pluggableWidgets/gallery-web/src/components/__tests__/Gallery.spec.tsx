@@ -6,8 +6,13 @@ import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
-import { ItemSelectHelper } from "../../helpers/ItemSelectHelper";
+import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
+import { getPosition } from "../../features/useGridPositions";
+import { ClickActionHelper } from "../../helpers/ClickActionHelper";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 
 function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     return WidgetItemBuilder.sample(b =>
@@ -22,7 +27,11 @@ function mockItemHelperWithAction(onClick: () => void): ItemHelper {
 }
 
 function mockProps(): GalleryProps<ObjectItem> {
-    const selectHelper = new ItemSelectHelper("None", undefined);
+    const selectHelper = new SelectActionHelper("None", undefined);
+    const onClick = jest.fn();
+    const clickHelper = new ClickActionHelper(onClick);
+    const focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10));
+
     return {
         hasMoreItems: false,
         page: 0,
@@ -36,14 +45,18 @@ function mockProps(): GalleryProps<ObjectItem> {
         headerTitle: "Mock props header aria label",
         items: objectItems(3),
         itemHelper: WidgetItemBuilder.sample(),
-        selectHelper: new ItemSelectHelper("None", undefined),
+        selectHelper,
         showHeader: true,
         header: <input />,
         itemEventsController: new ItemEventsController(
             item => ({ item, selectionType: selectHelper.selectionType }),
             selectHelper.onSelect,
-            selectHelper.onSelectAll
-        )
+            selectHelper.onSelectAll,
+            clickHelper.onExecuteAction,
+            focusController.dispatch
+        ),
+        focusController,
+        getPosition: (index: number) => getPosition(3, 3, index)
     };
 }
 

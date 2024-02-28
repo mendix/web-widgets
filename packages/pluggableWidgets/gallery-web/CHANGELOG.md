@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We added a new feature to Gallery: Now it is possible to navigate on gallery items using keyboard.
+
 ## [1.4.1] - 2023-11-28
 
 ### Fixed

@@ -1,29 +1,29 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { useMemo, createElement, ReactElement } from "react";
-import { GalleryItemHelper } from "../typings/GalleryItem";
-import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { createElement, memo, ReactElement, useMemo, RefObject } from "react";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
+import { Positions } from "../features/useGridPositions";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
+    getPosition: (index: number) => Positions;
     helper: GalleryItemHelper;
     item: ObjectItem;
-    selectHelper: ItemSelectHelper;
+    itemIndex: number;
+    selectHelper: SelectActionHelper;
     eventsController: ItemEventsController;
 };
 
-export function ListItem({
-    children,
-    className,
-    helper,
-    item,
-    selectHelper,
-    eventsController,
-    ...rest
-}: ListItemProps): ReactElement {
+// eslint-disable-next-line prefer-arrow-callback
+const component = memo(function ListItem(props: ListItemProps): ReactElement {
+    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } = props;
     const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
     const ariaProps = getAriaProps(item, selectHelper);
+    const { columnIndex, rowIndex } = getPosition(itemIndex);
+    const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
 
     return (
@@ -39,13 +39,17 @@ export function ListItem({
             )}
             {...ariaProps}
             onClick={handlers.onClick}
-            onDoubleClick={handlers.onDoubleClick}
             onFocus={handlers.onFocus}
             onKeyDown={handlers.onKeyDown}
             onKeyUp={handlers.onKeyUp}
             onMouseDown={handlers.onMouseDown}
+            data-position={keyNavProps["data-position"]}
+            ref={keyNavProps.ref as RefObject<HTMLDivElement>}
+            tabIndex={keyNavProps.tabIndex}
         >
             {helper.render(item)}
         </div>
     );
-}
+});
+
+export const ListItem = component as (props: ListItemProps) => ReactElement;

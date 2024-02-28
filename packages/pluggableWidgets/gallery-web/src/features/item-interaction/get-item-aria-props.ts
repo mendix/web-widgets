@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ItemSelectHelper } from "../../helpers/ItemSelectHelper";
+import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 
 type ListItemRole = "option" | "listitem";
 
@@ -9,7 +9,7 @@ type ListItemAriaProps = {
     tabIndex: number | undefined;
 };
 
-export function getAriaProps(item: ObjectItem, helper: ItemSelectHelper): ListItemAriaProps {
+export function getAriaProps(item: ObjectItem, helper: SelectActionHelper): ListItemAriaProps {
     if (helper.selectionType === "Single" || helper.selectionType === "Multi") {
         return {
             role: "option",

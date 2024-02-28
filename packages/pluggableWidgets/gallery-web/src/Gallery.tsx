@@ -4,6 +4,7 @@ import {
     useFilterContext,
     useMultipleFiltering
 } from "@mendix/widget-plugin-filtering";
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import {
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
@@ -15,9 +16,11 @@ import { and } from "mendix/filters/builders";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
+import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
+import { getPosition, GridPositionsProps, useGridPositions } from "./features/useGridPositions";
+import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemHelper } from "./helpers/ItemHelper";
-import { useItemSelectHelper } from "./helpers/use-item-select-helper";
-import { useItemEventsController } from "./features/item-interaction/use-item-events-controller";
+import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
 export function Gallery(props: GalleryContainerProps): ReactElement {
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
@@ -110,7 +113,26 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
 
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectHelper = useItemSelectHelper(props.itemSelection, selection);
-    const itemEventsController = useItemEventsController(selectHelper);
+    const items = props.datasource.items ?? [];
+    const config: GridPositionsProps = {
+        desktopItems: props.desktopItems,
+        phoneItems: props.phoneItems,
+        tabletItems: props.tabletItems,
+        totalItems: items.length
+    };
+    const { numberOfColumns, numberOfRows } = useGridPositions(config);
+    const getPositionCallback = useCallback(
+        (index: number) => getPosition(numberOfColumns, items.length, index),
+        [numberOfColumns, items.length]
+    );
+
+    const focusController = useFocusTargetController({
+        rows: numberOfRows,
+        columns: numberOfColumns,
+        pageSize: props.pageSize
+    });
+    const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
+    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 
@@ -180,7 +202,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             ariaLabelListBox={props.ariaLabelListBox?.value}
             showHeader={showHeader}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
-            items={props.datasource.items ?? []}
+            items={items}
             itemHelper={itemHelper}
             numberOfItems={props.datasource.totalCount}
             page={currentPage}
@@ -193,6 +215,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             tabIndex={props.tabIndex}
             selectHelper={selectHelper}
             itemEventsController={itemEventsController}
+            focusController={focusController}
+            getPosition={getPositionCallback}
         />
     );
 }

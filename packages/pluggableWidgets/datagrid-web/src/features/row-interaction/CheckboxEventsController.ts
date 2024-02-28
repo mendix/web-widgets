@@ -6,9 +6,9 @@ import { useMemo } from "react";
 import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { CheckboxContext } from "./base";
 import { checkboxHandlers } from "./checkbox-handlers";
-import { FocusTargetFx } from "../keyboard-navigation/base";
+import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
-import { FocusTargetController } from "../keyboard-navigation/FocusTargetController";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 
 export class CheckboxEventsController {
     constructor(

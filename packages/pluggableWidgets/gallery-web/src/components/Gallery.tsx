@@ -1,4 +1,6 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -9,7 +11,8 @@ import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
-import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { Positions } from "../features/useGridPositions";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
@@ -33,10 +36,13 @@ export interface GalleryProps<T extends ObjectItem> {
     tabletItems: number;
     tabIndex?: number;
     ariaLabelListBox?: string;
+
     // Helpers
-    itemHelper: GalleryItemHelper;
-    selectHelper: ItemSelectHelper;
+    focusController: FocusTargetController;
     itemEventsController: ItemEventsController;
+    itemHelper: GalleryItemHelper;
+    selectHelper: SelectActionHelper;
+    getPosition: (index: number) => Positions;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
@@ -71,15 +77,19 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         selectionType={props.selectHelper.selectionType}
                         aria-label={props.ariaLabelListBox}
                     >
-                        {props.items.map(item => (
-                            <ListItem
-                                key={`item_${item.id}`}
-                                helper={props.itemHelper}
-                                item={item}
-                                selectHelper={props.selectHelper}
-                                eventsController={props.itemEventsController}
-                            />
-                        ))}
+                        <KeyNavProvider focusController={props.focusController}>
+                            {props.items.map((item, index) => (
+                                <ListItem
+                                    key={`item_${item.id}`}
+                                    helper={props.itemHelper}
+                                    item={item}
+                                    selectHelper={props.selectHelper}
+                                    eventsController={props.itemEventsController}
+                                    getPosition={props.getPosition}
+                                    itemIndex={index}
+                                />
+                            ))}
+                        </KeyNavProvider>
                     </ListBox>
                 )}
             </GalleryContent>
