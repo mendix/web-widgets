@@ -15,7 +15,7 @@ export function getFullImageName(name, mendixVersion) {
 export async function buildImage(name, mendixVersion) {
     const image = getFullImageName(name, mendixVersion);
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
-    const dockerFile = p.join(dockerDir, `${name}.Dockerfile`);
+    const dockerFile = p.join(dockerDir, process.env.RC ? `${name}RC.Dockerfile`:`${name}.Dockerfile` );
     const runnumber = process.env.CI && process.env.GITHUB_RUN_ID;
 
     const args = [
