@@ -23,6 +23,7 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="0,0"
         role="listitem"
+        tabindex="0"
       >
         Item content
       </div>
@@ -30,6 +31,7 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="1,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
@@ -37,6 +39,7 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="2,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
@@ -68,6 +71,7 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
         class="widget-gallery-item widget-gallery-clickable item-class"
         data-position="0,0"
         role="listitem"
+        tabindex="0"
       >
         <div
           class="widget-gallery-item-button"
@@ -81,6 +85,7 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
         class="widget-gallery-item widget-gallery-clickable item-class"
         data-position="1,0"
         role="listitem"
+        tabindex="-1"
       >
         <div
           class="widget-gallery-item-button"
@@ -94,6 +99,7 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
         class="widget-gallery-item widget-gallery-clickable item-class"
         data-position="2,0"
         role="listitem"
+        tabindex="-1"
       >
         <div
           class="widget-gallery-item-button"
@@ -310,6 +316,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="0,0"
         role="listitem"
+        tabindex="0"
       >
         Item content
       </div>
@@ -317,6 +324,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="1,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
@@ -324,6 +332,7 @@ exports[`Gallery with pagination renders correctly 1`] = `
         class="widget-gallery-item item-class"
         data-position="2,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
@@ -349,6 +358,7 @@ exports[`Gallery without filters renders structure without header container 1`] 
         class="widget-gallery-item item-class"
         data-position="0,0"
         role="listitem"
+        tabindex="0"
       >
         Item content
       </div>
@@ -356,6 +366,7 @@ exports[`Gallery without filters renders structure without header container 1`] 
         class="widget-gallery-item item-class"
         data-position="1,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
@@ -363,6 +374,7 @@ exports[`Gallery without filters renders structure without header container 1`] 
         class="widget-gallery-item item-class"
         data-position="2,0"
         role="listitem"
+        tabindex="-1"
       >
         Item content
       </div>
