@@ -221,6 +221,13 @@
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="customMessage" type="textTemplate" required="false">
+                    <caption>Load More message</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Load More</translation>
+                    </translations>
+                </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty list message</caption>
                     <description />

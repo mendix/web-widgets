@@ -104,6 +104,7 @@ export interface DatagridContainerProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    customMessage?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -144,6 +145,7 @@ export interface DatagridPreviewProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    customMessage: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;

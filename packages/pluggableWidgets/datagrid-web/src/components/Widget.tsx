@@ -48,7 +48,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     onExportCancel?: () => void;
     page: number;
     paginationType: string;
-
+    customMessage?: string;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -97,6 +97,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         onExportCancel,
         page,
         paginationType,
+        customMessage,
         pageSize,
         paging,
         pagingPosition,
@@ -263,7 +264,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         onClick={() => setPage && setPage(prev => prev + 1)}
                         tabIndex={0}
                     >
-                        Load More
+                        {customMessage}
                     </button>
                 )}
                 <ExportWidget
