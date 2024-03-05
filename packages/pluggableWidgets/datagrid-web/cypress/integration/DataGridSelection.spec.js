@@ -14,7 +14,7 @@ describe("datagrid-web", () => {
 
         it("applies checkbox single selection row click", () => {
             cy.get(".mx-name-dgSingleSelectionRowClick").should("be.visible");
-            cy.get(".mx-name-dgSingleSelectionRowClick .td").first().click({ force: true });
+            cy.get(".mx-name-dgSingleSelectionRowClick .td").first().click({ shiftKey: true });
             cy.get(".mx-name-dgSingleSelectionRowClick").compareSnapshot(
                 `datagridSingleSelectionRowClick-${browserName}`,
                 0.1
@@ -36,7 +36,7 @@ describe("datagrid-web", () => {
         it("applies checkbox multi selection row click", () => {
             cy.get(".mx-name-dgMultiSelectionRowClick").should("be.visible");
             cy.get(".mx-name-dgMultiSelectionRowClick .td").first().click({ force: true });
-            cy.get(".mx-name-dgMultiSelectionRowClick .td").eq(4).click({ force: true });
+            cy.get(".mx-name-dgMultiSelectionRowClick .td").eq(4).click({ shiftKey: true });
             cy.get(".mx-name-dgMultiSelectionRowClick").compareSnapshot(
                 `datagridMultiSelectionRowClick-${browserName}`,
                 0.1

@@ -34,10 +34,11 @@ describe("datagrid-text-filter-web", () => {
         it("set init condition (apply filer right after load", () => {
             // NBSP is coming from "FilterSelector" (facepalm)
             const NBSP = " ";
-            const expected = [`First name${NBSP}`, "Delia1987", "Lizzie1987"];
+            const expected = [`First name${NBSP}`, "Betty"];
 
             cy.visit("/#/filter_init_condition");
             cy.reload(true);
+            cy.wait(3000); // eslint-disable-line cypress/no-unnecessary-waiting
             cy.get(".mx-name-dataGrid21 [role=row]").each((row, index) => {
                 cy.wrap(row).should("have.text", expected[index]);
             });

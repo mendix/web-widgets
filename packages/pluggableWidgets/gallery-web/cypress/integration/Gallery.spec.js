@@ -64,14 +64,14 @@ describe("gallery-web", () => {
         it("check the context", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
-            cy.get(textFilter).first().type("Leo");
+            cy.get(textFilter).first().type("Ana");
             cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 
             const galleryItem = ".mx-name-gallery1 .widget-gallery-item";
 
             cy.get(galleryItem).first().click();
 
-            const context = "You've clicked at Leo's face.";
+            const context = "You've clicked at Ana Carol's face.";
             const popUpElement = ".mx-dialog-body > p";
 
             cy.get(popUpElement).should("have.text", context);
