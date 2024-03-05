@@ -36,7 +36,7 @@ describe("gallery item", () => {
             await user.keyboard("{Shift>}[Space]{/Shift}");
 
             expect(onSelect).toHaveBeenCalledTimes(1);
-            expect(onExecuteAction).toHaveBeenCalledTimes(1);
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
         });
     });
 

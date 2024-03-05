@@ -13,7 +13,7 @@ const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<EventEntryContex
 
 const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: React.KeyboardEvent): boolean => {
     if (event.code === "Space") {
-        return true;
+        return !event.shiftKey;
     }
 
     return event.code === "Enter";
