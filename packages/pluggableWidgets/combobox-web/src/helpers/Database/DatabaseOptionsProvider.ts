@@ -33,20 +33,20 @@ export class DatabaseOptionsProvider implements OptionsProvider<ObjectItem, Prop
         switch (this.filterType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", {
-                    keys: [v => this.caption.get(v)],
-                    sorter: option => option
+                    keys: [v => this.caption.get(v)]
+                    // sorter: option => option
                 });
             case "startsWith":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.WORD_STARTS_WITH,
-                    keys: [v => this.caption.get(v)],
-                    sorter: option => option
+                    keys: [v => this.caption.get(v)]
+                    // sorter: option => option
                 });
             case "none":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.NO_MATCH,
-                    keys: [v => this.caption.get(v)],
-                    sorter: option => option
+                    keys: [v => this.caption.get(v)]
+                    // sorter: option => option
                 });
         }
     }
