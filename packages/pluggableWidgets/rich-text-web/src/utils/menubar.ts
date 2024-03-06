@@ -12,6 +12,9 @@ export const menubarGroups: Array<keyof RichTextContainerProps> = [
 ];
 
 export function createMenubar(type: MenubarModeEnum, config?: Partial<RichTextContainerProps>): string | boolean {
+    if (config?.stringAttribute?.readOnly) {
+        return false;
+    }
     switch (type) {
         case "hide":
             return false;
