@@ -1,9 +1,11 @@
 import classnames from "classnames";
-import { EditableValue } from "mendix";
+import { EditableValue, ListValue } from "mendix";
+// import deepEqual from "deep-equal";
 import { ReactElement, createElement, useRef } from "react";
 import { AppEventsContainerProps } from "../typings/AppEventsProps";
 import { useActionTimer } from "./hooks/timer";
 import "./ui/AppEvents.scss";
+import deepEqual from "deep-equal";
 
 export default function Appevents(props: AppEventsContainerProps): ReactElement {
     const {
@@ -12,36 +14,60 @@ export default function Appevents(props: AppEventsContainerProps): ReactElement 
         componentLoadDelay,
         componentLoadRepeat,
         componentLoadRepeatInterval,
-        attributeEvent,
-        onAttributeEventChange,
-        onAttributeEventChangeDelay
+        optionsSourceAttributeDataSource,
+        optionsSourceAssociationDataSource,
+        onEventChange,
+        onEventChangeDelay,
+        optionsSourceType
     } = props;
-    const prevAttributeValue = useRef<EditableValue<any> | undefined>(attributeEvent);
+    const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
+    const prevOnChangeAssociationValue = useRef<
+        Pick<ListValue, "items" | "limit" | "status" | "totalCount"> | undefined
+    >();
     useActionTimer({
         canExecute: onComponentLoad?.canExecute,
         execute: onComponentLoad?.execute,
         delay: componentLoadDelay,
         interval: componentLoadRepeatInterval,
-        repeat: componentLoadRepeat
+        repeat: componentLoadRepeat,
+        attribute: []
     });
-
+    console.log("props changes", props, prevOnChangeAssociationValue.current);
     useActionTimer({
-        canExecute: onAttributeEventChange?.canExecute,
+        canExecute: onEventChange?.canExecute,
         execute: () => {
-            if (prevAttributeValue?.current?.value === undefined) {
-                // ignore initial load
-                prevAttributeValue.current = attributeEvent;
-            } else {
-                if (attributeEvent?.value !== prevAttributeValue.current?.value) {
-                    prevAttributeValue.current = attributeEvent;
-                    onAttributeEventChange?.execute();
+            if (optionsSourceType === "attribute") {
+                if (optionsSourceAttributeDataSource?.status === "loading") {
+                    return;
+                }
+                if (prevOnChangeAttributeValue?.current?.value === undefined) {
+                    // ignore initial load
+                    prevOnChangeAttributeValue.current = optionsSourceAttributeDataSource;
+                } else {
+                    if (optionsSourceAttributeDataSource?.value !== prevOnChangeAttributeValue.current?.value) {
+                        prevOnChangeAttributeValue.current = optionsSourceAttributeDataSource;
+                        onEventChange?.execute();
+                    }
+                }
+            } else if (optionsSourceType === "association") {
+                if (optionsSourceAssociationDataSource?.status === "loading") {
+                    return;
+                }
+                if (prevOnChangeAssociationValue?.current === undefined) {
+                    // ignore initial load
+                    prevOnChangeAssociationValue.current = optionsSourceAssociationDataSource;
+                } else {
+                    if (!deepEqual(optionsSourceAssociationDataSource, prevOnChangeAssociationValue.current)) {
+                        prevOnChangeAssociationValue.current = optionsSourceAssociationDataSource;
+                        onEventChange?.execute();
+                    }
                 }
             }
         },
-        delay: onAttributeEventChangeDelay,
+        delay: onEventChangeDelay,
         interval: 0,
         repeat: false,
-        attribute: attributeEvent
+        attribute: [optionsSourceAttributeDataSource, optionsSourceAssociationDataSource]
     });
     return <div className={classnames("widget-appevents", className)}></div>;
 }
