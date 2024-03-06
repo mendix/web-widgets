@@ -70,8 +70,6 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
             `${source}, ${databaseAttributeString}`
         );
     } else if (source === "static") {
-        console.log("optionsSourceStaticDataSource", optionsSourceStaticDataSource);
-
         return (
             (optionsSourceStaticDataSource as { caption?: string })?.caption || `[${source}, ${staticAttributeString}]`
         );

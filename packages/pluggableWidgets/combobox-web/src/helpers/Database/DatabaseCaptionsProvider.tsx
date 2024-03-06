@@ -71,7 +71,6 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return null;
         }
-
         return this.customContent?.get(item);
     }
 
