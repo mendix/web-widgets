@@ -35,7 +35,11 @@ describe("MultiSelectionHelper", () => {
 
             helper.add(items[4]);
             expect(gridState()).toEqual([x, _, x, _, x, _, _, _]);
+        });
 
+        it("selectUpTo creates a new selection of items", () => {
+            helper.add(items[0]);
+            helper.add(items[4]);
             helper.selectUpTo(items[7]);
             expect(gridState()).toEqual([_, _, _, _, x, x, x, x]);
         });
