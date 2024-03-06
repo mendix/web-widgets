@@ -113,15 +113,14 @@ export class MultiSelectionHelper {
 
         if (currentEnd === undefined) {
             const itemsToAdd = this._getRange(start, nextEnd);
-            const selection = this._union(this.selectionValue.selection, itemsToAdd);
-            this.selectionValue.setSelection(selection);
+            this.selectionValue.setSelection(itemsToAdd);
             return;
         }
 
         const itemsToRemove = this._getRange(start, currentEnd);
         const itemsToAdd = this._getRange(start, nextEnd);
 
-        let selection = [...this.selectionValue.selection];
+        let selection: ObjectItem[] = [];
         selection = this._diff(selection, itemsToRemove);
         selection = this._union(selection, itemsToAdd);
         this.selectionValue.setSelection(selection);
@@ -185,7 +184,7 @@ export class MultiSelectionHelper {
         }
     }
 
-    _getAdjacentIndex(index: number, direction: Direction, unit: Size): number {
+    _findIndexInList(index: number, direction: Direction, unit: Size): number {
         const first = 0;
         const last = this.selectableItems.length - 1;
         const isForward = direction === "forward";
@@ -196,17 +195,47 @@ export class MultiSelectionHelper {
 
         const result = isForward ? index + unit : index - unit;
 
-        return clamp(result, 0, last);
+        return clamp(result, first, last);
     }
 
-    selectUpToAdjacent(value: ObjectItem, shiftKey: boolean, direction: Direction, unit: Size): void {
+    _findIndexInGrid(index: number, direction: Direction, numberOfColumns: number): number {
+        const { columnIndex } = getColumnAndRowBasedOnIndex(numberOfColumns, this.selectableItems.length, index);
+
+        if (direction === "pagedown") {
+            return this.selectableItems.length - (numberOfColumns - columnIndex);
+        }
+
+        if (direction === "home") {
+            return index - columnIndex;
+        }
+
+        if (direction === "end") {
+            return index + (numberOfColumns - (columnIndex + 1));
+        }
+
+        return columnIndex;
+    }
+
+    selectUpToAdjacent(
+        value: ObjectItem,
+        shiftKey: boolean,
+        direction: Direction,
+        unit: Size,
+        numberOfColumns?: number
+    ): void {
         if (shiftKey === false) {
             this._resetRange();
             return;
         }
 
         const currentIndex = this.selectableItems.findIndex(item => item.id === value.id);
-        const adjacentIndex = this._getAdjacentIndex(currentIndex, direction, unit);
+        let adjacentIndex: number = -1;
+
+        if (direction === "backward" || direction === "forward") {
+            adjacentIndex = this._findIndexInList(currentIndex, direction, unit);
+        } else {
+            adjacentIndex = this._findIndexInGrid(currentIndex, direction, numberOfColumns ?? 0);
+        }
 
         if (adjacentIndex === currentIndex) {
             return;
@@ -276,4 +305,52 @@ function objectListEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
 
     const setB = new Set(b.map(obj => obj.id));
     return a.every(obj => setB.has(obj.id));
+}
+
+export type PositionInGrid = {
+    columnIndex: number;
+    rowIndex: number;
+};
+
+/**
+ * Given an index and number of columns,
+ * this function returns which row the index is located in a grid.
+ * @function getRowBasedOnItemIndex
+ * @param {number} index - The index used to find the row.
+ * @param {number} numberOfColumns - The number of columns of the grid.
+ * @return {number}
+ *
+ */
+function getRowBasedOnItemIndex(index: number, numberOfColumns: number): number {
+    return Math.floor(index / numberOfColumns);
+}
+
+/**
+ * @typedef {Object} PositionInGrid
+ * @property {number} columnIndex - The position in the columns for the given index
+ * @property {number} rowIndex - The position in the row for the given index
+ */
+
+/**
+ * Given the number of columns, total items displayed and an index,
+ * this function returns the position (column and row) of the index in a 2D grid.
+ * @function getColumnAndRowBasedOnIndex
+ * @param {number} numberOfColumns - The number of columns of the grid.
+ * @param {number} totalItems - The number of items displayed in the grid.
+ * @param {number} index - The position of the item in the total items array.
+ * @return {PositionInGrid}
+ *
+ */
+export function getColumnAndRowBasedOnIndex(
+    numberOfColumns: number,
+    totalItems: number,
+    index: number
+): PositionInGrid {
+    if (index < 0 || index >= totalItems) {
+        return { columnIndex: -1, rowIndex: -1 };
+    }
+
+    const columnIndex = index % numberOfColumns;
+    const rowIndex = getRowBasedOnItemIndex(index, numberOfColumns);
+    return { columnIndex, rowIndex };
 }

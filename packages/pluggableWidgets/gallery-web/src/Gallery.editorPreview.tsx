@@ -4,10 +4,11 @@ import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-na
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
-import { getPosition, useGridPositions } from "./features/useGridPositions";
+import { useGridPositions } from "./features/useGridPositions";
 import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
+import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -24,7 +25,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         totalItems: items.length
     });
     const getPositionCallback = useCallback(
-        (index: number) => getPosition(numberOfColumns, items.length, index),
+        (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
         [numberOfColumns, items.length]
     );
 
@@ -36,7 +37,12 @@ function Preview(props: GalleryPreviewProps): ReactElement {
 
     const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
 
-    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
+    const itemEventsController = useItemEventsController(
+        selectHelper,
+        clickActionHelper,
+        focusController,
+        numberOfColumns
+    );
 
     return (
         <GalleryComponent

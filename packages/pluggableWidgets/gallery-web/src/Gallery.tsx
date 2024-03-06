@@ -7,6 +7,7 @@ import {
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import {
     getGlobalSelectionContext,
+    getColumnAndRowBasedOnIndex,
     useCreateSelectionContextValue,
     useSelectionHelper
 } from "@mendix/widget-plugin-grid/selection";
@@ -17,7 +18,7 @@ import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
-import { getPosition, GridPositionsProps, useGridPositions } from "./features/useGridPositions";
+import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
@@ -122,7 +123,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
     };
     const { numberOfColumns, numberOfRows } = useGridPositions(config);
     const getPositionCallback = useCallback(
-        (index: number) => getPosition(numberOfColumns, items.length, index),
+        (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
         [numberOfColumns, items.length]
     );
 
@@ -132,7 +133,12 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         pageSize: props.pageSize
     });
     const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
-    const itemEventsController = useItemEventsController(selectHelper, clickActionHelper, focusController);
+    const itemEventsController = useItemEventsController(
+        selectHelper,
+        clickActionHelper,
+        focusController,
+        numberOfColumns
+    );
 
     const selectionContextValue = useCreateSelectionContextValue(selection);
 

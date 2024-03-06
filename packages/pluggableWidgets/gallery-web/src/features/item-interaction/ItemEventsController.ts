@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
-import { SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { SelectAdjacentInGridFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
@@ -18,12 +18,14 @@ export class ItemEventsController implements ItemEventsController {
         private selectFx: SelectFx,
         private selectAllFx: SelectAllFx,
         private executeActionFx: ExecuteActionFx,
-        private focusTargetFx: FocusTargetFx
+        private focusTargetFx: FocusTargetFx,
+        private selectAdjacentFx: SelectAdjacentInGridFx,
+        private numberOfColumns: number
     ) {}
 
     getProps = (item: ObjectItem): ElementProps<HTMLDivElement> => {
         const entries = [
-            ...createItemHandlers(this.selectFx, this.selectAllFx),
+            ...createItemHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx, this.numberOfColumns),
             ...createFocusTargetHandlers(this.focusTargetFx),
             ...createActionHandlers(this.executeActionFx)
         ];
@@ -34,7 +36,8 @@ export class ItemEventsController implements ItemEventsController {
 export function useItemEventsController(
     selectHelper: SelectActionHelper,
     clickHelper: ClickActionHelper,
-    focusController: FocusTargetController
+    focusController: FocusTargetController,
+    numberOfColumns: number
 ): ItemEventsController {
     return useMemo(
         () =>
@@ -43,8 +46,10 @@ export function useItemEventsController(
                 selectHelper.onSelect,
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,
-                focusController.dispatch
+                focusController.dispatch,
+                selectHelper.onSelectAdjacentGrid,
+                numberOfColumns
             ),
-        [selectHelper, focusController]
+        [selectHelper, focusController, numberOfColumns]
     );
 }

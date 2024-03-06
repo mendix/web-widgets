@@ -17,7 +17,7 @@ function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
 
 describe("gallery item", () => {
     describe("on shift+space event", () => {
-        it("calls single click", async () => {
+        it("calls methods", async () => {
             const onSelect = jest.fn();
             const onExecuteAction = jest.fn();
 
@@ -28,14 +28,14 @@ describe("gallery item", () => {
                     item,
                     selectionType: "Single"
                 }),
-                [...createItemHandlers(onSelect, jest.fn())]
+                [...createItemHandlers(onSelect, jest.fn(), jest.fn(), 1), ...createActionHandlers(onExecuteAction)]
             );
 
             const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
             await user.tab();
             await user.keyboard("{Shift>}[Space]{/Shift}");
 
-            expect(onSelect).toHaveBeenCalledTimes(0);
+            expect(onSelect).toHaveBeenCalledTimes(1);
             expect(onExecuteAction).toHaveBeenCalledTimes(0);
         });
     });
@@ -62,7 +62,7 @@ describe("gallery item", () => {
                         item,
                         selectionType: selectionType as SelectionType
                     }),
-                    [...createItemHandlers(jest.fn(), onSelectAll)]
+                    [...createItemHandlers(jest.fn(), onSelectAll, jest.fn(), 1)]
                 );
 
                 const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
@@ -72,6 +72,47 @@ describe("gallery item", () => {
                 expect(onSelectAll).toHaveBeenCalledTimes(n);
                 if (n > 0) {
                     expect(onSelectAll).toHaveBeenLastCalledWith("selectAll");
+                }
+            }
+        );
+    });
+
+    describe("on keydown event", () => {
+        const cases = [
+            { selectionType: "None", n: 0, key: "ArrowUp", params: [true, "backward", 1] },
+            { selectionType: "Single", n: 0, key: "ArrowDown", params: [true, "forward", 1] },
+            { selectionType: "Multi", n: 1, key: "ArrowUp", params: [true, "backward", 1] },
+            { selectionType: "Multi", n: 1, key: "ArrowDown", params: [true, "forward", 1] },
+            { selectionType: "Multi", n: 1, key: "ArrowLeft", params: [true, "backward", 1] },
+            { selectionType: "Multi", n: 1, key: "ArrowRight", params: [true, "forward", 1] },
+            { selectionType: "Multi", n: 1, key: "PageUp", params: [true, "pageup", 0, 1] },
+            { selectionType: "Multi", n: 1, key: "PageDown", params: [true, "pagedown", 0, 1] },
+            { selectionType: "Multi", n: 1, key: "Home", params: [true, "home", 0, 1] },
+            { selectionType: "Multi", n: 1, key: "End", params: [true, "end", 0, 1] }
+        ];
+
+        test.each(cases)(
+            "calls onSelectAdjacent $n time(s) when selection is $selectionType and key is $key",
+            async ({ selectionType, n, key, params }) => {
+                const onSelectAdjacent = jest.fn();
+
+                const [item] = objectItems(1);
+
+                const props = eventSwitch<EventEntryContext, HTMLDivElement>(
+                    (): EventEntryContext => ({
+                        item,
+                        selectionType: selectionType as SelectionType
+                    }),
+                    [...createItemHandlers(jest.fn(), jest.fn(), onSelectAdjacent, 1)]
+                );
+
+                const { user } = setup(<div role="listitem" tabIndex={1} {...props} />);
+                await user.tab();
+                await user.keyboard(`{Shift>}[${key}]{/Shift}`);
+
+                expect(onSelectAdjacent).toHaveBeenCalledTimes(n);
+                if (n > 0) {
+                    expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, ...params);
                 }
             }
         );

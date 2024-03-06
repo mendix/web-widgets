@@ -12,8 +12,16 @@ export type SelectFx = (item: ObjectItem, shiftKey: boolean, toggle?: boolean) =
 
 export type SelectAllFx = (requestedAction?: "selectAll" | "deselectAll") => void;
 
-export type Direction = "forward" | "backward";
+export type Direction = "forward" | "backward" | "pageup" | "pagedown" | "home" | "end";
 
 export type Size = number | "edge";
 
 export type SelectAdjacentFx = (item: ObjectItem, shiftKey: boolean, direction: Direction, size: Size) => void;
+
+export type SelectAdjacentInGridFx = (
+    item: ObjectItem,
+    shiftKey: boolean,
+    direction: Direction,
+    size: Size,
+    numberOfColumns?: number
+) => void;

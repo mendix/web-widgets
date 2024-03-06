@@ -35,9 +35,13 @@ describe("MultiSelectionHelper", () => {
 
             helper.add(items[4]);
             expect(gridState()).toEqual([x, _, x, _, x, _, _, _]);
+        });
 
+        it("selectUpTo creates a new selection of items", () => {
+            helper.add(items[0]);
+            helper.add(items[4]);
             helper.selectUpTo(items[7]);
-            expect(gridState()).toEqual([x, _, x, _, x, x, x, x]);
+            expect(gridState()).toEqual([_, _, _, _, x, x, x, x]);
         });
 
         it('enlarges the range when "selectUpTo" is called multiple times in a row', () => {
@@ -185,7 +189,7 @@ describe("MultiSelectionHelper", () => {
             expect(gridState()).toEqual([x, x, _, _, _, x, _, _]);
 
             helper.selectUpTo(items[3]);
-            expect(gridState()).toEqual([x, x, _, x, x, x, _, _]);
+            expect(gridState()).toEqual([_, _, _, x, x, x, _, _]);
         });
 
         it("ignores unknown items", () => {
