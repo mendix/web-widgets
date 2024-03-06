@@ -4,8 +4,10 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, ReferenceValue, ReferenceSetValue } from "mendix";
 import { Big } from "big.js";
+
+export type OptionsSourceTypeEnum = "attribute" | "association";
 
 export interface AppEventsContainerProps {
     name: string;
@@ -16,9 +18,12 @@ export interface AppEventsContainerProps {
     componentLoadDelay: number;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number;
-    attributeEvent?: EditableValue<Big | any | boolean | Date | string>;
-    onAttributeEventChange?: ActionValue;
-    onAttributeEventChangeDelay: number;
+    optionsSourceType: OptionsSourceTypeEnum;
+    attributeAssociation: ReferenceValue | ReferenceSetValue;
+    optionsSourceAssociationDataSource?: ListValue;
+    optionsSourceAttributeDataSource?: EditableValue<Big | any | boolean | Date | string>;
+    onEventChange?: ActionValue;
+    onEventChangeDelay: number;
 }
 
 export interface AppEventsPreviewProps {
@@ -34,7 +39,10 @@ export interface AppEventsPreviewProps {
     componentLoadDelay: number | null;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number | null;
-    attributeEvent: string;
-    onAttributeEventChange: {} | null;
-    onAttributeEventChangeDelay: number | null;
+    optionsSourceType: OptionsSourceTypeEnum;
+    attributeAssociation: string;
+    optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
+    optionsSourceAttributeDataSource: string;
+    onEventChange: {} | null;
+    onEventChangeDelay: number | null;
 }

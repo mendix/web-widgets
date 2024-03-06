@@ -9,6 +9,12 @@ export function getProperties(
     values: AppEventsPreviewProps,
     defaultProperties: Properties /* , target: Platform*/
 ): Properties {
+    if (values.optionsSourceType === "association") {
+        hidePropertiesIn(defaultProperties, values, ["optionsSourceAttributeDataSource"]);
+    } else if (values.optionsSourceType === "attribute") {
+        hidePropertiesIn(defaultProperties, values, ["attributeAssociation", "optionsSourceAssociationDataSource"]);
+    }
+
     if (!values.componentLoadRepeat) {
         hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatInterval"]);
     }
