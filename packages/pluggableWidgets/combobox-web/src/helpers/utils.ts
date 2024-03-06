@@ -45,10 +45,12 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
         optionsSourceAssociationDataSource,
         attributeEnumeration,
         attributeBoolean,
-        attributeString,
+        databaseAttributeString,
         emptyOptionText,
         source,
-        optionsSourceDatabaseDataSource
+        optionsSourceDatabaseDataSource,
+        staticAttributeString,
+        optionsSourceStaticDataSource
     } = args;
     const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
     if (source === "context") {
@@ -63,7 +65,16 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
                 return emptyStringFormat;
         }
     } else if (source === "database" && optionsSourceDatabaseDataSource) {
-        return (optionsSourceDatabaseDataSource as { caption?: string })?.caption || `${source}, ${attributeString}`;
+        return (
+            (optionsSourceDatabaseDataSource as { caption?: string })?.caption ||
+            `${source}, ${databaseAttributeString}`
+        );
+    } else if (source === "static") {
+        console.log("optionsSourceStaticDataSource", optionsSourceStaticDataSource);
+
+        return (
+            (optionsSourceStaticDataSource as { caption?: string })?.caption || `[${source}, ${staticAttributeString}]`
+        );
     }
     return emptyStringFormat;
 }

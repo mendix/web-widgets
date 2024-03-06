@@ -21,23 +21,18 @@ async function getInput(component: RenderResult): Promise<HTMLInputElement> {
     return (await component.findByRole("combobox")) as HTMLInputElement;
 }
 
-describe("Combo box (Association)", () => {
+describe("Combo box (Static values)", () => {
     let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
-            source: "context",
+            source: "static",
             optionsSourceType: "association",
-            attributeAssociation: new ReferenceValueBuilder().withValue({ id: "111" } as ObjectItem).build(),
+            attributeAssociation: new ReferenceValueBuilder().build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
-            optionsSourceAssociationDataSource: ListValueBuilder().withItems([
-                { id: "111" },
-                { id: "222" },
-                { id: "333" },
-                { id: "444" }
-            ] as ObjectItem[]),
+            optionsSourceAssociationDataSource: ListValueBuilder().withItems([{ id: "111" }] as ObjectItem[]),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
@@ -61,7 +56,7 @@ describe("Combo box (Association)", () => {
             optionsSourceDatabaseCaptionType: "attribute",
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
-            staticAttributeString: new EditableValueBuilder<string>().build(),
+            staticAttributeString: new EditableValueBuilder<string>().withValue("value1").build(),
             optionsSourceStaticDataSource: [
                 {
                     staticDataSourceValue: "value1",
@@ -88,11 +83,12 @@ describe("Combo box (Association)", () => {
         const component = render(<Combobox {...defaultProps} />);
         expect(component.container).toMatchSnapshot();
     });
-    it("renders placeholder component in case of unavailable status", () => {
-        defaultProps.attributeAssociation = new ReferenceValueBuilder().isUnavailable().build();
-        const { container } = render(<Combobox {...defaultProps} />);
-        expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
+    it("renders combobox widget with selected value", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const input = await getInput(component);
+        expect(input.value).toEqual("Formatted value1");
     });
+
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const toggleButton = await getToggleButton(component);
@@ -100,7 +96,7 @@ describe("Combo box (Association)", () => {
             fireEvent.click(toggleButton);
         });
         await waitFor(() => {
-            expect(component.getAllByRole("option")).toHaveLength(4);
+            expect(component.getAllByRole("option")).toHaveLength(2);
             fireEvent.click(toggleButton);
         });
         expect(component.queryAllByRole("option")).toHaveLength(0);
@@ -110,35 +106,32 @@ describe("Combo box (Association)", () => {
         const input = await getInput(component);
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
-        const option1 = await component.findByText("222");
+        const option1 = await component.findByText("caption2");
         fireEvent.click(option1);
-        expect(input.value).toEqual("222");
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(input.value).toEqual("caption2");
+        expect(defaultProps.staticAttributeString?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
+        expect(defaultProps.staticAttributeString?.value).toEqual("value2");
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
 
         const input = await getInput(component);
-        const labelText = await component.container.querySelector(
-            ".widget-combobox-placeholder-text .widget-combobox-caption-text"
-        );
+
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
 
-        const option1 = await component.findByText("222");
+        const option1 = await component.findByText("caption1");
         fireEvent.click(option1);
 
-        expect(input.value).toEqual("222");
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(input.value).toEqual("caption1");
+        expect(defaultProps.staticAttributeString.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
+        expect(defaultProps.staticAttributeString.value).toEqual("value1");
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
 
-        expect(labelText?.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
-        expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
+        expect(defaultProps.staticAttributeString.value).toEqual(undefined);
     });
 });

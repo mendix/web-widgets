@@ -14,7 +14,11 @@ import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
-            "attributeString",
+            "databaseAttributeString",
+            "staticAttributeString",
+            "optionsSourceStaticDataSource",
+            "optionsSourceStaticCustomContent",
+            "optionsSourceStaticCustomContentType",
             "optionsSourceDatabaseCaptionAttribute",
             "optionsSourceDatabaseCaptionExpression",
             "optionsSourceDatabaseCaptionType",
@@ -76,12 +80,16 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
+            "staticAttributeString",
+            "optionsSourceStaticDataSource",
+            "optionsSourceStaticCustomContentType",
+            "optionsSourceStaticCustomContent",
+            "optionsSourceAssociationCaptionType",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationDataSource",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationCaptionType",
-            "optionsSourceAssociationCustomContent",
-            "optionsSourceAssociationCustomContentType",
-            "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
@@ -97,8 +105,38 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
         }
+    } else if (values.source === "static") {
+        hidePropertiesIn(defaultProperties, values, [
+            "attributeAssociation",
+            "attributeEnumeration",
+            "attributeBoolean",
+            "optionsSourceType",
+            "optionsSourceAssociationCaptionAttribute",
+            "optionsSourceAssociationCaptionExpression",
+            "optionsSourceAssociationCaptionType",
+            "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationDataSource",
+            "selectedItemsStyle",
+            "selectionMethod",
+            "selectAllButton",
+            "selectAllButtonCaption",
+            "databaseAttributeString",
+            "optionsSourceDatabaseCaptionAttribute",
+            "optionsSourceDatabaseCaptionExpression",
+            "optionsSourceDatabaseCaptionType",
+            "optionsSourceDatabaseCustomContent",
+            "optionsSourceDatabaseCustomContentType",
+            "optionsSourceDatabaseDataSource",
+            "optionsSourceDatabaseValueAttribute",
+            "optionsSourceDatabaseDefaultValue"
+        ]);
+        if (values.optionsSourceStaticCustomContentType === "no") {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceStaticCustomContent"]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
+        }
     }
-
     if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
         hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
     }

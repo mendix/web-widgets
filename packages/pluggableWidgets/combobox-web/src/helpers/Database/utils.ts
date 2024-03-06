@@ -29,12 +29,12 @@ type ExtractionReturnValue = [
 ];
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
-    const attr = props.attributeString;
+    const attr = props.databaseAttributeString;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
 
     if (!attr) {
-        throw new Error("'optionsSourceType' type is 'Database' but 'attributeString' is not defined.");
+        throw new Error("'optionsSourceType' type is 'Database' but 'databaseAttributeString' is not defined.");
     }
 
     const ds = props.optionsSourceDatabaseDataSource;

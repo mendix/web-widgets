@@ -25,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added database list feature support.
 
+-   We added static values feature support.
+
 ## [1.1.3] - 2024-01-22
 
 ### Fixed

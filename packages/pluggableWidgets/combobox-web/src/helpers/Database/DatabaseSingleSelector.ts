@@ -66,15 +66,6 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             emptyValue
         });
 
-        console.log([
-            !attr,
-            attr.status === "unavailable",
-            !ds,
-            ds.status === "unavailable",
-            !emptyOption,
-            emptyOption?.status === "unavailable"
-        ]);
-
         if (
             !attr ||
             attr.status === "unavailable" ||

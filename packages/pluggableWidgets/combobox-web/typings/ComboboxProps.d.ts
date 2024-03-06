@@ -7,11 +7,16 @@ import { ComponentType, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 import { Big } from "big.js";
 
-export type SourceEnum = "context" | "database";
+export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
+
+export interface OptionsSourceStaticDataSourceType {
+    staticDataSourceValue: string;
+    staticDataSourceCaption: string;
+}
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
@@ -21,9 +26,16 @@ export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" |
 
 export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "no";
 
+export type OptionsSourceStaticCustomContentTypeEnum = "yes" | "listItem" | "no";
+
 export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
+
+export interface OptionsSourceStaticDataSourcePreviewType {
+    staticDataSourceValue: string;
+    staticDataSourceCaption: string;
+}
 
 export interface ComboboxContainerProps {
     name: string;
@@ -38,8 +50,10 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
-    attributeString: EditableValue<string | Big>;
+    databaseAttributeString: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
+    staticAttributeString: EditableValue<string>;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
@@ -53,6 +67,8 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
+    optionsSourceStaticCustomContentType: OptionsSourceStaticCustomContentTypeEnum;
+    optionsSourceStaticCustomContent: ReactNode;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
@@ -81,8 +97,10 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseCaptionAttribute: string;
     optionsSourceDatabaseCaptionExpression: string;
     optionsSourceDatabaseValueAttribute: string;
-    attributeString: string;
+    databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
+    staticAttributeString: string;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
@@ -96,6 +114,8 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceStaticCustomContentType: OptionsSourceStaticCustomContentTypeEnum;
+    optionsSourceStaticCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;

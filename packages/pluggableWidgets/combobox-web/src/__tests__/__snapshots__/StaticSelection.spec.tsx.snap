@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Combo box (Static values) renders combobox widget 1`] = `
+<div>
+  <div
+    class="widget-combobox"
+  >
+    <div
+      aria-controls="downshift-0-menu"
+      aria-expanded="false"
+      class="form-control widget-combobox-input-container"
+      id="downshift-0-toggle-button"
+      tabindex="-1"
+    >
+      <div
+        class="widget-combobox-selected-items"
+      >
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          aria-controls="downshift-0-menu"
+          aria-expanded="false"
+          aria-labelledby="comboBox1-label"
+          autocomplete="off"
+          class="widget-combobox-input"
+          id="comboBox1"
+          placeholder=" "
+          role="combobox"
+          tabindex="0"
+          value="Formatted value1"
+        />
+        <div
+          class="widget-combobox-placeholder-text widget-combobox-placeholder-empty"
+        >
+          <span
+            class="widget-combobox-caption-text"
+          >
+            Formatted value1
+          </span>
+        </div>
+      </div>
+      <div
+        class="widget-combobox-down-arrow"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div
+      class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: hidden; position: fixed;"
+    >
+      <ul
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
+  </div>
+</div>
+`;

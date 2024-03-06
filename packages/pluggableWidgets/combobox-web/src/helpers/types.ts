@@ -15,7 +15,7 @@ export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null, placement?: CaptionPlacement, htmlFor?: string): ReactNode;
+    render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
 }
 export interface ValuesProvider<T> {
@@ -34,13 +34,30 @@ export interface OptionsProvider<T = unknown, P = object> {
     onAfterSearchTermChange(callback: () => void): void;
 
     // lazy loading related
-    hasMore: boolean;
-    loadMore(): void;
+    hasMore?: boolean;
+    loadMore?(): void;
 
     // for private use
     _updateProps(props: P): void;
     _optionToValue(option: string | null): T | undefined;
     _valueToOption(value: T | undefined): string | null;
+}
+
+export interface OptionsStaticProvider {
+    status: Status;
+    filterType: FilterTypeEnum;
+    searchTerm: string;
+
+    getAll(): string[];
+
+    // search related
+    setSearchTerm(term: string): void;
+    onAfterSearchTermChange(callback: () => void): void;
+
+    // for private use
+    _updateProps(props: object): void;
+    _optionToValue(index: string | null): string | undefined;
+    _valueToOption(value: string | undefined): string | null;
 }
 
 interface SelectorBase<T, V> {

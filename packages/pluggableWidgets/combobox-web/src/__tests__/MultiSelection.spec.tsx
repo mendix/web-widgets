@@ -19,6 +19,7 @@ describe("Combo box (Association)", () => {
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
+            source: "context",
             optionsSourceType: "association",
             attributeAssociation: new ReferenceSetValueBuilder().withValue([{ id: "111" }] as ObjectItem[]).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
@@ -49,11 +50,23 @@ describe("Combo box (Association)", () => {
             a11yOptionsAvailable: dynamicValue("Options available:"),
             a11yInstructions: dynamicValue("a11yInstructions"),
             showFooter: false,
-            source: "context",
-            attributeString: new EditableValueBuilder<string | Big>().build(),
+            databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
-            optionsSourceDatabaseCustomContentType: "yes"
+            optionsSourceDatabaseCustomContentType: "yes",
+            staticAttributeString: new EditableValueBuilder<string>().build(),
+            optionsSourceStaticDataSource: [
+                {
+                    staticDataSourceValue: "value1",
+                    staticDataSourceCaption: "caption1"
+                },
+                {
+                    staticDataSourceValue: "value2",
+                    staticDataSourceCaption: "caption2"
+                }
+            ],
+            optionsSourceStaticCustomContentType: "no",
+            optionsSourceStaticCustomContent: undefined
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

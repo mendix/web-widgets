@@ -15,6 +15,7 @@
                     <enumerationValues>
                         <enumerationValue key="context">Context</enumerationValue>
                         <enumerationValue key="database">Database</enumerationValue>
+                        <enumerationValue key="static">Static</enumerationValue>
                     </enumerationValues>
                 </property>
 
@@ -80,7 +81,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="attributeString" type="attribute" required="true">
+                <property key="databaseAttributeString" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -92,9 +93,34 @@
                 <property key="optionsSourceDatabaseDefaultValue" type="expression">
                     <caption>Default value</caption>
                     <description />
-                    <returnType assignableTo="attributeString" />
+                    <returnType assignableTo="databaseAttributeString" />
                 </property>
                 <!-- END DATABASE / STRING -->
+                <!-- STATIC-->
+                <property key="staticAttributeString" type="attribute" required="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
+                    <caption>Selectable objects</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="Static values">
+                            <property key="staticDataSourceValue" type="string" defaultValue="true">
+                                <caption>Value</caption>
+                                <description>Value to be set</description>
+                            </property>
+                            <property key="staticDataSourceCaption" type="string">
+                                <caption>Caption</caption>
+                                <description>Caption to be shown</description>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+                <!-- STATIC END-->
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
@@ -181,6 +207,19 @@
                     </enumerationValues>
                 </property>
                 <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceStaticCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceStaticCustomContent" type="widgets" required="true">
                     <caption>Custom content</caption>
                     <description />
                 </property>
@@ -275,7 +314,10 @@
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
                     <caption>Remove value button</caption>
-                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <description>
+                        Used to remove individual selected values when using labels with
+                        multi-selection.
+                    </description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>
@@ -303,8 +345,14 @@
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                     <translations>
-                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
-                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
+                        <translation lang="en_US">
+                            Use up and down arrow keys to navigate. Press
+                            Enter or Space Bar keys to select.
+                        </translation>
+                        <translation lang="nl_NL">
+                            Gebruik de pijltjestoetsen (omhoog en omlaag) om
+                            te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.
+                        </translation>
                     </translations>
                 </property>
             </propertyGroup>
