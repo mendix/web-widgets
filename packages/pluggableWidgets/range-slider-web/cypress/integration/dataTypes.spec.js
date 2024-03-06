@@ -24,6 +24,9 @@ describe("Range Slider", () => {
 
     it("upper bound value is higher than lower bound value", () => {
         cy.get(".mx-name-rangeSlider1").should("be.visible");
+        cy.get(".mx-name-rangeSlider1 .rc-slider-handle").should("be.visible");
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000);
         cy.get(".mx-name-rangeSlider1 .rc-slider-handle").then(el => {
             const [lowerBound, upperBound] = el;
             const lowerBoundSizes = lowerBound.getBoundingClientRect();

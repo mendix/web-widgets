@@ -36,8 +36,8 @@ describe("Carousel", () => {
 
     it("shows enlarged image when image is clicked", { retries: 3 }, () => {
         cy.get(".swiper-button-prev").click({ force: true });
-        cy.get(".mx-name-Image01").first().click({ force: true });
-        cy.get(".mx-imagezoom-image").should("be.visible");
+        cy.get(".mx-name-Image01 > img").first().click({ force: true });
+        cy.get(".mx-image-viewer-lightbox").should("be.visible");
     });
     it("check accessibility violations", { retries: 1 }, () => {
         // Test the widget at initial load
