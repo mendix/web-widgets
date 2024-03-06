@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.5.0] - 2024-03-06
+
 ### Added
 
 -   We added a new feature to Gallery: Now it is possible to navigate on gallery items using keyboard.
+
 -   We added a new feature to Gallery: You can use the keyboard to select multiple items inside the gallery, just as simple as shift + arrow keys. You can also unselect an item with shift+space.
 
 ## [1.4.1] - 2023-11-28
