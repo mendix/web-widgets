@@ -82,8 +82,8 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
         hidePropertyIn(defaultProperties, values, "pagingPosition");
     }
-    if (values.pagination !== "LoadMore") {
-        hidePropertyIn(defaultProperties, values, "customMessage");
+    if (values.pagination !== "loadMore") {
+        hidePropertyIn(defaultProperties, values, "loadMoreMessage");
     }
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");

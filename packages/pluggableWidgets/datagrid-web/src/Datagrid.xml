@@ -201,7 +201,7 @@
                     <enumerationValues>
                         <enumerationValue key="buttons">Paging buttons</enumerationValue>
                         <enumerationValue key="virtualScrolling">Virtual scrolling</enumerationValue>
-                        <enumerationValue key="LoadMore">Load More</enumerationValue>
+                        <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="pagingPosition" type="enumeration" defaultValue="bottom">
@@ -221,8 +221,8 @@
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="customMessage" type="textTemplate" required="false">
-                    <caption>Load More message</caption>
+                <property key="loadMoreMessage" type="textTemplate" required="false">
+                    <caption>Load more message</caption>
                     <description />
                     <translations>
                         <translation lang="en_US">Load More</translation>

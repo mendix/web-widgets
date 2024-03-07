@@ -4,7 +4,7 @@ import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -47,8 +47,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     numberOfItems?: number;
     onExportCancel?: () => void;
     page: number;
-    paginationType: string;
-    customMessage?: string;
+    paginationType: PaginationEnum;
+    loadMoreMessage?: string;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -97,7 +97,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         onExportCancel,
         page,
         paginationType,
-        customMessage,
+        loadMoreMessage,
         pageSize,
         paging,
         pagingPosition,
@@ -258,13 +258,13 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
-                {rows.length !== 0 && "LoadMore" === paginationType && (
+                {rows.length !== 0 && "loadMore" === paginationType && (
                     <button
                         className="btn btn-primary widget-datagrid-load-more"
                         onClick={() => setPage && setPage(prev => prev + 1)}
                         tabIndex={0}
                     >
-                        {customMessage}
+                        {loadMoreMessage}
                     </button>
                 )}
                 <ExportWidget
