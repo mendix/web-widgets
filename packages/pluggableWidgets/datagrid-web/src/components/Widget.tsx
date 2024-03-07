@@ -258,7 +258,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     </Grid>
                 </WidgetContent>
                 <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
-                {rows.length !== 0 && "loadMore" === paginationType && (
+                {rows.length !== 0 && paginationType === "loadMore" && (
                     <button
                         className="btn btn-primary widget-datagrid-load-more"
                         onClick={() => setPage && setPage(prev => prev + 1)}
