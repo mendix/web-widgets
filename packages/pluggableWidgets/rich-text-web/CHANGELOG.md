@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We update the widget icons.
+
+### Fixed
+
+-   We removed toolbar, menubar, and statusbar on readonly.
+
 ## [3.0.0] - 2024-02-28
 
 ### Breaking changes
