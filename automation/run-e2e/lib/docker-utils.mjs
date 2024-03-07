@@ -144,6 +144,7 @@ export function startCypress(ip, freePort) {
     const REPO_ROOT = execSync(`git rev-parse --show-toplevel`).toString().trim();
     const browserCypress = process.env.BROWSER_CYPRESS || "chrome";
     const headedMode = process.env.HEADED_MODE || "";
+    const modernClientMode = process.env.MODERN_CLIENT ? "--env MODERN_CLIENT=true" : "";
     const startingPoint = p.resolve("/monorepo", p.relative(REPO_ROOT, process.cwd()));
 
     console.log("Start cypress in", startingPoint);
@@ -161,6 +162,7 @@ export function startCypress(ip, freePort) {
         // cypress options
         `--browser ${browserCypress} ${headedMode}`.trim(),
         `--e2e`,
+        `${modernClientMode}`,
         `--config-file cypress.config.cjs`,
         `--config baseUrl=http://${ip}:${freePort},video=true,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
     ];

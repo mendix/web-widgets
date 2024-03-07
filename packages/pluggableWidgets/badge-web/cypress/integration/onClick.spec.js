@@ -8,6 +8,8 @@ describe("badge-web", () => {
         cy.get(badge).should("be.visible").click();
 
         const dialog = ".modal-body";
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000);
         cy.get(dialog).should("be.visible");
 
         // Verify it passes a parameter
@@ -20,6 +22,8 @@ describe("badge-web", () => {
         cy.get(badge).should("be.visible").click();
 
         const dialog = ".modal-body";
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000);
         cy.get(dialog).should("be.visible");
 
         // Verify it passes a parameter
