@@ -33,8 +33,6 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
             matchSorterOptions.sorter = option => option;
         }
 
-        console.info(matchSorterOptions);
-
         return matchSorter(this.options, this.searchTerm || "", matchSorterOptions);
     }
 
