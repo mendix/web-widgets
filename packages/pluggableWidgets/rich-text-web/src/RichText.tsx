@@ -30,7 +30,12 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
             className={classNames("widget-rich-text", `${stringAttribute.readOnly ? `editor-richtext` : ""}`)}
             style={{ width, height }}
         >
-            <BundledEditor {...props} menubar={menubar} toolbar={presets.toolbar} />
+            <BundledEditor
+                {...props}
+                menubar={menubar}
+                toolbar={presets.toolbar}
+                key={`${String(stringAttribute.readOnly)}_${id}`}
+            />
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </div>
     );
