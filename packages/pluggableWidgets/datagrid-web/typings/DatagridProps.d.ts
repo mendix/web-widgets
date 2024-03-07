@@ -4,7 +4,20 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListReferenceValue,
+    ListReferenceSetValue,
+    ListWidgetValue,
+    SelectionSingleValue,
+    SelectionMultiValue
+} from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
@@ -18,6 +31,8 @@ export type WidthEnum = "autoFill" | "autoFit" | "manual";
 export type MinWidthEnum = "auto" | "minContent" | "manual";
 
 export type AlignmentEnum = "left" | "center" | "right";
+
+export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
