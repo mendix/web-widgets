@@ -1,21 +1,19 @@
-import { CaptionsProvider, OptionsProvider, Status } from "../types";
+import { CaptionsProvider, Status } from "../types";
 import { ListValue, ObjectItem } from "mendix";
-import { matchSorter } from "match-sorter";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
+import { BaseOptionsProvider } from "../BaseOptionsProvider";
 
 interface Props {
     ds: ListValue;
     filterType: FilterTypeEnum;
 }
 
-export class DatabaseOptionsProvider implements OptionsProvider<ObjectItem, Props> {
-    private options: string[] = [];
+export class DatabaseOptionsProvider extends BaseOptionsProvider<ObjectItem, Props> {
     private ds?: ListValue;
-    private trigger?: () => void;
-    searchTerm = "";
-    filterType: FilterTypeEnum = "contains";
 
-    constructor(private caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {}
+    constructor(caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {
+        super(caption);
+    }
 
     get status(): Status {
         return this.ds?.status ?? "unavailable";
@@ -25,41 +23,10 @@ export class DatabaseOptionsProvider implements OptionsProvider<ObjectItem, Prop
         return this.ds?.hasMoreItems ?? false;
     }
 
-    onAfterSearchTermChange(callback: () => void): void {
-        this.trigger = callback;
-    }
-
-    getAll(): string[] {
-        switch (this.filterType) {
-            case "contains":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    keys: [v => this.caption.get(v)]
-                    // sorter: option => option
-                });
-            case "startsWith":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    threshold: matchSorter.rankings.WORD_STARTS_WITH,
-                    keys: [v => this.caption.get(v)]
-                    // sorter: option => option
-                });
-            case "none":
-                return matchSorter(this.options, this.searchTerm || "", {
-                    threshold: matchSorter.rankings.NO_MATCH,
-                    keys: [v => this.caption.get(v)]
-                    // sorter: option => option
-                });
-        }
-    }
-
     loadMore(): void {
         if (this.ds && this.hasMore) {
             this.ds.setLimit(this.ds.limit + 30);
         }
-    }
-
-    setSearchTerm(term: string): void {
-        this.searchTerm = term;
-        this.trigger?.();
     }
 
     _optionToValue(value: string | null): ObjectItem | undefined {
