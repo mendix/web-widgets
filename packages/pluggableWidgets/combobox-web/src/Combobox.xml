@@ -314,10 +314,7 @@
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
                     <caption>Remove value button</caption>
-                    <description>
-                        Used to remove individual selected values when using labels with
-                        multi-selection.
-                    </description>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>
@@ -345,14 +342,8 @@
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                     <translations>
-                        <translation lang="en_US">
-                            Use up and down arrow keys to navigate. Press
-                            Enter or Space Bar keys to select.
-                        </translation>
-                        <translation lang="nl_NL">
-                            Gebruik de pijltjestoetsen (omhoog en omlaag) om
-                            te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.
-                        </translation>
+                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
+                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
                     </translations>
                 </property>
             </propertyGroup>
