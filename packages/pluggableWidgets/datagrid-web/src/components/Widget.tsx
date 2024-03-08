@@ -262,7 +262,6 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     pagingPosition={pagingPosition}
                     paginationType={paginationType}
                     loadMoreButtonCaption={loadMoreButtonCaption}
-                    data={rows}
                     hasMoreItems={hasMoreItems}
                     setPage={setPage}
                 />
