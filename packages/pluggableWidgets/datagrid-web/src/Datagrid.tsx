@@ -232,7 +232,7 @@ function Container(props: Props): ReactElement {
             page={currentPage}
             pageSize={props.pageSize}
             paginationType={props.pagination}
-            loadMoreMessage={props.loadMoreMessage?.value}
+            loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
             paging={useShowPagination({
                 pagination: props.pagination,
                 showPagingButtons: props.showPagingButtons,

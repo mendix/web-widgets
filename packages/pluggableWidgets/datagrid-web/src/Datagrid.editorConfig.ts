@@ -83,7 +83,7 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "pagingPosition");
     }
     if (values.pagination !== "loadMore") {
-        hidePropertyIn(defaultProperties, values, "loadMoreMessage");
+        hidePropertyIn(defaultProperties, values, "loadMoreButtonCaption");
     }
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");

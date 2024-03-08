@@ -4,7 +4,20 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListValue,
+    ListActionValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListReferenceValue,
+    ListReferenceSetValue,
+    ListWidgetValue,
+    SelectionSingleValue,
+    SelectionMultiValue
+} from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
@@ -104,7 +117,7 @@ export interface DatagridContainerProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
-    loadMoreMessage?: DynamicValue<string>;
+    loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -145,7 +158,7 @@ export interface DatagridPreviewProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
-    loadMoreMessage: string;
+    loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
