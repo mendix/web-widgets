@@ -49,11 +49,13 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return undefined;
     }
 
-    _updateProps(_props: P): void {}
+    _updateProps(_props: P): void {
+        throw new Error("_updateProps not implemented");
+    }
     _optionToValue(_option: string | null): T | undefined {
-        return undefined;
+        throw new Error("_optionToValue not implemented");
     }
     _valueToOption(_value: T | undefined): string | null {
-        return null;
+        throw new Error("_valueToOption not implemented");
     }
 }
