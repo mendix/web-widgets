@@ -221,8 +221,8 @@
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="loadMoreMessage" type="textTemplate" required="false">
-                    <caption>Load more message</caption>
+                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
+                    <caption>Load more caption</caption>
                     <description />
                     <translations>
                         <translation lang="en_US">Load More</translation>
