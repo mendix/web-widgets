@@ -32,8 +32,6 @@ export type MinWidthEnum = "auto" | "minContent" | "manual";
 
 export type AlignmentEnum = "left" | "center" | "right";
 
-export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
-
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
     attribute?: ListAttributeValue<string | Big | boolean | Date>;
@@ -119,7 +117,7 @@ export interface DatagridContainerProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
-    loadMoreMessage?: DynamicValue<string>;
+    loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
@@ -160,7 +158,7 @@ export interface DatagridPreviewProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
-    loadMoreMessage: string;
+    loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;

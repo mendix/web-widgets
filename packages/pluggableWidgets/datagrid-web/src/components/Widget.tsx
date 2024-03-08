@@ -48,7 +48,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     onExportCancel?: () => void;
     page: number;
     paginationType: PaginationEnum;
-    loadMoreMessage?: string;
+    loadMoreButtonCaption?: string;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -97,7 +97,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         onExportCancel,
         page,
         paginationType,
-        loadMoreMessage,
+        loadMoreButtonCaption,
         pageSize,
         paging,
         pagingPosition,
@@ -257,16 +257,16 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         </GridBody>
                     </Grid>
                 </WidgetContent>
-                <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
-                {rows.length !== 0 && paginationType === "loadMore" && (
-                    <button
-                        className="btn btn-primary widget-datagrid-load-more"
-                        onClick={() => setPage && setPage(prev => prev + 1)}
-                        tabIndex={0}
-                    >
-                        {loadMoreMessage}
-                    </button>
-                )}
+                <WidgetFooter
+                    pagination={pagination}
+                    pagingPosition={pagingPosition}
+                    paginationType={paginationType}
+                    loadMoreButtonCaption={loadMoreButtonCaption}
+                    data={rows}
+                    hasMoreItems={hasMoreItems}
+                    setPage={setPage}
+                />
+
                 <ExportWidget
                     alertLabel={props.exportDialogLabel ?? "Export progress"}
                     cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
