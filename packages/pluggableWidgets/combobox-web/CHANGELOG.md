@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed sorting on combobox, now the sorting follows the default when the combobox opens, and follow a sorted ranking when any input is given.
+
 ## [1.2.0] - 2024-02-27
 
 ### Fixed
