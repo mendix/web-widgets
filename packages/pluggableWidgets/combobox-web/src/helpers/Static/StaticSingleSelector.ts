@@ -26,7 +26,7 @@ export class StaticSingleSelector implements SingleSelector {
 
     constructor() {
         this.caption = new StaticCaptionsProvider(this._objectsMap);
-        this.options = new StaticOptionsProvider(this._objectsMap);
+        this.options = new StaticOptionsProvider(this.caption, this._objectsMap);
     }
 
     updateProps(props: ComboboxContainerProps): void {

@@ -1,26 +1,25 @@
-import { OptionsStaticProvider, Status } from "../types";
+import { Status } from "../types";
 import { matchSorter } from "match-sorter";
 import { FilterTypeEnum, OptionsSourceStaticDataSourceType } from "../../../typings/ComboboxProps";
+import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
+import { BaseOptionsProvider } from "../BaseOptionsProvider";
 
 interface Props {
     ds: OptionsSourceStaticDataSourceType[];
     filterType: FilterTypeEnum;
 }
 
-export class StaticOptionsProvider implements OptionsStaticProvider {
-    private options: string[] = [];
-    private ds: OptionsSourceStaticDataSourceType[] | undefined;
-    private trigger?: () => void;
+export class StaticOptionsProvider extends BaseOptionsProvider<string, Props> {
+    options: string[] = [];
+    ds: OptionsSourceStaticDataSourceType[] | undefined;
     searchTerm = "";
     filterType: FilterTypeEnum = "contains";
-    constructor(private valuesMap: Map<string, OptionsSourceStaticDataSourceType>) {}
+    constructor(caption: StaticCaptionsProvider, private valuesMap: Map<string, OptionsSourceStaticDataSourceType>) {
+        super(caption);
+    }
 
     get status(): Status {
         return this.ds ? "available" : "unavailable";
-    }
-
-    onAfterSearchTermChange(callback: () => void): void {
-        this.trigger = callback;
     }
 
     getAll(): string[] {
@@ -43,11 +42,6 @@ export class StaticOptionsProvider implements OptionsStaticProvider {
                     sorter: option => option
                 });
         }
-    }
-
-    setSearchTerm(term: string): void {
-        this.searchTerm = term;
-        this.trigger?.();
     }
 
     _optionToValue(index: string | null): string | undefined {
