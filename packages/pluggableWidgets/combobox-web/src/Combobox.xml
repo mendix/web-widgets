@@ -96,31 +96,6 @@
                     <returnType assignableTo="databaseAttributeString" />
                 </property>
                 <!-- END DATABASE / STRING -->
-                <!-- STATIC-->
-                <property key="staticAttributeString" type="attribute" required="true">
-                    <caption>Attribute</caption>
-                    <description />
-                    <attributeTypes>
-                        <attributeType name="String" />
-                    </attributeTypes>
-                </property>
-                <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
-                    <caption>Selectable objects</caption>
-                    <description />
-                    <properties>
-                        <propertyGroup caption="Static values">
-                            <property key="staticDataSourceValue" type="string" defaultValue="true">
-                                <caption>Value</caption>
-                                <description>Value to be set</description>
-                            </property>
-                            <property key="staticDataSourceCaption" type="string">
-                                <caption>Caption</caption>
-                                <description>Caption to be shown</description>
-                            </property>
-                        </propertyGroup>
-                    </properties>
-                </property>
-                <!-- STATIC END-->
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
@@ -158,7 +133,33 @@
                 <!-- END CAPTIONS -->
             </propertyGroup>
             <!-- END OPTIONS SOURCE -->
-
+            <!-- STATIC-->
+            <propertyGroup caption="Values">
+                <property key="staticAttributeString" type="attribute" required="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
+                    <caption>Selectable objects</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="Static values">
+                            <property key="staticDataSourceValue" type="string" defaultValue="true">
+                                <caption>Value</caption>
+                                <description>Value to be set</description>
+                            </property>
+                            <property key="staticDataSourceCaption" type="string">
+                                <caption>Caption</caption>
+                                <description>Caption to be shown</description>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+            </propertyGroup>
+            <!-- STATIC END-->
             <!-- GENERAL -->
             <propertyGroup caption="General">
                 <!-- Empty option -->
@@ -207,19 +208,6 @@
                     </enumerationValues>
                 </property>
                 <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
-                    <caption>Custom content</caption>
-                    <description />
-                </property>
-                <property key="optionsSourceStaticCustomContentType" type="enumeration" defaultValue="no" required="true">
-                    <caption>Custom content</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="yes">Yes</enumerationValue>
-                        <enumerationValue key="listItem">List items only</enumerationValue>
-                        <enumerationValue key="no">No</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="optionsSourceStaticCustomContent" type="widgets" required="true">
                     <caption>Custom content</caption>
                     <description />
                 </property>
@@ -342,8 +330,14 @@
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                     <translations>
-                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
-                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
+                        <translation lang="en_US">
+                            Use up and down arrow keys to navigate. Press
+                            Enter or Space Bar keys to select.
+                        </translation>
+                        <translation lang="nl_NL">
+                            Gebruik de pijltjestoetsen (omhoog en omlaag) om
+                            te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.
+                        </translation>
                     </translations>
                 </property>
             </propertyGroup>

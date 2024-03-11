@@ -13,20 +13,18 @@ export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 
+export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
+
 export interface OptionsSourceStaticDataSourceType {
     staticDataSourceValue: string;
     staticDataSourceCaption: string;
 }
-
-export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type FilterTypeEnum = "contains" | "startsWith" | "none";
 
 export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 
 export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "no";
-
-export type OptionsSourceStaticCustomContentTypeEnum = "yes" | "listItem" | "no";
 
 export type SelectionMethodEnum = "checkbox" | "rowclick";
 
@@ -52,13 +50,13 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
-    staticAttributeString: EditableValue<string>;
-    optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
+    staticAttributeString: EditableValue<string>;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
     noOptionsText?: DynamicValue<string>;
@@ -67,8 +65,6 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
-    optionsSourceStaticCustomContentType: OptionsSourceStaticCustomContentTypeEnum;
-    optionsSourceStaticCustomContent: ReactNode;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
@@ -99,13 +95,13 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
-    staticAttributeString: string;
-    optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
+    staticAttributeString: string;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
     filterType: FilterTypeEnum;
     noOptionsText: string;
@@ -114,8 +110,6 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    optionsSourceStaticCustomContentType: OptionsSourceStaticCustomContentTypeEnum;
-    optionsSourceStaticCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;

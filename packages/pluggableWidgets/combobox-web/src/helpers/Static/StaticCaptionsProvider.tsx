@@ -66,8 +66,6 @@ export class StaticCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return null;
         }
-
-        // return this.customContent?.get(value);
     }
 
     render(index: number | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {

@@ -17,8 +17,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "databaseAttributeString",
             "staticAttributeString",
             "optionsSourceStaticDataSource",
-            "optionsSourceStaticCustomContent",
-            "optionsSourceStaticCustomContentType",
             "optionsSourceDatabaseCaptionAttribute",
             "optionsSourceDatabaseCaptionExpression",
             "optionsSourceDatabaseCaptionType",
@@ -82,8 +80,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceType",
             "staticAttributeString",
             "optionsSourceStaticDataSource",
-            "optionsSourceStaticCustomContentType",
-            "optionsSourceStaticCustomContent",
             "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCustomContentType",
             "optionsSourceAssociationCustomContent",
@@ -131,11 +127,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceDatabaseValueAttribute",
             "optionsSourceDatabaseDefaultValue"
         ]);
-        if (values.optionsSourceStaticCustomContentType === "no") {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceStaticCustomContent"]);
-        } else {
-            hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
-        }
     }
     if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
         hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
@@ -168,12 +159,24 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
     const structurePreviewChildren: StructurePreviewProps[] = [];
     let dropdownPreviewChildren: StructurePreviewProps[] = [];
 
-    if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
+    if (
+        _values.source === "context" &&
+        _values.optionsSourceType === "association" &&
+        _values.optionsSourceAssociationCustomContentType !== "no"
+    ) {
         structurePreviewChildren.push(
             dropzone(
                 dropzone.placeholder("Configure the combo box: Place widgets here"),
                 dropzone.hideDataSourceHeaderIf(false)
             )(_values.optionsSourceAssociationCustomContent)
+        );
+    }
+    if (_values.source === "database" && _values.optionsSourceDatabaseCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            dropzone(
+                dropzone.placeholder("Configure the combo box: Place widgets here"),
+                dropzone.hideDataSourceHeaderIf(false)
+            )(_values.optionsSourceDatabaseCustomContent)
         );
     }
     if (_values.showFooter === true) {
