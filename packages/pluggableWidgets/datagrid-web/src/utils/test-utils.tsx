@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
 import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { WidgetProps } from "../components/Widget";
-import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
+import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
@@ -63,17 +63,7 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
         }
     };
 
-    return new ColumnStore(
-        c,
-        {
-            columnsDraggable: false,
-            columnsHidable: false,
-            columnsResizable: false,
-            columnsSortable: false
-        } as DatagridContainerProps,
-        index,
-        parentStore
-    );
+    return new ColumnStore(index, c, parentStore);
 }
 
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {

@@ -66,7 +66,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
-            const column = new ColumnStore(columnProps, props, i, this);
+            const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
 
