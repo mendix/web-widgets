@@ -7,29 +7,26 @@ import {
     ValueStatus
 } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
+import { AlignmentEnum, ColumnsType, DatagridContainerProps } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";
 import { action, computed, makeObservable, observable } from "mobx";
-import { ColumnsStore } from "../ColumnsStore";
-import { ColumnFilterStore, IColumnFilterStore } from "./ColumnFilterStore";
 import { BaseColumnInfo } from "./BaseColumnInfo";
-import { FilterCondition } from "mendix/filters";
+import { IColumnParentStore } from "../ColumnsStore";
+import { SortDirection } from "../../../typings/GridModel";
 
-export interface IColumnStore extends GridColumn {
-    filter: IColumnFilterStore;
-}
+export interface IColumnStore extends GridColumn {}
 
 export class ColumnStore implements IColumnStore {
-    canDrag: boolean;
     columnNumber: number;
-
-    filter: ColumnFilterStore;
+    isHidden: boolean;
+    size: number | undefined = undefined;
+    orderWeight: number;
 
     private headerElementRef: HTMLDivElement | null = null;
 
     private baseInfo: BaseColumnInfo;
-    private columnsStore: ColumnsStore;
+    private parentStore: IColumnParentStore;
 
     // dynamic props from PW API
     private _visible?: DynamicValue<boolean> = undefined; // can't render when unavailable
@@ -42,17 +39,17 @@ export class ColumnStore implements IColumnStore {
 
     constructor(
         props: ColumnsType,
+        widgetProps: DatagridContainerProps,
         columnNumber: number,
-        columnsStore: ColumnsStore,
-        initialFilters: FilterCondition | undefined
+        parentStore: IColumnParentStore
     ) {
-        this.columnsStore = columnsStore;
+        this.parentStore = parentStore;
 
-        this.baseInfo = new BaseColumnInfo(props); // base props never change, it is safe to no update them
-        this.filter = new ColumnFilterStore(props, initialFilters);
+        this.baseInfo = new BaseColumnInfo(props, widgetProps); // base props never change, it is safe to no update them
 
         this.columnNumber = columnNumber; // this number also never changes
-        this.canDrag = this.baseInfo.draggable && this.columnsStore.dragEnabled;
+        this.isHidden = this.baseInfo.initiallyHidden;
+        this.orderWeight = columnNumber * 10;
 
         makeObservable<
             ColumnStore,
@@ -66,7 +63,13 @@ export class ColumnStore implements IColumnStore {
             _dynamicText: observable,
             _content: observable,
 
+            isHidden: observable,
+            size: observable,
+            orderWeight: observable,
+
             updateProps: action,
+            toggleHidden: action,
+            setSize: action,
 
             canSort: computed,
             header: computed,
@@ -98,8 +101,6 @@ export class ColumnStore implements IColumnStore {
                 break;
             }
         }
-
-        this.filter.updateProps(props);
     }
 
     // old props
@@ -115,44 +116,44 @@ export class ColumnStore implements IColumnStore {
         return this.baseInfo.wrapText;
     }
 
+    get canDrag(): boolean {
+        return this.baseInfo.draggable;
+    }
+
     // hiding
     get canHide(): boolean {
-        return this.baseInfo.hidable && this.columnsStore.hideEnabled;
+        return this.baseInfo.hidable;
     }
-    get isHidden(): boolean {
-        return this.columnsStore.visual.isHidden(this.columnId);
-    }
+
     toggleHidden(): void {
-        this.columnsStore.visual.toggleHidden(this.columnId);
+        this.isHidden = !this.isHidden;
     }
 
     // size
     get canResize(): boolean {
         // column is not resizable if it is at the end of the grid
-        return this.baseInfo.resizable && this.columnsStore.resizeEnabled && !this.isLastVisible();
+        return this.baseInfo.resizable && !this.parentStore.isLastVisible(this);
     }
-    get size(): number | undefined {
-        return this.columnsStore.visual.getSize(this.columnId);
-    }
+
     setSize(size: number | undefined): void {
-        this.columnsStore.visual.setSize(this.columnId, size);
+        this.size = size;
     }
 
     // sorting
     get canSort(): boolean {
-        return this.baseInfo.sortable && !!this._attribute?.sortable && this.columnsStore.sortEnabled;
+        return this.baseInfo.sortable && !!this._attribute?.sortable;
     }
-    get sortDir(): "asc" | "desc" | undefined {
-        if (this.columnsStore.sorting.rule && this.columnsStore.sorting.rule.at(0) === this.columnId) {
-            const [, dir] = this.columnsStore.sorting.rule;
 
-            return dir;
-        }
-
-        return undefined;
+    get sortDir(): SortDirection | undefined {
+        return this.parentStore.sorting.getDirection(this.columnId)?.[0];
     }
+
+    get sortWeight(): number | undefined {
+        return this.parentStore.sorting.getDirection(this.columnId)?.[1];
+    }
+
     toggleSort(): void {
-        this.columnsStore.sorting.toggleSort(this.columnId);
+        this.parentStore.sorting.toggleSort(this.columnId);
     }
 
     get columnId(): ColumnId {
@@ -226,13 +227,9 @@ export class ColumnStore implements IColumnStore {
         return this._columnClass?.get(item).value;
     }
 
-    private isLastVisible(): boolean {
-        return this.columnsStore.visibleColumns.at(-1) === this;
-    }
-
     getCssWidth(): string {
         if (this.size) {
-            if (this.isLastVisible()) {
+            if (this.parentStore.isLastVisible(this)) {
                 return "minmax(min-content, auto)";
             }
             return `${this.size}px`;

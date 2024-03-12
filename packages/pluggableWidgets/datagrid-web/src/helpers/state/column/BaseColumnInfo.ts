@@ -1,5 +1,6 @@
 import {
     AlignmentEnum,
+    DatagridContainerProps,
     HidableEnum,
     MinWidthEnum,
     ShowContentAsEnum,
@@ -37,12 +38,12 @@ export class BaseColumnInfo {
     minWidth: MinWidthEnum;
     minWidthLimit: number;
 
-    constructor(props: BaseColumnInfoProps) {
+    constructor(props: BaseColumnInfoProps, widgetProps: DatagridContainerProps) {
         this.alignment = props.alignment;
-        this.sortable = props.sortable;
-        this.resizable = props.resizable;
-        this.draggable = props.draggable;
-        this.hidable = props.hidable !== "no";
+        this.sortable = widgetProps.columnsSortable && props.sortable;
+        this.resizable = widgetProps.columnsResizable && props.resizable;
+        this.draggable = widgetProps.columnsDraggable && props.draggable;
+        this.hidable = widgetProps.columnsHidable && props.hidable !== "no";
         this.initiallyHidden = props.hidable === "hidden";
         this.wrapText = props.wrapText;
         this.showContentAs = props.showContentAs;

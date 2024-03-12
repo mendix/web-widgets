@@ -1,6 +1,6 @@
-import { SortRule } from "../../typings/GridModel";
+import { SortDirection, SortRule } from "../../typings/GridModel";
 import { ColumnId } from "../../typings/GridColumn";
-import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../features/model/utils";
 import { ColumnsStore } from "./ColumnsStore";
@@ -11,6 +11,12 @@ export interface ColumnSettings {
     size: number | undefined;
     hidden: boolean;
     filterSettings: unknown;
+}
+
+export interface ColumnSettingsExtended extends ColumnSettings {
+    orderWeight: number;
+    sortDir: SortDirection | undefined;
+    sortWeight: number | undefined;
 }
 
 export interface GridSettings {
@@ -27,43 +33,46 @@ export class GridSettingsStore {
     private gridName: string;
 
     private storageAttr: EditableValue<string> | undefined;
-    private storedSettings: GridSettings | undefined = undefined;
 
     constructor(props: DatagridContainerProps, private columnsStore: ColumnsStore) {
         this.gridName = props.name;
         this.storageAttr = props.configurationAttribute;
 
-        makeObservable<GridSettingsStore, "storageAttr" | "storedSettings" | "applySettings" | "readStorageData">(
-            this,
-            {
-                storageAttr: observable.ref,
-                storedSettings: observable.struct,
-                settingsData: computed,
+        makeObservable<GridSettingsStore, "storageAttr" | "storedSettings" | "applySettings">(this, {
+            storageAttr: observable.ref,
 
-                readStorageData: action,
-                applySettings: action,
-                updateProps: action
+            storedSettings: computed,
+            settings: computed,
+
+            applySettings: action,
+            updateProps: action
+        });
+
+        reaction(
+            () => this.storedSettings,
+            settings => {
+                if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
+                    this.applySettings(settings);
+                }
             }
         );
 
-        // todo: dispose those autoruns on unmount
-        autorun(() => {
-            if (this.storageAttr && this.storageAttr.status === ValueStatus.Available) {
-                this.readStorageData(this.storageAttr.value);
+        reaction(
+            () => this.settings,
+            settings => {
+                if (this.storageAttr && !this.storageAttr.readOnly) {
+                    if (JSON.stringify(this.storedSettings) !== JSON.stringify(settings)) {
+                        this.storageAttr.setValue(JSON.stringify(settings));
+                    }
+                }
             }
-        });
+        );
+    }
 
-        autorun(() => {
-            if (this.storedSettings !== undefined) {
-                this.applySettings(this.storedSettings);
-            }
-        });
-
-        autorun(() => {
-            if (this.storageAttr && !this.storageAttr.readOnly) {
-                this.storageAttr.setValue(this.settingsData);
-            }
-        });
+    get storedSettings(): GridSettings | undefined {
+        if (this.storageAttr && this.storageAttr.status === ValueStatus.Available && this.storageAttr.value) {
+            return JSON.parse(this.storageAttr.value) as unknown as GridSettings;
+        }
     }
 
     updateProps(props: DatagridContainerProps): void {
@@ -71,32 +80,48 @@ export class GridSettingsStore {
     }
 
     private applySettings(settings: GridSettings): void {
-        this.columnsStore.sorting.fromConfig(settings.sortOrder);
-        this.columnsStore.visual.applyColumnSettings(settings.columns, settings.columnOrder);
-    }
+        const configs: ColumnSettingsExtended[] = settings.columns.map(c => {
+            const sortIndex = settings.sortOrder.findIndex(s => s[0] === c.columnId);
 
-    private readStorageData(storageData: string | undefined): void {
-        // todo: handle old settings formats
-        if (storageData) {
-            this.storedSettings = JSON.parse(storageData) as unknown as GridSettings;
-        }
+            return {
+                columnId: c.columnId,
+                size: c.size,
+                hidden: c.hidden,
+
+                orderWeight: settings.columnOrder.indexOf(c.columnId),
+
+                sortWeight: sortIndex !== -1 ? sortIndex + 1 : undefined,
+                sortDir: sortIndex !== -1 ? settings.sortOrder[sortIndex]?.[1] : undefined,
+
+                filterSettings: undefined
+            };
+        });
+
+        this.columnsStore.applyColumnsSettings(configs);
     }
 
     get settings(): GridSettings {
-        const sortOrder = this.columnsStore.sorting.config;
-        const [columns, columnOrder] = this.columnsStore.visual.columnSettings;
+        const columns = this.columnsStore.columnsSettings;
+
+        const sortOrder = columns
+            .filter(c => c.sortDir && c.sortWeight !== undefined)
+            .sort((a, b) => a.sortWeight! - b.sortWeight!)
+            .map(c => [c.columnId!, c.sortDir!] as SortRule);
+
+        const columnOrder = [...columns].sort((a, b) => a.orderWeight - b.orderWeight).map(c => c.columnId);
 
         return {
             name: this.gridName,
             schemaVersion: 2,
             settingsHash: getHash(this.columnsStore._allColumns, this.gridName),
-            columns,
+            columns: columns.map(c => ({
+                columnId: c.columnId,
+                size: c.size,
+                hidden: c.hidden,
+                filterSettings: undefined
+            })),
             sortOrder,
             columnOrder
         };
-    }
-
-    get settingsData(): string {
-        return JSON.stringify(this.settings);
     }
 }

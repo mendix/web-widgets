@@ -1,34 +1,17 @@
-// state of data grid
-
-// datasource
-// manage filters, sorting and pagination
-
-// columns
-// manage available columns, hiding, reordering
-// facts:
-// array of columns is always available, always have all columns
-// static properties can't change, so we calculate some hash on them
-// visible might be loading or not available, this makes the column unavailable next to "false"
-// header might be loading or unavailable, still possible to render without it
-// column contains some filtering stuff, not sure how it is used yet
-// one of the columns have to always stay visible
-//
-// when external factors show or hide columns (via visibility) so that nothing is visible - show all columns
-// Fields needed for columns
-// - allColumns (all columns array)
-// - availableColumns (calculated array)
-// - visibleColumns (calculated array)
-// - hiddenColumnIds (set of columns explicitly hidden by the user)
-// - columnsOrder (array of columnsIds showing the order in which they have to be represented)
-// - size (Record columnId to number showing explicitly set column sizes)
-
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { action, computed, makeObservable, observable, configure } from "mobx";
-import { ColumnsSortingStore } from "./ColumnsSortingStore";
-import { ColumnsVisualStore, IColumnsVisualStore } from "./ColumnsVisualStore";
+import { action, computed, configure, makeObservable, observable } from "mobx";
+import {
+    ColumnsSortingStore,
+    IColumnSortingStore,
+    sortInstructionsToSortRules,
+    sortRulesToSortInstructions
+} from "./ColumnsSortingStore";
 import { ColumnStore, IColumnStore } from "./column/ColumnStore";
 import { FilterCondition } from "mendix/filters";
-import { SortInstruction } from "../../typings/GridModel";
+import { SortInstruction, SortRule } from "../../typings/GridModel";
+import { ColumnId } from "../../typings/GridColumn";
+import { ColumnSettings, ColumnSettingsExtended } from "./GridSettingsStore";
+import { ColumnFilterStore } from "./column/ColumnFilterStore";
 
 configure({ isolateGlobalState: true });
 
@@ -45,16 +28,25 @@ export interface IColumnsStore {
     availableColumns: IColumnStore[];
     visibleColumns: IColumnStore[];
 
-    // nester stores
-    visual: IColumnsVisualStore;
+    columnFilters: ColumnFilterStore[];
 
     updateProps(props: DatagridContainerProps["columns"]): void;
+
+    swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void;
+    createSizeSnapshot(): void;
 }
 
-export class ColumnsStore implements IColumnsStore {
-    readonly _allColumns: ColumnStore[];
+export interface IColumnParentStore {
+    isLastVisible(column: ColumnStore): boolean;
+    sorting: IColumnSortingStore;
+}
 
-    visual: ColumnsVisualStore;
+export class ColumnsStore implements IColumnsStore, IColumnParentStore {
+    readonly _allColumns: ColumnStore[];
+    readonly _allColumnsById: Map<ColumnId, ColumnStore> = new Map();
+
+    readonly columnFilters: ColumnFilterStore[];
+
     sorting: ColumnsSortingStore;
 
     dragEnabled: boolean;
@@ -70,12 +62,20 @@ export class ColumnsStore implements IColumnsStore {
         this.resizeEnabled = props.columnsResizable;
         this.sortEnabled = props.columnsSortable;
 
-        this._allColumns = props.columns.map((columnProps, i) => {
-            return new ColumnStore(columnProps, i, this, props.datasource.filter);
+        this._allColumns = [];
+        this.columnFilters = [];
+
+        props.columns.forEach((columnProps, i) => {
+            const column = new ColumnStore(columnProps, props, i, this);
+            this._allColumnsById.set(column.columnId, column);
+            this._allColumns[i] = column;
+
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, props.datasource.filter);
         });
 
-        this.visual = new ColumnsVisualStore(this._allColumns);
-        this.sorting = new ColumnsSortingStore(this._allColumns, props.datasource.sortOrder);
+        this.sorting = new ColumnsSortingStore(
+            sortInstructionsToSortRules(props.datasource.sortOrder, this._allColumns)
+        );
 
         makeObservable<ColumnsStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,
@@ -85,8 +85,12 @@ export class ColumnsStore implements IColumnsStore {
             availableColumns: computed,
             visibleColumns: computed,
             filterConditions: computed.struct,
+            columnsSettings: computed.struct,
 
-            updateProps: action
+            updateProps: action,
+            createSizeSnapshot: action,
+            swapColumns: action,
+            applyColumnsSettings: action
         });
     }
 
@@ -98,8 +102,21 @@ export class ColumnsStore implements IColumnsStore {
         if (this.visibleColumns.length < 1) {
             // if all columns are hidden after the update - reset hidden state HERE
             console.warn("All columns are hidden, resetting hidden state");
-            this.visual.showAll();
+            this._allColumns.forEach(c => {
+                c.isHidden = true;
+            });
         }
+    }
+
+    swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void {
+        const columnA = this._allColumnsById.get(columnIdA)!;
+        const columnB = this._allColumnsById.get(columnIdB)!;
+
+        [columnA.orderWeight, columnB.orderWeight] = [columnB.orderWeight, columnA.orderWeight];
+    }
+
+    createSizeSnapshot(): void {
+        this._allColumns.forEach(c => c.takeSizeSnapshot());
     }
 
     get loaded(): boolean {
@@ -108,11 +125,7 @@ export class ColumnsStore implements IColumnsStore {
     }
 
     private get _allColumnsOrdered(): ColumnStore[] {
-        return [...this._allColumns].sort(
-            (columnA, columnB) =>
-                this.visual.getColumnOrderWeight(columnA.columnId)! -
-                this.visual.getColumnOrderWeight(columnB.columnId)!
-        );
+        return [...this._allColumns].sort((columnA, columnB) => columnA.orderWeight - columnB.orderWeight);
     }
 
     get availableColumns(): ColumnStore[] {
@@ -123,16 +136,84 @@ export class ColumnsStore implements IColumnsStore {
 
     get visibleColumns(): ColumnStore[] {
         // list of columns that are available and not in the set of hidden columns
-        return [...this.availableColumns].filter(column => !this.visual.columnHidden.has(column.columnId));
+        return [...this.availableColumns].filter(column => !column.isHidden);
     }
 
     get filterConditions(): FilterCondition[] {
-        return this.visibleColumns
-            .map(column => column.filter.condition)
+        return this.columnFilters
+            .map(cf => cf.condition)
             .filter((filter): filter is FilterCondition => filter !== undefined);
     }
 
     get sortInstructions(): SortInstruction[] | undefined {
-        return this.sorting.sortInstructions;
+        return sortRulesToSortInstructions(this.sorting.rules, this._allColumns);
+    }
+
+    get columnsSettings(): ColumnSettingsExtended[] {
+        return this._allColumns.map(column => {
+            return {
+                columnId: column.columnId,
+                size: column.size,
+                hidden: column.isHidden,
+                orderWeight: column.orderWeight,
+                sortDir: column.sortDir,
+                sortWeight: column.sortWeight,
+                filterSettings: undefined
+            };
+        });
+    }
+    applyColumnsSettings(settings: ColumnSettingsExtended[]): void {
+        settings.forEach(conf => {
+            const cId = conf.columnId;
+            const column = this._allColumnsById.get(cId);
+            if (!column) {
+                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
+                return;
+            }
+
+            // size
+            column.size = conf.size;
+
+            // hidden
+            column.isHidden = conf.hidden;
+
+            // order
+            column.orderWeight = conf.orderWeight * 10;
+        });
+
+        this.sorting.rules = settings
+            .filter(s => s.sortDir && s.sortWeight !== undefined)
+            .sort((a, b) => a.sortWeight! - b.sortWeight!)
+            .map(c => [c.columnId, c.sortDir!] as SortRule);
+    }
+
+    applyColumnsSettings2(config: ColumnSettings[], columnOrder: ColumnId[]): void {
+        config.forEach(conf => {
+            const cId = conf.columnId;
+            const column = this._allColumnsById.get(cId);
+            if (!column) {
+                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
+                return;
+            }
+            // size
+            column.size = conf.size;
+
+            // hidden
+            column.isHidden = conf.hidden;
+        });
+
+        columnOrder.forEach((cId, weight) => {
+            const column = this._allColumnsById.get(cId);
+            if (!column) {
+                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
+                return;
+            }
+
+            column.orderWeight = weight;
+        });
+    }
+
+    isLastVisible(column: ColumnStore): boolean {
+        return this.visibleColumns.at(-1) === column;
     }
 }
