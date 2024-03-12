@@ -16,7 +16,6 @@ import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 
 import { ColumnResizerProps } from "./ColumnResizer";
-import * as Grid from "../typings/GridModel";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export interface HeaderProps {
@@ -33,7 +32,7 @@ export interface HeaderProps {
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    swapColumns: Grid.Actions["swap"];
+    swapColumns: (a: ColumnId, b: ColumnId) => void;
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
 }
@@ -87,7 +86,7 @@ const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
 
 function useDraggable(
     columnsDraggable: boolean,
-    setColumnOrder: Grid.Actions["swap"],
+    setColumnOrder: (a: ColumnId, b: ColumnId) => void,
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
@@ -135,7 +134,7 @@ function useDraggable(
             const columnA = (e.target as HTMLDivElement).dataset.columnId as ColumnId;
             const columnB = e.dataTransfer.getData(DATA_FORMAT_ID) as ColumnId;
 
-            setColumnOrder([columnA, columnB]);
+            setColumnOrder(columnA, columnB);
         },
         [handleDragEnd, setColumnOrder]
     );

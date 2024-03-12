@@ -135,7 +135,7 @@ const Container = observer((props: Props): ReactElement => {
             )}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
-                    const columnFilter = columnsStore.availableColumns[columnIndex].filter;
+                    const columnFilter = columnsStore.columnFilters[columnIndex];
 
                     if (!columnFilter.needsFilterContext) {
                         return renderWrapper(columnFilter.renderFilterWidgets());
@@ -197,8 +197,8 @@ const Container = observer((props: Props): ReactElement => {
             selectRowLabel={props.selectRowLabel?.value}
             visibleColumns={columnsStore.visibleColumns}
             availableColumns={columnsStore.availableColumns}
-            columnsCreateSizeSnapshot={() => columnsStore.visual.createSizeSnapshot()}
-            columnsSwap={([a, b]) => columnsStore.visual.swapColumns(a, b)}
+            columnsCreateSizeSnapshot={() => columnsStore.createSizeSnapshot()}
+            columnsSwap={(a, b) => columnsStore.swapColumns(a, b)}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
@@ -238,7 +238,6 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
     rootStore.updateProps(props);
 
     if (!rootStore.isLoaded) {
-        // columns/settings are not yet loaded, we can't render at this point
         return null;
     }
 

@@ -1,19 +1,16 @@
 import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
-import { dynamicValue, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { WidgetProps } from "../components/Widget";
-import { ColumnsType } from "../../typings/DatagridProps";
+import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
-import { GridColumn } from "../typings/GridColumn";
-import { Column } from "../helpers/Column";
-import { initGridState } from "../features/model/use-grid-state";
-import { paramsFromColumns } from "../features/model/utils";
-import * as Grid from "../typings/GridModel";
+import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
-import { Actions, State } from "../typings/GridModel";
+import { ColumnStore } from "../helpers/state/column/ColumnStore";
+import { IColumnParentStore } from "../helpers/state/ColumnsStore";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -51,24 +48,38 @@ export function mockSelectionProps(patch?: (props: SelectActionHelper) => Select
     return props;
 }
 
-export function mockState(columns: Column[]): Grid.State {
-    const state = initGridState({
-        params: paramsFromColumns(columns, list(0)),
-        columns
-    });
+export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
+    const parentStore: IColumnParentStore = {
+        isLastVisible(_column: ColumnStore): boolean {
+            return false;
+        },
+        sorting: {
+            getDirection(_columnId: ColumnId): ["asc" | "desc", number] | undefined {
+                return undefined;
+            },
+            toggleSort(_columnId: ColumnId): void {
+                return undefined;
+            }
+        }
+    };
 
-    columns.forEach(c =>
-        c.unstable_setStateAndActions(state as State, { setColumnElement: jest.fn() } as unknown as Actions)
+    return new ColumnStore(
+        c,
+        {
+            columnsDraggable: false,
+            columnsHidable: false,
+            columnsResizable: false,
+            columnsSortable: false
+        } as DatagridContainerProps,
+        index,
+        parentStore
     );
-
-    return state;
 }
 
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
-    const columns = columnsProp.map((col, index) => new Column(col, index));
-    const state = mockState(columns);
+    const columns = columnsProp.map((col, index) => mockGridColumn(col, index));
 
     return {
         CellComponent: Cell,
@@ -89,8 +100,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         pageSize: 10,
         paging: false,
         pagingPosition: "bottom",
-        visibleColumns: state.visibleColumns,
-        availableColumns: state.availableColumns,
+        visibleColumns: columns,
+        availableColumns: columns,
         columnsSwap: jest.fn(),
         columnsCreateSizeSnapshot: jest.fn(),
         selectionStatus: "unknown",

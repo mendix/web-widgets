@@ -70,7 +70,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     visibleColumns: GridColumn[];
     availableColumns: GridColumn[];
 
-    columnsSwap: (arg: [a: ColumnId, b: ColumnId]) => void;
+    columnsSwap: (a: ColumnId, b: ColumnId) => void;
     columnsCreateSizeSnapshot: () => void;
 }
 
