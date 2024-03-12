@@ -7,7 +7,7 @@ import {
     ValueStatus
 } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { AlignmentEnum, ColumnsType, DatagridContainerProps } from "../../../../typings/DatagridProps";
+import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";
 import { action, computed, makeObservable, observable } from "mobx";
@@ -37,15 +37,10 @@ export class ColumnStore implements IColumnStore {
     private _dynamicText?: ListExpressionValue<string> = undefined; // as "dynamicText"
     private _content?: ListWidgetValue = undefined; // as "customContent"
 
-    constructor(
-        props: ColumnsType,
-        widgetProps: DatagridContainerProps,
-        columnNumber: number,
-        parentStore: IColumnParentStore
-    ) {
+    constructor(columnNumber: number, props: ColumnsType, parentStore: IColumnParentStore) {
         this.parentStore = parentStore;
 
-        this.baseInfo = new BaseColumnInfo(props, widgetProps); // base props never change, it is safe to no update them
+        this.baseInfo = new BaseColumnInfo(props); // base props never change, it is safe to no update them
 
         this.columnNumber = columnNumber; // this number also never changes
         this.isHidden = this.baseInfo.initiallyHidden;
