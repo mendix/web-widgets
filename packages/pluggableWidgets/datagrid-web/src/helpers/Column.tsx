@@ -10,13 +10,13 @@ export class Column extends BaseColumn implements GridColumn {
     private unstable_state: State | undefined;
     private unstable_actions: Actions | undefined;
 
-    columnNumber: number;
+    columnIndex: number;
 
     constructor(props: ColumnsType, columnNumber: number) {
         super(props);
 
         this.props = props;
-        this.columnNumber = columnNumber;
+        this.columnIndex = columnNumber;
     }
 
     columnClass(item: ObjectItem): string | undefined {
@@ -31,7 +31,7 @@ export class Column extends BaseColumn implements GridColumn {
      * For now it's just a column index. In the future it should be replaced by the platform provided tag/id.
      */
     get columnId(): ColumnId {
-        return this.columnNumber.toString() as ColumnId;
+        return this.columnIndex.toString() as ColumnId;
     }
 
     get header(): string {
