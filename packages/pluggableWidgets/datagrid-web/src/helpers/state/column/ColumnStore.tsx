@@ -13,7 +13,7 @@ import { Big } from "big.js";
 import { action, computed, makeObservable, observable } from "mobx";
 import { BaseColumnInfo } from "./BaseColumnInfo";
 import { IColumnParentStore } from "../ColumnsStore";
-import { SortDirection } from "../../../typings/GridModel";
+import { SortDirection } from "../../../typings/sorting";
 
 export interface IColumnStore extends GridColumn {}
 

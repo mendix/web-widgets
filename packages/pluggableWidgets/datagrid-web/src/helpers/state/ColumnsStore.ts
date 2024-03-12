@@ -8,7 +8,7 @@ import {
 } from "./ColumnsSortingStore";
 import { ColumnStore, IColumnStore } from "./column/ColumnStore";
 import { FilterCondition } from "mendix/filters";
-import { SortInstruction, SortRule } from "../../typings/GridModel";
+import { SortInstruction, SortRule } from "../../typings/sorting";
 import { ColumnId } from "../../typings/GridColumn";
 import { ColumnSettingsExtended } from "./GridSettingsStore";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";

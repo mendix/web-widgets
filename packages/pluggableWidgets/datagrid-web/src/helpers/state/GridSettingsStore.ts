@@ -1,4 +1,4 @@
-import { SortDirection, SortRule } from "../../typings/GridModel";
+import { SortDirection, SortRule } from "../../typings/sorting";
 import { ColumnId } from "../../typings/GridColumn";
 import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";

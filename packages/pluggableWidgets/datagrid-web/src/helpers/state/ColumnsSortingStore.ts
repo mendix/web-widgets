@@ -1,6 +1,6 @@
 import { ColumnId } from "../../typings/GridColumn";
 import { action, computed, makeObservable, observable } from "mobx";
-import { SortDirection, SortInstruction, SortRule } from "../../typings/GridModel";
+import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
 import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnSortingStore {
