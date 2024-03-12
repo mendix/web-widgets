@@ -3,10 +3,10 @@ import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
-import * as Grid from "../typings/GridModel";
+import { GridColumn } from "../typings/GridColumn";
 
 export interface ColumnSelectorProps {
-    columns: Grid.Columns;
+    columns: GridColumn[];
     id?: string;
     label?: string;
     visibleLength: number;
@@ -51,7 +51,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 };
                 return column.canHide ? (
                     <li
-                        key={column.columnNumber}
+                        key={column.columnId}
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();

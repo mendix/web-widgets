@@ -121,7 +121,7 @@ function mockHeaderProps(): HeaderProps {
         gridId: "dg1",
         column: {
             columnId: "dg1-column0",
-            columnNumber: 0,
+            columnIndex: 0,
             header: "Test",
             sortDir: undefined,
             toggleSort: () => undefined

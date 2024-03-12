@@ -18,7 +18,7 @@ import { SortDirection } from "../../../typings/GridModel";
 export interface IColumnStore extends GridColumn {}
 
 export class ColumnStore implements IColumnStore {
-    columnNumber: number;
+    columnIndex: number;
     isHidden: boolean;
     size: number | undefined = undefined;
     orderWeight: number;
@@ -37,14 +37,14 @@ export class ColumnStore implements IColumnStore {
     private _dynamicText?: ListExpressionValue<string> = undefined; // as "dynamicText"
     private _content?: ListWidgetValue = undefined; // as "customContent"
 
-    constructor(columnNumber: number, props: ColumnsType, parentStore: IColumnParentStore) {
+    constructor(index: number, props: ColumnsType, parentStore: IColumnParentStore) {
         this.parentStore = parentStore;
 
         this.baseInfo = new BaseColumnInfo(props); // base props never change, it is safe to no update them
 
-        this.columnNumber = columnNumber; // this number also never changes
+        this.columnIndex = index; // this number also never changes
         this.isHidden = this.baseInfo.initiallyHidden;
-        this.orderWeight = columnNumber * 10;
+        this.orderWeight = index * 10;
 
         makeObservable<
             ColumnStore,
@@ -152,7 +152,7 @@ export class ColumnStore implements IColumnStore {
     }
 
     get columnId(): ColumnId {
-        return this.columnNumber.toString() as ColumnId;
+        return this.columnIndex.toString() as ColumnId;
     }
 
     get isAvailable(): boolean {
@@ -170,7 +170,7 @@ export class ColumnStore implements IColumnStore {
     get loaded(): boolean {
         if (!this._visible) {
             console.warn(
-                `Didn't expect column #${this.columnNumber} to not have "visible" expression. Treating as true (loaded)`
+                `Didn't expect column #${this.columnIndex} to not have "visible" expression. Treating as true (loaded)`
             );
             return true;
         }

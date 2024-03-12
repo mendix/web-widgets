@@ -10,7 +10,7 @@ import { ColumnStore, IColumnStore } from "./column/ColumnStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction, SortRule } from "../../typings/GridModel";
 import { ColumnId } from "../../typings/GridColumn";
-import { ColumnSettings, ColumnSettingsExtended } from "./GridSettingsStore";
+import { ColumnSettingsExtended } from "./GridSettingsStore";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 
 configure({ isolateGlobalState: true });
@@ -97,6 +97,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
     updateProps(props: DatagridContainerProps["columns"]): void {
         props.forEach((columnProps, i) => {
             this._allColumns[i].updateProps(columnProps);
+            this.columnFilters[i].updateProps(columnProps);
         });
 
         if (this.visibleColumns.length < 1) {
@@ -185,32 +186,6 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
             .filter(s => s.sortDir && s.sortWeight !== undefined)
             .sort((a, b) => a.sortWeight! - b.sortWeight!)
             .map(c => [c.columnId, c.sortDir!] as SortRule);
-    }
-
-    applyColumnsSettings2(config: ColumnSettings[], columnOrder: ColumnId[]): void {
-        config.forEach(conf => {
-            const cId = conf.columnId;
-            const column = this._allColumnsById.get(cId);
-            if (!column) {
-                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
-                return;
-            }
-            // size
-            column.size = conf.size;
-
-            // hidden
-            column.isHidden = conf.hidden;
-        });
-
-        columnOrder.forEach((cId, weight) => {
-            const column = this._allColumnsById.get(cId);
-            if (!column) {
-                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
-                return;
-            }
-
-            column.orderWeight = weight;
-        });
     }
 
     isLastVisible(column: ColumnStore): boolean {

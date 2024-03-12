@@ -7,7 +7,7 @@ import { SortDirection } from "../typings/GridModel";
 export class ColumnPreview extends BaseColumn implements GridColumn {
     private props: ColumnsPreviewType;
 
-    columnNumber: number;
+    columnIndex: number;
 
     constructor(props: ColumnsPreviewType, columnNumber: number) {
         super({
@@ -16,14 +16,14 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
         });
 
         this.props = props;
-        this.columnNumber = columnNumber;
+        this.columnIndex = columnNumber;
     }
 
     columnClass(_item?: unknown): string | undefined {
         return undefined;
     }
     get columnId(): ColumnId {
-        return this.columnNumber.toString() as ColumnId;
+        return this.columnIndex.toString() as ColumnId;
     }
     get header(): string {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;

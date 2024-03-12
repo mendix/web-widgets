@@ -37,7 +37,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
         columns: useMemo(
-            () => columnsStore.visibleColumns.map(column => props.columns[column.columnNumber]),
+            () => columnsStore.visibleColumns.map(column => props.columns[column.columnIndex]),
             [columnsStore.visibleColumns, props.columns]
         ),
         hasMoreItems: props.datasource.hasMoreItems || false,
