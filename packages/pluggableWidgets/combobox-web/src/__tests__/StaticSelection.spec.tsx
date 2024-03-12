@@ -66,9 +66,7 @@ describe("Combo box (Static values)", () => {
                     staticDataSourceValue: "value2",
                     staticDataSourceCaption: "caption2"
                 }
-            ],
-            optionsSourceStaticCustomContentType: "no",
-            optionsSourceStaticCustomContent: undefined
+            ]
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
