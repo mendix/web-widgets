@@ -2,7 +2,7 @@ import { ColumnsStore } from "./ColumnsStore";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { HeaderFiltersStore } from "./HeaderFiltersStore";
 import { FilterCondition } from "mendix/filters";
-import { SortInstruction } from "../../typings/GridModel";
+import { SortInstruction } from "../../typings/sorting";
 import { GridSettingsStore } from "./GridSettingsStore";
 
 export class RootGridStore {
