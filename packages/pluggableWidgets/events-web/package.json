@@ -1,8 +1,8 @@
 {
   "name": "@mendix/app-events-web",
-  "widgetName": "AppEvents",
+  "widgetName": "Events",
   "version": "1.0.0",
-  "description": "App events",
+  "description": "Events",
   "copyright": "© Mendix Technology BV 2024. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -14,14 +14,14 @@
     "developmentPort": 3000
   },
   "mxpackage": {
-    "name": "AppEvents",
+    "name": "Events",
     "type": "widget",
-    "mpkName": "com.mendix.widget.web.appevents.mpk"
+    "mpkName": "com.mendix.widget.web.events.mpk"
   },
   "marketplace": {
     "minimumMXVersion": "9.24.0",
     "appNumber": 219304,
-    "appName": "App events"
+    "appName": "Events"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
