@@ -1,5 +1,5 @@
+import { EditableValue } from "mendix";
 import { useEffect, useState } from "react";
-import { EditableValue, ListValue } from "mendix";
 
 interface ActionTimerProps {
     canExecute?: boolean;
@@ -7,10 +7,10 @@ interface ActionTimerProps {
     delay: number;
     interval: number;
     repeat: boolean;
-    attribute: Array<EditableValue | ListValue | undefined>;
+    attribute?: EditableValue;
 }
 
-export function useActionTimer(props: ActionTimerProps) {
+export function useActionTimer(props: ActionTimerProps): void {
     const { canExecute, execute, delay, interval, repeat, attribute } = props;
     const [toggleTimer, setToggleTimer] = useState(-1);
     useEffect(() => {
@@ -39,5 +39,6 @@ export function useActionTimer(props: ActionTimerProps) {
             clearInterval(counter);
             clearTimeout(counter);
         };
-    }, [...attribute, toggleTimer, delay, interval]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [attribute, toggleTimer, delay, interval]);
 }

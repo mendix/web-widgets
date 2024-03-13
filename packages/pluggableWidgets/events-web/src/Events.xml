@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.appevents.Appevents" pluginWidget="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>App events</name>
-    <description>App events</description>
-    <helpUrl>https://docs.mendix.com/appstore/widgets/appevents</helpUrl>
+<widget id="com.mendix.widget.web.events.Events" pluginWidget="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Events</name>
+    <description>Events</description>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/events</helpUrl>
     <properties>
-        <propertyGroup caption="App events">
+        <propertyGroup caption="Events">
             <!-- OPTIONS SOURCE -->
             <propertyGroup caption="Component load">
                 <property key="onComponentLoad" type="action" required="false">
@@ -25,26 +25,6 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="On change">
-                <property key="optionsSourceType" type="enumeration" defaultValue="attribute" required="true">
-                    <caption>Type</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="attribute">Attribute</enumerationValue>
-                        <enumerationValue key="association">Association</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
-                    <caption>Entity</caption>
-                    <description />
-                    <associationTypes>
-                        <associationType name="Reference" />
-                        <associationType name="ReferenceSet" />
-                    </associationTypes>
-                </property>
-                <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
-                    <caption>Selectable objects</caption>
-                    <description />
-                </property>
                 <property key="optionsSourceAttributeDataSource" type="attribute" required="false">
                     <caption>Attribute</caption>
                     <description />

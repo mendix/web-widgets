@@ -1,15 +1,13 @@
 /**
- * This file was generated from AppEvents.xml
+ * This file was generated from Events.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, ListValue, ReferenceValue, ReferenceSetValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 import { Big } from "big.js";
 
-export type OptionsSourceTypeEnum = "attribute" | "association";
-
-export interface AppEventsContainerProps {
+export interface EventsContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -18,15 +16,12 @@ export interface AppEventsContainerProps {
     componentLoadDelay: number;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number;
-    optionsSourceType: OptionsSourceTypeEnum;
-    attributeAssociation: ReferenceValue | ReferenceSetValue;
-    optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAttributeDataSource?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
     onEventChangeDelay: number;
 }
 
-export interface AppEventsPreviewProps {
+export interface EventsPreviewProps {
     /**
      * @deprecated Deprecated since version 9.18.0. Please use class property instead.
      */
@@ -39,9 +34,6 @@ export interface AppEventsPreviewProps {
     componentLoadDelay: number | null;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number | null;
-    optionsSourceType: OptionsSourceTypeEnum;
-    attributeAssociation: string;
-    optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAttributeDataSource: string;
     onEventChange: {} | null;
     onEventChangeDelay: number | null;
