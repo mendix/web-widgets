@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import { GridColumn } from "../../typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 
 /**
  * Generates 32 bit FNV-1a hash from the given string.

@@ -1,8 +1,8 @@
-import { GridSettings } from "../../typings/GridSettings";
+import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
 
 export interface SettingsStorage {
-    save(settings: GridSettings): void;
-    load(): GridSettings | undefined;
+    save(settings: GridPersonalizationStorageSettings): void;
+    load(): GridPersonalizationStorageSettings | undefined;
     reset(): void;
 }
 

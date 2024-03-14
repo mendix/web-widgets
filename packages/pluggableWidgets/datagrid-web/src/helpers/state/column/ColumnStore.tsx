@@ -15,9 +15,7 @@ import { BaseColumnInfo } from "./BaseColumnInfo";
 import { IColumnParentStore } from "../ColumnsStore";
 import { SortDirection } from "../../../typings/sorting";
 
-export interface IColumnStore extends GridColumn {}
-
-export class ColumnStore implements IColumnStore {
+export class ColumnStore implements GridColumn {
     columnIndex: number;
     isHidden: boolean;
     size: number | undefined = undefined;

@@ -1,16 +1,16 @@
-import { GridSettings } from "../../typings/GridSettings";
+import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
 import { SettingsStorage } from "./base";
 
 export class LocalSettingsStorage implements SettingsStorage {
     constructor(private key: string) {}
 
-    load(): GridSettings | undefined {
+    load(): GridPersonalizationStorageSettings | undefined {
         const data = localStorage.getItem(this.key);
 
         return data ? JSON.parse(data) : undefined;
     }
 
-    save(data: GridSettings): void {
+    save(data: GridPersonalizationStorageSettings): void {
         localStorage.setItem(this.key, JSON.stringify(data));
     }
 

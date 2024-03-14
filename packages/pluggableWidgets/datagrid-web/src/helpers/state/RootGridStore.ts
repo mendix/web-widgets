@@ -3,18 +3,18 @@ import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { HeaderFiltersStore } from "./HeaderFiltersStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
-import { GridSettingsStore } from "./GridSettingsStore";
+import { GridPersonalizationStore } from "./GridPersonalizationStore";
 
 export class RootGridStore {
     columnsStore: ColumnsStore;
     headerFiltersStore: HeaderFiltersStore;
-    settingsStore: GridSettingsStore;
+    settingsStore: GridPersonalizationStore;
 
     constructor(props: DatagridContainerProps) {
         this.setInitParams(props);
         this.columnsStore = new ColumnsStore(props);
         this.headerFiltersStore = new HeaderFiltersStore(props);
-        this.settingsStore = new GridSettingsStore(props, this.columnsStore);
+        this.settingsStore = new GridPersonalizationStore(props, this.columnsStore);
     }
 
     private setInitParams(props: DatagridContainerProps): void {
