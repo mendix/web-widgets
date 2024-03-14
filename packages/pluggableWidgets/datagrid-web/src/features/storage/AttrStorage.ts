@@ -1,13 +1,13 @@
 import { EditableValue } from "mendix";
 import { SettingsStorage } from "./base";
-import { GridSettings } from "../../typings/GridSettings";
+import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
 
 export class AttrStorage implements SettingsStorage {
     constructor(private attr: EditableValue<string>, private hash: string) {}
 
-    load(): GridSettings | undefined {
+    load(): GridPersonalizationStorageSettings | undefined {
         if (typeof this.attr.value === "string" && this.attr.value.length > 0) {
-            const data: GridSettings = JSON.parse(this.attr.value);
+            const data: GridPersonalizationStorageSettings = JSON.parse(this.attr.value);
             if (data.settingsHash === this.hash) {
                 return data;
             }
@@ -15,7 +15,7 @@ export class AttrStorage implements SettingsStorage {
         }
     }
 
-    save(settings: GridSettings): void {
+    save(settings: GridPersonalizationStorageSettings): void {
         this.attr.setValue(JSON.stringify(settings));
     }
 

@@ -6,12 +6,12 @@ import {
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnStore, IColumnStore } from "./column/ColumnStore";
+import { ColumnStore } from "./column/ColumnStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction, SortRule } from "../../typings/sorting";
-import { ColumnId } from "../../typings/GridColumn";
-import { ColumnSettingsExtended } from "./GridSettingsStore";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
+import { ColumnPersonalizationSettings } from "../../typings/personalization-settings";
 
 configure({ isolateGlobalState: true });
 
@@ -25,8 +25,8 @@ export interface IColumnsStore {
 
     loaded: boolean;
 
-    availableColumns: IColumnStore[];
-    visibleColumns: IColumnStore[];
+    availableColumns: GridColumn[];
+    visibleColumns: GridColumn[];
 
     columnFilters: ColumnFilterStore[];
 
@@ -150,7 +150,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
         return sortRulesToSortInstructions(this.sorting.rules, this._allColumns);
     }
 
-    get columnsSettings(): ColumnSettingsExtended[] {
+    get columnsSettings(): ColumnPersonalizationSettings[] {
         return this._allColumns.map(column => {
             return {
                 columnId: column.columnId,
@@ -163,7 +163,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
             };
         });
     }
-    applyColumnsSettings(settings: ColumnSettingsExtended[]): void {
+    applyColumnsSettings(settings: ColumnPersonalizationSettings[]): void {
         settings.forEach(conf => {
             const cId = conf.columnId;
             const column = this._allColumnsById.get(cId);
