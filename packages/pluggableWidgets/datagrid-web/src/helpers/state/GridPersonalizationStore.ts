@@ -1,29 +1,27 @@
 import { SortRule } from "../../typings/sorting";
-import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { action, computed, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../utils/columns-hash";
 import { ColumnsStore } from "./ColumnsStore";
-import { EditableValue, ValueStatus } from "mendix";
 import {
     ColumnPersonalizationSettings,
     GridPersonalizationStorageSettings
 } from "../../typings/personalization-settings";
+import { PersonalizationStorage } from "../storage/PersonalizationStorage";
+import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
 
-    private storageAttr: EditableValue<string> | undefined;
+    private storage: PersonalizationStorage;
 
     constructor(props: DatagridContainerProps, private columnsStore: ColumnsStore) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
-        this.storageAttr = props.configurationAttribute;
+        this.storage = new AttributePersonalizationStorage(props);
 
-        makeObservable<GridPersonalizationStore, "storageAttr" | "storedSettings" | "applySettings">(this, {
-            storageAttr: observable.ref,
-
-            storedSettings: computed,
+        makeObservable<GridPersonalizationStore, "applySettings">(this, {
             settings: computed,
 
             applySettings: action,
@@ -31,7 +29,7 @@ export class GridPersonalizationStore {
         });
 
         reaction(
-            () => this.storedSettings,
+            () => this.storage.storedSettings,
             settings => {
                 if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
                     this.applySettings(settings);
@@ -42,23 +40,13 @@ export class GridPersonalizationStore {
         reaction(
             () => this.settings,
             settings => {
-                if (this.storageAttr && !this.storageAttr.readOnly) {
-                    if (JSON.stringify(this.storedSettings) !== JSON.stringify(settings)) {
-                        this.storageAttr.setValue(JSON.stringify(settings));
-                    }
-                }
+                this.storage.storeSettings(settings);
             }
         );
     }
 
-    get storedSettings(): GridPersonalizationStorageSettings | undefined {
-        if (this.storageAttr && this.storageAttr.status === ValueStatus.Available && this.storageAttr.value) {
-            return JSON.parse(this.storageAttr.value) as unknown as GridPersonalizationStorageSettings;
-        }
-    }
-
     updateProps(props: DatagridContainerProps): void {
-        this.storageAttr = props.configurationAttribute;
+        this.storage.updateProps(props);
     }
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
