@@ -10,7 +10,7 @@ export function preview(props: EventsPreviewProps): ReactElement {
     return (
         <div className={classNames("widget-events-preview", { active: eventsCount > 0 })}>
             <EventsIcon isActive={eventsCount > 0} />
-            {eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Events`}
+            {eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Event${eventsCount > 1 ? "s" : ""}`}
         </div>
     );
 }

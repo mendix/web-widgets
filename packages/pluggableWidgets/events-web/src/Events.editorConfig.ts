@@ -1,12 +1,14 @@
 import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
-import { EventsPreviewProps } from "../typings/EventsProps";
 import {
     StructurePreviewProps,
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { EventsPreviewProps } from "../typings/EventsProps";
 
-import EventsPreviewSVG from "./assets/Events.icon.svg";
 import EventsPreviewSVGActive from "./assets/Events.icon.active.svg";
+import EventsPreviewSVG from "./assets/Events.icon.svg";
+import EventsPreviewDarkSVGActive from "./assets/Events.icon.dark.active.svg";
+import EventsPreviewDarkSVG from "./assets/Events.icon.dark.svg";
 
 export function getProperties(
     values: EventsPreviewProps,
@@ -22,15 +24,16 @@ export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): Str
     const eventsCount = Number(!!values.onComponentLoad) + Number(!!values.onEventChange);
 
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-
-    const variant = eventsCount > 0 ? EventsPreviewSVGActive : EventsPreviewSVG;
+    const activeSVG = isDarkMode ? EventsPreviewDarkSVGActive : EventsPreviewSVGActive;
+    const normalSVG = isDarkMode ? EventsPreviewDarkSVG : EventsPreviewSVG;
+    const variant = eventsCount > 0 ? activeSVG : normalSVG;
     const doc = decodeURIComponent(variant.replace("data:image/svg+xml,", ""));
 
     return {
         type: "RowLayout",
         columnSize: "grow",
         borders: true,
-        backgroundColor: eventsCount <= 0 ? palette.background.container : palette.background.containerDisabled,
+        backgroundColor: palette.background.containerFill,
         children: [
             {
                 type: "Container"
@@ -49,7 +52,10 @@ export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): Str
                     },
                     {
                         type: "Text",
-                        content: eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Events`,
+                        content:
+                            eventsCount <= 0
+                                ? "[Configure events]"
+                                : `[${eventsCount}] Event${eventsCount > 1 ? "s" : ""}`,
                         fontColor: palette.text.primary,
                         grow: 10
                     }
@@ -65,5 +71,5 @@ export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): Str
 export function getCustomCaption(values: EventsPreviewProps, _platform = "desktop"): string {
     const eventsCount = Number(!!values.onComponentLoad) + Number(!!values.onEventChange);
 
-    return eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Events`;
+    return eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Event${eventsCount > 1 ? "s" : ""}`;
 }
