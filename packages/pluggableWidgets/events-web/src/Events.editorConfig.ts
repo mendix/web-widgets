@@ -1,7 +1,11 @@
 import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    rowLayout,
+    container,
+    svgImage,
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { EventsPreviewProps } from "../typings/EventsProps";
 
@@ -21,7 +25,7 @@ export function getProperties(
 }
 
 export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
-    const eventsCount = Number(!!values.onComponentLoad) + Number(!!values.onEventChange);
+    const eventsCount = getEventsCount(values);
 
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const activeSVG = isDarkMode ? EventsPreviewDarkSVGActive : EventsPreviewSVGActive;
@@ -29,47 +33,25 @@ export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): Str
     const variant = eventsCount > 0 ? activeSVG : normalSVG;
     const doc = decodeURIComponent(variant.replace("data:image/svg+xml,", ""));
 
-    return {
-        type: "RowLayout",
-        columnSize: "grow",
-        borders: true,
-        backgroundColor: palette.background.containerFill,
-        children: [
-            {
-                type: "Container"
-            },
-            {
-                type: "RowLayout", // fills space on the right
-                grow: 2,
-                padding: 8,
-                children: [
-                    {
-                        type: "Image",
-                        document: doc,
-                        height: 15,
-                        grow: 1,
-                        width: 15
-                    },
-                    {
-                        type: "Text",
-                        content:
-                            eventsCount <= 0
-                                ? "[Configure events]"
-                                : `[${eventsCount}] Event${eventsCount > 1 ? "s" : ""}`,
-                        fontColor: palette.text.primary,
-                        grow: 10
-                    }
-                ]
-            },
-            {
-                type: "Container"
-            }
-        ]
-    };
+    return rowLayout({ columnSize: "grow", borders: true, backgroundColor: palette.background.containerFill })(
+        container()(),
+        rowLayout({ grow: 2, padding: 8 })(
+            svgImage(doc, 15, 15),
+            text({ fontColor: palette.text.primary, grow: 10 })(getCaption(eventsCount))
+        ),
+        container()()
+    );
 }
 
 export function getCustomCaption(values: EventsPreviewProps, _platform = "desktop"): string {
-    const eventsCount = Number(!!values.onComponentLoad) + Number(!!values.onEventChange);
+    const caption = getCaption(getEventsCount(values));
+    return caption;
+}
 
+export function getEventsCount(values: EventsPreviewProps): number {
+    return Number(!!values.onComponentLoad) + Number(!!values.onEventChange);
+}
+
+export function getCaption(eventsCount: number): string {
     return eventsCount <= 0 ? "[Configure events]" : `[${eventsCount}] Event${eventsCount > 1 ? "s" : ""}`;
 }

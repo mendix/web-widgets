@@ -16,7 +16,7 @@ export interface EventsContainerProps {
     componentLoadDelay: number;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number;
-    optionsSourceAttributeDataSource?: EditableValue<Big | any | boolean | Date | string>;
+    onEventChangeAttribute?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
     onEventChangeDelay: number;
 }
@@ -34,7 +34,7 @@ export interface EventsPreviewProps {
     componentLoadDelay: number | null;
     componentLoadRepeat: boolean;
     componentLoadRepeatInterval: number | null;
-    optionsSourceAttributeDataSource: string;
+    onEventChangeAttribute: string;
     onEventChange: {} | null;
     onEventChangeDelay: number | null;
 }
