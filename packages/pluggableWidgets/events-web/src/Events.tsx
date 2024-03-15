@@ -12,7 +12,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
         componentLoadDelay,
         componentLoadRepeat,
         componentLoadRepeatInterval,
-        optionsSourceAttributeDataSource,
+        onEventChangeAttribute,
         onEventChange,
         onEventChangeDelay
         // optionsSourceType
@@ -29,15 +29,15 @@ export default function Events(props: EventsContainerProps): ReactElement {
     useActionTimer({
         canExecute: onEventChange?.canExecute,
         execute: () => {
-            if (optionsSourceAttributeDataSource?.status === "loading") {
+            if (onEventChangeAttribute?.status === "loading") {
                 return;
             }
             if (prevOnChangeAttributeValue?.current?.value === undefined) {
                 // ignore initial load
-                prevOnChangeAttributeValue.current = optionsSourceAttributeDataSource;
+                prevOnChangeAttributeValue.current = onEventChangeAttribute;
             } else {
-                if (optionsSourceAttributeDataSource?.value !== prevOnChangeAttributeValue.current?.value) {
-                    prevOnChangeAttributeValue.current = optionsSourceAttributeDataSource;
+                if (onEventChangeAttribute?.value !== prevOnChangeAttributeValue.current?.value) {
+                    prevOnChangeAttributeValue.current = onEventChangeAttribute;
                     onEventChange?.execute();
                 }
             }
@@ -45,7 +45,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
         delay: onEventChangeDelay,
         interval: 0,
         repeat: false,
-        attribute: optionsSourceAttributeDataSource
+        attribute: onEventChangeAttribute
     });
     return <div className={classnames("widget-events", className)}></div>;
 }

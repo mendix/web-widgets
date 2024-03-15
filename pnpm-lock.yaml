@@ -1183,9 +1183,6 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      deep-equal:
-        specifier: ^2.2.3
-        version: 2.2.3
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1214,9 +1211,6 @@ importers:
       '@mendix/widget-plugin-test-utils':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
-      '@types/deep-equal':
-        specifier: ^1.0.1
-        version: 1.0.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

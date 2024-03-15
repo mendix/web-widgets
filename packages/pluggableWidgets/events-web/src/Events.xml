@@ -25,7 +25,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="On change">
-                <property key="optionsSourceAttributeDataSource" type="attribute" required="false">
+                <property key="onEventChangeAttribute" type="attribute" required="false">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
