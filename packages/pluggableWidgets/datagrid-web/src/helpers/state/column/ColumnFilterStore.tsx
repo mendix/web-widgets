@@ -57,7 +57,8 @@ export class ColumnFilterStore implements IColumnFilterStore {
             condition: computed.struct,
 
             filterState: observable.ref,
-            setFilterState: action
+            setFilterState: action,
+            updateProps: action
         });
     }
 
@@ -93,9 +94,9 @@ export class ColumnFilterStore implements IColumnFilterStore {
             return;
         }
 
-        const association = ensure(this.filterAssociation, msg("filterAssociation"));
-        const optionsSource = ensure(this.filterAssociationOptions, msg("filterAssociationOptions"));
-        const labelSource = ensure(this.filterAssociationOptionLabel, msg("filterAssociationOptionLabel"));
+        const association = ensure(this.filterAssociation, errorMessage("filterAssociation"));
+        const optionsSource = ensure(this.filterAssociationOptions, errorMessage("filterAssociationOptions"));
+        const labelSource = ensure(this.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"));
 
         return {
             association,
@@ -117,4 +118,5 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 }
 
-const msg = (propName: string): string => `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
+const errorMessage = (propName: string): string =>
+    `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
