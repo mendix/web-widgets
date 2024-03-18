@@ -1,5 +1,5 @@
 import { ColumnId } from "../../typings/GridColumn";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
 import { ColumnStore } from "./column/ColumnStore";
 
@@ -17,10 +17,7 @@ export class ColumnsSortingStore implements IColumnSortingStore {
         makeObservable(this, {
             rules: observable.struct,
 
-            config: computed.struct,
-
-            toggleSort: action,
-            fromConfig: action
+            toggleSort: action
         });
     }
 
@@ -29,33 +26,25 @@ export class ColumnsSortingStore implements IColumnSortingStore {
         if (ruleIndex === -1) {
             return undefined;
         }
-        const rule = this.rules.at(ruleIndex)!;
+        const [, dir] = this.rules.at(ruleIndex)!;
 
-        return [rule[1], ruleIndex + 1];
+        return [dir, ruleIndex + 1];
     }
 
     toggleSort(columnId: ColumnId): void {
-        const rule = this.rules[0];
-        if (!rule || rule[0] !== columnId) {
+        const [[cId, dir] = []] = this.rules;
+        if (!cId || cId !== columnId) {
             // was not sorted or sorted by a different column
             this.rules = [[columnId, "asc"]];
             return;
         }
-        if (rule[1] === "asc") {
+        if (dir === "asc") {
             // sorted by asc, flip to desc
             this.rules = [[columnId, "desc"]];
             return;
         }
         // sorted by desc, disable
         this.rules = [];
-    }
-
-    fromConfig(config: SortRule[]): void {
-        this.rules = config;
-    }
-
-    get config(): SortRule[] {
-        return this.rules;
     }
 }
 
@@ -67,15 +56,18 @@ export function sortInstructionsToSortRules(
         return [];
     }
 
-    return sortInstructions.map(si => {
-        const [attrId, dir] = si;
-        const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
-        if (!cId) {
-            throw new Error(`Unknown attribute id: '${attrId}'`);
-        }
+    return sortInstructions
+        .map((si): SortRule | undefined => {
+            const [attrId, dir] = si;
+            const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
+            if (!cId) {
+                console.warn(`Can't parse sorting instruction. Unknown attribute id: '${attrId}'`);
+                return undefined;
+            }
 
-        return [cId, dir];
-    });
+            return [cId, dir];
+        })
+        .filter((r): r is SortRule => !!r);
 }
 
 export function sortRulesToSortInstructions(
@@ -86,17 +78,15 @@ export function sortRulesToSortInstructions(
         return undefined;
     }
 
-    const sortInstructions: SortInstruction[] = [];
-
-    sortRules.forEach(rule => {
-        const [cId, dir] = rule;
-        const attrId = allColumns.find(c => c.columnId === cId)?.attrId;
-        if (!attrId) {
-            console.warn(`Can't apply sorting for column ${cId}. The column either doesn't exist or not sortable.`);
-            return undefined;
-        }
-        sortInstructions.push([attrId, dir]);
-    });
-
-    return sortInstructions;
+    return sortRules
+        .map((rule): SortInstruction | undefined => {
+            const [cId, dir] = rule;
+            const attrId = allColumns.find(c => c.columnId === cId)?.attrId;
+            if (!attrId) {
+                console.warn(`Can't apply sorting for column ${cId}. The column either doesn't exist or not sortable.`);
+                return undefined;
+            }
+            return [attrId, dir];
+        })
+        .filter((si): si is SortInstruction => !!si);
 }
