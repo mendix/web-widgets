@@ -30,3 +30,7 @@ export function changeTimeToMidnight(date: Date): Date {
 export function doubleMonthOrDayWhenSingle(formatString: string): string {
     return formatString.replaceAll(/d+|M+/g, m => (m.length > 1 ? m : m + m));
 }
+
+export function dayOfWeekWhenUpperCase(formatString: string): string {
+    return formatString.replaceAll(/E/g, m => m.toLowerCase());
+}
