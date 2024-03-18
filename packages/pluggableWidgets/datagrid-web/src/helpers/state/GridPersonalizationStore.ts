@@ -24,12 +24,11 @@ export class GridPersonalizationStore {
         makeObservable<GridPersonalizationStore, "applySettings">(this, {
             settings: computed,
 
-            applySettings: action,
-            updateProps: action
+            applySettings: action
         });
 
         reaction(
-            () => this.storage.storedSettings,
+            () => this.storage.settings,
             settings => {
                 if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
                     this.applySettings(settings);
@@ -40,13 +39,13 @@ export class GridPersonalizationStore {
         reaction(
             () => this.settings,
             settings => {
-                this.storage.storeSettings(settings);
+                this.storage.updateSettings(settings);
             }
         );
     }
 
     updateProps(props: DatagridContainerProps): void {
-        this.storage.updateProps(props);
+        this.storage.updateProps?.(props);
     }
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {

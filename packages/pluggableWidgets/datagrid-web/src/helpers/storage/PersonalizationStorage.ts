@@ -2,8 +2,8 @@ import { GridPersonalizationStorageSettings } from "../../typings/personalizatio
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 export interface PersonalizationStorage {
-    storedSettings: GridPersonalizationStorageSettings | undefined;
-    storeSettings(newSettings: GridPersonalizationStorageSettings): void;
+    settings: GridPersonalizationStorageSettings | undefined;
+    updateSettings(newSettings: GridPersonalizationStorageSettings): void;
 
-    updateProps(props: DatagridContainerProps): void;
+    updateProps?(props: DatagridContainerProps): void;
 }

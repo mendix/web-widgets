@@ -1,7 +1,7 @@
 import { EditableValue, ValueStatus } from "mendix";
 import { PersonalizationStorage } from "./PersonalizationStorage";
 import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
-import { computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 export class AttributePersonalizationStorage implements PersonalizationStorage {
@@ -11,9 +11,11 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         this.storageAttr = props.configurationAttribute;
 
         makeObservable<this, "storageAttr">(this, {
-            storageAttr: observable,
+            storageAttr: observable.ref,
 
-            storedSettings: computed.struct
+            settings: computed.struct,
+
+            updateProps: action
         });
     }
 
@@ -21,13 +23,13 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         this.storageAttr = props.configurationAttribute;
     }
 
-    get storedSettings(): GridPersonalizationStorageSettings | undefined {
+    get settings(): GridPersonalizationStorageSettings | undefined {
         if (this.storageAttr && this.storageAttr.status === ValueStatus.Available && this.storageAttr.value) {
-            return JSON.parse(this.storageAttr.value) as unknown as GridPersonalizationStorageSettings;
+            return JSON.parse(this.storageAttr.value) as GridPersonalizationStorageSettings;
         }
     }
 
-    storeSettings(newSettings: GridPersonalizationStorageSettings): void {
+    updateSettings(newSettings: GridPersonalizationStorageSettings): void {
         if (this.storageAttr && !this.storageAttr.readOnly) {
             const newSettingsJson = JSON.stringify(newSettings);
             if (this.storageAttr.value !== newSettingsJson) {
