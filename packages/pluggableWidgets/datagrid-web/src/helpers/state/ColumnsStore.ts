@@ -104,7 +104,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
             // if all columns are hidden after the update - reset hidden state HERE
             console.warn("All columns are hidden, resetting hidden state");
             this._allColumns.forEach(c => {
-                c.isHidden = true;
+                c.isHidden = false;
             });
         }
     }
