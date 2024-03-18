@@ -140,6 +140,12 @@
                     <description />
                     <attributeTypes>
                         <attributeType name="String" />
+                        <attributeType name="Enum" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Boolean" />
+                        <attributeType name="DateTime" />
+                        <attributeType name="Decimal" />
+                        <attributeType name="Long" />
                     </attributeTypes>
                 </property>
                 <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
@@ -147,11 +153,11 @@
                     <description />
                     <properties>
                         <propertyGroup caption="Static values">
-                            <property key="staticDataSourceValue" type="string" defaultValue="true">
+                            <property key="staticDataSourceValue" type="textTemplate">
                                 <caption>Value</caption>
                                 <description>Value to be set</description>
                             </property>
-                            <property key="staticDataSourceCaption" type="string">
+                            <property key="staticDataSourceCaption" type="textTemplate">
                                 <caption>Caption</caption>
                                 <description>Caption to be shown</description>
                             </property>

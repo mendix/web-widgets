@@ -26,29 +26,29 @@ export class StaticOptionsProvider extends BaseOptionsProvider<string, Props> {
         switch (this.filterType) {
             case "contains":
                 return matchSorter(this.options, this.searchTerm || "", {
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption as string],
+                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
                     sorter: option => option
                 });
             case "startsWith":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.WORD_STARTS_WITH,
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption as string],
+                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
                     sorter: option => option
                 });
             case "none":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.NO_MATCH,
-                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption as string],
+                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
                     sorter: option => option
                 });
         }
     }
 
-    _optionToValue(index: string | null): string | undefined {
+    _optionToValue(index: string | boolean | null): string | undefined {
         if (index === null) {
             return undefined;
         }
-        return this.valuesMap.get(index.toString())?.staticDataSourceValue;
+        return this.valuesMap.get(index.toString())?.staticDataSourceValue.value;
     }
 
     _valueToOption(value: string | undefined): string | null {

@@ -12,6 +12,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 
 export class StaticSingleSelector implements SingleSelector {
     type = "single" as const;
+    attributeType: "string" | "big" | "boolean" | "date" = "string";
     status: Status = "unavailable";
     options: OptionsStaticProvider;
     caption: StaticCaptionsProvider;
@@ -20,7 +21,7 @@ export class StaticSingleSelector implements SingleSelector {
     readOnly = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
-    protected _attr: EditableValue<string | Big.Big> | undefined;
+    protected _attr: EditableValue<string | Big | boolean | Date> | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, OptionsSourceStaticDataSourceType> = new Map();
 
@@ -45,24 +46,44 @@ export class StaticSingleSelector implements SingleSelector {
             filterType
         });
 
-        if (!attr || attr.status === "unavailable" || !ds || !emptyOption || emptyOption.status === "unavailable") {
+        if (
+            !attr ||
+            attr.status === "unavailable" ||
+            !ds ||
+            ds[0].staticDataSourceValue.status === "unavailable" ||
+            ds[0].staticDataSourceCaption.status === "unavailable" ||
+            !emptyOption ||
+            emptyOption.status === "unavailable"
+        ) {
             this.status = "unavailable";
             this.currentId = null;
             this.clearable = false;
             return;
         }
-
         this.clearable = clearable;
         this.status = attr.status;
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
+        this.attributeType =
+            typeof attr.universe?.[0] === "boolean"
+                ? "boolean"
+                : attr.formatter?.type === "datetime"
+                ? "date"
+                : "string";
     }
 
     setValue(key: string | null): void {
         const value = this._objectsMap.get(key || "");
-        this._attr?.setValue(value?.staticDataSourceValue);
+        if (this.attributeType === "boolean") {
+            const booleanValue = value?.staticDataSourceValue.value === "true";
+            this._attr?.setValue(booleanValue);
+        } else if (this.attributeType === "date") {
+            this._attr?.setValue(new Date(this._attr.formatter.format(value?.staticDataSourceValue.value)));
+        } else {
+            this._attr?.setValue(value?.staticDataSourceValue.value);
+        }
         this.currentId = key;
         executeAction(this.onChangeEvent);
     }

@@ -16,8 +16,8 @@ export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export interface OptionsSourceStaticDataSourceType {
-    staticDataSourceValue: string;
-    staticDataSourceCaption: string;
+    staticDataSourceValue: DynamicValue<string>;
+    staticDataSourceCaption: DynamicValue<string>;
 }
 
 export type FilterTypeEnum = "contains" | "startsWith" | "none";
@@ -55,7 +55,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
-    staticAttributeString: EditableValue<string>;
+    staticAttributeString: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
     filterType: FilterTypeEnum;

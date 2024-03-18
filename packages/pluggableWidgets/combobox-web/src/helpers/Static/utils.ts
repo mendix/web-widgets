@@ -7,7 +7,7 @@ import {
 } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [
-    EditableValue<string | Big>,
+    EditableValue<string | Big | boolean | Date>,
     OptionsSourceStaticDataSourceType[],
     DynamicValue<string> | undefined,
     boolean,
