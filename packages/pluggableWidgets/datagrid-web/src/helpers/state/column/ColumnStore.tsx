@@ -48,13 +48,13 @@ export class ColumnStore implements GridColumn {
             ColumnStore,
             "_visible" | "_header" | "_columnClass" | "_tooltip" | "_attribute" | "_dynamicText" | "_content"
         >(this, {
-            _visible: observable,
-            _header: observable.shallow,
-            _columnClass: observable,
-            _tooltip: observable,
-            _attribute: observable,
-            _dynamicText: observable,
-            _content: observable,
+            _visible: observable.ref,
+            _header: observable.ref,
+            _columnClass: observable.ref,
+            _tooltip: observable.ref,
+            _attribute: observable.ref,
+            _dynamicText: observable.ref,
+            _content: observable.ref,
 
             isHidden: observable,
             size: observable,
