@@ -15,7 +15,8 @@ import DatePickerComponent from "react-datepicker";
 import classNames from "classnames";
 import { isDate, isValid } from "date-fns";
 import replaceAllInserter from "string.prototype.replaceall";
-import { doubleMonthOrDayWhenSingle } from "../utils/utils";
+import { offset } from "@floating-ui/dom";
+import { dayOfWeekWhenUpperCase, doubleMonthOrDayWhenSingle } from "../utils/utils";
 import CalendarIcon from "./CalendarIcon";
 
 export type RangeDateValue = [Date | undefined, Date | undefined];
@@ -56,7 +57,10 @@ export const DatePicker = forwardRef(
         let dateFormats;
         if (props.dateFormat) {
             // Replace with full patterns d -> dd, M -> MM
-            const fixedFormatString = doubleMonthOrDayWhenSingle(props.dateFormat);
+            let fixedFormatString = doubleMonthOrDayWhenSingle(props.dateFormat);
+            // Replace Date format E to follow unicode standard (e...eeee)
+            fixedFormatString = dayOfWeekWhenUpperCase(fixedFormatString);
+
             dateFormats =
                 props.dateFormat !== fixedFormatString ? [props.dateFormat, fixedFormatString] : [props.dateFormat];
         }
@@ -108,14 +112,7 @@ export const DatePicker = forwardRef(
                     popperProps={{
                         strategy: "fixed"
                     }}
-                    popperModifiers={[
-                        {
-                            name: "offset",
-                            options: {
-                                offset: [0, 0]
-                            }
-                        }
-                    ]}
+                    popperModifiers={[offset(0)]}
                     portalId={id}
                     preventOpenOnFocus
                     readOnly={props.enableRange}
