@@ -28,11 +28,11 @@ export interface IColumnFilterStore {
 export class ColumnFilterStore implements IColumnFilterStore {
     private filterState: FilterState | undefined = undefined;
 
-    private attribute?: ListAttributeValue<string | Big | boolean | Date>;
-    private filter?: ReactNode;
-    private filterAssociation?: ListReferenceValue | ListReferenceSetValue;
-    private filterAssociationOptions?: ListValue;
-    private filterAssociationOptionLabel?: ListExpressionValue<string>;
+    private _attribute?: ListAttributeValue<string | Big | boolean | Date>;
+    private _filter?: ReactNode;
+    private _filterAssociation?: ListReferenceValue | ListReferenceSetValue;
+    private _filterAssociationOptions?: ListValue;
+    private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
@@ -42,17 +42,17 @@ export class ColumnFilterStore implements IColumnFilterStore {
         makeObservable<
             ColumnFilterStore,
             | "filterState"
-            | "attribute"
-            | "filter"
-            | "filterAssociation"
-            | "filterAssociationOptions"
-            | "filterAssociationOptionLabel"
+            | "_attribute"
+            | "_filter"
+            | "_filterAssociation"
+            | "_filterAssociationOptions"
+            | "_filterAssociationOptionLabel"
         >(this, {
-            attribute: observable.ref,
-            filter: observable.ref,
-            filterAssociation: observable.ref,
-            filterAssociationOptions: observable.ref,
-            filterAssociationOptionLabel: observable.ref,
+            _attribute: observable.ref,
+            _filter: observable.ref,
+            _filterAssociation: observable.ref,
+            _filterAssociationOptions: observable.ref,
+            _filterAssociationOptionLabel: observable.ref,
 
             condition: computed.struct,
 
@@ -63,19 +63,19 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 
     updateProps(props: ColumnsType): void {
-        this.attribute = props.attribute;
-        this.filter = props.filter;
-        this.filterAssociation = props.filterAssociation;
-        this.filterAssociationOptions = props.filterAssociationOptions;
-        this.filterAssociationOptionLabel = props.filterAssociationOptionLabel;
+        this._attribute = props.attribute;
+        this._filter = props.filter;
+        this._filterAssociation = props.filterAssociation;
+        this._filterAssociationOptions = props.filterAssociationOptions;
+        this._filterAssociationOptionLabel = props.filterAssociationOptionLabel;
     }
 
     get needsFilterContext(): boolean {
-        return !!this.attribute || !!this.filterAssociation;
+        return !!this._attribute || !!this._filterAssociation;
     }
 
     renderFilterWidgets(): ReactNode {
-        return this.filter;
+        return this._filter;
     }
 
     getFilterContextProps(): Pick<
@@ -83,20 +83,20 @@ export class ColumnFilterStore implements IColumnFilterStore {
         "singleAttribute" | "associationProperties" | "singleInitialFilter"
     > {
         return {
-            singleAttribute: this.attribute,
-            singleInitialFilter: readInitFilterValues(this.attribute, this.initialFilters),
+            singleAttribute: this._attribute,
+            singleInitialFilter: readInitFilterValues(this._attribute, this.initialFilters),
             associationProperties: this.getColumnAssociationProps()
         };
     }
 
     private getColumnAssociationProps(): AssociationProperties | undefined {
-        if (!this.filterAssociation) {
+        if (!this._filterAssociation) {
             return;
         }
 
-        const association = ensure(this.filterAssociation, errorMessage("filterAssociation"));
-        const optionsSource = ensure(this.filterAssociationOptions, errorMessage("filterAssociationOptions"));
-        const labelSource = ensure(this.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"));
+        const association = ensure(this._filterAssociation, errorMessage("filterAssociation"));
+        const optionsSource = ensure(this._filterAssociationOptions, errorMessage("filterAssociationOptions"));
+        const labelSource = ensure(this._filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"));
 
         return {
             association,
