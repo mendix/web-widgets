@@ -17,6 +17,10 @@ export class RootGridStore {
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore);
     }
 
+    dispose(): void {
+        this.settingsStore.dispose();
+    }
+
     private setInitParams(props: DatagridContainerProps): void {
         if (props.pagination === "buttons") {
             props.datasource.requestTotalCount(true);

@@ -1,8 +1,7 @@
 import { useFilterContext } from "@mendix/widget-plugin-filtering";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { and } from "mendix/filters/builders";
-import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
@@ -17,9 +16,9 @@ import { useCheckboxEventsController } from "./features/row-interaction/Checkbox
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
-import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
+import { useRootStore } from "./helpers/state/useRootStore";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -208,34 +207,7 @@ const Container = observer((props: Props): ReactElement => {
 });
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const [rootStore] = useState(() => {
-        const store = new RootGridStore(props);
-
-        // apply sorting
-        autorun(() => {
-            props.datasource.setSortOrder(store.sortInstructions);
-        });
-
-        // apply filters
-        autorun(() => {
-            const filters = store.filterConditions;
-
-            if (!filters) {
-                // filters are not changes, don't apply them
-                return;
-            }
-
-            if (filters.length > 0) {
-                props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
-            } else {
-                props.datasource.setFilter(undefined);
-            }
-        });
-
-        return store;
-    });
-
-    rootStore.updateProps(props);
+    const rootStore = useRootStore(props);
 
     if (!rootStore.isLoaded) {
         return null;

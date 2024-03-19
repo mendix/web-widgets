@@ -1,5 +1,5 @@
 import { SortRule } from "../../typings/sorting";
-import { action, computed, makeObservable, reaction } from "mobx";
+import { action, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../utils/columns-hash";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -16,6 +16,8 @@ export class GridPersonalizationStore {
 
     private storage: PersonalizationStorage;
 
+    private disposers: IReactionDisposer[] = [];
+
     constructor(props: DatagridContainerProps, private columnsStore: ColumnGroupStore) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
@@ -27,21 +29,29 @@ export class GridPersonalizationStore {
             applySettings: action
         });
 
-        reaction(
-            () => this.storage.settings,
-            settings => {
-                if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
-                    this.applySettings(settings);
+        this.disposers.push(
+            reaction(
+                () => this.storage.settings,
+                settings => {
+                    if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
+                        this.applySettings(settings);
+                    }
                 }
-            }
+            )
         );
 
-        reaction(
-            () => this.settings,
-            settings => {
-                this.storage.updateSettings(settings);
-            }
+        this.disposers.push(
+            reaction(
+                () => this.settings,
+                settings => {
+                    this.storage.updateSettings(settings);
+                }
+            )
         );
+    }
+
+    dispose(): void {
+        this.disposers.forEach(d => d());
     }
 
     updateProps(props: DatagridContainerProps): void {
