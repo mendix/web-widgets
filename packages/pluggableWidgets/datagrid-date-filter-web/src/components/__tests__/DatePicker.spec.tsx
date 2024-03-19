@@ -9,7 +9,7 @@ describe("Date picker component", () => {
     beforeAll(() => {
         jest.spyOn(global.Math, "random").mockReturnValue(0.123456789);
 
-        // @ts-ignore
+        // @ts-expect-error portal expects a ReactPortal type and element has an any type
         jest.spyOn(ReactDOM, "createPortal").mockReturnValue((element, node) => {
             return element;
         });

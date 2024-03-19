@@ -1,6 +1,6 @@
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 
-export default function CalendarIcon() {
+export default function CalendarIcon(): ReactElement {
     return (
         <svg className="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
             <path
