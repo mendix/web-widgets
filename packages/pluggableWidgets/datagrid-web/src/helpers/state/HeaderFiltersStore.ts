@@ -16,7 +16,7 @@ export class HeaderFiltersStore {
         [FilterType.ASSOCIATION]: undefined
     };
 
-    constructor(props: DatagridContainerProps) {
+    constructor(props: Pick<DatagridContainerProps, "datasource" | "filterList">) {
         this.initialFilters = props.datasource.filter;
         this.filterList = props.filterList;
 
