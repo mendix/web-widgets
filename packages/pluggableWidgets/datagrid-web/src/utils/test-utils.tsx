@@ -10,7 +10,7 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
-import { IColumnParentStore } from "../helpers/state/ColumnsStore";
+import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {

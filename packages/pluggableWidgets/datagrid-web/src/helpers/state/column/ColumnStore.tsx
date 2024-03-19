@@ -12,7 +12,7 @@ import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";
 import { action, computed, makeObservable, observable } from "mobx";
 import { BaseColumnInfo } from "./BaseColumnInfo";
-import { IColumnParentStore } from "../ColumnsStore";
+import { IColumnParentStore } from "../ColumnGroupStore";
 import { SortDirection } from "../../../typings/sorting";
 import { ColumnPersonalizationSettings } from "../../../typings/personalization-settings";
 

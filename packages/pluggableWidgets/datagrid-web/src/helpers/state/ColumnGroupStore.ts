@@ -15,7 +15,7 @@ import { ColumnPersonalizationSettings } from "../../typings/personalization-set
 
 configure({ isolateGlobalState: true });
 
-export interface IColumnsStore {
+export interface IColumnGroupStore {
     // static props
     dragEnabled: boolean;
     filterEnabled: boolean;
@@ -41,7 +41,7 @@ export interface IColumnParentStore {
     sorting: IColumnSortingStore;
 }
 
-export class ColumnsStore implements IColumnsStore, IColumnParentStore {
+export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     readonly _allColumns: ColumnStore[];
     readonly _allColumnsById: Map<ColumnId, ColumnStore> = new Map();
 
@@ -77,7 +77,7 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
             sortInstructionsToSortRules(props.datasource.sortOrder, this._allColumns)
         );
 
-        makeObservable<ColumnsStore, "_allColumns" | "_allColumnsOrdered">(this, {
+        makeObservable<ColumnGroupStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,
 
             loaded: computed,
