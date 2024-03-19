@@ -917,9 +917,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-date-filter-web:
     dependencies:
-      '@floating-ui/dom':
-        specifier: ^1.6.3
-        version: 1.6.3
+      '@floating-ui/react-dom':
+        specifier: ^2.0.8
+        version: 2.0.8(react-dom@18.2.0)(react@18.2.0)
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
@@ -933,8 +933,8 @@ importers:
         specifier: ^2.3.2
         version: 2.5.1
       date-fns:
-        specifier: ^2.30.0
-        version: 2.30.0
+        specifier: ^3.3.1
+        version: 3.6.0
       react-datepicker:
         specifier: ^6.4.0
         version: 6.5.0(react-dom@18.2.0)(react@18.2.0)

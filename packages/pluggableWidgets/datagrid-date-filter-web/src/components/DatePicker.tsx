@@ -15,7 +15,7 @@ import DatePickerComponent from "react-datepicker";
 import classNames from "classnames";
 import { isDate, isValid } from "date-fns";
 import replaceAllInserter from "string.prototype.replaceall";
-import { offset } from "@floating-ui/dom";
+import { offset } from "@floating-ui/react-dom";
 import { dayOfWeekWhenUpperCase, doubleMonthOrDayWhenSingle } from "../utils/utils";
 import CalendarIcon from "./CalendarIcon";
 
