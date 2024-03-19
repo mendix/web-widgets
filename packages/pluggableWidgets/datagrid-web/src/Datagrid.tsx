@@ -16,13 +16,13 @@ import { useCellEventsController } from "./features/row-interaction/CellEventsCo
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { IColumnsStore } from "./helpers/state/ColumnsStore";
+import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 
 interface Props extends DatagridContainerProps {
-    columnsStore: IColumnsStore;
+    columnsStore: IColumnGroupStore;
     rootStore: RootGridStore;
 }
 

@@ -2,7 +2,7 @@ import { SortRule } from "../../typings/sorting";
 import { action, computed, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../utils/columns-hash";
-import { ColumnsStore } from "./ColumnsStore";
+import { ColumnGroupStore } from "./ColumnGroupStore";
 import {
     ColumnPersonalizationSettings,
     GridPersonalizationStorageSettings
@@ -16,7 +16,7 @@ export class GridPersonalizationStore {
 
     private storage: PersonalizationStorage;
 
-    constructor(props: DatagridContainerProps, private columnsStore: ColumnsStore) {
+    constructor(props: DatagridContainerProps, private columnsStore: ColumnGroupStore) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
         this.storage = new AttributePersonalizationStorage(props);
