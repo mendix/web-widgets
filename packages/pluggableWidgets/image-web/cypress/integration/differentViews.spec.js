@@ -1,3 +1,6 @@
+// Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
+if (Cypress.env("MODERN_CLIENT")!=true) {
+
 describe("Image viewer", () => {
     const staticUrl = "https://picsum.photos/200/300";
     const cleanMendixSession = () => {
@@ -31,3 +34,4 @@ describe("Image viewer", () => {
         cy.get(".mx-name-imageTabPage2").find("img").should("have.attr", "src", staticUrl);
     });
 });
+}

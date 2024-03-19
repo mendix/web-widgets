@@ -1,3 +1,6 @@
+// Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
+if (Cypress.env("MODERN_CLIENT")!=true) {
+
 describe("BadgeButton different views", () => {
     const cleanMendixSession = () => {
         cy.window().then(window => {
@@ -93,3 +96,4 @@ describe("BadgeButton different views", () => {
         });
     });
 });
+}
