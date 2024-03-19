@@ -16,21 +16,12 @@ import { ColumnPersonalizationSettings } from "../../typings/personalization-set
 configure({ isolateGlobalState: true });
 
 export interface IColumnGroupStore {
-    // static props
-    dragEnabled: boolean;
-    filterEnabled: boolean;
-    hideEnabled: boolean;
-    resizeEnabled: boolean;
-    sortEnabled: boolean;
-
     loaded: boolean;
 
     availableColumns: GridColumn[];
     visibleColumns: GridColumn[];
 
     columnFilters: ColumnFilterStore[];
-
-    updateProps(props: DatagridContainerProps["columns"]): void;
 
     swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void;
     createSizeSnapshot(): void;
@@ -49,19 +40,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     sorting: ColumnsSortingStore;
 
-    dragEnabled: boolean;
-    filterEnabled: boolean;
-    hideEnabled: boolean;
-    resizeEnabled: boolean;
-    sortEnabled: boolean;
-
-    constructor(props: DatagridContainerProps) {
-        this.dragEnabled = props.columnsDraggable;
-        this.filterEnabled = props.columnsFilterable;
-        this.hideEnabled = props.columnsHidable;
-        this.resizeEnabled = props.columnsResizable;
-        this.sortEnabled = props.columnsSortable;
-
+    constructor(props: Pick<DatagridContainerProps, "columns" | "datasource">) {
         this._allColumns = [];
         this.columnFilters = [];
 
@@ -85,17 +64,17 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             availableColumns: computed,
             visibleColumns: computed,
             filterConditions: computed.struct,
-            columnsSettings: computed.struct,
+            settings: computed.struct,
 
             updateProps: action,
             createSizeSnapshot: action,
             swapColumns: action,
-            applyColumnsSettings: action
+            applySettings: action
         });
     }
 
-    updateProps(props: DatagridContainerProps["columns"]): void {
-        props.forEach((columnProps, i) => {
+    updateProps(props: Pick<DatagridContainerProps, "columns">): void {
+        props.columns.forEach((columnProps, i) => {
             this._allColumns[i].updateProps(columnProps);
             this.columnFilters[i].updateProps(columnProps);
         });
@@ -150,10 +129,10 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         return sortRulesToSortInstructions(this.sorting.rules, this._allColumns);
     }
 
-    get columnsSettings(): ColumnPersonalizationSettings[] {
+    get settings(): ColumnPersonalizationSettings[] {
         return this._allColumns.map(column => column.settings);
     }
-    applyColumnsSettings(settings: ColumnPersonalizationSettings[]): void {
+    applySettings(settings: ColumnPersonalizationSettings[]): void {
         settings.forEach(conf => {
             const column = this._allColumnsById.get(conf.columnId);
             if (!column) {

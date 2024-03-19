@@ -5,13 +5,13 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 export class AttributePersonalizationStorage implements PersonalizationStorage {
-    private storageAttr: EditableValue<string> | undefined;
+    private _storageAttr: EditableValue<string> | undefined;
 
-    constructor(props: DatagridContainerProps) {
-        this.storageAttr = props.configurationAttribute;
+    constructor(props: Pick<DatagridContainerProps, "configurationAttribute">) {
+        this._storageAttr = props.configurationAttribute;
 
-        makeObservable<this, "storageAttr">(this, {
-            storageAttr: observable.ref,
+        makeObservable<this, "_storageAttr">(this, {
+            _storageAttr: observable.ref,
 
             settings: computed.struct,
 
@@ -19,21 +19,21 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         });
     }
 
-    updateProps(props: DatagridContainerProps): void {
-        this.storageAttr = props.configurationAttribute;
+    updateProps(props: Pick<DatagridContainerProps, "configurationAttribute">): void {
+        this._storageAttr = props.configurationAttribute;
     }
 
     get settings(): GridPersonalizationStorageSettings | undefined {
-        if (this.storageAttr && this.storageAttr.status === ValueStatus.Available && this.storageAttr.value) {
-            return JSON.parse(this.storageAttr.value) as GridPersonalizationStorageSettings;
+        if (this._storageAttr && this._storageAttr.status === ValueStatus.Available && this._storageAttr.value) {
+            return JSON.parse(this._storageAttr.value) as GridPersonalizationStorageSettings;
         }
     }
 
     updateSettings(newSettings: GridPersonalizationStorageSettings): void {
-        if (this.storageAttr && !this.storageAttr.readOnly) {
+        if (this._storageAttr && !this._storageAttr.readOnly) {
             const newSettingsJson = JSON.stringify(newSettings);
-            if (this.storageAttr.value !== newSettingsJson) {
-                this.storageAttr.setValue(newSettingsJson);
+            if (this._storageAttr.value !== newSettingsJson) {
+                this._storageAttr.setValue(newSettingsJson);
             }
         }
     }

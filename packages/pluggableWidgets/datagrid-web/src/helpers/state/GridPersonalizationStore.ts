@@ -59,11 +59,11 @@ export class GridPersonalizationStore {
     }
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
-        this.columnsStore.applyColumnsSettings(fromStorageFormat(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.applySettings(fromStorageFormat(this.gridName, this.gridColumnsHash, settings));
     }
 
     get settings(): GridPersonalizationStorageSettings {
-        return toStorageFormat(this.gridName, this.gridColumnsHash, this.columnsStore.columnsSettings);
+        return toStorageFormat(this.gridName, this.gridColumnsHash, this.columnsStore.settings);
     }
 }
 
