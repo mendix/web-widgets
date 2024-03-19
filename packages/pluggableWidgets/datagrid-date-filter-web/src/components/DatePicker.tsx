@@ -61,8 +61,7 @@ export const DatePicker = forwardRef(
             // Replace Date format E to follow unicode standard (e...eeee)
             fixedFormatString = dayOfWeekWhenUpperCase(fixedFormatString);
 
-            dateFormats =
-                props.dateFormat !== fixedFormatString ? [props.dateFormat, fixedFormatString] : [props.dateFormat];
+            dateFormats = props.dateFormat !== fixedFormatString ? [fixedFormatString] : [props.dateFormat];
         }
 
         return (
