@@ -8,7 +8,7 @@ import {
 } from "./ColumnsSortingStore";
 import { ColumnStore } from "./column/ColumnStore";
 import { FilterCondition } from "mendix/filters";
-import { SortInstruction, SortRule } from "../../typings/sorting";
+import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnPersonalizationSettings } from "../../typings/personalization-settings";
@@ -151,41 +151,22 @@ export class ColumnsStore implements IColumnsStore, IColumnParentStore {
     }
 
     get columnsSettings(): ColumnPersonalizationSettings[] {
-        return this._allColumns.map(column => {
-            return {
-                columnId: column.columnId,
-                size: column.size,
-                hidden: column.isHidden,
-                orderWeight: column.orderWeight,
-                sortDir: column.sortDir,
-                sortWeight: column.sortWeight,
-                filterSettings: undefined
-            };
-        });
+        return this._allColumns.map(column => column.settings);
     }
     applyColumnsSettings(settings: ColumnPersonalizationSettings[]): void {
         settings.forEach(conf => {
-            const cId = conf.columnId;
-            const column = this._allColumnsById.get(cId);
+            const column = this._allColumnsById.get(conf.columnId);
             if (!column) {
-                console.warn(`Error while restoring personalization config. Column '${cId}' is not found.`);
+                console.warn(`Error while restoring personalization config. Column '${conf.columnId}' is not found.`);
                 return;
             }
-
-            // size
-            column.size = conf.size;
-
-            // hidden
-            column.isHidden = conf.hidden;
-
-            // order
-            column.orderWeight = conf.orderWeight * 10;
+            column.applySettings(conf);
         });
 
         this.sorting.rules = settings
             .filter(s => s.sortDir && s.sortWeight !== undefined)
             .sort((a, b) => a.sortWeight! - b.sortWeight!)
-            .map(c => [c.columnId, c.sortDir!] as SortRule);
+            .map(c => [c.columnId, c.sortDir!]);
     }
 
     isLastVisible(column: ColumnStore): boolean {

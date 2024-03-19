@@ -14,6 +14,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { BaseColumnInfo } from "./BaseColumnInfo";
 import { IColumnParentStore } from "../ColumnsStore";
 import { SortDirection } from "../../../typings/sorting";
+import { ColumnPersonalizationSettings } from "../../../typings/personalization-settings";
 
 export class ColumnStore implements GridColumn {
     columnIndex: number;
@@ -63,10 +64,12 @@ export class ColumnStore implements GridColumn {
             updateProps: action,
             toggleHidden: action,
             setSize: action,
+            applySettings: action,
 
             canSort: computed,
             header: computed,
-            loaded: computed
+            loaded: computed,
+            settings: computed.struct
         });
 
         this.updateProps(props);
@@ -228,6 +231,24 @@ export class ColumnStore implements GridColumn {
             return `${this.size}px`;
         }
         return this.baseInfo.columnWidth;
+    }
+
+    get settings(): ColumnPersonalizationSettings {
+        return {
+            columnId: this.columnId,
+            size: this.size,
+            hidden: this.isHidden,
+            orderWeight: this.orderWeight,
+            sortDir: this.sortDir,
+            sortWeight: this.sortWeight,
+            filterSettings: undefined
+        };
+    }
+
+    applySettings(conf: ColumnPersonalizationSettings): void {
+        this.size = conf.size;
+        this.isHidden = conf.hidden;
+        this.orderWeight = conf.orderWeight * 10;
     }
 }
 
