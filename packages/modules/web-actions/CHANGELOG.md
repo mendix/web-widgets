@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue in Take Picture action.
+
 ## [2.10.0] - 2024-01-29
 
 ### Changed
