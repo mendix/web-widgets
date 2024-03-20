@@ -223,7 +223,7 @@
                     <description />
                 </property>
                 <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no">
-                    <caption>Custom content STATIC</caption>
+                    <caption>Custom content</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="yes">Yes</enumerationValue>
