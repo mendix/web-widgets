@@ -43,23 +43,6 @@ export interface OptionsProvider<T = unknown, P = object> {
     _valueToOption(value: T | undefined): string | null;
 }
 
-export interface OptionsStaticProvider {
-    status: Status;
-    filterType: FilterTypeEnum;
-    searchTerm: string;
-
-    getAll(): string[];
-
-    // search related
-    setSearchTerm(term: string): void;
-    onAfterSearchTermChange(callback: () => void): void;
-
-    // for private use
-    _updateProps(props: object): void;
-    _optionToValue(index: string | null): string | undefined;
-    _valueToOption(value: string | undefined): string | null;
-}
-
 interface SelectorBase<T, V> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;

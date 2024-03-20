@@ -1,4 +1,4 @@
-import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { Properties, hidePropertiesIn, hideNestedPropertiesIn } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     StructurePreviewProps,
@@ -16,6 +16,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, [
             "databaseAttributeString",
             "staticAttributeString",
+            "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             "optionsSourceDatabaseCaptionAttribute",
             "optionsSourceDatabaseCaptionExpression",
@@ -79,6 +80,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "attributeBoolean",
             "optionsSourceType",
             "staticAttributeString",
+            "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             "optionsSourceAssociationCaptionType",
             "optionsSourceAssociationCustomContentType",
@@ -128,6 +130,15 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceDatabaseDefaultValue"
         ]);
     }
+
+    if (values.staticDataSourceCustomContentType === "no") {
+        values.optionsSourceStaticDataSource.forEach((_, index) => {
+            hideNestedPropertiesIn(defaultProperties, values, "optionsSourceStaticDataSource", index, [
+                "staticDataSourceCustomContent"
+            ]);
+        });
+    }
+
     if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
         hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
     }
@@ -178,6 +189,17 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                 dropzone.hideDataSourceHeaderIf(false)
             )(_values.optionsSourceDatabaseCustomContent)
         );
+    }
+    if (_values.source === "static" && _values.staticDataSourceCustomContentType !== "no") {
+        _values.optionsSourceStaticDataSource.forEach(value => {
+            structurePreviewChildren.push(
+                dropzone(
+                    dropzone.placeholder(
+                        `Configure the combo box: Place widgets for option ${value.staticDataSourceCaption} here`
+                    )
+                )(value.staticDataSourceCustomContent)
+            );
+        });
     }
     if (_values.showFooter === true) {
         dropdownPreviewChildren = [

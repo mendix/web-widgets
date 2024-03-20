@@ -16,7 +16,8 @@ export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export interface OptionsSourceStaticDataSourceType {
-    staticDataSourceValue: DynamicValue<string>;
+    staticDataSourceValue: DynamicValue<string | Big | boolean | Date>;
+    staticDataSourceCustomContent: ReactNode;
     staticDataSourceCaption: DynamicValue<string>;
 }
 
@@ -26,12 +27,15 @@ export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" |
 
 export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "no";
 
+export type StaticDataSourceCustomContentTypeEnum = "yes" | "listItem" | "no";
+
 export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
+    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     staticDataSourceCaption: string;
 }
 
@@ -65,6 +69,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
+    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
@@ -110,6 +115,7 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;

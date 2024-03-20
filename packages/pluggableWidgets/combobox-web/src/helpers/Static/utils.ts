@@ -1,9 +1,9 @@
-import { ActionValue, DynamicValue, EditableValue, ListWidgetValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import {
     ComboboxContainerProps,
     OptionsSourceStaticDataSourceType,
     FilterTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum
+    StaticDataSourceCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [
@@ -13,8 +13,7 @@ type ExtractionReturnValue = [
     boolean,
     FilterTypeEnum,
     ActionValue | undefined,
-    ListWidgetValue | undefined,
-    OptionsSourceAssociationCustomContentTypeEnum
+    StaticDataSourceCustomContentTypeEnum
 ];
 
 export function extractStaticProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -32,8 +31,7 @@ export function extractStaticProps(props: ComboboxContainerProps): ExtractionRet
     }
     const emptyOption = props.emptyOptionText;
     const clearable = props.clearable;
-    const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
 
-    return [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContent, customContentType];
+    return [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContentType];
 }

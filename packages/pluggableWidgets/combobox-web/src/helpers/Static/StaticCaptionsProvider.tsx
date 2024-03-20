@@ -1,7 +1,8 @@
-import { DynamicValue, ListAttributeValue, ListWidgetValue } from "mendix";
+import { DynamicValue, ListAttributeValue } from "mendix";
 import { ReactNode, createElement } from "react";
 import {
     OptionsSourceAssociationCustomContentTypeEnum,
+    StaticDataSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
@@ -9,7 +10,7 @@ import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
-    customContent?: ListWidgetValue | undefined;
+    customContent?: undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
     attribute?: ListAttributeValue<string | Big>;
     caption?: string;
@@ -17,8 +18,8 @@ interface Props {
 
 export class StaticCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
-    protected customContent?: ListWidgetValue;
-    protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    protected customContent?: ReactNode;
+    protected customContentType: StaticDataSourceCustomContentTypeEnum = "no";
     attribute?: ListAttributeValue<string | Big>;
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
@@ -66,15 +67,16 @@ export class StaticCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return null;
         }
+        return item.staticDataSourceCustomContent;
     }
 
-    render(index: number | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
+    render(index: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
         const { customContentType } = this;
 
         return customContentType === "no" ||
             (placement === "label" && customContentType === "listItem") ||
             index === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(index?.toString() ?? null)}</CaptionContent>
+            <CaptionContent htmlFor={htmlFor}>{this.getCustomContent(index) ?? null}</CaptionContent>
         ) : (
             <div className="widget-combobox-caption-custom">{}</div>
         );

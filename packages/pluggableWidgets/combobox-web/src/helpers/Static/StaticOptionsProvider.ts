@@ -9,7 +9,7 @@ interface Props {
     filterType: FilterTypeEnum;
 }
 
-export class StaticOptionsProvider extends BaseOptionsProvider<string, Props> {
+export class StaticOptionsProvider extends BaseOptionsProvider<string | Big | boolean | Date, Props> {
     options: string[] = [];
     ds: OptionsSourceStaticDataSourceType[] | undefined;
     searchTerm = "";
@@ -44,14 +44,14 @@ export class StaticOptionsProvider extends BaseOptionsProvider<string, Props> {
         }
     }
 
-    _optionToValue(index: string | boolean | null): string | undefined {
+    _optionToValue(index: string | boolean | null): string | Big | boolean | Date | undefined {
         if (index === null) {
             return undefined;
         }
         return this.valuesMap.get(index.toString())?.staticDataSourceValue.value;
     }
 
-    _valueToOption(value: string | undefined): string | null {
+    _valueToOption(value: string | Big | boolean | Date | undefined): string | null {
         const index = this.options.findIndex(option => this.valuesMap.get(option)?.staticDataSourceValue === value);
         return index.toString() ?? null;
     }

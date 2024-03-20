@@ -153,9 +153,14 @@
                     <description />
                     <properties>
                         <propertyGroup caption="Static values">
-                            <property key="staticDataSourceValue" type="textTemplate">
+                            <property key="staticDataSourceValue" type="expression">
                                 <caption>Value</caption>
                                 <description>Value to be set</description>
+                                <returnType assignableTo="../staticAttributeString" />
+                            </property>
+                            <property key="staticDataSourceCustomContent" type="widgets">
+                                <caption>Custom content</caption>
+                                <description />
                             </property>
                             <property key="staticDataSourceCaption" type="textTemplate">
                                 <caption>Caption</caption>
@@ -216,6 +221,15 @@
                 <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Custom content</caption>
                     <description />
+                </property>
+                <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content STATIC</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
                 </property>
                 <property key="showFooter" type="boolean" defaultValue="false">
                     <caption>Show footer</caption>
