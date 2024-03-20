@@ -106,6 +106,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
+            "staticDataSourceCustomContentType",
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
@@ -190,6 +191,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             )(_values.optionsSourceDatabaseCustomContent)
         );
     }
+    // _values.staticDataSourceCustomContentType will be hidden as Static Values won't support custom content now.
     if (_values.source === "static" && _values.staticDataSourceCustomContentType !== "no") {
         _values.optionsSourceStaticDataSource.forEach(value => {
             structurePreviewChildren.push(

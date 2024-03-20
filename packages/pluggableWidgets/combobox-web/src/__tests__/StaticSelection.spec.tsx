@@ -56,14 +56,17 @@ describe("Combo box (Static values)", () => {
             optionsSourceDatabaseCaptionType: "attribute",
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
+            staticDataSourceCustomContentType: "no",
             staticAttributeString: new EditableValueBuilder<string>().withValue("value1").build(),
             optionsSourceStaticDataSource: [
                 {
                     staticDataSourceValue: dynamicValue("value1"),
+                    staticDataSourceCustomContent: undefined,
                     staticDataSourceCaption: dynamicValue("caption1")
                 },
                 {
                     staticDataSourceValue: dynamicValue("value2"),
+                    staticDataSourceCustomContent: undefined,
                     staticDataSourceCaption: dynamicValue("caption2")
                 }
             ]

@@ -222,7 +222,7 @@
                     <caption>Custom content</caption>
                     <description />
                 </property>
-                <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no" required="true">
+                <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no">
                     <caption>Custom content STATIC</caption>
                     <description />
                     <enumerationValues>
@@ -322,7 +322,10 @@
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
                     <caption>Remove value button</caption>
-                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <description>
+                        Used to remove individual selected values when using labels with
+                        multi-selection.
+                    </description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>

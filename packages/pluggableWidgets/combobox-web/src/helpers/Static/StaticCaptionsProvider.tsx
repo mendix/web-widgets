@@ -76,7 +76,7 @@ export class StaticCaptionsProvider implements CaptionsProvider {
         return customContentType === "no" ||
             (placement === "label" && customContentType === "listItem") ||
             index === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.getCustomContent(index) ?? null}</CaptionContent>
+            <CaptionContent htmlFor={htmlFor}>{this.get(index) ?? null}</CaptionContent>
         ) : (
             <div className="widget-combobox-caption-custom">{}</div>
         );
