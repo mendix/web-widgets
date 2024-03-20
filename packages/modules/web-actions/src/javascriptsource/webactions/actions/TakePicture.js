@@ -255,8 +255,9 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
         async function startCamera(facingMode) {
             var _a;
             try {
+                const cameraQuality = getCameraQuality();
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: Object.assign({ facingMode }, getCameraQuality())
+                    video: { facingMode: facingMode, width: cameraQuality.width, height: cameraQuality.height}
                 });
                 (_a = stream === null || stream === void 0 ? void 0 : stream.getTracks()) === null || _a === void 0
                     ? void 0
