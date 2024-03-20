@@ -12,7 +12,7 @@ import "mx-global";
 // END EXTRA CODE
 
 /**
- * @param {string} targetName - Name of the widget for which filters should be reset. Valid targets are: Data grid 2, Gallery.
+ * @param {string} targetName - Name of the widget for which filters should be reset. Valid targets are: Data grid 2, Gallery. You can find filter name in widget settings in the "Common" group (Properties>Common>Name).
  * @returns {Promise.<void>}
  */
 export async function Reset_All_Filters(targetName) {
