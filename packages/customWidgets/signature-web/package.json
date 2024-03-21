@@ -34,7 +34,7 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.0.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",

@@ -39,7 +39,7 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.0.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-test-utils": "workspace:*"
