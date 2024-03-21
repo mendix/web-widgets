@@ -31,7 +31,7 @@ export function extractStaticProps(props: ComboboxContainerProps): ExtractionRet
     }
     const emptyOption = props.emptyOptionText;
     const clearable = props.clearable;
-    const customContentType = props.optionsSourceAssociationCustomContentType;
+    const customContentType = props.staticDataSourceCustomContentType;
 
     return [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContentType];
 }
