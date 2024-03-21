@@ -106,7 +106,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
-            "staticDataSourceCustomContentType",
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
@@ -191,15 +190,28 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             )(_values.optionsSourceDatabaseCustomContent)
         );
     }
-    // _values.staticDataSourceCustomContentType will be hidden as Static Values won't support custom content now.
     if (_values.source === "static" && _values.staticDataSourceCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            container({ borders: true, borderWidth: 1, backgroundColor: palette.background.topbarData, padding: 1 })({
+                type: "Text",
+                content: getDatasourcePlaceholderText(_values),
+                fontColor: palette.text.data
+            })
+        );
         _values.optionsSourceStaticDataSource.forEach(value => {
             structurePreviewChildren.push(
-                dropzone(
-                    dropzone.placeholder(
-                        `Configure the combo box: Place widgets for option ${value.staticDataSourceCaption} here`
-                    )
-                )(value.staticDataSourceCustomContent)
+                container({
+                    borders: true,
+                    borderWidth: 1,
+                    borderRadius: 2
+                })(
+                    dropzone(
+                        dropzone.placeholder(
+                            `Configure the combo box: Place widgets for option ${value.staticDataSourceCaption} here`
+                        ),
+                        dropzone.hideDataSourceHeaderIf(false)
+                    )(value.staticDataSourceCustomContent)
+                )
             );
         });
     }

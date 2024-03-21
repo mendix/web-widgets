@@ -78,7 +78,7 @@ export class StaticCaptionsProvider implements CaptionsProvider {
             index === null ? (
             <CaptionContent htmlFor={htmlFor}>{this.get(index) ?? null}</CaptionContent>
         ) : (
-            <div className="widget-combobox-caption-custom">{}</div>
+            <div className="widget-combobox-caption-custom">{this.getCustomContent(index)}</div>
         );
     }
 }
