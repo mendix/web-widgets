@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed custom date format throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
+
 ### Added
 
 -   A new hook that subscribes the widget to external events.
