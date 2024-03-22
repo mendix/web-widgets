@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed Datagrid Date Filter custom date formats throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
+
 ### Added
 
 -   New JS actions for resetting filters in Data grid 2 and Gallery. `Reset_All_Filters` resets all filters within Data grid 2 or Gallery. `Reset_Filter` resets a single filter.
