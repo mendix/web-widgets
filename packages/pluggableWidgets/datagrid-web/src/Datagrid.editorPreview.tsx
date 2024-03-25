@@ -53,7 +53,7 @@ const initColumns: ColumnsPreviewType[] = [
 
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
+    const data: ObjectItem[] = Array.from({ length: 3 }).map((_, index) => ({
         id: String(index) as GUID
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
