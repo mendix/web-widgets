@@ -1,0 +1,66 @@
+diff --git a/es/useAsObservableSource.js b/es/useAsObservableSource.js
+index 389c73126bf8ae634f50a2246e428b4c37d4d700..4a4cac20be9a0941a26e415b95c9976431559b74 100644
+--- a/es/useAsObservableSource.js
++++ b/es/useAsObservableSource.js
+@@ -1,26 +1,10 @@
+-var __read = (this && this.__read) || function (o, n) {
+-    var m = typeof Symbol === "function" && o[Symbol.iterator];
+-    if (!m) return o;
+-    var i = m.call(o), r, ar = [], e;
+-    try {
+-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+-    }
+-    catch (error) { e = { error: error }; }
+-    finally {
+-        try {
+-            if (r && !r.done && (m = i["return"])) m.call(i);
+-        }
+-        finally { if (e) throw e.error; }
+-    }
+-    return ar;
+-};
+ import { useDeprecated } from "./utils/utils";
+ import { observable, runInAction } from "mobx";
+ import { useState } from "react";
+ export function useAsObservableSource(current) {
+     if ("production" !== process.env.NODE_ENV)
+         useDeprecated("[mobx-react-lite] 'useAsObservableSource' is deprecated, please store the values directly in an observable, for example by using 'useLocalObservable', and sync future updates using 'useEffect' when needed. See the README for examples.");
+-    var _a = __read(useState(function () { return observable(current, {}, { deep: false }); }), 1), res = _a[0];
++    var res = useState(function () { return observable(current, {}, { deep: false }); })[0];
+     runInAction(function () {
+         Object.assign(res, current);
+     });
+diff --git a/lib/useAsObservableSource.js b/lib/useAsObservableSource.js
+index 863d82faee37d675599eb1d586b769d4dcf785ed..191b8fc47add8f80d1df26dd294d911cc9fc36e7 100644
+--- a/lib/useAsObservableSource.js
++++ b/lib/useAsObservableSource.js
+@@ -1,20 +1,4 @@
+ "use strict";
+-var __read = (this && this.__read) || function (o, n) {
+-    var m = typeof Symbol === "function" && o[Symbol.iterator];
+-    if (!m) return o;
+-    var i = m.call(o), r, ar = [], e;
+-    try {
+-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+-    }
+-    catch (error) { e = { error: error }; }
+-    finally {
+-        try {
+-            if (r && !r.done && (m = i["return"])) m.call(i);
+-        }
+-        finally { if (e) throw e.error; }
+-    }
+-    return ar;
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.useAsObservableSource = void 0;
+ var utils_1 = require("./utils/utils");
+@@ -23,7 +7,7 @@ var react_1 = require("react");
+ function useAsObservableSource(current) {
+     if ("production" !== process.env.NODE_ENV)
+         (0, utils_1.useDeprecated)("[mobx-react-lite] 'useAsObservableSource' is deprecated, please store the values directly in an observable, for example by using 'useLocalObservable', and sync future updates using 'useEffect' when needed. See the README for examples.");
+-    var _a = __read((0, react_1.useState)(function () { return (0, mobx_1.observable)(current, {}, { deep: false }); }), 1), res = _a[0];
++    var res = (0, react_1.useState)(function () { return (0, mobx_1.observable)(current, {}, { deep: false }); })[0];
+     (0, mobx_1.runInAction)(function () {
+         Object.assign(res, current);
+     });
