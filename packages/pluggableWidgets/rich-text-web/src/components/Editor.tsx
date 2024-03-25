@@ -69,7 +69,8 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         spellCheck,
         highlight_on_focus,
         resize,
-        extended_valid_elements
+        extended_valid_elements,
+        quickbars
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const [canRenderEditor, setCanRenderEditor] = useState<boolean>(false);
@@ -149,7 +150,9 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 browser_spellcheck: spellCheck,
                 highlight_on_focus,
                 resize: resize === "both" ? "both" : resize === "true",
-                extended_valid_elements: extended_valid_elements?.value ?? ""
+                extended_valid_elements: extended_valid_elements?.value ?? "",
+                quickbars_insert_toolbar: quickbars && !stringAttribute.readOnly,
+                quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly
             }}
             disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}

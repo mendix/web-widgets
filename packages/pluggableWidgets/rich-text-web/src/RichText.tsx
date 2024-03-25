@@ -9,7 +9,17 @@ import { createMenubar } from "./utils/menubar";
 import { createPreset } from "./utils/presets";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    const { stringAttribute, id, width: w, height: h, widthUnit, heightUnit, preset, menubarMode } = props;
+    const {
+        stringAttribute,
+        id,
+        width: w,
+        height: h,
+        widthUnit,
+        heightUnit,
+        preset,
+        menubarMode,
+        readOnlyStyle
+    } = props;
 
     if (stringAttribute.status === "loading") {
         return <div></div>;
@@ -21,14 +31,18 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         height: h,
         heightUnit
     });
+    const wrapperAttributes = stringAttribute?.readOnly && readOnlyStyle !== "readPanel" ? { readOnly: true } : {};
 
     const presets = createPreset(preset, props);
     const menubar = createMenubar(menubarMode, props);
     return (
         <div
             id={id}
-            className={classNames("widget-rich-text", `${stringAttribute.readOnly ? `editor-richtext` : ""}`)}
+            className={classNames("widget-rich-text", `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`, {
+                "form-control": props.toolbarLocation === "inline"
+            })}
             style={{ width, height }}
+            {...wrapperAttributes}
         >
             <BundledEditor
                 {...props}

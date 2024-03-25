@@ -63,9 +63,22 @@
                         <enumerationValue key="inline">Inline</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="quickbars" type="boolean" defaultValue="false">
+                    <caption>Enable quick toolbar</caption>
+                    <description />
+                </property>
             </propertyGroup>
             <propertyGroup caption="Editability">
                 <systemProperty key="Editability" />
+                <property key="readOnlyStyle" type="enumeration" defaultValue="text">
+                    <caption>Read-only style</caption>
+                    <description>How the rich text editor will appear in read-only mode.</description>
+                    <enumerationValues>
+                        <enumerationValue key="text">Rich text</enumerationValue>
+                        <enumerationValue key="bordered">Bordered</enumerationValue>
+                        <enumerationValue key="readPanel">Read panel</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Visibility">
                 <systemProperty key="Visibility" />
