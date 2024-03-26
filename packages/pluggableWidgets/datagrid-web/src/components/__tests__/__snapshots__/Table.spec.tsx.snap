@@ -119,7 +119,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
           </div>
         </div>
         <div
-          class="tr"
+          class="tr tr-preview"
           role="row"
         >
           <div
