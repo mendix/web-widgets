@@ -1,8 +1,11 @@
 $rte-brand-primary: #264ae5;
-
 .widget-rich-text {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     .tox-tinymce {
         border-radius: 4px;
+        flex-grow: 1;
     }
 
     .tox .tox-edit-area::before {

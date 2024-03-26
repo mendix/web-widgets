@@ -53,6 +53,7 @@ type EditorState = "loading" | "ready";
 interface BundledEditorProps extends RichTextContainerProps {
     toolbar: string | false;
     menubar: string | boolean;
+    editorHeight?: string | number;
 }
 
 export default function BundledEditor(props: BundledEditorProps): ReactElement {
@@ -152,7 +153,8 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 resize: resize === "both" ? "both" : resize === "true",
                 extended_valid_elements: extended_valid_elements?.value ?? "",
                 quickbars_insert_toolbar: quickbars && !stringAttribute.readOnly,
-                quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly
+                quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly,
+                height: props.editorHeight
             }}
             disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}

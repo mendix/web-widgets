@@ -98,7 +98,7 @@
                     <caption>Width</caption>
                     <description />
                 </property>
-                <property key="heightUnit" type="enumeration" defaultValue="percentageOfWidth">
+                <property key="heightUnit" type="enumeration" defaultValue="pixels">
                     <caption>Height unit</caption>
                     <description />
                     <enumerationValues>
@@ -107,9 +107,13 @@
                         <enumerationValue key="percentageOfParent">Percentage of parent</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="height" type="integer" defaultValue="75">
+                <property key="height" type="integer" defaultValue="250">
                     <caption>Height</caption>
                     <description />
+                </property>
+                <property key="minHeight" type="integer" defaultValue="250">
+                    <caption>Minimum height</caption>
+                    <description>Editor's minimum height. The number value is in pixels.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
