@@ -1,4 +1,4 @@
-import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { ObjectItem } from "mendix";
 import { useMemo } from "react";
@@ -11,6 +11,7 @@ import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHel
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
+import { ClickEntry, ClickEventSwitch } from "./ClickEventSwitch";
 
 export class CellEventsController {
     constructor(
@@ -23,12 +24,23 @@ export class CellEventsController {
     ) {}
 
     getProps(item: ObjectItem): ElementProps<HTMLDivElement> {
+        return eventSwitch(() => this.contextFactory(item), this.getEntries());
+    }
+
+    private getEntries(): Array<ElementEntry<CellContext, HTMLDivElement>> {
         const entries = [
             ...createSelectHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx),
             ...createActionHandlers(this.executeActionFx),
             ...createFocusTargetHandlers(this.focusTargetFx)
         ];
-        return eventSwitch<CellContext, HTMLDivElement>(() => this.contextFactory(item), entries);
+        const clickEntries = entries.filter(
+            (entry): entry is ClickEntry<CellContext, HTMLDivElement> =>
+                entry.eventName === "onClick" || entry.eventName === "onDoubleClick"
+        );
+        const restEntries = entries.filter(
+            entry => entry.eventName !== "onClick" && entry.eventName !== "onDoubleClick"
+        );
+        return [new ClickEventSwitch(clickEntries).getClickEntry(), ...restEntries];
     }
 }
 
