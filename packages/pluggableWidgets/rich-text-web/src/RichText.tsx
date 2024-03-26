@@ -39,15 +39,18 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         <div
             id={id}
             className={classNames("widget-rich-text", `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`, {
-                "form-control": props.toolbarLocation === "inline"
+                "form-control": props.toolbarLocation === "inline",
+                "widget-rich-text-min-height": heightUnit !== "pixels" && !stringAttribute?.readOnly,
+                "widget-rich-text-min-height-readonly": heightUnit !== "pixels" && stringAttribute?.readOnly
             })}
-            style={{ width, height }}
+            style={{ width }}
             {...wrapperAttributes}
         >
             <BundledEditor
                 {...props}
                 menubar={menubar}
                 toolbar={presets.toolbar}
+                editorHeight={height}
                 key={`${String(stringAttribute.readOnly)}_${id}`}
             />
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>

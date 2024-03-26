@@ -1,6 +1,8 @@
 $rte-brand-primary: #264ae5;
-
+$rte-min-height: 150px;
+$rte-min-height-readonly: 14px;
 .widget-rich-text {
+    overflow-y: auto;
     .tox-tinymce {
         border-radius: 4px;
     }
@@ -26,5 +28,6 @@ $rte-brand-primary: #264ae5;
 
     .mce-content-body {
         width: 100%;
+        min-height: $rte-min-height;
     }
 }
