@@ -14,7 +14,7 @@ const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElemen
     eventName: "onClick",
     filter: (ctx, event) => {
         if (ctx.selectionMethod === "rowClick") {
-            return ctx.clickTrigger === "double" ? event.metaKey || event.ctrlKey : ctx.clickTrigger === "none";
+            return ctx.clickTrigger !== "single";
         }
 
         if (ctx.selectionMethod === "checkbox") {
