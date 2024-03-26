@@ -61,6 +61,10 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (values.menubarConfig === "advanced") {
         hidePropertiesIn(defaultProperties, values, menubarGroups);
     }
+
+    if (values.heightUnit === "pixels") {
+        hidePropertiesIn(defaultProperties, values, ["minHeight"]);
+    }
     return defaultProperties;
 }
 

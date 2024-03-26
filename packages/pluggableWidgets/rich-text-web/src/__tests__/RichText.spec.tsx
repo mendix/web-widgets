@@ -36,6 +36,7 @@ describe("Rich Text", () => {
             width: 100,
             heightUnit: "percentageOfWidth",
             height: 75,
+            minHeight: 75,
             spellCheck: false,
             highlight_on_focus: false,
             resize: "false",

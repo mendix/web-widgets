@@ -61,6 +61,7 @@ export interface RichTextContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    minHeight: number;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
     extended_valid_elements?: DynamicValue<string>;
@@ -116,6 +117,7 @@ export interface RichTextPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    minHeight: number | null;
     onFocus: {} | null;
     onBlur: {} | null;
     extended_valid_elements: string;
