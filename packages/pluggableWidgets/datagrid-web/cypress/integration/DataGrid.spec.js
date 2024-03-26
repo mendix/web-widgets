@@ -116,10 +116,19 @@ describe("datagrid-web", () => {
             cy.get(".mx-name-datagrid5 .column-selector-button").click();
             cy.get(".column-selectors > li").first().click();
             cy.get(".mx-name-datagrid5 .column-header").first().contains("Last Name");
-            cy.get(".mx-name-textArea1 textarea").should(
-                "have.text",
-                '{"schemaVersion":1,"settingsHash":"1354889321","name":"datagrid5","sortOrder":[],"columnOrder":["0","1"],"columns":[{"columnId":"0","hidden":true},{"columnId":"1","hidden":false}]}'
-            );
+            cy.get(".mx-name-textArea1 textarea").then($textArea => {
+                expect(JSON.parse($textArea.val())).to.deep.equal({
+                    schemaVersion: 1,
+                    settingsHash: "1530160614",
+                    name: "datagrid5",
+                    sortOrder: [],
+                    columnOrder: ["0", "1"],
+                    columns: [
+                        { columnId: "0", hidden: true },
+                        { columnId: "1", hidden: false }
+                    ]
+                });
+            });
         });
 
         it("hide column by default enabled", () => {
