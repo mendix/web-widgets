@@ -59,7 +59,8 @@ export const DatePicker = forwardRef(
             let fixedFormatString = doubleMonthOrDayWhenSingle(props.dateFormat);
             // Replace Date format E to follow unicode standard (e...eeee)
             fixedFormatString = dayOfWeekWhenUpperCase(fixedFormatString);
-            dateFormats = props.dateFormat !== fixedFormatString ? [fixedFormatString] : [props.dateFormat];
+            dateFormats =
+                props.dateFormat !== fixedFormatString ? [fixedFormatString, props.dateFormat] : [props.dateFormat];
         }
 
         return (
