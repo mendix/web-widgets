@@ -4,7 +4,7 @@ import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
-import { PagingPositionEnum } from "../../typings/DatagridProps";
+import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -47,6 +47,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     numberOfItems?: number;
     onExportCancel?: () => void;
     page: number;
+    paginationType: PaginationEnum;
+    loadMoreButtonCaption?: string;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -94,6 +96,8 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         numberOfItems,
         onExportCancel,
         page,
+        paginationType,
+        loadMoreButtonCaption,
         pageSize,
         paging,
         pagingPosition,
@@ -160,7 +164,12 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             >
                 {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
                 {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
-                <WidgetContent isInfinite={isInfinite} hasMoreItems={hasMoreItems} setPage={setPage}>
+                <WidgetContent
+                    isInfinite={isInfinite}
+                    hasMoreItems={hasMoreItems}
+                    setPage={setPage}
+                    paginationType={paginationType}
+                >
                     <Grid
                         aria-multiselectable={
                             selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined
@@ -248,7 +257,15 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         </GridBody>
                     </Grid>
                 </WidgetContent>
-                <WidgetFooter pagination={pagination} pagingPosition={pagingPosition} />
+                <WidgetFooter
+                    pagination={pagination}
+                    pagingPosition={pagingPosition}
+                    paginationType={paginationType}
+                    loadMoreButtonCaption={loadMoreButtonCaption}
+                    hasMoreItems={hasMoreItems}
+                    setPage={setPage}
+                />
+
                 <ExportWidget
                     alertLabel={props.exportDialogLabel ?? "Export progress"}
                     cancelLabel={props.cancelExportLabel ?? "Cancel data export"}

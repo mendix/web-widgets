@@ -80,6 +80,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         onExportCancel: jest.fn(),
         page: 1,
         pageSize: 10,
+        paginationType: "buttons",
         paging: false,
         pagingPosition: "bottom",
         state,

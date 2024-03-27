@@ -2,6 +2,7 @@ import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-gri
 import classNames from "classnames";
 import { ReactElement, ReactNode, createElement } from "react";
 import { StickySentinel } from "./StickySentinel";
+import { PaginationEnum } from "../../typings/DatagridProps";
 
 type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
 
@@ -9,6 +10,7 @@ export type WidgetContentProps = {
     className?: string;
     children?: ReactNode;
     style?: React.CSSProperties;
+    paginationType: PaginationEnum;
 } & Pick<InfiniteBodyProps, PickProps>;
 
 export function WidgetContent({
@@ -17,7 +19,8 @@ export function WidgetContent({
     hasMoreItems,
     isInfinite,
     style,
-    setPage
+    setPage,
+    paginationType
 }: WidgetContentProps): ReactElement {
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
         hasMoreItems,
@@ -34,7 +37,7 @@ export function WidgetContent({
                 className
             )}
             ref={containerRef}
-            onScroll={isInfinite ? trackScrolling : undefined}
+            onScroll={isInfinite && paginationType !== "loadMore" ? trackScrolling : undefined}
             style={isInfinite && bodySize > 0 ? { ...style, maxHeight: bodySize } : style}
         >
             <StickySentinel />

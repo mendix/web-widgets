@@ -201,6 +201,7 @@
                     <enumerationValues>
                         <enumerationValue key="buttons">Paging buttons</enumerationValue>
                         <enumerationValue key="virtualScrolling">Virtual scrolling</enumerationValue>
+                        <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="pagingPosition" type="enumeration" defaultValue="bottom">
@@ -219,6 +220,13 @@
                         <enumerationValue key="always">Always</enumerationValue>
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
+                    <caption>Load more caption</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Load More</translation>
+                    </translations>
                 </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty list message</caption>

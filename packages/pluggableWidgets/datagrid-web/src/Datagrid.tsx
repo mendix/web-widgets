@@ -36,7 +36,7 @@ interface Props extends DatagridContainerProps {
 }
 
 function Container(props: Props): ReactElement {
-    const isInfiniteLoad = props.pagination === "virtualScrolling";
+    const isInfiniteLoad = props.pagination === "virtualScrolling" || props.pagination === "loadMore";
     const currentPage = isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
@@ -57,6 +57,7 @@ function Container(props: Props): ReactElement {
         name: props.name,
         offset: props.datasource.offset,
         limit: props.datasource.limit,
+
         updateDataSource: useCallback<UpdateDataSourceFn>(
             ({ offset, limit, reload }) => {
                 if (offset != null) {
@@ -235,6 +236,8 @@ function Container(props: Props): ReactElement {
             onExportCancel={abort}
             page={currentPage}
             pageSize={props.pageSize}
+            paginationType={props.pagination}
+            loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
             paging={useShowPagination({
                 pagination: props.pagination,
                 showPagingButtons: props.showPagingButtons,
