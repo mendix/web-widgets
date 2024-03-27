@@ -33,7 +33,7 @@ export class SelectActionHandler {
         }
     };
 
-    private _onSelectItemMulti: SelectFx = (item, shiftKey, toggle) => {
+    private _onSelectItemMulti: SelectFx = (item, shiftKey, toggleMode = false) => {
         if (this.selectionHelper?.type !== "Multi") {
             return;
         }
@@ -43,25 +43,11 @@ export class SelectActionHandler {
             return;
         }
 
-        if (this.selectionHelper.isSelected(item)) {
-            this.selectionHelper.remove(item);
-        } else if (toggle) {
-            this.selectionHelper.add(item);
-        } else {
-            this.selectionHelper.reduceTo(item);
-        }
+        this.selectItem(item, toggleMode);
     };
 
-    _onSelectItemSingle: SelectFx = item => {
-        if (this.selectionHelper?.type !== "Single") {
-            return;
-        }
-
-        if (this.selectionHelper.isSelected(item)) {
-            this.selectionHelper.remove(item);
-        } else {
-            this.selectionHelper.add(item);
-        }
+    _onSelectItemSingle: SelectFx = (item, _, toggleMode = false) => {
+        this.selectItem(item, toggleMode);
     };
 
     onSelectAll: SelectAllFx = (requestedAction?: "selectAll") => {
@@ -94,5 +80,26 @@ export class SelectActionHandler {
 
     isSelected = (item: ObjectItem): boolean => {
         return this.selectionHelper ? this.selectionHelper.isSelected(item) : false;
+    };
+
+    private selectItem = (item: ObjectItem, toggleMode: boolean): void => {
+        if (this.selectionHelper === undefined) {
+            return;
+        }
+
+        // clear mode
+        if (toggleMode === false) {
+            this.selectionHelper.reduceTo(item);
+            return;
+        }
+
+        // toggle mode
+        if (this.selectionHelper.isSelected(item)) {
+            this.selectionHelper.remove(item);
+        } else if (this.selectionHelper.type === "Multi") {
+            this.selectionHelper.add(item);
+        } else {
+            this.selectionHelper.reduceTo(item);
+        }
     };
 }
