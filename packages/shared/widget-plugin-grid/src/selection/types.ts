@@ -25,3 +25,10 @@ export type SelectAdjacentInGridFx = (
     size: Size,
     numberOfColumns?: number
 ) => void;
+
+/**
+ * Selection mode enum. `toggle` is additive mode where each
+ * new item adds to selection. `clear` is a reducing mode where
+ * newer selection overrides previous.
+ */
+export type SelectionMode = "toggle" | "clear";
