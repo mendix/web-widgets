@@ -16,7 +16,13 @@ export type Direction = "forward" | "backward" | "pageup" | "pagedown" | "home" 
 
 export type Size = number | "edge";
 
-export type SelectAdjacentFx = (item: ObjectItem, shiftKey: boolean, direction: Direction, size: Size) => void;
+export type SelectAdjacentFx = (
+    item: ObjectItem,
+    shiftKey: boolean,
+    direction: Direction,
+    size: Size,
+    mode: SelectionMode
+) => void;
 
 export type SelectAdjacentInGridFx = (
     item: ObjectItem,
@@ -25,3 +31,11 @@ export type SelectAdjacentInGridFx = (
     size: Size,
     numberOfColumns?: number
 ) => void;
+
+/**
+ * Selection mode enum.
+ * `toggle` is additive mode where each
+ * new item adds to selection. `clear` is a reducing mode where
+ * newer selection overrides previous.
+ */
+export type SelectionMode = "toggle" | "clear";

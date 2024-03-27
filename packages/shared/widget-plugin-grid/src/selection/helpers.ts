@@ -1,7 +1,7 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useEffect, useRef } from "react";
-import { Direction, MultiSelectionStatus, Size } from "./types";
+import { Direction, MultiSelectionStatus, SelectionMode, Size } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -14,7 +14,7 @@ class SingleSelectionHelper {
     isSelected(value: ObjectItem): boolean {
         return this.selectionValue.selection?.id === value.id;
     }
-    add(value: ObjectItem): void {
+    reduceTo(value: ObjectItem): void {
         this.selectionValue.setSelection(value);
     }
     remove(_value: ObjectItem): void {
@@ -81,46 +81,54 @@ export class MultiSelectionHelper {
         this.rangeStart = index > -1 ? index : undefined;
     }
 
-    private _setRangeEnd(item: ObjectItem | undefined): void {
-        if (item === undefined) {
+    private _setRangeEnd(item: undefined): void;
+    private _setRangeEnd(item: ObjectItem, mode: SelectionMode): void;
+    private _setRangeEnd(...params: [undefined] | [ObjectItem, SelectionMode]): void {
+        if (params.length === 1) {
             this.rangeEnd = undefined;
             return;
         }
 
-        const currentEnd = this.rangeEnd;
-        const nextEnd = this.selectableItems.indexOf(item);
-        this.rangeEnd = nextEnd > -1 ? nextEnd : undefined;
+        const [item, selectionMode] = params;
+        const prevEnd = this.rangeEnd;
+        const newEnd = this.selectableItems.indexOf(item);
+        this.rangeEnd = newEnd > -1 ? newEnd : undefined;
 
-        this._updateSelectionWithRange(this.rangeStart, currentEnd, nextEnd);
+        this._updateSelectionWithRange({
+            start: this.rangeStart,
+            end: prevEnd,
+            newEnd,
+            selectionMode
+        });
     }
 
-    private _updateSelectionWithRange(
-        start: undefined | number,
-        currentEnd: undefined | number,
-        nextEnd: number
-    ): void {
-        if (start === undefined) {
+    private _updateSelectionWithRange(params: {
+        /** Start index of the range */
+        start: number | undefined;
+        /** End index of the range */
+        end: number | undefined;
+        /** New end index of the range */
+        newEnd: number;
+        selectionMode: SelectionMode;
+    }): void {
+        const { start, end, newEnd, selectionMode } = params;
+        const isToggleMode = selectionMode === "toggle";
+
+        if (start === undefined || newEnd === -1 || end === newEnd) {
             return;
         }
 
-        if (nextEnd === -1) {
+        if (end === undefined) {
+            let newSelection = this._getRange(start, newEnd);
+            newSelection = isToggleMode ? this._union(this.selectionValue.selection, newSelection) : newSelection;
+            this.selectionValue.setSelection(newSelection);
             return;
         }
 
-        if (currentEnd === nextEnd) {
-            return;
-        }
+        const itemsToRemove = this._getRange(start, end);
+        const itemsToAdd = this._getRange(start, newEnd);
 
-        if (currentEnd === undefined) {
-            const itemsToAdd = this._getRange(start, nextEnd);
-            this.selectionValue.setSelection(itemsToAdd);
-            return;
-        }
-
-        const itemsToRemove = this._getRange(start, currentEnd);
-        const itemsToAdd = this._getRange(start, nextEnd);
-
-        let selection: ObjectItem[] = [];
+        let selection: ObjectItem[] = isToggleMode ? [...this.selectionValue.selection] : [];
         selection = this._diff(selection, itemsToRemove);
         selection = this._union(selection, itemsToAdd);
         this.selectionValue.setSelection(selection);
@@ -175,12 +183,12 @@ export class MultiSelectionHelper {
         this._resetRange();
     }
 
-    selectUpTo(value: ObjectItem): void {
+    selectUpTo(value: ObjectItem, selectionMode: SelectionMode): void {
         if (this.rangeStart === undefined) {
             this._add(value);
             this._setRangeStart(value);
         } else {
-            this._setRangeEnd(value);
+            this._setRangeEnd(value, selectionMode);
         }
     }
 
@@ -221,14 +229,11 @@ export class MultiSelectionHelper {
         shiftKey: boolean,
         direction: Direction,
         unit: Size,
-        numberOfColumns?: number
+        numberOfColumns: number | undefined,
+        mode: SelectionMode
     ): void {
         if (shiftKey === false) {
             this._resetRange();
-            return;
-        }
-        if (this.rangeStart === undefined) {
-            this.reduceTo(value);
             return;
         }
 
@@ -248,8 +253,13 @@ export class MultiSelectionHelper {
         if (this.rangeStart === undefined) {
             this._setRangeStart(value);
         }
+        const endItem = this.selectableItems.at(adjacentIndex);
 
-        this._setRangeEnd(this.selectableItems.at(adjacentIndex));
+        if (!endItem) {
+            return;
+        }
+
+        this._setRangeEnd(endItem, mode);
     }
 }
 
