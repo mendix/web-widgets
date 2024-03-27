@@ -375,10 +375,10 @@ $grid-selected-row-background: $brand-light;
         }
     }
 
-    .tr.tr-preview:nth-last-child(2) .td {
+    .tr.tr-preview:nth-last-child(2) > .td {
         opacity: 0.5;
     }
-    .tr.tr-preview:last-child .td {
+    .tr.tr-preview:last-child > .td {
         opacity: 0.2;
     }
 }
