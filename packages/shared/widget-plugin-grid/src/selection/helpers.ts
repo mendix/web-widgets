@@ -87,38 +87,38 @@ export class MultiSelectionHelper {
             return;
         }
 
-        const currentEnd = this.rangeEnd;
-        const nextEnd = this.selectableItems.indexOf(item);
-        this.rangeEnd = nextEnd > -1 ? nextEnd : undefined;
+        const prevEnd = this.rangeEnd;
+        const newEnd = this.selectableItems.indexOf(item);
+        this.rangeEnd = newEnd > -1 ? newEnd : undefined;
 
-        this._updateSelectionWithRange(this.rangeStart, currentEnd, nextEnd);
+        this._updateSelectionWithRange({
+            start: this.rangeStart,
+            end: prevEnd,
+            newEnd
+        });
     }
 
-    private _updateSelectionWithRange(
-        start: undefined | number,
-        currentEnd: undefined | number,
-        nextEnd: number
-    ): void {
-        if (start === undefined) {
+    private _updateSelectionWithRange(params: {
+        /** Start index of the range */
+        start: number | undefined;
+        /** End index of the range */
+        end: number | undefined;
+        /** New end index of the range */
+        newEnd: number;
+    }): void {
+        const { start, end, newEnd } = params;
+        if (start === undefined || newEnd === -1 || end === newEnd) {
             return;
         }
 
-        if (nextEnd === -1) {
-            return;
-        }
-
-        if (currentEnd === nextEnd) {
-            return;
-        }
-
-        if (currentEnd === undefined) {
-            const itemsToAdd = this._getRange(start, nextEnd);
+        if (end === undefined) {
+            const itemsToAdd = this._getRange(start, newEnd);
             this.selectionValue.setSelection(itemsToAdd);
             return;
         }
 
-        const itemsToRemove = this._getRange(start, currentEnd);
-        const itemsToAdd = this._getRange(start, nextEnd);
+        const itemsToRemove = this._getRange(start, end);
+        const itemsToAdd = this._getRange(start, newEnd);
 
         let selection: ObjectItem[] = [];
         selection = this._diff(selection, itemsToRemove);
