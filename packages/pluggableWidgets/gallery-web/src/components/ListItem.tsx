@@ -15,6 +15,7 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     item: ObjectItem;
     itemIndex: number;
     selectHelper: SelectActionHelper;
+    preview?: boolean;
 };
 
 export function ListItem(props: ListItemProps): ReactElement {
@@ -32,7 +33,8 @@ export function ListItem(props: ListItemProps): ReactElement {
                 "widget-gallery-item",
                 {
                     "widget-gallery-clickable": clickable,
-                    "widget-gallery-selected": ariaProps["aria-selected"]
+                    "widget-gallery-selected": ariaProps["aria-selected"],
+                    "widget-gallery-preview": props.preview
                 },
                 helper.itemClass(item)
             )}
