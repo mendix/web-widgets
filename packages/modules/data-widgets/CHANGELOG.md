@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.15.0] DataWidgets - 2024-03-27
+
 ### Fixed
 
 -   Fixed Datagrid Date Filter custom date formats throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
@@ -13,6 +15,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   New JS actions for resetting filters in Data grid 2 and Gallery. `Reset_All_Filters` resets all filters within Data grid 2 or Gallery. `Reset_Filter` resets a single filter.
+
+### [2.7.0] DatagridDateFilter
+
+#### Fixed
+
+-   Fixed custom date format throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.6.0] DatagridDropdownFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.5.0] DatagridNumberFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.5.0] DatagridTextFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.15.0] Datagrid
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [1.6.0] Gallery
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
 
 ## [2.14.0] DataWidgets - 2024-03-06
 
