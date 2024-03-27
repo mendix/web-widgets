@@ -39,7 +39,7 @@ export class SelectActionHandler {
         }
 
         if (shiftKey) {
-            this.selectionHelper.selectUpTo(item);
+            this.selectionHelper.selectUpTo(item, toggleMode ? "toggle" : "clear");
             return;
         }
 
@@ -72,9 +72,9 @@ export class SelectActionHandler {
         }
     };
 
-    onSelectAdjacent: SelectAdjacentFx = (...params) => {
+    onSelectAdjacent: SelectAdjacentFx = (item: ObjectItem, shiftKey, direction, size, mode) => {
         if (this.selectionHelper?.type === "Multi") {
-            this.selectionHelper.selectUpToAdjacent(...params);
+            this.selectionHelper.selectUpToAdjacent(item, shiftKey, direction, size, undefined, mode);
         }
     };
 
