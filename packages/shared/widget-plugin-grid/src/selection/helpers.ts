@@ -1,7 +1,7 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useEffect, useRef } from "react";
-import { Direction, MultiSelectionStatus, Size } from "./types";
+import { Direction, MultiSelectionStatus, SelectionMode, Size } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -26,9 +26,15 @@ export class MultiSelectionHelper {
     type = "Multi" as const;
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
+    private selectionMode: SelectionMode;
 
-    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
+    constructor(
+        private selectionValue: SelectionMultiValue,
+        private selectableItems: ObjectItem[],
+        mode: SelectionMode = "clear"
+    ) {
         this.rangeStart = undefined;
+        this.selectionMode = mode;
     }
 
     isSelected(value: ObjectItem): boolean {
@@ -46,6 +52,10 @@ export class MultiSelectionHelper {
             : this.selectionValue.selection.length === this.selectableItems.length
             ? "all"
             : "some";
+    }
+
+    private get isToggleMode(): boolean {
+        return this.selectionMode === "toggle";
     }
 
     add(value: ObjectItem): void {
@@ -112,15 +122,16 @@ export class MultiSelectionHelper {
         }
 
         if (end === undefined) {
-            const itemsToAdd = this._getRange(start, newEnd);
-            this.selectionValue.setSelection(itemsToAdd);
+            let newSelection = this._getRange(start, newEnd);
+            newSelection = this.isToggleMode ? this._union(this.selectionValue.selection, newSelection) : newSelection;
+            this.selectionValue.setSelection(newSelection);
             return;
         }
 
         const itemsToRemove = this._getRange(start, end);
         const itemsToAdd = this._getRange(start, newEnd);
 
-        let selection: ObjectItem[] = [];
+        let selection: ObjectItem[] = this.isToggleMode ? [...this.selectionValue.selection] : [];
         selection = this._diff(selection, itemsToRemove);
         selection = this._union(selection, itemsToAdd);
         this.selectionValue.setSelection(selection);
@@ -254,7 +265,8 @@ const clamp = (num: number, min: number, max: number): number => Math.min(Math.m
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined
+    onSelectionChange: ActionValue | undefined,
+    options?: { mode: SelectionMode }
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
@@ -285,7 +297,7 @@ export function useSelectionHelper(
             }
         } else {
             if (!selectionHelper.current) {
-                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? []);
+                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? [], options?.mode);
             } else {
                 (selectionHelper.current as MultiSelectionHelper).updateProps(selection, dataSource.items ?? []);
             }
