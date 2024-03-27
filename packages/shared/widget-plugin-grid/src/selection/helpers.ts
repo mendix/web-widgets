@@ -26,15 +26,9 @@ export class MultiSelectionHelper {
     type = "Multi" as const;
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
-    private selectionMode: SelectionMode;
 
-    constructor(
-        private selectionValue: SelectionMultiValue,
-        private selectableItems: ObjectItem[],
-        mode: SelectionMode = "clear"
-    ) {
+    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
         this.rangeStart = undefined;
-        this.selectionMode = mode;
     }
 
     isSelected(value: ObjectItem): boolean {
@@ -52,10 +46,6 @@ export class MultiSelectionHelper {
             : this.selectionValue.selection.length === this.selectableItems.length
             ? "all"
             : "some";
-    }
-
-    private get isToggleMode(): boolean {
-        return this.selectionMode === "toggle";
     }
 
     add(value: ObjectItem): void {
@@ -91,12 +81,15 @@ export class MultiSelectionHelper {
         this.rangeStart = index > -1 ? index : undefined;
     }
 
-    private _setRangeEnd(item: ObjectItem | undefined): void {
-        if (item === undefined) {
+    private _setRangeEnd(item: undefined): void;
+    private _setRangeEnd(item: ObjectItem, mode: SelectionMode): void;
+    private _setRangeEnd(...params: [undefined] | [ObjectItem, SelectionMode]): void {
+        if (params.length === 1) {
             this.rangeEnd = undefined;
             return;
         }
 
+        const [item, selectionMode] = params;
         const prevEnd = this.rangeEnd;
         const newEnd = this.selectableItems.indexOf(item);
         this.rangeEnd = newEnd > -1 ? newEnd : undefined;
@@ -104,7 +97,8 @@ export class MultiSelectionHelper {
         this._updateSelectionWithRange({
             start: this.rangeStart,
             end: prevEnd,
-            newEnd
+            newEnd,
+            selectionMode
         });
     }
 
@@ -115,15 +109,18 @@ export class MultiSelectionHelper {
         end: number | undefined;
         /** New end index of the range */
         newEnd: number;
+        selectionMode: SelectionMode;
     }): void {
-        const { start, end, newEnd } = params;
+        const { start, end, newEnd, selectionMode } = params;
+        const isToggleMode = selectionMode === "toggle";
+
         if (start === undefined || newEnd === -1 || end === newEnd) {
             return;
         }
 
         if (end === undefined) {
             let newSelection = this._getRange(start, newEnd);
-            newSelection = this.isToggleMode ? this._union(this.selectionValue.selection, newSelection) : newSelection;
+            newSelection = isToggleMode ? this._union(this.selectionValue.selection, newSelection) : newSelection;
             this.selectionValue.setSelection(newSelection);
             return;
         }
@@ -131,7 +128,7 @@ export class MultiSelectionHelper {
         const itemsToRemove = this._getRange(start, end);
         const itemsToAdd = this._getRange(start, newEnd);
 
-        let selection: ObjectItem[] = this.isToggleMode ? [...this.selectionValue.selection] : [];
+        let selection: ObjectItem[] = isToggleMode ? [...this.selectionValue.selection] : [];
         selection = this._diff(selection, itemsToRemove);
         selection = this._union(selection, itemsToAdd);
         this.selectionValue.setSelection(selection);
@@ -186,12 +183,12 @@ export class MultiSelectionHelper {
         this._resetRange();
     }
 
-    selectUpTo(value: ObjectItem): void {
+    selectUpTo(value: ObjectItem, selectionMode: SelectionMode): void {
         if (this.rangeStart === undefined) {
             this._add(value);
             this._setRangeStart(value);
         } else {
-            this._setRangeEnd(value);
+            this._setRangeEnd(value, selectionMode);
         }
     }
 
@@ -232,7 +229,8 @@ export class MultiSelectionHelper {
         shiftKey: boolean,
         direction: Direction,
         unit: Size,
-        numberOfColumns?: number
+        numberOfColumns: number | undefined,
+        mode: SelectionMode
     ): void {
         if (shiftKey === false) {
             this._resetRange();
@@ -255,8 +253,13 @@ export class MultiSelectionHelper {
         if (this.rangeStart === undefined) {
             this._setRangeStart(value);
         }
+        const endItem = this.selectableItems.at(adjacentIndex);
 
-        this._setRangeEnd(this.selectableItems.at(adjacentIndex));
+        if (!endItem) {
+            return;
+        }
+
+        this._setRangeEnd(endItem, mode);
     }
 }
 
@@ -265,8 +268,7 @@ const clamp = (num: number, min: number, max: number): number => Math.min(Math.m
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined,
-    options?: { mode: SelectionMode }
+    onSelectionChange: ActionValue | undefined
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
@@ -297,7 +299,7 @@ export function useSelectionHelper(
             }
         } else {
             if (!selectionHelper.current) {
-                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? [], options?.mode);
+                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? []);
             } else {
                 (selectionHelper.current as MultiSelectionHelper).updateProps(selection, dataSource.items ?? []);
             }
