@@ -15,6 +15,7 @@ interface WidgetHeaderContextProps {
     viewStateFilters?: FilterCondition;
     children?: ReactNode;
     state: ReturnType<typeof useMultipleFiltering>;
+    eventsChannelName?: string;
 }
 
 const component = memo((props: WidgetHeaderContextProps) => {
@@ -38,6 +39,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
     return (
         <FilterContext.Provider
             value={{
+                eventsChannelName: props.eventsChannelName,
                 filterDispatcher: prev => {
                     if (prev.filterType) {
                         const [, filterDispatcher] = multipleFilteringState[prev.filterType];

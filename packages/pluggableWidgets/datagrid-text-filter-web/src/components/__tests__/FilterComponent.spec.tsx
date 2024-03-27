@@ -1,84 +1,90 @@
-import { render, mount } from "enzyme";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import { createElement } from "react";
-import { FilterComponent } from "../FilterComponent";
+import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 
 jest.useFakeTimers();
 
+function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
+    return {
+        user: userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime
+        }),
+        ...render(jsx)
+    };
+}
+
+const commonProps: FilterComponentProps = {
+    adjustable: true,
+    defaultFilter: "contains",
+    changeDelay: 500,
+    name: "Name",
+    value: undefined,
+    onChange: () => {},
+    parentChannelName: null
+};
+
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable initialFilterType="contains" inputChangeDelay={500} />);
+        const component = render(<FilterComponent {...commonProps} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.container.firstChild).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(
-            <FilterComponent adjustable={false} initialFilterType="contains" inputChangeDelay={500} />
-        );
+        const component = render(<FilterComponent {...commonProps} adjustable={false} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.container.firstChild).toMatchSnapshot();
     });
 
     it("renders correctly with aria labels", () => {
         const component = render(
             <FilterComponent
-                adjustable
+                {...commonProps}
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
-                initialFilterType="contains"
-                inputChangeDelay={500}
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.container.firstChild).toMatchSnapshot();
     });
 
-    it("calls updateFilters when value changes", () => {
-        const updateFiltersHandler = jest.fn();
-        const component = mount(
-            <FilterComponent
-                adjustable
-                initialFilterType="contains"
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-            />
-        );
+    it("calls onChange when input value changes", async () => {
+        const onChange = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
 
-        const input = component.find("input");
-        input.simulate("change", { target: { value: "test" } });
-        expect(updateFiltersHandler).toBeCalledTimes(0);
+        const input = getByRole("textbox");
+        await user.type(input, "test");
+        expect(onChange).toHaveBeenCalledTimes(0);
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toBeCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
     });
 
-    it("debounces calls for updateFilters when value changes", () => {
-        const updateFiltersHandler = jest.fn();
-        const component = mount(
-            <FilterComponent
-                adjustable
-                initialFilterType="contains"
-                inputChangeDelay={500}
-                updateFilters={updateFiltersHandler}
-            />
-        );
+    it("debounces onChange calls when input value changes", async () => {
+        const onChange = jest.fn();
+        const { user, getByRole } = setup(<FilterComponent {...commonProps} onChange={onChange} />);
 
-        expect(updateFiltersHandler).toBeCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
-        const input = component.find("input");
-        input.simulate("change", { target: { value: "test" } });
+        const input = getByRole("textbox");
+        await user.type(input, "test");
         jest.advanceTimersByTime(499);
-        expect(updateFiltersHandler).toBeCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
-        input.simulate("change", { target: { value: "test2" } });
-        input.simulate("change", { target: { value: "test3" } });
+        await user.clear(input);
+        await user.type(input, "test2");
+        await user.clear(input);
+        await user.type(input, "test3");
         jest.advanceTimersByTime(500);
-        expect(updateFiltersHandler).toBeCalledTimes(1);
-        expect(updateFiltersHandler).toHaveBeenCalledWith("test3", "contains");
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("test3", "contains");
 
-        input.simulate("change", { target: { value: "test" } });
+        await user.clear(input);
+        await user.type(input, "foo");
         jest.advanceTimersByTime(500);
 
-        expect(updateFiltersHandler).toBeCalledTimes(2);
-        expect(updateFiltersHandler).toHaveBeenCalledWith("test", "contains");
+        expect(onChange).toHaveBeenCalledTimes(2);
+        expect(onChange).toHaveBeenCalledWith("foo", "contains");
     });
 });

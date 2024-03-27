@@ -34,13 +34,8 @@ exports[`Date Filter with single instance with multiple attributes renders corre
       class="react-datepicker-wrapper"
     >
       <div
-        class="react-datepicker__input-container "
+        class="react-datepicker__input-container"
       >
-        <span
-          aria-live="polite"
-          class="react-datepicker__aria-live"
-          role="alert"
-        />
         <input
           aria-labelledby="DateFilter1-label"
           class="form-control filter-input"
@@ -105,13 +100,8 @@ exports[`Date Filter with single instance with single attribute renders correctl
       class="react-datepicker-wrapper"
     >
       <div
-        class="react-datepicker__input-container "
+        class="react-datepicker__input-container"
       >
-        <span
-          aria-live="polite"
-          class="react-datepicker__aria-live"
-          role="alert"
-        />
         <input
           aria-labelledby="DateFilter1-label"
           class="form-control filter-input"

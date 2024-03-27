@@ -23,7 +23,11 @@ export function SelectAllButton({ id, ariaLabel, value, onChange }: SelectAllBut
                 <ThreeStateCheckBox value={value} id={id} onChange={onChange} />
             </span>
             {ariaLabel ? (
-                <CaptionContent onClick={onChange} htmlFor={id}>
+                // empty onclick function is being set to allow label clicking
+                // the actual event occurs on checkbox input inside ThreeStateCheckBox
+                // if being set to onChange, the event will be triggered twice
+                // if undefined, label click will not be triggered.
+                <CaptionContent onClick={() => {}} htmlFor={id}>
                     {ariaLabel}
                 </CaptionContent>
             ) : undefined}

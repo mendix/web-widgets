@@ -39,7 +39,7 @@ async function main(): Promise<void> {
     console.info("Updating components changelog...");
     for (const [compInfo, wrapper] of subcomponents) {
         if (wrapper.hasVersion(compInfo.version)) {
-            throw new Error(alreadyReleased(compInfo.name, info.version));
+            throw new Error(alreadyReleased(compInfo.name, compInfo.version));
         }
 
         wrapper.moveUnreleasedToVersion(compInfo.version).save();

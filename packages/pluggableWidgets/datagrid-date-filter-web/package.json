@@ -1,7 +1,7 @@
 {
   "name": "@mendix/datagrid-date-filter-web",
   "widgetName": "DatagridDateFilter",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "description": "",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "private": true,
@@ -31,7 +31,7 @@
     "build": "pluggable-widgets-tools build:ts",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/ cypress/",
-    "test": "pluggable-widgets-tools test:unit:web",
+    "test": "jest",
     "release": "pluggable-widgets-tools release:ts",
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
@@ -39,11 +39,12 @@
     "e2edev": "run-e2e dev --with-preps"
   },
   "dependencies": {
+    "@mendix/widget-plugin-external-events": "workspace:*",
     "@mendix/widget-plugin-filter-selector": "workspace:*",
     "@mendix/widget-plugin-filtering": "workspace:*",
     "classnames": "^2.3.2",
-    "date-fns": "^2.30.0",
-    "react-datepicker": "^4.12.0",
+    "date-fns": "^3.3.1",
+    "react-datepicker": "^6.6.0",
     "string.prototype.replaceall": "^1.0.8"
   },
   "devDependencies": {
@@ -56,6 +57,6 @@
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@types/react-datepicker": "^4.11.2"
+    "@types/react-datepicker": "^6.2.0"
   }
 }

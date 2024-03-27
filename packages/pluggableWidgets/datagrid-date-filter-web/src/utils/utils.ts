@@ -30,3 +30,16 @@ export function changeTimeToMidnight(date: Date): Date {
 export function doubleMonthOrDayWhenSingle(formatString: string): string {
     return formatString.replaceAll(/d+|M+/g, m => (m.length > 1 ? m : m + m));
 }
+
+/**
+ * Given a date formatter string replaces all uppercase 'E' to the lowercase 'e'
+ * this function returns the same string with the above characters replaced.
+ * Example: "YYww.E" returns "YYww.e"
+ * @function dayOfWeekWhenUpperCase
+ * @param {string} formatString The string used to find cases of uppercase E.
+ * @return {string} The same string but with 'E' in lowercase ('e').
+ *
+ */
+export function dayOfWeekWhenUpperCase(formatString: string): string {
+    return formatString.replaceAll(/E/g, m => m.toLowerCase());
+}

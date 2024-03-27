@@ -6,8 +6,9 @@ import classNames from "classnames";
 import DatePickerComponent from "react-datepicker";
 import { useSetInitialConditionEffect } from "../features/initialize";
 import { DatePicker, RangeDateValue } from "./DatePicker";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 
-interface FilterComponentProps {
+export interface FilterComponentProps {
     adjustable: boolean;
     calendarStartDay?: number;
     className?: string;
@@ -25,6 +26,8 @@ interface FilterComponentProps {
     tabIndex?: number;
     styles?: CSSProperties;
     updateFilters?: (value: Date | undefined, rangeValues: RangeDateValue, type: DefaultFilterEnum) => void;
+    name: string;
+    parentChannelName: string | null;
 }
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
@@ -32,6 +35,16 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [value, setValue] = useState<Date | undefined>(props.defaultValue);
     const [rangeValues, setRangeValues] = useState<RangeDateValue>([props.defaultStartDate, props.defaultEndDate]);
     const pickerRef = useRef<DatePickerComponent | null>(null);
+    const reset = useCallback(() => {
+        setValue(undefined);
+        setRangeValues([undefined, undefined]);
+    }, []);
+
+    useOnResetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName ?? undefined,
+        listener: reset
+    });
 
     useWatchValues(
         (_prev, _next) => {

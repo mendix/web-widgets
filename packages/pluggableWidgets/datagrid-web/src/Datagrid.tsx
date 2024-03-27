@@ -27,6 +27,7 @@ import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 interface Props extends DatagridContainerProps {
     mappedColumns: Column[];
@@ -147,6 +148,8 @@ function Container(props: Props): ReactElement {
         onClickTrigger: props.onClickTrigger,
         onClick: props.onClick
     });
+    const filtersChannelName = useMemo(() => `datagrid/${generateUUID()}`, []);
+    useOnResetFiltersEvent(props.name, filtersChannelName);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
         ? state.visibleColumns.length + 1
@@ -194,6 +197,7 @@ function Container(props: Props): ReactElement {
                     return renderWrapper(
                         <FilterContext.Provider
                             value={{
+                                eventsChannelName: filtersChannelName,
                                 filterDispatcher: prev => {
                                     setFiltered(true);
                                     filterDispatcher(prev);
@@ -208,7 +212,7 @@ function Container(props: Props): ReactElement {
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, customFiltersState, props.columns, filtersChannelName]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
@@ -219,6 +223,7 @@ function Container(props: Props): ReactElement {
                         viewStateFilters={viewStateFilters.current}
                         selectionContextValue={selectionContextValue}
                         state={multipleFilteringState}
+                        eventsChannelName={filtersChannelName}
                     >
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>

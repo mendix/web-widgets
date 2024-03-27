@@ -14,13 +14,8 @@ exports[`Date picker component renders correctly 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container "
+      class="react-datepicker__input-container"
     >
-      <span
-        aria-live="polite"
-        class="react-datepicker__aria-live"
-        role="alert"
-      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
@@ -64,13 +59,8 @@ exports[`Date picker component renders correctly when is not adjustable 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container "
+      class="react-datepicker__input-container"
     >
-      <span
-        aria-live="polite"
-        class="react-datepicker__aria-live"
-        role="alert"
-      />
       <input
         aria-labelledby="undefined-label"
         class="form-control"
@@ -116,13 +106,8 @@ exports[`Date picker component renders correctly with a11y properties 1`] = `
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container "
+      class="react-datepicker__input-container"
     >
-      <span
-        aria-live="polite"
-        class="react-datepicker__aria-live"
-        role="alert"
-      />
       <input
         aria-labelledby="undefined-label"
         class="form-control filter-input"
@@ -166,13 +151,8 @@ exports[`Date picker component renders correctly with different locale and date 
     class="react-datepicker-wrapper"
   >
     <div
-      class="react-datepicker__input-container "
+      class="react-datepicker__input-container"
     >
-      <span
-        aria-live="polite"
-        class="react-datepicker__aria-live"
-        role="alert"
-      />
       <input
         aria-labelledby="undefined-label"
         class="form-control"

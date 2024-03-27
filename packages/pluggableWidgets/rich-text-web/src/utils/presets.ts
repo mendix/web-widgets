@@ -6,7 +6,7 @@ export interface ToolbarGroup {
 }
 
 interface EditorConfig {
-    toolbar: string;
+    toolbar: string | false;
 }
 
 export const toolbarGroups: Array<keyof RichTextContainerProps> = [
@@ -58,6 +58,11 @@ const TOOLBAR_GROUP: ToolbarGroup[] = [
 ];
 
 export function createPreset(type: PresetEnum, config?: Partial<RichTextContainerProps>): EditorConfig {
+    if (config?.stringAttribute?.readOnly) {
+        return {
+            toolbar: false
+        };
+    }
     switch (type) {
         case "basic":
             return {

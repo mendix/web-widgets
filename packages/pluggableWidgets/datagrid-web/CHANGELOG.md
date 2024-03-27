@@ -7,9 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 
+
 ### Added
 
 -   "Load More" as configurable.
+
+## [2.15.0] - 2024-03-27
+
+### Added
+
+-   A new hook that subscribes the widget to external events.
 
 ## [2.14.0] - 2024-03-06
 

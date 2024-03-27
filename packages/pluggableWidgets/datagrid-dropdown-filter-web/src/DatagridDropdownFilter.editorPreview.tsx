@@ -11,6 +11,8 @@ export function preview(props: DatagridDropdownFilterPreviewProps): ReactElement
             initialSelected={props.defaultValue}
             options={[{ caption: "optionCaption", value: "option" }]}
             styles={parseStyle(props.style)}
+            name="Dropdown"
+            parentChannelName={null}
         />
     );
 }

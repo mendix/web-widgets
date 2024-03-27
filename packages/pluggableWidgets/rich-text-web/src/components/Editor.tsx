@@ -51,7 +51,7 @@ import { DEFAULT_CONFIG } from "../utils/contants";
 type EditorState = "loading" | "ready";
 
 interface BundledEditorProps extends RichTextContainerProps {
-    toolbar: string;
+    toolbar: string | false;
     menubar: string | boolean;
 }
 
@@ -88,10 +88,6 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
             setEditorValue(stringAttribute.value ?? "");
         }
     }, [stringAttribute, editorState]);
-
-    useEffect(() => {
-        editorRef.current?.mode.set(stringAttribute.readOnly ? "readonly" : "design");
-    }, [stringAttribute.readOnly, editorState]);
 
     const onEditorChange = useCallback(
         (value: string, _editor: TinyMCEEditor) => {
@@ -137,7 +133,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 setEditorState("ready");
             }}
             value={editorValue}
-            initialValue=""
+            initialValue={stringAttribute.readOnly ? "" : stringAttribute.value}
             onEditorChange={onEditorChange}
             init={{
                 ...DEFAULT_CONFIG,
@@ -146,9 +142,8 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 content_style: [contentCss, "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join(
                     "\n"
                 ),
-                readonly: stringAttribute.readOnly,
                 toolbar_mode: toolbarMode,
-                statusbar: enableStatusBar,
+                statusbar: enableStatusBar && !stringAttribute.readOnly,
                 toolbar_location: _toolbarLocation,
                 inline: toolbarLocation === "inline",
                 browser_spellcheck: spellCheck,
@@ -156,6 +151,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 resize: resize === "both" ? "both" : resize === "true",
                 extended_valid_elements: extended_valid_elements?.value ?? ""
             }}
+            disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}
             onFocus={onEditorFocus}
         />

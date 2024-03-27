@@ -51,7 +51,8 @@ describe("Slider widget", () => {
                 .should("have.css", "cursor")
                 .and("contains", "not-allowed");
         });
-
+        // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
+        if (Cypress.env("MODERN_CLIENT")!=true) {
         it("listens to a grid", () => {
             cy.visit("/p/listen-to-grid");
             cy.get(".mx-name-slider")
@@ -69,6 +70,7 @@ describe("Slider widget", () => {
                 .should("have.attr", "style")
                 .and("contains", "left: 80%;");
         });
+    }
 
         it("triggers a microflow after slide", () => {
             cy.visit("/p/after-slide");

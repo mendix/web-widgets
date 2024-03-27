@@ -1,8 +1,15 @@
 import { render } from "enzyme";
 import { createElement } from "react";
 import { render as render_fromTestingLibrary } from "@testing-library/react";
-import { FilterComponent } from "../FilterComponent";
+import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
+
+const commonProps: FilterComponentProps = {
+    name: "DateFilter",
+    parentChannelName: null,
+    adjustable: true,
+    defaultFilter: "equal"
+};
 
 describe("Filter component", () => {
     beforeAll(() => {
@@ -15,13 +22,13 @@ describe("Filter component", () => {
     });
 
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable defaultFilter="equal" />);
+        const component = render(<FilterComponent {...commonProps} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterComponent adjustable={false} defaultFilter="equal" />);
+        const component = render(<FilterComponent {...commonProps} adjustable={false} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -29,10 +36,9 @@ describe("Filter component", () => {
     it("renders correctly with aria labels", () => {
         const component = render(
             <FilterComponent
-                adjustable
+                {...commonProps}
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
-                defaultFilter="equal"
             />
         );
 
@@ -44,7 +50,7 @@ describe("Filter component", () => {
             const date = new Date(946684800000);
             const updateFilters = jest.fn();
             const { rerender } = render_fromTestingLibrary(
-                <FilterComponent adjustable defaultFilter="equal" defaultValue={date} updateFilters={updateFilters} />
+                <FilterComponent {...commonProps} defaultValue={date} updateFilters={updateFilters} />
             );
 
             // First time updateFilters is called on initial mount
@@ -53,14 +59,7 @@ describe("Filter component", () => {
 
             const nextValue = new Date(999999900000);
 
-            rerender(
-                <FilterComponent
-                    adjustable
-                    defaultFilter="equal"
-                    defaultValue={nextValue}
-                    updateFilters={updateFilters}
-                />
-            );
+            rerender(<FilterComponent {...commonProps} defaultValue={nextValue} updateFilters={updateFilters} />);
 
             expect(updateFilters).toBeCalledTimes(1);
             expect(updateFilters).toHaveBeenLastCalledWith(date, [undefined, undefined], "equal");
@@ -70,7 +69,7 @@ describe("Filter component", () => {
             const date = new Date(946684800000);
             const updateFilters = jest.fn();
             const { rerender } = render_fromTestingLibrary(
-                <FilterComponent adjustable defaultFilter="equal" defaultValue={date} updateFilters={updateFilters} />
+                <FilterComponent {...commonProps} defaultValue={date} updateFilters={updateFilters} />
             );
 
             // First time updateFilters is called on initial mount
@@ -79,14 +78,7 @@ describe("Filter component", () => {
 
             const nextValue = new Date(946684800000);
 
-            rerender(
-                <FilterComponent
-                    adjustable
-                    defaultFilter="equal"
-                    defaultValue={nextValue}
-                    updateFilters={updateFilters}
-                />
-            );
+            rerender(<FilterComponent {...commonProps} defaultValue={nextValue} updateFilters={updateFilters} />);
 
             expect(updateFilters).toBeCalledTimes(1);
         });

@@ -1,4 +1,5 @@
-import { ComboboxPreviewProps } from "typings/ComboboxProps";
+import { MatchSorterOptions, matchSorter } from "match-sorter";
+import { ComboboxPreviewProps, FilterTypeEnum } from "typings/ComboboxProps";
 import { MultiSelector } from "./types";
 import { PropsWithChildren, ReactElement, createElement } from "react";
 
@@ -65,4 +66,19 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
         return (optionsSourceDatabaseDataSource as { caption?: string })?.caption || `${source}, ${attributeString}`;
     }
     return emptyStringFormat;
+}
+
+export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions<string> {
+    switch (filter) {
+        case "contains":
+            return {};
+        case "startsWith":
+            return {
+                threshold: matchSorter.rankings.WORD_STARTS_WITH
+            };
+        case "none":
+            return {
+                threshold: matchSorter.rankings.NO_MATCH
+            };
+    }
 }
