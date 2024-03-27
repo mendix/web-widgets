@@ -14,7 +14,7 @@ class SingleSelectionHelper {
     isSelected(value: ObjectItem): boolean {
         return this.selectionValue.selection?.id === value.id;
     }
-    add(value: ObjectItem): void {
+    reduceTo(value: ObjectItem): void {
         this.selectionValue.setSelection(value);
     }
     remove(_value: ObjectItem): void {
@@ -225,10 +225,6 @@ export class MultiSelectionHelper {
     ): void {
         if (shiftKey === false) {
             this._resetRange();
-            return;
-        }
-        if (this.rangeStart === undefined) {
-            this.reduceTo(value);
             return;
         }
 
