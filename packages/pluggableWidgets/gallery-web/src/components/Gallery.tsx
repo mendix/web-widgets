@@ -36,6 +36,7 @@ export interface GalleryProps<T extends ObjectItem> {
     tabletItems: number;
     tabIndex?: number;
     ariaLabelListBox?: string;
+    preview?: boolean;
 
     // Helpers
     focusController: FocusTargetController;
@@ -80,6 +81,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <KeyNavProvider focusController={props.focusController}>
                             {props.items.map((item, index) => (
                                 <ListItem
+                                    preview={props.preview}
                                     key={`item_${item.id}`}
                                     helper={props.itemHelper}
                                     item={item}
