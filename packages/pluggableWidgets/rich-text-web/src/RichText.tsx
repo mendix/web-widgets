@@ -9,7 +9,17 @@ import { createMenubar } from "./utils/menubar";
 import { createPreset } from "./utils/presets";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    const { stringAttribute, id, width: w, height: h, widthUnit, heightUnit, preset, menubarMode } = props;
+    const {
+        stringAttribute,
+        id,
+        width: w,
+        height: h,
+        widthUnit,
+        heightUnit,
+        preset,
+        menubarMode,
+        readOnlyStyle
+    } = props;
 
     if (stringAttribute.status === "loading") {
         return <div></div>;
@@ -21,19 +31,26 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         height: h,
         heightUnit
     });
+    const wrapperAttributes = stringAttribute?.readOnly && readOnlyStyle !== "readPanel" ? { readOnly: true } : {};
 
     const presets = createPreset(preset, props);
     const menubar = createMenubar(menubarMode, props);
     return (
         <div
             id={id}
-            className={classNames("widget-rich-text", `${stringAttribute.readOnly ? `editor-richtext` : ""}`)}
-            style={{ width, height }}
+            className={classNames("widget-rich-text", `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`, {
+                "form-control": props.toolbarLocation === "inline",
+                "widget-rich-text-min-height": heightUnit !== "pixels" && !stringAttribute?.readOnly,
+                "widget-rich-text-min-height-readonly": heightUnit !== "pixels" && stringAttribute?.readOnly
+            })}
+            style={{ width }}
+            {...wrapperAttributes}
         >
             <BundledEditor
                 {...props}
                 menubar={menubar}
                 toolbar={presets.toolbar}
+                editorHeight={height}
                 key={`${String(stringAttribute.readOnly)}_${id}`}
             />
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>

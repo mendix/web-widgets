@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We allow user to disable quick toolbar.
+
+### Fixed
+
+-   We fixed styling to match atlas styles.
+-   We re-introduce readonly style.
+-   We fixed editor height configuration can't be changed.
+
 ## [3.0.1] - 2024-03-12
 
 ### Changed
