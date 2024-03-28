@@ -15,7 +15,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
             "databaseAttributeString",
-            "staticAttributeString",
+            "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             "optionsSourceDatabaseCaptionAttribute",
@@ -79,7 +79,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
-            "staticAttributeString",
+            "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             "optionsSourceAssociationCaptionType",

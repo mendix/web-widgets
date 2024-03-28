@@ -17,7 +17,7 @@ type ExtractionReturnValue = [
 ];
 
 export function extractStaticProps(props: ComboboxContainerProps): ExtractionReturnValue {
-    const attr = props.staticAttributeString;
+    const attr = props.staticAttribute;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
 
@@ -30,7 +30,7 @@ export function extractStaticProps(props: ComboboxContainerProps): ExtractionRet
         throw new Error("'optionsSourceType' type is 'database' but 'optionsSourceStaticDataSource' is not defined.");
     }
     const emptyOption = props.emptyOptionText;
-    const clearable = props.clearable;
+    const clearable = typeof props.staticAttribute.value === "boolean" ? false : props.clearable;
     const customContentType = props.staticDataSourceCustomContentType;
 
     return [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContentType];

@@ -59,7 +59,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
-    staticAttributeString: EditableValue<string | Big | boolean | Date>;
+    staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
@@ -105,7 +105,7 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
-    staticAttributeString: string;
+    staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
     filterType: FilterTypeEnum;

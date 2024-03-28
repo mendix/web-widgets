@@ -62,7 +62,7 @@ describe("Combo box (Association)", () => {
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
             staticDataSourceCustomContentType: "no",
-            staticAttributeString: new EditableValueBuilder<string>().build(),
+            staticAttribute: new EditableValueBuilder<string>().build(),
             optionsSourceStaticDataSource: [
                 {
                     staticDataSourceValue: dynamicValue("value1"),

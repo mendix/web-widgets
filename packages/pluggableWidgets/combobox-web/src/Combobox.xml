@@ -135,7 +135,7 @@
             <!-- END OPTIONS SOURCE -->
             <!-- STATIC-->
             <propertyGroup caption="Values">
-                <property key="staticAttributeString" type="attribute" required="true">
+                <property key="staticAttribute" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -156,7 +156,7 @@
                             <property key="staticDataSourceValue" type="expression">
                                 <caption>Value</caption>
                                 <description>Value to be set</description>
-                                <returnType assignableTo="../staticAttributeString" />
+                                <returnType assignableTo="../staticAttribute" />
                             </property>
                             <property key="staticDataSourceCustomContent" type="widgets">
                                 <caption>Custom content</caption>

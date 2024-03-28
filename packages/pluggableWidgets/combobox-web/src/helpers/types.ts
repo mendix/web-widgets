@@ -46,6 +46,8 @@ export interface OptionsProvider<T = unknown, P = object> {
 interface SelectorBase<T, V> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
+    attributeType?: "string" | "big" | "boolean" | "date";
+    selectorType?: "context" | "database" | "static";
     type: T;
     readOnly: boolean;
     validation?: string;
