@@ -57,7 +57,7 @@ describe("Combo box (Static values)", () => {
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
             staticDataSourceCustomContentType: "no",
-            staticAttributeString: new EditableValueBuilder<string>().withValue("value1").build(),
+            staticAttribute: new EditableValueBuilder<string>().withValue("value1").build(),
             optionsSourceStaticDataSource: [
                 {
                     staticDataSourceValue: dynamicValue("value1"),
@@ -87,7 +87,7 @@ describe("Combo box (Static values)", () => {
     it("renders combobox widget with selected value", async () => {
         const component = render(<Combobox {...defaultProps} />);
         const input = await getInput(component);
-        expect(input.value).toEqual("Formatted value1");
+        expect(input.value).toEqual("caption1");
     });
 
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
@@ -110,29 +110,22 @@ describe("Combo box (Static values)", () => {
         const option1 = await component.findByText("caption2");
         fireEvent.click(option1);
         expect(input.value).toEqual("caption2");
-        expect(defaultProps.staticAttributeString?.setValue).toBeCalled();
+        expect(defaultProps.staticAttribute?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.staticAttributeString?.value).toEqual("value2");
+        expect(defaultProps.staticAttribute?.value).toEqual("value2");
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-
         const input = await getInput(component);
-
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
-
-        const option1 = await component.findByText("caption1");
-        fireEvent.click(option1);
-
+        const options = await component.findAllByText("caption1");
+        fireEvent.click(options[1]);
         expect(input.value).toEqual("caption1");
-        expect(defaultProps.staticAttributeString.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.staticAttributeString.value).toEqual("value1");
-
+        expect(defaultProps.staticAttribute.value).toEqual("value1");
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
-
-        expect(defaultProps.staticAttributeString.value).toEqual(undefined);
+        expect(defaultProps.staticAttribute.value).toEqual(undefined);
     });
 });

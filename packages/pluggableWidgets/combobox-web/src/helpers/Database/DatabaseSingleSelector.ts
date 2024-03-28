@@ -6,9 +6,7 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { extractDatabaseProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { Big } from "big.js";
-
-type ValueType = string | Big | undefined;
+import { _valuesIsEqual } from "../utils";
 
 export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
     type = "single" as const;
@@ -81,12 +79,12 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         }
 
         if (attr.status === "available") {
-            if (this.lastSetValue === null || !this._valuesIsEqual(this.lastSetValue, attr.value)) {
+            if (this.lastSetValue === null || !_valuesIsEqual(this.lastSetValue, attr.value)) {
                 if (ds.status === "available") {
                     this.lastSetValue = this._attr.value;
-                    if (!this._valuesIsEqual(this.values.getEmptyValue(), attr.value)) {
+                    if (!_valuesIsEqual(this.values.getEmptyValue(), attr.value)) {
                         const obj = this.options.getAll().find(option => {
-                            return this._valuesIsEqual(attr.value, this.values.get(option));
+                            return _valuesIsEqual(attr.value, this.values.get(option));
                         });
                         if (obj) {
                             this.currentId = obj;
@@ -112,15 +110,5 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this._attr?.setValue(value);
         this.currentId = objectId;
         executeAction(this.onChangeEvent);
-    }
-
-    private _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
-        if (valueA === undefined || valueB === undefined) {
-            return valueA === valueB;
-        }
-        if (valueA instanceof Big && valueB instanceof Big) {
-            return valueA.eq(valueB);
-        }
-        return valueA === valueB;
     }
 }

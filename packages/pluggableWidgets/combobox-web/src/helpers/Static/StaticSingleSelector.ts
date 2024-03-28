@@ -9,10 +9,12 @@ import { StaticOptionsProvider } from "./StaticOptionsProvider";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
 import { extractStaticProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { _valuesIsEqual } from "../utils";
 
 export class StaticSingleSelector implements SingleSelector {
     type = "single" as const;
     attributeType: "string" | "big" | "boolean" | "date" = "string";
+    selectorType: "context" | "database" | "static" = "static";
     status: Status = "unavailable";
     options: StaticOptionsProvider;
     caption: StaticCaptionsProvider;
@@ -58,6 +60,12 @@ export class StaticSingleSelector implements SingleSelector {
             this.currentId = null;
             this.clearable = false;
             return;
+        }
+        if (ds.length > 0 && ds[0].staticDataSourceValue.status === "available") {
+            const index = ds.findIndex(option => _valuesIsEqual(option.staticDataSourceValue.value, attr.value));
+            if (index !== -1) {
+                this.currentId = index.toString();
+            }
         }
         this.clearable = clearable;
         this.status = attr.status;
