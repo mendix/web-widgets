@@ -50,6 +50,9 @@
       "json5@0.x": ">=1.0.2",
       "@mendix/pluggable-widgets-tools>typescript@4": "5.0.4",
       "@mendix/pluggable-widgets-tools>ts-node@9": "^10.9.1"
+    },
+    "patchedDependencies": {
+      "mobx-react-lite@4.0.5": "patches/mobx-react-lite@4.0.5.patch"
     }
   }
 }

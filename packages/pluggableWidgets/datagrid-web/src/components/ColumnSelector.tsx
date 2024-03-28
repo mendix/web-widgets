@@ -3,19 +3,17 @@ import { FaEye } from "./icons/FaEye";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { useIsElementInViewport } from "../utils/useIsElementInViewport";
-import * as Grid from "../typings/GridModel";
+import { GridColumn } from "../typings/GridColumn";
 
 export interface ColumnSelectorProps {
-    columns: Grid.Columns;
-    hiddenColumns: Grid.Hidden;
+    columns: GridColumn[];
     id?: string;
-    toggleHidden: Grid.Actions["toggleHidden"];
     label?: string;
     visibleLength: number;
 }
 
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
-    const { toggleHidden, visibleLength } = props;
+    const { visibleLength } = props;
     const [show, setShow] = useState(false);
     const optionsRef = useRef<HTMLUListElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -44,16 +42,16 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             }}
         >
             {props.columns.map((column, index) => {
-                const isVisible = !props.hiddenColumns.has(column.columnId);
+                const isVisible = !column.isHidden;
                 const isLastVisibleColumn = isVisible && visibleLength === 1;
                 const onClick = (): void => {
                     if (!isLastVisibleColumn) {
-                        toggleHidden(column.columnId);
+                        column.toggleHidden();
                     }
                 };
                 return column.canHide ? (
                     <li
-                        key={column.columnNumber}
+                        key={column.columnId}
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
