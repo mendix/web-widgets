@@ -15,7 +15,7 @@ export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null, placement?: CaptionPlacement, htmlFor?: string): ReactNode;
+    render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
 }
 export interface ValuesProvider<T> {
@@ -34,8 +34,8 @@ export interface OptionsProvider<T = unknown, P = object> {
     onAfterSearchTermChange(callback: () => void): void;
 
     // lazy loading related
-    hasMore: boolean;
-    loadMore(): void;
+    hasMore?: boolean;
+    loadMore?(): void;
 
     // for private use
     _updateProps(props: P): void;
@@ -46,6 +46,8 @@ export interface OptionsProvider<T = unknown, P = object> {
 interface SelectorBase<T, V> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
+    attributeType?: "string" | "big" | "boolean" | "date";
+    selectorType?: "context" | "database" | "static";
     type: T;
     readOnly: boolean;
     validation?: string;

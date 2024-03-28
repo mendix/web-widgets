@@ -61,7 +61,12 @@ export function SingleSelection({
                         {selector.caption.render(selectedItem, "label")}
                     </InputPlaceholder>
                 </div>
-                {!selector.readOnly && selector.clearable && selector.currentId !== null && (
+                {((!selector.readOnly && selector.clearable && selector.currentId !== null) ||
+                    (selector.selectorType === "static" &&
+                        selector.currentId !== null &&
+                        !selector.readOnly &&
+                        selector.clearable &&
+                        selector.attributeType !== "boolean")) && (
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
@@ -69,7 +74,7 @@ export function SingleSelection({
                         onClick={e => {
                             e.stopPropagation();
                             inputRef.current?.focus();
-                            if (selectedItem) {
+                            if (selectedItem || selector.selectorType === "static") {
                                 selector.setValue(null);
                                 reset();
                             }

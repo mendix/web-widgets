@@ -7,7 +7,7 @@ import { ComponentType, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 import { Big } from "big.js";
 
-export type SourceEnum = "context" | "database";
+export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
@@ -15,15 +15,29 @@ export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
+export interface OptionsSourceStaticDataSourceType {
+    staticDataSourceValue: DynamicValue<string | Big | boolean | Date>;
+    staticDataSourceCustomContent: ReactNode;
+    staticDataSourceCaption: DynamicValue<string>;
+}
+
 export type FilterTypeEnum = "contains" | "startsWith" | "none";
 
 export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 
 export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "no";
 
+export type StaticDataSourceCustomContentTypeEnum = "yes" | "listItem" | "no";
+
 export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
+
+export interface OptionsSourceStaticDataSourcePreviewType {
+    staticDataSourceValue: string;
+    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCaption: string;
+}
 
 export interface ComboboxContainerProps {
     name: string;
@@ -38,13 +52,15 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
-    attributeString: EditableValue<string | Big>;
+    databaseAttributeString: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
+    staticAttribute: EditableValue<string | Big | boolean | Date>;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
     filterType: FilterTypeEnum;
     noOptionsText?: DynamicValue<string>;
@@ -53,6 +69,7 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
+    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent?: ReactNode;
     selectionMethod: SelectionMethodEnum;
@@ -81,13 +98,15 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseCaptionAttribute: string;
     optionsSourceDatabaseCaptionExpression: string;
     optionsSourceDatabaseValueAttribute: string;
-    attributeString: string;
+    databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
+    staticAttribute: string;
+    optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
     filterType: FilterTypeEnum;
     noOptionsText: string;
@@ -96,6 +115,7 @@ export interface ComboboxPreviewProps {
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     selectionMethod: SelectionMethodEnum;

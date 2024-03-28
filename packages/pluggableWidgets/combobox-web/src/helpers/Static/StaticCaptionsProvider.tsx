@@ -1,28 +1,30 @@
-import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
+import { DynamicValue, ListAttributeValue } from "mendix";
 import { ReactNode, createElement } from "react";
-import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
+import {
+    OptionsSourceAssociationCustomContentTypeEnum,
+    StaticDataSourceCustomContentTypeEnum,
+    OptionsSourceStaticDataSourceType
+} from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
 import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
-    formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string> | undefined;
-    customContent?: ListWidgetValue | undefined;
+    customContent?: undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    attribute: ListAttributeValue<string | Big>;
+    attribute?: ListAttributeValue<string | Big>;
     caption?: string;
 }
 
-export class DatabaseCaptionsProvider implements CaptionsProvider {
+export class StaticCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
-    private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
-    protected customContent?: ListWidgetValue;
-    protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    protected customContent?: ReactNode;
+    protected customContentType: StaticDataSourceCustomContentTypeEnum = "no";
     attribute?: ListAttributeValue<string | Big>;
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
 
-    constructor(private optionsMap: Map<string, ObjectItem>) {}
+    constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourceType>) {}
 
     updateProps(props: Props): void {
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
@@ -31,7 +33,6 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
             this.emptyCaption = props.emptyOptionText.value!;
         }
 
-        this.formatter = props.formattingAttributeOrExpression;
         this.customContent = props.customContent;
         this.customContentType = props.customContentType;
         this.attribute = props.attribute;
@@ -45,22 +46,17 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
             }
             return this.emptyCaption;
         }
-        if (!this.formatter && this.attribute) {
-            const item = this.optionsMap.get(id);
-            if (item) {
-                return this.attribute.get(item).displayValue;
-            }
-        }
+
         const item = this.optionsMap.get(id);
         if (!item) {
             return this.unavailableCaption;
         }
-        const captionValue = this.formatter?.get(item);
-        if (captionValue?.status === "unavailable") {
+        const captionValue = item.staticDataSourceCaption;
+        if (!captionValue.status || captionValue.status === "unavailable" || !captionValue.value) {
             return this.unavailableCaption;
         }
 
-        return captionValue?.value ?? "";
+        return captionValue.value;
     }
 
     getCustomContent(value: string | null): ReactNode | null {
@@ -71,18 +67,18 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return null;
         }
-        return this.customContent?.get(item);
+        return item.staticDataSourceCustomContent;
     }
 
-    render(value: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
+    render(index: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
         const { customContentType } = this;
 
         return customContentType === "no" ||
             (placement === "label" && customContentType === "listItem") ||
-            value === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>
+            index === null ? (
+            <CaptionContent htmlFor={htmlFor}>{this.get(index) ?? null}</CaptionContent>
         ) : (
-            <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
+            <div className="widget-combobox-caption-custom">{this.getCustomContent(index)}</div>
         );
     }
 }

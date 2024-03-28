@@ -3,6 +3,7 @@ import { AssociationMultiSelector } from "./Association/AssociationMultiSelector
 import { AssociationSingleSelector } from "./Association/AssociationSingleSelector";
 import { DatabaseSingleSelector } from "./Database/DatabaseSingleSelector";
 import { EnumBooleanSingleSelector } from "./EnumBool/EnumBoolSingleSelector";
+import { StaticSingleSelector } from "./Static/StaticSingleSelector";
 import { Selector } from "./types";
 
 export function getSelector(props: ComboboxContainerProps): Selector {
@@ -18,6 +19,9 @@ export function getSelector(props: ComboboxContainerProps): Selector {
         }
     } else if (props.source === "database") {
         return new DatabaseSingleSelector();
+    } else if (props.source === "static") {
+        return new StaticSingleSelector();
     }
+
     throw new Error(`Source of type '${props.source}' is not supported`);
 }

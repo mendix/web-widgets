@@ -74,7 +74,7 @@ $cb-menu-outer-padding: 10px;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 6px 0 6px $cb-menu-outer-padding;
+        padding: 6px $cb-menu-outer-padding;
         height: fit-content;
         overflow: hidden;
         color: $cb-typography-color;
@@ -202,6 +202,10 @@ $cb-menu-outer-padding: 10px;
         &-empty {
             color: $cb-gray-dark;
         }
+    }
+
+    &-caption-custom {
+        flex: 1;
     }
 
     &-custom-content {

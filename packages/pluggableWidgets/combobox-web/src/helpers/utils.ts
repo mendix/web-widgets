@@ -2,6 +2,9 @@ import { MatchSorterOptions, matchSorter } from "match-sorter";
 import { ComboboxPreviewProps, FilterTypeEnum } from "typings/ComboboxProps";
 import { MultiSelector } from "./types";
 import { PropsWithChildren, ReactElement, createElement } from "react";
+import { Big } from "big.js";
+
+type ValueType = string | Big | boolean | Date | undefined;
 
 export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {
     if (selectedItems.length === 0) {
@@ -45,10 +48,12 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
         optionsSourceAssociationDataSource,
         attributeEnumeration,
         attributeBoolean,
-        attributeString,
+        databaseAttributeString,
         emptyOptionText,
         source,
-        optionsSourceDatabaseDataSource
+        optionsSourceDatabaseDataSource,
+        staticAttribute,
+        optionsSourceStaticDataSource
     } = args;
     const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
     if (source === "context") {
@@ -63,7 +68,12 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
                 return emptyStringFormat;
         }
     } else if (source === "database" && optionsSourceDatabaseDataSource) {
-        return (optionsSourceDatabaseDataSource as { caption?: string })?.caption || `${source}, ${attributeString}`;
+        return (
+            (optionsSourceDatabaseDataSource as { caption?: string })?.caption ||
+            `${source}, ${databaseAttributeString}`
+        );
+    } else if (source === "static") {
+        return (optionsSourceStaticDataSource as { caption?: string })?.caption || `[${source}, ${staticAttribute}]`;
     }
     return emptyStringFormat;
 }
@@ -81,4 +91,17 @@ export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions
                 threshold: matchSorter.rankings.NO_MATCH
             };
     }
+}
+
+export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
+    if (valueA === undefined || valueB === undefined) {
+        return valueA === valueB;
+    }
+    if (valueA instanceof Big && valueB instanceof Big) {
+        return valueA.eq(valueB);
+    }
+    if (valueA instanceof Date && valueB instanceof Date) {
+        return valueA.getTime() === valueB.getTime();
+    }
+    return valueA === valueB;
 }
