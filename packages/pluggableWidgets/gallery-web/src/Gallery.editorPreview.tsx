@@ -68,9 +68,9 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 contentValue: props.content,
                 hasOnClick: props.onClick !== null
             })}
-            numberOfItems={items.length}
+            numberOfItems={3}
             page={0}
-            pageSize={props.pageSize ?? 5}
+            pageSize={3}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
             showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
