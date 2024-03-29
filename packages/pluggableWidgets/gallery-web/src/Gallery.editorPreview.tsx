@@ -12,7 +12,7 @@ import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selectio
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
-    const items: ObjectItem[] = Array.from({ length: props.desktopItems ?? 4 }).map((_, index) => ({
+    const items: ObjectItem[] = Array.from({ length: 3 }).map((_, index) => ({
         id: String(index) as GUID
     }));
 
