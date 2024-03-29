@@ -85,15 +85,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
 
-    const selectActionHelper = useSelectActionHelper(
-        {
-            itemSelection: props.itemSelection,
-            itemSelectionMethod: props.itemSelectionMethod,
-            showSelectAllToggle: props.showSelectAllToggle,
-            pageSize: props.pageSize
-        },
-        selectionHelper
-    );
+    const selectActionHelper = useSelectActionHelper(props, selectionHelper);
 
     const clickActionHelper = useClickActionHelper({
         onClickTrigger: props.onClickTrigger,

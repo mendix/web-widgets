@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { SelectActionHandler, SelectionHelper, WidgetSelectionProperty } from "@mendix/widget-plugin-grid/selection";
+import {
+    SelectActionHandler,
+    SelectionHelper,
+    SelectionMode,
+    WidgetSelectionProperty
+} from "@mendix/widget-plugin-grid/selection";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
 
@@ -13,7 +18,8 @@ export class SelectActionHelper extends SelectActionHandler {
         selectionHelper: SelectionHelper | undefined,
         _selectionMethod: ItemSelectionMethodEnum,
         _showSelectAllToggle: boolean,
-        pageSize: number
+        pageSize: number,
+        private _selectionMode: SelectionMode
     ) {
         super(selection, selectionHelper);
         this._selectionMethod = _selectionMethod;
@@ -32,12 +38,16 @@ export class SelectActionHelper extends SelectActionHandler {
     get showSelectAllToggle(): boolean {
         return this._showSelectAllToggle && this.selectionType === "Multi";
     }
+
+    get selectionMode(): SelectionMode {
+        return this.selectionMethod === "checkbox" ? "toggle" : this._selectionMode;
+    }
 }
 
 export function useSelectActionHelper(
     props: Pick<
         DatagridContainerProps | DatagridPreviewProps,
-        "itemSelection" | "itemSelectionMethod" | "showSelectAllToggle" | "pageSize"
+        "itemSelection" | "itemSelectionMethod" | "showSelectAllToggle" | "pageSize" | "itemSelectionMode"
     >,
     selectionHelper?: SelectionHelper
 ): SelectActionHelper {
@@ -48,7 +58,8 @@ export function useSelectActionHelper(
                 selectionHelper,
                 props.itemSelectionMethod,
                 props.showSelectAllToggle,
-                props.pageSize ?? 5
+                props.pageSize ?? 5,
+                props.itemSelectionMode
             ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [selectionHelper]

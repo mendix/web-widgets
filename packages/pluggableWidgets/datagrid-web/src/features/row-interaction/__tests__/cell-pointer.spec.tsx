@@ -20,7 +20,7 @@ describe("grid cell", () => {
     describe("on click event", () => {
         const cases = [
             { ct: "single", sm: "rowClick", method: "none" },
-            { ct: "double", sm: "rowClick", method: "none" },
+            { ct: "double", sm: "rowClick", method: "onSelect" },
             { ct: "none", sm: "rowClick", method: "onSelect" },
             { ct: "single", sm: "checkbox", method: "onExecuteAction" },
             { ct: "double", sm: "checkbox", method: "none" },
@@ -44,6 +44,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
                         selectionType: "Single",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
@@ -69,7 +70,7 @@ describe("grid cell", () => {
     describe("on shift+click event", () => {
         const cases = [
             { ct: "single", sm: "rowClick", method: "none" },
-            { ct: "double", sm: "rowClick", method: "none" },
+            { ct: "double", sm: "rowClick", method: "onSelect" },
             { ct: "none", sm: "rowClick", method: "onSelect" },
             { ct: "single", sm: "checkbox", method: "onExecuteAction" },
             { ct: "double", sm: "checkbox", method: "none" },
@@ -93,6 +94,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
                         selectionType: "Single",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
@@ -144,6 +146,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
                         selectionType: "Single",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction), ...createSelectHandlers(onSelect, jest.fn(), jest.fn())]
@@ -193,6 +196,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
                         selectionType: "Single",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction)]

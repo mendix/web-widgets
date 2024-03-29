@@ -163,7 +163,7 @@ describe("Table", () => {
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5);
+            props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
             props.rowClickable = true;
             props.paging = true;
             props.data = objectItems(3);
@@ -221,6 +221,7 @@ describe("Table", () => {
                     item,
                     selectionMethod: props.selectActionHelper.selectionMethod,
                     selectionType: "Single",
+                    selectionMode: "clear",
                     pageSize: props.pageSize
                 }),
                 onSelect,
@@ -237,6 +238,7 @@ describe("Table", () => {
             await userEvent.click(checkbox1);
             expect(onSelect).toHaveBeenCalledTimes(1);
             expect(onSelect).toHaveBeenLastCalledWith(items[0], false, true);
+
             await userEvent.click(checkbox1);
             expect(onSelect).toHaveBeenCalledTimes(2);
             expect(onSelect).toHaveBeenLastCalledWith(items[0], false, true);
@@ -244,6 +246,7 @@ describe("Table", () => {
             await userEvent.click(checkbox3);
             expect(onSelect).toHaveBeenCalledTimes(3);
             expect(onSelect).toHaveBeenLastCalledWith(items[2], false, true);
+
             await userEvent.click(checkbox3);
             expect(onSelect).toHaveBeenCalledTimes(4);
             expect(onSelect).toHaveBeenLastCalledWith(items[2], false, true);
@@ -255,7 +258,7 @@ describe("Table", () => {
         const props = mockWidgetProps();
         props.data = objectItems(5);
         props.paging = true;
-        props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5);
+        props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5, "clear");
         render(<Widget {...props} />);
 
         const colheader = screen.getAllByRole("columnheader")[0];
@@ -268,7 +271,7 @@ describe("Table", () => {
             const props = mockWidgetProps();
             props.data = objectItems(5);
             props.paging = true;
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5);
+            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
 
             const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
                 return render(<Widget {...props} selectionStatus={status} />);
@@ -289,7 +292,7 @@ describe("Table", () => {
         it("not render header checkbox if method is rowClick", () => {
             const { render, screen, queryByRole } = testingLibrary;
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5);
+            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
 
             render(<Widget {...props} />);
 
@@ -300,7 +303,7 @@ describe("Table", () => {
         it("call onSelectAll when header checkbox is clicked", async () => {
             const { render, screen } = testingLibrary;
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5);
+            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
             props.selectActionHelper.onSelectAll = jest.fn();
             props.selectionStatus = "none";
 
@@ -322,7 +325,7 @@ describe("Table", () => {
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5);
+            props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
             props.rowClickable = true;
             props.paging = true;
             props.data = objectItems(3);
@@ -353,6 +356,7 @@ describe("Table", () => {
                     item,
                     selectionType: props.selectActionHelper.selectionType,
                     selectionMethod: props.selectActionHelper.selectionMethod,
+                    selectionMode: "clear",
                     clickTrigger: "none",
                     pageSize: props.pageSize
                 }),
@@ -372,23 +376,31 @@ describe("Table", () => {
             const [cell1, cell2] = getAllByRole(row1, "gridcell");
             const [cell3, cell4] = getAllByRole(row2, "gridcell");
 
+            const sleep = (t: number): Promise<void> => new Promise(res => setTimeout(res, t));
+
             // Click cell1 two times
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(1);
             expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
+            await sleep(320);
+
             await userEvent.click(cell1);
             expect(onSelect).toHaveBeenCalledTimes(2);
             expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
+            await sleep(320);
 
             // Click cell2
             await userEvent.click(cell2);
             expect(onSelect).toHaveBeenCalledTimes(3);
             expect(onSelect).toHaveBeenLastCalledWith(items[0], false, false);
+            await sleep(320);
 
             // Click cell3 and cell4
             await userEvent.click(cell4);
             expect(onSelect).toHaveBeenCalledTimes(4);
             expect(onSelect).toHaveBeenLastCalledWith(items[1], false, false);
+            await sleep(320);
+
             await userEvent.click(cell3);
             expect(onSelect).toHaveBeenCalledTimes(5);
             expect(onSelect).toHaveBeenLastCalledWith(items[1], false, false);
@@ -411,6 +423,7 @@ describe("Table", () => {
                 {
                     itemSelection: selection,
                     itemSelectionMethod: selectionMethod,
+                    itemSelectionMode: "clear",
                     showSelectAllToggle: false,
                     pageSize: 5
                 },

@@ -22,6 +22,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Single",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(onSelect, jest.fn(), jest.fn())]
@@ -41,6 +42,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Single",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(onSelect, jest.fn(), jest.fn())]
@@ -62,6 +64,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Single",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(onSelect, jest.fn(), jest.fn())]
@@ -81,6 +84,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(jest.fn(), onSelectAll, jest.fn())]
@@ -100,6 +104,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(jest.fn(), onSelectAll, jest.fn())]
@@ -119,6 +124,7 @@ describe("'select row' checkbox", () => {
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
+                selectionMode: "clear",
                 selectionMethod: "checkbox"
             }),
             [...checkboxHandlers(jest.fn(), jest.fn(), onSelectAdjacent)]
@@ -128,20 +134,20 @@ describe("'select row' checkbox", () => {
 
         await user.keyboard("{Shift>}[ArrowUp]{/Shift}");
         expect(onSelectAdjacent).toHaveBeenCalledTimes(1);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 1);
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 1, "clear");
 
         await user.keyboard("{Shift>}[ArrowDown]{/Shift}");
         expect(onSelectAdjacent).toHaveBeenCalledTimes(2);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 1);
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 1, "clear");
 
         // PageUp/PageDown broken in userEvents v14.5.1
         // So, fallback to fireEvent
         fireEvent.keyDown(getByRole("checkbox"), { code: "PageUp", shiftKey: true });
         expect(onSelectAdjacent).toHaveBeenCalledTimes(3);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 10);
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 10, "clear");
 
         fireEvent.keyDown(getByRole("checkbox"), { code: "PageDown", shiftKey: true });
         expect(onSelectAdjacent).toHaveBeenCalledTimes(4);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 10);
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 10, "clear");
     });
 });

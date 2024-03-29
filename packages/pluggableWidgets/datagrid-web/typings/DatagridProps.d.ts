@@ -9,6 +9,8 @@ import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
+export type ItemSelectionModeEnum = "clear" | "toggle";
+
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
 export type HidableEnum = "yes" | "hidden" | "no";
@@ -99,6 +101,7 @@ export interface DatagridContainerProps {
     refreshInterval: number;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
+    itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
@@ -141,6 +144,7 @@ export interface DatagridPreviewProps {
     refreshInterval: number | null;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
+    itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;

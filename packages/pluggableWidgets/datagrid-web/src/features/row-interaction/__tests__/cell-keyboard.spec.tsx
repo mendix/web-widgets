@@ -45,6 +45,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
                         selectionType: "Single",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createSelectHandlers(onSelect, jest.fn(), jest.fn()), ...createActionHandlers(onExecuteAction)]
@@ -90,6 +91,7 @@ describe("grid cell", () => {
                         item,
                         pageSize: 10,
                         selectionMethod: "rowClick",
+                        selectionMode: "clear",
                         selectionType: selectionType as SelectionType,
                         clickTrigger: "none"
                     }),
@@ -110,14 +112,14 @@ describe("grid cell", () => {
 
     describe("on keydown event", () => {
         const cases = [
-            { selectionType: "None", n: 0, key: "ArrowUp", params: [true, "backward", 1] },
-            { selectionType: "Single", n: 0, key: "ArrowDown", params: [true, "forward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowUp", params: [true, "backward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowDown", params: [true, "forward", 1] },
-            { selectionType: "Multi", n: 1, key: "PageUp", params: [true, "backward", 10] },
-            { selectionType: "Multi", n: 1, key: "PageDown", params: [true, "forward", 10] },
-            { selectionType: "Multi", n: 1, key: "Home", params: [true, "backward", "edge"] },
-            { selectionType: "Multi", n: 1, key: "End", params: [true, "forward", "edge"] }
+            { selectionType: "None", n: 0, key: "ArrowUp", params: [true, "backward", 1, "clear"] },
+            { selectionType: "Single", n: 0, key: "ArrowDown", params: [true, "forward", 1, "clear"] },
+            { selectionType: "Multi", n: 1, key: "ArrowUp", params: [true, "backward", 1, "clear"] },
+            { selectionType: "Multi", n: 1, key: "ArrowDown", params: [true, "forward", 1, "clear"] },
+            { selectionType: "Multi", n: 1, key: "PageUp", params: [true, "backward", 10, "clear"] },
+            { selectionType: "Multi", n: 1, key: "PageDown", params: [true, "forward", 10, "clear"] },
+            { selectionType: "Multi", n: 1, key: "Home", params: [true, "backward", "edge", "clear"] },
+            { selectionType: "Multi", n: 1, key: "End", params: [true, "forward", "edge", "clear"] }
         ];
 
         test.each(cases)(
@@ -132,6 +134,7 @@ describe("grid cell", () => {
                         item,
                         pageSize: 10,
                         selectionMethod: "rowClick",
+                        selectionMode: "clear",
                         selectionType: selectionType as SelectionType,
                         clickTrigger: "none"
                     }),
@@ -173,6 +176,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: "none",
                         selectionType: "None",
+                        selectionMode: "clear",
                         clickTrigger: ct as ClickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction)]
@@ -195,6 +199,7 @@ describe("grid cell", () => {
                     pageSize: 10,
                     selectionMethod: "none",
                     selectionType: "None",
+                    selectionMode: "clear",
                     clickTrigger: "single"
                 }),
                 [...createActionHandlers(onExecuteAction)]
@@ -220,6 +225,7 @@ describe("grid cell", () => {
                     pageSize: 10,
                     selectionMethod: "none",
                     selectionType: "None",
+                    selectionMode: "clear",
                     clickTrigger: "single"
                 }),
                 [...createActionHandlers(onExecuteAction)]
@@ -260,6 +266,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod,
                         selectionType,
+                        selectionMode: "clear",
                         clickTrigger
                     }),
                     [...createActionHandlers(onExecuteAction)]
@@ -287,6 +294,7 @@ describe("grid cell", () => {
                         pageSize: 10,
                         selectionMethod: "checkbox",
                         selectionType,
+                        selectionMode: "clear",
                         clickTrigger: "single"
                     }),
                     [...createActionHandlers(onExecuteAction)]

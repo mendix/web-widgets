@@ -1,4 +1,4 @@
-import { SelectionType } from "@mendix/widget-plugin-grid/selection";
+import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
 import { ClickTrigger } from "../../helpers/ClickActionHelper";
 import { SelectionMethod } from "../../helpers/SelectActionHelper";
@@ -8,6 +8,7 @@ interface BaseContext {
     pageSize: number;
     selectionMethod: SelectionMethod;
     selectionType: SelectionType;
+    selectionMode: SelectionMode;
 }
 
 export interface CellContext extends BaseContext {
