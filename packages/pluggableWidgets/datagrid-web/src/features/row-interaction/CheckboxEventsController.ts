@@ -38,7 +38,8 @@ export function useCheckboxEventsController(
             item,
             pageSize: selectHelper.pageSize,
             selectionType: selectHelper.selectionType,
-            selectionMethod: selectHelper.selectionMethod
+            selectionMethod: selectHelper.selectionMethod,
+            selectionMode: selectHelper.selectionMode
         });
         return new CheckboxEventsController(
             contextFactory,

@@ -65,15 +65,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     };
     const pageSize = props.pageSize ?? 5;
 
-    const selectActionHelper = useSelectActionHelper(
-        {
-            itemSelection: props.itemSelection,
-            itemSelectionMethod: props.itemSelectionMethod,
-            showSelectAllToggle: props.showSelectAllToggle,
-            pageSize
-        },
-        undefined
-    );
+    const selectActionHelper = useSelectActionHelper(props, undefined);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn ? columns.length + 1 : columns.length;
 

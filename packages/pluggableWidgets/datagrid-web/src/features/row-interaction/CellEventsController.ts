@@ -55,6 +55,7 @@ export function useCellEventsController(
             pageSize: selectHelper.pageSize,
             selectionType: selectHelper.selectionType,
             selectionMethod: selectHelper.selectionMethod,
+            selectionMode: selectHelper.selectionMode,
             clickTrigger: clickHelper.clickTrigger
         });
 

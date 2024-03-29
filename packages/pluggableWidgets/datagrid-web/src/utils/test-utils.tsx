@@ -39,7 +39,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
 };
 
 export function mockSelectionProps(patch?: (props: SelectActionHelper) => SelectActionHelper): SelectActionHelper {
-    const props = new SelectActionHelper("None", undefined, "checkbox", false, 5);
+    const props = new SelectActionHelper("None", undefined, "checkbox", false, 5, "clear");
 
     if (patch) {
         patch(props);

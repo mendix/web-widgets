@@ -23,9 +23,9 @@ const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElemen
 
         return false;
     },
-    handler: ({ item, selectionMethod }, event) => {
+    handler: ({ item, selectionMode }, event) => {
         let toggleMode = false;
-        toggleMode ||= selectionMethod === "checkbox";
+        toggleMode ||= selectionMode === "toggle";
         toggleMode ||= event.metaKey;
         toggleMode ||= event.ctrlKey;
 
