@@ -12,7 +12,8 @@ import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selectio
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
-    const items: ObjectItem[] = Array.from({ length: 3 }).map((_, index) => ({
+    const numberOfItems = Math.min(props.desktopItems ?? 3, 3);
+    const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
 
@@ -68,9 +69,9 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 contentValue: props.content,
                 hasOnClick: props.onClick !== null
             })}
-            numberOfItems={3}
+            numberOfItems={numberOfItems}
             page={0}
-            pageSize={3}
+            pageSize={numberOfItems}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
             showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}

@@ -53,7 +53,8 @@ const initColumns: ColumnsPreviewType[] = [
 
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const data: ObjectItem[] = Array.from({ length: 3 }).map((_, index) => ({
+    const numberOfItems = 3;
+    const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
@@ -145,10 +146,10 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             }
             hasMoreItems={false}
             headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-            numberOfItems={3}
+            numberOfItems={numberOfItems}
             page={0}
             paginationType={props.pagination}
-            pageSize={3}
+            pageSize={numberOfItems}
             loadMoreButtonCaption={props.loadMoreButtonCaption}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
