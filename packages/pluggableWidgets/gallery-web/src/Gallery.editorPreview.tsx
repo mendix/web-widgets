@@ -12,7 +12,7 @@ import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selectio
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
-    const numberOfItems = Math.min(props.desktopItems ?? 3, 3);
+    const numberOfItems = 3;
     const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -48,7 +48,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     return (
         <GalleryComponent
             className={props.class}
-            desktopItems={props.desktopItems!}
+            desktopItems={numberOfItems}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
                     <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
