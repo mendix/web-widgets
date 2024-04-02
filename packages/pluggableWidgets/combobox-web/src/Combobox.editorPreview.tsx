@@ -33,7 +33,9 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 <div />
             </props.menuFooterContent.renderer>
         ) : null,
-        keepMenuOpen: props.showFooter || props.staticDataSourceCustomContentType === "listItem"
+        keepMenuOpen:
+            props.showFooter ||
+            (props.optionsSourceStaticDataSource.length > 0 && props.staticDataSourceCustomContentType !== "no")
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
