@@ -7,7 +7,7 @@ import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-uti
 import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
 import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
-import { ClickActionHelper } from "../../helpers/ClickActionHelper";
+import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
@@ -25,10 +25,10 @@ function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     );
 }
 
-function mockProps(): GalleryProps<ObjectItem> {
+function mockProps(): GalleryProps<ObjectItem> & { onClick: jest.Mock } {
     const selectHelper = new SelectActionHandler("None", undefined);
     const onClick = jest.fn();
-    const clickHelper = new ClickActionHelper(onClick);
+    const clickHelper = new ClickActionHelper("single", onClick);
     const focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10));
 
     return {
@@ -48,7 +48,12 @@ function mockProps(): GalleryProps<ObjectItem> {
         showHeader: true,
         header: <input />,
         itemEventsController: new ItemEventsController(
-            item => ({ item, selectionType: selectHelper.selectionType, selectionMode: "clear" }),
+            item => ({
+                item,
+                selectionType: selectHelper.selectionType,
+                selectionMode: "clear",
+                clickTrigger: "single"
+            }),
             selectHelper.onSelect,
             selectHelper.onSelectAll,
             clickHelper.onExecuteAction,
@@ -57,8 +62,13 @@ function mockProps(): GalleryProps<ObjectItem> {
             3
         ),
         focusController,
-        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index)
+        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index),
+        onClick
     };
+}
+
+function sleep(n: number): Promise<void> {
+    return new Promise(res => setTimeout(res, n));
 }
 
 describe("Gallery", () => {
@@ -77,30 +87,31 @@ describe("Gallery", () => {
     });
 
     describe("with events", () => {
-        it("triggers correct events on click", () => {
-            const onClick = jest.fn();
-            const itemHelper = mockItemHelperWithAction(onClick);
-            const gallery = mount(<Gallery {...mockProps()} itemHelper={itemHelper} />);
+        it("triggers correct events on click", async () => {
+            const props = mockProps();
+            const itemHelper = mockItemHelperWithAction(props.onClick);
+            const gallery = mount(<Gallery {...props} itemHelper={itemHelper} />);
             const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("click");
+            galleryFirstItem.simulate("click", { bubbles: true });
+            await sleep(500);
 
-            expect(onClick).toBeCalled();
+            expect(props.onClick).toBeCalled();
         });
 
         it("triggers correct events on Enter key down", () => {
-            const onClick = jest.fn();
-            const gallery = mount(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
+            const props = mockProps();
+            const gallery = mount(<Gallery {...props} itemHelper={mockItemHelperWithAction(props.onClick)} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: "Enter", code: "Enter" });
-            galleryFirstItem.simulate("keyup", { key: "Enter", code: "Enter" });
+            galleryFirstItem.simulate("keydown", { key: "Enter", code: "Enter", bubbles: true });
+            galleryFirstItem.simulate("keyup", { key: "Enter", code: "Enter", bubbles: true });
 
-            expect(onClick).toBeCalled();
+            expect(props.onClick).toBeCalled();
         });
 
         it("triggers correct events on Space key down", () => {
@@ -110,8 +121,8 @@ describe("Gallery", () => {
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: " ", code: "Space" });
-            galleryFirstItem.simulate("keyup", { key: " ", code: "Space" });
+            galleryFirstItem.simulate("keydown", { key: " ", code: "Space", bubbles: true });
+            galleryFirstItem.simulate("keyup", { key: " ", code: "Space", bubbles: true });
 
             expect(onClick).toBeCalled();
         });
