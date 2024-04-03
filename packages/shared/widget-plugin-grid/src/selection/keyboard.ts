@@ -65,12 +65,16 @@ export const onSelectAllHotKey = (
 
 interface SelectAdjacentContext<T> {
     item: T;
-    pageSize: number;
     selectionType: SelectionType;
     selectionMode: SelectionMode;
 }
 
+interface DGSelectContext<T> extends SelectAdjacentContext<T> {
+    pageSize: number;
+}
+
 type NavKeyEntry = EventCaseEntry<SelectAdjacentContext<ObjectItem>, Element, "onKeyDown">;
+type DatagridNavKeyEntry = EventCaseEntry<DGSelectContext<ObjectItem>, Element, "onKeyDown">;
 
 function getAdjacentFxMode(context: SelectAdjacentContext<any>, event: React.KeyboardEvent): SelectionMode {
     if (event.metaKey || event.ctrlKey) {
@@ -79,8 +83,8 @@ function getAdjacentFxMode(context: SelectAdjacentContext<any>, event: React.Key
     return context.selectionMode;
 }
 
-export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavKeyEntry[] => {
-    const onArrowUp: NavKeyEntry = {
+export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): DatagridNavKeyEntry[] => {
+    const onArrowUp: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
@@ -90,7 +94,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
             })
     };
 
-    const onArrowDown: NavKeyEntry = {
+    const onArrowDown: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
@@ -100,7 +104,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
             })
     };
 
-    const onPageUp: NavKeyEntry = {
+    const onPageUp: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageUp" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
@@ -110,7 +114,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
             })
     };
 
-    const onPageDown: NavKeyEntry = {
+    const onPageDown: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageDown" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
@@ -120,7 +124,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
             })
     };
 
-    const onHome: NavKeyEntry = {
+    const onHome: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "Home" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
@@ -130,7 +134,7 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
             })
     };
 
-    const onEnd: NavKeyEntry = {
+    const onEnd: DatagridNavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "End" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>

@@ -1,5 +1,5 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { ExecuteActionFx } from "../../helpers/ClickActionHelper";
+import { ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { CellContext } from "./base";
 import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
 

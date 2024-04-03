@@ -15,6 +15,8 @@ export type PagingPositionEnum = "below" | "above";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
+export type OnClickTriggerEnum = "single" | "double";
+
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
@@ -52,6 +54,7 @@ export interface GalleryContainerProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
+    onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
     filterList: FilterListType[];
@@ -85,6 +88,7 @@ export interface GalleryPreviewProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
+    onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
     filterList: FilterListPreviewType[];

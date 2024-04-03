@@ -16,7 +16,7 @@ import {
     useCheckboxEventsController
 } from "../../features/row-interaction/CheckboxEventsController";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
-import { ClickActionHelper } from "../../helpers/ClickActionHelper";
+import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({

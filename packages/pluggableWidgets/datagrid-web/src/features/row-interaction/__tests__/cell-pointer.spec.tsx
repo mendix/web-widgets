@@ -7,7 +7,7 @@ import { CellContext } from "../base";
 import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { SelectionMethod } from "../../../helpers/SelectActionHelper";
-import { ClickTrigger } from "../../../helpers/ClickActionHelper";
+import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
