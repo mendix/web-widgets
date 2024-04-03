@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
 import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 import { EventCaseEntry } from "../event-switch/base";
-import { SelectAdjacentFx, SelectAdjacentInGridFx, SelectionMode, SelectionType } from "./types";
+import { ScrollKeyCode, SelectAdjacentFx, SelectionMode, SelectionType } from "./types";
 
 export function isSelectAllTrigger<T>(event: React.KeyboardEvent<T>): boolean {
     return event.code === "KeyA" && (event.metaKey || event.ctrlKey);
@@ -84,41 +84,60 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
-            selectAdjacentFx(ctx.item, event.shiftKey, "backward", 1, getAdjacentFxMode(ctx, event))
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "backward",
+                size: 1
+            })
     };
 
     const onArrowDown: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
-        handler: (ctx, event) => selectAdjacentFx(ctx.item, event.shiftKey, "forward", 1, getAdjacentFxMode(ctx, event))
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "forward",
+                size: 1
+            })
     };
 
     const onPageUp: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageUp" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
-            selectAdjacentFx(ctx.item, event.shiftKey, "backward", ctx.pageSize, getAdjacentFxMode(ctx, event))
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "backward",
+                size: ctx.pageSize
+            })
     };
 
     const onPageDown: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "PageDown" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
-            selectAdjacentFx(ctx.item, event.shiftKey, "forward", ctx.pageSize, getAdjacentFxMode(ctx, event))
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "forward",
+                size: ctx.pageSize
+            })
     };
 
     const onHome: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "Home" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
-            selectAdjacentFx(ctx.item, event.shiftKey, "backward", "edge", getAdjacentFxMode(ctx, event))
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "backward",
+                size: "edge"
+            })
     };
 
     const onEnd: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "End" && ctx.selectionType === "Multi",
         handler: (ctx, event) =>
-            selectAdjacentFx(ctx.item, event.shiftKey, "forward", "edge", getAdjacentFxMode(ctx, event))
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "forward",
+                size: "edge"
+            })
     };
 
     return [onArrowUp, onArrowDown, onPageUp, onPageDown, onHome, onEnd];
@@ -126,56 +145,59 @@ export const onSelectAdjacentHotKey = (selectAdjacentFx: SelectAdjacentFx): NavK
 
 // Created the onSelectGridAdjacentHotKey to handle Gallery keyboard navigation that is displayed as a 2D grid
 export const onSelectGridAdjacentHotKey = (
-    selectAdjacentInGridFx: SelectAdjacentInGridFx,
+    selectAdjacentFx: SelectAdjacentFx,
     numberOfColumns: number
 ): NavKeyEntry[] => {
     const onArrowUp: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowUp" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "backward", numberOfColumns)
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "backward",
+                size: numberOfColumns
+            })
     };
 
     const onArrowDown: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowDown" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "forward", numberOfColumns)
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "forward",
+                size: numberOfColumns
+            })
     };
 
     const onArrowLeft: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowLeft" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "backward", 1)
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "backward",
+                size: 1
+            })
     };
 
     const onArrowRight: NavKeyEntry = {
         eventName: "onKeyDown",
         filter: (ctx, event) => event.code === "ArrowRight" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "forward", 1)
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                direction: "forward",
+                size: 1
+            })
     };
 
-    const onPageUp: NavKeyEntry = {
+    const scrollKeys = new Set(["PageUp", "PageDown", "Home", "End"]);
+    const onScrollKey: NavKeyEntry = {
         eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "PageUp" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "pageup", 0, numberOfColumns)
+        filter: (ctx, event) => scrollKeys.has(event.code) && ctx.selectionType === "Multi",
+        handler: (ctx, event) =>
+            selectAdjacentFx(ctx.item, event.shiftKey, getAdjacentFxMode(ctx, event), {
+                code: event.code as ScrollKeyCode,
+                numberOfColumns
+            })
     };
 
-    const onPageDown: NavKeyEntry = {
-        eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "PageDown" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "pagedown", 0, numberOfColumns)
-    };
-
-    const onHome: NavKeyEntry = {
-        eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "Home" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "home", 0, numberOfColumns)
-    };
-
-    const onEnd: NavKeyEntry = {
-        eventName: "onKeyDown",
-        filter: (ctx, event) => event.code === "End" && ctx.selectionType === "Multi",
-        handler: ({ item }, event) => selectAdjacentInGridFx(item, event.shiftKey, "end", 0, numberOfColumns)
-    };
-
-    return [onArrowUp, onArrowDown, onArrowLeft, onArrowRight, onPageUp, onPageDown, onHome, onEnd];
+    return [onArrowUp, onArrowDown, onArrowLeft, onArrowRight, onScrollKey];
 };
