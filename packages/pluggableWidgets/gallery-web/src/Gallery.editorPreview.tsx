@@ -44,7 +44,8 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         selectHelper,
         clickActionHelper,
         focusController,
-        numberOfColumns
+        numberOfColumns,
+        props.itemSelectionMode
     );
 
     return (

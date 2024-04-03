@@ -25,6 +25,14 @@
                         <selectionType name="Multi" />
                     </selectionTypes>
                 </property>
+                <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
+                    <caption>Selection mode</caption>
+                    <description>Defines selection behavior</description>
+                    <enumerationValues>
+                        <enumerationValue key="clear">Clear</enumerationValue>
+                        <enumerationValue key="toggle">Toggle</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="content" type="widgets" dataSource="datasource" required="false">
                     <caption>Content placeholder</caption>
                     <description />
