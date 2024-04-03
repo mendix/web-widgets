@@ -134,20 +134,19 @@ describe("'select row' checkbox", () => {
 
         await user.keyboard("{Shift>}[ArrowUp]{/Shift}");
         expect(onSelectAdjacent).toHaveBeenCalledTimes(1);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 1, "clear");
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "clear", { direction: "backward", size: 1 });
 
         await user.keyboard("{Shift>}[ArrowDown]{/Shift}");
         expect(onSelectAdjacent).toHaveBeenCalledTimes(2);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 1, "clear");
-
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "clear", { direction: "forward", size: 1 });
         // PageUp/PageDown broken in userEvents v14.5.1
         // So, fallback to fireEvent
         fireEvent.keyDown(getByRole("checkbox"), { code: "PageUp", shiftKey: true });
         expect(onSelectAdjacent).toHaveBeenCalledTimes(3);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "backward", 10, "clear");
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "clear", { direction: "backward", size: 10 });
 
         fireEvent.keyDown(getByRole("checkbox"), { code: "PageDown", shiftKey: true });
         expect(onSelectAdjacent).toHaveBeenCalledTimes(4);
-        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "forward", 10, "clear");
+        expect(onSelectAdjacent).toHaveBeenLastCalledWith(item, true, "clear", { direction: "forward", size: 10 });
     });
 });
