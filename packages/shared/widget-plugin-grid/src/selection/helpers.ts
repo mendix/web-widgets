@@ -1,7 +1,7 @@
 import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { useEffect, useRef } from "react";
-import { Direction, MultiSelectionStatus, SelectionMode, Size } from "./types";
+import { Direction, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size, MoveEvent1D, MoveEvent2D } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -192,32 +192,32 @@ export class MultiSelectionHelper {
         }
     }
 
-    _findIndexInList(index: number, direction: Direction, unit: Size): number {
+    _findIndexInList(index: number, direction: Direction, size: Size): number {
         const first = 0;
         const last = this.selectableItems.length - 1;
         const isForward = direction === "forward";
 
-        if (unit === "edge") {
+        if (size === "edge") {
             return isForward ? last : first;
         }
 
-        const result = isForward ? index + unit : index - unit;
+        const result = isForward ? index + size : index - size;
 
         return clamp(result, first, last);
     }
 
-    _findIndexInGrid(index: number, direction: Direction, numberOfColumns: number): number {
+    _findIndexInGrid(index: number, keycode: ScrollKeyCode, numberOfColumns: number): number {
         const { columnIndex } = getColumnAndRowBasedOnIndex(numberOfColumns, this.selectableItems.length, index);
 
-        if (direction === "pagedown") {
+        if (keycode === "PageDown") {
             return this.selectableItems.length - (numberOfColumns - columnIndex);
         }
 
-        if (direction === "home") {
+        if (keycode === "Home") {
             return index - columnIndex;
         }
 
-        if (direction === "end") {
+        if (keycode === "End") {
             return index + (numberOfColumns - (columnIndex + 1));
         }
 
@@ -227,10 +227,8 @@ export class MultiSelectionHelper {
     selectUpToAdjacent(
         value: ObjectItem,
         shiftKey: boolean,
-        direction: Direction,
-        unit: Size,
-        numberOfColumns: number | undefined,
-        mode: SelectionMode
+        mode: SelectionMode,
+        event: MoveEvent1D | MoveEvent2D
     ): void {
         if (shiftKey === false) {
             this._resetRange();
@@ -240,10 +238,10 @@ export class MultiSelectionHelper {
         const currentIndex = this.selectableItems.findIndex(item => item.id === value.id);
         let adjacentIndex: number = -1;
 
-        if (direction === "backward" || direction === "forward") {
-            adjacentIndex = this._findIndexInList(currentIndex, direction, unit);
+        if ("direction" in event) {
+            adjacentIndex = this._findIndexInList(currentIndex, event.direction, event.size);
         } else {
-            adjacentIndex = this._findIndexInGrid(currentIndex, direction, numberOfColumns ?? 0);
+            adjacentIndex = this._findIndexInGrid(currentIndex, event.code, event.numberOfColumns);
         }
 
         if (adjacentIndex === currentIndex) {
