@@ -1,13 +1,6 @@
 function getBaseUrl(): string {
-    const [base] = document.getElementsByTagName("base");
-    return base?.href ?? "";
-    let baseHref = "";
-
-    if (bases.length > 0) {
-        baseHref = bases[0].href;
-    }
-
-    return baseHref;
+    const base_url = document.getElementsByTagName("base");
+    return base_url && base_url.length > 0 ? base_url[0]?.href : "";
 }
 const PLUGINS =
     "accordion advlist anchor autolink charmap code codesample directionality emoticons fullscreen image help importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars searchreplace table visualblocks visualchars wordcount";
