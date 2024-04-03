@@ -12,24 +12,27 @@ export type SelectFx = (item: ObjectItem, shiftKey: boolean, toggle?: boolean) =
 
 export type SelectAllFx = (requestedAction?: "selectAll" | "deselectAll") => void;
 
-export type Direction = "forward" | "backward" | "pageup" | "pagedown" | "home" | "end";
+export type Direction = "forward" | "backward";
+
+export type ScrollKeyCode = "PageUp" | "PageDown" | "Home" | "End";
 
 export type Size = number | "edge";
+
+interface MoveEvent1D {
+    direction: Direction;
+    size: Size;
+}
+
+interface MoveEvent2D {
+    code: ScrollKeyCode;
+    numberOfColumns: number;
+}
 
 export type SelectAdjacentFx = (
     item: ObjectItem,
     shiftKey: boolean,
-    direction: Direction,
-    size: Size,
-    mode: SelectionMode
-) => void;
-
-export type SelectAdjacentInGridFx = (
-    item: ObjectItem,
-    shiftKey: boolean,
-    direction: Direction,
-    size: Size,
-    numberOfColumns?: number
+    mode: SelectionMode,
+    event: MoveEvent1D | MoveEvent2D
 ) => void;
 
 /**
