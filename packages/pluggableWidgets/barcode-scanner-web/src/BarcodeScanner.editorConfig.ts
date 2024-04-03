@@ -1,5 +1,5 @@
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
+import { hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";
 import BarcodeScannerSvg from "./assets/barcodescanner.svg";
@@ -12,6 +12,9 @@ export function getProperties(
 ): Properties {
     if (platform === "web") {
         transformGroupsIntoTabs(defaultProperties);
+    }
+    if (_.useAllFormats) {
+        hidePropertyIn(defaultProperties, _, "barcodeFormats");
     }
     return defaultProperties;
 }

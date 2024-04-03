@@ -6,9 +6,19 @@
 import { CSSProperties } from "react";
 import { ActionValue, EditableValue } from "mendix";
 
+export type BarcodeFormatEnum = "AZTEC" | "CODE_39" | "CODE_128" | "DATA_MATRIX" | "EAN_8" | "EAN_13" | "ITF" | "PDF_417" | "QR_CODE" | "RSS_14" | "UPC_A" | "UPC_E";
+
+export interface BarcodeFormatsType {
+    barcodeFormat: BarcodeFormatEnum;
+}
+
 export type WidthUnitEnum = "percentage" | "pixels";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
+
+export interface BarcodeFormatsPreviewType {
+    barcodeFormat: BarcodeFormatEnum;
+}
 
 export interface BarcodeScannerContainerProps {
     name: string;
@@ -17,6 +27,8 @@ export interface BarcodeScannerContainerProps {
     tabIndex?: number;
     datasource: EditableValue<string>;
     showMask: boolean;
+    useAllFormats: boolean;
+    barcodeFormats: BarcodeFormatsType[];
     onDetect?: ActionValue;
     widthUnit: WidthUnitEnum;
     width: number;
@@ -35,6 +47,8 @@ export interface BarcodeScannerPreviewProps {
     readOnly: boolean;
     datasource: string;
     showMask: boolean;
+    useAllFormats: boolean;
+    barcodeFormats: BarcodeFormatsPreviewType[];
     onDetect: {} | null;
     widthUnit: WidthUnitEnum;
     width: number | null;

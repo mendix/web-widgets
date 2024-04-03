@@ -10,15 +10,7 @@ import {
     Result
 } from "@zxing/library/cjs";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
-
-const hints = new Map();
-// RSS_Expanded is not production ready yet.
-const exclusions = new Set([BarcodeFormat.RSS_EXPANDED]);
-// `BarcodeFormat` is a TypeScript enum. Calling `Object.values` on it returns an array of string and ints, we only want the latter.
-const formats = Object.values(BarcodeFormat)
-    .filter((format): format is BarcodeFormat => typeof format !== "string")
-    .filter(format => !exclusions.has(format));
-hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
+import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
 
 const mediaStreamConstraints: MediaStreamConstraints = {
     audio: false,
@@ -33,6 +25,8 @@ type UseReaderHook = (args: {
     onSuccess?: (data: string) => void;
     onError?: (e: Error) => void;
     useCrop: boolean;
+    barcodeFormats: BarcodeFormatsType[];
+    useAllFormats: boolean;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
@@ -83,6 +77,29 @@ export const useReader: UseReaderHook = args => {
     };
 
     useEffect(() => {
+        const hints = new Map();
+        let formats: BarcodeFormat[] = [];
+        if (args.useAllFormats) {
+            formats = [
+                BarcodeFormat.UPC_A,
+                BarcodeFormat.UPC_E,
+                BarcodeFormat.EAN_8,
+                BarcodeFormat.EAN_13,
+                BarcodeFormat.CODE_39,
+                BarcodeFormat.CODE_128,
+                BarcodeFormat.ITF,
+                BarcodeFormat.RSS_14,
+                BarcodeFormat.QR_CODE,
+                BarcodeFormat.DATA_MATRIX,
+                BarcodeFormat.AZTEC,
+                BarcodeFormat.PDF_417
+            ];
+        } else {
+            args.barcodeFormats.forEach((val, index) => {
+                formats[index] = BarcodeFormat[val.barcodeFormat];
+            });
+        }
+        hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         const reader = new BrowserMultiFormatReader(hints, 500);
 
         const stop = (): void => {

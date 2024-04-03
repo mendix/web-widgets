@@ -4,6 +4,7 @@ import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { useCustomErrorMessage } from "../hooks/useCustomErrorMessage";
 import { useReader } from "../hooks/useReader";
+import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
 
 import "../ui/BarcodeScanner.scss";
 
@@ -48,19 +49,25 @@ export interface BarcodeScannerProps extends Dimensions {
     onDetect?: (data: string) => void;
     showMask: boolean;
     class: string;
+    useAllFormats: boolean;
+    barcodeFormats: BarcodeFormatsType[];
 }
 
 export function BarcodeScanner({
     onDetect,
     showMask,
     class: className,
+    barcodeFormats,
+    useAllFormats,
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
     const videoRef = useReader({
         onSuccess: onDetect,
         onError: setError,
-        useCrop: showMask
+        useCrop: showMask,
+        barcodeFormats: barcodeFormats,
+        useAllFormats: useAllFormats
     });
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
