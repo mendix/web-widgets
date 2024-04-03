@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   We fixed sorting on combobox, now the sorting follows the default when the combobox opens, and follow a sorted ranking when any input is given.
 -   We fixed focusable element not able to have focus if being placed on custom footer.
 
+### Added
+
+-   We added static values feature support.
+
 ## [1.2.0] - 2024-02-27
 
 ### Fixed

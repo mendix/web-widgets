@@ -1,10 +1,10 @@
 import {
-    buildListExpression,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder,
     ListValueBuilder,
-    ReferenceSetValueBuilder
+    ReferenceSetValueBuilder,
+    listExp
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { fireEvent, render, waitFor } from "@testing-library/react";
@@ -19,6 +19,7 @@ describe("Combo box (Association)", () => {
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
+            source: "context",
             optionsSourceType: "association",
             attributeAssociation: new ReferenceSetValueBuilder().withValue([{ id: "111" }] as ObjectItem[]).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
@@ -31,7 +32,7 @@ describe("Combo box (Association)", () => {
             ] as ObjectItem[]),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
-            optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
+            optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamicValue("Select an option 111"),
@@ -49,11 +50,24 @@ describe("Combo box (Association)", () => {
             a11yOptionsAvailable: dynamicValue("Options available:"),
             a11yInstructions: dynamicValue("a11yInstructions"),
             showFooter: false,
-            source: "context",
-            attributeString: new EditableValueBuilder<string | Big>().build(),
+            databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
             optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
-            optionsSourceDatabaseCustomContentType: "yes"
+            optionsSourceDatabaseCustomContentType: "yes",
+            staticDataSourceCustomContentType: "no",
+            staticAttribute: new EditableValueBuilder<string>().build(),
+            optionsSourceStaticDataSource: [
+                {
+                    staticDataSourceValue: dynamicValue("value1"),
+                    staticDataSourceCustomContent: undefined,
+                    staticDataSourceCaption: dynamicValue("caption1")
+                },
+                {
+                    staticDataSourceValue: dynamicValue("value2"),
+                    staticDataSourceCustomContent: undefined,
+                    staticDataSourceCaption: dynamicValue("caption2")
+                }
+            ]
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {

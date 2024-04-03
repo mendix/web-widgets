@@ -1,4 +1,4 @@
-import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { Properties, hidePropertiesIn, hideNestedPropertiesIn } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     StructurePreviewProps,
@@ -14,7 +14,10 @@ import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
-            "attributeString",
+            "databaseAttributeString",
+            "staticAttribute",
+            "staticDataSourceCustomContentType",
+            "optionsSourceStaticDataSource",
             "optionsSourceDatabaseCaptionAttribute",
             "optionsSourceDatabaseCaptionExpression",
             "optionsSourceDatabaseCaptionType",
@@ -76,12 +79,15 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
+            "staticAttribute",
+            "staticDataSourceCustomContentType",
+            "optionsSourceStaticDataSource",
+            "optionsSourceAssociationCaptionType",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationDataSource",
             "optionsSourceAssociationCaptionAttribute",
             "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationCaptionType",
-            "optionsSourceAssociationCustomContent",
-            "optionsSourceAssociationCustomContentType",
-            "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
@@ -97,6 +103,40 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
         }
+    } else if (values.source === "static") {
+        hidePropertiesIn(defaultProperties, values, [
+            "attributeAssociation",
+            "attributeEnumeration",
+            "attributeBoolean",
+            "optionsSourceType",
+            "optionsSourceAssociationCaptionAttribute",
+            "optionsSourceAssociationCaptionExpression",
+            "optionsSourceAssociationCaptionType",
+            "optionsSourceAssociationCustomContent",
+            "optionsSourceAssociationCustomContentType",
+            "optionsSourceAssociationDataSource",
+            "selectedItemsStyle",
+            "selectionMethod",
+            "selectAllButton",
+            "selectAllButtonCaption",
+            "databaseAttributeString",
+            "optionsSourceDatabaseCaptionAttribute",
+            "optionsSourceDatabaseCaptionExpression",
+            "optionsSourceDatabaseCaptionType",
+            "optionsSourceDatabaseCustomContent",
+            "optionsSourceDatabaseCustomContentType",
+            "optionsSourceDatabaseDataSource",
+            "optionsSourceDatabaseValueAttribute",
+            "optionsSourceDatabaseDefaultValue"
+        ]);
+    }
+
+    if (values.staticDataSourceCustomContentType === "no") {
+        values.optionsSourceStaticDataSource.forEach((_, index) => {
+            hideNestedPropertiesIn(defaultProperties, values, "optionsSourceStaticDataSource", index, [
+                "staticDataSourceCustomContent"
+            ]);
+        });
     }
 
     if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
@@ -130,13 +170,50 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
     const structurePreviewChildren: StructurePreviewProps[] = [];
     let dropdownPreviewChildren: StructurePreviewProps[] = [];
 
-    if (_values.optionsSourceType === "association" && _values.optionsSourceAssociationCustomContentType !== "no") {
+    if (
+        _values.source === "context" &&
+        _values.optionsSourceType === "association" &&
+        _values.optionsSourceAssociationCustomContentType !== "no"
+    ) {
         structurePreviewChildren.push(
             dropzone(
                 dropzone.placeholder("Configure the combo box: Place widgets here"),
                 dropzone.hideDataSourceHeaderIf(false)
             )(_values.optionsSourceAssociationCustomContent)
         );
+    }
+    if (_values.source === "database" && _values.optionsSourceDatabaseCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            dropzone(
+                dropzone.placeholder("Configure the combo box: Place widgets here"),
+                dropzone.hideDataSourceHeaderIf(false)
+            )(_values.optionsSourceDatabaseCustomContent)
+        );
+    }
+    if (_values.source === "static" && _values.staticDataSourceCustomContentType !== "no") {
+        structurePreviewChildren.push(
+            container({ borders: true, borderWidth: 1, backgroundColor: palette.background.topbarData, padding: 1 })({
+                type: "Text",
+                content: getDatasourcePlaceholderText(_values),
+                fontColor: palette.text.data
+            })
+        );
+        _values.optionsSourceStaticDataSource.forEach(value => {
+            structurePreviewChildren.push(
+                container({
+                    borders: true,
+                    borderWidth: 1,
+                    borderRadius: 2
+                })(
+                    dropzone(
+                        dropzone.placeholder(
+                            `Configure the combo box: Place widgets for option ${value.staticDataSourceCaption} here`
+                        ),
+                        dropzone.hideDataSourceHeaderIf(false)
+                    )(value.staticDataSourceCustomContent)
+                )
+            );
+        });
     }
     if (_values.showFooter === true) {
         dropdownPreviewChildren = [
