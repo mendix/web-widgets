@@ -1,7 +1,7 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { PositionInGrid } from "@mendix/widget-plugin-grid/selection";
+import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -12,7 +12,7 @@ import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
+
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
@@ -42,7 +42,7 @@ export interface GalleryProps<T extends ObjectItem> {
     focusController: FocusTargetController;
     itemEventsController: ItemEventsController;
     itemHelper: GalleryItemHelper;
-    selectHelper: SelectActionHelper;
+    selectHelper: SelectActionHandler;
     getPosition: (index: number) => PositionInGrid;
 }
 

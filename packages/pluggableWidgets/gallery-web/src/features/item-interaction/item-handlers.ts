@@ -1,7 +1,7 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { EventEntryContext } from "./base";
 import {
-    SelectAdjacentInGridFx,
+    SelectAdjacentFx,
     SelectAllFx,
     SelectFx,
     onSelectGridAdjacentHotKey,
@@ -21,9 +21,12 @@ const onMouseDown = (
 const onSelect = (selectFx: SelectFx): EventCaseEntry<EventEntryContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
     filter: ctx => ctx.selectionType !== "None",
-    handler: ({ item }, event) => {
-        const useToggleMode = event.metaKey || event.ctrlKey;
-        selectFx(item, event.shiftKey, useToggleMode);
+    handler: ({ item, selectionMode }, event) => {
+        let toggleMode = false;
+        toggleMode ||= selectionMode === "toggle";
+        toggleMode ||= event.metaKey;
+        toggleMode ||= event.ctrlKey;
+        selectFx(item, event.shiftKey, toggleMode);
     }
 });
 
@@ -36,7 +39,7 @@ const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<EventEntryContex
 export function createItemHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
-    selectAdjacentFx: SelectAdjacentInGridFx,
+    selectAdjacentFx: SelectAdjacentFx,
     numberOfColumns: number
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
     return [

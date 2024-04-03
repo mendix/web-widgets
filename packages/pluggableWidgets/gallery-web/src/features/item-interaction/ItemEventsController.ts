@@ -3,14 +3,13 @@ import { useMemo } from "react";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
-import { SelectAdjacentInGridFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createItemHandlers } from "./item-handlers";
 import { createActionHandlers } from "./action-handlers";
 import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
-import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 
 export class ItemEventsController implements ItemEventsController {
     constructor(
@@ -19,7 +18,7 @@ export class ItemEventsController implements ItemEventsController {
         private selectAllFx: SelectAllFx,
         private executeActionFx: ExecuteActionFx,
         private focusTargetFx: FocusTargetFx,
-        private selectAdjacentFx: SelectAdjacentInGridFx,
+        private selectAdjacentFx: SelectAdjacentFx,
         private numberOfColumns: number
     ) {}
 
@@ -34,7 +33,7 @@ export class ItemEventsController implements ItemEventsController {
 }
 
 export function useItemEventsController(
-    selectHelper: SelectActionHelper,
+    selectHelper: SelectActionHandler,
     clickHelper: ClickActionHelper,
     focusController: FocusTargetController,
     numberOfColumns: number
@@ -42,14 +41,15 @@ export function useItemEventsController(
     return useMemo(
         () =>
             new ItemEventsController(
-                item => ({ item, selectionType: selectHelper.selectionType }),
+                item => ({ item, selectionType: selectHelper.selectionType, selectionMode: "clear" }),
                 selectHelper.onSelect,
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,
                 focusController.dispatch,
-                selectHelper.onSelectAdjacentGrid,
+                selectHelper.onSelectAdjacent,
                 numberOfColumns
             ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [selectHelper, focusController, numberOfColumns]
     );
 }

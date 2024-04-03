@@ -26,7 +26,8 @@ describe("gallery item", () => {
             const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                 (): EventEntryContext => ({
                     item,
-                    selectionType: "Single"
+                    selectionType: "Single",
+                    selectionMode: "clear"
                 }),
                 [...createItemHandlers(onSelect, jest.fn(), jest.fn(), 1), ...createActionHandlers(onExecuteAction)]
             );
@@ -60,7 +61,8 @@ describe("gallery item", () => {
                 const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                     (): EventEntryContext => ({
                         item,
-                        selectionType: selectionType as SelectionType
+                        selectionType: selectionType as SelectionType,
+                        selectionMode: "clear"
                     }),
                     [...createItemHandlers(jest.fn(), onSelectAll, jest.fn(), 1)]
                 );
@@ -79,16 +81,66 @@ describe("gallery item", () => {
 
     describe("on keydown event", () => {
         const cases = [
-            { selectionType: "None", n: 0, key: "ArrowUp", params: [true, "backward", 1] },
-            { selectionType: "Single", n: 0, key: "ArrowDown", params: [true, "forward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowUp", params: [true, "backward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowDown", params: [true, "forward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowLeft", params: [true, "backward", 1] },
-            { selectionType: "Multi", n: 1, key: "ArrowRight", params: [true, "forward", 1] },
-            { selectionType: "Multi", n: 1, key: "PageUp", params: [true, "pageup", 0, 1] },
-            { selectionType: "Multi", n: 1, key: "PageDown", params: [true, "pagedown", 0, 1] },
-            { selectionType: "Multi", n: 1, key: "Home", params: [true, "home", 0, 1] },
-            { selectionType: "Multi", n: 1, key: "End", params: [true, "end", 0, 1] }
+            {
+                selectionType: "None",
+                n: 0,
+                key: "ArrowUp",
+                params: [true, "clear", { direction: "backward", size: 1 }]
+            },
+            {
+                selectionType: "Single",
+                n: 0,
+                key: "ArrowDown",
+                params: [true, "clear", { direction: "forward", size: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "ArrowUp",
+                params: [true, "clear", { direction: "backward", size: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "ArrowDown",
+                params: [true, "clear", { direction: "forward", size: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "ArrowLeft",
+                params: [true, "clear", { direction: "backward", size: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "ArrowRight",
+                params: [true, "clear", { direction: "forward", size: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "PageUp",
+                params: [true, "clear", { code: "PageUp", numberOfColumns: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "PageDown",
+                params: [true, "clear", { code: "PageDown", numberOfColumns: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "Home",
+                params: [true, "clear", { code: "Home", numberOfColumns: 1 }]
+            },
+            {
+                selectionType: "Multi",
+                n: 1,
+                key: "End",
+                params: [true, "clear", { code: "End", numberOfColumns: 1 }]
+            }
         ];
 
         test.each(cases)(
@@ -101,7 +153,8 @@ describe("gallery item", () => {
                 const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                     (): EventEntryContext => ({
                         item,
-                        selectionType: selectionType as SelectionType
+                        selectionType: selectionType as SelectionType,
+                        selectionMode: "clear"
                     }),
                     [...createItemHandlers(jest.fn(), jest.fn(), onSelectAdjacent, 1)]
                 );
@@ -132,7 +185,8 @@ describe("gallery item", () => {
             const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                 (): EventEntryContext => ({
                     item,
-                    selectionType: "None"
+                    selectionType: "None",
+                    selectionMode: "clear"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -150,7 +204,8 @@ describe("gallery item", () => {
             const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                 (): EventEntryContext => ({
                     item,
-                    selectionType: "None"
+                    selectionType: "None",
+                    selectionMode: "clear"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -172,7 +227,8 @@ describe("gallery item", () => {
             const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                 (): EventEntryContext => ({
                     item,
-                    selectionType: "None"
+                    selectionType: "None",
+                    selectionMode: "clear"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -202,7 +258,8 @@ describe("gallery item", () => {
                 const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                     (): EventEntryContext => ({
                         item,
-                        selectionType
+                        selectionType,
+                        selectionMode: "clear"
                     }),
                     [...createActionHandlers(onExecuteAction)]
                 );
@@ -226,7 +283,8 @@ describe("gallery item", () => {
                 const props = eventSwitch<EventEntryContext, HTMLDivElement>(
                     (): EventEntryContext => ({
                         item,
-                        selectionType
+                        selectionType,
+                        selectionMode: "clear"
                     }),
                     [...createActionHandlers(onExecuteAction)]
                 );
