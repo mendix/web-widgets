@@ -18,12 +18,12 @@ export type ScrollKeyCode = "PageUp" | "PageDown" | "Home" | "End";
 
 export type Size = number | "edge";
 
-interface MoveEvent1D {
+export interface MoveEvent1D {
     direction: Direction;
     size: Size;
 }
 
-interface MoveEvent2D {
+export interface MoveEvent2D {
     code: ScrollKeyCode;
     numberOfColumns: number;
 }
