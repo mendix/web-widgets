@@ -1,5 +1,6 @@
 function getBaseUrl(): string {
-    const bases = document.getElementsByTagName("base");
+    const [base] = document.getElementsByTagName("base");
+    return base?.href ?? "";
     let baseHref = "";
 
     if (bases.length > 0) {
