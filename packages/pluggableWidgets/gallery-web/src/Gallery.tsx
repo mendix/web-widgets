@@ -139,7 +139,8 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         selectHelper,
         clickActionHelper,
         focusController,
-        numberOfColumns
+        numberOfColumns,
+        props.itemSelectionMode
     );
 
     const selectionContextValue = useCreateSelectionContextValue(selection);

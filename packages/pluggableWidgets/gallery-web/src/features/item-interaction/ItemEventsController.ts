@@ -3,7 +3,13 @@ import { useMemo } from "react";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
-import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
+import {
+    SelectAdjacentFx,
+    SelectAllFx,
+    SelectFx,
+    SelectActionHandler,
+    SelectionMode
+} from "@mendix/widget-plugin-grid/selection";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
@@ -36,12 +42,13 @@ export function useItemEventsController(
     selectHelper: SelectActionHandler,
     clickHelper: ClickActionHelper,
     focusController: FocusTargetController,
-    numberOfColumns: number
+    numberOfColumns: number,
+    selectionMode: SelectionMode
 ): ItemEventsController {
     return useMemo(
         () =>
             new ItemEventsController(
-                item => ({ item, selectionType: selectHelper.selectionType, selectionMode: "clear" }),
+                item => ({ item, selectionType: selectHelper.selectionType, selectionMode }),
                 selectHelper.onSelect,
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,

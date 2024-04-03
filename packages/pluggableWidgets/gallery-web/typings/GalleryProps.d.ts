@@ -7,6 +7,8 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
+export type ItemSelectionModeEnum = "clear" | "toggle";
+
 export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "below" | "above";
@@ -39,6 +41,7 @@ export interface GalleryContainerProps {
     advanced: boolean;
     datasource: ListValue;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    itemSelectionMode: ItemSelectionModeEnum;
     content?: ListWidgetValue;
     desktopItems: number;
     tabletItems: number;
@@ -71,6 +74,7 @@ export interface GalleryPreviewProps {
     advanced: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     itemSelection: "None" | "Single" | "Multi";
+    itemSelectionMode: ItemSelectionModeEnum;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     desktopItems: number | null;
     tabletItems: number | null;
