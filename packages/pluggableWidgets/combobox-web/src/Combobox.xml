@@ -322,10 +322,7 @@
                 </property>
                 <property key="removeValueAriaLabel" type="textTemplate" required="true">
                     <caption>Remove value button</caption>
-                    <description>
-                        Used to remove individual selected values when using labels with
-                        multi-selection.
-                    </description>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
                     <translations>
                         <translation lang="en_US">Remove value</translation>
                         <translation lang="nl_NL">Waarde verwijderen</translation>
