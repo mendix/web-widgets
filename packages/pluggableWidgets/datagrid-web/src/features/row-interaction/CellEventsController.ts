@@ -11,7 +11,7 @@ import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHel
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
-import { ClickEntry, ClickEventSwitch } from "./ClickEventSwitch";
+import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 
 export class CellEventsController {
     constructor(

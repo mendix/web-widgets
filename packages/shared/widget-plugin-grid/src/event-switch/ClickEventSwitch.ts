@@ -1,5 +1,5 @@
-import { EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { groupEntries } from "@mendix/widget-plugin-grid/event-switch/utils";
+import { EventCaseEntry } from "./base";
+import { groupEntries } from "./utils";
 
 export type ClickEntry<Context, Element> =
     | EventCaseEntry<Context, Element, "onClick">
