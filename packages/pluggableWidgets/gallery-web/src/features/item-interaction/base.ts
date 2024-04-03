@@ -1,7 +1,8 @@
 import { ObjectItem } from "mendix";
-import { SelectionType } from "@mendix/widget-plugin-grid/selection";
+import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 
 export interface EventEntryContext {
     item: ObjectItem;
     selectionType: SelectionType;
+    selectionMode: SelectionMode;
 }

@@ -2,9 +2,9 @@ import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, useMemo, RefObject } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
-import { PositionInGrid } from "@mendix/widget-plugin-grid/selection";
+import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
+
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
@@ -14,7 +14,7 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     helper: GalleryItemHelper;
     item: ObjectItem;
     itemIndex: number;
-    selectHelper: SelectActionHelper;
+    selectHelper: SelectActionHandler;
     preview?: boolean;
 };
 

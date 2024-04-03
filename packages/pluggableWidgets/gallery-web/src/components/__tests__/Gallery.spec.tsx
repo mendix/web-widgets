@@ -6,13 +6,12 @@ import { WidgetItemBuilder } from "../../utils/test-utils";
 import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
 import { ItemHelper } from "../../helpers/ItemHelper";
 import "./__mocks__/intersectionObserverMock";
-import { SelectActionHelper } from "../../helpers/SelectActionHelper";
 import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
 import { ClickActionHelper } from "../../helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
-import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
+import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 
 function mockItemHelperWithAction(onClick: () => void): ItemHelper {
     return WidgetItemBuilder.sample(b =>
@@ -27,7 +26,7 @@ function mockItemHelperWithAction(onClick: () => void): ItemHelper {
 }
 
 function mockProps(): GalleryProps<ObjectItem> {
-    const selectHelper = new SelectActionHelper("None", undefined);
+    const selectHelper = new SelectActionHandler("None", undefined);
     const onClick = jest.fn();
     const clickHelper = new ClickActionHelper(onClick);
     const focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10));
@@ -49,12 +48,12 @@ function mockProps(): GalleryProps<ObjectItem> {
         showHeader: true,
         header: <input />,
         itemEventsController: new ItemEventsController(
-            item => ({ item, selectionType: selectHelper.selectionType }),
+            item => ({ item, selectionType: selectHelper.selectionType, selectionMode: "clear" }),
             selectHelper.onSelect,
             selectHelper.onSelectAll,
             clickHelper.onExecuteAction,
             focusController.dispatch,
-            selectHelper.onSelectAdjacentGrid,
+            selectHelper.onSelectAdjacent,
             3
         ),
         focusController,
