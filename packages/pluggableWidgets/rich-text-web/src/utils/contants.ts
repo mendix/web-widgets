@@ -1,3 +1,13 @@
+function getBaseUrl(): string {
+    const bases = document.getElementsByTagName("base");
+    let baseHref = "";
+
+    if (bases.length > 0) {
+        baseHref = bases[0].href;
+    }
+
+    return baseHref;
+}
 const PLUGINS =
     "accordion advlist anchor autolink charmap code codesample directionality emoticons fullscreen image help importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars searchreplace table visualblocks visualchars wordcount";
 
@@ -7,7 +17,7 @@ export const DEFAULT_CONFIG = {
     branding: false,
     skin: "oxide",
     content_css: "default",
-    base_url: "widgets/com/mendix/widget/custom/richtext",
+    base_url: `${getBaseUrl()}widgets/com/mendix/widget/custom/richtext`,
     plugins: PLUGINS,
     font_size_formats: "8px 10px 12px 14px 18px 24px 36px",
     menu: {
