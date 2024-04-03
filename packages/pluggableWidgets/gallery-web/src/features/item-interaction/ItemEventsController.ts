@@ -1,7 +1,8 @@
 import { ObjectItem } from "mendix";
 import { useMemo } from "react";
-import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementProps, ElementEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
+import { ClickEventSwitch, ClickEntry } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import {
     SelectAdjacentFx,
@@ -15,7 +16,7 @@ import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createItemHandlers } from "./item-handlers";
 import { createActionHandlers } from "./action-handlers";
-import { ClickActionHelper, ExecuteActionFx } from "../../helpers/ClickActionHelper";
+import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 
 export class ItemEventsController implements ItemEventsController {
     constructor(
@@ -28,14 +29,25 @@ export class ItemEventsController implements ItemEventsController {
         private numberOfColumns: number
     ) {}
 
-    getProps = (item: ObjectItem): ElementProps<HTMLDivElement> => {
+    getProps(item: ObjectItem): ElementProps<HTMLDivElement> {
+        return eventSwitch(() => this.contextFactory(item), this.getEntries());
+    }
+
+    private getEntries(): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
         const entries = [
             ...createItemHandlers(this.selectFx, this.selectAllFx, this.selectAdjacentFx, this.numberOfColumns),
-            ...createFocusTargetHandlers(this.focusTargetFx),
-            ...createActionHandlers(this.executeActionFx)
+            ...createActionHandlers(this.executeActionFx),
+            ...createFocusTargetHandlers(this.focusTargetFx)
         ];
-        return eventSwitch(() => this.contextFactory(item), entries);
-    };
+        const clickEntries = entries.filter(
+            (entry): entry is ClickEntry<EventEntryContext, HTMLDivElement> =>
+                entry.eventName === "onClick" || entry.eventName === "onDoubleClick"
+        );
+        const restEntries = entries.filter(
+            entry => entry.eventName !== "onClick" && entry.eventName !== "onDoubleClick"
+        );
+        return [new ClickEventSwitch(clickEntries).getClickEntry(), ...restEntries];
+    }
 }
 
 export function useItemEventsController(
@@ -48,7 +60,12 @@ export function useItemEventsController(
     return useMemo(
         () =>
             new ItemEventsController(
-                item => ({ item, selectionType: selectHelper.selectionType, selectionMode }),
+                item => ({
+                    item,
+                    selectionType: selectHelper.selectionType,
+                    selectionMode,
+                    clickTrigger: clickHelper.clickTrigger
+                }),
                 selectHelper.onSelect,
                 selectHelper.onSelectAll,
                 clickHelper.onExecuteAction,

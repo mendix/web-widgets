@@ -21,7 +21,7 @@ import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
-import { useClickActionHelper } from "./helpers/ClickActionHelper";
+import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
@@ -134,7 +134,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
         columns: numberOfColumns,
         pageSize: props.pageSize
     });
-    const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
+    const clickActionHelper = useClickActionHelper({ onClick: props.onClick, onClickTrigger: props.onClickTrigger });
     const itemEventsController = useItemEventsController(
         selectHelper,
         clickActionHelper,

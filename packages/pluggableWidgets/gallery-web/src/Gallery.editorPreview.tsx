@@ -5,7 +5,7 @@ import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
 import { useGridPositions } from "./features/useGridPositions";
-import { useClickActionHelper } from "./helpers/ClickActionHelper";
+import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
@@ -38,7 +38,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         pageSize: props.pageSize ?? 0
     });
 
-    const clickActionHelper = useClickActionHelper({ onClick: props.onClick });
+    const clickActionHelper = useClickActionHelper({ onClick: props.onClick, onClickTrigger: "none" });
 
     const itemEventsController = useItemEventsController(
         selectHelper,

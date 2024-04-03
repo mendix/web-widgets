@@ -76,10 +76,13 @@ export function check(values: GalleryPreviewProps): Problem[] {
             message: "Tablet items must be a number between 1 and 12"
         });
     }
-    if (values.itemSelection !== "None" && values.onClick !== null) {
+    if (values.itemSelection !== "None" && values.onClickTrigger === "single") {
         errors.push({
+            severity: "error",
             property: "onClick",
-            message: '"On click action" must be set to "Do nothing" when "Selection" is enabled'
+            message:
+                "The item click action is ambiguous. " +
+                'Change "On click trigger" to "Double click" or set "Selection" to "None".'
         });
     }
     return errors;

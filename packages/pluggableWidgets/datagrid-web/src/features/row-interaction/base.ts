@@ -1,6 +1,6 @@
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
-import { ClickTrigger } from "../../helpers/ClickActionHelper";
+import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { SelectionMethod } from "../../helpers/SelectActionHelper";
 
 interface BaseContext {

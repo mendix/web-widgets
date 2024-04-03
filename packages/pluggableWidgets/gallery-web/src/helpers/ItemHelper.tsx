@@ -1,4 +1,3 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ListExpressionValue, ListWidgetValue, ListActionValue, ObjectItem } from "mendix";
 import { ReactNode, useMemo, createElement } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
@@ -25,11 +24,7 @@ export class ItemHelper implements GalleryItemHelper {
 
     render(item: ObjectItem): ReactNode {
         if (this.hasOnClick(item)) {
-            return (
-                <ListItemButton onClick={() => executeAction(this._clickValue?.get(item))}>
-                    {this._contentValue?.get(item)}
-                </ListItemButton>
-            );
+            return <ListItemButton>{this._contentValue?.get(item)}</ListItemButton>;
         }
 
         return this._contentValue?.get(item);

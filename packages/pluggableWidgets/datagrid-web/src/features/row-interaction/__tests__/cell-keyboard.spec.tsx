@@ -8,7 +8,7 @@ import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switc
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { createActionHandlers } from "../action-handlers";
 import { SelectionMethod } from "../../../helpers/SelectActionHelper";
-import { ClickTrigger } from "../../../helpers/ClickActionHelper";
+import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 
 function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
