@@ -9,10 +9,12 @@ import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
+import "./ui/GalleryPreview.scss";
+
+const numberOfItems = 3;
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
-    const numberOfItems = 3;
     const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));

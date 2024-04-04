@@ -13,6 +13,7 @@ import { ColumnId } from "./typings/GridColumn";
 import * as Grid from "./typings/GridModel";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import "./ui/DatagridPreview.scss";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -51,9 +52,10 @@ const initColumns: ColumnsPreviewType[] = [
     }
 ];
 
+const numberOfItems = 3;
+
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const numberOfItems = 3;
     const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
@@ -188,7 +190,3 @@ const selectableWrapperRenderer =
             </Selectable>
         );
     };
-
-export function getPreviewCss(): string {
-    return require("./ui/DatagridPreview.scss");
-}

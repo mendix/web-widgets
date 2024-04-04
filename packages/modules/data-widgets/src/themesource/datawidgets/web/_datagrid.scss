@@ -374,13 +374,6 @@ $grid-selected-row-background: $brand-light;
             background-color: $grid-selected-row-background;
         }
     }
-
-    .tr.tr-preview:nth-last-child(2) > .td {
-        opacity: 0.5;
-    }
-    .tr.tr-preview:last-child > .td {
-        opacity: 0.2;
-    }
 }
 
 .widget-datagrid-col-select input:focus-visible {

@@ -24,3 +24,12 @@ svg {
         }
     }
 }
+
+.widget-datagrid {
+    .tr.tr-preview:nth-last-child(2) > .td {
+        opacity: 0.5;
+    }
+    .tr.tr-preview:last-child > .td {
+        opacity: 0.2;
+    }
+}

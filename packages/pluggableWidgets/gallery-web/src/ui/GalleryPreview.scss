@@ -1,0 +1,9 @@
+.widget-gallery {
+    .widget-gallery-preview:nth-last-child(2) > div {
+        opacity: 0.5;
+    }
+
+    .widget-gallery-preview:last-child > div {
+        opacity: 0.2;
+    }
+}
