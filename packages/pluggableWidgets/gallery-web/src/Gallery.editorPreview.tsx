@@ -48,7 +48,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     return (
         <GalleryComponent
             className={props.class}
-            desktopItems={numberOfItems}
+            desktopItems={props.content.widgetCount > 0 ? numberOfItems : props.desktopItems!}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
                     <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
