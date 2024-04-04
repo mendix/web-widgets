@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.2] - 2024-04-04
+
 ### Fixed
 
 -   We fix issue with menubar and statusbar not showing on sub-folder deployment.
