@@ -312,7 +312,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
-                <property key="clearButtonAriaLabel" type="textTemplate" required="true">
+                <property key="clearButtonAriaLabel" type="textTemplate" required="false">
                     <caption>Clear selection button</caption>
                     <description>Used to clear all selected values.</description>
                     <translations>
@@ -320,7 +320,7 @@
                         <translation lang="nl_NL">Selectie wissen</translation>
                     </translations>
                 </property>
-                <property key="removeValueAriaLabel" type="textTemplate" required="true">
+                <property key="removeValueAriaLabel" type="textTemplate" required="false">
                     <caption>Remove value button</caption>
                     <description>Used to remove individual selected values when using labels with multi-selection.</description>
                     <translations>
@@ -330,7 +330,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Accessibility status message ">
-                <property key="a11ySelectedValue" type="textTemplate" required="true">
+                <property key="a11ySelectedValue" type="textTemplate" required="false">
                     <caption>Selected value</caption>
                     <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
                     <translations>
@@ -338,7 +338,7 @@
                         <translation lang="nl_NL">Geselecteerde waarde:</translation>
                     </translations>
                 </property>
-                <property key="a11yOptionsAvailable" type="textTemplate" required="true">
+                <property key="a11yOptionsAvailable" type="textTemplate" required="false">
                     <caption>Options available</caption>
                     <description>Output example: "Number of options available: 1"</description>
                     <translations>
@@ -346,7 +346,7 @@
                         <translation lang="nl_NL">Aantal beschikbare opties:</translation>
                     </translations>
                 </property>
-                <property key="a11yInstructions" type="textTemplate" required="true">
+                <property key="a11yInstructions" type="textTemplate" required="false">
                     <caption>Instructions</caption>
                     <description>Instructions to be read after announcing the status.</description>
                     <translations>
