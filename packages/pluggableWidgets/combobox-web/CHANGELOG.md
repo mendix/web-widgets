@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We made accessibility text as optional.
+
 ## [1.3.1] - 2024-04-08
 
 ### Fixed
