@@ -27,7 +27,8 @@ describe("gallery item", () => {
                 (): EventEntryContext => ({
                     item,
                     selectionType: "Single",
-                    selectionMode: "clear"
+                    selectionMode: "clear",
+                    clickTrigger: "single"
                 }),
                 [...createItemHandlers(onSelect, jest.fn(), jest.fn(), 1), ...createActionHandlers(onExecuteAction)]
             );
@@ -62,7 +63,8 @@ describe("gallery item", () => {
                     (): EventEntryContext => ({
                         item,
                         selectionType: selectionType as SelectionType,
-                        selectionMode: "clear"
+                        selectionMode: "clear",
+                        clickTrigger: "single"
                     }),
                     [...createItemHandlers(jest.fn(), onSelectAll, jest.fn(), 1)]
                 );
@@ -154,7 +156,8 @@ describe("gallery item", () => {
                     (): EventEntryContext => ({
                         item,
                         selectionType: selectionType as SelectionType,
-                        selectionMode: "clear"
+                        selectionMode: "clear",
+                        clickTrigger: "single"
                     }),
                     [...createItemHandlers(jest.fn(), jest.fn(), onSelectAdjacent, 1)]
                 );
@@ -186,7 +189,8 @@ describe("gallery item", () => {
                 (): EventEntryContext => ({
                     item,
                     selectionType: "None",
-                    selectionMode: "clear"
+                    selectionMode: "clear",
+                    clickTrigger: "single"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -205,7 +209,8 @@ describe("gallery item", () => {
                 (): EventEntryContext => ({
                     item,
                     selectionType: "None",
-                    selectionMode: "clear"
+                    selectionMode: "clear",
+                    clickTrigger: "single"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -228,7 +233,8 @@ describe("gallery item", () => {
                 (): EventEntryContext => ({
                     item,
                     selectionType: "None",
-                    selectionMode: "clear"
+                    selectionMode: "clear",
+                    clickTrigger: "single"
                 }),
                 [...createActionHandlers(onExecuteAction)]
             );
@@ -259,7 +265,8 @@ describe("gallery item", () => {
                     (): EventEntryContext => ({
                         item,
                         selectionType,
-                        selectionMode: "clear"
+                        selectionMode: "clear",
+                        clickTrigger: "single"
                     }),
                     [...createActionHandlers(onExecuteAction)]
                 );
@@ -284,7 +291,8 @@ describe("gallery item", () => {
                     (): EventEntryContext => ({
                         item,
                         selectionType,
-                        selectionMode: "clear"
+                        selectionMode: "clear",
+                        clickTrigger: "single"
                     }),
                     [...createActionHandlers(onExecuteAction)]
                 );
