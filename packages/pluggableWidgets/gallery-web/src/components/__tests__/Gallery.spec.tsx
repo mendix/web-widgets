@@ -1,185 +1,107 @@
 import { createElement } from "react";
-import { mount, render } from "enzyme";
-import { Gallery, GalleryProps } from "../../components/Gallery";
-import { ObjectItem } from "mendix";
-import { WidgetItemBuilder } from "../../utils/test-utils";
-import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
-import { ItemHelper } from "../../helpers/ItemHelper";
+import { Gallery } from "../../components/Gallery";
+import { listAction, listExp } from "@mendix/widget-plugin-test-utils";
 import "./__mocks__/intersectionObserverMock";
-import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
-import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
-import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
-import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
-
-function mockItemHelperWithAction(onClick: () => void): ItemHelper {
-    return WidgetItemBuilder.sample(b =>
-        b.withAction(
-            listAction(mockAction => {
-                const action = mockAction();
-                action.execute = onClick;
-                return action;
-            })
-        )
-    );
-}
-
-function mockProps(): GalleryProps<ObjectItem> & { onClick: jest.Mock } {
-    const selectHelper = new SelectActionHandler("None", undefined);
-    const onClick = jest.fn();
-    const clickHelper = new ClickActionHelper("single", onClick);
-    const focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10));
-
-    return {
-        hasMoreItems: false,
-        page: 0,
-        pageSize: 10,
-        paging: false,
-        phoneItems: 2,
-        tabletItems: 3,
-        desktopItems: 4,
-        className: "my-gallery",
-        ariaLabelListBox: "Mock props ListBox aria label",
-        headerTitle: "Mock props header aria label",
-        items: objectItems(3),
-        itemHelper: WidgetItemBuilder.sample(),
-        selectHelper,
-        showHeader: true,
-        header: <input />,
-        itemEventsController: new ItemEventsController(
-            item => ({
-                item,
-                selectionType: selectHelper.selectionType,
-                selectionMode: "clear",
-                clickTrigger: "single"
-            }),
-            selectHelper.onSelect,
-            selectHelper.onSelectAll,
-            clickHelper.onExecuteAction,
-            focusController.dispatch,
-            selectHelper.onSelectAdjacent,
-            3
-        ),
-        focusController,
-        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index),
-        onClick
-    };
-}
-
-function sleep(n: number): Promise<void> {
-    return new Promise(res => setTimeout(res, n));
-}
+import "@testing-library/jest-dom";
+import { waitFor, render } from "@testing-library/react";
+import { mockProps, mockItemHelperWithAction, setup } from "../../utils/test-utils";
+import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
 
 describe("Gallery", () => {
     describe("DOM Structure", () => {
         it("renders correctly", () => {
-            const gallery = render(<Gallery {...mockProps()} />);
+            const { asFragment } = render(<Gallery {...mockProps()} />);
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly with onclick event", () => {
-            const gallery = render(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />);
+            const { asFragment } = render(
+                <Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />
+            );
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
-    describe("with events", () => {
-        it("triggers correct events on click", async () => {
-            const props = mockProps();
-            const itemHelper = mockItemHelperWithAction(props.onClick);
-            const gallery = mount(<Gallery {...props} itemHelper={itemHelper} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
+    describe("with on click action", () => {
+        it("runs action on item click", async () => {
+            const execute = jest.fn();
+            const props = mockProps({ onClick: listAction(mock => ({ ...mock(), execute })) });
+            const { user, getAllByRole } = setup(<Gallery {...props} />);
+            const [item] = getAllByRole("listitem");
 
-            expect(galleryFirstItem).toBeDefined();
-
-            galleryFirstItem.simulate("click", { bubbles: true });
-            await sleep(500);
-
-            expect(props.onClick).toBeCalled();
+            await user.click(item);
+            await waitFor(() => expect(execute).toHaveBeenCalledTimes(1));
         });
 
-        it("triggers correct events on Enter key down", () => {
-            const props = mockProps();
-            const gallery = mount(<Gallery {...props} itemHelper={mockItemHelperWithAction(props.onClick)} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
+        it("runs action on Enter|Space press when item is in focus", async () => {
+            const execute = jest.fn();
+            const props = mockProps({ onClick: listAction(mock => ({ ...mock(), execute })) });
+            const { user, getAllByRole } = setup(<Gallery {...props} header={<span />} />);
+            const [item] = getAllByRole("listitem");
 
-            expect(galleryFirstItem).toBeDefined();
-
-            galleryFirstItem.simulate("keydown", { key: "Enter", code: "Enter", bubbles: true });
-            galleryFirstItem.simulate("keyup", { key: "Enter", code: "Enter", bubbles: true });
-
-            expect(props.onClick).toBeCalled();
-        });
-
-        it("triggers correct events on Space key down", () => {
-            const onClick = jest.fn();
-            const gallery = mount(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
-
-            expect(galleryFirstItem).toBeDefined();
-
-            galleryFirstItem.simulate("keydown", { key: " ", code: "Space", bubbles: true });
-            galleryFirstItem.simulate("keyup", { key: " ", code: "Space", bubbles: true });
-
-            expect(onClick).toBeCalled();
+            await user.tab();
+            expect(item).toHaveFocus();
+            await user.keyboard("[Enter]");
+            await waitFor(() => expect(execute).toHaveBeenCalledTimes(1));
+            await user.keyboard("[Space]");
+            await waitFor(() => expect(execute).toHaveBeenCalledTimes(2));
         });
     });
 
     describe("with different configurations per platform", () => {
         it("contains correct classes for desktop", () => {
-            const gallery = mount(<Gallery {...mockProps()} desktopItems={12} />);
-
-            expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-lg-12")).toBeTruthy();
+            const { getByRole } = render(<Gallery {...mockProps()} desktopItems={12} />);
+            const list = getByRole("list");
+            expect(list).toHaveClass("widget-gallery-lg-12");
         });
 
         it("contains correct classes for tablet", () => {
-            const gallery = mount(<Gallery {...mockProps()} tabletItems={6} />);
-
-            expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-md-6")).toBeTruthy();
+            const { getByRole } = render(<Gallery {...mockProps()} tabletItems={6} />);
+            const list = getByRole("list");
+            expect(list).toHaveClass("widget-gallery-md-6");
         });
 
         it("contains correct classes for phone", () => {
-            const gallery = mount(<Gallery {...mockProps()} phoneItems={3} />);
-
-            expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-sm-3")).toBeTruthy();
+            const { getByRole } = render(<Gallery {...mockProps()} phoneItems={3} />);
+            const list = getByRole("list");
+            expect(list).toHaveClass("widget-gallery-sm-3");
         });
     });
 
     describe("with custom classes", () => {
         it("contains correct classes in the wrapper", () => {
-            const gallery = mount(<Gallery {...mockProps()} className="custom-class" />);
+            const { container } = render(<Gallery {...mockProps()} className="custom-class" />);
 
-            expect(gallery.hasClass("custom-class")).toBeTruthy();
+            expect(container.querySelector(".custom-class")).toBeVisible();
         });
 
         it("contains correct classes in the items", () => {
-            const gallery = mount(
+            const { getAllByRole } = render(
                 <Gallery
                     {...mockProps()}
-                    itemHelper={WidgetItemBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
+                    itemHelper={ItemHelperBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
                 />
             );
-            const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
+            const [item] = getAllByRole("listitem");
 
-            expect(galleryFirstItem.hasClass("custom-class")).toBeTruthy();
+            expect(item).toHaveClass("custom-class");
         });
     });
 
     describe("with pagination", () => {
         it("renders correctly", () => {
-            const gallery = render(
+            const { asFragment } = render(
                 <Gallery {...mockProps()} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
             );
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        it("triggers correct events on click next button", () => {
+        it("triggers correct events on click next button", async () => {
             const setPage = jest.fn();
-            const gallery = mount(
+            const { user, getByLabelText } = setup(
                 <Gallery
                     {...mockProps()}
                     paging
@@ -189,19 +111,16 @@ describe("Gallery", () => {
                     setPage={setPage}
                 />
             );
-            const galleryFirstItem = gallery.find(".step-forward").at(0);
 
-            expect(galleryFirstItem).toBeDefined();
-
-            galleryFirstItem.simulate("click");
-
-            expect(setPage).toBeCalled();
+            const next = getByLabelText("Go to next page");
+            await user.click(next);
+            await waitFor(() => expect(setPage).toHaveBeenCalledTimes(1));
         });
     });
 
     describe("with empty option", () => {
         it("renders correctly", () => {
-            const gallery = render(
+            const { asFragment } = render(
                 <Gallery
                     {...mockProps()}
                     items={[]}
@@ -209,13 +128,13 @@ describe("Gallery", () => {
                 />
             );
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
     describe("with accessibility properties", () => {
         it("renders correctly", () => {
-            const gallery = render(
+            const { asFragment } = render(
                 <Gallery
                     {...mockProps()}
                     items={[]}
@@ -225,16 +144,16 @@ describe("Gallery", () => {
                 />
             );
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
     describe("without filters", () => {
         it("renders structure without header container", () => {
-            const filters = { ...mockProps(), showHeader: false, header: undefined };
-            const gallery = render(<Gallery {...filters} />);
+            const props = { ...mockProps(), showHeader: false, header: undefined };
+            const { asFragment } = render(<Gallery {...props} />);
 
-            expect(gallery).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });
