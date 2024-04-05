@@ -76,7 +76,7 @@ export function check(values: GalleryPreviewProps): Problem[] {
             message: "Tablet items must be a number between 1 and 12"
         });
     }
-    if (values.itemSelection !== "None" && values.onClickTrigger === "single") {
+    if (values.itemSelection !== "None" && values.onClick && values.onClickTrigger === "single") {
         errors.push({
             severity: "error",
             property: "onClick",
