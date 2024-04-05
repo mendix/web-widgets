@@ -9,7 +9,7 @@ import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
-export type ItemSelectionModeEnum = "clear" | "toggle";
+export type ItemSelectionModeEnum = "toggle" | "clear";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
