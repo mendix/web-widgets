@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We improved accessibility on combobox by removing a duplicated aria-expanded from combobox widget.
 
+### Fixed
+
+-   We fixed an issue with the sorting of the displayed selected items in Multi Selection, where the sorting of selected items did not match the sorting in the menu.
+
 ## [1.3.1] - 2024-04-08
 
 ### Fixed
