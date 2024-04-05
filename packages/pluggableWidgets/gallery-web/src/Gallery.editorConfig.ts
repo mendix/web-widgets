@@ -29,7 +29,7 @@ export function getProperties(
     }
 
     if (values.itemSelection === "None") {
-        hidePropertyIn(defaultProperties, values, "onSelectionChange");
+        hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
     if (platform === "web") {

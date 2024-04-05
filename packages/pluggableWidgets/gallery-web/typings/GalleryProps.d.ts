@@ -7,7 +7,7 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
-export type ItemSelectionModeEnum = "clear" | "toggle";
+export type ItemSelectionModeEnum = "toggle" | "clear";
 
 export type PaginationEnum = "buttons" | "virtualScrolling";
 
