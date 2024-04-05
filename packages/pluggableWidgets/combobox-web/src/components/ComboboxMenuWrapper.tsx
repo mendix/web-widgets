@@ -19,6 +19,11 @@ function PreventMenuCloseEventHandler(e: React.MouseEvent): void {
     e.stopPropagation();
 }
 
+function ForcePreventMenuCloseEventHandler(e: React.MouseEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
     const {
         children,
@@ -65,7 +70,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 {...getMenuProps?.(
                     {
                         onClick: onOptionClick,
-                        onMouseDown: PreventMenuCloseEventHandler
+                        onMouseDown: ForcePreventMenuCloseEventHandler
                     },
                     { suppressRefError: true }
                 )}

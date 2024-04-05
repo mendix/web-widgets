@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed scrollbar click issue causing combobox to close.
+
 ## [1.3.0] - 2024-04-03
 
 ### Fixed
