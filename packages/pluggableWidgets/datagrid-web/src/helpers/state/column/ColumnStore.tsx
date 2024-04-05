@@ -156,23 +156,21 @@ export class ColumnStore implements GridColumn {
         return this.columnIndex.toString() as ColumnId;
     }
 
-    get isAvailable(): boolean {
-        return this._visible?.value ?? false;
-    }
-
     get header(): string {
         return this._header?.value ?? "";
     }
 
-    get status(): ValueStatus {
-        return this._visible?.status ?? ValueStatus.Loading;
+    get isAvailable(): boolean {
+        if (!this._visible) {
+            // there is no expression at all, treating as loaded and available
+            return true;
+        }
+        return this._visible.value ?? false;
     }
 
     get loaded(): boolean {
         if (!this._visible) {
-            console.warn(
-                `Didn't expect column #${this.columnIndex} to not have "visible" expression. Treating as true (loaded)`
-            );
+            // there is no value at all, treating as loaded and available
             return true;
         }
 
