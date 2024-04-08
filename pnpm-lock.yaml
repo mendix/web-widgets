@@ -930,7 +930,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2
       date-fns:
-        specifier: ^3.3.1
+        specifier: ^3.6.0
         version: 3.6.0
       react-datepicker:
         specifier: ^6.6.0
