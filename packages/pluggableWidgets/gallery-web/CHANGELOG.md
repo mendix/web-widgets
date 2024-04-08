@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   A new property that allows to change the behavior of the item selection.
+
+-   A new property that allows to configure the trigger event for the "on click" action.
+
 ## [1.7.0] - 2024-04-09
 
 ### Added
