@@ -38,17 +38,23 @@ describe("Barcode scanner", () => {
 
     it("renders video and overlay correctly", () => {
         mockGetUserMedia(jest.fn());
-        expect(render(<BarcodeScanner class="" showMask {...dimensions} />).container).toMatchSnapshot();
+        expect(
+            render(<BarcodeScanner useAllFormats={true} class="" showMask {...dimensions} />).container
+        ).toMatchSnapshot();
     });
 
     it("does not show the overlay when the user opts out of it", () => {
         mockGetUserMedia(jest.fn());
-        expect(render(<BarcodeScanner class="" showMask={false} {...dimensions} />).container).toMatchSnapshot();
+        expect(
+            render(<BarcodeScanner useAllFormats={true} class="" showMask={false} {...dimensions} />).container
+        ).toMatchSnapshot();
     });
 
     it("shows an appropriate error when the mediaDevices API is not present (like over http)", async () => {
         expect(navigator.mediaDevices).toBe(undefined);
-        expect(render(<BarcodeScanner class="" showMask {...dimensions} />).container).toMatchSnapshot();
+        expect(
+            render(<BarcodeScanner useAllFormats={true} class="" showMask {...dimensions} />).container
+        ).toMatchSnapshot();
     });
 
     it("prop health check: pass onDetect prop as onSuccess callback", async () => {
@@ -58,7 +64,7 @@ describe("Barcode scanner", () => {
         });
         mockGetUserMedia(jest.fn());
 
-        render(<BarcodeScanner class="" onDetect={onDetectMock} showMask {...dimensions} />);
+        render(<BarcodeScanner useAllFormats={true} class="" onDetect={onDetectMock} showMask {...dimensions} />);
 
         await waitFor(() => expect(onDetectMock).toBeCalledWith("42"));
     });
@@ -71,7 +77,7 @@ describe("Barcode scanner", () => {
             mockGetUserMedia(jest.fn());
 
             await act(async () => {
-                render(<BarcodeScanner class="" showMask {...dimensions} />);
+                render(<BarcodeScanner useAllFormats={true} class="" showMask {...dimensions} />);
             });
             await waitFor(() => expect(screen.getByText(/some error message/i)).toBeVisible());
         });
@@ -86,7 +92,7 @@ describe("Barcode scanner", () => {
             mockGetUserMedia(jest.fn());
 
             await act(async () => {
-                render(<BarcodeScanner class="" showMask {...dimensions} />);
+                render(<BarcodeScanner useAllFormats={true} class="" showMask {...dimensions} />);
             });
             await waitFor(() => expect(screen.getByText(/Unable to decode from stream/i)).toBeVisible());
         });
