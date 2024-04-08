@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, KeyboardEvent, ReactElement, createElement, useRef } from "react";
+import { Fragment, KeyboardEvent, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
@@ -35,6 +35,12 @@ export function MultiSelection({
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
+
+    const memoizedselectedCaptions = useMemo(
+        () => getSelectedCaptionsPlaceholder(selector, selectedItems),
+        [selector, selectedItems]
+    );
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -112,9 +118,7 @@ export function MultiSelection({
                             readOnly: selector.options.filterType === "none"
                         })}
                     />
-                    <InputPlaceholder isEmpty={selectedItems.length <= 0}>
-                        {getSelectedCaptionsPlaceholder(selector, selectedItems)}
-                    </InputPlaceholder>
+                    <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
 
                 {!selector.readOnly &&
