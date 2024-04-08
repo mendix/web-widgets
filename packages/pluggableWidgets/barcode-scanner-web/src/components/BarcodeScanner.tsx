@@ -66,7 +66,7 @@ export function BarcodeScanner({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
-        barcodeFormats: barcodeFormats,
+        barcodeFormats,
         useAllFormats
     });
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
