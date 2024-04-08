@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.16.0] DataWidgets - 2024-04-08
+
+### [2.16.0] Datagrid
+
+#### Added
+
+-   Limited the number of items rendered on design mode to 3.
+
+-   "Load More" as configurable.
+
+#### Fixed
+
+-   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+### [1.7.0] Gallery
+
+#### Added
+
+-   Limited the number of items rendered on design mode to 3.
+
 ## [2.15.0] DataWidgets - 2024-03-27
 
 ### Fixed

@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.16.0] - 2024-04-08
+
 ### Added
 
 -   Limited the number of items rendered on design mode to 3.
+
 -   "Load More" as configurable.
 
 ### Fixed
