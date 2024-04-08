@@ -1,6 +1,7 @@
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { AlignmentEnum, MinWidthEnum, WidthEnum } from "../../typings/DatagridProps";
+import { AlignmentEnum } from "../../typings/DatagridProps";
+import { SortDirection } from "./sorting";
 
 export type ColumnId = string & { __columnIdTag: never };
 
@@ -10,19 +11,30 @@ export type ColumnId = string & { __columnIdTag: never };
 export interface GridColumn {
     alignment: AlignmentEnum;
     canDrag: boolean;
-    canHide: boolean;
-    canResize: boolean;
-    canSort: boolean;
+
     columnClass(item: ObjectItem): string | undefined;
     columnId: ColumnId;
-    columnNumber: number;
+    columnIndex: number;
     header: string;
     initiallyHidden: boolean;
     renderCellContent: (item: ObjectItem) => ReactElement;
-    visible: boolean;
-    weight: number;
-    width: WidthEnum;
+    isAvailable: boolean;
     wrapText: boolean;
-    minWidth: MinWidthEnum;
-    minWidthLimit: number;
+
+    // hiding
+    canHide: boolean;
+    isHidden: boolean;
+    toggleHidden(): void;
+
+    // sorting
+    canSort: boolean;
+    sortDir: SortDirection | undefined;
+    toggleSort(): void;
+
+    // sizing
+    canResize: boolean;
+    size: number | undefined;
+    setSize(size: number): void;
+    getCssWidth(): string;
+    setHeaderElementRef(ref: HTMLDivElement | null): void;
 }

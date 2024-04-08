@@ -6,9 +6,8 @@ import userEvent from "@testing-library/user-event";
 import { render } from "enzyme";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
-import { Column } from "../../helpers/Column";
 import { GridColumn } from "../../typings/GridColumn";
-import { column, mockState, mockWidgetProps } from "../../utils/test-utils";
+import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
@@ -75,9 +74,10 @@ describe("Table", () => {
 
     it("renders the structure correctly with custom filtering", () => {
         const props = mockWidgetProps();
-        const columns = [column("Test")].map((col, index) => new Column(col, index));
+        const columns = [column("Test")].map((col, index) => mockGridColumn(col, index));
         props.columnsFilterable = true;
-        props.state = mockState(columns);
+        props.visibleColumns = columns;
+        props.availableColumns = columns;
         const component = render(<Widget {...props} />);
 
         expect(component).toMatchSnapshot();
@@ -98,8 +98,10 @@ describe("Table", () => {
                 col.alignment = "center";
             }),
             column("Test 2", col => (col.alignment = "right"))
-        ].map((col, index) => new Column(col, index));
-        props.state = mockState(columns);
+        ].map((col, index) => mockGridColumn(col, index));
+
+        props.visibleColumns = columns;
+        props.availableColumns = columns;
 
         const component = render(<Widget {...props} />);
 
@@ -114,9 +116,10 @@ describe("Table", () => {
 
     it("renders the structure correctly for preview when no header is provided", () => {
         const props = mockWidgetProps();
-        const columns = [column("", col => (col.alignment = "center"))].map((col, index) => new Column(col, index));
+        const columns = [column("", col => (col.alignment = "center"))].map((col, index) => mockGridColumn(col, index));
         props.preview = true;
-        props.state = mockState(columns);
+        props.visibleColumns = columns;
+        props.availableColumns = columns;
 
         const component = render(<Widget {...props} />);
 
@@ -193,19 +196,19 @@ describe("Table", () => {
             expect(getChecked()).toHaveLength(0);
 
             selection = [a, b, c];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(3);
 
             selection = [c];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(1);
 
             selection = [d, e];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(2);
 
             selection = [f, e, d, a];
-            rerender(<Widget {...props} />);
+            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(4);
         });
 
@@ -342,8 +345,9 @@ describe("Table", () => {
         it("call onSelect when cell is clicked", async () => {
             const items = props.data;
             const onSelect = jest.fn();
-            const columns = [column("Column A"), column("Column B")].map((col, index) => new Column(col, index));
-            props.state = mockState(columns);
+            const columns = [column("Column A"), column("Column B")].map((col, index) => mockGridColumn(col, index));
+            props.visibleColumns = columns;
+            props.availableColumns = columns;
             props.cellEventsController = new CellEventsController(
                 item => ({
                     item,
@@ -458,8 +462,10 @@ describe("Table", () => {
                     col.showContentAs = "customContent";
                     col.content = listWidget(() => <input />);
                 })
-            ].map((col, index) => new Column(col, index));
-            props.state = mockState(columns);
+            ].map((col, index) => mockGridColumn(col, index));
+
+            props.visibleColumns = columns;
+            props.availableColumns = columns;
         });
 
         it("selects multiple rows with shift+click on a row", async () => {
@@ -598,9 +604,10 @@ describe("Table", () => {
                 c.showContentAs = "customContent";
                 c.content = content;
                 return c;
-            }).map((col, index) => new Column(col, index));
+            }).map((col, index) => mockGridColumn(col, index));
 
-            props.state = mockState(columns);
+            props.visibleColumns = columns;
+            props.availableColumns = columns;
 
             const user = userEvent.setup();
 

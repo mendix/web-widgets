@@ -1,9 +1,8 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { Big } from "big.js";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useMemo, useState } from "react";
+import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState } from "react";
 import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
@@ -22,10 +21,9 @@ import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import * as GridModel from "../typings/GridModel";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { HeaderRefHook } from "../features/model/resizing";
+import { observer } from "mobx-react-lite";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -58,12 +56,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     rowClickable: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
-    valueForSort: (value: T, columnIndex: number) => string | Big | boolean | Date | undefined;
     rowAction?: ListActionValue;
     selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    state: GridModel.State;
-    actions: GridModel.Actions;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
@@ -73,10 +68,15 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     checkboxEventsController: EventsController;
     selectActionHelper: SelectActionHelper;
     focusController: FocusTargetController;
-    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
+
+    visibleColumns: GridColumn[];
+    availableColumns: GridColumn[];
+
+    columnsSwap: (a: ColumnId, b: ColumnId) => void;
+    columnsCreateSizeSnapshot: () => void;
 }
 
-export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElement {
+export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const {
         className,
         columnsDraggable,
@@ -106,13 +106,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         setPage,
         styles,
         CellComponent,
-        state,
-        actions,
-        selectActionHelper
+        selectActionHelper,
+        visibleColumns,
+        availableColumns
     } = props;
-    const columnsToShow = preview ? state.allColumns : state.visibleColumns;
-    const extraColumnsCount = (columnsHidable ? 1 : 0) + (selectActionHelper.showCheckboxColumn ? 1 : 0);
-    const columnsVisibleCount = columnsToShow.length + extraColumnsCount;
 
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState(false);
@@ -142,14 +139,10 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
-    const cssGridStyles = useMemo(
-        () =>
-            gridStyle(columnsToShow, props.state.size, {
-                selectItemColumn: selectActionHelper.showCheckboxColumn,
-                visibilitySelectorColumn: columnsHidable
-            }),
-        [props.state.size, columnsToShow, columnsHidable, selectActionHelper.showCheckboxColumn]
-    );
+    const cssGridStyles = gridStyle(visibleColumns, {
+        selectItemColumn: selectActionHelper.showCheckboxColumn,
+        visibilitySelectorColumn: columnsHidable
+    });
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -178,7 +171,7 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridBody style={cssGridStyles}>
                             <div key="headers_row" className="tr" role="row">
                                 <CheckboxColumnHeader key="headers_column_select_all" />
-                                {columnsToShow.map((column, index) =>
+                                {visibleColumns.map((column, index) =>
                                     headerWrapperRenderer(
                                         index,
                                         <Header
@@ -189,38 +182,30 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                             draggable={columnsDraggable}
                                             dragOver={dragOver}
                                             filterable={columnsFilterable}
-                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnNumber)}
+                                            filterWidget={filterRendererProp(renderFilterWrapper, column.columnIndex)}
                                             hidable={columnsHidable}
                                             isDragging={isDragging}
                                             preview={preview}
-                                            resizable={columnsResizable && columnsToShow.at(-1) !== column}
+                                            resizable={columnsResizable && visibleColumns.at(-1) !== column}
                                             resizer={
                                                 <ColumnResizer
-                                                    onResizeStart={actions.createSizeSnapshot}
-                                                    setColumnWidth={(width: number) =>
-                                                        actions.resize([column.columnId, width])
-                                                    }
+                                                    onResizeStart={props.columnsCreateSizeSnapshot}
+                                                    setColumnWidth={(width: number) => column.setSize(width)}
                                                 />
                                             }
-                                            swapColumns={actions.swap}
+                                            swapColumns={props.columnsSwap}
                                             setDragOver={setDragOver}
                                             setIsDragging={setIsDragging}
-                                            setSortBy={actions.sortBy}
                                             sortable={columnsSortable}
-                                            sortRule={state.sortOrder.find(([id]) => column.columnId === id)}
-                                            visibleColumns={state.visibleColumns}
-                                            useHeaderRef={props.useHeaderRef}
                                         />
                                     )
                                 )}
                                 {columnsHidable && (
                                     <ColumnSelector
                                         key="headers_column_selector"
-                                        columns={state.availableColumns}
-                                        hiddenColumns={state.hidden}
+                                        columns={availableColumns}
                                         id={id}
-                                        toggleHidden={actions.toggleHidden}
-                                        visibleLength={state.visibleColumns.length}
+                                        visibleLength={visibleColumns.length}
                                     />
                                 )}
                             </div>
@@ -230,12 +215,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         <Row
                                             CellComponent={CellComponent}
                                             className={props.rowClass?.(item)}
-                                            columns={columnsToShow}
+                                            columns={visibleColumns}
                                             index={rowIndex}
                                             item={item}
                                             key={`row_${item.id}`}
                                             showSelectorCell={columnsHidable}
-                                            preview={preview ?? false}
                                             selectableWrapper={headerWrapperRenderer}
                                         />
                                     );
@@ -248,7 +232,11 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                         key="row-footer"
                                         className={classNames("td", { "td-borders": !preview })}
                                         style={{
-                                            gridColumn: `span ${columnsVisibleCount}`
+                                            gridColumn: `span ${
+                                                visibleColumns.length +
+                                                (columnsHidable ? 1 : 0) +
+                                                (selectActionHelper.showCheckboxColumn ? 1 : 0)
+                                            }`
                                         }}
                                     >
                                         <div className="empty-placeholder">{children}</div>
@@ -278,34 +266,16 @@ export function Widget<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             </WidgetRoot>
         </WidgetPropsProvider>
     );
-}
+});
 
-function gridStyle(
-    columns: GridColumn[],
-    resizeMap: GridModel.ColumnWidthConfig,
-    optional: OptionalColumns
-): CSSProperties {
+function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
     const columnSizes = columns.map(c => {
         const isLast = columns.at(-1) === c;
-        const columnResizedSize = resizeMap[c.columnId];
+        const columnResizedSize = c.size;
         if (columnResizedSize) {
             return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
         }
-        switch (c.width) {
-            case "autoFit": {
-                const min =
-                    c.minWidth === "manual"
-                        ? `${c.minWidthLimit}px`
-                        : c.minWidth === "minContent"
-                        ? "min-content"
-                        : "auto";
-                return `minmax(${min}, auto)`;
-            }
-            case "manual":
-                return `${c.weight}fr`;
-            default:
-                return "1fr";
-        }
+        return c.getCssWidth();
     });
 
     const sizes: string[] = [];

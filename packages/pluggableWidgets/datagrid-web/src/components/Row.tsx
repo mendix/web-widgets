@@ -14,7 +14,6 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    preview: boolean;
     selectableWrapper: (column: number, children: React.ReactElement) => React.ReactElement;
 }
 
@@ -43,7 +42,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             {props.columns.map((column, baseIndex) => {
                 const cell = (
                     <Cell
-                        key={`row_${props.item.id}_col_${column.columnNumber}`}
+                        key={`row_${props.item.id}_col_${column.columnId}`}
                         column={column}
                         rowIndex={props.index}
                         columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}

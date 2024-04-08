@@ -41,23 +41,25 @@ export class BaseColumn {
         return this.properties.hidable === "hidden";
     }
 
-    get weight(): number {
-        return this.properties.size ?? 1;
-    }
-
-    get width(): WidthEnum {
-        return this.properties.width;
-    }
-
     get wrapText(): boolean {
         return this.properties.wrapText;
     }
 
-    get minWidth(): MinWidthEnum {
-        return this.properties.minWidth;
-    }
-
-    get minWidthLimit(): number {
-        return this.properties.minWidthLimit;
+    getCssWidth(): string {
+        switch (this.properties.width) {
+            case "autoFit": {
+                const min =
+                    this.properties.minWidth === "manual"
+                        ? `${this.properties.minWidthLimit}px`
+                        : this.properties.minWidth === "minContent"
+                        ? "min-content"
+                        : "auto";
+                return `minmax(${min}, auto)`;
+            }
+            case "manual":
+                return `${this.properties.size ?? 1}fr`;
+            default:
+                return "1fr";
+        }
     }
 }

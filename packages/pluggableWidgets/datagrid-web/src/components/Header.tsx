@@ -16,9 +16,7 @@ import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 
 import { ColumnResizerProps } from "./ColumnResizer";
-import * as Grid from "../typings/GridModel";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { HeaderRefHook } from "../features/model/resizing";
 
 export interface HeaderProps {
     className?: string;
@@ -34,13 +32,9 @@ export interface HeaderProps {
     isDragging?: boolean;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    swapColumns: Grid.Actions["swap"];
+    swapColumns: (a: ColumnId, b: ColumnId) => void;
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>;
     setIsDragging: Dispatch<SetStateAction<boolean>>;
-    setSortBy: Grid.Actions["sortBy"];
-    sortRule?: Grid.SortRule;
-    visibleColumns: GridColumn[];
-    useHeaderRef?: HeaderRefHook<HTMLDivElement>;
 }
 
 export function Header(props: HeaderProps): ReactElement {
@@ -48,50 +42,21 @@ export function Header(props: HeaderProps): ReactElement {
     const canDrag = props.draggable && (props.column.canDrag ?? false);
     const draggableProps = useDraggable(canDrag, props.swapColumns, props.setDragOver, props.setIsDragging);
 
-    const isSorted = !!props.sortRule;
-    const isSortedDesc = isSorted && props.sortRule?.[1] === "desc";
-
-    const sortIcon = canSort ? (
-        isSorted ? (
-            isSortedDesc ? (
-                <FaLongArrowAltDown />
-            ) : (
-                <FaLongArrowAltUp />
-            )
-        ) : (
-            <FaArrowsAltV />
-        )
-    ) : null;
-
+    const sortIcon = canSort ? getSortIcon(props.column) : null;
+    const sortProps = canSort ? getSortProps(props.column) : null;
     const caption = props.column.header.trim();
-
-    const onSortBy = (): void => {
-        props.setSortBy(props.column.columnId);
-    };
-
-    const sortProps: HTMLAttributes<HTMLDivElement> = {
-        onClick: onSortBy,
-        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onSortBy();
-            }
-        },
-        role: "button",
-        tabIndex: 0
-    };
 
     return (
         <div
-            aria-sort={canSort ? (isSorted ? (isSortedDesc ? "descending" : "ascending") : "none") : undefined}
+            aria-sort={getAriaSort(canSort, props.column)}
             className={classNames("th", {
                 "hidden-column-preview":
-                    props.preview && ((props.hidable && props.column.initiallyHidden) || !props.column.visible)
+                    props.preview && (!props.column.isAvailable || (props.hidable && props.column.isHidden))
             })}
             role="columnheader"
-            style={!props.sortable || !props.column.canSort ? { cursor: "unset" } : undefined}
+            style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
-            ref={props.useHeaderRef?.(props.column.columnId)}
+            ref={ref => props.column.setHeaderElementRef(ref)}
         >
             <div
                 className={classNames("column-container", {
@@ -102,9 +67,9 @@ export function Header(props: HeaderProps): ReactElement {
                 {...draggableProps}
             >
                 <div
-                    className={classNames("column-header", canSort ? "clickable" : "", props.className)}
+                    className={classNames("column-header", { clickable: canSort }, props.className)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
-                    {...(canSort ? sortProps : undefined)}
+                    {...sortProps}
                     aria-label={canSort ? "sort " + caption : caption}
                 >
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
@@ -121,7 +86,7 @@ const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
 
 function useDraggable(
     columnsDraggable: boolean,
-    setColumnOrder: Grid.Actions["swap"],
+    setColumnOrder: (a: ColumnId, b: ColumnId) => void,
     setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>,
     setIsDragging: Dispatch<SetStateAction<boolean>>
 ): {
@@ -169,7 +134,7 @@ function useDraggable(
             const columnA = (e.target as HTMLDivElement).dataset.columnId as ColumnId;
             const columnB = e.dataTransfer.getData(DATA_FORMAT_ID) as ColumnId;
 
-            setColumnOrder([columnA, columnB]);
+            setColumnOrder(columnA, columnB);
         },
         [handleDragEnd, setColumnOrder]
     );
@@ -184,4 +149,46 @@ function useDraggable(
               onDragEnd: handleDragEnd
           }
         : {};
+}
+
+function getSortIcon(column: GridColumn): ReactNode {
+    switch (column.sortDir) {
+        case "asc":
+            return <FaLongArrowAltUp />;
+        case "desc":
+            return <FaLongArrowAltDown />;
+        default:
+            return <FaArrowsAltV />;
+    }
+}
+
+function getAriaSort(canSort: boolean, column: GridColumn): "ascending" | "descending" | "none" | undefined {
+    if (!canSort) {
+        return undefined;
+    }
+
+    switch (column.sortDir) {
+        case "asc":
+            return "ascending";
+        case "desc":
+            return "descending";
+        default:
+            return "none";
+    }
+}
+
+function getSortProps(column: GridColumn): HTMLAttributes<HTMLDivElement> {
+    return {
+        onClick: () => {
+            column.toggleSort();
+        },
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                column.toggleSort();
+            }
+        },
+        role: "button",
+        tabIndex: 0
+    };
 }
