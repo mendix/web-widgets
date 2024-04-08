@@ -6,15 +6,15 @@ import BarcodeScannerSvg from "./assets/barcodescanner.svg";
 import BarcodeScannerSvgDark from "./assets/barcodescanner-dark.svg";
 
 export function getProperties(
-    barcodeScannerContainerProps: BarcodeScannerContainerProps,
+    values: BarcodeScannerContainerProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
     if (platform === "web") {
         transformGroupsIntoTabs(defaultProperties);
     }
-    if (barcodeScannerContainerProps.useAllFormats) {
-        hidePropertyIn(defaultProperties, barcodeScannerContainerProps, "barcodeFormats");
+    if (values.useAllFormats) {
+        hidePropertyIn(defaultProperties, values, "barcodeFormats");
     }
     return defaultProperties;
 }

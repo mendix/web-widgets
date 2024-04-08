@@ -95,7 +95,7 @@ export const useReader: UseReaderHook = args => {
                 BarcodeFormat.PDF_417
             ];
         } else {
-            args.barcodeFormats!.map((val, index) => (formats[index] = BarcodeFormat[val.barcodeFormat]));
+            formats = args.barcodeFormats!.map(val => BarcodeFormat[val.barcodeFormat]);
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         const reader = new BrowserMultiFormatReader(hints, 500);
