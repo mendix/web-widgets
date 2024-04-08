@@ -9,10 +9,13 @@ import { useClickActionHelper } from "./helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
+import "./ui/GalleryPreview.scss";
+
+const numberOfItems = 3;
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
-    const items: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
+    const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
 
@@ -47,7 +50,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     return (
         <GalleryComponent
             className={props.class}
-            desktopItems={props.desktopItems!}
+            desktopItems={props.content.widgetCount > 0 ? numberOfItems : props.desktopItems!}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
                     <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
@@ -68,9 +71,9 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 contentValue: props.content,
                 hasOnClick: props.onClick !== null
             })}
-            numberOfItems={items.length}
+            numberOfItems={numberOfItems}
             page={0}
-            pageSize={props.pageSize ?? 5}
+            pageSize={numberOfItems}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
             showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
@@ -80,6 +83,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             itemEventsController={itemEventsController}
             focusController={focusController}
             getPosition={getPositionCallback}
+            preview
         />
     );
 }

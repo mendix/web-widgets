@@ -11,6 +11,7 @@ import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import "./ui/DatagridPreview.scss";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -49,9 +50,11 @@ const initColumns: ColumnsPreviewType[] = [
     }
 ];
 
+const numberOfItems = 3;
+
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const data: ObjectItem[] = Array.from({ length: props.pageSize ?? 5 }).map((_, index) => ({
+    const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
     const gridId = useMemo(() => Date.now().toString(), []);
@@ -125,10 +128,10 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             }
             hasMoreItems={false}
             headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-            numberOfItems={5}
+            numberOfItems={numberOfItems}
             page={0}
             paginationType={props.pagination}
-            pageSize={props.pageSize ?? 5}
+            pageSize={numberOfItems}
             loadMoreButtonCaption={props.loadMoreButtonCaption}
             paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
@@ -166,7 +169,3 @@ const selectableWrapperRenderer =
             </Selectable>
         );
     };
-
-export function getPreviewCss(): string {
-    return require("./ui/DatagridPreview.scss");
-}
