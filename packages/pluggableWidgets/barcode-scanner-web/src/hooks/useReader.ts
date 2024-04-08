@@ -25,7 +25,7 @@ type UseReaderHook = (args: {
     onSuccess?: (data: string) => void;
     onError?: (e: Error) => void;
     useCrop: boolean;
-    barcodeFormats: BarcodeFormatsType[];
+    barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
 }) => RefObject<HTMLVideoElement>;
 
@@ -95,7 +95,7 @@ export const useReader: UseReaderHook = args => {
                 BarcodeFormat.PDF_417
             ];
         } else {
-            args.barcodeFormats.forEach((val, index) => {
+            args.barcodeFormats!.map((val, index) => {
                 formats[index] = BarcodeFormat[val.barcodeFormat];
             });
         }
