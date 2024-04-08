@@ -50,7 +50,7 @@ export interface BarcodeScannerProps extends Dimensions {
     showMask: boolean;
     class: string;
     useAllFormats: boolean;
-    barcodeFormats: BarcodeFormatsType[];
+    barcodeFormats?: BarcodeFormatsType[];
 }
 
 export function BarcodeScanner({
@@ -66,7 +66,7 @@ export function BarcodeScanner({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
-        barcodeFormats,
+        barcodeFormats: barcodeFormats,
         useAllFormats
     });
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
