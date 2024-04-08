@@ -37,7 +37,8 @@ jobs:
                   if-no-files-found: ignore
 
             - name: "Sigrid pull request feedback"
-              if: github.event_name == 'pull_request'
+              # Disable comments for now
+              if: ${{ false }}
               uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
               with:
                   message-id: sigrid
