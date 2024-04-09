@@ -44,7 +44,6 @@ import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
-import contentCss from "tinymce/skins/content/default/content.min.css";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { DEFAULT_CONFIG } from "../utils/contants";
 
@@ -54,6 +53,7 @@ interface BundledEditorProps extends RichTextContainerProps {
     toolbar: string | false;
     menubar: string | boolean;
     editorHeight?: string | number;
+    editorWidth?: string | number;
 }
 
 export default function BundledEditor(props: BundledEditorProps): ReactElement {
@@ -141,9 +141,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 ...DEFAULT_CONFIG,
                 toolbar,
                 menubar,
-                content_style: [contentCss, "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join(
-                    "\n"
-                ),
+                content_style: ["body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join("\n"),
                 toolbar_mode: toolbarMode,
                 statusbar: enableStatusBar && !stringAttribute.readOnly,
                 toolbar_location: _toolbarLocation,
@@ -154,7 +152,9 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 extended_valid_elements: extended_valid_elements?.value ?? "",
                 quickbars_insert_toolbar: quickbars && !stringAttribute.readOnly,
                 quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly,
-                height: props.editorHeight
+                height: props.editorHeight,
+                width: props.editorWidth,
+                content_css: "default"
             }}
             disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}

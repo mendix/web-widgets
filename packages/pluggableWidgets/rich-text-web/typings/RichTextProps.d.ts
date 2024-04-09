@@ -62,12 +62,12 @@ export interface RichTextContainerProps {
     heightUnit: HeightUnitEnum;
     height: number;
     minHeight: number;
+    resize: ResizeEnum;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
     extended_valid_elements?: DynamicValue<string>;
     spellCheck: boolean;
     highlight_on_focus: boolean;
-    resize: ResizeEnum;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;
@@ -118,12 +118,12 @@ export interface RichTextPreviewProps {
     heightUnit: HeightUnitEnum;
     height: number | null;
     minHeight: number | null;
+    resize: ResizeEnum;
     onFocus: {} | null;
     onBlur: {} | null;
     extended_valid_elements: string;
     spellCheck: boolean;
     highlight_on_focus: boolean;
-    resize: ResizeEnum;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;

@@ -58,6 +58,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                     menubar={menubar}
                     toolbar={presets.toolbar}
                     editorHeight={height}
+                    editorWidth={width}
                     key={`${String(stringAttribute.readOnly)}_${id}`}
                 />
             </div>
