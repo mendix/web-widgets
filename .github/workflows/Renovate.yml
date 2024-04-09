@@ -4,16 +4,14 @@ on:
     workflow_dispatch:
 
     schedule:
-        # At minute 0 past hour 8, 14, and 20 on every day-of-week from Monday through Friday.
-        - cron: "0 8,14,20 * * 1-5"
+        # From crontab.guru:
+        # “At 08:00 on every day-of-week from Monday through Friday.”
+        - cron: "0 8 * * 1-5"
 
 jobs:
     renovate:
         name: Run self-hosted Renovate
         runs-on: ubuntu-latest
-        if: >-
-            ${{ contains(fromJson('["workflow_dispatch", "schedule"]'), github.event_name) ||
-                github.event.label.name == 'renovate-rebase' }}
         steps:
             - name: Checkout
               uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
@@ -29,3 +27,11 @@ jobs:
                   configurationFile: .github/renovate.json
                   token: ${{ secrets.RENOVATE_TOKEN }}
                   useSlim: false
+              # When self-hosting, "global" options should be specified on CI Env
+              # More: https://docs.renovatebot.com/self-hosted-configuration/
+              env:
+                  # From renovated docs:
+                  # Set this to true if repositories are allowed to run install scripts.
+                  RENOVATE_ALLOW_SCRIPTS: true
+                  RENOVATE_REPOSITORIES: '["mendix/web-widgets"]'
+                  RENOVATE_USERNAME: uicontent

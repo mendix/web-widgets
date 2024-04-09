@@ -1,24 +1,17 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "username": "uicontent",
     "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
-    "platform": "github",
-    "repositories": ["mendix/web-widgets"],
-    "extends": ["config:base", ":disablePrControls"],
+    "extends": ["config:recommended", ":disablePrControls"],
     "labels": ["dependencies"],
     "rebaseLabel": "renovate-rebase",
     "branchPrefix": "deps/",
     "prHourlyLimit": 5,
     "prConcurrentLimit": 5,
     "prCreation": "immediate",
-    "includeForks": false,
-    "onboarding": true,
+    "forkProcessing": "disabled",
     "dependencyDashboard": true,
     "reviewersFromCodeOwners": true,
-    "stabilityDays": 5,
-    "docker": {
-        "enabled": false
-    },
+    "minimumReleaseAge": "5 days",
     "docker-compose": {
         "enabled": false
     },
@@ -34,21 +27,10 @@
     "ignoreScripts": false,
     "ignoreDeps": ["typescript"],
     "packageRules": [
-        {
-            "matchPackagePatterns": ["*"],
-            "rangeStrategy": "bump"
-        },
-        {
-            "matchDepTypes": ["devDependencies"],
-            "prPriority": -1
-        },
-        {
-            "matchPackagePrefixes": ["@mendix"],
-            "prPriority": 5
-        },
-        {
-            "matchPackageNames": ["mendix"],
-            "prPriority": 5
-        }
+        { "matchCategories": ["docker"], "enabled": false },
+        { "matchPackagePatterns": ["*"], "rangeStrategy": "bump" },
+        { "matchDepTypes": ["devDependencies"], "prPriority": -1 },
+        { "matchPackagePrefixes": ["@mendix"], "prPriority": 5 },
+        { "matchPackageNames": ["mendix"], "prPriority": 5 }
     ]
 }
