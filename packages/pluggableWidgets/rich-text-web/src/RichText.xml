@@ -115,6 +115,15 @@
                     <caption>Minimum height</caption>
                     <description>Editor's minimum height. The number value is in pixels.</description>
                 </property>
+                <property key="resize" type="enumeration" defaultValue="false">
+                    <caption>Editor resize</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="false">No</enumerationValue>
+                        <enumerationValue key="true">Vertical</enumerationValue>
+                        <enumerationValue key="both">Both</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
@@ -142,15 +151,6 @@
                 <property key="highlight_on_focus" type="boolean" defaultValue="false">
                     <caption>Highlight on focus</caption>
                     <description />
-                </property>
-                <property key="resize" type="enumeration" defaultValue="false">
-                    <caption>Editor resize</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="false">No</enumerationValue>
-                        <enumerationValue key="true">Vertical</enumerationValue>
-                        <enumerationValue key="both">Both</enumerationValue>
-                    </enumerationValues>
                 </property>
             </propertyGroup>
         </propertyGroup>

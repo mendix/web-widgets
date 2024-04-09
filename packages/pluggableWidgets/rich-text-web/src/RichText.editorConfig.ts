@@ -1,4 +1,4 @@
-import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { Properties, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { RichTextPreviewProps } from "typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
@@ -49,21 +49,25 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     }
 
     if (values.toolbarConfig === "basic") {
-        hidePropertiesIn(defaultProperties, values, ["advancedConfig"]);
+        hidePropertyIn(defaultProperties, values, "advancedConfig");
     }
     if (values.toolbarConfig === "advanced") {
         hidePropertiesIn(defaultProperties, values, toolbarGroups);
     }
 
     if (values.menubarConfig === "basic") {
-        hidePropertiesIn(defaultProperties, values, ["advancedMenubarConfig"]);
+        hidePropertyIn(defaultProperties, values, "advancedMenubarConfig");
     }
     if (values.menubarConfig === "advanced") {
         hidePropertiesIn(defaultProperties, values, menubarGroups);
     }
 
     if (values.heightUnit === "pixels") {
-        hidePropertiesIn(defaultProperties, values, ["minHeight"]);
+        hidePropertyIn(defaultProperties, values, "minHeight");
+    }
+
+    if (values.widthUnit === "percentage" && values.heightUnit === "percentageOfWidth") {
+        hidePropertyIn(defaultProperties, values, "height");
     }
     return defaultProperties;
 }

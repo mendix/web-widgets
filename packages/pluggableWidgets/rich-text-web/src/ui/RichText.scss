@@ -31,3 +31,11 @@ $rte-brand-primary: #264ae5;
         width: 100%;
     }
 }
+
+.modal-dialog {
+    & ~ .tox-tinymce-inline {
+        &.tox-tinymce--toolbar-sticky-off {
+            z-index: 102;
+        }
+    }
+}

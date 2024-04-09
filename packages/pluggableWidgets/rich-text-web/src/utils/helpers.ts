@@ -3,7 +3,7 @@ import { RichTextContainerProps } from "typings/RichTextProps";
 
 export function constructWrapperStyle(props: RichTextContainerProps, currentStyle: CSSProperties): CSSProperties {
     const { width, height } = currentStyle;
-    const { minHeight, toolbarLocation, heightUnit } = props;
+    const { minHeight, toolbarLocation, heightUnit, resize } = props;
 
     const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight"> = { width, height };
 
@@ -13,6 +13,10 @@ export function constructWrapperStyle(props: RichTextContainerProps, currentStyl
 
     if (heightUnit !== "pixels") {
         wrapperStyle.minHeight = minHeight;
+    }
+
+    if (resize === "both") {
+        delete wrapperStyle.width;
     }
 
     return wrapperStyle;
