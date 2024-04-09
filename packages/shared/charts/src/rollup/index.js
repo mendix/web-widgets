@@ -42,7 +42,7 @@ function sharedChardConfig(args) {
 
         const onwarn = config.onwarn;
         if (onwarn) {
-            config.onwarn = warning => {
+            config.onwarn = (warning, defaultHandler) => {
                 // The library itself throws a lot of esm module related errors on compilation.
                 // For now they don't seem related to us and everything still works, so I ignored them.
                 if (
@@ -52,7 +52,7 @@ function sharedChardConfig(args) {
                 ) {
                     return;
                 }
-                onwarn(warning);
+                onwarn(warning, defaultHandler);
             };
         }
     });
