@@ -44,6 +44,44 @@ $grid-selected-row-background: $brand-light;
         padding: $spacing-medium;
         top: 0;
         min-width: 0;
+        position: relative;
+
+        &.dragging {
+            opacity: 0.5;
+            &.dragging-over-self {
+                opacity: 0.8;
+            }
+        }
+
+        &.drop-after:after,
+        &.drop-before:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: $dragging-effect-size;
+            background-color: $dragging-color-effect;
+
+            z-index: 1;
+        }
+
+        &.drop-before {
+            &:after {
+                left: 0;
+            }
+            &:not(:first-child):after {
+                transform: translateX(-50%);
+            }
+        }
+
+        &.drop-after {
+            &:after {
+                right: 0;
+            }
+            &:not(:last-child):after {
+                transform: translateX(50%);
+            }
+        }
 
         /* Clickable column header (Sortable) */
         .clickable {
@@ -76,13 +114,6 @@ $grid-selected-row-background: $brand-light;
             flex-grow: 1;
             align-self: stretch;
             min-width: 0;
-            padding-left: $dragging-effect-size;
-            margin-left: -$dragging-effect-size;
-            /* Styles while dragging another column */
-            &.dragging {
-                border-left: $dragging-effect-size solid $dragging-color-effect;
-                padding-left: 0;
-            }
 
             &:not(:has(.filter)) {
                 .column-header {

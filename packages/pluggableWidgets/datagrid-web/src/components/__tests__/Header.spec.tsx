@@ -127,7 +127,7 @@ function mockHeaderProps(): HeaderProps {
             toggleSort: () => undefined
         } as GridColumn,
         draggable: false,
-        dragOver: undefined,
+        dropTarget: undefined,
         filterable: false,
         filterWidget: undefined,
         hidable: false,
@@ -135,7 +135,7 @@ function mockHeaderProps(): HeaderProps {
         resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
         sortable: false,
         swapColumns: jest.fn(),
-        setDragOver: jest.fn(),
+        setDropTarget: jest.fn(),
         setIsDragging: jest.fn()
     };
 }

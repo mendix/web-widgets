@@ -72,7 +72,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     visibleColumns: GridColumn[];
     availableColumns: GridColumn[];
 
-    columnsSwap: (a: ColumnId, b: ColumnId) => void;
+    columnsSwap: (source: ColumnId, target: [ColumnId, "after" | "before"]) => void;
     columnsCreateSizeSnapshot: () => void;
 }
 
@@ -112,8 +112,8 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
     } = props;
 
     const isInfinite = !paging;
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragOver, setDragOver] = useState<ColumnId | undefined>(undefined);
+    const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
+    const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
@@ -180,7 +180,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
                                             gridId={props.id}
                                             column={column}
                                             draggable={columnsDraggable}
-                                            dragOver={dragOver}
+                                            dropTarget={dragOver}
                                             filterable={columnsFilterable}
                                             filterWidget={filterRendererProp(renderFilterWrapper, column.columnIndex)}
                                             hidable={columnsHidable}
@@ -194,7 +194,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
                                                 />
                                             }
                                             swapColumns={props.columnsSwap}
-                                            setDragOver={setDragOver}
+                                            setDropTarget={setDragOver}
                                             setIsDragging={setIsDragging}
                                             sortable={columnsSortable}
                                         />

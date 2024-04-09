@@ -1,14 +1,14 @@
 import {
     createElement,
     Dispatch,
-    ReactElement,
-    SetStateAction,
     DragEvent,
     DragEventHandler,
-    KeyboardEvent,
-    useCallback,
     HTMLAttributes,
-    ReactNode
+    KeyboardEvent,
+    ReactElement,
+    ReactNode,
+    SetStateAction,
+    useCallback
 } from "react";
 import classNames from "classnames";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
@@ -25,22 +25,29 @@ export interface HeaderProps {
     sortable: boolean;
     resizable: boolean;
     filterable: boolean;
-    filterWidget?: ReactNode;
-    draggable: boolean;
-    dragOver?: ColumnId;
     hidable: boolean;
-    isDragging?: boolean;
+    draggable: boolean;
+    filterWidget?: ReactNode;
     preview?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
-    swapColumns: (a: ColumnId, b: ColumnId) => void;
-    setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>;
-    setIsDragging: Dispatch<SetStateAction<boolean>>;
+    dropTarget?: [ColumnId, "before" | "after"];
+    isDragging?: [ColumnId | undefined, ColumnId, ColumnId | undefined];
+    setDropTarget: Dispatch<SetStateAction<[ColumnId, "before" | "after"] | undefined>>;
+    setIsDragging: Dispatch<SetStateAction<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>>;
+    swapColumns: (source: ColumnId, target: [ColumnId, "before" | "after"]) => void;
 }
 
 export function Header(props: HeaderProps): ReactElement {
     const canSort = props.sortable && props.column.canSort;
     const canDrag = props.draggable && (props.column.canDrag ?? false);
-    const draggableProps = useDraggable(canDrag, props.swapColumns, props.setDragOver, props.setIsDragging);
+    const draggableProps = useDraggable(
+        canDrag,
+        props.swapColumns,
+        props.dropTarget,
+        props.setDropTarget,
+        props.isDragging,
+        props.setIsDragging
+    );
 
     const sortIcon = canSort ? getSortIcon(props.column) : null;
     const sortProps = canSort ? getSortProps(props.column) : null;
@@ -49,22 +56,33 @@ export function Header(props: HeaderProps): ReactElement {
     return (
         <div
             aria-sort={getAriaSort(canSort, props.column)}
-            className={classNames("th", {
-                "hidden-column-preview":
-                    props.preview && (!props.column.isAvailable || (props.hidable && props.column.isHidden))
-            })}
+            className={classNames(
+                "th",
+                {
+                    "hidden-column-preview":
+                        props.preview && (!props.column.isAvailable || (props.hidable && props.column.isHidden))
+                },
+                {
+                    [`drop-${props.dropTarget?.[1]}`]: props.column.columnId === props.dropTarget?.[0],
+                    dragging: props.column.columnId === props.isDragging?.[1],
+                    "dragging-over-self": props.column.columnId === props.isDragging?.[1] && !props.dropTarget
+                }
+            )}
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
             ref={ref => props.column.setHeaderElementRef(ref)}
+            data-column-id={props.column.columnId}
+            onDrop={draggableProps.onDrop}
+            onDragEnter={draggableProps.onDragEnter}
+            onDragOver={draggableProps.onDragOver}
         >
             <div
-                className={classNames("column-container", {
-                    dragging: canDrag && props.column.columnId === props.dragOver
-                })}
+                className={classNames("column-container")}
                 id={`${props.gridId}-column${props.column.columnId}`}
-                data-column-id={props.column.columnId}
-                {...draggableProps}
+                draggable={draggableProps.draggable}
+                onDragStart={draggableProps.onDragStart}
+                onDragEnd={draggableProps.onDragEnd}
             >
                 <div
                     className={classNames("column-header", { clickable: canSort }, props.className)}
@@ -82,13 +100,13 @@ export function Header(props: HeaderProps): ReactElement {
     );
 }
 
-const DATA_FORMAT_ID = "application/x-mx-widget-web-datagrid-column-id";
-
 function useDraggable(
     columnsDraggable: boolean,
-    setColumnOrder: (a: ColumnId, b: ColumnId) => void,
-    setDragOver: Dispatch<SetStateAction<ColumnId | undefined>>,
-    setIsDragging: Dispatch<SetStateAction<boolean>>
+    setColumnOrder: (source: ColumnId, target: [ColumnId, "after" | "before"]) => void,
+    dropTarget: [ColumnId, "before" | "after"] | undefined,
+    setDropTarget: Dispatch<SetStateAction<[ColumnId, "before" | "after"] | undefined>>,
+    dragging: [ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined,
+    setDragging: Dispatch<SetStateAction<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>>
 ): {
     draggable?: boolean;
     onDragStart?: DragEventHandler;
@@ -99,44 +117,78 @@ function useDraggable(
 } {
     const handleDragStart = useCallback(
         (e: DragEvent<HTMLDivElement>): void => {
-            setIsDragging(true);
-            const elt = e.target as HTMLDivElement;
-            e.dataTransfer.setData(DATA_FORMAT_ID, elt.dataset.columnId ?? "");
+            const elt = (e.target as HTMLDivElement).closest(".th") as HTMLDivElement;
+            const columnId = elt.dataset.columnId ?? "";
+
+            const columnAtTheLeft = (elt.previousElementSibling as HTMLDivElement)?.dataset?.columnId as ColumnId;
+            const columnAtTheRight = (elt.nextElementSibling as HTMLDivElement)?.dataset?.columnId as ColumnId;
+
+            setDragging([columnAtTheLeft, columnId as ColumnId, columnAtTheRight]);
         },
-        [setIsDragging]
+        [setDragging]
     );
 
-    const handleDragOver = useCallback((e: DragEvent<HTMLDivElement>): void => {
+    const handleDragOver = useCallback(
+        (e: DragEvent<HTMLDivElement>): void => {
+            if (!dragging) {
+                return;
+            }
+            const columnId = (e.currentTarget as HTMLDivElement).dataset.columnId as ColumnId;
+            if (!columnId) {
+                return;
+            }
+            e.preventDefault();
+
+            const [leftSiblingColumnId, draggingColumnId, rightSiblingColumnId] = dragging;
+
+            if (columnId === draggingColumnId) {
+                // hover on itself place, no highlight
+                if (dropTarget !== undefined) {
+                    setDropTarget(undefined);
+                }
+                return;
+            }
+
+            let isAfter: boolean;
+
+            if (columnId === leftSiblingColumnId) {
+                isAfter = false;
+            } else if (columnId === rightSiblingColumnId) {
+                isAfter = true;
+            } else {
+                // check position in element
+                const rect = e.currentTarget.getBoundingClientRect();
+                isAfter = rect.width / 2 + (dropTarget?.[1] === "after" ? -10 : 10) < e.clientX - rect.left;
+            }
+
+            const newPosition = isAfter ? "after" : "before";
+
+            if (columnId !== dropTarget?.[0] || newPosition !== dropTarget?.[1]) {
+                setDropTarget([columnId, newPosition]);
+            }
+        },
+        [dragging, dropTarget, setDropTarget]
+    );
+
+    const handleDragEnter = useCallback((e: DragEvent<HTMLDivElement>): void => {
         e.preventDefault();
     }, []);
 
-    const handleDragEnter = useCallback(
-        (e: DragEvent<HTMLDivElement>): void => {
-            const {
-                dataset: { columnId }
-            } = e.target as HTMLDivElement;
-            const colDestination = e.dataTransfer.getData(DATA_FORMAT_ID);
-            if (columnId !== colDestination) {
-                setDragOver(columnId as ColumnId);
-            }
-        },
-        [setDragOver]
-    );
-
     const handleDragEnd = useCallback((): void => {
-        setIsDragging(false);
-        setDragOver(undefined);
-    }, [setDragOver, setIsDragging]);
+        setDragging(undefined);
+        setDropTarget(undefined);
+    }, [setDropTarget, setDragging]);
 
     const handleOnDrop = useCallback(
-        (e: DragEvent<HTMLDivElement>): void => {
+        (_e: DragEvent<HTMLDivElement>): void => {
             handleDragEnd();
-            const columnA = (e.target as HTMLDivElement).dataset.columnId as ColumnId;
-            const columnB = e.dataTransfer.getData(DATA_FORMAT_ID) as ColumnId;
+            if (!dragging || !dropTarget) {
+                return;
+            }
 
-            setColumnOrder(columnA, columnB);
+            setColumnOrder(dragging[1], dropTarget);
         },
-        [handleDragEnd, setColumnOrder]
+        [handleDragEnd, setColumnOrder, dragging, dropTarget]
     );
 
     return columnsDraggable
