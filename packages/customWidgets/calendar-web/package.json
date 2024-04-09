@@ -39,7 +39,7 @@
     "@babel/core": "^7.21.0",
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.0.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@types/date-arithmetic": "^3.1.2",
     "@types/react-big-calendar": "1.8.4",
