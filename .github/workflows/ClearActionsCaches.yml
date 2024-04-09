@@ -1,0 +1,20 @@
+name: Clear GitHub actions cache
+on:
+    schedule:
+        # From https://crontab.guru:
+        # “At 00:00 on Monday, Wednesday, and Friday.”
+        - cron: "0 0 * * 1,3,5"
+    workflow_dispatch:
+
+jobs:
+    clear-github-caches:
+        name: "Delete all caches"
+        runs-on: ubuntu-latest
+        permissions:
+            actions: write
+        steps:
+            - run: |
+                  gh cache --repo ${{ github.repository }} \
+                  delete --all
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
