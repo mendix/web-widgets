@@ -1120,11 +1120,11 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3
       mobx:
-        specifier: ^6.12.0
-        version: 6.12.0
+        specifier: ^6.12.3
+        version: 6.12.3
       mobx-react-lite:
         specifier: ^4.0.7
-        version: 4.0.7(mobx@6.12.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.0.7(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -13812,7 +13812,7 @@ packages:
     hasBin: true
     dev: true
 
-  /mobx-react-lite@4.0.7(mobx@6.12.0)(react-dom@18.2.0)(react@18.2.0):
+  /mobx-react-lite@4.0.7(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-RjwdseshK9Mg8On5tyJZHtGD+J78ZnCnRaxeQDSiciKVQDUbfZcXhmld0VMxAwvcTnPEHZySGGewm467Fcpreg==}
     peerDependencies:
       mobx: ^6.9.0
@@ -13825,14 +13825,14 @@ packages:
       react-native:
         optional: true
     dependencies:
-      mobx: 6.12.0
+      mobx: 6.12.3
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /mobx@6.12.0:
-    resolution: {integrity: sha512-Mn6CN6meXEnMa0a5u6a5+RKrqRedHBhZGd15AWLk9O6uFY4KYHzImdt8JI8WODo1bjTSRnwXhJox+FCUZhCKCQ==}
+  /mobx@6.12.3:
+    resolution: {integrity: sha512-c8NKkO4R2lShkSXZ2Ongj1ycjugjzFFo/UswHBnS62y07DMcTc9Rvo03/3nRyszIvwPNljlkd4S828zIBv/piw==}
     dev: false
 
   /mocha@10.2.0:
