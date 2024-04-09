@@ -9,11 +9,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   Limited the number of items rendered on design mode to 3.
--   "Load More" as configurable.
+
+-   We have expanded the pagination options by introducing a new feature called 'Load more'. This option enables users to load additional data with the click of a button. Thank you, @sharadsums, for making this feature.
+
+### Changed
+
+-   Previously, if the attribute configured for storing personalization settings was changed externally, the data grid did not reflect these changes. Moving forward, the data grid widget will now automatically re-read and apply personalization settings whenever the underlying attribute changes.
 
 ### Fixed
 
 -   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+-   We made Visible property of columns required. It is no longer possible to leave the expression empty, therefore you will need to explicitly set a boolean value to set the visibility.
 
 ## [2.15.0] - 2024-03-27
 
