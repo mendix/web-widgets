@@ -30,7 +30,7 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
-    visible?: DynamicValue<boolean>;
+    visible: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
