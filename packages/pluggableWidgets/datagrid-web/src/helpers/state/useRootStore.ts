@@ -1,20 +1,23 @@
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RootGridStore } from "./RootGridStore";
 import { autorun, IReactionDisposer } from "mobx";
 import { and } from "mendix/filters/builders";
 
-export function useRootStore(props: DatagridContainerProps) {
+export function useRootStore(props: DatagridContainerProps): RootGridStore {
     const [rootStore] = useState(() => {
         return new RootGridStore(props);
     });
+
+    const datasourceRef = useRef(props.datasource);
+    datasourceRef.current = props.datasource;
 
     useEffect(() => {
         const disposers: IReactionDisposer[] = [];
         // apply sorting
         disposers.push(
             autorun(() => {
-                props.datasource.setSortOrder(rootStore.sortInstructions);
+                datasourceRef.current.setSortOrder(rootStore.sortInstructions);
             })
         );
 
@@ -29,9 +32,9 @@ export function useRootStore(props: DatagridContainerProps) {
                 }
 
                 if (filters.length > 0) {
-                    props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
+                    datasourceRef.current.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
                 } else {
-                    props.datasource.setFilter(undefined);
+                    datasourceRef.current.setFilter(undefined);
                 }
             })
         );
@@ -40,7 +43,7 @@ export function useRootStore(props: DatagridContainerProps) {
             disposers.forEach(d => d());
             rootStore.dispose();
         };
-    }, []);
+    }, [rootStore]);
 
     useEffect(() => {
         rootStore.updateProps(props);

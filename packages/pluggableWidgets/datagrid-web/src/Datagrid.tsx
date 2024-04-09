@@ -157,7 +157,7 @@ const Container = observer((props: Props): ReactElement => {
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, columnsStore.availableColumns, rootStore.headerFiltersStore, filtersChannelName]
+                [FilterContext, columnsStore.columnFilters, rootStore.headerFiltersStore, filtersChannelName]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
