@@ -4,7 +4,7 @@ export default args => {
     const result = args.configDefaultConfig;
     result.forEach(config => {
         const onwarn = config.onwarn;
-        config.onwarn = warning => {
+        config.onwarn = (warning, defaultHandler) => {
             // The library itself throws a lot of esm module related errors on compilation.
             // For now they don't seem related to us and everything still works, so I ignored them.
             if (
@@ -14,7 +14,7 @@ export default args => {
             ) {
                 return;
             }
-            onwarn(warning);
+            onwarn(warning, defaultHandler);
         };
         const plugins = config.plugins || [];
         config.plugins = [
