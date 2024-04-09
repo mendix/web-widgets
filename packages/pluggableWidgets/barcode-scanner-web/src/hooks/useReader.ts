@@ -34,7 +34,7 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const scale = 0.3;
-    const stopped = useRef<Boolean>(false);
+    const stopped = useRef<boolean>(false);
     const checkNotFound = (error: any): boolean => {
         const ifNotFound = error instanceof NotFoundException;
         return ifNotFound && !stopped.current;
@@ -45,7 +45,7 @@ export const useReader: UseReaderHook = args => {
         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
         captureCanvas.width = cropWidth;
         captureCanvas.height = cropWidth;
-        const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void) => {
+        const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void): void => {
             try {
                 const canvasContext = captureCanvas.getContext("2d");
                 if (canvasContext !== null) {
