@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "react-resize-detector": "^9.1.0",
+    "react-resize-detector": "^9.1.1",
     "signature_pad": "https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz"
   },
   "jest": {
