@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We made accessibility text as optional.
 
+-   We are no longer retrieving full dropdown options list if the combobox is readonly.
+
 ## [1.3.1] - 2024-04-08
 
 ### Fixed

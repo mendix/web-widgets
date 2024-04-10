@@ -37,6 +37,15 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             customContent,
             customContentType
         ] = extractAssociationProps(props);
+
+        if (attr.status === "available") {
+            if (!attr.readOnly) {
+                ds.setLimit(undefined);
+            }
+        } else {
+            ds.setLimit(0);
+        }
+
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,

@@ -44,6 +44,15 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             valueAttribute,
             emptyValue
         ] = extractDatabaseProps(props);
+
+        if (attr.status === "available") {
+            if (!attr.readOnly) {
+                ds.setLimit(undefined);
+            }
+        } else {
+            ds.setLimit(0);
+        }
+
         this._attr = attr as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
