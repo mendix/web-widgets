@@ -28,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   A new property that allows to change the behavior of the item selection.
 
+-   A new property that controls custom content events.
+
 ## [2.16.1] - 2024-04-16
 
 ### Fixed

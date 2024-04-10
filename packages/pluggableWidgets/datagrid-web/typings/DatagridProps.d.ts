@@ -37,6 +37,7 @@ export interface ColumnsType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
+    allowEventPropagation: boolean;
     width: WidthEnum;
     minWidth: MinWidthEnum;
     minWidthLimit: number;
@@ -78,6 +79,7 @@ export interface ColumnsPreviewType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
+    allowEventPropagation: boolean;
     width: WidthEnum;
     minWidth: MinWidthEnum;
     minWidthLimit: number | null;

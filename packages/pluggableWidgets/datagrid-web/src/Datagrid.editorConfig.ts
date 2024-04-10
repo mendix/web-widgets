@@ -205,7 +205,8 @@ export const getPreview = (
                   width: "autoFit",
                   wrapText: false,
                   minWidth: "auto",
-                  minWidthLimit: 100
+                  minWidthLimit: 100,
+                  allowEventPropagation: true
               }
           ];
     const columns = rowLayout({
