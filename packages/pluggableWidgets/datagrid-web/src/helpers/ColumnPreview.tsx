@@ -29,7 +29,7 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;
     }
     get isAvailable(): boolean {
-        return this.props.visible === "true";
+        return this.props.visible !== "false";
     }
     get isHidden(): boolean {
         return this.initiallyHidden;

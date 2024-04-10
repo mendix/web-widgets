@@ -42,7 +42,7 @@ const initColumns: ColumnsPreviewType[] = [
         size: 1,
         sortable: false,
         tooltip: "",
-        visible: "false",
+        visible: "true",
         width: "autoFill",
         wrapText: false,
         minWidth: "auto",
