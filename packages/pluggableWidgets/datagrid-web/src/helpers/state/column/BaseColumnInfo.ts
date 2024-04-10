@@ -21,6 +21,8 @@ interface BaseColumnInfoProps {
 
     minWidth: MinWidthEnum;
     minWidthLimit: number;
+
+    allowEventPropagation: boolean;
 }
 
 export class BaseColumnInfo {
@@ -36,6 +38,7 @@ export class BaseColumnInfo {
     width: WidthEnum;
     minWidth: MinWidthEnum;
     minWidthLimit: number;
+    allowEventPropagation: boolean;
 
     constructor(props: BaseColumnInfoProps) {
         this.alignment = props.alignment;
@@ -50,6 +53,7 @@ export class BaseColumnInfo {
         this.width = props.width;
         this.minWidth = props.minWidth;
         this.minWidthLimit = props.minWidthLimit;
+        this.allowEventPropagation = props.allowEventPropagation;
     }
 
     get columnWidth(): string {

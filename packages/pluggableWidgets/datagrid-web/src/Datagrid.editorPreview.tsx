@@ -46,7 +46,8 @@ const initColumns: ColumnsPreviewType[] = [
         width: "autoFill",
         wrapText: false,
         minWidth: "auto",
-        minWidthLimit: 100
+        minWidthLimit: 100,
+        allowEventPropagation: true
     }
 ];
 

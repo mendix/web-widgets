@@ -199,7 +199,11 @@ export class ColumnStore implements GridColumn {
                 );
             }
             case "customContent": {
-                return <CustomContent>{this._content?.get(item)}</CustomContent>;
+                return (
+                    <CustomContent allowEventPropagation={this.baseInfo.allowEventPropagation}>
+                        {this._content?.get(item)}
+                    </CustomContent>
+                );
             }
             default:
                 throw new Error(`Unknown content type: ${this.baseInfo.showContentAs}`);
@@ -253,10 +257,21 @@ const onKeyDown = (event: React.KeyboardEvent): void => {
     event.stopPropagation();
 };
 
-function CustomContent(props: { children: ReactNode }): ReactElement {
+function CustomContent({
+    children,
+    allowEventPropagation
+}: {
+    children: ReactNode;
+    allowEventPropagation: boolean;
+}): ReactElement {
     return (
-        <div onClick={stopPropagation} onKeyUp={stopPropagation} onKeyDown={onKeyDown} className="td-custom-content">
-            {props.children}
+        <div
+            className="td-custom-content"
+            onClick={allowEventPropagation ? undefined : stopPropagation}
+            onKeyUp={allowEventPropagation ? undefined : stopPropagation}
+            onKeyDown={allowEventPropagation ? undefined : onKeyDown}
+        >
+            {children}
         </div>
     );
 }
