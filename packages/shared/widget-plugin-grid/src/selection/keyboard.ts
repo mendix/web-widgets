@@ -4,7 +4,9 @@ import { EventCaseEntry } from "../event-switch/base";
 import { ScrollKeyCode, SelectAdjacentFx, SelectionMode, SelectionType } from "./types";
 
 export function isSelectAllTrigger<T>(event: React.KeyboardEvent<T>): boolean {
-    return event.code === "KeyA" && (event.metaKey || event.ctrlKey);
+    // As there might be custom content. We should react only on item/cell events.
+    const isOwn = event.currentTarget === event.target;
+    return event.code === "KeyA" && (event.metaKey || event.ctrlKey) && isOwn;
 }
 
 export function isSelectOneTrigger<T>(event: React.KeyboardEvent<T>): boolean {
