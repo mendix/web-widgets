@@ -234,7 +234,9 @@ export class ColumnStore implements GridColumn {
 
     applySettings(conf: ColumnPersonalizationSettings): void {
         this.size = conf.size;
-        this.isHidden = conf.hidden;
+        if (this.canHide) {
+            this.isHidden = conf.hidden;
+        }
         this.orderWeight = conf.orderWeight * 10;
     }
 }
