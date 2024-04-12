@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with sorting by columns that display dynamic text or custom content.
 
+### Added
+
+-   We added the ability to store personalization configuration in the browser's local storage, in addition to the existing option of using an attribute.
+
 ## [2.16.0] - 2024-04-09
 
 ### Added

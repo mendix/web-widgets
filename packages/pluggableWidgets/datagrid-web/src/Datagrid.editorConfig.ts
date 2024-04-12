@@ -145,6 +145,10 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "advanced");
     }
 
+    if (values.configurationStorageType === "localStorage") {
+        hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
+    }
+
     return defaultProperties;
 }
 

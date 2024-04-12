@@ -1,7 +1,7 @@
 import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
 import { PersonalizationStorage } from "./PersonalizationStorage";
 
-export class LocalSettingsStorage implements PersonalizationStorage {
+export class LocalStoragePersonalizationStorage implements PersonalizationStorage {
     constructor(private key: string) {}
 
     get settings(): GridPersonalizationStorageSettings | undefined {
