@@ -83,20 +83,9 @@ export class ColumnStore implements GridColumn {
         this._columnClass = props.columnClass;
         this._tooltip = props.tooltip;
 
-        switch (this.baseInfo.showContentAs) {
-            case "attribute": {
-                this._attribute = props.attribute;
-                break;
-            }
-            case "customContent": {
-                this._content = props.content;
-                break;
-            }
-            case "dynamicText": {
-                this._dynamicText = props.dynamicText;
-                break;
-            }
-        }
+        this._attribute = props.attribute;
+        this._content = props.content;
+        this._dynamicText = props.dynamicText;
     }
 
     // old props
