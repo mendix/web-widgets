@@ -14,6 +14,8 @@ interface ComboboxWrapperProps extends PropsWithChildren {
 export const ComboboxWrapper = forwardRef(
     (props: ComboboxWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
         const { isOpen, readOnly, getToggleButtonProps, validation, children } = props;
+        const { id, onClick } = getToggleButtonProps();
+
         return (
             <Fragment>
                 <div
@@ -23,7 +25,8 @@ export const ComboboxWrapper = forwardRef(
                         "widget-combobox-input-container-active": isOpen,
                         "widget-combobox-input-container-disabled": readOnly
                     })}
-                    {...getToggleButtonProps()}
+                    id={id}
+                    onClick={onClick}
                 >
                     {children}
                     <div className="widget-combobox-down-arrow">
