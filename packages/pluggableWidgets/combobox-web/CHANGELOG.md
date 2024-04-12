@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We are no longer retrieving full dropdown options list if the combobox is readonly.
 
+### Added
+
+-   We improved accessibility on combobox by removing a duplicated aria-expanded from combobox widget.
+
 ## [1.3.1] - 2024-04-08
 
 ### Fixed
