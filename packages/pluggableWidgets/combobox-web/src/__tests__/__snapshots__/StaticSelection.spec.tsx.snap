@@ -6,8 +6,6 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
     class="widget-combobox"
   >
     <div
-      aria-controls="downshift-0-menu"
-      aria-expanded="false"
       class="form-control widget-combobox-input-container"
       id="downshift-0-toggle-button"
       tabindex="-1"
