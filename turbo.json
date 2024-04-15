@@ -55,5 +55,5 @@
             "outputs": []
         }
     },
-    "globalDependencies": ["automation/**", ".npmrc", ".github/**"]
+    "globalDependencies": ["automation/**", ".npmrc", ".nvmrc", ".github/**", "package.json"]
 }
