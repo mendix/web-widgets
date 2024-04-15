@@ -9,7 +9,7 @@
     "run-e2e": "bin/run-e2e.mjs"
   },
   "engines": {
-    "node": ">=18.20.1"
+    "node": ">=18.20.2"
   },
   "repository": {
     "type": "git",
