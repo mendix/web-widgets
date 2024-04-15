@@ -17,7 +17,6 @@ import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensio
 
 export interface GoogleMapsProps extends SharedProps {
     mapId: string;
-    mapStyles?: string;
     streetViewControl: boolean;
     mapTypeControl: boolean;
     fullscreenControl: boolean;

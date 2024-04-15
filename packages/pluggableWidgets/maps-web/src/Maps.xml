@@ -263,10 +263,6 @@
                         <enumerationValue key="hereMaps">Here Maps</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="mapStyles" type="string" multiline="true" required="false">
-                    <caption>Map styles</caption>
-                    <description>JSON array with Google Maps styles.</description>
-                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>

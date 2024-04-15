@@ -98,7 +98,6 @@ export interface MapsContainerProps {
     height: number;
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
-    mapStyles: string;
 }
 
 export interface MapsPreviewProps {
@@ -134,5 +133,4 @@ export interface MapsPreviewProps {
     height: number | null;
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
-    mapStyles: string;
 }
