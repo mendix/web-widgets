@@ -6,6 +6,7 @@ import {
     InfoWindow,
     Map as GoogleMapComponent,
     MapProps,
+    Pin,
     useAdvancedMarkerRef,
     useApiIsLoaded,
     useMap
@@ -155,6 +156,7 @@ function GoogleMapsMarker(marker: Marker): ReactElement {
                     </span>
                 </InfoWindow>
             )}
+            {marker.url && <Pin glyph={marker.url} />}
         </AdvancedMarker>
     );
 }

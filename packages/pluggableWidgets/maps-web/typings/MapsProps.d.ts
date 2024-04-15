@@ -82,7 +82,7 @@ export interface MapsContainerProps {
     geodecodeApiKey: string;
     geodecodeApiKeyExp?: DynamicValue<string>;
     googleMapId: string;
-    googleMapIdExp?: DynamicValue<string>;
+    googleMapIdExp: DynamicValue<string>;
     showCurrentLocation: boolean;
     optionDrag: boolean;
     optionScroll: boolean;
