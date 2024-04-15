@@ -1355,7 +1355,7 @@ importers:
   packages/pluggableWidgets/html-element-web:
     dependencies:
       dompurify:
-        specifier: ^2.4.9
+        specifier: ^2.5.0
         version: 2.5.0
     devDependencies:
       '@mendix/automation-utils':
