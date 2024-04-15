@@ -1,6 +1,6 @@
 import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
-import { GoogleMap, GoogleMapsProps } from "../GoogleMap";
+import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
 import { initialize } from "@googlemaps/jest-mocks";
 import { useLoadScript } from "@react-google-maps/api";
 
@@ -28,6 +28,7 @@ describe("Google maps", () => {
         locations: [],
         mapStyles: "",
         mapsToken: "",
+        mapId: "DEMO_MAP_ID",
         mapTypeControl: false,
         optionDrag: true,
         optionScroll: true,
@@ -51,7 +52,7 @@ describe("Google maps", () => {
     });
 
     const renderGoogleMap = (props: GoogleMapsProps): ShallowWrapper<GoogleMapsProps, any> =>
-        shallow(createElement(GoogleMap, props));
+        shallow(createElement(GoogleMapContainer, props));
 
     it("renders a map with right structure", () => {
         const googleMaps = renderGoogleMap(defaultProps);
