@@ -28,6 +28,11 @@ export function getProperties(
         } else {
             hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
         }
+        if (values.googleMapId) {
+            hidePropertyIn(defaultProperties, values, "googleMapIdExp");
+        } else {
+            hidePropertyIn(defaultProperties, values, "googleMapId");
+        }
 
         hidePropertyIn(defaultProperties, values, "advanced");
     } else {
@@ -40,6 +45,11 @@ export function getProperties(
             hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
         } else {
             hidePropertyIn(defaultProperties, values, "geodecodeApiKeyExp");
+        }
+        if (values.googleMapIdExp) {
+            hidePropertyIn(defaultProperties, values, "googleMapId");
+        } else {
+            hidePropertyIn(defaultProperties, values, "googleMapIdExp");
         }
 
         if (!values.advanced) {

@@ -159,6 +159,15 @@
                     <description>Used to translate addresses to latitude and longitude. This API Key should be a Google Geocoding API Key found in https://developers.google.com/maps/documentation/geocoding/overview</description>
                     <returnType type="String" />
                 </property>
+                <property key="googleMapId" type="string" required="true">
+                    <caption>Google MapId key</caption>
+                    <description>Used to render and style the Google map. This MapId key from Google can be found in https://developers.google.com/maps/documentation/get-map-id</description>
+                </property>
+                <property key="googleMapIdExp" type="expression" required="true">
+                    <caption>Google MapId key</caption>
+                    <description>Used to render and style the Google map. This MapId key from Google can be found in https://developers.google.com/maps/documentation/get-map-id</description>
+                    <returnType type="String" />
+                </property>
                 <property key="showCurrentLocation" type="boolean" defaultValue="false">
                     <caption>Show current location marker</caption>
                     <description>Shows the user current location marker.</description>

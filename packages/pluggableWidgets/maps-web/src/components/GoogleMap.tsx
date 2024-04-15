@@ -15,6 +15,7 @@ import { translateZoom } from "../utils/zoom";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 
 export interface GoogleMapsProps extends SharedProps {
+    mapId: string;
     mapStyles?: string;
     streetViewControl: boolean;
     mapTypeControl: boolean;
@@ -90,7 +91,7 @@ function GoogleMap(props: GoogleMapsProps): ReactElement {
         className: "widget-google-maps",
         fullscreenControl,
         gestureHandling: draggable ? "auto" : "none",
-        mapId: "DEMO_MAP_ID",
+        mapId: props.mapId ?? "DEMO_MAP_ID",
         mapTypeControl,
         maxZoom: 20,
         minZoom: 1,
