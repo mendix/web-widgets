@@ -264,13 +264,16 @@ function CustomContent({
     children: ReactNode;
     allowEventPropagation: boolean;
 }): ReactElement {
+    const wrapperProps: JSX.IntrinsicElements["div"] = allowEventPropagation
+        ? {}
+        : {
+              onClick: stopPropagation,
+              onKeyUp: stopPropagation,
+              onKeyDown
+          };
+
     return (
-        <div
-            className="td-custom-content"
-            onClick={allowEventPropagation ? undefined : stopPropagation}
-            onKeyUp={allowEventPropagation ? undefined : stopPropagation}
-            onKeyDown={allowEventPropagation ? undefined : onKeyDown}
-        >
+        <div className="td-custom-content" {...wrapperProps}>
             {children}
         </div>
     );
