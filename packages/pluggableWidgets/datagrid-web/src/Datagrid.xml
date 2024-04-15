@@ -146,7 +146,7 @@
                             </property>
                             <property key="allowEventPropagation" type="boolean" defaultValue="true">
                                 <caption>Allow default events</caption>
-                                <description>If set to yes, then all default evens, such as "on click" or selection, will be triggered when the user interacts with custom content.</description>
+                                <description>If set to yes, then all default events, such as "on click" or selection, will be triggered when the user interacts with custom content.</description>
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Appearance">
