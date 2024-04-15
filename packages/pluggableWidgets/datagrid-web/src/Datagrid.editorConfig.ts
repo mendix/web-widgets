@@ -32,7 +32,7 @@ export function getProperties(
             hidePropertyIn(defaultProperties, values, "columns", index, "dynamicText");
         }
         if (column.showContentAs !== "customContent") {
-            hidePropertyIn(defaultProperties, values, "columns", index, "content");
+            hideNestedPropertiesIn(defaultProperties, values, "columns", index, ["content", "allowEventPropagation"]);
         }
         if (column.showContentAs === "customContent") {
             hidePropertyIn(defaultProperties, values, "columns", index, "tooltip");
