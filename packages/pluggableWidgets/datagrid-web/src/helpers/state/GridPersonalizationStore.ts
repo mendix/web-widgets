@@ -9,6 +9,7 @@ import {
 } from "../../typings/personalization-settings";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
+import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
@@ -21,13 +22,18 @@ export class GridPersonalizationStore {
     constructor(props: DatagridContainerProps, private columnsStore: ColumnGroupStore) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
-        this.storage = new AttributePersonalizationStorage(props);
 
         makeObservable<GridPersonalizationStore, "applySettings">(this, {
             settings: computed,
 
             applySettings: action
         });
+
+        if (props.configurationStorageType === "localStorage") {
+            this.storage = new LocalStoragePersonalizationStorage(`${this.gridName}_${this.gridColumnsHash}`);
+        } else {
+            this.storage = new AttributePersonalizationStorage(props);
+        }
 
         this.disposers.push(
             reaction(
@@ -36,7 +42,8 @@ export class GridPersonalizationStore {
                     if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
                         this.applySettings(settings);
                     }
-                }
+                },
+                { fireImmediately: true }
             )
         );
 

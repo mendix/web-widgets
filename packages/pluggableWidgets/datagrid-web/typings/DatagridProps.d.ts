@@ -54,6 +54,8 @@ export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
 
+export type ConfigurationStorageTypeEnum = "attribute" | "localStorage";
+
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
@@ -115,6 +117,7 @@ export interface DatagridContainerProps {
     columnsResizable: boolean;
     columnsDraggable: boolean;
     columnsHidable: boolean;
+    configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
@@ -156,6 +159,7 @@ export interface DatagridPreviewProps {
     columnsResizable: boolean;
     columnsDraggable: boolean;
     columnsHidable: boolean;
+    configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute: string;
     onConfigurationChange: {} | null;
     filterList: FilterListPreviewType[];
