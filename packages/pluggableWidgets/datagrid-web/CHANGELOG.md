@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue with sorting by columns that display dymanic text or custom content.
+-   We fixed an issue with sorting by columns that display dynamic text or custom content.
 
 ## [2.16.0] - 2024-04-09
 
