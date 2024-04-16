@@ -145,8 +145,8 @@
                                 </enumerationValues>
                             </property>
                             <property key="allowEventPropagation" type="boolean" defaultValue="true">
-                                <caption>Allow default events</caption>
-                                <description>If set to yes, then all default events, such as "on click" or selection, will be triggered when the user interacts with custom content.</description>
+                                <caption>Allow row events</caption>
+                                <description>If set to yes, then all default events on the row, such as "on click" or selection, will be triggered when the user interacts with custom content.</description>
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Appearance">
