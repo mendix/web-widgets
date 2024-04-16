@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.16.1] DataWidgets - 2024-04-16
+
+### [2.16.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with sorting by columns that display dynamic text or custom content.
+
 ## [2.16.0] DataWidgets - 2024-04-09
 
 ### [2.16.0] Datagrid
