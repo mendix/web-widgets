@@ -26,13 +26,13 @@ exports[`Table renders the structure correctly 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -98,13 +98,13 @@ exports[`Table renders the structure correctly for preview when no header is pro
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title=""
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -170,13 +170,13 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -191,13 +191,13 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
           </div>
           <div
             class="th"
+            data-column-id="1"
             role="columnheader"
             style="cursor:unset"
             title="Test 2"
           >
             <div
               class="column-container"
-              data-column-id="1"
               id="dg1-column1"
             >
               <div
@@ -275,13 +275,13 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -351,13 +351,13 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -423,13 +423,13 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -495,13 +495,13 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -567,13 +567,13 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -653,13 +653,13 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -728,13 +728,13 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
           >
             <div
               class="th"
+              data-column-id="0"
               role="columnheader"
               style="cursor:unset"
               title="Test"
             >
               <div
                 class="column-container"
-                data-column-id="0"
                 id="dg1-column0"
               >
                 <div
@@ -801,13 +801,13 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -914,13 +914,13 @@ exports[`Table renders the structure correctly with paging 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -1076,13 +1076,13 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -1148,13 +1148,13 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
           >
             <div
               class="column-container"
-              data-column-id="0"
               id="dg1-column0"
             >
               <div
@@ -1226,13 +1226,13 @@ exports[`Table with selection method checkbox render an extra column and add cla
             />
             <div
               class="th"
+              data-column-id="0"
               role="columnheader"
               style="cursor: unset;"
               title="Test"
             >
               <div
                 class="column-container"
-                data-column-id="0"
                 id="dg1-column0"
               >
                 <div
@@ -1467,13 +1467,13 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
           >
             <div
               class="th"
+              data-column-id="0"
               role="columnheader"
               style="cursor: unset;"
               title="Test"
             >
               <div
                 class="column-container"
-                data-column-id="0"
                 id="dg1-column0"
               >
                 <div

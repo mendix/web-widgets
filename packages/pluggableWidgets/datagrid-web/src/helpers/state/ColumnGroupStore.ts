@@ -23,7 +23,7 @@ export interface IColumnGroupStore {
 
     columnFilters: ColumnFilterStore[];
 
-    swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void;
+    swapColumns(source: ColumnId, target: [ColumnId, "after" | "before"]): void;
     createSizeSnapshot(): void;
 }
 
@@ -88,11 +88,15 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         }
     }
 
-    swapColumns(columnIdA: ColumnId, columnIdB: ColumnId): void {
-        const columnA = this._allColumnsById.get(columnIdA)!;
-        const columnB = this._allColumnsById.get(columnIdB)!;
+    swapColumns(source: ColumnId, [target, placement]: [ColumnId, "after" | "before"]): void {
+        const columnSource = this._allColumnsById.get(source)!;
+        const columnTarget = this._allColumnsById.get(target)!;
+        columnSource.orderWeight = columnTarget.orderWeight + (placement === "after" ? 1 : -1);
 
-        [columnA.orderWeight, columnB.orderWeight] = [columnB.orderWeight, columnA.orderWeight];
+        // normalize columns
+        this._allColumnsOrdered.forEach((column, idx) => {
+            column.orderWeight = idx * 10;
+        });
     }
 
     createSizeSnapshot(): void {

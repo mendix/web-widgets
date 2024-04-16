@@ -157,7 +157,7 @@ const Container = observer((props: Props): ReactElement => {
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, columnsStore.availableColumns, rootStore.headerFiltersStore, filtersChannelName]
+                [FilterContext, columnsStore.columnFilters, rootStore.headerFiltersStore, filtersChannelName]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
@@ -200,7 +200,7 @@ const Container = observer((props: Props): ReactElement => {
             visibleColumns={columnsStore.visibleColumns}
             availableColumns={columnsStore.availableColumns}
             columnsCreateSizeSnapshot={() => columnsStore.createSizeSnapshot()}
-            columnsSwap={(a, b) => columnsStore.swapColumns(a, b)}
+            columnsSwap={(moved, [target, placement]) => columnsStore.swapColumns(moved, [target, placement])}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}

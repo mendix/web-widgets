@@ -3,13 +3,13 @@
 exports[`Header renders the structure correctly 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -27,13 +27,13 @@ exports[`Header renders the structure correctly 1`] = `
 exports[`Header renders the structure correctly when draggable 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     draggable="true"
     id="dg1-columndg1-column0"
   >
@@ -52,13 +52,13 @@ exports[`Header renders the structure correctly when draggable 1`] = `
 exports[`Header renders the structure correctly when filterable with custom classes 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -76,13 +76,13 @@ exports[`Header renders the structure correctly when filterable with custom clas
 exports[`Header renders the structure correctly when filterable with custom filter 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -108,13 +108,13 @@ exports[`Header renders the structure correctly when filterable with custom filt
 exports[`Header renders the structure correctly when filterable with no custom filter 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -132,13 +132,13 @@ exports[`Header renders the structure correctly when filterable with no custom f
 exports[`Header renders the structure correctly when is hidden and preview 1`] = `
 <div
   class="th hidden-column-preview"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -156,13 +156,13 @@ exports[`Header renders the structure correctly when is hidden and preview 1`] =
 exports[`Header renders the structure correctly when resizable 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -189,12 +189,12 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 <div
   aria-sort="none"
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   title="Test"
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
@@ -229,13 +229,13 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 exports[`Header renders the structure correctly when value is empty 1`] = `
 <div
   class="th"
+  data-column-id="dg1-column0"
   role="columnheader"
   style="cursor:unset"
   title=""
 >
   <div
     class="column-container"
-    data-column-id="dg1-column0"
     id="dg1-columndg1-column0"
   >
     <div
