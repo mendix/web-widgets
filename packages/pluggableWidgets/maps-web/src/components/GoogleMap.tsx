@@ -77,29 +77,19 @@ function GoogleMap(props: GoogleMapsProps): ReactElement {
         }
     }, [map, locations, currentLocation, autoZoom]);
 
-    const onCenterChanged = (): void => {
-        if (map) {
-            const latLang = map.getCenter()?.toJSON();
-            if (latLang) {
-                center.current = latLang;
-            }
-        }
-    };
-
     const mapOptions: MapProps = {
-        center: center.current,
         className: "widget-google-maps",
+        defaultCenter: center.current,
+        defaultZoom: autoZoom ? translateZoom("city") : zoomLevel,
         fullscreenControl,
         gestureHandling: draggable ? "auto" : "none",
-        mapId: props.mapId ?? "DEMO_MAP_ID",
+        mapId: props.mapId,
         mapTypeControl,
         maxZoom: 20,
         minZoom: 1,
-        onCenterChanged,
         rotateControl,
         scrollwheel,
         streetViewControl,
-        zoom: autoZoom ? translateZoom("city") : zoomLevel,
         zoomControl
     };
 
@@ -155,7 +145,8 @@ function GoogleMapsMarker(marker: Marker): ReactElement {
                     </span>
                 </InfoWindow>
             )}
-            {marker.url && <Pin glyph={marker.url} />}
+            {marker.url && <img src={marker.url} />}
+            {!marker.url && <Pin />}
         </AdvancedMarker>
     );
 }
