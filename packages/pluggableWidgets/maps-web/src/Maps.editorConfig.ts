@@ -28,11 +28,6 @@ export function getProperties(
         } else {
             hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
         }
-        if (values.googleMapId) {
-            hidePropertyIn(defaultProperties, values, "googleMapIdExp");
-        } else {
-            hidePropertyIn(defaultProperties, values, "googleMapId");
-        }
 
         hidePropertyIn(defaultProperties, values, "advanced");
     } else {
@@ -46,14 +41,9 @@ export function getProperties(
         } else {
             hidePropertyIn(defaultProperties, values, "geodecodeApiKeyExp");
         }
-        if (values.googleMapIdExp) {
-            hidePropertyIn(defaultProperties, values, "googleMapId");
-        } else {
-            hidePropertyIn(defaultProperties, values, "googleMapIdExp");
-        }
 
         if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["mapProvider", "mapStyles"]);
+            hidePropertyIn(defaultProperties, values, "mapProvider");
         }
     }
 
@@ -95,7 +85,7 @@ export function getProperties(
             "mapTypeControl",
             "fullScreenControl",
             "rotateControl",
-            "mapStyles"
+            "googleMapId"
         ]);
         if (values.mapProvider === "openStreet") {
             hidePropertiesIn(defaultProperties, values, ["apiKeyExp", "apiKey"]);

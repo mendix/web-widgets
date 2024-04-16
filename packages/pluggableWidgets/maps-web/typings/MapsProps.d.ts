@@ -81,8 +81,6 @@ export interface MapsContainerProps {
     apiKeyExp?: DynamicValue<string>;
     geodecodeApiKey: string;
     geodecodeApiKeyExp?: DynamicValue<string>;
-    googleMapId: string;
-    googleMapIdExp: DynamicValue<string>;
     showCurrentLocation: boolean;
     optionDrag: boolean;
     optionScroll: boolean;
@@ -98,6 +96,7 @@ export interface MapsContainerProps {
     height: number;
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
+    googleMapId: string;
 }
 
 export interface MapsPreviewProps {
@@ -116,8 +115,6 @@ export interface MapsPreviewProps {
     apiKeyExp: string;
     geodecodeApiKey: string;
     geodecodeApiKeyExp: string;
-    googleMapId: string;
-    googleMapIdExp: string;
     showCurrentLocation: boolean;
     optionDrag: boolean;
     optionScroll: boolean;
@@ -133,4 +130,5 @@ export interface MapsPreviewProps {
     height: number | null;
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
+    googleMapId: string;
 }
