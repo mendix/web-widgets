@@ -2,20 +2,6 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
 import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
 import { initialize } from "@googlemaps/jest-mocks";
-import { useLoadScript } from "@react-google-maps/api";
-
-jest.mock("@react-google-maps/api", () => {
-    const original = jest.requireActual("@react-google-maps/api");
-    return {
-        ...original,
-        useLoadScript: jest.fn()
-    };
-});
-
-function mockUseLoadScriptHookWithReturn(returnValue: Partial<ReturnType<typeof useLoadScript>>): void {
-    // @ts-expect-error `mockImplementation` is present cuz of the mock, but TS doesn't know.
-    useLoadScript.mockImplementation(() => returnValue);
-}
 
 describe("Google maps", () => {
     const defaultProps: GoogleMapsProps = {
@@ -26,7 +12,6 @@ describe("Google maps", () => {
         height: 75,
         heightUnit: "pixels",
         locations: [],
-        mapStyles: "",
         mapsToken: "",
         mapId: "DEMO_MAP_ID",
         mapTypeControl: false,
@@ -44,7 +29,6 @@ describe("Google maps", () => {
 
     beforeEach(() => {
         initialize();
-        mockUseLoadScriptHookWithReturn({ isLoaded: true, loadError: undefined });
     });
 
     afterEach(() => {
