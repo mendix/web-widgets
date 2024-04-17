@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.17.0] DataWidgets - 2024-04-17
+
+### [2.17.0] Datagrid
+
+#### Fixed
+
+-   Fixed an issue with default column colors in design mode.
+
+-   Fixed an issue with dynamic text not rendering.
+
+#### Changed
+
+-   We have enhanced the swap behavior of the columns, making it more intuitive and user-friendly. This improvement also includes a slight adjustment to the classnames applied to the elements being swapped, providing better control over their styling.
+
+#### Added
+
+-   We added the ability to store personalization configuration in the browser's local storage, in addition to the existing option of using an attribute.
+
 ## [2.16.1] DataWidgets - 2024-04-16
 
 ### [2.16.1] Datagrid
