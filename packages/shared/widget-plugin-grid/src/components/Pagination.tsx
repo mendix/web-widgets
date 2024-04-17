@@ -11,7 +11,7 @@ export interface PaginationProps {
     pageSize: number;
     previousPage: () => void;
     setPaginationIndex?: Dispatch<SetStateAction<number>>;
-    showPagingButtons: "always" | "auto";
+    showPagingButtons?: "always" | "auto";
     labelNextPage?: string;
     labelPreviousPage?: string;
     labelFirstPage?: string;
