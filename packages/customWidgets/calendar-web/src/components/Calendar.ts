@@ -48,6 +48,7 @@ export interface CalendarProps {
     onSelectSlotAction?: (slotInfo: object) => void;
     onEventDropAction?: (eventInfo: object) => void;
     customViews: Container.CustomViews[];
+    direction: "rtl" | "ltr";
 }
 
 interface HOCToolbarProps {
@@ -146,6 +147,7 @@ class Calendar extends Component<CalendarProps, State> {
 
         const props = {
             localizer,
+            rtl: this.props.direction === "rtl",
             events: this.props.events,
             allDayAccessor: this.allDayAccessor,
             components: {

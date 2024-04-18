@@ -80,7 +80,8 @@ export class preview extends Component<Container.CalendarContainerProps> {
             style: parseStyle(props.style),
             viewOption: props.view,
             width: props.width,
-            widthUnit: props.widthUnit
+            widthUnit: props.widthUnit,
+            direction: "ltr"
         };
     }
 }
