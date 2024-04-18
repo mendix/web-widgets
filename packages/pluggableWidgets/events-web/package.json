@@ -1,7 +1,7 @@
 {
   "name": "@mendix/app-events-web",
   "widgetName": "Events",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Events",
   "copyright": "© Mendix Technology BV 2024. All rights reserved.",
   "license": "Apache-2.0",
@@ -20,7 +20,7 @@
   },
   "marketplace": {
     "minimumMXVersion": "9.24.0",
-    "appNumber": 219304,
+    "appNumber": 224259,
     "appName": "Events"
   },
   "testProject": {

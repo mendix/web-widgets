@@ -40,5 +40,5 @@ export function useActionTimer(props: ActionTimerProps): void {
             clearTimeout(counter);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [attribute, toggleTimer, delay, interval]);
+    }, [attribute, toggleTimer, delay, interval, canExecute]);
 }
