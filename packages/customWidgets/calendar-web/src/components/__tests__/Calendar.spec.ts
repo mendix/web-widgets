@@ -35,7 +35,8 @@ describe("Calendar", () => {
         style: {},
         viewOption: "standard",
         width: 100,
-        widthUnit: "percentage"
+        widthUnit: "percentage",
+        direction: "ltr"
     };
 
     beforeAll(() => {

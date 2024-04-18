@@ -84,7 +84,8 @@ export default class CalendarContainer extends Component<Container.CalendarConta
                 onEventResizeAction: !readOnly ? this.handleOnChangeEvent : undefined,
                 onSelectSlotAction: !readOnly ? this.onClickSlot : undefined,
                 onEventDropAction: !readOnly ? this.handleOnChangeEvent : undefined,
-                customViews: this.props.customViews
+                customViews: this.props.customViews,
+                direction: (window.mx.session.sessionData as any).uiconfig.direction
             })
         );
     }

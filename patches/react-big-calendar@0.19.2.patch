@@ -1,0 +1,21 @@
+diff --git a/lib/Month.js b/lib/Month.js
+index 12d39baaa43526652116b2fb99d3f12782adda42..1fd2d9608c44cfa1e1c2a985c1a6baaa0075075b 100644
+--- a/lib/Month.js
++++ b/lib/Month.js
+@@ -323,6 +323,7 @@ var _initialiseProps = function _initialiseProps() {
+         selected = _props2.selected,
+         date = _props2.date,
+-        longPressThreshold = _props2.longPressThreshold;
++        longPressThreshold = _props2.longPressThreshold,
++        rtl = _props2.rtl;
+     var _state = _this4.state,
+         needLimitMeasure = _state.needLimitMeasure,
+         rowLimit = _state.rowLimit;
+@@ -334,6 +335,7 @@ var _initialiseProps = function _initialiseProps() {
+     });
+ 
+     return _react2.default.createElement(_DateContentRow2.default, {
++      rtl: rtl,
+       key: weekIdx,
+       ref: weekIdx === 0 ? 'slotRow' : undefined,
+       container: _this4.getContainer,
