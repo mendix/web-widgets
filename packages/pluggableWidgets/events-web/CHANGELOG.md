@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed issues where event not fired with MF/NF having parameters.
+
 ## [1.0.0] - 2024-03-19
 
 ### Added
