@@ -1,20 +1,8 @@
 {
-    "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base",
+    "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
     "include": ["./src/**/*"],
-    "ts-node": {
-        "compilerOptions": {
-            "module": "commonjs"
-        }
-    },
     "compilerOptions": {
-        "baseUrl": "./",
-        "rootDir": "./src",
         "outDir": "./dist",
-        "types": ["mendix-client", "big.js", "jest", "node"],
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "declaration": true,
-        "sourceMap": false,
-        "paths": { "*": ["node_modules/*", "node_modules/@types/*"] }
+        "rootDir": "./src"
     }
 }
