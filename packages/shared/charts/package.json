@@ -1,28 +1,31 @@
 {
   "name": "@mendix/shared-charts",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "Shared components for charts",
   "private": true,
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "type": "module",
-  "types": "dist/index.d.ts",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "tsc --watch",
-    "prepare": "npm run compile",
-    "precompile": "rimraf ./dist",
-    "compile": "tsc && copy-and-watch \"src/**/*.{scss,svg,js}\" \"dist/\"",
-    "build:externals": "rollup --config rollup.config.js",
-    "build": "ts-node ./scripts/build.ts",
-    "release:externals": "rollup --config rollup.config.js --configProduction",
-    "release": "ts-node ./scripts/release.ts",
+    "start": "pnpm run clear && tsc --project tsconfig.build.json --watch",
+    "prepare": "pnpm run compile",
+    "clear": "rimraf ./dist",
+    "compile": "pnpm run clear && tsc --project tsconfig.build.json && copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
+    "build": "pnpm compile",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
-    "test": "pluggable-widgets-tools test:unit:web"
+    "test": "jest"
   },
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/tsconfig-web-widgets": "workspace:^",
     "@mendix/widget-plugin-component-kit": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
@@ -45,8 +48,5 @@
   "peerDependencies": {
     "plotly.js": "^2.27.1",
     "react-plotly.js": "^2.6.0"
-  },
-  "files": [
-    "dist"
-  ]
+  }
 }

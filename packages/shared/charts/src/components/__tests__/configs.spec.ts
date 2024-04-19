@@ -2,6 +2,11 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { useThemeFolderConfigs } from "../../utils/configs";
 import * as themeFileFetchUtils from "../../utils/themeFolderConfig";
 
+jest.mock("../../utils/themeFolderConfig", () => ({
+    __esModule: true,
+    ...jest.requireActual("../../utils/themeFolderConfig")
+}));
+
 describe("The useThemeFolderConfigs hook", () => {
     let configFileSpy: jest.SpyInstance;
 

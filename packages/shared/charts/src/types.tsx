@@ -1,5 +1,4 @@
 import { ObjectItem } from "mendix";
-export { Annotations as ChartAnnotation } from "plotly.js";
 
 export type ExtraTraceProps = {
     /** Objects used to get 'trace' values. */
