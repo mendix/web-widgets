@@ -4,7 +4,7 @@
   "description": "Shared components for charts",
   "private": true,
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "main": "dist/index.js",
+  "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc --watch",
@@ -37,18 +37,16 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "ace-builds": "^1.33.1",
     "classnames": "^2.3.2",
     "deepmerge": "^4.3.1",
     "fast-json-patch": "^3.1.1",
-    "json-source-map": "^0.6.1",
+    "json-source-map": "^0.6.1"
+  },
+  "peerDependencies": {
     "plotly.js": "^2.27.1",
-    "react-ace": "^10.1.0",
     "react-plotly.js": "^2.6.0"
   },
   "files": [
-    "dist",
-    "hooks",
-    "rollup"
+    "dist"
   ]
 }

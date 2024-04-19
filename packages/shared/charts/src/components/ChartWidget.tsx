@@ -10,9 +10,7 @@ import {
     getModelerSeriesOptions,
     useThemeFolderConfigs
 } from "../utils/configs";
-import { Chart, ChartProps, ChartWithPlayground } from "./Chart";
-
-import "../ui/Chart.scss";
+import { Chart, ChartProps } from "./Chart";
 
 export interface ChartWidgetProps extends CustomLayoutProps, Dimensions, ChartProps {
     className: string;
@@ -32,7 +30,6 @@ export const ChartWidget = ({
     xAxisLabel,
     yAxisLabel,
     gridLinesMode,
-    showSidebarEditor,
     customLayout,
     customConfig,
     layoutOptions,
@@ -62,14 +59,12 @@ export const ChartWidget = ({
         [seriesOptions, themeFolderConfigs.series]
     );
 
-    const LineChartWrapperComponent = showSidebarEditor ? ChartWithPlayground : Chart;
-
     return (
         <div
             className={classNames("widget-chart", className)}
             style={getDimensions({ widthUnit, width, heightUnit, height })}
         >
-            <LineChartWrapperComponent
+            <Chart
                 data={data}
                 layoutOptions={initialLayoutOptions}
                 customLayout={customLayout}
