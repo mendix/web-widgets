@@ -1,4 +1,4 @@
-import { CaptionsProvider, Status } from "../types";
+import { CaptionsProvider, Status, SortOrder } from "../types";
 import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
@@ -14,6 +14,14 @@ export class AssociationOptionsProvider extends BaseOptionsProvider<ObjectItem, 
 
     constructor(caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {
         super(caption);
+    }
+
+    get sortOrder(): SortOrder {
+        let sortDir: SortOrder = "asc";
+        if (this.ds) {
+            sortDir = (this.ds.sortOrder[0] ?? [])[1];
+        }
+        return sortDir;
     }
 
     get status(): Status {

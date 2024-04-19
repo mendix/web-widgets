@@ -12,6 +12,7 @@ export type Status = "unavailable" | "loading" | "available";
 export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
+export type SortOrder = "asc" | "desc";
 
 export interface CaptionsProvider {
     get(value: string | null): string;
@@ -26,6 +27,7 @@ export interface OptionsProvider<T = unknown, P = object> {
     status: Status;
     filterType: FilterTypeEnum;
     searchTerm: string;
+    sortOrder?: SortOrder;
 
     getAll(): string[];
 
