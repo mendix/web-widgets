@@ -7,11 +7,15 @@ import {
     listExp
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
+
+async function getInput(component: RenderResult): Promise<HTMLInputElement> {
+    return (await component.findByRole("combobox")) as HTMLInputElement;
+}
 
 describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
@@ -90,12 +94,12 @@ describe("Combo box (Association)", () => {
     });
     it("toggles combobox menu on: input CLICK(focus) / BLUR", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const toggleButton = await component.findByRole("combobox");
-        await fireEvent.click(toggleButton);
+        const input = await getInput(component);
+        await fireEvent.click(input);
         await waitFor(() => {
             expect(component.getAllByRole("option")).toHaveLength(4);
         });
-        fireEvent.blur(toggleButton);
+        fireEvent.blur(input);
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(component.container).toMatchSnapshot();
     });
@@ -113,7 +117,7 @@ describe("Combo box (Association)", () => {
     });
     it("adds new item to inital selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        const input = await getInput(component);
 
         fireEvent.click(input);
         waitFor(() => {
@@ -126,7 +130,7 @@ describe("Combo box (Association)", () => {
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        const input = await getInput(component);
         fireEvent.click(input);
         await waitFor(() => {
             expect(component.queryAllByRole("option")).toHaveLength(4);
@@ -142,7 +146,7 @@ describe("Combo box (Association)", () => {
     });
     it("selects all items with the Select All button", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
+        const input = await getInput(component);
         fireEvent.click(input);
         await waitFor(() => {
             expect(component.queryAllByRole("option")).toHaveLength(4);
