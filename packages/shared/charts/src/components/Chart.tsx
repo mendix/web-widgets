@@ -1,10 +1,10 @@
-import { createElement, Fragment, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
+import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 import ReactPlotlyChartComponent, { PlotParams } from "react-plotly.js";
 import { Config, Data, Layout } from "plotly.js";
 import deepmerge from "deepmerge";
-import { Playground, useChartsPlaygroundState } from "./Playground/Playground";
-import { CodeEditor } from "./Playground/CodeEditor";
-import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
+// import { Playground, useChartsPlaygroundState } from "./Playground/Playground";
+// import { CodeEditor } from "./Playground/CodeEditor";
+// import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
 import { ExtraTraceProps } from "../types";
 
 const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
@@ -103,7 +103,12 @@ function createPlotlyData(traces: PlotTrace[], baseOptions: Partial<Data>): Data
         });
     });
 }
-
+function isNonEmptyString(value: undefined | null | string): value is string {
+    return value !== null && value !== undefined && value !== "";
+}
+function ifNonEmptyStringElseEmptyObjectString(value: undefined | null | string): string {
+    return isNonEmptyString(value) ? value : "{}";
+}
 function fromJSON(value: string | null | undefined): object {
     return JSON.parse(ifNonEmptyStringElseEmptyObjectString(value));
 }
@@ -117,95 +122,3 @@ function getItemIndex(pointIndex: number | undefined, pointIndices: number[] | u
 
     return index;
 }
-
-const irrelevantSeriesKeys = ["x", "y", "z", "customSeriesOptions"];
-
-export const ChartWithPlayground = ({
-    data,
-    layoutOptions,
-    configOptions,
-    seriesOptions,
-    customLayout,
-    customConfig
-}: ChartProps): ReactElement => {
-    const {
-        activeEditableCode,
-        activeView,
-        changeActiveView,
-        changeEditableCode,
-        changeEditableCodeIsValid,
-        editedConfig,
-        editedData,
-        editedLayout
-    } = useChartsPlaygroundState({
-        data,
-        customConfig,
-        customLayout
-    });
-
-    const activeModelerCode = useMemo(() => {
-        if (activeView === "layout") {
-            return layoutOptions;
-        }
-        if (activeView === "config") {
-            return configOptions;
-        }
-        const index = parseInt(activeView, 10);
-        return Object.fromEntries(
-            Object.entries(data[index]).filter(([key]) => !irrelevantSeriesKeys.includes(key))
-        ) as Partial<Data>;
-    }, [activeView, configOptions, data, layoutOptions]);
-
-    return (
-        <Playground.Wrapper
-            renderPanels={
-                <Fragment>
-                    <Playground.Panel key={activeView} heading="Custom settings">
-                        <CodeEditor
-                            readOnly={false}
-                            value={activeEditableCode}
-                            onChange={changeEditableCode}
-                            onValidate={annotations => changeEditableCodeIsValid(!annotations.length)}
-                        />
-                    </Playground.Panel>
-                    <Playground.Panel
-                        key="modeler"
-                        heading="Settings from the Studio/Studio Pro"
-                        headingClassName="read-only"
-                    >
-                        <CodeEditor
-                            readOnly
-                            value={JSON.stringify(activeModelerCode, null, 2)}
-                            overwriteValue={activeEditableCode}
-                        />
-                    </Playground.Panel>
-                </Fragment>
-            }
-            renderSidebarHeaderTools={
-                <Playground.SidebarHeaderTools>
-                    <Playground.Select
-                        onChange={changeActiveView}
-                        options={[
-                            { name: "Layout", value: "layout", isDefaultSelected: true },
-                            ...data.map((serie, index) => ({
-                                name: serie.name || `trace ${index}`,
-                                value: index,
-                                isDefaultSelected: false
-                            })),
-                            { name: "Configuration", value: "config", isDefaultSelected: false }
-                        ]}
-                    />
-                </Playground.SidebarHeaderTools>
-            }
-        >
-            <Chart
-                data={editedData}
-                layoutOptions={layoutOptions}
-                customLayout={editedLayout}
-                configOptions={configOptions}
-                customConfig={editedConfig}
-                seriesOptions={seriesOptions}
-            />
-        </Playground.Wrapper>
-    );
-};
