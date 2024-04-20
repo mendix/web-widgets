@@ -1,52 +1,112 @@
-import { type RollupOptions } from "rollup";
+import { OutputOptions, type RollupOptions } from "rollup";
 import path from "node:path";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-const { join } = path;
+import replace from "@rollup/plugin-replace";
+import tarser from "@rollup/plugin-terser";
+const { join, format } = path;
 
 type Args = { configDefaultConfig: [AMDConfig: RollupOptions, ESMConfig: RollupOptions]; configProduction: unknown };
 
 // use CommonJS exports
 exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[] {
-    // As v5 will be used in modern client it doesn't make any sens
-    // to compile AMD entry, so, we just ignore it.
-    const [_skip_amd_, widgetConfig, ...editorEntries] = args.configDefaultConfig;
-    const external = [...(widgetConfig.external as Array<string | RegExp>)];
+    const isProd = !!args.configProduction;
+    // eslint-disable-next-line prefer-const
+    let [widgetAMD, widgetESM, ...editorEntries] = args.configDefaultConfig;
+    const external = [...(widgetESM.external as Array<string | RegExp>)];
+    const sharedDir = join("dist", "tmp", "widgets", "com", "mendix", "shared", "charts");
+    const outESM = join(sharedDir, "esm");
+    const outAMD = join(sharedDir, "amd");
+    const plugins = [
+        nodeResolve(),
+        commonjs(),
+        replace({
+            "process.env.NODE_ENV": JSON.stringify(isProd ? "production" : "development")
+        })
+    ];
+    // Modern client build tool bundles code and use compression by default.
+    // Dojo client build tool don't have any compression, so we have to use tarser.
+    // Turns out tarser is slowest step in bundling process.
+    const pluginsAMD = [...plugins, isProd ? tarser() : null];
 
+    /*
+     * [react-plotly.js]
+     * Extracting react-plotly.js to separate esm and amd modules.
+     */
     const reactPlotly: RollupOptions = {
         external,
         input: "react-plotly.js",
+        plugins
+    };
+    const reactPlotlyESM: RollupOptions = {
+        ...reactPlotly,
         output: {
             format: "es",
-            file: join("dist", "tmp", "widgets", "com", "mendix", "shared", "charts", "react-plotly.js")
+            file: format({ dir: outESM, base: "react-plotly.mjs" })
+        }
+    };
+    const reactPlotlyAMD: RollupOptions = {
+        ...reactPlotly,
+        output: {
+            format: "amd",
+            file: format({ dir: outAMD, base: "react-plotly.js" })
         },
-        plugins: [nodeResolve(), commonjs()]
+        plugins: pluginsAMD
     };
 
-    const sharedCharts: RollupOptions = {
+    /*
+     * [@mendix/shared-charts]
+     * Extracting package main entry point to separate esm and amd modules.
+     * Also, replacing react-plotly.js path.
+     */
+    const chartsCommonFile = "charts-common";
+    const chartsCommonOptions: RollupOptions = {
         external: [...external, "react-plotly.js"],
         input: "@mendix/shared-charts",
+        plugins
+    };
+
+    const chartsCommonESM: RollupOptions = {
+        ...chartsCommonOptions,
         output: {
             format: "es",
-            file: join("dist", "tmp", "widgets", "com", "mendix", "shared", "charts", "main.js"),
+            file: format({ dir: outESM, base: `${chartsCommonFile}.mjs` }),
             paths: {
-                // Chart.js and react-plotly both in <shared> folder.
+                "react-plotly.js": "./react-plotly.mjs"
+            }
+        }
+    };
+
+    const chartsCommonAMD: RollupOptions = {
+        ...chartsCommonOptions,
+        output: {
+            format: "amd",
+            file: format({ dir: outAMD, base: `${chartsCommonFile}.js` }),
+            paths: {
                 "react-plotly.js": "./react-plotly.js"
             }
         },
-        plugins: [nodeResolve(), commonjs()]
+        plugins: pluginsAMD
     };
 
-    widgetConfig.external = [...external, "@mendix/shared-charts"];
-    widgetConfig.output = {
-        ...widgetConfig.output,
-        paths: {
-            "@mendix/shared-charts": "../../../shared/charts/main.js"
-        }
-    };
-    // Sed, but PWT has a flaw in which only AMD entry do scss extraction.
-    // As a quick fix, we just replace postcss plugins.
-    widgetConfig.plugins![5] = _skip_amd_.plugins![5];
+    /*
+     * [<widget>]
+     * Patching rollup options for widget entries.
+     * Also, replacing "@mendix/shared-charts" path to relative path.
+     */
+    [widgetAMD, widgetESM] = [widgetAMD, widgetESM].map(inputOptions => {
+        inputOptions.external = [...external, "@mendix/shared-charts"];
+        inputOptions.output = {
+            ...inputOptions.output,
+            paths: {
+                "@mendix/shared-charts":
+                    (inputOptions.output as OutputOptions).format === "es"
+                        ? `../../../shared/charts/esm/${chartsCommonFile}.mjs`
+                        : `../../../shared/charts/amd/${chartsCommonFile}.js`
+            }
+        };
+        return inputOptions;
+    });
 
-    return [reactPlotly, sharedCharts, widgetConfig, ...editorEntries];
+    return [reactPlotlyAMD, chartsCommonAMD, widgetAMD, reactPlotlyESM, chartsCommonESM, widgetESM, ...editorEntries];
 };
