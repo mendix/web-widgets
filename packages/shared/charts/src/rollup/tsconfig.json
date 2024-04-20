@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.json",
+    "files": ["shared-libs-config.cts"],
+    "include": [],
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "sourceMap": false,
+        "declarationMap": false,
+        "declaration": false
+    }
+}
