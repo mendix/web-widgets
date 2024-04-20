@@ -1,5 +1,5 @@
-import { Chart } from "@mendix/shared-charts/dist/components/Chart";
-
+import { Chart } from "@mendix/shared-charts/components/Chart";
+import "@mendix/shared-charts/ui/Chart.scss";
 // import classNames from "classnames";
 import { createElement } from "react";
 import { AreaChartContainerProps } from "../typings/AreaChartProps";
@@ -82,5 +82,22 @@ import { AreaChartContainerProps } from "../typings/AreaChartProps";
 //     );
 // }, containerPropsEqual);
 export function AreaChart(_props: AreaChartContainerProps): React.ReactElement {
-    return <Chart data={[]} configOptions={{}} layoutOptions={{}} seriesOptions={{}} customConfig="" customLayout="" />;
+    return (
+        <Chart
+            data={[
+                {
+                    x: ["giraffes", "orangutans", "monkeys"],
+                    y: [20, 14, 23],
+                    type: "scatter",
+                    dataSourceItems: [],
+                    customSeriesOptions: ""
+                }
+            ]}
+            configOptions={{}}
+            layoutOptions={{}}
+            seriesOptions={{}}
+            customConfig=""
+            customLayout=""
+        />
+    );
 }

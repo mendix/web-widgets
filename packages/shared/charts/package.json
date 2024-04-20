@@ -5,18 +5,29 @@
   "private": true,
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "type": "module",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts"
+      ]
+    }
+  },
   "exports": {
+    "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
+    "./ui/*": "./dist/ui/*",
     "./*": "./dist/*.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "start": "pnpm run clear && tsc --project tsconfig.build.json --watch",
-    "prepare": "pnpm run compile",
+    "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
+    "prepare": "pnpm run build",
     "clear": "rimraf ./dist",
-    "compile": "pnpm run clear && tsc --project tsconfig.build.json && copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
-    "build": "pnpm compile",
+    "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
+    "build:src": "tsc --project tsconfig.build.json",
+    "build:cfg": "tsc --project src/rollup/tsconfig.json",
+    "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
     "test": "jest"
@@ -47,6 +58,9 @@
   },
   "peerDependencies": {
     "plotly.js": "^2.27.1",
-    "react-plotly.js": "^2.6.0"
+    "react-plotly.js": "^2.6.0",
+    "rollup": "^2.79.1",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3"
   }
 }
