@@ -52,10 +52,12 @@
     "json-source-map": "^0.6.1"
   },
   "peerDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^2.4.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "plotly.js": "^2.27.1",
     "react-plotly.js": "^2.6.0",
-    "rollup": "^2.79.1",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3"
+    "rollup": "^2.79.1"
   }
 }
