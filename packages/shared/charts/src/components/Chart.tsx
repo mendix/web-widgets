@@ -5,7 +5,7 @@ import deepmerge from "deepmerge";
 // import { Playground, useChartsPlaygroundState } from "./Playground/Playground";
 // import { CodeEditor } from "./Playground/CodeEditor";
 // import { ifNonEmptyStringElseEmptyObjectString } from "./Playground/utils";
-import { ExtraTraceProps } from "../types";
+import { ExtraTraceProps } from "../typings/ExtraTraceProps";
 
 const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
 
