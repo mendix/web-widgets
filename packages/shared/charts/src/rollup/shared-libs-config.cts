@@ -23,12 +23,12 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
         plugins: [nodeResolve(), commonjs()]
     };
 
-    const chartComponent: RollupOptions = {
+    const sharedCharts: RollupOptions = {
         external: [...external, "react-plotly.js"],
-        input: "@mendix/shared-charts/components/Chart",
+        input: "@mendix/shared-charts",
         output: {
             format: "es",
-            file: join("dist", "tmp", "widgets", "com", "mendix", "shared", "charts", "Chart.js"),
+            file: join("dist", "tmp", "widgets", "com", "mendix", "shared", "charts", "main.js"),
             paths: {
                 // Chart.js and react-plotly both in <shared> folder.
                 "react-plotly.js": "./react-plotly.js"
@@ -37,16 +37,16 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
         plugins: [nodeResolve(), commonjs()]
     };
 
-    widgetConfig.external = [...external, "@mendix/shared-charts/components/Chart"];
+    widgetConfig.external = [...external, "@mendix/shared-charts"];
     widgetConfig.output = {
         ...widgetConfig.output,
         paths: {
-            "@mendix/shared-charts/components/Chart": "../../../shared/charts/Chart.js"
+            "@mendix/shared-charts": "../../../shared/charts/main.js"
         }
     };
     // Sed, but PWT has a flaw in which only AMD entry do scss extraction.
     // As a quick fix, we just replace postcss plugins.
     widgetConfig.plugins![5] = _skip_amd_.plugins![5];
 
-    return [reactPlotly, chartComponent, widgetConfig, ...editorEntries];
+    return [reactPlotly, sharedCharts, widgetConfig, ...editorEntries];
 };
