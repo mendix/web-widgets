@@ -17,6 +17,7 @@ export interface ChartWidgetProps extends CustomLayoutProps, Dimensions, ChartPr
     showSidebarEditor: boolean;
     type: ChartTypeEnum;
     enableThemeConfig: boolean;
+    playground: React.ReactNode | null;
 }
 
 export const ChartWidget = ({
@@ -36,7 +37,8 @@ export const ChartWidget = ({
     configOptions,
     seriesOptions,
     type,
-    enableThemeConfig
+    enableThemeConfig,
+    playground
 }: ChartWidgetProps): ReactElement => {
     const themeFolderConfigs = useThemeFolderConfigs(type, enableThemeConfig);
 
@@ -71,6 +73,7 @@ export const ChartWidget = ({
                 configOptions={initialConfigOptions}
                 customConfig={customConfig}
                 seriesOptions={initialSeriesOptions}
+                playground={playground}
             />
         </div>
     );
