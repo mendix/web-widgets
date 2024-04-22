@@ -30,14 +30,14 @@
                 </property>
 
                 <!-- ENUM & BOOLEAN-->
-                <property key="attributeEnumeration" type="attribute" required="true">
+                <property key="attributeEnumeration" type="attribute" required="true" setLabel="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="attributeBoolean" type="attribute" required="true">
+                <property key="attributeBoolean" type="attribute" required="true" setLabel="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -69,7 +69,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="databaseAttributeString" type="attribute">
+                <property key="databaseAttributeString" type="attribute" required="true" setLabel="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -85,7 +85,7 @@
                 </property>
                 <!-- END DATABASE / STRING -->
                 <!-- ASSOCIATION -->
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
                     <caption>Entity</caption>
                     <description />
                     <associationTypes>
@@ -145,7 +145,7 @@
             <!-- END OPTIONS SOURCE -->
             <!-- STATIC-->
             <propertyGroup caption="Values">
-                <property key="staticAttribute" type="attribute" required="true">
+                <property key="staticAttribute" type="attribute" required="true" setLabel="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -159,7 +159,7 @@
                     </attributeTypes>
                 </property>
                 <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
-                    <caption>Selectable objects</caption>
+                    <caption>Values</caption>
                     <description />
                     <properties>
                         <propertyGroup caption="Static values">
