@@ -19,7 +19,9 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         heightUnit,
         preset,
         menubarMode,
-        readOnlyStyle
+        readOnlyStyle,
+        enableStatusBar,
+        resize
     } = props;
 
     if (stringAttribute.status === "loading") {
@@ -60,6 +62,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                     editorHeight={height}
                     editorWidth={width}
                     key={`${String(stringAttribute.readOnly)}_${id}`}
+                    resize={enableStatusBar ? resize : "false"}
                 />
             </div>
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
