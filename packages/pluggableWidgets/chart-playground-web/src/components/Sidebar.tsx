@@ -1,10 +1,9 @@
-import { createElement, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
+import { createElement, ReactElement, ReactNode } from "react";
+import "../ui/Panel.scss";
+import "../ui/Sidebar.scss";
 
-import "../../ui/Sidebar.scss";
-import "../../ui/Panel.scss";
-
-import closeIconSvg from "../../assets/close.svg";
+// import closeIconSvg from "../../assets/close.svg";
 
 interface SidebarProps {
     children: ReactNode;
@@ -43,7 +42,7 @@ export const SidebarHeader = ({ className, onClose, children }: SidebarHeaderPro
             {onClose ? (
                 <div className="col-sm-2 col-xs-2">
                     <button className="btn btn-image btn-icon close-button" onClick={onClose}>
-                        <img src={closeIconSvg} className="removeIcon" alt="Close the playground sidebar" />
+                        {/* <img src={closeIconSvg} className="removeIcon" alt="Close the playground sidebar" /> */}╳
                     </button>
                 </div>
             ) : null}

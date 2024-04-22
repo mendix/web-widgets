@@ -1,11 +1,12 @@
 import { createContext, useContext, useMemo } from "react";
 import { ChartProps } from "../components/types";
 import { EditorStore } from "./EditorStore";
-
+import type { Data } from "plotly.js";
 /** As of charts v4, this props are not changing over the widget lifetime. */
-type StaticProps = Pick<ChartProps, "layoutOptions" | "configOptions" | "seriesOptions">;
+type StaticProps = Pick<ChartProps, "layoutOptions" | "configOptions">;
 
 export type PlaygroundData = StaticProps & {
+    plotData: Array<Partial<Data>>;
     store: EditorStore;
 };
 
@@ -36,8 +37,8 @@ export function usePlaygroundDataFactory(props: ChartProps, store: EditorStore):
             store,
             layoutOptions: props.layoutOptions,
             configOptions: props.configOptions,
-            seriesOptions: props.seriesOptions
+            plotData: props.data
         }),
-        [props.layoutOptions, props.configOptions, props.seriesOptions, store]
+        [props.layoutOptions, props.configOptions, props.data, store]
     );
 }
