@@ -69,6 +69,10 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (values.widthUnit === "percentage" && values.heightUnit === "percentageOfWidth") {
         hidePropertyIn(defaultProperties, values, "height");
     }
+
+    if (!values.enableStatusBar) {
+        hidePropertyIn(defaultProperties, values, "resize");
+    }
     return defaultProperties;
 }
 
