@@ -3,7 +3,7 @@ import AreaChartImage from "./assets/AreaChart.light.svg";
 import AreaChartLegend from "./assets/AreaChart-legend.light.svg";
 import { AreaChartPreviewProps } from "../typings/AreaChartProps";
 
-function Chart(props: AreaChartPreviewProps): ReactNode {
+function Chart(props: AreaChartPreviewProps): React.ReactElement {
     return (
         <div
             className={props.class}
