@@ -73,13 +73,14 @@ export const LineChart = memo(
                 xAxisLabel={props.xAxisLabel?.value}
                 yAxisLabel={props.yAxisLabel?.value}
                 gridLinesMode={props.gridLines}
-                showSidebarEditor={props.enableDeveloperMode}
+                showSidebarEditor={false}
                 customLayout={props.customLayout}
                 customConfig={props.customConfigurations}
                 layoutOptions={lineChartLayoutOptions}
                 configOptions={lineChartConfigOptions}
                 seriesOptions={lineChartSeriesOptions}
                 enableThemeConfig={props.enableThemeConfig}
+                playground={props.playground}
             />
         );
     },

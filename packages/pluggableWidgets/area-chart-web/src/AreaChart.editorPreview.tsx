@@ -26,7 +26,7 @@ function Chart(props: AreaChartPreviewProps): React.ReactElement {
 export function preview(props: AreaChartPreviewProps): ReactNode {
     const { renderer: PlaygroundSlog } = props.playground ?? { renderer: () => null };
     return (
-        <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
+        <div style={{ display: "inline-flex", flexFlow: "column nowrap", position: "relative" }}>
             <Chart {...props} />
             <PlaygroundSlog caption="Playground slot">{<div />}</PlaygroundSlog>
         </div>

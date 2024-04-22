@@ -1,8 +1,14 @@
 import { ReactElement, createElement } from "react";
-import { Playground } from "./components/Playground";
+import "./ui/Playground.scss";
 
 export function preview(): ReactElement {
-    return <Playground />;
+    return (
+        <div className={"widget-charts-playground"}>
+            <div className="widget-charts-playground-toggle">
+                <button className="mx-button btn">Toggle Editor</button>
+            </div>
+        </div>
+    );
 }
 
 export function getPreviewCss(): string {

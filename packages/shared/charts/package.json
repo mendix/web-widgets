@@ -43,9 +43,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "deepmerge": "^4.3.1",
-    "fast-json-patch": "^3.1.1",
-    "json-source-map": "^0.6.1"
+    "deepmerge": "^4.3.1"
   },
   "peerDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

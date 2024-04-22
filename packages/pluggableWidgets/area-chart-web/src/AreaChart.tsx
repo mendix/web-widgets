@@ -81,6 +81,7 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
             configOptions={areaChartConfigOptions}
             seriesOptions={areaChartSeriesOptions}
             enableThemeConfig={props.enableThemeConfig}
+            playground={props.playground}
         />
     );
 }, containerPropsEqual);

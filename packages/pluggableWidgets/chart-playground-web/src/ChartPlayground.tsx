@@ -4,7 +4,7 @@ import { Playground } from "./components/Playground";
 export function ChartPlayground(): ReactElement | null {
     return (
         <div>
-            <Playground />;
+            <Playground />
         </div>
     );
 }
