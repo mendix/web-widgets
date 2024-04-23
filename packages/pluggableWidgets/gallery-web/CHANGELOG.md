@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
+
 ### Added
 
 -   A new property that allows to change the behavior of the item selection.
