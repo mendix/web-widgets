@@ -49,6 +49,7 @@
     "@mendix/widget-plugin-component-kit": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
+    "@monaco-editor/react": "^4.6.0",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1"
   }

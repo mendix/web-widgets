@@ -1,12 +1,14 @@
 .widget-sidebar {
+    --sidebar-w: 500px;
+    --config-editor-h: 500px;
     color: #5e5e5e;
     background: #fff;
     border: 1px solid #d2d6de;
     position: fixed;
     padding-top: 0;
     top: 0;
-    right: -400px;
-    width: 400px;
+    right: calc(-1 * var(--sidebar-w));
+    width: var(--sidebar-w);
     height: 100%;
     min-height: 400px;
     overflow-x: hidden;
@@ -34,10 +36,12 @@
     }
 
     .sidebar-content {
+        --header-h: 55px;
         height: 100%;
         position: relative;
 
         .sidebar-content-header {
+            height: var(--header-h);
             padding: 8px;
             border-bottom: 1px solid #ddd;
             background: #f5f5f5;
@@ -63,6 +67,24 @@
                 }
             }
         }
+
+        .sidebar-content-body {
+            height: calc(100% - var(--header-h));
+        }
+    }
+}
+
+.widget-custom-config {
+    height: var(--config-editor-h);
+}
+
+.widget-modeler-config {
+    height: calc(100% - var(--config-editor-h));
+    display: flex;
+    flex-flow: column nowrap;
+
+    pre {
+        margin: 0;
     }
 }
 

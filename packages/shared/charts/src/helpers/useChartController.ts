@@ -3,6 +3,7 @@ import { ChartProps } from "../components/types";
 import { EditorStoreState } from "./EditorStore";
 import { useEditorStore } from "./useEditorStore";
 import { usePlaygroundDataFactory, PlaygroundData } from "./playground-context";
+import { fallback } from "../utils/json";
 
 type Params = {
     playgroundOn: boolean;
@@ -10,7 +11,14 @@ type Params = {
 
 export function useChartController(props: ChartProps, params: Params): [ChartProps, PlaygroundData] {
     const { playgroundOn } = params;
-    const store = useEditorStore({ dataLength: props.data.length });
+    const store = useEditorStore({
+        dataLength: props.data.length,
+        initState: () => ({
+            layout: fallback(props.customLayout),
+            config: fallback(props.customConfig),
+            data: props.data.map(trace => fallback(trace.customSeriesOptions))
+        })
+    });
     const playgroundContext = usePlaygroundDataFactory(props, store);
     const { state } = store;
     props = useMemo(() => (playgroundOn === false ? props : mergeConfigs(props, state)), [playgroundOn, props, state]);
