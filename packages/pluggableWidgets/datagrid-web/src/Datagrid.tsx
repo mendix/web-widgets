@@ -187,6 +187,7 @@ const Container = observer((props: Props): ReactElement => {
                 limit: props.datasource.limit
             })}
             pagingPosition={props.pagingPosition}
+            showPagingButtons={props.showPagingButtons}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             rowClickable={!!(props.itemSelection || props.onClick)}
             setPage={setPage}

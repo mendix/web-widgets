@@ -91,6 +91,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         paginationType: "buttons",
         paging: false,
         pagingPosition: "bottom",
+        showPagingButtons: "auto",
         visibleColumns: columns,
         availableColumns: columns,
         columnsSwap: jest.fn(),

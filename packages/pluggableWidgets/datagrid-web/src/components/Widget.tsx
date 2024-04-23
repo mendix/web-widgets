@@ -3,7 +3,7 @@ import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState } from "react";
-import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
+import { PagingPositionEnum, PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
@@ -50,6 +50,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     preview?: boolean;
     processedRows: number;
     rowClass?: (item: T) => string;
@@ -135,6 +136,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             numberOfItems={numberOfItems}
             page={page}
             pageSize={pageSize}
+            showPagingButtons={props.showPagingButtons}
             previousPage={() => setPage && setPage(prev => prev - 1)}
         />
     ) : null;

@@ -11,6 +11,7 @@ export interface PaginationProps {
     pageSize: number;
     previousPage: () => void;
     setPaginationIndex?: Dispatch<SetStateAction<number>>;
+    showPagingButtons?: "always" | "auto";
     labelNextPage?: string;
     labelPreviousPage?: string;
     labelFirstPage?: string;
@@ -24,16 +25,20 @@ export function Pagination(props: PaginationProps): ReactElement | null {
         props.numberOfItems !== undefined ? Math.ceil(props.numberOfItems / props.pageSize) : undefined;
     const lastPage = numberOfPages !== undefined ? numberOfPages - 1 : 0;
     const hasLastPage = numberOfPages !== undefined;
-    const initialItem = props.page * props.pageSize + 1;
+    const initialItem = props.numberOfItems === 0 ? 0 : props.page * props.pageSize + 1;
     const lastItem =
-        props.canNextPage || !props.numberOfItems ? (props.page + 1) * props.pageSize : props.numberOfItems;
+        props.canNextPage || !props.numberOfItems
+            ? props.showPagingButtons !== "always"
+                ? (props.page + 1) * props.pageSize
+                : props.page * props.pageSize
+            : props.numberOfItems;
     const setPageIndex = (page: number): void => {
         if (props.setPaginationIndex) {
             props.setPaginationIndex(page);
         }
     };
 
-    if (props.numberOfItems === 0) {
+    if (props.numberOfItems === 0 && props.showPagingButtons !== "always") {
         return null;
     }
 
@@ -86,7 +91,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                 <button
                     aria-label={props.labelLastPage ?? "Go to last page"}
                     className="btn pagination-button"
-                    disabled={props.page === lastPage}
+                    disabled={props.page === lastPage || props.numberOfItems === 0}
                     {...getEvents(() => {
                         props.gotoPage(lastPage);
                         setPageIndex(lastPage);
