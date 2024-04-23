@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useMemo } from "react";
+import { createElement, ReactElement, useMemo, Fragment } from "react";
 import classNames from "classnames";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import {
@@ -61,12 +61,18 @@ export const ChartWidget = ({
         [seriesOptions, themeFolderConfigs.series]
     );
 
+    // Waiting for datasource.
+    if (data.length === 0) {
+        return <Fragment />;
+    }
+
     return (
         <div
             className={classNames("widget-chart", className)}
             style={getDimensions({ widthUnit, width, heightUnit, height })}
         >
             <Chart
+                key={data.length}
                 data={data}
                 layoutOptions={initialLayoutOptions}
                 customLayout={customLayout}

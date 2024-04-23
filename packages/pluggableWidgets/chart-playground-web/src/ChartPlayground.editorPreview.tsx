@@ -1,5 +1,4 @@
 import { ReactElement, createElement } from "react";
-import "./ui/Playground.scss";
 
 export function preview(): ReactElement {
     return (
@@ -12,6 +11,5 @@ export function preview(): ReactElement {
 }
 
 export function getPreviewCss(): string {
-    // html element has no styling by design
-    return "";
+    return require("./ui/Preview.scss");
 }

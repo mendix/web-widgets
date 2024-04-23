@@ -3,8 +3,6 @@ import { createElement, ReactElement, ReactNode } from "react";
 import "../ui/Panel.scss";
 import "../ui/Sidebar.scss";
 
-// import closeIconSvg from "../../assets/close.svg";
-
 interface SidebarProps {
     children: ReactNode;
     className?: string;
@@ -78,7 +76,7 @@ export interface SelectProps {
     options: SelectOption[];
 }
 
-interface SelectOption {
+export interface SelectOption {
     name: string;
     value: string | number;
     isDefaultSelected: boolean;

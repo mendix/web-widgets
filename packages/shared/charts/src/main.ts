@@ -5,6 +5,7 @@ export * from "./utils/configs";
 export * from "./hooks/usePlotChartDataSeries";
 import { usePlaygroundContext } from "./helpers/playground-context";
 export { usePlaygroundContext };
+export { fallback } from "./utils/json";
 export type * from "./helpers/playground-context";
 export type * from "./helpers/EditorStore";
 

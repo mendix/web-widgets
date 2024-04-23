@@ -25,10 +25,11 @@ function Chart(props: AreaChartPreviewProps): React.ReactElement {
 
 export function preview(props: AreaChartPreviewProps): ReactNode {
     const { renderer: PlaygroundSlog } = props.playground ?? { renderer: () => null };
+    const dropzone = <div style={{ minHeight: 38, position: "absolute", top: 10, right: 10, minWidth: 116 }} />;
     return (
         <div style={{ display: "inline-flex", flexFlow: "column nowrap", position: "relative" }}>
             <Chart {...props} />
-            <PlaygroundSlog caption="Playground slot">{<div />}</PlaygroundSlog>
+            <PlaygroundSlog caption="Playground slot">{dropzone}</PlaygroundSlog>
         </div>
     );
 }

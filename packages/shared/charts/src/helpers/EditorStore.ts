@@ -1,4 +1,4 @@
-type JSONString = string;
+export type JSONString = string;
 
 export interface EditorStoreState {
     /** This prop holds layout options */
@@ -15,8 +15,16 @@ export class EditorStore {
     listeners: Listener[] = [];
     state: EditorStoreState = { layout: "{}", config: "{}", data: [] };
 
-    set(key: "layout" | "config" | number, value: JSONString): void {
-        const changed = typeof key === "number" ? this.setData(key, value) : this.setProp(key, value);
+    set(key: "data", value: JSONString[]): void;
+    set(key: "layout" | "config" | number, value: JSONString): void;
+    set(...params: [number, JSONString] | ["data", JSONString[]] | ["layout" | "config", JSONString]): void {
+        let changed = false;
+        if (typeof params[0] === "number") {
+            changed = this.setData(...params);
+        } else {
+            const [prop, value] = params;
+            changed = this.setProp(prop, value);
+        }
         if (changed) {
             this.emit();
         }
@@ -35,13 +43,13 @@ export class EditorStore {
     private setData(index: number, value: JSONString): boolean {
         let changed = false;
         if (this.state.data[index] !== value) {
-            this.state.data = this.state.data.map((str, i) => (index === i ? value : str));
+            this.state = { ...this.state, data: this.state.data.map((str, i) => (index === i ? value : str)) };
             changed = true;
         }
         return changed;
     }
 
-    private setProp(key: keyof EditorStoreState, value: JSONString): boolean {
+    private setProp<T extends keyof EditorStoreState>(key: T, value: EditorStoreState[T]): boolean {
         let changed = false;
         if (this.state[key] !== value) {
             this.state = { ...this.state, [key]: value };
