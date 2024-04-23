@@ -4,7 +4,7 @@ import { DatagridTextFilterContainerProps, DefaultFilterEnum } from "../typings/
 import { FilterComponent } from "./components/FilterComponent";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterType, getFilterDispatcher } from "@mendix/widget-plugin-filtering";
+import { FilterType, getFilterDispatcher, useDefaultValue } from "@mendix/widget-plugin-filtering";
 
 import {
     attribute,
@@ -26,7 +26,7 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridTextFilter(props: DatagridTextFilterContainerProps): ReactElement {
     const id = useRef(`TextFilter${generateUUID()}`);
-    const { current: defaultValue } = useRef(props.defaultValue?.value);
+    const defaultValue = useDefaultValue(props.defaultValue);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -80,7 +80,7 @@ export default function DatagridTextFilter(props: DatagridTextFilterContainerPro
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
-                if (props.defaultValue?.status === "loading") {
+                if (defaultValue === null) {
                     return null;
                 }
 
