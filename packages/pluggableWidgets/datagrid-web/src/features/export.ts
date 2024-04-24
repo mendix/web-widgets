@@ -2,6 +2,7 @@ import { useEffect, useMemo, useReducer, Dispatch } from "react";
 import { ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
+import { Big } from "big.js";
 
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
 const MAX_LIMIT = 500;
@@ -232,11 +233,19 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
     let hasLoadingItem = false;
     const items = data.map(item => {
         return columns.map(column => {
-            let value = "";
+            let value: string | number = "";
+
             if (column.showContentAs === "attribute") {
-                value = column.attribute?.get(item)?.displayValue ?? "";
+                const attributeItem = column.attribute?.get(item);
+
+                if (attributeItem?.formatter.type === "number") {
+                    value = Big(attributeItem.value as Big).toNumber();
+                } else {
+                    value = attributeItem?.displayValue ?? "";
+                }
             } else if (column.showContentAs === "dynamicText") {
                 const dynamicText = column.dynamicText?.get(item);
+
                 if (dynamicText?.status === "loading") {
                     hasLoadingItem = true;
                 } else if (dynamicText?.status === "unavailable") {
@@ -247,6 +256,7 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
             } else {
                 value = "n/a (custom content)";
             }
+
             return value;
         });
     });
