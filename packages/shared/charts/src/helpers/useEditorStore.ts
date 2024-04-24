@@ -1,9 +1,11 @@
 import { useState, useReducer, useEffect } from "react";
 import { EditorStore, EditorStoreState } from "./EditorStore";
 
+export type EditorStoreInitializer = () => EditorStoreState;
+
 type Params = {
     dataLength: number;
-    initState?: () => EditorStoreState;
+    initState?: EditorStoreInitializer;
 };
 
 export function useEditorStore(params: Params): EditorStore {
@@ -11,10 +13,7 @@ export function useEditorStore(params: Params): EditorStore {
     const [store] = useState(() => {
         const store = new EditorStore();
         if (params.initState) {
-            const init = params.initState();
-            store.set("layout", init.layout);
-            store.set("config", init.config);
-            store.set("data", init.data);
+            store.reset(params.initState());
         }
 
         store.addListener(forceUpdate);

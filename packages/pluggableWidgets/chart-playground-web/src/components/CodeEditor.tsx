@@ -1,7 +1,9 @@
+import { json, jsonParseLinter } from "@codemirror/lang-json";
+import { linter, lintGutter } from "@codemirror/lint";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror, { type Extension } from "@uiw/react-codemirror";
-import { createElement, useEffect, useRef, useState, useMemo } from "react";
-import { json } from "@codemirror/lang-json";
+import { createElement, useEffect, useMemo, useRef, useState } from "react";
+
 export type EditorChangeHandler = (value: string) => void;
 
 export interface CodeEditorProps {
@@ -13,7 +15,17 @@ export interface CodeEditorProps {
 
 export function CodeEditor(props: CodeEditorProps): React.ReactElement {
     const [value, onChange] = useEditorState({ initState: props.defaultValue, onChange: props.onChange });
-    const extensions = useMemo<Extension[]>(() => [json()], []);
+    const extensions = useMemo<Extension[]>(
+        () => [
+            json(),
+            linter(jsonParseLinter(), {
+                // default is 750ms
+                delay: 300
+            }),
+            lintGutter()
+        ],
+        []
+    );
     return (
         <CodeMirror
             height={props.height}

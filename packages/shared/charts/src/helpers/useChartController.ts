@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { ChartProps } from "../components/types";
-import { EditorStoreState } from "./EditorStore";
-import { useEditorStore } from "./useEditorStore";
+import { useEditorStore, EditorStoreInitializer } from "./useEditorStore";
 import { usePlaygroundDataFactory, PlaygroundData } from "./playground-context";
-import { fallback } from "../utils/json";
+import { fallback, pprint } from "../utils/json";
+import { EditorStoreState } from "./EditorStore";
 
 type Params = {
     playgroundOn: boolean;
@@ -13,17 +13,21 @@ export function useChartController(props: ChartProps, params: Params): [ChartPro
     const { playgroundOn } = params;
     const store = useEditorStore({
         dataLength: props.data.length,
-        initState: () => ({
-            layout: fallback(props.customLayout),
-            config: fallback(props.customConfig),
-            data: props.data.map(trace => fallback(trace.customSeriesOptions))
-        })
+        initState: initStateFromProps(props)
     });
     const playgroundContext = usePlaygroundDataFactory(props, store);
     const { state } = store;
     props = useMemo(() => (playgroundOn === false ? props : mergeConfigs(props, state)), [playgroundOn, props, state]);
 
     return [props, playgroundContext];
+}
+
+function initStateFromProps(props: ChartProps): EditorStoreInitializer {
+    return () => ({
+        layout: pprint(fallback(props.customLayout)),
+        config: pprint(fallback(props.customConfig)),
+        data: props.data.map(trace => pprint(fallback(trace.customSeriesOptions)))
+    });
 }
 
 function mergeConfigs(props: ChartProps, state: EditorStoreState): ChartProps {
