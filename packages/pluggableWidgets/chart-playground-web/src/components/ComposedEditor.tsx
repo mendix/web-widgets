@@ -26,13 +26,14 @@ const Wrapper = ({ renderPanels, renderSidebarHeaderTools }: WrapperProps): Reac
                 <SidebarHeader className="row" onClose={closeEditor}>
                     {renderSidebarHeaderTools}
                 </SidebarHeader>
-                <div className="sidebar-content-body">
-                    <SidebarContentTooltip />
-                    {renderPanels}
-                </div>
+                <div className="sidebar-content-body">{renderPanels}</div>
             </Sidebar>
             <div className="widget-charts-playground-toggle">
-                <button className="mx-button btn" onClick={toggleEditor}>
+                <button
+                    className="mx-button btn"
+                    onClick={toggleEditor}
+                    style={{ visibility: showEditor ? "hidden" : "visible" }}
+                >
                     Toggle Editor
                 </button>
             </div>
@@ -49,7 +50,7 @@ const SidebarContentTooltip = (): ReactElement => {
 
     return (
         <button className="info-tooltip" ref={tooltipTriggerRef} onClick={() => setTooltipIsOpen(true)}>
-            ℹ
+            <span>i</span>
             {tooltipIsOpen ? (
                 <div
                     ref={tooltipRef}
@@ -65,13 +66,7 @@ const SidebarContentTooltip = (): ReactElement => {
                         <p>
                             <strong>Changes made in this editor are only for preview purposes.</strong>
                         </p>
-                        <p>The JSON can be copied and pasted into the widgets properties in the desktop modeler</p>
-                        <p>
-                            Check out the chart options here:{" "}
-                            <a href="https://plot.ly/javascript/reference/" target="_blank" rel="noreferrer">
-                                https://plot.ly/javascript/reference/
-                            </a>
-                        </p>
+                        <p>The JSON can be copied and pasted into the widgets or trace properties in the Studio Pro.</p>
                     </Alert>
                 </div>
             ) : null}
@@ -88,21 +83,84 @@ export interface ComposedEditorProps {
     viewSelectOptions: SelectOption[];
 }
 
+function DocsLink(props: { currentView: string }): React.ReactElement {
+    const href =
+        props.currentView === "layout"
+            ? "https://plotly.com/javascript/reference/layout/"
+            : props.currentView === "config"
+            ? "https://plotly.com/javascript/configuration-options/"
+            : "https://plotly.com/javascript/reference/";
+
+    const text = props.currentView === "layout" ? "Layout" : props.currentView === "config" ? "Config" : "Trace";
+
+    return (
+        <a href={href} target="_blank" rel="noreferrer">
+            See all {text} attributes.
+        </a>
+    );
+}
+
+function TabGuard(props: { children: React.ReactNode }): React.ReactElement {
+    return (
+        <div
+            onKeyDown={event => {
+                if (event.code === "Tab") {
+                    event.stopPropagation();
+                }
+            }}
+        >
+            {props.children}
+        </div>
+    );
+}
+
 export function ComposedEditor(props: ComposedEditorProps): React.ReactElement {
+    const topPanelHeader = (
+        <Fragment>
+            <div className="widget-info-bar">
+                <span style={{ flexGrow: 1 }}>Custom settings</span>
+                <SidebarContentTooltip />
+            </div>
+            <div className="widget-info-bar">
+                <small>
+                    Press <kbd>Esc</kbd> + <kbd>Tab</kbd> to move focus from editor.
+                </small>
+            </div>
+            <div className="widget-info-bar">
+                <small>
+                    <DocsLink currentView={props.viewSelectValue} />
+                </small>
+            </div>
+        </Fragment>
+    );
     const renderPanels = (
         <Fragment>
-            <SidebarPanel className="widget-custom-config" key={props.viewSelectValue} heading="Custom settings">
-                <CodeEditor defaultValue={props.defaultEditorValue} onChange={props.onEditorChange} />
+            <SidebarPanel
+                className="widget-custom-config"
+                key={props.viewSelectValue}
+                headingClassName="editor-header"
+                heading={topPanelHeader}
+            >
+                <TabGuard>
+                    <CodeEditor
+                        defaultValue={props.defaultEditorValue}
+                        onChange={props.onEditorChange}
+                        height="var(--editor-h)"
+                    />
+                </TabGuard>
             </SidebarPanel>
             <SidebarPanel
                 className="widget-modeler-config"
                 key="modeler"
-                heading="Settings from the Studio/Studio Pro"
-                headingClassName="read-only"
+                heading="Settings from the Studio Pro"
+                headingClassName="settings-header read-only"
             >
-                <pre>
-                    <code>{props.modelerCode}</code>
-                </pre>
+                <CodeEditor
+                    key={props.modelerCode}
+                    readOnly
+                    defaultValue={props.modelerCode}
+                    height="var(--static-settings-h)"
+                />
             </SidebarPanel>
         </Fragment>
     );

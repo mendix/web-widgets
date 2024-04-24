@@ -45,11 +45,20 @@
     "@mendix/prettier-config-web-widgets": "workspace:*"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.16.0",
+    "@codemirror/commands": "^6.5.0",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lint": "^6.5.0",
+    "@codemirror/search": "^6.5.6",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.26.3",
     "@mendix/shared-charts": "workspace:*",
     "@mendix/widget-plugin-component-kit": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@monaco-editor/react": "^4.6.0",
+    "@uiw/codemirror-theme-github": "^4.21.25",
+    "@uiw/react-codemirror": "^4.21.25",
     "fast-json-patch": "^3.1.1",
     "json-source-map": "^0.6.1"
   }
