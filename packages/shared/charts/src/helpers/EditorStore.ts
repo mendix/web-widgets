@@ -40,6 +40,15 @@ export class EditorStore {
         this.emit();
     }
 
+    reset(state: EditorStoreState): void {
+        this.state = {
+            ...state,
+            data: [...state.data]
+        };
+
+        this.emit();
+    }
+
     private setData(index: number, value: JSONString): boolean {
         let changed = false;
         if (this.state.data[index] !== value) {
