@@ -40,7 +40,7 @@ export const SidebarHeader = ({ className, onClose, children }: SidebarHeaderPro
             {onClose ? (
                 <div className="col-sm-2 col-xs-2">
                     <button className="btn btn-image btn-icon close-button" onClick={onClose}>
-                        {/* <img src={closeIconSvg} className="removeIcon" alt="Close the playground sidebar" /> */}╳
+                        ╳
                     </button>
                 </div>
             ) : null}
@@ -50,7 +50,7 @@ export const SidebarHeader = ({ className, onClose, children }: SidebarHeaderPro
 
 export interface SidebarPanelProps {
     className?: string;
-    heading?: string;
+    heading?: React.ReactNode;
     headingClassName?: string;
     children: ReactNode;
 }

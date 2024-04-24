@@ -1,15 +1,27 @@
 .widget-sidebar {
+    --sidebar-border-s: 1px;
+    --sidebar-h: 100vh;
     --sidebar-w: 500px;
-    --config-editor-h: 500px;
+    --content-header-h: 55px;
+    --panel-header-1: 96px;
+    --panel-header-2: 36px;
+    --top-panel-h: 500px;
+    --panel-border-color: #d2d6de;
+
+    --content-body-h: calc(var(--sidebar-h) - (var(--sidebar-border-s) * 2) - var(--content-header-h));
+    --bottom-panel-h: calc(var(--content-body-h) - var(--top-panel-h));
+    --editor-h: calc(var(--top-panel-h) - var(--panel-header-1));
+    --static-settings-h: calc(var(--content-body-h) - var(--top-panel-h) - var(--panel-header-2));
+
     color: #5e5e5e;
     background: #fff;
-    border: 1px solid #d2d6de;
+    border: var(--sidebar-border-s) solid var(--panel-border-color);
     position: fixed;
     padding-top: 0;
     top: 0;
     right: calc(-1 * var(--sidebar-w));
     width: var(--sidebar-w);
-    height: 100%;
+    height: var(--sidebar-h);
     min-height: 400px;
     overflow-x: hidden;
     z-index: 1010;
@@ -36,12 +48,11 @@
     }
 
     .sidebar-content {
-        --header-h: 55px;
         height: 100%;
         position: relative;
 
         .sidebar-content-header {
-            height: var(--header-h);
+            height: var(--content-header-h);
             padding: 8px;
             border-bottom: 1px solid #ddd;
             background: #f5f5f5;
@@ -69,17 +80,21 @@
         }
 
         .sidebar-content-body {
-            height: calc(100% - var(--header-h));
+            height: var(--content-body-h);
         }
     }
 }
 
 .widget-custom-config {
-    height: var(--config-editor-h);
+    height: var(--top-panel-h);
+
+    .widget-panel-header {
+        justify-content: space-between;
+    }
 }
 
 .widget-modeler-config {
-    height: calc(100% - var(--config-editor-h));
+    height: var(--bottom-panel-h);
     display: flex;
     flex-flow: column nowrap;
 

@@ -40,31 +40,29 @@
                 }
             }
         }
+    }
+}
 
-        .sidebar-content-body > .info-tooltip {
-            position: relative;
-            float: right;
-            top: 8px;
-            right: 8px;
-            z-index: 5;
-            background: none;
-            border: none;
+.info-tooltip {
+    position: relative;
+    background: cornflowerblue;
+    color: white;
+    border: none;
+    z-index: 5;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-family: system-ui, monospace;
+    font-weight: bold;
 
-            & > .info-tooltip-icon {
-                height: 16px;
-                width: 16px;
-            }
+    & > .info-tooltip-info {
+        position: absolute;
+        right: 5px;
+        margin-top: 5px;
+        cursor: default;
 
-            & > .info-tooltip-info {
-                position: absolute;
-                right: 5px;
-                margin-top: 5px;
-                cursor: default;
-
-                & > .info-tooltip-info-content {
-                    text-align: left;
-                }
-            }
+        & > .info-tooltip-info-content {
+            text-align: left;
         }
     }
 }
