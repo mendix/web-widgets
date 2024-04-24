@@ -17,12 +17,12 @@
   ],
   "scripts": {
     "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
-    "prepare": "pnpm run build",
     "clear": "rimraf ./dist",
     "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
     "build:src": "tsc --project tsconfig.build.json",
     "build:cfg": "tsc --project src/rollup/tsconfig.json",
     "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
+    "release": "pnpm build",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
     "test": "jest"
