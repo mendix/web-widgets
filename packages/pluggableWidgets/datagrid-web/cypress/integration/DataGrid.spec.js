@@ -32,7 +32,7 @@ describe("datagrid-web", () => {
                     expect(list[1], "first person").to.deep.equal([
                         "Loretta",
                         "2/15/1983",
-                        "1983",
+                        1983,
                         "Black",
                         "n/a (custom content)"
                     ]);
