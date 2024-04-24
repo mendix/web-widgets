@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Fragment, ReactElement, ReactNode, createElement, useCallback, useRef, useState } from "react";
 import "../ui/Playground.scss";
 import { Select, SelectOption, Sidebar, SidebarHeader, SidebarHeaderTools, SidebarPanel } from "./Sidebar";
-import Editor, { type OnChange } from "@monaco-editor/react";
+import { CodeEditor, EditorChangeHandler } from "./CodeEditor";
 
 interface WrapperProps {
     renderPanels: ReactNode;
@@ -81,7 +81,7 @@ const SidebarContentTooltip = (): ReactElement => {
 
 export interface ComposedEditorProps {
     defaultEditorValue: string;
-    onEditorChange: OnChange;
+    onEditorChange: EditorChangeHandler;
     modelerCode: string;
     onViewSelectChange: (value: string) => void;
     viewSelectValue: string;
@@ -92,7 +92,7 @@ export function ComposedEditor(props: ComposedEditorProps): React.ReactElement {
     const renderPanels = (
         <Fragment>
             <SidebarPanel className="widget-custom-config" key={props.viewSelectValue} heading="Custom settings">
-                <Editor language="json" defaultValue={props.defaultEditorValue} onChange={props.onEditorChange} />
+                <CodeEditor defaultValue={props.defaultEditorValue} onChange={props.onEditorChange} />
             </SidebarPanel>
             <SidebarPanel
                 className="widget-modeler-config"

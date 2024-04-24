@@ -1,5 +1,5 @@
 import { PlaygroundData, fallback } from "@mendix/shared-charts";
-import { type OnChange } from "@monaco-editor/react";
+import { EditorChangeHandler } from "../components/CodeEditor";
 import { useMemo, useState } from "react";
 import { ComposedEditorProps } from "../components/ComposedEditor";
 import { SelectOption } from "../components/Sidebar";
@@ -56,7 +56,7 @@ export function useComposedEditorController(data: PlaygroundData): ComposedEdito
         ];
     }, [data.plotData]);
 
-    const onEditorChange: OnChange = (json): void => {
+    const onEditorChange: EditorChangeHandler = (json): void => {
         json = fallback(json);
         try {
             JSON.parse(json);
