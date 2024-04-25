@@ -59,6 +59,7 @@ async function getChangelogSections(): Promise<LogSection[]> {
 async function selectNextVersion(currentVersion: string): Promise<string | undefined> {
     const { bump } = await prompt<{ bump: boolean }>({
         type: "confirm",
+        initial: true,
         name: "bump",
         message: "Would you like to bump the package version?"
     });
@@ -93,6 +94,7 @@ async function main(): Promise<void> {
 
     const { save } = await prompt<{ save: boolean }>({
         type: "confirm",
+        initial: true,
         name: "save",
         message: "Save changes?"
     });

@@ -53,12 +53,29 @@ export async function writeVersion(pkg: PackageListing, version: string): Promis
     }
 }
 
-export async function selectBumpVersionType(): Promise<BumpVersionType> {
+export async function selectBumpVersionType(currentVersion: string): Promise<BumpVersionType> {
     const { bumpType } = await prompt<{ bumpType: string }>({
         type: "autocomplete",
         name: "bumpType",
         message: "Want to bump?",
-        choices: ["major", "minor", "patch", "set manually"]
+        choices: [
+            {
+                name: `patch [${currentVersion} -> ${getNewVersion("patch", currentVersion)}]`,
+                value: "patch"
+            },
+            {
+                name: `minor [${currentVersion} -> ${getNewVersion("minor", currentVersion)}]`,
+                value: "minor"
+            },
+            {
+                name: `major [${currentVersion} -> ${getNewVersion("major", currentVersion)}]`,
+                value: "major"
+            },
+            {
+                name: "Set manually",
+                value: "set manually"
+            }
+        ]
     });
 
     if (bumpType === "set manually") {
@@ -75,7 +92,7 @@ export async function selectBumpVersionType(): Promise<BumpVersionType> {
 }
 
 export async function getNextVersion(currentVersion: string): Promise<string> {
-    const bumpVersionType = await selectBumpVersionType();
+    const bumpVersionType = await selectBumpVersionType(currentVersion);
     const nextVersion = getNewVersion(bumpVersionType, currentVersion);
     console.log(chalk.green(`Version change: ${currentVersion} => ${nextVersion}`));
     return nextVersion;
