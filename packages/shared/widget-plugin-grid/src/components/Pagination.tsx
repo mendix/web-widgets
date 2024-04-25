@@ -26,12 +26,8 @@ export function Pagination(props: PaginationProps): ReactElement | null {
     const lastPage = numberOfPages !== undefined ? numberOfPages - 1 : 0;
     const hasLastPage = numberOfPages !== undefined;
     const initialItem = props.numberOfItems === 0 ? 0 : props.page * props.pageSize + 1;
-    const lastItem =
-        props.canNextPage || !props.numberOfItems
-            ? props.showPagingButtons !== "always"
-                ? (props.page + 1) * props.pageSize
-                : props.page * props.pageSize
-            : props.numberOfItems;
+    const lastItem = getLastItem(props.canNextPage, props.numberOfItems ?? 0, props.page, props.pageSize);
+
     const setPageIndex = (page: number): void => {
         if (props.setPaginationIndex) {
             props.setPaginationIndex(page);
@@ -115,4 +111,12 @@ function getEvents(action: () => void): Partial<HTMLAttributes<HTMLButtonElement
             }
         }
     };
+}
+
+function getLastItem(canNextPage: boolean, numberOfItems: number, page: number, pageSize: number) {
+    return canNextPage || !numberOfItems
+        ? numberOfItems === 0
+            ? numberOfItems
+            : (page + 1) * pageSize
+        : numberOfItems;
 }
