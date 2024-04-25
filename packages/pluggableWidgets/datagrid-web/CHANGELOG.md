@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Fixed an issue where pagination buttons wouldn't show up when there's no items in the Datagrid 2 pagination even when button visibility was set to "always".
 
+### Added
+
+-   A new property that allows to change the behavior of the item selection.
+
+-   A new property that controls custom content events.
+
 ## [2.17.0] - 2024-04-17
 
 ### Fixed
@@ -25,10 +31,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We added the ability to store personalization configuration in the browser's local storage, in addition to the existing option of using an attribute.
-
--   A new property that allows to change the behavior of the item selection.
-
--   A new property that controls custom content events.
 
 ## [2.16.1] - 2024-04-16
 
