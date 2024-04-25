@@ -71,7 +71,8 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         highlight_on_focus,
         resize,
         extended_valid_elements,
-        quickbars
+        quickbars,
+        tabIndex
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const [canRenderEditor, setCanRenderEditor] = useState<boolean>(false);
@@ -154,8 +155,11 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly,
                 height: props.editorHeight,
                 width: props.editorWidth,
-                content_css: "default"
+                content_css: "default",
+                convert_unsafe_embeds: true,
+                sandbox_iframes: true
             }}
+            tabIndex={tabIndex || 0}
             disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}
             onFocus={onEditorFocus}
