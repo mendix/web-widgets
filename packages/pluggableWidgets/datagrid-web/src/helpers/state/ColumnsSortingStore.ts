@@ -61,7 +61,6 @@ export function sortInstructionsToSortRules(
             const [attrId, dir] = si;
             const cId = allColumns.find(c => c.attrId === attrId)?.columnId;
             if (!cId) {
-                console.warn(`Can't parse sorting instruction. Unknown attribute id: '${attrId}'`);
                 return undefined;
             }
 
@@ -83,7 +82,6 @@ export function sortRulesToSortInstructions(
             const [cId, dir] = rule;
             const attrId = allColumns.find(c => c.columnId === cId)?.attrId;
             if (!attrId) {
-                console.warn(`Can't apply sorting for column ${cId}. The column either doesn't exist or not sortable.`);
                 return undefined;
             }
             return [attrId, dir];

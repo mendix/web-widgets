@@ -80,8 +80,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         });
 
         if (this.visibleColumns.length < 1) {
-            // if all columns are hidden after the update - reset hidden state HERE
-            console.warn("All columns are hidden, resetting hidden state");
+            // if all columns are hidden after the update - reset hidden state for all columns
             this._allColumns.forEach(c => {
                 c.isHidden = false;
             });
