@@ -19,6 +19,7 @@ overrides:
   json5@0.x: '>=1.0.2'
   '@mendix/pluggable-widgets-tools>typescript@4': 5.0.4
   '@mendix/pluggable-widgets-tools>ts-node@9': ^10.9.1
+  '@tinymce/tinymce-react': https://github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz
 
 patchedDependencies:
   react-big-calendar@0.19.2:
@@ -1727,8 +1728,8 @@ importers:
   packages/pluggableWidgets/rich-text-web:
     dependencies:
       '@tinymce/tinymce-react':
-        specifier: ^4.3.2
-        version: 4.3.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: https://github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz
+        version: '@github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz(react-dom@18.2.0)(react@18.2.0)'
       classnames:
         specifier: ^2.2.6
         version: 2.3.2
@@ -5534,18 +5535,6 @@ packages:
     dependencies:
       '@testing-library/dom': 8.20.1
     dev: true
-
-  /@tinymce/tinymce-react@4.3.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-wJHZhPf2Mk3yTtdVC/uIGh+kvDgKuTw/qV13uzdChTNo68JI1l7jYMrSQOpyimDyn5LHAw0E1zFByrm1WHAVeA==}
-    peerDependencies:
-      react: ^18.0.0 || ^17.0.1 || ^16.7.0 || 18
-      react-dom: ^18.0.0 || ^17.0.1 || ^16.7.0
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      tinymce: 6.8.3
-    dev: false
 
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -16761,4 +16750,19 @@ packages:
     resolution: {registry: https://registry.npmjs.org/, tarball: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz}
     name: signature_pad
     version: 3.0.0-beta.4
+    dev: false
+
+  '@github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz(react-dom@18.2.0)(react@18.2.0)':
+    resolution: {tarball: https://github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz}
+    id: '@github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz'
+    name: '@tinymce/tinymce-react'
+    version: 5.1.0-rc
+    peerDependencies:
+      react: ^18.0.0 || ^17.0.1 || ^16.7.0 || 18
+      react-dom: ^18.0.0 || ^17.0.1 || ^16.7.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      tinymce: 6.8.3
     dev: false

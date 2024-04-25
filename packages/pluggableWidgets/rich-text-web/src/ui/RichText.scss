@@ -12,6 +12,7 @@ $rte-brand-primary: #264ae5;
     .tox .tox-edit-area::before {
         border-color: $rte-brand-primary;
         border-radius: 1px;
+        border-width: 1px;
     }
 
     &.editor-bordered,
