@@ -23,6 +23,7 @@
     "build:cfg": "tsc --project src/rollup/tsconfig.json",
     "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
     "release": "pnpm build",
+    "prepare": "turbo build",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
     "test": "jest"
