@@ -113,7 +113,7 @@ function getEvents(action: () => void): Partial<HTMLAttributes<HTMLButtonElement
     };
 }
 
-function getLastItem(canNextPage: boolean, numberOfItems: number | undefined, page: number, pageSize: number) {
+function getLastItem(canNextPage: boolean, numberOfItems: number | undefined, page: number, pageSize: number): number {
     return canNextPage || !numberOfItems
         ? numberOfItems === 0
             ? numberOfItems
