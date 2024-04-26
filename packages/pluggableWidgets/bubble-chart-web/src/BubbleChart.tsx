@@ -1,11 +1,17 @@
-import { createElement, ReactElement, useCallback, memo } from "react";
-import { ChartWidget, ChartWidgetProps, traceEqual } from "@mendix/shared-charts";
-import classNames from "classnames";
-import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
-import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/dist/hooks";
-import { calculateSizeRef } from "./utils";
-import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    getPlotChartDataTransforms,
+    traceEqual,
+    usePlotChartDataSeries
+} from "@mendix/shared-charts/common";
+import "@mendix/shared-charts/ui/Chart.scss";
+import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
+import classNames from "classnames";
+import { ReactElement, createElement, memo, useCallback } from "react";
+import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
+import { calculateSizeRef } from "./utils";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     xaxis: {
@@ -97,7 +103,7 @@ export const BubbleChart = memo(
                 xAxisLabel={props.xAxisLabel?.value}
                 yAxisLabel={props.yAxisLabel?.value}
                 gridLinesMode={props.gridLines}
-                showSidebarEditor={props.enableDeveloperMode}
+                playground={props.playground}
                 customLayout={props.customLayout}
                 customConfig={props.customConfigurations}
                 layoutOptions={bubbleChartLayoutOptions}
