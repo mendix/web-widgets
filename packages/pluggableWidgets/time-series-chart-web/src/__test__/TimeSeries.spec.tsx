@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     dynamicValue,
     EditableValueBuilder,
@@ -11,9 +11,7 @@ import { mount, ReactWrapper } from "enzyme";
 import { TimeSeries } from "../TimeSeries";
 import { LinesType, TimeSeriesContainerProps } from "../../typings/TimeSeriesProps";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The TimeSeries widget", () => {
     function renderTimeSeries(
@@ -27,7 +25,6 @@ describe("The TimeSeries widget", () => {
                 lines={configs.map(setupBasicSeries)}
                 showLegend={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
                 widthUnit="percentage"
                 width={0}
                 heightUnit="pixels"

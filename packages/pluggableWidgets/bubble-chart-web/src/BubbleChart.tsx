@@ -52,7 +52,7 @@ export const BubbleChart = memo(
                     const size = sizeAttribute?.get(item);
                     const value = size?.value instanceof Big ? Number(size.value.toString()) : size?.value;
                     if (value) {
-                        sizes.push(value);
+                        sizes.push(Big(value).toNumber());
                     }
                 }
             }

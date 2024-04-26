@@ -1,4 +1,4 @@
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     dynamicValue,
     EditableValueBuilder,
@@ -12,9 +12,7 @@ import { createElement } from "react";
 import { SeriesType } from "../../typings/BarChartProps";
 import { BarChart } from "../BarChart";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The BarChart widget", () => {
     function renderBarChart(configs: Array<Partial<SeriesType>>): ReactWrapper {
@@ -26,7 +24,6 @@ describe("The BarChart widget", () => {
                 series={configs.map(setupBasicSeries)}
                 showLegend={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
                 widthUnit="percentage"
                 width={0}
                 heightUnit="pixels"

@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     buildListExpression,
     dynamicValue,
@@ -12,9 +12,7 @@ import { PieChart } from "../PieChart";
 import Big from "big.js";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The PieChart widget", () => {
     function renderPieChart(props: Partial<PieChartContainerProps>): ReactWrapper {
@@ -25,7 +23,6 @@ describe("The PieChart widget", () => {
                 holeRadius={0}
                 showLegend={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
                 widthUnit="percentage"
                 width={0}
                 heightUnit="pixels"

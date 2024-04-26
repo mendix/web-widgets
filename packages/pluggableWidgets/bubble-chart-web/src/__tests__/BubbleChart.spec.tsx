@@ -1,4 +1,4 @@
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     EditableValueBuilder,
     ListAttributeValueBuilder,
@@ -12,9 +12,7 @@ import { createElement } from "react";
 import { LinesType } from "../../typings/BubbleChartProps";
 import { BubbleChart } from "../BubbleChart";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The Bubble widget", () => {
     function renderBubbleChart(configs: Array<Partial<LinesType>>): ReactWrapper {
@@ -33,7 +31,6 @@ describe("The Bubble widget", () => {
                 customConfigurations=""
                 enableThemeConfig={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
             />
         );
     }

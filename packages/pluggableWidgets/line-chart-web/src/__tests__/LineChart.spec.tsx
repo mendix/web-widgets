@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     dynamicValue,
     EditableValueBuilder,
@@ -12,9 +12,7 @@ import { ListExpressionValue } from "mendix";
 import { LineChart } from "../LineChart";
 import { LinesType } from "../../typings/LineChartProps";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The LineChart widget", () => {
     function renderLineChart(configs: Array<Partial<LinesType>>): ReactWrapper {
@@ -25,7 +23,6 @@ describe("The LineChart widget", () => {
                 lines={configs.map(setupBasicSeries)}
                 showLegend={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
                 widthUnit="percentage"
                 width={0}
                 heightUnit="pixels"
