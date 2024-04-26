@@ -1,6 +1,7 @@
+import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts/common";
+import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { createElement, ReactElement, useMemo } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
 import { HeatMapContainerProps } from "../typings/HeatMapProps";
 import { useHeatMapDataSeries } from "./hooks/data";
 import { createHeatMapAnnotation } from "./utils/annotation";
@@ -70,28 +71,29 @@ export function HeatMap(props: HeatMapContainerProps): ReactElement | null {
         verticalSortOrder: props.verticalSortOrder
     });
 
-    const heatmapChartLayout = useMemo<ChartWidgetProps["layoutOptions"]>(
-        () => ({
-            ...heatmapChartLayoutOptions,
-            annotations: props.showValues
-                ? heatmapChartData[0].z.reduce<HeatMapAnnotation[]>(
-                      (prev, curr, yIndex) => [
-                          ...prev,
-                          ...curr.map((value, xIndex) =>
-                              createHeatMapAnnotation(
-                                  heatmapChartData[0].x[xIndex] ?? undefined,
-                                  heatmapChartData[0].y[yIndex] ?? undefined,
-                                  value?.toLocaleString() ?? "",
-                                  props.valuesColor
-                              )
+    const heatmapChartLayout = useMemo<ChartWidgetProps["layoutOptions"]>(() => {
+        const annotations: HeatMapAnnotation[] = props.showValues
+            ? heatmapChartData[0].z.reduce<HeatMapAnnotation[]>(
+                  (prev, curr, yIndex) => [
+                      ...prev,
+                      ...curr.map((value, xIndex) =>
+                          createHeatMapAnnotation(
+                              heatmapChartData[0].x[xIndex] ?? undefined,
+                              heatmapChartData[0].y[yIndex] ?? undefined,
+                              value?.toLocaleString() ?? "",
+                              props.valuesColor
                           )
-                      ],
-                      []
-                  )
-                : []
-        }),
-        [heatmapChartData, props.showValues, props.valuesColor]
-    );
+                      )
+                  ],
+                  []
+              )
+            : [];
+
+        return {
+            ...heatmapChartLayoutOptions,
+            annotations
+        };
+    }, [heatmapChartData, props.showValues, props.valuesColor]);
 
     return (
         <ChartWidget
@@ -106,13 +108,13 @@ export function HeatMap(props: HeatMapContainerProps): ReactElement | null {
             xAxisLabel={props.xAxisLabel?.value}
             yAxisLabel={props.yAxisLabel?.value}
             gridLinesMode={props.gridLines}
-            showSidebarEditor={props.enableDeveloperMode}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}
             layoutOptions={heatmapChartLayout}
             configOptions={heatmapChartConfigOptions}
             seriesOptions={heatmapChartSeriesOptions}
             enableThemeConfig={props.enableThemeConfig}
+            playground={props.playground}
         />
     );
 }
