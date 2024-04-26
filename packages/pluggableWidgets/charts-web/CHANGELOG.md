@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+-   We have removed the "Enable developer mode" property. As of version 5, the playground has become a pluggable widget called "Chart playground." This separation minimizes production code loaded to the client. To enable developer mode, simply drag and drop the playground to the chart you want to edit.
+
+-   We migrated from "Ace" code editor to the "CodeMirror" editor. The new editor comes with better defaults and is compatible with both legacy and new widget runtime.
+
 ## [4.2.4] Charts - 2023-11-30
 
 ### Fixed
