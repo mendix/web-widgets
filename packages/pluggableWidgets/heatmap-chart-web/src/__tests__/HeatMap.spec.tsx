@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import { EditableValueBuilder, ListAttributeValueBuilder, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { HeatMap } from "../HeatMap";
@@ -7,9 +7,7 @@ import Big from "big.js";
 import { ObjectItem } from "mendix";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The HeatMap widget", () => {
     function renderHeatMap(props: Partial<HeatMapContainerProps>): ReactWrapper {
@@ -17,7 +15,6 @@ describe("The HeatMap widget", () => {
             <HeatMap
                 name="line-chart-test"
                 class="line-chart-class"
-                enableDeveloperMode={false}
                 enableAdvancedOptions={false}
                 gridLines={"none"}
                 widthUnit="percentage"

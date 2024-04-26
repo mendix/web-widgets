@@ -74,7 +74,6 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
             xAxisLabel={props.xAxisLabel?.value}
             yAxisLabel={props.yAxisLabel?.value}
             gridLinesMode={props.gridLines}
-            showSidebarEditor={false}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}
             layoutOptions={areaChartLayoutOptions}

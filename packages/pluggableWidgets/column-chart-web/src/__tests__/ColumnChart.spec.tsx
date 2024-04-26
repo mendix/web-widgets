@@ -1,4 +1,4 @@
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     dynamicValue,
     EditableValueBuilder,
@@ -12,9 +12,7 @@ import { createElement } from "react";
 import { ColumnChartContainerProps, SeriesType } from "../../typings/ColumnChartProps";
 import { ColumnChart } from "../ColumnChart";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The ColumnChart widget", () => {
     function renderColumnChart(
@@ -28,7 +26,6 @@ describe("The ColumnChart widget", () => {
                 barmode="group"
                 series={configs.map(setupBasicSeries)}
                 showLegend={false}
-                developerMode={false}
                 widthUnit="percentage"
                 width={0}
                 heightUnit="pixels"

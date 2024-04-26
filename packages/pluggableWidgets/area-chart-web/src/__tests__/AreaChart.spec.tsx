@@ -1,4 +1,4 @@
-import { ChartWidget } from "@mendix/shared-charts";
+import { ChartWidget } from "@mendix/shared-charts/common";
 import {
     dynamicValue,
     EditableValueBuilder,
@@ -12,9 +12,7 @@ import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
 import { AreaChart } from "../AreaChart";
 
-jest.mock("@mendix/shared-charts", () => ({
-    ChartWidget: jest.fn(() => null)
-}));
+jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The AreaChart widget", () => {
     function renderAreaChart(configs: Array<Partial<SeriesType>>): ReactWrapper {
@@ -33,7 +31,6 @@ describe("The AreaChart widget", () => {
                 customConfigurations=""
                 enableThemeConfig={false}
                 enableAdvancedOptions={false}
-                enableDeveloperMode={false}
             />
         );
     }
