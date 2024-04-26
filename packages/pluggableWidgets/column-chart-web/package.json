@@ -1,7 +1,7 @@
 {
   "name": "@mendix/column-chart-web",
   "widgetName": "ColumnChart",
-  "version": "3.1.3",
+  "version": "5.0.0",
   "description": "Shows data in a column format graph.",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",

@@ -1,6 +1,6 @@
 {
   "name": "@mendix/charts-web",
-  "version": "4.2.4",
+  "version": "5.0.0",
   "description": "Chart widgets collection for data visualization",
   "license": "Apache-2.0",
   "private": false,
