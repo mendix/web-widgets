@@ -1,4 +1,4 @@
-import { PlaygroundData, fallback } from "@mendix/shared-charts";
+import { PlaygroundData, fallback } from "@mendix/shared-charts/common";
 import { EditorChangeHandler } from "../components/CodeEditor";
 import { useMemo, useState } from "react";
 import { ComposedEditorProps } from "../components/ComposedEditor";
