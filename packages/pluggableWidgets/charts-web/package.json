@@ -21,7 +21,8 @@
       "@mendix/heatmap-chart-web",
       "@mendix/line-chart-web",
       "@mendix/pie-doughnut-chart-web",
-      "@mendix/time-series-chart-web"
+      "@mendix/time-series-chart-web",
+      "@mendix/chart-playground-web"
     ]
   },
   "packagePath": "com.mendix.widget.web",
@@ -48,6 +49,7 @@
     "@mendix/area-chart-web": "workspace:*",
     "@mendix/bar-chart-web": "workspace:*",
     "@mendix/bubble-chart-web": "workspace:*",
+    "@mendix/chart-playground-web": "workspace:*",
     "@mendix/column-chart-web": "workspace:*",
     "@mendix/heatmap-chart-web": "workspace:*",
     "@mendix/line-chart-web": "workspace:*",
