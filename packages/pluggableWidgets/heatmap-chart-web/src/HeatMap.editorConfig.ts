@@ -46,8 +46,7 @@ export function getProperties(
                 "customLayout",
                 "customConfigurations",
                 "customSeriesOptions",
-                "enableThemeConfig",
-                "enableDeveloperMode"
+                "enableThemeConfig"
             ]);
         }
 

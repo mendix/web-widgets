@@ -1,11 +1,11 @@
-import { ChartAnnotation } from "@mendix/shared-charts";
+import type { Annotations } from "plotly.js";
 
 export function createHeatMapAnnotation(
     x?: string,
     y?: string,
     text?: string,
     colorValue?: string
-): Partial<ChartAnnotation> {
+): Partial<Annotations> {
     return {
         xref: "x",
         yref: "y",
