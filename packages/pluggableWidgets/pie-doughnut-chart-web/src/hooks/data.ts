@@ -3,9 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import Big from "big.js";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
-import { ChartProps } from "@mendix/shared-charts/dist/components/Chart";
+import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/common";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { compareAttrValuesAsc } from "@mendix/shared-charts/dist/utils/compareAttrValuesAsc";
 
 type PieChartDataSeriesHooks = Pick<
     PieChartContainerProps,
@@ -40,7 +39,7 @@ export const usePieChartDataSeries = ({
     seriesValueAttribute,
     onClickAction,
     tooltipHoverText
-}: PieChartDataSeriesHooks): ChartProps["data"] => {
+}: PieChartDataSeriesHooks): ChartWidgetProps["data"] => {
     const [pieChartData, setPieChartData] = useState<LocalPieChartData[]>([]);
 
     useEffect(() => {
@@ -74,7 +73,7 @@ export const usePieChartDataSeries = ({
 
     const onClick = useMemo(() => (onClickAction ? () => executeAction(onClickAction) : undefined), [onClickAction]);
 
-    return useMemo<ChartProps["data"]>(
+    return useMemo<ChartWidgetProps["data"]>(
         () => [
             {
                 customSeriesOptions,

@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
 import { Big } from "big.js";
 
@@ -25,7 +25,7 @@ export interface PieChartContainerProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute?: ListExpressionValue<string>;
     enableAdvancedOptions: boolean;
-    enableDeveloperMode: boolean;
+    playground?: ReactNode;
     showLegend: boolean;
     holeRadius: number;
     tooltipHoverText?: ListExpressionValue<string>;
@@ -56,7 +56,7 @@ export interface PieChartPreviewProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute: string;
     enableAdvancedOptions: boolean;
-    enableDeveloperMode: boolean;
+    playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showLegend: boolean;
     holeRadius: number | null;
     tooltipHoverText: string;
