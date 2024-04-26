@@ -4,7 +4,7 @@ import {
     getPlotChartDataTransforms,
     traceEqual,
     usePlotChartDataSeries
-} from "@mendix/shared-charts";
+} from "@mendix/shared-charts/common";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
@@ -73,7 +73,6 @@ export const LineChart = memo(
                 xAxisLabel={props.xAxisLabel?.value}
                 yAxisLabel={props.yAxisLabel?.value}
                 gridLinesMode={props.gridLines}
-                showSidebarEditor={false}
                 customLayout={props.customLayout}
                 customConfig={props.customConfigurations}
                 layoutOptions={lineChartLayoutOptions}
