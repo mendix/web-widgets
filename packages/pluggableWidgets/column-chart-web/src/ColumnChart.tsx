@@ -1,7 +1,13 @@
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    containerPropsEqual,
+    getPlotChartDataTransforms,
+    usePlotChartDataSeries
+} from "@mendix/shared-charts/common";
+import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback, useMemo, memo } from "react";
-import { ChartWidget, ChartWidgetProps, containerPropsEqual } from "@mendix/shared-charts";
-import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/hooks";
+import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
 import { ColumnChartContainerProps } from "../typings/ColumnChartProps";
 
 const columnChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
@@ -69,13 +75,13 @@ export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainer
             xAxisLabel={props.xAxisLabel?.value}
             yAxisLabel={props.yAxisLabel?.value}
             gridLinesMode={props.gridLines}
-            showSidebarEditor={props.developerMode}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}
             layoutOptions={layoutOptions}
             configOptions={columnChartConfigOptions}
             seriesOptions={columnChartSeriesOptions}
             enableThemeConfig={props.enableThemeConfig}
+            playground={props.playground}
         />
     );
 }, containerPropsEqual);
