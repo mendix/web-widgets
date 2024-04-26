@@ -233,31 +233,33 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
     let hasLoadingItem = false;
     const items = data.map(item => {
         return columns.map(column => {
-            let value: string | number = "";
-
             if (column.showContentAs === "attribute") {
                 const attributeItem = column.attribute?.get(item);
+                const attributeType = typeof attributeItem?.value;
 
-                if (attributeItem?.formatter.type === "number") {
-                    value = Big(attributeItem.value as Big).toNumber();
-                } else {
-                    value = attributeItem?.displayValue ?? "";
+                if (attributeType === "boolean") {
+                    return Boolean(attributeItem?.value) ?? "";
                 }
+
+                if (attributeType === "object" && attributeItem?.formatter.type === "number") {
+                    return Big(attributeItem?.value as Big).toNumber() ?? "";
+                }
+
+                return attributeItem?.displayValue ?? "";
             } else if (column.showContentAs === "dynamicText") {
                 const dynamicText = column.dynamicText?.get(item);
 
                 if (dynamicText?.status === "loading") {
                     hasLoadingItem = true;
+                    return "";
                 } else if (dynamicText?.status === "unavailable") {
-                    value = "n/a";
+                    return "n/a";
                 } else {
-                    value = dynamicText?.value ?? "";
+                    return dynamicText?.value ?? "";
                 }
             } else {
-                value = "n/a (custom content)";
+                return "n/a (custom content)";
             }
-
-            return value;
         });
     });
 
