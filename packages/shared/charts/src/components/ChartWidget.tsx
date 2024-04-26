@@ -14,7 +14,6 @@ import { Chart, ChartProps } from "./Chart";
 
 export interface ChartWidgetProps extends CustomLayoutProps, Dimensions, ChartProps {
     className: string;
-    showSidebarEditor: boolean;
     type: ChartTypeEnum;
     enableThemeConfig: boolean;
     playground: React.ReactNode | null;

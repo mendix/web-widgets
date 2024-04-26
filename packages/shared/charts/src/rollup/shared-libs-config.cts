@@ -56,13 +56,14 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
 
     /*
      * [@mendix/shared-charts]
-     * Extracting package main entry point to separate esm and amd modules.
+     * Extracting common code entry point to separate esm and amd modules.
      * Also, replacing react-plotly.js path.
      */
+    const chartsCommonMain = "@mendix/shared-charts/common";
     const chartsCommonFile = "charts-common";
     const chartsCommonOptions: RollupOptions = {
         external: [...external, "react-plotly.js"],
-        input: "@mendix/shared-charts",
+        input: chartsCommonMain,
         plugins
     };
 
@@ -95,11 +96,11 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
      * Also, replacing "@mendix/shared-charts" path to relative path.
      */
     [widgetAMD, widgetESM] = [widgetAMD, widgetESM].map(inputOptions => {
-        inputOptions.external = [...external, "@mendix/shared-charts"];
+        inputOptions.external = [...external, chartsCommonMain];
         inputOptions.output = {
             ...inputOptions.output,
             paths: {
-                "@mendix/shared-charts":
+                [chartsCommonMain]:
                     (inputOptions.output as OutputOptions).format === "es"
                         ? `../../../shared/charts/esm/${chartsCommonFile}.mjs`
                         : `../../../shared/charts/amd/${chartsCommonFile}.js`

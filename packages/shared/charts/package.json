@@ -5,12 +5,18 @@
   "private": true,
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "type": "module",
-  "main": "./dist/main.js",
-  "types": "./dist/main.d.ts",
   "exports": {
-    ".": "./dist/main.js",
+    ".": null,
     "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
-    "./ui/*": "./dist/ui/*"
+    "./ui/*": "./dist/ui/*",
+    "./*": "./dist/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
   },
   "files": [
     "dist"
