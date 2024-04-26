@@ -1,6 +1,7 @@
+import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts/common";
+import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { createElement, ReactElement } from "react";
-import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts";
 import { PieChartContainerProps } from "../typings/PieChartProps";
 import { usePieChartDataSeries } from "./hooks/data";
 
@@ -54,13 +55,13 @@ export function PieChart(props: PieChartContainerProps): ReactElement | null {
             yAxisLabel={undefined}
             // Pie chart can't have grid lines
             gridLinesMode="none"
-            showSidebarEditor={props.enableDeveloperMode}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}
             layoutOptions={pieChartLayoutOptions}
             configOptions={pieChartConfigOptions}
             seriesOptions={pieChartSeriesOptions}
             enableThemeConfig={props.enableThemeConfig}
+            playground={props.playground}
         />
     );
 }
