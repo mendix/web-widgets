@@ -59,12 +59,7 @@ export function getProperties(
 
     if (platform === "web") {
         if (!values.enableAdvancedOptions) {
-            hidePropertiesIn(defaultProperties, values, [
-                "customLayout",
-                "customConfigurations",
-                "enableThemeConfig",
-                "enableDeveloperMode"
-            ]);
+            hidePropertiesIn(defaultProperties, values, ["customLayout", "customConfigurations", "enableThemeConfig"]);
         }
 
         transformGroupsIntoTabs(defaultProperties);
