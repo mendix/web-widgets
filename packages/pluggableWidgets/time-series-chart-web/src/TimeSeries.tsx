@@ -1,8 +1,14 @@
+import {
+    ChartWidget,
+    ChartWidgetProps,
+    getPlotChartDataTransforms,
+    usePlotChartDataSeries,
+    traceEqual
+} from "@mendix/shared-charts/common";
+import "@mendix/shared-charts/ui/Chart.scss";
+import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback, useMemo, memo } from "react";
-import { ChartWidget, ChartWidgetProps, traceEqual } from "@mendix/shared-charts";
-import { getPlotChartDataTransforms, usePlotChartDataSeries } from "@mendix/shared-charts/hooks";
-import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
+import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
 import { TimeSeriesContainerProps } from "../typings/TimeSeriesProps";
 
 const createTimeSeriesChartLayoutOptions = (
@@ -92,13 +98,13 @@ export const TimeSeries = memo(
                 xAxisLabel={props.xAxisLabel?.value}
                 yAxisLabel={props.yAxisLabel?.value}
                 gridLinesMode={props.gridLines}
-                showSidebarEditor={props.enableDeveloperMode}
                 customLayout={props.customLayout}
                 customConfig={props.customConfigurations}
                 layoutOptions={timeSeriesLayout}
                 configOptions={timeSeriesChartConfigOptions}
                 seriesOptions={timeSeriesChartSeriesOptions}
                 enableThemeConfig={props.enableThemeConfig}
+                playground={props.playground}
             />
         );
     },
