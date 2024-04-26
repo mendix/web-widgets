@@ -1,3 +1,1 @@
-import { sharedChardConfig } from "@mendix/shared-charts/rollup";
-
-export default args => sharedChardConfig(args, "PieChart");
+module.exports = require("@mendix/shared-charts/rollup/shared-libs-config.cjs").sharedLibsConfig;
