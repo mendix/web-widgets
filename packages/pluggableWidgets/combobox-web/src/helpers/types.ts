@@ -3,6 +3,7 @@ import {
     ComboboxContainerProps,
     FilterTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
+    ReadOnlyStyleEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
@@ -68,8 +69,8 @@ interface SelectorBase<T, V> {
 
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 
-    onEnterEvent?: Function;
-    onLeaveEvent?: Function;
+    onEnterEvent?: () => void;
+    onLeaveEvent?: () => void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
@@ -84,6 +85,7 @@ export interface SelectionBaseProps<Selector> {
     inputId: string;
     labelId?: string;
     noOptionsText?: string;
+    readOnlyStyle: ReadOnlyStyleEnum;
     keepMenuOpen?: boolean;
     selector: Selector;
     menuFooterContent?: ReactNode;

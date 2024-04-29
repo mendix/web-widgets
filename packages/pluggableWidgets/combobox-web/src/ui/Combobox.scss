@@ -106,13 +106,17 @@ $cb-menu-outer-padding: 10px;
         }
     }
 
-    &-input-container {
+    .widget-combobox-input-container {
         flex-grow: 1;
         transition: box-shadow 150ms ease 0s;
 
         &-disabled {
-            background-color: $cb-disabled-color !important;
+            background-color: $cb-disabled-color;
             pointer-events: none !important;
+
+            &.form-control-static {
+                background-color: transparent;
+            }
         }
     }
 
