@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
+
 ### Fixed
 
 -   Fixed an issue where pagination buttons wouldn't show up when there's no items in the Datagrid 2 pagination even when button visibility was set to "always".
