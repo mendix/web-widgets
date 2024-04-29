@@ -44,6 +44,7 @@ describe("Combo box (Association)", () => {
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
+            readOnlyStyle: "bordered",
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),

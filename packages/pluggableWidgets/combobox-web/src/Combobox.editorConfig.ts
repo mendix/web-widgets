@@ -255,10 +255,12 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                         padding: 4,
                         children: structurePreviewChildren
                     },
-                    {
-                        ...getIconPreview(isDarkMode),
-                        ...{ grow: 0, padding: 4 }
-                    }
+                    _values.readOnly && _values.readOnlyStyle === "text"
+                        ? container({ grow: 0, padding: 4 })()
+                        : {
+                              ...getIconPreview(isDarkMode),
+                              ...{ grow: 0, padding: 4 }
+                          }
                 ]
             },
             ...dropdownPreviewChildren

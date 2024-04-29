@@ -46,6 +46,7 @@ export function MultiSelection({
             <ComboboxWrapper
                 isOpen={isOpen}
                 readOnly={selector.readOnly}
+                readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
             >

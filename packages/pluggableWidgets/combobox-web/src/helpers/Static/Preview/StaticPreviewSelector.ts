@@ -19,8 +19,8 @@ export class StaticPreviewSelector implements SingleSelector {
     clearable: boolean;
     currentId: string | null;
     customContentType: StaticDataSourceCustomContentTypeEnum = "listItem";
-    onEnterEvent?: Function | undefined;
-    onLeaveEvent?: Function | undefined;
+    onEnterEvent?: () => void;
+    onLeaveEvent?: () => void;
     constructor(props: ComboboxPreviewProps) {
         const optionsMap = new Map<string, OptionsSourceStaticDataSourcePreviewType>();
         this.caption = new StaticPreviewCaptionsProvider(

@@ -33,6 +33,8 @@ export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
+export type ReadOnlyStyleEnum = "bordered" | "text";
+
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
     staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
@@ -76,6 +78,7 @@ export interface ComboboxContainerProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: DynamicValue<string>;
+    readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
@@ -122,6 +125,7 @@ export interface ComboboxPreviewProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: string;
+    readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;

@@ -31,6 +31,7 @@ export function SingleSelection({
             <ComboboxWrapper
                 isOpen={isOpen || keepMenuOpen === true}
                 readOnly={selector.readOnly}
+                readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
             >
