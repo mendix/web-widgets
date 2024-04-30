@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.18.0] - 2024-04-30
+
 ### Changed
 
 -   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
