@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where the marker wouldn’t appear at the specified location when the decimal points in the longitude and latitude values were given as commas.
+
 ## [3.2.2] - 2023-09-27
 
 ### Fixed
