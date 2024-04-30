@@ -6,6 +6,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.18.0] DataWidgets - 2024-04-30
+
+### [2.5.1] DatagridNumberFilter
+
+#### Fixed
+
+-   We resolved an issue where the default value was not working in certain cases.
+
+### [2.5.1] DatagridTextFilter
+
+#### Fixed
+
+-   We resolved an issue where the default value was not working in certain cases.
+
+### [2.18.0] Datagrid
+
+#### Changed
+
+-   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
+
+#### Fixed
+
+-   Fixed an issue where pagination buttons wouldn't show up when there's no items in the Datagrid 2 pagination even when button visibility was set to "always".
+
+#### Added
+
+-   A new property that allows to change the behavior of the item selection.
+
+-   A new property that controls custom content events.
+
+#### Removed
+
+-   We removed the sorting console warnings that were being triggered incorrectly.
+
+### [1.8.0] Gallery
+
+#### Changed
+
+-   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
+
+#### Added
+
+-   A new property that allows to change the behavior of the item selection.
+
+-   A new property that allows to configure the trigger event for the "on click" action.
+
 ## [2.17.0] DataWidgets - 2024-04-17
 
 ### [2.17.0] Datagrid
