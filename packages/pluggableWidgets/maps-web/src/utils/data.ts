@@ -7,8 +7,8 @@ export declare type Option<T> = T | undefined;
 export function convertStaticModeledMarker(marker: MarkersType): ModeledMarker {
     return {
         address: marker.address?.value,
-        latitude: Number(marker.latitude?.value),
-        longitude: Number(marker.longitude?.value),
+        latitude: parseNumber(marker.latitude?.value),
+        longitude: parseNumber(marker.longitude?.value),
         title: marker.title?.value,
         action: marker.onClick?.execute,
         customMarker: marker.customMarker?.value?.uri
@@ -41,4 +41,12 @@ function fromDatasource(marker: DynamicMarkersType, item: ObjectItem): ModeledMa
         action: onClickAttribute ? onClickAttribute.get(item).execute : undefined,
         customMarker: marker.customMarkerDynamic?.value?.uri
     };
+}
+
+function parseNumber(value: string | undefined): number | undefined {
+    if (value) {
+        const sanitizedValue = value.replace(",", ".");
+        return Number(sanitizedValue);
+    }
+    return undefined;
 }
