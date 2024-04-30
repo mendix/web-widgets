@@ -1,5 +1,5 @@
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { action, computed, configure, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import {
     ColumnsSortingStore,
     IColumnSortingStore,
@@ -12,8 +12,6 @@ import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnPersonalizationSettings } from "../../typings/personalization-settings";
-
-configure({ isolateGlobalState: true });
 
 export interface IColumnGroupStore {
     loaded: boolean;
