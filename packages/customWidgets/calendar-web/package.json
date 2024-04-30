@@ -65,12 +65,5 @@
     "react-big-calendar": "0.19.2",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "^5.0.1"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowedVersions": {
-        "react-dom  ": "^18.0.0"
-      }
-    }
   }
 }
