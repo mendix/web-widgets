@@ -22,6 +22,12 @@ overrides:
   '@tinymce/tinymce-react': https://github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz
 
 patchedDependencies:
+  mobx-react-lite@4.0.7:
+    hash: ziuwsdtojeszsu4w5zqfcs745m
+    path: patches/mobx-react-lite@4.0.7.patch
+  mobx@6.12.3:
+    hash: hn24hfynvosrur25mqcnayyvqi
+    path: patches/mobx@6.12.3.patch
   react-big-calendar@0.19.2:
     hash: qkpbozd6uvekyoidtbnr26jagq
     path: patches/react-big-calendar@0.19.2.patch
@@ -1126,11 +1132,11 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3
       mobx:
-        specifier: ^6.12.3
-        version: 6.12.3
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
-        specifier: ^4.0.7
-        version: 4.0.7(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -12520,7 +12526,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /mobx-react-lite@4.0.7(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0):
+  /mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-RjwdseshK9Mg8On5tyJZHtGD+J78ZnCnRaxeQDSiciKVQDUbfZcXhmld0VMxAwvcTnPEHZySGGewm467Fcpreg==}
     peerDependencies:
       mobx: ^6.9.0
@@ -12533,15 +12539,17 @@ packages:
       react-native:
         optional: true
     dependencies:
-      mobx: 6.12.3
+      mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
+    patched: true
 
-  /mobx@6.12.3:
+  /mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi):
     resolution: {integrity: sha512-c8NKkO4R2lShkSXZ2Ongj1ycjugjzFFo/UswHBnS62y07DMcTc9Rvo03/3nRyszIvwPNljlkd4S828zIBv/piw==}
     dev: false
+    patched: true
 
   /mocha@10.4.0:
     resolution: {integrity: sha512-eqhGB8JKapEYcC4ytX/xrzKforgEc3j1pGlAXVy3eRwrtAy5/nIfT1SvgGzfN0XZZxeLq0aQWkOUAmqIJiv+bA==}
