@@ -9,7 +9,8 @@ declare global {
             };
             session: {
                 getSessionObjectId(): string,
-                getConfig() : { locale: { code: string } }
+                getConfig() : { locale: { code: string } },
+                getUserId(): string
             }
         };
         dojo: {
