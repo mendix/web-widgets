@@ -3,7 +3,7 @@ import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typing
 import { FilterComponent } from "./components/FilterComponent";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { FilterType, getFilterDispatcher } from "@mendix/widget-plugin-filtering";
+import { FilterType, getFilterDispatcher, useDefaultValue } from "@mendix/widget-plugin-filtering";
 import { Big } from "big.js";
 
 import {
@@ -23,7 +23,7 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
-    const { current: defaultValue } = useRef(props.defaultValue?.value);
+    const defaultValue = useDefaultValue(props.defaultValue);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -77,7 +77,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
-                if (props.defaultValue?.status === "loading") {
+                if (defaultValue === null) {
                     return null;
                 }
 
