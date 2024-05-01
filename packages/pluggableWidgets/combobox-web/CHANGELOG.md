@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added the ability to auto label combobox, based on the set attributes.
 
+### Breaking
+
+-   We are now using css variables for combobox styling. please use the latest atlas core to allow combo box styled properly.
+-   Combobox now set to minimum Studio Pro version 10.7
+
 ## [1.4.0] - 2024-04-19
 
 ### Changed
