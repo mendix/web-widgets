@@ -28,7 +28,6 @@ interface Props extends DatagridContainerProps {
 
 const Container = observer((props: Props): ReactElement => {
     const isInfiniteLoad = props.pagination === "virtualScrolling" || props.pagination === "loadMore";
-    // const pageSizeNew = props.dynamicPageSize?.value?.toNumber() ?? props.pageSize;
     const pageSizeNew =
         props.pageSizeType === "dynamic"
             ? Number(isAvailable(props.dynamicPageSize) ? props.dynamicPageSize.value : 0)
