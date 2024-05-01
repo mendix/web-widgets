@@ -231,37 +231,55 @@ type ExportDataResult =
 
 function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResult {
     let hasLoadingItem = false;
-    const items = data.map(item => {
-        return columns.map(column => {
+    type ExportDataColumn = Array<boolean | number | string>;
+    const items: ExportDataColumn[] = [];
+
+    for (const item of data) {
+        if (hasLoadingItem) {
+            break;
+        }
+        const cols: ExportDataColumn = [];
+
+        for (const column of columns) {
             if (column.showContentAs === "attribute") {
-                const attributeItem = column.attribute?.get(item);
-                const attributeType = typeof attributeItem?.value;
+                if (!column.attribute) {
+                    cols.push("");
+                    break;
+                }
+
+                const attributeItem = column.attribute.get(item);
+                const attributeType = typeof attributeItem.value;
 
                 if (attributeType === "boolean") {
-                    return Boolean(attributeItem?.value) ?? "";
-                }
-
-                if (attributeType === "object" && attributeItem?.formatter.type === "number") {
-                    return Big(attributeItem?.value as Big).toNumber() ?? "";
-                }
-
-                return attributeItem?.displayValue ?? "";
-            } else if (column.showContentAs === "dynamicText") {
-                const dynamicText = column.dynamicText?.get(item);
-
-                if (dynamicText?.status === "loading") {
-                    hasLoadingItem = true;
-                    return "";
-                } else if (dynamicText?.status === "unavailable") {
-                    return "n/a";
+                    cols.push(Boolean(attributeItem.value));
+                } else if (attributeItem.value instanceof Big) {
+                    cols.push(attributeItem.value.toNumber());
                 } else {
-                    return dynamicText?.value ?? "";
+                    cols.push(attributeItem.displayValue);
+                }
+            } else if (column.showContentAs === "dynamicText") {
+                if (!column.dynamicText) {
+                    cols.push("");
+                    break;
+                }
+                const dynamicText = column.dynamicText.get(item);
+
+                if (dynamicText.status === "loading") {
+                    cols.push("");
+                    hasLoadingItem = true;
+                    break;
+                } else if (dynamicText.status === "unavailable") {
+                    cols.push("n/a");
+                } else {
+                    cols.push(dynamicText.value);
                 }
             } else {
-                return "n/a (custom content)";
+                cols.push("n/a (custom content)");
             }
-        });
-    });
+        }
+
+        items.push(cols);
+    }
 
     if (hasLoadingItem) {
         return {
