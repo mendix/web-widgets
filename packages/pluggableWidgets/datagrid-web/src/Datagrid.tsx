@@ -55,7 +55,7 @@ const Container = observer((props: Props): ReactElement => {
                 }
 
                 if (limit != null) {
-                    props.datasource.setLimit(limit);
+                    props.datasource?.setLimit(limit);
                 }
                 if (reload) {
                     props.datasource.reload();
@@ -76,7 +76,6 @@ const Container = observer((props: Props): ReactElement => {
         if (props.pageSizeType === "dynamic") {
             props.datasource.setLimit(pageSizeNew);
             props.datasource.setOffset(0);
-            console.log("use effect is triggering" + pageSizeNew);
         }
     }, [pageSizeNew]);
     const setPage = useCallback(
