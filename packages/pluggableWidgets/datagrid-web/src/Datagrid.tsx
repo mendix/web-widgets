@@ -5,6 +5,7 @@ import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import "./ui/Datagrid.scss";
@@ -27,9 +28,12 @@ interface Props extends DatagridContainerProps {
 
 const Container = observer((props: Props): ReactElement => {
     const isInfiniteLoad = props.pagination === "virtualScrolling" || props.pagination === "loadMore";
-    const currentPage = isInfiniteLoad
-        ? props.datasource.limit / props.pageSize
-        : props.datasource.offset / props.pageSize;
+    // const pageSizeNew = props.dynamicPageSize?.value?.toNumber() ?? props.pageSize;
+    const pageSizeNew =
+        props.pageSizeType === "dynamic"
+            ? Number(isAvailable(props.dynamicPageSize) ? props.dynamicPageSize.value : 0)
+            : props.pageSize;
+    const currentPage = isInfiniteLoad ? props.datasource.limit / pageSizeNew : props.datasource.offset / pageSizeNew;
 
     const { FilterContext } = useFilterContext();
     const { columnsStore, rootStore } = props;
@@ -52,9 +56,8 @@ const Container = observer((props: Props): ReactElement => {
                 }
 
                 if (limit != null) {
-                    props.datasource?.setLimit(limit);
+                    props.datasource.setLimit(limit);
                 }
-
                 if (reload) {
                     props.datasource.reload();
                 }
@@ -70,17 +73,23 @@ const Container = observer((props: Props): ReactElement => {
             }, props.refreshInterval * 1000);
         }
     }, [props.datasource, props.refreshInterval]);
-
+    useEffect(() => {
+        if (props.pageSizeType === "dynamic") {
+            props.datasource.setLimit(pageSizeNew);
+            props.datasource.setOffset(0);
+            console.log("use effect is triggering" + pageSizeNew);
+        }
+    }, [pageSizeNew]);
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
             if (isInfiniteLoad) {
-                props.datasource.setLimit(newPage * props.pageSize);
+                props.datasource.setLimit(newPage * pageSizeNew);
             } else {
-                props.datasource.setOffset(newPage * props.pageSize);
+                props.datasource.setOffset(newPage * pageSizeNew);
             }
         },
-        [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
+        [props.datasource, pageSizeNew, isInfiniteLoad, currentPage]
     );
 
     const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
@@ -101,7 +110,7 @@ const Container = observer((props: Props): ReactElement => {
     const focusController = useFocusTargetController({
         rows: items.length,
         columns: visibleColumnsCount,
-        pageSize: props.pageSize
+        pageSize: pageSizeNew
     });
 
     const cellEventsController = useCellEventsController(selectActionHelper, clickActionHelper, focusController);
@@ -163,13 +172,16 @@ const Container = observer((props: Props): ReactElement => {
                     </WidgetHeaderContext>
                 )
             }
-            hasMoreItems={props.datasource.hasMoreItems ?? false}
+            hasMoreItems={
+                pageSizeNew !== 0 &&
+                (props.datasource.hasMoreItems || (currentPage + 1) * pageSizeNew < (props.datasource.totalCount || 0))
+            }
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={useMemo(() => `DataGrid${generateUUID()}`, [])}
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abort}
             page={currentPage}
-            pageSize={props.pageSize}
+            pageSize={pageSizeNew}
             paginationType={props.pagination}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
             paging={useShowPagination({

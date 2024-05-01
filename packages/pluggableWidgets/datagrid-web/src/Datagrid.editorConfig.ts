@@ -88,7 +88,12 @@ export function getProperties(
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
-
+    if (values.pageSizeType === "dynamic") {
+        hidePropertyIn(defaultProperties, values, "pageSize");
+    }
+    if (values.pageSizeType === "static") {
+        hidePropertyIn(defaultProperties, values, "dynamicPageSize");
+    }
     hideSelectionProperties(defaultProperties, values);
 
     changePropertyIn(

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   Added option for users to dynamically change the page size.
+
 ### Changed
 
 -   We have changed the value displayed in the pagination on design mode. Now the value displayed is the page size.
