@@ -1,17 +1,6 @@
-$cb-brand-primary: #264ae5;
-$cb-gray-dark: #606671;
-$cb-gray-primary: #ced0d3;
-$cb-brand-secondary-light: #e6eaff;
-$cb-separator-border: #787d87;
-$cb-typography-color: #3b4251;
-$cb-box-shadow-color: rgba(0, 0, 0, 0.2);
-$cb-selected-item: #e6eaff;
-$cb-highlighted-index: #f5f6f6;
-$cb-unselected-item: #ffffff;
-$cb-hover-color: #ced0d3;
-$cb-disabled-color: #f8f8f8;
-$cb-disabled-text-color: #6c7180;
 $cb-menu-outer-padding: 10px;
+$cb-spacing: 4px;
+$cb-menu-border-radius: 7px;
 .widget-combobox {
     flex-grow: 1;
     position: relative;
@@ -19,14 +8,14 @@ $cb-menu-outer-padding: 10px;
     &-menu {
         position: absolute;
         display: inline;
-        border-radius: 7px;
-        margin: 4px 0 4px 0;
+        border-radius: var(--dropdown-border-radius, $cb-menu-border-radius);
+        margin: var(--spacing-smaller, $cb-spacing) 0 var(--spacing-smaller, $cb-spacing) 0;
         width: 100%;
         left: unset;
-        padding: $cb-menu-outer-padding 0 0;
+        padding: var(--outer-padding, $cb-menu-outer-padding) 0 0;
         z-index: 1;
-        box-shadow: 0px 0px $cb-menu-outer-padding 0px $cb-box-shadow-color;
-        background-color: $cb-unselected-item;
+        box-shadow: 0px 0px var(--outer-padding, $cb-menu-outer-padding) 0px var(--shadow-color-border);
+        background-color: var(--label-info-color);
         list-style-type: "none";
         &-list {
             padding: 0;
@@ -34,34 +23,34 @@ $cb-menu-outer-padding: 10px;
             max-height: 320px;
             overflow-y: auto;
             &:last-child {
-                margin-bottom: $cb-menu-outer-padding;
+                margin-bottom: var(--outer-padding, $cb-menu-outer-padding);
             }
         }
         &-hidden {
             display: none;
         }
         &-header {
-            border-bottom: 1px solid $cb-gray-primary;
+            border-bottom: 1px solid var(--gray-primary);
             &:focus,
             &:focus-within,
             &:hover {
-                background-color: $cb-highlighted-index;
+                background-color: var(--color-default-light);
             }
 
             &:has(input[type="checkbox"]:hover, :focus, :focus-within)
                 + .widget-combobox-menu-list:not(.widget-combobox-menu-highlighted)
                 input[type="checkbox"]:not(:checked):after {
                 content: "";
-                border-color: $cb-hover-color;
+                border-color: var(--btn-default-bg-hover);
             }
         }
 
         &-footer {
-            border-top: 1px solid $cb-gray-primary;
-            padding: $cb-menu-outer-padding;
+            border-top: 1px solid var(--gray-primary);
+            padding: var(--outer-padding, $cb-menu-outer-padding);
             &:focus,
             &:focus-within {
-                outline: 1px solid $cb-brand-primary;
+                outline: 1px solid var(--brand-primary);
             }
         }
     }
@@ -74,21 +63,21 @@ $cb-menu-outer-padding: 10px;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 6px $cb-menu-outer-padding;
+        padding: 6px var(--outer-padding, $cb-menu-outer-padding);
         height: fit-content;
         overflow: hidden;
-        color: $cb-typography-color;
-        background-color: $cb-unselected-item;
+        color: var(--gray-darker);
+        background-color: var(--label-info-color);
 
         &-selected {
-            background-color: $cb-selected-item;
+            background-color: var(--color-primary-lighter);
         }
         &-highlighted,
         &:focus {
-            background-color: $cb-highlighted-index;
+            background-color: var(--color-default-light);
         }
         & > .widget-combobox-icon-container {
-            margin-right: $cb-menu-outer-padding;
+            margin-right: var(--outer-padding, $cb-menu-outer-padding);
         }
 
         .widget-combobox-caption-text {
@@ -111,13 +100,13 @@ $cb-menu-outer-padding: 10px;
         transition: box-shadow 150ms ease 0s;
 
         &-disabled {
-            background-color: $cb-disabled-color !important;
+            background-color: var(--gray-lighter) !important;
             pointer-events: none !important;
         }
     }
 
     &-input {
-        color: $cb-gray-dark;
+        color: var(--gray-dark);
         flex-grow: 1;
         border: none;
         padding: 0;
@@ -147,11 +136,11 @@ $cb-menu-outer-padding: 10px;
 
         &:focus .widget-combobox-icon-container {
             border-radius: 2px;
-            outline: 2px solid $cb-brand-primary;
+            outline: 2px solid var(--brand-primary);
         }
 
         &:hover &-icon {
-            color: $cb-brand-primary;
+            color: var(--brand-primary);
             font-weight: bold;
 
             path {
@@ -160,7 +149,7 @@ $cb-menu-outer-padding: 10px;
         }
 
         & + .widget-combobox-down-arrow {
-            border-left: 1px solid $cb-separator-border;
+            border-left: 1px solid var(--gray);
         }
     }
     &-down-arrow {
@@ -168,7 +157,7 @@ $cb-menu-outer-padding: 10px;
         flex-wrap: wrap;
         align-content: center;
         cursor: pointer;
-        padding-left: 4px;
+        padding-left: var(--spacing-smaller, $cb-spacing);
 
         &-icon {
             transition: transform 0.2s;
@@ -180,13 +169,13 @@ $cb-menu-outer-padding: 10px;
     }
 
     &-placeholder {
-        background-color: $cb-disabled-color !important;
+        background-color: var(--gray-lighter) !important;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
 
         &-text {
-            color: $cb-typography-color;
+            color: var(--gray-darker);
             position: absolute;
             left: 0;
             right: 0;
@@ -200,7 +189,7 @@ $cb-menu-outer-padding: 10px;
         }
 
         &-empty {
-            color: $cb-gray-dark;
+            color: var(--gray-dark);
         }
     }
 
@@ -256,7 +245,7 @@ $cb-menu-outer-padding: 10px;
 
         &-item {
             color: #000;
-            font-size: 12px;
+            font-size: var(--font-size-small, 12px);
             line-height: 1.334;
             display: inline-flex;
             border-radius: 26px;
@@ -264,22 +253,22 @@ $cb-menu-outer-padding: 10px;
             padding: 2px 10px;
             flex-wrap: wrap;
             align-items: center;
-            margin: 2px;
-            gap: 8px;
-            background-color: $cb-brand-secondary-light;
+            margin: var(--spacing-smallest, 2px);
+            gap: var(--gutter-size, 8px);
+            background-color: var(--color-primary-lighter);
             &-remove-button {
                 padding: 0px 0px;
                 border: none;
                 background-color: transparent;
                 cursor: pointer;
-                color: $cb-brand-primary;
+                color: var(--brand-primary);
                 span {
                     display: flex;
                     align-items: center;
                 }
             }
             &:focus-visible {
-                outline: $cb-brand-primary auto 1px;
+                outline: var(--brand-primary) auto 1px;
             }
         }
     }
@@ -288,12 +277,12 @@ $cb-menu-outer-padding: 10px;
         fill: transparent;
         &:not(.checked) {
             rect {
-                stroke: $cb-gray-primary;
+                stroke: var(--gray-primary);
             }
             &:hover,
             &:focus {
                 path {
-                    stroke: $cb-hover-color;
+                    stroke: var(--btn-default-bg-hover);
                     stroke-width: 2px;
                     stroke-linecap: round;
                     stroke-linejoin: round;
@@ -302,7 +291,7 @@ $cb-menu-outer-padding: 10px;
         }
         &.checked {
             rect {
-                fill: $cb-brand-primary;
+                fill: var(--brand-primary);
             }
             path {
                 stroke: white;
