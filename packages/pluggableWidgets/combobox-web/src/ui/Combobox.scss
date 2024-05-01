@@ -12,9 +12,9 @@ $cb-menu-border-radius: 7px;
         margin: var(--spacing-smaller, $cb-spacing) 0 var(--spacing-smaller, $cb-spacing) 0;
         width: 100%;
         left: unset;
-        padding: var(--outer-padding, $cb-menu-outer-padding) 0 0;
+        padding: var(--dropdown-outer-padding, $cb-menu-outer-padding) 0 0;
         z-index: 1;
-        box-shadow: 0px 0px var(--outer-padding, $cb-menu-outer-padding) 0px var(--shadow-color-border);
+        box-shadow: 0px 0px var(--dropdown-outer-padding, $cb-menu-outer-padding) 0px var(--shadow-color-border);
         background-color: var(--label-info-color);
         list-style-type: "none";
         &-list {
@@ -23,7 +23,7 @@ $cb-menu-border-radius: 7px;
             max-height: 320px;
             overflow-y: auto;
             &:last-child {
-                margin-bottom: var(--outer-padding, $cb-menu-outer-padding);
+                margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             }
         }
         &-hidden {
@@ -47,7 +47,7 @@ $cb-menu-border-radius: 7px;
 
         &-footer {
             border-top: 1px solid var(--gray-primary);
-            padding: var(--outer-padding, $cb-menu-outer-padding);
+            padding: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             &:focus,
             &:focus-within {
                 outline: 1px solid var(--brand-primary);
@@ -63,7 +63,7 @@ $cb-menu-border-radius: 7px;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 6px var(--outer-padding, $cb-menu-outer-padding);
+        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
         height: fit-content;
         overflow: hidden;
         color: var(--gray-darker);
@@ -77,7 +77,7 @@ $cb-menu-border-radius: 7px;
             background-color: var(--color-default-light);
         }
         & > .widget-combobox-icon-container {
-            margin-right: var(--outer-padding, $cb-menu-outer-padding);
+            margin-right: var(--dropdown-outer-padding, $cb-menu-outer-padding);
         }
 
         .widget-combobox-caption-text {
