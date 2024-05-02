@@ -29,7 +29,7 @@ const defaultMarkerIcon = new LeafletIcon({
     iconAnchor: [12, 41]
 });
 
-function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">) {
+function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">): null {
     const map = useMap();
     const { autoZoom, currentLocation, locations } = props;
 

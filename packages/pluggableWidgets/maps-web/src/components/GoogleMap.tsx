@@ -1,34 +1,43 @@
-import { createElement, Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from "react";
+import { createElement, ReactElement, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import {
-    GoogleMap as GoogleMapComponent,
-    Marker as MarkerComponent,
+    AdvancedMarker,
+    APIProvider,
     InfoWindow,
-    useLoadScript
-} from "@react-google-maps/api";
+    Map as GoogleMapComponent,
+    MapProps,
+    Pin,
+    useAdvancedMarkerRef,
+    useApiIsLoaded,
+    useMap
+} from "@vis.gl/react-google-maps";
 import { Marker, SharedProps } from "../../typings/shared";
-import { getGoogleMapsStyles } from "../utils/google";
 import { translateZoom } from "../utils/zoom";
-import { Option } from "../utils/data";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 
 export interface GoogleMapsProps extends SharedProps {
-    mapStyles?: string;
+    mapId: string;
     streetViewControl: boolean;
     mapTypeControl: boolean;
     fullscreenControl: boolean;
     rotateControl: boolean;
 }
 
-export function GoogleMap(props: GoogleMapsProps): ReactElement {
-    const [map, setMap] = useState<google.maps.Map | undefined>();
+export function GoogleMapContainer(props: GoogleMapsProps): ReactElement {
+    return (
+        <APIProvider apiKey={props.mapsToken ?? ""}>
+            <GoogleMap {...props} />
+        </APIProvider>
+    );
+}
+
+function GoogleMap(props: GoogleMapsProps): ReactElement {
+    const map = useMap();
+    const isLoaded = useApiIsLoaded();
     const center = useRef<google.maps.LatLngLiteral>({
         lat: 51.906688,
         lng: 4.48837
     });
-    const [selectedMarker, setSelectedMarker] = useState<Option<Marker>>();
-    const [error, setError] = useState("");
     const {
         autoZoom,
         className,
@@ -36,8 +45,6 @@ export function GoogleMap(props: GoogleMapsProps): ReactElement {
         fullscreenControl,
         locations,
         mapTypeControl,
-        mapsToken,
-        mapStyles,
         optionZoomControl: zoomControl,
         optionScroll: scrollwheel,
         optionDrag: draggable,
@@ -70,57 +77,32 @@ export function GoogleMap(props: GoogleMapsProps): ReactElement {
         }
     }, [map, locations, currentLocation, autoZoom]);
 
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: mapsToken ?? "",
-        id: "_com.mendix.widget.custom.Maps.Maps"
-    });
-
-    if (loadError) {
-        setError(loadError.message);
-    }
+    const mapOptions: MapProps = {
+        className: "widget-google-maps",
+        defaultCenter: center.current,
+        defaultZoom: autoZoom ? translateZoom("city") : zoomLevel,
+        fullscreenControl,
+        gestureHandling: draggable ? "auto" : "none",
+        mapId: props.mapId,
+        mapTypeControl,
+        maxZoom: 20,
+        minZoom: 1,
+        rotateControl,
+        scrollwheel,
+        streetViewControl,
+        zoomControl
+    };
 
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
-            {error && <Alert bootstrapStyle="danger">{error}</Alert>}
             <div className="widget-google-maps-wrapper">
                 {isLoaded ? (
-                    // @ts-ignore
-                    <GoogleMapComponent
-                        mapContainerClassName="widget-google-maps"
-                        options={{
-                            draggable,
-                            fullscreenControl,
-                            mapTypeControl,
-                            maxZoom: 20,
-                            minZoom: 1,
-                            rotateControl,
-                            scrollwheel,
-                            streetViewControl,
-                            styles: getGoogleMapsStyles(mapStyles),
-                            zoomControl
-                        }}
-                        onLoad={setMap}
-                        onCenterChanged={() => {
-                            if (map) {
-                                const latLang = map.getCenter()?.toJSON();
-                                if (latLang) {
-                                    center.current = latLang;
-                                }
-                            }
-                        }}
-                        zoom={autoZoom ? translateZoom("city") : zoomLevel}
-                        center={center.current}
-                    >
+                    <GoogleMapComponent {...mapOptions}>
                         {locations
                             .concat(currentLocation ? [currentLocation] : [])
                             .filter(m => !!m)
                             .map((marker, index) => (
-                                <GoogleMapsMarker
-                                    key={`marker_${index}`}
-                                    marker={marker}
-                                    selectedMarker={selectedMarker}
-                                    setSelectedMarker={setSelectedMarker}
-                                />
+                                <GoogleMapsMarker key={`marker_${index}`} {...marker} />
                             ))}
                     </GoogleMapComponent>
                 ) : (
@@ -131,44 +113,40 @@ export function GoogleMap(props: GoogleMapsProps): ReactElement {
     );
 }
 
-function GoogleMapsMarker({
-    marker,
-    selectedMarker,
-    setSelectedMarker
-}: {
-    marker: Marker;
-    selectedMarker: Option<Marker>;
-    setSelectedMarker: Dispatch<SetStateAction<Option<Marker>>>;
-}): ReactElement {
-    const markerRef = useRef<google.maps.MVCObject>();
+function GoogleMapsMarker(marker: Marker): ReactElement {
+    const [markerRef, googleMarker] = useAdvancedMarkerRef();
+    const [infowindowShown, setInfowindowShown] = useState(false);
+
+    const toggleInfoWindow = (): void => setInfowindowShown(previousState => !previousState);
+    const closeInfoWindow = (): void => setInfowindowShown(false);
+
     return (
-        // @ts-ignore
-        <MarkerComponent
+        <AdvancedMarker
             position={{
                 lat: marker.latitude,
                 lng: marker.longitude
             }}
             title={marker.title}
-            clickable={!!marker.title || !!marker.onClick}
-            onLoad={ref => {
-                markerRef.current = ref;
+            ref={markerRef}
+            onClick={() => {
+                if (marker.title) {
+                    toggleInfoWindow();
+                }
+
+                if (marker.onClick) {
+                    marker.onClick();
+                }
             }}
-            onClick={
-                marker.title ? () => setSelectedMarker(prev => (prev !== marker ? marker : undefined)) : marker.onClick
-            }
-            icon={marker.url}
         >
-            {selectedMarker === marker && markerRef.current && (
-                // @ts-ignore
-                <InfoWindow
-                    anchor={markerRef.current}
-                    onCloseClick={() => setSelectedMarker(prev => (prev === marker ? undefined : prev))}
-                >
+            {infowindowShown && (
+                <InfoWindow anchor={googleMarker} onCloseClick={closeInfoWindow}>
                     <span style={{ cursor: marker.onClick ? "pointer" : "none" }} onClick={marker.onClick}>
                         {marker.title}
                     </span>
                 </InfoWindow>
             )}
-        </MarkerComponent>
+            {marker.url && <img src={marker.url} />}
+            {!marker.url && <Pin />}
+        </AdvancedMarker>
     );
 }

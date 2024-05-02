@@ -43,7 +43,7 @@ export function getProperties(
         }
 
         if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["mapProvider", "mapStyles"]);
+            hidePropertyIn(defaultProperties, values, "mapProvider");
         }
     }
 
@@ -85,7 +85,7 @@ export function getProperties(
             "mapTypeControl",
             "fullScreenControl",
             "rotateControl",
-            "mapStyles"
+            "googleMapId"
         ]);
         if (values.mapProvider === "openStreet") {
             hidePropertiesIn(defaultProperties, values, ["apiKeyExp", "apiKey"]);

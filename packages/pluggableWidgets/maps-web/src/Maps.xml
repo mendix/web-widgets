@@ -254,9 +254,9 @@
                         <enumerationValue key="hereMaps">Here Maps</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="mapStyles" type="string" multiline="true" required="false">
-                    <caption>Map styles</caption>
-                    <description>JSON array with Google Maps styles.</description>
+                <property key="googleMapId" type="string" required="true">
+                    <caption>Google MapId key</caption>
+                    <description>Used to render and style the Google map. This MapId key from Google can be found in https://developers.google.com/maps/documentation/get-map-id</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

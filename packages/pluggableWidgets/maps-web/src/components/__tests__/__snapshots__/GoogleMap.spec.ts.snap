@@ -1,357 +1,191 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Google maps renders a map with current location 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "75px",
-      "width": "50%",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
-        {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    currentLocation={
+      {
+        "latitude": 51.906688,
+        "longitude": 4.48837,
+        "url": "image:url",
       }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
-        {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    >
-      <GoogleMapsMarker
-        key="marker_0"
-        marker={
-          {
-            "latitude": 51.906688,
-            "longitude": 4.48837,
-            "url": "image:url",
-          }
-        }
-        setSelectedMarker={[Function]}
-      />
-    </GoogleMap>
-  </div>
-</div>
+    }
+    fullscreenControl={false}
+    height={75}
+    heightUnit="pixels"
+    locations={[]}
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={true}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="percentage"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
 
 exports[`Google maps renders a map with markers 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "75px",
-      "width": "50%",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    fullscreenControl={false}
+    height={75}
+    heightUnit="pixels"
+    locations={
+      [
         {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
-      }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
+          "latitude": 51.906688,
+          "longitude": 4.48837,
+          "title": "Mendix HQ",
+          "url": "image:url",
+        },
         {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    >
-      <GoogleMapsMarker
-        key="marker_0"
-        marker={
-          {
-            "latitude": 51.906688,
-            "longitude": 4.48837,
-            "title": "Mendix HQ",
-            "url": "image:url",
-          }
-        }
-        setSelectedMarker={[Function]}
-      />
-      <GoogleMapsMarker
-        key="marker_1"
-        marker={
-          {
-            "latitude": 51.922823,
-            "longitude": 4.479632,
-            "title": "Gementee Rotterdam",
-            "url": "image:url",
-          }
-        }
-        setSelectedMarker={[Function]}
-      />
-    </GoogleMap>
-  </div>
-</div>
+          "latitude": 51.922823,
+          "longitude": 4.479632,
+          "title": "Gementee Rotterdam",
+          "url": "image:url",
+        },
+      ]
+    }
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={false}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="percentage"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
 
 exports[`Google maps renders a map with percentage of parent units renders the structure correctly 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "75%",
-      "width": "50%",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
-        {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
-      }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
-        {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    />
-  </div>
-</div>
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    fullscreenControl={false}
+    height={75}
+    heightUnit="percentageOfParent"
+    locations={[]}
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={false}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="percentage"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
 
 exports[`Google maps renders a map with percentage of width and height units renders the structure correctly 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "auto",
-      "paddingBottom": "37.5%",
-      "width": "50%",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
-        {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
-      }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
-        {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    />
-  </div>
-</div>
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    fullscreenControl={false}
+    height={75}
+    heightUnit="percentageOfWidth"
+    locations={[]}
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={false}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="percentage"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
 
 exports[`Google maps renders a map with pixels renders structure correctly 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "75px",
-      "width": "50px",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
-        {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
-      }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
-        {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    />
-  </div>
-</div>
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    fullscreenControl={false}
+    height={75}
+    heightUnit="pixels"
+    locations={[]}
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={false}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="pixels"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
 
 exports[`Google maps renders a map with right structure 1`] = `
-<div
-  className="widget-maps"
-  style={
-    {
-      "height": "37.5px",
-      "width": "50px",
-    }
-  }
+<APIProvider
+  apiKey=""
 >
-  <div
-    className="widget-google-maps-wrapper"
-  >
-    <GoogleMap
-      center={
-        {
-          "lat": 51.906688,
-          "lng": 4.48837,
-        }
-      }
-      mapContainerClassName="widget-google-maps"
-      onCenterChanged={[Function]}
-      onLoad={[Function]}
-      options={
-        {
-          "draggable": true,
-          "fullscreenControl": false,
-          "mapTypeControl": false,
-          "maxZoom": 20,
-          "minZoom": 1,
-          "rotateControl": false,
-          "scrollwheel": true,
-          "streetViewControl": false,
-          "styles": [
-            {
-              "elementType": "labels",
-              "featureType": "poi",
-              "stylers": [
-                {
-                  "visibility": "off",
-                },
-              ],
-            },
-          ],
-          "zoomControl": true,
-        }
-      }
-      zoom={10}
-    />
-  </div>
-</div>
+  <GoogleMap
+    autoZoom={true}
+    className=""
+    fullscreenControl={false}
+    height={75}
+    heightUnit="percentageOfWidth"
+    locations={[]}
+    mapId="DEMO_MAP_ID"
+    mapTypeControl={false}
+    mapsToken=""
+    optionDrag={true}
+    optionScroll={true}
+    optionZoomControl={true}
+    rotateControl={false}
+    showCurrentLocation={false}
+    streetViewControl={false}
+    style={{}}
+    width={50}
+    widthUnit="pixels"
+    zoomLevel={10}
+  />
+</APIProvider>
 `;
