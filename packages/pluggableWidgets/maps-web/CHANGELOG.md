@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.0.0] - 2024-05-02
+
 ### Fixed
 
 -   We fixed an issue where the marker wouldn’t appear at the specified location when the decimal points in the longitude and latitude values were given as commas.
@@ -13,7 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 -   We updated the google maps component, removing the deprecated marker and adding the advanced marker element recomended by google maps docs.
+
 -   We removed mapsStyles property used in google maps.
+
 -   We added mapId property that is required with the advanced marker element.
 
 ## [3.2.2] - 2023-09-27
