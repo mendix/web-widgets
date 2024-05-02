@@ -49,9 +49,15 @@ function main() {
 
     if (!presetName) {
         const usage = [
-            "Usage: node gen-employee-snapshot.js <preset>",
+            "Usage: node gen-employee-snapshot.js <PRESET>",
             "",
-            "preset - can be one of 'sample', 'medium', 'large', 'sample', 'five-companies'"
+            "PRESET - can be one of 'small', 'medium', 'large', 'sample', 'large_5x5'.",
+            "",
+            "sample    - single employee object, mainly for developer purposes and faster feedback.",
+            "small     - small size snapshot. Good for debugging and faster startups.",
+            "medium    - medium size snapshot for fine startup.",
+            "large     - large data snapshot. Good for testing but slow project initialization.",
+            "large_5x5 - generate large snapshot with only 5 roles and 5 companies."
         ];
         console.log(usage.join("\n"));
         return;
