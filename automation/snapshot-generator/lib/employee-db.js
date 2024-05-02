@@ -1,5 +1,5 @@
 const Chance = require("chance");
-const { Employee } = require("./employee");
+const { EmployeeGenerator } = require("./employee");
 const { includesSimilarObject, toRef, escapeSingleQuotes } = require("./utils");
 
 const DEFAULT_QUANTITY = {
@@ -8,6 +8,8 @@ const DEFAULT_QUANTITY = {
     role: 1,
     employee: 1
 };
+
+const SCHEMA_VERSION = 2;
 
 class EmployeeDB {
     /**
@@ -19,7 +21,7 @@ class EmployeeDB {
      */
     static create(quantity = DEFAULT_QUANTITY) {
         const chance = new Chance();
-        const emp = new Employee(chance);
+        const emp = new EmployeeGenerator(chance);
 
         const unique = (gen, n) => {
             return chance.unique(gen, n, {
@@ -48,7 +50,7 @@ class EmployeeDB {
 
         return {
             snapshot_id: chance.guid(),
-            snapshot_version: 1,
+            schema_version: SCHEMA_VERSION,
             countries,
             companies,
             roles,
