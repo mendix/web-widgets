@@ -7,7 +7,15 @@ const includesSimilarObject = (arr, value) => arr.some(obj => isEqualByNameOrId(
 
 const toRef = obj => ({ _id: obj._id });
 
-const escapeSingleQuotes = str => str.replace("'", "''");
+const escapeSingleQuotes = str => {
+    str = str.replace(/'/g, "''");
+    return str;
+};
+
+const removeUTF8 = str => {
+    str = str.replace(/[\u{0080}-\u{FFFF}]/gu, "_");
+    return str;
+};
 
 const writeSnapshot = (filename, json) => {
     const target = resolve(__dirname, "..", "snapshots", filename);
@@ -20,5 +28,6 @@ module.exports = {
     includesSimilarObject,
     toRef,
     escapeSingleQuotes,
-    writeSnapshot
+    writeSnapshot,
+    removeUTF8
 };

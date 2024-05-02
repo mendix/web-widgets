@@ -1,6 +1,6 @@
 const Chance = require("chance");
 const { EmployeeGenerator } = require("./employee");
-const { includesSimilarObject, toRef, escapeSingleQuotes } = require("./utils");
+const { includesSimilarObject, toRef, escapeSingleQuotes, removeUTF8 } = require("./utils");
 
 const DEFAULT_QUANTITY = {
     country: 1,
@@ -59,7 +59,10 @@ class EmployeeDB {
     }
 
     static toJSON(data) {
-        return escapeSingleQuotes(JSON.stringify(data, null, 2));
+        data = JSON.stringify(data, null, 2);
+        data = removeUTF8(data);
+        data = escapeSingleQuotes(data);
+        return data;
     }
 }
 

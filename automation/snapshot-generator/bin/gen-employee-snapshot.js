@@ -5,14 +5,14 @@ const SNAPSHOT_SMALL = {
     country: 10,
     company: 20,
     role: 20,
-    employeesQuantity: 50
+    employee: 50
 };
 
 const SNAPSHOT_MEDIUM = {
     country: 20,
     company: 50,
     role: 100,
-    employeesQuantity: 200
+    employee: 200
 };
 
 const SNAPSHOT_LARGE = {
@@ -22,7 +22,7 @@ const SNAPSHOT_LARGE = {
     employee: 350
 };
 
-const FIVE_COMPANIES = {
+const SNAPSHOT_LARGE_5x5 = {
     country: 2,
     company: 5,
     role: 5,
@@ -41,7 +41,7 @@ const preset = {
     small: [SNAPSHOT_SMALL, "small"],
     medium: [SNAPSHOT_MEDIUM, "medium"],
     large: [SNAPSHOT_LARGE, "large"],
-    "five-companies": [FIVE_COMPANIES, "five-companies"]
+    large_5x5: [SNAPSHOT_LARGE_5x5, "large_5x5"]
 };
 
 function main() {
