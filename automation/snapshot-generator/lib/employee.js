@@ -47,7 +47,7 @@ class EmployeeGenerator {
             ...options,
             roles: ROLES,
             colorEnum: COLOR_ENUM,
-            profilePictureSize: 300
+            profilePictureSize: 500
         };
         this.chance = chance;
     }
@@ -95,7 +95,10 @@ class EmployeeGenerator {
 
     /** @returns {string} */
     profilePicture() {
-        return `https://picsum.photos/${this.options.profilePictureSize}`;
+        const seed = this.chance.hash();
+        const size = this.options.profilePictureSize;
+
+        return encodeURI(`https://picsum.photos/seed/${seed}/${size}`);
     }
 
     /** @requires {string} */
