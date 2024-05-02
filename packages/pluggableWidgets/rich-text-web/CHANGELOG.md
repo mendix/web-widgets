@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.1.1] - 2024-05-02
+
 ### Fixed
 
 -   We fixed tab index not working on Editor.
+
 -   We fix security issue by setting sandbox_iframes and convert_unsafe_embeds to true.
 
 ## [3.1.0] - 2024-04-23
