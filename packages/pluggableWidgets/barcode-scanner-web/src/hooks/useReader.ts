@@ -8,7 +8,7 @@ import {
     HybridBinarizer,
     NotFoundException,
     Result
-} from "@zxing/library/cjs";
+} from "@zxing/library";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
 
@@ -33,7 +33,6 @@ export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
-    const scale = 0.3;
     const stopped = useRef<boolean>(false);
     const checkNotFound = (error: any): boolean => {
         const ifNotFound = error instanceof NotFoundException;
@@ -41,24 +40,39 @@ export const useReader: UseReaderHook = args => {
     };
 
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
-        const cropWidth = videoRef.current!.videoWidth * scale;
+        const element = document.getElementById("canvas-middle-middle")!;
+
+        const cropWidth = element.clientWidth;
+        const cropHeight = element.clientHeight;
+
         const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-        captureCanvas.width = cropWidth;
-        captureCanvas.height = cropWidth;
+
+        const aspectRatioWidth = videoRef.current!.clientWidth / videoRef.current!.clientHeight;
+        const widthHeigher = videoRef.current!.videoWidth > videoRef.current!.videoHeight;
+
+        let videoCropWidth = (cropWidth / videoRef.current!.clientWidth) * videoRef.current!.videoWidth;
+        let videoCropHeight = (cropHeight / videoRef.current!.clientHeight) * videoRef.current!.videoHeight;
+        captureCanvas.width = videoCropWidth;
+        captureCanvas.height = videoCropWidth;
+        if (widthHeigher) {
+            videoCropWidth = videoCropWidth / aspectRatioWidth;
+        } else {
+            videoCropHeight = videoCropWidth;
+        }
         const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void): void => {
             try {
-                const canvasContext = captureCanvas.getContext("2d");
+                const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
                 if (canvasContext !== null) {
                     canvasContext.drawImage(
                         videoRef.current!,
-                        (videoRef.current!.videoWidth * (1 - scale)) / 2,
-                        (videoRef.current!.videoHeight - cropWidth) / 2,
-                        cropWidth,
-                        cropWidth,
+                        (videoRef.current!.videoWidth - videoCropWidth) / 2,
+                        (videoRef.current!.videoHeight - videoCropHeight) / 2,
+                        videoCropWidth,
+                        videoCropHeight,
                         0,
                         0,
-                        captureCanvas.width,
-                        captureCanvas.width
+                        videoCropWidth,
+                        videoCropHeight
                     );
                     const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
                     const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
@@ -67,7 +81,7 @@ export const useReader: UseReaderHook = args => {
                 }
             } catch (error) {
                 if (checkNotFound(error)) {
-                    setTimeout(() => loop(resolve, reject), reader.timeBetweenDecodingAttempts);
+                    setTimeout(() => loop(resolve, reject), 50);
                 } else {
                     reject(error);
                 }

@@ -29,7 +29,7 @@ export function BarcodeScannerOverlay({
                         <div className={classNames("canvas-left", "canvas-background")} />
                         <div className={classNames("canvas-middle")}>
                             <div className={classNames("canvas-middle-top", "canvas-background")} />
-                            <div className={classNames("canvas-middle-middle")}>
+                            <div id={"canvas-middle-middle"} className={classNames("canvas-middle-middle")}>
                                 <div className={classNames("corner", "corner-top-left")} />
                                 <div className={classNames("corner", "corner-top-right")} />
                                 <div className={classNames("corner", "corner-bottom-right")} />
