@@ -31,6 +31,7 @@ import {
 import { ChevronIcon, CustomHeaderIcon } from "./Icons";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
+import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
 
 export interface TreeNodeItem extends ObjectItem {
     headerContent: ReactNode;
@@ -68,6 +69,7 @@ export function TreeNode({
     openNodeOn
 }: TreeNodeProps): ReactElement | null {
     const { level } = useContext(TreeNodeBranchContext);
+    const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
 
     const renderHeaderIcon = useCallback<TreeNodeBranchProps["renderHeaderIcon"]>(
         (treeNodeState, iconPlacement) => {
@@ -91,14 +93,6 @@ export function TreeNode({
         },
         [collapsedIcon, expandedIcon, showCustomIcon, animateIcon]
     );
-
-    // Combination of useState + useCallback is necessary here over useRef because it needs to trigger an update in useInformParentContextOfChildNodes
-    const [treeNodeElement, setTreeNodeElement] = useState<HTMLDivElement | null>(null);
-    const updateTreeNodeElement = useCallback((node: any) => {
-        if (node) {
-            setTreeNodeElement(node);
-        }
-    }, []);
 
     const isInsideAnotherTreeNode = useCallback(() => {
         return treeNodeElement?.parentElement?.className.includes(treeNodeBranchUtils.bodyClassName) ?? false;
