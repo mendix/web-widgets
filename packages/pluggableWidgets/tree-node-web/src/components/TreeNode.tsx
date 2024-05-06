@@ -85,7 +85,7 @@ export function TreeNode({
         return treeNodeElement?.parentElement?.className.includes(treeNodeBranchUtils.bodyClassName) ?? false;
     }, [treeNodeElement]);
 
-    useInformParentContextOfChildNodes(items, isInsideAnotherTreeNode);
+    useInformParentContextOfChildNodes(items?.length ?? 0, isInsideAnotherTreeNode);
 
     const changeTreeNodeBranchHeaderFocus = useTreeNodeFocusChangeHandler();
 
