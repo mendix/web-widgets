@@ -22,16 +22,15 @@ import {
     useInformParentContextOfChildNodes
 } from "./TreeNodeBranchContext";
 
-import loadingCircleSvg from "../assets/loading-circle.svg";
 import {
     TreeNodeFocusChangeHandler,
     useTreeNodeBranchKeyboardHandler,
     useTreeNodeFocusChangeHandler
 } from "./hooks/TreeNodeAccessibility";
-import { ChevronIcon, CustomHeaderIcon } from "./Icons";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
+import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
 
 export interface TreeNodeItem extends ObjectItem {
     headerContent: ReactNode;
@@ -71,26 +70,14 @@ export function TreeNode({
     const { level } = useContext(TreeNodeBranchContext);
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
 
-    const renderHeaderIcon = useCallback<TreeNodeBranchProps["renderHeaderIcon"]>(
-        (treeNodeState, iconPlacement) => {
-            if (treeNodeState === TreeNodeState.LOADING) {
-                return <img src={loadingCircleSvg} className="widget-tree-node-loading-spinner" alt="" aria-hidden />;
-            }
-            const treeNodeIsExpanded = treeNodeState === TreeNodeState.EXPANDED;
-            return showCustomIcon ? (
-                <CustomHeaderIcon icon={treeNodeIsExpanded ? expandedIcon : collapsedIcon} />
-            ) : (
-                <ChevronIcon
-                    className={classNames("widget-tree-node-branch-header-icon", {
-                        "widget-tree-node-branch-header-icon-animated": animateIcon,
-                        "widget-tree-node-branch-header-icon-collapsed-left":
-                            !treeNodeIsExpanded && iconPlacement === "left",
-                        "widget-tree-node-branch-header-icon-collapsed-right":
-                            !treeNodeIsExpanded && iconPlacement === "right"
-                    })}
-                />
-            );
-        },
+    const renderHeaderIconCallback = useCallback<TreeNodeHeaderIcon>(
+        (treeNodeState, iconPlacement) =>
+            renderTreeNodeHeaderIcon(treeNodeState, iconPlacement, {
+                animateIcon,
+                collapsedIcon,
+                expandedIcon,
+                showCustomIcon
+            }),
         [collapsedIcon, expandedIcon, showCustomIcon, animateIcon]
     );
 
@@ -122,7 +109,7 @@ export function TreeNode({
                     isUserDefinedLeafNode={isUserDefinedLeafNode}
                     startExpanded={startExpanded}
                     iconPlacement={iconPlacement}
-                    renderHeaderIcon={renderHeaderIcon}
+                    renderHeaderIcon={renderHeaderIconCallback}
                     changeFocus={changeTreeNodeBranchHeaderFocus}
                     animateTreeNodeContent={animateTreeNodeContent}
                     openNodeOn={openNodeOn}
