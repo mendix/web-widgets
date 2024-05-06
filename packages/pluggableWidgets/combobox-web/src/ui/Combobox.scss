@@ -12,6 +12,9 @@ $cb-hover-color: #ced0d3;
 $cb-disabled-color: #f8f8f8;
 $cb-disabled-text-color: #6c7180;
 $cb-menu-outer-padding: 10px;
+$cb-spacing: 4px;
+$cb-menu-border-radius: 7px;
+
 .widget-combobox {
     flex-grow: 1;
     position: relative;
@@ -19,14 +22,15 @@ $cb-menu-outer-padding: 10px;
     &-menu {
         position: absolute;
         display: inline;
-        border-radius: 7px;
-        margin: 4px 0 4px 0;
+        border-radius: var(--dropdown-border-radius, $cb-menu-border-radius);
+        margin: var(--spacing-smaller, $cb-spacing) 0 var(--spacing-smaller, $cb-spacing) 0;
         width: 100%;
         left: unset;
-        padding: $cb-menu-outer-padding 0 0;
+        padding: var(--dropdown-outer-padding, $cb-menu-outer-padding) 0 0;
         z-index: 1;
-        box-shadow: 0px 0px $cb-menu-outer-padding 0px $cb-box-shadow-color;
-        background-color: $cb-unselected-item;
+        box-shadow: 0px 0px var(--dropdown-outer-padding, $cb-menu-outer-padding) 0px
+            var(--shadow-color-border, $cb-box-shadow-color);
+        background-color: var(--label-info-color, $cb-unselected-item);
         list-style-type: "none";
         &-list {
             padding: 0;
@@ -34,34 +38,34 @@ $cb-menu-outer-padding: 10px;
             max-height: 320px;
             overflow-y: auto;
             &:last-child {
-                margin-bottom: $cb-menu-outer-padding;
+                margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             }
         }
         &-hidden {
             display: none;
         }
         &-header {
-            border-bottom: 1px solid $cb-gray-primary;
+            border-bottom: 1px solid var(--gray-primary, $cb-gray-primary);
             &:focus,
             &:focus-within,
             &:hover {
-                background-color: $cb-highlighted-index;
+                background-color: var(--color-default-light, $cb-highlighted-index);
             }
 
             &:has(input[type="checkbox"]:hover, :focus, :focus-within)
                 + .widget-combobox-menu-list:not(.widget-combobox-menu-highlighted)
                 input[type="checkbox"]:not(:checked):after {
                 content: "";
-                border-color: $cb-hover-color;
+                border-color: var(--btn-default-bg-hover, $cb-hover-color);
             }
         }
 
         &-footer {
-            border-top: 1px solid $cb-gray-primary;
-            padding: $cb-menu-outer-padding;
+            border-top: 1px solid var(--gray-primary, $cb-gray-primary);
+            padding: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             &:focus,
             &:focus-within {
-                outline: 1px solid $cb-brand-primary;
+                outline: 1px solid var(--brand-primary, $cb-brand-primary);
             }
         }
     }
@@ -74,21 +78,21 @@ $cb-menu-outer-padding: 10px;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: 6px $cb-menu-outer-padding;
+        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
         height: fit-content;
         overflow: hidden;
-        color: $cb-typography-color;
-        background-color: $cb-unselected-item;
+        color: var(--gray-darker, $cb-typography-color);
+        background-color: var(--label-info-color, $cb-unselected-item);
 
         &-selected {
-            background-color: $cb-selected-item;
+            background-color: var(--color-primary-lighter, $cb-selected-item);
         }
         &-highlighted,
         &:focus {
-            background-color: $cb-highlighted-index;
+            background-color: var(--color-default-light, $cb-highlighted-index);
         }
         & > .widget-combobox-icon-container {
-            margin-right: $cb-menu-outer-padding;
+            margin-right: var(--dropdown-outer-padding, $cb-menu-outer-padding);
         }
 
         .widget-combobox-caption-text {
@@ -111,7 +115,7 @@ $cb-menu-outer-padding: 10px;
         transition: box-shadow 150ms ease 0s;
 
         &-disabled {
-            background-color: $cb-disabled-color;
+            background-color: var(--gray-lighter, $cb-disabled-color);
             pointer-events: none !important;
 
             &.form-control-static {
@@ -121,7 +125,7 @@ $cb-menu-outer-padding: 10px;
     }
 
     &-input {
-        color: $cb-gray-dark;
+        color: var(--gray-dark, $cb-gray-dark);
         flex-grow: 1;
         border: none;
         padding: 0;
@@ -151,11 +155,11 @@ $cb-menu-outer-padding: 10px;
 
         &:focus .widget-combobox-icon-container {
             border-radius: 2px;
-            outline: 2px solid $cb-brand-primary;
+            outline: 2px solid var(--brand-primary, $cb-brand-primary);
         }
 
         &:hover &-icon {
-            color: $cb-brand-primary;
+            color: var(--brand-primary, $cb-brand-primary);
             font-weight: bold;
 
             path {
@@ -164,7 +168,7 @@ $cb-menu-outer-padding: 10px;
         }
 
         & + .widget-combobox-down-arrow {
-            border-left: 1px solid $cb-separator-border;
+            border-left: 1px solid var(--gray, $cb-separator-border);
         }
     }
     &-down-arrow {
@@ -172,7 +176,7 @@ $cb-menu-outer-padding: 10px;
         flex-wrap: wrap;
         align-content: center;
         cursor: pointer;
-        padding-left: 4px;
+        padding-left: var(--spacing-smaller, $cb-spacing);
 
         &-icon {
             transition: transform 0.2s;
@@ -184,13 +188,13 @@ $cb-menu-outer-padding: 10px;
     }
 
     &-placeholder {
-        background-color: $cb-disabled-color !important;
+        background-color: var(--gray-lighter, $cb-disabled-color) !important;
         justify-content: flex-end !important;
         border: 1px solid #e7e7e9;
         cursor: not-allowed;
 
         &-text {
-            color: $cb-typography-color;
+            color: var(--gray-darker, $cb-typography-color);
             position: absolute;
             left: 0;
             right: 0;
@@ -204,7 +208,7 @@ $cb-menu-outer-padding: 10px;
         }
 
         &-empty {
-            color: $cb-gray-dark;
+            color: var(--gray-dark, $cb-gray-dark);
         }
     }
 
@@ -260,30 +264,30 @@ $cb-menu-outer-padding: 10px;
 
         &-item {
             color: #000;
-            font-size: 12px;
+            font-size: var(--font-size-small, 12px);
             line-height: 1.334;
             display: inline-flex;
             border-radius: 26px;
             justify-content: center;
-            padding: 2px 10px;
+            padding: var(--spacing-smallest, 2px) var(--dropdown-outer-padding, $cb-menu-outer-padding);
             flex-wrap: wrap;
             align-items: center;
-            margin: 2px;
+            margin: var(--spacing-smallest, 2px);
             gap: 8px;
-            background-color: $cb-brand-secondary-light;
+            background-color: var(--color-primary-lighter, $cb-brand-secondary-light);
             &-remove-button {
                 padding: 0px 0px;
                 border: none;
                 background-color: transparent;
                 cursor: pointer;
-                color: $cb-brand-primary;
+                color: var(--brand-primary, $cb-brand-primary);
                 span {
                     display: flex;
                     align-items: center;
                 }
             }
             &:focus-visible {
-                outline: $cb-brand-primary auto 1px;
+                outline: var(--brand-primary, $cb-brand-primary) auto 1px;
             }
         }
     }
@@ -292,12 +296,12 @@ $cb-menu-outer-padding: 10px;
         fill: transparent;
         &:not(.checked) {
             rect {
-                stroke: $cb-gray-primary;
+                stroke: var(--gray-primary, $cb-gray-primary);
             }
             &:hover,
             &:focus {
                 path {
-                    stroke: $cb-hover-color;
+                    stroke: var(--btn-default-bg-hover, $cb-hover-color);
                     stroke-width: 2px;
                     stroke-linecap: round;
                     stroke-linejoin: round;
@@ -306,7 +310,7 @@ $cb-menu-outer-padding: 10px;
         }
         &.checked {
             rect {
-                fill: $cb-brand-primary;
+                fill: var(--brand-primary, $cb-brand-primary);
             }
             path {
                 stroke: white;
