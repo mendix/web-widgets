@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We are now using css variable in combobox styling for easier theme override.
+
 ## [1.5.0] - 2024-05-06
 
 ### Added
