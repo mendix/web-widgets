@@ -108,7 +108,7 @@ export function TreeNode({
 
     const changeTreeNodeBranchHeaderFocus = useTreeNodeFocusChangeHandler();
 
-    if (!items) {
+    if (items === null || items.length === 0) {
         return null;
     }
 
