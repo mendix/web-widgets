@@ -1,3 +1,6 @@
+// override this for premium plugin support
+export const API_KEY = undefined;
+
 function getBaseUrl(): string {
     const base_url = document.getElementsByTagName("base");
     return base_url && base_url.length > 0 ? base_url[0]?.href : "";
@@ -11,7 +14,7 @@ export const DEFAULT_CONFIG = {
     branding: false,
     skin: "oxide",
     content_css: "default",
-    base_url: `${getBaseUrl()}widgets/com/mendix/widget/custom/richtext`,
+    base_url: API_KEY !== undefined ? undefined : `${getBaseUrl()}widgets/com/mendix/widget/custom/richtext`,
     plugins: PLUGINS,
     font_size_formats: "8px 10px 12px 14px 18px 24px 36px",
     menu: {
