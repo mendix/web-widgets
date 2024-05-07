@@ -24,15 +24,15 @@ to do this, you will need:
     -   `import tinymce from "tinymce";`
     -   inside declare global json: `var tinymce = tinymce;`
 -   remove all import from tinymce in `Editor.tsx`. this is no longer needed because tinymce will be retrieved directly from the tinymce cloud script.
--   remove `baseUrl` declaration from `src/utils/constant.ts` which is set in `DEFAULT_CONFIG`
+-   remove `baseUrl` declaration from `src/utils/constants.ts` which is set in `DEFAULT_CONFIG`
 
 ### Insert the premium plugins
 
 follow the instruction on [tinymce plugin](https://www.tiny.cloud/docs/tinymce/latest/plugins/)
-you can alter the `PLUGINS` inside `contant.ts` and add your extra plugins there.
+you can alter the `PLUGINS` inside `src/utils/constants.ts` and add your extra plugins there.
 
 ### Build and replace your mpk
 
-run `pnpm run build` to create your new .mpk file.
+run `pnpm run build` to create your new .mpk file from the current `pluggableWidgets/rich-text-web` folder.
 it will be build inside `dist/[version]/RichText.mpk`.
 copy and replace this file into your studio pro widget folder.

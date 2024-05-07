@@ -45,7 +45,7 @@ import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
 import { RichTextContainerProps } from "typings/RichTextProps";
-import { DEFAULT_CONFIG } from "../utils/contants";
+import { DEFAULT_CONFIG } from "../utils/constants";
 
 type EditorState = "loading" | "ready";
 
