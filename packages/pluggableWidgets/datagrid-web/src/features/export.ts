@@ -244,34 +244,33 @@ function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResul
             if (column.showContentAs === "attribute") {
                 if (!column.attribute) {
                     cols.push("");
-                    break;
-                }
-
-                const attributeItem = column.attribute.get(item);
-                const attributeType = typeof attributeItem.value;
-
-                if (attributeType === "boolean") {
-                    cols.push(Boolean(attributeItem.value));
-                } else if (attributeItem.value instanceof Big) {
-                    cols.push(attributeItem.value.toNumber());
                 } else {
-                    cols.push(attributeItem.displayValue);
+                    const attributeItem = column.attribute.get(item);
+                    const attributeType = typeof attributeItem.value;
+
+                    if (attributeType === "boolean") {
+                        cols.push(Boolean(attributeItem.value));
+                    } else if (attributeItem.value instanceof Big) {
+                        cols.push(attributeItem.value.toNumber());
+                    } else {
+                        cols.push(attributeItem.displayValue);
+                    }
                 }
             } else if (column.showContentAs === "dynamicText") {
                 if (!column.dynamicText) {
                     cols.push("");
-                    break;
-                }
-                const dynamicText = column.dynamicText.get(item);
-
-                if (dynamicText.status === "loading") {
-                    cols.push("");
-                    hasLoadingItem = true;
-                    break;
-                } else if (dynamicText.status === "unavailable") {
-                    cols.push("n/a");
                 } else {
-                    cols.push(dynamicText.value);
+                    const dynamicText = column.dynamicText.get(item);
+
+                    if (dynamicText.status === "loading") {
+                        cols.push("");
+                        hasLoadingItem = true;
+                        break;
+                    } else if (dynamicText.status === "unavailable") {
+                        cols.push("n/a");
+                    } else {
+                        cols.push(dynamicText.value);
+                    }
                 }
             } else {
                 cols.push("n/a (custom content)");
