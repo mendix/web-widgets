@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Changed
+### Breaking
 
--   We are now using css variable in combobox styling for easier theme override.
+-   The Combo box now uses Atlas variables for its styling. This may change how the widget looks depending on the custom variables.
 
 ## [1.5.0] - 2024-05-06
 
