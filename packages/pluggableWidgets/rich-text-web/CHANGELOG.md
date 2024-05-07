@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We add more options to the rich text's context menu and give user the options to use native context menu as well.
+
 ## [3.1.1] - 2024-05-02
 
 ### Fixed

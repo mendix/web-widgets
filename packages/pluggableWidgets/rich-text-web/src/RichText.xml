@@ -67,6 +67,14 @@
                     <caption>Enable quick toolbar</caption>
                     <description />
                 </property>
+                <property key="contextmenutype" type="enumeration" defaultValue="native">
+                    <caption>Context menu</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="native">Native</enumerationValue>
+                        <enumerationValue key="richtext">Rich Text</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Editability">
                 <systemProperty key="Editability" />

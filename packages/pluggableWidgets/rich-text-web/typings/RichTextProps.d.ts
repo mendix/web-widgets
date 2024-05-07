@@ -13,6 +13,8 @@ export type ToolbarModeEnum = "sliding" | "floating" | "scrolling" | "wrap";
 
 export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "inline";
 
+export type ContextmenutypeEnum = "native" | "richtext";
+
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
 export type WidthUnitEnum = "percentage" | "pixels";
@@ -56,6 +58,7 @@ export interface RichTextContainerProps {
     toolbarMode: ToolbarModeEnum;
     toolbarLocation: ToolbarLocationEnum;
     quickbars: boolean;
+    contextmenutype: ContextmenutypeEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     widthUnit: WidthUnitEnum;
     width: number;
@@ -112,6 +115,7 @@ export interface RichTextPreviewProps {
     toolbarMode: ToolbarModeEnum;
     toolbarLocation: ToolbarLocationEnum;
     quickbars: boolean;
+    contextmenutype: ContextmenutypeEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;

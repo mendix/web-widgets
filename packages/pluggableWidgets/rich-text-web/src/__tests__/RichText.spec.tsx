@@ -74,7 +74,9 @@ describe("Rich Text", () => {
             helpMenubar: true,
             quickbars: true,
             readOnlyStyle: "text",
-            advancedMenubarConfig: []
+            advancedMenubarConfig: [],
+            contextmenutype: "native",
+            tabIndex: 0
         };
     });
 
