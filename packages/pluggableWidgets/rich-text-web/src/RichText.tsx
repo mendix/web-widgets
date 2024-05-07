@@ -24,10 +24,6 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         resize
     } = props;
 
-    if (stringAttribute.status === "loading") {
-        return <div></div>;
-    }
-
     const { width, height } = getDimensions({
         width: w,
         widthUnit,
@@ -55,15 +51,19 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                 style={wrapperStyle}
                 {...wrapperAttributes}
             >
-                <BundledEditor
-                    {...props}
-                    menubar={menubar}
-                    toolbar={presets.toolbar}
-                    editorHeight={height}
-                    editorWidth={width}
-                    key={`${String(stringAttribute.readOnly)}_${id}`}
-                    resize={enableStatusBar ? resize : "false"}
-                />
+                {stringAttribute.status === "loading" ? (
+                    <div></div>
+                ) : (
+                    <BundledEditor
+                        {...props}
+                        menubar={menubar}
+                        toolbar={presets.toolbar}
+                        editorHeight={height}
+                        editorWidth={width}
+                        key={`${String(stringAttribute.readOnly)}_${id}`}
+                        resize={enableStatusBar ? resize : "false"}
+                    />
+                )}
             </div>
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </Fragment>

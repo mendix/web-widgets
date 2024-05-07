@@ -117,6 +117,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly,
                 height: props.editorHeight,
                 width: props.editorWidth,
+                contextmenu: props.contextmenutype === "richtext" ? "cut copy paste pastetext | link selectall" : false,
                 content_css: "default",
                 convert_unsafe_embeds: true,
                 sandbox_iframes: true
