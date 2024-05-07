@@ -4,27 +4,34 @@ Please see [Rich Text](https://docs.mendix.com/appstore/widgets/rich-text) in th
 
 -   fork or clone this repository to create your own implementation
 -   run `pnpm install`
+-   read more detail on how to run your forked widget from this [readme](/README.md)
 
 ### Get your API Key
 
 -   Create an account on [tinymce](https://www.tiny.cloud/) and get your API Key
--   add the api key to `src/components/Editor.tsx`
+-   add the api key to `src/utils/constants.ts` on `API_KEY` constant value.
 
 ```
-<Editor apiKey="your-api-key">
+const API_KEY= 'your-api-key'
 ```
 
-### Using tinymce cloud
+### Clear local tinymce declarations
 
 To get premium features works, you need to use tinymce cloud instead of bundled version.
 to do this, you will need:
 
--   remove tinymce from `package.json` dependencies
 -   remove the global declaration of tinymce from `typings/global.d.ts`. you will need to remove the following line:
     -   `import tinymce from "tinymce";`
     -   inside declare global json: `var tinymce = tinymce;`
--   remove all import from tinymce in `Editor.tsx`. this is no longer needed because tinymce will be retrieved directly from the tinymce cloud script.
--   remove `baseUrl` declaration from `src/utils/constants.ts` which is set in `DEFAULT_CONFIG`
+-   clear the content of `src/utils/plugins.ts` as this is no longer needed and will be import directly from tinymce cloud script.
+
+### Insert tiny mce cloud script
+
+include your tinymce cloud script on the page.
+
+```
+<script src="https://cdn.tiny.cloud/1/your-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+```
 
 ### Insert the premium plugins
 
