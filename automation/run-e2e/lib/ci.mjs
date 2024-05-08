@@ -4,7 +4,7 @@ import nodeIp from "ip";
 import { execSync } from "node:child_process";
 import sh from "shelljs";
 import parseArgs from "yargs-parser";
-import { createDeploymentBundle, prepareImage, startCypress, startRuntime } from "./docker-utils.mjs";
+import { createDeploymentBundle, prepareImage, startPlaywright, startRuntime } from "./docker-utils.mjs";
 import { setupTestProject } from "./setup-test-project.mjs";
 import { updateTestProject } from "./update-test-project.mjs";
 import { fetchWithReport } from "./utils.mjs";
@@ -66,11 +66,10 @@ export async function ci() {
         // Spin up the runtime and run testProject
         runtimeContainerId = await startRuntime(mxruntimeImage, mendixVersion, ip, freePort);
 
-        // Spin up cypress docker machine and run the test specs
-        startCypress(ip, freePort);
+        // Runs Playwright command line
+        startPlaywright(ip, freePort);
     } finally {
         execSync(`docker rm -f ${runtimeContainerId}`);
-        execSync(`docker rm -f cypress`);
     }
 }
 

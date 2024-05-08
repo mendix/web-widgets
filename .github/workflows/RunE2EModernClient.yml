@@ -2,29 +2,29 @@ name: Run E2E test on Modern client
 # This workflow is used to test our widgets against the modern client(react) on every day-of-week.
 
 on:
-    schedule:
-        # At 04:00 on every day-of-week.
-        - cron: "0 04 * * 1-5"
+  schedule:
+    # At 04:00 on every day-of-week.
+    - cron: "0 04 * * 1-5"
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    e2e:
-        name: Run automated end-to-end tests on Modern client
-        runs-on: ubuntu-latest
+  e2e:
+    name: Run automated end-to-end tests on Modern client
+    runs-on: ubuntu-latest
 
-        permissions:
-            packages: read
-            contents: read
+    permissions:
+      packages: read
+      contents: read
 
-        strategy:
-            # when one test fails, DO NOT cancel the other
-            fail-fast: false
-            matrix:
-                # run 3 copies of the current job in parallel
-                index: [0, 1, 2]
+    strategy:
+      # when one test fails, DO NOT cancel the other
+      fail-fast: false
+      matrix:
+        # run 3 copies of the current job in parallel
+        index: [0, 1, 2]
 
         steps:
             - name: Checkout

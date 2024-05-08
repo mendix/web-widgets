@@ -14,8 +14,8 @@ module.exports = defineConfig({
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: "html",
-    webServer: [
+    reporter: "list",
+    /* webServer: [
         {
             command: "run-e2e playwright",
             url: "http://127.0.0.1:8080",
@@ -24,11 +24,11 @@ module.exports = defineConfig({
             stderr: "pipe",
             reuseExistingServer: !process.env.CI
         }
-    ],
+    ], */
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: "http://127.0.0.1:8080",
+        baseURL: process.env.URL ? process.env.URL :"http://127.0.0.1:8080",
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "on-first-retry"
@@ -37,8 +37,8 @@ module.exports = defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: "firefox",
-            use: { ...devices["Desktop Firefox"] }
+            name: "chromium",
+            use: { ...devices["Desktop Chrome"] }
         }
     ]
 });

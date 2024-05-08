@@ -3,7 +3,6 @@
 import parseArgs from "yargs-parser";
 import { ci } from "../lib/ci.mjs";
 import { dev } from "../lib/dev.mjs";
-import { playwright } from "../lib/playwright.mjs";
 
 async function main() {
     const {
@@ -17,10 +16,6 @@ async function main() {
         }
         case "dev": {
             await dev();
-            break;
-        }
-        case "playwright": {
-            await playwright();
             break;
         }
         default: {

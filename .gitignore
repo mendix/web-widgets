@@ -11,25 +11,17 @@ mxproject
 coverage
 output
 
-detox/apps
-detox/*.log
 **/results
 mendixProject
 **/e2e/diffs
 **/screenshot
-**/screenshot-results
+**/test-results
 **/tests/testProject
 **/pluggableWidgets/**/artifacts
 **/gh-*/release-notes.txt
 
 **/automation/utils/**/parser/module/module.js
 **/automation/utils/**/parser/widget/widget.js
-
-**/cypress/videos
-**/cypress/screenshots
-**/cypress-visual-report
-**/cypress-visual-screenshots/comparison
-**/cypress-visual-screenshots/diff
 
 tests
 .turbo

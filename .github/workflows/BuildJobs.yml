@@ -154,6 +154,8 @@ jobs:
             turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
       - name: Install dependencies
         run: pnpm install
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps chromium
       - name: "Executing E2E tests"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -164,26 +166,12 @@ jobs:
         run: |
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
-      - name: "Generating test report"
-        working-directory: ./automation/run-e2e
-        if: failure()
-        run: |
-          report_count=$(find ../../packages -type f -path "*/cypress/results/*" -name "*.json" | wc -l)
-          if [ $report_count -gt 0 ];
-            then
-              pnpm run report:merge
-              pnpm run report:generate
-          fi
-      - name: "Archive test screenshot diff results and test report"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - name: "Archive test screenshot diff results"
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure()
         with:
           name: test-screenshot-results
           path: |
-            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/diff/**/*.png
-            ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/TESTFAIL_*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
-            ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
-            ${{ github.workspace }}/automation/run-e2e/mochawesome-report/
+            ${{ github.workspace }}/packages/**/**/e2e/screenshot-results/diff/**/*.png
+            ${{ github.workspace }}/packages/**/**/e2e/screenshot-results/TESTFAIL_*.png
           if-no-files-found: error

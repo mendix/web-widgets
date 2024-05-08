@@ -138,35 +138,22 @@ export async function startRuntime(mxruntimeImage, mendixVersion, ip, freePort) 
     return runtimeContainerId;
 }
 
-export function startCypress(ip, freePort) {
-    console.log(`Start e2e tests with cypress/included image`);
+export function startPlaywright(ip, freePort) {
+    console.log(`Start e2e tests with Playwright`);
 
     const REPO_ROOT = execSync(`git rev-parse --show-toplevel`).toString().trim();
-    const browserCypress = process.env.BROWSER_CYPRESS || "chrome";
-    const headedMode = process.env.HEADED_MODE || "";
-    const modernClientMode = process.env.MODERN_CLIENT ? "--env MODERN_CLIENT=true" : "";
+    const browserPlaywright = process.env.BROWSER_PLAYWRIGHT || "chromium";
+    // const headedMode = process.env.HEADED_MODE || "";
+    const modernClientMode = process.env.MODERN_CLIENT ? "MODERN_CLIENT=true" : "";
+    const baseURL = `URL=http://${ip}:${freePort}`;
     const startingPoint = p.resolve("/monorepo", p.relative(REPO_ROOT, process.cwd()));
 
-    console.log("Start cypress in", startingPoint);
+    console.log("Start Playwright in", startingPoint);
 
     const args = [
-        `--tty`,
-        `--platform=linux/amd64`,
-        `--volume ${REPO_ROOT}:/monorepo`,
-        `--volume ${REPO_ROOT}/node_modules:/monorepo/node_modules:ro`,
-        `--workdir ${startingPoint}`,
-        // container name
-        `--name cypress`,
-        // image to run, the entrypoint set to `cypress run` by default
-        `cypress/included:13.7.3`,
-        // cypress options
-        `--browser ${browserCypress} ${headedMode}`.trim(),
-        `--e2e`,
-        `${modernClientMode}`,
-        `--config-file cypress.config.cjs`,
-        `--config baseUrl=http://${ip}:${freePort},video=true,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
+        `--project=${browserPlaywright}`,
     ];
-    const command = [`docker run`, ...args].join(" ");
+    const command = [`${modernClientMode} ${baseURL} playwright test`, ...args].join(" ");
 
     execSync(command, { stdio: "inherit" });
 }

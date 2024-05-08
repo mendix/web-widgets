@@ -16,7 +16,7 @@ export async function dev() {
         string: ["browser"],
         boolean: ["with-preps"],
         default: {
-            browser: "chrome",
+            browser: "chromium",
             "with-preps": false
         },
         configuration: {
@@ -66,8 +66,8 @@ export async function dev() {
         throw new Error("Can't reach app on localhost:8080");
     }
 
-    console.log(c.cyan("Launch cypress"));
-    const command = "cypress";
-    const args = ["open", "--browser", options.browser, "--e2e", "--config-file", "cypress.config.cjs"];
+    console.log(c.cyan("Launch Playwright"));
+    const command = "playwright";
+    const args = ["test", "--project", options.browser, "--ui"];
     spawnSync(command, args, { stdio: "inherit", shell: true });
 }
