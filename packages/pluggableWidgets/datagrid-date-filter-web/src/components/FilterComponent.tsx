@@ -57,7 +57,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         if (pickerRef.current) {
             pickerRef.current.setFocus();
         }
-    }, [pickerRef.current]);
+    }, [pickerRef]);
 
     useSetInitialConditionEffect({
         initialFilterType: type,
