@@ -88,6 +88,7 @@ export interface ComboboxContainerProps {
     a11ySelectedValue?: DynamicValue<string>;
     a11yOptionsAvailable?: DynamicValue<string>;
     a11yInstructions?: DynamicValue<string>;
+    lazyLoading: boolean;
 }
 
 export interface ComboboxPreviewProps {
@@ -135,4 +136,5 @@ export interface ComboboxPreviewProps {
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
     a11yInstructions: string;
+    lazyLoading: boolean;
 }

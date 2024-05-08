@@ -364,5 +364,13 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <propertyGroup caption="Performance">
+                <property key="lazyLoading" type="boolean" defaultValue="false">
+                    <caption>Lazy loading</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
     </properties>
 </widget>
