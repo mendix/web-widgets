@@ -17,7 +17,7 @@ export const API_KEY= 'your-api-key'
 
 ### Clear local TinyMCE declarations
 
-To get premium features works, you need to use TinyMCE cloud instead of bundled version.
+To get premium features working, you need to use TinyMCE cloud instead of bundled version.
 To do this, you will need:
 
 -   Clear the content of `src/utils/plugins.ts` as this is no longer needed and will be import directly from TinyMCE cloud script.
@@ -37,6 +37,6 @@ you can alter the `PLUGINS` inside `src/utils/constants.ts` and add your extra p
 
 ### Build and replace your mpk
 
--   Run `pnpm run build` to create your new .mpk file from the current `pluggableWidgets/rich-text-web` folder.
+-   Run `pnpm run build` to create your new .mpk file from the current `packages/pluggableWidgets/rich-text-web` folder.
     it will be build inside `dist/[version]/RichText.mpk`.
--   Copy and replace this file into your studio pro widget folder.
+-   Copy and replace this file into your project's widgets folder.
