@@ -39,7 +39,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "selectedItemsStyle",
                 "selectionMethod",
                 "selectAllButton",
-                "selectAllButtonCaption"
+                "selectAllButtonCaption",
+                "lazyLoading"
             ]);
             if (values.optionsSourceType === "boolean") {
                 hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -127,7 +128,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "optionsSourceDatabaseCustomContentType",
             "optionsSourceDatabaseDataSource",
             "optionsSourceDatabaseValueAttribute",
-            "optionsSourceDatabaseDefaultValue"
+            "optionsSourceDatabaseDefaultValue",
+            "lazyLoading"
         ]);
     }
 
