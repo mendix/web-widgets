@@ -1,6 +1,6 @@
 {
   "name": "@mendix/snapshot-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generate fake data snapshot in json",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "main": "./lib/index.js",
