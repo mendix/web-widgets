@@ -277,7 +277,7 @@ describe("Date Filter", () => {
             await act(async () => {
                 fireEvent.click(open);
             });
-            const header = screen.getByText(/december 2021/gi).parentElement?.lastChild;
+            const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("SuMoTuWeThFrSa");
         });
 
@@ -289,7 +289,7 @@ describe("Date Filter", () => {
             await act(async () => {
                 fireEvent.click(open);
             });
-            const header = screen.getByText(/december 2021/gi).parentElement?.lastChild;
+            const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("MoTuWeThFrSaSu");
         });
 
@@ -301,7 +301,7 @@ describe("Date Filter", () => {
             await act(async () => {
                 fireEvent.click(open);
             });
-            const header = screen.getByText(/dezembro 2021/gi).parentElement?.lastChild;
+            const header = screen.getByText(/dezembro 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("domsegterquaquisexsab");
         });
 
@@ -313,7 +313,7 @@ describe("Date Filter", () => {
             await act(async () => {
                 fireEvent.click(open);
             });
-            const header = screen.getByText(/joulukuu 2021/gi).parentElement?.lastChild;
+            const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("matiketopelasu");
         });
 
@@ -325,7 +325,7 @@ describe("Date Filter", () => {
             await act(async () => {
                 fireEvent.click(open);
             });
-            const header = screen.getByText(/joulukuu 2021/gi).parentElement?.lastChild;
+            const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("sumatiketopela");
         });
 

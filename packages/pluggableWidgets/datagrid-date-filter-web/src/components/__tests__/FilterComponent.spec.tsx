@@ -15,9 +15,8 @@ describe("Filter component", () => {
     beforeAll(() => {
         jest.spyOn(global.Math, "random").mockReturnValue(0.123456789);
 
-        // @ts-ignore
-        jest.spyOn(ReactDOM, "createPortal").mockReturnValue((element, node) => {
-            return element;
+        jest.spyOn(ReactDOM, "createPortal").mockImplementation((element, _node, _key) => {
+            return element as ReturnType<typeof ReactDOM.createPortal>;
         });
     });
 
