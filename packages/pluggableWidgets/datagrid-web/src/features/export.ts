@@ -2,6 +2,7 @@ import { useEffect, useMemo, useReducer, Dispatch } from "react";
 import { ObjectItem } from "mendix";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import { ColumnsType } from "../../typings/DatagridProps";
+import { Big } from "big.js";
 
 export const DATAGRID_DATA_EXPORT = "com.mendix.widgets.web.datagrid.export" as const;
 const MAX_LIMIT = 500;
@@ -230,26 +231,54 @@ type ExportDataResult =
 
 function exportData(data: ObjectItem[], columns: ColumnsType[]): ExportDataResult {
     let hasLoadingItem = false;
-    const items = data.map(item => {
-        return columns.map(column => {
-            let value = "";
+    type ExportDataColumn = Array<boolean | number | string>;
+    const items: ExportDataColumn[] = [];
+
+    for (const item of data) {
+        if (hasLoadingItem) {
+            break;
+        }
+        const cols: ExportDataColumn = [];
+
+        for (const column of columns) {
             if (column.showContentAs === "attribute") {
-                value = column.attribute?.get(item)?.displayValue ?? "";
-            } else if (column.showContentAs === "dynamicText") {
-                const dynamicText = column.dynamicText?.get(item);
-                if (dynamicText?.status === "loading") {
-                    hasLoadingItem = true;
-                } else if (dynamicText?.status === "unavailable") {
-                    value = "n/a";
+                if (!column.attribute) {
+                    cols.push("");
                 } else {
-                    value = dynamicText?.value ?? "";
+                    const attributeItem = column.attribute.get(item);
+                    const attributeType = typeof attributeItem.value;
+
+                    if (attributeType === "boolean") {
+                        cols.push(Boolean(attributeItem.value));
+                    } else if (attributeItem.value instanceof Big) {
+                        cols.push(attributeItem.value.toNumber());
+                    } else {
+                        cols.push(attributeItem.displayValue);
+                    }
+                }
+            } else if (column.showContentAs === "dynamicText") {
+                if (!column.dynamicText) {
+                    cols.push("");
+                } else {
+                    const dynamicText = column.dynamicText.get(item);
+
+                    if (dynamicText.status === "loading") {
+                        cols.push("");
+                        hasLoadingItem = true;
+                        break;
+                    } else if (dynamicText.status === "unavailable") {
+                        cols.push("n/a");
+                    } else {
+                        cols.push(dynamicText.value);
+                    }
                 }
             } else {
-                value = "n/a (custom content)";
+                cols.push("n/a (custom content)");
             }
-            return value;
-        });
-    });
+        }
+
+        items.push(cols);
+    }
 
     if (hasLoadingItem) {
         return {
