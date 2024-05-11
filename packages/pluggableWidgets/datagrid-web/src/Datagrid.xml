@@ -203,6 +203,21 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Rows">
+                <property key="pageSizeType" type="enumeration" defaultValue="static">
+                    <caption>Pagination</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="static">Static</enumerationValue>
+                        <enumerationValue key="dynamic">Dynamic</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="dynamicPageSize" type="attribute" required="true">
+                    <caption>PageSize</caption>
+                    <description>Select an attribute for dynamic page size.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
                 <property key="pageSize" type="integer" defaultValue="20">
                     <caption>Page size</caption>
                     <description />

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+
+### Added
+
+-   Added option for users to dynamically change the page size.
+
 ## [2.18.0] - 2024-04-30
 
 ### Changed
