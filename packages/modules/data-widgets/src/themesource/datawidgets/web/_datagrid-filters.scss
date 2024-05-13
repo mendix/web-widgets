@@ -2,6 +2,7 @@ $hover-color: #f8f8f8 !default;
 $background-color: #fff !default;
 $selected-color: #dadcde !default;
 $border-color: #ced0d3 !default;
+$form-input-border-color: #d7d7d7 !default;
 $arrow: "resources/dropdown-arrow.svg";
 $item-min-height: 32px;
 
@@ -186,7 +187,7 @@ $item-min-height: 32px;
     z-index: 140;
 
     &-section + &-section {
-        border-top: 1px solid $form-input-border-color;
+        border-top: 1px solid var(--form-input-border-color, $form-input-border-color);
     }
 }
 
