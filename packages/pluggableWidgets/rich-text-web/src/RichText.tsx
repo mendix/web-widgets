@@ -60,7 +60,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                         toolbar={presets.toolbar}
                         editorHeight={height}
                         editorWidth={width}
-                        key={`${String(stringAttribute.readOnly)}_${id}`}
+                        key={`${String(stringAttribute.readOnly)}_${id}_${props.content_css?.value}`}
                         resize={enableStatusBar ? resize : "false"}
                     />
                 )}
