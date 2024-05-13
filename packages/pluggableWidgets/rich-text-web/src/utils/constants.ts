@@ -13,7 +13,7 @@ export const DEFAULT_CONFIG = {
     promotion: false,
     branding: false,
     skin: "oxide",
-    content_css: "default",
+    body_class: "widget-rich-text",
     base_url: API_KEY !== undefined ? undefined : `${getBaseUrl()}widgets/com/mendix/widget/custom/richtext`,
     plugins: PLUGINS,
     font_size_formats: "8px 10px 12px 14px 18px 24px 36px",

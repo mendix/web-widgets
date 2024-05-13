@@ -104,7 +104,9 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 ...DEFAULT_CONFIG,
                 toolbar,
                 menubar,
-                content_style: ["body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join("\n"),
+                content_style: [".widget-rich-text { font-family:Helvetica,Arial,sans-serif; font-size:14px }"].join(
+                    "\n"
+                ),
                 toolbar_mode: toolbarMode,
                 statusbar: enableStatusBar && !stringAttribute.readOnly,
                 toolbar_location: _toolbarLocation,
@@ -118,7 +120,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 height: props.editorHeight,
                 width: props.editorWidth,
                 contextmenu: props.contextmenutype === "richtext" ? "cut copy paste pastetext | link selectall" : false,
-                content_css: "default",
+                content_css: props.content_css?.value,
                 convert_unsafe_embeds: true,
                 sandbox_iframes: true
             }}

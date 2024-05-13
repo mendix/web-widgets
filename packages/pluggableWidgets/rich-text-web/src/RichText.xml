@@ -160,6 +160,10 @@
                     <caption>Highlight on focus</caption>
                     <description />
                 </property>
+                <property key="content_css" type="textTemplate" required="false">
+                    <caption>Additional stylesheet</caption>
+                    <description>Additional stylesheet to be included in the rich text content</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
 
