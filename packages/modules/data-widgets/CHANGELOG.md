@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.18.1] DataWidgets - 2024-05-14
+
+### [2.18.1] Datagrid
+
+#### Fixed
+
+-   Fixed an issue when exporting numbers to excel. Instead of the type number, the value exported was of string type.
+
 ## [2.18.0] DataWidgets - 2024-04-30
 
 ### [2.5.1] DatagridNumberFilter
