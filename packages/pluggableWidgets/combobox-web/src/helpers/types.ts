@@ -90,6 +90,7 @@ export interface SelectionBaseProps<Selector> {
     selector: Selector;
     menuFooterContent?: ReactNode;
     tabIndex: number;
+    lazyLoading: boolean;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

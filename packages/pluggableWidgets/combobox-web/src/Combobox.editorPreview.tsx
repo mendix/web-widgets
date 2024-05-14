@@ -3,14 +3,14 @@ import { ReactElement, createElement, useMemo } from "react";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 
-import { SingleSelector } from "./helpers/types";
+import { SingleSelector, SelectionBaseProps } from "./helpers/types";
 import "./ui/Combobox.scss";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
 
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const id = generateUUID().toString();
-    const commonProps = {
+    const commonProps: Omit<SelectionBaseProps<null>, "selector"> = {
         tabIndex: 1,
         inputId: id,
         labelId: `${id}-label`,
@@ -28,7 +28,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 a11yNoOption: props.noOptionsText
             }
         },
-        showFooter: props.showFooter,
+        lazyLoading: props.lazyLoading ?? false,
         menuFooterContent: props.showFooter ? (
             <props.menuFooterContent.renderer caption="Place footer widget here">
                 <div />
