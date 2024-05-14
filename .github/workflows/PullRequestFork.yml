@@ -16,5 +16,4 @@ jobs:
         steps:
             - name: "First welcome comment"
               run: |
-                  gh pr edit $PR --add-label 'external'
                   gh pr comment $PR --body-file ./.github/pull_request_welcome_message.md
