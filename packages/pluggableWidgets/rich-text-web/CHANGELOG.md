@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We add options to include external styling in advance tab. the style can be included in theme folder. and this is also allow user to switch between built-in style theme: 'default' and 'dark'.
+
+### Fixed
+
+-   We fixed issue where rich text body font style overriding the page body style in inline mode.
+
 ## [3.1.2] - 2024-05-10
 
 ### Changed
