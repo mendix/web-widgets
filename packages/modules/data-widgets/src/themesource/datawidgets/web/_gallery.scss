@@ -3,6 +3,9 @@
 
    Override styles of Gallery widget
 ========================================================================== */
+$screen-md: 768px !default;
+$screen-lg: 992px !default;
+
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
         &.widget-gallery-#{$suffix}-#{$i} {
@@ -27,21 +30,21 @@
         /*
          Desktop widths
          */
-        @media screen and (min-width: $screen-lg) {
+        @media screen and (min-width: var(--screen-lg, $screen-lg)) {
             @include grid-items(12, "lg");
         }
 
         /*
          Tablet widths
          */
-        @media screen and (min-width: $screen-md) and (max-width: ($screen-lg - 1px)) {
+        @media screen and (min-width: var(--screen-md, $screen-md)) and (max-width: (var(--screen-lg, $screen-lg) - 1px)) {
             @include grid-items(12, "md");
         }
 
         /*
          Phone widths
          */
-        @media screen and (max-width: ($screen-md - 1)) {
+        @media screen and (max-width: (var(--screen-md, $screen-md) - 1)) {
             @include grid-items(12, "sm");
         }
     }
