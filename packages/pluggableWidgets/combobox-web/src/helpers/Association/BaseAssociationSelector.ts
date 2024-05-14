@@ -5,6 +5,7 @@ import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";
@@ -13,12 +14,13 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     currentId: T | null = null;
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
+    lazyLoading = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
-
     private _valuesMap: Map<string, ObjectItem> = new Map();
+    private limit: number = DEFAULT_LIMIT_SIZE;
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
@@ -35,11 +37,19 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             filterType,
             onChangeEvent,
             customContent,
-            customContentType
+            customContentType,
+            lazyLoading
         ] = extractAssociationProps(props);
 
         if (attr.status === "available") {
-            if (!attr.readOnly) {
+            if (lazyLoading) {
+                if (ds.limit < this.limit) {
+                    ds.setLimit(this.limit);
+                }
+                if (ds.limit > this.limit) {
+                    this.limit = ds.limit;
+                }
+            } else if (!attr.readOnly) {
                 ds.setLimit(undefined);
             }
         } else {
@@ -81,6 +91,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
+        this.lazyLoading = lazyLoading;
     }
 
     setValue(_value: T | null): void {

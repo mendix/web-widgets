@@ -6,7 +6,7 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { extractDatabaseProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { _valuesIsEqual } from "../utils";
+import { DEFAULT_LIMIT_SIZE, _valuesIsEqual } from "../utils";
 
 export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
     type = "single" as const;
@@ -18,11 +18,13 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     lastSetValue: T | null | undefined = null;
     caption: DatabaseCaptionsProvider;
     readOnly = false;
+    lazyLoading = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, ObjectItem> = new Map();
+    private limit: number = DEFAULT_LIMIT_SIZE;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -42,11 +44,19 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             customContent,
             customContentType,
             valueAttribute,
-            emptyValue
+            emptyValue,
+            lazyLoading
         ] = extractDatabaseProps(props);
 
         if (attr.status === "available") {
-            if (!attr.readOnly) {
+            if (lazyLoading) {
+                if (ds.limit < this.limit) {
+                    ds.setLimit(this.limit);
+                }
+                if (ds.limit > this.limit) {
+                    this.limit = ds.limit;
+                }
+            } else if (!attr.readOnly) {
                 ds.setLimit(undefined);
             }
         } else {
@@ -111,6 +121,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
+        this.lazyLoading = lazyLoading;
     }
 
     setValue(objectId: string | null): void {

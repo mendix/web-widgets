@@ -23,7 +23,8 @@ type ExtractionReturnValue = [
     FilterTypeEnum,
     ActionValue | undefined,
     ListWidgetValue | undefined,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceAssociationCustomContentTypeEnum,
+    boolean
 ];
 
 export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -59,6 +60,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
     const clearable = props.clearable;
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
+    const lazyLoading = props.lazyLoading ?? false;
 
     return [
         attr,
@@ -69,6 +71,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         filterType,
         onChangeEvent,
         customContent,
-        customContentType
+        customContentType,
+        lazyLoading
     ];
 }

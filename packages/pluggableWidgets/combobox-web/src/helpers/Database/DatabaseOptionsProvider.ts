@@ -1,7 +1,8 @@
-import { CaptionsProvider, Status, SortOrder } from "../types";
 import { ListValue, ObjectItem } from "mendix";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
+import { CaptionsProvider, Status, SortOrder } from "../types";
+import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 interface Props {
     ds: ListValue;
@@ -33,7 +34,7 @@ export class DatabaseOptionsProvider extends BaseOptionsProvider<ObjectItem, Pro
 
     loadMore(): void {
         if (this.ds && this.hasMore) {
-            this.ds.setLimit(this.ds.limit + 30);
+            this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
         }
     }
 

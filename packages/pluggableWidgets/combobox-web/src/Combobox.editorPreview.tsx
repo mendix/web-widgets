@@ -28,7 +28,6 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
                 a11yNoOption: props.noOptionsText
             }
         },
-        lazyLoading: props.lazyLoading ?? false,
         menuFooterContent: props.showFooter ? (
             <props.menuFooterContent.renderer caption="Place footer widget here">
                 <div />

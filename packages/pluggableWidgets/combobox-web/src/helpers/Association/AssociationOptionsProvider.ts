@@ -1,7 +1,8 @@
-import { CaptionsProvider, Status, SortOrder } from "../types";
 import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
+import { CaptionsProvider, Status, SortOrder } from "../types";
+import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 interface Props {
     attr: ReferenceValue | ReferenceSetValue;
@@ -34,7 +35,7 @@ export class AssociationOptionsProvider extends BaseOptionsProvider<ObjectItem, 
 
     loadMore(): void {
         if (this.ds && this.hasMore) {
-            this.ds.setLimit(this.ds.limit + 30);
+            this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
         }
     }
 

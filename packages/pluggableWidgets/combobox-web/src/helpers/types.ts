@@ -53,6 +53,7 @@ interface SelectorBase<T, V> {
     selectorType?: "context" | "database" | "static";
     type: T;
     readOnly: boolean;
+    lazyLoading?: boolean;
     validation?: string;
 
     // options related
@@ -90,7 +91,6 @@ export interface SelectionBaseProps<Selector> {
     selector: Selector;
     menuFooterContent?: ReactNode;
     tabIndex: number;
-    lazyLoading: boolean;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

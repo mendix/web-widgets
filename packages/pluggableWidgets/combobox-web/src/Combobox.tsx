@@ -37,8 +37,7 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
                 a11yNoOption: props.noOptionsText?.value ?? ""
             }
         },
-        menuFooterContent: props.showFooter ? props.menuFooterContent : undefined,
-        lazyLoading: props.lazyLoading ?? false
+        menuFooterContent: props.showFooter ? props.menuFooterContent : undefined
     };
 
     return (
