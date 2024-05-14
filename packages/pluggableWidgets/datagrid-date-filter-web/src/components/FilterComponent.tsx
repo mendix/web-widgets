@@ -53,17 +53,28 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         [value, rangeValues, type]
     );
 
-    const focusInput = useCallback(() => {
-        if (pickerRef.current) {
-            pickerRef.current.setFocus();
-        }
-    }, [pickerRef.current]);
-
     useSetInitialConditionEffect({
         initialFilterType: type,
         initialFilterValue: value ?? rangeValues,
         updateFilters: props.updateFilters
     });
+
+    const onChange = useCallback(
+        (type: DefaultFilterEnum) => {
+            setType(prev => {
+                if (prev === type) {
+                    return prev;
+                }
+
+                if (pickerRef.current) {
+                    pickerRef.current.setFocus();
+                }
+
+                return type;
+            });
+        },
+        [pickerRef]
+    );
 
     return (
         <div
@@ -76,18 +87,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                     ariaLabel={props.screenReaderButtonCaption}
                     defaultFilter={props.defaultFilter}
                     id={props.id}
-                    onChange={useCallback(
-                        type => {
-                            setType(prev => {
-                                if (prev === type) {
-                                    return prev;
-                                }
-                                focusInput();
-                                return type;
-                            });
-                        },
-                        [focusInput]
-                    )}
+                    onChange={onChange}
                     options={
                         [
                             { value: "between", label: "Between" },

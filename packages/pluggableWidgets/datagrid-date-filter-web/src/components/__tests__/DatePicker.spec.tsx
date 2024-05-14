@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { render as renderEnzyme } from "enzyme";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { DatePicker } from "../DatePicker";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/utils";
@@ -9,9 +9,8 @@ describe("Date picker component", () => {
     beforeAll(() => {
         jest.spyOn(global.Math, "random").mockReturnValue(0.123456789);
 
-        // @ts-ignore
-        jest.spyOn(ReactDOM, "createPortal").mockReturnValue((element, node) => {
-            return element;
+        jest.spyOn(ReactDOM, "createPortal").mockImplementation((element, _node, _key) => {
+            return element as ReturnType<typeof ReactDOM.createPortal>;
         });
     });
 
