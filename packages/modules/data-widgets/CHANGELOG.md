@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.19.0] DataWidgets - 2024-05-15
+
+### [2.7.1] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue where the filter type selector was not switching types correctly.
+
+### [1.2.0] TreeNode
+
+#### Fixed
+
+-   We fixed an issue with nested Tree Nodes, where the nested empty Tree Node would break its parent behavior.
+
 ## [2.18.1] DataWidgets - 2024-05-14
 
 ### [2.18.1] Datagrid
