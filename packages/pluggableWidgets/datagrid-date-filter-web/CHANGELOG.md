@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.1] - 2024-05-15
+
 ### Fixed
 
 -   We fixed an issue where the filter type selector was not switching types correctly.
