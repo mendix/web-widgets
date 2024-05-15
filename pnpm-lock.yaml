@@ -55,8 +55,8 @@ importers:
         specifier: ^1.32.0
         version: 1.32.0(cypress@13.7.3)
       cypress-terminal-report:
-        specifier: ^6.0.1
-        version: 6.0.1(cypress@13.7.3)
+        specifier: ^6.0.2
+        version: 6.0.2(cypress@13.7.3)
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
@@ -8332,8 +8332,8 @@ packages:
       humanize-duration: 3.28.0
     dev: false
 
-  /cypress-terminal-report@6.0.1(cypress@13.7.3):
-    resolution: {integrity: sha512-I+kiUIJRwmdOATjqHGM84PfJZM3TpyPzcUgcpxX2PG04fIPXIWprSMAxc3hbFKP8gE8B7D9Nj9yzf7CwyOH5Iw==}
+  /cypress-terminal-report@6.0.2(cypress@13.7.3):
+    resolution: {integrity: sha512-zkH/kvVlwtgxLkSOIA7pydicY3JsDDbiUEt8tAGboeHmEmX5vqzIvPvaVPfvfuA7yO6HNgnZUtAE2VOqDBt/HA==}
     peerDependencies:
       cypress: '>=10.0.0'
     dependencies:
@@ -15022,6 +15022,7 @@ packages:
 
   /semver@5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+    hasBin: true
     dev: false
 
   /semver@6.3.0:
@@ -15041,6 +15042,7 @@ packages:
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
