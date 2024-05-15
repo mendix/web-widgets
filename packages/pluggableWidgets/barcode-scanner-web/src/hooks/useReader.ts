@@ -111,6 +111,7 @@ export const useReader: UseReaderHook = args => {
             formats = args.barcodeFormats!.map(val => BarcodeFormat[val.barcodeFormat]);
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
+        hints.set(DecodeHintType.ENABLE_CODE_39_EXTENDED_MODE, true);
         const reader = new BrowserMultiFormatReader(hints, 500);
         const stop = (): void => {
             stopped.current = true;
