@@ -914,6 +914,9 @@ importers:
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-grid':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-grid
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-hooks
