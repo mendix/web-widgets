@@ -1,5 +1,5 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { ReactElement, ReactNode, createElement, MouseEvent } from "react";
+import { createElement, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
@@ -31,6 +31,12 @@ export function MultiSelectionMenu({
     menuFooterContent,
     onOptionClick
 }: MultiSelectionMenuProps): ReactElement {
+    const setPage = useCallback(() => {
+        if (selector.options.loadMore) {
+            selector.options.loadMore();
+        }
+    }, [selector.options]);
+
     return (
         <ComboboxMenuWrapper
             isOpen={isOpen}
@@ -41,6 +47,9 @@ export function MultiSelectionMenu({
             menuHeaderContent={menuHeaderContent}
             menuFooterContent={menuFooterContent}
             onOptionClick={onOptionClick}
+            hasMoreItems={selector.options.hasMore ?? false}
+            isInfinite={selector.lazyLoading ?? false}
+            setPage={setPage}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {

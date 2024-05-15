@@ -1,10 +1,14 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { PropsWithChildren, ReactElement, ReactNode, createElement, MouseEvent } from "react";
+import { createElement, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
+import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
-interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
+interface ComboboxMenuWrapperProps
+    extends PropsWithChildren,
+        Partial<UseComboboxPropGetters<string>>,
+        Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite" | "setPage"> {
     isOpen: boolean;
     isEmpty: boolean;
     noOptionsText?: string;
@@ -35,10 +39,13 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         menuHeaderContent,
         menuFooterContent,
         highlightedIndex,
-        onOptionClick
+        onOptionClick,
+        hasMoreItems,
+        isInfinite,
+        setPage
     } = props;
-
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
+    const [trackScrolling] = useInfiniteControl({ hasMoreItems, isInfinite, setPage });
 
     return (
         <div
@@ -65,12 +72,14 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             )}
             <ul
                 className={classNames("widget-combobox-menu-list", {
-                    "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0
+                    "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
+                    "infinite-loading": isInfinite
                 })}
                 {...getMenuProps?.(
                     {
                         onClick: onOptionClick,
-                        onMouseDown: ForcePreventMenuCloseEventHandler
+                        onMouseDown: ForcePreventMenuCloseEventHandler,
+                        onScroll: isInfinite ? trackScrolling : undefined
                     },
                     { suppressRefError: true }
                 )}

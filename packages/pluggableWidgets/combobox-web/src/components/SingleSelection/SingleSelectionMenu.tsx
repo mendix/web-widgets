@@ -1,5 +1,5 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, ReactElement, ReactNode } from "react";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { SingleSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
@@ -25,6 +25,11 @@ export function SingleSelectionMenu({
     menuFooterContent
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
+    const setPage = useCallback(() => {
+        if (selector.options.loadMore) {
+            selector.options.loadMore();
+        }
+    }, [selector.options]);
 
     return (
         <ComboboxMenuWrapper
@@ -34,6 +39,9 @@ export function SingleSelectionMenu({
             noOptionsText={noOptionsText}
             menuFooterContent={menuFooterContent}
             alwaysOpen={alwaysOpen}
+            hasMoreItems={selector.options.hasMore ?? false}
+            isInfinite={selector.lazyLoading ?? false}
+            setPage={setPage}
         >
             {isOpen &&
                 items.map((item, index) => (
