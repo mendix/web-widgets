@@ -11,13 +11,14 @@ export const TreeNodeBranchContext = createContext<TreeNodeBranchContextProps>({
 });
 
 export const useInformParentContextOfChildNodes = (
-    nodes: any[] | null,
+    numberOfNodes: number,
     identifyParentIsTreeNode: () => boolean
 ): void => {
     const { level, informParentOfChildNodes } = useContext(TreeNodeBranchContext);
+
     useEffect(() => {
         if (level > 0 && identifyParentIsTreeNode()) {
-            informParentOfChildNodes(nodes?.length);
+            informParentOfChildNodes(numberOfNodes);
         }
-    }, [nodes, level, informParentOfChildNodes, identifyParentIsTreeNode]);
+    }, [identifyParentIsTreeNode, informParentOfChildNodes, level, numberOfNodes]);
 };

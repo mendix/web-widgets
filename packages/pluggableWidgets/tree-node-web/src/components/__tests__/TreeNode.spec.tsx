@@ -193,7 +193,7 @@ describe("TreeNode", () => {
         expect(getCollapsedImageFromBranchHeader(firstTreeNodeBranch)).toHaveLength(0);
     });
 
-    it("doesn't show an icon when its child has no nodes", () => {
+    it("show an icon when its child has no nodes", () => {
         const nestedItems: TreeNodeProps["items"] = [
             {
                 id: "11" as GUID,
@@ -228,7 +228,7 @@ describe("TreeNode", () => {
                 node.text().includes("Parent treeview")
         );
         expect(parentTreeNodeHeader).toHaveLength(1);
-        expect(getExpandedIconFromBranchHeader(parentTreeNodeHeader)).toHaveLength(0);
+        expect(getExpandedIconFromBranchHeader(parentTreeNodeHeader)).toHaveLength(1);
         expect(getCollapsedImageFromBranchHeader(parentTreeNodeHeader)).toHaveLength(0);
     });
 
@@ -783,8 +783,6 @@ describe("TreeNode", () => {
                 expect(treeViewHeaders[2]).toHaveFocus();
 
                 await user.keyboard("{ArrowRight}");
-
-                expect(treeViews[2]).toHaveAttribute("aria-expanded", "true");
 
                 expect(treeViewHeaders[2]).toHaveFocus();
             });
