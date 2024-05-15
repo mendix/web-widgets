@@ -16,8 +16,8 @@ const mediaStreamConstraints: MediaStreamConstraints = {
     audio: false,
     video: {
         facingMode: "environment",
-        width: { min: 1280, ideal: 1920, max: 2560 },
-        height: { min: 720, ideal: 1080, max: 1440 }
+        width: { min: 1280, ideal: 2560, max: 2560 },
+        height: { min: 720, ideal: 1440, max: 1440 }
     }
 };
 
@@ -42,23 +42,22 @@ export const useReader: UseReaderHook = args => {
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
         const element = document.getElementById("canvas-middle-middle")!;
 
-        const cropWidth = element.clientWidth;
-        const cropHeight = element.clientHeight;
-
-        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-
         const aspectRatioWidth = videoRef.current!.clientWidth / videoRef.current!.clientHeight;
         const widthHeigher = videoRef.current!.videoWidth > videoRef.current!.videoHeight;
 
-        let videoCropWidth = (cropWidth / videoRef.current!.clientWidth) * videoRef.current!.videoWidth;
-        let videoCropHeight = (cropHeight / videoRef.current!.clientHeight) * videoRef.current!.videoHeight;
+        let videoCropWidth = (element.clientWidth / videoRef.current!.clientWidth) * videoRef.current!.videoWidth;
+        let videoCropHeight = (element.clientHeight / videoRef.current!.clientHeight) * videoRef.current!.videoHeight;
+
+        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
         captureCanvas.width = videoCropWidth;
         captureCanvas.height = videoCropWidth;
+
         if (widthHeigher) {
             videoCropWidth = videoCropWidth / aspectRatioWidth;
         } else {
             videoCropHeight = videoCropWidth;
         }
+
         const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void): void => {
             try {
                 const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
@@ -113,13 +112,11 @@ export const useReader: UseReaderHook = args => {
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         const reader = new BrowserMultiFormatReader(hints, 500);
-
         const stop = (): void => {
             stopped.current = true;
             reader.stopAsyncDecode();
             reader.reset();
         };
-
         const start = async (): Promise<void> => {
             let stream;
             try {
