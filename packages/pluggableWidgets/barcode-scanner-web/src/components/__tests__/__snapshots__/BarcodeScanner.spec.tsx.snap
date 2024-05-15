@@ -43,6 +43,7 @@ exports[`Barcode scanner renders video and overlay correctly 1`] = `
           />
           <div
             class="canvas-middle-middle"
+            id="canvas-middle-middle"
           >
             <div
               class="corner corner-top-left"
