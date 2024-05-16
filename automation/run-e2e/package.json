@@ -29,7 +29,7 @@
     "cypress-image-diff-js": "^1.32.0",
     "cypress-terminal-report": "^6.0.1",
     "enquirer": "^2.3.6",
-    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-cypress": "^2.15.2",
     "find-free-port": "^2.0.0",
     "ip": "^1.1.9",
     "mocha": "^10.4.0",
