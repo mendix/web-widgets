@@ -15,7 +15,7 @@ import DatePickerComponent from "react-datepicker";
 import classNames from "classnames";
 import { isDate, isValid } from "date-fns";
 import replaceAllInserter from "string.prototype.replaceall";
-import { doubleMonthOrDayWhenSingle, dayOfWeekWhenUpperCase } from "../utils/utils";
+import { doubleMonthOrDayWhenSingle, dayOfWeekWhenUpperCase } from "../utils/date-utils";
 import CalendarIcon from "./CalendarIcon";
 
 export type RangeDateValue = [Date | undefined, Date | undefined];

@@ -9,7 +9,7 @@ import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { getFilterDispatcher, FilterType } from "@mendix/widget-plugin-filtering";
 
-import { changeTimeToMidnight } from "./utils/utils";
+import { changeTimeToMidnight } from "./utils/date-utils";
 import { addDays, isEqual, Locale } from "date-fns";
 
 import {
