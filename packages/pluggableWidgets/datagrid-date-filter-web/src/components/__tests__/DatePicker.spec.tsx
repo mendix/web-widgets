@@ -3,7 +3,7 @@ import { render as renderEnzyme } from "enzyme";
 import { fireEvent, render } from "@testing-library/react";
 import { DatePicker } from "../DatePicker";
 import ReactDOM from "react-dom";
-import { doubleMonthOrDayWhenSingle } from "../../utils/utils";
+import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
 
 describe("Date picker component", () => {
     beforeAll(() => {
