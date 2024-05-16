@@ -1,4 +1,4 @@
-import { ObjectItem, ActionValue, EditableValue } from "mendix";
+import { ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
 import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
@@ -48,19 +48,9 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             lazyLoading
         ] = extractDatabaseProps(props);
 
-        if (attr.status === "available") {
-            if (lazyLoading) {
-                if (ds.limit < this.limit) {
-                    ds.setLimit(this.limit);
-                }
-                if (ds.limit > this.limit) {
-                    this.limit = ds.limit;
-                }
-            } else if (!attr.readOnly) {
-                ds.setLimit(undefined);
-            }
-        } else {
-            ds.setLimit(0);
+        const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
+        if (newLimit !== ds.limit) {
+            ds.setLimit(newLimit);
         }
 
         this._attr = attr as R;
@@ -130,5 +120,23 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this._attr?.setValue(value);
         this.currentId = objectId;
         executeAction(this.onChangeEvent);
+    }
+
+    private newLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
+        if (status !== "available" || readOnly === true) {
+            return 0;
+        }
+
+        if (lazyLoading) {
+            if (limit < this.limit) {
+                return this.limit;
+            }
+            if (limit > this.limit) {
+                this.limit = limit;
+            }
+            return limit;
+        }
+
+        return undefined;
     }
 }
