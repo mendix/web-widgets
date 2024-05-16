@@ -4,16 +4,18 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
-export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
+export type OptionsSourceDatabaseUsageTypeEnum = "selection" | "attribute";
 
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
+
+export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 
 export interface OptionsSourceStaticDataSourceType {
     staticDataSourceValue: DynamicValue<string | Big | boolean | Date>;
@@ -52,17 +54,19 @@ export interface ComboboxContainerProps {
     attributeEnumeration: EditableValue<string>;
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
-    optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
-    optionsSourceDatabaseCaptionAttribute?: ListAttributeValue<string>;
-    optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
+    optionsSourceDatabaseUsageType: OptionsSourceDatabaseUsageTypeEnum;
+    optionsSourceDatabaseItemSelection?: SelectionSingleValue | SelectionMultiValue;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
+    optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
+    optionsSourceDatabaseCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
+    optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
@@ -101,17 +105,19 @@ export interface ComboboxPreviewProps {
     attributeEnumeration: string;
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
-    optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
-    optionsSourceDatabaseCaptionAttribute: string;
-    optionsSourceDatabaseCaptionExpression: string;
+    optionsSourceDatabaseUsageType: OptionsSourceDatabaseUsageTypeEnum;
+    optionsSourceDatabaseItemSelection: "Single" | "Multi" | "None";
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
+    optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
+    optionsSourceDatabaseCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
+    optionsSourceDatabaseCaptionExpression: string;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
