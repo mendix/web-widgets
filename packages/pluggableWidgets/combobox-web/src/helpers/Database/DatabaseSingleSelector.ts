@@ -1,4 +1,4 @@
-import { ObjectItem, ActionValue, EditableValue } from "mendix";
+import { ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
 import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
@@ -6,7 +6,7 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { extractDatabaseProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { _valuesIsEqual } from "../utils";
+import { DEFAULT_LIMIT_SIZE, _valuesIsEqual } from "../utils";
 
 export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
     type = "single" as const;
@@ -18,11 +18,13 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     lastSetValue: T | null | undefined = null;
     caption: DatabaseCaptionsProvider;
     readOnly = false;
+    lazyLoading = false;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, ObjectItem> = new Map();
+    private limit: number = DEFAULT_LIMIT_SIZE;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -42,15 +44,13 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             customContent,
             customContentType,
             valueAttribute,
-            emptyValue
+            emptyValue,
+            lazyLoading
         ] = extractDatabaseProps(props);
 
-        if (attr.status === "available") {
-            if (!attr.readOnly) {
-                ds.setLimit(undefined);
-            }
-        } else {
-            ds.setLimit(0);
+        const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
+        if (newLimit !== ds.limit) {
+            ds.setLimit(newLimit);
         }
 
         this._attr = attr as R;
@@ -111,6 +111,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
+        this.lazyLoading = lazyLoading;
     }
 
     setValue(objectId: string | null): void {
@@ -119,5 +120,23 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this._attr?.setValue(value);
         this.currentId = objectId;
         executeAction(this.onChangeEvent);
+    }
+
+    private newLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
+        if (status !== "available" || readOnly === true) {
+            return 0;
+        }
+
+        if (lazyLoading) {
+            if (limit < this.limit) {
+                return this.limit;
+            }
+            if (limit > this.limit) {
+                this.limit = limit;
+            }
+            return limit;
+        }
+
+        return undefined;
     }
 }

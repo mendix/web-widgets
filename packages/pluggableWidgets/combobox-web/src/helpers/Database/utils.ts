@@ -25,7 +25,8 @@ type ExtractionReturnValue = [
     ListWidgetValue | undefined,
     OptionsSourceAssociationCustomContentTypeEnum,
     ListAttributeValue<string | Big>,
-    DynamicValue<string | Big>
+    DynamicValue<string | Big>,
+    boolean
 ];
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -50,6 +51,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
     const valueAttribute = props.optionsSourceDatabaseValueAttribute;
+    const lazyLoading = props.lazyLoading ?? false;
 
     if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
         throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
@@ -73,6 +75,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         customContent,
         customContentType,
         valueAttribute,
-        emptyValue
+        emptyValue,
+        lazyLoading
     ];
 }

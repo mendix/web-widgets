@@ -6,6 +6,7 @@ import {
     ListValueBuilder,
     ReferenceValueBuilder
 } from "@mendix/widget-plugin-test-utils";
+import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
@@ -49,6 +50,7 @@ describe("Combo box (Association)", () => {
             filterType: "contains",
             selectedItemsStyle: "text",
             readOnlyStyle: "bordered",
+            lazyLoading: false,
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
             selectAllButtonCaption: dynamicValue("Select All"),

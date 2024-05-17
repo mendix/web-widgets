@@ -4,6 +4,8 @@ import { MultiSelector } from "./types";
 import { PropsWithChildren, ReactElement, createElement } from "react";
 import { Big } from "big.js";
 
+export const DEFAULT_LIMIT_SIZE = 100;
+
 type ValueType = string | Big | boolean | Date | undefined;
 
 export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selectedItems: string[]): string {

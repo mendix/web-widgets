@@ -53,6 +53,7 @@ interface SelectorBase<T, V> {
     selectorType?: "context" | "database" | "static";
     type: T;
     readOnly: boolean;
+    lazyLoading?: boolean;
     validation?: string;
 
     // options related
