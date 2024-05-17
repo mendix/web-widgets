@@ -42,10 +42,12 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     headerTitle?: string;
     headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id: string;
+    isLoading?: boolean;
     numberOfItems?: number;
     onExportCancel?: () => void;
     page: number;
     paginationType: PaginationEnum;
+    loadingIndicatorRenderer?: (renderWrapper: (children: ReactNode) => ReactElement | null) => ReactElement | null;
     loadMoreButtonCaption?: string;
     pageSize: number;
     paging: boolean;
@@ -94,10 +96,12 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
         hasMoreItems,
         headerWrapperRenderer,
         id,
+        isLoading,
         numberOfItems,
         onExportCancel,
         page,
         paginationType,
+        loadingIndicatorRenderer,
         loadMoreButtonCaption,
         pageSize,
         paging,
@@ -265,6 +269,13 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
                     progress={processedRows}
                     total={numberOfItems}
                 />
+                {isLoading && loadingIndicatorRenderer
+                    ? loadingIndicatorRenderer(children => (
+                          <div key="loading-indicator-wrapper" className="widget-datagrid-underlay">
+                              {children}
+                          </div>
+                      ))
+                    : null}
             </WidgetRoot>
         </WidgetPropsProvider>
     );
