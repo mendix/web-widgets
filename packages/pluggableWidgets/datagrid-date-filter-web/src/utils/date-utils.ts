@@ -43,3 +43,20 @@ export function doubleMonthOrDayWhenSingle(formatString: string): string {
 export function dayOfWeekWhenUpperCase(formatString: string): string {
     return formatString.replaceAll(/E/g, m => m.toLowerCase());
 }
+
+/**
+ * Map current app date format to date picker date format(s).
+ * @returns {string|string[]}
+ */
+export function pickerDateFormat(): string | string[] {
+    const {
+        patterns: { date: appDateFormat }
+    } = window.mx.session.getConfig().locale;
+    let dateFormat: string | string[];
+    // Replace with full patterns d -> dd, M -> MM
+    dateFormat = doubleMonthOrDayWhenSingle(appDateFormat);
+    // Replace Date format E to follow unicode standard (e...eeee)
+    dateFormat = dayOfWeekWhenUpperCase(dateFormat);
+    // Use multiple formats if formats are not equal
+    return dateFormat === appDateFormat ? dateFormat : [dateFormat, appDateFormat];
+}
