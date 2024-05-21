@@ -1,7 +1,6 @@
 import { useReducer, useEffect } from "react";
-import { FilterStore } from "./FilterStore";
 
-export function useStore(store: FilterStore): FilterStore {
+export function useStore<T extends EventTarget>(store: T): T {
     const [, forceUpdate] = useReducer(n => n + 1, 0);
 
     useEffect(() => {
