@@ -76,7 +76,8 @@ describe("Rich Text", () => {
             readOnlyStyle: "text",
             advancedMenubarConfig: [],
             contextmenutype: "native",
-            tabIndex: 0
+            tabIndex: 0,
+            onChangeType: "onLeave"
         };
     });
 
