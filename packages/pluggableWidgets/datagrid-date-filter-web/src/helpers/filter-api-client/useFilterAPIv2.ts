@@ -5,7 +5,7 @@ import { FilterTypeEnum, InitValues } from "../base-types";
 
 export interface FilterAPIv2 {
     dispatch: DispatchFilterUpdate;
-    initValues: InitValues;
+    initValues: InitValues | undefined;
     attributes: ListAttributeValue[];
 }
 
@@ -29,7 +29,7 @@ function mapContext(context: FilterContextValue, prev: FilterAPIv2 | undefined):
     };
 }
 
-function initValues({ singleInitialFilter, multipleInitialFilters }: FilterContextValue): InitValues {
+function initValues({ singleInitialFilter, multipleInitialFilters }: FilterContextValue): InitValues | undefined {
     const [multiInitialFilter = []] = Object.values(multipleInitialFilters ?? {});
     return translateFilters(singleInitialFilter ?? multiInitialFilter);
 }
@@ -46,7 +46,7 @@ function findAttributesByType(multipleAttributes: { [key: string]: ListAttribute
         .filter(attr => attr.type === "DateTime");
 }
 
-function translateFilters(filters: InitialFilterValue[]): InitValues {
+function translateFilters(filters: InitialFilterValue[]): InitValues | undefined {
     if (filters.length > 0) {
         if (filters.length === 1) {
             const [filter] = filters;
@@ -68,7 +68,9 @@ function translateFilters(filters: InitialFilterValue[]): InitValues {
 
             return {
                 type,
-                value: ensureDate(filter.value)
+                value: ensureDate(filter.value),
+                startDate: null,
+                endDate: null
             };
         } else {
             const [filterStart, filterEnd] = filters;
@@ -80,16 +82,20 @@ function translateFilters(filters: InitialFilterValue[]): InitValues {
             } else if (filterStart.type === ">=" && filterEnd.type === "<=") {
                 return {
                     type: "between",
+                    value: null,
                     startDate: ensureDate(filterStart.value),
                     endDate: ensureDate(filterEnd.value)
                 };
             }
             return {
                 type,
-                value: ensureDate(filterStart.value)
+                value: ensureDate(filterStart.value),
+                startDate: null,
+                endDate: null
             };
         }
     }
+
     return undefined;
 }
 

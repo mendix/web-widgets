@@ -2,14 +2,12 @@ import { DefaultFilterEnum as FilterTypeEnum } from "../../typings/DatagridDateF
 
 export type { FilterTypeEnum };
 
-export type InitValues =
-    | {
-          type: FilterTypeEnum;
-          value?: Date;
-          startDate?: Date;
-          endDate?: Date;
-      }
-    | undefined;
+export type InitValues = {
+    type: FilterTypeEnum;
+    value: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
+};
 
 // Personal gratitude to Marco Gonzalez
 // For his `TypedEventTarget`

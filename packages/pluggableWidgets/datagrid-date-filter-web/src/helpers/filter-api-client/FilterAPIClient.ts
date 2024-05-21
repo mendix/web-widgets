@@ -1,7 +1,7 @@
 import { FilterType } from "@mendix/widget-plugin-filtering";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { FilterTypeEnum } from "../base-types";
+import { FilterTypeEnum, InitValues } from "../base-types";
 import { FilterAPIBox } from "./useFilterAPIv2";
 import { changeTimeToMidnight } from "../../utils/date-utils";
 import {
@@ -17,7 +17,6 @@ import {
     or
 } from "mendix/filters/builders";
 import { addDays } from "date-fns";
-import { InitValues } from "../../utils/filters";
 
 type Value = Date | [Date | null, Date | null] | null;
 
@@ -35,7 +34,7 @@ export class FilterAPIClient {
         });
     }
 
-    get initValues(): InitValues {
+    get initValues(): InitValues | undefined {
         return this.#api.current.initValues;
     }
 
