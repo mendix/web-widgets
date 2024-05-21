@@ -25,6 +25,9 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         menubar,
         onBlur,
         onFocus,
+        onChange,
+        onChangeType,
+        onKeyPress,
         toolbarMode,
         enableStatusBar,
         toolbarLocation,
@@ -36,6 +39,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         tabIndex
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
+    const editorValueRef = useRef<string>();
     const [canRenderEditor, setCanRenderEditor] = useState<boolean>(false);
     const [editorState, setEditorState] = useState<EditorState>("loading");
     const [editorValue, setEditorValue] = useState(stringAttribute.value ?? "");
@@ -56,26 +60,50 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
     const onEditorChange = useCallback(
         (value: string, _editor: TinyMCEEditor) => {
             setEditorValue(value);
+            if (onChange?.canExecute && onChangeType === "onDataChange") {
+                onChange.execute();
+            }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
     );
 
-    const onEditorBlur = useCallback(() => {
-        if (editorRef.current && stringAttribute?.status === "available" && editorState === "ready") {
-            stringAttribute?.setValue(editorValue);
-        }
+    const onEditorBlur = useCallback(
+        (_event: EditorEvent<null>, editor: TinyMCEEditor) => {
+            if (editorRef.current && stringAttribute?.status === "available" && editorState === "ready") {
+                stringAttribute?.setValue(editorValue);
 
-        if (onBlur?.canExecute) {
-            onBlur.execute();
-        }
+                if (onBlur?.canExecute) {
+                    onBlur.execute();
+                }
+                if (
+                    onChange?.canExecute &&
+                    onChangeType === "onLeave" &&
+                    editorValueRef.current !== editor.getContent()
+                ) {
+                    onChange.execute();
+                }
+            }
+        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stringAttribute, editorState, editorValue]);
+        [stringAttribute, editorState, editorValue]
+    );
 
     const onEditorFocus = useCallback(
-        (_event: EditorEvent<null>, _editor: TinyMCEEditor) => {
+        (_event: EditorEvent<null>, editor: TinyMCEEditor) => {
             if (onFocus?.canExecute) {
                 onFocus.execute();
+            }
+            editorValueRef.current = editor.getContent();
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [editorState]
+    );
+
+    const onEditorKeyPress = useCallback(
+        (_event: EditorEvent<null>, _editor: TinyMCEEditor) => {
+            if (onKeyPress?.canExecute) {
+                onKeyPress.execute();
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +156,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
             disabled={stringAttribute.readOnly}
             onBlur={onEditorBlur}
             onFocus={onEditorFocus}
+            onKeyPress={onEditorKeyPress}
         />
     );
 }

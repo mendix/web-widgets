@@ -73,6 +73,10 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (!values.enableStatusBar) {
         hidePropertyIn(defaultProperties, values, "resize");
     }
+
+    if (!values.onChange) {
+        hidePropertyIn(defaultProperties, values, "onChangeType");
+    }
     return defaultProperties;
 }
 

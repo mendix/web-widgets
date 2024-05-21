@@ -23,6 +23,8 @@ export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParen
 
 export type ResizeEnum = "false" | "true" | "both";
 
+export type OnChangeTypeEnum = "onLeave" | "onDataChange";
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
 export type CtItemTypeEnum = "separator" | "aligncenter" | "alignjustify" | "alignleft" | "alignnone" | "alignright" | "blockquote" | "backcolor" | "blocks" | "bold" | "copy" | "cut" | "fontfamily" | "fontsize" | "forecolor" | "hr" | "indent" | "italic" | "lineheight" | "newdocument" | "outdent" | "paste" | "pastetext" | "print" | "redo" | "remove" | "removeformat" | "selectall" | "strikethrough" | "subscript" | "superscript" | "underline" | "undo" | "visualaid" | "accordion" | "code" | "anchor" | "charmap" | "codesample" | "ltr" | "rtl" | "emoticons" | "fullscreen" | "help" | "image" | "insertdatetime" | "link" | "openlink" | "unlink" | "bullist" | "numlist" | "media" | "pagebreak" | "preview" | "searchreplace" | "table" | "tabledelete" | "tableinsertdialog" | "visualblocks" | "visualchars" | "wordcount";
@@ -66,8 +68,11 @@ export interface RichTextContainerProps {
     height: number;
     minHeight: number;
     resize: ResizeEnum;
+    onChange?: ActionValue;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
+    onKeyPress?: ActionValue;
+    onChangeType: OnChangeTypeEnum;
     extended_valid_elements?: DynamicValue<string>;
     spellCheck: boolean;
     highlight_on_focus: boolean;
@@ -124,8 +129,11 @@ export interface RichTextPreviewProps {
     height: number | null;
     minHeight: number | null;
     resize: ResizeEnum;
+    onChange: {} | null;
     onFocus: {} | null;
     onBlur: {} | null;
+    onKeyPress: {} | null;
+    onChangeType: OnChangeTypeEnum;
     extended_valid_elements: string;
     spellCheck: boolean;
     highlight_on_focus: boolean;

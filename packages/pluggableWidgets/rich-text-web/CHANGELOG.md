@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We add on change and on key press events to make upgrade consistent from previous version.
+
 ## [3.2.0] - 2024-05-21
 
 ### Added
