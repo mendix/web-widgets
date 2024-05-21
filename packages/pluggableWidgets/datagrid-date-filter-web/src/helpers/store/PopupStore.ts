@@ -1,16 +1,18 @@
 export class PopupStore extends EventTarget {
-    open = false;
+    state = {
+        open: false
+    };
 
     setOpen(open: boolean): void {
-        if (this.open === open) {
+        if (this.state.open === open) {
             return;
         }
-        this.open = open;
+        this.state = { open };
         this.#emitChange();
     }
 
     toggle(): void {
-        this.setOpen(!this.open);
+        this.setOpen(!this.state.open);
     }
 
     #emitChange(): void {
