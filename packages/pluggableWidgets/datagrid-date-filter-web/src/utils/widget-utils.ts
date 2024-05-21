@@ -11,7 +11,11 @@ interface DateFilterLocale {
     [key: string]: locales.Locale;
 }
 
-export function setupLocales(): void {
+/**
+ * Reg current locale in datepicker config.
+ * Later this locale can be passed to datepicker as locale prop.
+ */
+export function setupLocales(): string {
     const { languageTag = "en-US" } = window.mx.session.getConfig().locale;
 
     const [language] = languageTag.split("-");
@@ -22,4 +26,6 @@ export function setupLocales(): void {
     } else if (language in locales) {
         registerLocale(language, (locales as DateFilterLocale)[language]);
     }
+
+    return language;
 }
