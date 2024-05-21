@@ -18,6 +18,7 @@ export class DatePickerController {
     constructor(filterStore: FilterStore, popupStore: PopupStore) {
         this.#filterStore = filterStore;
         this.#popupStore = popupStore;
+        this.#setupTypeWatch(filterStore);
     }
 
     handlePickerChange: DatePickerBackendProps["onChange"] = (value: Value) => {
@@ -53,4 +54,15 @@ export class DatePickerController {
             this.#popupStore.toggle();
         }
     };
+
+    #setupTypeWatch(store: FilterStore): void {
+        let lastType = store.state.filterType;
+        store.addEventListener("change", event => {
+            const { detail: state } = event;
+            if (lastType !== state.filterType) {
+                lastType = state.filterType;
+                this.pickerRef.current?.setFocus();
+            }
+        });
+    }
 }
