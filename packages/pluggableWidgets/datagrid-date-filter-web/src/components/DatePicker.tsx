@@ -34,7 +34,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 allowSameDay={false}
                 autoFocus={false}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
-                disabled={state.useRangeMode}
+                disabled={state.disabled}
                 disabledKeyboardNavigation={false}
                 dropdownMode="select"
                 enableTabLoop

@@ -12,6 +12,8 @@ type State =
 
 type Value = State["value"];
 
+export type ChangeEventHandler = (event: CustomEvent<State>) => void;
+
 export class FilterStore extends (EventTarget as TypedEventTarget<{
     change: CustomEvent<State>;
     init: CustomEvent<State>;
@@ -57,8 +59,8 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
         this.#changeState(s => (s.value = value));
     };
 
-    reset = (): void => {
-        this.state = { filterType: "equal", value: null };
+    reset = (resetState?: State): void => {
+        this.state = resetState ? resetState : { filterType: "equal", value: null };
         this.#emitChange();
     };
 

@@ -1,12 +1,12 @@
 import { useReducer, useEffect, useMemo } from "react";
 
-interface AbstractStore<S> extends EventTarget {
+interface EventTargetWithState<S> extends EventTarget {
     state: S;
 }
 
-export function useStore<S, V>(store: AbstractStore<S>, map: (state: S) => V): V;
-export function useStore<S>(store: AbstractStore<S>): AbstractStore<S>;
-export function useStore<S, V>(store: AbstractStore<S>, map?: (state: S) => V): AbstractStore<S> | V {
+export function useStore<S, V>(store: EventTargetWithState<S>, map: (state: S) => V): V;
+export function useStore<S>(store: EventTargetWithState<S>): EventTargetWithState<S>;
+export function useStore<S, V>(store: EventTargetWithState<S>, map?: (state: S) => V): EventTargetWithState<S> | V {
     const [n, forceUpdate] = useReducer(n => n + 1, 0);
 
     useEffect(() => {
