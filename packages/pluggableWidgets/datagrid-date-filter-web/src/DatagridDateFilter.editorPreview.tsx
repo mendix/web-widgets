@@ -1,23 +1,14 @@
 import { createElement, ReactElement } from "react";
 import { FilterComponent } from "./components/FilterComponent";
 import { DatagridDateFilterPreviewProps } from "../typings/DatagridDateFilterProps";
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { normalizeProps } from "./utils/widget-utils";
+import { withAPIv1, withAPIv2, withPreloader } from "./helpers/HOCHelpers";
+
+const Component = withAPIv1(withAPIv2(withPreloader(FilterComponent)));
 
 export function preview(props: DatagridDateFilterPreviewProps): ReactElement {
-    return (
-        <FilterComponent
-            adjustable={props.adjustable}
-            className={props.className}
-            defaultFilter={props.defaultFilter}
-            placeholder={props.placeholder}
-            screenReaderButtonCaption={props.screenReaderButtonCaption}
-            screenReaderCalendarCaption={props.screenReaderCalendarCaption}
-            screenReaderInputCaption={props.screenReaderInputCaption}
-            styles={parseStyle(props.style)}
-            name="DateFilter"
-            parentChannelName={null}
-        />
-    );
+    const ps = normalizeProps(props);
+    return <Component {...ps} />;
 }
 
 export function getPreviewCss(): string {
