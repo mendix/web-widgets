@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.2.0] - 2024-05-21
+
 ### Added
 
 -   We add options to include external styling in advance tab. the style can be included in theme folder. and this is also allow user to switch between built-in style theme: 'default' and 'dark'.
