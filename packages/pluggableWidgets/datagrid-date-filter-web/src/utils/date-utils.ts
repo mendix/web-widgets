@@ -1,3 +1,7 @@
+import * as locales from "date-fns/locale";
+import { registerLocale } from "react-datepicker";
+import { MXSessionLocale } from "../../typings/global";
+
 /**
  * Change the time of a date and return an UTC date
  * @param date
@@ -48,10 +52,10 @@ export function dayOfWeekWhenUpperCase(formatString: string): string {
  * Map current app date format to date picker date format(s).
  * @returns {string|string[]}
  */
-export function pickerDateFormat(): string | string[] {
+export function pickerDateFormat(locale: MXSessionLocale): string | string[] {
     const {
         patterns: { date: appDateFormat }
-    } = window.mx.session.getConfig().locale;
+    } = locale;
     let dateFormat: string | string[];
     // Replace with full patterns d -> dd, M -> MM
     dateFormat = doubleMonthOrDayWhenSingle(appDateFormat);
@@ -59,4 +63,28 @@ export function pickerDateFormat(): string | string[] {
     dateFormat = dayOfWeekWhenUpperCase(dateFormat);
     // Use multiple formats if formats are not equal
     return dateFormat === appDateFormat ? dateFormat : [dateFormat, appDateFormat];
+}
+
+interface DateFilterLocale {
+    [key: string]: locales.Locale;
+}
+
+/**
+ * Reg current locale in datepicker config.
+ * Later this locale can be passed to datepicker as locale prop.
+ * @returns {string} registered locale.
+ */
+export function setupLocales(locale: MXSessionLocale): string {
+    const { languageTag = "en-US" } = locale;
+
+    const [language] = languageTag.split("-");
+    const languageTagWithoutDash = languageTag.replace("-", "");
+
+    if (languageTagWithoutDash in locales) {
+        registerLocale(language, (locales as DateFilterLocale)[languageTagWithoutDash]);
+    } else if (language in locales) {
+        registerLocale(language, (locales as DateFilterLocale)[language]);
+    }
+
+    return language;
 }
