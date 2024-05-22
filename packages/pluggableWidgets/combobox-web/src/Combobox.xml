@@ -370,6 +370,14 @@
                     <caption>Lazy loading</caption>
                     <description />
                 </property>
+                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                    <caption>Loading type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="spinner">Spinner</enumerationValue>
+                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>
