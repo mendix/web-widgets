@@ -21,7 +21,7 @@ function checkAPIs(apiv1: FilterContextValue, apiv2: FilterAPIBox): Error | unde
         return new Error(apiv1.singleAttribute ? errors.EPLACE : errors.ENOATTRS);
     }
 
-    if (attributes[0].type) {
+    if (attributes[0].type !== "DateTime") {
         return new Error(errors.EATTRTYPE);
     }
 
