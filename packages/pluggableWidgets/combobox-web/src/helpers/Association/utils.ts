@@ -11,6 +11,7 @@ import {
 import {
     ComboboxContainerProps,
     FilterTypeEnum,
+    LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 
@@ -24,7 +25,8 @@ type ExtractionReturnValue = [
     ActionValue | undefined,
     ListWidgetValue | undefined,
     OptionsSourceAssociationCustomContentTypeEnum,
-    boolean
+    boolean,
+    LoadingTypeEnum
 ];
 
 export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -61,6 +63,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
     const lazyLoading = props.lazyLoading ?? false;
+    const loadingType = props.loadingType;
 
     return [
         attr,
@@ -72,6 +75,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         onChangeEvent,
         customContent,
         customContentType,
-        lazyLoading
+        lazyLoading,
+        loadingType
     ];
 }
