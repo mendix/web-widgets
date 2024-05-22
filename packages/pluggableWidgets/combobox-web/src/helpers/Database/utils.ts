@@ -10,6 +10,7 @@ import {
 import {
     ComboboxContainerProps,
     FilterTypeEnum,
+    LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 import Big from "big.js";
@@ -26,7 +27,8 @@ type ExtractionReturnValue = [
     OptionsSourceAssociationCustomContentTypeEnum,
     ListAttributeValue<string | Big>,
     DynamicValue<string | Big>,
-    boolean
+    boolean,
+    LoadingTypeEnum
 ];
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -52,6 +54,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const customContentType = props.optionsSourceAssociationCustomContentType;
     const valueAttribute = props.optionsSourceDatabaseValueAttribute;
     const lazyLoading = props.lazyLoading ?? false;
+    const loadingType = props.loadingType;
 
     if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
         throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
@@ -76,6 +79,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         customContentType,
         valueAttribute,
         emptyValue,
-        lazyLoading
+        lazyLoading,
+        loadingType
     ];
 }

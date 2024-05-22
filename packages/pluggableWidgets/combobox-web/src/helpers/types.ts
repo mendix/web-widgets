@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import {
     ComboboxContainerProps,
     FilterTypeEnum,
+    LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
     ReadOnlyStyleEnum,
     SelectedItemsStyleEnum,
@@ -54,6 +55,7 @@ interface SelectorBase<T, V> {
     type: T;
     readOnly: boolean;
     lazyLoading?: boolean;
+    loadingType?: LoadingTypeEnum;
     validation?: string;
 
     // options related

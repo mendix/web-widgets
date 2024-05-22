@@ -1,5 +1,9 @@
 import { ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
-import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    LoadingTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
@@ -19,6 +23,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     caption: DatabaseCaptionsProvider;
     readOnly = false;
     lazyLoading = false;
+    loadingType?: LoadingTypeEnum;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
@@ -45,7 +50,8 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             customContentType,
             valueAttribute,
             emptyValue,
-            lazyLoading
+            lazyLoading,
+            loadingType
         ] = extractDatabaseProps(props);
 
         const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
@@ -112,6 +118,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.lazyLoading = lazyLoading;
+        this.loadingType = loadingType;
     }
 
     setValue(objectId: string | null): void {
