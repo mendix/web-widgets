@@ -55,7 +55,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         if (stringAttribute?.status === "available" && editorState === "ready") {
             setEditorValue(stringAttribute.value ?? "");
         }
-    }, [stringAttribute, editorState]);
+    }, [stringAttribute.value, stringAttribute.status, editorState]);
 
     const onEditorChange = useCallback(
         (value: string, _editor: TinyMCEEditor) => {
@@ -114,7 +114,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         // react page needs "mx-progress" a couple of milisecond to be rendered
         // use the next tick to trigger tinymce.init for consistent result
         // especially if we have multiple editor in single page
-        return <div></div>;
+        return <div className="mx-progress"></div>;
     }
 
     return (

@@ -51,8 +51,8 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                 style={wrapperStyle}
                 {...wrapperAttributes}
             >
-                {stringAttribute.status === "loading" ? (
-                    <div></div>
+                {stringAttribute.status === "loading" || stringAttribute.status !== "available" ? (
+                    <div className="mx-progress"></div>
                 ) : (
                     <BundledEditor
                         {...props}

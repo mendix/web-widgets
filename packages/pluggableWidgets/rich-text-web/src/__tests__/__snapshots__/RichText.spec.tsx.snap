@@ -7,7 +7,9 @@ exports[`Rich Text renders richtext widget 1`] = `
     id="RichText1"
     style="width: 100%; min-height: 75px;"
   >
-    <div />
+    <div
+      class="mx-progress"
+    />
   </div>
 </div>
 `;
