@@ -1,12 +1,13 @@
+import classNames from "classnames";
 import { createElement, Fragment, ReactElement, useState } from "react";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
-import classNames from "classnames";
-import { pickerDateFormat, setupLocales } from "../utils/date-utils";
-import CalendarIcon from "./CalendarIcon";
+import "react-datepicker/dist/react-datepicker.css";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { FilterStore } from "../helpers/store/FilterStore";
 import { PopupStore } from "../helpers/store/PopupStore";
 import { usePickerState } from "../helpers/usePickerState";
+import { pickerDateFormat, setupLocales } from "../utils/date-utils";
+import CalendarIcon from "./CalendarIcon";
 
 interface DatePickerProps {
     adjustable: boolean;
@@ -38,26 +39,27 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 disabledKeyboardNavigation={false}
                 dropdownMode="select"
                 enableTabLoop
+                endDate={state.endDate}
                 isClearable={state.useRangeMode}
                 onCalendarOpen={controller.handleCalendarOpen}
                 onChange={controller.handlePickerChange}
                 onClickOutside={controller.handlePickerOutsideClick}
                 onInputClick={controller.handlePickerInputClick}
+                open={state.open}
                 placeholderText={props.placeholder}
+                portalId={staticProps.portalId}
                 preventOpenOnFocus
                 readOnly={state.useRangeMode}
                 ref={controller.pickerRef}
+                selected={state.selected}
                 selectsRange={state.useRangeMode}
                 shouldCloseOnSelect={false}
                 showMonthDropdown
                 showPopperArrow={false}
                 showYearDropdown
+                startDate={state.startDate}
                 strictParsing
                 useWeekdaysShort={false}
-                startDate={state.startDate}
-                endDate={state.endDate}
-                selected={state.selected}
-                open={state.open}
             />
             <button
                 aria-controls={staticProps.portalId}
