@@ -172,6 +172,6 @@ jobs:
         with:
           name: test-screenshot-results
           path: |
-            ${{ github.workspace }}/packages/**/**/e2e/screenshot-results/diff/**/*.png
-            ${{ github.workspace }}/packages/**/**/e2e/screenshot-results/TESTFAIL_*.png
+            ${{ github.workspace }}/packages/**/**/e2e/*-snapshots/**/*.png
+            ${{ github.workspace }}/packages/**/**/e2e/**/*-snapshots/**/*.png
           if-no-files-found: error
