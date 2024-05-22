@@ -8,13 +8,13 @@ interface PickerState {
     startDate: Value;
     endDate: Value;
     selected: Value;
-    open: boolean;
-    useRangeMode: boolean;
+    expanded: boolean;
+    selectsRange: boolean;
     disabled: boolean;
 }
 
 export function usePickerState(filterStore: FilterStore, popupStore: PopupStore): PickerState {
-    const open = useStore(popupStore, state => state.open);
+    const expanded = useStore(popupStore, state => state.open);
     const values = useStore(filterStore, ({ value, filterType }) => {
         const isRange = Array.isArray(value);
         return {
@@ -22,12 +22,12 @@ export function usePickerState(filterStore: FilterStore, popupStore: PopupStore)
             selected: isRange ? undefined : value,
             startDate: isRange ? value[0] : undefined,
             endDate: isRange ? value[1] : undefined,
-            useRangeMode: isRange
+            selectsRange: isRange
         };
     });
 
     return {
-        open,
+        expanded,
         ...values
     };
 }
