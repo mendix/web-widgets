@@ -32,6 +32,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 {props.screenReaderInputCaption}
             </span>
             <ReactDatePicker
+                {...staticProps}
                 allowSameDay={false}
                 autoFocus={false}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
@@ -47,7 +48,6 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 onInputClick={controller.handlePickerInputClick}
                 open={state.open}
                 placeholderText={props.placeholder}
-                portalId={staticProps.portalId}
                 preventOpenOnFocus
                 readOnly={state.useRangeMode}
                 ref={controller.pickerRef}
@@ -86,7 +86,7 @@ function useSetup(): StaticProps {
             calendarStartDay: locale.firstDayOfWeek,
             dateFormat: pickerDateFormat(locale),
             locale: setupLocales(locale),
-            popperPlacement: "bottom-end",
+            popperPlacement: "bottom-start",
             popperProps: {
                 strategy: "fixed"
             },
