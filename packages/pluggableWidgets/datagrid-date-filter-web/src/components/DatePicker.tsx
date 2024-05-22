@@ -37,22 +37,17 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 autoFocus={false}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
                 disabled={state.disabled}
-                disabledKeyboardNavigation={false}
                 dropdownMode="select"
                 enableTabLoop
                 endDate={state.endDate}
-                isClearable={state.useRangeMode}
-                onCalendarOpen={controller.handleCalendarOpen}
+                isClearable={state.selectsRange}
                 onChange={controller.handlePickerChange}
-                onClickOutside={controller.handlePickerOutsideClick}
-                onInputClick={controller.handlePickerInputClick}
-                open={state.open}
+                onCalendarClose={controller.handleCalendarClose}
+                onCalendarOpen={controller.handleCalendarOpen}
                 placeholderText={props.placeholder}
-                preventOpenOnFocus
-                readOnly={state.useRangeMode}
                 ref={controller.pickerRef}
                 selected={state.selected}
-                selectsRange={state.useRangeMode}
+                selectsRange={state.selectsRange}
                 shouldCloseOnSelect={false}
                 showMonthDropdown
                 showPopperArrow={false}
@@ -60,15 +55,16 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 startDate={state.startDate}
                 strictParsing
                 useWeekdaysShort={false}
+                onChangeRaw={controller.UNSAFE_handleChangeRaw}
             />
             <button
                 aria-controls={staticProps.portalId}
-                aria-expanded={state.open}
+                aria-expanded={state.expanded}
                 aria-haspopup
                 aria-label={props.screenReaderCalendarCaption ?? "Show calendar"}
                 ref={controller.buttonRef}
                 className="btn btn-default btn-calendar"
-                onClick={controller.handleButtonClick}
+                onMouseDown={controller.handleButtonMouseDown}
                 onKeyDown={controller.handleButtonKeyDown}
             >
                 <CalendarIcon />
