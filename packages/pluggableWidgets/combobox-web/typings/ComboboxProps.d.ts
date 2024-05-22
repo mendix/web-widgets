@@ -35,6 +35,8 @@ export type SelectedItemsStyleEnum = "text" | "boxes";
 
 export type ReadOnlyStyleEnum = "bordered" | "text";
 
+export type LoadingTypeEnum = "spinner" | "skeleton";
+
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
     staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
@@ -89,6 +91,7 @@ export interface ComboboxContainerProps {
     a11yOptionsAvailable?: DynamicValue<string>;
     a11yInstructions?: DynamicValue<string>;
     lazyLoading: boolean;
+    loadingType: LoadingTypeEnum;
 }
 
 export interface ComboboxPreviewProps {
@@ -137,4 +140,5 @@ export interface ComboboxPreviewProps {
     a11yOptionsAvailable: string;
     a11yInstructions: string;
     lazyLoading: boolean;
+    loadingType: LoadingTypeEnum;
 }

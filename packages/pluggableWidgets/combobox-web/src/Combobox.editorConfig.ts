@@ -149,6 +149,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
     }
 
+    if (values.lazyLoading === false) {
+        hidePropertiesIn(defaultProperties, values, ["loadingType"]);
+    }
+
     return defaultProperties;
 }
 
