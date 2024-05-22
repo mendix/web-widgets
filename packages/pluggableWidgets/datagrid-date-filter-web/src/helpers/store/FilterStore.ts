@@ -43,6 +43,8 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
             s.filterType = t;
             if (t === "between") {
                 s.value = [null, null];
+            } else if (Array.isArray(s.value)) {
+                s.value = null;
             }
         });
     };
