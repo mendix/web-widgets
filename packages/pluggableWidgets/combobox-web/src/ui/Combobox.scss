@@ -14,6 +14,8 @@ $cb-disabled-text-color: #6c7180;
 $cb-menu-outer-padding: 10px;
 $cb-spacing: 4px;
 $cb-menu-border-radius: 7px;
+$cb-skeleton-light: rgba(194, 194, 194, 0.2);
+$cb-skeleton-dark: #d2d2d2;
 
 .widget-combobox {
     flex-grow: 1;
@@ -324,5 +326,67 @@ $cb-menu-border-radius: 7px;
     &-icon-container {
         display: flex;
         padding-top: 1px;
+    }
+
+    &-skeleton,
+    &-spinner {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
+        overflow: hidden;
+    }
+
+    &-skeleton {
+        &-loader {
+            animation: skeleton-loading 1s linear infinite alternate;
+            background: linear-gradient(90deg, $cb-skeleton-light 0%, $cb-skeleton-dark 100%);
+            background-size: 300% 100%;
+            border-radius: 4px;
+            height: 16px;
+            width: 148px;
+
+            &-small {
+                margin-right: 8px;
+                width: 16px;
+            }
+        }
+    }
+
+    &-spinner {
+        justify-content: center;
+        width: 100%;
+
+        &-loader {
+            --widget-combobox-spinner-loader: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+            animation: rotate 1s infinite linear;
+            aspect-ratio: 1;
+            background: var(--brand-primary, $cb-brand-primary);
+            border-radius: 50%;
+            mask: var(--widget-combobox-spinner-loader);
+            mask-composite: subtract;
+            padding: 3.5px;
+            height: 24px;
+            width: 24px;
+
+            &-small {
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: right;
+    }
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(1turn);
     }
 }
