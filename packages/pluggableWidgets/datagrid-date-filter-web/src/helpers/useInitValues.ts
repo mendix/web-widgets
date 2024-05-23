@@ -1,8 +1,8 @@
 import { useDefaultValue } from "@mendix/widget-plugin-filtering";
 import { InitValues } from "./base-types";
-import { APIv2Props } from "./component-types";
+import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
 
-export function useInitValues(props: APIv2Props): InitValues {
+export function useInitValues(props: DatagridDateFilterContainerProps): InitValues {
     const defaults: InitValues = {
         type: props.defaultFilter,
         startDate: useDefaultValue(props.defaultStartDate) ?? null,
@@ -10,5 +10,5 @@ export function useInitValues(props: APIv2Props): InitValues {
         value: useDefaultValue(props.defaultValue) ?? null
     };
 
-    return props.filterAPIClient.initValues ?? defaults;
+    return defaults;
 }

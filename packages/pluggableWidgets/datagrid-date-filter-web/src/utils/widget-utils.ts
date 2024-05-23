@@ -12,9 +12,12 @@ export function isLoadingDefaultValues(props: DatagridDateFilterContainerProps):
 
 type UnknownProps = DatagridDateFilterContainerProps | DatagridDateFilterPreviewProps;
 
-const isPreviewProps = (props: UnknownProps): props is DatagridDateFilterPreviewProps => {
-    return typeof props.style === "string";
-};
+export function isPreviewProps(props: UnknownProps): props is DatagridDateFilterPreviewProps {
+    let isPreview = typeof props.style === "string";
+    isPreview ||= typeof props.defaultValue === "string";
+    isPreview ||= typeof props.valueAttribute === "string";
+    return isPreview;
+}
 
 export function normalizeProps(props: UnknownProps): DatagridDateFilterContainerProps {
     const wrap = (v: string): DynamicValue<string> => ({ value: v, status: "available" } as DynamicValue<string>);
