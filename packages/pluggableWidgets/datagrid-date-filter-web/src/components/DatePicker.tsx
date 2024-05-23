@@ -6,7 +6,7 @@ import { DatePickerController } from "../helpers/DatePickerController";
 import { FilterStore } from "../helpers/store/FilterStore";
 import { PopupStore } from "../helpers/store/PopupStore";
 import { usePickerState } from "../helpers/usePickerState";
-import { pickerDateFormat, setupLocales } from "../utils/date-utils";
+import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 import CalendarIcon from "./CalendarIcon";
 
 interface DatePickerProps {
@@ -77,7 +77,7 @@ type StaticProps = Omit<ReactDatePickerProps, "onChange">;
 
 function useSetup(): StaticProps {
     const [props] = useState<StaticProps>(() => {
-        const { locale } = window.mx.session.getConfig();
+        const locale = getLocale();
         return {
             calendarStartDay: locale.firstDayOfWeek,
             dateFormat: pickerDateFormat(locale),

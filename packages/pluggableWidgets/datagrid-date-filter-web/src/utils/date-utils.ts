@@ -88,3 +88,18 @@ export function setupLocales(locale: MXSessionLocale): string {
 
     return language;
 }
+
+export function getLocale(): MXSessionLocale {
+    return window.mx
+        ? window.mx.session.getConfig().locale
+        : {
+              languageTag: "en-US",
+              code: "en_US",
+              firstDayOfWeek: 0,
+              patterns: {
+                  date: "M/d/yy",
+                  datetime: "M/d/yy, h:mm a",
+                  time: "h:mm a"
+              }
+          };
+}

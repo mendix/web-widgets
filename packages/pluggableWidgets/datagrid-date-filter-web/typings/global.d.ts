@@ -25,6 +25,6 @@ export interface MXGlobalObject {
 
 declare global {
     interface Window {
-        mx: MXGlobalObject;
+        mx?: MXGlobalObject;
     }
 }

@@ -2,8 +2,9 @@ import { createRef } from "react";
 import { FilterStore } from "./store/FilterStore";
 import { PopupStore } from "./store/PopupStore";
 import { isDate, isValid } from "date-fns";
-import ReactDatePicker from "react-datepicker";
-import { DatePickerBackendProps } from "./component-types";
+import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
+
+interface DatePickerBackendProps extends ReactDatePickerProps, React.ClassAttributes<ReactDatePicker> {}
 
 type Value = Date | null | [Date | null, Date | null];
 
