@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.3.4] - 2024-05-23
+
 ### Fixed
 
 -   We fixed the issue where content inside tooltip are force to have fit to content width.
