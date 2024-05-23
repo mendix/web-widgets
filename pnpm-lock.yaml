@@ -92,7 +92,7 @@ importers:
         specifier: ^1.44.0
         version: 1.44.0
       '@types/node':
-        specifier: ^20.12.12
+        specifier: ^20.12.7
         version: 20.12.12
       eslint-plugin-playwright:
         specifier: ^1.6.0
@@ -5809,34 +5809,6 @@ packages:
     resolution: {integrity: sha512-nacjqA3ee9zRF/++a3FUY1suHTFKZeHba2n8WeDw9cCVdmzmHpIxyzOJBcpHvvEmS8E9KqWlSnWHUkOrkhWcvA==}
     dependencies:
       '@types/yargs-parser': 21.0.2
-    dev: true
-
-  /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-TiZzBSJja/LbhNPvk6yc0JrX9XqhQ0hdh6M2svYfsHGejaKFIAGd9MQ+ERIMzLGlN/kZoYIgdxFV0PuljTKXag==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      '@typescript-eslint/parser': ^5.0.0
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.1.6)
-      '@typescript-eslint/scope-manager': 5.62.0
-      '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
-      debug: 4.3.4
-      eslint: 7.32.0
-      graphemer: 1.4.0
-      ignore: 5.3.1
-      natural-compare-lite: 1.4.0
-      semver: 7.5.4
-      tsutils: 3.21.0(typescript@5.0.4)
-      typescript: 5.0.4
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@5.1.6):
