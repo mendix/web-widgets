@@ -1,6 +1,8 @@
 import { createElement } from "react";
 import { FilterComponent } from "../components/FilterComponent";
 import { APIv2Props } from "../helpers/filter-api-client/types";
+import { useDefaultValues } from "../helpers/useDefaultValues";
+import { InitValues } from "../helpers/base-types";
 
 type RuntimeAdapter = (props: APIv2Props) => React.ReactElement;
 
@@ -21,7 +23,13 @@ export function withRuntimeAdapter(Component: FilterComponent): RuntimeAdapter {
                 screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
                 screenReaderCalendarCaption={props.screenReaderCalendarCaption?.value}
                 screenReaderInputCaption={props.screenReaderInputCaption?.value}
+                initValues={useInitValues(props)}
             />
         );
     };
+}
+
+function useInitValues(props: APIv2Props): InitValues {
+    const dvs = useDefaultValues(props);
+    return props.filterAPIClient.initValues ?? dvs;
 }
