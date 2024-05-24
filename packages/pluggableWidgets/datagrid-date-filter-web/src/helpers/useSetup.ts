@@ -3,7 +3,7 @@ import { DatePickerController } from "./DatePickerController";
 import { InitValues } from "./base-types";
 import { FilterAPIClient } from "./filter-api-client/FilterAPIClient";
 import { ChangeEventHandler, FilterStore } from "./store/FilterStore";
-import { PopupStore } from "./store/PopupStore";
+import { CalendarStore } from "./store/PopupStore";
 import { useNewStore } from "./store/useNewStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
@@ -13,7 +13,7 @@ export interface SetupProps {
 }
 
 type SetupResult = {
-    popupStore: PopupStore;
+    calendarStore: CalendarStore;
     filterStore: FilterStore;
     datePickerController: DatePickerController;
     id: string;
@@ -27,7 +27,7 @@ const defaultValues: InitValues = {
 };
 
 export function useSetup(props: SetupProps): SetupResult {
-    const popupStore = useNewStore(() => new PopupStore());
+    const calendarStore = useNewStore(() => new CalendarStore());
     const filterStore = useNewStore(() => {
         const { type, value, startDate, endDate } = props.initValues ?? defaultValues;
         const initState: FilterStore["state"] =
@@ -43,7 +43,7 @@ export function useSetup(props: SetupProps): SetupResult {
         return new FilterStore(initState);
     });
 
-    const [datePickerController] = useState(() => new DatePickerController(filterStore, popupStore));
+    const [datePickerController] = useState(() => new DatePickerController(filterStore, calendarStore));
 
     // Setup all the reactions/watches/effects;
     const [result] = useState<SetupResult>(() => {
@@ -54,7 +54,7 @@ export function useSetup(props: SetupProps): SetupResult {
         }
 
         return {
-            popupStore,
+            calendarStore,
             filterStore,
             datePickerController,
             id: `DateFilter${generateUUID()}`

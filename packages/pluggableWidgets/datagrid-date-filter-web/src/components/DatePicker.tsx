@@ -4,7 +4,7 @@ import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { FilterStore } from "../helpers/store/FilterStore";
-import { PopupStore } from "../helpers/store/PopupStore";
+import { CalendarStore } from "../helpers/store/PopupStore";
 import { usePickerState } from "../helpers/usePickerState";
 import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 import CalendarIcon from "./CalendarIcon";
@@ -15,7 +15,7 @@ interface DatePickerProps {
     filterStore: FilterStore;
     parentId?: string;
     placeholder?: string;
-    popupStore: PopupStore;
+    calendarStore: CalendarStore;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
 }
@@ -23,7 +23,7 @@ interface DatePickerProps {
 export function DatePicker(props: DatePickerProps): ReactElement {
     const staticProps = useSetup();
     const { datePickerController: controller } = props;
-    const state = usePickerState(props.filterStore, props.popupStore);
+    const state = usePickerState(props.filterStore, props.calendarStore);
 
     return (
         <Fragment>
