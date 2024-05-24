@@ -10,8 +10,6 @@ type Value = Date | null | [Date | null, Date | null];
 
 export class DatePickerController {
     pickerRef: React.RefObject<ReactDatePicker> = createRef();
-    popoverContainerRef: React.RefObject<HTMLDivElement> = createRef();
-    buttonRef: React.RefObject<HTMLButtonElement> = createRef();
 
     #filterStore: FilterStore;
     #calendarStore: CalendarStore;
