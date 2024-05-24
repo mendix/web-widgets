@@ -1,6 +1,6 @@
 import { createRef } from "react";
 import { FilterStore } from "./store/FilterStore";
-import { PopupStore } from "./store/PopupStore";
+import { CalendarStore } from "./store/PopupStore";
 import { isDate, isValid } from "date-fns";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 
@@ -14,13 +14,13 @@ export class DatePickerController {
     buttonRef: React.RefObject<HTMLButtonElement> = createRef();
 
     #filterStore: FilterStore;
-    #popupStore: PopupStore;
+    #calendarStore: CalendarStore;
 
     #timer: number = -1;
 
-    constructor(filterStore: FilterStore, popupStore: PopupStore) {
+    constructor(filterStore: FilterStore, calendarStore: CalendarStore) {
         this.#filterStore = filterStore;
-        this.#popupStore = popupStore;
+        this.#calendarStore = calendarStore;
         this.#setupTypeWatch(filterStore);
     }
 
@@ -32,16 +32,16 @@ export class DatePickerController {
     };
 
     handleCalendarOpen: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this.#popupStore.setOpen(true);
+        this.#calendarStore.UNSAFE_setExpanded(true);
     };
 
     handleCalendarClose: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this.#popupStore.setOpen(false);
+        this.#calendarStore.UNSAFE_setExpanded(false);
     };
 
     /** We use mouse down to avoid race condition with calendar "outside click" event. */
     handleButtonMouseDown: React.MouseEventHandler = () => {
-        if (this.#popupStore.state.open === false) {
+        if (this.#calendarStore.state.expanded === false) {
             this.#setActive();
         }
     };

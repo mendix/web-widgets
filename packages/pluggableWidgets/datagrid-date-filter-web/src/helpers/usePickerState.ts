@@ -1,5 +1,5 @@
 import { FilterStore } from "./store/FilterStore";
-import { PopupStore } from "./store/PopupStore";
+import { CalendarStore } from "./store/PopupStore";
 import { useStore } from "./store/useStore";
 
 type Value = Date | null | undefined;
@@ -13,8 +13,8 @@ interface PickerState {
     disabled: boolean;
 }
 
-export function usePickerState(filterStore: FilterStore, popupStore: PopupStore): PickerState {
-    const expanded = useStore(popupStore, state => state.open);
+export function usePickerState(filterStore: FilterStore, calendarStore: CalendarStore): PickerState {
+    const expanded = useStore(calendarStore, state => state.expanded);
     const values = useStore(filterStore, ({ value, filterType }) => {
         const isRange = Array.isArray(value);
         return {
