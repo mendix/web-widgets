@@ -6,9 +6,11 @@ import { ChangeEventHandler, FilterStore } from "./store/FilterStore";
 import { CalendarStore } from "./store/CalendarStore";
 import { useNewStore } from "./store/useNewStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { SyncChannel } from "./SyncChannel";
 
 export interface SetupProps {
     filterAPIClient: FilterAPIClient | null;
+    syncChannel: SyncChannel | null;
     initValues?: InitValues;
 }
 
@@ -47,10 +49,14 @@ export function useSetup(props: SetupProps): SetupResult {
 
     // Setup all the reactions/watches/effects;
     const [result] = useState<SetupResult>(() => {
-        const { filterAPIClient } = props;
+        const { syncChannel, filterAPIClient } = props;
 
         if (filterAPIClient) {
             connectFilterAPI(filterAPIClient, filterStore);
+        }
+
+        if (syncChannel) {
+            setupSync(syncChannel, filterStore);
         }
 
         return {
@@ -72,4 +78,8 @@ function connectFilterAPI(client: FilterAPIClient, store: FilterStore): void {
 
     store.addEventListener("change", handleChange);
     store.addEventListener("init", handleChange);
+}
+
+function setupSync(channel: SyncChannel, store: FilterStore): void {
+    store.addEventListener("change", event => channel.push(event.detail.value));
 }

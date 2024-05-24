@@ -21,6 +21,7 @@ export function withPreviewAdapter(Component: FilterComponent): PreviewAdapter {
                 adjustable={props.adjustable}
                 class={props.class}
                 filterAPIClient={null}
+                syncChannel={null}
                 placeholder={props.placeholder}
                 style={props.styleObject}
                 tabIndex={0}
