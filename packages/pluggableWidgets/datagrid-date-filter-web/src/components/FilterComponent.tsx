@@ -1,5 +1,4 @@
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
-import { DynamicValue } from "mendix";
 import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { FilterTypeEnum } from "../helpers/base-types";
@@ -27,9 +26,8 @@ export interface FilterComponentProps extends SetupProps {
 export type FilterComponent = typeof FilterComponent;
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const { id, filterStore, popupStore, datePickerController } = useSetup(props);
+    const { id, filterStore, calendarStore, datePickerController } = useSetup(props);
     useReset(props, filterStore);
-
     return (
         <div
             className={classNames("filter-container", props.class)}
@@ -52,7 +50,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 screenReaderCalendarCaption={props.screenReaderCalendarCaption}
                 screenReaderInputCaption={props.screenReaderInputCaption}
                 filterStore={filterStore}
-                popupStore={popupStore}
+                calendarStore={calendarStore}
                 datePickerController={datePickerController}
             />
         </div>
