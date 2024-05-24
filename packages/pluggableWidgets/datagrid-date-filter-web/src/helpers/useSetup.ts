@@ -3,7 +3,7 @@ import { DatePickerController } from "./DatePickerController";
 import { InitValues } from "./base-types";
 import { FilterAPIClient } from "./filter-api-client/FilterAPIClient";
 import { ChangeEventHandler, FilterStore } from "./store/FilterStore";
-import { CalendarStore } from "./store/PopupStore";
+import { CalendarStore } from "./store/CalendarStore";
 import { useNewStore } from "./store/useNewStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 

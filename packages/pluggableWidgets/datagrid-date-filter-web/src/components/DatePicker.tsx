@@ -4,7 +4,7 @@ import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { FilterStore } from "../helpers/store/FilterStore";
-import { CalendarStore } from "../helpers/store/PopupStore";
+import { CalendarStore } from "../helpers/store/CalendarStore";
 import { usePickerState } from "../helpers/usePickerState";
 import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 import CalendarIcon from "./CalendarIcon";
