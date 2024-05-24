@@ -12,8 +12,8 @@ export function useNewStore<T extends Store>(factory: Factory<T>): T {
     const [store] = useState(factory);
 
     useEffect(() => {
-        if (Object.hasOwn(store, "connected")) {
-            return (store as StoreWithLifecycle).connected();
+        if ("connected" in store) {
+            return store.connected();
         }
     }, [store]);
 
