@@ -44,6 +44,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 onChange={controller.handlePickerChange}
                 onCalendarClose={controller.handleCalendarClose}
                 onCalendarOpen={controller.handleCalendarOpen}
+                onKeyDown={controller.handleKeyDown}
                 placeholderText={props.placeholder}
                 ref={controller.pickerRef}
                 selected={state.selected}

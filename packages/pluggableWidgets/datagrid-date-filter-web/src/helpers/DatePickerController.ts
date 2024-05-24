@@ -52,6 +52,17 @@ export class DatePickerController {
         }
     };
 
+    handleKeyDown: React.KeyboardEventHandler = event => {
+        // Clear value on "Backspace" in range mode. Works only when focused on input.
+        if (
+            this.#selectsRange &&
+            (event.target as HTMLInputElement).nodeName === "INPUT" &&
+            event.code === "Backspace"
+        ) {
+            this.#filterStore.setValue([null, null]);
+        }
+    };
+
     /**
      * Prevent any input changes in range selection mode.
      * @remark
@@ -61,10 +72,7 @@ export class DatePickerController {
      */
     UNSAFE_handleChangeRaw = (event: React.BaseSyntheticEvent): void => {
         if (event.type === "change" && this.#selectsRange) {
-            const value = event.target?.value;
-            if (value !== "") {
-                event.preventDefault();
-            }
+            event.preventDefault();
         }
     };
 
