@@ -27,7 +27,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
 
     return (
         <Fragment>
-            <div ref={controller.popoverContainerRef} id={staticProps.portalId} className="date-filter-container" />
+            <div id={staticProps.portalId} className="date-filter-container" />
             <span className="sr-only" id={`${props.parentId}-label`}>
                 {props.screenReaderInputCaption}
             </span>
@@ -62,7 +62,6 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 aria-expanded={state.expanded}
                 aria-haspopup
                 aria-label={props.screenReaderCalendarCaption ?? "Show calendar"}
-                ref={controller.buttonRef}
                 className="btn btn-default btn-calendar"
                 onMouseDown={controller.handleButtonMouseDown}
                 onKeyDown={controller.handleButtonKeyDown}
