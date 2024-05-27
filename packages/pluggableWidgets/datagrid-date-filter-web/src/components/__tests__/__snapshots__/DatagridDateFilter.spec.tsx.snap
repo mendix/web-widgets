@@ -16,6 +16,7 @@ exports[`Date Filter with single instance with multiple attributes renders corre
           aria-controls="DateFilter1-filter-selectors"
           aria-expanded="false"
           aria-haspopup="true"
+          aria-label="Select filter type"
           class="btn btn-default filter-selector-button button-icon equal"
         >
            
@@ -82,6 +83,7 @@ exports[`Date Filter with single instance with single attribute renders correctl
           aria-controls="DateFilter1-filter-selectors"
           aria-expanded="false"
           aria-haspopup="true"
+          aria-label="Select filter type"
           class="btn btn-default filter-selector-button button-icon equal"
         >
            

@@ -1,14 +1,21 @@
 import { render } from "enzyme";
 import { createElement } from "react";
-import { render as render_fromTestingLibrary } from "@testing-library/react";
 import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
 
 const commonProps: FilterComponentProps = {
-    name: "DateFilter",
-    parentChannelName: null,
+    widgetName: "DateFilter",
     adjustable: true,
-    defaultFilter: "equal"
+    filterAPIClient: null,
+    syncChannel: null,
+    class: "",
+    tabIndex: 0,
+    initValues: {
+        type: "equal",
+        value: null,
+        startDate: null,
+        endDate: null
+    }
 };
 
 describe("Filter component", () => {
@@ -42,44 +49,5 @@ describe("Filter component", () => {
         );
 
         expect(component).toMatchSnapshot();
-    });
-
-    describe("with defaultValue", () => {
-        it("don't call updateFilters when defaultValue get new value", () => {
-            const date = new Date(946684800000);
-            const updateFilters = jest.fn();
-            const { rerender } = render_fromTestingLibrary(
-                <FilterComponent {...commonProps} defaultValue={date} updateFilters={updateFilters} />
-            );
-
-            // First time updateFilters is called on initial mount
-            expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters).toHaveBeenLastCalledWith(date, [undefined, undefined], "equal");
-
-            const nextValue = new Date(999999900000);
-
-            rerender(<FilterComponent {...commonProps} defaultValue={nextValue} updateFilters={updateFilters} />);
-
-            expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters).toHaveBeenLastCalledWith(date, [undefined, undefined], "equal");
-        });
-
-        it("don't call updateFilters when defaultValue get same value", () => {
-            const date = new Date(946684800000);
-            const updateFilters = jest.fn();
-            const { rerender } = render_fromTestingLibrary(
-                <FilterComponent {...commonProps} defaultValue={date} updateFilters={updateFilters} />
-            );
-
-            // First time updateFilters is called on initial mount
-            expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters.mock.calls[0][0]).toBe(date);
-
-            const nextValue = new Date(946684800000);
-
-            rerender(<FilterComponent {...commonProps} defaultValue={nextValue} updateFilters={updateFilters} />);
-
-            expect(updateFilters).toBeCalledTimes(1);
-        });
     });
 });

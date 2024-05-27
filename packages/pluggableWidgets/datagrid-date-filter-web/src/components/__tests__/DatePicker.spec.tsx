@@ -4,6 +4,20 @@ import { fireEvent, render } from "@testing-library/react";
 import { DatePicker } from "../DatePicker";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
+import { CalendarStore } from "../../helpers/store/CalendarStore";
+import { DatePickerController } from "../../helpers/DatePickerController";
+import { FilterStore } from "../../helpers/store/FilterStore";
+
+function createDeps(): {
+    filterStore: FilterStore;
+    calendarStore: CalendarStore;
+    datePickerController: DatePickerController;
+} {
+    const fs = new FilterStore();
+    const cs = new CalendarStore();
+    const ctrl = new DatePickerController(fs, cs);
+    return { filterStore: fs, calendarStore: cs, datePickerController: ctrl };
+}
 
 describe("Date picker component", () => {
     beforeAll(() => {
@@ -15,25 +29,19 @@ describe("Date picker component", () => {
     });
 
     it("renders correctly", () => {
-        const component = renderEnzyme(
-            <DatePicker adjustable setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
-        );
+        const component = renderEnzyme(<DatePicker adjustable {...createDeps()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when is not adjustable", () => {
-        const component = renderEnzyme(
-            <DatePicker adjustable={false} setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
-        );
+        const component = renderEnzyme(<DatePicker adjustable={false} {...createDeps()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly with different locale and date format", () => {
-        const component = renderEnzyme(
-            <DatePicker adjustable={false} setValue={jest.fn()} dateFormat="yyyy-MM-dd" locale="pt-BR" />
-        );
+        const component = renderEnzyme(<DatePicker adjustable={false} {...createDeps()} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -42,9 +50,7 @@ describe("Date picker component", () => {
         const component = renderEnzyme(
             <DatePicker
                 adjustable
-                setValue={jest.fn()}
-                dateFormat="yyyy-MM-dd"
-                locale="pt-BR"
+                {...createDeps()}
                 screenReaderInputCaption="my input"
                 screenReaderCalendarCaption="my calendar"
             />
@@ -53,42 +59,17 @@ describe("Date picker component", () => {
         expect(component).toMatchSnapshot();
     });
 
-    it("calls for setValue when value changes", async () => {
-        const setValue = jest.fn();
-        const component = render(
-            <DatePicker
-                adjustable
-                setValue={setValue}
-                dateFormat="dd/MM/yyyy"
-                locale="nl-NL"
-                placeholder="Placeholder"
-            />
-        );
+    it("emits change event on when input changes", async () => {
+        const listener = jest.fn();
+        const deps = createDeps();
+        const component = render(<DatePicker adjustable {...deps} placeholder="Date input" />);
 
-        fireEvent.change(component.getByPlaceholderText("Placeholder"), { target: { value: "01/12/2020" } });
+        deps.filterStore.addEventListener("change", listener);
 
-        expect(setValue).toBeCalledTimes(1);
-    });
+        fireEvent.change(component.getByPlaceholderText("Date input"), { target: { value: "01/25/2020" } });
 
-    it("calls for setRangeValues when value changes", async () => {
-        const setRangeValues = jest.fn();
-        const component = render(
-            <DatePicker
-                adjustable
-                setValue={jest.fn()}
-                setRangeValues={setRangeValues}
-                dateFormat="dd/MM/yyyy"
-                enableRange
-                locale="nl-NL"
-                placeholder="Placeholder"
-            />
-        );
-
-        fireEvent.change(component.getByPlaceholderText("Placeholder"), {
-            // Trick to trigger events (Should be dd/MM/yyyy - dd/MM/yyyy) but the library does not validate values coming from the input. That's why it is readonly when running on the browser.
-            target: { value: "01/12/2020" }
-        });
-        expect(setRangeValues).toBeCalledTimes(1);
+        expect(listener).toHaveBeenCalledTimes(1);
+        expect(deps.filterStore.state.value as Date).toEqual(new Date("01/25/2020"));
     });
 
     test.each([

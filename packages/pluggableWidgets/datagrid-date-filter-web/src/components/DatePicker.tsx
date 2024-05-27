@@ -33,6 +33,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
             </span>
             <ReactDatePicker
                 {...staticProps}
+                ariaLabelledBy={`${props.parentId}-label`}
                 allowSameDay={false}
                 autoFocus={false}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
