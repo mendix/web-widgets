@@ -1,5 +1,5 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
+import { createElement, MouseEvent, ReactElement, ReactNode } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
@@ -31,25 +31,23 @@ export function MultiSelectionMenu({
     menuFooterContent,
     onOptionClick
 }: MultiSelectionMenuProps): ReactElement {
-    const setPage = useCallback(() => {
-        if (selector.options.loadMore) {
-            selector.options.loadMore();
-        }
-    }, [selector.options]);
-
     return (
         <ComboboxMenuWrapper
-            isOpen={isOpen}
-            isEmpty={selectableItems.length <= 0}
             getMenuProps={getMenuProps}
-            noOptionsText={noOptionsText}
-            highlightedIndex={highlightedIndex}
-            menuHeaderContent={menuHeaderContent}
-            menuFooterContent={menuFooterContent}
-            onOptionClick={onOptionClick}
             hasMoreItems={selector.options.hasMore ?? false}
+            highlightedIndex={highlightedIndex}
+            isEmpty={selectableItems.length <= 0}
             isInfinite={selector.lazyLoading ?? false}
-            setPage={setPage}
+            isOpen={isOpen}
+            loadingType={selector.loadingType}
+            menuFooterContent={menuFooterContent}
+            menuHeaderContent={menuHeaderContent}
+            noOptionsText={noOptionsText}
+            numberOfItems={selectableItems.length}
+            onOptionClick={onOptionClick}
+            setPage={() => {
+                if (selector.options.loadMore) selector.options.loadMore();
+            }}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {
