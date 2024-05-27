@@ -4,6 +4,7 @@ import { createElement } from "react";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
 import { APIv1Props, APIv2Props } from "../helpers/filter-api-client/types";
 import { useFilterAPIClient } from "../helpers/filter-api-client/useFilterAPIClient";
+import * as errors from "../helpers/filter-api-client/errors";
 
 type APIv1Consumer = (props: APIv1Props) => React.ReactElement;
 
@@ -18,7 +19,7 @@ export function withAPIv1(Component: APIv1Consumer): APIv1Provider {
         const apiv1 = useFilterContextValue();
 
         if (apiv1.hasError) {
-            return <Alert bootstrapStyle="danger">{apiv1.error.message}</Alert>;
+            return <Alert bootstrapStyle="danger">{errors.EPLACE}</Alert>;
         }
 
         return <Component apiv1={apiv1.value} {...props} />;

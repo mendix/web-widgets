@@ -97,8 +97,8 @@ export function getLocale(): MXSessionLocale {
               code: "en_US",
               firstDayOfWeek: 0,
               patterns: {
-                  date: "M/d/yy",
-                  datetime: "M/d/yy, h:mm a",
+                  date: "M/d/yyyy",
+                  datetime: "M/d/yyyy, h:mm a",
                   time: "h:mm a"
               }
           };

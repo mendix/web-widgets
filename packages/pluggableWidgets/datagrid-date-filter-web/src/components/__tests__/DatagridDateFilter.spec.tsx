@@ -13,7 +13,16 @@ import { createContext, createElement } from "react";
 import DatagridDateFilter from "../../DatagridDateFilter";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
 
-function createMXObjectMock(code: string, langTag: string, firstDayOfWeek = 0): MXGlobalObject {
+function createMXObjectMock(
+    code: string,
+    langTag: string,
+    firstDayOfWeek = 0,
+    patterns = {
+        date: "M/d/yyyy",
+        datetime: "M/d/yyyy, h:mm a",
+        time: "h:mm a"
+    }
+): MXGlobalObject {
     return {
         session: {
             getConfig: (): MXSessionConfig => ({
@@ -21,11 +30,7 @@ function createMXObjectMock(code: string, langTag: string, firstDayOfWeek = 0): 
                     code,
                     firstDayOfWeek,
                     languageTag: langTag,
-                    patterns: {
-                        date: "d.M.y",
-                        datetime: "d.M.y H.mm",
-                        time: "H.mm"
-                    }
+                    patterns
                 }
             })
         }
@@ -41,18 +46,7 @@ const commonProps = {
     advanced: false
 };
 
-const mxObject = {
-    session: {
-        getConfig: () => ({
-            locale: {
-                languageTag: "en-US",
-                patterns: {
-                    date: "dd/MM/yyyy"
-                }
-            }
-        })
-    }
-};
+const mxObject = createMXObjectMock("en_US", "en-US");
 
 describe("Date Filter", () => {
     describe("with single instance", () => {
@@ -210,7 +204,7 @@ describe("Date Filter", () => {
                 const filter = mount(<DatagridDateFilter {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Date filter widget can\'t be used with the filters options you have selected. It requires a "Date and Time" attribute to be selected.'
+                    "The Date filter widget can't be used with the filters options you have selected. It requires a 'Date and Time' attribute to be selected."
                 );
             });
 
@@ -260,22 +254,20 @@ describe("Date Filter", () => {
     });
 
     describe("with session config", () => {
-        let oldMxObject: MXGlobalObject;
         beforeEach(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                 filterDispatcher: jest.fn(),
                 singleAttribute: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build()
             } as FilterContextValue);
-            oldMxObject = window.mx;
         });
 
         it("has correct short week days for en-US", async () => {
             window.mx = createMXObjectMock("en_US", "en-US");
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
 
-            const open = screen.getByLabelText("Show calendar");
+            const input = screen.getByRole("textbox");
             await act(async () => {
-                fireEvent.click(open);
+                fireEvent.click(input);
             });
             const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("SuMoTuWeThFrSa");
@@ -285,9 +277,9 @@ describe("Date Filter", () => {
             window.mx = createMXObjectMock("en_US", "en-US", 1);
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
 
-            const open = screen.getByLabelText("Show calendar");
+            const input = screen.getByRole("textbox");
             await act(async () => {
-                fireEvent.click(open);
+                fireEvent.click(input);
             });
             const header = screen.getByText(/december 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("MoTuWeThFrSaSu");
@@ -297,9 +289,9 @@ describe("Date Filter", () => {
             window.mx = createMXObjectMock("pt_BR", "pt-BR");
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
 
-            const open = screen.getByLabelText("Show calendar");
+            const input = screen.getByRole("textbox");
             await act(async () => {
-                fireEvent.click(open);
+                fireEvent.click(input);
             });
             const header = screen.getByText(/dezembro 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("domsegterquaquisexsab");
@@ -309,9 +301,9 @@ describe("Date Filter", () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI", 1);
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
 
-            const open = screen.getByLabelText("Show calendar");
+            const input = screen.getByRole("textbox");
             await act(async () => {
-                fireEvent.click(open);
+                fireEvent.click(input);
             });
             const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("matiketopelasu");
@@ -321,16 +313,12 @@ describe("Date Filter", () => {
             window.mx = createMXObjectMock("fi_FI", "fi-FI");
             render(<DatagridDateFilter {...commonProps} defaultValue={dynamicValue(new Date("2021-12-10"))} />);
 
-            const open = screen.getByLabelText("Show calendar");
+            const input = screen.getByRole("textbox");
             await act(async () => {
-                fireEvent.click(open);
+                fireEvent.click(input);
             });
             const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("sumatiketopela");
-        });
-
-        afterEach(() => {
-            window.mx = oldMxObject;
         });
     });
 });
