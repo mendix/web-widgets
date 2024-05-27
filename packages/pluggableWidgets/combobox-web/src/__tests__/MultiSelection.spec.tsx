@@ -47,6 +47,7 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             readOnlyStyle: "bordered",
             lazyLoading: false,
+            loadingType: "spinner",
             noOptionsText: dynamicValue("no options found"),
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
