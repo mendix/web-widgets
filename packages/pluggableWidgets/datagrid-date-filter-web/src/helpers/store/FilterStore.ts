@@ -26,12 +26,12 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
     }
 
     #emitChange(): void {
-        const payload = structuredClone(this.state);
+        const payload = this.getStateCopy();
         this.dispatchEvent(new CustomEvent("change", { detail: payload }));
     }
 
     #emitInit(): void {
-        const payload = structuredClone(this.state);
+        const payload = this.getStateCopy();
         this.dispatchEvent(new CustomEvent("init", { detail: payload }));
     }
 
@@ -46,6 +46,7 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
             } else if (Array.isArray(s.value)) {
                 s.value = null;
             }
+            return s;
         });
     };
 
@@ -58,7 +59,10 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
             return;
         }
 
-        this.#changeState(s => (s.value = value));
+        this.#changeState(s => {
+            s.value = value;
+            return s;
+        });
     };
 
     reset = (resetState?: State): void => {
@@ -70,10 +74,21 @@ export class FilterStore extends (EventTarget as TypedEventTarget<{
         this.#emitInit();
     }
 
-    #changeState(mutate: (state: State) => void): void {
-        const next = structuredClone(this.state);
-        mutate(next);
-        this.state = next;
+    getStateCopy(): State {
+        return {
+            filterType: this.state.filterType,
+            value: this.copyValue(this.state.value)
+        } as State;
+    }
+
+    copyValue(value: Value): Value {
+        const copy = (v: Date | null): Date | null => (v === null ? v : new Date(v));
+
+        return Array.isArray(value) ? (value.map(copy) as Value) : copy(value);
+    }
+
+    #changeState(mutate: (state: State) => State): void {
+        this.state = mutate(this.getStateCopy());
         this.#emitChange();
     }
 
