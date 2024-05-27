@@ -38,6 +38,10 @@ export class FilterAPIClient {
         return this.#api.current.initValues;
     }
 
+    get parentChannelName(): string | undefined {
+        return this.#api.current.parentChannelName;
+    }
+
     private buildCondition(
         type: FilterTypeEnum,
         value: Value,

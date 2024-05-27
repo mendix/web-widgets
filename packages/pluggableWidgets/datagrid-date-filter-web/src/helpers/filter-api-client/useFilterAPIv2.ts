@@ -7,6 +7,7 @@ export interface FilterAPIv2 {
     dispatch: DispatchFilterUpdate;
     initValues: InitValues | undefined;
     attributes: ListAttributeValue[];
+    parentChannelName?: string;
 }
 
 export interface FilterAPIBox {
@@ -25,7 +26,8 @@ function mapContext(context: FilterContextValue, prev: FilterAPIv2 | undefined):
     return {
         dispatch: context.filterDispatcher,
         initValues: prev !== undefined ? prev.initValues : initValues(context),
-        attributes: attributes(context)
+        attributes: attributes(context),
+        parentChannelName: context.eventsChannelName
     };
 }
 
