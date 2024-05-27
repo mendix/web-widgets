@@ -46,7 +46,9 @@ export function MultiSelectionMenu({
             numberOfItems={selectableItems.length}
             onOptionClick={onOptionClick}
             setPage={() => {
-                if (selector.options.loadMore) selector.options.loadMore();
+                if (selector.options.loadMore) {
+                    selector.options.loadMore();
+                }
             }}
         >
             {isOpen &&
