@@ -9,7 +9,6 @@ import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";
@@ -25,7 +24,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _valuesMap: Map<string, ObjectItem> = new Map();
-    private limit: number = DEFAULT_LIMIT_SIZE;
+    private limit: number = 0;
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);

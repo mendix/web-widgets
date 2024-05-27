@@ -10,7 +10,7 @@ import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { extractDatabaseProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { DEFAULT_LIMIT_SIZE, _valuesIsEqual } from "../utils";
+import { _valuesIsEqual } from "../utils";
 
 export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
     type = "single" as const;
@@ -29,7 +29,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, ObjectItem> = new Map();
-    private limit: number = DEFAULT_LIMIT_SIZE;
+    private limit: number = 0;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
