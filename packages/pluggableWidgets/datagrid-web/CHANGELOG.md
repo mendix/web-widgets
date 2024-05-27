@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.19.0] - 2024-05-27
+
 ### Fixed
 
 -   We fixed an issue with Datagrid 2 not working correctly when **Use React client** setting is on.
