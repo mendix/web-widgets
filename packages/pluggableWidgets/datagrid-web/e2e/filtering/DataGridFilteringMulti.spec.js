@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("datagrid-web filtering multi select", () => {
     test("filter rows where enum attribute equal to one of selected values", async ({ page }) => {
         const rows = async () => {
@@ -52,7 +57,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(6);
         await option("Public librarian").click();
         await expect(await rows()).toHaveCount(10);
-        await page.getByRole('columnheader', { name: 'Roles (ref set) Economist,' }).getByRole('textbox').click();
+        await page.getByRole("columnheader", { name: "Roles (ref set) Economist," }).getByRole("textbox").click();
         const columnTexts = await column(3).allTextContents();
         expectedColumnText.forEach((text, index) => {
             expect(columnTexts[index]).toBe(text);
@@ -78,8 +83,10 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(2);
         await option("ALLETE, Inc.").click();
         await expect(await rows()).toHaveCount(6);
-        await page.getByRole('columnheader', { name: 'sort Company FMC Corp,ALLETE' }).getByRole('textbox').click();
+        await page.getByRole("columnheader", { name: "sort Company FMC Corp,ALLETE" }).getByRole("textbox").click();
         const columnText = await column(4).allTextContents();
-        expect(columnText).toEqual(expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."]));
+        expect(columnText).toEqual(
+            expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."])
+        );
     });
 });

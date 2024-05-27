@@ -68,6 +68,6 @@ export async function dev() {
 
     console.log(c.cyan("Launch Playwright"));
     const command = "playwright";
-    const args = ["test", "--project", options.browser, "--ui"];
+    const args = ["test", "--project", options.browser, "--ignore-snapshots", "--ui"];
     spawnSync(command, args, { stdio: "inherit", shell: true });
 }

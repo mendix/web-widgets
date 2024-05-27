@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("datagrid-web filtering single select", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/filtering-single");
@@ -58,11 +63,15 @@ test.describe("datagrid-web filtering single select", () => {
         await option("Yes").click();
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
-        await expect(await column(3).allTextContents()).toEqual(expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]));
+        await expect(await column(3).allTextContents()).toEqual(
+            expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"])
+        );
         await booleanSelect().click();
-        await page.getByRole('row', { name: 'Pets (bool)' }).getByRole('menuitem').first().click();
+        await page.getByRole("row", { name: "Pets (bool)" }).getByRole("menuitem").first().click();
         const columnText = await column(3).allTextContents();
-        expect(columnText).toEqual(expect.arrayContaining(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"]));
+        expect(columnText).toEqual(
+            expect.arrayContaining(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"])
+        );
     });
 
     test("filter rows that have Cyan in Color column", async ({ page }) => {
@@ -116,7 +125,9 @@ test.describe("datagrid-web filtering single select", () => {
     });
 
     test("filter rows that match selected company", async ({ page }) => {
-        const rows = async () => { return page.locator('.mx-name-dataGrid21 [role="row"]')};
+        const rows = async () => {
+            return page.locator('.mx-name-dataGrid21 [role="row"]');
+        };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
         const companySelect = () => page.locator(".mx-name-drop_downFilter4 input");

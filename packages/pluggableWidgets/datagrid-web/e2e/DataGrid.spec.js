@@ -1,6 +1,11 @@
 import path from "path";
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("datagrid-web export to Excel", () => {
     test.fixme("check if export to Excel generates correct output", async ({ page }) => {
         const downloadedFilename = path.join(downloadsFolder, "testFilename.xlsx");
@@ -33,7 +38,7 @@ test.describe("capabilities: sorting", () => {
             "data-icon",
             "arrows-alt-v"
         );
-        await expect(page.getByRole('gridcell', { name: '12' }).first()).toHaveText("12");
+        await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 
     test("changes order of data to ASC when clicking sort option", async ({ page }) => {
@@ -49,7 +54,7 @@ test.describe("capabilities: sorting", () => {
             "data-icon",
             "long-arrow-alt-up"
         );
-        await expect(page.getByRole('gridcell', { name: '10' }).first()).toHaveText("10");
+        await expect(page.getByRole("gridcell", { name: "10" }).first()).toHaveText("10");
     });
 
     test("changes order of data to DESC when clicking sort option", async ({ page }) => {
@@ -62,7 +67,7 @@ test.describe("capabilities: sorting", () => {
             "data-icon",
             "long-arrow-alt-down"
         );
-        await expect(page.getByRole('gridcell', { name: '12' }).first()).toHaveText("12");
+        await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 });
 
