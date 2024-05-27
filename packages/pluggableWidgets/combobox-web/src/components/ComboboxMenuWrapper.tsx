@@ -1,14 +1,26 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
+import {
+    createElement,
+    MouseEvent,
+    PropsWithChildren,
+    ReactElement,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useState
+} from "react";
+import { LoadingTypeEnum } from "typings/ComboboxProps";
 import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
+import { SpinnerLoader } from "./SpinnerLoader";
+import { SkeletonLoader } from "./SkeletonLoader";
 
 interface ComboboxMenuWrapperProps
     extends PropsWithChildren,
         Partial<UseComboboxPropGetters<string>>,
-        Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite" | "setPage"> {
+        Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite"> {
     isOpen: boolean;
     isEmpty: boolean;
     noOptionsText?: string;
@@ -17,6 +29,9 @@ interface ComboboxMenuWrapperProps
     menuHeaderContent?: ReactNode;
     menuFooterContent?: ReactNode;
     onOptionClick?: (e: MouseEvent) => void;
+    numberOfItems: number;
+    loadingType?: LoadingTypeEnum;
+    setPage?: () => void;
 }
 
 function PreventMenuCloseEventHandler(e: React.MouseEvent): void {
@@ -42,10 +57,34 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         onOptionClick,
         hasMoreItems,
         isInfinite,
-        setPage
+        setPage,
+        numberOfItems,
+        loadingType
     } = props;
+    const [isLoading, setIsLoading] = useState(false);
+    const [firstLoad, setFirstLoad] = useState(false);
+
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
-    const [trackScrolling] = useInfiniteControl({ hasMoreItems, isInfinite, setPage });
+    const setPageCallback = useCallback(() => {
+        if (setPage) {
+            setIsLoading(true);
+            setPage();
+        }
+    }, [setPage]);
+    const [trackScrolling] = useInfiniteControl({ hasMoreItems, isInfinite, setPage: setPageCallback });
+
+    useEffect(() => {
+        if (firstLoad === false && isInfinite === true && isOpen === true) {
+            setFirstLoad(true);
+            setPageCallback();
+        }
+    }, [firstLoad, isInfinite, isOpen]);
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, [numberOfItems]);
+
+    const Loader = loadingType === "skeleton" ? SkeletonLoader : SpinnerLoader;
 
     return (
         <div
@@ -84,6 +123,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     { suppressRefError: true }
                 )}
             >
+                {isOpen && isInfinite && isLoading === true && <Loader />}
                 {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
             </ul>
             {menuFooterContent && (
