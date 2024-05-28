@@ -1,7 +1,8 @@
-import { createElement, ReactElement } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import { LoadingTypeEnum } from "typings/ComboboxProps";
-import { SpinnerLoader } from "./SpinnerLoader";
+import { DEFAULT_LIMIT_SIZE } from "../helpers/utils";
 import { SkeletonLoader } from "./SkeletonLoader";
+import { SpinnerLoader } from "./SpinnerLoader";
 
 type LoaderProps = {
     isLoading: boolean;
@@ -13,11 +14,18 @@ type LoaderProps = {
 
 export function Loader(props: LoaderProps): ReactElement | null {
     const { isLoading, isOpen, lazyLoading, loadingType, withCheckbox } = props;
-    const Loader = loadingType === "skeleton" ? SkeletonLoader : SpinnerLoader;
 
     if (!isOpen || !lazyLoading || !isLoading) {
         return null;
     }
 
-    return <Loader withCheckbox={withCheckbox} />;
+    return loadingType === "skeleton" ? (
+        <Fragment>
+            {Array.from({ length: DEFAULT_LIMIT_SIZE }).map((_, i) => (
+                <SkeletonLoader withCheckbox={withCheckbox} key={i} />
+            ))}
+        </Fragment>
+    ) : (
+        <SpinnerLoader />
+    );
 }
