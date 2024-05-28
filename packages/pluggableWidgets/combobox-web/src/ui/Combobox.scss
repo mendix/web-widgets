@@ -43,6 +43,19 @@ $cb-skeleton-dark: #d2d2d2;
                 margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
             }
         }
+        &-lazy-scroll {
+            background:
+                /* Shadow Cover TOP */ linear-gradient(white 30%, rgba(255, 255, 255, 0)) center
+                    top,
+                /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
+                /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
+                /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center
+                    bottom;
+
+            background-repeat: no-repeat;
+            background-size: 100% 40px, 100% 40px, 100% 35px, 100% 35px;
+            background-attachment: local, local, scroll, scroll;
+        }
         &-hidden {
             display: none;
         }

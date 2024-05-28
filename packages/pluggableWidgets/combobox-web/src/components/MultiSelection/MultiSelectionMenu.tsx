@@ -2,8 +2,10 @@ import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, MouseEvent, ReactElement, ReactNode } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
+import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
+import { Loader } from "../Loader";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -31,25 +33,40 @@ export function MultiSelectionMenu({
     menuFooterContent,
     onOptionClick
 }: MultiSelectionMenuProps): ReactElement {
+    const lazyLoading = selector.lazyLoading ?? false;
+    const { isLoading, onScroll } = useLazyLoading({
+        hasMoreItems: selector.options.hasMore ?? false,
+        isInfinite: lazyLoading,
+        isOpen,
+        loadMore: () => {
+            if (selector.options.loadMore) {
+                selector.options.loadMore();
+            }
+        },
+        numberOfItems: selectableItems.length
+    });
+
     return (
         <ComboboxMenuWrapper
             getMenuProps={getMenuProps}
-            hasMoreItems={selector.options.hasMore ?? false}
             highlightedIndex={highlightedIndex}
             isEmpty={selectableItems.length <= 0}
-            isInfinite={selector.lazyLoading ?? false}
             isOpen={isOpen}
-            loadingType={selector.loadingType}
+            lazyLoading={lazyLoading}
+            loader={
+                <Loader
+                    isLoading={isLoading}
+                    isOpen={isOpen}
+                    lazyLoading={lazyLoading}
+                    loadingType={selector.loadingType}
+                    withCheckbox={selector.selectionMethod === "checkbox"}
+                />
+            }
             menuFooterContent={menuFooterContent}
             menuHeaderContent={menuHeaderContent}
             noOptionsText={noOptionsText}
-            numberOfItems={selectableItems.length}
             onOptionClick={onOptionClick}
-            setPage={() => {
-                if (selector.options.loadMore) {
-                    selector.options.loadMore();
-                }
-            }}
+            onScroll={lazyLoading ? onScroll : undefined}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {
