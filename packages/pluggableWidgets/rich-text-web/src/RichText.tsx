@@ -8,6 +8,9 @@ import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
 import { createMenubar } from "./utils/menubar";
 import { createPreset } from "./utils/presets";
+// Content styles, including inline UI like fake cursors
+import "tinymce/skins/content/default/content";
+import "tinymce/skins/ui/oxide/content";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
     const {
@@ -51,19 +54,15 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                 style={wrapperStyle}
                 {...wrapperAttributes}
             >
-                {stringAttribute.status === "loading" || stringAttribute.status !== "available" ? (
-                    <div className="mx-progress"></div>
-                ) : (
-                    <BundledEditor
-                        {...props}
-                        menubar={menubar}
-                        toolbar={presets.toolbar}
-                        editorHeight={height}
-                        editorWidth={width}
-                        key={`${String(stringAttribute.readOnly)}_${id}_${props.content_css?.value}`}
-                        resize={enableStatusBar ? resize : "false"}
-                    />
-                )}
+                <BundledEditor
+                    {...props}
+                    menubar={menubar}
+                    toolbar={presets.toolbar}
+                    editorHeight={height}
+                    editorWidth={width}
+                    key={`${String(stringAttribute.readOnly)}_${id}_${props.content_css?.value}`}
+                    resize={enableStatusBar ? resize : "false"}
+                />
             </div>
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </Fragment>
