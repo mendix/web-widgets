@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("BadgeButton on click", () => {
     test.describe("call microflow", () => {
         test.beforeEach(async ({ page }) => {
@@ -33,13 +38,13 @@ test.describe("BadgeButton on click", () => {
         test("opens a page", async ({ page }) => {
             await expect(page.locator(".mx-name-badgeButtonShowPage")).toBeVisible();
             await page.locator(".mx-name-badgeButtonShowPage").click();
-            await expect(page.locator(".mx-name-pageTitle1")).toContainText("ClickedPage");
+            await expect(page.getByRole("heading", { name: "ClickedPage" })).toContainText("ClickedPage");
         });
 
         test("opens modal popup page", async ({ page }) => {
             await expect(page.locator(".mx-name-badgeButtonShowPopupPage")).toBeVisible();
             await page.locator(".mx-name-badgeButtonShowPopupPage").click();
-            await expect(page.locator(".mx-name-pageTitle1")).toContainText("ModalPopupPage");
+            await expect(page.getByLabel("ModalPopupPage").locator("h1")).toContainText("ModalPopupPage");
         });
     });
 

@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
 test.skip(process.env.MODERN_CLIENT === true, () => {
     test.describe("BadgeButton different views", () => {
