@@ -42,12 +42,13 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         // in dojo runtime, DOM is rendered inside <div class="mx-incubator mx-offscreen"> at the inital stage
         // and moved to content once it fully loads, which cause rich text editor looses reference to it's iframe
         // this fix waits for it to be fully out of incubator div, then only fully renders rich text afterwards.
-        const observer = new MutationObserver(_mutationList => {
-            if (!document.querySelector(`.mx-incubator.mx-offscreen`)?.childElementCount) {
+        const observedIncubator = document.querySelector(`.mx-incubator.mx-offscreen`);
+        const observer = new MutationObserver((_mutationList, _observer) => {
+            if (!observedIncubator?.childElementCount) {
                 setIsIncubator(false);
             }
         });
-        const observedIncubator = document.querySelector(`.mx-incubator.mx-offscreen`);
+
         if (observedIncubator && observedIncubator.childElementCount) {
             observer.observe(observedIncubator, {
                 childList: true
