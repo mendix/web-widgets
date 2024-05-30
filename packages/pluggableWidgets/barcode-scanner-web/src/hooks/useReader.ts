@@ -34,59 +34,66 @@ export const useReader: UseReaderHook = args => {
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const stopped = useRef<boolean>(false);
+    const reader = useRef<BrowserMultiFormatReader>();
     const checkNotFound = (error: any): boolean => {
         const ifNotFound = error instanceof NotFoundException;
         return ifNotFound && !stopped.current;
     };
 
+    const loop = (
+        resolve: (value: Result) => void,
+        reject: (reason?: Error) => void,
+        captureCanvas: HTMLCanvasElement,
+        videoCropWidth: number,
+        videoCropHeight: number
+    ): void => {
+        try {
+            const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
+            if (canvasContext !== null) {
+                canvasContext.drawImage(
+                    videoRef.current!,
+                    (videoRef.current!.videoWidth - videoCropWidth) / 2,
+                    (videoRef.current!.videoHeight - videoCropHeight) / 2,
+                    videoCropWidth,
+                    videoCropHeight,
+                    0,
+                    0,
+                    videoCropWidth,
+                    videoCropHeight
+                );
+                const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
+                const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
+                const result = reader.current!.decodeBitmap(binaryBitmap);
+                resolve(result);
+            }
+        } catch (error) {
+            if (checkNotFound(error)) {
+                setTimeout(() => loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight), 50);
+            } else {
+                reject(error);
+            }
+        }
+    };
+
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
         const element = document.getElementById("canvas-middle-middle")!;
 
-        const aspectRatioWidth = videoRef.current!.clientWidth / videoRef.current!.clientHeight;
-        const widthHeigher = videoRef.current!.videoWidth > videoRef.current!.videoHeight;
-
+        const aspectRatioClient = videoRef.current!.clientWidth / videoRef.current!.clientHeight;
+        const aspectRatioVideo = videoRef.current!.videoWidth / videoRef.current!.videoHeight;
         let videoCropWidth = (element.clientWidth / videoRef.current!.clientWidth) * videoRef.current!.videoWidth;
         let videoCropHeight = (element.clientHeight / videoRef.current!.clientHeight) * videoRef.current!.videoHeight;
 
-        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-        captureCanvas.width = videoCropWidth;
-        captureCanvas.height = videoCropWidth;
-
-        if (widthHeigher) {
-            videoCropWidth = videoCropWidth / aspectRatioWidth;
-        } else {
+        if (aspectRatioVideo < aspectRatioClient) {
             videoCropHeight = videoCropWidth;
+        } else {
+            videoCropWidth = videoCropHeight;
         }
 
-        const loop = (resolve: (value: Result) => void, reject: (reason?: Error) => void): void => {
-            try {
-                const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
-                if (canvasContext !== null) {
-                    canvasContext.drawImage(
-                        videoRef.current!,
-                        (videoRef.current!.videoWidth - videoCropWidth) / 2,
-                        (videoRef.current!.videoHeight - videoCropHeight) / 2,
-                        videoCropWidth,
-                        videoCropHeight,
-                        0,
-                        0,
-                        videoCropWidth,
-                        videoCropHeight
-                    );
-                    const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
-                    const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
-                    const result = reader.decodeBitmap(binaryBitmap);
-                    resolve(result);
-                }
-            } catch (error) {
-                if (checkNotFound(error)) {
-                    setTimeout(() => loop(resolve, reject), 50);
-                } else {
-                    reject(error);
-                }
-            }
-        };
-        return new Promise(loop);
+        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
+        captureCanvas.width = videoCropWidth;
+        captureCanvas.height = videoCropHeight;
+
+        return new Promise((resolve, reject) => loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight));
     };
 
     useEffect(() => {
@@ -112,11 +119,12 @@ export const useReader: UseReaderHook = args => {
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         hints.set(DecodeHintType.ENABLE_CODE_39_EXTENDED_MODE, true);
-        const reader = new BrowserMultiFormatReader(hints, 500);
+        const newReader = new BrowserMultiFormatReader(hints, 500);
+        reader.current = newReader;
         const stop = (): void => {
             stopped.current = true;
-            reader.stopAsyncDecode();
-            reader.reset();
+            newReader.stopAsyncDecode();
+            newReader.reset();
         };
         const start = async (): Promise<void> => {
             let stream;
@@ -129,9 +137,9 @@ export const useReader: UseReaderHook = args => {
                         videoRef.current.autofocus = true;
                         videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
-                        result = await scanWithCropOnce(reader);
+                        result = await scanWithCropOnce(newReader);
                     } else {
-                        result = await reader.decodeOnceFromStream(stream, videoRef.current);
+                        result = await newReader.decodeOnceFromStream(stream, videoRef.current);
                     }
                     if (!stopped.current) {
                         onSuccess(result.getText());
