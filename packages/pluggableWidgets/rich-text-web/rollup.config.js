@@ -28,10 +28,14 @@ function copyTinyMCEDirToDist(outDir) {
                 transform: src => {},
                 overwrite: true,
                 filter: [
-                    "**/skins/content/default/*",
-                    "**/skins/content/dark/*",
+                    "**/skins/content/default/*.js",
+                    "**/skins/content/default/*.min.css",
+                    "**/skins/content/dark/*.js",
+                    "**/skins/content/dark/*.min.css",
                     "**/skins/ui/oxide/*.min.*",
-                    "**/plugins/**/*.*",
+                    "**/skins/ui/oxide/*.js*",
+                    "**/plugins/**/index.js",
+                    "**/plugins/**/*.min.*",
                     "**/tinymce.js"
                 ]
             });

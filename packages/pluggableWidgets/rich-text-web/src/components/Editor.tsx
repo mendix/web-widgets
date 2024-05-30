@@ -4,9 +4,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import type { EditorEvent, Editor as TinyMCEEditor } from "tinymce";
 
 import "react-dom";
-import "../utils/plugins";
 import { RichTextContainerProps } from "typings/RichTextProps";
-import { DEFAULT_CONFIG, API_KEY } from "../utils/constants";
+import { API_KEY, DEFAULT_CONFIG } from "../utils/constants";
+import "../utils/plugins";
 
 type EditorState = "loading" | "ready";
 
@@ -49,10 +49,11 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
     useEffect(() => {
         setTimeout(() => {
             setCanRenderEditor(true);
-        }, 100);
+        }, 50);
     }, []);
+
     useEffect(() => {
-        if (stringAttribute?.status === "available" && editorState === "ready") {
+        if (editorState === "ready") {
             setEditorValue(stringAttribute.value ?? "");
         }
     }, [stringAttribute.value, stringAttribute.status, editorState]);
@@ -70,7 +71,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
 
     const onEditorBlur = useCallback(
         (_event: EditorEvent<null>, editor: TinyMCEEditor) => {
-            if (editorRef.current && stringAttribute?.status === "available" && editorState === "ready") {
+            if (editorRef.current && editorState === "ready") {
                 stringAttribute?.setValue(editorValue);
 
                 if (onBlur?.canExecute) {
@@ -109,6 +110,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [editorState]
     );
+
     if (!canRenderEditor) {
         // this is to make sure that tinymce.init is ready to be triggered on the page
         // react page needs "mx-progress" a couple of milisecond to be rendered
@@ -148,7 +150,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 height: props.editorHeight,
                 width: props.editorWidth,
                 contextmenu: props.contextmenutype === "richtext" ? "cut copy paste pastetext | link selectall" : false,
-                content_css: props.content_css?.value,
+                content_css: props.content_css?.value || undefined,
                 convert_unsafe_embeds: true,
                 sandbox_iframes: true
             }}
