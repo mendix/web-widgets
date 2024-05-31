@@ -103,9 +103,26 @@ export function getPreview(values: AreaChartPreviewProps, isDarkMode: boolean): 
     } as ContainerProps;
 
     return {
-        type: "RowLayout",
-        columnSize: "fixed",
-        children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
+        type: "Container",
+        children: [
+            {
+                type: "RowLayout",
+                columnSize: "fixed",
+                children: [
+                    { ...filler },
+                    {
+                        type: "DropZone",
+                        property: values.playground,
+                        placeholder: "Playground slot"
+                    }
+                ]
+            },
+            {
+                type: "RowLayout",
+                columnSize: "fixed",
+                children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
+            }
+        ]
     };
 }
 
