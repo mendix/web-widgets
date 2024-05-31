@@ -27,6 +27,7 @@ type UseReaderHook = (args: {
     useCrop: boolean;
     barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
+    canvasMiddleRef?: HTMLDivElement;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
@@ -49,11 +50,11 @@ export const useReader: UseReaderHook = args => {
     ): void => {
         try {
             const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
-            if (canvasContext !== null) {
+            if (canvasContext !== null && videoRef.current !== null && reader.current !== undefined) {
                 canvasContext.drawImage(
-                    videoRef.current!,
-                    (videoRef.current!.videoWidth - videoCropWidth) / 2,
-                    (videoRef.current!.videoHeight - videoCropHeight) / 2,
+                    videoRef.current,
+                    (videoRef.current.videoWidth - videoCropWidth) / 2,
+                    (videoRef.current.videoHeight - videoCropHeight) / 2,
                     videoCropWidth,
                     videoCropHeight,
                     0,
@@ -63,7 +64,7 @@ export const useReader: UseReaderHook = args => {
                 );
                 const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
                 const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
-                const result = reader.current!.decodeBitmap(binaryBitmap);
+                const result = reader.current.decodeBitmap(binaryBitmap);
                 resolve(result);
             }
         } catch (error) {
@@ -76,24 +77,31 @@ export const useReader: UseReaderHook = args => {
     };
 
     const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
-        const element = document.getElementById("canvas-middle-middle")!;
+        if (videoRef.current && args.canvasMiddleRef) {
+            const aspectRatioClient = videoRef.current.clientWidth / videoRef.current.clientHeight;
+            const aspectRatioVideo = videoRef.current.videoWidth / videoRef.current.videoHeight;
 
-        const aspectRatioClient = videoRef.current!.clientWidth / videoRef.current!.clientHeight;
-        const aspectRatioVideo = videoRef.current!.videoWidth / videoRef.current!.videoHeight;
-        let videoCropWidth = (element.clientWidth / videoRef.current!.clientWidth) * videoRef.current!.videoWidth;
-        let videoCropHeight = (element.clientHeight / videoRef.current!.clientHeight) * videoRef.current!.videoHeight;
+            let videoCropWidth =
+                (args.canvasMiddleRef.clientWidth / videoRef.current.clientWidth) * videoRef.current.videoWidth;
+            let videoCropHeight =
+                (args.canvasMiddleRef.clientHeight / videoRef.current.clientHeight) * videoRef.current.videoHeight;
 
-        if (aspectRatioVideo < aspectRatioClient) {
-            videoCropHeight = videoCropWidth;
+            if (aspectRatioVideo < aspectRatioClient) {
+                videoCropHeight = videoCropWidth;
+            } else {
+                videoCropWidth = videoCropHeight;
+            }
+
+            const captureCanvas = reader.createCaptureCanvas(videoRef.current);
+            captureCanvas.width = videoCropWidth;
+            captureCanvas.height = videoCropHeight;
+
+            return new Promise((resolve, reject) =>
+                loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight)
+            );
         } else {
-            videoCropWidth = videoCropHeight;
+            return Promise.reject();
         }
-
-        const captureCanvas = reader.createCaptureCanvas(videoRef.current!);
-        captureCanvas.width = videoCropWidth;
-        captureCanvas.height = videoCropHeight;
-
-        return new Promise((resolve, reject) => loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight));
     };
 
     useEffect(() => {
@@ -115,7 +123,7 @@ export const useReader: UseReaderHook = args => {
                 BarcodeFormat.PDF_417
             ];
         } else {
-            formats = args.barcodeFormats!.map(val => BarcodeFormat[val.barcodeFormat]);
+            if (args.barcodeFormats) formats = args.barcodeFormats.map(val => BarcodeFormat[val.barcodeFormat]);
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         hints.set(DecodeHintType.ENABLE_CODE_39_EXTENDED_MODE, true);

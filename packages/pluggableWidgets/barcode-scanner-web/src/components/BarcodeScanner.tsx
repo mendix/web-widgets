@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useState } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
@@ -12,12 +12,14 @@ interface BarcodeScannerOverlayProps extends Dimensions {
     showMask: boolean;
     class: string;
     children?: ReactNode;
+    canvasMiddleMiddleRef?: (ref: HTMLDivElement | null) => void;
 }
 
 export function BarcodeScannerOverlay({
     children,
     class: className,
     showMask,
+    canvasMiddleMiddleRef,
     ...dimensions
 }: BarcodeScannerOverlayProps): ReactElement {
     return (
@@ -29,7 +31,13 @@ export function BarcodeScannerOverlay({
                         <div className={classNames("canvas-left", "canvas-background")} />
                         <div className={classNames("canvas-middle")}>
                             <div className={classNames("canvas-middle-top", "canvas-background")} />
-                            <div id={"canvas-middle-middle"} className={classNames("canvas-middle-middle")}>
+                            <div
+                                ref={ref => {
+                                    if (canvasMiddleMiddleRef !== undefined) canvasMiddleMiddleRef(ref);
+                                }}
+                                id={"canvas-middle-middle"}
+                                className={classNames("canvas-middle-middle")}
+                            >
                                 <div className={classNames("corner", "corner-top-left")} />
                                 <div className={classNames("corner", "corner-top-right")} />
                                 <div className={classNames("corner", "corner-bottom-right")} />
@@ -62,12 +70,14 @@ export function BarcodeScanner({
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
+    const [canvasMiddleRef, setCanvasMiddleRef] = useState<HTMLDivElement>();
     const videoRef = useReader({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
         barcodeFormats,
-        useAllFormats
+        useAllFormats,
+        canvasMiddleRef
     });
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
@@ -95,7 +105,14 @@ export function BarcodeScanner({
     }
 
     return (
-        <BarcodeScannerOverlay class={className} showMask={showMask} {...dimensions}>
+        <BarcodeScannerOverlay
+            class={className}
+            showMask={showMask}
+            canvasMiddleMiddleRef={ref => {
+                if (ref !== null) setCanvasMiddleRef(ref);
+            }}
+            {...dimensions}
+        >
             <video className="video" ref={videoRef} onCanPlay={onCanPlay} />
         </BarcodeScannerOverlay>
     );
