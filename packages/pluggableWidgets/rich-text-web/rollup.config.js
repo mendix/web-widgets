@@ -10,38 +10,23 @@ const widgetPackage = widgetPackageJson.packagePath;
 const outWidgetDir = join(widgetPackage.replace(/\./g, "/"), widgetName.toLowerCase());
 const absoluteOutPackageDir = join(outDir, outWidgetDir);
 
-const PROD_FILTER_PLUGINS_THEMES = [
+const FILTER_PLUGINS_THEMES = [
     "**/skins/content/default/*.js",
-    "**/skins/content/default/*.min.css",
+    "**/skins/content/default/content.css",
     "**/skins/content/dark/*.js",
-    "**/skins/content/dark/*.min.css",
-    "**/skins/ui/oxide/*.min.*",
+    "**/skins/content/dark/content.css",
+    "**/skins/ui/oxide/*.min.css",
     "**/skins/ui/oxide/*.js*",
     "**/plugins/**/index.js",
-    "**/plugins/**/*.min.*",
-    "**/tinymce.js"
-];
-
-const DEV_FILTER_PLUGINS_THEMES = [
-    "**/skins/content/default/*",
-    "**/skins/content/dark/*",
-    "**/skins/ui/oxide/*.*",
-    "**/plugins/**/*.*",
-    "**/tinymce.js"
+    "**/plugins/**/plugin.js",
+    "**/tinymce.min.js"
 ];
 
 export default args => {
     const result = args.configDefaultConfig;
-    const production = Boolean(args.configProduction);
     return result.map((config, index) => {
         if (index === 0) {
-            config.plugins = [
-                ...config.plugins,
-                copyTinyMCEDirToDist(
-                    absoluteOutPackageDir,
-                    production ? PROD_FILTER_PLUGINS_THEMES : DEV_FILTER_PLUGINS_THEMES
-                )
-            ];
+            config.plugins = [...config.plugins, copyTinyMCEDirToDist(absoluteOutPackageDir, FILTER_PLUGINS_THEMES)];
         }
         config.plugins.push(json());
         return config;
