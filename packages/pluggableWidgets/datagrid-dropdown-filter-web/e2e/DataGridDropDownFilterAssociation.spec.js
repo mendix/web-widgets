@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("datagrid-dropdown-filter-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/associations-filter");
@@ -66,52 +71,62 @@ test.describe("datagrid-dropdown-filter-web", () => {
     });
 
     test.describe("keep state of checked options", () => {
-        const rows = () => page.$$(".mx-name-datagrid1 .tr");
-        const select = () => page.getByRole("textbox", { name: "Filter" });
-        const menu = () => page.$("text=Environmental scientist");
-        const option1 = () => page.getByRole("menuitem", { name: "Environmental scientist" });
-        const option2 = () => page.getByRole("menuitem", { name: "Trader" });
-        const clickOutside = async () => (await page.$("body")).click();
-
         test("open menu with no options selected", async ({ page }) => {
+            const select = () => page.locator(".mx-name-drop_downFilter1 input");
+            const menu = () => page.getByRole("menuitem", { name: "Environmental scientist" });
+            const clickOutside = async () => (await page.locator("body")).click();
+
             await select().click();
-            const checkedOptions = await menu().$$("input:checked");
-            expect(checkedOptions.length).toBe(0);
+            const checkedOptions = await menu().locator("input:checked");
+            await expect(checkedOptions).toHaveCount(0);
             await clickOutside();
             await expect(menu()).not.toBeVisible();
         });
 
         test("keep option checked after menu closed", async ({ page }) => {
+            const rows = () => page.locator(".mx-name-dataGrid21 [role=row]");
+            const select = () => page.locator(".mx-name-drop_downFilter1 input");
+            const menu = () => page.getByRole("menuitem", { name: "Environmental scientist" });
+            const option1 = () => page.getByRole("menuitem", { name: "Environmental scientist" });
+            const clickOutside = async () => (await page.locator("body")).click();
+
             await select().click();
             await option1().click();
-            const checkedOptions = await menu().$$("input:checked");
-            expect(checkedOptions.length).toBe(1);
-            await expect(checkedOptions[0]).toBeChecked();
+            const checkedOptions = await menu().locator("input:checked");
+            await expect(checkedOptions).toHaveCount(1);
+            await expect(checkedOptions.first()).toBeChecked();
             await clickOutside();
             await expect(menu()).not.toBeVisible();
-            expect((await rows()).length).toBe(9); // 8 rows + 1 header row
+            await expect(rows()).toHaveCount(9); // 8 rows + 1 header row
             await select().click();
-            const checkedOptionsAfterReopen = await menu().$$("input:checked");
-            expect(checkedOptionsAfterReopen.length).toBe(1);
-            await expect(checkedOptionsAfterReopen[0]).toBeChecked();
+            const checkedOptionsAfterReopen = await menu().locator("input:checked");
+            await expect(checkedOptionsAfterReopen).toHaveCount(1);
+            await expect(checkedOptionsAfterReopen.first()).toBeChecked();
         });
 
         test("keep multiple options checked after menu closed", async ({ page }) => {
+            const rows = () => page.locator(".mx-name-dataGrid21 [role=row]");
+            const select = () => page.locator(".mx-name-drop_downFilter1 input");
+            const menu = () => page.locator(".mx-name-drop_downFilter1 .dropdown-list");
+            const option1 = () => page.getByRole("menuitem", { name: "Environmental scientist" });
+            const option2 = () => page.getByRole("menuitem", { name: "Trader" });
+            const clickOutside = async () => (await page.locator("body")).click();
+
             await select().click();
             await option1().click();
             await option2().click();
-            const checkedOptions = await menu().$$("input:checked");
-            expect(checkedOptions.length).toBe(2);
-            await expect(checkedOptions[0]).toBeChecked();
-            await expect(checkedOptions[1]).toBeChecked();
+            const checkedOptions = await menu().locator("input:checked");
+            await expect(checkedOptions).toHaveCount(2);
+            await expect(checkedOptions.first()).toBeChecked();
+            await expect(checkedOptions.nth(1)).toBeChecked();
             await clickOutside();
             await expect(menu()).not.toBeVisible();
-            expect((await rows()).length).toBe(11); // 10 rows + 1 header row
+            expect(rows()).toHaveCount(11); // 10 rows + 1 header row
             await select().click();
-            const checkedOptionsAfterReopen = await menu().$$("input:checked");
-            expect(checkedOptionsAfterReopen.length).toBe(2);
-            await expect(checkedOptionsAfterReopen[0]).toBeChecked();
-            await expect(checkedOptionsAfterReopen[1]).toBeChecked();
+            const checkedOptionsAfterReopen = await menu().locator("input:checked");
+            await expect(checkedOptionsAfterReopen).toHaveCount(2);
+            await expect(checkedOptionsAfterReopen.first()).toBeChecked();
+            await expect(checkedOptionsAfterReopen.nth(1)).toBeChecked();
         });
     });
 });
