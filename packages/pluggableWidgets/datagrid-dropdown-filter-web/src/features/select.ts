@@ -39,9 +39,12 @@ export function useSelectState(options: Option[], initialSelected: OptionValue[]
                     }
                     return new Set(prev);
                 }),
-            reset: () => setState(new Set())
+            reset: (...args: any[]) => {
+                const [setDefault] = args;
+                setState(new Set(setDefault ? initialSelected : undefined));
+            }
         }),
-        []
+        [initialSelected]
     );
 
     const inputValue = getInputValue(state, options);

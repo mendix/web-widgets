@@ -20,7 +20,7 @@ type Actions<TValue, TFilterEnum> = {
     setInputValue: (arg: string) => void;
     setFilterFn: (arg: TFilterEnum) => void;
     dangerous_setValueAndDoNotDispatch: (arg: Optional<TValue>) => void;
-    reset: () => void;
+    reset: (...args: any[]) => void;
 };
 
 type FilterListener<TValue, TFilterEnum> = (value: TValue, filterFn: TFilterEnum) => void;
@@ -49,10 +49,12 @@ class ValueFilterStore<TValue, TFilterEnum = FilterFunction> {
     private filterListener: FilterListener<Optional<TValue>, TFilterEnum> | undefined;
     private stateListener: StateListener<TFilterEnum> | undefined;
     private _value: Optional<TValue>;
+    private _defaultValue: Optional<TValue>;
     state: State<TFilterEnum>;
     dispatchOnMounted: boolean;
 
     constructor(params: Params<Optional<TValue>, TFilterEnum>) {
+        this._defaultValue = params.defaultValue;
         this._value = params.defaultValue;
         this.filterListener = params.onFilterChange;
         this.dispatchOnMounted = params.dispatchOnMounted;
@@ -113,8 +115,9 @@ class ValueFilterStore<TValue, TFilterEnum = FilterFunction> {
         return true;
     }
 
-    reset(): void {
-        if (this.dangerous_setValueAndDoNotDispatch(undefined)) {
+    reset(...args: any[]): void {
+        const [setDefault] = args;
+        if (this.dangerous_setValueAndDoNotDispatch(setDefault ? this._defaultValue : undefined)) {
             this.dispatchValue();
         }
     }
@@ -167,7 +170,7 @@ export function useValueFilterState<TValue, TFilterEnum>(
             setInputValue: arg => store.setInputValue(arg),
             setFilterFn: arg => store.setFilterFn(arg),
             dangerous_setValueAndDoNotDispatch: arg => store.dangerous_setValueAndDoNotDispatch(arg),
-            reset: () => store.reset()
+            reset: args => store.reset(args)
         }),
         []
     );

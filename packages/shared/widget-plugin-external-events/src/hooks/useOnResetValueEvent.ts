@@ -6,7 +6,7 @@ type Params = {
     /** Widget name in settings. */
     widgetName: string;
     /** Event listener callback. */
-    listener: () => void;
+    listener: (...args: any[]) => void;
     /** Event channel name from parent */
     parentChannelName?: string;
 };
