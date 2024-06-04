@@ -3,3 +3,4 @@
  * NOTE: Don't include any external deps. They will be bundled into preview.
  */
 export * from "./components/ChartPreview";
+export * from "./utils/preview-utils";
