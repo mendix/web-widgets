@@ -4,6 +4,7 @@ export interface ChartPreviewProps {
     class: string;
     showLegend: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    showPlaygroundSlot?: boolean;
     image: React.ReactNode;
     legend: React.ReactNode;
 }
@@ -11,8 +12,15 @@ export interface ChartPreviewProps {
 export function ChartPreview(props: ChartPreviewProps): React.ReactElement {
     const { renderer: PlaygroundSlog } = props.playground ?? { renderer: () => null };
     return (
-        <div style={{ display: "inline-flex", flexFlow: "column nowrap", position: "relative" }}>
-            <PlaygroundSlog caption="Playground slot">{dropzone()}</PlaygroundSlog>
+        <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
+            <div
+                style={{
+                    display: props.showPlaygroundSlot ? "flex" : "none",
+                    alignSelf: "end"
+                }}
+            >
+                <PlaygroundSlog caption="Playground slot">{dropzone()}</PlaygroundSlog>
+            </div>
             <Chart {...props} />
         </div>
     );
@@ -43,4 +51,4 @@ function Chart(props: ChartPreviewProps): React.ReactElement {
 }
 
 // Preview don't support React component as children. So we forced to use plain function.
-const dropzone = (): React.ReactNode => <div style={{ alignSelf: "end", padding: 10, width: 135, height: 58 }} />;
+const dropzone = (): React.ReactNode => <div style={{ padding: 10, width: 135, height: 58 }} />;

@@ -1,30 +1,36 @@
 import {
-    ContainerProps,
-    ImageProps,
-    StructurePreviewProps,
-    datasource
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
+    Problem,
+    Properties,
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
-    Problem,
-    Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
+import {
+    ContainerProps,
+    ImageProps,
+    StructurePreviewProps,
+    rowLayout,
+    datasource
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { AreaChartPreviewProps } from "../typings/AreaChartProps";
 
-import AreaChartLightSvg from "./assets/AreaChart.light.svg";
-import AreaChartDarkSvg from "./assets/AreaChart.dark.svg";
-import AreaChartLegendLightSvg from "./assets/AreaChart-legend.light.svg";
 import AreaChartLegendDarkSvg from "./assets/AreaChart-legend.dark.svg";
+import AreaChartLegendLightSvg from "./assets/AreaChart-legend.light.svg";
+import AreaChartDarkSvg from "./assets/AreaChart.dark.svg";
+import AreaChartLightSvg from "./assets/AreaChart.light.svg";
 
 export function getProperties(
     values: AreaChartPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
+
     values.series.forEach((line, index) => {
         if (line.dataSet === "static") {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -102,32 +108,17 @@ export function getPreview(values: AreaChartPreviewProps, isDarkMode: boolean): 
         children: []
     } as ContainerProps;
 
-    return {
-        type: "Container",
-        children: [
-            {
-                type: "RowLayout",
-                columnSize: "fixed",
-                children: [
-                    { ...filler },
-                    {
-                        type: "DropZone",
-                        property: values.playground,
-                        placeholder: "Playground slot"
-                    }
-                ]
-            },
-            {
-                type: "RowLayout",
-                columnSize: "fixed",
-                children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
-            }
-        ]
-    };
+    const chart: StructurePreviewProps = rowLayout({
+        columnSize: "fixed"
+    })(...(values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]));
+
+    return withPlaygroundSlot(values, chart);
 }
 
 export function check(values: AreaChartPreviewProps): Problem[] {
-    const errors: Problem[] = [];
+    const errors: Array<Problem | Problem[]> = [];
+
+    errors.push(checkSlot(values));
 
     values.series.forEach((line, index) => {
         if (line.dataSet === "static" && line.staticDataSource) {
@@ -159,7 +150,7 @@ export function check(values: AreaChartPreviewProps): Problem[] {
             }
         }
     });
-    return errors;
+    return errors.flat();
 }
 
 export function getCustomCaption(values: AreaChartPreviewProps): string {
