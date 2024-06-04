@@ -68,6 +68,7 @@ export interface BarChartContainerProps {
     tabIndex?: number;
     series: SeriesType[];
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground?: ReactNode;
     xAxisLabel?: DynamicValue<string>;
     yAxisLabel?: DynamicValue<string>;
@@ -94,6 +95,7 @@ export interface BarChartPreviewProps {
     readOnly: boolean;
     series: SeriesPreviewType[];
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     xAxisLabel: string;
     yAxisLabel: string;
