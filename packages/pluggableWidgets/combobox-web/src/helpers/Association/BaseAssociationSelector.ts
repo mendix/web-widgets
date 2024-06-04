@@ -1,4 +1,4 @@
-import { ObjectItem, ReferenceValue, ReferenceSetValue, ActionValue, ValueStatus } from "mendix";
+import { ActionValue, ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue, ValueStatus } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -36,6 +36,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             attr,
             ds,
             captionProvider,
+            captionType,
             emptyOption,
             clearable,
             filterType,
@@ -62,7 +63,9 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.options._updateProps({
             attr,
             ds,
-            filterType
+            filterType,
+            lazyLoading,
+            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         if (

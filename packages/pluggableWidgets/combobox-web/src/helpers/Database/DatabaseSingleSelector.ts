@@ -1,4 +1,4 @@
-import { ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
+import { ListAttributeValue, ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -42,6 +42,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             attr,
             ds,
             captionProvider,
+            captionType,
             emptyOption,
             clearable,
             filterType,
@@ -71,7 +72,9 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
 
         this.options._updateProps({
             ds,
-            filterType
+            filterType,
+            lazyLoading,
+            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         this.values.updateProps({

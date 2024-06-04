@@ -12,13 +12,15 @@ import {
     ComboboxContainerProps,
     FilterTypeEnum,
     LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceAssociationCustomContentTypeEnum,
+    OptionsSourceAssociationCaptionTypeEnum
 } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [
     ReferenceValue | ReferenceSetValue,
     ListValue,
     ListAttributeValue<string> | ListExpressionValue<string>,
+    OptionsSourceAssociationCaptionTypeEnum,
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
@@ -69,6 +71,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         attr,
         ds,
         captionType === "attribute" ? captionAttribute! : captionExpression!,
+        captionType,
         emptyOption,
         clearable,
         filterType,

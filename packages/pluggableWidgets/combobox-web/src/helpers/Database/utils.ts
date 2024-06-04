@@ -11,7 +11,8 @@ import {
     ComboboxContainerProps,
     FilterTypeEnum,
     LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceAssociationCustomContentTypeEnum,
+    OptionsSourceDatabaseCaptionTypeEnum
 } from "../../../typings/ComboboxProps";
 import Big from "big.js";
 
@@ -19,6 +20,7 @@ type ExtractionReturnValue = [
     EditableValue<string | Big>,
     ListValue,
     ListAttributeValue<string> | ListExpressionValue<string> | undefined,
+    OptionsSourceDatabaseCaptionTypeEnum,
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
@@ -71,6 +73,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         attr,
         ds,
         captionType === "attribute" ? captionAttribute : captionExpression,
+        captionType,
         emptyOption,
         clearable,
         filterType,
