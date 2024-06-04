@@ -13,13 +13,14 @@ import { Big } from "big.js";
 
 /**
  * @param {string} targetName - Name of the filter to reset. Valid targets are: Number filter, Date filter, Text filter, Drop-down filter. You can find filter name in widget settings in the "Common" group (Properties>Common>Name).
+ * @param {boolean} setToDefault - Set to default value
  * @returns {Promise.<void>}
  */
-export async function Reset_Filter(targetName) {
+export async function Reset_Filter(targetName, setToDefault) {
 	// BEGIN USER CODE
     const plugin = window["com.mendix.widgets.web.plugin.externalEvents"];
     if (plugin) {
-        plugin.emit(targetName, "reset.value");
+        plugin.emit(targetName, "reset.value", setToDefault);
     }
 	// END USER CODE
 }

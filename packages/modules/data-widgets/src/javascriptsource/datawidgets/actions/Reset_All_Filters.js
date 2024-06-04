@@ -13,13 +13,14 @@ import "mx-global";
 
 /**
  * @param {string} targetName - Name of the widget for which filters should be reset. Valid targets are: Data grid 2, Gallery. You can find filter name in widget settings in the "Common" group (Properties>Common>Name).
+ * @param {boolean} setToDefault - Set to default value
  * @returns {Promise.<void>}
  */
-export async function Reset_All_Filters(targetName) {
+export async function Reset_All_Filters(targetName, setToDefault) {
 	// BEGIN USER CODE
     const plugin = window["com.mendix.widgets.web.plugin.externalEvents"];
     if (plugin) {
-        plugin.emit(targetName, "reset.filters");
+        plugin.emit(targetName, "reset.filters", setToDefault);
     }
 	// END USER CODE
 }

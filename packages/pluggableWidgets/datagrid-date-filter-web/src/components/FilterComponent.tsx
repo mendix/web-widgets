@@ -35,10 +35,14 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
     const [value, setValue] = useState<Date | undefined>(props.defaultValue);
     const [rangeValues, setRangeValues] = useState<RangeDateValue>([props.defaultStartDate, props.defaultEndDate]);
     const pickerRef = useRef<DatePickerComponent | null>(null);
-    const reset = useCallback(() => {
-        setValue(undefined);
-        setRangeValues([undefined, undefined]);
-    }, []);
+    const reset = useCallback(
+        (...args: any[]) => {
+            const [setDefault] = args;
+            setValue(setDefault ? props.defaultValue : undefined);
+            setRangeValues(setDefault ? [props.defaultStartDate, props.defaultEndDate] : [undefined, undefined]);
+        },
+        [props.defaultValue, props.defaultStartDate, props.defaultEndDate]
+    );
 
     useOnResetValueEvent({
         widgetName: props.name,

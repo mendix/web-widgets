@@ -7,7 +7,9 @@ export function useOnResetFiltersEvent(inputChannel: string, broadcastChannel: s
         useRef<Parameters<typeof useTransmit>[0]>({
             inputChannel,
             event: $events.reset.filters,
-            onEvent: emit => emit(broadcastChannel, $events.reset.value)
+            onEvent: (emit, args) => {
+                emit(broadcastChannel, $events.reset.value, ...args);
+            }
         }).current
     );
 }
