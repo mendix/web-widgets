@@ -1,8 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("Range Slider", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test("renders slider with interval context", async ({ page }) => {
@@ -19,8 +25,8 @@ test.describe("Range Slider", () => {
 
     test("upper bound value is higher than lower bound value", async ({ page }) => {
         await expect(page.locator(".mx-name-rangeSlider1")).toBeVisible();
-        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-handle")).toBeVisible();
-        const handles = await page.locator(".mx-name-rangeSlider1 .rc-slider-handle").allInnerElements();
+        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-handle").first()).toBeVisible();
+        const handles = await page.locator(".mx-name-rangeSlider1 .rc-slider-handle").all();
         const [lowerBound, upperBound] = handles;
         const lowerBoundSizes = await lowerBound.boundingBox();
         const upperBoundSizes = await upperBound.boundingBox();

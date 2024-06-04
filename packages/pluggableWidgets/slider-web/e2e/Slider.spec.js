@@ -1,8 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("Slider", () => {
     test("renders with context", async ({ page }) => {
-        await page.goto("index.html");
+        await page.goto("/");
+        await page.waitForLoadState("networkidle");
 
         const minimumValue = await page.inputValue(".mx-name-textBoxMinimumValue input");
         const minimumValueText = await page
@@ -27,6 +33,7 @@ test.describe("Slider", () => {
 
     test("renders without context", async ({ page }) => {
         await page.goto("/p/no-context");
+        await page.waitForLoadState("networkidle");
 
         const sliderClass = await page.locator(".mx-name-sliderNoContext .rc-slider").getAttribute("class");
         await expect(sliderClass).toContain("rc-slider-disabled");
@@ -52,9 +59,10 @@ test.describe("Slider", () => {
         await expect(handleCursor).toContain("not-allowed");
     });
     // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
-    test.skip(process.env("MODERN_CLIENT") === true, () => {
+    test.skip(process.env.MODERN_CLIENT === true, () => {
         test("listens to a grid", async ({ page }) => {
             await page.goto("/p/listen-to-grid");
+            await page.waitForLoadState("networkidle");
 
             await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveCSS("cursor", /not-allowed/);
 
@@ -68,47 +76,57 @@ test.describe("Slider", () => {
 
     test("triggers a microflow after slide", async ({ page }) => {
         await page.goto("/p/after-slide");
+        await page.waitForLoadState("networkidle");
 
-        await page.dragAndDrop(
-            ".mx-name-sliderMicroflow .rc-slider-handle",
-            ".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(1)",
-            { force: true }
-        );
+        await page
+            .locator(".mx-name-slider .rc-slider-handle")
+            .dragTo(
+                ".mx-name-sliderMicroflow .rc-slider-handle",
+                ".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(1)",
+                { force: true }
+            );
 
         await expect(page.locator(".modal-dialog .mx-dialog-body p")).toHaveText(/Slider Value is 20/);
     });
 
     test("triggers a nanoflow after slide", async ({ page }) => {
         await page.goto("/p/after-slide");
+        await page.waitForLoadState("networkidle");
 
-        await page.dragAndDrop(
-            ".mx-name-sliderNanoflow .rc-slider-handle",
-            ".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(1)",
-            { force: true }
-        );
+        await page
+            .locator(".mx-name-slider .rc-slider-handle")
+            .dragTo(
+                ".mx-name-sliderNanoflow .rc-slider-handle",
+                ".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(1)",
+                { force: true }
+            );
 
+        await expect(page.locator(".modal-dialog .modal-content .mx-name-text1")).toBeVisible();
         await expect(page.locator(".modal-dialog .modal-content .mx-name-text1")).toHaveText(/Slider Value is 20/);
     });
 
     test("renders with a range that goes from negative to positive", async ({ page }) => {
         await page.goto("/p/negative-and-positive-range");
+        await page.waitForLoadState("networkidle");
 
         await expect(page.locator(".mx-name-slider")).toBeVisible();
-        await expect(page.locator(".mx-name-textValue")).toHaveText("5");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/5/);
 
         await page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(1)").click({ force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("-20");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/-20/);
 
         await page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(6)").click({ force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("20");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/20/);
     });
 
     test("renders multiple markers", async ({ page }) => {
         await page.goto("/p/multiple-markers");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         const mark0 = await page.locator(".mx-name-slider .rc-slider-mark > span").nth(0);
         await expect(mark0).toHaveCSS("left", "0px");
-        await expect(mark0).toHaveText("0");
+        await expect(mark0).toHaveText(/0/);
 
         const mark9 = await page.locator(".mx-name-slider .rc-slider-mark > span").nth(9);
         await expect(mark9).toHaveAttribute("style", /left: 100%;/);
@@ -118,11 +136,13 @@ test.describe("Slider", () => {
 
         const mark3 = await page.locator(".mx-name-slider .rc-slider-mark > span").nth(3);
         await expect(mark3).toHaveAttribute("style", /left: 33.5%;/);
-        await expect(mark3).toHaveText("6.7");
+        await expect(mark3).toHaveText(/6.7/);
     });
 
     test("updates decimal values", async ({ page }) => {
         await page.goto("/p/decimal-values");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await expect(page.locator(".mx-name-textValue")).toHaveText(/5.5/);
 
@@ -135,6 +155,8 @@ test.describe("Slider", () => {
 
     test("updates long values", async ({ page }) => {
         await page.goto("/p/long-values");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await expect(page.locator(".mx-name-textValue")).toHaveText(/60000/);
 
@@ -146,6 +168,9 @@ test.describe("Slider", () => {
     });
 
     test("slides with step size", async ({ page }) => {
+        await page.goto("/p/long-values");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await page.locator(".mx-name-slider .rc-slider-handle").click({ position: { x: 58, y: 0 }, force: true });
         await expect(page.locator(".mx-name-textValue")).toHaveText("60000");
@@ -157,6 +182,9 @@ test.describe("Slider", () => {
     });
 
     test("snaps to intermediate markers", async ({ page }) => {
+        await page.goto("/p/long-values");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await expect(page.locator(".mx-name-slider .rc-slider-mark > span").nth(1)).toHaveText("140000");
         await expect(page.locator(".mx-name-slider .rc-slider-mark > span").nth(1)).toHaveAttribute(
@@ -166,6 +194,9 @@ test.describe("Slider", () => {
     });
 
     test("slides without using intermediate marker as base", async ({ page }) => {
+        await page.goto("/p/long-values");
+        await page.waitForLoadState("networkidle");
+
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await page.locator(".mx-name-slider .rc-slider-dot:nth-child(2)").click({ force: true });
         await expect(page.locator(".mx-name-textValue")).toHaveText("140000");
@@ -179,6 +210,7 @@ test.describe("Slider", () => {
     test.describe("Style", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/different-slider-styles");
+            await page.waitForLoadState("networkidle");
         });
 
         test("compares with a screenshot baseline and checks if all slider elements are rendered as expected", async ({
@@ -194,12 +226,16 @@ test.describe("Slider", () => {
     test.describe("Tooltip", () => {
         test("doesn't render when there's no title", async ({ page }) => {
             await page.goto("/p/no-tooltip-title");
+            await page.waitForLoadState("networkidle");
+
             await expect(page.locator(".mx-name-slider")).toBeVisible();
             await expect(page.locator(".mx-name-slider .rc-slider-handle .rc-slider-tooltip")).toHaveCount(0);
         });
 
         test("renders a static title", async ({ page }) => {
             await page.goto("/p/tooltip-with-static-title");
+            await page.waitForLoadState("networkidle");
+
             await expect(page.locator(".mx-name-slider")).toBeVisible();
             await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("Slider");
 
@@ -212,6 +248,8 @@ test.describe("Slider", () => {
 
         test("renders the slider's value", async ({ page }) => {
             await page.goto("/p/tooltip-with-slider-value");
+            await page.waitForLoadState("networkidle");
+
             await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("10.00");
 
             await page

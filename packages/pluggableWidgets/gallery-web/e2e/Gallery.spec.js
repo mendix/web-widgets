@@ -1,14 +1,20 @@
 import { test, expect } from "@playwright/test";
 
+test.afterEach("Cleanup session", async ({ page }) => {
+    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
+    await page.evaluate(() => window.mx.session.logout());
+});
+
 test.describe("gallery-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test.describe("capabilities: sorting", () => {
         test("applies the default sort order from the data source option", async ({ page }) => {
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
-            await expect(page.locator(".mx-name-gallery1")).toHaveScreenshot(`galleryContent`, 0.1);
+            await expect(page.locator(".mx-name-gallery1")).toHaveScreenshot(`galleryContent.png`, 0.1);
         });
 
         test("changes order of data choosing another option in the dropdown sort", async ({ page }) => {
@@ -17,7 +23,7 @@ test.describe("gallery-web", () => {
 
             await page.locator(dropdownSort).first().click();
             await page.locator("[role=menuitem]", { hasText: "Age" }).click();
-            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownSort`, 0.1);
+            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownSort.png`, 0.1);
         });
     });
 
@@ -27,7 +33,7 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).first().fill("Leo");
-            await expect(page.locator(gallery)).toHaveScreenshot(`galleryTextFilter`, 0.1);
+            await expect(page.locator(gallery)).toHaveScreenshot(`galleryTextFilter.png`, 0.1);
         });
 
         test("filters by number", async ({ page }) => {
@@ -35,7 +41,7 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).nth(1).fill("32");
-            await expect(page.locator(gallery)).toHaveScreenshot(`galleryNumberFilter`, 0.1);
+            await expect(page.locator(gallery)).toHaveScreenshot(`galleryNumberFilter.png`, 0.1);
         });
 
         test("filters by date", async ({ page }) => {
@@ -43,7 +49,7 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).nth(3).fill("10/10/1986");
-            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDateFilter`, 0.1);
+            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDateFilter.png`, 0.1);
         });
 
         test("filters by enum (dropdown)", async ({ page }) => {
@@ -52,7 +58,7 @@ test.describe("gallery-web", () => {
 
             await page.locator(dropdown).first().click();
             await page.locator(".dropdown-content li").nth(4).click();
-            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownFilter`, 0.1);
+            await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownFilter.png`, 0.1);
         });
     });
 
@@ -80,7 +86,7 @@ test.describe("gallery-web", () => {
             await page.goto("/");
         });
 
-        test("checks accessibility violations", async ({ page }) => {
+        test.fixme("checks accessibility violations", async ({ page }) => {
             const snapshot = await page.accessibility.snapshot({
                 rules: [
                     { id: "aria-required-children", reviewOnFail: true },

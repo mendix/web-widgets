@@ -17,7 +17,7 @@ test.describe("datagrid-text-filter-web", () => {
         }) => {
             const dataGrid = await page.locator(".mx-name-datagrid1");
             await expect(dataGrid).toBeVisible();
-            await expect(page).toHaveScreenshot(`dataGridTextFilter-${process.env.BROWSER_NAME}.png`, {
+            await expect(page).toHaveScreenshot(`dataGridTextFilter.png`, {
                 threshold: 0.1
             });
         });
