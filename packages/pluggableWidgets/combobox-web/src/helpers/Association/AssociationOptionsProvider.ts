@@ -1,6 +1,7 @@
-import { ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { ListAttributeValue, ListValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { FilterTypeEnum } from "../../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "../BaseOptionsProvider";
+import { datasourceFilter } from "../datasourceFilter";
 import { CaptionsProvider, Status, SortOrder } from "../types";
 import { DEFAULT_LIMIT_SIZE } from "../utils";
 
@@ -8,10 +9,13 @@ interface Props {
     attr: ReferenceValue | ReferenceSetValue;
     ds: ListValue;
     filterType: FilterTypeEnum;
+    lazyLoading: boolean;
+    filterId?: ListAttributeValue["id"];
 }
 
 export class AssociationOptionsProvider extends BaseOptionsProvider<ObjectItem, Props> {
     private ds?: ListValue;
+    private filterId?: ListAttributeValue["id"];
 
     constructor(caption: CaptionsProvider, private valuesMap: Map<string, ObjectItem>) {
         super(caption);
@@ -31,6 +35,21 @@ export class AssociationOptionsProvider extends BaseOptionsProvider<ObjectItem, 
 
     get hasMore(): boolean {
         return this.ds?.hasMoreItems ?? false;
+    }
+
+    getAll(): string[] {
+        if (this.lazyLoading && this.filterId) {
+            if (this.searchTerm === "") {
+                this.ds?.setFilter(undefined);
+            } else {
+                const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.filterId);
+                this.ds?.setFilter(filterCondition);
+            }
+
+            return this.options;
+        } else {
+            return this.getAllWithMatchSorter();
+        }
     }
 
     loadMore(): void {
@@ -54,6 +73,8 @@ export class AssociationOptionsProvider extends BaseOptionsProvider<ObjectItem, 
     _updateProps(props: Props): void {
         this.ds = props.ds;
         this.filterType = props.filterType;
+        this.lazyLoading = props.lazyLoading;
+        this.filterId = props.filterId;
 
         const items = this.ds.items ?? [];
 
