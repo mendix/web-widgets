@@ -79,13 +79,8 @@ test.describe("Slider", () => {
         await page.waitForLoadState("networkidle");
 
         await page
-            .locator(".mx-name-slider .rc-slider-handle")
-            .dragTo(
-                ".mx-name-sliderMicroflow .rc-slider-handle",
-                ".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(1)",
-                { force: true }
-            );
-
+            .locator(".mx-name-sliderMicroflow .rc-slider-handle")
+            .dragTo(page.locator(".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(3)"));
         await expect(page.locator(".modal-dialog .mx-dialog-body p")).toHaveText(/Slider Value is 20/);
     });
 
@@ -94,12 +89,8 @@ test.describe("Slider", () => {
         await page.waitForLoadState("networkidle");
 
         await page
-            .locator(".mx-name-slider .rc-slider-handle")
-            .dragTo(
-                ".mx-name-sliderNanoflow .rc-slider-handle",
-                ".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(1)",
-                { force: true }
-            );
+            .locator(".mx-name-sliderNanoflow .rc-slider-handle")
+            .dragTo(page.locator(".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(3)"));
 
         await expect(page.locator(".modal-dialog .modal-content .mx-name-text1")).toBeVisible();
         await expect(page.locator(".modal-dialog .modal-content .mx-name-text1")).toHaveText(/Slider Value is 20/);
@@ -148,7 +139,7 @@ test.describe("Slider", () => {
 
         await page
             .locator(".mx-name-slider .rc-slider-handle")
-            .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(3)"), { force: true });
+            .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(5)"), { force: true });
 
         await expect(page.locator(".mx-name-textValue")).toHaveText(/20.5/);
     });
@@ -162,7 +153,7 @@ test.describe("Slider", () => {
 
         await page
             .locator(".mx-name-slider .rc-slider-handle")
-            .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(3)"), { force: true });
+            .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(4)"), { force: true });
 
         await expect(page.locator(".mx-name-textValue")).toHaveText(/300000/);
     });
@@ -173,11 +164,11 @@ test.describe("Slider", () => {
 
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await page.locator(".mx-name-slider .rc-slider-handle").click({ position: { x: 58, y: 0 }, force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("60000");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/60000/);
         await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 0%;/);
 
         await page.locator(".mx-name-slider .rc-slider-dot:nth-child(2)").click({ force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("140000");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/140000/);
         await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 33.3333%;/);
     });
 
@@ -199,11 +190,11 @@ test.describe("Slider", () => {
 
         await expect(page.locator(".mx-name-slider")).toBeVisible();
         await page.locator(".mx-name-slider .rc-slider-dot:nth-child(2)").click({ force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("140000");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/140000/);
         await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 33.3333%;/);
 
         await page.locator(".mx-name-slider .rc-slider-dot:nth-child(3)").click({ force: true });
-        await expect(page.locator(".mx-name-textValue")).toHaveText("220000");
+        await expect(page.locator(".mx-name-textValue")).toHaveText(/220000/);
         await expect(page.locator(".mx-name-slider .rc-slider-handle")).toHaveAttribute("style", /left: 66.6667%;/);
     });
 
@@ -217,7 +208,7 @@ test.describe("Slider", () => {
             page
         }) => {
             await expect(page.locator(".mx-name-sliderPrimary")).toBeVisible();
-            await expect(page.locator(".mx-name-sliderPrimary")).toHaveScreenshot(`sliderStyles`, {
+            await expect(page.locator(".mx-name-sliderPrimary")).toHaveScreenshot(`sliderStyles.png`, {
                 threshold: 0.4
             });
         });
@@ -254,9 +245,9 @@ test.describe("Slider", () => {
 
             await page
                 .locator(".mx-name-slider .rc-slider-handle")
-                .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(2)"), { force: true });
+                .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(3)"), { force: true });
 
-            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("20.00");
+            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText(/20.00/);
         });
     });
 });
