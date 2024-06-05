@@ -21,12 +21,17 @@ import TimeSeriesRangeDark from "./assets/TimeSeries-range.dark.svg";
 import TimeSeriesRangeLight from "./assets/TimeSeries-range.light.svg";
 import TimeSeriesLegendDark from "./assets/TimeSeries-legend.dark.svg";
 import TimeSeriesLegendLight from "./assets/TimeSeries-legend.light.svg";
+import { withPlaygroundSlot } from "@mendix/shared-charts/preview";
 
 export function getProperties(
     values: TimeSeriesPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
+
     values.lines.forEach((line, index) => {
         // Series properties
         if (line.dataSet === "static") {
@@ -115,11 +120,13 @@ export function getPreview(values: TimeSeriesPreviewProps, isDarkMode: boolean):
         children: []
     } as ContainerProps;
 
-    return {
+    const chart: StructurePreviewProps = {
         type: "RowLayout",
         columnSize: "fixed",
         children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
     };
+
+    return withPlaygroundSlot(values, chart);
 }
 
 export function check(values: TimeSeriesPreviewProps): Problem[] {
