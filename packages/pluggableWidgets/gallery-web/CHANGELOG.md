@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where cursor couldn't be moved inside text input fields with arrow keys.
+
 ## [1.9.0] - 2024-06-19
 
 ### Fixed
