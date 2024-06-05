@@ -41,6 +41,7 @@ export interface HeatMapContainerProps {
     verticalSortAttribute?: ListAttributeValue<Big | string | Date>;
     verticalSortOrder: VerticalSortOrderEnum;
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground?: ReactNode;
     xAxisLabel?: DynamicValue<string>;
     yAxisLabel?: DynamicValue<string>;
@@ -80,6 +81,7 @@ export interface HeatMapPreviewProps {
     verticalSortAttribute: string;
     verticalSortOrder: VerticalSortOrderEnum;
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     xAxisLabel: string;
     yAxisLabel: string;

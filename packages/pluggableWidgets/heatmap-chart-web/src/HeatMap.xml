@@ -84,6 +84,10 @@
                     <caption>Enable Advanced Options</caption>
                     <description />
                 </property>
+                <property key="showPlaygroundSlot" type="boolean" defaultValue="false">
+                    <caption>Show playground slot</caption>
+                    <description />
+                </property>
                 <property key="playground" type="widgets" required="false">
                     <caption>Playground slot</caption>
                     <description />
