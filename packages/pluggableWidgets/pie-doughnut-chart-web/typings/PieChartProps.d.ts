@@ -25,6 +25,7 @@ export interface PieChartContainerProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute?: ListExpressionValue<string>;
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground?: ReactNode;
     showLegend: boolean;
     holeRadius: number;
@@ -56,6 +57,7 @@ export interface PieChartPreviewProps {
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute: string;
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showLegend: boolean;
     holeRadius: number | null;
