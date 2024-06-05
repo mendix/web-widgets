@@ -15,7 +15,7 @@ import {
     Problem
 } from "@mendix/pluggable-widgets-tools";
 
-import { HeatMapContainerProps, HeatMapPreviewProps } from "../typings/HeatMapProps";
+import { HeatMapPreviewProps } from "../typings/HeatMapProps";
 
 import HeatMapDark from "./assets/HeatMap.dark.svg";
 import HeatMapLight from "./assets/HeatMap.light.svg";
