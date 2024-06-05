@@ -14,10 +14,13 @@ export function ChartPreview(props: ChartPreviewProps): React.ReactElement {
     return (
         <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
             <div
-                style={{
-                    display: props.showPlaygroundSlot ? "flex" : "none",
-                    alignSelf: "end"
-                }}
+                style={
+                    props.showPlaygroundSlot
+                        ? undefined
+                        : {
+                              display: "none"
+                          }
+                }
             >
                 <PlaygroundSlog caption="Playground slot">{dropzone()}</PlaygroundSlog>
             </div>
@@ -51,4 +54,6 @@ function Chart(props: ChartPreviewProps): React.ReactElement {
 }
 
 // Preview don't support React component as children. So we forced to use plain function.
-const dropzone = (): React.ReactNode => <div style={{ padding: 10, width: 135, height: 58 }} />;
+const dropzone = (): React.ReactNode => (
+    <div style={{ padding: "10px 10px 10px 0", display: "flex", justifyContent: "end", flexGrow: 1, height: 58 }} />
+);
