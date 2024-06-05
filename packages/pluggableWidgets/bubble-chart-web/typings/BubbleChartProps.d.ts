@@ -74,6 +74,7 @@ export interface BubbleChartContainerProps {
     tabIndex?: number;
     lines: LinesType[];
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground?: ReactNode;
     xAxisLabel?: DynamicValue<string>;
     yAxisLabel?: DynamicValue<string>;
@@ -99,6 +100,7 @@ export interface BubbleChartPreviewProps {
     readOnly: boolean;
     lines: LinesPreviewType[];
     enableAdvancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     xAxisLabel: string;
     yAxisLabel: string;
