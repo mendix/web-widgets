@@ -49,3 +49,12 @@ export interface InputHookProps<TValue, TFilterEnum> {
     inputDisabled?: (filter: TFilterEnum) => boolean;
     inputType: "text" | "number";
 }
+
+export interface SetFilterValueArgs {
+    operators: string;
+    stringValue: string;
+    numberValue: number;
+    booleanValue: boolean;
+    dateTimeValue: Date;
+    dateTimeValue2: Date;
+}
