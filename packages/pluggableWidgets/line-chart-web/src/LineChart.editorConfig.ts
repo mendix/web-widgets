@@ -4,6 +4,7 @@ import {
     ContainerProps,
     datasource
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -25,6 +26,9 @@ export function getProperties(
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
     values.lines.forEach((line, index) => {
         // Series properties
         if (line.dataSet === "static") {
@@ -98,15 +102,19 @@ export function getPreview(values: LineChartPreviewProps, isDarkMode: boolean): 
         children: []
     } as ContainerProps;
 
-    return {
+    const chart: StructurePreviewProps = {
         type: "RowLayout",
         columnSize: "fixed",
         children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
     };
+
+    return withPlaygroundSlot(values, chart);
 }
 
 export function check(values: LineChartPreviewProps): Problem[] {
-    const errors: Problem[] = [];
+    const errors: Array<Problem[] | Problem> = [];
+
+    errors.push(checkSlot(values));
 
     values.lines.forEach((line, index) => {
         if (line.dataSet === "static" && line.staticDataSource) {
@@ -138,7 +146,8 @@ export function check(values: LineChartPreviewProps): Problem[] {
             }
         }
     });
-    return errors;
+
+    return errors.flat();
 }
 
 export function getCustomCaption(values: LineChartPreviewProps): string {
