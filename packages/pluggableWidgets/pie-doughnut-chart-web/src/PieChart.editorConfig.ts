@@ -4,6 +4,7 @@ import {
     ContainerProps,
     datasource
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     hidePropertiesIn,
     hidePropertyIn,
@@ -26,6 +27,9 @@ export function getProperties(
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
     if (platform === "web") {
         if (!values.enableAdvancedOptions) {
             hidePropertiesIn(defaultProperties, values, [
@@ -82,17 +86,21 @@ export function getPreview(values: PieChartPreviewProps, isDarkMode: boolean): S
         children: []
     } as ContainerProps;
 
-    return {
+    const chart: StructurePreviewProps = {
         type: "RowLayout",
         columnSize: "fixed",
         children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
     };
+
+    return withPlaygroundSlot(values, chart);
 }
 
-export function check(_values: PieChartPreviewProps): Problem[] {
-    const errors: Problem[] = [];
+export function check(values: PieChartPreviewProps): Problem[] {
+    const errors: Array<Problem[] | Problem> = [];
 
-    return errors;
+    errors.push(checkSlot(values));
+
+    return errors.flat();
 }
 
 export function getCustomCaption(values: PieChartPreviewProps): string {
