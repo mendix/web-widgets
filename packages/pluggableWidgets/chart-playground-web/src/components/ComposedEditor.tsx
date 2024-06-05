@@ -29,11 +29,7 @@ const Wrapper = ({ renderPanels, renderSidebarHeaderTools }: WrapperProps): Reac
                 <div className="sidebar-content-body">{renderPanels}</div>
             </Sidebar>
             <div className="widget-charts-playground-toggle">
-                <button
-                    className="mx-button btn"
-                    onClick={toggleEditor}
-                    style={{ visibility: showEditor ? "hidden" : "visible" }}
-                >
+                <button className="mx-button btn" onClick={toggleEditor}>
                     Toggle Editor
                 </button>
             </div>
