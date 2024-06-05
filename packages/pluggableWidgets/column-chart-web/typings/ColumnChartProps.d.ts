@@ -68,6 +68,7 @@ export interface ColumnChartContainerProps {
     tabIndex?: number;
     series: SeriesType[];
     advancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground?: ReactNode;
     xAxisLabel?: DynamicValue<string>;
     yAxisLabel?: DynamicValue<string>;
@@ -94,6 +95,7 @@ export interface ColumnChartPreviewProps {
     readOnly: boolean;
     series: SeriesPreviewType[];
     advancedOptions: boolean;
+    showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     xAxisLabel: string;
     yAxisLabel: string;

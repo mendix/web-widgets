@@ -5,6 +5,7 @@ import {
     ContainerProps,
     datasource
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -26,6 +27,10 @@ export function getProperties(
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
+
     values.series.forEach((dataSeries, index) => {
         if (dataSeries.dataSet === "static") {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -101,15 +106,19 @@ export function getPreview(values: ColumnChartPreviewProps, isDarkMode: boolean)
         children: []
     } as ContainerProps;
 
-    return {
+    const chart: StructurePreviewProps = {
         type: "RowLayout",
         columnSize: "fixed",
         children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
     };
+
+    return withPlaygroundSlot(values, chart);
 }
 
 export function check(values: ColumnChartPreviewProps): Problem[] {
-    const errors: Problem[] = [];
+    const errors: Array<Problem[] | Problem> = [];
+
+    errors.push(checkSlot(values));
 
     values.series.forEach((dataSeries, index) => {
         if (dataSeries.dataSet === "static" && dataSeries.staticDataSource) {
@@ -144,7 +153,7 @@ export function check(values: ColumnChartPreviewProps): Problem[] {
         }
     });
 
-    return errors;
+    return errors.flat();
 }
 
 export function getCustomCaption(values: ColumnChartPreviewProps): string {
