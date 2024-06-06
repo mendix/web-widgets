@@ -11,6 +11,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("listen to grid", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/listenToGrid");
+                await page.waitForLoadState("networkidle");
             });
 
             test("displays correctly when listening a data grid", async ({ page }) => {
@@ -25,6 +26,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("listview", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/listView");
+                await page.waitForLoadState("networkidle");
             });
 
             test("displays correctly in a list view", async ({ page }) => {
@@ -44,6 +46,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("template grid", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/templateGrid");
+                await page.waitForLoadState("networkidle");
             });
 
             test("displays correctly in a template grid", async ({ page }) => {
@@ -64,6 +67,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("tab container", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/tabContainer");
+                await page.waitForLoadState("networkidle");
             });
 
             test("displays correctly in default tab", async ({ page }) => {

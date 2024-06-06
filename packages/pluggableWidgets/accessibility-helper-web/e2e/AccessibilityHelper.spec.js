@@ -8,6 +8,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("with single target", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test("sets attributes when condition is true", async ({ page }) => {

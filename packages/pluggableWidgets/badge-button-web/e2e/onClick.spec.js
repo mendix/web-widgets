@@ -9,6 +9,7 @@ test.describe("BadgeButton on click", () => {
     test.describe("call microflow", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/events");
+            await page.waitForLoadState("networkidle");
         });
 
         test("displays a dialog", async ({ page }) => {

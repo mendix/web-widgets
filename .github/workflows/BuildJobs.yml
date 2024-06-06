@@ -172,6 +172,6 @@ jobs:
         with:
           name: test-screenshot-results-${{ matrix.index }}
           path: |
-            ${{ github.workspace }}/packages/**/**/e2e/*-snapshots/**/*.png
-            ${{ github.workspace }}/packages/**/**/e2e/**/*-snapshots/**/*.png
+            ${{ github.workspace }}/packages/**/**/test-results/**/*.png
+            ${{ github.workspace }}/packages/**/**/test-results/**/*.zip
           if-no-files-found: error

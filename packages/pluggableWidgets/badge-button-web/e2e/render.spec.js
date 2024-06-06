@@ -8,6 +8,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("BadgeButton", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test("displays correctly dynamic data", async ({ page }) => {

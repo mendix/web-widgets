@@ -8,6 +8,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("column-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test.describe("column color", () => {

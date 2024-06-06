@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Accordion", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
     });
 
     test("compares with a screenshot baseline and checks if all accordion elements are rendered as expected", async ({
