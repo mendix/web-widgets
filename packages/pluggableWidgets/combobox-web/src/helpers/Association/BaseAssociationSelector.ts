@@ -1,14 +1,15 @@
-import { ObjectItem, ReferenceValue, ReferenceSetValue, ActionValue, ValueStatus } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
+import { LazyLoadProvider } from "../LazyLoadProvider";
 import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";
@@ -24,7 +25,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _valuesMap: Map<string, ObjectItem> = new Map();
-    private limit: number = 0;
+    private lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
@@ -46,10 +47,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             loadingType
         ] = extractAssociationProps(props);
 
-        const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
-        if (newLimit !== ds.limit) {
-            ds.setLimit(newLimit);
-        }
+        this.lazyLoader.updateProps(ds);
+        this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, attr.readOnly, attr.status, lazyLoading));
 
         this._attr = attr as R;
         this.caption.updateProps({
@@ -92,23 +91,5 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
 
     setValue(_value: T | null): void {
         executeAction(this.onChangeEvent);
-    }
-
-    private newLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
-        if (status !== "available" || readOnly === true) {
-            return 0;
-        }
-
-        if (lazyLoading) {
-            if (limit < this.limit) {
-                return this.limit;
-            }
-            if (limit > this.limit) {
-                this.limit = limit;
-            }
-            return limit;
-        }
-
-        return undefined;
     }
 }
