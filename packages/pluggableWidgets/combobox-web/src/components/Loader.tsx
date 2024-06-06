@@ -5,6 +5,7 @@ import { SkeletonLoader } from "./SkeletonLoader";
 import { SpinnerLoader } from "./SpinnerLoader";
 
 type LoaderProps = {
+    isEmpty: boolean;
     isLoading: boolean;
     isOpen: boolean;
     lazyLoading: boolean;
@@ -13,7 +14,7 @@ type LoaderProps = {
 };
 
 export function Loader(props: LoaderProps): ReactElement | null {
-    const { isLoading, isOpen, lazyLoading, loadingType, withCheckbox } = props;
+    const { isEmpty, isLoading, isOpen, lazyLoading, loadingType, withCheckbox } = props;
 
     if (!isOpen || !lazyLoading || !isLoading) {
         return null;
@@ -25,6 +26,10 @@ export function Loader(props: LoaderProps): ReactElement | null {
                 <SkeletonLoader withCheckbox={withCheckbox} key={i} />
             ))}
         </Fragment>
+    ) : isEmpty ? (
+        <div style={{ margin: "52px 0" }}>
+            <SpinnerLoader />
+        </div>
     ) : (
         <SpinnerLoader />
     );

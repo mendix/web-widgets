@@ -54,6 +54,7 @@ export function SingleSelectionMenu({
                     lazyLoading={lazyLoading}
                     loadingType={selector.loadingType}
                     withCheckbox={false}
+                    isEmpty={items.length === 0}
                 />
             }
             menuFooterContent={menuFooterContent}

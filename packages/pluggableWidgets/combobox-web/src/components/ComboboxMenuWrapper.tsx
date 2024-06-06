@@ -83,7 +83,13 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     { suppressRefError: true }
                 )}
             >
-                {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
+                {isOpen ? (
+                    isEmpty && lazyLoading === false ? (
+                        <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
+                    ) : (
+                        children
+                    )
+                ) : null}
                 {loader}
             </ul>
             {menuFooterContent && (

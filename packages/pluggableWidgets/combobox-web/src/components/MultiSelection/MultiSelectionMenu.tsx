@@ -55,6 +55,7 @@ export function MultiSelectionMenu({
             lazyLoading={lazyLoading}
             loader={
                 <Loader
+                    isEmpty={selectableItems.length === 0}
                     isLoading={isLoading}
                     isOpen={isOpen}
                     lazyLoading={lazyLoading}
