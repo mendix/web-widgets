@@ -15,6 +15,6 @@ test.describe("Rating", () => {
         page
     }) => {
         await expect(page.locator(".mx-name-rating1")).toBeVisible();
-        await expect(page.locator(".mx-name-ratingContent")).toHaveScreenshot(`ratingPageContent`);
+        await expect(page.locator(".mx-name-ratingContent")).toHaveScreenshot(`ratingPageContent.png`);
     });
 });
