@@ -6,7 +6,7 @@
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
         &.widget-gallery-#{$suffix}-#{$i} {
-            grid-template-columns: repeat($i, 1fr);
+            grid-template-columns: repeat($i, minmax(0, 1fr));
         }
     }
 }
