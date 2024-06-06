@@ -1,6 +1,6 @@
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { ActionValue, ObjectItem, SelectionMultiValue } from "mendix";
+import { ActionValue, ObjectItem, SelectionMultiValue, ValueStatus } from "mendix";
 import {
     ComboboxContainerProps,
     OptionsSourceAssociationCustomContentTypeEnum,
@@ -10,7 +10,8 @@ import {
 import { MultiSelector, Status } from "../types";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
-import { extractSelectionDatabaseProps } from "./utils";
+import { extractDatabaseProps } from "./utils";
+import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implements MultiSelector {
     type = "multi" as const;
@@ -28,6 +29,7 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
     selectAllButton = false;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, ObjectItem> = new Map();
+    private limit: number = DEFAULT_LIMIT_SIZE;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -61,6 +63,7 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
 
     updateProps(props: ComboboxContainerProps): void {
         const [
+            _attr,
             ds,
             captionProvider,
             emptyOption,
@@ -70,8 +73,14 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
             customContent,
             customContentType,
             valueAttribute,
-            _emptyValue
-        ] = extractSelectionDatabaseProps(props);
+            _emptyValue,
+            lazyLoading
+        ] = extractDatabaseProps(props);
+
+        const newLimit = this.newLimit(ds.limit, false, ds.status, lazyLoading);
+        if (newLimit !== ds.limit) {
+            ds.setLimit(newLimit);
+        }
 
         if (
             !ds ||
@@ -122,5 +131,23 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
             this.selection?.setSelection(newValue);
         }
         executeAction(this.onChangeEvent);
+    }
+
+    private newLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
+        if (status !== "available" || readOnly === true) {
+            return 0;
+        }
+
+        if (lazyLoading) {
+            if (limit < this.limit) {
+                return this.limit;
+            }
+            if (limit > this.limit) {
+                this.limit = limit;
+            }
+            return limit;
+        }
+
+        return undefined;
     }
 }
