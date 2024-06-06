@@ -33,25 +33,12 @@ type ExtractionReturnValue = [
     LoadingTypeEnum
 ];
 
-type SelectionExtractionReturnValue = [
-    ListValue,
-    ListAttributeValue<string> | ListExpressionValue<string> | undefined,
-    DynamicValue<string> | undefined,
-    boolean,
-    FilterTypeEnum,
-    ActionValue | undefined,
-    ListWidgetValue | undefined,
-    OptionsSourceAssociationCustomContentTypeEnum,
-    ListAttributeValue<string | Big>,
-    DynamicValue<string | Big>
-];
-
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.databaseAttributeString;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
 
-    if (!attr) {
+    if (!attr && props.optionsSourceDatabaseUsageType !== "selection") {
         throw new Error("'optionsSourceType' type is 'Database' but 'databaseAttributeString' is not defined.");
     }
 
@@ -71,11 +58,13 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
 
-    if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
-        throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
-    }
-    if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
-        throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+    if (attr) {
+        if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
+            throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
+        }
+        if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
+            throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+        }
     }
 
     if (!valueAttribute) {
@@ -97,41 +86,5 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         emptyValue,
         lazyLoading,
         loadingType
-    ];
-}
-
-export function extractSelectionDatabaseProps(props: ComboboxContainerProps): SelectionExtractionReturnValue {
-    const filterType = props.filterType;
-    const onChangeEvent = props.onChangeEvent;
-
-    const ds = props.optionsSourceDatabaseDataSource;
-    if (!ds) {
-        throw new Error("'optionsSourceType' type is 'database' but 'optionsSourceDatabaseDataSource' is not defined.");
-    }
-    const captionType = props.optionsSourceDatabaseCaptionType;
-    const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
-    const captionExpression = props.optionsSourceDatabaseCaptionExpression;
-    const emptyOption = props.emptyOptionText;
-    const emptyValue = props.optionsSourceDatabaseDefaultValue;
-    const clearable = props.clearable;
-    const customContent = props.optionsSourceAssociationCustomContent;
-    const customContentType = props.optionsSourceAssociationCustomContentType;
-    const valueAttribute = props.optionsSourceDatabaseValueAttribute;
-
-    if (!valueAttribute) {
-        throw new Error("'valueExpression' is not defined");
-    }
-
-    return [
-        ds,
-        captionType === "attribute" ? captionAttribute : captionExpression,
-        emptyOption,
-        clearable,
-        filterType,
-        onChangeEvent,
-        customContent,
-        customContentType,
-        valueAttribute,
-        emptyValue
     ];
 }
