@@ -33,7 +33,9 @@ export function BarcodeScannerOverlay({
                             <div className={classNames("canvas-middle-top", "canvas-background")} />
                             <div
                                 ref={ref => {
-                                    if (canvasMiddleMiddleRef !== undefined) canvasMiddleMiddleRef(ref);
+                                    if (canvasMiddleMiddleRef !== undefined) {
+                                        canvasMiddleMiddleRef(ref);
+                                    }
                                 }}
                                 id={"canvas-middle-middle"}
                                 className={classNames("canvas-middle-middle")}
@@ -109,7 +111,9 @@ export function BarcodeScanner({
             class={className}
             showMask={showMask}
             canvasMiddleMiddleRef={ref => {
-                if (ref !== null) setCanvasMiddleRef(ref);
+                if (ref !== null) {
+                    setCanvasMiddleRef(ref);
+                }
             }}
             {...dimensions}
         >

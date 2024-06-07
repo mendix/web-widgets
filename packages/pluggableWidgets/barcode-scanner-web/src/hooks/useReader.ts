@@ -100,7 +100,7 @@ export const useReader: UseReaderHook = args => {
                 loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight)
             );
         } else {
-            return Promise.reject();
+            return Promise.reject(new Error("No video ref or no canvas ref found"));
         }
     };
 
@@ -123,7 +123,9 @@ export const useReader: UseReaderHook = args => {
                 BarcodeFormat.PDF_417
             ];
         } else {
-            if (args.barcodeFormats) formats = args.barcodeFormats.map(val => BarcodeFormat[val.barcodeFormat]);
+            if (args.barcodeFormats) {
+                formats = args.barcodeFormats.map(val => BarcodeFormat[val.barcodeFormat]);
+            }
         }
         hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
         hints.set(DecodeHintType.ENABLE_CODE_39_EXTENDED_MODE, true);
