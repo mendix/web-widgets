@@ -168,7 +168,9 @@ export function useValueFilterState<TValue, TFilterEnum>(
     const actions = useMemo<Actions<TValue, TFilterEnum>>(
         () => ({
             setInputValue: arg => store.setInputValue(arg),
-            setFilterFn: arg => store.setFilterFn(arg),
+            setFilterFn: arg => {
+                store.setFilterFn(arg);
+            },
             dangerous_setValueAndDoNotDispatch: arg => store.dangerous_setValueAndDoNotDispatch(arg),
             reset: args => store.reset(args)
         }),

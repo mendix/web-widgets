@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 import { useCallback, useRef, useEffect } from "react";
 import { useValueFilterState } from "./useValueFilterState";
-import { InputHookProps, InputProps, SetFilterValueArgs } from "./typings";
+import { InputHookProps, InputProps } from "./typings";
 
 export function useInputProps<TValue, TFilterEnum>(
     props: InputHookProps<TValue, TFilterEnum>
@@ -31,18 +32,20 @@ export function useInputProps<TValue, TFilterEnum>(
 
     useOnSetValueEvent({
         widgetName: props.name,
-        listener: (args: [boolean, SetFilterValueArgs]) => {
-            const [useDefaultValue, valueOptions] = args;
+        listener: (useDefaultValue: boolean, valueOptions: SetFilterValueArgs) => {
             if (useDefaultValue) {
                 reset([useDefaultValue]);
             } else {
-                setInputValue(valueOptions.stringValue);
+                const value =
+                    props.inputType === "number" ? valueOptions.numberValue.toString() : valueOptions.stringValue;
+                setInputValue(value);
+                setFilterFn(valueOptions.operators as TFilterEnum);
             }
         }
     });
 
     return {
-        defaultFilter: props.defaultFilter,
+        defaultFilter: state.filterFn,
         filters: props.filters,
         inputType: props.inputType,
         inputRef,

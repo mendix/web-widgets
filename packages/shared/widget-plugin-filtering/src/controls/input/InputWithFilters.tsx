@@ -1,4 +1,4 @@
-import { createElement, useRef, memo } from "react";
+import { createElement, memo } from "react";
 import classNames from "classnames";
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
@@ -7,8 +7,7 @@ import { InputComponentProps } from "./typings";
 export const InputWithFilters = memo(function InputWithFilters<TFilterEnum extends string>(
     props: InputComponentProps<TFilterEnum>
 ): React.ReactElement {
-    const { current: defaultFilter } = useRef(props.defaultFilter);
-
+    const { defaultFilter } = props;
     return (
         <div
             className={classNames("filter-container", props.className)}
