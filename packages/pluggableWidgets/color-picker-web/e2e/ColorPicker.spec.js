@@ -114,18 +114,21 @@ test.describe("color-picker-web", () => {
 
         test("hex", async ({ page }) => {
             const hexInput = await page.locator(".mx-name-colorPicker24 input");
+            await expect(hexInput).toBeVisible();
             await expect(hexInput).toHaveValue("#4caf50");
         });
 
         test("rgb", async ({ page }) => {
             await page.click(".mx-name-tabPage2");
             const rgbInput = await page.locator(".mx-name-colorPicker17 input");
+            await expect(rgbInput).toBeVisible();
             await expect(rgbInput).toHaveValue("rgb(42,94,210)");
         });
 
         test("rgba", async ({ page }) => {
             await page.click(".mx-name-tabPage3");
             const rgbaInput = await page.locator(".mx-name-colorPicker27 input");
+            await expect(rgbaInput).toBeVisible();
             await expect(rgbaInput).toHaveValue("rgba(39,255,238,0.49)");
         });
     });
