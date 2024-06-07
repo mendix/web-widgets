@@ -35,6 +35,7 @@ describe("The TimeSeries widget", () => {
                 enableThemeConfig={false}
                 yAxisRangeMode="tozero"
                 showRangeSlider
+                showPlaygroundSlot={false}
                 {...props}
             />
         );
