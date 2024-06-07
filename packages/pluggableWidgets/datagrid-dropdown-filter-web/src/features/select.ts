@@ -10,7 +10,7 @@ type State = {
 type Actions = {
     setSelected: (nextSelected: OptionValue[]) => void;
     toggle: (value: OptionValue) => void;
-    reset: () => void;
+    reset: (args: any[]) => void;
 };
 
 function getInputValue(selected: Set<OptionValue>, options: Option[]): string {

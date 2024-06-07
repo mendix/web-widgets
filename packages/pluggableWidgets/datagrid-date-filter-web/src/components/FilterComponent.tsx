@@ -5,6 +5,8 @@ import { FilterTypeEnum } from "../helpers/base-types";
 import { DatePicker } from "./DatePicker";
 import { SetupProps, useSetup } from "../helpers/useSetup";
 import { useReset } from "../helpers/useReset";
+import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
+import { useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 export interface FilterComponentProps extends SetupProps {
     name: string;

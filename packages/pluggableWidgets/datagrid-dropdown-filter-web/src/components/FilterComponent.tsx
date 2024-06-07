@@ -4,7 +4,8 @@ import { useSelectState } from "../features/select";
 import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
 import { Option } from "../utils/types";
 import { SelectComponent } from "./SelectComponent";
-import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 
 export interface FilterComponentProps {
     ariaLabel?: string;
@@ -55,6 +56,19 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
         widgetName: props.name,
         parentChannelName: props.parentChannelName ?? undefined,
         listener: reset
+    });
+
+    useOnSetValueEvent({
+        widgetName: props.name,
+        listener: (useDefaultValue: boolean, _valueOptions: SetFilterValueArgs) => {
+            if (useDefaultValue) {
+                reset([useDefaultValue]);
+            } else {
+                // setSelected(valueOptions.stringValue);
+                // setRangeValues([valueOptions.dateTimeValue, valueOptions.dateTimeValue2]);
+                // setType(valueOptions.operators as DefaultFilterEnum);
+            }
+        }
     });
 
     return (
