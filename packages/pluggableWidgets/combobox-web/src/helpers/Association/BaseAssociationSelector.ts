@@ -1,4 +1,4 @@
-import { ActionValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { ActionValue, ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     ComboboxContainerProps,

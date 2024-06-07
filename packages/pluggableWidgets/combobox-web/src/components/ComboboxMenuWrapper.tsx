@@ -72,7 +72,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             <ul
                 className={classNames("widget-combobox-menu-list", {
                     "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                    "widget-combobox-menu-lazy-scroll": lazyLoading
+                    "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
                 })}
                 {...getMenuProps?.(
                     {
