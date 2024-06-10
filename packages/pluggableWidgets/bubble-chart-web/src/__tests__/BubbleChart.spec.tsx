@@ -31,6 +31,7 @@ describe("The Bubble widget", () => {
                 customConfigurations=""
                 enableThemeConfig={false}
                 enableAdvancedOptions={false}
+                showPlaygroundSlot={false}
             />
         );
     }

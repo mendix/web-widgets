@@ -35,6 +35,7 @@ describe("The ColumnChart widget", () => {
                 customConfigurations=""
                 enableThemeConfig={false}
                 advancedOptions={false}
+                showPlaygroundSlot={false}
                 {...chartProps}
             />
         );

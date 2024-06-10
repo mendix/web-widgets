@@ -31,6 +31,7 @@ describe("The LineChart widget", () => {
                 customLayout=""
                 customConfigurations=""
                 enableThemeConfig={false}
+                showPlaygroundSlot={false}
             />
         );
     }

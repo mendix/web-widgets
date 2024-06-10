@@ -31,6 +31,7 @@ describe("The AreaChart widget", () => {
                 customConfigurations=""
                 enableThemeConfig={false}
                 enableAdvancedOptions={false}
+                showPlaygroundSlot={false}
             />
         );
     }

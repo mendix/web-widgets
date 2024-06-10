@@ -34,6 +34,7 @@ describe("The HeatMap widget", () => {
                 smoothColor={false}
                 showValues={false}
                 valuesColor=""
+                showPlaygroundSlot={false}
                 {...setupBasicAttributes()}
                 {...props}
             />

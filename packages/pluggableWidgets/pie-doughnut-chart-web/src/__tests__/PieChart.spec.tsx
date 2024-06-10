@@ -35,6 +35,7 @@ describe("The PieChart widget", () => {
                 seriesName={buildListExpression("name")}
                 seriesValueAttribute={new ListAttributeValueBuilder<Big>().build()}
                 enableThemeConfig={false}
+                showPlaygroundSlot={false}
                 {...setupBasicAttributes()}
                 {...props}
             />
