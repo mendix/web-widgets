@@ -1,62 +1,36 @@
-import { ActionValue, EditableValue, ListAttributeValue, ObjectItem } from "mendix";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import {
-    ComboboxContainerProps,
-    LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum
-} from "../../../typings/ComboboxProps";
-import { LazyLoadProvider } from "../LazyLoadProvider";
-import { SingleSelector, Status } from "../types";
+import { EditableValue } from "mendix";
+import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { _valuesIsEqual } from "../utils";
-import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
-import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
+import { BaseDatabaseSingleSelector } from "./BaseDatabaseSingleSelector";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps } from "./utils";
 
-export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
-    type = "single" as const;
-    status: Status = "unavailable";
-    values: DatabaseValuesProvider;
-    options: DatabaseOptionsProvider;
-    clearable = false;
-    currentId: string | null = null;
-    lastSetValue: T | null | undefined = null;
-    caption: DatabaseCaptionsProvider;
-    readOnly = false;
-    lazyLoading = false;
-    loadingType?: LoadingTypeEnum;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+export class DatabaseSingleSelector<
+    T extends string | Big,
+    R extends EditableValue<T>
+> extends BaseDatabaseSingleSelector<T> {
     validation?: string = undefined;
+    values: DatabaseValuesProvider;
     protected _attr: R | undefined;
-    private onChangeEvent?: ActionValue;
-    private _objectsMap: Map<string, ObjectItem> = new Map();
-    private lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
     constructor() {
-        this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        super();
         this.values = new DatabaseValuesProvider(this._objectsMap);
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const [
+        super.updateProps(props);
+        const {
             attr,
-            ds,
             captionProvider,
-            captionType,
-            emptyOption,
-            clearable,
-            filterType,
-            onChangeEvent,
             customContent,
             customContentType,
-            valueAttribute,
+            ds,
+            emptyOption,
             emptyValue,
             lazyLoading,
-            loadingType
-        ] = extractDatabaseProps(props);
-
-        this.lazyLoader.updateProps(ds);
+            valueAttribute
+        } = extractDatabaseProps(props);
         this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, attr.readOnly, attr.status, lazyLoading));
 
         this._attr = attr as R;
@@ -67,13 +41,6 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             customContentType,
             attribute: valueAttribute,
             caption: this._attr.displayValue
-        });
-
-        this.options._updateProps({
-            ds,
-            filterType,
-            lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         this.values.updateProps({
@@ -113,21 +80,15 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             }
         }
 
-        this.clearable = clearable;
-        this.status = attr.status;
         this.readOnly = attr.readOnly;
-        this.onChangeEvent = onChangeEvent;
-        this.customContentType = customContentType;
+        this.status = attr.status;
         this.validation = attr.validation;
-        this.lazyLoading = lazyLoading;
-        this.loadingType = loadingType;
     }
 
     setValue(objectId: string | null): void {
         const value = this.values.get(objectId) as T;
         this.lastSetValue = value;
         this._attr?.setValue(value);
-        this.currentId = objectId;
-        executeAction(this.onChangeEvent);
+        super.setValue(objectId);
     }
 }
