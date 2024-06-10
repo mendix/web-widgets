@@ -4,12 +4,13 @@ import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
 
 const commonProps: FilterComponentProps = {
-    widgetName: "DateFilter",
+    name: "DateFilter",
     adjustable: true,
     filterAPIClient: null,
     syncChannel: null,
     class: "",
     tabIndex: 0,
+    defaultFilter: "equal",
     initValues: {
         type: "equal",
         value: null,
