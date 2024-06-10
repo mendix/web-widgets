@@ -24,7 +24,7 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return "available";
     }
 
-    getAll() {
+    getAll(): string[] {
         return this.getAllWithMatchSorter();
     }
 

@@ -30,7 +30,7 @@ export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn
             setFirstLoad(true);
             setPageCallback();
         }
-    }, [firstLoad, isInfinite, isOpen]);
+    }, [firstLoad, isInfinite, isOpen, setPageCallback]);
 
     useEffect(() => {
         setIsLoading(false);

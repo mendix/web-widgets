@@ -4,14 +4,12 @@ export class LazyLoadProvider {
     private ds?: ListValue;
     private limit: number = 0;
 
-    constructor() {}
-
-    updateProps(ds: ListValue) {
+    updateProps(ds: ListValue): void {
         this.limit = ds.limit;
         this.ds = ds;
     }
 
-    setLimit(limit?: number) {
+    setLimit(limit?: number): void {
         if (limit !== this.ds?.limit) {
             this.ds?.setLimit(limit);
         }
