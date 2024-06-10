@@ -32,6 +32,7 @@ describe("The BarChart widget", () => {
                 customLayout=""
                 customConfigurations=""
                 enableThemeConfig={false}
+                showPlaygroundSlot={false}
             />
         );
     }
