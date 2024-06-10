@@ -60,13 +60,11 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
 
     useOnSetValueEvent({
         widgetName: props.name,
-        listener: (useDefaultValue: boolean, _valueOptions: SetFilterValueArgs) => {
+        listener: (useDefaultValue: boolean, valueOptions: SetFilterValueArgs) => {
             if (useDefaultValue) {
                 reset([useDefaultValue]);
             } else {
-                // setSelected(valueOptions.stringValue);
-                // setRangeValues([valueOptions.dateTimeValue, valueOptions.dateTimeValue2]);
-                // setType(valueOptions.operators as DefaultFilterEnum);
+                setSelected([valueOptions.stringValue]);
             }
         }
     });
