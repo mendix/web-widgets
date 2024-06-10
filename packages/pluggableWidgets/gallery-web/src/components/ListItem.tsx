@@ -26,17 +26,6 @@ export function ListItem(props: ListItemProps): ReactElement {
     const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
 
-    const handleOnKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-        // Handling the case of element being an input element, to be able to move cursor with keyboard
-        if (
-            event.target instanceof HTMLInputElement &&
-            ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
-        ) {
-            event.stopPropagation();
-        } else {
-            handlers?.onKeyDown?.(event);
-        }
-    };
     return (
         <div
             {...rest}
@@ -52,7 +41,6 @@ export function ListItem(props: ListItemProps): ReactElement {
             {...ariaProps}
             onClick={handlers.onClick}
             onFocus={handlers.onFocus}
-            onKeyDown={handleOnKeyDown}
             onKeyUp={handlers.onKeyUp}
             onMouseDown={handlers.onMouseDown}
             data-position={keyNavProps["data-position"]}

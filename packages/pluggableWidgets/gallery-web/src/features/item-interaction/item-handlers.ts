@@ -36,12 +36,23 @@ const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<EventEntryContex
     handler: ({ item }) => selectFx(item, false, true)
 });
 
+const onKeyDown = (): EventCaseEntry<EventEntryContext, HTMLDivElement, "onKeyDown"> => ({
+    eventName: "onKeyDown",
+    filter: (_ctx, event) =>
+        // stop propagation in case the element is an input element, to be able to move cursor with keyboard
+        event.target instanceof HTMLInputElement &&
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code),
+    handler: (_ctx, event) => event.stopPropagation()
+});
+
 export function createItemHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
     selectAdjacentFx: SelectAdjacentFx,
     numberOfColumns: number
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
+    console.log("createItemHandlers", { selectFx, selectAllFx, numberOfColumns });
+
     return [
         onMouseDown(removeAllRanges),
         onSelect(selectFx),
@@ -55,6 +66,7 @@ export function createItemHandlers(
                 unblockUserSelect();
             }
         ),
-        onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns)
+        onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns),
+        onKeyDown()
     ].flat();
 }
