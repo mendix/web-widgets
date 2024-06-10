@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We update event listener for `Reset_All_Filters` to allow reset to default value.
+
 ## [2.19.0] - 2024-05-27
 
 ### Fixed

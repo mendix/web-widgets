@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with Gallery widget where content may break out of grid boundaries. Thanks to Ronnie van Doorn for the suggestion.
 
+### Changed
+
+-   We update event listener for `Reset_All_Filters` to allow reset to default value.
+
 ## [1.8.0] - 2024-04-30
 
 ### Changed

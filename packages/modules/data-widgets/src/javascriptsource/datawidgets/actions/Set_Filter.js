@@ -13,16 +13,16 @@ import { Big } from "big.js";
 
 /**
  * @param {string} targetName - Name of the filter to reset. Valid targets are: Number filter, Date filter, Text filter, Drop-down filter. You can find filter name in widget settings in the "Common" group (Properties>Common>Name).
- * @param {boolean} useDefaultValue
- * @param {"DataWidgets.Filter_Operators.contains"|"DataWidgets.Filter_Operators.startsWith"|"DataWidgets.Filter_Operators.endsWith"|"DataWidgets.Filter_Operators.greater"|"DataWidgets.Filter_Operators.greaterEqual"|"DataWidgets.Filter_Operators.equal"|"DataWidgets.Filter_Operators.notEqual"|"DataWidgets.Filter_Operators.smaller"|"DataWidgets.Filter_Operators.smallerEqual"|"DataWidgets.Filter_Operators.empty"|"DataWidgets.Filter_Operators.notEmpty"} operators - Selected operators value.
- * @param {string} stringValue
- * @param {Big} numberValue
- * @param {boolean} booleanValue
- * @param {Date} dateTimeValue
- * @param {Date} dateTimeValue2
+ * @param {boolean} useDefaultValue - determine the use of default value provided by the filter component itself.
+if true, "Value" section will be ignored
+ * @param {"DataWidgets.Filter_Operators.contains"|"DataWidgets.Filter_Operators.startsWith"|"DataWidgets.Filter_Operators.endsWith"|"DataWidgets.Filter_Operators.greater"|"DataWidgets.Filter_Operators.greaterEqual"|"DataWidgets.Filter_Operators.equal"|"DataWidgets.Filter_Operators.notEqual"|"DataWidgets.Filter_Operators.smaller"|"DataWidgets.Filter_Operators.smallerEqual"|"DataWidgets.Filter_Operators.empty"|"DataWidgets.Filter_Operators.notEmpty"} operators - Selected operators value. If filter has operators, this value will be applied.
+ * @param {string} stringValue - value set for dropdown filter or text filter. choose empty if not use.
+ * @param {Big} numberValue - number value for number filter. choose empty if not use.
+ * @param {Date} dateTimeValue - date time value for date filter, can also be use as "start date". choose empty if not use.
+ * @param {Date} dateTimeValue2 - end date time value for range filter. choose empty if not use.
  * @returns {Promise.<void>}
  */
-export async function Set_Filter(targetName, useDefaultValue, operators, stringValue, numberValue, booleanValue, dateTimeValue, dateTimeValue2) {
+export async function Set_Filter(targetName, useDefaultValue, operators, stringValue, numberValue, dateTimeValue, dateTimeValue2) {
 	// BEGIN USER CODE
 	const plugin = window["com.mendix.widgets.web.plugin.externalEvents"];
     if (plugin) {

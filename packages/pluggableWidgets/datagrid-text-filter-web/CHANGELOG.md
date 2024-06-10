@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   A new hook that subscribes the widget to `Set_Filter` action.
+
+### Changed
+
+-   We update event listener for `Reset_Filter` to allow reset to default value.
+
 ## [2.5.1] - 2024-04-30
 
 ### Fixed
