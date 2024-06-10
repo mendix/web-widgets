@@ -1,48 +1,46 @@
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { ActionValue, ObjectItem, SelectionMultiValue, ValueStatus } from "mendix";
+import { ActionValue, ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
 import {
     ComboboxContainerProps,
     OptionsSourceAssociationCustomContentTypeEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../../typings/ComboboxProps";
+import { LazyLoadProvider } from "../LazyLoadProvider";
 import { MultiSelector, Status } from "../types";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { extractDatabaseProps } from "./utils";
-import { DEFAULT_LIMIT_SIZE } from "../utils";
 
-export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implements MultiSelector {
-    type = "multi" as const;
-    status: Status = "unavailable";
-    options: DatabaseOptionsProvider;
-    clearable = false;
-    lastSetValue: T | null | undefined = null;
+export class DatabaseMultiSelectionSelector implements MultiSelector {
     caption: DatabaseCaptionsProvider;
-    readOnly = false;
+    clearable = false;
+    currentId: string[] | null = null;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
-    validation?: string = undefined;
-    selection?: SelectionMultiValue;
-    selectedItemsStyle: SelectedItemsStyleEnum = "text";
-    selectionMethod: SelectionMethodEnum = "checkbox";
+    options: DatabaseOptionsProvider;
+    readOnly = false;
     selectAllButton = false;
-    private onChangeEvent?: ActionValue;
+    selectedItemsStyle: SelectedItemsStyleEnum = "text";
+    selection?: SelectionMultiValue;
+    selectionMethod: SelectionMethodEnum = "checkbox";
+    status: Status = "unavailable";
+    type = "multi" as const;
+    protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
     private _objectsMap: Map<string, ObjectItem> = new Map();
-    private limit: number = DEFAULT_LIMIT_SIZE;
+    private onChangeEvent?: ActionValue;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
         this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
     }
-    currentId: string[] | null = null;
-    onEnterEvent?: (() => void) | undefined;
-    onLeaveEvent?: (() => void) | undefined;
+
     getOptions(): string[] {
         return this.selectionMethod === "rowclick"
             ? this.options.getAll().filter(option => !this.currentId?.includes(option))
             : this.options.getAll();
     }
+
     isOptionsSelected(): ThreeStateCheckBoxEnum {
         const options = this.options.getAll();
         const unselectedOptions = options.filter(option => !this.currentId?.includes(option));
@@ -62,25 +60,19 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const [
-            _attr,
-            ds,
+        const {
             captionProvider,
-            emptyOption,
+            captionType,
             clearable,
-            filterType,
-            onChangeEvent,
             customContent,
             customContentType,
-            valueAttribute,
-            _emptyValue,
-            lazyLoading
-        ] = extractDatabaseProps(props);
-
-        const newLimit = this.newLimit(ds.limit, false, ds.status, lazyLoading);
-        if (newLimit !== ds.limit) {
-            ds.setLimit(newLimit);
-        }
+            ds,
+            emptyOption,
+            filterType,
+            lazyLoading,
+            onChangeEvent,
+            valueAttribute
+        } = extractDatabaseProps(props);
 
         if (
             !ds ||
@@ -97,6 +89,8 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
             this.status = "available";
         }
 
+        this.lazyLoader.updateProps(ds);
+        this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, false, ds.status, lazyLoading));
         this.caption.updateProps({
             emptyOptionText: emptyOption,
             formattingAttributeOrExpression: captionProvider,
@@ -105,24 +99,25 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
             attribute: valueAttribute,
             caption: undefined
         });
-
         this.options._updateProps({
             ds,
-            filterType
+            filterType,
+            lazyLoading,
+            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
-        this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
-        this.currentId = this.selection.selection.map(v => v.id) ?? null;
-        this.selectedItemsStyle = props.selectedItemsStyle;
-        this.selectionMethod = props.selectionMethod;
-        this.selectAllButton = props.selectAllButton;
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
             this.selectedItemsStyle = "boxes";
         }
 
         this.clearable = clearable;
-        this.onChangeEvent = onChangeEvent;
+        this.currentId = this.selection?.selection.map(v => v.id) ?? null;
         this.customContentType = customContentType;
+        this.onChangeEvent = onChangeEvent;
+        this.selectAllButton = props.selectAllButton;
+        this.selectedItemsStyle = props.selectedItemsStyle;
+        this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
+        this.selectionMethod = props.selectionMethod;
     }
 
     setValue(value: string[] | null): void {
@@ -131,23 +126,5 @@ export class DatabaseMultiSelectionSelector<T extends string[] | Big[]> implemen
             this.selection?.setSelection(newValue);
         }
         executeAction(this.onChangeEvent);
-    }
-
-    private newLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
-        if (status !== "available" || readOnly === true) {
-            return 0;
-        }
-
-        if (lazyLoading) {
-            if (limit < this.limit) {
-                return this.limit;
-            }
-            if (limit > this.limit) {
-                this.limit = limit;
-            }
-            return limit;
-        }
-
-        return undefined;
     }
 }
