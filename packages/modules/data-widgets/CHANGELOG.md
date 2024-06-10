@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Added
+#### Added
 
 -   Update JS actions for resetting filters in Data grid 2 and Gallery. `Reset_All_Filters` and `Reset_Filter` now have the option to reset to default filter's value.
 -   New JS actions for setting filters in Data grid 2 and Gallery. `Set_Filter` set a single filter to a specific value within Data grid 2 or Gallery.
+
+#### Breaking
+
+-   Data widgets now use Atlas variables for its styling. This may change how the widgets look depending on the custom variables.
 
 ## [2.19.1] DataWidgets - 2024-05-27
 
