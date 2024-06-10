@@ -22,26 +22,26 @@
 .widget-gallery {
     .widget-gallery-items {
         display: grid;
-        grid-gap: $spacing-small;
+        grid-gap: var(--spacing-small, $spacing-small);
 
         /*
          Desktop widths
          */
-        @media screen and (min-width: $screen-lg) {
+        @media screen and (min-width: var(--screen-lg, $screen-lg)) {
             @include grid-items(12, "lg");
         }
 
         /*
          Tablet widths
          */
-        @media screen and (min-width: $screen-md) and (max-width: ($screen-lg - 1px)) {
+        @media screen and (min-width: var(--screen-md, $screen-md)) and (max-width: (var(--screen-lg, $screen-lg) - 1px)) {
             @include grid-items(12, "md");
         }
 
         /*
          Phone widths
          */
-        @media screen and (max-width: ($screen-md - 1)) {
+        @media screen and (max-width: (var(--screen-md, $screen-md) - 1)) {
             @include grid-items(12, "sm");
         }
     }
@@ -54,7 +54,7 @@
         }
 
         &:focus-visible {
-            outline: 1px solid $brand-primary;
+            outline: 1px solid var(--brand-primary, $brand-primary);
             outline-offset: -1px;
         }
     }

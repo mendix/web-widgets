@@ -7,7 +7,7 @@
 
 .widget-tree-node-hover {
     .widget-tree-node-branch:hover > .widget-tree-node-branch-header {
-        background-color: $grid-bg-hover;
+        background-color: var(--grid-bg-hover, $grid-bg-hover);
     }
 }
 
@@ -16,12 +16,12 @@
         border-width: 0;
         border-bottom-width: 1px;
         border-bottom-style: solid;
-        border-bottom-color: $grid-border-color;
+        border-bottom-color: var(--grid-border-color, $grid-border-color);
     }
 }
 
 .widget-tree-node-bordered-all {
-    border: 1px solid $grid-border-color;
+    border: 1px solid var(--grid-border-color, $grid-border-color);
     border-radius: 8px;
     overflow: hidden;
 
