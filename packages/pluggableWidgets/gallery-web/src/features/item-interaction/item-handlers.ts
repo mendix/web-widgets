@@ -51,8 +51,6 @@ export function createItemHandlers(
     selectAdjacentFx: SelectAdjacentFx,
     numberOfColumns: number
 ): Array<ElementEntry<EventEntryContext, HTMLDivElement>> {
-    console.log("createItemHandlers", { selectFx, selectAllFx, numberOfColumns });
-
     return [
         onMouseDown(removeAllRanges),
         onSelect(selectFx),
