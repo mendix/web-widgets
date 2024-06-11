@@ -64,7 +64,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             ds,
             filterType,
             lazyLoading,
-            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         if (

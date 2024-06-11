@@ -73,7 +73,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             ds,
             filterType,
             lazyLoading,
-            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         this.values.updateProps({

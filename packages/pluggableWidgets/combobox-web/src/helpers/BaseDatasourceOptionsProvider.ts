@@ -6,15 +6,15 @@ import { CaptionsProvider, Status, SortOrder } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
 
 export interface BaseProps {
+    attributeId?: ListAttributeValue["id"];
     ds: ListValue;
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
-    filterId?: ListAttributeValue["id"];
 }
 
 export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectItem, BaseProps> {
     private ds?: ListValue;
-    private filterId?: ListAttributeValue["id"];
+    private attributeId?: ListAttributeValue["id"];
 
     constructor(caption: CaptionsProvider, protected valuesMap: Map<string, ObjectItem>) {
         super(caption);
@@ -37,11 +37,11 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     }
 
     getAll(): string[] {
-        if (this.lazyLoading && this.filterId) {
+        if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
                 this.ds?.setFilter(undefined);
             } else {
-                const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.filterId);
+                const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.attributeId);
                 this.ds?.setFilter(filterCondition);
             }
 
@@ -70,10 +70,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     }
 
     _updateProps(props: BaseProps): void {
+        this.attributeId = props.attributeId;
         this.ds = props.ds;
         this.filterType = props.filterType;
         this.lazyLoading = props.lazyLoading;
-        this.filterId = props.filterId;
 
         const items = this.ds.items ?? [];
 
