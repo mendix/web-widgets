@@ -4,7 +4,7 @@ module.exports = {
         node: true,
         es2021: true
     },
-    extends: ["eslint:recommended", "plugin:cypress/recommended", "plugin:playwright/recommended"],
+    extends: ["eslint:recommended"],
     parserOptions: {
         sourceType: "module",
         ecmaVersion: 2021
