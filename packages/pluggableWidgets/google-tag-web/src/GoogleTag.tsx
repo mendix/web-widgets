@@ -30,15 +30,14 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
             return;
         }
 
+        const configProps = new Map<string, string | boolean>([["send_page_view", false]]);
+
+        if (props.sendUserID && window.mx.session.getUserId() !== undefined) {
+            configProps.set("user_id", window.mx.session.getUserId());
+        }
+
         // execute config if not yet executed
-        executeCommand(
-            "config",
-            "",
-            {
-                send_page_view: false
-            },
-            props.targetId.value
-        );
+        executeCommand("config", "", Object.fromEntries(configProps), props.targetId.value);
 
         // execute event page_view
         executeCommand(
