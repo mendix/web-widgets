@@ -25,7 +25,8 @@ export function withPreviewAdapter(Component: FilterComponent): PreviewAdapter {
                 placeholder={props.placeholder}
                 style={props.styleObject}
                 tabIndex={0}
-                widgetName="DateFilter"
+                name="DateFilter"
+                defaultFilter={props.defaultFilter}
                 initValues={initValues}
             />
         );
