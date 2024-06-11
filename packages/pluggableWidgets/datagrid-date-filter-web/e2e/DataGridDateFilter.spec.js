@@ -45,8 +45,6 @@ test.describe("datagrid-date-filter-web", () => {
         await filterSelector.click();
         const filterSelectorOptions = page.locator(".filter-selectors li");
         await filterSelectorOptions.first().click();
-        const datePickerButton = datagrid.locator(".btn-calendar");
-        await datePickerButton.click();
         const monthSelect = page.locator(".react-datepicker__month-select");
         await monthSelect.selectOption("October");
         const yearSelect = page.locator(".react-datepicker__year-select");
