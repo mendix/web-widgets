@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   The default filter values are now restored on initial page load.
+
 ## [2.7.1] - 2024-05-15
 
 ### Fixed
