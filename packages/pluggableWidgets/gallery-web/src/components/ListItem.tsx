@@ -41,6 +41,7 @@ export function ListItem(props: ListItemProps): ReactElement {
             {...ariaProps}
             onClick={handlers.onClick}
             onFocus={handlers.onFocus}
+            onKeyDown={handlers.onKeyDown}
             onKeyUp={handlers.onKeyUp}
             onMouseDown={handlers.onMouseDown}
             data-position={keyNavProps["data-position"]}
