@@ -19,8 +19,37 @@
                     <caption>Show barcode mask</caption>
                     <description>Apply a mask to camera view, as a specific target area for the barcode.</description>
                 </property>
+                <property key="useAllFormats" type="boolean" required="true" defaultValue="true">
+                    <caption>Use all barcode formats</caption>
+                    <description>Scan for all available barcode formats</description>
+                </property>
+                <property key="barcodeFormats" type="object" isList="true">
+                    <caption>Enabled barcode formats</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="Object list group">
+                            <property key="barcodeFormat" type="enumeration" defaultValue="AZTEC">
+                                <caption>Barcode format</caption>
+                                <description>Barcode format which should be recognized by the scanner</description>
+                                <enumerationValues>
+                                    <enumerationValue key="AZTEC">Aztec</enumerationValue>
+                                    <enumerationValue key="CODE_39">Code 39</enumerationValue>
+                                    <enumerationValue key="CODE_128">Code 128</enumerationValue>
+                                    <enumerationValue key="DATA_MATRIX">Data Matrix</enumerationValue>
+                                    <enumerationValue key="EAN_8">EAN-8</enumerationValue>
+                                    <enumerationValue key="EAN_13">EAN-13</enumerationValue>
+                                    <enumerationValue key="ITF">ITF</enumerationValue>
+                                    <enumerationValue key="PDF_417">PDF 417</enumerationValue>
+                                    <enumerationValue key="QR_CODE">QR Code</enumerationValue>
+                                    <enumerationValue key="RSS_14">RSS-14</enumerationValue>
+                                    <enumerationValue key="UPC_A">UPC-A</enumerationValue>
+                                    <enumerationValue key="UPC_E">UPC-E</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
             </propertyGroup>
-
             <propertyGroup caption="Events">
                 <property key="onDetect" type="action" required="false">
                     <caption>On detect action</caption>

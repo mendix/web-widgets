@@ -34,7 +34,7 @@
 
             .canvas-left {
                 flex: 0;
-                flex-basis: 30%;
+                flex-basis: 33.333%;
             }
 
             $screen-md: 768px;
@@ -42,7 +42,7 @@
             $screen-xl: 1200px;
             .canvas-middle {
                 flex: 0;
-                flex-basis: 40%;
+                flex-basis: 33.333%;
                 display: flex;
                 flex-direction: column;
 
@@ -93,7 +93,7 @@
 
             .canvas-right {
                 flex: 0;
-                flex-basis: 30%;
+                flex-basis: 33.333%;
             }
         }
     }
