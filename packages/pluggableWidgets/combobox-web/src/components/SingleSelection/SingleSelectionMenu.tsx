@@ -1,8 +1,10 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, ReactElement, ReactNode, useCallback } from "react";
+import { createElement, ReactElement, ReactNode } from "react";
 import { SingleSelector } from "../../helpers/types";
+import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
+import { Loader } from "../Loader";
 
 interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -25,23 +27,38 @@ export function SingleSelectionMenu({
     menuFooterContent
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
-    const setPage = useCallback(() => {
-        if (selector.options.loadMore) {
-            selector.options.loadMore();
-        }
-    }, [selector.options]);
+    const lazyLoading = selector.lazyLoading ?? false;
+    const { isLoading, onScroll } = useLazyLoading({
+        hasMoreItems: selector.options.hasMore ?? false,
+        isInfinite: lazyLoading,
+        isOpen,
+        loadMore: () => {
+            if (selector.options.loadMore) {
+                selector.options.loadMore();
+            }
+        },
+        numberOfItems: items.length
+    });
 
     return (
         <ComboboxMenuWrapper
-            isOpen={isOpen}
-            isEmpty={items?.length <= 0}
-            getMenuProps={getMenuProps}
-            noOptionsText={noOptionsText}
-            menuFooterContent={menuFooterContent}
             alwaysOpen={alwaysOpen}
-            hasMoreItems={selector.options.hasMore ?? false}
-            isInfinite={selector.lazyLoading ?? false}
-            setPage={setPage}
+            getMenuProps={getMenuProps}
+            isEmpty={items?.length <= 0}
+            isOpen={isOpen}
+            lazyLoading={lazyLoading}
+            loader={
+                <Loader
+                    isLoading={isLoading}
+                    isOpen={isOpen}
+                    lazyLoading={lazyLoading}
+                    loadingType={selector.loadingType}
+                    withCheckbox={false}
+                />
+            }
+            menuFooterContent={menuFooterContent}
+            noOptionsText={noOptionsText}
+            onScroll={lazyLoading ? onScroll : undefined}
         >
             {isOpen &&
                 items.map((item, index) => (

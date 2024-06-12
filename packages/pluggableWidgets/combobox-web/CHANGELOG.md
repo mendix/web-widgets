@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+-   We added Spinner and Skeleton loaders in addition to lazy loading feature. The default loader is spinner, and skeleton can also be selected. This improves UX when loading more content.
+
 -   We added lazy loading feature. By default it is turned off. When turned on, the items will be loaded in batches when scrolling.
 
 ### Breaking

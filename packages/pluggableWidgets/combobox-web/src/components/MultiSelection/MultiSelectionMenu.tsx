@@ -1,9 +1,11 @@
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
+import { createElement, MouseEvent, ReactElement, ReactNode } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
+import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
+import { Loader } from "../Loader";
 
 interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
@@ -31,25 +33,40 @@ export function MultiSelectionMenu({
     menuFooterContent,
     onOptionClick
 }: MultiSelectionMenuProps): ReactElement {
-    const setPage = useCallback(() => {
-        if (selector.options.loadMore) {
-            selector.options.loadMore();
-        }
-    }, [selector.options]);
+    const lazyLoading = selector.lazyLoading ?? false;
+    const { isLoading, onScroll } = useLazyLoading({
+        hasMoreItems: selector.options.hasMore ?? false,
+        isInfinite: lazyLoading,
+        isOpen,
+        loadMore: () => {
+            if (selector.options.loadMore) {
+                selector.options.loadMore();
+            }
+        },
+        numberOfItems: selectableItems.length
+    });
 
     return (
         <ComboboxMenuWrapper
-            isOpen={isOpen}
-            isEmpty={selectableItems.length <= 0}
             getMenuProps={getMenuProps}
-            noOptionsText={noOptionsText}
             highlightedIndex={highlightedIndex}
-            menuHeaderContent={menuHeaderContent}
+            isEmpty={selectableItems.length <= 0}
+            isOpen={isOpen}
+            lazyLoading={lazyLoading}
+            loader={
+                <Loader
+                    isLoading={isLoading}
+                    isOpen={isOpen}
+                    lazyLoading={lazyLoading}
+                    loadingType={selector.loadingType}
+                    withCheckbox={selector.selectionMethod === "checkbox"}
+                />
+            }
             menuFooterContent={menuFooterContent}
+            menuHeaderContent={menuHeaderContent}
+            noOptionsText={noOptionsText}
             onOptionClick={onOptionClick}
-            hasMoreItems={selector.options.hasMore ?? false}
-            isInfinite={selector.lazyLoading ?? false}
-            setPage={setPage}
+            onScroll={lazyLoading ? onScroll : undefined}
         >
             {isOpen &&
                 selectableItems.map((item, index) => {

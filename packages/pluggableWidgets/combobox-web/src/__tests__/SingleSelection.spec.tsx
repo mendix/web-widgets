@@ -9,7 +9,7 @@ import {
 import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
-import { ObjectItem, DynamicValue } from "mendix";
+import { ObjectItem, DynamicValue, ListValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
@@ -51,6 +51,7 @@ describe("Combo box (Association)", () => {
             selectedItemsStyle: "text",
             readOnlyStyle: "bordered",
             lazyLoading: false,
+            loadingType: "spinner",
             clearButtonAriaLabel: dynamicValue("Clear selection"),
             removeValueAriaLabel: dynamicValue("Remove value"),
             selectAllButtonCaption: dynamicValue("Select All"),
@@ -144,5 +145,33 @@ describe("Combo box (Association)", () => {
 
         expect(labelText?.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
+    });
+
+    describe("with lazy loading", () => {
+        it("calls loadMore only when menu opens", async () => {
+            const setLimit = jest.fn();
+            const lazyLoadingProps = {
+                ...defaultProps,
+                lazyLoading: true,
+                optionsSourceAssociationDataSource: {
+                    ...defaultProps.optionsSourceAssociationDataSource,
+                    hasMoreItems: true,
+                    limit: 0,
+                    setLimit
+                } as ListValue
+            };
+            const component = render(<Combobox {...lazyLoadingProps} />);
+
+            expect(component.queryAllByRole("option")).toHaveLength(0);
+            expect(lazyLoadingProps.optionsSourceAssociationDataSource?.limit).toEqual(0);
+
+            const input = await getInput(component);
+            fireEvent.click(input);
+
+            await waitFor(() => {
+                expect(component.queryAllByRole("option")).toHaveLength(4);
+                expect(setLimit).toHaveBeenCalledWith(100);
+            });
+        });
     });
 });

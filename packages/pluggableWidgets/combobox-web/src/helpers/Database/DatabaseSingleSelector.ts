@@ -1,12 +1,16 @@
 import { ObjectItem, ActionValue, EditableValue, ValueStatus } from "mendix";
-import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    LoadingTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { extractDatabaseProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { DEFAULT_LIMIT_SIZE, _valuesIsEqual } from "../utils";
+import { _valuesIsEqual } from "../utils";
 
 export class DatabaseSingleSelector<T extends string | Big, R extends EditableValue<T>> implements SingleSelector {
     type = "single" as const;
@@ -19,12 +23,13 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     caption: DatabaseCaptionsProvider;
     readOnly = false;
     lazyLoading = false;
+    loadingType?: LoadingTypeEnum;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, ObjectItem> = new Map();
-    private limit: number = DEFAULT_LIMIT_SIZE;
+    private limit: number = 0;
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -45,7 +50,8 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
             customContentType,
             valueAttribute,
             emptyValue,
-            lazyLoading
+            lazyLoading,
+            loadingType
         ] = extractDatabaseProps(props);
 
         const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
@@ -112,6 +118,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.lazyLoading = lazyLoading;
+        this.loadingType = loadingType;
     }
 
     setValue(objectId: string | null): void {

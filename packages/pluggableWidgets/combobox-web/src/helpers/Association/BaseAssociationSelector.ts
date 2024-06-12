@@ -1,11 +1,14 @@
 import { ObjectItem, ReferenceValue, ReferenceSetValue, ActionValue, ValueStatus } from "mendix";
-import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    LoadingTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/ComboboxProps";
 import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
 import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
 import { extractAssociationProps } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { DEFAULT_LIMIT_SIZE } from "../utils";
 
 export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
     status: Status = "unavailable";
@@ -15,12 +18,13 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
     lazyLoading = false;
+    loadingType?: LoadingTypeEnum;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _valuesMap: Map<string, ObjectItem> = new Map();
-    private limit: number = DEFAULT_LIMIT_SIZE;
+    private limit: number = 0;
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
@@ -38,7 +42,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             onChangeEvent,
             customContent,
             customContentType,
-            lazyLoading
+            lazyLoading,
+            loadingType
         ] = extractAssociationProps(props);
 
         const newLimit = this.newLimit(ds.limit, attr.readOnly, attr.status, lazyLoading);
@@ -82,6 +87,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.lazyLoading = lazyLoading;
+        this.loadingType = loadingType;
     }
 
     setValue(_value: T | null): void {

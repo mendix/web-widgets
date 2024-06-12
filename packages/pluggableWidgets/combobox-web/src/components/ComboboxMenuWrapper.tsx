@@ -1,22 +1,21 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
-import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
-interface ComboboxMenuWrapperProps
-    extends PropsWithChildren,
-        Partial<UseComboboxPropGetters<string>>,
-        Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite" | "setPage"> {
-    isOpen: boolean;
-    isEmpty: boolean;
-    noOptionsText?: string;
+interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     alwaysOpen?: boolean;
     highlightedIndex?: number | null;
-    menuHeaderContent?: ReactNode;
+    isEmpty: boolean;
+    isOpen: boolean;
+    lazyLoading: boolean;
+    loader: JSX.Element;
     menuFooterContent?: ReactNode;
+    menuHeaderContent?: ReactNode;
+    noOptionsText?: string;
     onOptionClick?: (e: MouseEvent) => void;
+    onScroll?: (e: any) => void;
 }
 
 function PreventMenuCloseEventHandler(e: React.MouseEvent): void {
@@ -30,22 +29,22 @@ function ForcePreventMenuCloseEventHandler(e: React.MouseEvent): void {
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
     const {
-        children,
-        isOpen,
-        isEmpty,
-        noOptionsText,
         alwaysOpen,
+        children,
         getMenuProps,
-        menuHeaderContent,
-        menuFooterContent,
         highlightedIndex,
+        isEmpty,
+        isOpen,
+        lazyLoading,
+        loader,
+        menuFooterContent,
+        menuHeaderContent,
+        noOptionsText,
         onOptionClick,
-        hasMoreItems,
-        isInfinite,
-        setPage
+        onScroll
     } = props;
+
     const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
-    const [trackScrolling] = useInfiniteControl({ hasMoreItems, isInfinite, setPage });
 
     return (
         <div
@@ -73,18 +72,19 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             <ul
                 className={classNames("widget-combobox-menu-list", {
                     "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                    "infinite-loading": isInfinite
+                    "widget-combobox-menu-lazy-scroll": lazyLoading
                 })}
                 {...getMenuProps?.(
                     {
                         onClick: onOptionClick,
                         onMouseDown: ForcePreventMenuCloseEventHandler,
-                        onScroll: isInfinite ? trackScrolling : undefined
+                        onScroll
                     },
                     { suppressRefError: true }
                 )}
             >
                 {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
+                {loader}
             </ul>
             {menuFooterContent && (
                 <div tabIndex={0} className="widget-combobox-menu-footer" onMouseDown={PreventMenuCloseEventHandler}>
