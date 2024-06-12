@@ -8,6 +8,7 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     alwaysOpen?: boolean;
     highlightedIndex?: number | null;
     isEmpty: boolean;
+    isLoading: boolean;
     isOpen: boolean;
     lazyLoading: boolean;
     loader: JSX.Element;
@@ -34,6 +35,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         getMenuProps,
         highlightedIndex,
         isEmpty,
+        isLoading,
         isOpen,
         lazyLoading,
         loader,
@@ -84,7 +86,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 )}
             >
                 {isOpen ? (
-                    isEmpty && lazyLoading === false ? (
+                    isEmpty && !isLoading ? (
                         <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
                     ) : (
                         children

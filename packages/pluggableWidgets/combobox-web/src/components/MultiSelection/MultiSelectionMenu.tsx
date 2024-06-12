@@ -51,6 +51,7 @@ export function MultiSelectionMenu({
             getMenuProps={getMenuProps}
             highlightedIndex={highlightedIndex}
             isEmpty={selectableItems.length <= 0}
+            isLoading={isLoading}
             isOpen={isOpen}
             lazyLoading={lazyLoading}
             loader={

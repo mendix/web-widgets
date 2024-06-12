@@ -45,6 +45,7 @@ export function SingleSelectionMenu({
             alwaysOpen={alwaysOpen}
             getMenuProps={getMenuProps}
             isEmpty={items?.length <= 0}
+            isLoading={isLoading}
             isOpen={isOpen}
             lazyLoading={lazyLoading}
             loader={
