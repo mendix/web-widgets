@@ -1,25 +1,39 @@
-import { SingleSelector } from "src/helpers/types";
-import { getDatasourcePlaceholderText } from "src/helpers/utils";
-import { ComboboxPreviewProps } from "typings/ComboboxProps";
-import { BaseAssociationSelector } from "../BaseAssociationSelector";
-import { ReferenceValue } from "mendix";
+import {
+    ComboboxContainerProps,
+    ComboboxPreviewProps,
+    LoadingTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../../typings/ComboboxProps";
+import { CaptionsProvider, OptionsProvider, SingleSelector, Status } from "../../../helpers/types";
+import { getDatasourcePlaceholderText } from "../../../helpers/utils";
 import { AssociationPreviewCaptionsProvider } from "./AssociationPreviewCaptionsProvider";
 import { AssociationPreviewOptionsProvider } from "./AssociationPreviewOptionsProvider";
 
-export class AssociationPreviewSelector
-    extends BaseAssociationSelector<string, ReferenceValue>
-    implements SingleSelector
-{
+export class AssociationPreviewSelector implements SingleSelector {
+    attributeType?: "string" | "big" | "boolean" | "date";
+    caption: CaptionsProvider;
+    clearable: boolean;
+    currentId: string | null;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    lazyLoading?: boolean = false;
+    loadingType?: LoadingTypeEnum = "skeleton";
+    options: OptionsProvider;
+    readOnly: boolean;
+    selectorType?: "context" | "database" | "static";
+    status: Status = "available";
     type = "single" as const;
+    validation?: string;
+
+    onEnterEvent?: () => void;
+    onLeaveEvent?: () => void;
 
     constructor(props: ComboboxPreviewProps) {
-        super();
         this.caption = new AssociationPreviewCaptionsProvider(new Map());
-        this.options = new AssociationPreviewOptionsProvider(this.caption, new Map());
-        this.readOnly = props.readOnly;
         this.clearable = props.clearable;
         this.currentId = getDatasourcePlaceholderText(props);
         this.customContentType = props.optionsSourceAssociationCustomContentType;
+        this.options = new AssociationPreviewOptionsProvider(this.caption, new Map());
+        this.readOnly = props.readOnly;
         (this.caption as AssociationPreviewCaptionsProvider).updatePreviewProps({
             customContentRenderer: props.optionsSourceAssociationCustomContent.renderer,
             customContentType: props.optionsSourceAssociationCustomContentType
@@ -29,5 +43,12 @@ export class AssociationPreviewSelector
             // always render custom content dropzone in design mode if type is options only
             this.customContentType = "yes";
         }
+    }
+
+    setValue(_: string | null): void {
+        throw new Error("Method not implemented.");
+    }
+    updateProps(_: ComboboxContainerProps): void {
+        throw new Error("Method not implemented.");
     }
 }
