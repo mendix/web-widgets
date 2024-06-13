@@ -211,8 +211,8 @@ $dg-grid-selected-row-background: $dg-brand-light;
                 padding: 0;
                 margin: 0;
 
-                height: (var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
-                width: (var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
+                height: calc(var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
+                width: calc(var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
 
                 svg {
                     margin: $icon-margin;
