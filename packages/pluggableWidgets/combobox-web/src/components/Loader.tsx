@@ -26,11 +26,7 @@ export function Loader(props: LoaderProps): ReactElement | null {
                 <SkeletonLoader withCheckbox={withCheckbox} key={i} />
             ))}
         </Fragment>
-    ) : isEmpty ? (
-        <div style={{ margin: "52px 0" }}>
-            <SpinnerLoader />
-        </div>
     ) : (
-        <SpinnerLoader />
+        <SpinnerLoader withMargins={isEmpty} />
     );
 }

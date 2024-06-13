@@ -372,6 +372,10 @@ $cb-skeleton-dark: #d2d2d2;
         justify-content: center;
         width: 100%;
 
+        &-margin {
+            margin: 52px 0;
+        }
+
         &-loader {
             --widget-combobox-spinner-loader: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
             animation: rotate 1s infinite linear;
