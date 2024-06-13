@@ -6,7 +6,7 @@ import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
+import { UpdateDataSourceFn, useDataExportApi } from "./features/data-export";
 import "./ui/Datagrid.scss";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
@@ -34,7 +34,7 @@ const Container = observer((props: Props): ReactElement => {
     const { FilterContext } = useFilterContext();
     const { columnsStore, rootStore } = props;
 
-    const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
+    const [{ items, exporting, processedRows }, { abort }] = useDataExportApi({
         columns: useMemo(
             () => columnsStore.visibleColumns.map(column => props.columns[column.columnIndex]),
             [columnsStore.visibleColumns, props.columns]
