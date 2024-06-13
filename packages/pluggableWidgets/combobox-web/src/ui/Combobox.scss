@@ -347,11 +347,12 @@ $cb-skeleton-dark: #d2d2d2;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
         overflow: hidden;
     }
 
     &-skeleton {
+        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
+
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
             background: linear-gradient(90deg, $cb-skeleton-light 0%, $cb-skeleton-dark 100%);

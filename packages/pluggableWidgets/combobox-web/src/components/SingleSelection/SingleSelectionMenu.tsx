@@ -1,7 +1,6 @@
 import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, ReactElement, ReactNode } from "react";
 import { SingleSelector } from "../../helpers/types";
-import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
@@ -14,6 +13,9 @@ interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     noOptionsText?: string;
     alwaysOpen?: boolean;
     menuFooterContent?: ReactNode;
+    isLoading: boolean;
+    lazyLoading: boolean;
+    onScroll: (e: any) => void;
 }
 
 export function SingleSelectionMenu({
@@ -24,21 +26,12 @@ export function SingleSelectionMenu({
     getItemProps,
     noOptionsText,
     alwaysOpen,
-    menuFooterContent
+    menuFooterContent,
+    isLoading,
+    lazyLoading,
+    onScroll
 }: ComboboxMenuProps): ReactElement {
     const items = selector.options.getAll();
-    const lazyLoading = selector.lazyLoading ?? false;
-    const { isLoading, onScroll } = useLazyLoading({
-        hasMoreItems: selector.options.hasMore ?? false,
-        isInfinite: lazyLoading,
-        isOpen,
-        loadMore: () => {
-            if (selector.options.loadMore) {
-                selector.options.loadMore();
-            }
-        },
-        numberOfItems: items.length
-    });
 
     return (
         <ComboboxMenuWrapper

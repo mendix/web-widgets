@@ -2,7 +2,6 @@ import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, MouseEvent, ReactElement, ReactNode } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
-import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
 import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 import { Loader } from "../Loader";
@@ -18,6 +17,9 @@ interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>
     menuHeaderContent?: ReactNode;
     menuFooterContent?: ReactNode;
     onOptionClick?: (e: MouseEvent) => void;
+    isLoading: boolean;
+    lazyLoading: boolean;
+    onScroll: (e: any) => void;
 }
 
 export function MultiSelectionMenu({
@@ -31,21 +33,11 @@ export function MultiSelectionMenu({
     inputId,
     menuHeaderContent,
     menuFooterContent,
-    onOptionClick
+    onOptionClick,
+    isLoading,
+    lazyLoading,
+    onScroll
 }: MultiSelectionMenuProps): ReactElement {
-    const lazyLoading = selector.lazyLoading ?? false;
-    const { isLoading, onScroll } = useLazyLoading({
-        hasMoreItems: selector.options.hasMore ?? false,
-        isInfinite: lazyLoading,
-        isOpen,
-        loadMore: () => {
-            if (selector.options.loadMore) {
-                selector.options.loadMore();
-            }
-        },
-        numberOfItems: selectableItems.length
-    });
-
     return (
         <ComboboxMenuWrapper
             getMenuProps={getMenuProps}
