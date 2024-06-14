@@ -12,7 +12,7 @@
     "test": "turbo run test --continue --concurrency 1",
     "build": "turbo run build",
     "release": "turbo run release",
-    "create-gh-release": "turbo run create-gh-release",
+    "create-gh-release": "turbo run create-gh-release --concurrency 1",
     "publish-marketplace": "turbo run publish-marketplace",
     "version": "pnpm --filter @mendix/automation-utils run version",
     "changelog": "pnpm --filter @mendix/automation-utils run changelog"
