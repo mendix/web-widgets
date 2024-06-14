@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.0] Charts - 2024-06-14
+
 ### Breaking changes
 
 -   We have removed the "Enable developer mode" property. As of version 5, the playground has become a pluggable widget called "Chart playground." This separation minimizes production code loaded to the client. To enable developer mode, simply drag and drop the playground to the chart you want to edit.
