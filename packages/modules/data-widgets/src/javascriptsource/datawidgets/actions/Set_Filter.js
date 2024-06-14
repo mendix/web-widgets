@@ -19,15 +19,15 @@ If true, "Value" section will be ignored
  * @param {string} stringValue - Value set for dropdown filter or text filter. Choose empty if not use.
  * @param {Big} numberValue - Number value for number filter. Choose empty if not use.
  * @param {Date} dateTimeValue - Date time value for date filter, can also be use as "start date". Choose empty if not use.
- * @param {Date} dateTimeValue2 - End date time value for range filter. Choose empty if not use.
+ * @param {Date} dateTimeValue_2 - End date time value for range filter. Choose empty if not use.
  * @returns {Promise.<void>}
  */
-export async function Set_Filter(targetName, useDefaultValue, operators, stringValue, numberValue, dateTimeValue, dateTimeValue2) {
+export async function Set_Filter(targetName, useDefaultValue, operators, stringValue, numberValue, dateTimeValue, dateTimeValue_2) {
 	// BEGIN USER CODE
 	const plugin = window["com.mendix.widgets.web.plugin.externalEvents"];
     if (plugin) {
         plugin.emit(targetName, "set.value", useDefaultValue, {
-			operators, stringValue, numberValue, dateTimeValue, dateTimeValue2
+			operators, stringValue, numberValue, dateTimeValue, dateTimeValue2: dateTimeValue_2
 		});
     }
 	// END USER CODE
