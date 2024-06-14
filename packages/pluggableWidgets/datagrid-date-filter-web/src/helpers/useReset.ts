@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
-import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { FilterStore } from "./store/FilterStore";
 import { FilterTypeEnum } from "./base-types";
 import { FilterAPIClient } from "./filter-api-client/FilterAPIClient";
+import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 
 type ResetEventParams = Parameters<typeof useOnResetValueEvent>[0];
 
@@ -32,17 +33,36 @@ export function useReset(props: Props, filterStore: FilterStore): void {
     const resetState = useRef(computeResetState);
     resetState.current = computeResetState;
 
+    const reset = (setDefault: boolean): void => {
+        if (setDefault) {
+            filterStore.reset(resetState.current());
+        } else {
+            filterStore.reset();
+        }
+    };
+
     const [resetParams] = useState<ResetEventParams>(() => ({
         widgetName: props.name,
         parentChannelName: props.filterAPIClient?.parentChannelName,
-        listener: (setDefault: boolean) => {
-            if (setDefault) {
-                filterStore.reset(resetState.current());
+        listener: reset
+    }));
+
+    useOnSetValueEvent({
+        widgetName: props.name,
+        listener: (useDefaultValue: boolean, valueOptions: SetFilterValueArgs): void => {
+            if (useDefaultValue) {
+                reset(useDefaultValue);
             } else {
-                filterStore.reset();
+                const filterType = valueOptions.operators as FilterTypeEnum;
+                filterStore.setType(filterType);
+                filterStore.setValue(
+                    filterType === "between"
+                        ? [valueOptions.dateTimeValue, valueOptions.dateTimeValue2]
+                        : valueOptions.dateTimeValue
+                );
             }
         }
-    }));
+    });
 
     useOnResetValueEvent(resetParams);
 }
