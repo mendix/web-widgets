@@ -36,14 +36,27 @@ const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<EventEntryContex
     handler: ({ item }) => selectFx(item, false, true)
 });
 
-const onKeyDown = (): EventCaseEntry<EventEntryContext, HTMLDivElement, "onKeyDown"> => ({
-    eventName: "onKeyDown",
-    filter: (_ctx, event) =>
-        // stop propagation in case the element is an input element, to be able to move cursor with keyboard
-        event.target instanceof HTMLInputElement &&
-        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code),
-    handler: (_ctx, event) => event.stopPropagation()
-});
+/** An entry that adds a filter that ignores events from the input/textarea. */
+function createArrowInputHandler(
+    entries: Array<EventCaseEntry<EventEntryContext, Element, "onKeyDown">>
+): EventCaseEntry<EventEntryContext, Element, "onKeyDown"> {
+    return {
+        eventName: "onKeyDown",
+        filter: (_ctx, event) => {
+            if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+                return false;
+            }
+            return true;
+        },
+        handler: (ctx, event) => {
+            for (const entry of entries) {
+                if (entry.filter?.(ctx, event) ?? true) {
+                    entry.handler(ctx, event);
+                }
+            }
+        }
+    };
+}
 
 export function createItemHandlers(
     selectFx: SelectFx,
@@ -64,7 +77,6 @@ export function createItemHandlers(
                 unblockUserSelect();
             }
         ),
-        onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns),
-        onKeyDown()
+        createArrowInputHandler(onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns))
     ].flat();
 }
