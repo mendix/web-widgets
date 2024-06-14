@@ -37,7 +37,8 @@ export function SingleSelection({
                 selector.options.loadMore();
             }
         },
-        numberOfItems: selector.options.getAll().length
+        searchTerm: selector.options.searchTerm,
+        status: selector.options.status
     });
 
     return (

@@ -52,7 +52,8 @@ export function MultiSelection({
                 selector.options.loadMore();
             }
         },
-        numberOfItems: items.length
+        searchTerm: selector.options.searchTerm,
+        status: selector.options.status
     });
 
     return (

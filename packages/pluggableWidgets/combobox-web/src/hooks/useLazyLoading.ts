@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { Status } from "../helpers/types";
 
 type UseLazyLoadingProps = Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite"> & {
     isOpen: boolean;
     loadMore?: () => void;
-    numberOfItems: number;
+    searchTerm: string;
+    status: Status;
 };
 
 type UseLazyLoadingReturn = {
@@ -13,7 +15,7 @@ type UseLazyLoadingReturn = {
 };
 
 export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn {
-    const { hasMoreItems, isInfinite, isOpen, loadMore, numberOfItems } = props;
+    const { hasMoreItems, isInfinite, isOpen, loadMore, searchTerm, status } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [firstLoad, setFirstLoad] = useState(false);
     const setPageCallback = useCallback(() => {
@@ -33,8 +35,14 @@ export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn
     }, [firstLoad, isInfinite, isOpen, setPageCallback]);
 
     useEffect(() => {
-        setIsLoading(false);
-    }, [numberOfItems]);
+        setIsLoading(true);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        if (status !== "loading") {
+            setIsLoading(false);
+        }
+    }, [status]);
 
     return { isLoading, onScroll: trackScrolling };
 }
