@@ -125,8 +125,6 @@ $dg-grid-selected-row-background: $dg-brand-light;
         /* Header text */
         .column-header {
             margin: 1px 1px calc((-1 * var(--spacing-smaller, $dg-dragging-effect-size)) + 2px);
-            // margin: 1px 1px 1px -$dragging-effect-size + 1px;
-
             display: flex;
             align-items: baseline;
 
