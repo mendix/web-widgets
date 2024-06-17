@@ -1401,8 +1401,8 @@ importers:
   packages/pluggableWidgets/html-element-web:
     dependencies:
       dompurify:
-        specifier: ^2.5.0
-        version: 2.5.0
+        specifier: ^2.5.5
+        version: 2.5.5
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -8526,8 +8526,8 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
-  /dompurify@2.5.0:
-    resolution: {integrity: sha512-5RXhAXSCrKTqt9pSbobT9PVRX+oPpENplTZqCiK1l0ya+ZOzwo9kqsGLbYRsAhzIiLCwKEy99XKSSrqnRTLVcw==}
+  /dompurify@2.5.5:
+    resolution: {integrity: sha512-FgbqnEPiv5Vdtwt6Mxl7XSylttCC03cqP5ldNT2z+Kj0nLxPHJH4+1Cyf5Jasxhw93Rl4Oo11qRoUV72fmya2Q==}
     dev: false
 
   /domutils@2.8.0:
