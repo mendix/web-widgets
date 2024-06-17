@@ -9,6 +9,7 @@ import {
     isSelectOneTrigger
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
+import { withInputEventsFilter } from "./keyboard-utils";
 
 const onMouseDown = (
     handler: (ctx: EventEntryContext, event: React.MouseEvent<Element>) => void
@@ -36,28 +37,6 @@ const onSelectItemHotKey = (selectFx: SelectFx): EventCaseEntry<EventEntryContex
     handler: ({ item }) => selectFx(item, false, true)
 });
 
-/** An entry that adds a filter that ignores events from the input/textarea. */
-function createArrowInputHandler(
-    entries: Array<EventCaseEntry<EventEntryContext, Element, "onKeyDown">>
-): EventCaseEntry<EventEntryContext, Element, "onKeyDown"> {
-    return {
-        eventName: "onKeyDown",
-        filter: (_ctx, event) => {
-            if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
-                return false;
-            }
-            return true;
-        },
-        handler: (ctx, event) => {
-            for (const entry of entries) {
-                if (entry.filter?.(ctx, event) ?? true) {
-                    entry.handler(ctx, event);
-                }
-            }
-        }
-    };
-}
-
 export function createItemHandlers(
     selectFx: SelectFx,
     selectAllFx: SelectAllFx,
@@ -77,6 +56,6 @@ export function createItemHandlers(
                 unblockUserSelect();
             }
         ),
-        createArrowInputHandler(onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns))
+        withInputEventsFilter(onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns))
     ].flat();
 }
