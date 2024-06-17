@@ -35,6 +35,7 @@ export function createHandleGenerator(props: CreateHandleGeneratorParams): Handl
 
         return (
             <Tooltip
+                getTooltipContainer={() => document.querySelector(".widget-slider")!}
                 prefixCls="rc-slider-tooltip"
                 overlay={isCustomText ? <div>{tooltipValue[index]?.value ?? ""}</div> : restProps.value}
                 trigger={["hover", "click", "focus"]}
