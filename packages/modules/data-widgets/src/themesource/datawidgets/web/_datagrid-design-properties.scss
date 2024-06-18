@@ -1,48 +1,48 @@
 .table-compact {
     .th {
-        padding: $spacing-small;
+        padding: var(--spacing-small, $dg-spacing-small);
 
         .filter-selectors {
-            margin: 0 $spacing-small;
+            margin: 0 var(--spacing-small, $dg-spacing-small);
         }
     }
 
     &:has(.th .column-container .filter:not(:empty)) {
         .th {
             &.column-selector {
-                padding: $spacing-small 0;
+                padding: var(--spacing-small, $dg-spacing-small) 0;
             }
             &.widget-datagrid-col-select {
-                padding-bottom: calc($spacing-small + 11px);
+                padding-bottom: calc(var(--spacing-small, $dg-spacing-small) + 11px);
             }
         }
     }
 
     .td {
-        padding: $spacing-small;
+        padding: var(--spacing-small, $dg-spacing-small);
     }
 
     .dropdown-container .dropdown-list {
-        margin: 0 $spacing-small;
+        margin: 0 var(--spacing-small, $dg-spacing-small);
     }
 
     .column-selector {
         /* Column content */
         .column-selector-content {
-            padding-right: $spacing-small;
+            padding-right: var(--spacing-small, $dg-spacing-small);
         }
     }
 }
 
 .table-striped {
     .tr:nth-child(odd) > .td {
-        background-color: $grid-bg-striped;
+        background-color: var(--grid-bg-striped, $dg-grid-bg-striped);
     }
 }
 
 .table-hover {
     .tr:hover > .td {
-        background-color: $grid-bg-hover;
+        background-color: var(--grid-bg-hover, $dg-grid-bg-hover);
     }
 }
 

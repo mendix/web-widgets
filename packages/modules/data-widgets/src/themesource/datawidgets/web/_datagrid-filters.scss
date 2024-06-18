@@ -1,9 +1,10 @@
-$hover-color: #f8f8f8 !default;
-$background-color: #fff !default;
-$selected-color: #dadcde !default;
-$border-color: #ced0d3 !default;
+$dg-hover-color: #f8f8f8;
+$dg-background-color: #fff;
+$dg-selected-color: #dadcde;
+$dg-border-color: #ced0d3;
+$dg-spacing-small: 8px;
 $arrow: "resources/dropdown-arrow.svg";
-$item-min-height: 32px;
+$dg-item-min-height: 32px;
 
 @import "date-picker";
 
@@ -63,9 +64,9 @@ $item-min-height: 32px;
             position: absolute;
             width: max-content;
             left: 0;
-            margin: 0 $spacing-small;
+            margin: 0 var(--spacing-small, $dg-spacing-small);
             padding: 0;
-            background: $background-color;
+            background: var(--bg-color-secondary, $dg-background-color);
             z-index: 102;
             border-radius: 8px;
             list-style-type: none;
@@ -85,13 +86,13 @@ $item-min-height: 32px;
                 }
 
                 &.filter-selected {
-                    background-color: $hover-color;
-                    color: $brand-primary;
+                    background-color: var(--gray-lighter, $dg-hover-color);
+                    color: var(--brand-primary, $brand-primary);
                 }
 
                 &:hover,
                 &:focus {
-                    background-color: $hover-color;
+                    background-color: var(--gray-lighter, $dg-hover-color);
                 }
             }
         }
@@ -100,7 +101,7 @@ $item-min-height: 32px;
 
 .filter-selectors {
     padding: 0;
-    background: $background-color;
+    background: var(--bg-color-secondary, $dg-background-color);
     border-radius: 8px;
     list-style-type: none;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
@@ -119,13 +120,13 @@ $item-min-height: 32px;
         }
 
         &.filter-selected {
-            background-color: $hover-color;
-            color: $brand-primary;
+            background-color: var(--gray-lighter, $dg-hover-color);
+            color: var(--brand-primary, $brand-primary);
         }
 
         &:hover,
         &:focus {
-            background-color: $hover-color;
+            background-color: var(--gray-lighter, $dg-hover-color);
         }
     }
 }
@@ -139,9 +140,9 @@ $item-min-height: 32px;
         display: flex;
         align-items: center;
         font-weight: normal;
-        min-height: $item-min-height;
+        min-height: var(--spacing-larger, $dg-item-min-height);
         cursor: pointer;
-        padding: 0 $spacing-small;
+        padding: 0 var(--spacing-small, $dg-spacing-small);
 
         .filter-label {
             overflow: hidden;
@@ -150,13 +151,13 @@ $item-min-height: 32px;
         }
 
         &.filter-selected {
-            background-color: $hover-color;
-            color: $brand-primary;
+            background-color: var(--gray-lighter, $dg-hover-color);
+            color: var(--brand-primary, $brand-primary);
         }
 
         &:hover,
         &:focus {
-            background-color: $hover-color;
+            background-color: var(--gray-lighter, $dg-hover-color);
         }
 
         label {
@@ -171,7 +172,7 @@ $item-min-height: 32px;
 }
 
 :not(.dropdown-content) > .dropdown-list {
-    background: $background-color;
+    background: var(--bg-color-secondary, $dg-background-color);
     border-radius: 8px;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
     max-height: 40vh;
@@ -179,7 +180,7 @@ $item-min-height: 32px;
 }
 
 .dropdown-content {
-    background: $background-color;
+    background: var(--bg-color-secondary, $dg-background-color);
     border-radius: 8px;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
     max-height: 40vh;
@@ -197,7 +198,7 @@ $item-min-height: 32px;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    padding: 0 $spacing-small;
+    padding: 0 var(--spacing-small, $dg-spacing-small);
     min-height: 40px;
 }
 
@@ -226,9 +227,9 @@ $item-min-height: 32px;
 
     .dropdown-list {
         left: 0;
-        margin: 0 $spacing-small;
+        margin: 0 var(--spacing-small, $dg-spacing-small);
         padding: 0;
-        background: $background-color;
+        background: var(--bg-color-secondary, $dg-background-color);
         z-index: 102;
         border-radius: 8px;
         list-style-type: none;
@@ -240,9 +241,9 @@ $item-min-height: 32px;
             display: flex;
             align-items: center;
             font-weight: normal;
-            min-height: $item-min-height;
+            min-height: var(--spacing-larger, $dg-item-min-height);
             cursor: pointer;
-            padding: 0 $spacing-small;
+            padding: 0 var(--spacing-small, $dg-spacing-small);
 
             .filter-label {
                 overflow: hidden;
@@ -251,13 +252,13 @@ $item-min-height: 32px;
             }
 
             &.filter-selected {
-                background-color: $hover-color;
-                color: $brand-primary;
+                background-color: var(--gray-lighter, $dg-hover-color);
+                color: var(--brand-primary, $brand-primary);
             }
 
             &:hover,
             &:focus {
-                background-color: $hover-color;
+                background-color: var(--gray-lighter, $dg-hover-color);
             }
 
             label {

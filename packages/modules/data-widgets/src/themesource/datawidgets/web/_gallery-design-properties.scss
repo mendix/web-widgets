@@ -7,14 +7,14 @@
 // All borders
 .widget-gallery-bordered-all {
     .widget-gallery-item {
-        border: 1px solid $grid-border-color;
+        border: 1px solid var(--grid-border-color, $dg-grid-border-color);
     }
 }
 
 // Vertical borders
 .widget-gallery-bordered-vertical {
     .widget-gallery-item {
-        border-color: $grid-border-color;
+        border-color: var(--grid-border-color, $dg-grid-border-color);
         border-style: solid;
         border-width: 0;
         border-left-width: 1px;
@@ -25,7 +25,7 @@
 // Horizontal orders
 .widget-gallery-bordered-horizontal {
     .widget-gallery-item {
-        border-color: $grid-border-color;
+        border-color: var(--grid-border-color, $dg-grid-border-color);
         border-style: solid;
         border-width: 0;
         border-top-width: 1px;
@@ -37,7 +37,7 @@
 .widget-gallery-hover {
     .widget-gallery-items {
         .widget-gallery-item:hover {
-            background-color: $grid-bg-hover;
+            background-color: var(--grid-bg-hover, $dg-grid-bg-hover);
         }
     }
 }
@@ -45,7 +45,7 @@
 // Striped styles
 .widget-gallery-striped {
     .widget-gallery-item:nth-child(odd) {
-        background-color: $grid-bg-striped;
+        background-color: var(--grid-bg-striped, $dg-grid-bg-striped);
     }
     .widget-gallery-item:nth-child(even) {
         background-color: #fff;
@@ -62,21 +62,21 @@
 // Grid spacing small
 .widget-gallery.widget-gallery-gridgap-small {
     .widget-gallery-items {
-        gap: $spacing-small;
+        gap: var(--spacing-small, $dg-spacing-small);
     }
 }
 
 // Grid spacing medium
 .widget-gallery.widget-gallery-gridgap-medium {
     .widget-gallery-items {
-        gap: $spacing-medium;
+        gap: var(--spacing-medium, $dg-spacing-medium);
     }
 }
 
 // Grid spacing large
 .widget-gallery.widget-gallery-gridgap-large {
     .widget-gallery-items {
-        gap: $spacing-large;
+        gap: var(--spacing-large, $dg-spacing-large);
     }
 }
 

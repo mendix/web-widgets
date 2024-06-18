@@ -4,10 +4,12 @@
 //== Design Properties
 //## Helper classes to change the look and feel of the component
 ========================================================================== */
+$dg-grid-border-color: #ced0d3;
+$dg-grid-bg-hover: #f5f6f6;
 
 .widget-tree-node-hover {
     .widget-tree-node-branch:hover > .widget-tree-node-branch-header {
-        background-color: $grid-bg-hover;
+        background-color: var(--grid-bg-hover, $dg-grid-bg-hover);
     }
 }
 
@@ -16,12 +18,12 @@
         border-width: 0;
         border-bottom-width: 1px;
         border-bottom-style: solid;
-        border-bottom-color: $grid-border-color;
+        border-bottom-color: var(--grid-border-color, $dg-grid-border-color);
     }
 }
 
 .widget-tree-node-bordered-all {
-    border: 1px solid $grid-border-color;
+    border: 1px solid var(--grid-border-color, $dg-grid-border-color);
     border-radius: 8px;
     overflow: hidden;
 
