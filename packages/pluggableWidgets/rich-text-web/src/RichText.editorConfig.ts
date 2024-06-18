@@ -44,10 +44,6 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, toolbarGroups.concat(["toolbarConfig", "advancedConfig"]));
     }
 
-    if (values.menubarMode !== "custom") {
-        hidePropertiesIn(defaultProperties, values, menubarGroups.concat(["menubarConfig", "advancedMenubarConfig"]));
-    }
-
     if (values.toolbarConfig === "basic") {
         hidePropertyIn(defaultProperties, values, "advancedConfig");
     }
@@ -68,10 +64,6 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
 
     if (values.widthUnit === "percentage" && values.heightUnit === "percentageOfWidth") {
         hidePropertyIn(defaultProperties, values, "height");
-    }
-
-    if (!values.enableStatusBar) {
-        hidePropertyIn(defaultProperties, values, "resize");
     }
 
     if (!values.onChange) {
