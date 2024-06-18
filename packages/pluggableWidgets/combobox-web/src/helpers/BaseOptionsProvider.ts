@@ -20,6 +20,10 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return false;
     }
 
+    get isLoading(): boolean {
+        return false;
+    }
+
     get status(): Status {
         return "available";
     }

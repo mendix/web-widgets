@@ -15,6 +15,7 @@ export interface BaseProps {
 export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectItem, BaseProps> {
     private ds?: ListValue;
     private attributeId?: ListAttributeValue["id"];
+    protected loading: boolean = false;
 
     constructor(caption: CaptionsProvider, protected valuesMap: Map<string, ObjectItem>) {
         super(caption);
@@ -36,6 +37,19 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.ds?.hasMoreItems ?? false;
     }
 
+    get isLoading(): boolean {
+        return this.loading;
+    }
+
+    setSearchTerm(term: string): void {
+        super.setSearchTerm(term);
+
+        if (this.lazyLoading) {
+            console.info("setSearchTerm: ", term);
+            this.loading = true;
+        }
+    }
+
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
@@ -54,6 +68,11 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     loadMore(): void {
         if (this.ds && this.hasMore) {
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
+
+            if (this.lazyLoading) {
+                console.info("loadMore with loading");
+                this.loading = true;
+            }
         }
     }
 
@@ -76,11 +95,16 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         this.lazyLoading = props.lazyLoading;
 
         const items = this.ds.items ?? [];
-
         this.valuesMap.clear();
-
         items.forEach(i => this.valuesMap.set(i.id, i));
+        if (this.lazyLoading) {
+            const prev = JSON.stringify(this.options);
+            const next = JSON.stringify(Array.from(this.valuesMap.keys()));
 
+            if (prev !== next) {
+                this.loading = false;
+            }
+        }
         this.options = Array.from(this.valuesMap.keys());
     }
 }

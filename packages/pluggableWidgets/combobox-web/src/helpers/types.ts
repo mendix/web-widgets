@@ -40,6 +40,7 @@ export interface OptionsProvider<T = unknown, P = object> {
     // lazy loading related
     hasMore?: boolean;
     loadMore?(): void;
+    isLoading: boolean;
 
     // for private use
     _updateProps(props: P): void;
