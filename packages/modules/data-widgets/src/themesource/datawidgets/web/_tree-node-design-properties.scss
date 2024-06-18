@@ -5,10 +5,11 @@
 //## Helper classes to change the look and feel of the component
 ========================================================================== */
 $dg-grid-border-color: #ced0d3;
+$dg-grid-bg-hover: #f5f6f6;
 
 .widget-tree-node-hover {
     .widget-tree-node-branch:hover > .widget-tree-node-branch-header {
-        background-color: var(--grid-bg-hover, $grid-bg-hover);
+        background-color: var(--grid-bg-hover, $dg-grid-bg-hover);
     }
 }
 
