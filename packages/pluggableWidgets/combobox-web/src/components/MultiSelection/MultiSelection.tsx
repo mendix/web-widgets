@@ -43,7 +43,7 @@ export function MultiSelection({
     );
 
     const lazyLoading = selector.lazyLoading ?? false;
-    const { isLoading, onScroll } = useLazyLoading({
+    const { onScroll } = useLazyLoading({
         hasMoreItems: selector.options.hasMore ?? false,
         isInfinite: lazyLoading,
         isOpen,
@@ -51,9 +51,7 @@ export function MultiSelection({
             if (selector.options.loadMore) {
                 selector.options.loadMore();
             }
-        },
-        searchTerm: selector.options.searchTerm,
-        status: selector.options.status
+        }
     });
 
     return (
@@ -64,7 +62,7 @@ export function MultiSelection({
                 readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
-                isLoading={lazyLoading && isLoading}
+                isLoading={lazyLoading && selector.options.isLoading}
             >
                 <div
                     className={classNames(
@@ -188,7 +186,7 @@ export function MultiSelection({
                 onOptionClick={() => {
                     inputRef.current?.focus();
                 }}
-                isLoading={isLoading}
+                isLoading={selector.options.isLoading}
                 lazyLoading={lazyLoading}
                 onScroll={onScroll}
             />

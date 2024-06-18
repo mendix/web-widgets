@@ -41,15 +41,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.loading;
     }
 
-    setSearchTerm(term: string): void {
-        super.setSearchTerm(term);
-
-        if (this.lazyLoading) {
-            console.info("setSearchTerm: ", term);
-            this.loading = true;
-        }
-    }
-
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
@@ -70,7 +61,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
 
             if (this.lazyLoading) {
-                console.info("loadMore with loading");
                 this.loading = true;
             }
         }
@@ -94,17 +84,17 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         this.filterType = props.filterType;
         this.lazyLoading = props.lazyLoading;
 
-        const items = this.ds.items ?? [];
-        this.valuesMap.clear();
-        items.forEach(i => this.valuesMap.set(i.id, i));
         if (this.lazyLoading) {
-            const prev = JSON.stringify(this.options);
-            const next = JSON.stringify(Array.from(this.valuesMap.keys()));
-
-            if (prev !== next) {
+            if (props.ds.status === "loading") {
+                this.loading = true;
+            } else {
                 this.loading = false;
             }
         }
+
+        const items = this.ds.items ?? [];
+        this.valuesMap.clear();
+        items.forEach(i => this.valuesMap.set(i.id, i));
         this.options = Array.from(this.valuesMap.keys());
     }
 }
