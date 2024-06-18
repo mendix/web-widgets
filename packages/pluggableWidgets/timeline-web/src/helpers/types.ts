@@ -21,9 +21,10 @@ export interface CustomItemType {
 
 export type ItemType = BasicItemType | CustomItemType;
 
+export type TimelineData = Map<string, ItemType[]>;
 export interface ComponentProps {
     class?: string;
-    data: Map<string, ItemType[]>;
+    data: TimelineData;
     customVisualization: boolean;
     groupEvents: boolean;
     onClick?: ActionValue;

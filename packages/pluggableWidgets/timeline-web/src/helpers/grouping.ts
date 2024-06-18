@@ -35,9 +35,6 @@ export function getFormatConfigByGroupingMethod(
     method: GroupByDayOptionsEnum | GroupByMonthOptionsEnum | GroupByKeyEnum
 ): DateTimeFormatterConfig {
     switch (method) {
-        case "fullDate":
-        case "day":
-            return { type: "date" };
         case "dayName":
             return { type: "custom", pattern: "EEEE" };
         case "dayMonth":
@@ -46,8 +43,10 @@ export function getFormatConfigByGroupingMethod(
             return { type: "custom", pattern: "MMMM" };
         case "monthYear":
             return { type: "custom", pattern: "MMM YYYY" };
-        default:
+        case "year":
             return { type: "custom", pattern: "YYYY" };
+        default:
+            return { type: "date" };
     }
 }
 
