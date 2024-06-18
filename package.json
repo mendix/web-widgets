@@ -54,7 +54,6 @@
             "json5@0.x": ">=1.0.2",
             "@mendix/pluggable-widgets-tools>typescript@4": "5.0.4",
             "@mendix/pluggable-widgets-tools>ts-node@9": "^10.9.1",
-            "@tinymce/tinymce-react": "https://github.com/uicontent/tinymce-react/releases/download/5.1.0-rc/tinymce-tinymce-react-5.1.0-rc.tgz",
             "rollup": "^2.79.2"
         },
         "patchedDependencies": {
