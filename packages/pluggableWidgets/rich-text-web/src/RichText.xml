@@ -17,20 +17,6 @@
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />
-                <property key="menubarMode" type="enumeration" defaultValue="hide">
-                    <caption>Menu bar</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="hide">Hidden</enumerationValue>
-                        <enumerationValue key="basic">Basic</enumerationValue>
-                        <enumerationValue key="full">Full</enumerationValue>
-                        <enumerationValue key="custom">Custom</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="enableStatusBar" type="boolean" defaultValue="true">
-                    <caption>Enable status bar</caption>
-                    <description />
-                </property>
             </propertyGroup>
             <propertyGroup caption="Toolbar">
                 <property key="preset" type="enumeration" defaultValue="basic">
@@ -43,36 +29,12 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="toolbarMode" type="enumeration" defaultValue="sliding">
-                    <caption>Mode</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="sliding">Sliding</enumerationValue>
-                        <enumerationValue key="floating">Floating</enumerationValue>
-                        <enumerationValue key="scrolling">Scrolling</enumerationValue>
-                        <enumerationValue key="wrap">Wrap</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="toolbarLocation" type="enumeration" defaultValue="auto">
+                <property key="toolbarLocation" type="enumeration" defaultValue="top">
                     <caption>Location</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="auto">Auto</enumerationValue>
                         <enumerationValue key="top">Top</enumerationValue>
                         <enumerationValue key="bottom">Bottom</enumerationValue>
-                        <enumerationValue key="inline">Inline</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="quickbars" type="boolean" defaultValue="false">
-                    <caption>Enable quick toolbar</caption>
-                    <description />
-                </property>
-                <property key="contextmenutype" type="enumeration" defaultValue="native">
-                    <caption>Context menu</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="native">Native</enumerationValue>
-                        <enumerationValue key="richtext">Rich Text</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>
