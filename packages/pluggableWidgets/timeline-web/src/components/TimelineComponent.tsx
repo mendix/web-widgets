@@ -1,9 +1,8 @@
 import { UngroupedEventsPositionEnum } from "../../typings/TimelineProps";
 import { Children, createElement, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
-import { BasicItemType, CustomItemType, ItemType } from "../Timeline";
+import { BasicItemType, CustomItemType, ItemType, ComponentProps } from "../helpers/types";
 import { Icon } from "mendix/components/web/Icon";
-import { ComponentProps } from "../helpers/types";
 
 export default function TimelineComponent(props: ComponentProps): ReactElement {
     return (

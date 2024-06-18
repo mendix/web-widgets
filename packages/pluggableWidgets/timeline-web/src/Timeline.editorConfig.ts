@@ -153,7 +153,7 @@ export function getPreview(values: TimelinePreviewProps, isDarkMode: boolean): S
         };
     }
 
-    function getGroupHeadingUserText(config: GroupHeaderConfig) {
+    function getGroupHeadingUserText(config: GroupHeaderConfig): string {
         switch (getHeaderOption(config)) {
             case "dayName":
                 return "[Day]";
