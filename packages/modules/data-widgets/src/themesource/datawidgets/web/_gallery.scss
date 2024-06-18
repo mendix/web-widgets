@@ -30,21 +30,21 @@ $gallery-screen-md: 768px;
         /*
          Desktop widths
          */
-        @media screen and (min-width: var(--screen-lg, $gallery-screen-lg)) {
+        @media screen and (min-width: $gallery-screen-lg) {
             @include grid-items(12, "lg");
         }
 
         /*
          Tablet widths
          */
-        @media screen and (min-width: var(--screen-md, $gallery-screen-md)) and (max-width: (var(--screen-lg, $gallery-screen-lg) - 1px)) {
+        @media screen and (min-width: $gallery-screen-md) and (max-width: ($gallery-screen-lg - 1px)) {
             @include grid-items(12, "md");
         }
 
         /*
          Phone widths
          */
-        @media screen and (max-width: (var(--screen-md, $gallery-screen-md) - 1)) {
+        @media screen and (max-width: ($gallery-screen-md - 1)) {
             @include grid-items(12, "sm");
         }
     }
