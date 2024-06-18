@@ -5,15 +5,9 @@
  */
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
-export type MenubarModeEnum = "hide" | "basic" | "full" | "custom";
-
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
-export type ToolbarModeEnum = "sliding" | "floating" | "scrolling" | "wrap";
-
-export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "inline";
-
-export type ContextmenutypeEnum = "native" | "richtext";
+export type ToolbarLocationEnum = "top" | "bottom";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
@@ -54,13 +48,8 @@ export interface RichTextContainerProps {
     tabIndex?: number;
     id: string;
     stringAttribute: EditableValue<string>;
-    menubarMode: MenubarModeEnum;
-    enableStatusBar: boolean;
     preset: PresetEnum;
-    toolbarMode: ToolbarModeEnum;
     toolbarLocation: ToolbarLocationEnum;
-    quickbars: boolean;
-    contextmenutype: ContextmenutypeEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     widthUnit: WidthUnitEnum;
     width: number;
@@ -118,13 +107,8 @@ export interface RichTextPreviewProps {
     readOnly: boolean;
     renderMode?: "design" | "xray" | "structure";
     stringAttribute: string;
-    menubarMode: MenubarModeEnum;
-    enableStatusBar: boolean;
     preset: PresetEnum;
-    toolbarMode: ToolbarModeEnum;
     toolbarLocation: ToolbarLocationEnum;
-    quickbars: boolean;
-    contextmenutype: ContextmenutypeEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;
