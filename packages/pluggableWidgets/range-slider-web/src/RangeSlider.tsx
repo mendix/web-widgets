@@ -1,4 +1,4 @@
-import { ReactNode, createElement, useMemo } from "react";
+import { ReactNode, createElement, useMemo, useRef } from "react";
 import { RangeSliderContainerProps } from "../typings/RangeSliderProps";
 import { RangeSlider as RangeSliderComponent } from "./components/RangeSlider";
 import { createHandleGenerator } from "./utils/createHandleGenerator";
@@ -77,6 +77,7 @@ export function RangeSlider(props: RangeSliderContainerProps): ReactNode {
         maxAttribute,
         expressionMaximumValue
     });
+    const sliderRef = useRef<HTMLDivElement>(null);
     const { onChange } = useOnChangeDebounced({ lowerBoundAttribute, upperBoundAttribute, onChange: onChangeProp });
     const style = getStyleProp({ orientation, height, heightUnit });
     useScheduleUpdateOnce(() => lowerBoundAttribute.status === ValueStatus.Available);
@@ -99,8 +100,10 @@ export function RangeSlider(props: RangeSliderContainerProps): ReactNode {
                 showTooltip,
                 tooltipTypeLower,
                 tooltipTypeUpper,
-                tooltipAlwaysVisible
+                tooltipAlwaysVisible,
+                sliderRef
             })}
+            sliderRef={sliderRef}
         />
     );
 }
