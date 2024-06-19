@@ -1,25 +1,30 @@
-import Quill, { QuillOptions, EmitterSource } from "quill";
-import { createElement, MutableRefObject, forwardRef, useEffect, useRef, useLayoutEffect } from "react";
+import Quill, { QuillOptions, EmitterSource, Range } from "quill";
+import { createElement, MutableRefObject, forwardRef, useEffect, useRef, useLayoutEffect, CSSProperties } from "react";
 import Delta from "quill-delta";
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
+    onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
+    theme: string;
+    style?: CSSProperties;
+    className?: string;
+    toolbarId: string;
 }
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const { defaultValue, onTextChange } = props;
+    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange } = props;
     const containerRef = useRef<HTMLDivElement>(null);
     // const editorRef = useRef<HTMLDivElement>(null);
     // const [canRenderEditor, setCanRenderEditor] = useState<boolean>(true);
     // const [_editorState, setEditorState] = useState<EditorState>("loading");
 
     const onTextChangeRef = useRef(onTextChange);
-    // const onSelectionChangeRef = useRef(onSelectionChange);
+    const onSelectionChangeRef = useRef(onSelectionChange);
 
     useLayoutEffect(() => {
         onTextChangeRef.current = onTextChange;
-        // onSelectionChangeRef.current = onSelectionChange;
+        onSelectionChangeRef.current = onSelectionChange;
     });
 
     useEffect(() => {
@@ -29,7 +34,10 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
             editorDiv.innerHTML = defaultValue ?? "";
             const editorContainer = container.appendChild(editorDiv);
             const options: QuillOptions = {
-                theme: "snow"
+                theme,
+                modules: {
+                    toolbar: `#${toolbarId}`
+                }
             };
             const quill = new Quill(editorContainer, options);
 
@@ -37,6 +45,10 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
             quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                 onTextChangeRef.current?.(...arg);
+            });
+
+            quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
+                onSelectionChangeRef.current?.(...arg);
             });
         }
 
@@ -48,11 +60,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
         };
     }, [ref]);
 
-    return (
-        <div ref={containerRef}>
-            {/* {canRenderEditor && <div ref={editorRef} dangerouslySetInnerHTML={{ __html: defaultValue || "" }}></div>} */}
-        </div>
-    );
+    return <div ref={containerRef} style={style} className={className}></div>;
 });
 
 Editor.displayName = "Editor";
