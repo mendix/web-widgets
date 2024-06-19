@@ -6,20 +6,18 @@ import { RichTextContainerProps } from "../typings/RichTextProps";
 import EditorWrapper from "./components/EditorWrapper";
 import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
-// import { createMenubar } from "./utils/menubar";
-// import { createPreset } from "./utils/presets";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
     const {
         stringAttribute,
-        id,
+        // id,
         width: w,
         height: h,
         widthUnit,
-        heightUnit,
+        heightUnit
         // preset,
         // menubarMode,
-        readOnlyStyle
+        // readOnlyStyle
         // enableStatusBar,
         // resize
     } = props;
@@ -30,10 +28,6 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         height: h,
         heightUnit
     });
-    const wrapperAttributes = stringAttribute?.readOnly && readOnlyStyle !== "readPanel" ? { readOnly: true } : {};
-
-    // const presets = createPreset(preset, props);
-    // const menubar = createMenubar(menubarMode, props);
     const wrapperStyle = constructWrapperStyle(props, { width, height });
     const [isIncubator, setIsIncubator] = useState(true);
 
@@ -64,26 +58,15 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
 
     return (
         <Fragment>
-            <div
-                id={id}
-                className={classNames(
-                    "widget-rich-text",
-                    "form-control",
-                    `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
-                    {
-                        "widget-rich-text-min-height": heightUnit !== "pixels" && !stringAttribute?.readOnly,
-                        "widget-rich-text-min-height-readonly": heightUnit !== "pixels" && stringAttribute?.readOnly
-                    }
-                )}
-                style={wrapperStyle}
-                {...wrapperAttributes}
-            >
-                {stringAttribute.status === "loading" || stringAttribute.status !== "available" || isIncubator ? (
-                    <div className="mx-progress"></div>
-                ) : (
-                    <EditorWrapper {...props} />
-                )}
-            </div>
+            {stringAttribute.status === "loading" || stringAttribute.status !== "available" || isIncubator ? (
+                <div className="mx-progress"></div>
+            ) : (
+                <EditorWrapper
+                    {...props}
+                    style={wrapperStyle}
+                    className={classNames("widget-rich-text", "form-control")}
+                />
+            )}
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </Fragment>
     );
