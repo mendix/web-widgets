@@ -60,7 +60,6 @@ export interface RichTextContainerProps {
     onChange?: ActionValue;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
-    onKeyPress?: ActionValue;
     onChangeType: OnChangeTypeEnum;
     extended_valid_elements?: DynamicValue<string>;
     spellCheck: boolean;
@@ -119,7 +118,6 @@ export interface RichTextPreviewProps {
     onChange: {} | null;
     onFocus: {} | null;
     onBlur: {} | null;
-    onKeyPress: {} | null;
     onChangeType: OnChangeTypeEnum;
     extended_valid_elements: string;
     spellCheck: boolean;
