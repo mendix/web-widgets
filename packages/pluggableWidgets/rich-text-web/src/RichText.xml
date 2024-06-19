@@ -110,10 +110,6 @@
                     <caption>On leave</caption>
                     <description />
                 </property>
-                <property key="onKeyPress" type="action">
-                    <caption>On key press</caption>
-                    <description />
-                </property>
             </propertyGroup>
             <propertyGroup caption="On change behavior">
                 <property key="onChangeType" type="enumeration" defaultValue="onLeave">
