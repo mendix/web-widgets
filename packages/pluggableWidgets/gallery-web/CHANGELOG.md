@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.9.0] - 2024-06-19
+
 ### Fixed
 
 -   We fixed an issue with Gallery widget where content may break out of grid boundaries. Thanks to Ronnie van Doorn for the suggestion.
