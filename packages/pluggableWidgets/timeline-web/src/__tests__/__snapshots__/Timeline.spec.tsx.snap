@@ -1,30 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Timeline renders correctly with basic props 1`] = `
-<TimelineComponent
-  class="test"
-  customVisualization={false}
-  data={
-    Map {
-      "" => [
-        {
-          "action": undefined,
-          "description": "description",
-          "eventDateTime": "time",
-          "icon": undefined,
-          "title": "title1",
-        },
-        {
-          "action": undefined,
-          "description": "description",
-          "eventDateTime": "time",
-          "icon": undefined,
-          "title": "title1",
-        },
-      ],
-    }
-  }
-  groupEvents={true}
-  ungroupedEventsPosition="end"
-/>
+<DocumentFragment>
+  <div
+    class="widget-timeline-wrapper test"
+  >
+    <div
+      class="timeline-date"
+    >
+      <div
+        class="widget-timeline-events-wrapper widget-timeline-no-divider"
+      >
+        <ul>
+          <li
+            class="widget-timeline-event"
+          >
+            <div
+              class="widget-timeline-icon-wrapper"
+            >
+              <div
+                class="widget-timeline-icon-circle"
+              />
+            </div>
+            <div
+              class="widget-timeline-flex-container widget-timeline-content-wrapper"
+            >
+              <div
+                class="widget-timeline-date-time-wrapper"
+              >
+                <p
+                  class="widget-eventTime"
+                >
+                  time
+                </p>
+              </div>
+              <div
+                class="widget-timeline-flex-container widget-timeline-info-wrapper"
+              >
+                <p
+                  class="widget-timeline-title"
+                >
+                  title1
+                </p>
+                <p
+                  class="widget-timeline-description"
+                >
+                  description
+                </p>
+              </div>
+            </div>
+          </li>
+          <li
+            class="widget-timeline-event"
+          >
+            <div
+              class="widget-timeline-icon-wrapper"
+            >
+              <div
+                class="widget-timeline-icon-circle"
+              />
+            </div>
+            <div
+              class="widget-timeline-flex-container widget-timeline-content-wrapper"
+            >
+              <div
+                class="widget-timeline-date-time-wrapper"
+              >
+                <p
+                  class="widget-eventTime"
+                >
+                  time
+                </p>
+              </div>
+              <div
+                class="widget-timeline-flex-container widget-timeline-info-wrapper"
+              >
+                <p
+                  class="widget-timeline-title"
+                >
+                  title1
+                </p>
+                <p
+                  class="widget-timeline-description"
+                >
+                  description
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
