@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.20.0] DataWidgets - 2024-06-19
+
 ### Added
 
 -   Update JS actions for resetting filters in Data grid 2 and Gallery. `Reset_All_Filters` and `Reset_Filter` now have the option to reset to default filter's value.
@@ -15,6 +17,66 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Breaking changes
 
 -   Data widgets now use Atlas variables for its styling. This may change how the widgets look depending on the custom variables.
+
+### [2.8.0] DatagridDateFilter
+
+#### Fixed
+
+-   The default filter values are now restored on initial page load.
+
+#### Added
+
+-   A new hook that subscribes the widget to `Set_Filter` action.
+
+#### Changed
+
+-   We update event listener for `Reset_Filter` to allow reset to default value.
+
+### [2.7.0] DatagridDropdownFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to `Set_Filter` action.
+
+#### Changed
+
+-   We update event listener for `Reset_Filter` to allow reset to default value.
+
+### [2.6.0] DatagridNumberFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to `Set_Filter` action.
+
+#### Changed
+
+-   We update event listener for `Reset_Filter` to allow reset to default value.
+
+### [2.6.0] DatagridTextFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to `Set_Filter` action.
+
+#### Changed
+
+-   We update event listener for `Reset_Filter` to allow reset to default value.
+
+### [2.20.0] Datagrid
+
+#### Changed
+
+-   We update event listener for `Reset_All_Filters` to allow reset to default value.
+
+### [1.9.0] Gallery
+
+#### Fixed
+
+-   We fixed an issue with Gallery widget where content may break out of grid boundaries. Thanks to Ronnie van Doorn for the suggestion.
+
+#### Changed
+
+-   We update event listener for `Reset_All_Filters` to allow reset to default value.
 
 ## [2.19.1] DataWidgets - 2024-05-27
 
