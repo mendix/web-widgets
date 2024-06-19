@@ -1,7 +1,7 @@
-import { shallow } from "enzyme";
 import { createElement } from "react";
+import { render } from "@testing-library/react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
-import { buildListExpression, buildWidgetValue, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { listExp, listWidget, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import Timeline from "../Timeline";
 
 describe("Timeline", () => {
@@ -13,21 +13,21 @@ describe("Timeline", () => {
         customVisualization: false,
         groupByKey: "day",
         data: listValueBuilder.simple(),
-        groupEvents: true,
-        title: buildListExpression("title1"),
-        description: buildListExpression("description"),
-        timeIndication: buildListExpression("time"),
-        customIcon: buildWidgetValue(<img src={"test"} />),
-        customGroupHeader: buildWidgetValue(<p>Custom Divider</p>),
-        customTitle: buildWidgetValue(<p>Custom Title</p>),
-        customEventDateTime: buildWidgetValue(<p>Custom Event Date Time</p>),
-        customDescription: buildWidgetValue(<p>Custom Description</p>),
+        groupEvents: false,
+        title: listExp(() => "title1"),
+        description: listExp(() => "description"),
+        timeIndication: listExp(() => "time"),
+        customIcon: listWidget(() => <img src={"test"} />),
+        customGroupHeader: listWidget(() => <p>Custom Divider</p>),
+        customTitle: listWidget(() => <p>Custom Title</p>),
+        customEventDateTime: listWidget(() => <p>Custom Event Date Time</p>),
+        customDescription: listWidget(() => <p>Custom Description</p>),
         groupByMonthOptions: "month",
         groupByDayOptions: "dayName",
         ungroupedEventsPosition: "end"
     };
     it("renders correctly with basic props", () => {
-        const component = shallow(<Timeline {...defaultProps} />);
-        expect(component).toMatchSnapshot();
+        const component = render(<Timeline {...defaultProps} />);
+        expect(component.asFragment()).toMatchSnapshot();
     });
 });
