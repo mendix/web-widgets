@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2024-06-19
+
 ### Changed
 
 -   We changed how input filtering works for lazy loading. if set to true, then the filter will works by retrieving directly from datasource, otherwise it works by scanning the current loaded data.
@@ -16,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added lazy loading feature. By default it is turned off. When turned on, the items will be loaded in batches when scrolling.
 
-### Breaking
+## # Breaking
 
 -   The Combo box now uses Atlas variables for its styling. This may change how the widget looks depending on the custom variables.
 
