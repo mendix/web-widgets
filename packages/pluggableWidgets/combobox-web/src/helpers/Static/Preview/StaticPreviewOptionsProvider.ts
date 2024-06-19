@@ -6,6 +6,7 @@ export class StaticPreviewOptionsProvider implements OptionsProvider<string, Opt
     filterType: FilterTypeEnum = "contains";
     searchTerm: string = "";
     hasMore?: boolean | undefined = undefined;
+    isLoading: boolean = false;
     constructor(private optionsMap: Map<string, OptionsSourceStaticDataSourcePreviewType>) {}
     setSearchTerm(_value: string): void {}
     onAfterSearchTermChange(_callback: () => void): void {}

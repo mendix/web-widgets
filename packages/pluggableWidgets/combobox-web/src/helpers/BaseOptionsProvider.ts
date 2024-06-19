@@ -10,6 +10,7 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     filterType: FilterTypeEnum = "contains";
     searchTerm = "";
+    lazyLoading: boolean = false;
 
     constructor(caption: CaptionsProvider) {
         this.caption = caption;
@@ -19,11 +20,19 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return false;
     }
 
+    get isLoading(): boolean {
+        return false;
+    }
+
     get status(): Status {
         return "available";
     }
 
     getAll(): string[] {
+        return this.getAllWithMatchSorter();
+    }
+
+    protected getAllWithMatchSorter(): string[] {
         const matchSorterOptions: MatchSorterOptions<string> = {
             keys: [v => this.caption.get(v)],
             ...getFilterTypeOptions(this.filterType)

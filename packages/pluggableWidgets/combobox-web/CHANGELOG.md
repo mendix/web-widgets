@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We changed how input filtering works for lazy loading. if set to true, then the filter will works by retrieving directly from datasource, otherwise it works by scanning the current loaded data.
+
 ### Added
 
 -   We added Spinner and Skeleton loaders in addition to lazy loading feature. The default loader is spinner, and skeleton can also be selected. This improves UX when loading more content.

@@ -8,6 +8,7 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     alwaysOpen?: boolean;
     highlightedIndex?: number | null;
     isEmpty: boolean;
+    isLoading: boolean;
     isOpen: boolean;
     lazyLoading: boolean;
     loader: JSX.Element;
@@ -34,6 +35,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         getMenuProps,
         highlightedIndex,
         isEmpty,
+        isLoading,
         isOpen,
         lazyLoading,
         loader,
@@ -72,7 +74,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
             <ul
                 className={classNames("widget-combobox-menu-list", {
                     "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                    "widget-combobox-menu-lazy-scroll": lazyLoading
+                    "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
                 })}
                 {...getMenuProps?.(
                     {
@@ -83,7 +85,13 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     { suppressRefError: true }
                 )}
             >
-                {isOpen ? isEmpty ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children : null}
+                {isOpen ? (
+                    isEmpty && !isLoading ? (
+                        <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder>
+                    ) : (
+                        children
+                    )
+                ) : null}
                 {loader}
             </ul>
             {menuFooterContent && (

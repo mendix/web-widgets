@@ -3,6 +3,7 @@ import { Fragment, ReactElement, createElement, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
+import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { SingleSelectionMenu } from "./SingleSelectionMenu";
@@ -26,6 +27,18 @@ export function SingleSelection({
         highlightedIndex
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
+    const lazyLoading = selector.lazyLoading ?? false;
+    const { onScroll } = useLazyLoading({
+        hasMoreItems: selector.options.hasMore ?? false,
+        isInfinite: lazyLoading,
+        isOpen,
+        loadMore: () => {
+            if (selector.options.loadMore) {
+                selector.options.loadMore();
+            }
+        }
+    });
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -34,6 +47,7 @@ export function SingleSelection({
                 readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
+                isLoading={lazyLoading && selector.options.isLoading}
             >
                 <div
                     className={classNames("widget-combobox-selected-items", {
@@ -95,6 +109,9 @@ export function SingleSelection({
                 menuFooterContent={menuFooterContent}
                 noOptionsText={options.noOptionsText}
                 alwaysOpen={keepMenuOpen}
+                isLoading={selector.options.isLoading}
+                lazyLoading={lazyLoading}
+                onScroll={onScroll}
             />
         </Fragment>
     );

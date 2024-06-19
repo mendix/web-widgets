@@ -4,21 +4,17 @@ import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-gri
 type UseLazyLoadingProps = Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite"> & {
     isOpen: boolean;
     loadMore?: () => void;
-    numberOfItems: number;
 };
 
 type UseLazyLoadingReturn = {
-    isLoading: boolean;
     onScroll: (e: any) => void;
 };
 
 export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn {
-    const { hasMoreItems, isInfinite, isOpen, loadMore, numberOfItems } = props;
-    const [isLoading, setIsLoading] = useState(false);
+    const { hasMoreItems, isInfinite, isOpen, loadMore } = props;
     const [firstLoad, setFirstLoad] = useState(false);
     const setPageCallback = useCallback(() => {
         if (loadMore) {
-            setIsLoading(true);
             loadMore();
         }
     }, [loadMore]);
@@ -30,11 +26,7 @@ export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn
             setFirstLoad(true);
             setPageCallback();
         }
-    }, [firstLoad, isInfinite, isOpen]);
+    }, [firstLoad, isInfinite, isOpen, setPageCallback]);
 
-    useEffect(() => {
-        setIsLoading(false);
-    }, [numberOfItems]);
-
-    return { isLoading, onScroll: trackScrolling };
+    return { onScroll: trackScrolling };
 }

@@ -4,6 +4,7 @@ import { PropsWithChildren, ReactElement, RefObject, createElement, forwardRef, 
 import { DownArrow } from "../assets/icons";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReadOnlyStyleEnum } from "typings/ComboboxProps";
+import { SpinnerLoader } from "./SpinnerLoader";
 
 interface ComboboxWrapperProps extends PropsWithChildren {
     isOpen: boolean;
@@ -11,11 +12,12 @@ interface ComboboxWrapperProps extends PropsWithChildren {
     readOnlyStyle: ReadOnlyStyleEnum;
     getToggleButtonProps: (options?: UseComboboxGetToggleButtonPropsOptions | undefined) => any;
     validation?: string;
+    isLoading: boolean;
 }
 
 export const ComboboxWrapper = forwardRef(
     (props: ComboboxWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-        const { isOpen, readOnly, readOnlyStyle, getToggleButtonProps, validation, children } = props;
+        const { isOpen, readOnly, readOnlyStyle, getToggleButtonProps, validation, children, isLoading } = props;
         const { id, onClick } = getToggleButtonProps();
 
         return (
@@ -33,7 +35,11 @@ export const ComboboxWrapper = forwardRef(
                     onClick={onClick}
                 >
                     {children}
-                    {readOnly && readOnlyStyle === "text" ? null : (
+                    {readOnly && readOnlyStyle === "text" ? null : isLoading ? (
+                        <div className="widget-combobox-down-arrow">
+                            <SpinnerLoader size="small" />
+                        </div>
+                    ) : (
                         <div className="widget-combobox-down-arrow">
                             <DownArrow isOpen={isOpen} />
                         </div>

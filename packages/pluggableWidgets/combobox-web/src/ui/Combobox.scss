@@ -53,7 +53,7 @@ $cb-skeleton-dark: #d2d2d2;
                     bottom;
 
             background-repeat: no-repeat;
-            background-size: 100% 40px, 100% 40px, 100% 35px, 100% 35px;
+            background-size: 100% 70px, 100% 70px, 100% 35px, 100% 35px;
             background-attachment: local, local, scroll, scroll;
         }
         &-hidden {
@@ -97,7 +97,6 @@ $cb-skeleton-dark: #d2d2d2;
         height: fit-content;
         overflow: hidden;
         color: var(--gray-darker, $cb-typography-color);
-        background-color: var(--label-info-color, $cb-unselected-item);
 
         &-selected {
             background-color: var(--color-primary-lighter, $cb-selected-item);
@@ -348,11 +347,12 @@ $cb-skeleton-dark: #d2d2d2;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
         overflow: hidden;
     }
 
     &-skeleton {
+        padding: 6px var(--dropdown-outer-padding, $cb-menu-outer-padding);
+
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
             background: linear-gradient(90deg, $cb-skeleton-light 0%, $cb-skeleton-dark 100%);
@@ -372,6 +372,10 @@ $cb-skeleton-dark: #d2d2d2;
         justify-content: center;
         width: 100%;
 
+        &-margin {
+            margin: 52px 0;
+        }
+
         &-loader {
             --widget-combobox-spinner-loader: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
             animation: rotate 1s infinite linear;
@@ -387,6 +391,7 @@ $cb-skeleton-dark: #d2d2d2;
             &-small {
                 height: 16px;
                 width: 16px;
+                padding: 2.3px;
             }
         }
     }

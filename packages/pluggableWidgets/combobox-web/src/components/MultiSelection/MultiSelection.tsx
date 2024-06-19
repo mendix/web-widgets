@@ -4,6 +4,7 @@ import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
+import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
 import { MultiSelectionMenu } from "./MultiSelectionMenu";
@@ -41,6 +42,18 @@ export function MultiSelection({
         [selector, selectedItems]
     );
 
+    const lazyLoading = selector.lazyLoading ?? false;
+    const { onScroll } = useLazyLoading({
+        hasMoreItems: selector.options.hasMore ?? false,
+        isInfinite: lazyLoading,
+        isOpen,
+        loadMore: () => {
+            if (selector.options.loadMore) {
+                selector.options.loadMore();
+            }
+        }
+    });
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -49,6 +62,7 @@ export function MultiSelection({
                 readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
+                isLoading={lazyLoading && selector.options.isLoading}
             >
                 <div
                     className={classNames(
@@ -172,6 +186,9 @@ export function MultiSelection({
                 onOptionClick={() => {
                     inputRef.current?.focus();
                 }}
+                isLoading={selector.options.isLoading}
+                lazyLoading={lazyLoading}
+                onScroll={onScroll}
             />
         </Fragment>
     );
