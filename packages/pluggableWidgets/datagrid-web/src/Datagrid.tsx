@@ -32,13 +32,10 @@ const Container = observer((props: Props): ReactElement => {
         : props.datasource.offset / props.pageSize;
 
     const { FilterContext } = useFilterContext();
-    const { columnsStore, rootStore } = props;
+    const { columnsStore, rootStore, columns } = props;
 
     const [{ items, exporting, processedRows }, { abort }] = useDataExportApi({
-        columns: useMemo(
-            () => columnsStore.visibleColumns.map(column => props.columns[column.columnIndex]),
-            [columnsStore.visibleColumns, props.columns]
-        ),
+        columns: columnsStore.visibleColumns.map(column => columns[column.columnIndex]),
         hasMoreItems: props.datasource.hasMoreItems || false,
         items: props.datasource.items,
         name: props.name,
