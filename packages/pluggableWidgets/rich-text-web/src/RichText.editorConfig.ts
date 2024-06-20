@@ -1,62 +1,44 @@
-import { Properties, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
+import { Properties, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { RichTextPreviewProps } from "typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
 import RichTextPreviewSVGLight from "./assets/rich-text-preview-light.svg";
 
-export const toolbarGroups: Array<keyof RichTextPreviewProps> = [
-    "basicstyle",
-    "extendedstyle",
-    "textalign",
-    "clipboard",
-    "fontstyle",
-    "paragraph",
-    "document",
-    "history",
-    "accordion",
-    "code",
-    "anchor",
-    "direction",
-    "link",
-    "list",
-    "preview",
-    "table",
-    "visualaid",
-    "media",
-    "util",
-    "emoticon",
-    "remove"
-];
-
-export const menubarGroups: Array<keyof RichTextPreviewProps> = [
-    "fileMenubar",
-    "editMenubar",
-    "insertMenubar",
-    "viewMenubar",
-    "formatMenubar",
-    "tableMenubar",
-    "toolsMenubar",
-    "helpMenubar"
-];
+// export const toolbarGroups: Array<keyof RichTextPreviewProps> = [
+//     "basicstyle",
+//     "extendedstyle",
+//     "textalign",
+//     "clipboard",
+//     "fontstyle",
+//     "paragraph",
+//     "document",
+//     "history",
+//     "accordion",
+//     "code",
+//     "anchor",
+//     "direction",
+//     "link",
+//     "list",
+//     "preview",
+//     "table",
+//     "visualaid",
+//     "media",
+//     "util",
+//     "emoticon",
+//     "remove"
+// ];
 
 export function getProperties(values: RichTextPreviewProps, defaultProperties: Properties): Properties {
-    if (values.preset !== "custom") {
-        hidePropertiesIn(defaultProperties, values, toolbarGroups.concat(["toolbarConfig", "advancedConfig"]));
-    }
+    // if (values.preset !== "custom") {
+    //     hidePropertiesIn(defaultProperties, values, toolbarGroups.concat(["toolbarConfig", "advancedConfig"]));
+    // }
 
-    if (values.toolbarConfig === "basic") {
-        hidePropertyIn(defaultProperties, values, "advancedConfig");
-    }
-    if (values.toolbarConfig === "advanced") {
-        hidePropertiesIn(defaultProperties, values, toolbarGroups);
-    }
-
-    if (values.menubarConfig === "basic") {
-        hidePropertyIn(defaultProperties, values, "advancedMenubarConfig");
-    }
-    if (values.menubarConfig === "advanced") {
-        hidePropertiesIn(defaultProperties, values, menubarGroups);
-    }
+    // if (values.toolbarConfig === "basic") {
+    //     hidePropertyIn(defaultProperties, values, "advancedConfig");
+    // }
+    // if (values.toolbarConfig === "advanced") {
+    //     hidePropertiesIn(defaultProperties, values, toolbarGroups);
+    // }
 
     if (values.heightUnit === "pixels") {
         hidePropertyIn(defaultProperties, values, "minHeight");

@@ -1,0 +1,17 @@
+$rte-border-color-default: #ced0d3;
+
+.widget-rich-text {
+    .ql-container {
+        border: unset;
+    }
+
+    .widget-rich-text-container {
+        border: 1px solid var(--border-color-default, $rte-border-color-default);
+    }
+
+    &.editor-readPanel {
+        .widget-rich-text-container {
+            border: unset;
+        }
+    }
+}
