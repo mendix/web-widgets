@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2024-06-19
+
 ### Changed
 
 -   We changed how input filtering works for lazy loading. if set to true, then the filter will works by retrieving directly from datasource, otherwise it works by scanning the current loaded data.
