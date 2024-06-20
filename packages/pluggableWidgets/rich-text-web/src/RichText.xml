@@ -85,15 +85,6 @@
                     <caption>Minimum height</caption>
                     <description>Editor's minimum height. The number value is in pixels.</description>
                 </property>
-                <property key="resize" type="enumeration" defaultValue="false">
-                    <caption>Editor resize</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="false">No</enumerationValue>
-                        <enumerationValue key="true">Vertical</enumerationValue>
-                        <enumerationValue key="both">Both</enumerationValue>
-                    </enumerationValues>
-                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
@@ -113,7 +104,7 @@
             </propertyGroup>
             <propertyGroup caption="On change behavior">
                 <property key="onChangeType" type="enumeration" defaultValue="onLeave">
-                    <caption>Editor resize</caption>
+                    <caption>On change type</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="onLeave">When user leaves input field</enumerationValue>
@@ -122,7 +113,7 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Advanced">
+        <!-- <propertyGroup caption="Advanced">
             <propertyGroup caption="Advanced">
                 <property key="extended_valid_elements" type="textTemplate" required="false">
                     <caption>Additional valid elements</caption>
@@ -149,9 +140,9 @@
                     <description>When enabled, same domain URL links will be converted into relative URL.</description>
                 </property>
             </propertyGroup>
-        </propertyGroup>
+        </propertyGroup> -->
 
-        <propertyGroup caption="Custom toolbar">
+        <!-- <propertyGroup caption="Custom toolbar">
             <propertyGroup caption="Custom toolbar">
                 <property key="toolbarConfig" type="enumeration" defaultValue="basic">
                     <caption>Toolbar group</caption>
@@ -320,71 +311,6 @@
                     </properties>
                 </property>
             </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="Custom menubar">
-            <propertyGroup caption="Custom menubar">
-                <property key="menubarConfig" type="enumeration" defaultValue="basic">
-                    <caption>Toolbar group</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="basic">Basic</enumerationValue>
-                        <enumerationValue key="advanced">Advanced</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="fileMenubar" type="boolean" defaultValue="true">
-                    <caption>File</caption>
-                    <description />
-                </property>
-                <property key="editMenubar" type="boolean" defaultValue="true">
-                    <caption>Edit</caption>
-                    <description />
-                </property>
-                <property key="insertMenubar" type="boolean" defaultValue="true">
-                    <caption>Insert</caption>
-                    <description />
-                </property>
-                <property key="viewMenubar" type="boolean" defaultValue="true">
-                    <caption>View</caption>
-                    <description />
-                </property>
-                <property key="formatMenubar" type="boolean" defaultValue="true">
-                    <caption>Format</caption>
-                    <description />
-                </property>
-                <property key="tableMenubar" type="boolean" defaultValue="true">
-                    <caption>Table</caption>
-                    <description />
-                </property>
-                <property key="toolsMenubar" type="boolean" defaultValue="true">
-                    <caption>Tools</caption>
-                    <description />
-                </property>
-                <property key="helpMenubar" type="boolean" defaultValue="true">
-                    <caption>Help</caption>
-                    <description />
-                </property>
-                <property key="advancedMenubarConfig" type="object" isList="true" required="false">
-                    <caption>Advanced groups</caption>
-                    <description />
-                    <properties>
-                        <property key="menubarItemType" type="enumeration" required="true" defaultValue="file">
-                            <caption>Button</caption>
-                            <category>Item</category>
-                            <description>Button Type</description>
-                            <enumerationValues>
-                                <enumerationValue key="file">File</enumerationValue>
-                                <enumerationValue key="edit">Edit</enumerationValue>
-                                <enumerationValue key="insert">Insert</enumerationValue>
-                                <enumerationValue key="view">View</enumerationValue>
-                                <enumerationValue key="format">Format</enumerationValue>
-                                <enumerationValue key="table">Table</enumerationValue>
-                                <enumerationValue key="tools">Tools</enumerationValue>
-                                <enumerationValue key="help">Help</enumerationValue>
-                            </enumerationValues>
-                        </property>
-                    </properties>
-                </property>
-            </propertyGroup>
-        </propertyGroup>
+        </propertyGroup> -->
     </properties>
 </widget>
