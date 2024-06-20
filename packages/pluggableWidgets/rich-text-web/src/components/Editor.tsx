@@ -8,16 +8,14 @@ export interface EditorProps {
     theme: string;
     style?: CSSProperties;
     className?: string;
-    toolbarId: string;
+    toolbarId?: string;
+    readOnly?: boolean;
 }
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange } = props;
+    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
     const containerRef = useRef<HTMLDivElement>(null);
-    // const editorRef = useRef<HTMLDivElement>(null);
-    // const [canRenderEditor, setCanRenderEditor] = useState<boolean>(true);
-    // const [_editorState, setEditorState] = useState<EditorState>("loading");
 
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
@@ -25,40 +23,56 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     useLayoutEffect(() => {
         onTextChangeRef.current = onTextChange;
         onSelectionChangeRef.current = onSelectionChange;
-    });
+    }, [onTextChange, onSelectionChange]);
 
     useEffect(() => {
-        const container = containerRef.current;
-        if (container) {
-            const editorDiv = container.ownerDocument.createElement<"div">("div");
-            editorDiv.innerHTML = defaultValue ?? "";
-            const editorContainer = container.appendChild(editorDiv);
-            const options: QuillOptions = {
-                theme,
-                modules: {
-                    toolbar: `#${toolbarId}`
+        // update quills content on value change.
+        const newContent = ref.current?.clipboard.convert({
+            html: defaultValue,
+            text: "\n"
+        });
+        if (newContent) {
+            ref.current?.setContents(newContent);
+        }
+    }, [ref, defaultValue]);
+
+    useEffect(
+        () => {
+            const container = containerRef.current;
+            if (container) {
+                const editorDiv = container.ownerDocument.createElement<"div">("div");
+                editorDiv.innerHTML = defaultValue ?? "";
+                const editorContainer = container.appendChild(editorDiv);
+                const options: QuillOptions = {
+                    theme,
+                    modules: {
+                        toolbar: toolbarId ? `#${toolbarId}` : false
+                    },
+                    readOnly
+                };
+                const quill = new Quill(editorContainer, options);
+
+                ref.current = quill;
+
+                quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
+                    onTextChangeRef.current?.(...arg);
+                });
+
+                quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
+                    onSelectionChangeRef.current?.(...arg);
+                });
+            }
+
+            return () => {
+                ref.current = null;
+                if (container) {
+                    container.innerHTML = "";
                 }
             };
-            const quill = new Quill(editorContainer, options);
-
-            ref.current = quill;
-
-            quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
-                onTextChangeRef.current?.(...arg);
-            });
-
-            quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
-                onSelectionChangeRef.current?.(...arg);
-            });
-        }
-
-        return () => {
-            ref.current = null;
-            if (container) {
-                container.innerHTML = "";
-            }
-        };
-    }, [ref]);
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ref]
+    );
 
     return <div ref={containerRef} style={style} className={className}></div>;
 });

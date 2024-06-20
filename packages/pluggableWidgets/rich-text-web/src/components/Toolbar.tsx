@@ -1,9 +1,10 @@
-import { ReactElement, createElement } from "react";
+import { ReactElement, createElement, CSSProperties } from "react";
 import { PresetEnum } from "typings/RichTextProps";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 export interface ToolbarProps {
     id: string;
     preset: PresetEnum;
+    style?: CSSProperties;
 }
 
 function presetToNumberConverter(preset: PresetEnum): number {
@@ -29,10 +30,10 @@ function presetToNumberConverter(preset: PresetEnum): number {
 // fullscreen ?
 // insert code with pop up?
 export default function Toolbar(props: ToolbarProps): ReactElement {
-    const { id, preset } = props;
+    const { id, preset, style } = props;
     const presetValue = presetToNumberConverter(preset);
     return (
-        <div id={id}>
+        <div id={id} style={style}>
             <span className="ql-formats">
                 <button className="ql-bold"></button>
                 <button className="ql-italic"></button>
