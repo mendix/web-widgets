@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
@@ -15,33 +15,7 @@ export type WidthUnitEnum = "percentage" | "pixels";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
 
-export type ResizeEnum = "false" | "true" | "both";
-
 export type OnChangeTypeEnum = "onLeave" | "onDataChange";
-
-export type ToolbarConfigEnum = "basic" | "advanced";
-
-export type CtItemTypeEnum = "separator" | "aligncenter" | "alignjustify" | "alignleft" | "alignnone" | "alignright" | "blockquote" | "backcolor" | "blocks" | "bold" | "copy" | "cut" | "fontfamily" | "fontsize" | "forecolor" | "hr" | "indent" | "italic" | "lineheight" | "newdocument" | "outdent" | "paste" | "pastetext" | "print" | "redo" | "remove" | "removeformat" | "selectall" | "strikethrough" | "subscript" | "superscript" | "underline" | "undo" | "visualaid" | "accordion" | "code" | "anchor" | "charmap" | "codesample" | "ltr" | "rtl" | "emoticons" | "fullscreen" | "help" | "image" | "insertdatetime" | "link" | "openlink" | "unlink" | "bullist" | "numlist" | "media" | "pagebreak" | "preview" | "searchreplace" | "table" | "tabledelete" | "tableinsertdialog" | "visualblocks" | "visualchars" | "wordcount";
-
-export interface AdvancedConfigType {
-    ctItemType: CtItemTypeEnum;
-}
-
-export type MenubarConfigEnum = "basic" | "advanced";
-
-export type MenubarItemTypeEnum = "file" | "edit" | "insert" | "view" | "format" | "table" | "tools" | "help";
-
-export interface AdvancedMenubarConfigType {
-    menubarItemType: MenubarItemTypeEnum;
-}
-
-export interface AdvancedConfigPreviewType {
-    ctItemType: CtItemTypeEnum;
-}
-
-export interface AdvancedMenubarConfigPreviewType {
-    menubarItemType: MenubarItemTypeEnum;
-}
 
 export interface RichTextContainerProps {
     name: string;
@@ -56,50 +30,10 @@ export interface RichTextContainerProps {
     heightUnit: HeightUnitEnum;
     height: number;
     minHeight: number;
-    resize: ResizeEnum;
     onChange?: ActionValue;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
     onChangeType: OnChangeTypeEnum;
-    extended_valid_elements?: DynamicValue<string>;
-    spellCheck: boolean;
-    highlight_on_focus: boolean;
-    content_css?: DynamicValue<string>;
-    sandboxIframes: boolean;
-    useRelativeUrl: boolean;
-    toolbarConfig: ToolbarConfigEnum;
-    basicstyle: boolean;
-    extendedstyle: boolean;
-    textalign: boolean;
-    clipboard: boolean;
-    fontstyle: boolean;
-    paragraph: boolean;
-    document: boolean;
-    history: boolean;
-    accordion: boolean;
-    code: boolean;
-    anchor: boolean;
-    direction: boolean;
-    link: boolean;
-    list: boolean;
-    preview: boolean;
-    table: boolean;
-    visualaid: boolean;
-    media: boolean;
-    util: boolean;
-    emoticon: boolean;
-    remove: boolean;
-    advancedConfig: AdvancedConfigType[];
-    menubarConfig: MenubarConfigEnum;
-    fileMenubar: boolean;
-    editMenubar: boolean;
-    insertMenubar: boolean;
-    viewMenubar: boolean;
-    formatMenubar: boolean;
-    tableMenubar: boolean;
-    toolsMenubar: boolean;
-    helpMenubar: boolean;
-    advancedMenubarConfig: AdvancedMenubarConfigType[];
 }
 
 export interface RichTextPreviewProps {
@@ -114,48 +48,8 @@ export interface RichTextPreviewProps {
     heightUnit: HeightUnitEnum;
     height: number | null;
     minHeight: number | null;
-    resize: ResizeEnum;
     onChange: {} | null;
     onFocus: {} | null;
     onBlur: {} | null;
     onChangeType: OnChangeTypeEnum;
-    extended_valid_elements: string;
-    spellCheck: boolean;
-    highlight_on_focus: boolean;
-    content_css: string;
-    sandboxIframes: boolean;
-    useRelativeUrl: boolean;
-    toolbarConfig: ToolbarConfigEnum;
-    basicstyle: boolean;
-    extendedstyle: boolean;
-    textalign: boolean;
-    clipboard: boolean;
-    fontstyle: boolean;
-    paragraph: boolean;
-    document: boolean;
-    history: boolean;
-    accordion: boolean;
-    code: boolean;
-    anchor: boolean;
-    direction: boolean;
-    link: boolean;
-    list: boolean;
-    preview: boolean;
-    table: boolean;
-    visualaid: boolean;
-    media: boolean;
-    util: boolean;
-    emoticon: boolean;
-    remove: boolean;
-    advancedConfig: AdvancedConfigPreviewType[];
-    menubarConfig: MenubarConfigEnum;
-    fileMenubar: boolean;
-    editMenubar: boolean;
-    insertMenubar: boolean;
-    viewMenubar: boolean;
-    formatMenubar: boolean;
-    tableMenubar: boolean;
-    toolsMenubar: boolean;
-    helpMenubar: boolean;
-    advancedMenubarConfig: AdvancedMenubarConfigPreviewType[];
 }
