@@ -87,7 +87,7 @@ export default function Slider(props: SliderContainerProps): ReactNode {
             onChange={onChange}
             marks={marks}
             handle={handle}
-            sliderRef={sliderRef}
+            ref={sliderRef}
         />
     );
 }

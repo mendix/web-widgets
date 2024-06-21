@@ -5,11 +5,13 @@ import classNames from "classnames";
 export interface SliderProps extends RcSliderProps {
     classNameSlider?: string;
     rootStyle?: CSSProperties;
-    sliderRef?: RefObject<HTMLDivElement>;
 }
 
 export const Slider = forwardRef(
-    ({ className, classNameSlider, rootStyle, sliderRef, ...rcSliderProps }: SliderProps): JSX.Element => {
+    (
+        { className, classNameSlider, rootStyle, ...rcSliderProps }: SliderProps,
+        sliderRef: RefObject<HTMLDivElement>
+    ): JSX.Element => {
         return (
             <div
                 ref={sliderRef}
