@@ -34,6 +34,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsResizable: boolean;
     columnsSortable: boolean;
     data: T[];
+    isInfiniteLoad: boolean;
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     exporting: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
@@ -116,7 +117,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const showHeader = !!headerContent;
-    const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const showTopBar = pagingPosition === "top" || pagingPosition === "both";
 
     const renderFilterWrapper = useCallback(
         (children: ReactNode) => (
@@ -127,19 +128,21 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
         [isDragging]
     );
 
-    const pagination = paging ? (
+    const pagination = (
         <Pagination
             canNextPage={hasMoreItems}
-            canPreviousPage={page !== 0}
+            canPreviousPage={props.isInfiniteLoad ? page !== 1 : page !== 0}
             gotoPage={(page: number) => setPage && setPage(() => page)}
             nextPage={() => setPage && setPage(prev => prev + 1)}
             numberOfItems={numberOfItems}
-            page={page}
+            page={props.isInfiniteLoad ? page - 1 : page}
+            paginationType={props.paginationType}
             pageSize={pageSize}
+            isInfiniteLoad={props.isInfiniteLoad}
             showPagingButtons={props.showPagingButtons}
             previousPage={() => setPage && setPage(prev => prev - 1)}
         />
-    ) : null;
+    );
 
     const cssGridStyles = gridStyle(visibleColumns, {
         selectItemColumn: selectActionHelper.showCheckboxColumn,
