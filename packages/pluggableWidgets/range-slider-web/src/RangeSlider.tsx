@@ -103,7 +103,7 @@ export function RangeSlider(props: RangeSliderContainerProps): ReactNode {
                 tooltipAlwaysVisible,
                 sliderRef
             })}
-            sliderRef={sliderRef}
+            ref={sliderRef}
         />
     );
 }
