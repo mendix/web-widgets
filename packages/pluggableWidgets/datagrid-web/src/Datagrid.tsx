@@ -6,7 +6,6 @@ import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { UpdateDataSourceFn, useDG2ExportApi } from "./features/export";
 import "./ui/Datagrid.scss";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
@@ -19,6 +18,7 @@ import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
+import { useDSExport } from "./features/xpt/ExportController";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -34,34 +34,9 @@ const Container = observer((props: Props): ReactElement => {
     const { FilterContext } = useFilterContext();
     const { columnsStore, rootStore } = props;
 
-    const [{ items, exporting, processedRows }, { abort }] = useDG2ExportApi({
-        columns: useMemo(
-            () => columnsStore.visibleColumns.map(column => props.columns[column.columnIndex]),
-            [columnsStore.visibleColumns, props.columns]
-        ),
-        hasMoreItems: props.datasource.hasMoreItems || false,
-        items: props.datasource.items,
-        name: props.name,
-        offset: props.datasource.offset,
-        limit: props.datasource.limit,
+    const items = props.datasource.items ?? [];
 
-        updateDataSource: useCallback<UpdateDataSourceFn>(
-            ({ offset, limit, reload }) => {
-                if (offset != null) {
-                    props.datasource?.setOffset(offset);
-                }
-
-                if (limit != null) {
-                    props.datasource?.setLimit(limit);
-                }
-
-                if (reload) {
-                    props.datasource.reload();
-                }
-            },
-            [props.datasource]
-        )
-    });
+    const [exportProgress, abortExport] = useDSExport(props, props.columnsStore);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -167,7 +142,7 @@ const Container = observer((props: Props): ReactElement => {
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={useMemo(() => `DataGrid${generateUUID()}`, [])}
             numberOfItems={props.datasource.totalCount}
-            onExportCancel={abort}
+            onExportCancel={abortExport}
             page={currentPage}
             pageSize={props.pageSize}
             paginationType={props.pagination}
@@ -185,8 +160,8 @@ const Container = observer((props: Props): ReactElement => {
             setPage={setPage}
             styles={props.style}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
-            exporting={exporting}
-            processedRows={processedRows}
+            exporting={exportProgress.exporting}
+            processedRows={exportProgress.loaded}
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
