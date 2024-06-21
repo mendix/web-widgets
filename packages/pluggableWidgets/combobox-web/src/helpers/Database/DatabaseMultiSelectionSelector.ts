@@ -103,7 +103,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             ds,
             filterType,
             lazyLoading,
-            filterId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
