@@ -1,12 +1,30 @@
-import { ListValue } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { Emitter, Unsubscribe, createNanoEvents } from "nanoevents";
-import { ColumnsType } from "../../../typings/DatagridProps";
+import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
+import Big from "big.js";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 
+type RowData = Array<string | number | boolean>;
+
+type ColumnDefinition = {
+    name: string;
+    type: string;
+};
+
+type ValueReader = (item: ObjectItem, props: ColumnsType) => string | boolean | number;
+
+type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
+
+type RowReader = (item: ObjectItem) => RowData;
+
+type ColumnReader = (props: ColumnsType) => ColumnDefinition;
 interface ExportRequestEvents {
     /** Emitted once when request is started. */
     loadstart: (pe: ProgressEvent) => void;
+    /** Emitted once before "data" events. */
+    columns: (columns: ColumnDefinition[]) => void;
     /** Emitted every time new chunk is available. */
-    data: (chunk: any[]) => void;
+    data: (chunk: RowData[]) => void;
     /** Emitted every time new chunk is sent. */
     progress: (pe: ProgressEvent) => void;
     /** Emitted if abort method is called. */
@@ -27,13 +45,15 @@ export class DSExportRequest {
     private loaded = 0;
     private limit = 3;
     private totalCount: number | undefined = undefined;
+    private shouldSendColumns = false;
     private emitter: Emitter<ExportRequestEvents>;
 
-    constructor(ds: ListValue, columns: ColumnsType[]) {
+    constructor(ds: ListValue, columns: ColumnsType[], withColumns = false) {
         this.emitter = createNanoEvents();
         this.datasource = ds;
         this.totalCount = ds.totalCount;
         this.columns = columns;
+        this.shouldSendColumns = withColumns;
     }
 
     get status(): ExportRequestStatus {
@@ -48,7 +68,11 @@ export class DSExportRequest {
         this.emitter.emit("loadstart", this.createProgressEvent("loadstart"));
     }
 
-    private emitData(chunk: any[]): void {
+    private emitColumns(columns: ColumnDefinition[]): void {
+        this.emitter.emit("columns", columns);
+    }
+
+    private emitData(chunk: RowData[]): void {
         this.emitter.emit("data", chunk);
     }
 
@@ -90,6 +114,10 @@ export class DSExportRequest {
         const isReady = ds.offset === this.offset && ds.limit === this.limit && ds.status === "available";
         if (this._status === "awaiting" && isReady) {
             this.datasource = ds;
+            if (this.shouldSendColumns) {
+                this.sendColumns();
+                this.shouldSendColumns = false;
+            }
             this.read();
         }
     };
@@ -101,6 +129,17 @@ export class DSExportRequest {
             this.read();
         }
     };
+
+    private sendColumns(): void {
+        const reader: ColumnReader = column => ({
+            name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
+            type: column.attribute?.type.toString() ?? ""
+        });
+
+        const columns = this.columns.map(reader);
+
+        this.emitColumns(columns);
+    }
 
     private read(): void {
         this._status = "reading";
@@ -123,7 +162,7 @@ export class DSExportRequest {
             return;
         }
 
-        const chunk = items.map(item => item.id);
+        const chunk = readChunk(items, this.columns);
 
         this.sendChunk(chunk);
 
@@ -134,7 +173,7 @@ export class DSExportRequest {
         }
     }
 
-    private sendChunk(chunk: any[]): void {
+    private sendChunk(chunk: RowData[]): void {
         this._status = "sending";
         this.loaded += chunk.length;
         this.emitData(chunk);
@@ -164,4 +203,60 @@ export class DSExportRequest {
     private dispose(): void {
         this.emitter.events = {};
     }
+}
+
+const readers: ReadersByType = {
+    attribute(item, props) {
+        if (props.attribute === undefined) {
+            return "";
+        }
+
+        const data = props.attribute.get(item);
+
+        if (data.status !== "available") {
+            return "";
+        }
+
+        if (typeof data.value === "boolean") {
+            return data.value;
+        }
+
+        if (data.value instanceof Big) {
+            return data.value.toNumber();
+        }
+
+        return data.displayValue;
+    },
+
+    dynamicText(item, props) {
+        if (props.dynamicText === undefined) {
+            return "";
+        }
+
+        const data = props.dynamicText.get(item);
+
+        switch (data.status) {
+            case "available":
+                return data.value;
+            case "unavailable":
+                return "n/a";
+            default:
+                return "";
+        }
+    },
+
+    customContent() {
+        return "n/a (custom content)";
+    }
+};
+
+function createRowReader(columns: ColumnsType[]): RowReader {
+    return item =>
+        columns.map(col => {
+            return readers[col.showContentAs](item, col);
+        });
+}
+
+function readChunk(data: ObjectItem[], columns: ColumnsType[]): RowData[] {
+    return data.map(createRowReader(columns));
 }
