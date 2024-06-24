@@ -7,6 +7,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import Quill, { Range } from "quill";
 import classNames from "classnames";
+import { createPreset } from "./CustomToolbars/presets";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -74,22 +75,27 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     );
 
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
-    const shouldHideToolbar = stringAttribute.readOnly && readOnlyStyle === "readPanel";
+    const shouldHideToolbar = stringAttribute.readOnly && readOnlyStyle !== "text";
+    const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
     return (
         <div
-            className={classNames(className, `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`, {
-                "flex-column": toolbarLocation === "top",
-                "flex-column-reverse": toolbarLocation === "bottom"
-            })}
+            className={classNames(
+                className,
+                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
+                toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+            )}
             style={{
                 maxWidth: style?.maxWidth
             }}
-            onClick={() => {
-                quillRef?.current?.focus();
+            onClick={e => {
+                // click on other parts of editor, such as the toolbar, should also set focus
+                if (!quillRef.current?.container.contains(e.target as Node)) {
+                    quillRef?.current?.focus();
+                }
             }}
         >
             <If condition={!shouldHideToolbar}>
-                <Toolbar id={toolbarId} preset={preset} />
+                <Toolbar id={toolbarId} preset={preset} quill={quillRef.current} toolbarContent={toolbarPreset} />
             </If>
             <Editor
                 theme={"snow"}
