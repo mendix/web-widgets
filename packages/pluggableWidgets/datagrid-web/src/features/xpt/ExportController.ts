@@ -59,11 +59,13 @@ class ExportController {
 
         this.locked = true;
         let req: DSExportRequest | null = new DSExportRequest(this.datasource, pickColumns(this.allColumns));
+        let data: any[] = [];
 
         // Connect progress store
         req.on("loadstart", this.progressStore.onloadstart);
         req.on("progress", this.progressStore.onprogress);
         req.on("loadend", this.progressStore.onloadend);
+        req.on("data", chunk => (data = data.concat(chunk)));
 
         // Connect to widget events
         const bindings = [
@@ -81,7 +83,7 @@ class ExportController {
         this.datasource.setLimit(snapshot.limit);
         this.datasource.setOffset(snapshot.offset);
         this.datasource.reload();
-        console.log("export data: done.");
+        console.log("export data: done.", data);
     }
 
     abort = (): void => this.emitter.emit("abort");
