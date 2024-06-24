@@ -1,6 +1,9 @@
 import Quill, { QuillOptions, EmitterSource, Range } from "quill";
+import CustomListItem from "../utils/formats/customList";
 import { createElement, MutableRefObject, forwardRef, useEffect, useRef, useLayoutEffect, CSSProperties } from "react";
 import Delta from "quill-delta";
+import "../utils/formats/fonts";
+
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -11,6 +14,8 @@ export interface EditorProps {
     toolbarId?: string;
     readOnly?: boolean;
 }
+
+Quill.register(CustomListItem, true);
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {

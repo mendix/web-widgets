@@ -1,4 +1,5 @@
 $rte-border-color-default: #ced0d3;
+$rte-gray-ligher: #f8f8f8;
 
 .widget-rich-text {
     .ql-container {
@@ -10,8 +11,23 @@ $rte-border-color-default: #ced0d3;
     }
 
     &.editor-readPanel {
+        background-color: transparent;
         .widget-rich-text-container {
             border: unset;
+        }
+    }
+
+    &.editor-text {
+        .ql-toolbar {
+            pointer-events: none;
+            background-color: var(--gray-lighter, $rte-gray-ligher);
+        }
+    }
+
+    .ql-editor li[data-list="ordered"][data-custom-list="lower-alpha"] {
+        counter-increment: custom-list-alpha;
+        & > .ql-ui:before {
+            content: counter(custom-list-alpha, lower-alpha) ". ";
         }
     }
 }
