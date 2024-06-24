@@ -1,4 +1,4 @@
-import { createElement, CSSProperties } from "react";
+import { createElement, CSSProperties, forwardRef, RefObject } from "react";
 import { Range, RangeProps } from "rc-slider";
 import classNames from "classnames";
 
@@ -7,22 +7,23 @@ export interface RangeSliderProps extends RangeProps {
     rootStyle?: CSSProperties;
 }
 
-export const RangeSlider = ({
-    className,
-    classNameSlider,
-    rootStyle,
-    ...rcRangeProps
-}: RangeSliderProps): JSX.Element => (
-    <div
-        style={rootStyle}
-        className={classNames(
-            "widget-range-slider",
-            {
-                "widget-range-slider-vertical": rcRangeProps.vertical
-            },
-            className
-        )}
-    >
-        <Range className={classNameSlider} {...rcRangeProps} />
-    </div>
+export const RangeSlider = forwardRef(
+    (
+        { className, classNameSlider, rootStyle, ...rcRangeProps }: RangeSliderProps,
+        sliderRef: RefObject<HTMLDivElement>
+    ): JSX.Element => (
+        <div
+            ref={sliderRef}
+            style={rootStyle}
+            className={classNames(
+                "widget-range-slider",
+                {
+                    "widget-range-slider-vertical": rcRangeProps.vertical
+                },
+                className
+            )}
+        >
+            <Range className={classNameSlider} {...rcRangeProps} />
+        </div>
+    )
 );
