@@ -1,4 +1,4 @@
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, RefObject, MutableRefObject } from "react";
 import {
     BarcodeFormat,
     BinaryBitmap,
@@ -27,7 +27,7 @@ type UseReaderHook = (args: {
     useCrop: boolean;
     barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
-    canvasMiddleRef?: HTMLDivElement;
+    canvasMiddleRef: MutableRefObject<HTMLDivElement | undefined>;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
@@ -76,32 +76,28 @@ export const useReader: UseReaderHook = args => {
         }
     };
 
-    const scanWithCropOnce = (reader: BrowserMultiFormatReader): Promise<Result> => {
-        if (videoRef.current && args.canvasMiddleRef) {
-            const aspectRatioClient = videoRef.current.clientWidth / videoRef.current.clientHeight;
-            const aspectRatioVideo = videoRef.current.videoWidth / videoRef.current.videoHeight;
+    const scanWithCropOnce = (
+        reader: BrowserMultiFormatReader,
+        videoRefCurrent: HTMLVideoElement,
+        canvasRef: HTMLDivElement
+    ): Promise<Result> => {
+        const aspectRatioClient = videoRefCurrent.clientWidth / videoRefCurrent.clientHeight;
+        const aspectRatioVideo = videoRefCurrent.videoWidth / videoRefCurrent.videoHeight;
 
-            let videoCropWidth =
-                (args.canvasMiddleRef.clientWidth / videoRef.current.clientWidth) * videoRef.current.videoWidth;
-            let videoCropHeight =
-                (args.canvasMiddleRef.clientHeight / videoRef.current.clientHeight) * videoRef.current.videoHeight;
+        let videoCropWidth = (canvasRef.clientWidth / videoRefCurrent.clientWidth) * videoRefCurrent.videoWidth;
+        let videoCropHeight = (canvasRef.clientHeight / videoRefCurrent.clientHeight) * videoRefCurrent.videoHeight;
 
-            if (aspectRatioVideo < aspectRatioClient) {
-                videoCropHeight = videoCropWidth;
-            } else {
-                videoCropWidth = videoCropHeight;
-            }
-
-            const captureCanvas = reader.createCaptureCanvas(videoRef.current);
-            captureCanvas.width = videoCropWidth;
-            captureCanvas.height = videoCropHeight;
-
-            return new Promise((resolve, reject) =>
-                loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight)
-            );
+        if (aspectRatioVideo < aspectRatioClient) {
+            videoCropHeight = videoCropWidth;
         } else {
-            return Promise.reject(new Error("No video ref or no canvas ref found"));
+            videoCropWidth = videoCropHeight;
         }
+
+        const captureCanvas = reader.createCaptureCanvas(videoRefCurrent);
+        captureCanvas.width = videoCropWidth;
+        captureCanvas.height = videoCropHeight;
+
+        return new Promise((resolve, reject) => loop(resolve, reject, captureCanvas, videoCropWidth, videoCropHeight));
     };
 
     useEffect(() => {
@@ -140,14 +136,15 @@ export const useReader: UseReaderHook = args => {
             let stream;
             try {
                 stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-                if (videoRef.current) {
+                if (videoRef.current && args.canvasMiddleRef.current) {
                     let result: Result;
                     if (args.useCrop) {
                         videoRef.current.srcObject = stream;
                         videoRef.current.autofocus = true;
                         videoRef.current.playsInline = true; // Fix error in Safari
                         await videoRef.current.play();
-                        result = await scanWithCropOnce(newReader);
+
+                        result = await scanWithCropOnce(newReader, videoRef.current, args.canvasMiddleRef.current);
                     } else {
                         result = await newReader.decodeOnceFromStream(stream, videoRef.current);
                     }

@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useState } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useRef } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
@@ -72,7 +72,7 @@ export function BarcodeScanner({
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
-    const [canvasMiddleRef, setCanvasMiddleRef] = useState<HTMLDivElement>();
+    const canvasMiddleRef = useRef<HTMLDivElement>();
     const videoRef = useReader({
         onSuccess: onDetect,
         onError: setError,
@@ -112,7 +112,7 @@ export function BarcodeScanner({
             showMask={showMask}
             canvasMiddleMiddleRef={ref => {
                 if (ref !== null) {
-                    setCanvasMiddleRef(ref);
+                    canvasMiddleRef.current = ref;
                 }
             }}
             {...dimensions}
