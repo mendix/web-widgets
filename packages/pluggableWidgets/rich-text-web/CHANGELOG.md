@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We update the dependency to TinyMCE 6.8.4 in order to solve security issue.
+
 ## [3.2.2] - 2024-06-05
 
 ### Fixed
