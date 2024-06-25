@@ -8,6 +8,7 @@ interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;
     propertieschange: (columns: ColumnsType[]) => void;
     exportcolumns: (columns: number[]) => void;
+    exportend: () => void;
     abort: () => void;
 }
 
@@ -45,6 +46,15 @@ export class ExportController {
         this.allColumns = allColumns;
     };
 
+    connectProgress(req: DSExportRequest): void {
+        req.on("loadstart", this.progressStore.onloadstart);
+        req.on("progress", this.progressStore.onprogress);
+        const unsub = this.emitter.on("exportend", () => {
+            this.progressStore.onloadend();
+            unsub();
+        });
+    }
+
     async exportData(handler: RequestHandler, options: { limit?: number; withHeaders?: boolean } = {}): Promise<void> {
         if (this.datasource === null) {
             console.error("Export controller: datasource is missing.");
@@ -66,12 +76,10 @@ export class ExportController {
         });
 
         // Connect progress store
-        req.on("loadstart", this.progressStore.onloadstart);
-        req.on("progress", this.progressStore.onprogress);
-        req.on("loadend", this.progressStore.onloadend);
+        this.connectProgress(req);
 
-        // Connect to widget events
-        const bindings = [
+        // Connect to controller events
+        const requestBindings = [
             this.emitter.on("sourcechange", req.onsourcechange),
             this.emitter.on("propertieschange", cols => req?.onpropertieschange(pickColumns(cols))),
             this.emitter.on("abort", req.abort)
@@ -80,13 +88,22 @@ export class ExportController {
         handler(req);
         await req.send();
 
-        // Cleanup and unsubscribe
-        bindings.forEach(unsubscribe => unsubscribe());
+        // Dispose request
+        requestBindings.forEach(unsubscribe => unsubscribe());
         req = null;
-        this.locked = false;
+
+        // Restore ds view state.
         this.datasource.setLimit(snapshot.limit);
         this.datasource.setOffset(snapshot.offset);
         this.datasource.reload();
+        const unsub = this.emitter.on("sourcechange", ds => {
+            const isRestored = ds.limit === snapshot.limit && ds.offset === snapshot.offset;
+            if (isRestored) {
+                this.emitter.emit("exportend");
+                this.locked = false;
+                unsub();
+            }
+        });
     }
 
     abort = (): void => this.emitter.emit("abort");
