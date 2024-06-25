@@ -14,6 +14,7 @@ export interface EditorWrapperProps extends RichTextContainerProps {
     editorWidth?: string | number;
     style?: CSSProperties;
     className?: string;
+    toolbarOptions?: (string | string[] | { [k: string]: any })[];
 }
 
 export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
@@ -28,7 +29,8 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         onChangeType,
         onBlur,
         onFocus,
-        readOnlyStyle
+        readOnlyStyle,
+        toolbarOptions
     } = props;
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -94,7 +96,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 }
             }}
         >
-            <If condition={!shouldHideToolbar}>
+            <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
                 <Toolbar id={toolbarId} preset={preset} quill={quillRef.current} toolbarContent={toolbarPreset} />
             </If>
             <Editor
@@ -106,7 +108,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     minHeight: style?.minHeight,
                     maxHeight: style?.maxHeight
                 }}
-                toolbarId={shouldHideToolbar ? undefined : toolbarId}
+                toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
                 onTextChange={onTextChange}
                 onSelectionChange={onSelectionChange}
                 className={"widget-rich-text-container"}
