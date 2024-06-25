@@ -18,7 +18,7 @@ import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
-import { useDSExport } from "./features/xpt/ExportController";
+import { useDataExport } from "./features/xpt/useDataExport";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -36,7 +36,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const items = props.datasource.items ?? [];
 
-    const [exportProgress, abortExport] = useDSExport(props, props.columnsStore);
+    const [exportProgress, abortExport] = useDataExport(props, props.columnsStore);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
