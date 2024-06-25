@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.2] - 2024-06-25
+
 ### Fixed
 
 -   We fixed an issue where tooltip of the slider wouldn't position itself correctly when scrolling the page.
