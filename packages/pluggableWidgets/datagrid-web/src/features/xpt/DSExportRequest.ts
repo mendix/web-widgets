@@ -6,7 +6,7 @@ import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-availab
 
 type RowData = Array<string | number | boolean>;
 
-type ColumnDefinition = {
+type HeaderDefinition = {
     name: string;
     type: string;
 };
@@ -17,13 +17,13 @@ type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
 
 type RowReader = (item: ObjectItem) => RowData;
 
-type ColumnReader = (props: ColumnsType) => ColumnDefinition;
+type ColumnReader = (props: ColumnsType) => HeaderDefinition;
 
 interface ExportRequestEvents {
     /** Emitted once when request is started. */
     loadstart: (pe: ProgressEvent) => void;
     /** Emitted once before "data" events. */
-    columns: (columns: ColumnDefinition[]) => void;
+    headers: (columns: HeaderDefinition[]) => void;
     /** Emitted every time new chunk is available. */
     data: (chunk: RowData[]) => void;
     /** Emitted every time new chunk is sent. */
@@ -38,23 +38,32 @@ interface ExportRequestEvents {
 
 type ExportRequestStatus = "idle" | "awaiting" | "reading" | "sending" | "end" | "aborted";
 
+interface RequestParams {
+    ds: ListValue;
+    columns: ColumnsType[];
+    withHeaders?: boolean;
+    limit?: number;
+}
+
 export class DSExportRequest {
     private _status: ExportRequestStatus = "idle";
     private datasource: ListValue;
     private columns: ColumnsType[];
     private offset = 0;
     private loaded = 0;
-    private limit = 3;
+    private limit = 100;
     private totalCount: number | undefined = undefined;
-    private shouldSendColumns = false;
+    private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
 
-    constructor(ds: ListValue, columns: ColumnsType[], withColumns = false) {
+    constructor(params: RequestParams) {
+        const { ds, columns, withHeaders = false, limit = 0 } = params;
+        this.limit = Math.max(limit, this.limit);
         this.emitter = createNanoEvents();
         this.datasource = ds;
         this.totalCount = ds.totalCount;
         this.columns = columns;
-        this.shouldSendColumns = withColumns;
+        this.shouldSendHeaders = withHeaders;
     }
 
     get status(): ExportRequestStatus {
@@ -69,8 +78,8 @@ export class DSExportRequest {
         this.emitter.emit("loadstart", this.createProgressEvent("loadstart"));
     }
 
-    private emitColumns(columns: ColumnDefinition[]): void {
-        this.emitter.emit("columns", columns);
+    private emitHeaders(headers: HeaderDefinition[]): void {
+        this.emitter.emit("headers", headers);
     }
 
     private emitData(chunk: RowData[]): void {
@@ -115,9 +124,9 @@ export class DSExportRequest {
         const isReady = ds.offset === this.offset && ds.limit === this.limit && ds.status === "available";
         if (this._status === "awaiting" && isReady) {
             this.datasource = ds;
-            if (this.shouldSendColumns) {
-                this.sendColumns();
-                this.shouldSendColumns = false;
+            if (this.shouldSendHeaders) {
+                this.sendHeaders();
+                this.shouldSendHeaders = false;
             }
             this.read();
         }
@@ -125,21 +134,20 @@ export class DSExportRequest {
 
     onpropertieschange = (columns: ColumnsType[]): void => {
         if (this._status === "reading") {
-            console.log("update columns");
             this.columns = columns;
             this.read();
         }
     };
 
-    private sendColumns(): void {
+    private sendHeaders(): void {
         const reader: ColumnReader = column => ({
             name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
             type: column.attribute?.type.toString() ?? ""
         });
 
-        const columns = this.columns.map(reader);
+        const headers = this.columns.map(reader);
 
-        this.emitColumns(columns);
+        this.emitHeaders(headers);
     }
 
     private read(): void {

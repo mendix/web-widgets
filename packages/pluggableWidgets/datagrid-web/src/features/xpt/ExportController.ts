@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
 import { ListValue } from "mendix";
 import { createNanoEvents, Emitter } from "nanoevents";
-import { ColumnsType, DatagridContainerProps } from "../../../typings/DatagridProps";
-import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import { ColumnsType } from "../../../typings/DatagridProps";
 import { DSExportRequest } from "./DSExportRequest";
 import { ProgressStore } from "./ProgressStore";
 
@@ -12,6 +10,9 @@ interface ControllerEvents {
     exportcolumns: (columns: number[]) => void;
     abort: () => void;
 }
+
+type RequestHandler = (req: DSExportRequest) => void;
+
 export class ExportController {
     private datasource: ListValue | null = null;
     private exportColumns: number[] = [];
@@ -44,7 +45,7 @@ export class ExportController {
         this.allColumns = allColumns;
     };
 
-    async exportData(): Promise<void> {
+    async exportData(handler: RequestHandler, options: { limit?: number; withHeaders?: boolean } = {}): Promise<void> {
         if (this.datasource === null) {
             console.error("Export controller: datasource is missing.");
             return;
@@ -58,14 +59,16 @@ export class ExportController {
         const snapshot = { offset: this.datasource.offset, limit: this.datasource.limit };
 
         this.locked = true;
-        let req: DSExportRequest | null = new DSExportRequest(this.datasource, pickColumns(this.allColumns));
-        let data: any[] = [];
+        let req: DSExportRequest | null = new DSExportRequest({
+            ds: this.datasource,
+            columns: pickColumns(this.allColumns),
+            ...options
+        });
 
         // Connect progress store
         req.on("loadstart", this.progressStore.onloadstart);
         req.on("progress", this.progressStore.onprogress);
         req.on("loadend", this.progressStore.onloadend);
-        req.on("data", chunk => (data = data.concat(chunk)));
 
         // Connect to widget events
         const bindings = [
@@ -74,6 +77,7 @@ export class ExportController {
             this.emitter.on("abort", req.abort)
         ];
 
+        handler(req);
         await req.send();
 
         // Cleanup and unsubscribe
@@ -83,42 +87,7 @@ export class ExportController {
         this.datasource.setLimit(snapshot.limit);
         this.datasource.setOffset(snapshot.offset);
         this.datasource.reload();
-        console.log("export data: done.", data);
     }
 
     abort = (): void => this.emitter.emit("abort");
-}
-
-export function useDSExport(
-    props: DatagridContainerProps,
-    columnsStore: IColumnGroupStore
-): [store: ProgressStore, abort: () => void] {
-    const [progress] = useState(() => new ProgressStore());
-    const [controller] = useState(() => new ExportController(progress));
-
-    useEffect(() => controller.abort, [controller]);
-
-    useEffect((): (() => void) => {
-        (window as any).__xpt = controller;
-        return () => {
-            (window as any).__xpt = null;
-        };
-    }, [controller]);
-
-    useEffect(() => {
-        controller.emit("sourcechange", props.datasource);
-    }, [props.datasource, controller]);
-
-    useEffect(() => {
-        controller.emit("propertieschange", props.columns);
-    }, [props.columns, controller]);
-
-    useEffect(() => {
-        controller.emit(
-            "exportcolumns",
-            columnsStore.visibleColumns.map(col => col.columnIndex)
-        );
-    }, [columnsStore.visibleColumns, controller]);
-
-    return [progress, controller.abort];
 }
