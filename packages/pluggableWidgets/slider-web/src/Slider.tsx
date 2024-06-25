@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { createElement, ReactNode, useRef } from "react";
 import { SliderContainerProps } from "../typings/SliderProps";
 import { getMinValue } from "./utils/getMinValue";
 import { getMaxValue } from "./utils/getMaxValue";
@@ -69,7 +69,8 @@ export default function Slider(props: SliderContainerProps): ReactNode {
         maxAttribute,
         expressionMaximumValue
     });
-    const handle = createHandleGenerator({ tooltip, showTooltip, tooltipType, tooltipAlwaysVisible });
+    const sliderRef = useRef<HTMLDivElement>(null);
+    const handle = createHandleGenerator({ tooltip, showTooltip, tooltipType, tooltipAlwaysVisible, sliderRef });
     const { onChange } = useOnChangeDebounced({ valueAttribute, onChange: onChangeProp });
     const style = getStyleProp({ orientation, height, heightUnit });
     useScheduleUpdateOnce(() => valueAttribute.status === ValueStatus.Available);
@@ -86,6 +87,7 @@ export default function Slider(props: SliderContainerProps): ReactNode {
             onChange={onChange}
             marks={marks}
             handle={handle}
+            ref={sliderRef}
         />
     );
 }
