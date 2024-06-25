@@ -18,6 +18,7 @@ type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
 type RowReader = (item: ObjectItem) => RowData;
 
 type ColumnReader = (props: ColumnsType) => ColumnDefinition;
+
 interface ExportRequestEvents {
     /** Emitted once when request is started. */
     loadstart: (pe: ProgressEvent) => void;

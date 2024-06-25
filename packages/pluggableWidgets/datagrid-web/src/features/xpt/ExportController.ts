@@ -12,7 +12,7 @@ interface ControllerEvents {
     exportcolumns: (columns: number[]) => void;
     abort: () => void;
 }
-class ExportController {
+export class ExportController {
     private datasource: ListValue | null = null;
     private exportColumns: number[] = [];
     private allColumns: ColumnsType[] = [];
