@@ -11,7 +11,7 @@ export interface EditorProps {
     theme: string;
     style?: CSSProperties;
     className?: string;
-    toolbarId?: string;
+    toolbarId?: string | (string | string[] | { [k: string]: any })[];
     readOnly?: boolean;
 }
 
@@ -40,7 +40,6 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
             ref.current?.setContents(newContent);
         }
     }, [ref, defaultValue]);
-
     useEffect(
         () => {
             const container = containerRef.current;
@@ -51,14 +50,13 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const options: QuillOptions = {
                     theme,
                     modules: {
-                        toolbar: toolbarId ? `#${toolbarId}` : false
+                        toolbar: Array.isArray(toolbarId) ? toolbarId : toolbarId ? `#${toolbarId}` : false
                     },
                     readOnly
                 };
                 const quill = new Quill(editorContainer, options);
 
                 ref.current = quill;
-
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
                 });
