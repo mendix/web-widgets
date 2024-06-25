@@ -4,20 +4,6 @@ import { render } from "@testing-library/react";
 import { createElement } from "react";
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 
-Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: jest.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn()
-    }))
-});
-
 import RichText from "../RichText";
 
 describe("Rich Text", () => {
@@ -27,7 +13,6 @@ describe("Rich Text", () => {
             name: "RichText",
             id: "RichText1",
             stringAttribute: new EditableValueBuilder<string>().withValue("Rich text default value").build(),
-
             preset: "basic",
             toolbarLocation: "bottom",
             widthUnit: "percentage",
@@ -35,43 +20,20 @@ describe("Rich Text", () => {
             heightUnit: "percentageOfWidth",
             height: 75,
             minHeight: 75,
-            spellCheck: false,
-            highlight_on_focus: false,
-            resize: "false",
             toolbarConfig: "basic",
-            basicstyle: true,
-            extendedstyle: true,
-            textalign: true,
-            clipboard: true,
-            fontstyle: true,
-            paragraph: true,
-            document: true,
             history: true,
-            accordion: true,
+            fontStyle: true,
+            fontScript: true,
+            fontColor: true,
             code: true,
-            anchor: true,
-            direction: true,
-            link: true,
+            indent: true,
+            embed: true,
+            align: true,
             list: true,
-            preview: true,
-            table: true,
-            visualaid: true,
-            media: true,
-            util: true,
-            emoticon: true,
             remove: true,
+            header: true,
             advancedConfig: [],
-            menubarConfig: "basic",
-            fileMenubar: true,
-            editMenubar: true,
-            insertMenubar: true,
-            viewMenubar: true,
-            formatMenubar: true,
-            tableMenubar: true,
-            toolsMenubar: true,
-            helpMenubar: true,
             readOnlyStyle: "text",
-            advancedMenubarConfig: [],
             tabIndex: 0,
             onChangeType: "onLeave",
             sandboxIframes: true,
