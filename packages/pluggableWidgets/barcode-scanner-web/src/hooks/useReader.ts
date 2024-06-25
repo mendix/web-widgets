@@ -1,4 +1,4 @@
-import { useEffect, useRef, RefObject, MutableRefObject } from "react";
+import { useEffect, useRef, RefObject } from "react";
 import {
     BarcodeFormat,
     BinaryBitmap,
@@ -27,7 +27,7 @@ type UseReaderHook = (args: {
     useCrop: boolean;
     barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
-    canvasMiddleRef: MutableRefObject<HTMLDivElement | undefined>;
+    canvasMiddleRef: RefObject<HTMLDivElement>;
 }) => RefObject<HTMLVideoElement>;
 
 export const useReader: UseReaderHook = args => {
