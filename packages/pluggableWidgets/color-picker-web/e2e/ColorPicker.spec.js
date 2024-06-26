@@ -115,6 +115,8 @@ test.describe("color-picker-web", () => {
         test("hex", async ({ page }) => {
             const hexInput = await page.locator(".mx-name-colorPicker24 input");
             await expect(hexInput).toBeVisible();
+            await expect(hexInput).toBeEnabled();
+            await expect(hexInput).toBeEditable();
             await expect(hexInput).toHaveValue("#4caf50");
         });
 
