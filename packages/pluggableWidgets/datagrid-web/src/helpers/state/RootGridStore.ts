@@ -4,7 +4,7 @@ import { HeaderFiltersStore } from "./HeaderFiltersStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
-import { ProgressStore } from "../../features/xpt/ProgressStore";
+import { ProgressStore } from "../../features/data-export/ProgressStore";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
