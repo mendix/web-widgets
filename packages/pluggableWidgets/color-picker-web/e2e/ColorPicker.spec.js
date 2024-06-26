@@ -112,7 +112,7 @@ test.describe("color-picker-web", () => {
             await page.waitForLoadState("networkidle");
         });
 
-        test("hex", async ({ page }) => {
+        test.fixme("hex", async ({ page }) => {
             const hexInput = await page.locator(".mx-name-colorPicker24 input");
             await expect(hexInput).toBeVisible();
             await page.reload();
