@@ -18,8 +18,8 @@ import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
-import { useDataExport } from "./features/xpt/useDataExport";
-import { ProgressStore } from "./features/xpt/ProgressStore";
+import { useDataExport } from "./features/data-export/useDataExport";
+import { ProgressStore } from "./features/data-export/ProgressStore";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
