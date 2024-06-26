@@ -110,7 +110,7 @@ export class DSExportRequest {
         });
     }
 
-    send(): Promise<void> {
+    send = (): Promise<void> => {
         this.emitLoadStart();
         this._status = "awaiting";
         this.offset = 0;
@@ -118,7 +118,14 @@ export class DSExportRequest {
         this.datasource.setOffset(this.offset);
         this.datasource.reload();
         return new Promise(res => this.on("loadend", () => res()));
-    }
+    };
+
+    abort = (): void => {
+        this._status = "aborted";
+        this.emitAbort();
+        this.emitLoadEnd();
+        this.dispose();
+    };
 
     onsourcechange = (ds: ListValue): void => {
         const isReady = ds.offset === this.offset && ds.limit === this.limit && ds.status === "available";
@@ -193,13 +200,6 @@ export class DSExportRequest {
         this._status = "awaiting";
         this.offset += this.limit;
         this.datasource.setOffset(this.offset);
-    }
-
-    abort(): void {
-        this._status = "aborted";
-        this.emitAbort();
-        this.emitLoadEnd();
-        this.dispose();
     }
 
     private end(): void {
