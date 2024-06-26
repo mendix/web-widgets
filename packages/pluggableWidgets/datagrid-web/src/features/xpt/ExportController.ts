@@ -6,8 +6,8 @@ import { ProgressStore } from "./ProgressStore";
 
 interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;
-    propertieschange: (columns: ColumnsType[]) => void;
-    exportcolumns: (columns: number[]) => void;
+    propertieschange: (ps: ColumnsType[]) => void;
+    columnschange: (columns: number[]) => void;
     exportend: () => void;
     abort: () => void;
 }
@@ -16,14 +16,16 @@ type RequestHandler = (req: DSExportRequest) => void;
 
 export class ExportController {
     private datasource: ListValue | null = null;
-    private exportColumns: number[] = [];
-    private allColumns: ColumnsType[] = [];
+    private columns: number[] = [];
+    private properties: ColumnsType[] = [];
     private emitter: Emitter<ControllerEvents>;
     private locked = false;
+    private progressStore: ProgressStore;
 
-    constructor(private progressStore: ProgressStore) {
+    constructor(progress: ProgressStore) {
+        this.progressStore = progress;
         this.emitter = createNanoEvents();
-        this.emitter.on("exportcolumns", this.onexportcolumns);
+        this.emitter.on("columnschange", this.oncolumnschange);
         this.emitter.on("propertieschange", this.onpropertieschange);
         this.emitter.on("sourcechange", this.onsourcechange);
     }
@@ -32,9 +34,9 @@ export class ExportController {
         this.emitter.emit(event, ...args);
     }
 
-    onexportcolumns = (columns: number[]): void => {
+    oncolumnschange = (columns: number[]): void => {
         if (this.locked === false) {
-            this.exportColumns = columns;
+            this.columns = columns;
         }
     };
 
@@ -42,8 +44,8 @@ export class ExportController {
         this.datasource = ds;
     };
 
-    onpropertieschange = (allColumns: ColumnsType[]): void => {
-        this.allColumns = allColumns;
+    onpropertieschange = (ps: ColumnsType[]): void => {
+        this.properties = ps;
     };
 
     connectProgress(req: DSExportRequest): void {
@@ -60,18 +62,18 @@ export class ExportController {
             console.error("Export controller: datasource is missing.");
             return;
         }
-        if (this.allColumns.length === 0 || this.exportColumns.length === 0) {
+        if (this.properties.length === 0 || this.columns.length === 0) {
             console.error("Export controller: no columns to export.");
         }
 
-        const exportColumns = this.exportColumns.slice();
-        const pickColumns = (cols: ColumnsType[]): ColumnsType[] => exportColumns.map(index => cols[index]);
+        const columns = this.columns.slice();
+        const pickColumns = (props: ColumnsType[]): ColumnsType[] => columns.map(index => props[index]);
         const snapshot = { offset: this.datasource.offset, limit: this.datasource.limit };
 
         this.locked = true;
         let req: DSExportRequest | null = new DSExportRequest({
             ds: this.datasource,
-            columns: pickColumns(this.allColumns),
+            columns: pickColumns(this.properties),
             ...options
         });
 
