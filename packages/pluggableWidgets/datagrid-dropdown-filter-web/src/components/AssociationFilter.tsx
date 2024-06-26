@@ -56,7 +56,7 @@ function Dropdown({ dispatch, widgetProps, associationProps, eventsChannelName }
 
     const [options, objectMap] = getOptions(items, getOptionLabel);
 
-    const onChange = getOnChange(dispatch, association, objectMap);
+    const onChange = getOnChange(dispatch, association, objectMap, widgetProps.onChange);
 
     const onContentScroll = useOnScrollBottom(loadMore, {
         triggerZoneHeight: 100
