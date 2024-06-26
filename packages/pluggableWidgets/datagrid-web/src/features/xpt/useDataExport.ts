@@ -12,9 +12,9 @@ type ResourceEntry = {
 
 export function useDataExport(
     props: DatagridContainerProps,
-    columnsStore: IColumnGroupStore
+    columnsStore: IColumnGroupStore,
+    progress: ProgressStore
 ): [store: ProgressStore, abort: () => void] {
-    const [progress] = useState(() => new ProgressStore());
     const [entry] = useState(() => addController(props.name, progress));
     const abort = useCallback(() => entry?.controller.abort(), [entry]);
 
