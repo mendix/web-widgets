@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ExportController } from "./ExportController";
 import { ProgressStore } from "./ProgressStore";
 import { getExportRegistry } from "./registry";
@@ -15,17 +15,17 @@ export function useDataExport(
     columnsStore: IColumnGroupStore
 ): [store: ProgressStore, abort: () => void] {
     const [progress] = useState(() => new ProgressStore());
-    const [entry] = useState(() => regEntry(props.name, progress));
+    const [entry] = useState(() => addController(props.name, progress));
+    const abort = useCallback(() => entry?.controller.abort(), [entry]);
 
     // Remove entry when widget unmounted.
-    useEffect(() => () => removeEntry(entry), [entry]);
-
-    useEffect((): (() => void) => {
-        (window as any).__xpt = entry?.controller;
-        return () => {
-            (window as any).__xpt = null;
-        };
-    }, [entry]);
+    useEffect(
+        () => () => {
+            entry?.controller.abort();
+            removeController(entry);
+        },
+        [entry]
+    );
 
     useEffect(() => {
         entry?.controller.emit("sourcechange", props.datasource);
@@ -37,15 +37,15 @@ export function useDataExport(
 
     useEffect(() => {
         entry?.controller.emit(
-            "exportcolumns",
+            "columnschange",
             columnsStore.visibleColumns.map(col => col.columnIndex)
         );
     }, [columnsStore.visibleColumns, entry]);
 
-    return [progress, () => {}];
+    return [progress, abort];
 }
 
-function regEntry(name: string, progress: ProgressStore): ResourceEntry | null {
+function addController(name: string, progress: ProgressStore): ResourceEntry | null {
     const registry = getExportRegistry();
 
     if (registry.has(name)) {
@@ -62,9 +62,8 @@ function regEntry(name: string, progress: ProgressStore): ResourceEntry | null {
     return entry;
 }
 
-function removeEntry(entry: ResourceEntry | null): void {
+function removeController(entry: ResourceEntry | null): void {
     if (entry) {
-        entry.controller.abort();
         getExportRegistry().delete(entry.key);
     }
 }
