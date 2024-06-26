@@ -19,10 +19,12 @@ import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataExport } from "./features/xpt/useDataExport";
+import { ProgressStore } from "./features/xpt/ProgressStore";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
     rootStore: RootGridStore;
+    progressStore: ProgressStore;
 }
 
 const Container = observer((props: Props): ReactElement => {
@@ -36,7 +38,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const items = props.datasource.items ?? [];
 
-    const [exportProgress, abortExport] = useDataExport(props, props.columnsStore);
+    const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
     useEffect(() => {
         if (props.refreshInterval > 0) {
@@ -184,5 +186,12 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
         return null;
     }
 
-    return <Container {...props} rootStore={rootStore} columnsStore={rootStore.columnsStore} />;
+    return (
+        <Container
+            {...props}
+            rootStore={rootStore}
+            columnsStore={rootStore.columnsStore}
+            progressStore={rootStore.progressStore}
+        />
+    );
 }
