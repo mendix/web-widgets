@@ -15,11 +15,10 @@ export function getFullImageName(name, mendixVersion) {
 export async function buildImage(name, mendixVersion) {
     const image = getFullImageName(name, mendixVersion);
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
-    const dockerFile = p.join(dockerDir, process.env.RC ? `${name}RC.Dockerfile`:`${name}.Dockerfile` );
+    const dockerFile = p.join(dockerDir, process.env.RC ? `${name}RC.Dockerfile` : `${name}.Dockerfile`);
     const runnumber = process.env.CI && process.env.GITHUB_RUN_ID;
 
     const args = [
-        `--platform=linux/amd64`,
         `--file ${dockerFile}`,
         `--build-arg MENDIX_VERSION=${mendixVersion}`,
         `--tag ${image}`,
@@ -150,9 +149,7 @@ export function startPlaywright(ip, freePort) {
 
     console.log("Start Playwright in", startingPoint);
 
-    const args = [
-        `--project=${browserPlaywright}`,
-    ];
+    const args = [`--project=${browserPlaywright}`];
     const command = [`${modernClientMode} ${baseURL} playwright test`, ...args].join(" ");
 
     execSync(command, { stdio: "inherit" });

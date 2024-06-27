@@ -78,7 +78,8 @@ test.describe("Popup-menu-web", () => {
 
         test("shows a new menu list when on hover is triggered", async ({ page }) => {
             await page.click(".mx-name-actionButton1");
-            const button25 = await page.locator(".mx-name-actionButton25");
+            await page.waitForLoadState("networkidle");
+            const button25 = page.getByRole("button", { name: "Trigger On Hover" });
             await expect(button25).toBeVisible();
             await button25.hover();
             const text42 = await page.locator(".mx-name-text42");

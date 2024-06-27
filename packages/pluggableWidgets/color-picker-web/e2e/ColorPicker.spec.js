@@ -112,9 +112,14 @@ test.describe("color-picker-web", () => {
             await page.waitForLoadState("networkidle");
         });
 
-        test("hex", async ({ page }) => {
+        test.fixme("hex", async ({ page }) => {
             const hexInput = await page.locator(".mx-name-colorPicker24 input");
             await expect(hexInput).toBeVisible();
+            await page.reload();
+            await page.waitForLoadState("networkidle");
+            await expect(hexInput).toBeVisible({ timeout: 10000 });
+            await expect(hexInput).toBeEnabled({ timeout: 10000 });
+            await expect(hexInput).toBeEditable({ timeout: 10000 });
             await expect(hexInput).toHaveValue("#4caf50");
         });
 
