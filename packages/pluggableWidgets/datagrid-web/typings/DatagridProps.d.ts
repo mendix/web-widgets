@@ -26,6 +26,7 @@ export interface ColumnsType {
     attribute?: ListAttributeValue<string | Big | boolean | Date>;
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
+    exportValue?: ListExpressionValue<string>;
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
@@ -68,6 +69,7 @@ export interface ColumnsPreviewType {
     attribute: string;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     dynamicText: string;
+    exportValue: string;
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
