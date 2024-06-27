@@ -134,23 +134,26 @@ export const useReader: UseReaderHook = args => {
         };
         const start = async (): Promise<void> => {
             let stream;
+            if (videoRef.current === null) {
+                return;
+            }
             try {
                 stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-                if (videoRef.current && args.canvasMiddleRef.current) {
-                    let result: Result;
-                    if (args.useCrop) {
-                        videoRef.current.srcObject = stream;
-                        videoRef.current.autofocus = true;
-                        videoRef.current.playsInline = true; // Fix error in Safari
-                        await videoRef.current.play();
-
-                        result = await scanWithCropOnce(newReader, videoRef.current, args.canvasMiddleRef.current);
-                    } else {
-                        result = await newReader.decodeOnceFromStream(stream, videoRef.current);
+                let result: Result;
+                if (args.useCrop) {
+                    videoRef.current.srcObject = stream;
+                    videoRef.current.autofocus = true;
+                    videoRef.current.playsInline = true; // Fix error in Safari
+                    await videoRef.current.play();
+                    if (args.canvasMiddleRef.current === null) {
+                        return;
                     }
-                    if (!stopped.current) {
-                        onSuccess(result.getText());
-                    }
+                    result = await scanWithCropOnce(newReader, videoRef.current, args.canvasMiddleRef.current);
+                } else {
+                    result = await newReader.decodeOnceFromStream(stream, videoRef.current);
+                }
+                if (!stopped.current) {
+                    onSuccess(result.getText());
                 }
             } catch (error) {
                 // Suppress not found error if widget is closed normally (eg. leaving page);
