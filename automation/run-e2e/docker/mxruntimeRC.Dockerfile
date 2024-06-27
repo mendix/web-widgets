@@ -1,3 +1,4 @@
+FROM eclipse-temurin:17-jdk-jammy
 
 ARG MENDIX_VERSION
 
