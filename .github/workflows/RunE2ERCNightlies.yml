@@ -24,6 +24,8 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps chromium
       - name: Setup AWS credentials
         uses: aws-actions/configure-aws-credentials@fff2104678c2113fcefb9ae8294dc7ccb803e27c
         with:
@@ -46,11 +48,11 @@ jobs:
         run: |
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
-      - name: "Archive test screenshot diff results and test report"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - name: "Archive test screenshot diff results"
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure()
         with:
-          name: test-screenshot-results
+          name: test-screenshot-results-1
           path: |
             ${{ github.workspace }}/packages/**/**/test-results/**/*.png
             ${{ github.workspace }}/packages/**/**/test-results/**/*.zip
