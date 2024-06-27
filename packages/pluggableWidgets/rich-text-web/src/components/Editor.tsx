@@ -11,7 +11,7 @@ export interface EditorProps {
     theme: string;
     style?: CSSProperties;
     className?: string;
-    toolbarId?: string | (string | string[] | { [k: string]: any })[];
+    toolbarId?: string | Array<string | string[] | { [k: string]: any }>;
     readOnly?: boolean;
 }
 
@@ -50,17 +50,15 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const options: QuillOptions = {
                     theme,
                     modules: {
-                        toolbar: Array.isArray(toolbarId) ? toolbarId : toolbarId ? `#${toolbarId}` : false
+                        toolbar: toolbarId && Array.isArray(toolbarId) ? toolbarId : toolbarId ? `#${toolbarId}` : false
                     },
                     readOnly
                 };
                 const quill = new Quill(editorContainer, options);
-
                 ref.current = quill;
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
                 });
-
                 quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
                     onSelectionChangeRef.current?.(...arg);
                 });
@@ -74,7 +72,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
             };
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [ref]
+        [ref, toolbarId]
     );
 
     return <div ref={containerRef} style={style} className={className}></div>;
