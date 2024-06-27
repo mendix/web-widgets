@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed an issue where data could not be exported if some columns used associations.
+
+### Added
+
+-   Added a new "Export value" property for columns with custom content.
+
 ## [2.20.0] - 2024-06-19
 
 ### Changed
