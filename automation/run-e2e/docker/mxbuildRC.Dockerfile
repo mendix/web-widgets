@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 
 RUN \
     echo "Downloading mxbuild ${MENDIX_VERSION}..." && \
-    wget -q https://artifacts.rnd.mendix.com/runtimes/net8-mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
+    wget https://artifacts.rnd.mendix.com/runtimes/mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
     mkdir /tmp/mxbuild && \
     tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild && \
     rm /tmp/mxbuild.tar.gz && \
