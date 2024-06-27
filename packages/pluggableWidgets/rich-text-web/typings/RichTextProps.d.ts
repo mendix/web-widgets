@@ -46,6 +46,7 @@ export interface RichTextContainerProps {
     onFocus?: ActionValue;
     onBlur?: ActionValue;
     onChangeType: OnChangeTypeEnum;
+    spellCheck: boolean;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -76,6 +77,7 @@ export interface RichTextPreviewProps {
     onFocus: {} | null;
     onBlur: {} | null;
     onChangeType: OnChangeTypeEnum;
+    spellCheck: boolean;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
