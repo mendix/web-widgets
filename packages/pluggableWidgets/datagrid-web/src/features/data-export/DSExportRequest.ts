@@ -167,6 +167,8 @@ export class DSExportRequest {
                     status = column.attribute?.get(item).status;
                 } else if (column.showContentAs === "dynamicText") {
                     status = column.dynamicText?.get(item).status;
+                } else if (column.exportValue) {
+                    status = column.exportValue.get(item).status;
                 } else {
                     status = "available";
                 }
@@ -254,8 +256,13 @@ const readers: ReadersByType = {
         }
     },
 
-    customContent() {
-        return "n/a (custom content)";
+    customContent(item, props) {
+        let value: string | undefined;
+        if (props.exportValue) {
+            value = props.exportValue.get(item).value;
+        }
+        value ??= "n/a (custom content)";
+        return value;
     }
 };
 
