@@ -4,8 +4,7 @@ import { createElement, ReactElement } from "react";
 import { RichTextPreviewProps } from "../typings/RichTextProps";
 import EditorWrapper from "./components/EditorWrapper";
 import "./ui/RichText.scss";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
+import "./ui/RichText.editor.scss";
 
 export enum FormatterType {
     Number = "number",
@@ -14,11 +13,13 @@ export enum FormatterType {
 
 export function preview(props: RichTextPreviewProps): ReactElement {
     const stringAttribute = {
-        value: "<p>Rich Text Editor</p>",
+        value: `[${
+            props.stringAttribute && props.stringAttribute !== "" ? props.stringAttribute : "No attribute selected"
+        }]`,
         displayValue: "",
         status: "available",
         validation: undefined,
-        readOnly: false,
+        readOnly: true,
         formatter: {
             format: () => "",
             parse: () => {

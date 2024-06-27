@@ -14,7 +14,7 @@ export interface EditorWrapperProps extends RichTextContainerProps {
     editorWidth?: string | number;
     style?: CSSProperties;
     className?: string;
-    toolbarOptions?: (string | string[] | { [k: string]: any })[];
+    toolbarOptions?: Array<string | string[] | { [k: string]: any }>;
 }
 
 export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
@@ -95,6 +95,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     quillRef?.current?.focus();
                 }
             }}
+            spellCheck={props.spellCheck}
         >
             <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
                 <Toolbar id={toolbarId} preset={preset} quill={quillRef.current} toolbarContent={toolbarPreset} />
