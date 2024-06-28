@@ -366,7 +366,7 @@
         </propertyGroup>
         <propertyGroup caption="Advanced">
             <propertyGroup caption="Performance">
-                <property key="lazyLoading" type="boolean" defaultValue="false">
+                <property key="lazyLoading" type="boolean" defaultValue="true">
                     <caption>Lazy loading</caption>
                     <description />
                 </property>
