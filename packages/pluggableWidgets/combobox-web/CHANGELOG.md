@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.1] - 2024-06-28
+
 ### Changed
 
 -   We changed the default value for lazy loading. From now on, lazy loading will be true by default.
+
 -   We fixed an issue where in some cases the clear button is rendered outside of a combobox.
 
 ## [1.6.0] - 2024-06-19
@@ -23,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We added lazy loading feature. By default it is turned off. When turned on, the items will be loaded in batches when scrolling.
 
-### Breaking
+## # Breaking
 
 -   The Combo box now uses Atlas variables for its styling. This may change how the widget looks depending on the custom variables.
 
