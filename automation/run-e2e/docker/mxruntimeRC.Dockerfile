@@ -8,6 +8,8 @@ ENV RUNTIME_PORT=8080 \
 
 EXPOSE $RUNTIME_PORT $ADMIN_PORT
 
+COPY mendix-${MENDIX_VERSION}.tar.gz /tmp/runtime.tar.gz
+
 #install dependency -> git
 RUN apt-get update -qqy && \
     apt-get install -qqy git wget && \
@@ -26,9 +28,8 @@ RUN apt-get update -qqy && \
     \
     pip3 install -q --upgrade pip && \
     pip install -q pyyaml httplib2 && \
-    \
-    echo "Downloading runtime ${MENDIX_VERSION}..." && \
-    wget -q https://artifacts.rnd.mendix.com/runtimes/mendix-${MENDIX_VERSION}.tar.gz -O /tmp/runtime.tar.gz && \
+\
+    echo "Copying runtime ${MENDIX_VERSION}..." && \
     mkdir /var/opt/runtime && \
     tar xfz /tmp/runtime.tar.gz --directory /var/opt/runtime && \
     rm /tmp/runtime.tar.gz && \

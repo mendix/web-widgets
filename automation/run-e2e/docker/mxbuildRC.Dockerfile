@@ -3,12 +3,15 @@ FROM --platform=$BUILDPLATFORM eclipse-temurin:17-jdk-jammy
 ARG MENDIX_VERSION
 ARG BUILDPLATFORM
 
+COPY mendix-${MENDIX_VERSION}.tar.gz /tmp/mxbuild.tar.gz
+
+SHELL ["/bin/bash", "-c"]
 RUN \
-    echo "Downloading mxbuild ${MENDIX_VERSION}..." && \
-    wget https://artifacts.rnd.mendix.com/runtimes/mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
+    echo "Copying mxbuild ${MENDIX_VERSION}..." && \
     mkdir /tmp/mxbuild && \
     tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild && \
     rm /tmp/mxbuild.tar.gz && \
+    \
     apt-get update -qqy && \
     apt-get install -qqy libicu70 && \
     apt-get -qqy remove --auto-remove wget && \
