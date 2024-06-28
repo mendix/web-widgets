@@ -8,7 +8,7 @@ ENV RUNTIME_PORT=8080 \
 
 EXPOSE $RUNTIME_PORT $ADMIN_PORT
 
-COPY mendix-${MENDIX_VERSION}.tar.gz /tmp/runtime.tar.gz
+COPY --link mendix.tar.gz /tmp/runtime.tar.gz
 
 #install dependency -> git
 RUN apt-get update -qqy && \

@@ -41,8 +41,8 @@ jobs:
           echo $URL
           SP_VERSION=$(echo $URL | sed -E 's/.*(-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)-).*/\2/')
           echo $SP_VERSION
-          aws s3 cp s3://${{ env.AWS_S3_BUCKET_NAME }}/runtimes/mxbuild-${SP_VERSION}.tar.gz ${{ github.workspace }}/automation/run-e2e/docker/mxbuild-${SP_VERSION}.tar.gz
-          aws s3 cp s3://${{ env.AWS_S3_BUCKET_NAME }}/runtimes/mendix-${SP_VERSION}.tar.gz ${{ github.workspace }}/automation/run-e2e/docker/mendix-${SP_VERSION}.tar.gz
+          aws s3 cp s3://${{ env.AWS_S3_BUCKET_NAME }}/runtimes/mxbuild-${SP_VERSION}.tar.gz ${{ github.workspace }}/automation/run-e2e/docker/mxbuild.tar.gz
+          aws s3 cp s3://${{ env.AWS_S3_BUCKET_NAME }}/runtimes/mendix-${SP_VERSION}.tar.gz ${{ github.workspace }}/automation/run-e2e/docker/mendix.tar.gz
           echo "Starting E2E testing execution..."
           MENDIX_VERSION=$SP_VERSION RC=true pnpm -r --workspace-concurrency=1 run e2e
       - name: "Fixing files permissions"
