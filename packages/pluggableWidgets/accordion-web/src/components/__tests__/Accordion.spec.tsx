@@ -2,9 +2,14 @@ import { createElement } from "react";
 import { mount, ReactWrapper, shallow } from "enzyme";
 import { Accordion, AccordionProps } from "../Accordion";
 
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn()
+}));
+
 describe("Accordion", () => {
     let defaultProps: AccordionProps;
-
     function getProps(collapsible: boolean, singleExpandedGroup?: boolean): AccordionProps {
         return {
             id: "id",
