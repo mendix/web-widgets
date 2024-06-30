@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.2.2] - 2024-06-26
+
+### Fixed
+
+-   Fixed an issue where the widget was missing data when retrieving data via association.
+
 ## [3.2.1] - 2023-09-27
 
 ### Fixed

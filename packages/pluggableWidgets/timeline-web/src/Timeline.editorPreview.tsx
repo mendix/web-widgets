@@ -6,13 +6,13 @@ import {
 } from "../typings/TimelineProps";
 import TimelineComponent from "./components/TimelineComponent";
 import { createElement } from "react";
-import { BasicItemType, CustomItemType, ItemType } from "./Timeline";
+import { BasicItemType, CustomItemType, ItemType, TimelineData } from "./helpers/types";
 import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 
 declare function require(name: string): string;
 
-export function preview(props: TimelinePreviewProps) {
-    const structuredEvents = () => {
+export function preview(props: TimelinePreviewProps): React.ReactElement {
+    const structuredEvents = (): TimelineData => {
         const eventsMap = new Map<string, ItemType[]>();
         let groupKey = "";
 
@@ -85,7 +85,7 @@ export function preview(props: TimelinePreviewProps) {
     );
 }
 
-function getGroupHeaderByType(option: GroupByDayOptionsEnum | GroupByMonthOptionsEnum | GroupByKeyEnum) {
+function getGroupHeaderByType(option: GroupByDayOptionsEnum | GroupByMonthOptionsEnum | GroupByKeyEnum): string {
     const currentDate = new Date();
     switch (option) {
         case "fullDate":

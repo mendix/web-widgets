@@ -9,6 +9,7 @@ import {
     isSelectOneTrigger
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
+import { withInputEventsFilter } from "./keyboard-utils";
 
 const onMouseDown = (
     handler: (ctx: EventEntryContext, event: React.MouseEvent<Element>) => void
@@ -55,6 +56,6 @@ export function createItemHandlers(
                 unblockUserSelect();
             }
         ),
-        onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns)
+        withInputEventsFilter(onSelectGridAdjacentHotKey(selectAdjacentFx, numberOfColumns))
     ].flat();
 }

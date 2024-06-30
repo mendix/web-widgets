@@ -1,25 +1,10 @@
-import {
-    GroupByDayOptionsEnum,
-    GroupByKeyEnum,
-    GroupByMonthOptionsEnum,
-    UngroupedEventsPositionEnum
-} from "../../typings/TimelineProps";
+import { UngroupedEventsPositionEnum } from "../../typings/TimelineProps";
 import { Children, createElement, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
-import { BasicItemType, CustomItemType, ItemType } from "../Timeline";
+import { BasicItemType, CustomItemType, ItemType, ComponentProps } from "../helpers/types";
 import { Icon } from "mendix/components/web/Icon";
-import { ActionValue } from "mendix";
 
-export interface TimelineComponentProps {
-    class?: string;
-    data: Map<string, ItemType[]>;
-    customVisualization: boolean;
-    groupEvents: boolean;
-    onClick?: ActionValue;
-    ungroupedEventsPosition: UngroupedEventsPositionEnum;
-}
-
-export default function TimelineComponent(props: TimelineComponentProps): ReactElement {
+export default function TimelineComponent(props: ComponentProps): ReactElement {
     return (
         <div className={classNames("widget-timeline-wrapper", props.class)}>
             {getItems(props.data, props.customVisualization, props.groupEvents, props.ungroupedEventsPosition)}
@@ -101,7 +86,7 @@ function getBasicEventsFromDay(eventsOfDay: BasicItemType[]): ReactNode[] {
     ));
 }
 
-function getCustomEventsFromDay(eventsOfDay: CustomItemType[]) {
+function getCustomEventsFromDay(eventsOfDay: CustomItemType[]): JSX.Element[] {
     return eventsOfDay.map((event, index) => (
         <li
             key={index}
@@ -126,29 +111,4 @@ function getCustomEventsFromDay(eventsOfDay: CustomItemType[]) {
 
 function hasChildren(element: any): boolean {
     return Children.count((element as ReactElement)?.props.children) > 0;
-}
-
-export function getGroupHeaderByType(
-    formatter: any,
-    option: GroupByDayOptionsEnum | GroupByMonthOptionsEnum | GroupByKeyEnum,
-    date?: Date
-) {
-    if (formatter && formatter.type === "datetime") {
-        switch (option) {
-            case "fullDate":
-            case "day":
-                return formatter.withConfig({ type: "date" }).format(date);
-            case "dayName":
-                return formatter.withConfig({ type: "custom", pattern: "EEEE" }).format(date);
-            case "dayMonth":
-                return formatter.withConfig({ type: "custom", pattern: "dd MMMM" }).format(date);
-            case "month":
-                return formatter.withConfig({ type: "custom", pattern: "MMMM" }).format(date);
-            case "monthYear":
-                return formatter.withConfig({ type: "custom", pattern: "MMM YYYY" }).format(date);
-            default:
-                return formatter.withConfig({ type: "custom", pattern: "YYYY" }).format(date);
-        }
-    }
-    return "";
 }

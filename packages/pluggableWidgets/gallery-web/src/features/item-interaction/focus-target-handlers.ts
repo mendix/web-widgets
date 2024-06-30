@@ -1,5 +1,6 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
+import { withInputEventsFilter } from "./keyboard-utils";
 
 const onClick = (focusTargetFx: FocusTargetFx): EventCaseEntry<unknown, Element, "onClick"> => ({
     eventName: "onClick",
@@ -17,5 +18,5 @@ const onFocus = (focusTargetFx: FocusTargetFx): EventCaseEntry<unknown, Element,
 });
 
 export function createFocusTargetHandlers(focusTargetFx: FocusTargetFx): Array<ElementEntry<unknown, Element>> {
-    return [onClick(focusTargetFx), onKeyDown(focusTargetFx), onFocus(focusTargetFx)];
+    return [onClick(focusTargetFx), withInputEventsFilter([onKeyDown(focusTargetFx)]), onFocus(focusTargetFx)];
 }

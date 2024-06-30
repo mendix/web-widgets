@@ -1,7 +1,7 @@
 {
   "name": "@mendix/rich-text-web",
   "widgetName": "RichText",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Rich inline or toolbar text editing",
   "copyright": "© Mendix Technology BV 2024. All rights reserved.",
   "repository": {
@@ -61,6 +61,6 @@
   "dependencies": {
     "@tinymce/tinymce-react": "^4.3.2",
     "classnames": "^2.2.6",
-    "tinymce": "^6.8.2"
+    "tinymce": "^6.8.4"
   }
 }
