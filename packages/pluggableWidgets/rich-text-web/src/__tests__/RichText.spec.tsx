@@ -77,7 +77,8 @@ describe("Rich Text", () => {
             advancedMenubarConfig: [],
             contextmenutype: "native",
             tabIndex: 0,
-            onChangeType: "onLeave"
+            onChangeType: "onLeave",
+            sandboxIframes: true
         };
     });
 
