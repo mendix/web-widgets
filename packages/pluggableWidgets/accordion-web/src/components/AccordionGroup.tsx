@@ -48,14 +48,8 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
-                if (entry.contentBoxSize) {
-                    if (!props.collapsed) {
-                        if (contentWrapperRef.current && contentRef.current) {
-                            contentWrapperRef.current.style.height = `${
-                                contentRef.current.getBoundingClientRect().height
-                            }px`;
-                        }
-                    }
+                if (entry.contentBoxSize && !props.collapsed && contentWrapperRef.current && contentRef.current) {
+                    contentWrapperRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
                 }
             }
         });
