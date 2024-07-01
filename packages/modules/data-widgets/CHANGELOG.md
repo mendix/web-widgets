@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.20.1] DataWidgets - 2024-06-26
+
+### [1.9.1] Gallery
+
+#### Fixed
+
+-   We fixed an issue where cursor couldn't be moved inside text input fields with arrow keys.
+
 ## [2.20.0] DataWidgets - 2024-06-19
 
 ### Added
