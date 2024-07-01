@@ -2,6 +2,12 @@ import { createElement } from "react";
 import { mount, shallow, ShallowWrapper } from "enzyme";
 import { AccordionGroup, AccordionGroupProps, Target } from "../AccordionGroup";
 
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn()
+}));
+
 describe("AccordionGroup", () => {
     let defaultAccordionGroupProps: AccordionGroupProps;
 
