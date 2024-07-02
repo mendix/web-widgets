@@ -1,28 +1,24 @@
-FROM mcr.microsoft.com/dotnet/runtime:6.0
+FROM eclipse-temurin:17-jdk-jammy
+
 ARG MENDIX_VERSION
 
+COPY --link mxbuild.tar.gz /tmp/mxbuild.tar.gz
+
+SHELL ["/bin/bash", "-c"]
 RUN \
-    echo "Installing Java..." && \
-    apt-get -qq update && \
-    apt-get -qq install -y wget libgdiplus && \
-    wget -q https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz -O /tmp/openjdk.tar.gz && \
-    mkdir /usr/lib/jvm && \
-    tar xfz /tmp/openjdk.tar.gz --directory /usr/lib/jvm && \
-    rm /tmp/openjdk.tar.gz && \
-\
-    echo "Downloading mxbuild ${MENDIX_VERSION}..." && \
-    wget -q https://artifacts.rnd.mendix.com/runtimes/net6-mxbuild-${MENDIX_VERSION}.tar.gz -O /tmp/mxbuild.tar.gz && \
+    echo "Copying mxbuild ${MENDIX_VERSION}..." && \
     mkdir /tmp/mxbuild && \
     tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild && \
-    rm /tmp/mxbuild.tar.gz && \
-\
-    apt-get -qq remove -y wget && \
+    \
+    apt-get update -qqy && \
+    apt-get install -qqy libicu70 && \
+    apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
-\
+    \
     echo "#!/bin/bash -x" >/bin/mxbuild && \
-    echo "dotnet /tmp/mxbuild/modeler/mxbuild.dll --java-home=/usr/lib/jvm/jdk-11.0.2 --java-exe-path=/usr/lib/jvm/jdk-11.0.2/bin/java \$@" >>/bin/mxbuild && \
+    echo "/tmp/mxbuild/modeler/mxbuild --java-home=/opt/java/openjdk --java-exe-path=/opt/java/openjdk/bin/java \$@" >>/bin/mxbuild && \
     chmod +x /bin/mxbuild && \
-\
+    \
     echo "#!/bin/bash -x" >/bin/mx && \
-    echo "dotnet /tmp/mxbuild/modeler/mx.dll \$@" >>/bin/mx && \
+    echo "/tmp/mxbuild/modeler/mx \$@" >>/bin/mx && \
     chmod +x /bin/mx
