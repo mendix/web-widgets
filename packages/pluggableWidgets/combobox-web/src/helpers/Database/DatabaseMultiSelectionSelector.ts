@@ -3,6 +3,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { ActionValue, ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
 import {
     ComboboxContainerProps,
+    LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
@@ -19,6 +20,8 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     currentId: string[] | null = null;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     options: DatabaseOptionsProvider;
+    lazyLoading = false;
+    loadingType?: LoadingTypeEnum;
     readOnly = false;
     selectAllButton = false;
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
@@ -70,6 +73,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             emptyOption,
             filterType,
             lazyLoading,
+            loadingType,
             onChangeEvent,
             valueAttribute
         } = extractDatabaseProps(props);
@@ -113,6 +117,8 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.clearable = clearable;
         this.currentId = this.selection?.selection.map(v => v.id) ?? null;
         this.customContentType = customContentType;
+        this.lazyLoading = lazyLoading;
+        this.loadingType = loadingType;
         this.onChangeEvent = onChangeEvent;
         this.selectAllButton = props.selectAllButton;
         this.selectedItemsStyle = props.selectedItemsStyle;
