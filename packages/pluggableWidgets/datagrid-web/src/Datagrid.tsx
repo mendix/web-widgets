@@ -19,6 +19,7 @@ import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { observer } from "mobx-react-lite";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
+import { ValueStatus } from "mendix";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -125,6 +126,16 @@ const Container = observer((props: Props): ReactElement => {
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
+            loadingIndicatorRenderer={(renderWrapper: (children: ReactNode) => ReactElement) =>
+                props.datasource.status === ValueStatus.Loading
+                    ? renderWrapper(
+                          <div className={"mx-progress mx-progress-empty widget-datagrid-loader"}>
+                              <div className="mx-progress-indicator"></div>
+                          </div>
+                      )
+                    : null
+            }
+            isLoading={props.datasource.status === ValueStatus.Loading}
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
                     const columnFilter = columnsStore.columnFilters[columnIndex];
