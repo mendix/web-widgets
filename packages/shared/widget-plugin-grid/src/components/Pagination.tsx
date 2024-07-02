@@ -9,6 +9,8 @@ export interface PaginationProps {
     numberOfItems?: number;
     page: number;
     pageSize: number;
+    isInfiniteLoad: boolean;
+    paginationType: "buttons" | "virtualScrolling" | "loadMore";
     previousPage: () => void;
     setPaginationIndex?: Dispatch<SetStateAction<number>>;
     showPagingButtons?: "always" | "auto";
@@ -23,10 +25,15 @@ export interface PaginationProps {
 export function Pagination(props: PaginationProps): ReactElement | null {
     const numberOfPages =
         props.numberOfItems !== undefined ? Math.ceil(props.numberOfItems / props.pageSize) : undefined;
+
     const lastPage = numberOfPages !== undefined ? numberOfPages - 1 : 0;
     const hasLastPage = numberOfPages !== undefined;
-    const initialItem = props.numberOfItems === 0 ? 0 : props.page * props.pageSize + 1;
-    const lastItem = getLastItem(props.canNextPage, props.numberOfItems, props.page, props.pageSize);
+    const initialItem = props.numberOfItems === 0 ? 0 : props.isInfiniteLoad ? 1 : props.page * props.pageSize + 1;
+    const lastItem =
+        props.numberOfItems !== undefined &&
+        getLastItem(props.canNextPage, props.numberOfItems, props.page, props.pageSize) > props.numberOfItems
+            ? props.numberOfItems
+            : getLastItem(props.canNextPage, props.numberOfItems, props.page, props.pageSize);
 
     const setPageIndex = (page: number): void => {
         if (props.setPaginationIndex) {
@@ -48,7 +55,7 @@ export function Pagination(props: PaginationProps): ReactElement | null {
                 className="btn pagination-button"
                 disabled={props.page === 0}
                 {...getEvents(() => {
-                    props.gotoPage(0);
+                    props.gotoPage(props.isInfiniteLoad ? 1 : 0);
                     setPageIndex(0);
                 })}
                 aria-label={props.labelFirstPage ?? "Go to first page"}

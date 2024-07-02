@@ -123,6 +123,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
             numberOfItems={props.pageSize ?? numberOfItems}
             page={0}
+            isInfiniteLoad={false}
             paginationType={props.pagination}
             pageSize={props.pageSize ?? numberOfItems}
             showPagingButtons={props.showPagingButtons}
