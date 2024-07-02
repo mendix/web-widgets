@@ -17,11 +17,10 @@ module.exports = defineConfig({
     reporter: [
         ["list"],
         [
-            "@estruyf/github-actions-reporter",
+            "playwright-ctrf-json-reporter",
             {
-                title: "Reporter testing",
-                useDetails: true,
-                showError: true
+                outputDir: "../../../automation/run-e2e/ctrf",
+                outputFile: "ctrf" + Date.now() + ".json"
             }
         ]
     ],
