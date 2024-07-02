@@ -182,6 +182,10 @@
                     <caption>Additional stylesheet</caption>
                     <description>Additional stylesheet to be included in the rich text content</description>
                 </property>
+                <property key="sandboxIframes" type="boolean" defaultValue="true">
+                    <caption>Sandbox iframes</caption>
+                    <description>When enabled, all embedded media using iframes elements will be given the sandbox="" attribute, applying all restrictions.</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
 

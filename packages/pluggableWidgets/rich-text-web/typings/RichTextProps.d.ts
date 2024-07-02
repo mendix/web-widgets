@@ -77,6 +77,7 @@ export interface RichTextContainerProps {
     spellCheck: boolean;
     highlight_on_focus: boolean;
     content_css?: DynamicValue<string>;
+    sandboxIframes: boolean;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;
@@ -138,6 +139,7 @@ export interface RichTextPreviewProps {
     spellCheck: boolean;
     highlight_on_focus: boolean;
     content_css: string;
+    sandboxIframes: boolean;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;
