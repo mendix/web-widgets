@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We changed build instructions to produce smaller widget mpk.
+
 ## [5.0.0] Charts - 2024-06-14
 
 ### Breaking changes
