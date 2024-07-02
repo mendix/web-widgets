@@ -3,12 +3,79 @@
 exports[`Rich Text renders richtext widget 1`] = `
 <div>
   <div
-    class="widget-rich-text widget-rich-text-min-height"
-    id="RichText1"
-    style="width: 100%; min-height: 75px;"
+    class="widget-rich-text form-control flex-column-reverse"
   >
     <div
-      class="mx-progress"
+      id="widget_RichText1_toolbar"
+    >
+      <span
+        class="ql-formats"
+      >
+        <button
+          aria-label="Bold"
+          class="ql-bold"
+          title="Bold"
+        />
+        <button
+          aria-label="Italic"
+          class="ql-italic"
+          title="Italic"
+        />
+      </span>
+      <span
+        class="ql-formats"
+      >
+        <button
+          aria-label="Default list"
+          class="ql-list"
+          title="Default list"
+          value="ordered"
+        />
+        <button
+          aria-label="Bullet list"
+          class="ql-list"
+          title="Bullet list"
+          value="bullet"
+        />
+      </span>
+      <span
+        class="ql-formats"
+      >
+        <button
+          aria-label="Decrease indent"
+          class="ql-indent"
+          title="Decrease indent"
+          value="-1"
+        />
+        <button
+          aria-label="Increase indent"
+          class="ql-indent"
+          title="Increase indent"
+          value="+1"
+        />
+      </span>
+      <span
+        class="ql-formats"
+      >
+        <button
+          aria-label="Insert/edit link"
+          class="ql-link"
+          title="Insert/edit link"
+        />
+      </span>
+      <span
+        class="ql-formats"
+      >
+        <button
+          aria-label="Clear formatting"
+          class="ql-clean"
+          title="Clear formatting"
+        />
+      </span>
+    </div>
+    <div
+      class="widget-rich-text-container"
+      style="min-height: 75px;"
     />
   </div>
 </div>
