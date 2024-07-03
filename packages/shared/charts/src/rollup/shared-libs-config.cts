@@ -22,12 +22,9 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
         commonjs(),
         replace({
             "process.env.NODE_ENV": JSON.stringify(isProd ? "production" : "development")
-        })
+        }),
+        tarser()
     ];
-    // Modern client build tool bundles code and use compression by default.
-    // Dojo client build tool don't have any compression, so we have to use tarser.
-    // Turns out tarser is slowest step in bundling process.
-    const pluginsAMD = [...plugins, isProd ? tarser() : null];
 
     /*
      * [react-plotly.js]
@@ -51,7 +48,7 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
             format: "amd",
             file: format({ dir: outAMD, base: "react-plotly.js" })
         },
-        plugins: pluginsAMD
+        plugins
     };
 
     /*
@@ -87,7 +84,7 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
                 "react-plotly.js": "./react-plotly.js"
             }
         },
-        plugins: pluginsAMD
+        plugins
     };
 
     /*
