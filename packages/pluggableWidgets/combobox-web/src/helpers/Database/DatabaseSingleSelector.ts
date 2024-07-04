@@ -1,4 +1,4 @@
-import { EditableValue } from "mendix";
+import { EditableValue, SelectionSingleValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { _valuesIsEqual } from "../utils";
 import { BaseDatabaseSingleSelector } from "./BaseDatabaseSingleSelector";
@@ -12,6 +12,7 @@ export class DatabaseSingleSelector<
     validation?: string = undefined;
     values: DatabaseValuesProvider;
     protected _attr: R | undefined;
+    private selection?: SelectionSingleValue;
 
     constructor() {
         super();
@@ -83,12 +84,14 @@ export class DatabaseSingleSelector<
         this.readOnly = attr.readOnly;
         this.status = attr.status;
         this.validation = attr.validation;
+        this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
     }
 
     setValue(objectId: string | null): void {
         const value = this.values.get(objectId) as T;
         this.lastSetValue = value;
         this._attr?.setValue(value);
+        this.selection?.setSelection(this.options._optionToValue(objectId));
         super.setValue(objectId);
     }
 }
