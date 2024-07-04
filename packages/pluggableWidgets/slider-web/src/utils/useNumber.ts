@@ -3,13 +3,17 @@ import { Big } from "big.js";
 import { EditableValue, DynamicValue } from "mendix";
 
 export function useNumber(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): Result {
-    const result = useRef<Result>();
+    const isLoaded = (useRef(false).current ||= !loading(prop));
 
-    if (result.current?.loading === false) {
-        return result.current;
+    if (isLoaded) {
+        return {
+            loading: false,
+            // Always use latest value from prop.
+            value: value(prop)
+        };
     }
 
-    return (result.current = reduce(prop));
+    return { loading: true };
 }
 
 type Result<T = number | undefined> =
@@ -21,18 +25,26 @@ type Result<T = number | undefined> =
           value: T;
       };
 
-function reduce(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): Result {
+function value(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): number | undefined {
     if (prop instanceof Big) {
-        return { loading: false, value: prop.toNumber() };
+        return prop.toNumber();
     }
 
-    if (prop === undefined || prop.status === "unavailable") {
-        return { loading: false, value: undefined };
+    if (prop && prop.status === "available" && prop.value) {
+        return prop.value.toNumber();
     }
 
-    if (prop.value && prop.status === "available") {
-        return { loading: false, value: prop.value.toNumber() };
+    return undefined;
+}
+
+function loading(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): boolean {
+    if (prop instanceof Big) {
+        return false;
     }
 
-    return { loading: true };
+    if (prop === undefined) {
+        return false;
+    }
+
+    return prop.status === "loading";
 }

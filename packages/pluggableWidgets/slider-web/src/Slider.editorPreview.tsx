@@ -3,8 +3,7 @@ import { Slider } from "./components/Slider";
 import { SliderPreviewProps } from "../typings/SliderProps";
 import { getPreviewValues } from "./utils/getPreviewValues";
 import { createMarks } from "./utils/marks";
-import { isVertical } from "./utils/isVertical";
-import { getStyleProp } from "./utils/getStyleProp";
+import { isVertical, getStyleProp } from "./utils/prop-utils";
 
 export function getPreviewCss(): string {
     return require("./ui/Slider.scss");
