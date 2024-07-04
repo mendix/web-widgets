@@ -17,10 +17,7 @@ export class AssociationMultiSelector
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
         this.selectAllButton = props.selectAllButton;
-        this.currentId =
-            this._attr?.value?.map(value => {
-                return value.id;
-            }) ?? null;
+        this.currentId = this._attr?.value?.map(v => v.id) ?? null;
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
             this.selectedItemsStyle = "boxes";
         }
