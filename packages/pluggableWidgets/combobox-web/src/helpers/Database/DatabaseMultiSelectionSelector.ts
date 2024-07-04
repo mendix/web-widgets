@@ -115,7 +115,6 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         }
 
         this.clearable = clearable;
-        this.currentId = this.selection?.selection.map(v => v.id) ?? null;
         this.customContentType = customContentType;
         this.lazyLoading = lazyLoading;
         this.loadingType = loadingType;
@@ -124,6 +123,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
         this.selectionMethod = props.selectionMethod;
+        this.currentId = this.selection?.selection.map(v => v.id) ?? null;
     }
 
     setValue(value: string[] | null): void {
