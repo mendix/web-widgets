@@ -39,7 +39,6 @@ describe("Combo box (Static values)", () => {
             optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
-            optionsSourceDatabaseUsageType: "attribute",
             emptyOptionText: dynamicValue("Select an option 111"),
             ariaRequired: true,
             clearable: true,
