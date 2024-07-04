@@ -4,10 +4,8 @@ import { useNumber } from "../utils/useNumber";
 import { Slider as SliderComponent } from "./Slider";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
 import { createHandleGenerator } from "../utils/createHandleGenerator";
-import { getStyleProp } from "../utils/getStyleProp";
 import { useMarks } from "../utils/useMarks";
-import { isVertical } from "../utils/isVertical";
-import { minProp, maxProp, stepProp } from "../utils/prop-utils";
+import { minProp, maxProp, stepProp, isVertical, getStyleProp } from "../utils/prop-utils";
 
 export function Container(props: SliderContainerProps): React.ReactElement {
     const min = useNumber(minProp(props));
@@ -40,17 +38,9 @@ function InnerContainer(props: InnerContainerProps): React.ReactElement {
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
-        minValueType: props.minValueType,
-        staticMinimumValue: props.staticMaximumValue,
-        minAttribute: props.minAttribute,
-        expressionMinimumValue: props.expressionMaximumValue,
-        maxValueType: props.maxValueType,
-        staticMaximumValue: props.staticMaximumValue,
-        maxAttribute: props.maxAttribute,
-        expressionMaximumValue: props.expressionMaximumValue
+        min: props.min,
+        max: props.max
     });
-
-    console.log(typeof handle, marks, props.min, props.max);
 
     return (
         <SliderComponent

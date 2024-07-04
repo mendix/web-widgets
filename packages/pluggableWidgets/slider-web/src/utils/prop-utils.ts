@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { EditableValue, DynamicValue } from "mendix";
 import { SliderContainerProps } from "../../typings/SliderProps";
 
@@ -38,4 +39,30 @@ export function stepProp(props: SliderContainerProps): Big | EditableValue<Big> 
         default:
             return undefined;
     }
+}
+
+export function isVertical(params: Pick<SliderContainerProps, "orientation">): boolean {
+    return params.orientation === "vertical";
+}
+
+export function getStyleProp({
+    orientation,
+    height,
+    heightUnit,
+    style
+}: {
+    orientation: "vertical" | "horizontal";
+    height: number;
+    heightUnit: "pixels" | "percentage";
+    style?: CSSProperties;
+}): CSSProperties | undefined {
+    if (orientation === "vertical") {
+        const rootHeight = `${height}${heightUnit === "pixels" ? "px" : "%"}`;
+        return {
+            ...style,
+            height: rootHeight
+        };
+    }
+
+    return style;
 }
