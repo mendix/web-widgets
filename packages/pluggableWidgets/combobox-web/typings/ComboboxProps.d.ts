@@ -11,8 +11,6 @@ export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
-export type OptionsSourceDatabaseUsageTypeEnum = "selection" | "attribute";
-
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
@@ -54,7 +52,6 @@ export interface ComboboxContainerProps {
     attributeEnumeration: EditableValue<string>;
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
-    optionsSourceDatabaseUsageType: OptionsSourceDatabaseUsageTypeEnum;
     optionsSourceDatabaseItemSelection?: SelectionSingleValue | SelectionMultiValue;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString: EditableValue<string | Big>;
@@ -105,7 +102,6 @@ export interface ComboboxPreviewProps {
     attributeEnumeration: string;
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
-    optionsSourceDatabaseUsageType: OptionsSourceDatabaseUsageTypeEnum;
     optionsSourceDatabaseItemSelection: "Single" | "Multi" | "None";
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;

@@ -50,14 +50,6 @@
                     <caption>Selectable objects</caption>
                     <description />
                 </property>
-                <property key="optionsSourceDatabaseUsageType" type="enumeration" defaultValue="attribute">
-                    <caption>Usage type</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="selection">Expose selection</enumerationValue>
-                        <enumerationValue key="attribute">Set Attribute value</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="optionsSourceDatabaseItemSelection" type="selection" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Selection type</caption>
                     <description />
