@@ -21,8 +21,7 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseDefaultValue",
     "optionsSourceDatabaseValueAttribute",
-    "optionsSourceDatabaseItemSelection",
-    "optionsSourceDatabaseUsageType"
+    "optionsSourceDatabaseItemSelection"
 ];
 
 const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
@@ -119,14 +118,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
         }
-        if (values.optionsSourceDatabaseUsageType === "attribute") {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseItemSelection"]);
-        } else {
+        if (values.optionsSourceDatabaseItemSelection === "Multi") {
             hidePropertiesIn(defaultProperties, values, [
                 "databaseAttributeString",
-                "optionsSourceDatabaseDefaultValue",
-                "readOnlyStyle",
-                "readOnly"
+                "optionsSourceDatabaseDefaultValue"
             ]);
         }
     } else if (values.source === "static") {

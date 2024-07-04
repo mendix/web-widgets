@@ -38,10 +38,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
 
-    if (!attr && props.optionsSourceDatabaseUsageType !== "selection") {
-        throw new Error("'optionsSourceType' type is 'Database' but 'databaseAttributeString' is not defined.");
-    }
-
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
         throw new Error("'optionsSourceType' type is 'database' but 'optionsSourceDatabaseDataSource' is not defined.");
