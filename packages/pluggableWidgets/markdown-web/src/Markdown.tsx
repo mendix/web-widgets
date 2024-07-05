@@ -1,50 +1,63 @@
 import MarkdownIt from "markdown-it";
-import { ChangeEvent, ReactNode, createElement, useEffect, useState } from "react";
+import { ChangeEvent, ReactNode, createElement, useState, useRef, useEffect } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
+import classNames from "classnames";
 const mdParser = new MarkdownIt("default", {
-    typographer: true
+    typographer: true,
+    linkify: true
 });
 
 export function Markdown(props: MarkdownContainerProps): ReactNode {
     const { stringAttribute } = props;
     const [activeTab, setActiveTab] = useState("write");
-    const [editorValue, setEditorValue] = useState(stringAttribute?.value ?? "");
+    const previewRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setEditorValue(stringAttribute?.value ?? "");
-    }, [stringAttribute?.value, stringAttribute?.status]);
+        if (previewRef.current) {
+            previewRef.current.innerHTML = mdParser.render(stringAttribute.value ?? "");
+        }
+    }, [stringAttribute?.value, stringAttribute?.status, activeTab]);
 
     const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        console.log(e.target.value);
         stringAttribute?.setValue(e.target.value);
     };
 
-    const renderPreview = () => {
-        return { __html: mdParser.render(stringAttribute?.value ?? "") };
-    };
-
     return (
-        <div>
-            <div className="tabs">
-                <button className={activeTab === "write" ? "active" : ""} onClick={() => setActiveTab("write")}>
+        <div className="widget-markdown">
+            <div className="widget-markdown-topbar">
+                <button
+                    className={classNames("widget-markdown-topbar-write-button", { active: activeTab === "write" })}
+                    onClick={() => setActiveTab("write")}
+                >
                     Write
                 </button>
-                <button className={activeTab === "preview" ? "active" : ""} onClick={() => setActiveTab("preview")}>
+                <button
+                    className={classNames("widget-markdown-topbar-preview-button", {
+                        active: activeTab === "preview"
+                    })}
+                    onClick={() => setActiveTab("preview")}
+                >
                     Preview
                 </button>
             </div>
-            <div className="tab-content">
+            <div className="widget-markdown-content">
                 {activeTab === "write" && (
                     <textarea
-                        value={editorValue}
+                        className="widget-markdown-content-textarea"
+                        value={stringAttribute.value ?? ""}
                         onChange={handleTextChange}
                         placeholder="Add your comment here..."
                     ></textarea>
                 )}
                 {activeTab === "preview" && stringAttribute?.status === "available" && (
-                    <div className="preview" dangerouslySetInnerHTML={renderPreview()}></div>
+                    <div className="widget-markdown-content-preview" ref={previewRef}></div>
                 )}
+            </div>
+            <div className="widget-markdown-footer">
+                <div className="info">Markdown is supported</div>
+                <div className="line"></div>
+                <div className="info">Paste, drop or click to add files.</div>
             </div>
         </div>
     );
