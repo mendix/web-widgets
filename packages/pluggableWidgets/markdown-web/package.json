@@ -1,0 +1,57 @@
+{
+  "name": "@mendix/markdown-web",
+  "widgetName": "Markdown",
+  "version": "1.0.0",
+  "description": "Markdown editor with editor, preview, and read-only mode.",
+  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "config": {},
+  "mxpackage": {
+    "name": "Markdown",
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.Markdown.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "9.6.0",
+    "appNumber": 119160,
+    "appName": "Markdown editor"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "markdown-web"
+  },
+  "packagePath": "com.mendix.widget.web",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "format": "prettier --write .",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "test": "pluggable-widgets-tools test:unit:web",
+    "release": " pluggable-widgets-tools release:web",
+    "create-gh-release": "rui-create-gh-release",
+    "publish-marketplace": "rui-publish-marketplace",
+    "verify": "rui-verify-package-format",
+    "update-changelog": "rui-update-changelog-widget",
+    "e2e": "run-e2e ci",
+    "e2edev": "run-e2e dev --with-preps"
+  },
+  "devDependencies": {
+    "@mendix/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@types/markdown-it": "^14.1.1"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "markdown-it": "^14.1.0"
+  }
+}
