@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, autorun, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
@@ -11,6 +11,7 @@ import {
 } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
+import { createFilterSlot, InputFilterSlot } from "../../filterStores/InputFilterSlot";
 
 export interface IColumnFilterStore {
     setFilterState(newState: FilterState | undefined): void;
@@ -34,11 +35,25 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
+    private newFilterStore: InputFilterSlot | undefined;
+
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
             props.filterAssociationOptions.setLimit(0);
         }
         this.updateProps(props);
+
+        if (this._attribute) {
+            this.newFilterStore = createFilterSlot(this._attribute);
+            (document as any)["__dg2__filter" + this._attribute.type] = this.newFilterStore;
+            if (this.newFilterStore) {
+                autorun(() => {
+                    console.log("val", this.newFilterStore?.arg1.value);
+                    console.log("cond", this.newFilterStore?.filterCondition);
+                });
+            }
+        }
+
         makeObservable<
             ColumnFilterStore,
             | "filterState"
@@ -83,10 +98,11 @@ export class ColumnFilterStore implements IColumnFilterStore {
         "singleAttribute" | "associationProperties" | "singleInitialFilter"
     > {
         return {
+            newFilterStore: this.newFilterStore,
             singleAttribute: this._attribute,
             singleInitialFilter: readInitFilterValues(this._attribute, this.initialFilters),
             associationProperties: this.getColumnAssociationProps()
-        };
+        } as any;
     }
 
     private getColumnAssociationProps(): AssociationProperties | undefined {
@@ -107,6 +123,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
     setFilterState(newState: FilterState | undefined): void {
         this.filterState = newState;
+    }
+
+    get condition2(): FilterCondition | undefined {
+        return this.newFilterStore?.filterCondition;
     }
 
     get condition(): FilterCondition | undefined {

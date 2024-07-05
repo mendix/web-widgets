@@ -50,6 +50,8 @@ export class RootGridStore {
             return undefined;
         }
 
+        console.log("new filters", this.columnsStore.filterConditions2);
+
         return this.columnsStore.filterConditions
             .filter((filter): filter is FilterCondition => filter !== undefined)
             .concat(this.headerFiltersStore.filterConditions);

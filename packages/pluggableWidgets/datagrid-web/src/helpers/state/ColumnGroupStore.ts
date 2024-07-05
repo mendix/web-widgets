@@ -62,6 +62,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             availableColumns: computed,
             visibleColumns: computed,
             filterConditions: computed.struct,
+            filterConditions2: computed.struct,
             settings: computed.struct,
 
             updateProps: action,
@@ -123,6 +124,12 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     get filterConditions(): FilterCondition[] {
         return this.columnFilters
             .map(cf => cf.condition)
+            .filter((filter): filter is FilterCondition => filter !== undefined);
+    }
+
+    get filterConditions2(): FilterCondition[] {
+        return this.columnFilters
+            .map(cf => cf.condition2)
             .filter((filter): filter is FilterCondition => filter !== undefined);
     }
 
