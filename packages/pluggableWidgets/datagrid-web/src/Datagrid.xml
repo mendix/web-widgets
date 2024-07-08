@@ -87,10 +87,9 @@
                                 <caption>Dynamic text</caption>
                                 <description />
                             </property>
-                            <property key="exportValue" type="expression" dataSource="../datasource" required="false">
+                            <property key="exportValue" type="textTemplate" dataSource="../datasource" required="false">
                                 <caption>Export value</caption>
                                 <description />
-                                <returnType type="String" />
                             </property>
                             <property key="header" type="textTemplate" required="false">
                                 <caption>Caption</caption>

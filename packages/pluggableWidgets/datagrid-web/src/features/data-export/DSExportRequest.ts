@@ -257,12 +257,7 @@ const readers: ReadersByType = {
     },
 
     customContent(item, props) {
-        let value: string | undefined;
-        if (props.exportValue) {
-            value = props.exportValue.get(item).value;
-        }
-        value ??= "n/a (custom content)";
-        return value;
+        return props.exportValue?.get(item).value ?? "";
     }
 };
 
