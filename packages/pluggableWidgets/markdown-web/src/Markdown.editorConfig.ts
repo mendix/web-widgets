@@ -7,31 +7,36 @@ import { MarkdownPreviewProps } from "../typings/MarkdownProps";
 export function getPreview(_values: MarkdownPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     return {
-        type: "RowLayout",
-        columnSize: "grow",
+        type: "Container",
         children: [
             {
-                type: "Container",
+                type: "RowLayout",
+                grow: 2,
+                columnSize: "grow",
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2,
+                backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
                 children: [
                     {
                         type: "Container",
+                        grow: 1,
+                        padding: 4,
                         children: [
                             {
                                 type: "Text",
                                 content: "Markdown editor",
                                 fontColor: palette.text.primary,
-                                bold: true,
                                 fontSize: 8
                             }
-                        ],
-                        padding: 8
+                        ]
                     }
                 ],
-                backgroundColor: palette.background.buttonInfo,
-                borderRadius: 8
-            },
-            { type: "Container", grow: 2 }
-        ]
+                padding: 8
+            }
+        ],
+        backgroundColor: palette.background.container,
+        borderRadius: 8
     };
 }
 

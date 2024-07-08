@@ -1,7 +1,7 @@
 .widget-markdown {
-    width: 100%;
-    min-height: 400px;
-    border: 1px solid gray;
+    flex-grow: 1;
+    min-height: 300px;
+    border: 1px solid var(--gray-primary);
     border-radius: 10px;
     display: flex;
     justify-content: flex-start;
@@ -13,7 +13,7 @@
         height: 40px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        background-color: rgb(189, 185, 185);
+        background-color: var(--gray-primary);
 
         &-write-button {
             background-color: transparent;
@@ -25,8 +25,8 @@
             border-top-right-radius: 10px;
 
             &.active {
-                border-right: 1px solid gray;
-                background-color: white;
+                border-right: 1px solid var(--gray-primary);
+                background-color: var(--label-info-color);
             }
         }
 
@@ -40,9 +40,9 @@
             border-top-right-radius: 10px;
 
             &.active {
-                border-left: 1px solid gray;
-                border-right: 1px solid gray;
-                background-color: white;
+                border-left: 1px solid var(--gray-primary);
+                border-right: 1px solid var(--gray-primary);
+                background-color: var(--label-info-color);
             }
         }
     }
@@ -53,13 +53,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: white;
+        background-color: var(--label-info-color);
+        padding: 5px;
 
         &-textarea {
             width: 90%;
-            min-height: 150px;
+            min-height: 250px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid var(--brand-primary);
+            resize: vertical;
         }
 
         &-preview {
@@ -92,17 +95,17 @@
     &-footer {
         width: 100%;
         height: 50px;
-        border-top: 1px solid gray;
+        border-top: 1px solid var(--gray-primary);
         display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 15px;
         padding: 0 10px;
-
+        font-size: var(--font-size-small, 12px);
         .line {
             width: 1px;
             height: 60%;
-            border: 1px solid gray;
+            border: 1px solid var(--gray-primary);
         }
     }
 }
