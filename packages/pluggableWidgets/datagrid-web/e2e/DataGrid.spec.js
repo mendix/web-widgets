@@ -1,6 +1,7 @@
 import path from "path";
 import { test, expect } from "@playwright/test";
 import * as XLSX from "xlsx";
+import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -175,19 +176,23 @@ test.describe("visual testing:", () => {
 });
 
 test.describe("a11y testing:", () => {
-    test.fixme("checks accessibility violations", async ({ page }) => {
+    test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
-        await page.initializeAccessibility();
-        await page.setAccessibilityScannerOptions({
-            //TODO: Skipped some rules as we still need to review them
-            rules: [
-                { id: "aria-required-children", reviewOnFail: true },
-                { id: "label", reviewOnFail: true }
-            ]
-        });
-        // Test the widget at initial load
-        const snapshot = await page.accessibilitySnapshot({ root: ".mx-name-datagrid1" });
-        expect(snapshot).toMatchSnapshot("datagrid-accessibility.txt", { threshold: 0.1 });
+        const accessibilityScanResults = await new AxeBuilder({ page })
+            .withTags(["wcag2a"])
+            .disableRules([
+                "aria-required-children",
+                "label",
+                "aria-roles",
+                "button-name",
+                "duplicate-id-active",
+                "duplicate-id",
+                "aria-allowed-attr"
+            ])
+            .exclude(".mx-name-navigationTree3")
+            .analyze();
+
+        expect(accessibilityScanResults.violations).toEqual([]);
     });
 });
