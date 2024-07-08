@@ -1,5 +1,6 @@
 import path from "path";
 import { test, expect } from "@playwright/test";
+import * as XLSX from "xlsx";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -7,25 +8,38 @@ test.afterEach("Cleanup session", async ({ page }) => {
 });
 
 test.describe("datagrid-web export to Excel", () => {
-    test.fixme("check if export to Excel generates correct output", async ({ page }) => {
-        const downloadedFilename = path.join(downloadsFolder, "testFilename.xlsx");
+    test("check if export to Excel generates correct output", async ({ page }) => {
+        const downloadedFilename = path.join("./e2e/downloads/", "testFilename.xlsx");
 
         await page.goto("/p/export-excel");
+        await page.waitForLoadState("networkidle");
         await page.locator(".mx-name-dataGridExportExcel").waitFor({ state: "visible", timeout: 15000 });
+        // Start waiting for download before clicking.
+        const downloadPromise = page.waitForEvent("download");
         await page.locator(".mx-name-exportButton").click({ force: true });
+        const download = await downloadPromise;
+        // Wait for the download process to complete and save the downloaded file.
+        await download.saveAs(downloadedFilename);
+        // Read file and convert to JSON.
+        const workbook = XLSX.readFile("./e2e/downloads/testFilename.xlsx");
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-        console.log("**Confirm downloaded file**");
-        const buffer = await page.waitForFile(downloadedFilename, { timeout: 15000 });
-        expect(buffer.length).toBeGreaterThan(100);
+        expect(jsonData).toHaveLength(50);
 
-        console.log("**The file exists**");
-        //TODO: find one way to read the Excel file
-        const excelData = await page.readExcelFile(downloadedFilename);
-        expect(excelData).toHaveLength(51);
+        expect(jsonData[0]).toEqual({
+            "Birth date": "2/15/1983",
+            "Birth year": 1983,
+            "Color (enum)": "Black",
+            "First name": "Loretta"
+        });
 
-        expect(excelData[0]).toEqual(["First name", "Birth date", "Birth year", "Color (enum)", "Roles (ref set)"]);
-
-        expect(excelData[1]).toEqual(["Loretta", "2/15/1983", "1983", "Black", "n/a (custom content)"]);
+        expect(jsonData[1]).toEqual({
+            "Birth date": "9/30/1970",
+            "Birth year": 1970,
+            "Color (enum)": "Red",
+            "First name": "Chad"
+        });
     });
 });
 
