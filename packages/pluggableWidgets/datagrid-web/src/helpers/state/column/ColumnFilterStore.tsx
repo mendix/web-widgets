@@ -12,6 +12,7 @@ import {
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
 import { createFilterSlot, InputFilterSlot } from "../../filterStores/InputFilterSlot";
+import { ComboboxFilter } from "../../../typings/filters/SelectFilterInterface";
 
 export interface IColumnFilterStore {
     setFilterState(newState: FilterState | undefined): void;
@@ -35,7 +36,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private newFilterStore: InputFilterSlot | undefined;
+    private newFilterStore: InputFilterSlot | ComboboxFilter | undefined;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
@@ -46,10 +47,11 @@ export class ColumnFilterStore implements IColumnFilterStore {
         if (this._attribute) {
             this.newFilterStore = createFilterSlot(this._attribute);
             (document as any)["__dg2__filter" + this._attribute.type] = this.newFilterStore;
-            if (this.newFilterStore) {
+            const s = this.newFilterStore;
+            if (s && s.controlType === "input") {
                 autorun(() => {
-                    console.log("val", this.newFilterStore?.arg1.value);
-                    console.log("cond", this.newFilterStore?.filterCondition);
+                    console.log("val", s?.arg1.value);
+                    console.log("cond", s.filterCondition);
                 });
             }
         }

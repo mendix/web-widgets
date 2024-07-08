@@ -30,6 +30,8 @@ import {
     FilterFunctionNonValue,
     FilterFunctionString
 } from "../../typings/filters/FilterFunctions";
+import { StaticSelectFilterStore } from "./SelectFilter";
+import { ComboboxFilter } from "../../typings/filters/SelectFilterInterface";
 
 class BaseInputFilterSlot<V extends Argument, F extends AllFunctions, S extends string | Big | Date> {
     filterFunction: F;
@@ -56,7 +58,7 @@ class BaseInputFilterSlot<V extends Argument, F extends AllFunctions, S extends 
         });
     }
 
-    updateProps(attributes: ListAttributeValue[]) {
+    updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
         // todo: fixme
         this.arg2.updateProps(this._attributes[0].formatter as any);
@@ -75,16 +77,12 @@ class BaseInputFilterSlot<V extends Argument, F extends AllFunctions, S extends 
     }
 
     setState(s: [S, S, F]) {
-        this.arg1.value = s[0];
-        this.arg2.value = s[1];
-        this.filterFunction = s[2];
+        [this.arg1.value, this.arg2.value, this.filterFunction] = s;
     }
 
     reset() {
         // todo: reset filter to default value?
-        this.arg1.value = undefined;
-        this.arg2.value = undefined;
-        this.filterFunction = this.initialFn;
+        [this.arg1.value, this.arg2.value, this.filterFunction] = [undefined, undefined, this.initialFn];
     }
 }
 
@@ -138,9 +136,10 @@ export class StringInputFilterSlot
     >
     implements String_InputFilterInterface
 {
-    valueType: "string" = "string";
+    readonly valueType = "string";
+    readonly controlType = "input";
 
-    constructor(attributes: ListAttributeValue<string>[]) {
+    constructor(attributes: Array<ListAttributeValue<string>>) {
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         // todo restore operation and value from config
@@ -155,9 +154,10 @@ export class NumberInputFilterSlot
     >
     implements Number_InputFilterInterface
 {
-    valueType: "number" = "number";
+    readonly valueType = "number";
+    readonly controlType = "input";
 
-    constructor(attributes: ListAttributeValue<Big>[]) {
+    constructor(attributes: Array<ListAttributeValue<Big>>) {
         const { formatter } = attributes[0];
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         // todo restore operation and value from config
@@ -172,9 +172,10 @@ export class DateInputFilterSlot
     >
     implements Date_InputFilterInterface
 {
-    valueType: "date" = "date";
+    readonly valueType = "date";
+    readonly controlType = "input";
 
-    constructor(attributes: ListAttributeValue<Date>[]) {
+    constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
         // todo restore operation and value from config
@@ -183,7 +184,7 @@ export class DateInputFilterSlot
 
 export type InputFilterSlot = StringInputFilterSlot | NumberInputFilterSlot | DateInputFilterSlot;
 
-export function createFilterSlot(attribute: ListAttributeValue): InputFilterSlot | undefined {
+export function createFilterSlot(attribute: ListAttributeValue): InputFilterSlot | ComboboxFilter | undefined {
     /**
      * <attributeType name="String" />
      *                                     <attributeType name="AutoNumber" />
@@ -196,19 +197,20 @@ export function createFilterSlot(attribute: ListAttributeValue): InputFilterSlot
      */
     switch (attribute.type) {
         case "DateTime":
-            return new DateInputFilterSlot([attribute] as ListAttributeValue<Date>[]);
+            return new DateInputFilterSlot([attribute] as Array<ListAttributeValue<Date>>);
 
         case "AutoNumber":
         case "Decimal":
         case "Integer":
         case "Long":
-            return new NumberInputFilterSlot([attribute] as ListAttributeValue<Big>[]);
+            return new NumberInputFilterSlot([attribute] as Array<ListAttributeValue<Big>>);
 
         case "String":
-            return new StringInputFilterSlot([attribute] as ListAttributeValue<string>[]);
+            return new StringInputFilterSlot([attribute] as Array<ListAttributeValue<string>>);
 
         case "Boolean":
         case "Enum":
+            return new StaticSelectFilterStore([attribute]);
         default:
             console.error("Not supported type " + attribute.type, attribute);
             return undefined;

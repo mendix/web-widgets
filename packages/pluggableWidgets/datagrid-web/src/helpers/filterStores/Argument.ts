@@ -32,7 +32,7 @@ class ArgumentBase<T extends Big | Date | string> {
         });
     }
 
-    updateProps(formatter: Formatter<T>) {
+    updateProps(formatter: Formatter<T>): void {
         this._formatter = formatter;
     }
 
@@ -65,15 +65,15 @@ class ArgumentBase<T extends Big | Date | string> {
 }
 
 export class NumberArgument extends ArgumentBase<Big> implements NumberArgumentInterface {
-    type: "number" = "number";
+    readonly type = "number";
 }
 
 export class DateArgument extends ArgumentBase<Date> implements DateArgumentInterface {
-    type: "date" = "date";
+    readonly type = "date";
 }
 
 export class StringArgument extends ArgumentBase<string> implements StringArgumentInterface {
-    type: "string" = "string";
+    readonly type = "string";
 }
 
 export type Argument = NumberArgument | DateArgument | StringArgument;
