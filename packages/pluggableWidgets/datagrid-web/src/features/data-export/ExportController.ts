@@ -66,14 +66,13 @@ export class ExportController {
             console.error("Export controller: no columns to export.");
         }
 
-        const columns = this.columns.slice();
-        const pickColumns = (props: ColumnsType[]): ColumnsType[] => columns.map(index => props[index]);
+        const filter = this.createFilter(this.columns.slice());
         const snapshot = { offset: this.datasource.offset, limit: this.datasource.limit };
 
         this.locked = true;
         let req: DSExportRequest | null = new DSExportRequest({
             ds: this.datasource,
-            columns: pickColumns(this.properties),
+            columns: filter(this.properties),
             ...options
         });
 
@@ -83,7 +82,7 @@ export class ExportController {
         // Connect to controller events
         const requestBindings = [
             this.emitter.on("sourcechange", req.onsourcechange),
-            this.emitter.on("propertieschange", cols => req?.onpropertieschange(pickColumns(cols))),
+            this.emitter.on("propertieschange", properties => req?.onpropertieschange(filter(properties))),
             this.emitter.on("abort", req.abort)
         ];
 
@@ -109,4 +108,14 @@ export class ExportController {
     }
 
     abort = (): void => this.emitter.emit("abort");
+
+    createFilter(columns: number[]): (props: ColumnsType[]) => ColumnsType[] {
+        const isExportable = (column: ColumnsType): boolean => {
+            return column.showContentAs === "customContent" ? column.exportValue !== undefined : true;
+        };
+
+        return props => {
+            return columns.map(index => props[index]).filter(isExportable);
+        };
+    }
 }
