@@ -9,6 +9,7 @@ import {
 } from "./FilterFunctions";
 
 interface InputFilterBaseInterface<V extends Argument, OP extends AllFunctions> {
+    controlType: "input";
     filterFunction: OP;
 
     arg1: V;
