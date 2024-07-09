@@ -1,4 +1,3 @@
-import { Argument, DateArgument, NumberArgument, StringArgument } from "../../helpers/filterStores/Argument";
 import { FilterCondition } from "mendix/filters";
 import {
     AllFunctions,
@@ -7,8 +6,14 @@ import {
     FilterFunctionNonValue,
     FilterFunctionString
 } from "./FilterFunctions";
+import {
+    ArgumentInterface,
+    DateArgumentInterface,
+    NumberArgumentInterface,
+    StringArgumentInterface
+} from "./ArgumentInterface";
 
-interface InputFilterBaseInterface<V extends Argument, OP extends AllFunctions> {
+interface InputFilterBaseInterface<V extends ArgumentInterface, OP extends AllFunctions> {
     controlType: "input";
     filterFunction: OP;
 
@@ -21,17 +26,17 @@ interface InputFilterBaseInterface<V extends Argument, OP extends AllFunctions> 
 }
 
 export type String_InputFilterInterface = InputFilterBaseInterface<
-    StringArgument,
+    StringArgumentInterface,
     FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary
 >;
 
 export type Number_InputFilterInterface = InputFilterBaseInterface<
-    NumberArgument,
+    NumberArgumentInterface,
     FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary
 >;
 
 export type Date_InputFilterInterface = InputFilterBaseInterface<
-    DateArgument,
+    DateArgumentInterface,
     FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary
 >;
 
