@@ -2,6 +2,7 @@ import MarkdownIt from "markdown-it";
 import { ChangeEvent, ReactNode, createElement, useState, useRef, useEffect } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
+import { MarkdownIcon } from "../assets/icons";
 import classNames from "classnames";
 const mdParser = new MarkdownIt("default", {
     typographer: true,
@@ -47,7 +48,7 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
                         className="widget-markdown-content-textarea"
                         value={stringAttribute.value ?? ""}
                         onChange={handleTextChange}
-                        placeholder="Add your comment here..."
+                        placeholder="Add your markdown here..."
                     ></textarea>
                 )}
                 {activeTab === "preview" && stringAttribute?.status === "available" && (
@@ -55,6 +56,7 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
                 )}
             </div>
             <div className="widget-markdown-footer">
+                <MarkdownIcon />
                 <div className="info">Markdown is supported</div>
                 <div className="line"></div>
                 <div className="info">Paste, drop or click to add files.</div>
