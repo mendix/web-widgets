@@ -1,11 +1,11 @@
 import { ListAttributeValue } from "mendix";
 import { makeObservable, computed, observable, action } from "mobx";
-import { SelectOnlyFilter, Option } from "./typings/SelectFilterInterface";
+import { SelectOnlyFilter, Option } from "./typings/ComboboxFilterInterface";
 import { FilterCondition } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
 
 export class StaticSelectFilterStore implements SelectOnlyFilter {
-    readonly type = "listbox";
+    readonly valueType = "listbox";
     readonly controlType = "combobox";
     readonly isLoading = false;
     readonly hasMore = false;
@@ -75,7 +75,7 @@ export class StaticSelectFilterStore implements SelectOnlyFilter {
             return null;
         }
 
-        return new TypeError("StaticSelectFilter: invalid attribute found. Check widget configuration.");
+        return new TypeError("StaticSelectFilterStore: invalid attribute found. Check widget configuration.");
     }
 
     isValidValue(value: string): boolean {
@@ -83,11 +83,11 @@ export class StaticSelectFilterStore implements SelectOnlyFilter {
     }
 
     loadMore(): void {
-        console.warn("StaticSelectFilter: calling loadMore has no effect.");
+        console.warn("StaticSelectFilterStore: calling loadMore has no effect.");
     }
 
     setSearch(): void {
-        console.warn("StaticSelectFilter: calling setSearch has no effect.");
+        console.warn("StaticSelectFilterStore: calling setSearch has no effect.");
     }
 }
 

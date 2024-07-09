@@ -4,6 +4,8 @@ import { Context, Dispatch, SetStateAction, createContext, useContext, useState 
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { InitialFilterValue } from "./read-init-props.js";
 import { Result, error, value } from "./result-meta.js";
+import { InputFilterInterface } from "./stores/typings/InputFilterInterface.js";
+import { ComboboxFilterInterface } from "./stores/typings/ComboboxFilterInterface.js";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -40,6 +42,7 @@ export interface FilterContextValue {
     multipleAttributes?: AttributeByAttrId;
     multipleInitialFilters?: InitValuesByAttrId;
     associationProperties?: AssociationProperties;
+    store: InputFilterInterface | ComboboxFilterInterface | null;
 }
 
 type FilterContextObject = Context<FilterContextValue | undefined>;
