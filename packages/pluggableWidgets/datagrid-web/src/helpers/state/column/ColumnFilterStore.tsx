@@ -11,7 +11,7 @@ import {
 } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
-import { createFilterSlot, InputFilterSlot } from "../../filterStores/InputFilterSlot";
+import { createFilterSlot, InputFilterStore } from "../../filterStores/InputFilterStore";
 import { ComboboxFilter } from "../../../typings/filters/SelectFilterInterface";
 
 export interface IColumnFilterStore {
@@ -36,7 +36,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private newFilterStore: InputFilterSlot | ComboboxFilter | undefined;
+    private newFilterStore: InputFilterStore | ComboboxFilter | undefined;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
