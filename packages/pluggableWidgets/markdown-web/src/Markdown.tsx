@@ -10,7 +10,7 @@ const mdParser = new MarkdownIt("default", {
 });
 
 export function Markdown(props: MarkdownContainerProps): ReactNode {
-    const { stringAttribute } = props;
+    const { stringAttribute, showFooter, spellcheck } = props;
     const [activeTab, setActiveTab] = useState("write");
     const previewRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +46,7 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
                 {activeTab === "write" && (
                     <textarea
                         className="widget-markdown-content-textarea"
+                        spellCheck={spellcheck}
                         value={stringAttribute.value ?? ""}
                         onChange={handleTextChange}
                         placeholder="Add your markdown here..."
@@ -55,12 +56,12 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
                     <div className="widget-markdown-content-preview" ref={previewRef}></div>
                 )}
             </div>
-            <div className="widget-markdown-footer">
-                <MarkdownIcon />
-                <div className="info">Markdown is supported</div>
-                <div className="line"></div>
-                <div className="info">Paste, drop or click to add files.</div>
-            </div>
+            {showFooter && (
+                <div className="widget-markdown-footer">
+                    <MarkdownIcon />
+                    <div className="info">Markdown is supported</div>
+                </div>
+            )}
         </div>
     );
 }

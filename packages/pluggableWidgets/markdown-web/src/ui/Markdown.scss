@@ -2,7 +2,7 @@
     flex-grow: 1;
     min-height: 300px;
     border: 1px solid var(--gray-primary);
-    border-radius: 10px;
+    border-radius: var(--spacing-smaller);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -11,9 +11,9 @@
     &-topbar {
         width: 100%;
         height: 40px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        background-color: var(--gray-primary);
+        border-top-left-radius: var(--spacing-smaller);
+        border-top-right-radius: var(--spacing-smaller);
+        background-color: var(--gray-lighter);
 
         &-write-button {
             background-color: transparent;
@@ -21,8 +21,8 @@
             margin: 0;
             padding: 0 15px;
             height: 100%;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-top-left-radius: var(--spacing-smaller);
+            border-top-right-radius: var(--spacing-smaller);
 
             &.active {
                 border-right: 1px solid var(--gray-primary);
@@ -36,8 +36,8 @@
             margin: 0;
             padding: 0 15px;
             height: 100%;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-top-left-radius: var(--spacing-smaller);
+            border-top-right-radius: var(--spacing-smaller);
 
             &.active {
                 border-left: 1px solid var(--gray-primary);
@@ -60,7 +60,7 @@
             width: 90%;
             min-height: 250px;
             padding: 10px;
-            border-radius: 10px;
+            border-radius: var(--spacing-smaller);
             border: 1px solid var(--brand-primary);
             resize: vertical;
         }
@@ -102,11 +102,6 @@
         gap: 15px;
         padding: 0 10px;
         font-size: var(--font-size-small, 12px);
-        .line {
-            width: 1px;
-            height: 60%;
-            border: 1px solid var(--gray-primary);
-        }
     }
 
     &-icon {
