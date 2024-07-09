@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.0] - 2024-07-08
+
 ### Fixed
 
 -   Fixed an issue where data could not be exported if some columns used associations.
