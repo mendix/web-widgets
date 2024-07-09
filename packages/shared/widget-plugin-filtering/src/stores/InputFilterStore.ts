@@ -2,7 +2,7 @@ import {
     String_InputFilterInterface,
     Number_InputFilterInterface,
     Date_InputFilterInterface
-} from "../../typings/filters/InputFilterInterface";
+} from "./typings/InputFilterInterface";
 import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { ListAttributeValue } from "mendix";
@@ -29,9 +29,7 @@ import {
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "../../typings/filters/FilterFunctions";
-import { StaticSelectFilterStore } from "./SelectFilter";
-import { ComboboxFilter } from "../../typings/filters/SelectFilterInterface";
+} from "./typings/FilterFunctions";
 
 class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends string | Big | Date> {
     filterFunction: F;
@@ -184,35 +182,35 @@ export class DateInputFilterStore
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
-export function createFilterSlot(attribute: ListAttributeValue): InputFilterStore | ComboboxFilter | undefined {
-    /**
-     * <attributeType name="String" />
-     *                                     <attributeType name="AutoNumber" />
-     *                                     <attributeType name="Boolean" />
-     *                                     <attributeType name="DateTime" />
-     *                                     <attributeType name="Decimal" />
-     *                                     <attributeType name="Enum" />
-     *                                     <attributeType name="Integer" />
-     *                                     <attributeType name="Long" />
-     */
-    switch (attribute.type) {
-        case "DateTime":
-            return new DateInputFilterStore([attribute] as Array<ListAttributeValue<Date>>);
+// export function createFilterSlot(attribute: ListAttributeValue): InputFilterStore | ComboboxFilter | undefined {
+//     /**
+//      * <attributeType name="String" />
+//      *                                     <attributeType name="AutoNumber" />
+//      *                                     <attributeType name="Boolean" />
+//      *                                     <attributeType name="DateTime" />
+//      *                                     <attributeType name="Decimal" />
+//      *                                     <attributeType name="Enum" />
+//      *                                     <attributeType name="Integer" />
+//      *                                     <attributeType name="Long" />
+//      */
+//     switch (attribute.type) {
+//         case "DateTime":
+//             return new DateInputFilterStore([attribute] as Array<ListAttributeValue<Date>>);
 
-        case "AutoNumber":
-        case "Decimal":
-        case "Integer":
-        case "Long":
-            return new NumberInputFilterStore([attribute] as Array<ListAttributeValue<Big>>);
+//         case "AutoNumber":
+//         case "Decimal":
+//         case "Integer":
+//         case "Long":
+//             return new NumberInputFilterStore([attribute] as Array<ListAttributeValue<Big>>);
 
-        case "String":
-            return new StringInputFilterStore([attribute] as Array<ListAttributeValue<string>>);
+//         case "String":
+//             return new StringInputFilterStore([attribute] as Array<ListAttributeValue<string>>);
 
-        case "Boolean":
-        case "Enum":
-            return new StaticSelectFilterStore([attribute]);
-        default:
-            console.error("Not supported type " + attribute.type, attribute);
-            return undefined;
-    }
-}
+//         case "Boolean":
+//         case "Enum":
+//             return new StaticSelectFilterStore([attribute]);
+//         default:
+//             console.error("Not supported type " + attribute.type, attribute);
+//             return undefined;
+//     }
+// }

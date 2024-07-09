@@ -1,11 +1,7 @@
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
 import { computed, makeObservable, observable } from "mobx";
-import {
-    DateArgumentInterface,
-    NumberArgumentInterface,
-    StringArgumentInterface
-} from "../../typings/filters/ArgumentInterface";
+import { DateArgumentInterface, NumberArgumentInterface, StringArgumentInterface } from "./typings/ArgumentInterface";
 
 type Formatter<T extends Big | Date | string> = EditableValue<T>["formatter"];
 
