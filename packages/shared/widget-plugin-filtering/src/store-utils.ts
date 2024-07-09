@@ -7,7 +7,7 @@ import { InputFilterInterface } from "./stores/typings/InputFilterInterface";
 export function attrgroupFilterStore(
     type: ListAttributeValue["type"],
     attributes: ListAttributeValue[]
-): InputFilterInterface | SelectOnlyFilter | undefined {
+): InputFilterInterface | SelectOnlyFilter | null {
     switch (type) {
         case "DateTime":
             return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>);
@@ -26,6 +26,6 @@ export function attrgroupFilterStore(
             return new StaticSelectFilterStore(attributes);
         default:
             console.error("attrgroupFilterStore: not supported type " + type, attributes);
-            return undefined;
+            return null;
     }
 }

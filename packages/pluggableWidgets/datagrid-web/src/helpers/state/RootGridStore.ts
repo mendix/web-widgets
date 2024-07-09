@@ -52,7 +52,7 @@ export class RootGridStore {
 
         console.log("new filters", this.columnsStore.filterConditions2);
 
-        return this.columnsStore.filterConditions
+        return this.columnsStore.filterConditions2
             .filter((filter): filter is FilterCondition => filter !== undefined)
             .concat(this.headerFiltersStore.filterConditions);
     }
