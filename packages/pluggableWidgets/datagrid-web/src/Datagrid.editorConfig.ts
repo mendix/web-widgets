@@ -32,7 +32,11 @@ export function getProperties(
             hidePropertyIn(defaultProperties, values, "columns", index, "dynamicText");
         }
         if (column.showContentAs !== "customContent") {
-            hideNestedPropertiesIn(defaultProperties, values, "columns", index, ["content", "allowEventPropagation"]);
+            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
+                "content",
+                "allowEventPropagation",
+                "exportValue"
+            ]);
         }
         if (column.showContentAs === "customContent") {
             hidePropertyIn(defaultProperties, values, "columns", index, "tooltip");
@@ -205,7 +209,8 @@ export const getPreview = (
                   wrapText: false,
                   minWidth: "auto",
                   minWidthLimit: 100,
-                  allowEventPropagation: true
+                  allowEventPropagation: true,
+                  exportValue: ""
               }
           ];
     const columns = rowLayout({

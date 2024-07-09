@@ -26,54 +26,57 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
         return false;
     }
 
-    return new Promise((resolve, reject) => {
-        const stream =
-            window[window.DATAGRID_DATA_EXPORT][datagridName].create();
+    const REGISTRY_NAME = "com.mendix.widgets.web.datagrid.export";
+    const registry = window[REGISTRY_NAME];
+    const controller = registry.get(datagridName);
 
-        let worksheet;
-        let headers;
-        const streamOptions = { limit: chunkSize };
-        stream.process((msg) => {
-            if (!msg) {
-                return;
-            }
+    if (controller === undefined) {
+        return false;
+    }
 
-            switch (msg.type) {
-                case "columns":
-                    headers = msg.payload.map(column => column.name);
-                    if (includeColumnHeaders) {
-                        worksheet = utils.aoa_to_sheet([headers]);
-                    }
-                    break;
-                case "data":
-                    if (worksheet === undefined) {
-                        worksheet = utils.aoa_to_sheet(msg.payload)
-                    } else {
-                        utils.sheet_add_aoa(worksheet, msg.payload, { origin: -1 });
-                    }
-                    break;
-                case "end":
-                    if (worksheet) {
-                        // Set character width for each column
-                        // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
-                        worksheet["!cols"] = headers.map(header => ({
-                            wch: header.length + 10
-                        }));
-                        const workbook = utils.book_new();
-                        utils.book_append_sheet(workbook, worksheet, sheetName === "" ? "Data" : sheetName);
-                        writeFileXLSX(workbook, `${fileName}.xlsx`);
-                        resolve(true);
-                    } else {
-                        resolve(false);
-                    }
-                    break;
-                case "aborted":
+    return new Promise((resolve) => {
+        function handler(req) {
+            let worksheet;
+            let headers;
+
+            req.on("headers", (hds) => {
+                headers = hds.map(header => header.name);
+                if (includeColumnHeaders) {
+                    worksheet = utils.aoa_to_sheet([headers]);
+                }
+            });
+
+            req.on("data", (data) => {
+                if (worksheet === undefined) {
+                    worksheet = utils.aoa_to_sheet(data)
+                } else {
+                    utils.sheet_add_aoa(worksheet, data, { origin: -1 });
+                }
+            });
+
+            req.on("end", () => {
+                if (worksheet) {
+                    // Set character width for each column
+                    // https://docs.sheetjs.com/docs/csf/sheet#worksheet-object
+                    worksheet["!cols"] = headers.map(header => ({
+                        wch: header.length + 10
+                    }));
+                    const workbook = utils.book_new();
+                    utils.book_append_sheet(workbook, worksheet, sheetName === "" ? "Data" : sheetName);
+                    writeFileXLSX(workbook, `${fileName}.xlsx`);
+                    resolve(true);
+                } else {
                     resolve(false);
-                    break;
-            }
-        }, streamOptions);
+                }
+            });
 
-        stream.start();
+            req.on("abort", () => resolve(false));
+        }
+
+        controller.exportData(handler, {
+            withHeaders: true,
+            limit: chunkSize.toNumber()
+        })
     });
 	// END USER CODE
 }

@@ -4,17 +4,20 @@ import { HeaderFiltersStore } from "./HeaderFiltersStore";
 import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
+import { ProgressStore } from "../../features/data-export/ProgressStore";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
     headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
+    progressStore: ProgressStore;
 
     constructor(props: DatagridContainerProps) {
         this.setInitParams(props);
         this.columnsStore = new ColumnGroupStore(props);
         this.headerFiltersStore = new HeaderFiltersStore(props);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore);
+        this.progressStore = new ProgressStore();
     }
 
     dispose(): void {
@@ -31,6 +34,9 @@ export class RootGridStore {
     }
 
     updateProps(props: DatagridContainerProps): void {
+        if (this.progressStore.exporting) {
+            return;
+        }
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
     }
