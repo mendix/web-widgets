@@ -25,9 +25,8 @@ export function getPreview(_values: MarkdownPreviewProps, isDarkMode: boolean): 
                         children: [
                             {
                                 type: "Text",
-                                content: "Markdown editor",
-                                fontColor: palette.text.primary,
-                                fontSize: 8
+                                content: getCustomCaption(_values),
+                                fontColor: palette.text.data
                             }
                         ]
                     }
@@ -41,5 +40,5 @@ export function getPreview(_values: MarkdownPreviewProps, isDarkMode: boolean): 
 }
 
 export function getCustomCaption(_values: MarkdownPreviewProps): string {
-    return "Markdown editor";
+    return `[${_values.stringAttribute}]`;
 }
