@@ -1,18 +1,19 @@
-import { ReactNode } from "react";
-import { action, autorun, computed, makeObservable, observable } from "mobx";
-import { FilterCondition } from "mendix/filters";
-import { ColumnsType } from "../../../../typings/DatagridProps";
-import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import {
     AssociationProperties,
+    ComboboxFilterInterface,
     FilterContextValue,
     FilterState,
+    InputFilterInterface,
+    attrgroupFilterStore,
     readInitFilterValues
 } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
-import { createFilterSlot, InputFilterStore } from "../../filterStores/InputFilterStore";
-import { ComboboxFilter } from "../../../typings/filters/SelectFilterInterface";
+import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
+import { FilterCondition } from "mendix/filters";
+import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { ReactNode } from "react";
+import { ColumnsType } from "../../../../typings/DatagridProps";
 
 export interface IColumnFilterStore {
     setFilterState(newState: FilterState | undefined): void;
@@ -36,7 +37,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private newFilterStore: InputFilterStore | ComboboxFilter | undefined;
+    private filterStore: InputFilterInterface | ComboboxFilterInterface | null = null;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
@@ -45,9 +46,9 @@ export class ColumnFilterStore implements IColumnFilterStore {
         this.updateProps(props);
 
         if (this._attribute) {
-            this.newFilterStore = createFilterSlot(this._attribute);
-            (document as any)["__dg2__filter" + this._attribute.type] = this.newFilterStore;
-            const s = this.newFilterStore;
+            this.filterStore = attrgroupFilterStore(this._attribute.type, [this._attribute]);
+            (document as any)["__dg2__filter" + this._attribute.type] = this.filterStore;
+            const s = this.filterStore;
             if (s && s.controlType === "input") {
                 autorun(() => {
                     console.log("val", s?.arg1.value);
@@ -97,10 +98,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
     getFilterContextProps(): Pick<
         FilterContextValue,
-        "singleAttribute" | "associationProperties" | "singleInitialFilter"
+        "singleAttribute" | "associationProperties" | "singleInitialFilter" | "store"
     > {
         return {
-            newFilterStore: this.newFilterStore,
+            store: this.filterStore,
             singleAttribute: this._attribute,
             singleInitialFilter: readInitFilterValues(this._attribute, this.initialFilters),
             associationProperties: this.getColumnAssociationProps()
@@ -128,7 +129,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 
     get condition2(): FilterCondition | undefined {
-        return this.newFilterStore?.filterCondition;
+        return this.filterStore ? this.filterStore.filterCondition : undefined;
     }
 
     get condition(): FilterCondition | undefined {

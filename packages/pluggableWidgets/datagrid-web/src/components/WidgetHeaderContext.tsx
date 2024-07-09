@@ -19,6 +19,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
         <FilterContext.Provider
             value={{
                 eventsChannelName: props.eventsChannelName,
+                store: null,
                 filterDispatcher: prev => {
                     if (prev.filterType) {
                         props.headerFilterStore.setFilterState(prev.filterType, prev);
