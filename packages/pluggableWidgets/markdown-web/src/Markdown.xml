@@ -16,6 +16,50 @@
                     </attributeTypes>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="General">
+                <property key="spellcheck" type="boolean" defaultValue="true">
+                    <caption>Spellcheck</caption>
+                    <description />
+                </property>
+                <property key="showFooter" type="boolean" defaultValue="false">
+                    <caption>Show footer</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <!-- SYSTEM PROPS -->
+            <propertyGroup caption="Label">
+                <systemProperty key="Label" />
+            </propertyGroup>
+
+            <propertyGroup caption="Conditional visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+            <propertyGroup caption="Editability">
+                <systemProperty key="Editability" />
+                <property key="readOnlyStyle" type="enumeration" defaultValue="text">
+                    <caption>Read-only style</caption>
+                    <description>How the combo box will appear in read-only mode.</description>
+                    <enumerationValues>
+                        <enumerationValue key="bordered">Control</enumerationValue>
+                        <enumerationValue key="text">Content only</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <!-- END SYSTEM PROPS -->
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onChangeEvent" type="action" required="false">
+                <caption>On change action</caption>
+                <description />
+            </property>
+            <property key="onEnterEvent" type="action" required="false">
+                <caption>On enter action</caption>
+                <description />
+            </property>
+            <property key="onLeaveEvent" type="action" required="false">
+                <caption>On leave action</caption>
+                <description />
+            </property>
         </propertyGroup>
     </properties>
 </widget>

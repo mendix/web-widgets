@@ -3,25 +3,30 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
-import { EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
+
+export type ReadOnlyStyleEnum = "bordered" | "text";
 
 export interface MarkdownContainerProps {
     name: string;
-    class: string;
-    style?: CSSProperties;
     tabIndex?: number;
+    id: string;
     stringAttribute: EditableValue<string>;
+    spellcheck: boolean;
+    showFooter: boolean;
+    readOnlyStyle: ReadOnlyStyleEnum;
+    onChangeEvent?: ActionValue;
+    onEnterEvent?: ActionValue;
+    onLeaveEvent?: ActionValue;
 }
 
 export interface MarkdownPreviewProps {
-    /**
-     * @deprecated Deprecated since version 9.18.0. Please use class property instead.
-     */
-    className: string;
-    class: string;
-    style: string;
-    styleObject?: CSSProperties;
     readOnly: boolean;
     stringAttribute: string;
+    spellcheck: boolean;
+    showFooter: boolean;
+    readOnlyStyle: ReadOnlyStyleEnum;
+    onChangeEvent: {} | null;
+    onEnterEvent: {} | null;
+    onLeaveEvent: {} | null;
 }
