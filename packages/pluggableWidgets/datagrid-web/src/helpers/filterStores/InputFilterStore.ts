@@ -33,7 +33,7 @@ import {
 import { StaticSelectFilterStore } from "./SelectFilter";
 import { ComboboxFilter } from "../../typings/filters/SelectFilterInterface";
 
-class BaseInputFilterSlot<V extends Argument, F extends AllFunctions, S extends string | Big | Date> {
+class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends string | Big | Date> {
     filterFunction: F;
     arg1: V;
     arg2: V;
@@ -76,11 +76,11 @@ class BaseInputFilterSlot<V extends Argument, F extends AllFunctions, S extends 
         return [this.arg1.value as S, this.arg2.value as S, this.filterFunction];
     }
 
-    setState(s: [S, S, F]) {
+    setState(s: [S, S, F]): void {
         [this.arg1.value, this.arg2.value, this.filterFunction] = s;
     }
 
-    reset() {
+    reset(): void {
         // todo: reset filter to default value?
         [this.arg1.value, this.arg2.value, this.filterFunction] = [undefined, undefined, this.initialFn];
     }
@@ -128,8 +128,8 @@ function getFilterCondition<T extends string | Big | Date>(
     );
 }
 
-export class StringInputFilterSlot
-    extends BaseInputFilterSlot<
+export class StringInputFilterStore
+    extends BaseInputFilterStore<
         StringArgument,
         FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary,
         string
@@ -146,8 +146,8 @@ export class StringInputFilterSlot
     }
 }
 
-export class NumberInputFilterSlot
-    extends BaseInputFilterSlot<
+export class NumberInputFilterStore
+    extends BaseInputFilterStore<
         NumberArgument,
         FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary,
         Big
@@ -164,8 +164,8 @@ export class NumberInputFilterSlot
     }
 }
 
-export class DateInputFilterSlot
-    extends BaseInputFilterSlot<
+export class DateInputFilterStore
+    extends BaseInputFilterStore<
         DateArgument,
         FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary,
         Date
@@ -182,9 +182,9 @@ export class DateInputFilterSlot
     }
 }
 
-export type InputFilterSlot = StringInputFilterSlot | NumberInputFilterSlot | DateInputFilterSlot;
+export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
-export function createFilterSlot(attribute: ListAttributeValue): InputFilterSlot | ComboboxFilter | undefined {
+export function createFilterSlot(attribute: ListAttributeValue): InputFilterStore | ComboboxFilter | undefined {
     /**
      * <attributeType name="String" />
      *                                     <attributeType name="AutoNumber" />
@@ -197,16 +197,16 @@ export function createFilterSlot(attribute: ListAttributeValue): InputFilterSlot
      */
     switch (attribute.type) {
         case "DateTime":
-            return new DateInputFilterSlot([attribute] as Array<ListAttributeValue<Date>>);
+            return new DateInputFilterStore([attribute] as Array<ListAttributeValue<Date>>);
 
         case "AutoNumber":
         case "Decimal":
         case "Integer":
         case "Long":
-            return new NumberInputFilterSlot([attribute] as Array<ListAttributeValue<Big>>);
+            return new NumberInputFilterStore([attribute] as Array<ListAttributeValue<Big>>);
 
         case "String":
-            return new StringInputFilterSlot([attribute] as Array<ListAttributeValue<string>>);
+            return new StringInputFilterStore([attribute] as Array<ListAttributeValue<string>>);
 
         case "Boolean":
         case "Enum":
