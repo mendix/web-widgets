@@ -19,7 +19,7 @@ export interface FilterComponentProps {
     options: Option[];
     tabIndex?: number;
     styles?: CSSProperties;
-    updateFilters?: (values: Option[]) => void;
+    updateFilters?: (values: Option[], isInitialChange?: boolean) => void;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
     name: string;
@@ -91,10 +91,17 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
 }
 
 function useSetInitialConditionEffect(
-    updateFilters: ((values: Option[]) => void) | undefined,
+    updateFilters: ((values: Option[], isInitialChange?: boolean) => void) | undefined,
     options: Option[],
     selected: string[]
 ): void {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => updateFilters?.(options.filter(o => selected.includes(o.value))), []);
+    useEffect(
+        () =>
+            updateFilters?.(
+                options.filter(o => selected.includes(o.value)),
+                true
+            ),
+        []
+    );
 }

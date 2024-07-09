@@ -28,8 +28,8 @@ export function getOnChange(
     association: ListReferenceValue | ListReferenceSetValue,
     objectMap: ValueToObjectMap,
     onChangeAction?: ActionValue
-): (values: Option[]) => void {
-    return (options: Option[]): void => {
+): (options: Option[], isInitialChange?: boolean) => void {
+    return (options: Option[], isInitialChange?: boolean): void => {
         const values = optionsToObjects(objectMap, options);
 
         dispatch({
@@ -44,7 +44,7 @@ export function getOnChange(
             }
         });
 
-        if (onChangeAction) {
+        if (onChangeAction && !isInitialChange) {
             onChangeAction.execute();
         }
     };
