@@ -1,13 +1,13 @@
 import { ListAttributeValue } from "mendix";
 import { DateInputFilterStore, NumberInputFilterStore, StringInputFilterStore } from "./stores/InputFilterStore";
 import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
-import { SelectOnlyFilter } from "./stores/typings/ComboboxFilterInterface";
+import { OptionListFilterInterface } from "./stores/typings/OptionListFilterInterface";
 import { InputFilterInterface } from "./stores/typings/InputFilterInterface";
 
 export function attrgroupFilterStore(
     type: ListAttributeValue["type"],
     attributes: ListAttributeValue[]
-): InputFilterInterface | SelectOnlyFilter | null {
+): InputFilterInterface | OptionListFilterInterface<string> | null {
     switch (type) {
         case "DateTime":
             return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>);

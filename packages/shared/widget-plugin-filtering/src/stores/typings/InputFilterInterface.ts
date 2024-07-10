@@ -1,4 +1,3 @@
-import { FilterCondition } from "mendix/filters";
 import {
     AllFunctions,
     FilterFunctionBinary,
@@ -14,13 +13,11 @@ import {
 } from "./ArgumentInterface";
 
 interface InputFilterBaseInterface<V extends ArgumentInterface, OP extends AllFunctions> {
-    controlType: "input";
+    storeType: "input";
     filterFunction: OP;
 
     arg1: V;
     arg2: V;
-
-    filterCondition: FilterCondition;
 
     reset(): void;
 }
