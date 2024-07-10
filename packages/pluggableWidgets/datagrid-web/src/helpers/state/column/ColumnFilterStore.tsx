@@ -1,11 +1,11 @@
 import {
     AssociationProperties,
-    ComboboxFilterInterface,
     FilterContextValue,
     FilterState,
-    InputFilterInterface,
     attrgroupFilterStore,
-    readInitFilterValues
+    readInitFilterValues,
+    InputFilterStore,
+    StaticSelectFilterStore
 } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
@@ -37,7 +37,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private filterStore: InputFilterInterface | ComboboxFilterInterface | null = null;
+    private filterStore: InputFilterStore | StaticSelectFilterStore | null = null;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
@@ -49,7 +49,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             this.filterStore = attrgroupFilterStore(this._attribute.type, [this._attribute]);
             (document as any)["__dg2__filter" + this._attribute.type] = this.filterStore;
             const s = this.filterStore;
-            if (s && s.controlType === "input") {
+            if (s && s.storeType === "input") {
                 autorun(() => {
                     console.log("val", s?.arg1.value);
                     console.log("cond", s.filterCondition);
