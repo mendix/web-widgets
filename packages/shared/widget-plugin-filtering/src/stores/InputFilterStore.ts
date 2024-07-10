@@ -135,7 +135,7 @@ export class StringInputFilterStore
     implements String_InputFilterInterface
 {
     readonly valueType = "string";
-    readonly controlType = "input";
+    readonly storeType = "input";
 
     constructor(attributes: Array<ListAttributeValue<string>>) {
         const { formatter } = attributes[0];
@@ -153,7 +153,7 @@ export class NumberInputFilterStore
     implements Number_InputFilterInterface
 {
     readonly valueType = "number";
-    readonly controlType = "input";
+    readonly storeType = "input";
 
     constructor(attributes: Array<ListAttributeValue<Big>>) {
         const { formatter } = attributes[0];
@@ -171,7 +171,7 @@ export class DateInputFilterStore
     implements Date_InputFilterInterface
 {
     readonly valueType = "date";
-    readonly controlType = "input";
+    readonly storeType = "input";
 
     constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];

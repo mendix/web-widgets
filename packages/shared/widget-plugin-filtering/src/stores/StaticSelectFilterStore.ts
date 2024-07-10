@@ -1,12 +1,11 @@
 import { ListAttributeValue } from "mendix";
 import { makeObservable, computed, observable, action } from "mobx";
-import { SelectOnlyFilter, Option } from "./typings/ComboboxFilterInterface";
+import { OptionListFilterInterface, Option } from "./typings/OptionListFilterInterface";
 import { FilterCondition } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
 
-export class StaticSelectFilterStore implements SelectOnlyFilter {
-    readonly valueType = "listbox";
-    readonly controlType = "combobox";
+export class StaticSelectFilterStore implements OptionListFilterInterface<string> {
+    readonly storeType = "optionlist";
     readonly isLoading = false;
     readonly hasMore = false;
 
