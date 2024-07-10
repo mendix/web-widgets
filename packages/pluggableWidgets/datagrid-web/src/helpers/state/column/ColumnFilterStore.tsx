@@ -5,13 +5,15 @@ import {
     attrgroupFilterStore,
     readInitFilterValues,
     InputFilterStore,
-    StaticSelectFilterStore
+    StaticSelectFilterStore,
+    RefFilterStore,
+    RefFilterStoreProps
 } from "@mendix/widget-plugin-filtering";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 
@@ -37,7 +39,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private filterStore: InputFilterStore | StaticSelectFilterStore | null = null;
+    private filterStore: InputFilterStore | StaticSelectFilterStore | RefFilterStore | null = null;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
@@ -45,16 +47,18 @@ export class ColumnFilterStore implements IColumnFilterStore {
         }
         this.updateProps(props);
 
-        if (this._attribute) {
-            this.filterStore = attrgroupFilterStore(this._attribute.type, [this._attribute]);
-            (document as any)["__dg2__filter" + this._attribute.type] = this.filterStore;
-            const s = this.filterStore;
-            if (s && s.storeType === "input") {
-                autorun(() => {
-                    console.log("val", s?.arg1.value);
-                    console.log("cond", s.filterCondition);
-                });
-            }
+        if (props.attribute) {
+            this.filterStore = attrgroupFilterStore(props.attribute.type, [props.attribute]);
+            // (document as any)["__dg2__filter" + props.attribute.type] = this.filterStore;
+            // const s = this.filterStore;
+            // if (s && s.storeType === "input") {
+            //     autorun(() => {
+            //         console.log("val", s?.arg1.value);
+            //         console.log("cond", s.filterCondition);
+            //     });
+            // }
+        } else if (props.filterAssociation) {
+            this.filterStore = new RefFilterStore(this.toRefselectProps(props));
         }
 
         makeObservable<
@@ -86,6 +90,29 @@ export class ColumnFilterStore implements IColumnFilterStore {
         this._filterAssociation = props.filterAssociation;
         this._filterAssociationOptions = props.filterAssociationOptions;
         this._filterAssociationOptionLabel = props.filterAssociationOptionLabel;
+        this._updateStore(props);
+    }
+
+    _updateStore(props: ColumnsType): void {
+        const store = this.filterStore;
+
+        if (store === null) {
+            return;
+        }
+
+        if (store.type === "refselect") {
+            store.updateProps(this.toRefselectProps(props));
+        } else if (props.attribute) {
+            store.updateProps([props.attribute]);
+        }
+    }
+
+    toRefselectProps(props: ColumnsType): RefFilterStoreProps {
+        return {
+            reference: ensure(props.filterAssociation, errorMessage("filterAssociation")),
+            optionsource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
+            captionExp: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
+        };
     }
 
     get needsFilterContext(): boolean {

@@ -4,8 +4,19 @@ import {
     InputFilterStore,
     NumberInputFilterStore,
     StringInputFilterStore
-} from "./stores/InputFilterStore";
-import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
+} from "./InputFilterStore";
+import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
+import { RefFilterStore, RefFilterStoreProps } from "./RefFilterStore";
+
+export type { InputFilterStore, RefFilterStoreProps };
+
+export {
+    DateInputFilterStore,
+    NumberInputFilterStore,
+    StringInputFilterStore,
+    StaticSelectFilterStore,
+    RefFilterStore
+};
 
 export function attrgroupFilterStore(
     type: ListAttributeValue["type"],

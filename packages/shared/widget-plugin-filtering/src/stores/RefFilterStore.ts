@@ -11,7 +11,7 @@ import { association, contains, empty, equals, literal, or, attribute } from "me
 import { action, computed, makeObservable, observable } from "mobx";
 import { Option, OptionListFilterInterface } from "./typings/OptionListFilterInterface";
 
-type Props = {
+export type RefFilterStoreProps = {
     reference: ListReferenceValue | ListReferenceSetValue;
     optionsource: ListValue;
     captionExp: ListExpressionValue;
@@ -20,6 +20,7 @@ type Props = {
 
 export class RefFilterStore implements OptionListFilterInterface<string> {
     readonly storeType = "optionlist";
+    readonly type = "refselect";
 
     _selected = new Set<string>();
     _reference: ListReferenceValue | ListReferenceSetValue;
@@ -27,7 +28,7 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     _captionExp: ListExpressionValue;
     _searchAttr: ListAttributeValue | undefined = undefined;
 
-    constructor(props: Props) {
+    constructor(props: RefFilterStoreProps) {
         this._reference = props.reference;
         this._optionsource = props.optionsource;
         this._captionExp = props.captionExp;
@@ -82,7 +83,7 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         return referenceSetContainsOneOf(this._reference, items);
     }
 
-    updateProps(props: Props): void {
+    updateProps(props: RefFilterStoreProps): void {
         this._reference = props.reference;
         this._optionsource = props.optionsource;
         this._captionExp = props.captionExp;

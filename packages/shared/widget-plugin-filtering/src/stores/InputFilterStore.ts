@@ -134,8 +134,8 @@ export class StringInputFilterStore
     >
     implements String_InputFilterInterface
 {
-    readonly valueType = "string";
     readonly storeType = "input";
+    readonly type = "string";
 
     constructor(attributes: Array<ListAttributeValue<string>>) {
         const { formatter } = attributes[0];
@@ -152,8 +152,8 @@ export class NumberInputFilterStore
     >
     implements Number_InputFilterInterface
 {
-    readonly valueType = "number";
     readonly storeType = "input";
+    readonly type = "number";
 
     constructor(attributes: Array<ListAttributeValue<Big>>) {
         const { formatter } = attributes[0];
@@ -170,8 +170,8 @@ export class DateInputFilterStore
     >
     implements Date_InputFilterInterface
 {
-    readonly valueType = "date";
     readonly storeType = "input";
+    readonly type = "date";
 
     constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];
@@ -181,36 +181,3 @@ export class DateInputFilterStore
 }
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
-
-// export function createFilterSlot(attribute: ListAttributeValue): InputFilterStore | ComboboxFilter | undefined {
-//     /**
-//      * <attributeType name="String" />
-//      *                                     <attributeType name="AutoNumber" />
-//      *                                     <attributeType name="Boolean" />
-//      *                                     <attributeType name="DateTime" />
-//      *                                     <attributeType name="Decimal" />
-//      *                                     <attributeType name="Enum" />
-//      *                                     <attributeType name="Integer" />
-//      *                                     <attributeType name="Long" />
-//      */
-//     switch (attribute.type) {
-//         case "DateTime":
-//             return new DateInputFilterStore([attribute] as Array<ListAttributeValue<Date>>);
-
-//         case "AutoNumber":
-//         case "Decimal":
-//         case "Integer":
-//         case "Long":
-//             return new NumberInputFilterStore([attribute] as Array<ListAttributeValue<Big>>);
-
-//         case "String":
-//             return new StringInputFilterStore([attribute] as Array<ListAttributeValue<string>>);
-
-//         case "Boolean":
-//         case "Enum":
-//             return new StaticSelectFilterStore([attribute]);
-//         default:
-//             console.error("Not supported type " + attribute.type, attribute);
-//             return undefined;
-//     }
-// }
