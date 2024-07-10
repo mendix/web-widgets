@@ -8,21 +8,23 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     readonly storeType = "optionlist";
     readonly isLoading = false;
     readonly hasMore = false;
+    readonly hasSearch = false;
 
-    _value = new Set<string>();
+    _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
 
     constructor(attributes: ListAttributeValue[]) {
         this._attributes = attributes;
 
         makeObservable(this, {
-            _attributes: observable,
-            _value: observable,
-            value: computed,
+            _attributes: observable.ref,
+            _selected: observable,
+
             options: computed,
             universe: computed,
             replace: action,
-            toggle: action
+            toggle: action,
+            updateProps: action
         });
     }
 
@@ -33,16 +35,12 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
                 return {
                     caption: attr.formatter.format(value),
                     value: stringValue,
-                    selected: this._value.has(stringValue)
+                    selected: this._selected.has(stringValue)
                 };
             })
         );
 
         return options;
-    }
-
-    get value(): Set<string> {
-        return new Set(this._value);
     }
 
     get universe(): Set<string> {
@@ -51,19 +49,23 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
 
     get filterCondition(): FilterCondition | undefined {
         const conditions = this._attributes.flatMap(attr => {
-            const cond = getFilterCondition(attr, this._value);
+            const cond = getFilterCondition(attr, this._selected);
             return cond ? [cond] : [];
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
+    updateProps(props: ListAttributeValue[]): void {
+        this._attributes = props;
+    }
+
     replace(value: string[]): void {
-        this._value = new Set(value);
+        this._selected = new Set(value);
     }
 
     toggle(value: string): void {
-        if (this._value.delete(value) === false) {
-            this._value.add(value);
+        if (this._selected.delete(value) === false) {
+            this._selected.add(value);
         }
     }
 
@@ -92,16 +94,16 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
 
 function getFilterCondition(
     listAttribute: ListAttributeValue | undefined,
-    values: Set<string>
+    selected: Set<string>
 ): FilterCondition | undefined {
-    if (!listAttribute || !listAttribute.filterable || values.size === 0) {
+    if (!listAttribute || !listAttribute.filterable || selected.size === 0) {
         return undefined;
     }
 
     const { id, type } = listAttribute;
     const filterAttribute = attribute(id);
 
-    const filters = [...values]
+    const filters = [...selected]
         .filter(value => listAttribute.universe?.includes(universeValue(listAttribute.type, value)))
         .map(value => equals(filterAttribute, literal(universeValue(type, value))));
 
