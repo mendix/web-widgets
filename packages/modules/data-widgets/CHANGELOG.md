@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.1] DataWidgets - 2024-07-10
+
+### [2.7.1] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed on change event not triggering for association filters.
+
+### [2.21.1] Datagrid
+
+#### Fixed
+
+-   We have resolved an issue where the Data Grid would not render in certain cases when a visibility expression was configured on some of its columns.
+
 ## [2.21.0] DataWidgets - 2024-07-08
 
 ### [2.21.0] Datagrid

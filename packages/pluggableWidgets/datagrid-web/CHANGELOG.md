@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.1] - 2024-07-10
+
 ### Fixed
 
 -   We have resolved an issue where the Data Grid would not render in certain cases when a visibility expression was configured on some of its columns.
