@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.documentviewer.DocumentViewer" needsEntityContext="true" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+    <name>Document viewer</name>
+    <description />
+    <studioProCategory>Display</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/documentviewer</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Document">
+                <property key="file" type="file">
+                    <caption>File</caption>
+                    <description>Document to be viewed in the viewer.</description>
+                </property>
+            </propertyGroup>
+            <!-- SYSTEM PROPS -->
+            <propertyGroup caption="Label">
+                <systemProperty key="Label" />
+            </propertyGroup>
+
+            <propertyGroup caption="Conditional visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+            <!-- END SYSTEM PROPS -->
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onChangeEvent" type="action" required="false">
+                <caption>On change action</caption>
+                <description />
+            </property>
+            <property key="onEnterEvent" type="action" required="false">
+                <caption>On enter action</caption>
+                <description />
+            </property>
+            <property key="onLeaveEvent" type="action" required="false">
+                <caption>On leave action</caption>
+                <description />
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
