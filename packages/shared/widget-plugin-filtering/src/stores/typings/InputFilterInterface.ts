@@ -12,14 +12,15 @@ import {
     StringArgumentInterface
 } from "./ArgumentInterface";
 
-interface InputFilterBaseInterface<V extends ArgumentInterface, OP extends AllFunctions> {
+interface InputFilterBaseInterface<A extends ArgumentInterface, Fn extends AllFunctions, S = A["value"]> {
     storeType: "input";
-    filterFunction: OP;
+    filterFunction: Fn;
 
-    arg1: V;
-    arg2: V;
+    arg1: A;
+    arg2: A;
 
     reset(): void;
+    UNSAFE_setDefaults(state: [Fn] | [Fn, S] | [Fn, S, S]): void;
 }
 
 export type String_InputFilterInterface = InputFilterBaseInterface<

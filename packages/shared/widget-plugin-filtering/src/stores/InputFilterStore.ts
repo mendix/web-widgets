@@ -6,6 +6,7 @@ import {
 import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { ListAttributeValue } from "mendix";
+
 import {
     attribute,
     literal,
@@ -31,25 +32,28 @@ import {
     FilterFunctionString
 } from "./typings/FilterFunctions";
 
-class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends string | Big | Date> {
-    filterFunction: F;
-    arg1: V;
-    arg2: V;
+class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extends string | Big | Date> {
+    filterFunction: Fn;
+    arg1: A;
+    arg2: A;
+    isInitialized = false;
     protected _attributes: ListAttributeValue[] = [];
-    protected readonly initialFn: F;
+    private defaultState: [Fn] | [Fn, V] | [Fn, V, V];
 
-    constructor(arg1: V, arg2: V, initialFn: F, attributes: ListAttributeValue[]) {
-        this.initialFn = initialFn;
-        this.filterFunction = initialFn;
+    constructor(arg1: A, arg2: A, initFn: Fn, attributes: ListAttributeValue[]) {
         this._attributes = attributes;
+        this.defaultState = [initFn];
+        this.filterFunction = initFn;
 
         this.arg1 = arg1;
         this.arg2 = arg2;
 
-        makeObservable<this, "_attributes">(this, {
+        makeObservable<this, "_attributes" | "setState">(this, {
             _attributes: observable,
             filterFunction: observable,
-            filterCondition: computed
+            filterCondition: computed,
+            setState: action,
+            UNSAFE_setDefaults: action
         });
     }
 
@@ -61,17 +65,24 @@ class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    get state(): [S, S, F] {
-        return [this.arg1.value as S, this.arg2.value as S, this.filterFunction];
+    initialize(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+        this.setState(state);
+        this.isInitialized = true;
     }
 
-    setState(s: [S, S, F]): void {
-        [this.arg1.value, this.arg2.value, this.filterFunction] = s;
+    private setState(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+        [this.filterFunction, this.arg1.value, this.arg2.value] = state;
+    }
+
+    UNSAFE_setDefaults(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+        this.defaultState = state;
+        if (this.isInitialized === false) {
+            this.setState(state);
+        }
     }
 
     reset(): void {
-        // todo: reset filter to default value?
-        [this.arg1.value, this.arg2.value, this.filterFunction] = [undefined, undefined, this.initialFn];
+        this.setState(this.defaultState);
     }
 }
 
@@ -137,7 +148,7 @@ export class StringInputFilterStore
         // todo restore operation and value from config
     }
 
-    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+    updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
@@ -145,8 +156,8 @@ export class StringInputFilterStore
             console.error("InputFilterStore: encounter invalid attribute type while updating props.");
             return;
         }
-        this.arg1.updateProps(formatter);
-        this.arg2.updateProps(formatter);
+        this.arg1.updateProps(formatter as ListAttributeValue<string>["formatter"]);
+        this.arg2.updateProps(formatter as ListAttributeValue<string>["formatter"]);
     }
 }
 
@@ -170,7 +181,7 @@ export class NumberInputFilterStore
         // todo restore operation and value from config
     }
 
-    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+    updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
@@ -203,7 +214,7 @@ export class DateInputFilterStore
         // todo restore operation and value from config
     }
 
-    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+    updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
