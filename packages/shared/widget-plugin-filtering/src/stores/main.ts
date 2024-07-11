@@ -7,6 +7,12 @@ import {
 } from "./InputFilterStore";
 import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
 import { RefFilterStore, RefFilterStoreProps } from "./RefFilterStore";
+import {
+    InputFilterInterface,
+    Number_InputFilterInterface,
+    String_InputFilterInterface,
+    Date_InputFilterInterface
+} from "./typings/InputFilterInterface";
 
 export type { InputFilterStore, RefFilterStoreProps };
 
@@ -42,4 +48,16 @@ export function attrgroupFilterStore(
             console.error("attrgroupFilterStore: not supported type " + type, attributes);
             return null;
     }
+}
+
+export function isNumberFilter(store: InputFilterInterface): store is Number_InputFilterInterface {
+    return store.arg1.type === "number";
+}
+
+export function isStringFilter(store: InputFilterInterface): store is String_InputFilterInterface {
+    return store.arg1.type === "string";
+}
+
+export function isDateFilter(store: InputFilterInterface): store is Date_InputFilterInterface {
+    return store.arg1.type === "date";
 }
