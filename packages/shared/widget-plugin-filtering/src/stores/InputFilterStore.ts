@@ -35,8 +35,8 @@ class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends
     filterFunction: F;
     arg1: V;
     arg2: V;
-    private _attributes: ListAttributeValue[] = [];
-    private readonly initialFn: F;
+    protected _attributes: ListAttributeValue[] = [];
+    protected readonly initialFn: F;
 
     constructor(arg1: V, arg2: V, initialFn: F, attributes: ListAttributeValue[]) {
         this.initialFn = initialFn;
@@ -47,19 +47,10 @@ class BaseInputFilterStore<V extends Argument, F extends AllFunctions, S extends
         this.arg2 = arg2;
 
         makeObservable<this, "_attributes">(this, {
-            filterFunction: observable,
             _attributes: observable,
-
-            filterCondition: computed,
-
-            updateProps: action
+            filterFunction: observable,
+            filterCondition: computed
         });
-    }
-
-    updateProps(attributes: ListAttributeValue[]): void {
-        this._attributes = attributes;
-        // todo: fixme
-        this.arg2.updateProps(this._attributes[0].formatter as any);
     }
 
     get filterCondition(): FilterCondition {
@@ -140,7 +131,22 @@ export class StringInputFilterStore
     constructor(attributes: Array<ListAttributeValue<string>>) {
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
+        makeObservable(this, {
+            updateProps: action
+        });
         // todo restore operation and value from config
+    }
+
+    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+        this._attributes = attributes;
+        const formatter = attributes.at(0)?.formatter;
+        // Just pleasing TypeScript.
+        if (!formatter || formatter.type === "number" || formatter.type === "datetime") {
+            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
+            return;
+        }
+        this.arg1.updateProps(formatter);
+        this.arg2.updateProps(formatter);
     }
 }
 
@@ -158,7 +164,22 @@ export class NumberInputFilterStore
     constructor(attributes: Array<ListAttributeValue<Big>>) {
         const { formatter } = attributes[0];
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
+        makeObservable(this, {
+            updateProps: action
+        });
         // todo restore operation and value from config
+    }
+
+    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+        this._attributes = attributes;
+        const formatter = attributes.at(0)?.formatter;
+        // Just pleasing TypeScript.
+        if (formatter?.type !== "number") {
+            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
+            return;
+        }
+        this.arg1.updateProps(formatter);
+        this.arg2.updateProps(formatter);
     }
 }
 
@@ -176,7 +197,22 @@ export class DateInputFilterStore
     constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
+        makeObservable(this, {
+            updateProps: action
+        });
         // todo restore operation and value from config
+    }
+
+    updateProps(attributes: Array<ListAttributeValue<string>>): void {
+        this._attributes = attributes;
+        const formatter = attributes.at(0)?.formatter;
+        // Just pleasing TypeScript.
+        if (formatter?.type !== "datetime") {
+            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
+            return;
+        }
+        this.arg1.updateProps(formatter);
+        this.arg2.updateProps(formatter);
     }
 }
 
