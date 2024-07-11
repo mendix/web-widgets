@@ -33,13 +33,9 @@ export function createHandleGenerator(props: CreateHandleGeneratorParams): Handl
         const { dragging, index, ...restProps } = generatorProps;
         const overlay = <div>{tooltip?.value ?? ""}</div>;
 
-        if (!sliderRef.current) {
-            return;
-        }
-
         return (
             <Tooltip
-                getTooltipContainer={() => sliderRef.current!}
+                getTooltipContainer={() => sliderRef.current ?? document.body}
                 defaultVisible
                 prefixCls="rc-slider-tooltip"
                 overlay={isCustomText ? overlay : restProps.value}
