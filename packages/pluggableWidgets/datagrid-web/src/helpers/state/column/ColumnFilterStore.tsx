@@ -33,6 +33,7 @@ export interface IColumnFilterStore {
 type FilterStore = InputFilterStore | StaticSelectFilterStore | RefFilterStore;
 
 export class ColumnFilterStore implements IColumnFilterStore {
+    /** @deprecated */
     private filterState: FilterState | undefined = undefined;
 
     private _attribute?: ListAttributeValue<string | Big | boolean | Date>;
@@ -59,6 +60,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             | "_filterAssociation"
             | "_filterAssociationOptions"
             | "_filterAssociationOptionLabel"
+            | "_updateStore"
         >(this, {
             _attribute: observable.ref,
             _filter: observable.ref,
@@ -70,7 +72,8 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
             filterState: observable.ref,
             setFilterState: action,
-            updateProps: action
+            updateProps: action,
+            _updateStore: action
         });
         ((document as any).__dg2__cfs ??= []).push(this);
     }
@@ -84,7 +87,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
         this._updateStore(props);
     }
 
-    _updateStore(props: ColumnsType): void {
+    private _updateStore(props: ColumnsType): void {
         const store = this.filterStore;
 
         if (store === null) {
@@ -98,7 +101,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
         }
     }
 
-    toRefselectProps(props: ColumnsType): RefFilterStoreProps {
+    private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
         return {
             reference: ensure(props.filterAssociation, errorMessage("filterAssociation")),
             optionsource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
@@ -133,9 +136,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
             singleAttribute: this._attribute,
             singleInitialFilter: readInitFilterValues(this._attribute, this.initialFilters),
             associationProperties: this.getColumnAssociationProps()
-        } as any;
+        };
     }
 
+    /** @deprecated */
     private getColumnAssociationProps(): AssociationProperties | undefined {
         if (!this._filterAssociation) {
             return;
@@ -152,6 +156,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
         };
     }
 
+    /** @deprecated */
     setFilterState(newState: FilterState | undefined): void {
         this.filterState = newState;
     }
