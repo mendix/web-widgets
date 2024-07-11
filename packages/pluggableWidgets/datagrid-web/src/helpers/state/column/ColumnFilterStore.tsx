@@ -30,6 +30,8 @@ export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
 
+type FilterStore = InputFilterStore | StaticSelectFilterStore | RefFilterStore;
+
 export class ColumnFilterStore implements IColumnFilterStore {
     private filterState: FilterState | undefined = undefined;
 
@@ -39,27 +41,15 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterAssociationOptions?: ListValue;
     private _filterAssociationOptionLabel?: ListExpressionValue<string>;
 
-    private filterStore: InputFilterStore | StaticSelectFilterStore | RefFilterStore | null = null;
+    private filterStore: FilterStore | null = null;
 
     constructor(props: ColumnsType, private initialFilters: FilterCondition | undefined) {
         if (props.filterAssociationOptions) {
             props.filterAssociationOptions.setLimit(0);
         }
-        this.updateProps(props);
 
-        if (props.attribute) {
-            this.filterStore = attrgroupFilterStore(props.attribute.type, [props.attribute]);
-            // (document as any)["__dg2__filter" + props.attribute.type] = this.filterStore;
-            // const s = this.filterStore;
-            // if (s && s.storeType === "input") {
-            //     autorun(() => {
-            //         console.log("val", s?.arg1.value);
-            //         console.log("cond", s.filterCondition);
-            //     });
-            // }
-        } else if (props.filterAssociation) {
-            this.filterStore = new RefFilterStore(this.toRefselectProps(props));
-        }
+        this.updateProps(props);
+        this.filterStore = this.createFilterStore(props);
 
         makeObservable<
             ColumnFilterStore,
@@ -82,6 +72,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             setFilterState: action,
             updateProps: action
         });
+        ((document as any).__dg2__cfs ??= []).push(this);
     }
 
     updateProps(props: ColumnsType): void {
@@ -113,6 +104,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
             optionsource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
             captionExp: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
         };
+    }
+
+    private createFilterStore(props: ColumnsType): FilterStore | null {
+        if (props.attribute) {
+            return attrgroupFilterStore(props.attribute.type, [props.attribute]);
+        }
+        if (props.filterAssociation) {
+            return new RefFilterStore(this.toRefselectProps(props));
+        }
+        return null;
     }
 
     get needsFilterContext(): boolean {
