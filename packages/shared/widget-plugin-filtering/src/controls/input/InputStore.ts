@@ -5,6 +5,7 @@ export class InputStore {
 
     constructor(init = "") {
         this.value = init;
+
         makeObservable(this, {
             value: observable,
             setValue: action,
