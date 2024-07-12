@@ -1,6 +1,6 @@
 {
   "name": "@mendix/widget-plugin-filter-selector",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "FilterSelector component for datagrid filters",
   "license": "Apache-2.0",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",

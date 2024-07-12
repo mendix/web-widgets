@@ -5,15 +5,13 @@ import { usePositionObserver } from "./usePositionObserver.js";
 interface FilterSelectorProps<T extends string> {
     ariaLabel?: string;
     id?: string;
-    defaultFilter: T;
+    value: T;
     onChange: (value: T, isFromUserInteraction: boolean) => void;
     options: Array<{ value: T; label: string }>;
 }
 
 export function FilterSelector<T extends string>(props: FilterSelectorProps<T>): ReactElement {
-    const defaultFilter = props.defaultFilter;
-    const onChange = props.onChange;
-    const [value, setValue] = useState(defaultFilter);
+    const { value, onChange } = props;
     const [show, setShow] = useState(false);
     const componentRef = useRef<HTMLDivElement>(null);
     const filterSelectorsRef = useRef<HTMLUListElement>(null);
@@ -22,7 +20,6 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
 
     const onClick = useCallback(
         (value: T) => {
-            setValue(value);
             onChange(value, true);
             setShow(false);
         },
@@ -30,9 +27,8 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
     );
 
     useEffect(() => {
-        setValue(defaultFilter);
-        onChange(defaultFilter, false);
-    }, [defaultFilter, onChange]);
+        onChange(value, false);
+    }, [value, onChange]);
 
     const filterSelectors = (
         <ul
