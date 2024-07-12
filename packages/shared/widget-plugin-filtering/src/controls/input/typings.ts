@@ -1,4 +1,5 @@
-export type Optional<T> = T | undefined;
+import { InputFilterInterface } from "../../stores/typings/InputFilterInterface";
+import { InputStore } from "./InputStore";
 
 export interface BaseProps {
     adjustable: boolean;
@@ -10,42 +11,29 @@ export interface BaseProps {
     screenReaderInputCaption?: string;
     styles?: React.CSSProperties;
     tabIndex?: number;
+    type: "text" | "number";
 }
 
-export type FilterList<T> = Array<{ value: T; label: string }>;
+export type FilterFnList<T> = Array<{ value: T; label: string }>;
 
-export interface InputProps<TFilterEnum> {
-    onFilterChange: (type: TFilterEnum, isFromUserInteraction: boolean) => void;
-    defaultFilter: TFilterEnum;
-    filters: FilterList<TFilterEnum>;
-
-    onInputChange: React.ChangeEventHandler<HTMLInputElement>;
-    inputType: "text" | "number";
-    inputDisabled?: boolean;
-    inputRef?: React.RefAttributes<HTMLInputElement>["ref"];
-    inputValue: string;
+export interface InputProps<Fn> {
+    onFilterChange: (filterFn: Fn, isFromUserInteraction: boolean) => void;
+    filterFn: Fn;
+    filterFnList: FilterFnList<Fn>;
+    inputStores: [InputStore, InputStore];
+    disableInputs?: boolean;
+    inputRef: React.RefAttributes<HTMLInputElement>["ref"];
 }
 
-export interface InputComponentProps<TFilterEnum> extends BaseProps, InputProps<TFilterEnum> {}
+export interface InputComponentProps<Fn> extends BaseProps, InputProps<Fn> {}
 
-export interface ValueHelper<T> {
-    /** Function to map input string to value. */
-    fromString(arg: string): T;
-    /** Function to map value to string. */
-    toString(arg: T): string;
-    /** Function to compare the previous value and the new value. */
-    equals(a: T, b: T): boolean;
-}
-
-export interface InputHookProps<TValue, TFilterEnum> {
-    defaultFilter: TFilterEnum;
-    filters: FilterList<TFilterEnum>;
-    value: Optional<TValue>;
-    onChange: (value: Optional<TValue>, filter: TFilterEnum) => void;
-    valueHelper: ValueHelper<TValue>;
-    changeDelay?: number;
-    parentChannelName: string | null;
+export interface InputHookProps<Fn, V> {
     name: string;
-    inputDisabled?: (filter: TFilterEnum) => boolean;
-    inputType: "text" | "number";
+    parentChannelName: string | null;
+    filters: FilterFnList<Fn>;
+    defaultFilter: Fn;
+    defaultValue: V | undefined;
+    changeDelay?: number;
+    filterStore: InputFilterInterface;
+    disableInputs?: (filterFn: Fn) => boolean;
 }
