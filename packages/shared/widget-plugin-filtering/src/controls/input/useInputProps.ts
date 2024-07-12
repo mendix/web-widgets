@@ -1,62 +1,42 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
-import { useCallback, useRef, useEffect } from "react";
-import { useValueFilterState } from "./useValueFilterState";
+import { Big } from "big.js";
+import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { InputHookProps, InputProps } from "./typings";
+import { EditableFilterStore } from "./EditableFilterStore";
+import { AllFunctions } from "../../stores/typings/FilterFunctions";
+import { InputStore } from "./InputStore";
 
-export function useInputProps<TValue, TFilterEnum>(
-    props: InputHookProps<TValue, TFilterEnum>
-): InputProps<TFilterEnum> {
+export function useInputProps<V extends string | Big | Date>(
+    props: InputHookProps<AllFunctions, V>
+): InputProps<AllFunctions> {
     const inputRef = useRef<HTMLInputElement>(null);
-    const inputDisabled = props.inputDisabled ?? (() => false);
+    const { current: defaultValue } = useRef(props.defaultValue);
+    const [store] = useState(() => new EditableFilterStore({ filter: props.filterStore }));
+    const inputStores = useMemo<[InputStore, InputStore]>(() => [store.input1, store.input2], [store]);
+    const onFilterChange = useCallback(
+        (fn: AllFunctions, isFromUserInteraction: boolean) => {
+            store.filterFunction = fn;
 
-    const [state, { setFilterFn, setInputValue, reset, dangerous_setValueAndDoNotDispatch }] = useValueFilterState({
-        onFilterChange: props.onChange,
-        defaultValue: props.value,
-        defaultFilter: props.defaultFilter,
-        dispatchOnMounted: props.value !== undefined,
-        delay: props.changeDelay,
-        valueHelper: props.valueHelper
-    });
-
-    useEffect(() => {
-        dangerous_setValueAndDoNotDispatch(props.value);
-    }, [props.value]);
-
-    useOnResetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName ?? undefined,
-        listener: reset
-    });
-
-    useOnSetValueEvent({
-        widgetName: props.name,
-        listener: (useDefaultValue: boolean, valueOptions: SetFilterValueArgs) => {
-            if (useDefaultValue) {
-                reset([useDefaultValue]);
-            } else {
-                const value =
-                    props.inputType === "number" ? valueOptions.numberValue.toString() : valueOptions.stringValue;
-                setInputValue(value);
-                setFilterFn(valueOptions.operators as TFilterEnum);
-            }
-        }
-    });
-
-    return {
-        defaultFilter: state.filterFn,
-        filters: props.filters,
-        inputType: props.inputType,
-        inputRef,
-        inputValue: state.inputValue,
-        inputDisabled: inputDisabled(state.filterFn),
-        onFilterChange: useCallback((fn, isFromUserInteraction) => {
-            setFilterFn(fn);
             if (isFromUserInteraction) {
                 inputRef.current?.focus();
             }
-        }, []),
-        onInputChange: useCallback(event => setInputValue(event.target.value), [])
+        },
+        [store]
+    );
+
+    useEffect(() => {
+        const disposer = store.setup();
+        // This method should be called only once.
+        store.UNSAFE_setDefaults([props.defaultFilter, defaultValue]);
+        return disposer;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [store]);
+
+    return {
+        filterFn: store.filterFunction,
+        filterFnList: props.filters,
+        inputRef,
+        disableInputs: props.disableInputs?.(store.filterFunction),
+        inputStores,
+        onFilterChange
     };
 }

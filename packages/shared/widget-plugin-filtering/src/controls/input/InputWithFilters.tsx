@@ -9,7 +9,6 @@ export const InputWithFilters = observer(function InputWithFilters<Fn extends st
     props: InputComponentProps<Fn>
 ): React.ReactElement {
     const {
-        filterFn,
         inputStores: [input1]
     } = props;
     return (
@@ -22,7 +21,7 @@ export const InputWithFilters = observer(function InputWithFilters<Fn extends st
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     id={props.id}
-                    value={filterFn}
+                    value={props.filterFn}
                     onChange={props.onFilterChange}
                     options={props.filterFnList}
                 />

@@ -1,5 +1,5 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { autorun, runInAction, reaction, makeObservable, computed } from "mobx";
+import { autorun, runInAction, reaction, makeObservable, computed, action } from "mobx";
 import { InputFilterInterface } from "../../stores/typings/InputFilterInterface";
 import { InputStore } from "./InputStore";
 
@@ -22,7 +22,8 @@ export class EditableFilterStore<F extends InputFilterInterface> {
         this.filter = filter;
 
         makeObservable(this, {
-            filterFunction: computed
+            filterFunction: computed,
+            UNSAFE_setDefaults: action
         });
     }
 
