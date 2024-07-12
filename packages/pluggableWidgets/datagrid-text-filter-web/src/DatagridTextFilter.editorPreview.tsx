@@ -1,23 +1,33 @@
-import { createElement, ReactElement } from "react";
+import { createElement, ReactElement, useMemo, useRef } from "react";
 import { DatagridTextFilterPreviewProps } from "../typings/DatagridTextFilterProps";
-import { FilterComponent } from "./components/FilterComponent";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { InputStore, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 
-export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
+function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
+    const inputStores = useMemo<[InputStore, InputStore]>(
+        () => [new InputStore(props.defaultValue), new InputStore()],
+        [props.defaultValue]
+    );
+
     return (
-        <FilterComponent
+        <InputWithFilters
             adjustable={props.adjustable}
-            className={props.className}
-            defaultFilter={props.defaultFilter}
-            changeDelay={props.delay ?? 500}
+            className={props.class}
+            filterFn={props.defaultFilter}
+            filterFnList={[]}
+            inputRef={useRef(null)}
+            inputStores={inputStores}
+            name="TextFilter"
+            onFilterChange={() => {}}
             placeholder={props.placeholder}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
-            value={props.defaultValue}
-            onChange={() => {}}
-            parentChannelName={null}
-            name="TextFilter"
+            type="text"
         />
     );
+}
+
+export function preview(props: DatagridTextFilterPreviewProps): ReactElement {
+    return <Preview {...props} />;
 }

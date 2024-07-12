@@ -3,7 +3,6 @@ import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { useState, useMemo, useEffect } from "react";
 import { FilterCondition } from "mendix/filters";
-import { ValueHelper } from "./typings";
 
 type FilterFunction = FilterCondition["name"];
 
@@ -33,7 +32,7 @@ type Params<TValue, TFilterEnum> = {
     /** Default filter value. */
     defaultValue: TValue;
     /** Helper to compare and convert value. */
-    valueHelper: ValueHelper<Optional<TValue>>;
+    valueHelper: any;
     /** Listener for filter value changes. */
     onFilterChange: FilterListener<Optional<TValue>, TFilterEnum>;
     /** If true, onFilterChange will be called once when mounted. */
@@ -45,7 +44,7 @@ type Params<TValue, TFilterEnum> = {
 /** A self-contained value store that can (but not require) be  synchronized with `value` from props. */
 class ValueFilterStore<TValue, TFilterEnum = FilterFunction> {
     clearTimers: () => void;
-    valueHelper: ValueHelper<Optional<TValue>>;
+    valueHelper: any;
     private filterListener: FilterListener<Optional<TValue>, TFilterEnum> | undefined;
     private stateListener: StateListener<TFilterEnum> | undefined;
     private _value: Optional<TValue>;
