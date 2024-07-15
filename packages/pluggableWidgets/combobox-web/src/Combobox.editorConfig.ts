@@ -11,6 +11,27 @@ import { getDatasourcePlaceholderText } from "./helpers/utils";
 import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
 
+const LAZY_LOADING_CONFIG: Array<keyof ComboboxPreviewProps> = ["lazyLoading", "loadingType"];
+const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
+    "optionsSourceDatabaseCaptionAttribute",
+    "optionsSourceDatabaseCaptionExpression",
+    "optionsSourceDatabaseCaptionType",
+    "optionsSourceDatabaseCustomContent",
+    "optionsSourceDatabaseCustomContentType",
+    "optionsSourceDatabaseDataSource",
+    "optionsSourceDatabaseDefaultValue",
+    "optionsSourceDatabaseValueAttribute"
+];
+
+const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
+    "optionsSourceAssociationCaptionAttribute",
+    "optionsSourceAssociationCaptionExpression",
+    "optionsSourceAssociationCaptionType",
+    "optionsSourceAssociationCustomContent",
+    "optionsSourceAssociationCustomContentType",
+    "optionsSourceAssociationDataSource"
+];
+
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
@@ -18,29 +39,17 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
-            "optionsSourceDatabaseCaptionAttribute",
-            "optionsSourceDatabaseCaptionExpression",
-            "optionsSourceDatabaseCaptionType",
-            "optionsSourceDatabaseCustomContent",
-            "optionsSourceDatabaseCustomContentType",
-            "optionsSourceDatabaseDataSource",
-            "optionsSourceDatabaseDefaultValue",
-            "optionsSourceDatabaseValueAttribute"
+            ...DATABASE_SOURCE_CONFIG
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
             hidePropertiesIn(defaultProperties, values, [
                 "attributeAssociation",
-                "optionsSourceAssociationCaptionAttribute",
-                "optionsSourceAssociationCaptionExpression",
-                "optionsSourceAssociationCaptionType",
-                "optionsSourceAssociationCustomContent",
-                "optionsSourceAssociationCustomContentType",
-                "optionsSourceAssociationDataSource",
                 "selectedItemsStyle",
                 "selectionMethod",
                 "selectAllButton",
                 "selectAllButtonCaption",
-                "lazyLoading"
+                ...ASSOCIATION_SOURCE_CONFIG,
+                ...LAZY_LOADING_CONFIG
             ]);
             if (values.optionsSourceType === "boolean") {
                 hidePropertiesIn(defaultProperties, values, ["clearable"]);
@@ -53,7 +62,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             if (values.optionsSourceAssociationCaptionType === "attribute") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
             } else {
-                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
+                hidePropertiesIn(defaultProperties, values, [
+                    "optionsSourceAssociationCaptionAttribute",
+                    ...LAZY_LOADING_CONFIG
+                ]);
             }
 
             if (values.optionsSourceAssociationDataSource === null) {
@@ -83,21 +95,19 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
-            "optionsSourceAssociationCaptionType",
-            "optionsSourceAssociationCustomContentType",
-            "optionsSourceAssociationCustomContent",
-            "optionsSourceAssociationDataSource",
-            "optionsSourceAssociationCaptionAttribute",
-            "optionsSourceAssociationCaptionExpression",
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
-            "selectAllButtonCaption"
+            "selectAllButtonCaption",
+            ...ASSOCIATION_SOURCE_CONFIG
         ]);
         if (values.optionsSourceDatabaseCaptionType === "attribute") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionExpression"]);
         } else {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionAttribute"]);
+            hidePropertiesIn(defaultProperties, values, [
+                "optionsSourceDatabaseCaptionAttribute",
+                ...LAZY_LOADING_CONFIG
+            ]);
         }
         if (values.optionsSourceDatabaseCustomContentType === "no") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
@@ -110,26 +120,14 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
-            "optionsSourceAssociationCaptionAttribute",
-            "optionsSourceAssociationCaptionExpression",
-            "optionsSourceAssociationCaptionType",
-            "optionsSourceAssociationCustomContent",
-            "optionsSourceAssociationCustomContentType",
-            "optionsSourceAssociationDataSource",
             "selectedItemsStyle",
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
             "databaseAttributeString",
-            "optionsSourceDatabaseCaptionAttribute",
-            "optionsSourceDatabaseCaptionExpression",
-            "optionsSourceDatabaseCaptionType",
-            "optionsSourceDatabaseCustomContent",
-            "optionsSourceDatabaseCustomContentType",
-            "optionsSourceDatabaseDataSource",
-            "optionsSourceDatabaseValueAttribute",
-            "optionsSourceDatabaseDefaultValue",
-            "lazyLoading"
+            ...ASSOCIATION_SOURCE_CONFIG,
+            ...DATABASE_SOURCE_CONFIG,
+            ...LAZY_LOADING_CONFIG
         ]);
     }
 
