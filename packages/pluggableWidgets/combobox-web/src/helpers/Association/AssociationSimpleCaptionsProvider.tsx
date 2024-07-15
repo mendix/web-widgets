@@ -45,7 +45,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         }
 
         const captionValue = this.formatter.get(item);
-        if (captionValue.status === "unavailable") {
+        if (!captionValue || captionValue.status === "unavailable") {
             return this.unavailableCaption;
         }
 

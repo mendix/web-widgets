@@ -11,7 +11,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { ObjectItem, DynamicValue, ListValue } from "mendix";
 import { createElement } from "react";
-import { ComboboxContainerProps } from "../../typings/ComboboxProps";
+import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
 async function getInput(component: RenderResult): Promise<HTMLInputElement> {
@@ -167,6 +167,7 @@ describe("Combo box (Association)", () => {
             const lazyLoadingProps = {
                 ...defaultProps,
                 lazyLoading: true,
+                optionsSourceAssociationCaptionType: "attribute" as OptionsSourceAssociationCaptionTypeEnum,
                 optionsSourceAssociationDataSource: {
                     ...defaultProps.optionsSourceAssociationDataSource,
                     hasMoreItems: true,
