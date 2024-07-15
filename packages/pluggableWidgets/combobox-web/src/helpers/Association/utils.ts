@@ -64,7 +64,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
     const clearable = props.clearable;
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
-    const lazyLoading = props.lazyLoading ?? false;
+    const lazyLoading = (props.lazyLoading && props.optionsSourceAssociationCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
 
     return [

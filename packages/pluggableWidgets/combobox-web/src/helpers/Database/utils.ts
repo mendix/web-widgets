@@ -55,7 +55,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
     const valueAttribute = props.optionsSourceDatabaseValueAttribute;
-    const lazyLoading = props.lazyLoading ?? false;
+    const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
 
     if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
