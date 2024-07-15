@@ -7,7 +7,6 @@ import {
 } from "../../../typings/ComboboxProps";
 import { LazyLoadProvider } from "../LazyLoadProvider";
 import { SingleSelector, Status } from "../types";
-import { _valuesIsEqual } from "../utils";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { extractDatabaseProps } from "./utils";

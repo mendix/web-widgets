@@ -5,7 +5,7 @@ import { BaseDatabaseSingleSelector } from "./BaseDatabaseSingleSelector";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps } from "./utils";
 
-export class DatabaseSingleSelector<
+export class DatabaseSingleSelectionSelector<
     T extends string | Big,
     R extends EditableValue<T>
 > extends BaseDatabaseSingleSelector<T> {

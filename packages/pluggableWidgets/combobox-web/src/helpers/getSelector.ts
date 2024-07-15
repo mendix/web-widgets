@@ -2,7 +2,7 @@ import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { AssociationMultiSelector } from "./Association/AssociationMultiSelector";
 import { AssociationSingleSelector } from "./Association/AssociationSingleSelector";
 import { DatabaseMultiSelectionSelector } from "./Database/DatabaseMultiSelectionSelector";
-import { DatabaseSingleSelector } from "./Database/DatabaseSingleSelector";
+import { DatabaseSingleSelectionSelector } from "./Database/DatabaseSingleSelectionSelector";
 import { EnumBooleanSingleSelector } from "./EnumBool/EnumBoolSingleSelector";
 import { StaticSingleSelector } from "./Static/StaticSingleSelector";
 import { Selector } from "./types";
@@ -22,7 +22,7 @@ export function getSelector(props: ComboboxContainerProps): Selector {
         if (props.optionsSourceDatabaseItemSelection?.type === "Multi") {
             return new DatabaseMultiSelectionSelector();
         } else {
-            return new DatabaseSingleSelector();
+            return new DatabaseSingleSelectionSelector();
         }
     } else if (props.source === "static") {
         return new StaticSingleSelector();
