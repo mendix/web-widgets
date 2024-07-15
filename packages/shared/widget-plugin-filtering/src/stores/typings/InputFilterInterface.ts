@@ -20,6 +20,7 @@ interface InputFilterBaseInterface<A extends ArgumentInterface, Fn extends AllFu
     arg2: A;
 
     reset(): void;
+    clear(): void;
     UNSAFE_setDefaults(state: [Fn] | [Fn, S] | [Fn, S, S]): void;
 }
 

@@ -84,6 +84,11 @@ class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extend
     reset(): void {
         this.setState(this.defaultState);
     }
+
+    /** Clear arguments, but keep current filter function. */
+    clear(): void {
+        this.setState([this.filterFunction]);
+    }
 }
 
 function getFilterCondition<T extends string | Big | Date>(

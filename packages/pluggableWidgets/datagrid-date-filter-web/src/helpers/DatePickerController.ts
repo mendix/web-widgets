@@ -1,46 +1,60 @@
+import { reaction, makeObservable, action, IReactionDisposer } from "mobx";
 import { createRef } from "react";
-import { FilterStore } from "./store/FilterStore";
 import { CalendarStore } from "./store/CalendarStore";
 import { isDate, isValid } from "date-fns";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
+import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/dist/stores/typings/InputFilterInterface";
 
 interface DatePickerBackendProps extends ReactDatePickerProps, React.ClassAttributes<ReactDatePicker> {}
-
-type Value = Date | null | [Date | null, Date | null];
 
 export class DatePickerController {
     pickerRef: React.RefObject<ReactDatePicker> = createRef();
 
-    #filterStore: FilterStore;
-    #calendarStore: CalendarStore;
+    private _filterStore: Date_InputFilterInterface;
+    private _calendarStore: CalendarStore;
+    private _timer: number = -1;
 
-    #timer: number = -1;
+    constructor(filterStore: Date_InputFilterInterface, calendarStore: CalendarStore) {
+        this._filterStore = filterStore;
+        this._calendarStore = calendarStore;
 
-    constructor(filterStore: FilterStore, calendarStore: CalendarStore) {
-        this.#filterStore = filterStore;
-        this.#calendarStore = calendarStore;
-        this.#setupTypeWatch(filterStore);
+        makeObservable(this, {
+            handlePickerChange: action,
+            handleCalendarOpen: action,
+            handleCalendarClose: action,
+            handleKeyDown: action
+        });
     }
 
-    handlePickerChange: DatePickerBackendProps["onChange"] = (value: Value) => {
-        if (isDate(value)) {
-            value = isValid(value) ? value : null;
+    handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
+        if (isDate(value) && isValid(value)) {
+            this._filterStore.arg1.value = value;
+            return;
         }
-        this.#filterStore.setValue(value);
+
+        if (value === null) {
+            [this._filterStore.arg1.value, this._filterStore.arg2.value] = [undefined, undefined];
+            return;
+        }
+
+        if (Array.isArray(value)) {
+            const filtered = value.map(v => (v === null ? undefined : v));
+            [this._filterStore.arg1.value, this._filterStore.arg2.value] = filtered;
+        }
     };
 
     handleCalendarOpen: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this.#calendarStore.UNSAFE_setExpanded(true);
+        this._calendarStore.UNSAFE_setExpanded(true);
     };
 
     handleCalendarClose: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this.#calendarStore.UNSAFE_setExpanded(false);
+        this._calendarStore.UNSAFE_setExpanded(false);
     };
 
     /** We use mouse down to avoid race condition with calendar "outside click" event. */
     handleButtonMouseDown: React.MouseEventHandler = () => {
-        if (this.#calendarStore.state.expanded === false) {
-            this.#setActive();
+        if (this._calendarStore.expanded === false) {
+            this._setActive();
         }
     };
 
@@ -48,18 +62,18 @@ export class DatePickerController {
         if (e.code === "Enter" || e.code === "Space") {
             e.preventDefault();
             e.stopPropagation();
-            this.#setActive();
+            this._setActive();
         }
     };
 
     handleKeyDown: React.KeyboardEventHandler = event => {
         // Clear value on "Backspace" in range mode. Works only when focused on input.
         if (
-            this.#selectsRange &&
+            this._selectsRange &&
             (event.target as HTMLInputElement).nodeName === "INPUT" &&
             event.code === "Backspace"
         ) {
-            this.#filterStore.setValue([null, null]);
+            this._filterStore.clear();
         }
     };
 
@@ -71,33 +85,26 @@ export class DatePickerController {
      * value in widget behavior. Feel free to remove this method if you refactoring code.
      */
     UNSAFE_handleChangeRaw = (event: React.BaseSyntheticEvent): void => {
-        if (event.type === "change" && this.#selectsRange) {
+        if (event.type === "change" && this._selectsRange) {
             event.preventDefault();
         }
     };
 
-    get #selectsRange(): boolean {
-        return this.#filterStore.state.filterType === "between";
+    private get _selectsRange(): boolean {
+        return this._filterStore.filterFunction === "between";
     }
 
-    #setActive(): void {
+    private _setActive(): void {
         const picker = this.pickerRef.current;
-        clearTimeout(this.#timer);
+        clearTimeout(this._timer);
         // Run setFocus on next tick to prevent calling focus on disabled element.
-        this.#timer = window.setTimeout(() => {
+        this._timer = window.setTimeout(() => {
             picker?.setFocus();
-            this.#timer = -1;
+            this._timer = -1;
         }) as number;
     }
 
-    #setupTypeWatch(store: FilterStore): void {
-        let lastType = store.state.filterType;
-        store.addEventListener("change", event => {
-            const { detail: state } = event;
-            if (lastType !== state.filterType) {
-                this.#setActive();
-                lastType = state.filterType;
-            }
-        });
+    setup(): IReactionDisposer {
+        return reaction(() => this._filterStore.filterFunction, this._setActive.bind(this));
     }
 }
