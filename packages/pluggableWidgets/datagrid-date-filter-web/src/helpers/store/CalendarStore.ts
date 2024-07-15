@@ -1,7 +1,13 @@
-export class CalendarStore extends EventTarget {
-    state = {
-        expanded: false
-    };
+import { makeObservable, observable, action } from "mobx";
+export class CalendarStore {
+    expanded = false;
+
+    constructor() {
+        makeObservable(this, {
+            expanded: observable,
+            UNSAFE_setExpanded: action
+        });
+    }
 
     /**
      * DON'T USE THIS STORE TO CONTROL THE CALENDAR STATE.
@@ -12,14 +18,6 @@ export class CalendarStore extends EventTarget {
      * that you are clever and can take control of the calendar - good luck and have fun.
      */
     UNSAFE_setExpanded(expanded: boolean): void {
-        if (this.state.expanded === expanded) {
-            return;
-        }
-        this.state = { expanded };
-        this.#emitChange();
-    }
-
-    #emitChange(): void {
-        this.dispatchEvent(new CustomEvent("change"));
+        this.expanded = expanded;
     }
 }
