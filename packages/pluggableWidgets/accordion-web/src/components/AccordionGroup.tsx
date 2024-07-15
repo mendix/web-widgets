@@ -48,7 +48,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
-                if (entry.contentBoxSize && !props.collapsed && contentWrapperRef.current && contentRef.current) {
+                if (entry.contentBoxSize && !renderCollapsed && contentWrapperRef.current && contentRef.current) {
                     contentWrapperRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
                 }
             }
@@ -59,7 +59,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
         return () => {
             resizeObserver.disconnect();
         };
-    }, [props.collapsed]);
+    }, [renderCollapsed]);
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
