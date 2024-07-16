@@ -1,34 +1,33 @@
 import { ListAttributeValue } from "mendix";
-import {
-    DateInputFilterStore,
-    InputFilterStore,
-    NumberInputFilterStore,
-    StringInputFilterStore
-} from "./InputFilterStore";
-import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
+import { DateInputFilterStore } from "./DateInputFilterStore";
+import { NumberInputFilterStore } from "./NumberInputFilterStore";
 import { RefFilterStore, RefFilterStoreProps } from "./RefFilterStore";
+import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
+import { StringInputFilterStore } from "./StringInputFilterStore";
 import {
+    Date_InputFilterInterface,
     InputFilterInterface,
     Number_InputFilterInterface,
-    String_InputFilterInterface,
-    Date_InputFilterInterface
+    String_InputFilterInterface
 } from "./typings/InputFilterInterface";
 
+type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
+
 export type {
-    InputFilterStore,
-    RefFilterStoreProps,
+    Date_InputFilterInterface,
     InputFilterInterface,
+    InputFilterStore,
     Number_InputFilterInterface,
-    String_InputFilterInterface,
-    Date_InputFilterInterface
+    RefFilterStoreProps,
+    String_InputFilterInterface
 };
 
 export {
     DateInputFilterStore,
     NumberInputFilterStore,
-    StringInputFilterStore,
+    RefFilterStore,
     StaticSelectFilterStore,
-    RefFilterStore
+    StringInputFilterStore
 };
 
 export function attrgroupFilterStore(
