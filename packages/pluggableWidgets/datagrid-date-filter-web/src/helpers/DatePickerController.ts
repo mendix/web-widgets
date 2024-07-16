@@ -1,6 +1,6 @@
 import { reaction, makeObservable, action, IReactionDisposer } from "mobx";
 import { createRef } from "react";
-import { CalendarStore } from "./store/CalendarStore";
+import { CalendarStore } from "./CalendarStore";
 import { isDate, isValid } from "date-fns";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/dist/stores/typings/InputFilterInterface";

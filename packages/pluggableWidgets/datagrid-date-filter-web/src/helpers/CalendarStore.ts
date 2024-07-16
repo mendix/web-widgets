@@ -1,4 +1,5 @@
 import { makeObservable, observable, action } from "mobx";
+
 export class CalendarStore {
     expanded = false;
 
