@@ -1,4 +1,4 @@
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
+import { Date_InputFilterInterface, useDateSync } from "@mendix/widget-plugin-filtering";
 import { observer } from "mobx-react-lite";
 import { createElement } from "react";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
@@ -29,6 +29,8 @@ export const Container: (props: ContainerProps) => React.ReactElement = observer
     const state = usePickerState(props.filterStore, calendarStore);
 
     useActionEvents({ name: props.name, parentChannelName: props.parentChannelName, store: props.filterStore });
+
+    useDateSync(props, props.filterStore);
 
     return (
         <FilterComponent
