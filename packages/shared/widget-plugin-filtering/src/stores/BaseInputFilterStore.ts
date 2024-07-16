@@ -50,7 +50,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 
-    get filterCondition(): FilterCondition {
+    get filterCondition(): FilterCondition | undefined {
         const conditions = this._attributes
             .map(attr => getFilterCondition(attr, this.arg1.value, this.arg2.value, this.filterFunction))
             .filter((filter): filter is FilterCondition => filter !== undefined);

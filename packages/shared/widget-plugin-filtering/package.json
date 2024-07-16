@@ -36,7 +36,8 @@
   "devDependencies": {
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/tsconfig-web-widgets": "workspace:*"
+    "@mendix/tsconfig-web-widgets": "workspace:*",
+    "date-fns": "^3.6.0"
   },
   "dependencies": {
     "@mendix/widget-plugin-external-events": "workspace:*",
@@ -45,5 +46,8 @@
     "@mendix/widget-plugin-platform": "workspace:*",
     "mobx": "6.12.3",
     "mobx-react-lite": "4.0.7"
+  },
+  "peerDependencies": {
+    "date-fns": "^3.6.0"
   }
 }
