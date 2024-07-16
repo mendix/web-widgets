@@ -2,7 +2,7 @@
   "name": "@mendix/markdown-web",
   "widgetName": "Markdown",
   "version": "1.0.0",
-  "description": "Markdown editor with editor, preview, and read-only mode.",
+  "description": "Markdown viewer to preview markdown.",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -18,7 +18,7 @@
   "marketplace": {
     "minimumMXVersion": "9.6.0",
     "appNumber": 119160,
-    "appName": "Markdown editor"
+    "appName": "Markdown viewer"
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
