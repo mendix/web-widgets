@@ -1,85 +1,37 @@
-import { useState } from "react";
-import { DatePickerController } from "./DatePickerController";
-import { InitValues } from "./base-types";
-import { FilterAPIClient } from "./filter-api-client/FilterAPIClient";
-import { ChangeEventHandler, FilterStore } from "./store/FilterStore";
-import { CalendarStore } from "./store/CalendarStore";
-import { useNewStore } from "./store/useNewStore";
+import { useState, useMemo } from "react";
+import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
+import { CalendarStore } from "../helpers/store/CalendarStore";
+import { DatePickerController } from "../helpers/DatePickerController";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { SyncChannel } from "./SyncChannel";
+import { Locale } from "date-fns";
+import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 
-export interface SetupProps {
-    filterAPIClient: FilterAPIClient | null;
-    syncChannel: SyncChannel | null;
-    initValues?: InitValues;
+interface SetupProps {
+    filterStore: Date_InputFilterInterface;
 }
 
 type SetupResult = {
+    calendarStartDay: number;
     calendarStore: CalendarStore;
-    filterStore: FilterStore;
+    dateFormat: string | string[] | undefined;
     datePickerController: DatePickerController;
     id: string;
-};
-
-const defaultValues: InitValues = {
-    type: "equal",
-    value: null,
-    startDate: null,
-    endDate: null
+    locale: string | Locale | undefined;
 };
 
 export function useSetup(props: SetupProps): SetupResult {
-    const calendarStore = useNewStore(() => new CalendarStore());
-    const filterStore = useNewStore(() => {
-        const { type, value, startDate, endDate } = props.initValues ?? defaultValues;
-        const initState: FilterStore["state"] =
-            type === "between"
-                ? {
-                      filterType: "between",
-                      value: [startDate, endDate]
-                  }
-                : {
-                      filterType: type,
-                      value
-                  };
-        return new FilterStore(initState);
-    });
+    const [calendarStore] = useState(() => new CalendarStore());
+    const [datePickerController] = useState(() => new DatePickerController(props.filterStore, calendarStore));
 
-    const [datePickerController] = useState(() => new DatePickerController(filterStore, calendarStore));
-
-    // Setup all the reactions/watches/effects;
-    const [result] = useState<SetupResult>(() => {
-        const { syncChannel, filterAPIClient } = props;
-
-        if (filterAPIClient) {
-            connectFilterAPI(filterAPIClient, filterStore);
-        }
-
-        if (syncChannel) {
-            setupSync(syncChannel, filterStore);
-        }
-
+    return useMemo(() => {
+        const locale = getLocale();
         return {
+            calendarStartDay: locale.firstDayOfWeek,
             calendarStore,
-            filterStore,
+            dateFormat: pickerDateFormat(locale),
             datePickerController,
-            id: `DateFilter${generateUUID()}`
+            id: `DateFilter${generateUUID()}`,
+            locale: setupLocales(locale)
         };
-    });
-
-    return result;
-}
-
-function connectFilterAPI(client: FilterAPIClient, store: FilterStore): void {
-    const handleChange: ChangeEventHandler = event => {
-        const { detail: state } = event;
-        client.dispatch(state.filterType, state.value);
-    };
-
-    store.addEventListener("change", handleChange);
-    store.addEventListener("init", handleChange);
-}
-
-function setupSync(channel: SyncChannel, store: FilterStore): void {
-    store.addEventListener("change", event => channel.push(event.detail.value));
+    }, [calendarStore, datePickerController]);
 }

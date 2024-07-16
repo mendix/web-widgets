@@ -1,40 +1,33 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue } from "@mendix/widget-plugin-filtering";
+import { Date_InputFilterInterface, isDateFilter, useFilterContextValue } from "@mendix/widget-plugin-filtering";
 import { createElement } from "react";
-import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
-import { APIv1Props, APIv2Props } from "../helpers/filter-api-client/types";
-import { useFilterAPIClient } from "../helpers/filter-api-client/useFilterAPIClient";
 import * as errors from "../helpers/filter-api-client/errors";
 
-type APIv1Consumer = (props: APIv1Props) => React.ReactElement;
+interface Date_FilterAPIv2 {
+    filterStore: Date_InputFilterInterface;
+    parentChannelName?: string;
+}
 
-type APIv2Consumer = (props: APIv2Props) => React.ReactElement;
+export function withDateFilterAPI<P>(
+    Component: (props: P & Date_FilterAPIv2) => React.ReactElement
+): (props: P) => React.ReactElement {
+    return function FilterAPIProvider(props) {
+        const apiv2 = useFilterContextValue();
 
-type APIv1Provider = (props: DatagridDateFilterContainerProps) => React.ReactElement;
-
-type APIv2Provider = (props: APIv1Props) => React.ReactElement;
-
-export function withAPIv1(Component: APIv1Consumer): APIv1Provider {
-    return function APIv1Provider(props) {
-        const apiv1 = useFilterContextValue();
-
-        if (apiv1.hasError) {
+        if (apiv2.hasError) {
             return <Alert bootstrapStyle="danger">{errors.EPLACE}</Alert>;
         }
 
-        return <Component apiv1={apiv1.value} {...props} />;
-    };
-}
+        const store = apiv2.value.store;
 
-export function withAPIv2(Component: APIv2Consumer): APIv2Provider {
-    return function APIv2Provider(props) {
-        const { apiv1, ...rest } = props;
-        const [error, client] = useFilterAPIClient(apiv1);
-
-        if (error) {
-            return <Alert bootstrapStyle="danger">{error.message}</Alert>;
+        if (store === null) {
+            return <Alert bootstrapStyle="danger">{errors.EMISSINGSTORE}</Alert>;
         }
 
-        return <Component filterAPIClient={client} {...rest} />;
+        if (store.storeType === "optionlist" || !isDateFilter(store)) {
+            return <Alert bootstrapStyle="danger">{errors.ESTORETYPE}</Alert>;
+        }
+
+        return <Component filterStore={store} parentChannelName={apiv2.value.eventsChannelName} {...props} />;
     };
 }
