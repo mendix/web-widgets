@@ -18,7 +18,13 @@ export const Container: (props: ContainerProps) => React.ReactElement = observer
         calendarStore,
         datePickerController: controller,
         ...staticProps
-    } = useSetup({ filterStore: props.filterStore });
+    } = useSetup({
+        defaultEndValue: props.defaultEndDate?.value,
+        defaultFilter: props.defaultFilter,
+        defaultStartValue: props.defaultStartDate?.value,
+        defaultValue: props.defaultValue?.value,
+        filterStore: props.filterStore
+    });
 
     const state = usePickerState(props.filterStore, calendarStore);
 
