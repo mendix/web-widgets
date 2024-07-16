@@ -7,7 +7,7 @@ import { DatePicker, DatePickerProps } from "./DatePicker";
 export interface FilterComponentProps extends DatePickerProps {
     id?: string;
     class: string;
-    tabIndex: number;
+    tabIndex?: number;
     style?: React.CSSProperties;
     placeholder?: string;
     screenReaderButtonCaption?: string;

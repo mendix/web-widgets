@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "./CalendarIcon";
 
 type InheritedProps = Pick<
-    ReactDatePickerProps,
+    ReactDatePickerProps<boolean>,
     | "calendarStartDay"
     | "dateFormat"
     | "disabled"
@@ -43,18 +43,22 @@ export function DatePicker(props: DatePickerProps): ReactElement {
             </span>
             <ReactDatePicker
                 {...staticProps}
-                ariaLabelledBy={`${props.parentId}-label`}
                 allowSameDay={false}
+                ariaLabelledBy={`${props.parentId}-label`}
                 autoFocus={false}
+                calendarStartDay={props.calendarStartDay}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
+                dateFormat={props.dateFormat}
                 disabled={props.disabled}
                 dropdownMode="select"
                 enableTabLoop
                 endDate={props.endDate}
                 isClearable={props.selectsRange}
-                onChange={props.onChange}
+                locale={props.locale}
                 onCalendarClose={props.onCalendarClose}
                 onCalendarOpen={props.onCalendarOpen}
+                onChange={props.onChange}
+                onChangeRaw={props.onChangeRaw}
                 onKeyDown={props.onKeyDown}
                 placeholderText={props.placeholder}
                 ref={props.pickerRef}
@@ -67,7 +71,6 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 startDate={props.startDate}
                 strictParsing
                 useWeekdaysShort={false}
-                onChangeRaw={props.onChangeRaw}
             />
             <button
                 aria-controls={staticProps.portalId}

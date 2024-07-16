@@ -21,6 +21,7 @@ interface InputFilterBaseInterface<A extends ArgumentInterface, Fn extends AllFu
 
     reset(): void;
     clear(): void;
+    setFilterFn(fn: Fn): void;
     UNSAFE_setDefaults(state: [Fn] | [Fn, S] | [Fn, S, S]): void;
 }
 

@@ -14,7 +14,14 @@ import {
     Date_InputFilterInterface
 } from "./typings/InputFilterInterface";
 
-export type { InputFilterStore, RefFilterStoreProps };
+export type {
+    InputFilterStore,
+    RefFilterStoreProps,
+    InputFilterInterface,
+    Number_InputFilterInterface,
+    String_InputFilterInterface,
+    Date_InputFilterInterface
+};
 
 export {
     DateInputFilterStore,

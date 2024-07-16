@@ -53,8 +53,13 @@ class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extend
             filterFunction: observable,
             filterCondition: computed,
             setState: action,
-            UNSAFE_setDefaults: action
+            UNSAFE_setDefaults: action,
+            setFilterFn: action
         });
+    }
+
+    private setState(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+        [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 
     get filterCondition(): FilterCondition {
@@ -65,30 +70,30 @@ class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extend
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    initialize(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+    initialize = (state: [Fn] | [Fn, V] | [Fn, V, V]): void => {
         this.setState(state);
         this.isInitialized = true;
-    }
+    };
 
-    private setState(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
-        [this.filterFunction, this.arg1.value, this.arg2.value] = state;
-    }
-
-    UNSAFE_setDefaults(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+    UNSAFE_setDefaults = (state: [Fn] | [Fn, V] | [Fn, V, V]): void => {
         this.defaultState = state;
         if (this.isInitialized === false) {
             this.setState(state);
         }
-    }
+    };
 
-    reset(): void {
+    reset = (): void => {
         this.setState(this.defaultState);
-    }
+    };
 
     /** Clear arguments, but keep current filter function. */
-    clear(): void {
+    clear = (): void => {
         this.setState([this.filterFunction]);
-    }
+    };
+
+    setFilterFn = (fn: Fn): void => {
+        this.filterFunction = fn;
+    };
 }
 
 function getFilterCondition<T extends string | Big | Date>(

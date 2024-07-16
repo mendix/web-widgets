@@ -1,33 +1,27 @@
-import { FilterStore } from "./store/FilterStore";
 import { CalendarStore } from "./store/CalendarStore";
-import { useStore } from "./store/useStore";
-
-type Value = Date | null | undefined;
+import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
 
 interface PickerState {
-    startDate: Value;
-    endDate: Value;
-    selected: Value;
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+    selected: Date | undefined;
     expanded: boolean;
     selectsRange: boolean;
     disabled: boolean;
+    filterFn: Date_InputFilterInterface["filterFunction"];
 }
 
-export function usePickerState(filterStore: FilterStore, calendarStore: CalendarStore): PickerState {
-    const expanded = useStore(calendarStore, state => state.expanded);
-    const values = useStore(filterStore, ({ value, filterType }) => {
-        const isRange = Array.isArray(value);
-        return {
-            disabled: filterType === "empty" || filterType === "notEmpty",
-            selected: isRange ? undefined : value,
-            startDate: isRange ? value[0] : undefined,
-            endDate: isRange ? value[1] : undefined,
-            selectsRange: isRange
-        };
-    });
+export function usePickerState(filterStore: Date_InputFilterInterface, calendarStore: CalendarStore): PickerState {
+    const fn = filterStore.filterFunction;
+    const isRange = fn === "between";
 
     return {
-        expanded,
-        ...values
+        disabled: fn === "empty" || fn === "notEmpty",
+        endDate: isRange ? filterStore.arg2.value : undefined,
+        expanded: calendarStore.expanded,
+        selected: isRange ? undefined : filterStore.arg1.value,
+        selectsRange: isRange,
+        startDate: isRange ? filterStore.arg1.value : undefined,
+        filterFn: fn
     };
 }
