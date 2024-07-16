@@ -1,5 +1,5 @@
 import MarkdownIt from "markdown-it";
-import { ChangeEvent, ReactNode, createElement, useState, useRef, useEffect } from "react";
+import { ReactNode, createElement, useRef, useEffect } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
 import { MarkdownIcon } from "../assets/icons";
@@ -10,49 +10,22 @@ const mdParser = new MarkdownIt("default", {
 });
 
 export function Markdown(props: MarkdownContainerProps): ReactNode {
-    const { stringAttribute, showFooter, spellcheck } = props;
-    const [activeTab, setActiveTab] = useState("write");
+    const { stringAttribute, showFooter } = props;
     const previewRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (previewRef.current) {
             previewRef.current.innerHTML = mdParser.render(stringAttribute.value ?? "");
         }
-    }, [stringAttribute?.value, stringAttribute?.status, activeTab]);
-
-    const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        stringAttribute?.setValue(e.target.value);
-    };
+    }, [stringAttribute?.value, stringAttribute?.status]);
 
     return (
         <div className="widget-markdown">
             <div className="widget-markdown-topbar">
-                <button
-                    className={classNames("widget-markdown-topbar-write-button", { active: activeTab === "write" })}
-                    onClick={() => setActiveTab("write")}
-                >
-                    Write
-                </button>
-                <button
-                    className={classNames("widget-markdown-topbar-preview-button", {
-                        active: activeTab === "preview"
-                    })}
-                    onClick={() => setActiveTab("preview")}
-                >
-                    Preview
-                </button>
+                <button className={classNames("widget-markdown-topbar-preview-button")}>Preview</button>
             </div>
             <div className="widget-markdown-content">
-                {activeTab === "write" && (
-                    <textarea
-                        className="widget-markdown-content-textarea"
-                        spellCheck={spellcheck}
-                        value={stringAttribute.value ?? ""}
-                        onChange={handleTextChange}
-                        placeholder="Add your markdown here..."
-                    ></textarea>
-                )}
-                {activeTab === "preview" && stringAttribute?.status === "available" && (
+                {stringAttribute?.status === "available" && (
                     <div className="widget-markdown-content-preview" ref={previewRef}></div>
                 )}
             </div>
