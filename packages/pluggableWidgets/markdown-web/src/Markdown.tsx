@@ -22,7 +22,7 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
     return (
         <div className="widget-markdown">
             <div className="widget-markdown-topbar">
-                <button className={classNames("widget-markdown-topbar-preview-button")}>Preview</button>
+                <button className={classNames("widget-markdown-topbar-preview-button")}>Markdown preview</button>
             </div>
             <div className="widget-markdown-content">
                 {stringAttribute?.status === "available" && (
