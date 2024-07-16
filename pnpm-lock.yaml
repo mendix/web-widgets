@@ -2325,6 +2325,9 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
+      date-fns:
+        specifier: ^3.6.0
+        version: 3.6.0
 
   packages/shared/widget-plugin-grid:
     devDependencies:
