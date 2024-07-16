@@ -1,4 +1,4 @@
-import { CalendarStore } from "./store/CalendarStore";
+import { CalendarStore } from "./CalendarStore";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
 
 interface PickerState {

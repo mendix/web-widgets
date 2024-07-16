@@ -5,9 +5,11 @@ import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilt
 import { usePickerState } from "../helpers/usePickerState";
 import { useSetup } from "../helpers/useSetup";
 import { FilterComponent } from "./FilterComponent";
+import { useActionEvents } from "../helpers/useActionEvents";
 
 interface ContainerProps extends DatagridDateFilterContainerProps {
     filterStore: Date_InputFilterInterface;
+    parentChannelName?: string;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
@@ -17,7 +19,11 @@ export const Container: (props: ContainerProps) => React.ReactElement = observer
         datePickerController: controller,
         ...staticProps
     } = useSetup({ filterStore: props.filterStore });
+
     const state = usePickerState(props.filterStore, calendarStore);
+
+    useActionEvents({ name: props.name, parentChannelName: props.parentChannelName, store: props.filterStore });
+
     return (
         <FilterComponent
             adjustable={props.adjustable}

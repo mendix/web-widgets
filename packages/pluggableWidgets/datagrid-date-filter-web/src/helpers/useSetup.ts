@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
-import { CalendarStore } from "../helpers/store/CalendarStore";
+import { CalendarStore } from "./CalendarStore";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Locale } from "date-fns";
