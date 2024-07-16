@@ -69,7 +69,7 @@ test.describe("datagrid-text-filter-web", () => {
             await page.waitForLoadState("networkidle");
 
             const accessibilityScanResults = await new AxeBuilder({ page })
-                .withTags(["wcag2a"])
+                .withTags(["wcag21aa"])
                 .disableRules([
                     "aria-required-children",
                     "label",

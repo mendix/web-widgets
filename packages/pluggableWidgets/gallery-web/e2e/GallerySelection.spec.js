@@ -44,7 +44,7 @@ test.describe("gallery-web", () => {
             await page.locator(".mx-name-gallery1").waitFor();
             const accessibilityScanResults = await new AxeBuilder({ page })
                 .include(".mx-name-gallery1")
-                .withTags(["wcag2a"])
+                .withTags(["wcag21aa"])
                 .disableRules([
                     "aria-required-children",
                     "label",

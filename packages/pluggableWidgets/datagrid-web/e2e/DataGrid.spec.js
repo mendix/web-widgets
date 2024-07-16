@@ -180,7 +180,7 @@ test.describe("a11y testing:", () => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
         const accessibilityScanResults = await new AxeBuilder({ page })
-            .withTags(["wcag2a"])
+            .withTags(["wcag21aa"])
             .disableRules([
                 "aria-required-children",
                 "label",

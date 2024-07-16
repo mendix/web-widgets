@@ -54,9 +54,6 @@ importers:
       enquirer:
         specifier: ^2.3.6
         version: 2.3.6
-      eslint-plugin-cypress:
-        specifier: ^2.15.1
-        version: 2.15.1(eslint@8.57.0)
       find-free-port:
         specifier: ^2.0.0
         version: 2.0.0
@@ -78,7 +75,7 @@ importers:
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.9.1
-        version: 4.9.1(playwright-core@1.44.0)
+        version: 4.9.1(playwright-core@1.45.3)
       '@playwright/test':
         specifier: ^1.45.3
         version: 1.45.3
@@ -2406,13 +2403,13 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
-  /@axe-core/playwright@4.9.1(playwright-core@1.44.0):
+  /@axe-core/playwright@4.9.1(playwright-core@1.45.3):
     resolution: {integrity: sha512-8m4WZbZq7/aq7ZY5IG8GqV+ZdvtGn/iJdom+wBg+iv/3BAOBIfNQtIu697a41438DzEEyptXWmC3Xl5Kx/o9/g==}
     peerDependencies:
       playwright-core: '>= 1.0.0'
     dependencies:
       axe-core: 4.9.1
-      playwright-core: 1.44.0
+      playwright-core: 1.45.3
     dev: true
 
   /@babel/code-frame@7.12.11:

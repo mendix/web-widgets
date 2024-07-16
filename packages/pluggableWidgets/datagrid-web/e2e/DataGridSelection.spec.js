@@ -61,7 +61,7 @@ test.describe("datagrid-web selection", async () => {
 
         await page.locator(".mx-name-dgMultiSelectionCheckbox").waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })
-            .withTags(["wcag2a"])
+            .withTags(["wcag21aa"])
             .disableRules([
                 "aria-required-children",
                 "label",
