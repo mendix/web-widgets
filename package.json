@@ -40,7 +40,7 @@
       "prettier": "~2.8.8",
       "@types/react": ">=18.2.36",
       "typescript@5": "<5.2.0",
-      "@types/big.js": "^6.1.6",
+      "@types/big.js": "^6.2.2",
       "d3-color@<3.1.0": ">=3.1.0",
       "loader-utils@1": "^1.4.2",
       "loader-utils@3": "^3.2.1",

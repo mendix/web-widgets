@@ -8,7 +8,7 @@ overrides:
   prettier: ~2.8.8
   '@types/react': '>=18.2.36'
   typescript@5: <5.2.0
-  '@types/big.js': ^6.1.6
+  '@types/big.js': ^6.2.2
   d3-color@<3.1.0: '>=3.1.0'
   loader-utils@1: ^1.4.2
   loader-utils@3: ^3.2.1
@@ -5563,12 +5563,8 @@ packages:
       '@babel/types': 7.23.0
     dev: true
 
-  /@types/big.js@6.1.6:
-    resolution: {integrity: sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==}
-    dev: true
-
-  /@types/big.js@6.2.1:
-    resolution: {integrity: sha512-dKzZVT10m3ELZgYIShPJ+3Os/E1s3aDQS+wr1ne7VCLU/8hc/R+z/+gkm9WabxSkV9E8wJhTl5wC+0fD9nitsw==}
+  /@types/big.js@6.2.2:
+    resolution: {integrity: sha512-e2cOW9YlVzFY2iScnGBBkplKsrn2CsObHQ2Hiw4V1sSyiGbgWL8IyqE3zFi1Pt5o1pdAtYkDAIsF3KKUPjdzaA==}
     dev: true
 
   /@types/cheerio@0.22.31:
@@ -11814,14 +11810,14 @@ packages:
   /mendix-client@7.15.8:
     resolution: {integrity: sha512-RazCdCHoLVNKUUeKDkSkIL6Lxx6fUaa4iiy+Ltp9ra8mLQhwyNqD33TIN7YZJ3HDjHc3eWh9cjiZWwh6Jg/cQg==}
     dependencies:
-      '@types/big.js': 6.1.6
+      '@types/big.js': 6.2.2
       '@types/dojo': 1.9.44
     dev: true
 
   /mendix@10.7.26214:
     resolution: {integrity: sha512-W31AIew6noczo/CIkhK2Z2GX95p6Ply8RwV3xQwsaEeGoyMoFy64b3v9UJAPso51AYr27LfLuieh+lplUnGSIg==}
     dependencies:
-      '@types/big.js': 6.2.1
+      '@types/big.js': 6.2.2
       '@types/react': 18.2.36
       '@types/react-native': 0.70.16
     dev: true
