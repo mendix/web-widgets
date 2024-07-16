@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.markdown.Markdown" needsEntityContext="true" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
-    <name>Markdown editor</name>
+    <name>Markdown viewer</name>
     <description />
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Input Elements</studioCategory>
@@ -17,10 +17,6 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="General">
-                <property key="spellcheck" type="boolean" defaultValue="true">
-                    <caption>Spellcheck</caption>
-                    <description />
-                </property>
                 <property key="showFooter" type="boolean" defaultValue="false">
                     <caption>Show footer</caption>
                     <description />
@@ -34,32 +30,7 @@
             <propertyGroup caption="Conditional visibility">
                 <systemProperty key="Visibility" />
             </propertyGroup>
-            <propertyGroup caption="Editability">
-                <systemProperty key="Editability" />
-                <property key="readOnlyStyle" type="enumeration" defaultValue="text">
-                    <caption>Read-only style</caption>
-                    <description>How the combo box will appear in read-only mode.</description>
-                    <enumerationValues>
-                        <enumerationValue key="bordered">Control</enumerationValue>
-                        <enumerationValue key="text">Content only</enumerationValue>
-                    </enumerationValues>
-                </property>
-            </propertyGroup>
             <!-- END SYSTEM PROPS -->
-        </propertyGroup>
-        <propertyGroup caption="Events">
-            <property key="onChangeEvent" type="action" required="false">
-                <caption>On change action</caption>
-                <description />
-            </property>
-            <property key="onEnterEvent" type="action" required="false">
-                <caption>On enter action</caption>
-                <description />
-            </property>
-            <property key="onLeaveEvent" type="action" required="false">
-                <caption>On leave action</caption>
-                <description />
-            </property>
         </propertyGroup>
     </properties>
 </widget>
