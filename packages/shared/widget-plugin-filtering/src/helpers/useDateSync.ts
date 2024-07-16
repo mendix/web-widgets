@@ -1,12 +1,8 @@
-import { useRef, useEffect } from "react";
-import { EditableValue, ActionValue } from "mendix";
-import { InputFilterInterface } from "../../stores/typings/InputFilterInterface";
+import { ActionValue, EditableValue } from "mendix";
 import { reaction } from "mobx";
-import {
-    FilterFunctionBinary,
-    FilterFunctionGeneric,
-    FilterFunctionNonValue
-} from "../../stores/typings/FilterFunctions";
+import { useEffect, useRef } from "react";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../stores/typings/FilterFunctions";
+import { InputFilterInterface } from "../stores/typings/InputFilterInterface";
 
 interface Props {
     valueAttribute?: EditableValue<Date>;

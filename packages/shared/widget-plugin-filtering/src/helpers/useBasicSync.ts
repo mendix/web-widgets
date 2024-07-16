@@ -1,8 +1,8 @@
-import { useRef, useEffect } from "react";
-import { EditableValue, ActionValue } from "mendix";
 import { Big } from "big.js";
-import { InputFilterInterface } from "../../main";
+import { ActionValue, EditableValue } from "mendix";
 import { reaction } from "mobx";
+import { useEffect, useRef } from "react";
+import { InputFilterInterface } from "../stores/typings/InputFilterInterface";
 
 interface Props<T extends string | Big> {
     valueAttribute?: EditableValue<T>;
