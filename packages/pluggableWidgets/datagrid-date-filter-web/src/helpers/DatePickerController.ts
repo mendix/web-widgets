@@ -1,7 +1,7 @@
 import { reaction, makeObservable, action, IReactionDisposer } from "mobx";
 import { createRef } from "react";
 import { CalendarStore } from "./CalendarStore";
-import { isDate, isValid } from "date-fns";
+import { isDate } from "date-fns/isDate";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/dist/stores/typings/InputFilterInterface";
 
@@ -27,7 +27,7 @@ export class DatePickerController {
     }
 
     handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
-        if (isDate(value) && isValid(value)) {
+        if (isDate(value)) {
             this._filterStore.arg1.value = value;
             return;
         }
@@ -37,10 +37,9 @@ export class DatePickerController {
             return;
         }
 
-        if (Array.isArray(value)) {
-            const filtered = value.map(v => (v === null ? undefined : v));
-            [this._filterStore.arg1.value, this._filterStore.arg2.value] = filtered;
-        }
+        const [start, end] = value;
+        this._filterStore.arg1.value = start ?? undefined;
+        this._filterStore.arg2.value = end ?? undefined;
     };
 
     handleCalendarOpen: DatePickerBackendProps["onCalendarOpen"] = () => {
