@@ -1,14 +1,21 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { autorun, runInAction, reaction, makeObservable, computed, action } from "mobx";
-import { InputFilterInterface } from "../../stores/typings/InputFilterInterface";
+import { InputFilterBaseInterface } from "../../stores/typings/InputFilterInterface";
 import { InputStore } from "./InputStore";
+import { ArgumentInterface } from "../../stores/typings/ArgumentInterface";
+import { AllFunctions } from "../../stores/typings/FilterFunctions";
 
 type Params<T> = {
     filter: T;
     changeDelay?: number;
 };
 
-export class EditableFilterStore<F extends InputFilterInterface> {
+export class EditableFilterStore<
+    A extends ArgumentInterface,
+    Fn extends AllFunctions,
+    F extends InputFilterBaseInterface<A, Fn, S>,
+    S = A["value"]
+> {
     input1: InputStore;
     input2: InputStore;
     private filter: F;
@@ -57,10 +64,8 @@ export class EditableFilterStore<F extends InputFilterInterface> {
     }
 
     /** @remark Keep in mind, this method used only to set defaults.  */
-    UNSAFE_setDefaults<Fn extends F["filterFunction"], V extends F["arg1"]["value"]>(
-        state: [Fn] | [Fn, V] | [Fn, V, V]
-    ): void {
-        [this.filter.filterFunction, this.filter.arg1.value, this.filter.arg2.value] = state;
+    UNSAFE_setDefaults(...params: Parameters<InputFilterBaseInterface<A, Fn, S>["UNSAFE_setDefaults"]>): void {
+        this.filter.UNSAFE_setDefaults(...params);
     }
 
     get filterFunction(): F["filterFunction"] {
