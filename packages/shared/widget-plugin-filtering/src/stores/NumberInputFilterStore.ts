@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { ListAttributeValue } from "mendix";
-import { action, makeObservable } from "mobx";
+import { action, makeObservable, comparer } from "mobx";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "./typings/FilterFunctions";
@@ -27,7 +27,9 @@ export class NumberInputFilterStore
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
-        this._attributes = attributes;
+        if (!comparer.shallow(this._attributes, attributes)) {
+            this._attributes = attributes;
+        }
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
         if (formatter?.type !== "number") {

@@ -1,5 +1,5 @@
 import { ListAttributeValue } from "mendix";
-import { action, makeObservable } from "mobx";
+import { action, makeObservable, comparer } from "mobx";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { String_InputFilterInterface } from "./main";
@@ -27,11 +27,14 @@ export class StringInputFilterStore
         makeObservable(this, {
             updateProps: action
         });
+
         // todo restore operation and value from config
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
-        this._attributes = attributes;
+        if (!comparer.shallow(this._attributes, attributes)) {
+            this._attributes = attributes;
+        }
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
         if (!formatter || formatter.type === "number" || formatter.type === "datetime") {
