@@ -3,91 +3,43 @@ $label-info-color: #fff;
 $gray-primary: #ced0d3;
 $gray-lighter: #f8f8f8;
 $table-background: #f2f2f2;
+$tabs-bg-pills: #e7e7e9;
 
 .widget-markdown {
     flex-grow: 1;
     min-height: 300px;
-    border: 1px solid var(--gray-primary);
-    border-radius: var(--spacing-smaller, $spacing-smaller);
     display: flex;
     justify-content: flex-start;
-    align-items: center;
     flex-direction: column;
-
-    &-topbar {
-        width: 100%;
-        height: 40px;
-        border-top-left-radius: var(--spacing-smaller, $spacing-smaller);
-        border-top-right-radius: var(--spacing-smaller, $spacing-smaller);
-        background-color: var(--gray-lighter);
-
-        &-preview-button {
-            background-color: transparent;
-            border: none;
-            margin: 0;
-            padding: 0 15px;
-            height: 100%;
-            border-top-left-radius: var(--spacing-smaller, $spacing-smaller);
-            border-top-right-radius: var(--spacing-smaller, $spacing-smaller);
-            cursor: none;
-            &.active {
-                border-left: 1px solid var(--gray-primary);
-                border-right: 1px solid var(--gray-primary);
-                background-color: var(--label-info-color, $label-info-color);
-            }
-        }
-    }
 
     &-content {
         flex: 1;
         width: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--label-info-color, $label-info-color);
         padding: 5px;
         border-radius: var(--spacing-smaller, $spacing-smaller);
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
 
-        &-preview {
-            padding: 10px;
-            background-color: #fff;
-            min-height: 200px;
-            max-width: 90% table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 10px;
-            }
+        th {
+            background-color: $table-background;
+        }
 
-            th,
-            td {
-                border: 1px solid #ccc;
-                padding: 8px;
-                text-align: left;
-            }
-
-            th {
-                background-color: $table-background;
-            }
-
-            img {
-                max-width: 35%;
-            }
+        img {
+            max-width: 35%;
         }
     }
 
-    &-footer {
-        width: 100%;
-        height: 30px;
-        border-top: 1px solid var(--gray-primary);
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 15px;
-        padding: 0 10px;
-        font-size: var(--font-size-small, 12px);
-    }
-
-    &-icon {
-        display: flex;
+    &.preview {
+        flex-grow: 1;
+        background-color: var(--label-info-color, $label-info-color);
+        padding: 10px;
+        min-height: 200px;
+        border: 1px solid var(--tabs-bg-pills, $tabs-bg-pills);
+        border-radius: var(--spacing-smaller, $spacing-smaller);
     }
 }
