@@ -10,11 +10,9 @@ export interface MarkdownContainerProps {
     tabIndex?: number;
     id: string;
     stringAttribute: EditableValue<string>;
-    showFooter: boolean;
 }
 
 export interface MarkdownPreviewProps {
     readOnly: boolean;
     stringAttribute: string;
-    showFooter: boolean;
 }

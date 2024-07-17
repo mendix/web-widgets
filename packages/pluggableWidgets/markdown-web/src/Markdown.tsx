@@ -2,15 +2,13 @@ import MarkdownIt from "markdown-it";
 import { ReactNode, createElement, useRef, useEffect } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
-import { MarkdownIcon } from "../assets/icons";
-import classNames from "classnames";
 const mdParser = new MarkdownIt("default", {
     typographer: true,
     linkify: true
 });
 
 export function Markdown(props: MarkdownContainerProps): ReactNode {
-    const { stringAttribute, showFooter } = props;
+    const { stringAttribute } = props;
     const previewRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -21,19 +19,8 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
 
     return (
         <div className="widget-markdown">
-            <div className="widget-markdown-topbar">
-                <button className={classNames("widget-markdown-topbar-preview-button")}>Markdown preview</button>
-            </div>
-            <div className="widget-markdown-content">
-                {stringAttribute?.status === "available" && (
-                    <div className="widget-markdown-content-preview" ref={previewRef}></div>
-                )}
-            </div>
-            {showFooter && (
-                <div className="widget-markdown-footer">
-                    <MarkdownIcon />
-                    <div className="info">Markdown is supported</div>
-                </div>
+            {stringAttribute?.status === "available" && (
+                <div className="widget-markdown-content" ref={previewRef}></div>
             )}
         </div>
     );

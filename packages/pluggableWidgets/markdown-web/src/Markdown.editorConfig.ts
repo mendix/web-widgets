@@ -40,5 +40,5 @@ export function getPreview(_values: MarkdownPreviewProps, isDarkMode: boolean): 
 }
 
 export function getCustomCaption(_values: MarkdownPreviewProps): string {
-    return `[${_values.stringAttribute}]` ?? "";
+    return `[${_values.stringAttribute ?? "No attribute selected"}]`;
 }
