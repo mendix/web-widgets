@@ -1,7 +1,7 @@
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { createElement, ReactElement } from "react";
 import { DatagridDateFilterContainerProps } from "../typings/DatagridDateFilterProps";
-import { Container } from "./components/Container";
+import { Container } from "./components/DateFilterContainer";
 import { withDateFilterAPI } from "./hocs/withFilterAPI";
 import { isLoadingDefaultValues } from "./utils/widget-utils";
 
