@@ -12,7 +12,7 @@ import {
     StringArgumentInterface
 } from "./ArgumentInterface";
 
-interface InputFilterBaseInterface<A extends ArgumentInterface, Fn extends AllFunctions, S = A["value"]> {
+export interface InputFilterBaseInterface<A extends ArgumentInterface, Fn extends AllFunctions, S = A["value"]> {
     storeType: "input";
     filterFunction: Fn;
 
