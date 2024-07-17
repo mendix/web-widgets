@@ -1,7 +1,8 @@
-import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import "../ui/accordion-main.scss";
+import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { LoadContentEnum } from "typings/AccordionProps";
+import { useDebouncedResizeObserver, CallResizeObserver } from "../utils/resizeObserver";
+import "../ui/accordion-main.scss";
 
 /* eslint-disable no-unused-vars */
 export const enum Target {
@@ -44,22 +45,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const renderContent = useRef(loadContent === "always");
 
     renderContent.current ||= !renderCollapsed;
-
-    useEffect(() => {
-        const resizeObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                if (entry.contentBoxSize && !renderCollapsed && contentWrapperRef.current && contentRef.current) {
-                    contentWrapperRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
-                }
-            }
-        });
-        if (contentRef.current) {
-            resizeObserver.observe(contentRef.current);
-        }
-        return () => {
-            resizeObserver.disconnect();
-        };
-    }, [renderCollapsed]);
+    useDebouncedResizeObserver(CallResizeObserver, { renderCollapsed, contentWrapperRef, contentRef });
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
