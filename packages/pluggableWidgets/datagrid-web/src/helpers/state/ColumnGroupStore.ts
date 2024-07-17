@@ -129,6 +129,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     get filterConditions2(): FilterCondition[] {
         return this.columnFilters
+            .filter((_, index) => !this._allColumns[index].isHidden)
             .map(cf => cf.condition2)
             .filter((filter): filter is FilterCondition => filter !== undefined);
     }
