@@ -6,13 +6,15 @@ The second script, `pnpm run e2edev`, is used for running or debugging an e2e te
 
 All these files are part of an internal package called `run-e2e`, where all the configurations and scripts are located. The test specification files are placed in the widget folder in a folder called `e2e` following the tree file below:
 
+```sh
 ├── <widgetPackageName>
-│ ├── e2e
-│ └── <widgetName>.spec.js
+│    └── e2e
+│        └── <widgetName>.spec.js
 ├── tests
-│ └── testProject
+│   └── testProject
 ├── package.json
 └── playwright.config.cjs
+```
 
 ## Executing E2E tests locally
 
@@ -31,7 +33,7 @@ As our packages are separated by widget we have 1-1 test project and widgets.
 
 In this GitHub repository(github.com/mendix/testProjects), we maintain these projects separated by branch. Each branch should have the same name as the widget package name. In the package.json file of the widget, you should declare the branch name using the template of the test project section below:
 
-```
+```json
 "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
     "branchName": “<branch Name>”
@@ -52,9 +54,9 @@ In Github Action, we run the runtime and mxbuild in Docker containers. This mean
 
 Currently, we don't have a script that updates these screenshots independently of your machine, so we have 2 options to address this:
 
-    1. Commit your changes to GitHub and wait for the screenshot to fail. This will generate an artifact with the failed screenshot, which you can download. Then, place these image files in the e2e snapshots folders, following the same file name pattern <snapshotName-chromium-linux.png>. Commit these files to have a green build.
+1. Commit your changes to GitHub and wait for the screenshot to fail. This will generate an artifact with the failed screenshot, which you can download. Then, place these image files in the e2e snapshots folders, following the same file name pattern <snapshotName-chromium-linux.png>. Commit these files to have a green build.
 
-    2. Alternatively, you can use a Linux Virtual Machine locally, using Parallels or Virtual Box. For this, you can use Ubuntu 22.04 and follow the steps described in the "Running E2E locally" guide. The only difference is using the script `e2e` instead of `e2edev`.
+2. Alternatively, you can use a Linux Virtual Machine locally, using Parallels or Virtual Box. For this, you can use Ubuntu 22.04 and follow the steps described in the "Running E2E locally" guide. The only difference is using the script `e2e` instead of `e2edev`.
 
 Please note that as part of the necessary environment, you need to install `pnpm`, `node`, and `docker`.
 
