@@ -28,8 +28,6 @@ export interface InputProps<Fn> {
 export interface InputComponentProps<Fn> extends BaseProps, InputProps<Fn> {}
 
 export interface InputHookProps<Fn, V> {
-    name: string;
-    parentChannelName: string | null;
     filters: FilterFnList<Fn>;
     defaultFilter: Fn;
     defaultValue: V | undefined;
