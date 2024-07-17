@@ -1,5 +1,5 @@
 import { ListAttributeValue } from "mendix";
-import { makeObservable, computed, observable, action } from "mobx";
+import { makeObservable, computed, observable, action, comparer } from "mobx";
 import { OptionListFilterInterface, Option } from "./typings/OptionListFilterInterface";
 import { FilterCondition } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
@@ -56,8 +56,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
-    updateProps(props: ListAttributeValue[]): void {
-        this._attributes = props;
+    updateProps(attributes: ListAttributeValue[]): void {
+        if (!comparer.shallow(this._attributes, attributes)) {
+            this._attributes = attributes;
+        }
     }
 
     replace(value: string[]): void {

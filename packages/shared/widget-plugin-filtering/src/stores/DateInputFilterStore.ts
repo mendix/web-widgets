@@ -14,7 +14,7 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable, trace, reaction, observable, comparer } from "mobx";
+import { action, makeObservable, reaction, observable, comparer } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "./typings/FilterFunctions";
@@ -39,7 +39,6 @@ export class DateInputFilterStore
             updateProps: action,
             computedState: observable.shallow
         });
-        trace(this, "filterCondition");
         this.setupComputeValues();
         // todo restore operation and value from config
     }
@@ -57,7 +56,9 @@ export class DateInputFilterStore
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
-        this._attributes = attributes;
+        if (!comparer.shallow(this._attributes, attributes)) {
+            this._attributes = attributes;
+        }
         const formatter = attributes.at(0)?.formatter;
         // Just pleasing TypeScript.
         if (formatter?.type !== "datetime") {
