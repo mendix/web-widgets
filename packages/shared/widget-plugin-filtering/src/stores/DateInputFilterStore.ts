@@ -1,3 +1,4 @@
+// import { isDate } from "date-fns/isDate";
 import { addDays } from "date-fns/addDays";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
@@ -13,27 +14,46 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable } from "mobx";
+import { action, makeObservable, trace, reaction, observable, comparer } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "./typings/FilterFunctions";
 import { Date_InputFilterInterface } from "./typings/InputFilterInterface";
 
 type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
+type StateTuple = [FilterFn, [Date | undefined, Date | undefined]];
 export class DateInputFilterStore
     extends BaseInputFilterStore<DateArgument, FilterFn, Date>
     implements Date_InputFilterInterface
 {
     readonly storeType = "input";
     readonly type = "date";
+    private disposers: Array<() => void> = [];
+    private computedState: StateTuple;
 
     constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
-        makeObservable(this, {
-            updateProps: action
+        this.computedState = [this.filterFunction, [this.arg1.value, this.arg2.value]];
+        makeObservable<this, "computedState">(this, {
+            updateProps: action,
+            computedState: observable.shallow
         });
+        trace(this, "filterCondition");
+        this.setupComputeValues();
         // todo restore operation and value from config
+    }
+
+    get filterCondition(): FilterCondition | undefined {
+        const conditions = this._attributes.flatMap(attr => this.getCondition(attr, ...this.computedState));
+        switch (conditions.length) {
+            case 0:
+                return undefined;
+            case 1:
+                return conditions[0];
+            default:
+                return or(...conditions);
+        }
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
@@ -48,18 +68,26 @@ export class DateInputFilterStore
         this.arg2.updateProps(formatter);
     }
 
-    get filterCondition(): FilterCondition | undefined {
-        const conditions = this._attributes.flatMap(attr =>
-            this.getCondition(attr, this.filterFunction, [this.arg1.value, this.arg2.value])
+    private setupComputeValues(): void {
+        const disposer = reaction(
+            (): StateTuple => [this.filterFunction, [this.arg1.value, this.arg2.value]],
+            computedState => {
+                const [fn, values] = computedState;
+                // Skip changes if value is a half range.
+                if (fn === "between" && values.at(0) instanceof Date && values.at(1) === undefined) {
+                    return;
+                }
+                this.computedState = computedState;
+            },
+            { equals: comparer.shallow }
         );
-        switch (conditions.length) {
-            case 0:
-                return undefined;
-            case 1:
-                return conditions[0];
-            default:
-                return or(...conditions);
-        }
+
+        this.disposers.push(disposer);
+    }
+
+    dispose(): void {
+        this.disposers.forEach(dispose => dispose());
+        this.disposers = [];
     }
 
     private isRange(value: unknown): value is [Date, Date] {
