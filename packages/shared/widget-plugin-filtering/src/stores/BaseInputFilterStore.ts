@@ -37,7 +37,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         this.arg2 = arg2;
 
         makeObservable<this, "_attributes" | "setState">(this, {
-            _attributes: observable,
+            _attributes: observable.ref,
             filterFunction: observable,
             filterCondition: computed,
             setState: action,
@@ -66,7 +66,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
     UNSAFE_setDefaults = (state: [Fn] | [Fn, V] | [Fn, V, V]): void => {
         this.defaultState = state;
         if (this.isInitialized === false) {
-            this.setState(state);
+            this.initialize(state);
         }
     };
 
