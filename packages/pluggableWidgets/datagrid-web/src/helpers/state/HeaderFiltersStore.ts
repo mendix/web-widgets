@@ -1,4 +1,9 @@
-import { FilterContextValue, FilterState, FilterType, readInitFilterValues } from "@mendix/widget-plugin-filtering";
+import {
+    FilterContextValue,
+    FilterState,
+    FilterType,
+    readInitFilterValues
+} from "@mendix/widget-plugin-filtering/main";
 import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { DatagridContainerProps, FilterListType } from "../../../typings/DatagridProps";

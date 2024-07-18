@@ -1,5 +1,5 @@
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, trace } from "mobx";
 import {
     ColumnsSortingStore,
     IColumnSortingStore,
@@ -70,6 +70,8 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             swapColumns: action,
             applySettings: action
         });
+
+        trace(this, "filterConditions2");
     }
 
     updateProps(props: Pick<DatagridContainerProps, "columns">): void {

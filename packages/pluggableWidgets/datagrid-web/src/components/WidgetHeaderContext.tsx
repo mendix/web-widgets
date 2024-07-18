@@ -1,7 +1,7 @@
 import { createElement, ReactElement, memo, ReactNode } from "react";
 
 import { getGlobalSelectionContext } from "@mendix/widget-plugin-grid/selection";
-import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering";
+import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/provider";
 import { HeaderFiltersStore } from "../helpers/state/HeaderFiltersStore";
 
 interface WidgetHeaderContextProps {

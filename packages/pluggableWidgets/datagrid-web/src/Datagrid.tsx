@@ -1,4 +1,4 @@
-import { useFilterContext } from "@mendix/widget-plugin-filtering";
+import { useFilterContext } from "@mendix/widget-plugin-filtering/provider";
 import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
