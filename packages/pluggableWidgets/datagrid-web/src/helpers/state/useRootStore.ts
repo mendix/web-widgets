@@ -25,12 +25,6 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
         disposers.push(
             autorun(() => {
                 const filters = rootStore.filterConditions;
-
-                if (!filters) {
-                    // filters didn't change, don't apply them
-                    return;
-                }
-
                 if (filters.length > 0) {
                     datasourceRef.current.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
                 } else {
