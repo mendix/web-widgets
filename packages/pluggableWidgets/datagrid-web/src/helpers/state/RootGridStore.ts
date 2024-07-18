@@ -45,13 +45,11 @@ export class RootGridStore {
         return this.columnsStore.loaded;
     }
 
-    get filterConditions(): FilterCondition[] | undefined {
-        if (!this.headerFiltersStore.isDirty) {
-            return undefined;
-        }
-
-        console.log("new filters", this.columnsStore.filterConditions2);
-
+    /**
+     * This method should always "read" filters from columns.
+     * Otherwise computed is suspended.
+     */
+    get filterConditions(): FilterCondition[] {
         return this.columnsStore.filterConditions2
             .filter((filter): filter is FilterCondition => filter !== undefined)
             .concat(this.headerFiltersStore.filterConditions);
