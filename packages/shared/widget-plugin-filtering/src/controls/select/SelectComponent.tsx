@@ -2,30 +2,28 @@ import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, UIEventHandler, useCallback, useRef, useState } from "react";
-import { Option, OptionValue } from "../utils/types";
 import { FilterContentComponent } from "./FilterContentComponent";
 import { FormControlComponent } from "./FormControlComponent";
+import { Option } from "../../stores/typings/OptionListFilterInterface";
 
-interface SelectProps {
-    options: Option[];
-    selected: OptionValue[];
+interface SelectProps<T> {
+    options: Array<Option<T>>;
     inputValue: string;
     multiSelect: boolean;
     placeholder?: string;
     ariaLabel?: string;
     className?: string;
-    initialSelected?: string;
     status?: JSX.Element;
     footer?: JSX.Element;
     id?: string;
     tabIndex?: number;
     styles?: CSSProperties;
-    onSelect: (value: OptionValue) => void;
+    onSelect: (value: T) => void;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
 }
 
-export function SelectComponent(props: SelectProps): ReactElement {
+export function Select<T>(props: SelectProps<T>): ReactElement {
     const {
         ariaLabel,
         className,
@@ -33,7 +31,6 @@ export function SelectComponent(props: SelectProps): ReactElement {
         footer,
         id,
         options,
-        selected,
         inputValue,
         placeholder,
         multiSelect,
@@ -49,7 +46,7 @@ export function SelectComponent(props: SelectProps): ReactElement {
     const position = usePositionObserver(componentRef.current || null, show);
 
     const onClick = useCallback(
-        (option: Option) => {
+        (option: Option<T>) => {
             onSelect(option.value);
             if (!multiSelect) {
                 setShow(false);
@@ -99,10 +96,9 @@ export function SelectComponent(props: SelectProps): ReactElement {
                     options={options}
                     multiSelect={multiSelect}
                     onContentScroll={onContentScroll}
-                    selected={selected}
                     onOptionClick={onClick}
                     onBlur={onBlur}
-                    ref={optionsRef}
+                    rootRef={optionsRef}
                     width={componentRef.current?.clientWidth}
                 />
             ) : null}
