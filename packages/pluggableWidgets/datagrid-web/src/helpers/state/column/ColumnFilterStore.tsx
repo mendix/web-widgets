@@ -1,4 +1,4 @@
-import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/provider";
+import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/provider-next";
 import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/store-utils";
@@ -25,11 +25,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     constructor(props: ColumnsType, info: StaticInfo) {
         this._widget = props.filter;
         this._filterStore = this.createFilterStore(props);
-        this._context = {
-            version: 2,
-            store: this._filterStore,
-            parentChannelName: info.filtersChannelName
-        };
+        this._context = this.createContext(this._filterStore, info);
 
         makeObservable<this, "_updateStore">(this, {
             _updateStore: action,
@@ -74,6 +70,17 @@ export class ColumnFilterStore implements IColumnFilterStore {
             return new RefFilterStore(this.toRefselectProps(props));
         }
         return null;
+    }
+
+    private createContext(store: FilterStore | null, info: StaticInfo): FilterAPIv2 {
+        return {
+            version: 2,
+            parentChannelName: info.filtersChannelName,
+            provider: {
+                type: "direct",
+                store
+            }
+        };
     }
 
     renderFilterWidgets(): ReactNode {
