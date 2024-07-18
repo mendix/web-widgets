@@ -2,7 +2,7 @@ import { ListAttributeValue } from "mendix";
 import { action, makeObservable, comparer } from "mobx";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
-import { String_InputFilterInterface } from "./main";
+import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 import {
     FilterFunctionBinary,
     FilterFunctionGeneric,

@@ -13,12 +13,28 @@
   "types": "./dist/main.d.ts",
   "exports": {
     ".": "./dist/main.js",
-    "./controls": "./dist/controls.js"
+    "./controls": "./dist/controls.js",
+    "./*": "./dist/*.js"
   },
   "typesVersions": {
     "*": {
       "controls": [
         "./dist/controls.d.ts"
+      ],
+      "provider": [
+        "./dist/provider.d.ts"
+      ],
+      "stores/*": [
+        "./dist/stores/*"
+      ],
+      "controllers/*": [
+        "./dist/controllers/*"
+      ],
+      "helpers/*": [
+        "./dist/helpers/*"
+      ],
+      "typings/*": [
+        "./dist/typings/*"
       ]
     }
   },

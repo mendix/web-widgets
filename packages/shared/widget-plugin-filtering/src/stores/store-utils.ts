@@ -10,8 +10,6 @@ import {
     String_InputFilterInterface
 } from "../typings/InputFilterInterface";
 
-export { DateInputFilterStore, NumberInputFilterStore, StringInputFilterStore, StaticSelectFilterStore };
-
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
 export function attrgroupFilterStore(
