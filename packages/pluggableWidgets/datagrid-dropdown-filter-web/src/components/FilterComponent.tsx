@@ -3,10 +3,28 @@ import { createElement, CSSProperties, ReactElement, UIEventHandler, useCallback
 import { useSelectState } from "../features/select";
 import { EMPTY_OPTION_VALUE, finalizeOptions, parseInitValues } from "../features/setup";
 import { Option } from "../utils/types";
-import { SelectComponent } from "./SelectComponent";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
+interface SelectProps {
+    options: Option[];
+    inputValue: string;
+    multiSelect: boolean;
+    placeholder?: string;
+    ariaLabel?: string;
+    className?: string;
+    status?: JSX.Element;
+    footer?: JSX.Element;
+    id?: string;
+    tabIndex?: number;
+    styles?: CSSProperties;
+    onSelect: (value: string) => void;
+    onTriggerClick?: () => void;
+    onContentScroll?: UIEventHandler<HTMLUListElement>;
+}
 
+export function SelectComponent(_props: SelectProps): ReactElement {
+    return <div>Fun</div>;
+}
 export interface FilterComponentProps {
     ariaLabel?: string;
     className?: string;
@@ -79,7 +97,6 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             multiSelect={multiSelect}
             onSelect={onSelect}
             options={options}
-            selected={state.selected}
             status={props.status}
             styles={props.styles}
             tabIndex={props.tabIndex}
