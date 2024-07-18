@@ -1,4 +1,4 @@
-import { reaction, makeObservable, action, observable, computed, runInAction } from "mobx";
+import { makeObservable, action, observable, computed, runInAction } from "mobx";
 import { createRef } from "react";
 import { isDate } from "date-fns/isDate";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
@@ -134,6 +134,11 @@ export class DatePickerController {
         }
     };
 
+    handleFilterChange = (fn: FilterFn<Date_InputFilterInterface>): void => {
+        this._filter.setFilterFn(fn);
+        this._setActive();
+    };
+
     /**
      * Prevent any input changes in range selection mode.
      * @remark
@@ -157,16 +162,8 @@ export class DatePickerController {
         }) as number;
     }
 
-    setup(): () => void {
-        const disposers: Array<() => void> = [];
-
-        disposers.push(reaction(() => this._filter.filterFunction, this._setActive.bind(this)));
-
+    setup(): (() => void) | void {
         this._filter.UNSAFE_setDefaults(this._defaultState);
-
-        return () => {
-            disposers.forEach(dispose => dispose());
-        };
     }
 
     private getDefaults(params: Params): Date_InputFilterInterface["defaultState"] {
