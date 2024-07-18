@@ -6,6 +6,7 @@ interface FilterContentProps<T> {
     footer?: JSX.Element;
     id?: string;
     options: Array<Option<T>>;
+    empty: Option<T>;
     multiSelect: boolean;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
     onOptionClick: (option: Option<T>) => void;
@@ -32,6 +33,29 @@ export function FilterContentComponent<T>(props: FilterContentProps<T>): React.R
                 left: position?.left
             }}
         >
+            <li
+                key="empty-item"
+                role="menuitem"
+                tabIndex={0}
+                style={multiSelect ? { paddingLeft: 32 } : undefined}
+                onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onOptionClick(props.empty);
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onOptionClick(props.empty);
+                    } else if ((e.key === "Tab" && e.shiftKey) || e.key === "Escape") {
+                        e.preventDefault();
+                        onBlur();
+                    }
+                }}
+            >
+                <div className="filter-label">{props.empty.caption}</div>
+            </li>
             {options.map((option, index) => (
                 <li
                     className={classNames({
@@ -48,10 +72,7 @@ export function FilterContentComponent<T>(props: FilterContentProps<T>): React.R
                             e.preventDefault();
                             e.stopPropagation();
                             onOptionClick(option);
-                        } else if (
-                            (e.key === "Tab" && (index + 1 === options.length || (e.shiftKey && index === 0))) ||
-                            e.key === "Escape"
-                        ) {
+                        } else if ((e.key === "Tab" && index + 1 === options.length) || e.key === "Escape") {
                             e.preventDefault();
                             onBlur();
                         }
