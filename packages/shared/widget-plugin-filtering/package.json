@@ -10,31 +10,12 @@
   },
   "type": "module",
   "exports": {
-    "./controls": "./dist/controls.js",
     "./*": "./dist/*.js"
   },
   "typesVersions": {
     "*": {
-      "controls": [
-        "./dist/controls.d.ts"
-      ],
-      "provider": [
-        "./dist/provider.d.ts"
-      ],
-      "stores/*": [
-        "./dist/stores/*"
-      ],
-      "controllers/*": [
-        "./dist/controllers/*"
-      ],
-      "helpers/*": [
-        "./dist/helpers/*"
-      ],
-      "typings/*": [
-        "./dist/typings/*"
-      ],
       "*": [
-        "./dist/*"
+        "dist/*"
       ]
     }
   },
