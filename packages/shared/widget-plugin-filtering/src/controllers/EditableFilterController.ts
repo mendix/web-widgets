@@ -24,12 +24,14 @@ export class EditableFilterController<
     private readonly changeDelay;
     inputRef = createRef<HTMLInputElement>();
     defaults: F["defaultState"];
+    inputs: [InputStore, InputStore];
 
     constructor(params: Params<F, A, Fn>) {
         const { filter, changeDelay = 500 } = params;
         this.changeDelay = changeDelay;
         this.input1 = new InputStore();
         this.input2 = new InputStore();
+        this.inputs = [this.input1, this.input2];
         this.filter = filter;
         this.defaults = [params.defaultFilter, params.defaultValue];
 
