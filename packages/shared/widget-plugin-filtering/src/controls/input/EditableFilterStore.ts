@@ -1,9 +1,9 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { autorun, runInAction, reaction, makeObservable, computed, action } from "mobx";
-import { InputFilterBaseInterface } from "../../stores/typings/InputFilterInterface";
+import { InputFilterBaseInterface } from "../../typings/InputFilterInterface";
 import { InputStore } from "./InputStore";
-import { ArgumentInterface } from "../../stores/typings/ArgumentInterface";
-import { AllFunctions } from "../../stores/typings/FilterFunctions";
+import { ArgumentInterface } from "../../typings/ArgumentInterface";
+import { AllFunctions } from "../../typings/FilterFunctions";
 
 type Params<T> = {
     filter: T;

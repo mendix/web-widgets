@@ -9,7 +9,7 @@ import {
 import { ContainsCondition, EqualsCondition, FilterCondition } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable, comparer } from "mobx";
-import { Option, OptionListFilterInterface } from "./typings/OptionListFilterInterface";
+import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 
 export type RefFilterStoreProps = {
     reference: ListReferenceValue | ListReferenceSetValue;

@@ -18,7 +18,7 @@ import {
 } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
 import { Argument } from "./Argument";
-import { AllFunctions } from "./typings/FilterFunctions";
+import { AllFunctions } from "../typings/FilterFunctions";
 
 export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extends string | Big | Date> {
     filterFunction: Fn;

@@ -3,8 +3,8 @@ import { ListAttributeValue } from "mendix";
 import { action, makeObservable, comparer } from "mobx";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "./typings/FilterFunctions";
-import { Number_InputFilterInterface } from "./typings/InputFilterInterface";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
+import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export class NumberInputFilterStore
     extends BaseInputFilterStore<

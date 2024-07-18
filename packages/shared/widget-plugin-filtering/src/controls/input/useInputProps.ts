@@ -2,7 +2,7 @@ import { Big } from "big.js";
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { InputHookProps, InputProps } from "./typings";
 import { EditableFilterStore } from "./EditableFilterStore";
-import { AllFunctions } from "../../stores/typings/FilterFunctions";
+import { AllFunctions } from "../../typings/FilterFunctions";
 import { InputStore } from "./InputStore";
 
 export function useInputProps<V extends string | Big | Date>(
