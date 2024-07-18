@@ -21,6 +21,8 @@ export type RefFilterStoreProps = {
 export class RefFilterStore implements OptionListFilterInterface<string> {
     readonly storeType = "optionlist";
     readonly type = "refselect";
+    defaultValue: string[] | undefined = undefined;
+    isInitialized = false;
 
     _selected = new Set<string>();
     _reference: ListReferenceValue | ListReferenceSetValue;
@@ -82,6 +84,29 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         }
         return referenceSetContainsOneOf(this._reference, items);
     }
+
+    UNSAFE_setDefaults = (value?: string[]): void => {
+        this.defaultValue ??= value;
+        if (this.isInitialized === false && this.defaultValue !== undefined) {
+            this.initialize(this.defaultValue);
+        }
+    };
+
+    reset = (): void => {
+        if (this.defaultValue !== undefined) {
+            this.replace(this.defaultValue);
+        }
+    };
+
+    /** Clear arguments, but keep current filter function. */
+    clear = (): void => {
+        this.replace([]);
+    };
+
+    initialize = (value: string[]): void => {
+        this.replace(value);
+        this.isInitialized = true;
+    };
 
     updateProps(props: RefFilterStoreProps): void {
         this._reference = props.reference;
