@@ -1,7 +1,9 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { Number_InputFilterInterface, isNumberFilter, useFilterContextValue } from "@mendix/widget-plugin-filtering";
+import { useFilterContextValue } from "@mendix/widget-plugin-filtering/provider";
 import { createElement } from "react";
 import { ENOCONTEXT, EMISSINGSTORE, ESTORETYPE } from "./errors";
+import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { isNumberFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
 
 type NumberFilterAPI = {
     filterStore: Number_InputFilterInterface;

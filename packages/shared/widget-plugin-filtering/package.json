@@ -9,10 +9,7 @@
     "url": "https://github.com/mendix/web-widgets.git"
   },
   "type": "module",
-  "main": "./dist/main.js",
-  "types": "./dist/main.d.ts",
   "exports": {
-    ".": "./dist/main.js",
     "./controls": "./dist/controls.js",
     "./*": "./dist/*.js"
   },
@@ -35,6 +32,9 @@
       ],
       "typings/*": [
         "./dist/typings/*"
+      ],
+      "*": [
+        "./dist/*"
       ]
     }
   },
