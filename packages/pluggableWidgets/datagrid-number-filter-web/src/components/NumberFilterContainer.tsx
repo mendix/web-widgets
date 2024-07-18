@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { Number_InputFilterInterface, useBasicSync } from "@mendix/widget-plugin-filtering";
-import { FilterFnList, InputWithFilters, useInputProps } from "@mendix/widget-plugin-filtering/controls";
+import { useEditableFilterController } from "@mendix/widget-plugin-filtering/helpers/useEditableFilterController";
+import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
+import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { createElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
+import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
     greater: "Greater than",
@@ -31,13 +33,12 @@ export interface ContainerProps extends DatagridNumberFilterContainerProps {
 function Container(props: ContainerProps): React.ReactElement {
     const id = (useRef<string>().current ??= `NumberFilter${generateUUID()}`);
 
-    const inputProps = useInputProps({
+    const controller = useEditableFilterController({
+        filter: props.filterStore,
         changeDelay: props.delay,
         defaultFilter: props.defaultFilter,
         defaultValue: props.defaultValue?.value,
-        disableInputs: filter => filter === "empty" || filter === "notEmpty",
-        filters,
-        filterStore: props.filterStore
+        disableInputs: fn => fn === "empty" || fn === "notEmpty"
     });
 
     useBasicSync(props, props.filterStore);
@@ -46,15 +47,20 @@ function Container(props: ContainerProps): React.ReactElement {
         <InputWithFilters
             adjustable={props.adjustable}
             className={props.class}
+            disableInputs={controller.disableInputs}
+            filterFn={controller.selectedFn}
+            filterFnList={filters}
             id={id}
+            inputRef={controller.inputRef}
+            inputStores={controller.inputs}
+            name={props.name}
+            onFilterChange={controller.handleFilterFnChange}
             placeholder={props.placeholder?.value}
             screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
             screenReaderInputCaption={props.screenReaderInputCaption?.value}
             styles={props.style}
             tabIndex={props.tabIndex}
-            name={props.name}
             type="number"
-            {...inputProps}
         />
     );
 }
