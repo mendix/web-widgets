@@ -15,4 +15,7 @@ export interface OptionListFilterInterface<T> {
     loadMore(): void;
     setSearch(term: string | undefined): void;
     isValidValue(value: string): boolean;
+    reset(): void;
+    clear(): void;
+    UNSAFE_setDefaults(value: string[]): void;
 }

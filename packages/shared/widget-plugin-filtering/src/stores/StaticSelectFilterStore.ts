@@ -10,6 +10,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     readonly isLoading = false;
     readonly hasMore = false;
     readonly hasSearch = false;
+    defaultValue: string[] | undefined = undefined;
+    isInitialized = false;
 
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
@@ -55,6 +57,29 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
+
+    UNSAFE_setDefaults = (value?: string[]): void => {
+        this.defaultValue ??= value;
+        if (this.isInitialized === false && this.defaultValue !== undefined) {
+            this.initialize(this.defaultValue);
+        }
+    };
+
+    reset = (): void => {
+        if (this.defaultValue !== undefined) {
+            this.replace(this.defaultValue);
+        }
+    };
+
+    /** Clear arguments, but keep current filter function. */
+    clear = (): void => {
+        this.replace([]);
+    };
+
+    initialize = (value: string[]): void => {
+        this.replace(value);
+        this.isInitialized = true;
+    };
 
     updateProps(attributes: ListAttributeValue[]): void {
         if (!comparer.shallow(this._attributes, attributes)) {
