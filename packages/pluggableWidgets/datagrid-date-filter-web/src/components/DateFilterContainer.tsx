@@ -1,11 +1,11 @@
-import { Date_InputFilterInterface, useDateSync } from "@mendix/widget-plugin-filtering";
+import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
+import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { observer } from "mobx-react-lite";
 import { createElement } from "react";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
-import { usePickerState } from "../helpers/usePickerState";
+import { useActionEvents } from "../helpers/useActionEvents";
 import { useSetup } from "../helpers/useSetup";
 import { FilterComponent } from "./FilterComponent";
-import { useActionEvents } from "../helpers/useActionEvents";
 
 interface ContainerProps extends DatagridDateFilterContainerProps {
     filterStore: Date_InputFilterInterface;
@@ -14,21 +14,17 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
 
 // eslint-disable-next-line prefer-arrow-callback
 export const Container: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
-    const {
-        calendarStore,
-        datePickerController: controller,
-        ...staticProps
-    } = useSetup({
+    const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,
         defaultStartValue: props.defaultStartDate?.value,
         defaultValue: props.defaultValue?.value,
         filterStore: props.filterStore
     });
+    const controller = staticProps.controller;
+    const state = controller.pickerState;
 
-    const state = usePickerState(props.filterStore, calendarStore);
-
-    useActionEvents({ name: props.name, parentChannelName: props.parentChannelName, store: props.filterStore });
+    useActionEvents({ name: props.name, parentChannelName: props.parentChannelName, controller });
 
     useDateSync(props, props.filterStore);
 

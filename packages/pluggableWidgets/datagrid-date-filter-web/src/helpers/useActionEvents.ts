@@ -1,27 +1,25 @@
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering";
 import { useState } from "react";
-import { ValueController } from "./ValueController";
+import { DatePickerController } from "./DatePickerController";
 
 type HookParams = [Parameters<typeof useOnResetValueEvent>[0], Parameters<typeof useOnSetValueEvent>[0]];
 
 interface Props {
     name: string;
-    store: Date_InputFilterInterface;
+    controller: DatePickerController;
     parentChannelName?: string;
 }
 
-export function useActionEvents(props: Props): void {
-    const [controller] = useState(() => new ValueController(props.store));
+export function useActionEvents({ name, controller, parentChannelName }: Props): void {
     const [[resetParams, setValueParams]] = useState<HookParams>(() => {
         return [
             {
-                widgetName: props.name,
-                parentChannelName: props.parentChannelName,
+                widgetName: name,
+                parentChannelName,
                 listener: controller.handleReset
             },
             {
-                widgetName: props.name,
+                widgetName: name,
                 listener: controller.handleSetValue
             }
         ];

@@ -1,24 +1,44 @@
-import { reaction, makeObservable, action, IReactionDisposer } from "mobx";
+import { reaction, makeObservable, action, observable, computed, runInAction } from "mobx";
 import { createRef } from "react";
-import { CalendarStore } from "./CalendarStore";
 import { isDate } from "date-fns/isDate";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/dist/stores/typings/InputFilterInterface";
+import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 
 interface DatePickerBackendProps extends ReactDatePickerProps, React.ClassAttributes<ReactDatePicker> {}
 
+interface PickerState {
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+    selected: Date | undefined;
+    expanded: boolean;
+    selectsRange: boolean;
+    disabled: boolean;
+    filterFn: Date_InputFilterInterface["filterFunction"];
+}
+
+type Params = {
+    filter: Date_InputFilterInterface;
+    defaultFilter: FilterFn<Date_InputFilterInterface>;
+    defaultValue?: Date;
+    defaultStart?: Date;
+    defaultEnd?: Date;
+};
+
 export class DatePickerController {
-    pickerRef: React.RefObject<ReactDatePicker> = createRef();
+    private _filter: Date_InputFilterInterface;
+    private _timer = -1;
+    private _defaultState: Date_InputFilterInterface["defaultState"];
+    expanded = false;
+    pickerRef = createRef<ReactDatePicker>();
 
-    private _filterStore: Date_InputFilterInterface;
-    private _calendarStore: CalendarStore;
-    private _timer: number = -1;
-
-    constructor(filterStore: Date_InputFilterInterface, calendarStore: CalendarStore) {
-        this._filterStore = filterStore;
-        this._calendarStore = calendarStore;
+    constructor(params: Params) {
+        this._filter = params.filter;
+        this._defaultState = this.getDefaults(params);
 
         makeObservable(this, {
+            pickerState: computed,
+            expanded: observable,
             handlePickerChange: action,
             handleCalendarOpen: action,
             handleCalendarClose: action,
@@ -26,33 +46,51 @@ export class DatePickerController {
         });
     }
 
+    get pickerState(): PickerState {
+        const fn = this._filter.filterFunction;
+        const isRange = fn === "between";
+        return {
+            disabled: fn === "empty" || fn === "notEmpty",
+            endDate: isRange ? this._filter.arg2.value : undefined,
+            expanded: this.expanded,
+            selected: isRange ? undefined : this._filter.arg1.value,
+            selectsRange: isRange,
+            startDate: isRange ? this._filter.arg1.value : undefined,
+            filterFn: fn
+        };
+    }
+
+    private get _selectsRange(): boolean {
+        return this._filter.filterFunction === "between";
+    }
+
     handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
         if (isDate(value)) {
-            this._filterStore.arg1.value = value;
+            this._filter.arg1.value = value;
             return;
         }
 
         if (value === null) {
-            [this._filterStore.arg1.value, this._filterStore.arg2.value] = [undefined, undefined];
+            [this._filter.arg1.value, this._filter.arg2.value] = [undefined, undefined];
             return;
         }
 
         const [start, end] = value;
-        this._filterStore.arg1.value = start ?? undefined;
-        this._filterStore.arg2.value = end ?? undefined;
+        this._filter.arg1.value = start ?? undefined;
+        this._filter.arg2.value = end ?? undefined;
     };
 
     handleCalendarOpen: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this._calendarStore.UNSAFE_setExpanded(true);
+        this.expanded = true;
     };
 
     handleCalendarClose: DatePickerBackendProps["onCalendarOpen"] = () => {
-        this._calendarStore.UNSAFE_setExpanded(false);
+        this.expanded = false;
     };
 
     /** We use mouse down to avoid race condition with calendar "outside click" event. */
     handleButtonMouseDown: React.MouseEventHandler = () => {
-        if (this._calendarStore.expanded === false) {
+        if (this.expanded === false) {
             this._setActive();
         }
     };
@@ -72,7 +110,27 @@ export class DatePickerController {
             (event.target as HTMLInputElement).nodeName === "INPUT" &&
             event.code === "Backspace"
         ) {
-            this._filterStore.clear();
+            this._filter.clear();
+        }
+    };
+
+    handleReset = (useDefaults: boolean): void => {
+        if (useDefaults) {
+            this._filter.reset();
+        } else {
+            this._filter.clear();
+        }
+    };
+
+    handleSetValue = (useDefaults: boolean, valueOptions: SetFilterValueArgs): void => {
+        if (useDefaults) {
+            this._filter.reset();
+        } else {
+            runInAction(() => {
+                this._filter.setFilterFn(valueOptions.operators as Date_InputFilterInterface["filterFunction"]);
+                this._filter.arg1.value = valueOptions.dateTimeValue;
+                this._filter.arg2.value = valueOptions.dateTimeValue2;
+            });
         }
     };
 
@@ -89,10 +147,6 @@ export class DatePickerController {
         }
     };
 
-    private get _selectsRange(): boolean {
-        return this._filterStore.filterFunction === "between";
-    }
-
     private _setActive(): void {
         const picker = this.pickerRef.current;
         clearTimeout(this._timer);
@@ -103,7 +157,21 @@ export class DatePickerController {
         }) as number;
     }
 
-    setup(): IReactionDisposer {
-        return reaction(() => this._filterStore.filterFunction, this._setActive.bind(this));
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+
+        disposers.push(reaction(() => this._filter.filterFunction, this._setActive.bind(this)));
+
+        this._filter.UNSAFE_setDefaults(this._defaultState);
+
+        return () => {
+            disposers.forEach(dispose => dispose());
+        };
+    }
+
+    private getDefaults(params: Params): Date_InputFilterInterface["defaultState"] {
+        return params.defaultFilter === "between"
+            ? [params.defaultFilter, params.defaultStart, params.defaultEnd]
+            : [params.defaultFilter, params.defaultValue];
     }
 }
