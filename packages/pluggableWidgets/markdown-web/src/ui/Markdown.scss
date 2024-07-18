@@ -15,9 +15,7 @@ $tabs-bg-pills: #e7e7e9;
     &-content {
         flex: 1;
         width: 100%;
-        display: flex;
         padding: 5px;
-        border-radius: var(--spacing-smaller, $spacing-smaller);
         th,
         td {
             border: 1px solid #ccc;
@@ -33,13 +31,13 @@ $tabs-bg-pills: #e7e7e9;
             max-width: 35%;
         }
     }
+}
 
-    &.preview {
-        flex-grow: 1;
-        background-color: var(--label-info-color, $label-info-color);
-        padding: 10px;
-        min-height: 200px;
-        border: 1px solid var(--tabs-bg-pills, $tabs-bg-pills);
-        border-radius: var(--spacing-smaller, $spacing-smaller);
-    }
+.widget-markdown.preview {
+    flex-grow: 1;
+    background-color: var(--label-info-color, $label-info-color);
+    padding: 10px;
+    min-height: 80px;
+    border: 1px solid var(--tabs-bg-pills, $tabs-bg-pills);
+    border-radius: var(--spacing-smaller, $spacing-smaller);
 }
