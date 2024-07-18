@@ -29,6 +29,7 @@ export interface InputFilterBaseInterface<
     clear(): void;
     setFilterFn(fn: Fn): void;
     UNSAFE_setDefaults(state: [Fn] | [Fn, V] | [Fn, V, V]): void;
+    dispose?: () => void;
 }
 
 export type String_InputFilterInterface = InputFilterBaseInterface<
