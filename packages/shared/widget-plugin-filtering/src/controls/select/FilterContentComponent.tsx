@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Fragment, UIEventHandler, createElement } from "react";
-import { Option } from "../../stores/typings/OptionListFilterInterface";
+import { Option } from "../../typings/OptionListFilterInterface";
 
 interface FilterContentProps<T> {
     footer?: JSX.Element;

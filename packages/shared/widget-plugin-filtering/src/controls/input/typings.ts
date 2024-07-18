@@ -1,4 +1,4 @@
-import { InputFilterInterface } from "../../stores/typings/InputFilterInterface";
+import { InputFilterInterface } from "../../typings/InputFilterInterface";
 import { InputStore } from "./InputStore";
 
 export interface BaseProps {

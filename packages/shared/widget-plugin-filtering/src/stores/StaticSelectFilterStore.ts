@@ -1,6 +1,6 @@
 import { ListAttributeValue } from "mendix";
 import { makeObservable, computed, observable, action, comparer } from "mobx";
-import { OptionListFilterInterface, Option } from "./typings/OptionListFilterInterface";
+import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 import { FilterCondition } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
 

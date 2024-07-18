@@ -8,7 +8,7 @@ import {
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "./typings/FilterFunctions";
+} from "../typings/FilterFunctions";
 
 export class StringInputFilterStore
     extends BaseInputFilterStore<

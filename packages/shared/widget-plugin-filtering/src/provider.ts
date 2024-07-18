@@ -4,8 +4,8 @@ import { Context, Dispatch, SetStateAction, createContext, useContext, useState 
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { InitialFilterValue } from "./read-init-props.js";
 import { Result, error, value } from "./result-meta.js";
-import { InputFilterInterface } from "./stores/typings/InputFilterInterface.js";
-import { OptionListFilterInterface } from "./stores/typings/OptionListFilterInterface.js";
+import { InputFilterInterface } from "./typings/InputFilterInterface.js";
+import { OptionListFilterInterface } from "./typings/OptionListFilterInterface.js";
 
 type ListAttributeId = ListAttributeValue["id"];
 

@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, UIEventHandler, useCallback, useRef, useState } from "react";
 import { FilterContentComponent } from "./FilterContentComponent";
 import { FormControlComponent } from "./FormControlComponent";
-import { Option } from "../../stores/typings/OptionListFilterInterface";
+import { Option } from "../../typings/OptionListFilterInterface";
 
 interface SelectProps<T> {
     options: Array<Option<T>>;

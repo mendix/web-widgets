@@ -17,8 +17,8 @@ import {
 import { action, makeObservable, reaction, observable, comparer } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "./typings/FilterFunctions";
-import { Date_InputFilterInterface } from "./typings/InputFilterInterface";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
+import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 
 type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [FilterFn, [Date | undefined, Date | undefined]];

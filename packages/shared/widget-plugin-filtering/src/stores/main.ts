@@ -9,7 +9,7 @@ import {
     InputFilterInterface,
     Number_InputFilterInterface,
     String_InputFilterInterface
-} from "./typings/InputFilterInterface";
+} from "../typings/InputFilterInterface";
 
 type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
