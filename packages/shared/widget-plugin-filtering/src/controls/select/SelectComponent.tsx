@@ -8,6 +8,7 @@ import { Option } from "../../stores/typings/OptionListFilterInterface";
 
 interface SelectProps<T> {
     options: Array<Option<T>>;
+    empty: Option<T>;
     inputValue: string;
     multiSelect: boolean;
     placeholder?: string;
@@ -94,6 +95,7 @@ export function Select<T>(props: SelectProps<T>): ReactElement {
                     footer={footer}
                     id={id}
                     options={options}
+                    empty={props.empty}
                     multiSelect={multiSelect}
                     onContentScroll={onContentScroll}
                     onOptionClick={onClick}
