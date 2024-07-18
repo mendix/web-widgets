@@ -46,7 +46,7 @@ export const Container: (props: ContainerProps) => React.ReactElement = observer
             onCalendarOpen={controller.handleCalendarOpen}
             onChange={controller.handlePickerChange}
             onChangeRaw={controller.UNSAFE_handleChangeRaw}
-            onFilterChange={props.filterStore.setFilterFn}
+            onFilterChange={controller.handleFilterChange}
             onKeyDown={controller.handleKeyDown}
             pickerRef={controller.pickerRef}
             placeholder={props.placeholder?.value}
