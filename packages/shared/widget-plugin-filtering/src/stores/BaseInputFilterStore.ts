@@ -20,13 +20,14 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { Argument } from "./Argument";
 import { AllFunctions } from "../typings/FilterFunctions";
 
+type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extends string | Big | Date> {
+    protected _attributes: ListAttributeValue[] = [];
     filterFunction: Fn;
     arg1: A;
     arg2: A;
     isInitialized = false;
-    protected _attributes: ListAttributeValue[] = [];
-    private defaultState: [Fn] | [Fn, V] | [Fn, V, V];
+    defaultState: StateTuple<Fn, V>;
 
     constructor(arg1: A, arg2: A, initFn: Fn, attributes: ListAttributeValue[]) {
         this._attributes = attributes;
@@ -46,7 +47,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         });
     }
 
-    private setState(state: [Fn] | [Fn, V] | [Fn, V, V]): void {
+    private setState(state: StateTuple<Fn, V>): void {
         [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 
@@ -58,12 +59,12 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    initialize = (state: [Fn] | [Fn, V] | [Fn, V, V]): void => {
+    initialize = (state: StateTuple<Fn, V>): void => {
         this.setState(state);
         this.isInitialized = true;
     };
 
-    UNSAFE_setDefaults = (state: [Fn] | [Fn, V] | [Fn, V, V]): void => {
+    UNSAFE_setDefaults = (state: StateTuple<Fn, V>): void => {
         this.defaultState = state;
         if (this.isInitialized === false) {
             this.initialize(state);
