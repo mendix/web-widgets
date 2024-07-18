@@ -5,12 +5,12 @@ import { DateArgumentInterface, NumberArgumentInterface, StringArgumentInterface
 
 type Formatter<T extends Big | Date | string> = EditableValue<T>["formatter"];
 
-class ArgumentBase<T extends Big | Date | string> {
+export class ArgumentBase<T extends Big | Date | string> {
     private _value: T | undefined;
-    isValid: boolean = true;
+    isValid = true;
 
     _formatter: Formatter<T>;
-    _lastSetTextValue: string = "";
+    _lastSetTextValue = "";
 
     constructor(formatter: Formatter<T>, initialValue?: T) {
         this._formatter = formatter;
