@@ -11,6 +11,7 @@ export type Params<F extends InputFilterBaseInterface<A, Fn>, A extends Argument
     defaultFilter: FilterFn<F>;
     defaultValue?: FilterV<F>;
     changeDelay?: number;
+    disableInputs?: (fn: FilterFn<F>) => boolean;
 };
 
 export class EditableFilterController<
@@ -18,10 +19,11 @@ export class EditableFilterController<
     A extends ArgumentInterface,
     Fn extends AllFunctions
 > {
-    input1: InputStore;
-    input2: InputStore;
     private filter: F;
     private readonly changeDelay;
+    private disabledFn?: (fn: Fn) => boolean;
+    input1: InputStore;
+    input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
     defaults: F["defaultState"];
     inputs: [InputStore, InputStore];
@@ -34,15 +36,21 @@ export class EditableFilterController<
         this.inputs = [this.input1, this.input2];
         this.filter = filter;
         this.defaults = [params.defaultFilter, params.defaultValue];
+        this.disabledFn = params.disableInputs;
 
         makeObservable(this, {
             selectedFn: computed,
+            disableInputs: computed,
             handleFilterFnChange: action
         });
     }
 
     get selectedFn(): Fn {
         return this.filter.filterFunction;
+    }
+
+    get disableInputs(): boolean {
+        return this.disabledFn ? this.disabledFn(this.filter.filterFunction) : false;
     }
 
     handleFilterFnChange = (fn: Fn): void => {
