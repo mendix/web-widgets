@@ -14,13 +14,17 @@ export function withNumberFilterAPI<T>(
     Component: (props: T & NumberFilterAPI) => React.ReactElement
 ): (props: T) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const apiv2 = useFilterContextValue();
+        const ctx = useFilterContextValue();
 
-        if (apiv2.hasError) {
+        if (ctx.hasError) {
             return <Alert bootstrapStyle="danger">{ENOCONTEXT}</Alert>;
         }
 
-        const store = apiv2.value.store;
+        if (ctx.value.version !== 2) {
+            return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
+        }
+
+        const store = ctx.value.store;
 
         if (store === null) {
             return <Alert bootstrapStyle="danger">{EMISSINGSTORE}</Alert>;
@@ -30,6 +34,6 @@ export function withNumberFilterAPI<T>(
             return <Alert bootstrapStyle="danger">{ESTORETYPE}</Alert>;
         }
 
-        return <Component filterStore={store} parentChannelName={apiv2.value.eventsChannelName} {...props} />;
+        return <Component filterStore={store} parentChannelName={ctx.value.parentChannelName} {...props} />;
     };
 }

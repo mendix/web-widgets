@@ -18,6 +18,7 @@ const component = memo((props: WidgetHeaderContextProps) => {
     return (
         <FilterContext.Provider
             value={{
+                version: 1,
                 eventsChannelName: props.eventsChannelName,
                 store: null,
                 filterDispatcher: prev => {

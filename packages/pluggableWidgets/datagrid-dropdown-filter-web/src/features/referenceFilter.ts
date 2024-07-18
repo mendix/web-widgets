@@ -1,4 +1,4 @@
-import { DispatchFilterUpdate } from "@mendix/widget-plugin-filtering";
+import { DispatchFilterUpdate } from "@mendix/widget-plugin-filtering/provider";
 import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 import { ActionValue, ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
 import { referenceEqualsOneOf, referenceSetContainsOneOf } from "../utils/condition";

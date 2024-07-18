@@ -12,6 +12,7 @@ import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnPersonalizationSettings } from "../../typings/personalization-settings";
+import { StaticInfo } from "../../typings/static-info";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -38,7 +39,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     sorting: ColumnsSortingStore;
 
-    constructor(props: Pick<DatagridContainerProps, "columns" | "datasource">) {
+    constructor(props: Pick<DatagridContainerProps, "columns" | "datasource">, info: StaticInfo) {
         this._allColumns = [];
         this.columnFilters = [];
 
@@ -46,8 +47,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, props.datasource.filter);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info);
         });
 
         this.sorting = new ColumnsSortingStore(
@@ -125,7 +125,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     get filterConditions(): FilterCondition[] {
         return this.columnFilters
-            .map(cf => cf.condition)
+            .map(cf => cf.condition2)
             .filter((filter): filter is FilterCondition => filter !== undefined);
     }
 

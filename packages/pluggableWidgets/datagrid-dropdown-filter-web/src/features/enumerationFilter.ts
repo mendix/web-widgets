@@ -5,7 +5,7 @@ import {
     error,
     value,
     Result
-} from "@mendix/widget-plugin-filtering";
+} from "@mendix/widget-plugin-filtering/main";
 import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";

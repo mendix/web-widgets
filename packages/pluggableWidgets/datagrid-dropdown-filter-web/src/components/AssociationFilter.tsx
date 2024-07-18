@@ -2,7 +2,7 @@ import {
     DispatchFilterUpdate,
     AssociationProperties,
     getFilterAssociationProps
-} from "@mendix/widget-plugin-filtering";
+} from "@mendix/widget-plugin-filtering/main";
 import { useLazyListValue } from "@mendix/widget-plugin-hooks/useLazyListValue";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";

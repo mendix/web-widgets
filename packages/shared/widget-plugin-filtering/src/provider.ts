@@ -35,6 +35,7 @@ export interface AssociationProperties {
 export type DispatchFilterUpdate = Dispatch<FilterState>;
 
 export interface FilterContextValue {
+    version: 1;
     eventsChannelName?: string;
     filterDispatcher: DispatchFilterUpdate;
     singleAttribute?: ListAttributeValue;
@@ -45,7 +46,13 @@ export interface FilterContextValue {
     store: InputFilterInterface | OptionListFilterInterface<string> | null;
 }
 
-type FilterContextObject = Context<FilterContextValue | undefined>;
+export interface FilterAPIv2 {
+    version: 2;
+    parentChannelName: string;
+    store: InputFilterInterface | OptionListFilterInterface<string> | null;
+}
+
+type FilterContextObject = Context<FilterContextValue | FilterAPIv2 | undefined>;
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext" as const;
 
@@ -83,14 +90,14 @@ export function getGlobalFilterContextObject(): FilterContextObject {
     let contextObject = window[CONTEXT_OBJECT_PATH];
 
     if (contextObject == null) {
-        contextObject = createContext<FilterContextValue | undefined>(undefined);
+        contextObject = createContext<FilterContextValue | FilterAPIv2 | undefined>(undefined);
         window[CONTEXT_OBJECT_PATH] = contextObject;
     }
 
     return contextObject;
 }
 
-export function useFilterContextValue(): Result<FilterContextValue, OutOfContextError> {
+export function useFilterContextValue(): Result<FilterContextValue | FilterAPIv2, OutOfContextError> {
     const context = getGlobalFilterContextObject();
     const contextValue = useContext(context);
 
