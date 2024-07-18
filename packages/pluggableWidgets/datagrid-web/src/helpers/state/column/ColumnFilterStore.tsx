@@ -2,13 +2,11 @@ import {
     AssociationProperties,
     FilterContextValue,
     FilterState,
-    attrgroupFilterStore,
-    readInitFilterValues,
-    InputFilterStore,
-    StaticSelectFilterStore,
-    RefFilterStore,
-    RefFilterStoreProps
-} from "@mendix/widget-plugin-filtering";
+    readInitFilterValues
+} from "@mendix/widget-plugin-filtering/main";
+import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/store-utils";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
+import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Big } from "big.js";
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
