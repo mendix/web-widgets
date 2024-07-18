@@ -1,5 +1,4 @@
 import { createElement, ReactElement } from "react";
-import { preventReactErrorsAboutReadOnly } from "../utils/helper";
 
 interface FormControlProps {
     ariaLabel?: string;
@@ -40,4 +39,8 @@ export function FormControlComponent(props: FormControlProps): ReactElement {
             aria-label={ariaLabel}
         />
     );
+}
+
+function preventReactErrorsAboutReadOnly(): void {
+    return undefined;
 }
