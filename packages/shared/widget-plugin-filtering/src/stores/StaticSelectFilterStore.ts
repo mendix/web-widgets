@@ -62,8 +62,12 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         }
     }
 
-    replace(value: string[]): void {
-        this._selected = new Set(value);
+    replace(value: string[] | Set<string>): void {
+        const _value = new Set(value);
+        if (comparer.structural(this._selected, _value)) {
+            return;
+        }
+        this._selected = _value;
     }
 
     toggle(value: string): void {

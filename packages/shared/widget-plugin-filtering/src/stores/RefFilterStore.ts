@@ -8,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, comparer } from "mobx";
 import { Option, OptionListFilterInterface } from "./typings/OptionListFilterInterface";
 
 export type RefFilterStoreProps = {
@@ -90,8 +90,12 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         this._searchAttr = props.searchAttr;
     }
 
-    replace(value: string[]): void {
-        this._selected = new Set(value);
+    replace(value: string[] | Set<string>): void {
+        const _value = new Set(value);
+        if (comparer.structural(this._selected, _value)) {
+            return;
+        }
+        this._selected = _value;
     }
 
     toggle(value: string): void {
