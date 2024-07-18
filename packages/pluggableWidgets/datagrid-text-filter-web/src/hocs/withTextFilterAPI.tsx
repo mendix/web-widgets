@@ -1,7 +1,9 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { String_InputFilterInterface, isStringFilter, useFilterContextValue } from "@mendix/widget-plugin-filtering";
+import { useFilterContextValue } from "@mendix/widget-plugin-filtering/provider";
 import { createElement } from "react";
 import { ENOCONTEXT, EMISSINGSTORE, ESTORETYPE } from "./errors";
+import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { isStringFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
 
 type TextFilterAPI = {
     filterStore: String_InputFilterInterface;

@@ -1,7 +1,8 @@
 import { createElement, ReactElement, useMemo, useRef } from "react";
 import { DatagridTextFilterPreviewProps } from "../typings/DatagridTextFilterProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { InputStore, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
+import { InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
+import { InputStore } from "@mendix/widget-plugin-filtering/stores/InputStore";
 
 function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
     const inputStores = useMemo<[InputStore, InputStore]>(
@@ -18,7 +19,9 @@ function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
             inputRef={useRef(null)}
             inputStores={inputStores}
             name="TextFilter"
-            onFilterChange={() => {}}
+            onFilterChange={() => {
+                //
+            }}
             placeholder={props.placeholder}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
