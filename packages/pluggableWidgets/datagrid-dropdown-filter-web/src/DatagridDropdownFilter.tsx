@@ -23,15 +23,15 @@
 // }
 import { createElement, ReactElement } from "react";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
-import { useFilterContextValue } from "@mendix/widget-plugin-filtering";
+import { useFilterContextValue } from "@mendix/widget-plugin-filtering/provider";
 import { StaticFilterContainer } from "./components/StaticFilterContainer";
 
 export default function DatagridDropdownFilter(_props: DatagridDropdownFilterContainerProps): ReactElement {
-    const apiv2 = useFilterContextValue();
+    const ctx = useFilterContextValue();
 
-    if (apiv2.hasError || apiv2.value.store === null || apiv2.value.store.storeType === "input") {
+    if (ctx.hasError || ctx.value.store === null || ctx.value.store.storeType === "input") {
         return <div>Error</div>;
     }
 
-    return <StaticFilterContainer filterStore={apiv2.value.store} multiselect={_props.multiSelect} />;
+    return <StaticFilterContainer filterStore={ctx.value.store} multiselect={_props.multiSelect} />;
 }

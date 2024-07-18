@@ -1,4 +1,5 @@
-import { OptionListFilterInterface, StaticFilterController } from "@mendix/widget-plugin-filtering";
+import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
+import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { observer } from "mobx-react-lite";
 import { createElement, useState } from "react";

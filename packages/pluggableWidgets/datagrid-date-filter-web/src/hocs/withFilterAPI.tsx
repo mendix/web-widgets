@@ -14,13 +14,17 @@ export function withDateFilterAPI<P>(
     Component: (props: P & Date_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const apiv2 = useFilterContextValue();
+        const ctx = useFilterContextValue();
 
-        if (apiv2.hasError) {
+        if (ctx.hasError) {
             return <Alert bootstrapStyle="danger">{errors.EPLACE}</Alert>;
         }
 
-        const store = apiv2.value.store;
+        if (ctx.value.version !== 2) {
+            return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
+        }
+
+        const store = ctx.value.store;
 
         if (store === null) {
             return <Alert bootstrapStyle="danger">{errors.EMISSINGSTORE}</Alert>;
@@ -30,6 +34,6 @@ export function withDateFilterAPI<P>(
             return <Alert bootstrapStyle="danger">{errors.ESTORETYPE}</Alert>;
         }
 
-        return <Component filterStore={store} parentChannelName={apiv2.value.eventsChannelName} {...props} />;
+        return <Component filterStore={store} parentChannelName={ctx.value.parentChannelName} {...props} />;
     };
 }
