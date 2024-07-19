@@ -95,8 +95,17 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
             }
         } else if (props.collapsed !== renderCollapsed && (!animateContent || !props.visible)) {
             setRenderCollapsed(props.collapsed);
+        } else if (props.collapsed === renderCollapsed) {
+            // if state and props looses their sync due to "complete transition" not being triggered
+            // make sure it is sync back in.
+            if (
+                (renderCollapsed && rootRef.current?.classList.contains("widget-accordion-group-expanding")) ||
+                (!renderCollapsed && rootRef.current?.classList.contains("widget-accordion-group-collapsing"))
+            ) {
+                completeTransitioning();
+            }
         }
-    }, [props.collapsed, props.visible, renderCollapsed, animateContent]);
+    }, [props.collapsed, props.visible, renderCollapsed, animateContent, completeTransitioning]);
 
     useEffect(() => {
         if (renderCollapsed !== previousRenderCollapsed.current) {
