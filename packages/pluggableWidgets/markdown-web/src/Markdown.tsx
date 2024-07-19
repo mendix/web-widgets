@@ -17,11 +17,5 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
         }
     }, [stringAttribute?.value, stringAttribute?.status]);
 
-    return (
-        <div className="widget-markdown">
-            {stringAttribute?.status === "available" && (
-                <div className="widget-markdown-content" ref={previewRef}></div>
-            )}
-        </div>
-    );
+    return stringAttribute?.status === "available" && <div className="widget-markdown" ref={previewRef}></div>;
 }
