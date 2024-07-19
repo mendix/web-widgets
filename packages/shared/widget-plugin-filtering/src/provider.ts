@@ -17,8 +17,7 @@ export enum FilterType {
     STRING = "string",
     NUMBER = "number",
     ENUMERATION = "enum",
-    DATE = "date",
-    ASSOCIATION = "association"
+    DATE = "date"
 }
 
 export interface FilterState {
@@ -126,7 +125,6 @@ export function useMultipleFiltering(): Record<
         [FilterType.STRING]: useState(),
         [FilterType.NUMBER]: useState(),
         [FilterType.DATE]: useState(),
-        [FilterType.ENUMERATION]: useState(),
-        [FilterType.ASSOCIATION]: useState()
+        [FilterType.ENUMERATION]: useState()
     };
 }
