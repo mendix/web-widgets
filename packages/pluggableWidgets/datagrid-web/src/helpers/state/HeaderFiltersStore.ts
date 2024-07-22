@@ -24,4 +24,12 @@ export class HeaderFiltersStore {
         const cond = this.provider.filterCondition;
         return cond ? [cond] : [];
     }
+
+    setup(): void {
+        this.provider.setup();
+    }
+
+    dispose(): void {
+        this.provider.dispose?.();
+    }
 }
