@@ -1,5 +1,5 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue, FilterStore } from "@mendix/widget-plugin-filtering/provider-next";
+import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
 import { createElement } from "react";
 import { ENOCONTEXT, EMISSINGSTORE, ESTORETYPE } from "./errors";
 import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
@@ -25,14 +25,7 @@ export function withNumberFilterAPI<T>(
             return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
         }
 
-        const provider = ctx.value.provider;
-
-        let store: FilterStore = null;
-        if (provider.type === "direct") {
-            store = provider.store;
-        } else if (provider.type === "legacy") {
-            store = provider.get(FilterType.NUMBER);
-        }
+        const store = getFilterStore(ctx.value, FilterType.NUMBER, "undefined");
 
         if (store === null) {
             return <Alert bootstrapStyle="danger">{EMISSINGSTORE}</Alert>;
