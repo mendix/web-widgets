@@ -85,7 +85,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         this.filterFunction = fn;
     };
 
-    toJSON(): [Fn, Val<A>, Val<A>] {
+    toJSON(): [Fn, Val<A> | number, Val<A> | number] {
         return [this.filterFunction, this.arg1.value, this.arg2.value];
     }
 }

@@ -16,6 +16,13 @@ interface ColumnPersonalizationStorageSettings {
     hidden: boolean;
 }
 
+export type FilterEntry<T = string | Date | number | null | Big> =
+    | [string, T | undefined, T | undefined]
+    | string[]
+    | null;
+
+export type FiltersSettings<T> = Map<T, FilterEntry>;
+
 export interface GridPersonalizationStorageSettings {
     name: string;
     schemaVersion: number;
