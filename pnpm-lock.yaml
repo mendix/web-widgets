@@ -97,6 +97,9 @@ importers:
       eslint-plugin-playwright:
         specifier: ^1.6.0
         version: 1.6.0(eslint@8.57.0)
+      playwright-ctrf-json-reporter:
+        specifier: ^0.0.14
+        version: 0.0.14
 
   automation/scripts:
     dependencies:
@@ -6648,6 +6651,7 @@ packages:
   /acorn@8.11.3:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
 
   /acorn@8.8.2:
     resolution: {integrity: sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==}
@@ -12623,6 +12627,10 @@ packages:
     hasBin: true
     dev: true
 
+  /playwright-ctrf-json-reporter@0.0.14:
+    resolution: {integrity: sha512-rfUdvQtvaConfv5/+S5xSYyE3c/kthbxtk88j7vlvx/jG1kWrtDVmPaIOsWJCEcDirX0AS46fxGy660/ZJ9N+Q==}
+    dev: true
+
   /playwright@1.44.0:
     resolution: {integrity: sha512-F9b3GUCLQ3Nffrfb6dunPOkE5Mh68tR7zN32L4jCk4FjQamgesGay7/dAAe1WaMEGV04DkdJfcJzjoCKygUaRQ==}
     engines: {node: '>=16'}
@@ -16004,6 +16012,7 @@ packages:
   /which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
 

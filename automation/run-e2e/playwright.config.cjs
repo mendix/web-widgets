@@ -14,7 +14,16 @@ module.exports = defineConfig({
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : 1,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: "list",
+    reporter: [
+        ["list"],
+        [
+            "playwright-ctrf-json-reporter",
+            {
+                outputDir: "../../../automation/run-e2e/ctrf",
+                outputFile: "ctrf" + Date.now() + ".json"
+            }
+        ]
+    ],
     /* webServer: [
         {
             command: "run-e2e playwright",

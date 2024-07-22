@@ -18,8 +18,7 @@
   "scripts": {
     "lint": "eslint --ext .mjs .",
     "format": "prettier --write .",
-    "report:merge": "mochawesome-merge ../../packages/pluggableWidgets/*/cypress/results/*.json -o report.json",
-    "report:generate": "marge report.json --charts true"
+    "report:merge": "pnpm dlx ctrf merge ctrf --output merged-report.json --keep-reports"
   },
   "dependencies": {
     "ansi-colors": "^4.1.3",
@@ -40,6 +39,7 @@
   "devDependencies": {
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.12.7",
-    "eslint-plugin-playwright": "^1.6.0"
+    "eslint-plugin-playwright": "^1.6.0",
+    "playwright-ctrf-json-reporter": "^0.0.14"
   }
 }
