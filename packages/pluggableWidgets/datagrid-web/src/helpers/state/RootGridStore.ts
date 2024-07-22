@@ -27,7 +27,12 @@ export class RootGridStore {
         this.progressStore = new ProgressStore();
     }
 
+    setup(): void {
+        this.headerFiltersStore.setup();
+    }
+
     dispose(): void {
+        this.headerFiltersStore.dispose();
         this.settingsStore.dispose();
     }
 

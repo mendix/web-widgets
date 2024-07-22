@@ -9,6 +9,15 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
         return new RootGridStore(props);
     });
 
+    useEffect(() => {
+        rootStore.setup();
+        return () => rootStore.dispose();
+    }, [rootStore]);
+
+    useEffect(() => {
+        rootStore.updateProps(props);
+    });
+
     const datasourceRef = useRef(props.datasource);
     datasourceRef.current = props.datasource;
 
@@ -35,13 +44,8 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
 
         return () => {
             disposers.forEach(d => d());
-            rootStore.dispose();
         };
     }, [rootStore]);
-
-    useEffect(() => {
-        rootStore.updateProps(props);
-    });
 
     return rootStore;
 }
