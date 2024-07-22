@@ -1,4 +1,4 @@
-import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
@@ -82,8 +82,6 @@ const Container = observer((props: Props): ReactElement => {
 
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
 
-    const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
-
     return (
         <Widget
             className={props.class}
@@ -109,11 +107,7 @@ const Container = observer((props: Props): ReactElement => {
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (
-                    <WidgetHeaderContext
-                        selectionContextValue={selectionContextValue}
-                        eventsChannelName={rootStore.staticInfo.filtersChannelName}
-                        headerFilterStore={rootStore.headerFiltersStore}
-                    >
+                    <WidgetHeaderContext selectionHelper={selectionHelper} filtersStore={rootStore.headerFiltersStore}>
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>
                 )
