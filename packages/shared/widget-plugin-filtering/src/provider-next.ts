@@ -7,7 +7,7 @@ import { OutOfContextError } from "./errors.js";
 export interface FilterAPIv2 {
     version: 2;
     parentChannelName: string;
-    provider: StoreProvider;
+    provider: FilterStoreProvider;
 }
 
 /** @deprecated */
@@ -18,24 +18,24 @@ export enum FilterType {
     DATE = "date"
 }
 
-export type StoreProvider = DirectProvider | KeyProvider | LegacyProvider;
+export type FilterStoreProvider = DirectProvider | KeyProvider | LegacyProvider;
 
 export type FilterStore = InputFilterInterface | OptionListFilterInterface<string> | null;
 
 interface DirectProvider {
     type: "direct";
-    store: InputFilterInterface | OptionListFilterInterface<string> | null;
+    store: FilterStore;
 }
 
 interface KeyProvider {
     type: "key-value";
-    get: (key: string) => InputFilterInterface | OptionListFilterInterface<string>;
+    get: (key: string) => NonNullable<FilterStore>;
 }
 
 /** @deprecated */
 export interface LegacyProvider {
     type: "legacy";
-    get: (type: FilterType) => InputFilterInterface | OptionListFilterInterface<string> | null;
+    get: (type: FilterType) => FilterStore;
 }
 
 type Context_v2 = Context<FilterAPIv2 | undefined>;
