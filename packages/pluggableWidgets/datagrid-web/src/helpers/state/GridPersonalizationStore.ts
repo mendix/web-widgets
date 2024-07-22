@@ -95,9 +95,7 @@ function fromStorageFormat(
             orderWeight: settings.columnOrder.indexOf(c.columnId),
 
             sortWeight: sortIndex !== -1 ? sortIndex + 1 : undefined,
-            sortDir: sortIndex !== -1 ? settings.sortOrder[sortIndex]?.[1] : undefined,
-
-            filterSettings: undefined
+            sortDir: sortIndex !== -1 ? settings.sortOrder[sortIndex]?.[1] : undefined
         };
     });
 }

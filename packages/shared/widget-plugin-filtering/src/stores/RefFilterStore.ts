@@ -144,6 +144,10 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
                 : undefined;
         this._optionsource.setFilter(search);
     }
+
+    toJSON(): null {
+        return null;
+    }
 }
 
 export function referenceEqualsCondition(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {

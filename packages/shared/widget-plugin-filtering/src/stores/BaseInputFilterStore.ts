@@ -21,13 +21,14 @@ import { Argument } from "./Argument";
 import { AllFunctions } from "../typings/FilterFunctions";
 
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
-export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V extends string | Big | Date> {
+type Val<A extends Argument> = A["value"];
+export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     protected _attributes: ListAttributeValue[] = [];
     filterFunction: Fn;
     arg1: A;
     arg2: A;
     isInitialized = false;
-    defaultState: StateTuple<Fn, V>;
+    defaultState: StateTuple<Fn, Val<A>>;
 
     constructor(arg1: A, arg2: A, initFn: Fn, attributes: ListAttributeValue[]) {
         this._attributes = attributes;
@@ -47,7 +48,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         });
     }
 
-    private setState(state: StateTuple<Fn, V>): void {
+    private setState(state: StateTuple<Fn, Val<A>>): void {
         [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 
@@ -59,12 +60,12 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    initialize = (state: StateTuple<Fn, V>): void => {
+    initialize = (state: StateTuple<Fn, Val<A>>): void => {
         this.setState(state);
         this.isInitialized = true;
     };
 
-    UNSAFE_setDefaults = (state: StateTuple<Fn, V>): void => {
+    UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>): void => {
         this.defaultState = state;
         if (this.isInitialized === false) {
             this.initialize(state);
@@ -83,6 +84,10 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions, V
     setFilterFn = (fn: Fn): void => {
         this.filterFunction = fn;
     };
+
+    toJSON(): [Fn, Val<A>, Val<A>] {
+        return [this.filterFunction, this.arg1.value, this.arg2.value];
+    }
 }
 
 function getFilterCondition<T extends string | Big | Date>(

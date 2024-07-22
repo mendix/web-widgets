@@ -7,11 +7,7 @@ import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } f
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export class NumberInputFilterStore
-    extends BaseInputFilterStore<
-        NumberArgument,
-        FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary,
-        Big
-    >
+    extends BaseInputFilterStore<NumberArgument, FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary>
     implements Number_InputFilterInterface
 {
     readonly storeType = "input";
