@@ -2,7 +2,7 @@ import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, Lis
 import type { FilterCondition } from "mendix/filters";
 import { Context, Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
-import { InitialFilterValue } from "./read-init-props.js";
+import { InitialFilterValue } from "./condition-utils.js";
 import { Result, error, value } from "./result-meta.js";
 import { InputFilterInterface } from "./typings/InputFilterInterface.js";
 import { OptionListFilterInterface } from "./typings/OptionListFilterInterface.js";

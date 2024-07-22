@@ -7,6 +7,7 @@ import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 import { HeaderFiltersStore } from "./HeaderFiltersStore";
+import { conjoin } from "@mendix/widget-plugin-filtering/condition-utils";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
@@ -25,6 +26,7 @@ export class RootGridStore {
         this.headerFiltersStore = new HeaderFiltersStore(props);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore);
         this.progressStore = new ProgressStore();
+        console.debug(((window as any).rootStore = this));
     }
 
     setup(): void {
@@ -61,10 +63,8 @@ export class RootGridStore {
      * This method should always "read" filters from columns.
      * Otherwise computed is suspended.
      */
-    get filterConditions(): FilterCondition[] {
-        return this.columnsStore.filterConditions2
-            .filter((filter): filter is FilterCondition => filter !== undefined)
-            .concat(this.headerFiltersStore.filterConditions);
+    get filterConditions(): FilterCondition {
+        return conjoin([conjoin(this.columnsStore.conditions), conjoin(this.headerFiltersStore.conditions)]);
     }
 
     get sortInstructions(): SortInstruction[] | undefined {
