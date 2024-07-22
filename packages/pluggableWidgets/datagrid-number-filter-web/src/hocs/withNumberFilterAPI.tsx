@@ -1,18 +1,17 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
+import { useFilterContextValue, getFilterStore, FilterType } from "@mendix/widget-plugin-filtering/provider-next";
 import { createElement } from "react";
 import { ENOCONTEXT, EMISSINGSTORE, ESTORETYPE } from "./errors";
 import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { isNumberFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
-import { FilterType } from "@mendix/widget-plugin-filtering/provider";
 
-type NumberFilterAPI = {
+type Number_FilterAPIv2 = {
     filterStore: Number_InputFilterInterface;
     parentChannelName?: string;
 };
 
 export function withNumberFilterAPI<T>(
-    Component: (props: T & NumberFilterAPI) => React.ReactElement
+    Component: (props: T & Number_FilterAPIv2) => React.ReactElement
 ): (props: T) => React.ReactElement {
     return function FilterAPIProvider(props) {
         const ctx = useFilterContextValue();

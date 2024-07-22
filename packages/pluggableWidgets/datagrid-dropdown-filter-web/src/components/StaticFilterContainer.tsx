@@ -4,7 +4,7 @@ import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { observer } from "mobx-react-lite";
 import { createElement, useState } from "react";
 
-interface StaticFilterContainerProps {
+export interface StaticFilterContainerProps {
     filterStore: OptionListFilterInterface<string>;
     multiselect: boolean;
 }

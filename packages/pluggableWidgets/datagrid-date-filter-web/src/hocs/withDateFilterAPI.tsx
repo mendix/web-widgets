@@ -1,10 +1,9 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
+import { useFilterContextValue, getFilterStore, FilterType } from "@mendix/widget-plugin-filtering/provider-next";
 import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { createElement } from "react";
 import * as errors from "./errors";
-import { FilterType } from "@mendix/widget-plugin-filtering/provider";
 
 interface Date_FilterAPIv2 {
     filterStore: Date_InputFilterInterface;

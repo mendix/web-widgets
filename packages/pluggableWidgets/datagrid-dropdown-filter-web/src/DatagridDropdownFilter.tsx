@@ -1,21 +1,19 @@
 import { createElement, ReactElement } from "react";
+import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
-import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
 import { StaticFilterContainer } from "./components/StaticFilterContainer";
-import { FilterType } from "@mendix/widget-plugin-filtering/provider";
+import { withSelectFilterAPI, Select_FilterAPIv2 } from "./hocs/withSelectFilterAPI";
 
-export default function DatagridDropdownFilter(_props: DatagridDropdownFilterContainerProps): ReactElement {
-    const ctx = useFilterContextValue();
+interface Props extends Select_FilterAPIv2, DatagridDropdownFilterContainerProps {}
 
-    if (ctx.hasError) {
-        return <div>Error</div>;
-    }
+function Container(props: Props): React.ReactElement {
+    return <StaticFilterContainer {...props} multiselect={props.multiSelect} />;
+}
 
-    const store = getFilterStore(ctx.value, FilterType.ENUMERATION, "undefined");
+const container = withPreloader(Container, props => props.defaultValue?.status === "loading");
 
-    if (store === null || store.storeType === "input") {
-        return <div>Store error</div>;
-    }
+const Widget = withSelectFilterAPI(container);
 
-    return <StaticFilterContainer filterStore={store} multiselect={_props.multiSelect} />;
+export default function DatagridDropdownFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
+    return <Widget {...props} />;
 }
