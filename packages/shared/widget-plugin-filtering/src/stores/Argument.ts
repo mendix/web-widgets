@@ -53,23 +53,36 @@ export class ArgumentBase<T extends Big | Date | string> {
     set displayValue(textValue: string) {
         this._lastSetTextValue = textValue;
         const parseResult = this._formatter?.parse(this._lastSetTextValue);
-        if (parseResult.valid) {
+        this.isValid = parseResult.valid;
+        if (parseResult.valid && !this.equals(this._value, parseResult.value)) {
             this._value = parseResult.value;
         }
-        this.isValid = parseResult.valid;
+    }
+
+    equals(_: T | undefined, __: T | undefined): boolean {
+        throw new Error("equals not implemented");
     }
 }
 
 export class NumberArgument extends ArgumentBase<Big> implements NumberArgumentInterface {
     readonly type = "number";
+    equals(a: Big | undefined, b: Big | undefined): boolean {
+        return Object.is(a, b) || !!(a && b && a.eq(b));
+    }
 }
 
 export class DateArgument extends ArgumentBase<Date> implements DateArgumentInterface {
     readonly type = "date";
+    equals(a: Date | undefined, b: Date | undefined): boolean {
+        return Object.is(a, b) || !!(a && b && +a === +b);
+    }
 }
 
 export class StringArgument extends ArgumentBase<string> implements StringArgumentInterface {
     readonly type = "string";
+    equals(a: string | undefined, b: string | undefined): boolean {
+        return a === b;
+    }
 }
 
 export type Argument = NumberArgument | DateArgument | StringArgument;
