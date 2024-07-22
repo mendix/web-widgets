@@ -122,6 +122,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     setSearch(): void {
         console.warn("StaticSelectFilterStore: calling setSearch has no effect.");
     }
+
+    toJSON(): string[] {
+        return [...this._selected];
+    }
 }
 
 function getFilterCondition(

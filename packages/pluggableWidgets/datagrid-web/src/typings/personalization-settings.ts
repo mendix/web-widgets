@@ -8,14 +8,12 @@ export interface ColumnPersonalizationSettings {
     orderWeight: number;
     sortDir: SortDirection | undefined;
     sortWeight: number | undefined;
-    filterSettings: unknown;
 }
 
 interface ColumnPersonalizationStorageSettings {
     columnId: ColumnId;
     size: number | undefined;
     hidden: boolean;
-    filterSettings: unknown;
 }
 
 export interface GridPersonalizationStorageSettings {

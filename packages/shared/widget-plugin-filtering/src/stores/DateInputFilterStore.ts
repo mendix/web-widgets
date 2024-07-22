@@ -23,7 +23,7 @@ import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [FilterFn, [Date | undefined, Date | undefined]];
 export class DateInputFilterStore
-    extends BaseInputFilterStore<DateArgument, FilterFn, Date>
+    extends BaseInputFilterStore<DateArgument, FilterFn>
     implements Date_InputFilterInterface
 {
     readonly storeType = "input";

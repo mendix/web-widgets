@@ -13,8 +13,7 @@ import {
 export class StringInputFilterStore
     extends BaseInputFilterStore<
         StringArgument,
-        FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary,
-        string
+        FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary
     >
     implements String_InputFilterInterface
 {
