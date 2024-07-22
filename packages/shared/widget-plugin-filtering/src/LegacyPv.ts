@@ -1,7 +1,6 @@
 import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
 import { FilterType as Ft } from "./provider";
 import { LegacyProvider } from "./provider-next";
 import { DateInputFilterStore } from "./stores/DateInputFilterStore";
@@ -25,8 +24,6 @@ type FilterList = [
     StaticSelectFilterStore | null
 ];
 
-// const filterSeq = [Ft.STRING, Ft.NUMBER, Ft.DATE, Ft.ENUMERATION] as const;
-
 export class LegacyPv implements LegacyProvider {
     readonly type = "legacy";
     private _attrs: ListAttributeValue[];
@@ -40,21 +37,13 @@ export class LegacyPv implements LegacyProvider {
         this.filterList = [map[Ft.STRING], map[Ft.NUMBER], map[Ft.DATE], map[Ft.ENUMERATION]];
         makeObservable<this, "_attrs">(this, {
             _attrs: observable.ref,
-            filterCondition: computed,
+            conditions: computed,
             updateProps: action
         });
     }
 
-    get filterCondition(): FilterCondition | undefined {
-        const cds = this.filterList.flatMap(store => (store?.filterCondition ? [store.filterCondition] : []));
-        switch (cds.length) {
-            case 0:
-                return undefined;
-            case 1:
-                return cds[0];
-            default:
-                return and(...cds);
-        }
+    get conditions(): Array<FilterCondition | undefined> {
+        return this.filterList.map(store => (store ? store.filterCondition : undefined));
     }
 
     get = (type: Ft): InputFilterInterface | OptionListFilterInterface<string> | null => {

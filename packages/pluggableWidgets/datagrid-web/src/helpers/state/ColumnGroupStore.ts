@@ -61,8 +61,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             _allColumnsOrdered: computed,
             availableColumns: computed,
             visibleColumns: computed,
-            filterConditions: computed.struct,
-            filterConditions2: computed.struct,
+            conditions: computed.struct,
             settings: computed.struct,
 
             updateProps: action,
@@ -70,8 +69,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             swapColumns: action,
             applySettings: action
         });
-
-        trace(this, "filterConditions2");
+        console.debug(trace(this, "conditions"), this);
     }
 
     updateProps(props: Pick<DatagridContainerProps, "columns">): void {
@@ -123,17 +121,10 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         return [...this.availableColumns].filter(column => !column.isHidden);
     }
 
-    get filterConditions(): FilterCondition[] {
-        return this.columnFilters
-            .map(cf => cf.condition2)
-            .filter((filter): filter is FilterCondition => filter !== undefined);
-    }
-
-    get filterConditions2(): FilterCondition[] {
-        return this.columnFilters
-            .filter((_, index) => !this._allColumns[index].isHidden)
-            .map(cf => cf.condition2)
-            .filter((filter): filter is FilterCondition => filter !== undefined);
+    get conditions(): Array<FilterCondition | undefined> {
+        return this.columnFilters.map((store, index) => {
+            return this._allColumns[index].isHidden ? undefined : store.condition2;
+        });
     }
 
     get sortInstructions(): SortInstruction[] | undefined {
@@ -143,6 +134,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     get settings(): ColumnPersonalizationSettings[] {
         return this._allColumns.map(column => column.settings);
     }
+
     applySettings(settings: ColumnPersonalizationSettings[]): void {
         settings.forEach(conf => {
             const column = this._allColumnsById.get(conf.columnId);

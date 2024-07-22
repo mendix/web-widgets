@@ -1,5 +1,6 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
+import { equals, literal, and } from "mendix/filters/builders";
 
 export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
 export type InitialFilterValue = { type: BinaryExpression["name"]; value: LiteralExpression["value"] };
@@ -68,14 +69,36 @@ export function splitAndOrStatements(filter?: FilterCondition): FilterCondition[
     return filter ? [filter] : undefined;
 }
 
-export function unwrapAndExpression(filter: FilterCondition | undefined): FilterCondition[] {
-    if (filter === undefined) {
-        return [];
+function placeholder(): FilterCondition {
+    return equals(literal(true), literal(true));
+}
+
+function isPlaceholder(exp: FilterCondition): boolean {
+    return (
+        exp.name === "=" &&
+        exp.arg1.type === "literal" &&
+        exp.arg2.type === "literal" &&
+        exp.arg1.value === true &&
+        exp.arg2.value === true
+    );
+}
+
+export function conjoin(exp: Array<FilterCondition | undefined>): FilterCondition {
+    switch (exp.length) {
+        case 0:
+            return and(placeholder(), placeholder());
+        case 1:
+            return and(exp.at(0) ?? placeholder(), placeholder());
+        default: {
+            return and(...exp.map(x => (x === undefined ? placeholder() : x)));
+        }
+    }
+}
+
+export function disjoin(exp: FilterCondition): Array<FilterCondition | undefined> {
+    if (exp.name !== "and") {
+        throw new Error('only "and" expression is supported');
     }
 
-    if (filter.name === "and") {
-        return [...filter.args];
-    }
-
-    return [filter];
+    return exp.args.map(x => (isPlaceholder(x) ? undefined : x));
 }

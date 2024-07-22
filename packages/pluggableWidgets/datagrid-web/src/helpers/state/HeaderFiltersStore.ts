@@ -16,13 +16,12 @@ export class HeaderFiltersStore {
             provider: this.provider
         };
         makeObservable(this, {
-            filterConditions: computed
+            conditions: computed
         });
     }
 
-    get filterConditions(): FilterCondition[] {
-        const cond = this.provider.filterCondition;
-        return cond ? [cond] : [];
+    get conditions(): Array<FilterCondition | undefined> {
+        return this.provider.conditions;
     }
 
     setup(): void {
