@@ -39,7 +39,6 @@ export function FilterContentComponent<T>(props: FilterContentProps<T>): React.R
                 tabIndex={0}
                 style={multiSelect ? { paddingLeft: 32 } : undefined}
                 onClick={e => {
-                    e.preventDefault();
                     e.stopPropagation();
                     onOptionClick(props.empty);
                 }}
@@ -63,7 +62,6 @@ export function FilterContentComponent<T>(props: FilterContentProps<T>): React.R
                     })}
                     key={`val:${option.value}`}
                     onClick={e => {
-                        e.preventDefault();
                         e.stopPropagation();
                         onOptionClick(option);
                     }}

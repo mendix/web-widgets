@@ -53,3 +53,16 @@ export function useFilterContextValue(): Result<FilterAPIv2, OutOfContextError> 
 
     return value(contextValue);
 }
+
+export function getFilterStore({ provider }: FilterAPIv2, legacyType: FilterType, key: string): FilterStore {
+    switch (provider.type) {
+        case "direct":
+            return provider.store;
+        case "key-value":
+            return provider.get(key);
+        case "legacy":
+            return provider.get(legacyType);
+        default:
+            return null;
+    }
+}
