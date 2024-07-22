@@ -1,9 +1,10 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue } from "@mendix/widget-plugin-filtering/provider";
+import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
 import { createElement } from "react";
 import { ENOCONTEXT, EMISSINGSTORE, ESTORETYPE } from "./errors";
 import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { isStringFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
+import { FilterType } from "@mendix/widget-plugin-filtering/provider";
 
 type TextFilterAPI = {
     filterStore: String_InputFilterInterface;
@@ -24,7 +25,7 @@ export function withTextFilterAPI<T>(
             return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
         }
 
-        const store = ctx.value.store;
+        const store = getFilterStore(ctx.value, FilterType.STRING, "undefined");
 
         if (store === null) {
             return <Alert bootstrapStyle="danger">{EMISSINGSTORE}</Alert>;

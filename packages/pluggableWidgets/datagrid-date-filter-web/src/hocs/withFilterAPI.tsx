@@ -1,9 +1,10 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue } from "@mendix/widget-plugin-filtering/provider";
+import { useFilterContextValue, getFilterStore } from "@mendix/widget-plugin-filtering/provider-next";
 import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { createElement } from "react";
 import * as errors from "./errors";
+import { FilterType } from "@mendix/widget-plugin-filtering/provider";
 
 interface Date_FilterAPIv2 {
     filterStore: Date_InputFilterInterface;
@@ -24,7 +25,7 @@ export function withDateFilterAPI<P>(
             return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
         }
 
-        const store = ctx.value.store;
+        const store = getFilterStore(ctx.value, FilterType.DATE, "undefined");
 
         if (store === null) {
             return <Alert bootstrapStyle="danger">{errors.EMISSINGSTORE}</Alert>;
