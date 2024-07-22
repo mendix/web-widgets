@@ -13,6 +13,8 @@ export interface FilterAPIv2 {
 
 export type StoreProvider = DirectProvider | KeyProvider | LegacyProvider;
 
+export type FilterStore = InputFilterInterface | OptionListFilterInterface<string> | null;
+
 interface DirectProvider {
     type: "direct";
     store: InputFilterInterface | OptionListFilterInterface<string> | null;
