@@ -1,6 +1,5 @@
 import { Result, error, value } from "./result-meta.js";
 import { Context, createContext, useContext } from "react";
-import { FilterType } from "./provider.js";
 import { InputFilterInterface } from "./typings/InputFilterInterface.js";
 import { OptionListFilterInterface } from "./typings/OptionListFilterInterface.js";
 import { OutOfContextError } from "./errors.js";
@@ -9,6 +8,14 @@ export interface FilterAPIv2 {
     version: 2;
     parentChannelName: string;
     provider: StoreProvider;
+}
+
+/** @deprecated */
+export enum FilterType {
+    STRING = "string",
+    NUMBER = "number",
+    ENUMERATION = "enum",
+    DATE = "date"
 }
 
 export type StoreProvider = DirectProvider | KeyProvider | LegacyProvider;
@@ -25,6 +32,7 @@ interface KeyProvider {
     get: (key: string) => InputFilterInterface | OptionListFilterInterface<string>;
 }
 
+/** @deprecated */
 export interface LegacyProvider {
     type: "legacy";
     get: (type: FilterType) => InputFilterInterface | OptionListFilterInterface<string> | null;
@@ -32,7 +40,7 @@ export interface LegacyProvider {
 
 type Context_v2 = Context<FilterAPIv2 | undefined>;
 
-const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext2" as const;
+const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext.v2" as const;
 
 declare global {
     interface Window {
