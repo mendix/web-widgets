@@ -8,6 +8,7 @@ import { action, computed, makeObservable } from "mobx";
 import { ReactNode, createElement } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
+import { FilterEntry } from "../../../typings/personalization-settings";
 
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
@@ -89,6 +90,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
     get condition2(): FilterCondition | undefined {
         return this._filterStore ? this._filterStore.filterCondition : undefined;
+    }
+
+    get settings(): FilterEntry | undefined {
+        return this._filterStore?.toJSON();
     }
 }
 
