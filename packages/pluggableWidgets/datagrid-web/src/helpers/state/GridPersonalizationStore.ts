@@ -5,13 +5,13 @@ import { getHash } from "../../utils/columns-hash";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import {
     ColumnPersonalizationSettings,
-    FiltersSettingsMap,
     GridPersonalizationStorageSettings
 } from "../../typings/personalization-settings";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { ColumnId } from "../../typings/GridColumn";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
@@ -69,6 +69,7 @@ export class GridPersonalizationStore {
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
         this.columnsStore.setColumnSettings(toColumnSettings(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.setColumnFilterSettings(settings.columnFilters);
     }
 
     get settings(): GridPersonalizationStorageSettings {

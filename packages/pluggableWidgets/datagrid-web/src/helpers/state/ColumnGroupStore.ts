@@ -11,8 +11,9 @@ import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
-import { ColumnPersonalizationSettings, FiltersSettingsMap } from "../../typings/personalization-settings";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
 import { StaticInfo } from "../../typings/static-info";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -160,6 +161,16 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             .filter(s => s.sortDir && s.sortWeight !== undefined)
             .sort((a, b) => a.sortWeight! - b.sortWeight!)
             .map(c => [c.columnId, c.sortDir!]);
+    }
+
+    setColumnFilterSettings(dataMap: ColumnFilterSettings): void {
+        for (const [id, data] of Object.entries(dataMap)) {
+            const filterIndex = this._allColumnsById.get(id as ColumnId)?.columnIndex ?? NaN;
+            const filter = this.columnFilters.at(filterIndex);
+            if (filter) {
+                filter.settings = data;
+            }
+        }
     }
 
     isLastVisible(column: ColumnStore): boolean {

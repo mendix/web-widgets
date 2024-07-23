@@ -17,7 +17,7 @@ interface ColumnPersonalizationStorageSettings {
     hidden: boolean;
 }
 
-type ColumnFilterSettings = { [key: ColumnId]: FilterData };
+export type ColumnFilterSettings = { [key: ColumnId]: FilterData };
 
 export interface GridPersonalizationStorageSettings {
     name: string;
