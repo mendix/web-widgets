@@ -20,7 +20,7 @@ export class NumberInputFilterStore
             updateProps: action
         });
 
-        trace(this, "filterCondition");
+        trace(this, "condition");
         // todo restore operation and value from config
     }
 

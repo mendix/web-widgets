@@ -43,7 +43,7 @@ export class LegacyPv implements LegacyProvider {
     }
 
     get conditions(): Array<FilterCondition | undefined> {
-        return this.filterList.map(store => (store ? store.filterCondition : undefined));
+        return this.filterList.map(store => (store ? store.condition : undefined));
     }
 
     get = (type: Ft): InputFilterInterface | OptionListFilterInterface<string> | null => {

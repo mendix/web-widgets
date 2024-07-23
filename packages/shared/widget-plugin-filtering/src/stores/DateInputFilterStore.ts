@@ -43,7 +43,7 @@ export class DateInputFilterStore
         // todo restore operation and value from config
     }
 
-    get filterCondition(): FilterCondition | undefined {
+    get condition(): FilterCondition | undefined {
         const conditions = this._attributes.flatMap(attr => this.getCondition(attr, ...this.computedState));
         switch (conditions.length) {
             case 0:
