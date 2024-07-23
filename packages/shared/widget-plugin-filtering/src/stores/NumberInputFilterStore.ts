@@ -63,5 +63,6 @@ export class NumberInputFilterStore
         } catch {
             this.arg2.value = undefined;
         }
+        this.isInitialized = true;
     }
 }

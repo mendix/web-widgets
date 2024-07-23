@@ -4,11 +4,13 @@ import { OptionListFilterInterface, Option } from "../typings/OptionListFilterIn
 type Params = {
     store: OptionListFilterInterface<string>;
     multiselect: boolean;
+    defaultValue?: string;
 };
 
 export class StaticFilterController {
     private store: OptionListFilterInterface<string>;
     readonly empty: Option<string>;
+    readonly defaults: string[] | undefined;
     multiselect = false;
 
     constructor(params: Params) {
@@ -19,6 +21,7 @@ export class StaticFilterController {
             caption: "",
             selected: false
         };
+        this.defaults = params.defaultValue ? [params.defaultValue] : undefined;
 
         makeObservable(this, {
             inputValue: computed
@@ -31,6 +34,10 @@ export class StaticFilterController {
 
     get options(): Array<Option<string>> {
         return [...this.store.options];
+    }
+
+    setup(): void {
+        this.store.UNSAFE_setDefaults(this.defaults);
     }
 
     onSelect = (value: string): void => {

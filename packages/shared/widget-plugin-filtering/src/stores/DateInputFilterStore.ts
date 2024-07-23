@@ -188,6 +188,7 @@ export class DateInputFilterStore
         this.filterFunction = fn as FilterFn;
         this.arg1.value = parse(date1);
         this.arg2.value = parse(date2);
+        this.isInitialized = true;
     }
 }
 

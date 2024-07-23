@@ -17,6 +17,6 @@ export interface OptionListFilterInterface<T> {
     isValidValue(value: string): boolean;
     reset(): void;
     clear(): void;
-    UNSAFE_setDefaults(value: string[]): void;
+    UNSAFE_setDefaults(value?: string[]): void;
     dispose?: () => void;
 }
