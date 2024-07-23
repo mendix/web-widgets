@@ -7,7 +7,13 @@ import { withSelectFilterAPI, Select_FilterAPIv2 } from "./hocs/withSelectFilter
 interface Props extends Select_FilterAPIv2, DatagridDropdownFilterContainerProps {}
 
 function Container(props: Props): React.ReactElement {
-    return <StaticFilterContainer {...props} multiselect={props.multiSelect} />;
+    return (
+        <StaticFilterContainer
+            filterStore={props.filterStore}
+            multiselect={props.multiSelect}
+            defaultValue={props.defaultValue?.value}
+        />
+    );
 }
 
 const container = withPreloader(Container, props => props.defaultValue?.status === "loading");

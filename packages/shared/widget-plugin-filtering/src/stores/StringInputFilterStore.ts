@@ -57,5 +57,6 @@ export class StringInputFilterStore
         this.filterFunction = fn as typeof this.filterFunction;
         this.arg1.value = s1 ? s1 : undefined;
         this.arg2.value = s2 ? s2 : undefined;
+        this.isInitialized = true;
     }
 }

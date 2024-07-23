@@ -60,15 +60,11 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    initialize = (state: StateTuple<Fn, Val<A>>): void => {
-        this.setState(state);
-        this.isInitialized = true;
-    };
-
     UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>): void => {
         this.defaultState = state;
         if (this.isInitialized === false) {
-            this.initialize(state);
+            this.setState(state);
+            this.isInitialized = true;
         }
     };
 

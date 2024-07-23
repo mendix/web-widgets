@@ -62,7 +62,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     UNSAFE_setDefaults = (value?: string[]): void => {
         this.defaultValue ??= value;
         if (this.isInitialized === false && this.defaultValue !== undefined) {
-            this.initialize(this.defaultValue);
+            this.replace(this.defaultValue);
+            this.isInitialized = true;
         }
     };
 
@@ -75,11 +76,6 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     /** Clear arguments, but keep current filter function. */
     clear = (): void => {
         this.replace([]);
-    };
-
-    initialize = (value: string[]): void => {
-        this.replace(value);
-        this.isInitialized = true;
     };
 
     updateProps(attributes: ListAttributeValue[]): void {
@@ -132,6 +128,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         if (Array.isArray(data) && data.every(item => typeof item === "string")) {
             this.replace(data as string[]);
         }
+        this.isInitialized = true;
     }
 }
 
