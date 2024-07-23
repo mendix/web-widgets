@@ -1,11 +1,5 @@
-import {
-    DispatchFilterUpdate,
-    FilterContextValue,
-    FilterType,
-    error,
-    value,
-    Result
-} from "@mendix/widget-plugin-filtering/main";
+import { DispatchFilterUpdate, FilterContextValue, FilterType } from "@mendix/widget-plugin-filtering/provider";
+import { error, value, Result } from "@mendix/widget-plugin-filtering/result-meta";
 import { ListAttributeValue, ValueStatus } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
