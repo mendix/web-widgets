@@ -1,5 +1,5 @@
 import { SortRule } from "../../typings/sorting";
-import { action, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
+import { action, computed, IReactionDisposer, makeObservable, reaction, comparer } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../utils/columns-hash";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -41,11 +41,11 @@ export class GridPersonalizationStore {
             reaction(
                 () => this.storage.settings,
                 settings => {
-                    if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
+                    if (settings !== undefined) {
                         this.applySettings(settings);
                     }
                 },
-                { fireImmediately: true }
+                { fireImmediately: true, equals: comparer.structural }
             )
         );
 
