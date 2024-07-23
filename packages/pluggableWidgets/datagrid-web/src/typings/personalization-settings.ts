@@ -1,3 +1,4 @@
+import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
 import { ColumnId } from "./GridColumn";
 import { SortDirection, SortRule } from "./sorting";
 
@@ -15,13 +16,6 @@ interface ColumnPersonalizationStorageSettings {
     size: number | undefined;
     hidden: boolean;
 }
-
-export type FilterData<T = string | Date | number | null | Big> =
-    | [string, T | undefined, T | undefined]
-    | string[]
-    | null;
-
-export type FiltersSettingsMap<T> = Map<T, FilterData>;
 
 type ColumnFilterSettings = { [key: ColumnId]: FilterData };
 
