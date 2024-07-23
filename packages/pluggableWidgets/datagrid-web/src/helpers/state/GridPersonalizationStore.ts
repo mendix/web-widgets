@@ -5,11 +5,13 @@ import { getHash } from "../../utils/columns-hash";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import {
     ColumnPersonalizationSettings,
+    FiltersSettingsMap,
     GridPersonalizationStorageSettings
 } from "../../typings/personalization-settings";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
+import { ColumnId } from "../../typings/GridColumn";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
@@ -66,15 +68,20 @@ export class GridPersonalizationStore {
     }
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
-        this.columnsStore.setColumnSettings(fromStorageFormat(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.setColumnSettings(toColumnSettings(this.gridName, this.gridColumnsHash, settings));
     }
 
     get settings(): GridPersonalizationStorageSettings {
-        return toStorageFormat(this.gridName, this.gridColumnsHash, this.columnsStore.columnSettings);
+        return toStorageFormat(
+            this.gridName,
+            this.gridColumnsHash,
+            this.columnsStore.columnSettings,
+            this.columnsStore.filterSettings
+        );
     }
 }
 
-function fromStorageFormat(
+function toColumnSettings(
     gridName: string,
     gridColumnsHash: string,
     settings: GridPersonalizationStorageSettings
@@ -103,7 +110,8 @@ function fromStorageFormat(
 function toStorageFormat(
     gridName: string,
     gridColumnsHash: string,
-    columnsSettings: ColumnPersonalizationSettings[]
+    columnsSettings: ColumnPersonalizationSettings[],
+    columnFilters: FiltersSettingsMap<ColumnId>
 ): GridPersonalizationStorageSettings {
     const sortOrder = columnsSettings
         .filter(c => c.sortDir && c.sortWeight !== undefined)
@@ -114,7 +122,7 @@ function toStorageFormat(
 
     return {
         name: gridName,
-        schemaVersion: 1,
+        schemaVersion: 2,
         settingsHash: gridColumnsHash,
         columns: columnsSettings.map(c => ({
             columnId: c.columnId,
@@ -122,6 +130,8 @@ function toStorageFormat(
             hidden: c.hidden,
             filterSettings: undefined
         })),
+
+        columnFilters: Object.fromEntries(columnFilters),
         sortOrder,
         columnOrder
     };
