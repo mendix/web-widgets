@@ -7,7 +7,7 @@ import { OutOfContextError } from "./errors.js";
 export interface FilterAPIv2 {
     version: 2;
     parentChannelName: string;
-    provider: FilterStoreProvider;
+    provider: Result<FilterStoreProvider, Error>;
 }
 
 /** @deprecated */
@@ -27,7 +27,7 @@ interface DirectProvider {
     store: FilterStore;
 }
 
-interface KeyProvider {
+export interface KeyProvider {
     type: "key-value";
     get: (key: string) => NonNullable<FilterStore>;
 }
@@ -62,7 +62,7 @@ export function useFilterContextValue(): Result<FilterAPIv2, OutOfContextError> 
     return value(contextValue);
 }
 
-export function getFilterStore({ provider }: FilterAPIv2, legacyType: FilterType, key: string): FilterStore {
+export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType, key: string): FilterStore {
     switch (provider.type) {
         case "direct":
             return provider.store;

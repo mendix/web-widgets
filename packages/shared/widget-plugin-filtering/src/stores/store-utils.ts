@@ -27,6 +27,7 @@ export function attrgroupFilterStore(
             return new NumberInputFilterStore(attributes as Array<ListAttributeValue<Big>>);
 
         case "String":
+        case "HashString":
             return new StringInputFilterStore(attributes as Array<ListAttributeValue<string>>);
 
         case "Boolean":
