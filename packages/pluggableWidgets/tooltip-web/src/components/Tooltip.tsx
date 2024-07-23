@@ -1,10 +1,20 @@
-import { createElement, CSSProperties, ReactElement, ReactNode, useCallback, useRef, useState } from "react";
-import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
-import { usePopper } from "react-popper";
+import {
+    arrow,
+    autoUpdate,
+    flip,
+    offset,
+    Placement,
+    useClick,
+    useDismiss,
+    useFloating,
+    useFocus,
+    useHover,
+    useInteractions,
+    useRole
+} from "@floating-ui/react";
 import classNames from "classnames";
+import { createElement, CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
-import { Placement } from "@popperjs/core/lib/enums";
-import { useDocumentKeyDown } from "../utils/useDocumentKeyDown";
 
 export interface TooltipProps {
     name?: string;
@@ -22,67 +32,39 @@ export interface TooltipProps {
 
 export const Tooltip = (props: TooltipProps): ReactElement => {
     const { trigger, htmlMessage, textMessage, openOn, position, preview, renderMethod } = props;
-    const componentReference = useRef<HTMLDivElement | null>(null);
     const [showTooltip, setShowTooltip] = useState(preview ?? false);
-    const [triggerElement, setTriggerElement] = useState<HTMLDivElement | null>(null);
-    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
-    const { styles, attributes } = usePopper(triggerElement, popperElement, {
+    const { refs, floatingStyles, context } = useFloating({
         placement: position,
-        modifiers: [
-            {
-                name: "arrow",
-                options: {
-                    element: arrowElement,
-                    padding: 5
-                }
-            },
-            {
-                name: "flip",
-                options: {
-                    fallbackPlacements: ["top", "right", "bottom", "left"]
-                }
-            },
-            { name: "offset", options: { offset: [0, 8] } }
-        ]
+        open: showTooltip,
+        onOpenChange: setShowTooltip,
+        middleware: [
+            offset(8),
+            flip({
+                fallbackPlacements: ["top", "right", "bottom", "left"]
+            }),
+            arrow({ element: arrowElement })
+        ],
+        whileElementsMounted: autoUpdate
     });
 
-    useOnClickOutside([componentReference], () => setShowTooltip(false));
-
-    useDocumentKeyDown(event => {
-        if (event.key === "Escape") {
-            setShowTooltip(false);
-        }
+    const hover = useHover(context, { move: false, enabled: ["hover", "hoverFocus"].includes(openOn) });
+    const focus = useFocus(context, { enabled: openOn === "hoverFocus" });
+    const click = useClick(context, { enabled: openOn === "click" });
+    const dismiss = useDismiss(context);
+    const role = useRole(context, {
+        role: "tooltip"
     });
 
-    const onShow = useCallback(() => setShowTooltip(true), []);
-    const onHide = useCallback(() => setShowTooltip(false), []);
-    const onToggle = useCallback(() => setShowTooltip(showTooltip => !showTooltip), []);
+    const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, click, dismiss, role]);
+
     const renderTrigger = (): ReactElement => {
-        let eventContainer;
-        switch (openOn) {
-            case "click":
-                eventContainer = {
-                    onClick: onToggle
-                };
-                break;
-            case "hover":
-                eventContainer = {
-                    onPointerEnter: onShow,
-                    onPointerLeave: onHide
-                };
-                break;
-            case "hoverFocus":
-                eventContainer = {
-                    onPointerEnter: onShow,
-                    onPointerLeave: onHide,
-                    onFocus: onShow,
-                    onBlur: onHide
-                };
-                break;
-        }
         return (
-            <div className="widget-tooltip-trigger" ref={setTriggerElement} {...(preview ? undefined : eventContainer)}>
+            <div
+                className="widget-tooltip-trigger"
+                ref={refs.setReference}
+                {...(preview ? undefined : getReferenceProps())}
+            >
                 {trigger}
             </div>
         );
@@ -90,28 +72,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
 
     const renderTooltip = (): ReactNode => {
         return showTooltip ? (
-            <div
-                {...attributes.popper}
-                className="widget-tooltip-content"
-                ref={setPopperElement}
-                style={styles.popper}
-                role="tooltip"
-            >
+            <div className="widget-tooltip-content" style={floatingStyles} {...getFloatingProps()} role="tooltip">
                 {renderMethod === "text" ? textMessage : htmlMessage}
-                <div
-                    {...attributes.arrow}
-                    className="widget-tooltip-arrow"
-                    ref={setArrowElement}
-                    style={styles.arrow}
-                />
+                <div className="widget-tooltip-arrow" ref={setArrowElement} />
             </div>
         ) : null;
     };
     return (
-        <div
-            className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}
-            ref={componentReference}
-        >
+        <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
             {renderTrigger()}
             {renderTooltip()}
         </div>
