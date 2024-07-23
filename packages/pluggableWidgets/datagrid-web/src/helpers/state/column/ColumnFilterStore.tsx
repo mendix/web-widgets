@@ -96,8 +96,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return this._filterStore?.toJSON();
     }
 
-    set settings(data: FilterData) {
-        this._filterStore?.fromJSON(data);
+    set settings(data: FilterData | undefined) {
+        if (data === undefined) {
+            this._filterStore?.reset();
+        } else {
+            this._filterStore?.fromJSON(data);
+        }
     }
 }
 
