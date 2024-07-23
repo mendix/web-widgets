@@ -30,10 +30,6 @@ $tabs-bg-pills: #e7e7e9;
 }
 
 .widget-markdown.preview {
-    flex-grow: 1;
-    background-color: var(--label-info-color, $label-info-color);
-    padding: 10px;
-    min-height: 80px;
-    border: 1px solid var(--tabs-bg-pills, $tabs-bg-pills);
-    border-radius: var(--spacing-smaller, $spacing-smaller);
+    padding: 5px;
+    min-height: max-content;
 }
