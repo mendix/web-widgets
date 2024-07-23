@@ -10,7 +10,6 @@ $tabs-bg-pills: #e7e7e9;
     flex-grow: 1;
     flex-direction: column;
     flex: 1;
-    min-height: 200px;
     width: 100%;
     justify-content: flex-start;
     th,
@@ -30,6 +29,5 @@ $tabs-bg-pills: #e7e7e9;
 }
 
 .widget-markdown.preview {
-    padding: 5px;
     min-height: max-content;
 }
