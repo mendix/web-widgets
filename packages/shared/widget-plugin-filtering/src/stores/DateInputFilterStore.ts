@@ -19,6 +19,7 @@ import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
+import { FilterData, InputData } from "../typings/settings";
 
 type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [FilterFn, [Date | undefined, Date | undefined]];
@@ -160,6 +161,33 @@ export class DateInputFilterStore
                 lessThanOrEqual(attrExp, literal(new Date(addDays(end, 1).getTime() - 1)))
             )
         ];
+    }
+
+    toJSON(): InputData {
+        return [
+            this.filterFunction,
+            this.arg1.value ? this.arg1.value.toJSON() : null,
+            this.arg2.value ? this.arg2.value.toJSON() : null
+        ];
+    }
+
+    fromJSON(data: FilterData): void {
+        if (!Array.isArray(data)) {
+            return;
+        }
+        const parse = (value: string | null): Date | undefined => {
+            if (value === null) {
+                return undefined;
+            }
+
+            const date = new Date(value);
+
+            return date.toString() === "Invalid Date" ? undefined : date;
+        };
+        const [fn, date1, date2] = data;
+        this.filterFunction = fn as FilterFn;
+        this.arg1.value = parse(date1);
+        this.arg2.value = parse(date2);
     }
 }
 
