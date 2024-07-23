@@ -6,7 +6,7 @@ export const preview = (props: MarkdownPreviewProps): ReactElement => {
     const { stringAttribute } = props;
     return (
         <div className="widget-markdown preview">
-            {stringAttribute ? `[${stringAttribute}]` : "[No attribute selected]"}
+            <p>{stringAttribute ? `[${stringAttribute}]` : "[No attribute selected]"}</p>
         </div>
     );
 };
