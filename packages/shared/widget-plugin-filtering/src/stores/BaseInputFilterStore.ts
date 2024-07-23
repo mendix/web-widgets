@@ -41,7 +41,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         makeObservable<this, "_attributes" | "setState">(this, {
             _attributes: observable.ref,
             filterFunction: observable,
-            filterCondition: computed,
+            condition: computed,
             setState: action,
             UNSAFE_setDefaults: action,
             setFilterFn: action
@@ -52,7 +52,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 
-    get filterCondition(): FilterCondition | undefined {
+    get condition(): FilterCondition | undefined {
         const conditions = this._attributes
             .map(attr => getFilterCondition(attr, this.arg1.value, this.arg2.value, this.filterFunction))
             .filter((filter): filter is FilterCondition => filter !== undefined);

@@ -74,7 +74,7 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         }));
     }
 
-    get filterCondition(): FilterCondition | undefined {
+    get condition(): FilterCondition | undefined {
         if (this._selected.size < 1) {
             return undefined;
         }

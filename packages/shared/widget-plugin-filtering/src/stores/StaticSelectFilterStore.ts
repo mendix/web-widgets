@@ -50,7 +50,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         return new Set(this._attributes.flatMap(attr => Array.from(attr.universe ?? [], value => `${value}`)));
     }
 
-    get filterCondition(): FilterCondition | undefined {
+    get condition(): FilterCondition | undefined {
         const conditions = this._attributes.flatMap(attr => {
             const cond = getFilterCondition(attr, this._selected);
             return cond ? [cond] : [];

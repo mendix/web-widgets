@@ -89,7 +89,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 
     get condition2(): FilterCondition | undefined {
-        return this._filterStore ? this._filterStore.filterCondition : undefined;
+        return this._filterStore ? this._filterStore.condition : undefined;
     }
 
     get settings(): FilterData | undefined {
