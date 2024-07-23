@@ -9,6 +9,7 @@ import {
     FilterFunctionNonValue,
     FilterFunctionString
 } from "../typings/FilterFunctions";
+import { FilterData, InputData } from "../typings/settings";
 
 export class StringInputFilterStore
     extends BaseInputFilterStore<
@@ -42,5 +43,19 @@ export class StringInputFilterStore
         }
         this.arg1.updateProps(formatter as ListAttributeValue<string>["formatter"]);
         this.arg2.updateProps(formatter as ListAttributeValue<string>["formatter"]);
+    }
+
+    toJSON(): InputData {
+        return [this.filterFunction, this.arg1.value ?? null, this.arg2.value ?? null];
+    }
+
+    fromJSON(data: FilterData): void {
+        if (!Array.isArray(data)) {
+            return;
+        }
+        const [fn, s1, s2] = data;
+        this.filterFunction = fn as typeof this.filterFunction;
+        this.arg1.value = s1 ? s1 : undefined;
+        this.arg2.value = s2 ? s2 : undefined;
     }
 }

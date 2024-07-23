@@ -84,10 +84,6 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     setFilterFn = (fn: Fn): void => {
         this.filterFunction = fn;
     };
-
-    toJSON(): [Fn, Val<A> | number, Val<A> | number] {
-        return [this.filterFunction, this.arg1.value, this.arg2.value];
-    }
 }
 
 function getFilterCondition<T extends string | Big | Date>(

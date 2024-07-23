@@ -145,9 +145,13 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         this._optionsource.setFilter(search);
     }
 
+    /** Stub */
     toJSON(): null {
         return null;
     }
+
+    /** Stub */
+    fromJSON(_: unknown): void {}
 }
 
 export function referenceEqualsCondition(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {

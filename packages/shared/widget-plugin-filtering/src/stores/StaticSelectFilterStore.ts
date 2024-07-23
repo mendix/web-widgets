@@ -3,6 +3,7 @@ import { makeObservable, computed, observable, action, comparer } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 import { FilterCondition } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
+import { FilterData } from "../typings/settings";
 
 export class StaticSelectFilterStore implements OptionListFilterInterface<string> {
     readonly storeType = "optionlist";
@@ -125,6 +126,12 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
 
     toJSON(): string[] {
         return [...this._selected];
+    }
+
+    fromJSON(data: FilterData): void {
+        if (Array.isArray(data) && data.every(item => typeof item === "string")) {
+            this.replace(data as string[]);
+        }
     }
 }
 
