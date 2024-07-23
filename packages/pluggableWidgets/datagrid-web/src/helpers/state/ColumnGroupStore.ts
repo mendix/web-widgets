@@ -11,7 +11,7 @@ import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
-import { ColumnPersonalizationSettings, FiltersSettings } from "../../typings/personalization-settings";
+import { ColumnPersonalizationSettings, FiltersSettingsMap } from "../../typings/personalization-settings";
 import { StaticInfo } from "../../typings/static-info";
 
 export interface IColumnGroupStore {
@@ -137,8 +137,8 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         return this._allColumns.map(column => column.settings);
     }
 
-    get filterSettings(): FiltersSettings<ColumnId> {
-        return this.columnFilters.reduce<FiltersSettings<ColumnId>>((acc, filter, index) => {
+    get filterSettings(): FiltersSettingsMap<ColumnId> {
+        return this.columnFilters.reduce<FiltersSettingsMap<ColumnId>>((acc, filter, index) => {
             if (filter.settings) {
                 acc.set(this._allColumns[index].columnId, filter.settings);
             }
