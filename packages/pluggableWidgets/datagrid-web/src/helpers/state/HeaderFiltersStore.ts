@@ -6,6 +6,7 @@ import { computed, makeObservable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { APIError } from "@mendix/widget-plugin-filtering/errors";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 
 type Params = Pick<DatagridContainerProps, "filterList" | "enableFilterGroups" | "groupList" | "groupAttrs">;
 export class HeaderFiltersStore {
@@ -20,12 +21,25 @@ export class HeaderFiltersStore {
             provider: this.provider
         };
         makeObservable(this, {
-            conditions: computed
+            conditions: computed,
+            settings: computed
         });
     }
 
     get conditions(): Array<FilterCondition | undefined> {
         return this.provider.hasError ? [] : this.provider.value.conditions;
+    }
+
+    get settings(): FiltersSettingsMap<string> {
+        return this.provider.hasError ? new Map() : this.provider.value.settings;
+    }
+
+    set settings(value: FiltersSettingsMap<string> | undefined) {
+        if (this.provider.hasError) {
+            return;
+        }
+
+        this.provider.value.settings = value;
     }
 
     createProvider(params: Params): Result<LegacyPv | GroupStoreProvider, APIError> {

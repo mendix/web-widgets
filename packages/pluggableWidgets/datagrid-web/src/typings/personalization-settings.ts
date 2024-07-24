@@ -17,13 +17,16 @@ interface ColumnPersonalizationStorageSettings {
     hidden: boolean;
 }
 
-export type ColumnFilterSettings = { [key: ColumnId]: FilterData };
+export type ColumnFilterSettings = Array<[key: ColumnId, data: FilterData]>;
+
+export type GroupFilterSettings = Array<[key: string, data: FilterData]>;
 
 export interface GridPersonalizationStorageSettings {
     name: string;
     schemaVersion: number;
     settingsHash: string;
     columns: ColumnPersonalizationStorageSettings[];
+    groupFilters: GroupFilterSettings;
     columnFilters: ColumnFilterSettings;
     columnOrder: ColumnId[];
     sortOrder: SortRule[];

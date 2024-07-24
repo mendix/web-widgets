@@ -68,9 +68,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     };
 
     reset = (): void => {
-        if (this.defaultValue !== undefined) {
-            this.replace(this.defaultValue);
-        }
+        this.replace(this.defaultValue !== undefined ? this.defaultValue : []);
     };
 
     /** Clear arguments, but keep current filter function. */

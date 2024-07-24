@@ -162,8 +162,8 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             .map(c => [c.columnId, c.sortDir!]);
     }
 
-    setColumnFilterSettings(dataMap: ColumnFilterSettings): void {
-        for (const [id, data] of Object.entries(dataMap)) {
+    setColumnFilterSettings(values: ColumnFilterSettings): void {
+        for (const [id, data] of values) {
             const filterIndex = this._allColumnsById.get(id as ColumnId)?.columnIndex ?? NaN;
             const filter = this.columnFilters.at(filterIndex);
             if (filter) {

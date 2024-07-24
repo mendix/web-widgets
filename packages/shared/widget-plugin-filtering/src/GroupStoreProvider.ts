@@ -6,6 +6,7 @@ import { attrgroupFilterStore, InputFilterStore } from "./stores/store-utils";
 import { APIError, APIErrorCode } from "./errors";
 import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
 import { computed, makeObservable, trace } from "mobx";
+import { FiltersSettingsMap } from "./typings/settings";
 
 type Group = {
     type: "attrs" | "reference";
@@ -31,18 +32,35 @@ export class GroupStoreProvider implements KeyProvider {
     constructor(entries: Entries<Store>) {
         this._registry = new Map(entries);
         makeObservable(this, {
-            conditions: computed
+            conditions: computed,
+            settings: computed
         });
+
         console.debug(trace(this, "conditions"));
+    }
+
+    get conditions(): Array<FilterCondition | undefined> {
+        return [...this._registry.values()].map(store => store.condition);
+    }
+
+    get settings(): FiltersSettingsMap<string> {
+        const entries = Array.from(this._registry.entries(), ([key, store]) => [key, store.toJSON()] as const);
+        return new Map(entries);
+    }
+
+    set settings(value: FiltersSettingsMap<string> | undefined) {
+        if (value === undefined) {
+            this._registry.forEach(store => store.reset());
+        } else {
+            for (const [key, data] of value) {
+                this._registry.get(key)?.fromJSON(data);
+            }
+        }
     }
 
     get = (key: string): Store | null => {
         return this._registry.get(key) ?? null;
     };
-
-    get conditions(): Array<FilterCondition | undefined> {
-        return [...this._registry.values()].map(store => store.condition);
-    }
 
     setup(): void {}
 
