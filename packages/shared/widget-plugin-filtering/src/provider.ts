@@ -1,7 +1,6 @@
 import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import type { FilterCondition } from "mendix/filters";
 import { Context, Dispatch, SetStateAction, createContext, useContext, useState } from "react";
-import { OutOfContextError, ValueIsMissingError } from "./errors.js";
 import { InitialFilterValue } from "./condition-utils.js";
 import { Result, error, value } from "./result-meta.js";
 import { InputFilterInterface } from "./typings/InputFilterInterface.js";
@@ -127,4 +126,16 @@ export function useMultipleFiltering(): Record<
         [FilterType.DATE]: useState(),
         [FilterType.ENUMERATION]: useState()
     };
+}
+
+export class OutOfContextError extends Error {
+    constructor() {
+        super("Component is used out of context provider");
+    }
+}
+
+export class ValueIsMissingError extends Error {
+    constructor(m = "Value is missing in context") {
+        super(m);
+    }
 }

@@ -9,7 +9,7 @@ import { ReactNode, createElement } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
-
+import { value } from "@mendix/widget-plugin-filtering/result-meta";
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
@@ -77,10 +77,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return {
             version: 2,
             parentChannelName: info.filtersChannelName,
-            provider: {
+            provider: value({
                 type: "direct",
                 store
-            }
+            })
         };
     }
 
