@@ -40,10 +40,8 @@ export class GroupStoreProvider implements KeyProvider {
         return this._registry.get(key) ?? null;
     };
 
-    get conditions(): FilterCondition[] {
-        return [...this._registry.values()].flatMap(store => {
-            return store.condition ? [store.condition] : [];
-        });
+    get conditions(): Array<FilterCondition | undefined> {
+        return [...this._registry.values()].map(store => store.condition);
     }
 
     setup(): void {}
