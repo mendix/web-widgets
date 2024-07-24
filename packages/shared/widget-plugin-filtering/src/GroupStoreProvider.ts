@@ -1,10 +1,11 @@
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { FilterStore, KeyProvider } from "./provider-next";
+import { KeyProvider } from "./provider-next";
 import { Result, error, value } from "./result-meta";
-import { attrgroupFilterStore } from "./stores/store-utils";
-
-type Store = NonNullable<FilterStore>;
+import { attrgroupFilterStore, InputFilterStore } from "./stores/store-utils";
+import { APIError, APIErrorCode } from "./errors";
+import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
+import { computed, makeObservable, trace } from "mobx";
 
 type Group = {
     type: "attrs" | "reference";
@@ -21,24 +22,28 @@ type GroupAttr = {
 
 type Entries<T> = Array<[key: string, value: T]>;
 
+type Store = InputFilterStore | StaticSelectFilterStore;
+
 export class GroupStoreProvider implements KeyProvider {
     readonly type = "key-value";
     private _registry: Map<string, Store>;
 
     constructor(entries: Entries<Store>) {
         this._registry = new Map(entries);
+        makeObservable(this, {
+            conditions: computed
+        });
+        console.debug(trace(this, "conditions"));
     }
 
-    get = (key: string): Store => {
-        const store = this._registry.get(key);
-        if (!store) {
-            throw new TypeError(`GroupStoreProvider: unable to get store for key '${key}'`);
-        }
-        return store;
+    get = (key: string): Store | null => {
+        return this._registry.get(key) ?? null;
     };
 
     get conditions(): FilterCondition[] {
-        return [];
+        return [...this._registry.values()].flatMap(store => {
+            return store.condition ? [store.condition] : [];
+        });
     }
 
     setup(): void {}
@@ -51,7 +56,7 @@ interface Params {
     groupAttrs: GroupAttr[];
 }
 
-export function groupStoreFactory({ groupList, groupAttrs }: Params): Result<GroupStoreProvider, TypeError> {
+export function groupStoreFactory({ groupList, groupAttrs }: Params): Result<GroupStoreProvider, APIError> {
     const entries: Entries<Array<ListAttributeValue<string | Big | boolean | Date>>> = groupList.map(grp => [
         grp.key,
         groupAttrs.flatMap(cfg => (cfg.key === grp.key ? [cfg.attr] : []))
@@ -62,12 +67,18 @@ export function groupStoreFactory({ groupList, groupAttrs }: Params): Result<Gro
         const typeList = attrGroup.map(a => typeMapper(a.type));
         const typeSet = new Set(typeList);
         if (typeSet.size > 1) {
-            return error(new TypeError(`All attributes in the group ('${key}') should be of a common type.`));
+            return error({
+                code: APIErrorCode.EGRPINVALIDATTRS,
+                message: `All attributes in the group ('${key}') should be of a common type.`
+            });
         }
         const [attr] = attrGroup;
         const store = attrgroupFilterStore(attr.type, attrGroup);
         if (store === null) {
-            return error(new TypeError(`Unable to create store for group ('${key}')`));
+            return error({
+                code: APIErrorCode.EGRPSTORECREATE,
+                message: `Unable to create store for group ('${key}')`
+            });
         }
         storeEntries.push([key, store]);
     }
