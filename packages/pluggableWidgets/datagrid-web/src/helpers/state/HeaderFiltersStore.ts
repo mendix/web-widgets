@@ -5,17 +5,15 @@ import { groupStoreFactory, GroupStoreProvider } from "@mendix/widget-plugin-fil
 import { computed, makeObservable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { APIError } from "@mendix/widget-plugin-filtering/errors";
 
+type Params = Pick<DatagridContainerProps, "filterList" | "enableFilterGroups" | "groupList" | "groupAttrs">;
 export class HeaderFiltersStore {
-    private provider: Result<LegacyPv | GroupStoreProvider, Error>;
+    private provider: Result<LegacyPv | GroupStoreProvider, APIError>;
     context: FilterAPIv2;
 
-    constructor(props: Pick<DatagridContainerProps, "filterList" | "enableFilterGroups" | "groupList" | "groupAttrs">) {
-        if (props.enableFilterGroups) {
-            this.provider = groupStoreFactory(props);
-        } else {
-            this.provider = value(new LegacyPv(props.filterList.map(f => f.filter)));
-        }
+    constructor(params: Params) {
+        this.provider = this.createProvider(params);
         this.context = {
             version: 2,
             parentChannelName: "",
@@ -28,6 +26,14 @@ export class HeaderFiltersStore {
 
     get conditions(): Array<FilterCondition | undefined> {
         return this.provider.hasError ? [] : this.provider.value.conditions;
+    }
+
+    createProvider(params: Params): Result<LegacyPv | GroupStoreProvider, APIError> {
+        if (params.enableFilterGroups) {
+            return groupStoreFactory(params);
+        } else {
+            return value(new LegacyPv(params.filterList.map(f => f.filter)));
+        }
     }
 
     setup(): void {

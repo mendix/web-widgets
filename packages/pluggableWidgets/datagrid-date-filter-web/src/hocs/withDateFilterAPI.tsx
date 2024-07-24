@@ -1,39 +1,23 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue, getFilterStore, FilterType } from "@mendix/widget-plugin-filtering/provider-next";
-import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/store-utils";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { useDateFilterAPI, Date_FilterAPIv2 } from "@mendix/widget-plugin-filtering/helpers/useDateFilterAPI";
 import { createElement } from "react";
-import * as errors from "./errors";
 
-interface Date_FilterAPIv2 {
-    filterStore: Date_InputFilterInterface;
-    parentChannelName?: string;
+interface Props {
+    groupKey: string;
 }
 
-export function withDateFilterAPI<P>(
+export function withDateFilterAPI<P extends Props>(
     Component: (props: P & Date_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const ctx = useFilterContextValue();
+        const api = useDateFilterAPI(props.groupKey);
 
-        if (ctx.hasError) {
-            return <Alert bootstrapStyle="danger">{errors.EPLACE}</Alert>;
+        if (api.hasError) {
+            return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
         }
 
-        if (ctx.value.version !== 2) {
-            return <Alert bootstrapStyle="danger">Version 2 of filtering api is required.</Alert>;
-        }
-
-        const store = getFilterStore(ctx.value, FilterType.DATE, "undefined");
-
-        if (store === null) {
-            return <Alert bootstrapStyle="danger">{errors.EMISSINGSTORE}</Alert>;
-        }
-
-        if (store.storeType === "optionlist" || !isDateFilter(store)) {
-            return <Alert bootstrapStyle="danger">{errors.ESTORETYPE}</Alert>;
-        }
-
-        return <Component filterStore={store} parentChannelName={ctx.value.parentChannelName} {...props} />;
+        return (
+            <Component filterStore={api.value.filterStore} parentChannelName={api.value.parentChannelName} {...props} />
+        );
     };
 }

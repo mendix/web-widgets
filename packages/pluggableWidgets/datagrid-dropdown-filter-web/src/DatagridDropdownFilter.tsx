@@ -4,9 +4,7 @@ import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdow
 import { StaticFilterContainer } from "./components/StaticFilterContainer";
 import { withSelectFilterAPI, Select_FilterAPIv2 } from "./hocs/withSelectFilterAPI";
 
-interface Props extends Select_FilterAPIv2, DatagridDropdownFilterContainerProps {}
-
-function Container(props: Props): React.ReactElement {
+function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2): React.ReactElement {
     return (
         <StaticFilterContainer
             filterStore={props.filterStore}

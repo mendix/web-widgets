@@ -5,7 +5,7 @@ import { TextFilterContainer } from "./components/TextFilterContainer";
 import { withTextFilterAPI } from "./hocs/withTextFilterAPI";
 import { isLoadingDefaultValues } from "./utils/widget-utils";
 
-const container = withPreloader(TextFilterContainer, isLoadingDefaultValues);
+const container = withPreloader<DatagridTextFilterContainerProps>(TextFilterContainer, isLoadingDefaultValues);
 const Widget = withTextFilterAPI(container);
 
 export default function DatagridTextFilter(props: DatagridTextFilterContainerProps): ReactElement {

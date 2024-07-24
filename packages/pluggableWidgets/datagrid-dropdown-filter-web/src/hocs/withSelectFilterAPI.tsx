@@ -1,29 +1,22 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useFilterContextValue, getFilterStore, FilterType } from "@mendix/widget-plugin-filtering/provider-next";
+import { Select_FilterAPIv2, useSelectFilterAPI } from "@mendix/widget-plugin-filtering/helpers/useSelectFilterAPI";
 import { createElement } from "react";
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 
-export interface Select_FilterAPIv2 {
-    filterStore: OptionListFilterInterface<string>;
-    parentChannelName?: string;
+interface Props {
+    groupKey: string;
 }
 
-export function withSelectFilterAPI<T extends Select_FilterAPIv2>(
-    Component: (props: T) => React.ReactElement
-): (props: Omit<T, "filterStore">) => React.ReactElement {
-    return function FilterAPIProvider(props: T): React.ReactElement {
-        const ctx = useFilterContextValue();
+export { Select_FilterAPIv2 };
 
-        if (ctx.hasError) {
-            return <Alert bootstrapStyle="danger">Error</Alert>;
+export function withSelectFilterAPI<P extends Props>(
+    Component: (props: P & Select_FilterAPIv2) => React.ReactElement
+): (props: P) => React.ReactElement {
+    return function FilterAPIProvider(props: P): React.ReactElement {
+        const api = useSelectFilterAPI(props.groupKey);
+        if (api.hasError) {
+            return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
         }
 
-        const store = getFilterStore(ctx.value, FilterType.ENUMERATION, "undefined");
-
-        if (store === null || store.storeType === "input") {
-            return <Alert bootstrapStyle="danger">Store error</Alert>;
-        }
-
-        return <Component {...props} filterStore={store} />;
+        return <Component {...props} filterStore={api.value.filterStore} />;
     };
 }
