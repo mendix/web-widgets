@@ -13,6 +13,7 @@ export function preview(props: DatagridDropdownFilterPreviewProps): ReactElement
             inputValue={props.defaultValue}
             multiSelect={false}
             onSelect={() => {}}
+            badge={props.groupKey ? `group: ${props.groupKey}` : undefined}
         />
     );
 }

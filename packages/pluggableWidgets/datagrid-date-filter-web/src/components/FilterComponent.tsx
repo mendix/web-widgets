@@ -1,4 +1,5 @@
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
+import { Badge } from "@mendix/widget-plugin-filtering/controls/shared";
 import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { FilterTypeEnum } from "../helpers/base-types";
@@ -15,6 +16,7 @@ export interface FilterComponentProps extends DatePickerProps {
     screenReaderInputCaption?: string;
     filterFn?: FilterTypeEnum;
     onFilterChange: (fn: FilterTypeEnum) => void;
+    badge?: string;
 }
 
 export type FilterComponent = typeof FilterComponent;
@@ -26,6 +28,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             data-focusindex={props.tabIndex}
             style={props.style}
         >
+            {props.badge ? <Badge style={{ left: 48, zIndex: 2 }}>{props.badge}</Badge> : null}
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption ?? "Select filter type"}
