@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
+import { Badge } from "../shared";
 
 // eslint-disable-next-line prefer-arrow-callback
 export const InputWithFilters = observer(function InputWithFilters<Fn extends string>(
@@ -17,6 +18,7 @@ export const InputWithFilters = observer(function InputWithFilters<Fn extends st
             data-focusindex={props.tabIndex ?? 0}
             style={props.styles}
         >
+            {props.badge ? <Badge style={{ left: 48 }}>{props.badge}</Badge> : null}
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}

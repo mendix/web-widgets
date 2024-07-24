@@ -12,6 +12,7 @@ export interface BaseProps {
     styles?: React.CSSProperties;
     tabIndex?: number;
     type: "text" | "number";
+    badge?: string;
 }
 
 export type FilterFnList<T> = Array<{ value: T; label: string }>;
