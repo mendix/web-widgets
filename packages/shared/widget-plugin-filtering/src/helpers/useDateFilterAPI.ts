@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../provider-next";
 import { error, value, Result } from "../result-meta";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
-import { APIError, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EGRPKEY, EMISSINGSTORE, ESTORETYPE } from "../errors";
 import { isDateFilter } from "../stores/store-utils";
 
 export interface Date_FilterAPIv2 {
@@ -22,6 +22,10 @@ export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError
 
     if (api.provider.hasError) {
         return error(api.provider.error);
+    }
+
+    if (api.provider.value.type === "key-value" && key === "") {
+        return error(EGRPKEY);
     }
 
     const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
