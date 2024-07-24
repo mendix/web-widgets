@@ -85,13 +85,25 @@ export class DatabaseSingleSelectionSelector<
         this.status = attr.status;
         this.validation = attr.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
+
+        if (this.selection.selection === undefined) {
+            const objectId = this.options.getAll().find(option => {
+                return _valuesIsEqual(attr.value, this.values.get(option));
+            });
+
+            if (objectId) {
+                this.selection.setSelection(this.options._optionToValue(objectId));
+            }
+        }
     }
 
     setValue(objectId: string | null): void {
         const value = this.values.get(objectId) as T;
         this.lastSetValue = value;
         this._attr?.setValue(value);
-        this.selection?.setSelection(this.options._optionToValue(objectId));
+        if (objectId !== (this.selection?.selection?.id ?? "")) {
+            this.selection?.setSelection(this.options._optionToValue(objectId));
+        }
         super.setValue(objectId);
     }
 }
