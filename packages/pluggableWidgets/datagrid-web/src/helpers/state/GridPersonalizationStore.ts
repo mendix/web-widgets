@@ -12,6 +12,7 @@ import { AttributePersonalizationStorage } from "../storage/AttributePersonaliza
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { ColumnId } from "../../typings/GridColumn";
 import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { HeaderFiltersStore } from "./HeaderFiltersStore";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
@@ -21,7 +22,11 @@ export class GridPersonalizationStore {
 
     private disposers: IReactionDisposer[] = [];
 
-    constructor(props: DatagridContainerProps, private columnsStore: ColumnGroupStore) {
+    constructor(
+        props: DatagridContainerProps,
+        private columnsStore: ColumnGroupStore,
+        private headerFilters: HeaderFiltersStore
+    ) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
 
@@ -70,6 +75,7 @@ export class GridPersonalizationStore {
     private applySettings(settings: GridPersonalizationStorageSettings): void {
         this.columnsStore.setColumnSettings(toColumnSettings(this.gridName, this.gridColumnsHash, settings));
         this.columnsStore.setColumnFilterSettings(settings.columnFilters);
+        this.headerFilters.settings = new Map(settings.groupFilters);
     }
 
     get settings(): GridPersonalizationStorageSettings {
@@ -77,7 +83,8 @@ export class GridPersonalizationStore {
             this.gridName,
             this.gridColumnsHash,
             this.columnsStore.columnSettings,
-            this.columnsStore.filterSettings
+            this.columnsStore.filterSettings,
+            this.headerFilters.settings
         );
     }
 }
@@ -112,7 +119,8 @@ function toStorageFormat(
     gridName: string,
     gridColumnsHash: string,
     columnsSettings: ColumnPersonalizationSettings[],
-    columnFilters: FiltersSettingsMap<ColumnId>
+    columnFilters: FiltersSettingsMap<ColumnId>,
+    groupFilters: FiltersSettingsMap<string>
 ): GridPersonalizationStorageSettings {
     const sortOrder = columnsSettings
         .filter(c => c.sortDir && c.sortWeight !== undefined)
@@ -132,7 +140,9 @@ function toStorageFormat(
             filterSettings: undefined
         })),
 
-        columnFilters: Object.fromEntries(columnFilters),
+        columnFilters: Array.from(columnFilters),
+        groupFilters: Array.from(groupFilters),
+
         sortOrder,
         columnOrder
     };

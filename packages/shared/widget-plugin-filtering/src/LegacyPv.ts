@@ -9,6 +9,7 @@ import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
 import { StringInputFilterStore } from "./stores/StringInputFilterStore";
 import { InputFilterInterface } from "./typings/InputFilterInterface";
 import { OptionListFilterInterface } from "./typings/OptionListFilterInterface";
+import { FiltersSettingsMap } from "./typings/settings";
 
 type FilterMap = {
     [Ft.STRING]: StringInputFilterStore | null;
@@ -38,6 +39,7 @@ export class LegacyPv implements LegacyProvider {
         makeObservable<this, "_attrs">(this, {
             _attrs: observable.ref,
             conditions: computed,
+            settings: computed,
             updateProps: action
         });
     }
@@ -45,6 +47,12 @@ export class LegacyPv implements LegacyProvider {
     get conditions(): Array<FilterCondition | undefined> {
         return this.filterList.map(store => (store ? store.condition : undefined));
     }
+
+    get settings(): FiltersSettingsMap<string> {
+        return new Map();
+    }
+
+    set settings(_: unknown) {}
 
     get = (type: Ft): InputFilterInterface | OptionListFilterInterface<string> | null => {
         return this.filterMap[type];
