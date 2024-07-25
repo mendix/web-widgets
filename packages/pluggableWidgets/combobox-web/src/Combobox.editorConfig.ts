@@ -124,6 +124,9 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "optionsSourceDatabaseDefaultValue"
             ]);
         }
+        if (values.databaseAttributeString.length === 0) {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseDefaultValue"]);
+        }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
             "attributeAssociation",
