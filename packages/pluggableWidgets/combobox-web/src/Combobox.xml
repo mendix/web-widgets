@@ -60,7 +60,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Attribute">
-                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="true">
+                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Value</caption>
                     <description />
                     <attributeTypes>
@@ -69,7 +69,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="databaseAttributeString" type="attribute" required="true">
+                <property key="databaseAttributeString" type="attribute">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
