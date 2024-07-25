@@ -1,5 +1,5 @@
 import { createElement, memo, ReactElement, ReactNode } from "react";
-import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/provider-next";
+import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import {
     getGlobalSelectionContext,
     SelectionHelper,

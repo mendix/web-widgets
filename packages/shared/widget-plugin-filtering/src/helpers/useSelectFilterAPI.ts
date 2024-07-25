@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { APIError, EGRPKEY, EMISSINGSTORE, ESTORETYPE } from "../errors";
-import { FilterType, getFilterStore, useFilterContextValue } from "../provider-next";
+import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { Result, error, value } from "../result-meta";
 import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 

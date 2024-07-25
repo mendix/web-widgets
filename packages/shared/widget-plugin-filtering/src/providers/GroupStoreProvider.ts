@@ -1,12 +1,12 @@
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { KeyProvider } from "./provider-next";
-import { Result, error, value } from "./result-meta";
-import { attrgroupFilterStore, InputFilterStore } from "./stores/store-utils";
-import { APIError, APIErrorCode } from "./errors";
-import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
+import { KeyProvider } from "../context";
+import { Result, error, value } from "../result-meta";
+import { attrgroupFilterStore, InputFilterStore } from "../stores/store-utils";
+import { APIError, APIErrorCode } from "../errors";
+import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { computed, makeObservable, trace } from "mobx";
-import { FiltersSettingsMap } from "./typings/settings";
+import { FiltersSettingsMap } from "../typings/settings";
 
 type Group = {
     type: "attrs" | "reference";
