@@ -59,7 +59,8 @@ export class GridPersonalizationStore {
                 () => this.settings,
                 settings => {
                     this.storage.updateSettings(settings);
-                }
+                },
+                { delay: 1000 }
             )
         );
     }
