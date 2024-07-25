@@ -57,19 +57,21 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
     private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
         return {
-            reference: ensure(props.filterAssociation, errorMessage("filterAssociation")),
-            optionsource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
-            captionExp: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
+            ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
+            refOptions: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
+            caption: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
         };
     }
 
     private createFilterStore(props: ColumnsType): FilterStore | null {
-        if (props.attribute) {
-            return attrgroupFilterStore(props.attribute.type, [props.attribute]);
-        }
         if (props.filterAssociation) {
             return new RefFilterStore(this.toRefselectProps(props));
         }
+
+        if (props.attribute) {
+            return attrgroupFilterStore(props.attribute.type, [props.attribute]);
+        }
+
         return null;
     }
 

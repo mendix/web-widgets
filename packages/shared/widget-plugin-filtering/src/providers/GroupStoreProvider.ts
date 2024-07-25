@@ -7,6 +7,7 @@ import { APIError, APIErrorCode } from "../errors";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { computed, makeObservable, trace } from "mobx";
 import { FiltersSettingsMap } from "../typings/settings";
+import { RefFilterStore } from "../stores/RefFilterStore";
 
 type Group = {
     type: "attrs" | "reference";
@@ -23,7 +24,12 @@ type GroupAttr = {
 
 type Entries<T> = Array<[key: string, value: T]>;
 
-type Store = InputFilterStore | StaticSelectFilterStore;
+type Store = InputFilterStore | StaticSelectFilterStore | RefFilterStore;
+
+interface Props {
+    groupList: Group[];
+    groupAttrs: GroupAttr[];
+}
 
 export class GroupStoreProvider implements KeyProvider {
     readonly type = "key-value";
@@ -65,41 +71,89 @@ export class GroupStoreProvider implements KeyProvider {
     setup(): void {}
 
     dispose(): void {}
+
+    /** It turns out only ref group need updates. */
+    updateProps(props: Props): void {
+        props.groupList.forEach(grp => {
+            if (grp.type === "reference" && hasAllData(grp)) {
+                const store = this._registry.get(grp.key);
+                if (store?.type === "refselect") {
+                    store.updateProps(grp);
+                }
+            }
+        });
+    }
 }
 
-interface Params {
-    groupList: Group[];
-    groupAttrs: GroupAttr[];
-}
-
-export function groupStoreFactory({ groupList, groupAttrs }: Params): Result<GroupStoreProvider, APIError> {
-    const entries: Entries<Array<ListAttributeValue<string | Big | boolean | Date>>> = groupList.map(grp => [
-        grp.key,
+export function groupStoreFactory({ groupList, groupAttrs }: Props): Result<GroupStoreProvider, APIError> {
+    const entries: Array<[grp: Group, attrs: ListAttributeValue[]]> = groupList.map(grp => [
+        grp,
         groupAttrs.flatMap(cfg => (cfg.key === grp.key ? [cfg.attr] : []))
     ]);
 
     const storeEntries: Entries<Store> = [];
-    for (const [key, attrGroup] of entries) {
-        const typeList = attrGroup.map(a => typeMapper(a.type));
-        const typeSet = new Set(typeList);
-        if (typeSet.size > 1) {
-            return error({
-                code: APIErrorCode.EGRPINVALIDATTRS,
-                message: `All attributes in the group ('${key}') should be of a common type.`
-            });
+    for (const [grp, attrs] of entries) {
+        const store = grp.type === "attrs" ? attrStore(grp, attrs) : refStore(grp);
+        if (store.hasError) {
+            return error(store.error);
         }
-        const [attr] = attrGroup;
-        const store = attrgroupFilterStore(attr.type, attrGroup);
-        if (store === null) {
-            return error({
-                code: APIErrorCode.EGRPSTORECREATE,
-                message: `Unable to create store for group ('${key}')`
-            });
-        }
-        storeEntries.push([key, store]);
+        storeEntries.push([grp.key, store.value]);
     }
 
     return value(new GroupStoreProvider(storeEntries));
+}
+
+function attrStore(
+    group: Group,
+    attrs: ListAttributeValue[]
+): Result<InputFilterStore | StaticSelectFilterStore, APIError> {
+    if (attrs.length === 0) {
+        return error({
+            code: APIErrorCode.EGRPINVALIDATTRS,
+            message: `At least one attribute for the group ('${group.key}') is required.`
+        });
+    }
+    // Check type consistency among attributes.
+    const typeSet = new Set(attrs.map(a => typeMapper(a.type)));
+    if (typeSet.size > 1) {
+        return error({
+            code: APIErrorCode.EGRPINVALIDATTRS,
+            message: `All attributes in the group ('${group.key}') should be of a common type.`
+        });
+    }
+
+    const [attr] = attrs;
+    const store = attrgroupFilterStore(attr.type, attrs);
+    if (store === null) {
+        return error({
+            code: APIErrorCode.EGRPSTORECREATE,
+            message: `Unable to create store for group ('${group.key}')`
+        });
+    }
+
+    return value(store);
+}
+
+function refStore(group: Group): Result<RefFilterStore, APIError> {
+    if (!group.ref) {
+        return error({
+            code: APIErrorCode.EGRPSTORECREATE,
+            message: `The group ('${group.key}') reference source is required.`
+        });
+    }
+    if (!group.refOptions) {
+        return error({
+            code: APIErrorCode.EGRPSTORECREATE,
+            message: `The group ('${group.key}') options source is required.`
+        });
+    }
+    if (!group.caption) {
+        return error({
+            code: APIErrorCode.EGRPSTORECREATE,
+            message: `The group ('${group.key}') option caption template is required.`
+        });
+    }
+    return value(new RefFilterStore({ ref: group.ref, refOptions: group.refOptions, caption: group.caption }));
 }
 
 function typeMapper(type: ListAttributeValue["type"]): "date" | "number" | "string" | "enum" | "unsupported" {
@@ -122,4 +176,12 @@ function typeMapper(type: ListAttributeValue["type"]): "date" | "number" | "stri
         default:
             return "unsupported";
     }
+}
+
+type NonOptional<T> = {
+    [P in keyof T]-?: T[P];
+};
+
+function hasAllData<T extends object>(obj: T): obj is NonOptional<T> {
+    return Object.keys(obj).every(key => obj[key as keyof T] !== undefined);
 }

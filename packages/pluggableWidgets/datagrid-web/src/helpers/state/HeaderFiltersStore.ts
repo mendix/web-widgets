@@ -1,20 +1,43 @@
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { LegacyPv } from "@mendix/widget-plugin-filtering/LegacyPv";
+import { groupStoreFactory, GroupStoreProvider } from "@mendix/widget-plugin-filtering/providers/GroupStoreProvider";
+import { LegacyPv } from "@mendix/widget-plugin-filtering/providers/LegacyPv";
 import { Result, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { groupStoreFactory, GroupStoreProvider } from "@mendix/widget-plugin-filtering/GroupStoreProvider";
-import { computed, makeObservable } from "mobx";
+import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { computed, makeObservable } from "mobx";
 import { APIError } from "@mendix/widget-plugin-filtering/errors";
 import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 
-type Params = Pick<DatagridContainerProps, "filterList" | "enableFilterGroups" | "groupList" | "groupAttrs">;
+export type TypeEnum = "attrs" | "reference";
+
+export interface GroupListType {
+    type: TypeEnum;
+    key: string;
+    ref?: ListReferenceValue | ListReferenceSetValue;
+    refOptions?: ListValue;
+    caption?: ListExpressionValue<string>;
+}
+
+export interface GroupAttrsType {
+    key: string;
+    attr: ListAttributeValue<string | Big | boolean | Date>;
+}
+
+export interface FilterListType {
+    filter: ListAttributeValue<string | Big | boolean | Date>;
+}
+interface Props {
+    enableFilterGroups: boolean;
+    groupList: GroupListType[];
+    groupAttrs: GroupAttrsType[];
+    filterList: FilterListType[];
+}
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv | GroupStoreProvider, APIError>;
     context: FilterAPIv2;
 
-    constructor(params: Params) {
-        this.provider = this.createProvider(params);
+    constructor(props: Props) {
+        this.provider = this.createProvider(props);
         this.context = {
             version: 2,
             parentChannelName: "",
@@ -42,11 +65,11 @@ export class HeaderFiltersStore {
         this.provider.value.settings = value;
     }
 
-    createProvider(params: Params): Result<LegacyPv | GroupStoreProvider, APIError> {
-        if (params.enableFilterGroups) {
-            return groupStoreFactory(params);
+    createProvider(props: Props): Result<LegacyPv | GroupStoreProvider, APIError> {
+        if (props.enableFilterGroups) {
+            return groupStoreFactory(props);
         } else {
-            return value(new LegacyPv(params.filterList.map(f => f.filter)));
+            return value(new LegacyPv(props.filterList.map(f => f.filter)));
         }
     }
 
@@ -63,5 +86,15 @@ export class HeaderFiltersStore {
             return;
         }
         this.provider.value.dispose?.();
+    }
+
+    updateProps(props: Props): void {
+        if (this.provider.hasError) {
+            return;
+        }
+        const provider = this.provider.value;
+        if (provider instanceof GroupStoreProvider) {
+            provider.updateProps(props);
+        }
     }
 }
