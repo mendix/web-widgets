@@ -19,6 +19,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           aria-controls="downshift-0-menu"
           aria-expanded="false"
           aria-labelledby="comboBox1-label"
+          aria-required="true"
           autocomplete="off"
           class="widget-combobox-input"
           id="comboBox1"
