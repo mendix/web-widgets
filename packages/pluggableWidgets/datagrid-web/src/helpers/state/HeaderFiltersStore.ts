@@ -1,4 +1,4 @@
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/provider-next";
+import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { LegacyPv } from "@mendix/widget-plugin-filtering/LegacyPv";
 import { Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { groupStoreFactory, GroupStoreProvider } from "@mendix/widget-plugin-filtering/GroupStoreProvider";

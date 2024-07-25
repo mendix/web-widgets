@@ -1,4 +1,4 @@
-import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/provider-next";
+import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/store-utils";

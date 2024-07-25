@@ -1,15 +1,14 @@
 import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { FilterType as Ft } from "./provider";
-import { LegacyProvider } from "./provider-next";
-import { DateInputFilterStore } from "./stores/DateInputFilterStore";
-import { NumberInputFilterStore } from "./stores/NumberInputFilterStore";
-import { StaticSelectFilterStore } from "./stores/StaticSelectFilterStore";
-import { StringInputFilterStore } from "./stores/StringInputFilterStore";
-import { InputFilterInterface } from "./typings/InputFilterInterface";
-import { OptionListFilterInterface } from "./typings/OptionListFilterInterface";
-import { FiltersSettingsMap } from "./typings/settings";
+import { LegacyProvider, FilterType as Ft } from "../context";
+import { DateInputFilterStore } from "../stores/DateInputFilterStore";
+import { NumberInputFilterStore } from "../stores/NumberInputFilterStore";
+import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { StringInputFilterStore } from "../stores/StringInputFilterStore";
+import { InputFilterInterface } from "../typings/InputFilterInterface";
+import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { FiltersSettingsMap } from "../typings/settings";
 
 type FilterMap = {
     [Ft.STRING]: StringInputFilterStore | null;
