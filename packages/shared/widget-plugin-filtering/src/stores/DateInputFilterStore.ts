@@ -14,7 +14,7 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable, reaction, observable, comparer } from "mobx";
+import { action, makeObservable, reaction, observable, comparer, trace } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
@@ -22,7 +22,7 @@ import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 import { FilterData, InputData } from "../typings/settings";
 
 type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
-type StateTuple = [FilterFn, [Date | undefined, Date | undefined]];
+type StateTuple = [FilterFn, Date | undefined, Date | undefined];
 export class DateInputFilterStore
     extends BaseInputFilterStore<DateArgument, FilterFn>
     implements Date_InputFilterInterface
@@ -35,11 +35,13 @@ export class DateInputFilterStore
     constructor(attributes: Array<ListAttributeValue<Date>>) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
-        this.computedState = [this.filterFunction, [this.arg1.value, this.arg2.value]];
+        this.computedState = [this.filterFunction, this.arg1.value, this.arg2.value];
+        // NOTE: some fields already become observable in `super`.
         makeObservable<this, "computedState">(this, {
             updateProps: action,
             computedState: observable.shallow
         });
+        trace(this, "condition");
         this.setupComputeValues();
         // todo restore operation and value from config
     }
@@ -59,20 +61,20 @@ export class DateInputFilterStore
     updateProps(attributes: ListAttributeValue[]): void {
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
+            const formatter = attributes.at(0)?.formatter;
+            // Just pleasing TypeScript.
+            if (formatter?.type !== "datetime") {
+                console.error("InputFilterStore: encounter invalid attribute type while updating props.");
+                return;
+            }
+            this.arg1.updateProps(formatter);
+            this.arg2.updateProps(formatter);
         }
-        const formatter = attributes.at(0)?.formatter;
-        // Just pleasing TypeScript.
-        if (formatter?.type !== "datetime") {
-            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
-            return;
-        }
-        this.arg1.updateProps(formatter);
-        this.arg2.updateProps(formatter);
     }
 
     private setupComputeValues(): void {
         const disposer = reaction(
-            (): StateTuple => [this.filterFunction, [this.arg1.value, this.arg2.value]],
+            (): StateTuple => [this.filterFunction, this.arg1.value, this.arg2.value],
             computedState => {
                 const [fn, values] = computedState;
                 // Skip changes if value is a half range.
@@ -100,18 +102,19 @@ export class DateInputFilterStore
     private getCondition(
         attr: ListAttributeValue,
         filterFn: FilterFn,
-        values: [Date | undefined, Date | undefined]
+        v1: Date | undefined,
+        v2: Date | undefined
     ): [FilterCondition] | [] {
         if (!attr.filterable) {
             return [];
         }
 
         if (filterFn === "between") {
+            const values = [v1, v2];
             return this.isRange(values) ? this.getRangeCondition(attr, values) : [];
         }
 
-        const value = values.at(0);
-        return value ? this.getAttrCondition(attr, filterFn, value) : [];
+        return v1 ? this.getAttrCondition(attr, filterFn, v1) : [];
     }
 
     private getAttrCondition(
