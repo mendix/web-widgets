@@ -131,7 +131,8 @@ export function MultiSelection({
                                 }
                             },
                             disabled: selector.readOnly,
-                            readOnly: selector.options.filterType === "none"
+                            readOnly: selector.options.filterType === "none",
+                            "aria-required": ariaRequired
                         })}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
