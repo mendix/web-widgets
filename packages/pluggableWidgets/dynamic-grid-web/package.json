@@ -1,0 +1,55 @@
+{
+  "name": "@mendix/dynamic-grid-web",
+  "widgetName": "DynamicGrid",
+  "version": "1.0.0",
+  "description": "My widget description",
+  "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mendix/web-widgets.git"
+  },
+  "config": {
+    "projectPath": "./tests/testProject",
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3000
+  },
+  "mxpackage": {
+    "name": "Dynamic Grid",
+    "type": "widget",
+    "mpkName": "com.mendix.widget.web.DynamicGrid.mpk"
+  },
+  "marketplace": {
+    "minimumMXVersion": "9.24.0",
+    "appNumber": 219304,
+    "appName": "Dynamic Grid"
+  },
+  "testProject": {
+    "githubUrl": "https://github.com/mendix/testProjects",
+    "branchName": "dynamic-grid-web"
+  },
+  "packagePath": "com.mendix.widget.web",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "test": "pluggable-widgets-tools test:unit:web --no-cache --ci && npm run test:e2e",
+    "test:unit": "pluggable-widgets-tools test:unit:web --coverage",
+    "test:e2e": "npx cypress open --browser chrome --e2e",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:web"
+  },
+  "devDependencies": {
+    "@mendix/automation-utils": "workspace:*",
+    "@mendix/eslint-config-web-widgets": "workspace:*",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
+    "@mendix/prettier-config-web-widgets": "workspace:*",
+    "@mendix/run-e2e": "workspace:^*"
+  },
+  "dependencies": {
+    "ag-grid-react": "^32.0.2",
+    "classnames": "^2.3.2"
+  }
+}
