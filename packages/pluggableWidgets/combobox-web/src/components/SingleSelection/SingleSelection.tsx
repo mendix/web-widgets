@@ -14,6 +14,7 @@ export function SingleSelection({
     a11yConfig,
     keepMenuOpen,
     menuFooterContent,
+    ariaRequired,
     ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
@@ -63,7 +64,8 @@ export function SingleSelection({
                             {
                                 disabled: selector.readOnly,
                                 readOnly: selector.options.filterType === "none",
-                                ref: inputRef
+                                ref: inputRef,
+                                "aria-required": ariaRequired
                             },
                             { suppressRefError: true }
                         )}

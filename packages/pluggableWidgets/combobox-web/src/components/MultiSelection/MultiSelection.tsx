@@ -15,6 +15,7 @@ export function MultiSelection({
     tabIndex,
     a11yConfig,
     menuFooterContent,
+    ariaRequired,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
