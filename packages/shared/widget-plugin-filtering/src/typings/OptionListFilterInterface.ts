@@ -5,6 +5,7 @@ export type Option<T> = {
 };
 
 export interface OptionListFilterInterface<T> {
+    type: "refselect" | "select";
     storeType: "optionlist";
     options: Array<Option<T>>;
     isLoading: boolean;

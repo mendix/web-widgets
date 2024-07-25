@@ -7,7 +7,7 @@ import { FilterData } from "../typings/settings";
 
 export class StaticSelectFilterStore implements OptionListFilterInterface<string> {
     readonly storeType = "optionlist";
-    readonly type = "staticselect";
+    readonly type = "select";
     readonly isLoading = false;
     readonly hasMore = false;
     readonly hasSearch = false;
@@ -71,7 +71,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         this.replace(this.defaultValue !== undefined ? this.defaultValue : []);
     };
 
-    /** Clear arguments, but keep current filter function. */
+    /** Just to have uniform clear method on all filter stores. */
     clear = (): void => {
         this.replace([]);
     };

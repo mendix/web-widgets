@@ -53,6 +53,7 @@ export class RootGridStore {
         }
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
+        this.headerFiltersStore.updateProps(props);
     }
 
     get isLoaded(): boolean {

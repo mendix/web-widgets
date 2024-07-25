@@ -11,11 +11,13 @@ import { association, contains, empty, equals, literal, or, attribute } from "me
 import { action, computed, makeObservable, observable, comparer } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 
+type ListAttributeId = ListAttributeValue["id"];
+
 export type RefFilterStoreProps = {
-    reference: ListReferenceValue | ListReferenceSetValue;
-    optionsource: ListValue;
-    captionExp: ListExpressionValue;
-    searchAttr?: ListAttributeValue;
+    ref: ListReferenceValue | ListReferenceSetValue;
+    refOptions: ListValue;
+    caption: ListExpressionValue;
+    searchAttrId?: ListAttributeId;
 };
 
 export class RefFilterStore implements OptionListFilterInterface<string> {
@@ -25,23 +27,23 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     isInitialized = false;
 
     _selected = new Set<string>();
-    _reference: ListReferenceValue | ListReferenceSetValue;
-    _optionsource: ListValue;
-    _captionExp: ListExpressionValue;
-    _searchAttr: ListAttributeValue | undefined = undefined;
+    _ref: ListReferenceValue | ListReferenceSetValue;
+    _refOptions: ListValue;
+    _caption: ListExpressionValue;
+    readonly _searchAttrId: ListAttributeId | undefined = undefined;
 
     constructor(props: RefFilterStoreProps) {
-        this._reference = props.reference;
-        this._optionsource = props.optionsource;
-        this._captionExp = props.captionExp;
-        this._searchAttr = props.searchAttr;
+        this._ref = props.ref;
+        this._refOptions = props.refOptions;
+        this._caption = props.caption;
+        this._searchAttrId = props.searchAttrId;
 
-        this._optionsource.setLimit(0);
+        this._refOptions.setLimit(0);
 
         makeObservable(this, {
-            _reference: observable.ref,
-            _optionsource: observable.ref,
-            _captionExp: observable.ref,
+            _ref: observable.ref,
+            _refOptions: observable.ref,
+            _caption: observable.ref,
             _selected: observable,
 
             options: computed,
@@ -54,21 +56,21 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     }
 
     get hasSearch(): boolean {
-        return this._searchAttr !== undefined;
+        return this._searchAttrId !== undefined;
     }
 
     get hasMore(): boolean {
-        return this._optionsource.hasMoreItems ?? false;
+        return this._refOptions.hasMoreItems ?? false;
     }
 
     get isLoading(): boolean {
-        return this._optionsource.status === "loading";
+        return this._refOptions.status === "loading";
     }
 
     get options(): Array<Option<string>> {
-        const items = this._optionsource.items ?? [];
+        const items = this._refOptions.items ?? [];
         return items.map(obj => ({
-            caption: `${this._captionExp.get(obj).value}`,
+            caption: `${this._caption.get(obj).value}`,
             value: `${obj.id}`,
             selected: this._selected.has(obj.id)
         }));
@@ -78,41 +80,35 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         if (this._selected.size < 1) {
             return undefined;
         }
-        const items = (this._optionsource.items ?? []).filter(obj => this._selected.has(obj.id));
-        if (this._reference.type === "Reference") {
-            return referenceEqualsOneOf(this._reference, items);
+        const items = (this._refOptions.items ?? []).filter(obj => this._selected.has(obj.id));
+        if (this._ref.type === "Reference") {
+            return referenceEqualsOneOf(this._ref, items);
         }
-        return referenceSetContainsOneOf(this._reference, items);
+        return referenceSetContainsOneOf(this._ref, items);
     }
 
-    UNSAFE_setDefaults = (value?: string[]): void => {
-        this.defaultValue ??= value;
-        if (this.isInitialized === false && this.defaultValue !== undefined) {
-            this.initialize(this.defaultValue);
-        }
+    UNSAFE_setDefaults = (_: string[]): void => {
+        console.warn("RefFilterStore: calling UNSAFE_setDefaults has no effect.");
     };
 
     reset = (): void => {
-        if (this.defaultValue !== undefined) {
-            this.replace(this.defaultValue);
-        }
-    };
-
-    /** Clear arguments, but keep current filter function. */
-    clear = (): void => {
         this.replace([]);
     };
 
-    initialize = (value: string[]): void => {
-        this.replace(value);
-        this.isInitialized = true;
+    clear = (): void => {
+        this.reset();
     };
 
     updateProps(props: RefFilterStoreProps): void {
-        this._reference = props.reference;
-        this._optionsource = props.optionsource;
-        this._captionExp = props.captionExp;
-        this._searchAttr = props.searchAttr;
+        if (this._ref !== props.ref) {
+            this._ref = props.ref;
+        }
+        if (this._refOptions !== props.refOptions) {
+            this._refOptions = props.refOptions;
+        }
+        if (this._caption !== props.caption) {
+            this._caption = props.caption;
+        }
     }
 
     replace(value: string[] | Set<string>): void {
@@ -134,15 +130,18 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     }
 
     loadMore(): void {
-        this._optionsource.setLimit(this._optionsource.limit + 100);
+        this._refOptions.setLimit(this._refOptions.limit + 30);
     }
 
     setSearch(term: string | undefined): void {
+        if (!this._searchAttrId) {
+            return;
+        }
         const search =
-            this._searchAttr && typeof term === "string" && term !== ""
-                ? contains(attribute(this._searchAttr.id), literal(term))
+            typeof term === "string" && term !== ""
+                ? contains(attribute(this._searchAttrId), literal(term))
                 : undefined;
-        this._optionsource.setFilter(search);
+        this._refOptions.setFilter(search);
     }
 
     /** Stub */

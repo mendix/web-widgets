@@ -3,8 +3,19 @@ import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader"
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
 import { StaticFilterContainer } from "./components/StaticFilterContainer";
 import { withSelectFilterAPI, Select_FilterAPIv2 } from "./hocs/withSelectFilterAPI";
+import { RefFilterContainer } from "./components/RefFilterContainer";
 
 function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2): React.ReactElement {
+    if (props.filterStore.type === "refselect") {
+        return (
+            <RefFilterContainer
+                filterStore={props.filterStore}
+                multiselect={props.multiSelect}
+                emptyCaption={props.emptyOptionCaption?.value}
+            />
+        );
+    }
+
     return (
         <StaticFilterContainer
             filterStore={props.filterStore}
