@@ -15,6 +15,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
+        ariaRequired: true,
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel,

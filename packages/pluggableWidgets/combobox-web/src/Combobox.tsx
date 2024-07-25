@@ -24,6 +24,7 @@ export default function Combobox(props: ComboboxContainerProps): ReactElement {
         labelId: `${props.id}-label`,
         noOptionsText: props.noOptionsText?.value,
         readOnlyStyle: props.readOnlyStyle,
+        ariaRequired: props.ariaRequired,
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel?.value ?? "",
