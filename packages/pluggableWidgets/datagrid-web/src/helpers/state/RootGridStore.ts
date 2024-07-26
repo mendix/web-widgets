@@ -29,6 +29,22 @@ export class RootGridStore {
         console.debug(((window as any).rootStore = this));
     }
 
+    get isLoaded(): boolean {
+        return this.columnsStore.loaded;
+    }
+
+    /**
+     * This method should always "read" filters from columns.
+     * Otherwise computed is suspended.
+     */
+    get conditions(): FilterCondition {
+        return conjoin([conjoin(this.columnsStore.conditions), conjoin(this.headerFiltersStore.conditions)]);
+    }
+
+    get sortInstructions(): SortInstruction[] | undefined {
+        return this.columnsStore.sortInstructions;
+    }
+
     setup(): void {
         this.headerFiltersStore.setup();
     }
@@ -54,21 +70,5 @@ export class RootGridStore {
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
         this.headerFiltersStore.updateProps(props);
-    }
-
-    get isLoaded(): boolean {
-        return this.columnsStore.loaded;
-    }
-
-    /**
-     * This method should always "read" filters from columns.
-     * Otherwise computed is suspended.
-     */
-    get filterConditions(): FilterCondition {
-        return conjoin([conjoin(this.columnsStore.conditions), conjoin(this.headerFiltersStore.conditions)]);
-    }
-
-    get sortInstructions(): SortInstruction[] | undefined {
-        return this.columnsStore.sortInstructions;
     }
 }
