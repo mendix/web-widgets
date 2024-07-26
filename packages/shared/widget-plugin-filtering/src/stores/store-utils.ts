@@ -1,4 +1,5 @@
 import { ListAttributeValue } from "mendix";
+import { FilterCondition } from "mendix/filters";
 import { DateInputFilterStore } from "./DateInputFilterStore";
 import { NumberInputFilterStore } from "./NumberInputFilterStore";
 import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
@@ -14,25 +15,26 @@ export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore |
 
 export function attrgroupFilterStore(
     type: ListAttributeValue["type"],
-    attributes: ListAttributeValue[]
+    attributes: ListAttributeValue[],
+    initCond: FilterCondition | null
 ): InputFilterStore | StaticSelectFilterStore | null {
     switch (type) {
         case "DateTime":
-            return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>);
+            return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>, initCond);
 
         case "AutoNumber":
         case "Decimal":
         case "Integer":
         case "Long":
-            return new NumberInputFilterStore(attributes as Array<ListAttributeValue<Big>>);
+            return new NumberInputFilterStore(attributes as Array<ListAttributeValue<Big>>, initCond);
 
         case "String":
         case "HashString":
-            return new StringInputFilterStore(attributes as Array<ListAttributeValue<string>>);
+            return new StringInputFilterStore(attributes as Array<ListAttributeValue<string>>, initCond);
 
         case "Boolean":
         case "Enum":
-            return new StaticSelectFilterStore(attributes);
+            return new StaticSelectFilterStore(attributes, initCond);
         default:
             console.error("attrgroupFilterStore: not supported type " + type, attributes);
             return null;

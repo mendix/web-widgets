@@ -1,72 +1,30 @@
-import { ListAttributeValue } from "mendix";
-import { FilterCondition, LiteralExpression } from "mendix/filters";
+import { FilterCondition, AndCondition, OrCondition, LiteralExpression } from "mendix/filters";
 import { equals, literal, and } from "mendix/filters/builders";
 
-export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
-export type InitialFilterValue = { type: BinaryExpression["name"]; value: LiteralExpression["value"] };
+type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
+type Func<T> = T extends { name: infer Fn } ? Fn : never;
+type FilterFunction = Func<FilterCondition>;
 
-const hasOwn = (o: object, k: PropertyKey): boolean => Object.prototype.hasOwnProperty.call(o, k);
+const hasOwn = (o: object, k: PropertyKey): boolean => Object.hasOwn(o, k);
 
 function isBinary(cond: FilterCondition): cond is BinaryExpression {
     return hasOwn(cond, "arg1") && hasOwn(cond, "arg2");
 }
 
-function isTypedLiteral(exp: object): exp is LiteralExpression {
-    return hasOwn(exp, "type") && hasOwn(exp, "value");
+function isAnd(exp: FilterCondition): exp is AndCondition {
+    return exp.type === "function" && exp.name === "and";
 }
 
-/**
- * This function check condition type and if it's an attribute condition (see mendix/filters),
- * then it pull name and value from that condition.
- * Typical use case - extract filter init props from datasource.filter property.
- */
-function getInitValueByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterValue | undefined {
-    if (
-        isBinary(cond) &&
-        cond.arg1.type === "attribute" &&
-        cond.arg1.attributeId === attr.id &&
-        isTypedLiteral(cond.arg2)
-    ) {
-        return {
-            type: cond.name,
-            value: cond.arg2.value
-        };
-    }
-
-    return undefined;
+function isOr(exp: FilterCondition): exp is OrCondition {
+    return exp.type === "function" && exp.name === "or";
 }
 
-/**
- * @remark If we have more then one item in array,
- * that means ether:
- * - that we have same attribute used in two places
- * - that some of the filters (usually date) use "between"
- */
-export function readInitFilterValues(
-    attribute: ListAttributeValue | undefined,
-    dataSourceFilter?: FilterCondition
-): InitialFilterValue[] {
-    if (!attribute || !dataSourceFilter) {
-        return [];
-    }
-    const cs = splitAndOrStatements(dataSourceFilter) ?? [];
-    return cs.flatMap(cond => {
-        const value = getInitValueByAttr(cond, attribute);
-        return value ? [value] : [];
-    });
+function isEmptyExp(exp: FilterCondition): boolean {
+    return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "=" && exp.arg2.valueType === "undefined";
 }
 
-/**
- * If expression is "and" or "or", then unwrap expression by returning it's arguments.
- * For other expressions just wrap exp in array.
- * @remark Function is recursive, which is probably side effect. I don't know why.
- * Probably this is needed in case of "grid wide" (multi attr) filters.
- */
-export function splitAndOrStatements(filter?: FilterCondition): FilterCondition[] | undefined {
-    if (filter && filter.type === "function" && (filter.name === "and" || filter.name === "or")) {
-        return filter.args.flatMap(splitAndOrStatements).filter(f => f !== undefined) as FilterCondition[];
-    }
-    return filter ? [filter] : undefined;
+function isNotEmptyExp(exp: FilterCondition): boolean {
+    return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "!=" && exp.arg2.valueType === "undefined";
 }
 
 function placeholder(): FilterCondition {
@@ -101,4 +59,69 @@ export function disjoin(exp: FilterCondition): Array<FilterCondition | undefined
     }
 
     return exp.args.map(x => (isPlaceholder(x) ? undefined : x));
+}
+
+export function inputStateFromCond<Fn, V>(
+    cond: FilterCondition,
+    fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
+    val: (exp: LiteralExpression) => V
+): null | [Fn, V] | [Fn, V, V] {
+    if (isPlaceholder(cond)) {
+        return null;
+    }
+
+    // Or - condition build for multiple attrs, get state from the first one.
+    if (isOr(cond)) {
+        return inputStateFromCond(cond.args[0], fn, val);
+    }
+
+    // Between
+    if (isAnd(cond)) {
+        return betweenToState(cond, fn, val);
+    }
+
+    return singularToState(cond, fn, val);
+}
+
+function betweenToState<Fn, V>(
+    cond: AndCondition,
+    fn: (func: "between") => Fn,
+    val: (exp: LiteralExpression) => V
+): null | [Fn, V, V] {
+    const [exp1, exp2] = cond.args;
+    const [v1, v2] = [expValue(exp1, val), expValue(exp2, val)];
+    if (v1 && v2) {
+        return [fn("between"), v1, v2];
+    }
+    return null;
+}
+
+function singularToState<Fn, V>(
+    cond: FilterCondition,
+    fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
+    val: (exp: LiteralExpression) => V
+): null | [Fn, V] {
+    const value = expValue(cond, val);
+    if (value === null) {
+        return null;
+    }
+
+    if (isEmptyExp(cond)) {
+        return [fn("empty"), value];
+    }
+    if (isNotEmptyExp(cond)) {
+        return [fn("notEmpty"), value];
+    }
+
+    return [fn(cond.name), value];
+}
+
+function expValue<V>(exp: FilterCondition, val: (exp: LiteralExpression) => V): null | V {
+    if (!isBinary(exp)) {
+        return null;
+    }
+    if (exp.arg2.type !== "literal") {
+        return null;
+    }
+    return val(exp.arg2);
 }

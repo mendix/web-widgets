@@ -23,9 +23,9 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPIv2;
 
-    constructor(props: ColumnsType, info: StaticInfo) {
+    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null) {
         this._widget = props.filter;
-        this._filterStore = this.createFilterStore(props);
+        this._filterStore = this.createFilterStore(props, dsViewState);
         this._context = this.createContext(this._filterStore, info);
 
         makeObservable<this, "_updateStore">(this, {
@@ -63,13 +63,13 @@ export class ColumnFilterStore implements IColumnFilterStore {
         };
     }
 
-    private createFilterStore(props: ColumnsType): FilterStore | null {
+    private createFilterStore(props: ColumnsType, dsViewState: FilterCondition | null): FilterStore | null {
         if (props.filterAssociation) {
             return new RefFilterStore(this.toRefselectProps(props));
         }
 
         if (props.attribute) {
-            return attrgroupFilterStore(props.attribute.type, [props.attribute]);
+            return attrgroupFilterStore(props.attribute.type, [props.attribute], dsViewState);
         }
 
         return null;

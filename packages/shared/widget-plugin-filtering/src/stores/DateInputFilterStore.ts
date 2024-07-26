@@ -20,11 +20,13 @@ import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 import { FilterData, InputData } from "../typings/settings";
+import { inputStateFromCond } from "../condition-utils";
+import { baseNames } from "./fn-mappers";
 
-type FilterFn = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
-type StateTuple = [FilterFn, Date | undefined, Date | undefined];
+type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
+type StateTuple = [DateFns, Date | undefined, Date | undefined];
 export class DateInputFilterStore
-    extends BaseInputFilterStore<DateArgument, FilterFn>
+    extends BaseInputFilterStore<DateArgument, DateFns>
     implements Date_InputFilterInterface
 {
     readonly storeType = "input";
@@ -32,7 +34,7 @@ export class DateInputFilterStore
     private disposers: Array<() => void> = [];
     private computedState: StateTuple;
 
-    constructor(attributes: Array<ListAttributeValue<Date>>) {
+    constructor(attributes: Array<ListAttributeValue<Date>>, initCond: FilterCondition | null) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
         this.computedState = [this.filterFunction, this.arg1.value, this.arg2.value];
@@ -43,7 +45,9 @@ export class DateInputFilterStore
         });
         trace(this, "condition");
         this.setupComputeValues();
-        // todo restore operation and value from config
+        if (initCond) {
+            this.restoreStateFromCond(initCond);
+        }
     }
 
     get condition(): FilterCondition | undefined {
@@ -101,7 +105,7 @@ export class DateInputFilterStore
 
     private getCondition(
         attr: ListAttributeValue,
-        filterFn: FilterFn,
+        filterFn: DateFns,
         v1: Date | undefined,
         v2: Date | undefined
     ): [FilterCondition] | [] {
@@ -119,7 +123,7 @@ export class DateInputFilterStore
 
     private getAttrCondition(
         attr: ListAttributeValue,
-        filterFn: Exclude<FilterFn, "between">,
+        filterFn: Exclude<DateFns, "between">,
         value: Date
     ): [FilterCondition] | [] {
         value = changeTimeToMidnight(value);
@@ -188,9 +192,24 @@ export class DateInputFilterStore
             return date.toString() === "Invalid Date" ? undefined : date;
         };
         const [fn, date1, date2] = data;
-        this.filterFunction = fn as FilterFn;
+        this.filterFunction = fn as DateFns;
         this.arg1.value = parse(date1);
         this.arg2.value = parse(date2);
+        this.isInitialized = true;
+    }
+
+    restoreStateFromCond(cond: FilterCondition): void {
+        const initState = inputStateFromCond(
+            cond,
+            (fn): DateFns => baseNames(fn),
+            exp => (exp.valueType === "DateTime" ? exp.value : undefined)
+        );
+
+        if (!initState) {
+            return;
+        }
+
+        this.setState(initState);
         this.isInitialized = true;
     }
 }

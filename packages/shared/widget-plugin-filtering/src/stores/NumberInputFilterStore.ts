@@ -6,20 +6,28 @@ import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 import { FilterData, InputData } from "../typings/settings";
+import { FilterCondition } from "mendix/filters";
+import { inputStateFromCond } from "../condition-utils";
+import { baseNames } from "./fn-mappers";
 
+type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 export class NumberInputFilterStore
-    extends BaseInputFilterStore<NumberArgument, FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary>
+    extends BaseInputFilterStore<NumberArgument, NumFns>
     implements Number_InputFilterInterface
 {
     readonly storeType = "input";
     readonly type = "number";
 
-    constructor(attributes: Array<ListAttributeValue<Big>>) {
+    constructor(attributes: Array<ListAttributeValue<Big>>, initCond: FilterCondition | null) {
         const { formatter } = attributes[0];
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action
         });
+
+        if (initCond) {
+            this.restoreStateFromCond(initCond);
+        }
 
         trace(this, "condition");
         // todo restore operation and value from config
@@ -63,6 +71,21 @@ export class NumberInputFilterStore
         } catch {
             this.arg2.value = undefined;
         }
+        this.isInitialized = true;
+    }
+
+    restoreStateFromCond(cond: FilterCondition): void {
+        const initState = inputStateFromCond(
+            cond,
+            (fn): NumFns => baseNames(fn),
+            exp => (exp.valueType === "Numeric" ? exp.value : undefined)
+        );
+
+        if (!initState) {
+            return;
+        }
+
+        this.setState(initState);
         this.isInitialized = true;
     }
 }
