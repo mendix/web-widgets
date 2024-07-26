@@ -48,7 +48,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, props.datasource.filter ?? null);
         });
 
         this.sorting = new ColumnsSortingStore(

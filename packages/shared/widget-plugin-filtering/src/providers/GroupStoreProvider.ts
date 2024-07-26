@@ -85,15 +85,20 @@ export class GroupStoreProvider implements KeyProvider {
     }
 }
 
-export function groupStoreFactory({ groupList, groupAttrs }: Props): Result<GroupStoreProvider, APIError> {
-    const entries: Array<[grp: Group, attrs: ListAttributeValue[]]> = groupList.map(grp => [
+export function groupStoreFactory(
+    { groupList, groupAttrs }: Props,
+    dsViewState: Array<FilterCondition | undefined> | null
+): Result<GroupStoreProvider, APIError> {
+    const entries: Array<[grp: Group, attrs: ListAttributeValue[], index: number]> = groupList.map((grp, index) => [
         grp,
-        groupAttrs.flatMap(cfg => (cfg.key === grp.key ? [cfg.attr] : []))
+        groupAttrs.flatMap(cfg => (cfg.key === grp.key ? [cfg.attr] : [])),
+        index
     ]);
 
     const storeEntries: Entries<Store> = [];
-    for (const [grp, attrs] of entries) {
-        const store = grp.type === "attrs" ? attrStore(grp, attrs) : refStore(grp);
+    for (const [grp, attrs, index] of entries) {
+        const initCond = dsViewState?.[index] ?? null;
+        const store = grp.type === "attrs" ? attrStore(grp, attrs, initCond) : refStore(grp, initCond);
         if (store.hasError) {
             return error(store.error);
         }
@@ -105,7 +110,8 @@ export function groupStoreFactory({ groupList, groupAttrs }: Props): Result<Grou
 
 function attrStore(
     group: Group,
-    attrs: ListAttributeValue[]
+    attrs: ListAttributeValue[],
+    dsViewState: FilterCondition | null
 ): Result<InputFilterStore | StaticSelectFilterStore, APIError> {
     if (attrs.length === 0) {
         return error({
@@ -123,7 +129,7 @@ function attrStore(
     }
 
     const [attr] = attrs;
-    const store = attrgroupFilterStore(attr.type, attrs);
+    const store = attrgroupFilterStore(attr.type, attrs, dsViewState);
     if (store === null) {
         return error({
             code: APIErrorCode.EGRPSTORECREATE,
@@ -134,7 +140,7 @@ function attrStore(
     return value(store);
 }
 
-function refStore(group: Group): Result<RefFilterStore, APIError> {
+function refStore(group: Group, _dsViewState: FilterCondition | null): Result<RefFilterStore, APIError> {
     if (!group.ref) {
         return error({
             code: APIErrorCode.EGRPSTORECREATE,

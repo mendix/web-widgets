@@ -10,6 +10,7 @@ import {
     FilterFunctionString
 } from "../typings/FilterFunctions";
 import { FilterData, InputData } from "../typings/settings";
+import { FilterCondition } from "mendix/filters";
 
 export class StringInputFilterStore
     extends BaseInputFilterStore<
@@ -21,7 +22,7 @@ export class StringInputFilterStore
     readonly storeType = "input";
     readonly type = "string";
 
-    constructor(attributes: Array<ListAttributeValue<string>>) {
+    constructor(attributes: Array<ListAttributeValue<string>>, _: FilterCondition | null) {
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {

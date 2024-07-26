@@ -48,7 +48,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         });
     }
 
-    private setState(state: StateTuple<Fn, Val<A>>): void {
+    protected setState(state: StateTuple<Fn, Val<A>>): void {
         [this.filterFunction, this.arg1.value, this.arg2.value] = state;
     }
 

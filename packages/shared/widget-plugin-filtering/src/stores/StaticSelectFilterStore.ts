@@ -17,7 +17,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
 
-    constructor(attributes: ListAttributeValue[]) {
+    constructor(attributes: ListAttributeValue[], _: FilterCondition | null) {
         this._attributes = attributes;
 
         makeObservable(this, {

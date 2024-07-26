@@ -36,8 +36,8 @@ export class HeaderFiltersStore {
     private provider: Result<LegacyPv | GroupStoreProvider, APIError>;
     context: FilterAPIv2;
 
-    constructor(props: Props) {
-        this.provider = this.createProvider(props);
+    constructor(props: Props, dsViewState: Array<FilterCondition | undefined> | null) {
+        this.provider = this.createProvider(props, dsViewState);
         this.context = {
             version: 2,
             parentChannelName: "",
@@ -65,11 +65,19 @@ export class HeaderFiltersStore {
         this.provider.value.settings = value;
     }
 
-    createProvider(props: Props): Result<LegacyPv | GroupStoreProvider, APIError> {
+    createProvider(
+        props: Props,
+        dsViewState: Array<FilterCondition | undefined> | null
+    ): Result<LegacyPv | GroupStoreProvider, APIError> {
         if (props.enableFilterGroups) {
-            return groupStoreFactory(props);
+            return groupStoreFactory(props, dsViewState);
         } else {
-            return value(new LegacyPv(props.filterList.map(f => f.filter)));
+            return value(
+                new LegacyPv(
+                    props.filterList.map(f => f.filter),
+                    dsViewState
+                )
+            );
         }
     }
 

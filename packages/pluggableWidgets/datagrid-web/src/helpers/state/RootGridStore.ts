@@ -7,7 +7,7 @@ import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 import { HeaderFiltersStore } from "./HeaderFiltersStore";
-import { conjoin } from "@mendix/widget-plugin-filtering/condition-utils";
+import { conjoin, disjoin } from "@mendix/widget-plugin-filtering/condition-utils";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
@@ -22,8 +22,10 @@ export class RootGridStore {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
+
+        const [, headerViewState] = this.getDsViewState(props) ?? [null, null];
         this.columnsStore = new ColumnGroupStore(props, this.staticInfo);
-        this.headerFiltersStore = new HeaderFiltersStore(props);
+        this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
         console.debug(((window as any).rootStore = this));
@@ -61,6 +63,24 @@ export class RootGridStore {
 
         // Set initial limit
         props.datasource.setLimit(props.pageSize);
+    }
+
+    // Mirror operation from "condition";
+    private getDsViewState({
+        datasource
+    }: DatagridContainerProps):
+        | [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>]
+        | null {
+        if (datasource.filter) {
+            try {
+                const [columns, header] = disjoin(datasource.filter);
+                return [disjoin(columns!), disjoin(header!)];
+            } catch {
+                //
+            }
+        }
+
+        return null;
     }
 
     updateProps(props: DatagridContainerProps): void {
