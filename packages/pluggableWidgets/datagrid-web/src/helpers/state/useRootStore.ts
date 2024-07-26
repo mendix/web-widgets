@@ -33,7 +33,7 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
         // apply filters
         disposers.push(
             autorun(() => {
-                datasourceRef.current.setFilter(rootStore.filterConditions);
+                datasourceRef.current.setFilter(rootStore.conditions);
             })
         );
 
