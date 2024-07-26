@@ -76,9 +76,9 @@ export class DateInputFilterStore
         const disposer = reaction(
             (): StateTuple => [this.filterFunction, this.arg1.value, this.arg2.value],
             computedState => {
-                const [fn, values] = computedState;
+                const [fn, v1, v2] = computedState;
                 // Skip changes if value is a half range.
-                if (fn === "between" && values.at(0) instanceof Date && values.at(1) === undefined) {
+                if (fn === "between" && v1 instanceof Date && v2 === undefined) {
                     return;
                 }
                 this.computedState = computedState;
