@@ -1,12 +1,12 @@
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { groupStoreFactory, GroupStoreProvider } from "@mendix/widget-plugin-filtering/providers/GroupStoreProvider";
-import { LegacyPv } from "@mendix/widget-plugin-filtering/providers/LegacyPv";
-import { Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
-import { APIError } from "@mendix/widget-plugin-filtering/errors";
-import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { FilterAPIv2 } from "../context";
+import { APIError } from "../errors";
+import { groupStoreFactory, GroupStoreProvider } from "../providers/GroupStoreProvider";
+import { LegacyPv } from "../providers/LegacyPv";
+import { Result, value } from "../result-meta";
+import { FiltersSettingsMap } from "../typings/settings";
 
 export type TypeEnum = "attrs" | "reference";
 

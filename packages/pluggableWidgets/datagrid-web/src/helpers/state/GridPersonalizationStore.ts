@@ -12,7 +12,7 @@ import { AttributePersonalizationStorage } from "../storage/AttributePersonaliza
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { ColumnId } from "../../typings/GridColumn";
 import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
-import { HeaderFiltersStore } from "./HeaderFiltersStore";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
