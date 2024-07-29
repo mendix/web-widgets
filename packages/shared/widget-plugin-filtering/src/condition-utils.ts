@@ -7,23 +7,23 @@ type FilterFunction = Func<FilterCondition>;
 
 const hasOwn = (o: object, k: PropertyKey): boolean => Object.hasOwn(o, k);
 
-function isBinary(cond: FilterCondition): cond is BinaryExpression {
+export function isBinary(cond: FilterCondition): cond is BinaryExpression {
     return hasOwn(cond, "arg1") && hasOwn(cond, "arg2");
 }
 
-function isAnd(exp: FilterCondition): exp is AndCondition {
+export function isAnd(exp: FilterCondition): exp is AndCondition {
     return exp.type === "function" && exp.name === "and";
 }
 
-function isOr(exp: FilterCondition): exp is OrCondition {
+export function isOr(exp: FilterCondition): exp is OrCondition {
     return exp.type === "function" && exp.name === "or";
 }
 
-function isEmptyExp(exp: FilterCondition): boolean {
+export function isEmptyExp(exp: FilterCondition): boolean {
     return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "=" && exp.arg2.valueType === "undefined";
 }
 
-function isNotEmptyExp(exp: FilterCondition): boolean {
+export function isNotEmptyExp(exp: FilterCondition): boolean {
     return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "!=" && exp.arg2.valueType === "undefined";
 }
 
@@ -83,7 +83,7 @@ export function inputStateFromCond<Fn, V>(
     return singularToState(cond, fn, val);
 }
 
-function betweenToState<Fn, V>(
+export function betweenToState<Fn, V>(
     cond: AndCondition,
     fn: (func: "between") => Fn,
     val: (exp: LiteralExpression) => V
@@ -96,7 +96,7 @@ function betweenToState<Fn, V>(
     return null;
 }
 
-function singularToState<Fn, V>(
+export function singularToState<Fn, V>(
     cond: FilterCondition,
     fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
     val: (exp: LiteralExpression) => V
@@ -116,7 +116,7 @@ function singularToState<Fn, V>(
     return [fn(cond.name), value];
 }
 
-function expValue<V>(exp: FilterCondition, val: (exp: LiteralExpression) => V): null | V {
+export function expValue<V>(exp: FilterCondition, val: (exp: LiteralExpression) => V): null | V {
     if (!isBinary(exp)) {
         return null;
     }
