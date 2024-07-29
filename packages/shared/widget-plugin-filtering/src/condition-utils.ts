@@ -125,3 +125,25 @@ export function expValue<V>(exp: FilterCondition, val: (exp: LiteralExpression) 
     }
     return val(exp.arg2);
 }
+
+export function selectedFromCond<V extends string>(
+    cond: FilterCondition,
+    val: (exp: LiteralExpression) => V | undefined
+): V[] {
+    const reduce = (acc: V[], cond: FilterCondition): V[] => {
+        if (cond.name === "or") {
+            return cond.args.reduce(reduce, acc);
+        }
+
+        if (cond.name === "=" || cond.name === "contains") {
+            const item = expValue(cond, val);
+            if (item != null) {
+                acc.push(item);
+            }
+        }
+
+        return acc;
+    };
+
+    return [cond].reduce(reduce, []);
+}

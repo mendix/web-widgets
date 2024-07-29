@@ -1,9 +1,10 @@
 import { ListAttributeValue } from "mendix";
 import { makeObservable, computed, observable, action, comparer } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
-import { FilterCondition } from "mendix/filters";
+import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
 import { FilterData } from "../typings/settings";
+import { selectedFromCond } from "../condition-utils";
 
 export class StaticSelectFilterStore implements OptionListFilterInterface<string> {
     readonly storeType = "optionlist";
@@ -17,7 +18,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
 
-    constructor(attributes: ListAttributeValue[], _: FilterCondition | null) {
+    constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
         this._attributes = attributes;
 
         makeObservable(this, {
@@ -30,6 +31,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
             toggle: action,
             updateProps: action
         });
+
+        if (initCond) {
+            this.fromViewState(initCond);
+        }
     }
 
     get options(): Array<Option<string>> {
@@ -127,6 +132,24 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
             this.replace(data as string[]);
         }
         this.isInitialized = true;
+    }
+
+    fromViewState(cond: FilterCondition): void {
+        const val = (exp: LiteralExpression): string | undefined =>
+            exp.valueType === "string"
+                ? exp.value
+                : exp.valueType === "boolean"
+                ? exp.value
+                    ? "true"
+                    : "false"
+                : undefined;
+
+        const selected = selectedFromCond(cond, val);
+
+        if (selected.length > 0) {
+            this.replace(selected);
+            this.isInitialized = true;
+        }
     }
 }
 
