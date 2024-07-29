@@ -26,7 +26,7 @@ export class NumberInputFilterStore
         });
 
         if (initCond) {
-            this.restoreStateFromCond(initCond);
+            this.fromViewState(initCond);
         }
 
         trace(this, "condition");
@@ -74,7 +74,7 @@ export class NumberInputFilterStore
         this.isInitialized = true;
     }
 
-    restoreStateFromCond(cond: FilterCondition): void {
+    fromViewState(cond: FilterCondition): void {
         const initState = inputStateFromCond(
             cond,
             (fn): NumFns => baseNames(fn),

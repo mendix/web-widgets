@@ -40,15 +40,20 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     sorting: ColumnsSortingStore;
 
-    constructor(props: Pick<DatagridContainerProps, "columns" | "datasource">, info: StaticInfo) {
+    constructor(
+        props: Pick<DatagridContainerProps, "columns" | "datasource">,
+        info: StaticInfo,
+        dsViewState: Array<FilterCondition | undefined> | null
+    ) {
         this._allColumns = [];
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
+            const initCond = dsViewState?.at(i) ?? null;
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, props.datasource.filter ?? null);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond);
         });
 
         this.sorting = new ColumnsSortingStore(

@@ -23,11 +23,12 @@ export class RootGridStore {
             filtersChannelName: `datagrid/${generateUUID()}`
         };
 
-        const [, headerViewState] = this.getDsViewState(props) ?? [null, null];
-        this.columnsStore = new ColumnGroupStore(props, this.staticInfo);
+        const [columnsViewState, headerViewState] = this.getDsViewState(props) ?? [null, null];
+        this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState);
         this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
+
         console.debug(((window as any).rootStore = this));
     }
 

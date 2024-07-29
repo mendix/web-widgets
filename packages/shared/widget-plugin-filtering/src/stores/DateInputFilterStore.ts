@@ -1,7 +1,7 @@
 // import { isDate } from "date-fns/isDate";
 import { addDays } from "date-fns/addDays";
 import { ListAttributeValue } from "mendix";
-import { FilterCondition } from "mendix/filters";
+import { FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
     attribute,
@@ -20,17 +20,20 @@ import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 import { FilterData, InputData } from "../typings/settings";
-import { inputStateFromCond } from "../condition-utils";
+import { isAnd, betweenToState, singularToState, isEmptyExp, isNotEmptyExp } from "../condition-utils";
 import { baseNames } from "./fn-mappers";
 
 type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [DateFns, Date | undefined, Date | undefined];
+type InitState = [DateFns, Date | undefined, Date | undefined] | [DateFns, Date | undefined];
+
 export class DateInputFilterStore
     extends BaseInputFilterStore<DateArgument, DateFns>
     implements Date_InputFilterInterface
 {
     readonly storeType = "input";
     readonly type = "date";
+    private readonly rangeMarkerTag = "__RANGE_MARKER__";
     private disposers: Array<() => void> = [];
     private computedState: StateTuple;
 
@@ -46,7 +49,7 @@ export class DateInputFilterStore
         trace(this, "condition");
         this.setupComputeValues();
         if (initCond) {
-            this.restoreStateFromCond(initCond);
+            this.fromViewState(initCond);
         }
     }
 
@@ -165,9 +168,28 @@ export class DateInputFilterStore
         return [
             and(
                 greaterThanOrEqual(attrExp, literal(start)),
-                lessThanOrEqual(attrExp, literal(new Date(addDays(end, 1).getTime() - 1)))
+                lessThanOrEqual(attrExp, literal(new Date(addDays(end, 1).getTime() - 1))),
+                this.getRangeCondMarker()
             )
         ];
+    }
+
+    private getRangeCondMarker(): FilterCondition {
+        return equals(literal(this.rangeMarkerTag), literal(this.rangeMarkerTag));
+    }
+
+    private isRangeMarker(cond: FilterCondition | undefined): boolean {
+        if (!cond) {
+            return false;
+        }
+        return (
+            cond.type === "function" &&
+            cond.name === "=" &&
+            cond.arg1.type === "literal" &&
+            cond.arg2.type === "literal" &&
+            cond.arg1.value === this.rangeMarkerTag &&
+            cond.arg2.value === this.rangeMarkerTag
+        );
     }
 
     toJSON(): InputData {
@@ -198,19 +220,38 @@ export class DateInputFilterStore
         this.isInitialized = true;
     }
 
-    restoreStateFromCond(cond: FilterCondition): void {
-        const initState = inputStateFromCond(
-            cond,
-            (fn): DateFns => baseNames(fn),
-            exp => (exp.valueType === "DateTime" ? exp.value : undefined)
-        );
+    fromViewState(cond: FilterCondition): void {
+        const val = (exp: LiteralExpression): Date | undefined =>
+            exp.valueType === "DateTime" ? exp.value : undefined;
 
-        if (!initState) {
-            return;
+        const read = (cond: FilterCondition): InitState | null => {
+            if (isEmptyExp(cond)) {
+                return ["empty", undefined, undefined];
+            }
+            if (isNotEmptyExp(cond)) {
+                return ["notEmpty", undefined, undefined];
+            }
+            if (isAnd(cond) && this.isRangeMarker(cond.args.at(2))) {
+                return betweenToState(cond, (): DateFns => "between", val);
+            }
+            switch (cond.name) {
+                // equal
+                case "and":
+                    return singularToState(cond.args[0], (): DateFns => "equal", val);
+                // notEqual
+                case "or":
+                    return singularToState(cond.args[0], (): DateFns => "notEqual", val);
+                default:
+                    return singularToState(cond, baseNames, val);
+            }
+        };
+
+        const initState = read(cond);
+
+        if (initState) {
+            this.setState(initState);
+            this.isInitialized = true;
         }
-
-        this.setState(initState);
-        this.isInitialized = true;
     }
 }
 
