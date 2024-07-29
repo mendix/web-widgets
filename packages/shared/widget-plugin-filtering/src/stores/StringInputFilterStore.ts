@@ -11,25 +11,26 @@ import {
 } from "../typings/FilterFunctions";
 import { FilterData, InputData } from "../typings/settings";
 import { FilterCondition } from "mendix/filters";
+import { inputStateFromCond } from "../condition-utils";
+import { baseNames } from "./fn-mappers";
 
+type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 export class StringInputFilterStore
-    extends BaseInputFilterStore<
-        StringArgument,
-        FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary
-    >
+    extends BaseInputFilterStore<StringArgument, StrFns>
     implements String_InputFilterInterface
 {
     readonly storeType = "input";
     readonly type = "string";
 
-    constructor(attributes: Array<ListAttributeValue<string>>, _: FilterCondition | null) {
+    constructor(attributes: Array<ListAttributeValue<string>>, initCond: FilterCondition | null) {
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action
         });
-
-        // todo restore operation and value from config
+        if (initCond) {
+            this.fromViewState(initCond);
+        }
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
@@ -58,6 +59,35 @@ export class StringInputFilterStore
         this.filterFunction = fn as typeof this.filterFunction;
         this.arg1.value = s1 ? s1 : undefined;
         this.arg2.value = s2 ? s2 : undefined;
+        this.isInitialized = true;
+    }
+
+    fromViewState(cond: FilterCondition): void {
+        const initState = inputStateFromCond(
+            cond,
+            (fn): StrFns => {
+                if (fn === "contains") {
+                    return "contains";
+                }
+
+                if (fn === "starts-with") {
+                    return "startsWith";
+                }
+
+                if (fn === "ends-with") {
+                    return "endsWith";
+                }
+
+                return baseNames(fn);
+            },
+            exp => (exp.valueType === "string" ? exp.value : undefined)
+        );
+
+        if (!initState) {
+            return;
+        }
+
+        this.setState(initState);
         this.isInitialized = true;
     }
 }
