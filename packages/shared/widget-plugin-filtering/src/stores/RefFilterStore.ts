@@ -6,10 +6,11 @@ import {
     ListValue,
     ObjectItem
 } from "mendix";
-import { ContainsCondition, EqualsCondition, FilterCondition } from "mendix/filters";
+import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable, comparer } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { selectedFromCond } from "../condition-utils";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -31,12 +32,19 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     _refOptions: ListValue;
     _caption: ListExpressionValue;
     readonly _searchAttrId: ListAttributeId | undefined = undefined;
+    /**
+     * As Ref filter fetch options lazily,
+     * we just keep condition and
+     * return it if options not loaded yet.
+     */
+    readonly _initCond: FilterCondition | undefined;
 
-    constructor(props: RefFilterStoreProps) {
+    constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
         this._ref = props.ref;
         this._refOptions = props.refOptions;
         this._caption = props.caption;
         this._searchAttrId = props.searchAttrId;
+        this._initCond = initCond ? initCond : undefined;
 
         this._refOptions.setLimit(0);
 
@@ -53,6 +61,10 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
             toggle: action,
             updateProps: action
         });
+
+        if (initCond) {
+            this.fromViewState(initCond);
+        }
     }
 
     get hasSearch(): boolean {
@@ -81,10 +93,17 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
             return undefined;
         }
         const items = (this._refOptions.items ?? []).filter(obj => this._selected.has(obj.id));
+        if (items.length === 0 && this._initCond) {
+            return this._initCond;
+        }
         if (this._ref.type === "Reference") {
             return referenceEqualsOneOf(this._ref, items);
         }
         return referenceSetContainsOneOf(this._ref, items);
+    }
+
+    get selectedCount(): number {
+        return this._selected.size;
     }
 
     UNSAFE_setDefaults = (_: string[]): void => {
@@ -151,6 +170,26 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
 
     /** Stub */
     fromJSON(_: unknown): void {}
+
+    fromViewState(cond: FilterCondition): void {
+        const val = (exp: LiteralExpression): string | undefined => {
+            switch (exp.valueType) {
+                case "Reference":
+                    return exp.value;
+                case "ReferenceSet":
+                    return exp.value.at(0);
+                default:
+                    return undefined;
+            }
+        };
+
+        const selected = selectedFromCond(cond, val);
+
+        if (selected.length > 0) {
+            this.replace(selected);
+            this.isInitialized = true;
+        }
+    }
 }
 
 export function referenceEqualsCondition(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {

@@ -65,7 +65,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
     private createFilterStore(props: ColumnsType, dsViewState: FilterCondition | null): FilterStore | null {
         if (props.filterAssociation) {
-            return new RefFilterStore(this.toRefselectProps(props));
+            return new RefFilterStore(this.toRefselectProps(props), dsViewState);
         }
 
         if (props.attribute) {

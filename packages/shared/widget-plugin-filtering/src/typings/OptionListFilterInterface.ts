@@ -11,6 +11,7 @@ export interface OptionListFilterInterface<T> {
     isLoading: boolean;
     hasMore: boolean;
     hasSearch: boolean;
+    selectedCount?: number;
     replace(value: T[]): void;
     toggle(value: T): void;
     loadMore(): void;

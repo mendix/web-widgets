@@ -28,6 +28,13 @@ export class RefFilterController {
     }
 
     get inputValue(): string {
+        // Handle case with restored view state.
+        if (this.store.options.length === 0 && this.store.selectedCount !== undefined && this.store.selectedCount > 0) {
+            if (this.store.selectedCount === 1) {
+                return `1 item selected`;
+            }
+            return `${this.store.selectedCount} items selected`;
+        }
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 

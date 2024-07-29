@@ -140,7 +140,7 @@ function attrStore(
     return value(store);
 }
 
-function refStore(group: Group, _dsViewState: FilterCondition | null): Result<RefFilterStore, APIError> {
+function refStore(group: Group, dsViewState: FilterCondition | null): Result<RefFilterStore, APIError> {
     if (!group.ref) {
         return error({
             code: APIErrorCode.EGRPSTORECREATE,
@@ -159,7 +159,9 @@ function refStore(group: Group, _dsViewState: FilterCondition | null): Result<Re
             message: `The group ('${group.key}') option caption template is required.`
         });
     }
-    return value(new RefFilterStore({ ref: group.ref, refOptions: group.refOptions, caption: group.caption }));
+    return value(
+        new RefFilterStore({ ref: group.ref, refOptions: group.refOptions, caption: group.caption }, dsViewState)
+    );
 }
 
 function typeMapper(type: ListAttributeValue["type"]): "date" | "number" | "string" | "enum" | "unsupported" {
