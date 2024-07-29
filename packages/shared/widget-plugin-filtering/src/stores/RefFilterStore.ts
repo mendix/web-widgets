@@ -10,7 +10,7 @@ import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression 
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable, comparer } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
-import { selectedFromCond } from "../condition-utils";
+import { flattenRefCond, selectedFromCond } from "../condition-utils";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -38,13 +38,14 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
      * return it if options not loaded yet.
      */
     readonly _initCond: FilterCondition | undefined;
+    readonly _initCondArray: Array<EqualsCondition | ContainsCondition>;
 
     constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
         this._ref = props.ref;
         this._refOptions = props.refOptions;
         this._caption = props.caption;
         this._searchAttrId = props.searchAttrId;
-        this._initCond = initCond ? initCond : undefined;
+        this._initCondArray = initCond ? flattenRefCond(initCond) : [];
 
         this._refOptions.setLimit(0);
 
@@ -92,14 +93,39 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
         if (this._selected.size < 1) {
             return undefined;
         }
-        const items = (this._refOptions.items ?? []).filter(obj => this._selected.has(obj.id));
-        if (items.length === 0 && this._initCond) {
-            return this._initCond;
+
+        const exp = (guid: string): FilterCondition[] => {
+            const items = this._refOptions.items ?? [];
+            const obj = items.find(o => o.id === guid);
+
+            if (obj && this._ref.type === "Reference") {
+                return [refEquals(this._ref, obj)];
+            } else if (obj && this._ref.type === "ReferenceSet") {
+                return [refContains(this._ref, [obj])];
+            }
+
+            const viewExp = this._initCondArray.find(e => {
+                if (e.arg2.type !== "literal") {
+                    return false;
+                }
+                if (e.arg2.valueType === "Reference") {
+                    return e.arg2.value === guid;
+                }
+                if (e.arg2.valueType === "ReferenceSet") {
+                    return e.arg2.value.at(0) === guid;
+                }
+                return false;
+            });
+            return viewExp ? [viewExp] : [];
+        };
+
+        const cond = [...this._selected].flatMap(exp);
+
+        if (cond.length > 1) {
+            return or(...cond);
         }
-        if (this._ref.type === "Reference") {
-            return referenceEqualsOneOf(this._ref, items);
-        }
-        return referenceSetContainsOneOf(this._ref, items);
+
+        return cond[0];
     }
 
     get selectedCount(): number {
@@ -192,34 +218,11 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     }
 }
 
-export function referenceEqualsCondition(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
+export function refEquals(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
     return equals(association(associationValue.id), literal(value));
 }
 
-export function referenceSetContainsCondition(
-    associationValue: ListReferenceSetValue,
-    value: ObjectItem[]
-): ContainsCondition {
+export function refContains(associationValue: ListReferenceSetValue, value: ObjectItem[]): ContainsCondition {
     const v = value.length ? literal(value.slice()) : empty();
     return contains(association(associationValue.id), v);
-}
-
-export function referenceEqualsOneOf(association: ListReferenceValue, values: ObjectItem[]): FilterCondition {
-    const expressions = values.map(value => referenceEqualsCondition(association, value));
-
-    if (expressions.length > 1) {
-        return or(...expressions);
-    }
-
-    return expressions[0];
-}
-
-export function referenceSetContainsOneOf(association: ListReferenceSetValue, values: ObjectItem[]): FilterCondition {
-    const expressions = values.map(value => referenceSetContainsCondition(association, [value]));
-
-    if (expressions.length > 1) {
-        return or(...expressions);
-    }
-
-    return expressions[0];
 }

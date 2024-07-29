@@ -1,4 +1,11 @@
-import { FilterCondition, AndCondition, OrCondition, LiteralExpression } from "mendix/filters";
+import {
+    FilterCondition,
+    AndCondition,
+    OrCondition,
+    LiteralExpression,
+    ContainsCondition,
+    EqualsCondition
+} from "mendix/filters";
 import { equals, literal, and } from "mendix/filters/builders";
 
 type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
@@ -146,4 +153,16 @@ export function selectedFromCond<V extends string>(
     };
 
     return [cond].reduce(reduce, []);
+}
+
+export function flattenRefCond(cond: FilterCondition): Array<ContainsCondition | EqualsCondition> {
+    return [cond].flatMap(exp => {
+        if (exp.name === "or") {
+            return exp.args.flatMap(flattenRefCond);
+        }
+        if (exp.name === "=" || exp.name === "contains") {
+            return [exp];
+        }
+        return [];
+    });
 }
