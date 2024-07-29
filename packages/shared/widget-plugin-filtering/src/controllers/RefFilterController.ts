@@ -28,14 +28,23 @@ export class RefFilterController {
     }
 
     get inputValue(): string {
-        // Handle case with restored view state.
-        if (this.store.options.length === 0 && this.store.selectedCount !== undefined && this.store.selectedCount > 0) {
-            if (this.store.selectedCount === 1) {
-                return `1 item selected`;
-            }
-            return `${this.store.selectedCount} items selected`;
+        const captions = this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : []));
+        const size = this.store.selectedCount ?? 0;
+
+        if (size === 0) {
+            return "";
         }
-        return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
+        // We have GUIDs but no captions.
+        if (captions.length === 0) {
+            return size === 1 ? `1 item selected` : `${size} items selected`;
+        }
+        // We have less captions then needed.
+        if (captions.length < size) {
+            return `${captions.join(",")} (+${size - captions.length})`;
+        }
+
+        // We have all captions.
+        return captions.join(",");
     }
 
     get options(): Array<Option<string>> {
