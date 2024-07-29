@@ -6,7 +6,7 @@ import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
-import { HeaderFiltersStore } from "./HeaderFiltersStore";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import { conjoin, disjoin } from "@mendix/widget-plugin-filtering/condition-utils";
 
 export class RootGridStore {
