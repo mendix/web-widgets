@@ -1,37 +1,53 @@
+import classNames from "classnames";
 import { ReactElement, createElement } from "react";
-
-import { parseInlineStyle } from "@mendix/pluggable-widgets-tools";
-
-import { BadgeSample, BadgeSampleProps } from "./components/BadgeSample";
+import { ColDef } from "ag-grid-community";
+import { AgGridReact } from "ag-grid-react";
 import { DynamicGridPreviewProps } from "../typings/DynamicGridProps";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import "./ui/DynamicGrid.css";
 
-function parentInline(node?: HTMLElement | null): void {
-    // Temporary fix, the web modeler add a containing div, to render inline we need to change it.
-    if (node && node.parentElement && node.parentElement.parentElement) {
-        node.parentElement.parentElement.style.display = "inline-block";
-    }
-}
-
-function transformProps(props: DynamicGridPreviewProps): BadgeSampleProps {
-    return {
-        type: props.dynamicgridType,
-        bootstrapStyle: props.bootstrapStyle,
-        className: props.className,
-        clickable: false,
-        style: parseInlineStyle(props.style),
-        defaultValue: props.dynamicgridValue ? props.dynamicgridValue : "",
-        value: props.valueAttribute
-    };
+interface IRow {
+    make: string;
+    model: string;
+    price: number;
+    electric: boolean;
 }
 
 export function preview(props: DynamicGridPreviewProps): ReactElement {
+    console.info(props);
+    const rowData: IRow[] = [
+        { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+        { make: "Ford", model: "F-Series", price: 33850, electric: false },
+        { make: "Toyota", model: "Corolla", price: 29600, electric: false }
+    ];
+
+    // Column Definitions: Defines the columns to be displayed.
+    const colDefs: ColDef<IRow>[] = [{ field: "make" }, { field: "model" }, { field: "price" }, { field: "electric" }];
+
+    const defaultColDef: ColDef = {
+        flex: 1
+    };
+
     return (
-        <div ref={parentInline}>
-            <BadgeSample {...transformProps(props)}></BadgeSample>
+        <div className={classNames("ag-theme-quartz", props.class)} style={{ height: 500 }}>
+            <AgGridReact
+                columnDefs={[
+                    {
+                        headerName: "Personal data",
+                        children: colDefs.slice(0, 2)
+                    },
+                    {
+                        headerName: "Sensitive data",
+                        children: colDefs.slice(2)
+                    }
+                ]}
+                defaultColDef={defaultColDef}
+                rowData={rowData}
+                rowSelection="multiple"
+                pagination={true}
+                paginationPageSize={20}
+            />
         </div>
     );
-}
-
-export function getPreviewCss(): string {
-    return require("./ui/DynamicGrid.css");
 }

@@ -1,56 +1,173 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="mendix.dynamicgrid.DynamicGrid" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.web.dynamicgrid.DynamicGrid" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Dynamic Grid</name>
-    <description>My widget description</description>
-    <icon>
-        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABp1BMVEUAAABV//9mzP9LtP9Ms/9Jtv9NsvdJsfpLtPpJsfdJsfhJsvhJsvdKsvdJsPhKsPhJsfdJsPhJsfdIsfhJsfdIsPdJsfhJsfhJsPhJsPhIsfhIsPdJsPdKsPdKsfdNsvdOsvdPs/dQs/dRtPdStPdTtPdUtfdWtvdXtvdauPdcuPdeufdeufhguvhiu/hju/hkvPhmvfhnvfhpvvhrv/huwPhvwfhxwfhywvhzwvh4xfl5xfl6xfl8xvl9xvl9x/mByPmCyfmFyvmGyvmJzPmKzPmLzfmNzvqPzvqQz/qT0PqU0PqU0fqX0vqY0vqa0/qe1fqg1vqj1/uk1/un2fup2vut2/uv3Puw3Puw3fuz3vu13/u23/u34Pu44Pu64fu64fy84vy94vy+4/y/4/zD5fzE5fzG5vzH5vzI5/zK6PzL6PzR6/zT7P3U7P3V7f3W7f3Y7v3Z7v3c8P3e8f3f8f3g8f3i8v3l8/3l9P3n9P3r9v7t9/7u9/7v+P7w+P7x+f7y+f70+v71+v74/P75/P76/f77/f78/f78/v79/v7+/v7////6dMsRAAAAG3RSTlMAAwURGxwhMTNic3SEh4iVp7XBzejt7vH5/f6PsMNWAAABsklEQVR4AWIYfGAUjIJRMAqYuYREJKWJAqLCPGwY+jnFpEkBEryMqPr5pEkFgkwo9kuTDviR/S9GhgFSHAgDuKXJAQIIA4TIMkAcEY4i0mQBVrgBkuQZwA43QJo8wIFhQEhEOIBQOutHJozDOP5Crp4e1RhkJ0tKGJFd6oNEdtmJyEIzpaZl5nrRZgaHM/2Pf5/vwXXfyagXgG93bwSAlEolowLMm9w83gibhXH2gKKVdD67gTnWjwCk+VVjMQS4suSnnjMLRVFc9sAHvAX2A9fySaXNBMbEZVUWscaHIMRuqwBgD8hDEbnsRmfjUKJkAQZGCTlO/xWBwIADQLIZBlY441MvfoF1xlFS/4fy+bzXKh4dgNJE7L3eh3tmtuWa+AMcMIY3dgUvZQpGEYmMw2kD7HC+R29UqyoXLaBd0QZxzgXgikLLDSqJTKU5HOcS0MsbA9jPqtwCRvXm2eorBbNIJBw3KJ9O4Yl+AAXdnyaLt7PWN3jRWLvzmAVp94zO5+n41/onfo/UpExxZqI0O7NQr0DhIq9Io7hQpbRYp7hiobRqo6ByFcNWuY6CUTAKRgEAo8X0lBD3V30AAAAASUVORK5CYII=
-    </icon>
+    <description />
+    <studioProCategory>Data containers</studioProCategory>
+    <studioCategory>Data Containers</studioCategory>
     <properties>
         <propertyGroup caption="General">
-            <property key="valueAttribute" type="attribute" required="false">
-                <caption>Value attribute</caption>
-                <description>The attribute that contains the dynamicgrid value</description>
-                <attributeTypes>
-                    <attributeType name="String" />
-                    <attributeType name="Enum" />
-                    <attributeType name="Integer" />
-                    <attributeType name="Decimal" />
-                    <attributeType name="Long" />
-                </attributeTypes>
-            </property>
-            <property key="dynamicgridValue" type="string" required="false">
-                <caption>Default value</caption>
-                <description>The dynamicgrid value shown when no value is provided via the attribute</description>
-            </property>
-        </propertyGroup>
-        <propertyGroup caption="Display">
-            <property key="bootstrapStyle" type="enumeration" defaultValue="default">
-                <caption>DynamicGrid style</caption>
-                <description>The appearance of the dynamicgrid</description>
-                <enumerationValues>
-                    <enumerationValue key="default">Default</enumerationValue>
-                    <enumerationValue key="primary">Primary</enumerationValue>
-                    <enumerationValue key="success">Success</enumerationValue>
-                    <enumerationValue key="info">Info</enumerationValue>
-                    <enumerationValue key="inverse">Inverse</enumerationValue>
-                    <enumerationValue key="warning">Warning</enumerationValue>
-                    <enumerationValue key="danger">Danger</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="dynamicgridType" type="enumeration" required="true" defaultValue="badge">
-                <caption>Type</caption>
-                <description>Render it as either a badge or a color label</description>
-                <enumerationValues>
-                    <enumerationValue key="badge">Badge</enumerationValue>
-                    <enumerationValue key="label">Label</enumerationValue>
-                </enumerationValues>
-            </property>
-        </propertyGroup>
-        <propertyGroup caption="Events">
-            <property key="onClickAction" type="action" required="false">
-                <caption>On click action</caption>
-                <description>Action to trigger when button / label is clicked</description>
-            </property>
+            <propertyGroup caption="General">
+                <property key="datasource" type="datasource" isList="true">
+                    <caption>Data source</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Columns">
+                <property key="columns" type="object" isList="true">
+                    <caption>Columns</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="General">
+                            <property key="showContentAs" type="enumeration" defaultValue="attribute">
+                                <caption>Show</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="attribute">Attribute</enumerationValue>
+                                    <enumerationValue key="dynamicText">Dynamic text</enumerationValue>
+                                    <enumerationValue key="customContent">Custom content</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="attribute" type="attribute" dataSource="../datasource" required="false">
+                                <caption>Attribute</caption>
+                                <description>Attribute is required if the column can be sorted or filtered</description>
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                    <attributeType name="AutoNumber" />
+                                    <attributeType name="Boolean" />
+                                    <attributeType name="DateTime" />
+                                    <attributeType name="Decimal" />
+                                    <attributeType name="Enum" />
+                                    <attributeType name="Integer" />
+                                    <attributeType name="Long" />
+                                </attributeTypes>
+                            </property>
+                            <property key="content" type="widgets" dataSource="../datasource" required="false">
+                                <caption>Custom content</caption>
+                                <description />
+                            </property>
+                            <property key="dynamicText" type="textTemplate" dataSource="../datasource" required="false">
+                                <caption>Dynamic text</caption>
+                                <description />
+                            </property>
+                            <property key="exportValue" type="textTemplate" dataSource="../datasource" required="false">
+                                <caption>Export value</caption>
+                                <description />
+                            </property>
+                            <property key="header" type="textTemplate" required="false">
+                                <caption>Caption</caption>
+                                <description />
+                            </property>
+                            <property key="tooltip" type="textTemplate" required="false" dataSource="../datasource">
+                                <caption>Tooltip</caption>
+                                <description />
+                            </property>
+                            <property key="filter" type="widgets" required="false">
+                                <caption>Filter</caption>
+                                <description />
+                            </property>
+                            <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
+                                <caption>Reference</caption>
+                                <description>Set the reference to enable filtering over association with the Drop-down filter widget.</description>
+                                <associationTypes>
+                                    <associationType name="Reference" />
+                                    <associationType name="ReferenceSet" />
+                                </associationTypes>
+                            </property>
+                            <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
+                                <caption>Data source</caption>
+                                <description>The options to show in the Drop-down filter widget.</description>
+                            </property>
+                            <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
+                                <caption>Option caption</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="visible" type="expression" required="true" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Column capabilities">
+                            <property key="sortable" type="boolean" defaultValue="true">
+                                <caption>Can sort</caption>
+                                <description />
+                            </property>
+                            <property key="resizable" type="boolean" defaultValue="true">
+                                <caption>Can resize</caption>
+                                <description />
+                            </property>
+                            <property key="draggable" type="boolean" defaultValue="true">
+                                <caption>Can reorder</caption>
+                                <description />
+                            </property>
+                            <property key="hidable" type="enumeration" defaultValue="yes">
+                                <caption>Can hide</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="yes">Yes</enumerationValue>
+                                    <enumerationValue key="hidden">Yes, hidden by default</enumerationValue>
+                                    <enumerationValue key="no">No</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="allowEventPropagation" type="boolean" defaultValue="true">
+                                <caption>Allow row events</caption>
+                                <description>If set to yes, then all default events on the row, such as "on click" or selection, will be triggered when the user interacts with custom content.</description>
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Appearance">
+                            <property key="width" type="enumeration" defaultValue="autoFill">
+                                <caption>Column width</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="autoFill">Auto-fill</enumerationValue>
+                                    <enumerationValue key="autoFit">Auto-fit content</enumerationValue>
+                                    <enumerationValue key="manual">Manual</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="minWidth" type="enumeration" defaultValue="auto">
+                                <caption>Min width</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="auto">Auto</enumerationValue>
+                                    <enumerationValue key="minContent">Set by content</enumerationValue>
+                                    <enumerationValue key="manual">Manual</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="minWidthLimit" type="integer" defaultValue="100">
+                                <caption>Min width value (px)</caption>
+                                <description />
+                            </property>
+                            <property key="size" type="integer" defaultValue="1">
+                                <caption>Column size</caption>
+                                <description />
+                            </property>
+                            <property key="alignment" type="enumeration" defaultValue="left">
+                                <caption>Alignment</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="left">Left</enumerationValue>
+                                    <enumerationValue key="center">Center</enumerationValue>
+                                    <enumerationValue key="right">Right</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="columnClass" type="expression" required="false" dataSource="../datasource">
+                                <caption>Dynamic cell class</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="wrapText" type="boolean" defaultValue="false">
+                                <caption>Wrap text</caption>
+                                <description />
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+                <property key="columnsFilterable" type="boolean" defaultValue="true">
+                    <caption>Show column filters</caption>
+                    <description />
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

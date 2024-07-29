@@ -46,9 +46,11 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:^*"
+    "@mendix/run-e2e": "workspace:^*",
+    "@mendix/widget-plugin-platform": "workspace:*"
   },
   "dependencies": {
+    "ag-grid-community": "^32.0.2",
     "ag-grid-react": "^32.0.2",
     "classnames": "^2.3.2"
   }
