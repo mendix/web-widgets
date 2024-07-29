@@ -2,7 +2,7 @@ import { Placement } from "@floating-ui/react";
 import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
-import { useFloatingUI } from "src/utils/useFloatingUI";
+import { useFloatingUI } from "../utils/useFloatingUI";
 
 export interface TooltipProps {
     name?: string;
@@ -22,13 +22,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
     const { trigger, htmlMessage, textMessage, openOn, position, preview, renderMethod } = props;
     const [showTooltip, setShowTooltip] = useState(preview ?? false);
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
-    const { refs, floatingStyles, staticSide, arrowStyles, getReferenceProps, getFloatingProps } = useFloatingUI({
-        position,
-        showTooltip,
-        setShowTooltip,
-        arrowElement,
-        openOn
-    });
+    const { refs, floatingStyles, staticSide, arrowStyles, getReferenceProps, getFloatingProps, blurFocusEvents } =
+        useFloatingUI({
+            position,
+            showTooltip,
+            setShowTooltip,
+            arrowElement,
+            openOn
+        });
 
     const renderTrigger = (): ReactElement => {
         return (
@@ -36,6 +37,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                 className="widget-tooltip-trigger"
                 ref={refs.setReference}
                 {...(preview ? undefined : getReferenceProps())}
+                {...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined)}
             >
                 {trigger}
             </div>

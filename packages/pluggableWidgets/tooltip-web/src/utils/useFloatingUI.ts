@@ -13,6 +13,7 @@ import {
     useInteractions,
     useRole
 } from "@floating-ui/react";
+import { useCallback } from "react";
 import { OpenOnEnum } from "../../typings/TooltipProps";
 
 export interface FloatingProps {
@@ -48,6 +49,10 @@ export function useFloatingUI(props: FloatingProps) {
         role: "tooltip"
     });
 
+    const onShow = useCallback(() => setShowTooltip(true), []);
+    const onHide = useCallback(() => setShowTooltip(false), []);
+    const blurFocusEvents = { onFocus: onShow, onBlur: onHide };
+
     const side = placement.split("-")[0];
     const TIP_SIDES_MAP: { [key: string]: string } = {
         top: "bottom",
@@ -73,6 +78,7 @@ export function useFloatingUI(props: FloatingProps) {
         staticSide,
         arrowStyles,
         getReferenceProps,
-        getFloatingProps
+        getFloatingProps,
+        blurFocusEvents
     };
 }
