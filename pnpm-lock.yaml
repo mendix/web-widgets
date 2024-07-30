@@ -2420,6 +2420,13 @@ importers:
         version: 29.5.0
 
   packages/shared/widget-plugin-sorting:
+    dependencies:
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
