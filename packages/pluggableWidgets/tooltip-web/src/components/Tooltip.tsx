@@ -31,36 +31,27 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             openOn
         });
 
-    const renderTrigger = (): ReactElement => {
-        return (
+    return (
+        <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
             <div
                 className="widget-tooltip-trigger"
-                ref={refs.setReference}
-                {...(preview ? undefined : getReferenceProps())}
+                ref={refs?.setReference}
+                {...(preview ? undefined : getReferenceProps?.())}
                 {...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined)}
             >
                 {trigger}
             </div>
-        );
-    };
-
-    const renderTooltip = (): ReactNode => {
-        return showTooltip && (textMessage || htmlMessage) ? (
-            <div
-                className="widget-tooltip-content"
-                ref={refs.setFloating}
-                style={floatingStyles}
-                {...getFloatingProps()}
-            >
-                {renderMethod === "text" ? textMessage : htmlMessage}
-                <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
-            </div>
-        ) : null;
-    };
-    return (
-        <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
-            {renderTrigger()}
-            {renderTooltip()}
+            {showTooltip && (textMessage || htmlMessage) ? (
+                <div
+                    className="widget-tooltip-content"
+                    ref={refs?.setFloating}
+                    style={floatingStyles}
+                    {...getFloatingProps?.()}
+                >
+                    {renderMethod === "text" ? textMessage : htmlMessage}
+                    <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
+                </div>
+            ) : null}
         </div>
     );
 };

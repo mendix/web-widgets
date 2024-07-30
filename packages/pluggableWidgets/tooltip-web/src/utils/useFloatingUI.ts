@@ -11,12 +11,13 @@ import {
     useFocus,
     useHover,
     useInteractions,
-    useRole
+    useRole,
+    UseFloatingReturn,
+    ReferenceElement
 } from "@floating-ui/react";
 import { useCallback } from "react";
 import { OpenOnEnum } from "../../typings/TooltipProps";
-
-export interface FloatingProps {
+interface FloatingProps {
     position: Placement;
     showTooltip: boolean;
     setShowTooltip: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +25,25 @@ export interface FloatingProps {
     openOn: OpenOnEnum;
 }
 
-export function useFloatingUI(props: FloatingProps) {
+type UseInteractionsReturn = ReturnType<typeof useInteractions>;
+
+interface InternalFloatingProps {
+    staticSide: string;
+    arrowStyles: {
+        left: string | number;
+        top: string | number;
+    };
+    blurFocusEvents: {
+        onFocus: () => void;
+        onBlur: () => void;
+    };
+}
+
+type FloatingPropsReturn = Partial<UseFloatingReturn<ReferenceElement>> &
+    Partial<InternalFloatingProps> &
+    Partial<UseInteractionsReturn>;
+
+export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const { position, showTooltip, setShowTooltip, arrowElement, openOn } = props;
     const { refs, floatingStyles, context, middlewareData, placement } = useFloating({
         placement: position,
@@ -72,9 +91,6 @@ export function useFloatingUI(props: FloatingProps) {
     return {
         refs,
         floatingStyles,
-        context,
-        middlewareData,
-        placement,
         staticSide,
         arrowStyles,
         getReferenceProps,
