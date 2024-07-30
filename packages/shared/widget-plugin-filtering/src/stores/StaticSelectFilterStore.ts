@@ -29,7 +29,9 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
             universe: computed,
             replace: action,
             toggle: action,
-            updateProps: action
+            updateProps: action,
+            fromJSON: action,
+            fromViewState: action
         });
 
         if (initCond) {
