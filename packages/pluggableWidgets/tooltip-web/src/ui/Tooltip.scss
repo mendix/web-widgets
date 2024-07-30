@@ -14,8 +14,8 @@
         word-break: break-word;
     }
 
-    [class^="widget-tooltip-arrow"],
-    [class^="widget-tooltip-arrow"]::before {
+    [class~="widget-tooltip-arrow"],
+    [class~="widget-tooltip-arrow"]::before {
         position: absolute;
         width: 8px;
         height: 8px;
@@ -49,13 +49,13 @@
         }
     }
 
-    [class^="widget-tooltip-arrow"]::before {
+    [class~="widget-tooltip-arrow"]::before {
         visibility: visible;
         content: "";
         transform: rotate(45deg);
     }
 
-    [class^="widget-tooltip-arrow"] {
+    [class~="widget-tooltip-arrow"] {
         visibility: hidden;
     }
 }
