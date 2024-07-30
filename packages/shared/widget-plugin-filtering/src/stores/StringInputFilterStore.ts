@@ -26,7 +26,9 @@ export class StringInputFilterStore
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
-            updateProps: action
+            updateProps: action,
+            fromJSON: action,
+            fromViewState: action
         });
         if (initCond) {
             this.fromViewState(initCond);

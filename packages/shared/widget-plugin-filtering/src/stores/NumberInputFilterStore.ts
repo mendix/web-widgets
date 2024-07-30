@@ -22,7 +22,9 @@ export class NumberInputFilterStore
         const { formatter } = attributes[0];
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
-            updateProps: action
+            updateProps: action,
+            fromJSON: action,
+            fromViewState: action
         });
 
         if (initCond) {
