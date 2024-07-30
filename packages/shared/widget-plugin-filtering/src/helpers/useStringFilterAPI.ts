@@ -28,7 +28,7 @@ export function useStringFilterAPI(key: string): Result<String_FilterAPIv2, APIE
         return error(EGRPKEY);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
+    const store = getFilterStore(api.provider.value, FilterType.STRING, key);
 
     if (store === null) {
         return error(EMISSINGSTORE);
