@@ -17,7 +17,7 @@ interface SelectProps<T> {
     className?: string;
     status?: JSX.Element;
     footer?: JSX.Element;
-    id?: string;
+    id: string;
     tabIndex?: number;
     styles?: CSSProperties;
     onSelect: (value: T) => void;

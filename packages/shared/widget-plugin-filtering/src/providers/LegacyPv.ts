@@ -51,6 +51,7 @@ export class LegacyPv implements LegacyProvider {
         return new Map();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     set settings(_: unknown) {}
 
     get = (type: Ft): InputFilterInterface | OptionListFilterInterface<string> | null => {
@@ -71,7 +72,12 @@ export class LegacyPv implements LegacyProvider {
     }
 
     setup(): () => void {
-        const disposers = this.filterList.map(s => () => s && "dispose" in s && s.dispose());
+        const disposers: Array<() => void> = [];
+        this.filterList.forEach(store => {
+            if (store && "setup" in store) {
+                disposers.push(store.setup());
+            }
+        });
         disposers.push(
             reaction(
                 () => this._attrs,

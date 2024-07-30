@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
@@ -17,6 +17,21 @@ export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
 
+export type TypeEnum = "attrs" | "reference";
+
+export interface GroupListType {
+    type: TypeEnum;
+    key: string;
+    ref?: ListReferenceValue | ListReferenceSetValue;
+    refOptions?: ListValue;
+    caption?: ListExpressionValue<string>;
+}
+
+export interface GroupAttrsType {
+    key: string;
+    attr: ListAttributeValue<string | Big | boolean | Date>;
+}
+
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
@@ -24,6 +39,19 @@ export interface FilterListType {
 export interface SortListType {
     attribute: ListAttributeValue<string | Big | boolean | Date>;
     caption: DynamicValue<string>;
+}
+
+export interface GroupListPreviewType {
+    type: TypeEnum;
+    key: string;
+    ref: string;
+    refOptions: {} | { caption: string } | { type: string } | null;
+    caption: string;
+}
+
+export interface GroupAttrsPreviewType {
+    key: string;
+    attr: string;
 }
 
 export interface FilterListPreviewType {
@@ -57,6 +85,9 @@ export interface GalleryContainerProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
+    enableFilterGroups: boolean;
+    groupList: GroupListType[];
+    groupAttrs: GroupAttrsType[];
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     sortList: SortListType[];
@@ -91,6 +122,9 @@ export interface GalleryPreviewProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
+    enableFilterGroups: boolean;
+    groupList: GroupListPreviewType[];
+    groupAttrs: GroupAttrsPreviewType[];
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     sortList: SortListPreviewType[];

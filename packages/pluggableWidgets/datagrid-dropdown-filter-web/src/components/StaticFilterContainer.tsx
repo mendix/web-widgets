@@ -1,8 +1,9 @@
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
+import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
-import { createElement, useState, useEffect } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 
 export interface StaticFilterContainerProps {
     filterStore: OptionListFilterInterface<string>;
@@ -11,6 +12,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
+    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(
         () =>
             new StaticFilterController({
@@ -29,6 +31,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
             onSelect={controller.onSelect}
             multiSelect={controller.multiselect}
             inputValue={controller.inputValue}
+            id={id}
         />
     );
 }
