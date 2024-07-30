@@ -12,7 +12,7 @@ test.describe("Here Maps", () => {
             await page.waitForLoadState("networkidle");
             const mapElement = await page.locator(".widget-maps");
             await expect(mapElement).toBeVisible();
-            await expect(mapElement).toHaveScreenshot("hereMaps.png", { threshold: 0.5 });
+            await expect(mapElement).toHaveScreenshot("hereMaps.png", { maxDiffPixels: 1000 });
         });
     });
 
