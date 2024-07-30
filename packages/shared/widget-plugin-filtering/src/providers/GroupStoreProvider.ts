@@ -68,9 +68,15 @@ export class GroupStoreProvider implements KeyProvider {
         return this._registry.get(key) ?? null;
     };
 
-    setup(): void {}
-
-    dispose(): void {}
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+        this._registry.forEach(store => {
+            if ("setup" in store) {
+                disposers.push(store.setup());
+            }
+        });
+        return () => disposers.forEach(unsub => unsub());
+    }
 
     /** It turns out only ref group need updates. */
     updateProps(props: Props): void {

@@ -81,19 +81,12 @@ export class HeaderFiltersStore {
         }
     }
 
-    setup(): void {
+    setup(): (() => void) | void {
         if (this.provider.hasError) {
             return;
         }
 
-        this.provider.value.setup();
-    }
-
-    dispose(): void {
-        if (this.provider.hasError) {
-            return;
-        }
-        this.provider.value.dispose?.();
+        return this.provider.value.setup();
     }
 
     updateProps(props: Props): void {

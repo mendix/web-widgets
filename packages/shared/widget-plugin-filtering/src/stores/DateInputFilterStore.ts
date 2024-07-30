@@ -14,7 +14,7 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable, reaction, observable, comparer } from "mobx";
+import { action, makeObservable, reaction, observable, comparer, IReactionDisposer } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
@@ -34,7 +34,6 @@ export class DateInputFilterStore
     readonly storeType = "input";
     readonly type = "date";
     private readonly rangeMarkerTag = "__RANGE_MARKER__";
-    private disposers: Array<() => void> = [];
     private computedState: StateTuple;
 
     constructor(attributes: Array<ListAttributeValue<Date>>, initCond: FilterCondition | null) {
@@ -68,6 +67,12 @@ export class DateInputFilterStore
         }
     }
 
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+        disposers.push(this.setupComputeValues());
+        return () => disposers.forEach(unsub => unsub());
+    }
+
     updateProps(attributes: ListAttributeValue[]): void {
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
@@ -82,8 +87,8 @@ export class DateInputFilterStore
         }
     }
 
-    private setupComputeValues(): void {
-        const disposer = reaction(
+    private setupComputeValues(): IReactionDisposer {
+        return reaction(
             (): StateTuple => [this.filterFunction, this.arg1.value, this.arg2.value],
             computedState => {
                 const [fn, v1, v2] = computedState;
@@ -95,13 +100,6 @@ export class DateInputFilterStore
             },
             { equals: comparer.shallow }
         );
-
-        this.disposers.push(disposer);
-    }
-
-    dispose(): void {
-        this.disposers.forEach(dispose => dispose());
-        this.disposers = [];
     }
 
     private isRange(value: unknown): value is [Date, Date] {

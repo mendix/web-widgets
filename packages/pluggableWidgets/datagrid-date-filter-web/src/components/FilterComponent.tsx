@@ -28,7 +28,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
             data-focusindex={props.tabIndex}
             style={props.style}
         >
-            {props.badge ? <Badge style={{ left: 48, zIndex: 2 }}>{props.badge}</Badge> : null}
+            {props.badge ? <Badge style={{ left: 40, zIndex: 2 }}>{props.badge}</Badge> : null}
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption ?? "Select filter type"}

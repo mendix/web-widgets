@@ -1317,6 +1317,12 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*

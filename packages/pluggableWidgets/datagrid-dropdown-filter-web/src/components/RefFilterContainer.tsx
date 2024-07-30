@@ -1,10 +1,10 @@
-import { createElement, useState, useEffect } from "react";
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
-import { observer } from "mobx-react-lite";
+import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
-
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { observer } from "mobx-react-lite";
+import { createElement, useEffect, useRef, useState } from "react";
 export interface RefFilterContainerProps {
     filterStore: OptionListFilterInterface<string>;
     multiselect: boolean;
@@ -12,6 +12,7 @@ export interface RefFilterContainerProps {
 }
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
+    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(
         () =>
             new RefFilterController({
@@ -33,6 +34,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
             inputValue={controller.inputValue}
             onTriggerClick={controller.handleTriggerClick}
             onContentScroll={handleContentScroll}
+            id={id}
         />
     );
 }
