@@ -27,7 +27,7 @@ export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIE
         return error(EGRPKEY);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
+    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION, key);
 
     if (store === null) {
         return error(EMISSINGSTORE);

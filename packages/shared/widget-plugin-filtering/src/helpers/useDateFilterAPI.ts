@@ -28,7 +28,7 @@ export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError
         return error(EGRPKEY);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
+    const store = getFilterStore(api.provider.value, FilterType.DATE, key);
 
     if (store === null) {
         return error(EMISSINGSTORE);
