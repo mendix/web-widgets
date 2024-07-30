@@ -14,7 +14,7 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable, reaction, observable, comparer, trace } from "mobx";
+import { action, makeObservable, reaction, observable, comparer } from "mobx";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
@@ -40,17 +40,20 @@ export class DateInputFilterStore
     constructor(attributes: Array<ListAttributeValue<Date>>, initCond: FilterCondition | null) {
         const { formatter } = attributes[0];
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
-        this.computedState = [this.filterFunction, this.arg1.value, this.arg2.value];
         // NOTE: some fields already become observable in `super`.
         makeObservable<this, "computedState">(this, {
             updateProps: action,
-            computedState: observable.shallow
+            computedState: observable.shallow,
+            fromViewState: action,
+            fromJSON: action
         });
-        trace(this, "condition");
-        this.setupComputeValues();
         if (initCond) {
             this.fromViewState(initCond);
         }
+        // NOTE: computedState init and setupComputedValues should go after
+        // any state initialization (eg. fromViewState).
+        this.computedState = [this.filterFunction, this.arg1.value, this.arg2.value];
+        this.setupComputeValues();
     }
 
     get condition(): FilterCondition | undefined {
