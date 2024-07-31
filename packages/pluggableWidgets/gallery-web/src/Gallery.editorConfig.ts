@@ -7,6 +7,7 @@ import {
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
+    hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
     Problem,
@@ -53,6 +54,8 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "advanced");
     }
 
+    setFilteringProps(values, defaultProperties);
+
     return defaultProperties;
 }
 
@@ -85,6 +88,10 @@ export function check(values: GalleryPreviewProps): Problem[] {
                 'Change "On click trigger" to "Double click" or set "Selection" to "None".'
         });
     }
+
+    errors.push(...checkGroupProps(values));
+    errors.push(...checkGroupAttrs(values));
+
     return errors;
 }
 
@@ -201,4 +208,91 @@ export function getCustomCaption(values: GalleryPreviewProps): string {
     type DsProperty = { caption?: string };
     const dsProperty: DsProperty = datasource(values.datasource)().property ?? {};
     return dsProperty.caption || "Gallery";
+}
+
+const checkGroupProps = (values: GalleryPreviewProps): Problem[] => {
+    const errors: Problem[] = [];
+    let sizeMap: { [key: string]: number } = Object.fromEntries(values.groupList.map(grp => [grp.key, 0]));
+    if (values.groupAttrs.length > 0) {
+        sizeMap = values.groupAttrs.reduce<typeof sizeMap>(
+            (acc, attr) => {
+                if (Object.hasOwn(acc, attr.key)) {
+                    acc[attr.key] += 1;
+                }
+                return acc;
+            },
+            { ...sizeMap }
+        );
+    }
+
+    values.groupList.forEach((group, index) => {
+        const idx = `Groups{${index + 1}}`;
+        const name = group.key ? `${idx} (${group.key})` : idx;
+        const prefix = `Grid wide filtering/${name}`;
+
+        if (group.type === "reference") {
+            if (group.ref === "") {
+                errors.push({
+                    severity: "error",
+                    message: `${prefix}: Property 'Reference' is required.`
+                });
+            }
+            if (group.refOptions === null) {
+                errors.push({
+                    severity: "error",
+                    message: `${prefix}: Property 'Options source' is required.`
+                });
+            }
+            if (group.caption === "") {
+                errors.push({
+                    severity: "error",
+                    message: `${prefix}: Property 'Option caption' is required.`
+                });
+            }
+        } else if (group.key.length > 0) {
+            if (sizeMap[group.key] === 0) {
+                errors.push({
+                    severity: "error",
+                    message: `${prefix}: group has no attributes. At least one attribute with key '${group.key}' is required.`
+                });
+            }
+        }
+    });
+
+    return errors;
+};
+
+const checkGroupAttrs = (props: GalleryPreviewProps): Problem[] => {
+    const errors: Problem[] = [];
+    const groupKeys = new Set(props.groupList.map(grp => grp.key));
+
+    props.groupAttrs.forEach((attr, index) => {
+        if (attr.key.length > 0 && !groupKeys.has(attr.key)) {
+            const prefix = `Grid wide filtering/Group attributes{${index + 1}}`;
+            errors.push({
+                severity: "error",
+                message: `${prefix}: Unable to find group with key '${attr.key}'. Check 'Groups' settings.`
+            });
+        }
+    });
+
+    return errors;
+};
+
+export function setFilteringProps(values: GalleryPreviewProps, props: Properties): void {
+    if (values.enableFilterGroups === false) {
+        hidePropertiesIn(props, values, ["groupList", "groupAttrs"]);
+    } else {
+        hidePropertiesIn(props, values, ["filterList"]);
+    }
+
+    setGroupProps(values, props);
+}
+
+function setGroupProps(values: GalleryPreviewProps, props: Properties): void {
+    values.groupList.forEach((group, index) => {
+        if (group.type === "attrs") {
+            hideNestedPropertiesIn(props, values, "groupList", index, ["ref", "refOptions", "caption"]);
+        }
+    });
 }
