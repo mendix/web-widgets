@@ -20,7 +20,7 @@ export function getProperties(values: GoogleTagPreviewProps, defaultProperties: 
                 break;
             }
             case "event": {
-                hidePropertiesIn(defaultProperties, values, ["targetId"]);
+                hidePropertiesIn(defaultProperties, values, ["targetId", "sendUserID"]);
                 handleValueTypes(values, defaultProperties);
                 break;
             }
