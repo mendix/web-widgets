@@ -16,7 +16,7 @@
     "mpkName": "com.mendix.widget.web.Markdown.mpk"
   },
   "marketplace": {
-    "minimumMXVersion": "9.6.0",
+    "minimumMXVersion": "9.24.0",
     "appNumber": 119160,
     "appName": "Markdown viewer"
   },
@@ -41,6 +41,7 @@
     "e2edev": "run-e2e dev --with-preps"
   },
   "devDependencies": {
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/pluggable-widgets-tools": "^10.7.2",
