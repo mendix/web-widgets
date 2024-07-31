@@ -9,8 +9,11 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
     });
 
     useEffect(() => {
-        rootStore.setup();
-        return () => rootStore.dispose();
+        const cleanup = rootStore.setup();
+        return () => {
+            rootStore.dispose();
+            cleanup?.();
+        };
     }, [rootStore]);
 
     useEffect(() => {
