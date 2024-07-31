@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import MarkdownIt from "markdown-it";
-import { ReactNode, createElement, useEffect, useRef } from "react";
+import { ReactElement, createElement, useEffect, useRef } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
 const mdParser = new MarkdownIt("default", {
@@ -8,7 +8,7 @@ const mdParser = new MarkdownIt("default", {
     linkify: true
 });
 
-export function Markdown(props: MarkdownContainerProps): ReactNode {
+export default function Markdown(props: MarkdownContainerProps): ReactElement {
     const { stringAttribute } = props;
     const previewRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -18,7 +18,9 @@ export function Markdown(props: MarkdownContainerProps): ReactNode {
     }, [stringAttribute?.value, stringAttribute?.status]);
 
     return stringAttribute?.status === "available" ? (
-        <div className={classNames("widget-markdown")} ref={previewRef}></div>
+        <div className={classNames("widget-markdown")} ref={previewRef}>
+            {stringAttribute?.value}
+        </div>
     ) : (
         <div className="mx-progress"></div>
     );
