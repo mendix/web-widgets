@@ -2,14 +2,13 @@ import { makeObservable, computed, observable, action } from "mobx";
 import { ListAttributeId, SortDirection, SortingStoreInterface, SortInstruction, Option } from "../typings";
 
 export class SortingStore implements SortingStoreInterface {
-    private _direction: SortDirection = "asc";
+    private _direction: SortDirection;
     private _selected: ListAttributeId | null;
     options: Option[];
 
     constructor(options: Option[], initSort: SortInstruction[]) {
-        const [[id = null] = []] = initSort;
         this.options = options;
-        this._selected = id;
+        [[this._selected, this._direction] = [null, "asc"]] = initSort;
 
         makeObservable<this, "_selected" | "_direction">(this, {
             options: observable.ref,
