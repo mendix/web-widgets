@@ -16,7 +16,7 @@ export class SortingStore implements SortingStoreInterface {
             _selected: observable,
             _direction: observable,
             value: computed,
-            sort: computed,
+            sortOrder: computed,
             direction: computed,
             select: action,
             toggleDirection: action
@@ -31,15 +31,15 @@ export class SortingStore implements SortingStoreInterface {
         return this._direction;
     }
 
-    get sort(): SortInstruction[] {
+    get sortOrder(): SortInstruction[] {
         return this._selected ? [[this._selected, this._direction]] : [];
     }
 
-    select(value: ListAttributeId | null): void {
+    select = (value: ListAttributeId | null): void => {
         this._selected = value;
-    }
+    };
 
-    toggleDirection(): void {
+    toggleDirection = (): void => {
         this._direction = this._direction === "asc" ? "desc" : "asc";
-    }
+    };
 }

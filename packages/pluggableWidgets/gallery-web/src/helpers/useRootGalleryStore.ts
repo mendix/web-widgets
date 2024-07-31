@@ -1,4 +1,4 @@
-import { IReactionDisposer, autorun } from "mobx";
+import { IReactionDisposer, reaction } from "mobx";
 import { useState, useEffect, useRef } from "react";
 import { RootGalleryStore } from "../stores/RootGalleryStore";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
@@ -9,10 +9,7 @@ export function useRootGalleryStore(props: GalleryContainerProps): RootGallerySt
         return new RootGalleryStore(props);
     });
 
-    useEffect(() => {
-        rootStore.setup();
-        return () => rootStore.dispose();
-    }, [rootStore]);
+    useEffect(() => rootStore.setup(), [rootStore]);
 
     useEffect(() => {
         rootStore.updateProps(props);
@@ -23,17 +20,23 @@ export function useRootGalleryStore(props: GalleryContainerProps): RootGallerySt
         const disposers: IReactionDisposer[] = [];
 
         // apply sorting
-        // disposers.push(
-        //     autorun(() => {
-        //         datasourceRef.current.setSortOrder(rootStore.sortInstructions);
-        //     })
-        // );
+        disposers.push(
+            reaction(
+                () => rootStore.sortOrder,
+                order => {
+                    datasourceRef.current.setSortOrder(order);
+                }
+            )
+        );
 
         // apply filters
         disposers.push(
-            autorun(() => {
-                datasourceRef.current.setFilter(rootStore.conditions);
-            })
+            reaction(
+                () => rootStore.conditions,
+                filter => {
+                    datasourceRef.current.setFilter(filter);
+                }
+            )
         );
 
         return () => {

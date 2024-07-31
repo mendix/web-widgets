@@ -86,7 +86,11 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
             emptyMessageTitle={props.emptyMessageTitle?.value}
             header={
                 showHeader && (
-                    <HeaderContainer filtersStore={props.rootStore.headerFiltersStore} selectionHelper={selection}>
+                    <HeaderContainer
+                        filtersStore={props.rootStore.headerFiltersStore}
+                        selectionHelper={selection}
+                        sortProvider={props.rootStore.sortProvider}
+                    >
                         {props.filtersPlaceholder}
                     </HeaderContainer>
                 )

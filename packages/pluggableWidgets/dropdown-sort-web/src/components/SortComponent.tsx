@@ -11,7 +11,7 @@ export interface SortOption {
 
 interface SortComponentProps<Dir = "asc" | "desc"> {
     className?: string;
-    emptyOptionCaption?: string;
+    placeholder?: string;
     id?: string;
     options: SortOption[];
     value: string | null;
@@ -42,7 +42,7 @@ export function SortComponent(props: SortComponentProps): ReactElement {
 
     useOnClickOutside([componentRef, optionsRef], () => setShow(false));
 
-    const showPlaceholder = props.value === null;
+    const selected = props.options.find(o => o.value === props.value);
 
     const optionsComponent = createPortal(
         <ul
@@ -105,8 +105,8 @@ export function SortComponent(props: SortComponentProps): ReactElement {
         >
             <div className="dropdown-triggerer-wrapper">
                 <input
-                    value={showPlaceholder ? "" : props.value?.toString()}
-                    placeholder={showPlaceholder ? props.emptyOptionCaption : undefined}
+                    value={props.value ? selected?.caption : ""}
+                    placeholder={props.placeholder}
                     className="form-control dropdown-triggerer"
                     onClick={containerClick}
                     onKeyDown={e => {

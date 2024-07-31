@@ -15,8 +15,8 @@ interface ControlProps {
 
 export function useSortControl(props: HookProps, store: SortingStoreInterface): ControlProps {
     const options = useMemo(() => {
-        return [...store.options, { caption: props.emptyOptionCaption ?? "", value: null } as Option];
-    }, [store, props.emptyOptionCaption]);
+        return [{ caption: props.emptyOptionCaption ?? "", value: null } as Option, ...store.options];
+    }, [store.options, props.emptyOptionCaption]);
 
     return {
         value: store.value,

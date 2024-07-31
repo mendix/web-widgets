@@ -48,12 +48,11 @@ export class RootGridStore {
         return this.columnsStore.sortInstructions;
     }
 
-    setup(): void {
-        this.headerFiltersStore.setup();
+    setup(): (() => void) | void {
+        return this.headerFiltersStore.setup();
     }
 
     dispose(): void {
-        this.headerFiltersStore.dispose();
         this.settingsStore.dispose();
     }
 

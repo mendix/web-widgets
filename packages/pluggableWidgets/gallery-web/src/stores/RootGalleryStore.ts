@@ -1,8 +1,12 @@
 import { conjoin, disjoin } from "@mendix/widget-plugin-filtering/condition-utils";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
+import { SortAPIProvider } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
+
+type SortInstruction = ListValue["sortOrder"] extends Array<infer T> ? T : never;
 
 interface StaticInfo {
     name: string;
@@ -11,6 +15,7 @@ interface StaticInfo {
 
 export class RootGalleryStore {
     headerFiltersStore: HeaderFiltersStore;
+    sortProvider: SortAPIProvider;
     staticInfo: StaticInfo;
 
     constructor(props: GalleryContainerProps) {
@@ -22,26 +27,19 @@ export class RootGalleryStore {
 
         const headerViewState = this.getDsViewState(props);
         this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
+        this.sortProvider = new SortAPIProvider(props);
     }
 
-    /**
-     * This method should always "read" filters from columns.
-     * Otherwise computed is suspended.
-     */
     get conditions(): FilterCondition {
         return conjoin(this.headerFiltersStore.conditions);
     }
 
-    // get sortInstructions(): SortInstruction[] | undefined {
-    //     return this.columnsStore.sortInstructions;
-    // }
-
-    setup(): void {
-        this.headerFiltersStore.setup();
+    get sortOrder(): SortInstruction[] {
+        return this.sortProvider.sortOrder;
     }
 
-    dispose(): void {
-        this.headerFiltersStore.dispose();
+    setup(): (() => void) | void {
+        return this.headerFiltersStore.setup();
     }
 
     updateProps(props: GalleryContainerProps): void {
