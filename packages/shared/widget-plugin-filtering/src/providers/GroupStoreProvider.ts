@@ -5,7 +5,7 @@ import { Result, error, value } from "../result-meta";
 import { attrgroupFilterStore, InputFilterStore } from "../stores/store-utils";
 import { APIError, APIErrorCode } from "../errors";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
-import { computed, makeObservable, trace } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { FiltersSettingsMap } from "../typings/settings";
 import { RefFilterStore } from "../stores/RefFilterStore";
 
@@ -41,8 +41,6 @@ export class GroupStoreProvider implements KeyProvider {
             conditions: computed,
             settings: computed
         });
-
-        console.debug(trace(this, "conditions"));
     }
 
     get conditions(): Array<FilterCondition | undefined> {

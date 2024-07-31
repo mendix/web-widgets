@@ -1,6 +1,6 @@
 import { ListAttributeValue } from "mendix";
 import { makeObservable, computed, observable, action, comparer } from "mobx";
-import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { OptionListFilterInterface, Option, CustomOption } from "../typings/OptionListFilterInterface";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { equals, literal, attribute, or } from "mendix/filters/builders";
 import { FilterData } from "../typings/settings";
@@ -17,6 +17,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
 
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
+    _customOptions: Array<CustomOption<string>> = [];
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
         this._attributes = attributes;
@@ -24,6 +25,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
         makeObservable(this, {
             _attributes: observable.ref,
             _selected: observable,
+            _customOptions: observable.ref,
 
             options: computed,
             universe: computed,
@@ -31,7 +33,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
             toggle: action,
             updateProps: action,
             fromJSON: action,
-            fromViewState: action
+            fromViewState: action,
+            setCustomOptions: action
         });
 
         if (initCond) {
@@ -40,6 +43,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
     }
 
     get options(): Array<Option<string>> {
+        if (this._customOptions.length > 0) {
+            return this._customOptions.map(opt => ({ ...opt, selected: this._selected.has(opt.value) }));
+        }
+
         const options = this._attributes.flatMap(attr =>
             Array.from(attr.universe ?? [], value => {
                 const stringValue = `${value}`;
@@ -152,6 +159,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface<string
             this.replace(selected);
             this.isInitialized = true;
         }
+    }
+
+    setCustomOptions(options: Array<CustomOption<string>>): void {
+        this._customOptions = options;
     }
 }
 

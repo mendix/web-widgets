@@ -19,6 +19,7 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
     return (
         <StaticFilterContainer
             filterStore={props.filterStore}
+            filterOptions={props.filterOptions}
             multiselect={props.multiSelect}
             defaultValue={props.defaultValue?.value}
         />

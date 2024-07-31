@@ -4,23 +4,19 @@ import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typin
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
 import { createElement, useEffect, useRef, useState } from "react";
+import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
+import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 
 export interface StaticFilterContainerProps {
     filterStore: OptionListFilterInterface<string>;
+    filterOptions: FilterOptionsType[];
     multiselect: boolean;
     defaultValue?: string;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
     const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
-    const [controller] = useState(
-        () =>
-            new StaticFilterController({
-                store: props.filterStore,
-                multiselect: props.multiselect,
-                defaultValue: props.defaultValue
-            })
-    );
+    const [controller] = useState(() => new StaticFilterController(props));
 
     useEffect(() => controller.setup(), [controller]);
 
@@ -36,4 +32,4 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     );
 }
 
-export const StaticFilterContainer = observer(Container);
+export const StaticFilterContainer = withCustomOptionsGuard(observer(Container));

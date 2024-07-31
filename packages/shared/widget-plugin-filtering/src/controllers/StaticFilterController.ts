@@ -1,30 +1,41 @@
-import { makeObservable, computed } from "mobx";
+import { DynamicValue } from "mendix";
+import { makeObservable, computed, autorun, observable } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 
-type Params = {
-    store: OptionListFilterInterface<string>;
+interface CustomOption<T> {
+    caption: T;
+    value: T;
+}
+
+interface Props {
+    filterStore: OptionListFilterInterface<string>;
     multiselect: boolean;
     defaultValue?: string;
-};
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
+}
 
 export class StaticFilterController {
     private store: OptionListFilterInterface<string>;
+    _filterOptions: Array<CustomOption<DynamicValue<string>>>;
     readonly empty: Option<string>;
     readonly defaults: string[] | undefined;
     multiselect = false;
 
-    constructor(params: Params) {
-        this.store = params.store;
-        this.multiselect = params.multiselect;
+    constructor(props: Props) {
+        this.store = props.filterStore;
+        this.multiselect = props.multiselect;
+        this._filterOptions = props.filterOptions;
         this.empty = {
             value: "__EMPTY__",
             caption: "",
             selected: false
         };
-        this.defaults = params.defaultValue ? [params.defaultValue] : undefined;
+        this.defaults = props.defaultValue ? [props.defaultValue] : undefined;
 
         makeObservable(this, {
-            inputValue: computed
+            inputValue: computed,
+            _filterOptions: observable.struct,
+            customOptions: computed
         });
     }
 
@@ -36,8 +47,31 @@ export class StaticFilterController {
         return [...this.store.options];
     }
 
-    setup(): void {
+    get customOptions(): Array<CustomOption<string>> {
+        return this._filterOptions.map(opt => ({
+            caption: `${opt.caption?.value}`,
+            value: `${opt.value?.value}`
+        }));
+    }
+
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+
         this.store.UNSAFE_setDefaults(this.defaults);
+
+        disposers.push(
+            autorun(() => {
+                if (this.customOptions.length > 0) {
+                    this.store.setCustomOptions(this.customOptions);
+                }
+            })
+        );
+
+        return () => disposers.forEach(unsub => unsub());
+    }
+
+    updateProps(props: Props): void {
+        this._filterOptions = props.filterOptions;
     }
 
     onSelect = (value: string): void => {
