@@ -195,7 +195,14 @@ export class RefFilterStore implements OptionListFilterInterface<string> {
     }
 
     /** Stub */
-    fromJSON(_: unknown): void {}
+    fromJSON(_: unknown): void {
+        //
+    }
+
+    /** Stub */
+    setCustomOptions(_: unknown): void {
+        //
+    }
 
     fromViewState(cond: FilterCondition): void {
         const val = (exp: LiteralExpression): string | undefined => {

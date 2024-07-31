@@ -1,8 +1,13 @@
-export type Option<T> = {
+export interface Option<T> {
     caption: string;
     value: T;
     selected: boolean;
-};
+}
+
+export interface CustomOption<T> {
+    caption: string;
+    value: T;
+}
 
 export interface OptionListFilterInterface<T> {
     type: "refselect" | "select";
@@ -21,4 +26,5 @@ export interface OptionListFilterInterface<T> {
     clear(): void;
     UNSAFE_setDefaults(value?: string[]): void;
     setup?(): () => void | void;
+    setCustomOptions(options: Array<CustomOption<T>>): void;
 }

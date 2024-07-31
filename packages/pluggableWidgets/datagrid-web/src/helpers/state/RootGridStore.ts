@@ -28,8 +28,6 @@ export class RootGridStore {
         this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
-
-        console.debug(((window as any).rootStore = this));
     }
 
     get isLoaded(): boolean {

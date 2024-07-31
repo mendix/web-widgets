@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { ListAttributeValue } from "mendix";
-import { action, makeObservable, comparer, trace } from "mobx";
+import { action, makeObservable, comparer } from "mobx";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
@@ -30,9 +30,6 @@ export class NumberInputFilterStore
         if (initCond) {
             this.fromViewState(initCond);
         }
-
-        trace(this, "condition");
-        // todo restore operation and value from config
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
