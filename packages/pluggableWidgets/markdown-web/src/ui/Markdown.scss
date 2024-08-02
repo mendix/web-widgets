@@ -21,6 +21,12 @@ $table-background: #f2f2f2;
     img {
         max-width: 35%;
     }
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #eee;
+    }
 }
 
 .widget-markdown.preview {
