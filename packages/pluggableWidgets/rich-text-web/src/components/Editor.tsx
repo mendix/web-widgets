@@ -152,7 +152,7 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 contextmenu: props.contextmenutype === "richtext" ? "cut copy paste pastetext | link selectall" : false,
                 content_css: props.content_css?.value || undefined,
                 convert_unsafe_embeds: true,
-                sandbox_iframes: true
+                sandbox_iframes: props.sandboxIframes
             }}
             tabIndex={tabIndex || 0}
             disabled={stringAttribute.readOnly}

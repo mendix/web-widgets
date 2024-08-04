@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.6.2] - 2024-07-16
+
+### Changed
+
+-   Due to technical limitation, it is not possible to use lazy load on caption type = expression. Thus, we removed lazy loading for this configuration.
+
 ## [1.6.1] - 2024-06-28
 
 ### Changed

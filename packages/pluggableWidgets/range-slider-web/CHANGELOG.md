@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.3] - 2024-07-15
+
+### Fixed
+
+-   We fixed an issue with initial value being reset to default min value.
+
 ## [2.1.2] - 2024-06-25
 
 ### Fixed

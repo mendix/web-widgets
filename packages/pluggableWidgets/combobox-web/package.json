@@ -1,7 +1,7 @@
 {
   "name": "@mendix/combobox-web",
   "widgetName": "Combobox",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Configurable Combo box widget with suggestions and autocomplete.",
   "copyright": "© Mendix Technology BV 2024. All rights reserved.",
   "license": "Apache-2.0",
@@ -35,7 +35,7 @@
     "format": "pluggable-widgets-tools format",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "test": "jest --projects jest.config.js",
-    "e2e": "echo \"Skipping this e2e test\"",
+    "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps",
     "release": "pluggable-widgets-tools release:web",
     "create-gh-release": "rui-create-gh-release",

@@ -1,7 +1,8 @@
-import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import "../ui/accordion-main.scss";
+import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { LoadContentEnum } from "typings/AccordionProps";
+import { useDebouncedResizeObserver, CallResizeObserver } from "../utils/resizeObserver";
+import "../ui/accordion-main.scss";
 
 /* eslint-disable no-unused-vars */
 export const enum Target {
@@ -44,6 +45,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
     const renderContent = useRef(loadContent === "always");
 
     renderContent.current ||= !renderCollapsed;
+    useDebouncedResizeObserver(CallResizeObserver, { renderCollapsed, contentWrapperRef, contentRef });
 
     const completeTransitioning = useCallback((): void => {
         if (contentWrapperRef.current && rootRef.current && animatingContent.current) {
@@ -93,8 +95,17 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
             }
         } else if (props.collapsed !== renderCollapsed && (!animateContent || !props.visible)) {
             setRenderCollapsed(props.collapsed);
+        } else if (props.collapsed === renderCollapsed) {
+            // if state and props looses their sync due to "complete transition" not being triggered
+            // make sure it is sync back in.
+            if (
+                (renderCollapsed && rootRef.current?.classList.contains("widget-accordion-group-expanding")) ||
+                (!renderCollapsed && rootRef.current?.classList.contains("widget-accordion-group-collapsing"))
+            ) {
+                completeTransitioning();
+            }
         }
-    }, [props.collapsed, props.visible, renderCollapsed, animateContent]);
+    }, [props.collapsed, props.visible, renderCollapsed, animateContent, completeTransitioning]);
 
     useEffect(() => {
         if (renderCollapsed !== previousRenderCollapsed.current) {

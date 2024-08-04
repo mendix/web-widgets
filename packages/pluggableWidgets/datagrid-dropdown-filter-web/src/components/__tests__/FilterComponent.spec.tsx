@@ -58,7 +58,7 @@ describe("FilterComponent", () => {
 
             expect(input).toHaveValue(defaultOption.caption);
             expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters).toHaveBeenLastCalledWith([defaultOption]);
+            expect(updateFilters).toHaveBeenLastCalledWith([defaultOption], true);
         });
 
         it("don't call updateFilters when nothing is selected and 'empty' option clicked", async () => {
@@ -79,7 +79,7 @@ describe("FilterComponent", () => {
             await user.click(menuItems[0]);
 
             expect(updateFilters).toBeCalledTimes(1);
-            expect(updateFilters).toHaveBeenLastCalledWith([]);
+            expect(updateFilters).toHaveBeenLastCalledWith([], true);
         });
 
         describe("when value changes", () => {
@@ -182,7 +182,7 @@ describe("FilterComponent", () => {
                 const expectedCaptions = `${option1.caption},${option2.caption}`;
                 expect(input.getAttribute("value")).toBe(expectedCaptions);
                 expect(updateFilters).toBeCalledTimes(1);
-                expect(updateFilters).toHaveBeenLastCalledWith([option1, option2]);
+                expect(updateFilters).toHaveBeenLastCalledWith([option1, option2], true);
             });
 
             it("filters incorrect default options", () => {

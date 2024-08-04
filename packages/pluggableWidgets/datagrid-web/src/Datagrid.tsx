@@ -186,15 +186,18 @@ const Container = observer((props: Props): ReactElement => {
     );
 });
 
+const ContainerWithLoading = observer((props: Props) => {
+    if (!props.rootStore.isLoaded) {
+        return null;
+    }
+    return <Container {...props} />;
+});
+
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
     const rootStore = useRootStore(props);
 
-    if (!rootStore.isLoaded) {
-        return null;
-    }
-
     return (
-        <Container
+        <ContainerWithLoading
             {...props}
             rootStore={rootStore}
             columnsStore={rootStore.columnsStore}
