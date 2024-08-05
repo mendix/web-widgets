@@ -69,7 +69,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="databaseAttributeString" type="attribute" required="true" setLabel="true">
+                <property key="databaseAttributeString" type="attribute" setLabel="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
