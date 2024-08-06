@@ -2,6 +2,7 @@ $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
 
 .widget-rich-text {
+    position: relative;
     .ql-container {
         border: unset;
     }
@@ -29,5 +30,15 @@ $rte-gray-ligher: #f8f8f8;
         & > .ql-ui:before {
             content: counter(custom-list-alpha, lower-alpha) ". ";
         }
+    }
+
+    .widget-rich-text-prompt {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        align-content: center;
+        text-align: center;
     }
 }
