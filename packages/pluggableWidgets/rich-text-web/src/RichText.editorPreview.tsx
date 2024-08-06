@@ -11,6 +11,11 @@ export enum FormatterType {
     DateTime = "datetime"
 }
 
+function emptyFunction(): null {
+    return null;
+}
+const emptyAction = { canExecute: true, isExecuting: false, execute: emptyFunction };
+
 export function preview(props: RichTextPreviewProps): ReactElement {
     const stringAttribute = {
         value: `[${
@@ -26,10 +31,10 @@ export function preview(props: RichTextPreviewProps): ReactElement {
                 return { valid: true, value: "" };
             }
         } as SimpleFormatter<string>,
-        setValidator: () => {},
-        setValue: () => {},
-        setTextValue: () => {},
-        setFormatter: () => {}
+        setValidator: emptyFunction,
+        setValue: emptyFunction,
+        setTextValue: emptyFunction,
+        setFormatter: emptyFunction
     } as EditableValue<string>;
 
     return (
@@ -40,9 +45,9 @@ export function preview(props: RichTextPreviewProps): ReactElement {
             width={props.width ?? 0}
             height={props.height ?? 0}
             minHeight={props.minHeight ?? 0}
-            onChange={{ canExecute: true, isExecuting: false, execute: () => {} }}
-            onFocus={{ canExecute: true, isExecuting: false, execute: () => {} }}
-            onBlur={{ canExecute: true, isExecuting: false, execute: () => {} }}
+            onChange={emptyAction}
+            onFocus={emptyAction}
+            onBlur={emptyAction}
             stringAttribute={stringAttribute}
             className={classNames("widget-rich-text", "form-control")}
             toolbarOptions={[

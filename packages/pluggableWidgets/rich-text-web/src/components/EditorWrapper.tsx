@@ -35,6 +35,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
     const editorValueRef = useRef<string>("");
+    const toolbarRef = useRef<HTMLDivElement>(null);
 
     const onTextChange = useCallback(() => {
         if (onChange?.canExecute && onChangeType === "onDataChange") {
@@ -91,14 +92,23 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             }}
             onClick={e => {
                 // click on other parts of editor, such as the toolbar, should also set focus
-                if (!quillRef.current?.container.contains(e.target as Node)) {
+                if (
+                    toolbarRef.current === (e.target as HTMLDivElement) ||
+                    toolbarRef.current?.contains(e.target as Node)
+                ) {
                     quillRef?.current?.focus();
                 }
             }}
             spellCheck={props.spellCheck}
         >
             <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
-                <Toolbar id={toolbarId} preset={preset} quill={quillRef.current} toolbarContent={toolbarPreset} />
+                <Toolbar
+                    ref={toolbarRef}
+                    id={toolbarId}
+                    preset={preset}
+                    quill={quillRef.current}
+                    toolbarContent={toolbarPreset}
+                />
             </If>
             <Editor
                 theme={"snow"}
