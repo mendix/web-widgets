@@ -1,0 +1,63 @@
+.widget-rich-text-modal {
+    position: relative;
+    inset: 40px;
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 0;
+    box-shadow: 0px 0px 0px 1px rgba(136, 143, 170, 0.1), 0px 30px 70px 0px rgba(26, 34, 64, 0.15),
+        0px 10px 30px 0px rgba(0, 0, 0, 0.2);
+
+    &-overlay {
+        position: fixed;
+        inset: 0px;
+        background-color: var(--shadow-color);
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        & > * {
+            padding: 0 20px;
+        }
+    }
+
+    &-header {
+        padding-top: 15px;
+        padding-bottom: 14px;
+        font-size: var(--font-size-large);
+    }
+
+    &-content {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        flex: 1;
+    }
+
+    &-footer {
+        padding-top: 12px;
+        padding-bottom: 14px;
+        display: flex;
+        justify-content: end;
+
+        button.btn:not(:last-child) {
+            margin-right: 20px;
+        }
+    }
+
+    &-form {
+        &:not(:first-child) {
+            margin-top: 20px;
+        }
+    }
+
+    &-input {
+        display: flex;
+    }
+}

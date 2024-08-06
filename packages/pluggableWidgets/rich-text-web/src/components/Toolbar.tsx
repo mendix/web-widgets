@@ -1,5 +1,5 @@
 import Quill from "quill";
-import { CSSProperties, ReactElement, createElement } from "react";
+import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
 import { PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { toolbarContentType, TOOLBAR_MAPPING } from "./CustomToolbars/constants";
@@ -20,7 +20,7 @@ export interface ToolbarProps {
 // emojiO
 // fullscreen ?
 // insert code with pop up?
-export default function Toolbar(props: ToolbarProps): ReactElement {
+const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
     const { id, preset, style, quill, toolbarContent } = props;
     const presetValue = presetToNumberConverter(preset);
 
@@ -30,7 +30,7 @@ export default function Toolbar(props: ToolbarProps): ReactElement {
                 presetValue
             }}
         >
-            <div id={id} style={style}>
+            <div id={id} style={style} ref={ref} className="widget-rich-text-toolbar">
                 {toolbarContent.map((toolbarGroup, index) => {
                     return (
                         <FormatsContainer presetValue={toolbarGroup.presetValue} key={`toolbargroup_${id}_${index}`}>
@@ -61,4 +61,6 @@ export default function Toolbar(props: ToolbarProps): ReactElement {
             </div>
         </ToolbarContext.Provider>
     );
-}
+});
+
+export default Toolbar;
