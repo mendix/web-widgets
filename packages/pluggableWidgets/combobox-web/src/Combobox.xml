@@ -183,7 +183,8 @@
                     <caption>Filter type</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="contains">Contains</enumerationValue>
+                        <enumerationValue key="contains">Contains (fuzzy)</enumerationValue>
+                        <enumerationValue key="containsExact">Contains (exact)</enumerationValue>
                         <enumerationValue key="startsWith">Starts-with</enumerationValue>
                         <enumerationValue key="none">None</enumerationValue>
                     </enumerationValues>

@@ -29,6 +29,12 @@ export class StaticOptionsProvider extends BaseOptionsProvider<string | Big | bo
                     keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
                     sorter: option => option
                 });
+            case "containsExact":
+                return matchSorter(this.options, this.searchTerm || "", {
+                    threshold: matchSorter.rankings.CONTAINS,
+                    keys: [v => this.valuesMap.get(v)?.staticDataSourceCaption.value as string],
+                    sorter: option => option
+                });
             case "startsWith":
                 return matchSorter(this.options, this.searchTerm || "", {
                     threshold: matchSorter.rankings.WORD_STARTS_WITH,

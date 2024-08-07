@@ -21,7 +21,7 @@ export interface OptionsSourceStaticDataSourceType {
     staticDataSourceCaption: DynamicValue<string>;
 }
 
-export type FilterTypeEnum = "contains" | "startsWith" | "none";
+export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none";
 
 export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 

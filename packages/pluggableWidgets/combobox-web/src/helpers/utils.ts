@@ -87,6 +87,10 @@ export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions
     switch (filter) {
         case "contains":
             return {};
+        case "containsExact":
+            return {
+                threshold: matchSorter.rankings.CONTAINS
+            };
         case "startsWith":
             return {
                 threshold: matchSorter.rankings.WORD_STARTS_WITH
