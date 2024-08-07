@@ -28,7 +28,6 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
             e.preventDefault();
             e.stopPropagation();
             console.log(e);
-
             setVisibility(true);
         },
         [setVisibility]
@@ -55,7 +54,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
 
     if (!preview) {
         if (trigger === "onhover") {
-            if (hoverCloseOn === "onHoverOutside") {
+            if (hoverCloseOn === "onHoverLeave") {
                 eventHandlers = {
                     onPointerEnter: handleOnHoverEnter,
                     onPointerLeave: handleOnHoverLeave

@@ -26,7 +26,7 @@ export interface CustomItemsType {
 
 export type TriggerEnum = "onclick" | "onhover";
 
-export type HoverCloseOnEnum = "onClickOutside" | "onHoverOutside";
+export type HoverCloseOnEnum = "onClickOutside" | "onHoverLeave";
 
 export type PositionEnum = "left" | "right" | "top" | "bottom";
 

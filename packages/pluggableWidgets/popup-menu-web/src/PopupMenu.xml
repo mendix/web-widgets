@@ -96,7 +96,7 @@
                     <description />
                     <enumerationValues>
                         <enumerationValue key="onClickOutside">Click outside</enumerationValue>
-                        <enumerationValue key="onHoverOutside">Hover leave</enumerationValue>
+                        <enumerationValue key="onHoverLeave">Hover leave</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="position" type="enumeration" defaultValue="bottom">

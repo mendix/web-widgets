@@ -26,7 +26,7 @@ describe("Popup menu", () => {
         menuTrigger: createElement("button", null, "Trigger"),
         advancedMode: false,
         position: "bottom",
-        hoverCloseOn: "onClickOutside",
+        hoverCloseOn: "onHoverLeave",
         basicItems: [
             basicItemProps,
             { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
