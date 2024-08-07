@@ -91,6 +91,14 @@
                         <enumerationValue key="onhover">Hover</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="hoverCloseOn" type="enumeration" defaultValue="onHoverOutside">
+                    <caption>Close on</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="onClickOutside">Click outside</enumerationValue>
+                        <enumerationValue key="onHoverOutside">Hover leave</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="position" type="enumeration" defaultValue="bottom">
                     <caption>Menu position</caption>
                     <description>The location of the menu relative to the click area.</description>

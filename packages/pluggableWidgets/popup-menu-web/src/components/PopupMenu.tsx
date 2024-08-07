@@ -9,8 +9,9 @@ export interface PopupMenuProps extends PopupMenuContainerProps {
     preview?: boolean;
 }
 export function PopupMenu(props: PopupMenuProps): ReactElement {
-    const preview = !!props.preview;
-    const [visibility, setVisibility] = useState(preview && props.menuToggle);
+    const { preview: isPreview, class: className, menuToggle, menuTrigger, trigger, hoverCloseOn } = props;
+    const preview = !!isPreview;
+    const [visibility, setVisibility] = useState(preview && menuToggle);
     const triggerRef = useRef<HTMLDivElement>(null);
 
     const handleOnClickTrigger = useCallback(
@@ -22,11 +23,21 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         [setVisibility]
     );
 
-    const handleOnHoverTrigger = useCallback(
+    const handleOnHoverEnter = useCallback(
         (e: SyntheticEvent<HTMLElement>): void => {
             e.preventDefault();
             e.stopPropagation();
+            console.log(e);
+
             setVisibility(true);
+        },
+        [setVisibility]
+    );
+    const handleOnHoverLeave = useCallback(
+        (e: SyntheticEvent<HTMLElement>): void => {
+            e.preventDefault();
+            e.stopPropagation();
+            setVisibility(false);
         },
         [setVisibility]
     );
@@ -40,26 +51,34 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         setVisibility(false);
     }, []);
 
-    const onHover =
-        props.trigger === "onhover" && !preview
-            ? {
-                  onPointerEnter: handleOnHoverTrigger
-              }
-            : {};
-    const onClick =
-        props.trigger === "onclick" && !preview
-            ? {
-                  onClick: handleOnClickTrigger
-              }
-            : {};
+    let eventHandlers = {};
+
+    if (!preview) {
+        if (trigger === "onhover") {
+            if (hoverCloseOn === "onHoverOutside") {
+                eventHandlers = {
+                    onPointerEnter: handleOnHoverEnter,
+                    onPointerLeave: handleOnHoverLeave
+                };
+            } else {
+                eventHandlers = {
+                    onPointerEnter: handleOnHoverEnter
+                };
+            }
+        } else if (trigger === "onclick" && !preview) {
+            eventHandlers = {
+                onClick: handleOnClickTrigger
+            };
+        }
+    }
 
     useEffect(() => {
-        setVisibility(props.menuToggle);
-    }, [props.menuToggle]);
+        setVisibility(menuToggle);
+    }, [menuToggle]);
     const open = visibility && triggerRef.current;
     return (
-        <div ref={triggerRef} className={classNames("popupmenu", props.class)} {...onHover} {...onClick}>
-            <div className={"popupmenu-trigger"}>{props.menuTrigger}</div>
+        <div ref={triggerRef} className={classNames("popupmenu", className)} {...eventHandlers}>
+            <div className={"popupmenu-trigger"}>{menuTrigger}</div>
             {open ? (
                 <Menu
                     {...props}

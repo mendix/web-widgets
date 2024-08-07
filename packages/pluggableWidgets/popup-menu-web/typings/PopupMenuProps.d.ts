@@ -26,6 +26,8 @@ export interface CustomItemsType {
 
 export type TriggerEnum = "onclick" | "onhover";
 
+export type HoverCloseOnEnum = "onClickOutside" | "onHoverOutside";
+
 export type PositionEnum = "left" | "right" | "top" | "bottom";
 
 export interface BasicItemsPreviewType {
@@ -52,6 +54,7 @@ export interface PopupMenuContainerProps {
     basicItems: BasicItemsType[];
     customItems: CustomItemsType[];
     trigger: TriggerEnum;
+    hoverCloseOn: HoverCloseOnEnum;
     position: PositionEnum;
     menuToggle: boolean;
 }
@@ -70,6 +73,7 @@ export interface PopupMenuPreviewProps {
     basicItems: BasicItemsPreviewType[];
     customItems: CustomItemsPreviewType[];
     trigger: TriggerEnum;
+    hoverCloseOn: HoverCloseOnEnum;
     position: PositionEnum;
     menuToggle: boolean;
 }
