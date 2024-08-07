@@ -3,12 +3,12 @@ import { ValuesProvider } from "../types";
 
 interface Props {
     valueAttribute: ListAttributeValue<string | Big>;
-    emptyValue: DynamicValue<string | Big>;
+    emptyValue?: DynamicValue<string | Big>;
 }
 
 export class DatabaseValuesProvider implements ValuesProvider<string | Big> {
     private attribute?: ListAttributeValue<string | Big>;
-    private emptyValue: DynamicValue<string | Big> | undefined;
+    private emptyValue?: DynamicValue<string | Big> | undefined;
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 

@@ -25,7 +25,7 @@ type ExtractionReturnValue = {
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
     ds: ListValue;
     emptyOption?: DynamicValue<string>;
-    emptyValue: DynamicValue<string | Big>;
+    emptyValue?: DynamicValue<string | Big>;
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
