@@ -30,6 +30,7 @@ describe("Popup menu", () => {
         menuToggle: false,
         menuTrigger: createElement("button", null, "Trigger"),
         advancedMode: false,
+        hoverCloseOn: "onClickOutside",
         position: "bottom",
         basicItems: [
             basicItemProps,

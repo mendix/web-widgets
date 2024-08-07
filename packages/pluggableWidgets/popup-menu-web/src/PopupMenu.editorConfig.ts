@@ -81,6 +81,10 @@ export function getProperties(
         transformGroupsIntoTabs(defaultProperties);
     }
 
+    if (values.trigger !== "onhover") {
+        hidePropertyIn(defaultProperties, values, "hoverCloseOn");
+    }
+
     return defaultProperties;
 }
 
