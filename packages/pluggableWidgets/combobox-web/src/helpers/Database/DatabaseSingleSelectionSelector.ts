@@ -21,6 +21,7 @@ export class DatabaseSingleSelectionSelector<
 
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
+
         const {
             attr,
             captionProvider,
@@ -32,7 +33,10 @@ export class DatabaseSingleSelectionSelector<
             lazyLoading,
             valueAttribute
         } = extractDatabaseProps(props);
-        this.lazyLoader.setLimit(this.lazyLoader.getLimit(ds.limit, attr.readOnly, attr.status, lazyLoading));
+
+        this.lazyLoader.setLimit(
+            this.lazyLoader.getLimit(ds.limit, attr?.readOnly ?? false, attr?.status ?? ds.status, lazyLoading)
+        );
 
         this._attr = attr as R;
         this.caption.updateProps({
@@ -41,7 +45,7 @@ export class DatabaseSingleSelectionSelector<
             customContent,
             customContentType,
             attribute: valueAttribute,
-            caption: this._attr.displayValue
+            caption: attr?.displayValue
         });
 
         this.values.updateProps({
@@ -49,21 +53,14 @@ export class DatabaseSingleSelectionSelector<
             emptyValue
         });
 
-        if (
-            !attr ||
-            attr.status === "unavailable" ||
-            !ds ||
-            ds.status === "unavailable" ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
+        if (!ds || ds.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
             this.status = "unavailable";
             this.currentId = null;
             this.clearable = false;
             return;
         }
 
-        if (attr.status === "available") {
+        if (attr?.status === "available") {
             if (this.lastSetValue === null || !_valuesIsEqual(this.lastSetValue, attr.value)) {
                 if (ds.status === "available") {
                     this.lastSetValue = this._attr.value;
@@ -81,14 +78,14 @@ export class DatabaseSingleSelectionSelector<
             }
         }
 
-        this.readOnly = attr.readOnly;
-        this.status = attr.status;
-        this.validation = attr.validation;
+        this.readOnly = attr?.readOnly ?? false;
+        this.status = attr?.status ?? ds.status;
+        this.validation = attr?.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
 
         if (this.selection.selection === undefined) {
             const objectId = this.options.getAll().find(option => {
-                return _valuesIsEqual(attr.value, this.values.get(option));
+                return _valuesIsEqual(attr?.value, this.values.get(option));
             });
 
             if (objectId) {

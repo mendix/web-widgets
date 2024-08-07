@@ -17,7 +17,7 @@ import {
 import Big from "big.js";
 
 type ExtractionReturnValue = {
-    attr: EditableValue<string | Big>;
+    attr?: EditableValue<string | Big>;
     captionProvider?: ListAttributeValue<string> | ListExpressionValue<string>;
     captionType: OptionsSourceDatabaseCaptionTypeEnum;
     clearable: boolean;
