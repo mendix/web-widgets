@@ -55,7 +55,7 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseItemSelection?: SelectionSingleValue | SelectionMultiValue;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString: EditableValue<string | Big>;
-    optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
+    optionsSourceDatabaseDefaultValue?: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
