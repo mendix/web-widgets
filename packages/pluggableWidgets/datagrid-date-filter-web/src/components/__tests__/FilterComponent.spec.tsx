@@ -4,19 +4,13 @@ import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
 
 const commonProps: FilterComponentProps = {
-    name: "DateFilter",
     adjustable: true,
-    filterAPIClient: null,
-    syncChannel: null,
     class: "",
-    tabIndex: 0,
-    defaultFilter: "equal",
-    initValues: {
-        type: "equal",
-        value: null,
-        startDate: null,
-        endDate: null
-    }
+    filterFn: "equal",
+    onChange: jest.fn(),
+    onFilterChange: jest.fn(),
+    expanded: false,
+    tabIndex: 0
 };
 
 describe("Filter component", () => {
