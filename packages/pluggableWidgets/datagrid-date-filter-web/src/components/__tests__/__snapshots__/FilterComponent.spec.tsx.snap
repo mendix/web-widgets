@@ -12,7 +12,7 @@ exports[`Filter component renders correctly 1`] = `
       class="filter-selector-content"
     >
       <button
-        aria-controls="DateFilter1-filter-selectors"
+        aria-controls="undefined-filter-selectors"
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="Select filter type"
@@ -28,7 +28,7 @@ exports[`Filter component renders correctly 1`] = `
   />
   <span
     class="sr-only"
-    id="DateFilter1-label"
+    id="undefined-label"
   />
   <div
     class="react-datepicker-wrapper"
@@ -37,7 +37,7 @@ exports[`Filter component renders correctly 1`] = `
       class="react-datepicker__input-container"
     >
       <input
-        aria-labelledby="DateFilter1-label"
+        aria-labelledby="undefined-label"
         class="form-control filter-input"
         type="text"
         value=""
@@ -76,7 +76,7 @@ exports[`Filter component renders correctly when not adjustable by user 1`] = `
   />
   <span
     class="sr-only"
-    id="DateFilter2-label"
+    id="undefined-label"
   />
   <div
     class="react-datepicker-wrapper"
@@ -85,7 +85,7 @@ exports[`Filter component renders correctly when not adjustable by user 1`] = `
       class="react-datepicker__input-container"
     >
       <input
-        aria-labelledby="DateFilter2-label"
+        aria-labelledby="undefined-label"
         class="form-control"
         type="text"
         value=""
@@ -125,7 +125,7 @@ exports[`Filter component renders correctly with aria labels 1`] = `
       class="filter-selector-content"
     >
       <button
-        aria-controls="DateFilter3-filter-selectors"
+        aria-controls="undefined-filter-selectors"
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="my label"
@@ -141,7 +141,7 @@ exports[`Filter component renders correctly with aria labels 1`] = `
   />
   <span
     class="sr-only"
-    id="DateFilter3-label"
+    id="undefined-label"
   >
     my label
   </span>
@@ -152,7 +152,7 @@ exports[`Filter component renders correctly with aria labels 1`] = `
       class="react-datepicker__input-container"
     >
       <input
-        aria-labelledby="DateFilter3-label"
+        aria-labelledby="undefined-label"
         class="form-control filter-input"
         type="text"
         value=""

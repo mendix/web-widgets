@@ -22,7 +22,7 @@ type InheritedProps = Pick<
 >;
 export interface DatePickerProps extends InheritedProps {
     adjustable: boolean;
-    parentId?: string;
+    id?: string;
     placeholder?: string;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
@@ -38,13 +38,13 @@ export function DatePicker(props: DatePickerProps): ReactElement {
     return (
         <Fragment>
             <div id={staticProps.portalId} className="date-filter-container" />
-            <span className="sr-only" id={`${props.parentId}-label`}>
+            <span className="sr-only" id={`${props.id}-label`}>
                 {props.screenReaderInputCaption}
             </span>
             <ReactDatePicker
                 {...staticProps}
                 allowSameDay={false}
-                ariaLabelledBy={`${props.parentId}-label`}
+                ariaLabelledBy={`${props.id}-label`}
                 autoFocus={false}
                 calendarStartDay={props.calendarStartDay}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
