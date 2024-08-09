@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -84,32 +85,26 @@ test.describe("gallery-web", () => {
     test.describe("a11y testing:", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
+            await page.waitForLoadState("networkidle");
         });
 
-        test.fixme("checks accessibility violations", async ({ page }) => {
-            const snapshot = await page.accessibility.snapshot({
-                rules: [
-                    { id: "aria-required-children", reviewOnFail: true },
-                    { id: "label", reviewOnFail: true },
-                    { id: "aria-roles", reviewOnFail: true },
-                    { id: "button-name", reviewOnFail: true },
-                    { id: "duplicate-id-active", reviewOnFail: true },
-                    { id: "aria-allowed-attr", reviewOnFail: true }
-                ]
-            });
+        test("checks accessibility violations", async ({ page }) => {
+            await page.locator(".mx-name-gallery1").waitFor();
+            const accessibilityScanResults = await new AxeBuilder({ page })
+                .include(".mx-name-gallery1")
+                .withTags(["wcag21aa"])
+                .disableRules([
+                    "aria-required-children",
+                    "label",
+                    "aria-roles",
+                    "button-name",
+                    "duplicate-id-active",
+                    "duplicate-id",
+                    "aria-allowed-attr"
+                ])
+                .analyze();
 
-            // Test the widget at initial load
-            const gallerySelector = ".mx-name-gallery1";
-            const gallerySnapshot = await page.accessibility.snapshot({
-                root: await page.locator(gallerySelector).elementHandle(),
-                runOnly: {
-                    type: "tag",
-                    values: ["wcag2a"]
-                }
-            });
-
-            expect(snapshot.violations).toEqual([]);
-            expect(gallerySnapshot.violations).toEqual([]);
+            expect(accessibilityScanResults.violations).toEqual([]);
         });
     });
 });
