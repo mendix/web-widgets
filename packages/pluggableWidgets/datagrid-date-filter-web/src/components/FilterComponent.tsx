@@ -1,58 +1,44 @@
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
+import { Badge } from "@mendix/widget-plugin-filtering/controls/shared";
 import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { FilterTypeEnum } from "../helpers/base-types";
-import { DatePicker } from "./DatePicker";
-import { SetupProps, useSetup } from "../helpers/useSetup";
-import { useReset } from "../helpers/useReset";
+import { DatePicker, DatePickerProps } from "./DatePicker";
 
-export interface FilterComponentProps extends SetupProps {
-    name: string;
-    adjustable: boolean;
+export interface FilterComponentProps extends DatePickerProps {
+    id?: string;
     class: string;
-    tabIndex: number;
-    defaultFilter: FilterTypeEnum;
+    tabIndex?: number;
     style?: React.CSSProperties;
     placeholder?: string;
-    parentChannelName?: string | null;
     screenReaderButtonCaption?: string;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
-    defaultValue?: Date;
-    defaultStartDate?: Date;
-    defaultEndDate?: Date;
+    filterFn?: FilterTypeEnum;
+    onFilterChange: (fn: FilterTypeEnum) => void;
+    badge?: string;
 }
 
 export type FilterComponent = typeof FilterComponent;
 
 export function FilterComponent(props: FilterComponentProps): ReactElement {
-    const { id, filterStore, calendarStore, datePickerController } = useSetup(props);
-    useReset(props, filterStore);
     return (
         <div
             className={classNames("filter-container", props.class)}
             data-focusindex={props.tabIndex}
             style={props.style}
         >
+            {props.badge ? <Badge style={{ left: 40, zIndex: 2 }}>{props.badge}</Badge> : null}
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption ?? "Select filter type"}
-                    defaultFilter={filterStore.state.filterType}
-                    id={id}
-                    onChange={filterStore.setType}
+                    value={props.filterFn ?? "equal"}
+                    id={props.id}
+                    onChange={props.onFilterChange}
                     options={OPTIONS}
                 />
             )}
-            <DatePicker
-                adjustable={props.adjustable}
-                parentId={id}
-                placeholder={props.placeholder}
-                screenReaderCalendarCaption={props.screenReaderCalendarCaption}
-                screenReaderInputCaption={props.screenReaderInputCaption}
-                filterStore={filterStore}
-                calendarStore={calendarStore}
-                datePickerController={datePickerController}
-            />
+            <DatePicker {...props} />
         </div>
     );
 }

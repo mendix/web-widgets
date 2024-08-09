@@ -60,6 +60,21 @@ export type OnClickTriggerEnum = "single" | "double";
 
 export type ConfigurationStorageTypeEnum = "attribute" | "localStorage";
 
+export type TypeEnum = "attrs" | "reference";
+
+export interface GroupListType {
+    type: TypeEnum;
+    key: string;
+    ref?: ListReferenceValue | ListReferenceSetValue;
+    refOptions?: ListValue;
+    caption?: ListExpressionValue<string>;
+}
+
+export interface GroupAttrsType {
+    key: string;
+    attr: ListAttributeValue<string | Big | boolean | Date>;
+}
+
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
@@ -89,6 +104,19 @@ export interface ColumnsPreviewType {
     alignment: AlignmentEnum;
     columnClass: string;
     wrapText: boolean;
+}
+
+export interface GroupListPreviewType {
+    type: TypeEnum;
+    key: string;
+    ref: string;
+    refOptions: {} | { caption: string } | { type: string } | null;
+    caption: string;
+}
+
+export interface GroupAttrsPreviewType {
+    key: string;
+    attr: string;
 }
 
 export interface FilterListPreviewType {
@@ -126,6 +154,9 @@ export interface DatagridContainerProps {
     columnsHidable: boolean;
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
+    enableFilterGroups: boolean;
+    groupList: GroupListType[];
+    groupAttrs: GroupAttrsType[];
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
@@ -170,6 +201,9 @@ export interface DatagridPreviewProps {
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute: string;
     onConfigurationChange: {} | null;
+    enableFilterGroups: boolean;
+    groupList: GroupListPreviewType[];
+    groupAttrs: GroupAttrsPreviewType[];
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;

@@ -1,23 +1,8 @@
 import { createElement } from "react";
 import { render as renderEnzyme } from "enzyme";
-import { fireEvent, render } from "@testing-library/react";
 import { DatePicker } from "../DatePicker";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
-import { CalendarStore } from "../../helpers/store/CalendarStore";
-import { DatePickerController } from "../../helpers/DatePickerController";
-import { FilterStore } from "../../helpers/store/FilterStore";
-
-function createDeps(): {
-    filterStore: FilterStore;
-    calendarStore: CalendarStore;
-    datePickerController: DatePickerController;
-} {
-    const fs = new FilterStore();
-    const cs = new CalendarStore();
-    const ctrl = new DatePickerController(fs, cs);
-    return { filterStore: fs, calendarStore: cs, datePickerController: ctrl };
-}
 
 describe("Date picker component", () => {
     beforeAll(() => {
@@ -29,19 +14,27 @@ describe("Date picker component", () => {
     });
 
     it("renders correctly", () => {
-        const component = renderEnzyme(<DatePicker adjustable {...createDeps()} />);
+        const component = renderEnzyme(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when is not adjustable", () => {
-        const component = renderEnzyme(<DatePicker adjustable={false} {...createDeps()} />);
+        const component = renderEnzyme(<DatePicker adjustable={false} expanded={false} onChange={jest.fn()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly with different locale and date format", () => {
-        const component = renderEnzyme(<DatePicker adjustable={false} {...createDeps()} />);
+        const component = renderEnzyme(
+            <DatePicker
+                adjustable={false}
+                expanded={false}
+                onChange={jest.fn()}
+                locale={"fr_FR"}
+                dateFormat={"yyyyMMdd"}
+            />
+        );
 
         expect(component).toMatchSnapshot();
     });
@@ -50,26 +43,14 @@ describe("Date picker component", () => {
         const component = renderEnzyme(
             <DatePicker
                 adjustable
-                {...createDeps()}
+                expanded={false}
+                onChange={jest.fn()}
                 screenReaderInputCaption="my input"
                 screenReaderCalendarCaption="my calendar"
             />
         );
 
         expect(component).toMatchSnapshot();
-    });
-
-    it("emits change event on when input changes", async () => {
-        const listener = jest.fn();
-        const deps = createDeps();
-        const component = render(<DatePicker adjustable {...deps} placeholder="Date input" />);
-
-        deps.filterStore.addEventListener("change", listener);
-
-        fireEvent.change(component.getByPlaceholderText("Date input"), { target: { value: "01/25/2020" } });
-
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(deps.filterStore.state.value as Date).toEqual(new Date("01/25/2020"));
     });
 
     test.each([

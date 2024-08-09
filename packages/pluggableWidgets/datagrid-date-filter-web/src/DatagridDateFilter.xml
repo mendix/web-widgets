@@ -46,6 +46,10 @@
                     <caption>Placeholder</caption>
                     <description />
                 </property>
+                <property key="groupKey" type="string" required="false">
+                    <caption>Group key</caption>
+                    <description />
+                </property>
                 <property key="adjustable" type="boolean" defaultValue="true">
                     <caption>Adjustable by user</caption>
                     <description />

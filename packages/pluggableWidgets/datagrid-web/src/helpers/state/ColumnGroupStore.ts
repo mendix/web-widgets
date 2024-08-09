@@ -11,7 +11,9 @@ import { FilterCondition } from "mendix/filters";
 import { SortInstruction } from "../../typings/sorting";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
-import { ColumnPersonalizationSettings } from "../../typings/personalization-settings";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
+import { StaticInfo } from "../../typings/static-info";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -38,16 +40,20 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     sorting: ColumnsSortingStore;
 
-    constructor(props: Pick<DatagridContainerProps, "columns" | "datasource">) {
+    constructor(
+        props: Pick<DatagridContainerProps, "columns" | "datasource">,
+        info: StaticInfo,
+        dsViewState: Array<FilterCondition | undefined> | null
+    ) {
         this._allColumns = [];
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
+            const initCond = dsViewState?.at(i) ?? null;
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, props.datasource.filter);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond);
         });
 
         this.sorting = new ColumnsSortingStore(
@@ -61,13 +67,13 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             _allColumnsOrdered: computed,
             availableColumns: computed,
             visibleColumns: computed,
-            filterConditions: computed.struct,
-            settings: computed.struct,
-
+            conditions: computed.struct,
+            columnSettings: computed.struct,
+            filterSettings: computed({ keepAlive: true }),
             updateProps: action,
             createSizeSnapshot: action,
             swapColumns: action,
-            applySettings: action
+            setColumnSettings: action
         });
     }
 
@@ -120,20 +126,30 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         return [...this.availableColumns].filter(column => !column.isHidden);
     }
 
-    get filterConditions(): FilterCondition[] {
-        return this.columnFilters
-            .map(cf => cf.condition)
-            .filter((filter): filter is FilterCondition => filter !== undefined);
+    get conditions(): Array<FilterCondition | undefined> {
+        return this.columnFilters.map((store, index) => {
+            return this._allColumns[index].isHidden ? undefined : store.condition2;
+        });
     }
 
     get sortInstructions(): SortInstruction[] | undefined {
         return sortRulesToSortInstructions(this.sorting.rules, this._allColumns);
     }
 
-    get settings(): ColumnPersonalizationSettings[] {
+    get columnSettings(): ColumnPersonalizationSettings[] {
         return this._allColumns.map(column => column.settings);
     }
-    applySettings(settings: ColumnPersonalizationSettings[]): void {
+
+    get filterSettings(): FiltersSettingsMap<ColumnId> {
+        return this.columnFilters.reduce<FiltersSettingsMap<ColumnId>>((acc, filter, index) => {
+            if (filter.settings) {
+                acc.set(this._allColumns[index].columnId, filter.settings);
+            }
+            return acc;
+        }, new Map());
+    }
+
+    setColumnSettings(settings: ColumnPersonalizationSettings[]): void {
         settings.forEach(conf => {
             const column = this._allColumnsById.get(conf.columnId);
             if (!column) {
@@ -147,6 +163,16 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             .filter(s => s.sortDir && s.sortWeight !== undefined)
             .sort((a, b) => a.sortWeight! - b.sortWeight!)
             .map(c => [c.columnId, c.sortDir!]);
+    }
+
+    setColumnFilterSettings(values: ColumnFilterSettings): void {
+        for (const [id, data] of values) {
+            const filterIndex = this._allColumnsById.get(id as ColumnId)?.columnIndex ?? NaN;
+            const filter = this.columnFilters.at(filterIndex);
+            if (filter) {
+                filter.settings = data;
+            }
+        }
     }
 
     isLastVisible(column: ColumnStore): boolean {

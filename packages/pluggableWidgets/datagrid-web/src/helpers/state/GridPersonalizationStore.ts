@@ -1,5 +1,5 @@
 import { SortRule } from "../../typings/sorting";
-import { action, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
+import { action, computed, IReactionDisposer, makeObservable, reaction, comparer } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { getHash } from "../../utils/columns-hash";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -10,6 +10,9 @@ import {
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
+import { ColumnId } from "../../typings/GridColumn";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 
 export class GridPersonalizationStore {
     private readonly gridName: string;
@@ -19,7 +22,11 @@ export class GridPersonalizationStore {
 
     private disposers: IReactionDisposer[] = [];
 
-    constructor(props: DatagridContainerProps, private columnsStore: ColumnGroupStore) {
+    constructor(
+        props: DatagridContainerProps,
+        private columnsStore: ColumnGroupStore,
+        private headerFilters: HeaderFiltersStore
+    ) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
 
@@ -39,11 +46,11 @@ export class GridPersonalizationStore {
             reaction(
                 () => this.storage.settings,
                 settings => {
-                    if (settings !== undefined && JSON.stringify(settings) !== JSON.stringify(this.settings)) {
+                    if (settings !== undefined) {
                         this.applySettings(settings);
                     }
                 },
-                { fireImmediately: true }
+                { fireImmediately: true, equals: comparer.structural }
             )
         );
 
@@ -52,7 +59,8 @@ export class GridPersonalizationStore {
                 () => this.settings,
                 settings => {
                     this.storage.updateSettings(settings);
-                }
+                },
+                { delay: 250 }
             )
         );
     }
@@ -66,15 +74,23 @@ export class GridPersonalizationStore {
     }
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
-        this.columnsStore.applySettings(fromStorageFormat(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.setColumnSettings(toColumnSettings(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.setColumnFilterSettings(settings.columnFilters);
+        this.headerFilters.settings = new Map(settings.groupFilters);
     }
 
     get settings(): GridPersonalizationStorageSettings {
-        return toStorageFormat(this.gridName, this.gridColumnsHash, this.columnsStore.settings);
+        return toStorageFormat(
+            this.gridName,
+            this.gridColumnsHash,
+            this.columnsStore.columnSettings,
+            this.columnsStore.filterSettings,
+            this.headerFilters.settings
+        );
     }
 }
 
-function fromStorageFormat(
+function toColumnSettings(
     gridName: string,
     gridColumnsHash: string,
     settings: GridPersonalizationStorageSettings
@@ -95,9 +111,7 @@ function fromStorageFormat(
             orderWeight: settings.columnOrder.indexOf(c.columnId),
 
             sortWeight: sortIndex !== -1 ? sortIndex + 1 : undefined,
-            sortDir: sortIndex !== -1 ? settings.sortOrder[sortIndex]?.[1] : undefined,
-
-            filterSettings: undefined
+            sortDir: sortIndex !== -1 ? settings.sortOrder[sortIndex]?.[1] : undefined
         };
     });
 }
@@ -105,7 +119,9 @@ function fromStorageFormat(
 function toStorageFormat(
     gridName: string,
     gridColumnsHash: string,
-    columnsSettings: ColumnPersonalizationSettings[]
+    columnsSettings: ColumnPersonalizationSettings[],
+    columnFilters: FiltersSettingsMap<ColumnId>,
+    groupFilters: FiltersSettingsMap<string>
 ): GridPersonalizationStorageSettings {
     const sortOrder = columnsSettings
         .filter(c => c.sortDir && c.sortWeight !== undefined)
@@ -116,7 +132,7 @@ function toStorageFormat(
 
     return {
         name: gridName,
-        schemaVersion: 1,
+        schemaVersion: 2,
         settingsHash: gridColumnsHash,
         columns: columnsSettings.map(c => ({
             columnId: c.columnId,
@@ -124,6 +140,10 @@ function toStorageFormat(
             hidden: c.hidden,
             filterSettings: undefined
         })),
+
+        columnFilters: Array.from(columnFilters),
+        groupFilters: Array.from(groupFilters),
+
         sortOrder,
         columnOrder
     };
