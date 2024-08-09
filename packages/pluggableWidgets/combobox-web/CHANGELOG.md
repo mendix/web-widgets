@@ -6,8 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
 -   We added the ability to auto label combobox, based on the set attributes.
 -   We implement the selection API for combobox that use database datasource, which allows the widget selection to be listened into.
+
+### Fixed
+
+-   We fixed a11y issue where aria-required not applied in the widget.
 
 ## [1.6.3] - 2024-08-07
 
