@@ -1,5 +1,5 @@
 import { ArrowPositionEnum, TooltipPositionEnum } from "../../typings/TooltipProps";
-import { Placement } from "@popperjs/core/lib/enums";
+import { Placement } from "@floating-ui/react";
 
 export const translatePosition = (
     tooltipPosition: TooltipPositionEnum,

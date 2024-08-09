@@ -6,6 +6,7 @@ exports[`Tooltip render DOM structure 1`] = `
     class="widget-tooltip widget-tooltip-right"
   >
     <div
+      aria-describedby=":r0:"
       class="widget-tooltip-trigger"
     >
       <div
@@ -17,16 +18,15 @@ exports[`Tooltip render DOM structure 1`] = `
     </div>
     <div
       class="widget-tooltip-content"
-      data-popper-escaped="true"
-      data-popper-placement="right"
-      data-popper-reference-hidden="true"
+      id=":r0:"
       role="tooltip"
       style="position: absolute; left: 0px; top: 0px; transform: translate(8px, 0px);"
+      tabindex="-1"
     >
       Tooltip text
       <div
-        class="widget-tooltip-arrow"
-        style="position: absolute; top: 0px; transform: translate(0px, 5px);"
+        class="widget-tooltip-arrow-left"
+        style="top: 0px;"
       />
     </div>
   </div>
