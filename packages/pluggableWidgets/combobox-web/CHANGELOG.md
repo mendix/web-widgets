@@ -6,11 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+-   We added the ability to auto label combobox, based on the set attributes.
+-   We implement the selection API for combobox that use database datasource, which allows the widget selection to be listened into.
+
 ## [1.6.3] - 2024-08-07
 
 ### Added
 
--   We added the ability to auto label combobox, based on the set attributes.
 -   We added a new filter type, 'Contains (exact),' as an option to provide a more strict search ranking.
 
 ## [1.6.2] - 2024-07-16
