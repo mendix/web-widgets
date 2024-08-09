@@ -41,6 +41,12 @@ const Container = observer((props: Props): ReactElement => {
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
     useEffect(() => {
+        if (props.pagination !== "buttons") {
+            props.datasource.requestTotalCount(true);
+        }
+    }, [props.datasource, props.pagination]);
+
+    useEffect(() => {
         if (props.refreshInterval > 0) {
             setTimeout(() => {
                 props.datasource.reload();
@@ -97,6 +103,7 @@ const Container = observer((props: Props): ReactElement => {
             columnsResizable={props.columnsResizable}
             columnsSortable={props.columnsSortable}
             data={items}
+            isInfiniteLoad={isInfiniteLoad}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) =>
                     props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
