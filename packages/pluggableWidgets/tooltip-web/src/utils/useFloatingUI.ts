@@ -73,19 +73,23 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const blurFocusEvents = { onFocus: onShow, onBlur: onHide };
 
     const side = placement.split("-")[0];
-    const TIP_SIDES_MAP: { [key: string]: string } = {
+    const alignment = placement.split("-")[1];
+    const alignmentOffset =
+        ["top", "bottom"].includes(side) && alignment === "start" ? arrowElement?.offsetWidth ?? 0 : 0;
+    const staticSide: string | undefined = {
         top: "bottom",
         right: "left",
         bottom: "top",
         left: "right"
-    };
-
-    const staticSide = TIP_SIDES_MAP[side];
-
-    const arrowStyles = {
-        left: middlewareData.arrow?.x ?? "",
-        top: middlewareData.arrow?.y ?? ""
-    };
+    }[side];
+    let arrowStyles;
+    if (middlewareData.arrow) {
+        const { x: arrowX, y: arrowY } = middlewareData.arrow;
+        arrowStyles = {
+            left: arrowX ? arrowX - alignmentOffset : "",
+            top: arrowY ?? ""
+        };
+    }
 
     const { getReferenceProps, getFloatingProps } = useInteractions([focus, hover, click, dismiss, role]);
     return {
