@@ -36,7 +36,7 @@ exports[`Number Filter with single instance with no context renders error messag
   <div
     class="alert alert-danger"
   >
-    The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget.
+    The filter widget must be placed inside the column or header of the Data grid 2.0 or inside header of the Gallery widget.
   </div>
 </DocumentFragment>
 `;
@@ -77,7 +77,7 @@ exports[`Number Filter with single instance with wrong attribute's type renders 
   <div
     class="alert alert-danger"
   >
-    The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'
+    Unable to get filter store. Check parent widget configuration.
   </div>
 </DocumentFragment>
 `;
@@ -87,7 +87,7 @@ exports[`Number Filter with single instance with wrong multiple attributes' type
   <div
     class="alert alert-danger"
   >
-    The Number filter widget can't be used with the filters options you have selected. It requires a "Autonumber, Decimal, Integer or Long" attribute to be selected.
+    Unable to get filter store. Check parent widget configuration.
   </div>
 </DocumentFragment>
 `;
