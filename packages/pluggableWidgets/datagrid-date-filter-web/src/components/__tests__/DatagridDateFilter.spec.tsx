@@ -1,12 +1,7 @@
 import "@testing-library/jest-dom";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import {
-    HeaderFiltersStore,
-    FilterListType,
-    GroupAttrsType,
-    GroupListType
-} from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import {
     actionValue,
     dynamicValue,
@@ -55,13 +50,6 @@ const commonProps: DatagridDateFilterContainerProps = {
 };
 
 const mxObject = createMXObjectMock("en_US", "en-US");
-
-interface HeaderFiltersStoreProps {
-    enableFilterGroups: boolean;
-    groupList: GroupListType[];
-    groupAttrs: GroupAttrsType[];
-    filterList: FilterListType[];
-}
 
 describe("Date Filter", () => {
     describe("with single instance", () => {

@@ -26,17 +26,19 @@ export interface GroupAttrsType {
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
-interface Props {
+
+export interface HeaderFiltersStoreProps {
     enableFilterGroups: boolean;
     groupList: GroupListType[];
     groupAttrs: GroupAttrsType[];
     filterList: FilterListType[];
 }
+
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv | GroupStoreProvider, APIError>;
     context: FilterAPIv2;
 
-    constructor(props: Props, dsViewState: Array<FilterCondition | undefined> | null) {
+    constructor(props: HeaderFiltersStoreProps, dsViewState: Array<FilterCondition | undefined> | null) {
         this.provider = this.createProvider(props, dsViewState);
         this.context = {
             version: 2,
@@ -66,7 +68,7 @@ export class HeaderFiltersStore {
     }
 
     createProvider(
-        props: Props,
+        props: HeaderFiltersStoreProps,
         dsViewState: Array<FilterCondition | undefined> | null
     ): Result<LegacyPv | GroupStoreProvider, APIError> {
         if (props.enableFilterGroups) {
@@ -89,7 +91,7 @@ export class HeaderFiltersStore {
         return this.provider.value.setup();
     }
 
-    updateProps(props: Props): void {
+    updateProps(props: HeaderFiltersStoreProps): void {
         if (this.provider.hasError) {
             return;
         }
