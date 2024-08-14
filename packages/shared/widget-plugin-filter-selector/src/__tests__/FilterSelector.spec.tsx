@@ -70,7 +70,12 @@ describe("Filter selector", () => {
         const onChange = jest.fn();
         render(<FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />);
 
+        // default filter set on mount
+        expect(onChange).toBeCalledWith("contains", false);
+
         const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        // clicking on filter first time
         await user.click(screen.getByRole("button"));
         jest.runOnlyPendingTimers();
 
@@ -78,10 +83,10 @@ describe("Filter selector", () => {
         expect(item0).toBeDefined();
         await user.click(item0!);
         jest.runOnlyPendingTimers();
+        // on user interaction filter set
+        expect(onChange).toBeCalledWith("contains", true);
 
-        expect(onChange).toBeCalled();
-        expect(onChange).toBeCalledWith("contains");
-
+        // clicking on filter second time
         await user.click(screen.getByRole("button"));
         jest.runOnlyPendingTimers();
 
@@ -89,8 +94,8 @@ describe("Filter selector", () => {
         expect(item1).toBeDefined();
         await user.click(item1!);
         jest.runOnlyPendingTimers();
-
-        expect(onChange).toBeCalledWith("startsWith");
+        // on user interaction filter set
+        expect(onChange).toBeCalledWith("startsWith", true);
     });
 
     describe("focus", () => {
@@ -145,6 +150,9 @@ describe("Filter selector", () => {
 
             expect(document.body).toHaveFocus();
 
+            // default filter set on mount
+            expect(onChange).toHaveBeenCalledWith("contains", false);
+
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
             await user.click(screen.getByRole("button"));
             jest.runOnlyPendingTimers();
@@ -158,7 +166,8 @@ describe("Filter selector", () => {
 
             jest.runOnlyPendingTimers();
 
-            expect(onChange).toHaveBeenCalledWith("contains");
+            // on user interaction filter set
+            expect(onChange).toHaveBeenCalledWith("contains", true);
         });
 
         it("changes focused element back to the button when pressing escape in any element", async () => {

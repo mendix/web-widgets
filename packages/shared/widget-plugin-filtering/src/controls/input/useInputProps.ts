@@ -51,9 +51,11 @@ export function useInputProps<TValue, TFilterEnum>(
         inputRef,
         inputValue: state.inputValue,
         inputDisabled: inputDisabled(state.filterFn),
-        onFilterChange: useCallback(fn => {
+        onFilterChange: useCallback((fn, isFromUserInteraction) => {
             setFilterFn(fn);
-            inputRef.current?.focus();
+            if (isFromUserInteraction) {
+                inputRef.current?.focus();
+            }
         }, []),
         onInputChange: useCallback(event => setInputValue(event.target.value), [])
     };
