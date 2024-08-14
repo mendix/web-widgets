@@ -27,7 +27,6 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         (e: SyntheticEvent<HTMLElement>): void => {
             e.preventDefault();
             e.stopPropagation();
-            console.log(e);
             setVisibility(true);
         },
         [setVisibility]
