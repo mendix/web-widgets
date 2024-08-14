@@ -1,4 +1,4 @@
-import { DynamicValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { makeObservable, computed, autorun, observable } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 
@@ -12,6 +12,7 @@ interface Props {
     multiselect: boolean;
     defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
+    onChange?: ActionValue;
 }
 
 export class StaticFilterController {
@@ -20,6 +21,7 @@ export class StaticFilterController {
     readonly empty: Option<string>;
     readonly defaults: string[] | undefined;
     multiselect = false;
+    private onChange?: ActionValue;
 
     constructor(props: Props) {
         this.store = props.filterStore;
@@ -31,6 +33,7 @@ export class StaticFilterController {
             selected: false
         };
         this.defaults = props.defaultValue ? [props.defaultValue] : undefined;
+        this.onChange = props.onChange;
 
         makeObservable(this, {
             inputValue: computed,
@@ -72,6 +75,7 @@ export class StaticFilterController {
 
     updateProps(props: Props): void {
         this._filterOptions = props.filterOptions;
+        this.onChange = props.onChange;
     }
 
     onSelect = (value: string): void => {
@@ -81,6 +85,10 @@ export class StaticFilterController {
             this.store.toggle(value);
         } else {
             this.store.replace([value]);
+        }
+
+        if (this.onChange?.canExecute) {
+            this.onChange.execute();
         }
     };
 }

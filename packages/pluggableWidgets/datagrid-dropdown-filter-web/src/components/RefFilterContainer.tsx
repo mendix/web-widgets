@@ -3,12 +3,18 @@ import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, useEffect, useRef, useState } from "react";
+import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 export interface RefFilterContainerProps {
     filterStore: OptionListFilterInterface<string>;
     multiselect: boolean;
     emptyCaption?: string;
+    ariaLabel?: string;
+    className?: string;
+    tabIndex?: number;
+    styles?: CSSProperties;
+    onChange?: ActionValue;
 }
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
@@ -35,6 +41,10 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
             onTriggerClick={controller.handleTriggerClick}
             onContentScroll={handleContentScroll}
             id={id}
+            ariaLabel={props.ariaLabel}
+            className={props.className}
+            tabIndex={props.tabIndex}
+            styles={props.styles}
         />
     );
 }

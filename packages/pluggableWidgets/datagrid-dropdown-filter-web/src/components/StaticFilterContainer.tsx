@@ -2,8 +2,9 @@ import { StaticFilterController } from "@mendix/widget-plugin-filtering/controll
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, useEffect, useRef, useState } from "react";
+import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 
@@ -12,6 +13,11 @@ export interface StaticFilterContainerProps {
     filterOptions: FilterOptionsType[];
     multiselect: boolean;
     defaultValue?: string;
+    ariaLabel?: string;
+    className?: string;
+    tabIndex?: number;
+    styles?: CSSProperties;
+    onChange?: ActionValue;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
@@ -28,6 +34,10 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
             multiSelect={controller.multiselect}
             inputValue={controller.inputValue}
             id={id}
+            ariaLabel={props.ariaLabel}
+            className={props.className}
+            tabIndex={props.tabIndex}
+            styles={props.styles}
         />
     );
 }

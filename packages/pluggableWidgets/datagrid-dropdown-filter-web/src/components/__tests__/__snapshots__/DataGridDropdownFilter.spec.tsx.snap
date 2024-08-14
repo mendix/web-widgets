@@ -7,7 +7,7 @@ exports[`Dropdown Filter with single instance with single attribute DOM structur
     data-focusindex="0"
   >
     <input
-      aria-controls="DropdownFilter1-dropdown-list"
+      aria-controls="Dropdown1-dropdown-list"
       aria-expanded="false"
       aria-haspopup="true"
       class="form-control dropdown-triggerer"

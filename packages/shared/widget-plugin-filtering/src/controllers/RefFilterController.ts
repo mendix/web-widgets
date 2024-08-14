@@ -1,3 +1,4 @@
+import { ActionValue } from "mendix";
 import { makeObservable, computed } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 
@@ -5,6 +6,7 @@ type Params = {
     store: OptionListFilterInterface<string>;
     multiselect: boolean;
     emptyCaption?: string;
+    onChange?: ActionValue;
 };
 
 export class RefFilterController {
@@ -12,6 +14,7 @@ export class RefFilterController {
     private isDataFetched = false;
     readonly empty: Option<string>;
     multiselect = false;
+    private onChange?: ActionValue;
 
     constructor(params: Params) {
         this.store = params.store;
@@ -21,6 +24,7 @@ export class RefFilterController {
             caption: params.emptyCaption ?? "",
             selected: false
         };
+        this.onChange = params.onChange;
 
         makeObservable(this, {
             inputValue: computed
@@ -60,6 +64,10 @@ export class RefFilterController {
             this.store.toggle(value);
         } else {
             this.store.replace([value]);
+        }
+
+        if (this.onChange?.canExecute) {
+            this.onChange.execute();
         }
     };
 

@@ -6,9 +6,19 @@ import { withSelectFilterAPI, Select_FilterAPIv2 } from "./hocs/withSelectFilter
 import { RefFilterContainer } from "./components/RefFilterContainer";
 
 function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2): React.ReactElement {
+    const commonProps = {
+        ariaLabel: props.ariaLabel?.value,
+        className: props.class,
+        tabIndex: props.tabIndex,
+        styles: props.style,
+        onChange: props.onChange,
+        valueAttribute: props.valueAttribute
+    };
+
     if (props.filterStore.type === "refselect") {
         return (
             <RefFilterContainer
+                {...commonProps}
                 filterStore={props.filterStore}
                 multiselect={props.multiSelect}
                 emptyCaption={props.emptyOptionCaption?.value}
@@ -18,6 +28,7 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
 
     return (
         <StaticFilterContainer
+            {...commonProps}
             filterStore={props.filterStore}
             filterOptions={props.filterOptions}
             multiselect={props.multiSelect}
