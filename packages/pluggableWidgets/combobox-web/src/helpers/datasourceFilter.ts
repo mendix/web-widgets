@@ -17,5 +17,9 @@ export function datasourceFilter(
         startsWith
     };
 
+    if (type === "containsExact") {
+        return filters.contains(attribute(id), literal(search));
+    }
+
     return filters[type](attribute(id), literal(search));
 }

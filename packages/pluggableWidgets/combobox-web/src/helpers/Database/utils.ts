@@ -16,31 +16,27 @@ import {
 } from "../../../typings/ComboboxProps";
 import Big from "big.js";
 
-type ExtractionReturnValue = [
-    EditableValue<string | Big>,
-    ListValue,
-    ListAttributeValue<string> | ListExpressionValue<string> | undefined,
-    OptionsSourceDatabaseCaptionTypeEnum,
-    DynamicValue<string> | undefined,
-    boolean,
-    FilterTypeEnum,
-    ActionValue | undefined,
-    ListWidgetValue | undefined,
-    OptionsSourceAssociationCustomContentTypeEnum,
-    ListAttributeValue<string | Big>,
-    DynamicValue<string | Big>,
-    boolean,
-    LoadingTypeEnum
-];
+type ExtractionReturnValue = {
+    attr?: EditableValue<string | Big>;
+    captionProvider?: ListAttributeValue<string> | ListExpressionValue<string>;
+    captionType: OptionsSourceDatabaseCaptionTypeEnum;
+    clearable: boolean;
+    customContent?: ListWidgetValue;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    ds: ListValue;
+    emptyOption?: DynamicValue<string>;
+    emptyValue?: DynamicValue<string | Big>;
+    filterType: FilterTypeEnum;
+    lazyLoading: boolean;
+    loadingType: LoadingTypeEnum;
+    onChangeEvent?: ActionValue;
+    valueAttribute: ListAttributeValue<string | Big>;
+};
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.databaseAttributeString;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
-
-    if (!attr) {
-        throw new Error("'optionsSourceType' type is 'Database' but 'databaseAttributeString' is not defined.");
-    }
 
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
@@ -58,31 +54,33 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
 
-    if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
-        throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
-    }
-    if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
-        throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+    if (attr) {
+        if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
+            throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
+        }
+        if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
+            throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+        }
     }
 
     if (!valueAttribute) {
         throw new Error("'valueExpression' is not defined");
     }
 
-    return [
+    return {
         attr,
-        ds,
-        captionType === "attribute" ? captionAttribute : captionExpression,
+        captionProvider: captionType === "attribute" ? captionAttribute : captionExpression,
         captionType,
-        emptyOption,
         clearable,
-        filterType,
-        onChangeEvent,
         customContent,
         customContentType,
-        valueAttribute,
+        ds,
+        emptyOption,
         emptyValue,
+        filterType,
         lazyLoading,
-        loadingType
-    ];
+        loadingType,
+        onChangeEvent,
+        valueAttribute
+    };
 }

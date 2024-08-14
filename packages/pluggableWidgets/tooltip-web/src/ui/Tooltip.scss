@@ -1,30 +1,4 @@
 .widget-tooltip {
-    .widget-tooltip-content[data-popper-placement^="top"] > .widget-tooltip-arrow {
-        bottom: -4px;
-        &:before {
-            box-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
-            left: 0;
-        }
-    }
-
-    .widget-tooltip-content[data-popper-placement^="bottom"] > .widget-tooltip-arrow {
-        top: -4px;
-        &:before {
-            box-shadow: -1px -1px 1px rgb(0 0 0 / 10%);
-        }
-    }
-
-    .widget-tooltip-content[data-popper-placement^="left"] > .widget-tooltip-arrow {
-        right: 0;
-        &:before {
-            box-shadow: 1px -1px 1px rgb(0 0 0 / 10%);
-        }
-    }
-
-    .widget-tooltip-content[data-popper-placement^="right"] > .widget-tooltip-arrow {
-        left: -8px;
-    }
-
     .widget-tooltip-content {
         color: #24276c;
         display: inline-block;
@@ -40,22 +14,48 @@
         word-break: break-word;
     }
 
-    .widget-tooltip-arrow,
-    .widget-tooltip-arrow::before {
+    [class^="widget-tooltip-arrow"],
+    [class^="widget-tooltip-arrow"]::before {
         position: absolute;
         width: 8px;
         height: 8px;
         background: inherit;
-        box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 1px -1px 1px rgb(0 0 0 / 10%);
     }
 
     .widget-tooltip-arrow {
-        visibility: hidden;
+        &-left {
+            left: -8px;
+            &:before {
+                box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.1);
+            }
+        }
+        &-bottom {
+            bottom: -3px;
+            &:before {
+                box-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
+            }
+        }
+
+        &-top {
+            top: -4px;
+            &:before {
+                box-shadow: -1px -1px 1px rgb(0 0 0 / 10%);
+            }
+        }
+
+        &-right {
+            right: 1px;
+        }
     }
 
-    .widget-tooltip-arrow::before {
+    [class^="widget-tooltip-arrow"]::before {
         visibility: visible;
         content: "";
         transform: rotate(45deg);
+    }
+
+    [class^="widget-tooltip-arrow"] {
+        visibility: hidden;
     }
 }

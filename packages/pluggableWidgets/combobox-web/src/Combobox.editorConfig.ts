@@ -20,7 +20,8 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceDatabaseCustomContentType",
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseDefaultValue",
-    "optionsSourceDatabaseValueAttribute"
+    "optionsSourceDatabaseValueAttribute",
+    "optionsSourceDatabaseItemSelection"
 ];
 
 const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
@@ -101,6 +102,9 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButtonCaption",
             ...ASSOCIATION_SOURCE_CONFIG
         ]);
+        if (values.optionsSourceDatabaseDataSource === null) {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionType"]);
+        }
         if (values.optionsSourceDatabaseCaptionType === "attribute") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionExpression"]);
         } else {
@@ -113,6 +117,15 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
+        }
+        if (values.optionsSourceDatabaseItemSelection === "Multi") {
+            hidePropertiesIn(defaultProperties, values, [
+                "databaseAttributeString",
+                "optionsSourceDatabaseDefaultValue"
+            ]);
+        }
+        if (values.databaseAttributeString.length === 0) {
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseDefaultValue"]);
         }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [

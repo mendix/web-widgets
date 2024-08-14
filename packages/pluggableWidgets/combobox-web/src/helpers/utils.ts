@@ -1,8 +1,8 @@
+import { Big } from "big.js";
 import { MatchSorterOptions, matchSorter } from "match-sorter";
+import { PropsWithChildren, ReactElement, createElement } from "react";
 import { ComboboxPreviewProps, FilterTypeEnum } from "typings/ComboboxProps";
 import { MultiSelector } from "./types";
-import { PropsWithChildren, ReactElement, createElement } from "react";
-import { Big } from "big.js";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
@@ -87,6 +87,10 @@ export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions
     switch (filter) {
         case "contains":
             return {};
+        case "containsExact":
+            return {
+                threshold: matchSorter.rankings.CONTAINS
+            };
         case "startsWith":
             return {
                 threshold: matchSorter.rankings.WORD_STARTS_WITH

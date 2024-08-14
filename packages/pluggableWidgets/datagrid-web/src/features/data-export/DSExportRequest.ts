@@ -172,7 +172,7 @@ export class DSExportRequest {
                 } else {
                     status = "available";
                 }
-                return status === "available";
+                return status !== "loading";
             });
         });
 

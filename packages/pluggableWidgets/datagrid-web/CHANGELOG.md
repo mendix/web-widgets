@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.2] - 2024-08-07
+
+### Fixed
+
+-   We fixed Export to Excel not exporting when datasource had unavailable data.
+
 ## [2.21.1] - 2024-07-10
 
 ### Fixed
