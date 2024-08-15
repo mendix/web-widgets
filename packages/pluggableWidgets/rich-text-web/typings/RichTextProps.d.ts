@@ -78,6 +78,7 @@ export interface RichTextContainerProps {
     highlight_on_focus: boolean;
     content_css?: DynamicValue<string>;
     sandboxIframes: boolean;
+    useRelativeUrl: boolean;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;
@@ -140,6 +141,7 @@ export interface RichTextPreviewProps {
     highlight_on_focus: boolean;
     content_css: string;
     sandboxIframes: boolean;
+    useRelativeUrl: boolean;
     toolbarConfig: ToolbarConfigEnum;
     basicstyle: boolean;
     extendedstyle: boolean;
