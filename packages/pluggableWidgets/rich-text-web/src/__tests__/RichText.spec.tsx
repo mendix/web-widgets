@@ -78,7 +78,8 @@ describe("Rich Text", () => {
             contextmenutype: "native",
             tabIndex: 0,
             onChangeType: "onLeave",
-            sandboxIframes: true
+            sandboxIframes: true,
+            useRelativeUrl: false
         };
     });
 
