@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.3] DataWidgets - 2024-08-15
+
+### [2.6.1] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with the filter unexpectedly focusing when combined with conditional visibility.
+
+### [2.6.1] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with the filter unexpectedly focusing when combined with conditional visibility.
+
 ## [2.21.2] DataWidgets - 2024-08-07
 
 ### [2.21.2] Datagrid
