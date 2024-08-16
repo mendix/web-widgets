@@ -6,10 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Fixed
-
--   We fixed an issue with the toolbar visibility when a combobox menu overlays it.
-
 ### Added
 
 -   We add new advance config to allow user to disable relative url conversion.

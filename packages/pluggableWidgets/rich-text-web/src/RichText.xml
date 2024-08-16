@@ -187,7 +187,7 @@
                     <description>When enabled, all embedded media using iframes elements will be given the sandbox="" attribute, applying all restrictions.</description>
                 </property>
                 <property key="useRelativeUrl" type="boolean" defaultValue="true">
-                    <caption>Use relative Url Link</caption>
+                    <caption>Use relative URL Link</caption>
                     <description>When enabled, same domain URL links will be converted into relative URL.</description>
                 </property>
             </propertyGroup>
