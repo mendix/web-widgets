@@ -2,8 +2,8 @@
 <widget id="com.mendix.widget.web.markdown.Markdown" needsEntityContext="true" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
     <name>Markdown viewer</name>
     <description />
-    <studioProCategory>Input elements</studioProCategory>
-    <studioCategory>Input Elements</studioCategory>
+    <studioProCategory>Display</studioProCategory>
+    <studioCategory>Display</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/markdown</helpUrl>
     <properties>
         <propertyGroup caption="General">
