@@ -224,6 +224,7 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             paginationPosition={props.pagingPosition}
             phoneItems={props.phoneItems}
             setPage={setPage}
+            style={props.style}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
             selectHelper={selectHelper}
