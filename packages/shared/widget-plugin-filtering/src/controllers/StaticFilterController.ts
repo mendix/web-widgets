@@ -1,4 +1,4 @@
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue } from "mendix";
 import { makeObservable, computed, autorun, observable } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 
