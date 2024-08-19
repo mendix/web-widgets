@@ -33,6 +33,7 @@ export interface GalleryProps<T extends ObjectItem> {
     showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
+    style?: React.CSSProperties;
     tabletItems: number;
     tabIndex?: number;
     ariaLabelListBox?: string;
@@ -66,7 +67,12 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     const showFooter = props.paging && props.paginationPosition === "below";
 
     return (
-        <GalleryRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
+        <GalleryRoot
+            className={props.className}
+            style={props.style}
+            selectable={false}
+            data-focusindex={props.tabIndex || 0}
+        >
             {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
             <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
