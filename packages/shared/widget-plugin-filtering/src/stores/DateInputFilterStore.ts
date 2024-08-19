@@ -202,22 +202,15 @@ export class DateInputFilterStore
     }
 
     fromJSON(data: FilterData): void {
-        if (!Array.isArray(data)) {
+        const inputData = this.unpackJsonData(data);
+        if (!inputData) {
             return;
         }
-        const parse = (value: string | null): Date | undefined => {
-            if (value === null) {
-                return undefined;
-            }
 
-            const date = new Date(value);
-
-            return date.toString() === "Invalid Date" ? undefined : date;
-        };
-        const [fn, date1, date2] = data;
-        this.filterFunction = fn as DateFns;
-        this.arg1.value = parse(date1);
-        this.arg2.value = parse(date2);
+        const [fn, date1, date2] = inputData;
+        this.filterFunction = fn;
+        this.arg1.value = parseDateValue(date1);
+        this.arg2.value = parseDateValue(date2);
         this.isInitialized = true;
     }
 
@@ -256,6 +249,16 @@ export class DateInputFilterStore
     }
 }
 
+function parseDateValue(value: string | null): Date | undefined {
+    if (value === null) {
+        return undefined;
+    }
+
+    const date = new Date(value);
+
+    return date.toString() === "Invalid Date" ? undefined : date;
+}
+
 /**
  * Change the time of a date and return an UTC date
  * @param date
@@ -263,7 +266,7 @@ export class DateInputFilterStore
  * @param minutes
  * @param seconds
  */
-export function changeTimeToMidnight(date: Date): Date {
+function changeTimeToMidnight(date: Date): Date {
     const newDate = new Date(date.getTime());
     newDate.setHours(0);
     newDate.setMinutes(0);

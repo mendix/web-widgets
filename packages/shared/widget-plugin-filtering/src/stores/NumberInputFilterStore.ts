@@ -55,11 +55,13 @@ export class NumberInputFilterStore
     }
 
     fromJSON(data: FilterData): void {
-        if (!Array.isArray(data)) {
+        const inputData = this.unpackJsonData(data);
+        if (!inputData) {
             return;
         }
-        const [fn, val1, val2] = data;
-        this.filterFunction = fn as typeof this.filterFunction;
+
+        const [fn, val1, val2] = inputData;
+        this.filterFunction = fn;
         try {
             this.arg1.value = new Big(val1 ?? "");
         } catch {

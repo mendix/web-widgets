@@ -1,4 +1,6 @@
-export type InputData<T = string> = [string, T | null, T | null];
+import { AllFunctions } from "./FilterFunctions";
+
+export type InputData<Fn = AllFunctions> = [Fn, string | null, string | null];
 
 export type SelectData = string[];
 

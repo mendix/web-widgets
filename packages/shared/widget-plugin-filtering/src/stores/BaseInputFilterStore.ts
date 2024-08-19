@@ -19,6 +19,7 @@ import {
 import { action, computed, makeObservable, observable } from "mobx";
 import { Argument } from "./Argument";
 import { AllFunctions } from "../typings/FilterFunctions";
+import { FilterData, InputData } from "../typings/settings";
 
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 type Val<A extends Argument> = A["value"];
@@ -80,6 +81,18 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     setFilterFn = (fn: Fn): void => {
         this.filterFunction = fn;
     };
+
+    protected unpackJsonData(data: FilterData): InputData<Fn> | undefined {
+        if (!Array.isArray(data)) {
+            return undefined;
+        }
+
+        if (data.length !== 3) {
+            return undefined;
+        }
+
+        return data as InputData<Fn>;
+    }
 }
 
 function getFilterCondition<T extends string | Big | Date>(

@@ -54,11 +54,12 @@ export class StringInputFilterStore
     }
 
     fromJSON(data: FilterData): void {
-        if (!Array.isArray(data)) {
+        const inputData = this.unpackJsonData(data);
+        if (!inputData) {
             return;
         }
-        const [fn, s1, s2] = data;
-        this.filterFunction = fn as typeof this.filterFunction;
+        const [fn, s1, s2] = inputData;
+        this.filterFunction = fn;
         this.arg1.value = s1 ? s1 : undefined;
         this.arg2.value = s2 ? s2 : undefined;
         this.isInitialized = true;
