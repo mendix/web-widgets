@@ -25,6 +25,7 @@ export interface InputProps<Fn extends AllFunctions> {
     inputStores: [InputStore, InputStore];
     disableInputs?: boolean;
     inputRef: React.RefAttributes<HTMLInputElement>["ref"];
+    defaultValue?: string;
 }
 
 export interface InputComponentProps<Fn extends AllFunctions> extends BaseProps, InputProps<Fn> {}

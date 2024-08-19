@@ -67,6 +67,7 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
             styles={props.style}
             tabIndex={props.tabIndex}
             type="text"
+            defaultValue={props.defaultValue?.value}
         />
     );
 });
