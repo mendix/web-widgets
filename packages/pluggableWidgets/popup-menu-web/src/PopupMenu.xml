@@ -91,7 +91,7 @@
                         <enumerationValue key="onhover">Hover</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="hoverCloseOn" type="enumeration" defaultValue="onHoverOutside">
+                <property key="hoverCloseOn" type="enumeration" defaultValue="onHoverLeave">
                     <caption>Close on</caption>
                     <description />
                     <enumerationValues>
