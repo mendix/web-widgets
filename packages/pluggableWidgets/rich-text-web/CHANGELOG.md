@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.3.0] - 2024-08-16
+
+### Added
+
+-   We add new advance config to allow user to disable relative url conversion.
+
 ## [3.2.4] - 2024-07-16
 
 ### Changed

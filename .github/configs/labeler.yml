@@ -38,6 +38,8 @@ charts-web:
   - packages/*/charts-web/**/*
 color-picker-web:
   - packages/*/color-picker-web/**/*
+markdown-web:
+  - packages/*/markdown-web/**/*
 fieldset-web:
   - packages/*/fieldset-web/**/*
 html-element-web:

@@ -1,0 +1,31 @@
+$table-background: #f2f2f2;
+
+.widget-markdown {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    justify-content: flex-start;
+    th,
+    td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: $table-background;
+    }
+
+    img {
+        max-width: 35%;
+    }
+    hr {
+        width: 100%;
+    }
+}
+
+.widget-markdown.preview {
+    min-height: max-content;
+}

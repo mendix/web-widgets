@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Markdown widget does not render markdown widget when stringAttribute is unavailable 1`] = `
+<div>
+  <div
+    class="mx-progress"
+  />
+</div>
+`;
+
+exports[`Markdown widget renders markdown widget 1`] = `
+<div>
+  <div
+    class="widget-markdown"
+  >
+    Markdown viewer default value
+  </div>
+</div>
+`;

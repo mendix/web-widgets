@@ -36,7 +36,11 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
         resize,
         extended_valid_elements,
         quickbars,
-        tabIndex
+        tabIndex,
+        editorHeight,
+        editorWidth,
+        sandboxIframes,
+        useRelativeUrl
     } = props;
     const editorRef = useRef<TinyMCEEditor>();
     const editorValueRef = useRef<string>();
@@ -147,12 +151,13 @@ export default function BundledEditor(props: BundledEditorProps): ReactElement {
                 extended_valid_elements: extended_valid_elements?.value ?? "",
                 quickbars_insert_toolbar: quickbars && !stringAttribute.readOnly,
                 quickbars_selection_toolbar: quickbars && !stringAttribute.readOnly,
-                height: props.editorHeight,
-                width: props.editorWidth,
+                height: editorHeight,
+                width: editorWidth,
                 contextmenu: props.contextmenutype === "richtext" ? "cut copy paste pastetext | link selectall" : false,
                 content_css: props.content_css?.value || undefined,
                 convert_unsafe_embeds: true,
-                sandbox_iframes: props.sandboxIframes
+                sandbox_iframes: sandboxIframes,
+                convert_urls: useRelativeUrl
             }}
             tabIndex={tabIndex || 0}
             disabled={stringAttribute.readOnly}

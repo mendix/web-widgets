@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.markdown.Markdown" needsEntityContext="true" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+    <name>Markdown viewer</name>
+    <description />
+    <studioProCategory>Display</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/markdown</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Data source">
+                <property key="stringAttribute" type="attribute">
+                    <caption>Value attribute</caption>
+                    <description>The attribute used for the content of the text editor, recommendation is to use an unlimited string data type.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+            <!-- SYSTEM PROPS -->
+            <propertyGroup caption="Label">
+                <systemProperty key="Label" />
+            </propertyGroup>
+
+            <propertyGroup caption="Conditional visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+            <!-- END SYSTEM PROPS -->
+        </propertyGroup>
+    </properties>
+</widget>
