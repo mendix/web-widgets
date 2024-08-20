@@ -94,7 +94,7 @@
                                     <attributeType name="Boolean" />
                                 </attributeTypes>
                             </property>
-                            <property key="onToggleCollapsed" type="action">
+                            <property key="onToggleCollapsed" type="action" required="false">
                                 <caption>On change</caption>
                                 <description>Executes an action when the 'Collapsed' attribute value changes. Note: the 'Start as' properties can prevent execution of this action when the initial state changes.</description>
                             </property>

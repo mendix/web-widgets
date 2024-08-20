@@ -136,19 +136,19 @@
         </propertyGroup>
         <propertyGroup caption="Events">
             <propertyGroup caption="Events">
-                <property key="onChange" type="action">
+                <property key="onChange" type="action" required="false">
                     <caption>On change</caption>
                     <description />
                 </property>
-                <property key="onFocus" type="action">
+                <property key="onFocus" type="action" required="false">
                     <caption>On enter</caption>
                     <description />
                 </property>
-                <property key="onBlur" type="action">
+                <property key="onBlur" type="action" required="false">
                     <caption>On leave</caption>
                     <description />
                 </property>
-                <property key="onKeyPress" type="action">
+                <property key="onKeyPress" type="action" required="false">
                     <caption>On key press</caption>
                     <description />
                 </property>

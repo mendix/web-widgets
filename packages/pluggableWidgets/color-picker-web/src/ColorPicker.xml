@@ -79,7 +79,7 @@
             <systemProperty key="Editability" />
         </propertyGroup>
         <propertyGroup caption="Events">
-            <property key="onChange" type="action">
+            <property key="onChange" type="action" required="false">
                 <caption>On change</caption>
                 <description />
             </property>

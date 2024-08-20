@@ -26,7 +26,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Events">
-                <property key="onClick" type="action">
+                <property key="onClick" type="action" required="false">
                     <caption>On click</caption>
                     <description />
                 </property>
