@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] - 2024-08-20
+
 ### Added
 
 -   We added a new 'Close on' setting to customize the popup's closing behavior, allowing it to close when clicked or hovered outside the popup.
