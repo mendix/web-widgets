@@ -10,7 +10,8 @@ let props: LanguageSwitcherProps = {
     position: "left" as PositionEnum,
     onSelect: jest.fn(),
     trigger: "click" as TriggerEnum,
-    className: ""
+    className: "",
+    tabIndex: 0
 };
 const language = { _guid: "111", value: "En us" };
 

@@ -54,6 +54,7 @@ export default function LanguageSelector(props: LanguageSelectorContainerProps):
             onSelect={selectLanguage}
             trigger={props.trigger}
             preview={false}
+            tabIndex={props.tabIndex ?? 0}
         />
     );
 }

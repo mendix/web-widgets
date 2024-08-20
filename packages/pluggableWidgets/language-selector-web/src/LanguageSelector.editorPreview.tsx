@@ -12,6 +12,7 @@ export const preview = (props: LanguageSelectorPreviewProps): ReactElement => {
             onSelect={undefined}
             trigger={props.trigger}
             className={""}
+            tabIndex={0}
         ></LanguageSwitcher>
     );
 };
