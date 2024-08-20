@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.21.4] DataWidgets - 2024-08-20
+
+### [1.9.2] Gallery
+
+#### Fixed
+
+-   We fixed an issue where the style property was not applied.
+
 ## [2.21.3] DataWidgets - 2024-08-15
 
 ### [2.6.1] DatagridNumberFilter
