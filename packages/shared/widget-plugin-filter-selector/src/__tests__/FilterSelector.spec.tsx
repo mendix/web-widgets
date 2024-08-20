@@ -48,8 +48,13 @@ describe("Filter selector", () => {
         expect(component.asFragment()).toMatchSnapshot();
     });
 
-    it("renders correctly with another default filter", () => {
-        const component = render(<FilterSelector value="equal" onChange={jest.fn()} id="test" options={options} />);
+    it("renders correctly when updating the value externally", () => {
+        const onChange = jest.fn();
+        const component = render(<FilterSelector value="equal" onChange={onChange} id="test" options={options} />);
+
+        expect(component.asFragment()).toMatchSnapshot();
+
+        component.rerender(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });

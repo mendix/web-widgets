@@ -21,7 +21,7 @@ exports[`Filter selector renders correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Filter selector renders correctly with another default filter 1`] = `
+exports[`Filter selector renders correctly when updating the value externally 1`] = `
 <DocumentFragment>
   <div
     class="filter-selector"
@@ -34,6 +34,27 @@ exports[`Filter selector renders correctly with another default filter 1`] = `
         aria-expanded="false"
         aria-haspopup="true"
         class="btn btn-default filter-selector-button button-icon equal"
+      >
+         
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Filter selector renders correctly when updating the value externally 2`] = `
+<DocumentFragment>
+  <div
+    class="filter-selector"
+  >
+    <div
+      class="filter-selector-content"
+    >
+      <button
+        aria-controls="test-filter-selectors"
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="btn btn-default filter-selector-button button-icon contains"
       >
          
       </button>
