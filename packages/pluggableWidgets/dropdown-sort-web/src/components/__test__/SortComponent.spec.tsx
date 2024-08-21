@@ -1,190 +1,223 @@
-// import { render, shallow } from "enzyme";
-// import { createElement } from "react";
-// import { SortComponent, SortOption } from "../SortComponent";
-// import { render as renderTestingLib, screen } from "@testing-library/react";
-// import userEvent from "@testing-library/user-event";
-// import "@testing-library/jest-dom";
+import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { createElement } from "react";
+import { SortComponent, SortOption } from "../SortComponent";
 
-// const defaultOptions: SortOption[] = [
-//     { caption: "Empty option", value: "" },
-//     { caption: "1", value: "_1" },
-//     { caption: "2", value: "_2" },
-//     { caption: "3", value: "_3" }
-// ];
+const defaultOptions: SortOption[] = [
+    { caption: "Empty option", value: null },
+    { caption: "1", value: "_1" },
+    { caption: "2", value: "_2" },
+    { caption: "3", value: "_3" }
+];
 
-// jest.useFakeTimers();
+jest.useFakeTimers();
 
-// describe("Sort selector", () => {
-//     describe("renders correctly", () => {
-//         it("with options", () => {
-//             const component = render(<SortComponent options={defaultOptions} />);
+describe("Sort selector", () => {
+    describe("renders correctly", () => {
+        it("with options", () => {
+            const component = render(<SortComponent options={defaultOptions} direction="asc" value={null} />);
 
-//             expect(component).toMatchSnapshot();
-//         });
-//         it("with no options", () => {
-//             const component = render(<SortComponent options={[]} />);
+            expect(component.container).toMatchSnapshot();
+        });
 
-//             expect(component).toMatchSnapshot();
-//         });
-//         it("with a11y properties", () => {
-//             const component = render(
-//                 <SortComponent
-//                     options={defaultOptions}
-//                     screenReaderButtonCaption="my button"
-//                     screenReaderInputCaption="my input"
-//                 />
-//             );
+        it("with no options", () => {
+            const component = render(<SortComponent options={[]} direction="asc" value={null} />);
 
-//             expect(component).toMatchSnapshot();
-//         });
-//         it("with emptyOptioncaption", () => {
-//             const component = render(<SortComponent options={defaultOptions} emptyOptionCaption={"find me"} />);
+            expect(component.container).toMatchSnapshot();
+        });
 
-//             expect(component).toMatchSnapshot();
-//             expect(component.find("input").first().prop("placeholder")).toBe("find me");
-//         });
-//     });
-//     it("selects default option", () => {
-//         const defaultOption = defaultOptions[0];
-//         const component = shallow(<SortComponent options={defaultOptions} defaultOption={defaultOption} />);
+        it("with a11y properties", () => {
+            const component = render(
+                <SortComponent
+                    options={defaultOptions}
+                    direction="asc"
+                    value={null}
+                    screenReaderButtonCaption="my button"
+                    screenReaderInputCaption="my input"
+                />
+            );
 
-//         const input = component.find("input").first();
+            expect(component.container).toMatchSnapshot();
+        });
 
-//         expect(input.prop("value")).toBe(defaultOption.caption);
-//     });
+        it("with placeholder", () => {
+            const component = render(
+                <SortComponent options={defaultOptions} placeholder={"find me"} direction="asc" value={null} />
+            );
 
-//     describe("when value changes", () => {
-//         it("calls updateFilters when value changes", () => {
-//             const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
-//             const updateSortHandler = jest.fn();
-//             const component = shallow(<SortComponent options={defaultOptions} updateSort={updateSortHandler} />);
+            expect(component.container).toMatchSnapshot();
+            expect(component.asFragment().querySelector("input")?.getAttribute("placeholder")).toBe("find me");
+        });
+    });
 
-//             const input = component.find("input");
-//             input.simulate("click", onClickProps);
+    it("selects default option", () => {
+        const defaultOption = defaultOptions[1];
+        const { asFragment } = render(
+            <SortComponent options={defaultOptions} value={defaultOption.value} direction="asc" />
+        );
+        expect(asFragment().querySelector("input")?.getAttribute("value")).toBe(defaultOption.caption);
+    });
 
-//             const item = component.find("li").first();
-//             item.simulate("click", onClickProps);
+    describe("when value changes", () => {
+        it("calls onSelect when value changes", async () => {
+            const onSelectHandler = jest.fn();
+            const component = render(
+                <SortComponent
+                    placeholder="TestInput"
+                    options={defaultOptions}
+                    onSelect={onSelectHandler}
+                    direction="asc"
+                    value={null}
+                />
+            );
 
-//             expect(updateSortHandler).toBeCalled();
-//         });
-//         it("shows selected option on input value", () => {
-//             const onClickProps = { preventDefault: jest.fn(), stopPropagation: jest.fn() };
-//             const defaultOption = defaultOptions[1];
-//             const component = shallow(<SortComponent options={defaultOptions} defaultOption={defaultOption} />);
+            const input = component.container.querySelector("input");
+            await fireEvent.click(input as Element);
 
-//             const input = component.find("input");
-//             input.simulate("click", onClickProps);
+            const items = component.queryAllByRole("menuitem");
+            await fireEvent.click(items[0]);
 
-//             expect(component.find("input").first().prop("value")).toBe(defaultOption.caption);
+            expect(onSelectHandler).toHaveBeenCalled();
+        });
 
-//             const item = component.find("li").last(); // [cap 3: val:_3]
-//             item.simulate("click", onClickProps);
+        it("shows selected option on input value", async () => {
+            let defaultOption = defaultOptions[1];
+            const component = render(
+                <SortComponent
+                    options={defaultOptions}
+                    value={defaultOption.value}
+                    direction="asc"
+                    onSelect={option => (defaultOption = option)}
+                />
+            );
 
-//             expect(component.find("input").first().prop("value")).toBe(defaultOptions[3].caption);
-//         });
-//     });
+            const input = component.container.querySelector("input");
+            fireEvent.click(input as Element);
 
-//     describe("focus", () => {
-//         it("changes focused element when pressing the input", async () => {
-//             renderTestingLib(<SortComponent options={defaultOptions} emptyOptionCaption="Click me" />);
-//             expect(document.body).toHaveFocus();
-//             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            expect(input?.getAttribute("value")).toBe(defaultOption.caption);
 
-//             const input = screen.getByPlaceholderText("Click me");
-//             expect(input).toBeDefined();
-//             await user.click(input);
+            const item = component.queryAllByRole("menuitem")[defaultOptions.length - 1];
+            fireEvent.click(item);
 
-//             jest.runOnlyPendingTimers();
+            component.rerender(
+                <SortComponent
+                    options={defaultOptions}
+                    value={defaultOption.value}
+                    direction="asc"
+                    onSelect={option => (defaultOption = option)}
+                />
+            );
+            expect(component.container.querySelector("input")?.getAttribute("value")).toBe(defaultOptions[3].caption);
+        });
+    });
 
-//             const items = screen.getAllByRole("menuitem");
-//             expect(items[0]).toHaveFocus();
-//         });
+    describe("focus", () => {
+        it("changes focused element when pressing the input", async () => {
+            render(<SortComponent options={defaultOptions} placeholder="Click me" direction="asc" value={null} />);
+            expect(document.body).toHaveFocus();
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-//         it("changes focused element back to the input when pressing shift+tab in the first element", async () => {
-//             renderTestingLib(<SortComponent options={defaultOptions} emptyOptionCaption="Click me" />);
-//             expect(document.body).toHaveFocus();
-//             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            const input = screen.getByPlaceholderText("Click me");
+            expect(input).toBeDefined();
 
-//             const input = screen.getByPlaceholderText("Click me");
-//             expect(input).toBeDefined();
-//             await user.click(input);
+            await user.click(input);
 
-//             jest.runOnlyPendingTimers();
+            jest.runOnlyPendingTimers();
 
-//             const items = screen.getAllByRole("menuitem");
-//             expect(items[0]).toHaveFocus();
+            const items = screen.queryAllByRole("menuitem");
+            expect(items[0]).toHaveFocus();
+        });
 
-//             await user.tab({ shift: true });
+        it("changes focused element back to the input when pressing shift+tab in the first element", async () => {
+            render(<SortComponent options={defaultOptions} placeholder="Click me" direction="asc" value={null} />);
+            expect(document.body).toHaveFocus();
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-//             jest.runOnlyPendingTimers();
+            const input = screen.getByPlaceholderText("Click me");
+            expect(input).toBeDefined();
+            await user.click(input);
 
-//             expect(input).toHaveFocus();
-//         });
+            jest.runOnlyPendingTimers();
 
-//         it("changes focused element back to the input when pressing tab on the last item", async () => {
-//             renderTestingLib(
-//                 <SortComponent
-//                     options={[
-//                         { caption: "Click me", value: "" },
-//                         { caption: "1", value: "_1" }
-//                     ]}
-//                     emptyOptionCaption="Click me"
-//                 />
-//             );
+            const items = screen.getAllByRole("menuitem");
+            expect(items[0]).toHaveFocus();
 
-//             expect(document.body).toHaveFocus();
-//             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.tab({ shift: true });
 
-//             const input = screen.getByPlaceholderText("Click me");
-//             await user.click(input);
+            jest.runOnlyPendingTimers();
 
-//             jest.runOnlyPendingTimers();
+            expect(input).toHaveFocus();
+        });
 
-//             const items = screen.getAllByRole("menuitem");
-//             expect(items[0]).toHaveFocus();
+        it("changes focused element back to the input when pressing tab on the last item", async () => {
+            render(
+                <SortComponent
+                    options={[
+                        { caption: "Click me", value: null },
+                        { caption: "1", value: "_1" }
+                    ]}
+                    placeholder="Click me"
+                    direction="asc"
+                    value={null}
+                />
+            );
 
-//             await user.tab();
-//             expect(items[1]).toHaveFocus();
-//             await user.tab();
+            expect(document.body).toHaveFocus();
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-//             jest.runOnlyPendingTimers();
+            const input = screen.getByPlaceholderText("Click me");
+            await user.click(input);
 
-//             const button = screen.getByRole("button");
+            jest.runOnlyPendingTimers();
 
-//             expect(button).toHaveFocus();
-//         });
+            const items = screen.getAllByRole("menuitem");
+            expect(items[0]).toHaveFocus();
 
-//         it("changes focused element back to the input when pressing escape on any item", async () => {
-//             renderTestingLib(
-//                 <SortComponent
-//                     options={[
-//                         { caption: "Click me", value: "" },
-//                         { caption: "1", value: "_1" },
-//                         { caption: "2", value: "_2" }
-//                     ]}
-//                     emptyOptionCaption="Click me"
-//                 />
-//             );
-//             expect(document.body).toHaveFocus();
-//             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.tab();
+            expect(items[1]).toHaveFocus();
+            await user.tab();
 
-//             const input = screen.getByPlaceholderText("Click me");
-//             await user.click(input);
-//             jest.runOnlyPendingTimers();
+            jest.runOnlyPendingTimers();
 
-//             const items = screen.getAllByRole("menuitem");
-//             expect(items).toHaveLength(3);
-//             expect(items[0]).toHaveFocus();
+            const button = screen.getByRole("button");
 
-//             await user.tab();
+            expect(button).toHaveFocus();
+        });
 
-//             expect(items[1]).toHaveFocus();
+        it("changes focused element back to the input when pressing escape on any item", async () => {
+            render(
+                <SortComponent
+                    options={[
+                        { caption: "Click me", value: null },
+                        { caption: "1", value: "_1" },
+                        { caption: "2", value: "_2" }
+                    ]}
+                    placeholder="Click me"
+                    direction="asc"
+                    value={null}
+                />
+            );
+            expect(document.body).toHaveFocus();
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-//             await user.keyboard("{Escape}");
+            const input = screen.getByPlaceholderText("Click me");
+            await user.click(input);
+            jest.runOnlyPendingTimers();
 
-//             jest.runOnlyPendingTimers();
+            const items = screen.getAllByRole("menuitem");
+            expect(items).toHaveLength(3);
+            expect(items[0]).toHaveFocus();
 
-//             expect(input).toHaveFocus();
-//         });
-//     });
-// });
+            await user.tab();
+
+            expect(items[1]).toHaveFocus();
+
+            await user.keyboard("{Escape}");
+
+            jest.runOnlyPendingTimers();
+
+            expect(input).toHaveFocus();
+        });
+    });
+});

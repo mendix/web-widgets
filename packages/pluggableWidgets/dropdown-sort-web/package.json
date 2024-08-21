@@ -38,6 +38,9 @@
     "e2e": "run-e2e ci",
     "e2edev": "run-e2e dev --with-preps"
   },
+  "dependencies": {
+    "@mendix/widget-plugin-filtering": "workspace:*"
+  },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",

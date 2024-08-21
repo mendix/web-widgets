@@ -5,7 +5,7 @@ import { value } from "../result-meta";
 import { SortingStore } from "../stores/SortingStore";
 import { SortInstruction } from "../typings";
 
-interface SortListType {
+export interface SortListType {
     attribute: ListAttributeValue;
     caption: DynamicValue<string>;
 }

@@ -1204,6 +1204,10 @@ importers:
         version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/dropdown-sort-web:
+    dependencies:
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*

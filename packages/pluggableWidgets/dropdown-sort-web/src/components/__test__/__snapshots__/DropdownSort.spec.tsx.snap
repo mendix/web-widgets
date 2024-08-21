@@ -14,7 +14,8 @@ exports[`Dropdown Sort with single instance with correct context renders correct
         aria-expanded="false"
         aria-haspopup="true"
         class="form-control dropdown-triggerer"
-        value=""
+        readonly=""
+        value="Option 1"
       />
       <button
         class="btn btn-default btn-sort icon-asc"
