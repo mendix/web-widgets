@@ -64,13 +64,17 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     }, [props.position, visibility]);
 
     return (
-        <div
-            ref={ref}
-            className={classNames(props.className, "widget-language-selector", "popupmenu")}
-            tabIndex={props.tabIndex}
-            {...onHover}
-        >
-            <div className={"popupmenu-trigger popupmenu-trigger-alignment"} {...onClick}>
+        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")} {...onHover}>
+            <div
+                className={"popupmenu-trigger popupmenu-trigger-alignment"}
+                tabIndex={props.tabIndex}
+                onKeyDown={event => {
+                    if (event.key === "Enter") {
+                        setVisibility(prev => !prev);
+                    }
+                }}
+                {...onClick}
+            >
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
                     <div className={`arrow-image ${visibility ? "arrow-up" : "arrow-down"}`} />
@@ -88,6 +92,14 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                                 return props.onSelect(item);
                             }
                         }}
+                        onKeyDown={event => {
+                            if (event.key === "Enter") {
+                                if (props.onSelect) {
+                                    return props.onSelect(item);
+                                }
+                            }
+                        }}
+                        tabIndex={props.tabIndex}
                     >
                         {item.value}
                     </div>
