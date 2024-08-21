@@ -18,7 +18,7 @@ interface Props {
 export class StaticFilterController {
     private store: OptionListFilterInterface;
     _filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    readonly empty: Option<string>;
+    readonly empty: Option;
     readonly defaults: string[] | undefined;
     multiselect = false;
     private onChange?: ActionValue;
@@ -46,7 +46,7 @@ export class StaticFilterController {
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
-    get options(): Array<Option<string>> {
+    get options(): Array<Option> {
         return [...this.store.options];
     }
 

@@ -7,9 +7,9 @@ import { FormControlComponent } from "./FormControlComponent";
 import { Option } from "../../typings/OptionListFilterInterface";
 import { Badge } from "../shared";
 
-interface SelectProps<T> {
-    options: Array<Option<T>>;
-    empty: Option<T>;
+interface SelectProps {
+    options: Array<Option>;
+    empty: Option;
     inputValue: string;
     multiSelect: boolean;
     placeholder?: string;
@@ -20,13 +20,13 @@ interface SelectProps<T> {
     id: string;
     tabIndex?: number;
     styles?: CSSProperties;
-    onSelect: (value: T) => void;
+    onSelect: (value: string) => void;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
     badge?: string;
 }
 
-export function Select<T>(props: SelectProps<T>): ReactElement {
+export function Select(props: SelectProps): ReactElement {
     const {
         ariaLabel,
         className,
@@ -49,7 +49,7 @@ export function Select<T>(props: SelectProps<T>): ReactElement {
     const position = usePositionObserver(componentRef.current || null, show);
 
     const onClick = useCallback(
-        (option: Option<T>) => {
+        (option: Option) => {
             onSelect(option.value);
             if (!multiSelect) {
                 setShow(false);

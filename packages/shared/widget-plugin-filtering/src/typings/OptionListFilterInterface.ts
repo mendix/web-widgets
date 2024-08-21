@@ -1,18 +1,18 @@
-export interface Option<T> {
+export interface Option {
     caption: string;
-    value: T;
+    value: string;
     selected: boolean;
 }
 
-export interface CustomOption<T> {
+export interface CustomOption {
     caption: string;
-    value: T;
+    value: string;
 }
 
 export interface OptionListFilterInterface {
     type: "refselect" | "select";
     storeType: "optionlist";
-    options: Array<Option<string>>;
+    options: Array<Option>;
     isLoading: boolean;
     hasMore: boolean;
     hasSearch: boolean;
@@ -26,5 +26,5 @@ export interface OptionListFilterInterface {
     clear(): void;
     UNSAFE_setDefaults(value?: string[]): void;
     setup?(): () => void | void;
-    setCustomOptions(options: Array<CustomOption<string>>): void;
+    setCustomOptions(options: Array<CustomOption>): void;
 }

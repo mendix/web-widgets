@@ -12,7 +12,7 @@ type Params = {
 export class RefFilterController {
     private store: OptionListFilterInterface;
     private isDataFetched = false;
-    readonly empty: Option<string>;
+    readonly empty: Option;
     multiselect = false;
     private onChange?: ActionValue;
 
@@ -51,7 +51,7 @@ export class RefFilterController {
         return captions.join(",");
     }
 
-    get options(): Array<Option<string>> {
+    get options(): Array<Option> {
         return [...this.store.options];
     }
 

@@ -2,21 +2,21 @@ import classNames from "classnames";
 import { Fragment, UIEventHandler, createElement } from "react";
 import { Option } from "../../typings/OptionListFilterInterface";
 
-interface FilterContentProps<T> {
+interface FilterContentProps {
     footer?: JSX.Element;
     id?: string;
-    options: Array<Option<T>>;
-    empty: Option<T>;
+    options: Array<Option>;
+    empty: Option;
     multiSelect: boolean;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
-    onOptionClick: (option: Option<T>) => void;
+    onOptionClick: (option: Option) => void;
     onBlur: () => void;
     position: DOMRect | undefined;
     width?: number;
     rootRef?: React.RefObject<HTMLDivElement>;
 }
 
-export function FilterContentComponent<T>(props: FilterContentProps<T>): React.ReactElement {
+export function FilterContentComponent(props: FilterContentProps): React.ReactElement {
     const { footer, id, options, multiSelect, onContentScroll, onOptionClick, onBlur, position, width } = props;
     const hasOptions = options.length > 0;
     const optionsList = hasOptions ? (
