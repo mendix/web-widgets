@@ -17,7 +17,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
 
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
-    _customOptions: Array<CustomOption> = [];
+    _customOptions: CustomOption[] = [];
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
         this._attributes = attributes;
@@ -42,7 +42,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         }
     }
 
-    get options(): Array<Option> {
+    get options(): Option[] {
         if (this._customOptions.length > 0) {
             return this._customOptions.map(opt => ({ ...opt, selected: this._selected.has(opt.value) }));
         }
@@ -161,7 +161,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         }
     }
 
-    setCustomOptions(options: Array<CustomOption>): void {
+    setCustomOptions(options: CustomOption[]): void {
         this._customOptions = options;
     }
 }

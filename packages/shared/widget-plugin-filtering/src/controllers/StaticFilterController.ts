@@ -46,7 +46,7 @@ export class StaticFilterController {
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
-    get options(): Array<Option> {
+    get options(): Option[] {
         return [...this.store.options];
     }
 

@@ -12,7 +12,7 @@ export interface CustomOption {
 export interface OptionListFilterInterface {
     type: "refselect" | "select";
     storeType: "optionlist";
-    options: Array<Option>;
+    options: Option[];
     isLoading: boolean;
     hasMore: boolean;
     hasSearch: boolean;
@@ -26,5 +26,5 @@ export interface OptionListFilterInterface {
     clear(): void;
     UNSAFE_setDefaults(value?: string[]): void;
     setup?(): () => void | void;
-    setCustomOptions(options: Array<CustomOption>): void;
+    setCustomOptions(options: CustomOption[]): void;
 }

@@ -51,7 +51,7 @@ export class RefFilterController {
         return captions.join(",");
     }
 
-    get options(): Array<Option> {
+    get options(): Option[] {
         return [...this.store.options];
     }
 

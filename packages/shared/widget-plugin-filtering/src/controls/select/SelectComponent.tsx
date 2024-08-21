@@ -8,7 +8,7 @@ import { Option } from "../../typings/OptionListFilterInterface";
 import { Badge } from "../shared";
 
 interface SelectProps {
-    options: Array<Option>;
+    options: Option[];
     empty: Option;
     inputValue: string;
     multiSelect: boolean;

@@ -80,7 +80,7 @@ export class RefFilterStore implements OptionListFilterInterface {
         return this._refOptions.status === "loading";
     }
 
-    get options(): Array<Option> {
+    get options(): Option[] {
         const items = this._refOptions.items ?? [];
         return items.map(obj => ({
             caption: `${this._caption.get(obj).value}`,

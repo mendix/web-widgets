@@ -5,7 +5,7 @@ import { Option } from "../../typings/OptionListFilterInterface";
 interface FilterContentProps {
     footer?: JSX.Element;
     id?: string;
-    options: Array<Option>;
+    options: Option[];
     empty: Option;
     multiSelect: boolean;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
