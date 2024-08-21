@@ -2,7 +2,7 @@ import { createElement, ReactElement, useCallback, useEffect, useRef, useState, 
 import classNames from "classnames";
 import { usePositionObserver } from "./usePositionObserver.js";
 
-interface FilterSelectorProps<T extends string> {
+interface FilterSelectorProps<T> {
     ariaLabel?: string;
     id?: string;
     value: T;
@@ -10,7 +10,7 @@ interface FilterSelectorProps<T extends string> {
     options: Array<{ value: T; label: string }>;
 }
 
-export function FilterSelector<T extends string>(props: FilterSelectorProps<T>): ReactElement {
+export function FilterSelector<T>(props: FilterSelectorProps<T>): ReactElement {
     const { value, onChange } = props;
     const [show, setShow] = useState(false);
     const componentRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                     role="menuitem"
                     tabIndex={0}
                 >
-                    <div className={classNames("filter-icon", option.value)} aria-hidden />
+                    <div className={classNames("filter-icon", option.value as string)} aria-hidden />
                     <div className="filter-label">{option.label}</div>
                 </li>
             ))}
@@ -87,7 +87,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                     aria-expanded={show}
                     aria-haspopup
                     aria-label={props.ariaLabel}
-                    className={classNames("btn btn-default filter-selector-button button-icon", value)}
+                    className={classNames("btn btn-default filter-selector-button button-icon", value as string)}
                     onClick={containerClick}
                     onKeyDown={e => {
                         if (e.key === "Enter" || e.key === " ") {

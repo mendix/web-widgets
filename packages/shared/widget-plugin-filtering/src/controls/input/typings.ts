@@ -1,5 +1,6 @@
 import { InputFilterInterface } from "../../typings/InputFilterInterface";
 import { InputStore } from "../../stores/InputStore";
+import { AllFunctions } from "../../typings/FilterFunctions";
 
 export interface BaseProps {
     adjustable: boolean;
@@ -17,7 +18,7 @@ export interface BaseProps {
 
 export type FilterFnList<T> = Array<{ value: T; label: string }>;
 
-export interface InputProps<Fn> {
+export interface InputProps<Fn extends AllFunctions> {
     onFilterChange: (filterFn: Fn, isFromUserInteraction: boolean) => void;
     filterFn: Fn;
     filterFnList: FilterFnList<Fn>;
@@ -26,7 +27,7 @@ export interface InputProps<Fn> {
     inputRef: React.RefAttributes<HTMLInputElement>["ref"];
 }
 
-export interface InputComponentProps<Fn> extends BaseProps, InputProps<Fn> {}
+export interface InputComponentProps<Fn extends AllFunctions> extends BaseProps, InputProps<Fn> {}
 
 export interface InputHookProps<Fn, V> {
     filters: FilterFnList<Fn>;

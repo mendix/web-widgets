@@ -20,7 +20,7 @@ export enum FilterType {
 
 export type FilterStoreProvider = DirectProvider | KeyProvider | LegacyProvider;
 
-export type FilterStore = InputFilterInterface | OptionListFilterInterface<string>;
+export type FilterStore = InputFilterInterface | OptionListFilterInterface;
 
 interface DirectProvider {
     type: "direct";

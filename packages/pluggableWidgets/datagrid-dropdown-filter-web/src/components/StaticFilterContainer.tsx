@@ -9,7 +9,7 @@ import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 
 export interface StaticFilterContainerProps {
-    filterStore: OptionListFilterInterface<string>;
+    filterStore: OptionListFilterInterface;
     filterOptions: FilterOptionsType[];
     multiselect: boolean;
     defaultValue?: string;

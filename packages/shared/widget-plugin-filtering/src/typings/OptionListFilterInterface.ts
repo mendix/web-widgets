@@ -9,16 +9,16 @@ export interface CustomOption<T> {
     value: T;
 }
 
-export interface OptionListFilterInterface<T> {
+export interface OptionListFilterInterface {
     type: "refselect" | "select";
     storeType: "optionlist";
-    options: Array<Option<T>>;
+    options: Array<Option<string>>;
     isLoading: boolean;
     hasMore: boolean;
     hasSearch: boolean;
     selectedCount?: number;
-    replace(value: T[]): void;
-    toggle(value: T): void;
+    replace(value: string[]): void;
+    toggle(value: string): void;
     loadMore(): void;
     setSearch(term: string | undefined): void;
     isValidValue(value: string): boolean;
@@ -26,5 +26,5 @@ export interface OptionListFilterInterface<T> {
     clear(): void;
     UNSAFE_setDefaults(value?: string[]): void;
     setup?(): () => void | void;
-    setCustomOptions(options: Array<CustomOption<T>>): void;
+    setCustomOptions(options: Array<CustomOption<string>>): void;
 }

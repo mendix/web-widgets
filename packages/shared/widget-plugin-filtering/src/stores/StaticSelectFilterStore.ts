@@ -6,7 +6,7 @@ import { equals, literal, attribute, or } from "mendix/filters/builders";
 import { FilterData } from "../typings/settings";
 import { selectedFromCond } from "../condition-utils";
 
-export class StaticSelectFilterStore implements OptionListFilterInterface<string> {
+export class StaticSelectFilterStore implements OptionListFilterInterface {
     readonly storeType = "optionlist";
     readonly type = "select";
     readonly isLoading = false;

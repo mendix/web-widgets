@@ -4,7 +4,7 @@ import { useState, createElement } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 
 interface Props {
-    filterStore: OptionListFilterInterface<string>;
+    filterStore: OptionListFilterInterface;
     filterOptions: FilterOptionsType[];
 }
 

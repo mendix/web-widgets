@@ -8,7 +8,7 @@ interface CustomOption<T> {
 }
 
 interface Props {
-    filterStore: OptionListFilterInterface<string>;
+    filterStore: OptionListFilterInterface;
     multiselect: boolean;
     defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export class StaticFilterController {
-    private store: OptionListFilterInterface<string>;
+    private store: OptionListFilterInterface;
     _filterOptions: Array<CustomOption<DynamicValue<string>>>;
     readonly empty: Option<string>;
     readonly defaults: string[] | undefined;

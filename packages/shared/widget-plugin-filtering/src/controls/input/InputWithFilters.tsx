@@ -4,9 +4,10 @@ import classNames from "classnames";
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
 import { Badge } from "../shared";
+import { AllFunctions } from "../../typings/FilterFunctions";
 
 // eslint-disable-next-line prefer-arrow-callback
-export const InputWithFilters = observer(function InputWithFilters<Fn extends string>(
+export const InputWithFilters = observer(function InputWithFilters<Fn extends AllFunctions>(
     props: InputComponentProps<Fn>
 ): React.ReactElement {
     const {

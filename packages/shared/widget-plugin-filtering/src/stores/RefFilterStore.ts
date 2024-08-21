@@ -21,7 +21,7 @@ export type RefFilterStoreProps = {
     searchAttrId?: ListAttributeId;
 };
 
-export class RefFilterStore implements OptionListFilterInterface<string> {
+export class RefFilterStore implements OptionListFilterInterface {
     readonly storeType = "optionlist";
     readonly type = "refselect";
     defaultValue: string[] | undefined = undefined;

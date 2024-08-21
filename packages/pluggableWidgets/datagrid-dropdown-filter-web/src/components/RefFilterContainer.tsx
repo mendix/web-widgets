@@ -7,7 +7,7 @@ import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 export interface RefFilterContainerProps {
-    filterStore: OptionListFilterInterface<string>;
+    filterStore: OptionListFilterInterface;
     multiselect: boolean;
     emptyCaption?: string;
     ariaLabel?: string;

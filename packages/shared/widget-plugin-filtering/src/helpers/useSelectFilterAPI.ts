@@ -5,7 +5,7 @@ import { Result, error, value } from "../result-meta";
 import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 
 export interface Select_FilterAPIv2 {
-    filterStore: OptionListFilterInterface<string>;
+    filterStore: OptionListFilterInterface;
     parentChannelName?: string;
 }
 

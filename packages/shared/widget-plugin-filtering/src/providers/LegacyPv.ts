@@ -54,7 +54,7 @@ export class LegacyPv implements LegacyProvider {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     set settings(_: unknown) {}
 
-    get = (type: Ft): InputFilterInterface | OptionListFilterInterface<string> | null => {
+    get = (type: Ft): InputFilterInterface | OptionListFilterInterface | null => {
         return this.filterMap[type];
     };
 

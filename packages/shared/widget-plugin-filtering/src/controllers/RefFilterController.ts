@@ -3,14 +3,14 @@ import { makeObservable, computed } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 
 type Params = {
-    store: OptionListFilterInterface<string>;
+    store: OptionListFilterInterface;
     multiselect: boolean;
     emptyCaption?: string;
     onChange?: ActionValue;
 };
 
 export class RefFilterController {
-    private store: OptionListFilterInterface<string>;
+    private store: OptionListFilterInterface;
     private isDataFetched = false;
     readonly empty: Option<string>;
     multiselect = false;
