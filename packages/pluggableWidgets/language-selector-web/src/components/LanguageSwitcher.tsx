@@ -24,6 +24,7 @@ export interface LanguageSwitcherProps {
     trigger: TriggerEnum;
     className: string;
     tabIndex: number;
+    screenReaderLabelCaption?: string;
 }
 export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => {
     const { languageList, trigger } = props;
@@ -67,12 +68,15 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
         <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")} {...onHover}>
             <div
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
+                role="listbox"
                 tabIndex={props.tabIndex}
                 onKeyDown={event => {
                     if (event.key === "Enter") {
                         setVisibility(prev => !prev);
                     }
                 }}
+                aria-expanded={visibility}
+                aria-label={props.screenReaderLabelCaption}
                 {...onClick}
             >
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
@@ -87,6 +91,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                         className={`popupmenu-basic-item ${
                             item._guid === props.currentLanguage?._guid ? "active" : ""
                         }`}
+                        role="option"
                         onClick={() => {
                             if (props.onSelect) {
                                 return props.onSelect(item);
@@ -100,6 +105,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                             }
                         }}
                         tabIndex={props.tabIndex}
+                        aria-label={item.value}
                     >
                         {item.value}
                     </div>

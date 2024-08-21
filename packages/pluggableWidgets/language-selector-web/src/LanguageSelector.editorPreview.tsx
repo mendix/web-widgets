@@ -13,6 +13,7 @@ export const preview = (props: LanguageSelectorPreviewProps): ReactElement => {
             trigger={props.trigger}
             className={""}
             tabIndex={0}
+            screenReaderLabelCaption={"LanguageSwitcherOptions"}
         ></LanguageSwitcher>
     );
 };

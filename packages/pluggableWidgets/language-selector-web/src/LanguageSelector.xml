@@ -44,5 +44,13 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Accessibility">
+                <property key="screenReaderLabelCaption" type="textTemplate" required="false">
+                    <caption>Label caption</caption>
+                    <description>Assistive technology will read this upon reaching the input element.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
     </properties>
 </widget>

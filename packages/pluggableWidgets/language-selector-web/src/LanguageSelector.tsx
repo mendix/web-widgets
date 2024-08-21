@@ -55,6 +55,7 @@ export default function LanguageSelector(props: LanguageSelectorContainerProps):
             trigger={props.trigger}
             preview={false}
             tabIndex={props.tabIndex ?? 0}
+            screenReaderLabelCaption={props.screenReaderLabelCaption?.value}
         />
     );
 }
