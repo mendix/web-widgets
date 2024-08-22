@@ -106,6 +106,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                         }}
                         tabIndex={props.tabIndex}
                         aria-label={item.value}
+                        aria-selected={item._guid === props.currentLanguage?._guid}
                     >
                         {item.value}
                     </div>
