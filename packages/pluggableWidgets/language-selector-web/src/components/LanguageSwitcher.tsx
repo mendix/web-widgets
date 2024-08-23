@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useEffect, useRef, useState, useCallback, SyntheticEvent } from "react";
+import { createElement, ReactElement, useEffect, useRef } from "react";
 import {
     isBehindElement,
     isBehindRandomElement,
@@ -9,11 +9,11 @@ import {
     unBlockAbsoluteElementBottom,
     unBlockAbsoluteElementLeft,
     unBlockAbsoluteElementRight,
-    unBlockAbsoluteElementTop,
-    handleOnClickOutsideElement
+    unBlockAbsoluteElementTop
 } from "../utils/document";
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "../LanguageSelector";
+import { useSelect } from "downshift";
 
 export interface LanguageSwitcherProps {
     preview: boolean;
@@ -27,86 +27,81 @@ export interface LanguageSwitcherProps {
     screenReaderLabelCaption?: string;
 }
 export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => {
-    const { languageList, trigger } = props;
-    const [visibility, setVisibility] = useState(false);
+    const { languageList } = props;
     const ref = useRef<HTMLDivElement>(null);
 
-    if (!props.preview) {
-        handleOnClickOutsideElement(ref, () => setVisibility(false));
+    function itemToString(item: LanguageItem) {
+        return item ? item.value : "";
     }
+    const { isOpen, selectItem, highlightedIndex, getMenuProps, getItemProps, getToggleButtonProps } = useSelect({
+        items: languageList,
+        itemToString
+    });
 
-    const onClickHandle = useCallback(
-        (e: SyntheticEvent): void => {
-            e.preventDefault();
-            e.stopPropagation();
-            setVisibility(prev => !prev);
-        },
-        [setVisibility]
-    );
-
-    const onHover =
-        trigger === "hover"
-            ? {
-                  onMouseEnter: onClickHandle,
-                  onMouseLeave: onClickHandle
-              }
-            : {};
-
-    const onClick = trigger === "click" ? { onClick: onClickHandle } : {};
+    useEffect(() => {
+        if (props.currentLanguage === undefined || props.preview) {
+            return;
+        }
+        selectItem(props.currentLanguage);
+    }, [props.currentLanguage]);
 
     useEffect(() => {
         const element = ref.current?.querySelector(".popupmenu-menu") as HTMLDivElement | null;
         if (element) {
-            element.style.display = visibility ? "flex" : "none";
-            if (visibility) {
+            element.style.display = isOpen ? "flex" : "none";
+            if (isOpen) {
                 correctPosition(element, props.position);
             }
         }
-    }, [props.position, visibility]);
+    }, [props.position, isOpen]);
 
-    return (
-        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")} {...onHover}>
+    return props.preview ? (
+        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
+            <div className={"popupmenu-trigger popupmenu-trigger-alignment"} role="listbox" tabIndex={props.tabIndex}>
+                <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
+                <span className="language-arrow" aria-hidden="true">
+                    <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
+                </span>
+            </div>
+            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}></div>
+        </div>
+    ) : (
+        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
             <div
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
                 role="listbox"
                 tabIndex={props.tabIndex}
-                onKeyDown={event => {
-                    if (event.key === "Enter") {
-                        setVisibility(prev => !prev);
+                {...getToggleButtonProps({
+                    onKeyDown: event => {
+                        if (!isOpen || highlightedIndex === null) {
+                            return;
+                        }
+                        if (event.key === "Enter" || event.key === "Tab" || event.key === "Spacebar") {
+                            if (props.onSelect) {
+                                return props.onSelect(languageList[highlightedIndex]);
+                            }
+                        }
                     }
-                }}
-                aria-expanded={visibility}
-                aria-label={props.screenReaderLabelCaption}
-                {...onClick}
+                })}
             >
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
-                    <div className={`arrow-image ${visibility ? "arrow-up" : "arrow-down"}`} />
+                    <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
                 </span>
             </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>
-                {languageList.map(item => (
+            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)} {...getMenuProps()}>
+                {languageList.map((item, index) => (
                     <div
                         key={item._guid}
-                        className={`popupmenu-basic-item ${
-                            item._guid === props.currentLanguage?._guid ? "active" : ""
-                        }`}
-                        role="option"
+                        className={`popupmenu-basic-item ${props.currentLanguage === item ? "active" : ""} ${
+                            highlightedIndex === index ? "highlighted" : ""
+                        } `}
+                        {...getItemProps({ item, index })}
                         onClick={() => {
                             if (props.onSelect) {
                                 return props.onSelect(item);
                             }
                         }}
-                        onKeyDown={event => {
-                            if (event.key === "Enter") {
-                                if (props.onSelect) {
-                                    return props.onSelect(item);
-                                }
-                            }
-                        }}
-                        tabIndex={props.tabIndex}
-                        aria-label={item.value}
-                        aria-selected={item._guid === props.currentLanguage?._guid}
                     >
                         {item.value}
                     </div>
