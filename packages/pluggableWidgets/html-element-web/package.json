@@ -1,7 +1,7 @@
 {
   "name": "@mendix/html-element-web",
   "widgetName": "HTMLElement",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Displays custom HTML",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
@@ -47,6 +47,6 @@
     "@types/dompurify": "^2.4.0"
   },
   "dependencies": {
-    "dompurify": "^2.5.0"
+    "dompurify": "^2.5.6"
   }
 }
