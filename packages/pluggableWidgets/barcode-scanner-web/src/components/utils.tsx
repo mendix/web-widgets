@@ -4,7 +4,8 @@ import {
     HTMLCanvasElementLuminanceSource,
     HybridBinarizer,
     BarcodeFormat,
-    DecodeHintType
+    DecodeHintType,
+    Result
 } from "@zxing/library";
 import { BarcodeFormatsType } from "typings/BarcodeScannerProps";
 
@@ -30,7 +31,7 @@ export const drawCropOnCanvas = (
     captureCanvas: HTMLCanvasElement,
     videoRef: HTMLVideoElement,
     canvasMiddle: HTMLDivElement
-) => {
+): HTMLCanvasElement => {
     const canvasContext = captureCanvas.getContext("2d", { willReadFrequently: true });
     const videoWidthHeight = returnVideoWidthHeight(videoRef, canvasMiddle);
     if (
@@ -56,7 +57,7 @@ export const drawCropOnCanvas = (
     return captureCanvas;
 };
 
-export const decodeCanvas = (reader: BrowserMultiFormatReader, captureCanvas: HTMLCanvasElement) => {
+export const decodeCanvas = (reader: BrowserMultiFormatReader, captureCanvas: HTMLCanvasElement): Result => {
     const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
 
     const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
@@ -64,7 +65,10 @@ export const decodeCanvas = (reader: BrowserMultiFormatReader, captureCanvas: HT
     return result;
 };
 
-export const createHints = (useAllFormats: boolean, barcodeFormats?: BarcodeFormatsType[]) => {
+export const createHints = (
+    useAllFormats: boolean,
+    barcodeFormats?: BarcodeFormatsType[]
+): Map<DecodeHintType, any> => {
     const hints = new Map();
     let formats: BarcodeFormat[] = [];
     if (useAllFormats) {
