@@ -1,14 +1,10 @@
 import "@testing-library/jest-dom";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
-import { render, screen, waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
-// import { RefFilterContainer } from "../RefFilterContainer";
-import { StaticFilterContainer } from "../StaticFilterContainer";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 const commonProps = {
     class: "filter-custom-class",
@@ -54,23 +50,23 @@ describe("Dropdown Filter", () => {
             });
 
             describe("with auto options", () => {
-                it("loads correct values from universe", () => {
-                    const filter = mount(
+                it("loads correct values from universe", async () => {
+                    const filter = render(
                         <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
-                    expect(filter.find(StaticFilterContainer).props().filterStore.options).toStrictEqual([
-                        {
-                            caption: "enum_value_1",
-                            value: "enum_value_1",
-                            selected: false
-                        },
-                        {
-                            caption: "enum_value_2",
-                            value: "enum_value_2",
-                            selected: false
+                    const trigger = filter.getByRole("textbox");
+
+                    await fireEvent.click(trigger);
+
+                    const items = filter.getAllByRole("menuitem");
+
+                    items.forEach((item, index) => {
+                        if (index === 0) {
+                            return;
                         }
-                    ]);
+                        expect(item.textContent).toEqual(`enum_value_${index}`);
+                    });
                 });
             });
 
@@ -224,32 +220,20 @@ describe("Dropdown Filter", () => {
             });
 
             describe("with auto options", () => {
-                it("loads correct values from universes", () => {
-                    const filter = mount(
+                it("loads correct values from universes", async () => {
+                    const filter = render(
                         <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
-                    expect(filter.find(StaticFilterContainer).props().filterStore.options).toStrictEqual([
-                        {
-                            caption: "enum_value_1",
-                            value: "enum_value_1",
-                            selected: false
-                        },
-                        {
-                            caption: "enum_value_2",
-                            value: "enum_value_2",
-                            selected: false
-                        },
-                        {
-                            caption: "Yes",
-                            value: "true",
-                            selected: false
-                        },
-                        {
-                            caption: "No",
-                            value: "false",
-                            selected: false
-                        }
+                    const trigger = filter.getByRole("textbox");
+                    await fireEvent.click(trigger);
+
+                    expect(filter.getAllByRole("menuitem").map(item => item.textContent)).toStrictEqual([
+                        "",
+                        "enum_value_1",
+                        "enum_value_2",
+                        "Yes",
+                        "No"
                     ]);
                 });
             });
@@ -278,11 +262,11 @@ describe("Dropdown Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(
+                const { container } = render(
                     <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toBe(
                     "Unable to get filter store. Check parent widget configuration."
                 );
             });
@@ -322,11 +306,11 @@ describe("Dropdown Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(
+                const { container } = render(
                     <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toBe(
                     "Unable to get filter store. Check parent widget configuration."
                 );
             });
@@ -342,11 +326,11 @@ describe("Dropdown Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(
+                const { container } = render(
                     <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                 );
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toBe(
                     "The filter widget must be placed inside the column or header of the Data grid 2.0 or inside header of the Gallery widget."
                 );
             });
@@ -375,7 +359,7 @@ describe("Dropdown Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(
+                const { container } = render(
                     <DatagridDropdownFilter
                         {...commonProps}
                         auto={false}
@@ -389,7 +373,7 @@ describe("Dropdown Filter", () => {
                     />
                 );
 
-                expect(filter.find(Alert).text()).toBe("Invalid option value: 'enum_value_3'");
+                expect(container.querySelector(".alert")?.textContent).toBe("Invalid option value: 'enum_value_3'");
             });
         });
 
@@ -423,7 +407,7 @@ describe("Dropdown Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(
+                const { container } = render(
                     <DatagridDropdownFilter
                         {...commonProps}
                         auto={false}
@@ -441,7 +425,7 @@ describe("Dropdown Filter", () => {
                     />
                 );
 
-                expect(filter.find(Alert).text()).toBe("Invalid option value: 'enum_value_3'");
+                expect(container.querySelector(".alert")?.textContent).toBe("Invalid option value: 'enum_value_3'");
             });
         });
     });
@@ -488,6 +472,111 @@ describe("Dropdown Filter", () => {
         afterAll(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
+        });
+    });
+
+    describe("with filter groups enabled", () => {
+        beforeEach(() => {
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: false,
+                filterList: [
+                    {
+                        filter: new ListAttributeValueBuilder()
+                            .withId("attribute1")
+                            .withUniverse(["enum_value_1", "enum_value_2"])
+                            .withType("Enum")
+                            .withFilterable(true)
+                            .withFormatter(
+                                value => value,
+                                () => console.log("Parsed")
+                            )
+                            .build()
+                    },
+                    {
+                        filter: new ListAttributeValueBuilder()
+                            .withId("attribute2")
+                            .withUniverse([true, false])
+                            .withType("Boolean")
+                            .withFilterable(true)
+                            .withFormatter(
+                                value => (value ? "Yes" : "No"),
+                                () => console.log("Parsed")
+                            )
+                            .build()
+                    }
+                ],
+                groupAttrs: [],
+                groupList: []
+            };
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
+        });
+
+        it("renders correctly", () => {
+            const { asFragment } = render(
+                <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
+            );
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("triggers attribute and onchange action on change filter value", () => {
+            const action = actionValue();
+            render(
+                <DatagridDropdownFilter
+                    {...commonProps}
+                    auto
+                    multiSelect={false}
+                    filterOptions={[]}
+                    onChange={action}
+                    emptyOptionCaption={dynamicValue("Placeholder")}
+                />
+            );
+
+            fireEvent.click(screen.getByRole("textbox"));
+            fireEvent.click(screen.getAllByRole("menuitem")[2]);
+
+            expect(action.execute).toHaveBeenCalledTimes(1);
+        });
+
+        describe("with wrong group key", () => {
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: true,
+                    filterList: [],
+                    groupAttrs: [
+                        {
+                            key: "different-key",
+                            attr: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withUniverse(["enum_value_1", "enum_value_2"])
+                                .withType("Enum")
+                                .withFilterable(true)
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .build()
+                        }
+                    ],
+                    groupList: [{ type: "attrs", key: "different-key" }]
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
+            });
+
+            it("renders error message", () => {
+                const { container } = render(
+                    <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
+                );
+
+                expect(container.querySelector(".alert")?.textContent).toEqual(
+                    "Unable to get filter store. Check parent widget configuration."
+                );
+            });
         });
     });
 });
