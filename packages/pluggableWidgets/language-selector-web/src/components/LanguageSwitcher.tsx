@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useEffect, useRef } from "react";
+import { createElement, ReactElement, useEffect, useRef, CSSProperties } from "react";
 import {
     isBehindElement,
     isBehindRandomElement,
@@ -14,7 +14,6 @@ import {
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "../LanguageSelector";
 import { useSelect } from "downshift";
-import { CSSProperties } from "react";
 
 export interface LanguageSwitcherProps {
     currentLanguage: LanguageItem | undefined;
@@ -31,7 +30,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     const { languageList } = props;
     const ref = useRef<HTMLDivElement>(null);
 
-    function itemToString(item: LanguageItem) {
+    function itemToString(item: LanguageItem): string {
         return item ? item.value : "";
     }
     const { isOpen, selectItem, highlightedIndex, getMenuProps, getItemProps, getToggleButtonProps } = useSelect({
@@ -50,7 +49,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
             return;
         }
         selectItem(props.currentLanguage);
-    }, [props.currentLanguage]);
+    }, [props.currentLanguage, selectItem]);
 
     useEffect(() => {
         const element = ref.current?.querySelector(".popupmenu-menu") as HTMLDivElement | null;
