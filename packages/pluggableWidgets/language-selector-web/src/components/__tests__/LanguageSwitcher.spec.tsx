@@ -4,7 +4,6 @@ import { PositionEnum, TriggerEnum } from "typings/LanguageSelectorProps";
 import { LanguageSwitcher, LanguageSwitcherProps } from "../LanguageSwitcher";
 
 let props: LanguageSwitcherProps = {
-    preview: false,
     currentLanguage: undefined,
     languageList: [],
     position: "left" as PositionEnum,

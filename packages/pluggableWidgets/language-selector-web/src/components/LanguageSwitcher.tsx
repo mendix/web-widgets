@@ -14,15 +14,16 @@ import {
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "../LanguageSelector";
 import { useSelect } from "downshift";
+import { CSSProperties } from "react";
 
 export interface LanguageSwitcherProps {
-    preview: boolean;
     currentLanguage: LanguageItem | undefined;
     languageList: LanguageItem[];
     position: PositionEnum;
     onSelect?: (lang: LanguageItem) => void;
     trigger: TriggerEnum;
     className: string;
+    style?: CSSProperties;
     tabIndex: number;
     screenReaderLabelCaption?: string;
 }
@@ -35,11 +36,17 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     }
     const { isOpen, selectItem, highlightedIndex, getMenuProps, getItemProps, getToggleButtonProps } = useSelect({
         items: languageList,
-        itemToString
+        itemToString,
+        onSelectedItemChange(changes) {
+            if (!props.onSelect || !changes.selectedItem || changes.selectedItem === props.currentLanguage) {
+                return;
+            }
+            props.onSelect(changes.selectedItem);
+        }
     });
 
     useEffect(() => {
-        if (props.currentLanguage === undefined || props.preview) {
+        if (props.currentLanguage === undefined) {
             return;
         }
         selectItem(props.currentLanguage);
@@ -55,53 +62,31 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
         }
     }, [props.position, isOpen]);
 
-    return props.preview ? (
-        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
-            <div className={"popupmenu-trigger popupmenu-trigger-alignment"} role="listbox" tabIndex={props.tabIndex}>
-                <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
-                <span className="language-arrow" aria-hidden="true">
-                    <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
-                </span>
-            </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}></div>
-        </div>
-    ) : (
-        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
+    return (
+        <div
+            ref={ref}
+            className={classNames(props.className, "widget-language-selector", "popupmenu")}
+            style={props.style}
+            {...getToggleButtonProps({}, { suppressRefError: true })}
+        >
             <div
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
                 role="listbox"
-                tabIndex={props.tabIndex}
-                {...getToggleButtonProps({
-                    onKeyDown: event => {
-                        if (!isOpen || highlightedIndex === null) {
-                            return;
-                        }
-                        if (event.key === "Enter" || event.key === "Tab" || event.key === "Spacebar") {
-                            if (props.onSelect) {
-                                return props.onSelect(languageList[highlightedIndex]);
-                            }
-                        }
-                    }
-                })}
+                {...getMenuProps({ tabIndex: props.tabIndex }, { suppressRefError: true })}
             >
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
                     <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
                 </span>
             </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)} {...getMenuProps()}>
+            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>
                 {languageList.map((item, index) => (
                     <div
                         key={item._guid}
                         className={`popupmenu-basic-item ${props.currentLanguage === item ? "active" : ""} ${
                             highlightedIndex === index ? "highlighted" : ""
-                        } `}
+                        }`}
                         {...getItemProps({ item, index })}
-                        onClick={() => {
-                            if (props.onSelect) {
-                                return props.onSelect(item);
-                            }
-                        }}
                     >
                         {item.value}
                     </div>

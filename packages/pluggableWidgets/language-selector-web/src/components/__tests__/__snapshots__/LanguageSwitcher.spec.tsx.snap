@@ -3,10 +3,22 @@
 exports[`Language switcher renders the structure with empty language list 1`] = `
 <DocumentFragment>
   <div
+    aria-activedescendant=""
+    aria-controls="downshift-0-menu"
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-0-label"
     class="widget-language-selector popupmenu"
+    id="downshift-0-toggle-button"
+    role="combobox"
+    tabindex="0"
   >
     <div
+      aria-labelledby="downshift-0-label"
       class="popupmenu-trigger popupmenu-trigger-alignment"
+      id="downshift-0-menu"
+      role="listbox"
+      tabindex="0"
     >
       <span
         class="current-language-text"
@@ -30,10 +42,22 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
 exports[`Language switcher renders the structure with language list and selected default language 1`] = `
 <DocumentFragment>
   <div
+    aria-activedescendant=""
+    aria-controls="downshift-1-menu"
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-1-label"
     class="widget-language-selector popupmenu"
+    id="downshift-1-toggle-button"
+    role="combobox"
+    tabindex="0"
   >
     <div
+      aria-labelledby="downshift-1-label"
       class="popupmenu-trigger popupmenu-trigger-alignment"
+      id="downshift-1-menu"
+      role="listbox"
+      tabindex="0"
     >
       <span
         class="current-language-text"
@@ -53,7 +77,10 @@ exports[`Language switcher renders the structure with language list and selected
       class="popupmenu-menu popupmenu-position-left"
     >
       <div
-        class="popupmenu-basic-item active"
+        aria-selected="true"
+        class="popupmenu-basic-item active "
+        id="downshift-1-item-0"
+        role="option"
       >
         En us
       </div>
