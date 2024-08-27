@@ -1,8 +1,8 @@
+import { render } from "@testing-library/react";
 import { createElement } from "react";
-import { render as renderEnzyme } from "enzyme";
-import { DatePicker } from "../DatePicker";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
+import { DatePicker } from "../DatePicker";
 
 describe("Date picker component", () => {
     beforeAll(() => {
@@ -14,19 +14,19 @@ describe("Date picker component", () => {
     });
 
     it("renders correctly", () => {
-        const component = renderEnzyme(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
+        const component = render(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when is not adjustable", () => {
-        const component = renderEnzyme(<DatePicker adjustable={false} expanded={false} onChange={jest.fn()} />);
+        const component = render(<DatePicker adjustable={false} expanded={false} onChange={jest.fn()} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly with different locale and date format", () => {
-        const component = renderEnzyme(
+        const component = render(
             <DatePicker
                 adjustable={false}
                 expanded={false}
@@ -40,7 +40,7 @@ describe("Date picker component", () => {
     });
 
     it("renders correctly with a11y properties", () => {
-        const component = renderEnzyme(
+        const component = render(
             <DatePicker
                 adjustable
                 expanded={false}

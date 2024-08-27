@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import {
@@ -8,7 +7,6 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { mount } from "enzyme";
 import { render, fireEvent, screen, act } from "@testing-library/react";
 import { createContext, createElement } from "react";
 import DatagridDateFilter from "../../DatagridDateFilter";
@@ -196,9 +194,9 @@ describe("Date Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridDateFilter {...commonProps} />);
+                const { container } = render(<DatagridDateFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toEqual(
                     "Unable to get filter store. Check parent widget configuration."
                 );
             });
@@ -239,9 +237,9 @@ describe("Date Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridDateFilter {...commonProps} />);
+                const { container } = render(<DatagridDateFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toEqual(
                     "Unable to get filter store. Check parent widget configuration."
                 );
             });
@@ -258,9 +256,9 @@ describe("Date Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridDateFilter {...commonProps} />);
+                const { container } = render(<DatagridDateFilter {...commonProps} />);
 
-                expect(filter.find(Alert).text()).toBe(
+                expect(container.querySelector(".alert")?.textContent).toEqual(
                     "The filter widget must be placed inside the column or header of the Data grid 2.0 or inside header of the Gallery widget."
                 );
             });
@@ -373,6 +371,79 @@ describe("Date Filter", () => {
             });
             const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("sumatiketopela");
+        });
+    });
+
+    describe("with filter groups enabled", () => {
+        beforeEach(() => {
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: true,
+                filterList: [],
+                groupAttrs: [
+                    {
+                        key: "date-filter",
+                        attr: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build()
+                    }
+                ],
+                groupList: [{ type: "attrs", key: "date-filter" }]
+            };
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
+            (window as any).mx = mxObject;
+        });
+
+        it("renders correctly", () => {
+            const { asFragment } = render(<DatagridDateFilter {...commonProps} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("triggers attribute and onchange action on change filter value", () => {
+            const action = actionValue();
+            const attribute = new EditableValueBuilder<Date>().build();
+            render(
+                <DatagridDateFilter
+                    {...commonProps}
+                    onChange={action}
+                    valueAttribute={attribute}
+                    placeholder={dynamicValue("Placeholder")}
+                />
+            );
+
+            fireEvent.input(screen.getByPlaceholderText("Placeholder"), { target: { value: "01/12/2020" } });
+
+            expect(action.execute).toHaveBeenCalledTimes(1);
+            expect(attribute.setValue).toHaveBeenCalledTimes(1);
+        });
+
+        describe("with wrong group key", () => {
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: true,
+                    filterList: [],
+                    groupAttrs: [
+                        {
+                            key: "different-key",
+                            attr: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build()
+                        }
+                    ],
+                    groupList: [{ type: "attrs", key: "different-key" }]
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
+                (window as any).mx = mxObject;
+            });
+
+            it("renders error message", () => {
+                const { container } = render(<DatagridDateFilter {...commonProps} />);
+
+                expect(container.querySelector(".alert")?.textContent).toEqual(
+                    "Unable to get filter store. Check parent widget configuration."
+                );
+            });
         });
     });
 });

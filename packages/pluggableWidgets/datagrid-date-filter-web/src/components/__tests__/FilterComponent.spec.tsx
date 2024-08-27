@@ -1,7 +1,7 @@
-import { render } from "enzyme";
+import { render } from "@testing-library/react";
 import { createElement } from "react";
-import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
+import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 
 const commonProps: FilterComponentProps = {
     adjustable: true,

@@ -1,181 +1,532 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Filter component renders correctly 1`] = `
-<div
-  class="filter-container"
-  data-focusindex="0"
->
-  <div
-    class="filter-selector"
-  >
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="filter-container"
+        data-focusindex="0"
+      >
+        <div
+          class="filter-selector"
+        >
+          <div
+            class="filter-selector-content"
+          >
+            <button
+              aria-controls="undefined-filter-selectors"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="Select filter type"
+              class="btn btn-default filter-selector-button button-icon equal"
+            >
+               
+            </button>
+          </div>
+        </div>
+        <div
+          class="date-filter-container"
+          id="datepicker_0.123456789"
+        />
+        <span
+          class="sr-only"
+          id="undefined-label"
+        />
+        <div
+          class="react-datepicker-wrapper"
+        >
+          <div
+            class="react-datepicker__input-container"
+          >
+            <input
+              aria-labelledby="undefined-label"
+              class="form-control filter-input"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <button
+          aria-controls="datepicker_0.123456789"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label="Show calendar"
+          class="btn btn-default btn-calendar"
+        >
+          <svg
+            class="button-icon"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
     <div
-      class="filter-selector-content"
+      class="filter-container"
+      data-focusindex="0"
     >
+      <div
+        class="filter-selector"
+      >
+        <div
+          class="filter-selector-content"
+        >
+          <button
+            aria-controls="undefined-filter-selectors"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-label="Select filter type"
+            class="btn btn-default filter-selector-button button-icon equal"
+          >
+             
+          </button>
+        </div>
+      </div>
+      <div
+        class="date-filter-container"
+        id="datepicker_0.123456789"
+      />
+      <span
+        class="sr-only"
+        id="undefined-label"
+      />
+      <div
+        class="react-datepicker-wrapper"
+      >
+        <div
+          class="react-datepicker__input-container"
+        >
+          <input
+            aria-labelledby="undefined-label"
+            class="form-control filter-input"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
       <button
-        aria-controls="undefined-filter-selectors"
+        aria-controls="datepicker_0.123456789"
         aria-expanded="false"
         aria-haspopup="true"
-        aria-label="Select filter type"
-        class="btn btn-default filter-selector-button button-icon equal"
+        aria-label="Show calendar"
+        class="btn btn-default btn-calendar"
       >
-         
+        <svg
+          class="button-icon"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
     </div>
-  </div>
-  <div
-    class="date-filter-container"
-    id="datepicker_0.123456789"
-  />
-  <span
-    class="sr-only"
-    id="undefined-label"
-  />
-  <div
-    class="react-datepicker-wrapper"
-  >
-    <div
-      class="react-datepicker__input-container"
-    >
-      <input
-        aria-labelledby="undefined-label"
-        class="form-control filter-input"
-        type="text"
-        value=""
-      />
-    </div>
-  </div>
-  <button
-    aria-controls="datepicker_0.123456789"
-    aria-expanded="false"
-    aria-haspopup="true"
-    aria-label="Show calendar"
-    class="btn btn-default btn-calendar"
-  >
-    <svg
-      class="button-icon"
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
-        fill="currentColor"
-      />
-    </svg>
-  </button>
-</div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
 
 exports[`Filter component renders correctly when not adjustable by user 1`] = `
-<div
-  class="filter-container"
-  data-focusindex="0"
->
-  <div
-    class="date-filter-container"
-    id="datepicker_0.123456789"
-  />
-  <span
-    class="sr-only"
-    id="undefined-label"
-  />
-  <div
-    class="react-datepicker-wrapper"
-  >
-    <div
-      class="react-datepicker__input-container"
-    >
-      <input
-        aria-labelledby="undefined-label"
-        class="form-control"
-        type="text"
-        value=""
-      />
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="filter-container"
+        data-focusindex="0"
+      >
+        <div
+          class="date-filter-container"
+          id="datepicker_0.123456789"
+        />
+        <span
+          class="sr-only"
+          id="undefined-label"
+        />
+        <div
+          class="react-datepicker-wrapper"
+        >
+          <div
+            class="react-datepicker__input-container"
+          >
+            <input
+              aria-labelledby="undefined-label"
+              class="form-control"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <button
+          aria-controls="datepicker_0.123456789"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label="Show calendar"
+          class="btn btn-default btn-calendar"
+        >
+          <svg
+            class="button-icon"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
-  </div>
-  <button
-    aria-controls="datepicker_0.123456789"
-    aria-expanded="false"
-    aria-haspopup="true"
-    aria-label="Show calendar"
-    class="btn btn-default btn-calendar"
-  >
-    <svg
-      class="button-icon"
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
+  </body>,
+  "container": <div>
+    <div
+      class="filter-container"
+      data-focusindex="0"
     >
-      <path
-        d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
-        fill="currentColor"
+      <div
+        class="date-filter-container"
+        id="datepicker_0.123456789"
       />
-    </svg>
-  </button>
-</div>
+      <span
+        class="sr-only"
+        id="undefined-label"
+      />
+      <div
+        class="react-datepicker-wrapper"
+      >
+        <div
+          class="react-datepicker__input-container"
+        >
+          <input
+            aria-labelledby="undefined-label"
+            class="form-control"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <button
+        aria-controls="datepicker_0.123456789"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Show calendar"
+        class="btn btn-default btn-calendar"
+      >
+        <svg
+          class="button-icon"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
 
 exports[`Filter component renders correctly with aria labels 1`] = `
-<div
-  class="filter-container"
-  data-focusindex="0"
->
-  <div
-    class="filter-selector"
-  >
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="filter-container"
+        data-focusindex="0"
+      >
+        <div
+          class="filter-selector"
+        >
+          <div
+            class="filter-selector-content"
+          >
+            <button
+              aria-controls="undefined-filter-selectors"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="my label"
+              class="btn btn-default filter-selector-button button-icon equal"
+            >
+               
+            </button>
+          </div>
+        </div>
+        <div
+          class="date-filter-container"
+          id="datepicker_0.123456789"
+        />
+        <span
+          class="sr-only"
+          id="undefined-label"
+        >
+          my label
+        </span>
+        <div
+          class="react-datepicker-wrapper"
+        >
+          <div
+            class="react-datepicker__input-container"
+          >
+            <input
+              aria-labelledby="undefined-label"
+              class="form-control filter-input"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <button
+          aria-controls="datepicker_0.123456789"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label="Show calendar"
+          class="btn btn-default btn-calendar"
+        >
+          <svg
+            class="button-icon"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
     <div
-      class="filter-selector-content"
+      class="filter-container"
+      data-focusindex="0"
     >
+      <div
+        class="filter-selector"
+      >
+        <div
+          class="filter-selector-content"
+        >
+          <button
+            aria-controls="undefined-filter-selectors"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-label="my label"
+            class="btn btn-default filter-selector-button button-icon equal"
+          >
+             
+          </button>
+        </div>
+      </div>
+      <div
+        class="date-filter-container"
+        id="datepicker_0.123456789"
+      />
+      <span
+        class="sr-only"
+        id="undefined-label"
+      >
+        my label
+      </span>
+      <div
+        class="react-datepicker-wrapper"
+      >
+        <div
+          class="react-datepicker__input-container"
+        >
+          <input
+            aria-labelledby="undefined-label"
+            class="form-control filter-input"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
       <button
-        aria-controls="undefined-filter-selectors"
+        aria-controls="datepicker_0.123456789"
         aria-expanded="false"
         aria-haspopup="true"
-        aria-label="my label"
-        class="btn btn-default filter-selector-button button-icon equal"
+        aria-label="Show calendar"
+        class="btn btn-default btn-calendar"
       >
-         
+        <svg
+          class="button-icon"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
     </div>
-  </div>
-  <div
-    class="date-filter-container"
-    id="datepicker_0.123456789"
-  />
-  <span
-    class="sr-only"
-    id="undefined-label"
-  >
-    my label
-  </span>
-  <div
-    class="react-datepicker-wrapper"
-  >
-    <div
-      class="react-datepicker__input-container"
-    >
-      <input
-        aria-labelledby="undefined-label"
-        class="form-control filter-input"
-        type="text"
-        value=""
-      />
-    </div>
-  </div>
-  <button
-    aria-controls="datepicker_0.123456789"
-    aria-expanded="false"
-    aria-haspopup="true"
-    aria-label="Show calendar"
-    class="btn btn-default btn-calendar"
-  >
-    <svg
-      class="button-icon"
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
-        fill="currentColor"
-      />
-    </svg>
-  </button>
-</div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
