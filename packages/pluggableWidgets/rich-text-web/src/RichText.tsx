@@ -14,10 +14,10 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         width: w,
         height: h,
         widthUnit,
-        heightUnit
+        heightUnit,
         // preset,
         // menubarMode,
-        // readOnlyStyle
+        readOnlyStyle
         // enableStatusBar,
         // resize
     } = props;
@@ -64,7 +64,11 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                 <EditorWrapper
                     {...props}
                     style={wrapperStyle}
-                    className={classNames("widget-rich-text", "form-control")}
+                    className={classNames(
+                        "widget-rich-text",
+                        "form-control",
+                        stringAttribute.readOnly ? `widget-rich-text-readonly-${readOnlyStyle}` : ""
+                    )}
                 />
             )}
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>

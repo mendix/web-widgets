@@ -50,6 +50,7 @@ export function preview(props: RichTextPreviewProps): ReactElement {
             onBlur={emptyAction}
             stringAttribute={stringAttribute}
             className={classNames("widget-rich-text", "form-control")}
+            readOnlyStyle={props.readOnly ? props.readOnlyStyle : "text"}
             toolbarOptions={[
                 ["bold", "italic", "underline", "strike"], // toggled buttons
                 ["blockquote", "code-block"],

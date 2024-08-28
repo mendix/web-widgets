@@ -36,8 +36,8 @@ describe("Rich Text", () => {
             readOnlyStyle: "text",
             tabIndex: 0,
             onChangeType: "onLeave",
-            sandboxIframes: true,
-            useRelativeUrl: false
+            enableStatusBar: true,
+            spellCheck: true
         };
     });
 

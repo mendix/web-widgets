@@ -1,10 +1,11 @@
-import { createElement, useRef, ReactElement, useCallback, CSSProperties, useState } from "react";
+import { createElement, useRef, ReactElement, useCallback, CSSProperties, useState, useEffect } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import Toolbar from "./Toolbar";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import Editor from "./Editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
+import "../utils/themes/mendix";
 import Quill, { Range } from "quill";
 import classNames from "classnames";
 import { createPreset } from "./CustomToolbars/presets";
@@ -30,12 +31,26 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         onBlur,
         onFocus,
         readOnlyStyle,
-        toolbarOptions
+        toolbarOptions,
+        enableStatusBar
     } = props;
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
+    const [wordCount, setWordCount] = useState(0);
+
+    const calculateWordCount = (quill: Quill | null) => {
+        if (enableStatusBar) {
+            const text = quill?.getText().trim();
+
+            setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
+        }
+    };
+
+    useEffect(() => {
+        calculateWordCount(quillRef.current);
+    }, [stringAttribute.value]);
 
     const onTextChange = useCallback(() => {
         if (onChange?.canExecute && onChangeType === "onDataChange") {
@@ -68,7 +83,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                             onChange.execute();
                         }
                     }
-
                     stringAttribute.setValue(quillRef?.current?.getSemanticHTML());
                 }
             }
@@ -126,6 +140,11 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 readOnly={stringAttribute.readOnly}
                 key={`${toolbarId}_${stringAttribute.readOnly}`}
             />
+            {enableStatusBar && (
+                <div className="widget-rich-text-footer">
+                    {wordCount} word{wordCount > 1 ? "s" : ""}
+                </div>
+            )}
         </div>
     );
 }
