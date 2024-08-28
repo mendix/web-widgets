@@ -31,7 +31,7 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
 
     updateSettings(newSettings: GridPersonalizationStorageSettings): void {
         if (this._storageAttr && !this._storageAttr.readOnly) {
-            const newSettingsJson = JSON.stringify(newSettings, null, 2);
+            const newSettingsJson = JSON.stringify(newSettings);
             if (this._storageAttr.value !== newSettingsJson) {
                 this._storageAttr.setValue(newSettingsJson);
             }
