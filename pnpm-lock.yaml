@@ -1884,7 +1884,7 @@ importers:
         version: 2.3.2
       dompurify:
         specifier: ^2.5.0
-        version: 2.5.0
+        version: 2.5.6
       quill:
         specifier: ^2.0.2
         version: 2.0.2
