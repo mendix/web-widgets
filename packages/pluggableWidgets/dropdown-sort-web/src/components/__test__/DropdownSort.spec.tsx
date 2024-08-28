@@ -1,17 +1,14 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
 import { ListAttributeId } from "@mendix/widget-plugin-sorting/typings";
 import { ListAttributeValueBuilder, dynamicValue } from "@mendix/widget-plugin-test-utils";
-import { render } from "@testing-library/react";
-import { mount } from "enzyme";
+import { fireEvent, render } from "@testing-library/react";
 import { ListValue } from "mendix";
 import { createContext, createElement } from "react";
 import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
-import { SortComponent } from "../SortComponent";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
@@ -55,23 +52,18 @@ describe("Dropdown Sort", () => {
         });
 
         describe("with correct context", () => {
-            beforeAll(() => {});
             it("loads correct values from attributes", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
-                expect(filter.find(SortComponent).prop("options")).toStrictEqual([
-                    {
-                        caption: "",
-                        value: null
-                    },
-                    {
-                        caption: "Option 1",
-                        value: "attribute1"
-                    },
-                    {
-                        caption: "Option 2",
-                        value: "attribute2"
+                const filter = render(<DropdownSort {...commonProps} />);
+                fireEvent.click(filter.getByRole("textbox"));
+
+                const items = filter.getAllByRole("menuitem");
+
+                items.forEach((item, index) => {
+                    if (index === 0) {
+                        return;
                     }
-                ]);
+                    expect(item.textContent).toBe(`Option ${index}`);
+                });
             });
 
             it("renders correctly", () => {
@@ -82,8 +74,10 @@ describe("Dropdown Sort", () => {
 
         describe("with view state", () => {
             it("loads correct default option", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
-                expect(filter.find(SortComponent).prop("value")).toStrictEqual("attribute1");
+                const filter = render(<DropdownSort {...commonProps} />);
+                fireEvent.click(filter.getByRole("textbox"));
+
+                expect(filter.getByRole("textbox").getAttribute("value")).toStrictEqual("Option 1");
             });
         });
 
@@ -93,8 +87,8 @@ describe("Dropdown Sort", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
-                expect(filter.find(Alert).text()).toBe("Out of context");
+                const filter = render(<DropdownSort {...commonProps} />);
+                expect(filter.container.querySelector(".alert")?.textContent).toBe("Out of context");
             });
         });
     });
