@@ -1,14 +1,46 @@
+@import "RichTextIcons";
+
 $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
 
 .widget-rich-text {
     position: relative;
+
+    &.form-control {
+        padding: unset;
+    }
     .ql-container {
         border: unset;
     }
 
-    .widget-rich-text-container {
-        border: 1px solid var(--border-color-default, $rte-border-color-default);
+    .widget-rich-text-toolbar.ql-toolbar {
+        border: unset;
+        box-shadow: var(--shadow-small, -1px 2px 4px 0px) var(--shadow-color-border, #00000014);
+
+        .ql-picker {
+            &.ql-font,
+            &.ql-header,
+            &.ql-size {
+                margin-top: 2px;
+                background-color: var(--gray-lighter, $rte-gray-ligher);
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .widget-rich-text-footer {
+        align-items: center;
+        border-top: 1px solid var(--border-color-default, $rte-border-color-default);
+        color: var(--font-color-detail);
+        display: flex;
+        flex: 0 0 auto;
+        font-size: var(--navigation-sub-font-size);
+        height: var(--spacing-large);
+        overflow: hidden;
+        padding: 0 var(--form-label-gutter, 8px);
+        position: relative;
+        text-transform: none;
+        justify-content: end;
     }
 
     &.editor-readPanel {
@@ -19,7 +51,7 @@ $rte-gray-ligher: #f8f8f8;
     }
 
     &.editor-text {
-        .ql-toolbar {
+        .widget-rich-text-toolbar {
             pointer-events: none;
             background-color: var(--gray-lighter, $rte-gray-ligher);
         }

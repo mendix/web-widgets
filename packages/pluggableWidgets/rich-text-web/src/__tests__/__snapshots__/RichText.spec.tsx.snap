@@ -4,8 +4,10 @@ exports[`Rich Text renders richtext widget 1`] = `
 <div>
   <div
     class="widget-rich-text form-control flex-column-reverse"
+    spellcheck="true"
   >
     <div
+      class="widget-rich-text-toolbar"
       id="widget_RichText1_toolbar"
     >
       <span
@@ -13,27 +15,75 @@ exports[`Rich Text renders richtext widget 1`] = `
       >
         <button
           aria-label="Bold"
-          class="ql-bold"
+          class="ql-bold icons icon-Text-bold"
           title="Bold"
         />
         <button
           aria-label="Italic"
-          class="ql-italic"
+          class="ql-italic icons icon-Text-italic"
           title="Italic"
         />
+        <select
+          aria-label="Font size"
+          class="size ql-size"
+          title="Font size"
+        >
+          <option
+            value="8px"
+          />
+          <option
+            value="9px"
+          />
+          <option
+            value="10px"
+          />
+          <option
+            value="12px"
+          />
+          <option
+            value="14px"
+          />
+          <option
+            value="16px"
+          />
+          <option
+            value="20px"
+          />
+          <option
+            value="24px"
+          />
+          <option
+            value="32px"
+          />
+          <option
+            value="42px"
+          />
+          <option
+            value="54px"
+          />
+          <option
+            value="68px"
+          />
+          <option
+            value="84px"
+          />
+          <option
+            value="98px"
+          />
+        </select>
       </span>
       <span
         class="ql-formats"
       >
         <button
           aria-label="Default list"
-          class="ql-list"
+          class="ql-list icons icon-List-numbers"
           title="Default list"
           value="ordered"
         />
         <button
           aria-label="Bullet list"
-          class="ql-list"
+          class="ql-list icons icon-List-bullets"
           title="Bullet list"
           value="bullet"
         />
@@ -43,13 +93,13 @@ exports[`Rich Text renders richtext widget 1`] = `
       >
         <button
           aria-label="Decrease indent"
-          class="ql-indent"
+          class="ql-indent icons icon-Text-indent-right"
           title="Decrease indent"
           value="-1"
         />
         <button
           aria-label="Increase indent"
-          class="ql-indent"
+          class="ql-indent icons icon-Text-indent-left"
           title="Increase indent"
           value="+1"
         />
@@ -59,7 +109,7 @@ exports[`Rich Text renders richtext widget 1`] = `
       >
         <button
           aria-label="Insert/edit link"
-          class="ql-link"
+          class="ql-link icons icon-Hyperlink"
           title="Insert/edit link"
         />
       </span>
@@ -68,7 +118,7 @@ exports[`Rich Text renders richtext widget 1`] = `
       >
         <button
           aria-label="Clear formatting"
-          class="ql-clean"
+          class="ql-clean icons icon-Clear-formating"
           title="Clear formatting"
         />
       </span>
@@ -77,6 +127,13 @@ exports[`Rich Text renders richtext widget 1`] = `
       class="widget-rich-text-container"
       style="min-height: 75px;"
     />
+    <div />
+    <div
+      class="widget-rich-text-footer"
+    >
+      0
+       word
+    </div>
   </div>
 </div>
 `;
