@@ -19,7 +19,7 @@ export interface BaseProps {
 export type FilterFnList<T> = Array<{ value: T; label: string }>;
 
 export interface InputProps<Fn extends AllFunctions> {
-    onFilterChange: (filterFn: Fn, isFromUserInteraction: boolean) => void;
+    onFilterChange: (filterFn: Fn) => void;
     filterFn: Fn;
     filterFnList: FilterFnList<Fn>;
     inputStores: [InputStore, InputStore];

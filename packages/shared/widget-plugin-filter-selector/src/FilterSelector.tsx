@@ -6,7 +6,7 @@ interface FilterSelectorProps<T> {
     ariaLabel?: string;
     id?: string;
     value: T;
-    onChange: (value: T, isFromUserInteraction: boolean) => void;
+    onChange: (value: T) => void;
     options: Array<{ value: T; label: string }>;
 }
 
@@ -20,14 +20,14 @@ export function FilterSelector<T>(props: FilterSelectorProps<T>): ReactElement {
 
     const onClick = useCallback(
         (value: T) => {
-            onChange(value, true);
+            onChange(value);
             setShow(false);
         },
         [onChange]
     );
 
     useEffect(() => {
-        onChange(value, false);
+        onChange(value);
     }, [value, onChange]);
 
     const filterSelectors = (

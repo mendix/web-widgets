@@ -64,7 +64,7 @@ describe("Filter selector", () => {
         render(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
         // default filter set on mount
-        expect(onChange).toBeCalledWith("contains", false);
+        expect(onChange).toHaveBeenCalledWith("contains");
 
         const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
@@ -77,7 +77,7 @@ describe("Filter selector", () => {
         await user.click(item0!);
         jest.runOnlyPendingTimers();
         // on user interaction filter set
-        expect(onChange).toBeCalledWith("contains", true);
+        expect(onChange).toHaveBeenCalledWith("contains");
 
         // clicking on filter second time
         await user.click(screen.getByRole("button"));
@@ -88,7 +88,7 @@ describe("Filter selector", () => {
         await user.click(item1!);
         jest.runOnlyPendingTimers();
         // on user interaction filter set
-        expect(onChange).toBeCalledWith("startsWith", true);
+        expect(onChange).toHaveBeenCalledWith("startsWith");
     });
 
     describe("focus", () => {
@@ -144,7 +144,7 @@ describe("Filter selector", () => {
             expect(document.body).toHaveFocus();
 
             // default filter set on mount
-            expect(onChange).toHaveBeenCalledWith("contains", false);
+            expect(onChange).toHaveBeenCalledWith("contains");
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
             await user.click(screen.getByRole("button"));
@@ -160,7 +160,7 @@ describe("Filter selector", () => {
             jest.runOnlyPendingTimers();
 
             // on user interaction filter set
-            expect(onChange).toHaveBeenCalledWith("contains", true);
+            expect(onChange).toHaveBeenCalledWith("contains");
         });
 
         it("changes focused element back to the button when pressing escape in any element", async () => {
