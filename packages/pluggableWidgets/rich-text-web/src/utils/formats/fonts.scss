@@ -31,9 +31,22 @@ $fonts: (
 }
 .widget-rich-text {
     .ql-toolbar {
-        .ql-picker.ql-font {
-            width: 160px;
+        .ql-picker {
+            &.ql-font {
+                width: 160px;
+            }
+
+            &.size.ql-size {
+                width: 60px;
+                .ql-picker-label,
+                .ql-picker-item {
+                    &::before {
+                        content: attr(data-value);
+                    }
+                }
+            }
         }
+
         @each $name, $font in $fonts {
             [data-value="#{$name}"]::before {
                 @include font($font);

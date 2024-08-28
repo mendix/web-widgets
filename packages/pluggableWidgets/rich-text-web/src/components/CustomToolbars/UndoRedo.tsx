@@ -7,7 +7,7 @@ export function UndoToolbar({ quill }: CustomToolbarProps): ReactElement {
         quill?.history.undo();
     }, [quill]);
 
-    return <ToolbarButton className="mx-icon-filled mx-icon-undo" onClick={onUndo}></ToolbarButton>;
+    return <ToolbarButton className="icons icon-Undo" onClick={onUndo}></ToolbarButton>;
 }
 
 export function RedoToolbar({ quill }: CustomToolbarProps): ReactElement {
@@ -15,5 +15,5 @@ export function RedoToolbar({ quill }: CustomToolbarProps): ReactElement {
         quill?.history.redo();
     }, [quill]);
 
-    return <ToolbarButton className="mx-icon-filled mx-icon-redo" onClick={onRedo}></ToolbarButton>;
+    return <ToolbarButton className="icons icon-Redo" onClick={onRedo}></ToolbarButton>;
 }

@@ -21,7 +21,6 @@ overrides:
   json5@0.x: '>=1.0.2'
   '@mendix/pluggable-widgets-tools>typescript@4': 5.0.4
   '@mendix/pluggable-widgets-tools>ts-node@9': ^10.9.1
-  quill: ^2.0.2
 
 pnpmfileChecksum: rkt4ji2ixse7sofi3lgft3ue7y
 
@@ -1861,7 +1860,7 @@ importers:
         version: 2.3.2
       dompurify:
         specifier: ^2.5.0
-        version: 2.5.0
+        version: 2.5.6
       quill:
         specifier: ^2.0.2
         version: 2.0.2

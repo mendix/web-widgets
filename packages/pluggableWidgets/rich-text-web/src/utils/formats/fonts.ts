@@ -1,6 +1,6 @@
-import Quill, { Module } from "quill";
-import { AttributorOptions } from "parchment";
-const FontAttributor = Quill.import("attributors/class/font") as AttributorOptions;
+import Quill from "quill";
+import { Attributor } from "parchment";
+const FontAttributor = Quill.import("attributors/style/font") as Attributor;
 import "./fonts.scss";
 
 export const FONT_LIST = [
@@ -20,4 +20,4 @@ export const FONT_LIST = [
 ];
 
 FontAttributor.whitelist = FONT_LIST.map(f => f.value);
-Quill.register(FontAttributor as Record<string, Module>, true);
+Quill.register(FontAttributor, true);

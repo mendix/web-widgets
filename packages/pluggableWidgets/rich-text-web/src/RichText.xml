@@ -17,6 +17,10 @@
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />
+                <property key="enableStatusBar" type="boolean" defaultValue="true">
+                    <caption>Enable status bar</caption>
+                    <description />
+                </property>
             </propertyGroup>
             <propertyGroup caption="Toolbar">
                 <property key="preset" type="enumeration" defaultValue="basic">
