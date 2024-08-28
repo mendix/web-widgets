@@ -71,7 +71,6 @@ describe("Number Filter", () => {
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
                 await user.type(screen.getByRole("spinbutton"), "10");
 
                 jest.runOnlyPendingTimers();
@@ -273,6 +272,94 @@ describe("Number Filter", () => {
         afterAll(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
+        });
+    });
+
+    describe("with filter groups enabled", () => {
+        beforeEach(() => {
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: true,
+                filterList: [],
+                groupAttrs: [
+                    {
+                        key: "number-filter",
+                        attr: new ListAttributeValueBuilder()
+                            .withType("Long")
+                            .withFormatter(
+                                value => (value ? value.toString() : ""),
+                                (value: string) => ({ valid: true, value })
+                            )
+                            .withFilterable(true)
+                            .build()
+                    }
+                ],
+                groupList: [{ type: "attrs", key: "number-filter" }]
+            };
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
+        });
+
+        it("renders correctly", () => {
+            const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("triggers attribute and onchange action on change filter value", async () => {
+            const action = actionValue();
+            const attribute = new EditableValueBuilder<Big>().build();
+            render(
+                <DatagridNumberFilter
+                    {...commonProps}
+                    onChange={action}
+                    valueAttribute={attribute}
+                    placeholder={dynamicValue("Placeholder")}
+                />
+            );
+
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.type(screen.getByPlaceholderText("Placeholder"), "2000");
+
+            jest.runOnlyPendingTimers();
+
+            expect(action.execute).toHaveBeenCalled();
+            expect(attribute.setValue).toHaveBeenCalled();
+        });
+
+        describe("with wrong group key", () => {
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: true,
+                    filterList: [],
+                    groupAttrs: [
+                        {
+                            key: "different-key",
+                            attr: new ListAttributeValueBuilder()
+                                .withType("Long")
+                                .withFormatter(
+                                    value => (value ? value.toString() : ""),
+                                    (value: string) => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupList: [{ type: "attrs", key: "different-key" }]
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
+            });
+
+            it("renders error message", () => {
+                const { container } = render(<DatagridNumberFilter {...commonProps} />);
+
+                expect(container.querySelector(".alert")?.textContent).toEqual(
+                    "Unable to get filter store. Check parent widget configuration."
+                );
+            });
         });
     });
 });

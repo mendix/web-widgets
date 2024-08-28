@@ -478,10 +478,12 @@ describe("Dropdown Filter", () => {
     describe("with filter groups enabled", () => {
         beforeEach(() => {
             const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: false,
-                filterList: [
+                enableFilterGroups: true,
+                filterList: [],
+                groupAttrs: [
                     {
-                        filter: new ListAttributeValueBuilder()
+                        key: "dropdown-filter",
+                        attr: new ListAttributeValueBuilder()
                             .withId("attribute1")
                             .withUniverse(["enum_value_1", "enum_value_2"])
                             .withType("Enum")
@@ -493,7 +495,8 @@ describe("Dropdown Filter", () => {
                             .build()
                     },
                     {
-                        filter: new ListAttributeValueBuilder()
+                        key: "dropdown-filter",
+                        attr: new ListAttributeValueBuilder()
                             .withId("attribute2")
                             .withUniverse([true, false])
                             .withType("Boolean")
@@ -505,8 +508,7 @@ describe("Dropdown Filter", () => {
                             .build()
                     }
                 ],
-                groupAttrs: [],
-                groupList: []
+                groupList: [{ type: "attrs", key: "dropdown-filter" }]
             };
             const headerFilterStore = new HeaderFiltersStore(props, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
