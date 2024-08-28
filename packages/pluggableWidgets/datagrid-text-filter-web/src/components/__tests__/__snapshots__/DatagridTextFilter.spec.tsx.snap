@@ -1,5 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Text Filter with filter groups enabled renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="TextFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="text"
+      value=""
+    />
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Text Filter with single instance with multiple attributes renders correctly 1`] = `
 <DocumentFragment>
   <div
