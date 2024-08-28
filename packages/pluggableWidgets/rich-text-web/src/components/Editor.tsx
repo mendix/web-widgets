@@ -16,6 +16,7 @@ import {
 } from "react";
 import Delta from "quill-delta";
 import "../utils/formats/fonts";
+import "../utils/formats/fontsize";
 import Dialog from "./ModalDialog/Dialog";
 // import {type LinkFormType} from "./ModalDialog/LinkDialog";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
