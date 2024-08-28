@@ -34,6 +34,7 @@ export interface RichTextContainerProps {
     tabIndex?: number;
     id: string;
     stringAttribute: EditableValue<string>;
+    enableStatusBar: boolean;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -66,6 +67,7 @@ export interface RichTextPreviewProps {
     readOnly: boolean;
     renderMode?: "design" | "xray" | "structure";
     stringAttribute: string;
+    enableStatusBar: boolean;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
