@@ -75,15 +75,6 @@ export const useReader: UseReaderHook = args => {
             }
             try {
                 stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-                stream.getVideoTracks().forEach(track => {
-                    console.error(track);
-                    console.error(track.getCapabilities());
-                });
-                navigator.mediaDevices.enumerateDevices().then(value => {
-                    value.forEach(info => {
-                        console.error(info.deviceId);
-                    });
-                });
 
                 let result: Result;
                 if (args.useCrop) {
