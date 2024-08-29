@@ -62,7 +62,11 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     }, [props.position, isOpen]);
 
     return (
-        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
+        <div
+            ref={ref}
+            className={classNames(props.className, "widget-language-selector", "popupmenu")}
+            style={props.style}
+        >
             <div
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
                 {...getToggleButtonProps(
