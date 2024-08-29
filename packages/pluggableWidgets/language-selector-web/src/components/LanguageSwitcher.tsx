@@ -62,23 +62,25 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
     }, [props.position, isOpen]);
 
     return (
-        <div
-            ref={ref}
-            className={classNames(props.className, "widget-language-selector", "popupmenu")}
-            style={props.style}
-            {...getToggleButtonProps({}, { suppressRefError: true })}
-        >
+        <div ref={ref} className={classNames(props.className, "widget-language-selector", "popupmenu")}>
             <div
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
-                role="listbox"
-                {...getMenuProps({ tabIndex: props.tabIndex }, { suppressRefError: true })}
+                {...getToggleButtonProps(
+                    {
+                        tabIndex: props.tabIndex
+                    },
+                    { suppressRefError: true }
+                )}
             >
                 <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
                     <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
                 </span>
             </div>
-            <div className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}>
+            <div
+                className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
+                {...getMenuProps({}, { suppressRefError: true })}
+            >
                 {languageList.map((item, index) => (
                     <div
                         key={item._guid}
