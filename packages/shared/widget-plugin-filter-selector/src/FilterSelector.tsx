@@ -26,10 +26,6 @@ export function FilterSelector<T>(props: FilterSelectorProps<T>): ReactElement {
         [onChange]
     );
 
-    useEffect(() => {
-        onChange(value);
-    }, [value, onChange]);
-
     const filterSelectors = (
         <ul
             ref={filterSelectorsRef}
