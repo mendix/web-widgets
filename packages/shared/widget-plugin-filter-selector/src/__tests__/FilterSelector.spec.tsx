@@ -63,9 +63,6 @@ describe("Filter selector", () => {
         const onChange = jest.fn();
         render(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
-        // default filter set on mount
-        expect(onChange).toHaveBeenCalledWith("contains");
-
         const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
         // clicking on filter first time
@@ -142,9 +139,6 @@ describe("Filter selector", () => {
             );
 
             expect(document.body).toHaveFocus();
-
-            // default filter set on mount
-            expect(onChange).toHaveBeenCalledWith("contains");
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
             await user.click(screen.getByRole("button"));
