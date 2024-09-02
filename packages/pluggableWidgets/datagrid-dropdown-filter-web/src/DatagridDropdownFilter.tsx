@@ -33,6 +33,7 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
             filterOptions={props.filterOptions}
             multiselect={props.multiSelect}
             defaultValue={props.defaultValue?.value}
+            emptyCaption={props.emptyOptionCaption?.value}
         />
     );
 }

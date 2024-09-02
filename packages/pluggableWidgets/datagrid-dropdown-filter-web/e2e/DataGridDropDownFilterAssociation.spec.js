@@ -17,7 +17,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
             await page.locator(".mx-name-drop_downFilter2 input").click();
             await expect(menu()).toBeVisible();
-            const list = page.locator("#DropdownFilter6-dropdown-list > li");
+            const list = page.locator("#Dropdown6-dropdown-list > li");
             await expect(list).toHaveCount(21);
             await expect(list.nth(0)).toHaveText("");
             await expect(list.nth(2)).toHaveText("FMC Corp");

@@ -13,6 +13,7 @@ interface Props {
     defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
     onChange?: ActionValue;
+    emptyCaption?: string;
 }
 
 export class StaticFilterController {
@@ -29,7 +30,7 @@ export class StaticFilterController {
         this._filterOptions = props.filterOptions;
         this.empty = {
             value: "__EMPTY__",
-            caption: "",
+            caption: props.emptyCaption ?? "",
             selected: false
         };
         this.defaults = props.defaultValue ? [props.defaultValue] : undefined;

@@ -18,6 +18,7 @@ export interface StaticFilterContainerProps {
     tabIndex?: number;
     styles?: CSSProperties;
     onChange?: ActionValue;
+    emptyCaption?: string;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
@@ -37,6 +38,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
             ariaLabel={props.ariaLabel}
             className={props.className}
             tabIndex={props.tabIndex}
+            placeholder={controller.empty.caption}
             styles={props.styles}
         />
     );
