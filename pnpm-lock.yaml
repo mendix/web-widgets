@@ -1879,6 +1879,9 @@ importers:
 
   packages/pluggableWidgets/rich-text-web:
     dependencies:
+      '@radix-ui/react-dialog':
+        specifier: ^1.1.1
+        version: 1.1.1(react-dom@18.2.0)(react@18.2.0)
       classnames:
         specifier: ^2.2.6
         version: 2.3.2
@@ -1888,9 +1891,6 @@ importers:
       quill:
         specifier: ^2.0.2
         version: 2.0.2
-      react-modal:
-        specifier: ^3.16.1
-        version: 3.16.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -14730,12 +14730,6 @@ snapshots:
     dependencies:
       '@types/leaflet': 1.9.3
       '@types/react': 18.2.36
-
-  /@types/react-modal@3.16.3:
-    resolution: {integrity: sha512-xXuGavyEGaFQDgBv4UVm8/ZsG+qxeQ7f77yNrW3n+1J6XAstUy5rYHeIHPh1KzsGc6IkCIdu6lQ2xWzu1jBTLg==}
-    dependencies:
-      '@types/react': 18.2.36
-    dev: true
 
   /@types/react-native@0.70.16:
     resolution: {integrity: sha512-zHPWfszSWTctG1O1gsAHTQzOC33GY7Iv/Mk44tSMkcHiUtqB1GjOZz1VLqSyxW3Qw77HX4GUHi8b1ksOFrq2KQ==}

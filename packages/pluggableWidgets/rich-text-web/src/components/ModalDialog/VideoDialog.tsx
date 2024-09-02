@@ -90,7 +90,7 @@ export default function VideoDialog(props: VideoDialogProps): ReactElement {
 
     return (
         <DialogContent className="video-dialog">
-            <DialogHeader onClose={onClose}>Insert/Edit Media</DialogHeader>
+            <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Media</DialogHeader>
             <DialogBody>
                 <div>
                     <ul className="nav nav-tabs mx-tabcontainer-tabs" role="tablist">
