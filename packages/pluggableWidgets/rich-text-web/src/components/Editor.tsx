@@ -115,7 +115,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
             <div ref={modalRef}></div>
             <Dialog
                 isOpen={showDialog}
-                onClose={() => setShowDialog(false)}
+                onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
                 {...dialogConfig}
             ></Dialog>
