@@ -13,9 +13,15 @@ $rte-gray-ligher: #f8f8f8;
         border: unset;
     }
 
+    .flex-column-reverse {
+        .widget-rich-text-toolbar.ql-toolbar {
+            box-shadow: 2px 0 4px 0 var(--shadow-color-border, #00000014);
+        }
+    }
+
     .widget-rich-text-toolbar.ql-toolbar {
         border: unset;
-        box-shadow: var(--shadow-small, -1px 2px 4px 0px) var(--shadow-color-border, #00000014);
+        box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
 
         .ql-picker {
             &.ql-font,
