@@ -11,6 +11,7 @@ exports[`Dropdown Filter with filter groups enabled renders correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="form-control dropdown-triggerer"
+      placeholder=""
       value=""
     />
   </div>
@@ -28,6 +29,7 @@ exports[`Dropdown Filter with single instance with single attribute DOM structur
       aria-expanded="false"
       aria-haspopup="true"
       class="form-control dropdown-triggerer"
+      placeholder=""
       value=""
     />
   </div>
