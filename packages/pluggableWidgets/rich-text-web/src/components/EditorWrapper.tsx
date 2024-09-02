@@ -98,8 +98,8 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         <div
             className={classNames(
                 className,
-                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
-                toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                "flex-column",
+                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`
             )}
             style={{
                 maxWidth: style?.maxWidth
@@ -115,31 +115,38 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             }}
             spellCheck={props.spellCheck}
         >
-            <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
-                <Toolbar
-                    ref={toolbarRef}
-                    id={toolbarId}
-                    preset={preset}
-                    quill={quillRef.current}
-                    toolbarContent={toolbarPreset}
+            <div
+                className={classNames(
+                    "flexcontainer",
+                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                )}
+            >
+                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
+                    <Toolbar
+                        ref={toolbarRef}
+                        id={toolbarId}
+                        preset={preset}
+                        quill={quillRef.current}
+                        toolbarContent={toolbarPreset}
+                    />
+                </If>
+                <Editor
+                    theme={"snow"}
+                    ref={quillRef}
+                    defaultValue={stringAttribute.value}
+                    style={{
+                        height: style?.height,
+                        minHeight: style?.minHeight,
+                        maxHeight: style?.maxHeight
+                    }}
+                    toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
+                    onTextChange={onTextChange}
+                    onSelectionChange={onSelectionChange}
+                    className={"widget-rich-text-container"}
+                    readOnly={stringAttribute.readOnly}
+                    key={`${toolbarId}_${stringAttribute.readOnly}`}
                 />
-            </If>
-            <Editor
-                theme={"snow"}
-                ref={quillRef}
-                defaultValue={stringAttribute.value}
-                style={{
-                    height: style?.height,
-                    minHeight: style?.minHeight,
-                    maxHeight: style?.maxHeight
-                }}
-                toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
-                onTextChange={onTextChange}
-                onSelectionChange={onSelectionChange}
-                className={"widget-rich-text-container"}
-                readOnly={stringAttribute.readOnly}
-                key={`${toolbarId}_${stringAttribute.readOnly}`}
-            />
+            </div>
             {enableStatusBar && (
                 <div className="widget-rich-text-footer">
                     {wordCount} word{wordCount > 1 ? "s" : ""}
