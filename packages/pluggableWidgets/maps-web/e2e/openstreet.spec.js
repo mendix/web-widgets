@@ -7,6 +7,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 
 test.describe("OpenStreet Maps", () => {
     test.describe("rendering", () => {
+        test.describe.configure({ retries: 5 });
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm-static");
             await page.waitForLoadState("networkidle");

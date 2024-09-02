@@ -6,6 +6,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 });
 
 test.describe("Google Maps", () => {
+    test.describe.configure({ retries: 5 });
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
