@@ -17,7 +17,8 @@
   },
   "scripts": {
     "lint": "eslint --ext .mjs .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "report:merge": "pnpm dlx ctrf merge ctrf --output merged-report.json --keep-reports"
   },
   "dependencies": {
     "@estruyf/github-actions-reporter": "^1.7.0",
@@ -35,6 +36,7 @@
     "@axe-core/playwright": "^4.9.1",
     "@playwright/test": "^1.45.3",
     "@types/node": "^20.12.7",
-    "eslint-plugin-playwright": "^1.6.2"
+    "eslint-plugin-playwright": "^1.6.2",
+    "playwright-ctrf-json-reporter": "^0.0.14"
   }
 }
