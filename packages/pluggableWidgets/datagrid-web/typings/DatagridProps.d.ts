@@ -4,20 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import {
-    ActionValue,
-    DynamicValue,
-    EditableValue,
-    ListValue,
-    ListActionValue,
-    ListAttributeValue,
-    ListExpressionValue,
-    ListReferenceValue,
-    ListReferenceSetValue,
-    ListWidgetValue,
-    SelectionSingleValue,
-    SelectionMultiValue
-} from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";

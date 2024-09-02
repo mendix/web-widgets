@@ -326,7 +326,7 @@
             <propertyGroup caption="Grid wide filtering">
                 <property key="enableFilterGroups" type="boolean" defaultValue="false">
                     <caption>Enable filter groups</caption>
-                    <description>(experimental)</description>
+                    <description />
                 </property>
 
                 <property key="groupList" type="object" isList="true" required="false">
