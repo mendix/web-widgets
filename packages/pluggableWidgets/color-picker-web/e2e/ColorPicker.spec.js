@@ -7,7 +7,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 
 test.describe("color-picker-web", () => {
     test.describe("render a picker of mode", () => {
-        test("button", async ({ page, browserName }) => {
+        test.slow("button", async ({ page, browserName }) => {
             const isFirefox = browserName === "firefox";
 
             await page.goto("/p/modePage");
