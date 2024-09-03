@@ -16,6 +16,11 @@ $rte-gray-ligher: #f8f8f8;
     .flex-column-reverse {
         .widget-rich-text-toolbar.ql-toolbar {
             box-shadow: 2px 0 4px 0 var(--shadow-color-border, #00000014);
+
+            .ql-picker-options {
+                bottom: 100%;
+                top: unset;
+            }
         }
     }
 
@@ -31,6 +36,11 @@ $rte-gray-ligher: #f8f8f8;
                 background-color: var(--gray-lighter, $rte-gray-ligher);
                 border-radius: 4px;
             }
+        }
+
+        .ql-picker-options {
+            max-height: 250px;
+            overflow-y: auto;
         }
     }
 
@@ -81,7 +91,7 @@ $rte-gray-ligher: #f8f8f8;
     }
 
     .sticky-sentinel.container-stuck {
-        & + .flexcontainer.flex-column.auto {
+        & + .flexcontainer.flex-column {
             overflow: visible;
             .widget-rich-text-toolbar {
                 position: sticky;

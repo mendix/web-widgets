@@ -1,8 +1,4 @@
 import Quill, { QuillOptions, EmitterSource, Range } from "quill";
-import CustomListItem from "../utils/formats/customList";
-import CustomLink from "../utils/formats/link";
-import CustomVideo from "../utils/formats/video";
-
 import {
     createElement,
     MutableRefObject,
@@ -15,10 +11,8 @@ import {
     Fragment
 } from "react";
 import Delta from "quill-delta";
-import "../utils/formats/fonts";
-import "../utils/formats/fontsize";
 import Dialog from "./ModalDialog/Dialog";
-// import {type LinkFormType} from "./ModalDialog/LinkDialog";
+import "../utils/customPluginRegisters";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 
 export interface EditorProps {
@@ -31,10 +25,6 @@ export interface EditorProps {
     toolbarId?: string | Array<string | string[] | { [k: string]: any }>;
     readOnly?: boolean;
 }
-
-Quill.register(CustomListItem, true);
-Quill.register(CustomLink, true);
-Quill.register(CustomVideo, true);
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
