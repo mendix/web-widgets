@@ -33,11 +33,11 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="toolbarLocation" type="enumeration" defaultValue="auto" required="true">
+                <property key="toolbarLocation" type="enumeration" defaultValue="top" required="true">
                     <caption>Location</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="auto">Sticky</enumerationValue>
                         <enumerationValue key="top">Top</enumerationValue>
                         <enumerationValue key="bottom">Bottom</enumerationValue>
                     </enumerationValues>
