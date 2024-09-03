@@ -21,7 +21,6 @@
     "report:merge": "pnpm dlx ctrf merge ctrf --output merged-report.json --keep-reports"
   },
   "dependencies": {
-    "@estruyf/github-actions-reporter": "^1.7.0",
     "ansi-colors": "^4.1.3",
     "cross-zip": "^4.0.0",
     "enquirer": "^2.3.6",
