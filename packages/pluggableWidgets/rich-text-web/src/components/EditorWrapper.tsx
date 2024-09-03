@@ -119,15 +119,11 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             }}
             spellCheck={props.spellCheck}
         >
-            <StickySentinel />
+            {toolbarLocation === "auto" && <StickySentinel />}
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom"
-                        ? "flex-column-reverse"
-                        : toolbarLocation === "auto"
-                        ? "flex-column auto"
-                        : "flex-column"
+                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
                 )}
             >
                 <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
