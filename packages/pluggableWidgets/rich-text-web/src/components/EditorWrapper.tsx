@@ -6,6 +6,7 @@ import Editor from "./Editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "../utils/themes/mendix";
+import { StickySentinel } from "./StickySentinel";
 import Quill, { Range } from "quill";
 import classNames from "classnames";
 import { createPreset } from "./CustomToolbars/presets";
@@ -40,17 +41,20 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
 
-    const calculateWordCount = (quill: Quill | null) => {
-        if (enableStatusBar) {
-            const text = quill?.getText().trim();
+    const calculateWordCount = useCallback(
+        (quill: Quill | null): void => {
+            if (enableStatusBar) {
+                const text = quill?.getText().trim();
 
-            setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
-        }
-    };
+                setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
+            }
+        },
+        [enableStatusBar]
+    );
 
     useEffect(() => {
         calculateWordCount(quillRef.current);
-    }, [stringAttribute.value]);
+    }, [stringAttribute.value, calculateWordCount]);
 
     const onTextChange = useCallback(() => {
         if (onChange?.canExecute && onChangeType === "onDataChange") {
@@ -115,10 +119,15 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             }}
             spellCheck={props.spellCheck}
         >
+            <StickySentinel />
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                    toolbarLocation === "bottom"
+                        ? "flex-column-reverse"
+                        : toolbarLocation === "auto"
+                        ? "flex-column auto"
+                        : "flex-column"
                 )}
             >
                 <If condition={!shouldHideToolbar && toolbarOptions === undefined}>

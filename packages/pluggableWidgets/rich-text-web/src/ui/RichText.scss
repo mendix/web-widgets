@@ -79,4 +79,15 @@ $rte-gray-ligher: #f8f8f8;
         align-content: center;
         text-align: center;
     }
+
+    .sticky-sentinel.container-stuck {
+        & + .flexcontainer.flex-column.auto {
+            overflow: visible;
+            .widget-rich-text-toolbar {
+                position: sticky;
+                z-index: 50;
+                top: 0;
+            }
+        }
+    }
 }
