@@ -3,7 +3,6 @@ import { linkConfigType } from "../formats";
 
 export default class CustomLink extends Link {
     format(name: string, value: unknown): void {
-        console.log("[DEV] link format", value);
         if (name !== this.statics.blotName || !value) {
             super.format(name, value);
         } else if ((value as linkConfigType)?.href !== undefined) {
@@ -18,7 +17,6 @@ export default class CustomLink extends Link {
     }
 
     static create(value: unknown): HTMLElement {
-        console.log("[DEV] link create", value);
         if ((value as linkConfigType)?.href !== undefined) {
             const linkConfig = value as linkConfigType;
             const node = super.create(linkConfig.href) as HTMLElement;
