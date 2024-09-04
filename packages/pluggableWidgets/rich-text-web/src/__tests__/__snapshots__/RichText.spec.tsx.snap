@@ -7,10 +7,6 @@ exports[`Rich Text renders richtext widget 1`] = `
     spellcheck="true"
   >
     <div
-      class="sticky-sentinel"
-      style="height: 1px; margin-bottom: -1px;"
-    />
-    <div
       class="flexcontainer flex-column-reverse"
     >
       <div
