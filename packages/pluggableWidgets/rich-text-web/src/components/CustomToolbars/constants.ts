@@ -98,7 +98,7 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
     },
     direction: {
         component: ToolbarButton,
-        className: "ql-direction icons",
+        className: "ql-direction direction icons",
         value: "rtl",
         presetValue: 2,
         title: "Text direction"
