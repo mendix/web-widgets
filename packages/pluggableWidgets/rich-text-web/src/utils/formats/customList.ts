@@ -1,4 +1,8 @@
 import ListItem from "quill/formats/list";
+
+/**
+ * adding custom list item, alowing extra list style
+ */
 export default class CustomListItem extends ListItem {
     static create(value: any): any {
         const node = super.create(value) as HTMLElement;

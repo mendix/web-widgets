@@ -38,7 +38,6 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
 
     const customVideoHandler = (value: any): void => {
         if (value === true) {
-            console.log("");
             setDialogConfig({
                 dialogType: "video",
                 config: {
