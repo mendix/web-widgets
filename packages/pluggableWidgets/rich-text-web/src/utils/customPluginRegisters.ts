@@ -10,7 +10,11 @@ const direction = Quill.import("attributors/style/direction") as Attributor;
 const alignment = Quill.import("attributors/style/align") as Attributor;
 import { IndentLeftStyle, IndentRightStyle } from "./formats/indent";
 
-class Empty {}
+class Empty {
+    doSomething(): string {
+        return "";
+    }
+}
 
 Quill.debug("error");
 Quill.register({ "themes/snow": MendixTheme }, true);

@@ -4,7 +4,7 @@ import { MutableRefObject } from "react";
 /**
  * give custom indent handler to use our custom "indent-left" and "indent-right" formats
  */
-export function getIndentHandler(ref: MutableRefObject<Quill | null>) {
+export function getIndentHandler(ref: MutableRefObject<Quill | null>): (value: any) => void {
     const customIndentHandler = (value: any): void => {
         const range = ref.current?.getSelection();
         // @ts-expect-error type error expected
