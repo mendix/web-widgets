@@ -14,6 +14,7 @@ import Delta from "quill-delta";
 import Dialog from "./ModalDialog/Dialog";
 import "../utils/customPluginRegisters";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
+import { getIndentHandler } from "./CustomToolbars/toolbarHandlers";
 
 export interface EditorProps {
     defaultValue?: string;
@@ -31,10 +32,11 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
     const containerRef = useRef<HTMLDivElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
-
-    const { showDialog, setShowDialog, dialogConfig, customLinkHandler, customVideoHandler } = useEmbedModal(ref);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+
+    const { showDialog, setShowDialog, dialogConfig, customLinkHandler, customVideoHandler } = useEmbedModal(ref);
+    const customIndentHandler = getIndentHandler(ref);
 
     // quill instance is not changing, thus, the function reference has to stays.
     useLayoutEffect(() => {
@@ -71,7 +73,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                   container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
                                   handlers: {
                                       link: customLinkHandler,
-                                      video: customVideoHandler
+                                      video: customVideoHandler,
+                                      indent: customIndentHandler
                                   }
                               }
                             : false
