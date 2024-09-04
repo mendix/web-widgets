@@ -35,7 +35,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    const { showDialog, setShowDialog, dialogConfig, customLinkHandler, customVideoHandler } = useEmbedModal(ref);
+    const { showDialog, setShowDialog, dialogConfig, customLinkHandler, customVideoHandler, customViewCodeHandler } =
+        useEmbedModal(ref);
     const customIndentHandler = getIndentHandler(ref);
 
     // quill instance is not changing, thus, the function reference has to stays.
@@ -74,7 +75,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                   handlers: {
                                       link: customLinkHandler,
                                       video: customVideoHandler,
-                                      indent: customIndentHandler
+                                      indent: customIndentHandler,
+                                      "view-code": customViewCodeHandler
                                   }
                               }
                             : false
