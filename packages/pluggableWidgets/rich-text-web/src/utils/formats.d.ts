@@ -13,3 +13,7 @@ export type videoConfigType = {
 export type videoEmbedConfigType = {
     embedcode: string;
 };
+
+export type viewCodeConfigType = {
+    src: string;
+};

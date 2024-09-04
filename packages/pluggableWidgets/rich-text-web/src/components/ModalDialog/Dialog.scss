@@ -14,6 +14,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        &.view-code-dialog {
+            width: fit-content;
+            min-width: 50vw;
+
+            .code-input {
+                min-height: 50vh;
+            }
+        }
     }
 
     &-header {
