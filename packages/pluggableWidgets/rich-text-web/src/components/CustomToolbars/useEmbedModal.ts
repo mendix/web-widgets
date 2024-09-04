@@ -1,7 +1,12 @@
-import type Quill from "quill";
+import Quill from "quill";
 import { useState, MutableRefObject, Dispatch, SetStateAction } from "react";
 import { type ChildDialogProps } from "../ModalDialog/Dialog";
-import { type linkConfigType, type videoConfigType, type videoEmbedConfigType } from "../../utils/formats";
+import {
+    viewCodeConfigType,
+    type linkConfigType,
+    type videoConfigType,
+    type videoEmbedConfigType
+} from "../../utils/formats";
 import { type VideoFormType } from "../ModalDialog/VideoDialog";
 
 type ModalReturnType = {
@@ -10,12 +15,17 @@ type ModalReturnType = {
     dialogConfig: ChildDialogProps;
     customLinkHandler(value: any): void;
     customVideoHandler(value: any): void;
+    customViewCodeHandler(value: any): void;
 };
 
 export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnType {
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [dialogConfig, setDialogConfig] = useState<ChildDialogProps>({});
 
+    const closeDialog = () => {
+        setShowDialog(false);
+        setTimeout(() => ref.current?.focus(), 50);
+    };
     const customLinkHandler = (value: any): void => {
         if (value === true) {
             setDialogConfig({
@@ -23,16 +33,15 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                 config: {
                     onSubmit: (value: linkConfigType) => {
                         ref.current?.format("link", value);
-
-                        setShowDialog(false);
+                        closeDialog();
                     },
-                    onClose: () => setShowDialog(false)
+                    onClose: closeDialog
                 }
             });
             setShowDialog(true);
         } else {
             ref.current?.format("link", false);
-            setShowDialog(false);
+            closeDialog();
         }
     };
 
@@ -56,15 +65,38 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                             }
                         }
 
-                        setShowDialog(false);
+                        closeDialog();
                     },
-                    onClose: () => setShowDialog(false)
+                    onClose: closeDialog
                 }
             });
             setShowDialog(true);
         } else {
             ref.current?.format("link", false);
-            setShowDialog(false);
+            closeDialog();
+        }
+    };
+
+    const customViewCodeHandler = (value: any): void => {
+        if (value === true) {
+            setDialogConfig({
+                dialogType: "view-code",
+                config: {
+                    currentCode: ref.current?.getSemanticHTML(),
+                    onSubmit: (value: viewCodeConfigType) => {
+                        const newDelta = ref.current?.clipboard.convert({ html: value.src });
+                        if (newDelta) {
+                            ref.current?.setContents(newDelta, Quill.sources.USER);
+                        }
+                        closeDialog();
+                    },
+                    onClose: closeDialog
+                }
+            });
+            setShowDialog(true);
+        } else {
+            ref.current?.format("link", false);
+            closeDialog();
         }
     };
 
@@ -73,6 +105,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
         setShowDialog,
         dialogConfig,
         customLinkHandler,
-        customVideoHandler
+        customVideoHandler,
+        customViewCodeHandler
     };
 }
