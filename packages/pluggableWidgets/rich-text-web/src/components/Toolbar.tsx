@@ -14,9 +14,6 @@ export interface ToolbarProps {
 }
 
 // TODO: font size,
-// link insert with pop up? open new page or not
-// alphabet bullet list?
-// undo - redo
 // emojiO
 // fullscreen ?
 // insert code with pop up?
