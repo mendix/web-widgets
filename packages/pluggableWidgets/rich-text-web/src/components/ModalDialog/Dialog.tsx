@@ -4,12 +4,18 @@ import * as RadixDialog from "@radix-ui/react-dialog";
 import "./Dialog.scss";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
+import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
 
 interface BaseDialogProps {
     isOpen: boolean;
     parentNode?: HTMLElement | null;
     onOpenChange?(open: boolean): void;
 }
+
+export type ViewCodeDialogBaseProps = {
+    dialogType?: "view-code";
+    config?: ViewCodeDialogProps;
+};
 
 export type LinkDialogBaseProps = {
     dialogType?: "link";
@@ -21,7 +27,7 @@ export type VideoDialogBaseProps = {
     config?: VideoDialogProps;
 };
 
-export type ChildDialogProps = LinkDialogBaseProps | VideoDialogBaseProps;
+export type ChildDialogProps = LinkDialogBaseProps | VideoDialogBaseProps | ViewCodeDialogBaseProps;
 
 export type DialogProps = BaseDialogProps & ChildDialogProps;
 
@@ -36,6 +42,9 @@ export default function Dialog(props: DialogProps): ReactElement {
                 </If>
                 <If condition={dialogType === "video"}>
                     <VideoDialog {...(config as VideoDialogProps)}></VideoDialog>
+                </If>
+                <If condition={dialogType === "view-code"}>
+                    <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
                 </If>
             </RadixDialog.Portal>
         </RadixDialog.Root>

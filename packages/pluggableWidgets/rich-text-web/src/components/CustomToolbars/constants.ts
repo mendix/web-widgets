@@ -124,6 +124,7 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
     },
     blockquote: { component: ToolbarButton, className: "ql-blockquote icons icon-Blockquote", title: "Blockquote" },
     codeBlock: { component: ToolbarButton, className: "ql-code-block icons icon-Source-code", title: "Code block" },
+    viewCode: { component: ToolbarButton, className: "ql-view-code icons icon-Source-code", title: "View Code" },
     align: { component: ToolbarButton, className: "ql-align icons icon-Text-align-left", title: "Left align" },
     centerAlign: {
         component: ToolbarDropdown,
@@ -162,7 +163,7 @@ export const TOOLBAR_GROUP: ToolbarGroupType = {
     indent: ["minIndent", "plusIndent", "direction"],
     embed: ["link", "image", "video", "formula"],
     align: ["align", "centerAlign", "rightAlign"],
-    code: ["blockquote", "codeBlock"],
+    code: ["blockquote", "codeBlock", "viewCode"],
     header: ["header"],
     remove: ["clean"]
 };
