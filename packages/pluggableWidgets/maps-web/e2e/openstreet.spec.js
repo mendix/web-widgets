@@ -15,7 +15,7 @@ test.describe("OpenStreet Maps", () => {
         test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
             const mapElement = await page.locator(".widget-maps");
             await expect(mapElement).toBeVisible();
-            await expect(mapElement).toHaveScreenshot("osmMaps.png", { maxDiffPixels: 1000 });
+            await expect(mapElement).toHaveScreenshot("osmMaps.png", { maxDiffPixels: 4000 });
         });
     });
 

@@ -85,6 +85,9 @@ importers:
       eslint-plugin-playwright:
         specifier: ^1.6.2
         version: 1.6.2(eslint@8.57.0)
+      playwright-ctrf-json-reporter:
+        specifier: ^0.0.14
+        version: 0.0.14
 
   automation/scripts:
     dependencies:
@@ -12535,6 +12538,10 @@ packages:
     hasBin: true
     dev: true
 
+  /playwright-ctrf-json-reporter@0.0.14:
+    resolution: {integrity: sha512-rfUdvQtvaConfv5/+S5xSYyE3c/kthbxtk88j7vlvx/jG1kWrtDVmPaIOsWJCEcDirX0AS46fxGy660/ZJ9N+Q==}
+    dev: true
+
   /playwright@1.45.3:
     resolution: {integrity: sha512-QhVaS+lpluxCaioejDZ95l4Y4jSFCsBvl2UZkpeXlzxmqS+aABr5c82YmfMHrL6x27nvrvykJAFpkzT2eWdJww==}
     engines: {node: '>=18'}
@@ -15486,6 +15493,7 @@ packages:
 
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: true
 
   /v8-compile-cache-lib@3.0.1:

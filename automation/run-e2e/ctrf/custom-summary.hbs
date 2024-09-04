@@ -1,0 +1,40 @@
+# Test Summary!
+
+| **Tests 📝** | **Passed ✅** | **Failed ❌** | **Skipped ⏭️** | **Pending ⏳** | **Other ❓** | **Flaky 🍂** | **Duration ⏱️** |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| {{ctrf.summary.tests}} | {{ctrf.summary.passed}} | {{ctrf.summary.failed}} | {{ctrf.summary.skipped}} | {{ctrf.summary.pending}} | {{ctrf.summary.other}} | {{countFlaky ctrf.tests}} | {{formatDuration ctrf.summary.start ctrf.summary.stop}} |
+
+## Failed tests
+
+| **Name** | **Status** | **Failure Message** |
+| --- | --- | --- |
+{{#each ctrf.tests}}
+  {{#if (eq status "failed")}}
+  | {{name}} | {{status}} ❌ | {{#if message}}{{message}}{{else}}No failure message{{/if}} |
+  {{/if}}
+{{/each}}
+
+## Flaky tests
+
+| **Name** | **Status** | **Failure Message** |
+| --- | --- | --- |
+{{#each ctrf.tests}}
+  {{#if (eq status "flaky")}}
+  | {{name}} | {{status}} 🍂 | {{#if message}}{{message}}{{else}}No failure message{{/if}} |
+  {{/if}}
+{{/each}}
+
+## Detailed Test Results
+
+<details>
+  <summary>See detailed test results</summary>
+
+  <br>
+
+  | **Name** | **Status** | **Failure Message** |
+  | --- | --- | --- |
+  {{#each ctrf.tests}}
+  | {{name}} | {{status}} | {{#if message}}{{message}}{{else}}No failure message{{/if}} |
+  {{/each}}
+</details>
+
