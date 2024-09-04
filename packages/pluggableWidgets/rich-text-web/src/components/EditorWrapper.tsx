@@ -6,7 +6,7 @@ import Editor from "./Editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "../utils/themes/mendix";
-import { updateLegacyQuillFormats } from "src/utils/helpers";
+import { updateLegacyQuillFormats } from "../utils/helpers";
 import { StickySentinel } from "./StickySentinel";
 import Quill, { Range } from "quill";
 import classNames from "classnames";

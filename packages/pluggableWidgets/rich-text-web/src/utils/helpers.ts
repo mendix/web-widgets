@@ -38,7 +38,7 @@ export function updateLegacyQuillFormats(quill: Quill): boolean {
 export function transformLegacyQuillFormats(delta: Delta): { data: Op[]; isDirty: boolean } {
     let isDirty = false;
     const newDelta: Op[] = delta.map(d => {
-        if (d.attributes && d.attributes.hasOwnProperty("indent")) {
+        if (d.attributes && d.attributes.indent) {
             d.attributes["indent-left"] = (d.attributes.indent as number) * 3;
             delete d.attributes.indent;
             if (!isDirty) {
@@ -47,5 +47,5 @@ export function transformLegacyQuillFormats(delta: Delta): { data: Op[]; isDirty
         }
         return d;
     });
-    return { data: newDelta, isDirty: isDirty };
+    return { data: newDelta, isDirty };
 }
