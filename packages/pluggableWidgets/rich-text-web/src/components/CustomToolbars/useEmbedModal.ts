@@ -22,7 +22,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [dialogConfig, setDialogConfig] = useState<ChildDialogProps>({});
 
-    const closeDialog = () => {
+    const closeDialog = (): void => {
         setShowDialog(false);
         setTimeout(() => ref.current?.focus(), 50);
     };

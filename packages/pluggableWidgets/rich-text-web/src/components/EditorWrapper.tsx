@@ -56,16 +56,17 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         if (quillRef.current) {
             calculateWordCount(quillRef.current);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stringAttribute.value, calculateWordCount, quillRef.current]);
 
     useEffect(() => {
         if (quillRef.current) {
             const isTransformed = updateLegacyQuillFormats(quillRef.current);
             if (isTransformed) {
-                console.info(`[Rich Text][${id}] legacy quill format found, transformed into semantic HTML format`);
                 stringAttribute.setValue(quillRef.current.getSemanticHTML());
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {

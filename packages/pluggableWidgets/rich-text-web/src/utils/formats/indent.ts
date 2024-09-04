@@ -9,7 +9,7 @@ const indentLists = ["3em", "6em", "9em", "12em", "15em", "18em", "21em", "24em"
  *  overriding current quill's indent format by using inline style instead of classname
  */
 class IndentAttributor extends StyleAttributor {
-    add(node: HTMLElement, value: string | number) {
+    add(node: HTMLElement, value: string | number): boolean {
         let normalizedValue = 0;
         if (value === "+1" || value === "-1") {
             const indent = this.value(node) || 0;
@@ -27,11 +27,11 @@ class IndentAttributor extends StyleAttributor {
         return super.add(node, `${normalizedValue}em`);
     }
 
-    canAdd(node: HTMLElement, value: string) {
+    canAdd(node: HTMLElement, value: string): boolean {
         return super.canAdd(node, value);
     }
 
-    value(node: HTMLElement) {
+    value(node: HTMLElement): number | undefined {
         return parseInt(super.value(node).replace("em", ""), 10) || undefined; // Don't return NaN
     }
 }
