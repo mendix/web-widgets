@@ -6,6 +6,7 @@ import Editor from "./Editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "../utils/themes/mendix";
+import { updateLegacyQuillFormats } from "src/utils/helpers";
 import { StickySentinel } from "./StickySentinel";
 import Quill, { Range } from "quill";
 import classNames from "classnames";
@@ -45,7 +46,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         (quill: Quill | null): void => {
             if (enableStatusBar) {
                 const text = quill?.getText().trim();
-
                 setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
             }
         },
@@ -53,8 +53,20 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     );
 
     useEffect(() => {
-        calculateWordCount(quillRef.current);
-    }, [stringAttribute.value, calculateWordCount]);
+        if (quillRef.current) {
+            calculateWordCount(quillRef.current);
+        }
+    }, [stringAttribute.value, calculateWordCount, quillRef.current]);
+
+    useEffect(() => {
+        if (quillRef.current) {
+            const isTransformed = updateLegacyQuillFormats(quillRef.current);
+            if (isTransformed) {
+                console.info(`[Rich Text][${id}] legacy quill format found, transformed into semantic HTML format`);
+                stringAttribute.setValue(quillRef.current.getSemanticHTML());
+            }
+        }
+    }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
         if (onChange?.canExecute && onChangeType === "onDataChange") {
