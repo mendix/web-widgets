@@ -1,5 +1,18 @@
 import Link from "quill/formats/link";
+import * as linkify from "linkifyjs";
 import { linkConfigType } from "../formats";
+
+function getLink(url: string): string {
+    const foundLinks = linkify.find(url, {
+        defaultProtocol: "https"
+    });
+    let results = url;
+    if (foundLinks && foundLinks.length > 0) {
+        results = foundLinks[0].href;
+    }
+
+    return results;
+}
 
 export default class CustomLink extends Link {
     format(name: string, value: unknown): void {
@@ -8,11 +21,11 @@ export default class CustomLink extends Link {
         } else if ((value as linkConfigType)?.href !== undefined) {
             const linkConfig = value as linkConfigType;
             // @ts-expect-error the constructor is generic function, ts will consider sanitize not exist
-            this.domNode.setAttribute("href", this.constructor.sanitize(linkConfig.href));
+            this.domNode.setAttribute("href", getLink(this.constructor.sanitize(linkConfig.href)));
             this.domNode.setAttribute("target", linkConfig.target);
         } else {
             // @ts-expect-error the constructor is generic function, ts will consider sanitize not exist
-            this.domNode.setAttribute("href", this.constructor.sanitize(value));
+            this.domNode.setAttribute("href", getLink(this.constructor.sanitize(value)));
         }
     }
 
@@ -20,7 +33,7 @@ export default class CustomLink extends Link {
         if ((value as linkConfigType)?.href !== undefined) {
             const linkConfig = value as linkConfigType;
             const node = super.create(linkConfig.href) as HTMLElement;
-            node.setAttribute("href", this.sanitize(linkConfig.href));
+            node.setAttribute("href", getLink(this.sanitize(linkConfig.href)));
             node.setAttribute("rel", "noopener noreferrer");
             node.setAttribute("title", linkConfig.title);
             node.setAttribute("target", linkConfig.target || "_blank");
