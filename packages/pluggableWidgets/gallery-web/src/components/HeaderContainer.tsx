@@ -34,7 +34,9 @@ export function HeaderContainer(props: HeaderContainerProps): React.ReactElement
     return (
         <FilterAPIProvider filtersStore={props.filtersStore}>
             <SortAPIContext.Provider value={props.sortProvider.context}>
-                <SelectionStatusProvider>{props.children}</SelectionStatusProvider>
+                <SelectionStatusProvider selectionHelper={props.selectionHelper}>
+                    {props.children}
+                </SelectionStatusProvider>
             </SortAPIContext.Provider>
         </FilterAPIProvider>
     );
