@@ -14,14 +14,7 @@ $icons: (
     Text-align-center: "\e907",
     Text-align-right: "\e908",
     Text-align-justify: "\e909",
-    Text-strikethrough: "\e91d",
-    Text-subscript: "\e91e",
-    Text-superscript: "\e91f",
-    Text-underline: "\e91c",
     List-bullets: "\e90a",
-    List-lower-alpha: "\e920",
-    List-checklist: "\e922",
-    Arrow-down: "\e90b",
     List-numbers: "\e90c",
     Text-indent-right: "\e90d",
     Text-indent-left: "\e90e",
@@ -37,7 +30,18 @@ $icons: (
     Add: "\e918",
     Substract: "\e919",
     Source-code: "\e91a",
-    Clear-formating: "\e91b"
+    Clear-formating: "\e91b",
+    Text-underline: "\e91c",
+    Text-strikethrough: "\e91d",
+    Text-subscript: "\e91e",
+    Text-superscript: "\e91f",
+    List-lower-alpha: "\e920",
+    Arrow-down: "\e90b",
+    List-checklist: "\e922",
+    List-roman: "\e921",
+    Inline-code: "\e923",
+    View-edit-code: "\e924",
+    Code-block: "\e925"
 );
 
 .widget-rich-text {
