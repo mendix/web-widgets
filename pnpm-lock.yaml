@@ -14992,7 +14992,6 @@ snapshots:
       typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   '@typescript-eslint/typescript-estree@6.13.2(typescript@5.1.6)':
     dependencies:
@@ -22658,7 +22657,6 @@ snapshots:
     dependencies:
       tslib: 1.14.1
       typescript: 5.1.6
-    dev: false
 
   turbo-darwin-64@1.10.14:
     optional: true
