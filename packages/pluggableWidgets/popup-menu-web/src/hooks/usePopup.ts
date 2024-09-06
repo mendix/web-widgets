@@ -59,17 +59,15 @@ export function usePopup(
     const context = data.context;
     const dismiss = useDismiss(context);
     const role = useRole(context);
+    const click = useClick(context, { enabled: controlledOpen == null });
+    const hover = useHover(context, { handleClose: safePolygon() });
 
     const propsList = [dismiss, role];
 
     if (trigger === "onclick") {
-        const click = useClick(context, {
-            enabled: controlledOpen == null
-        });
         propsList.push(click);
     }
     if (trigger === "onhover") {
-        const hover = useHover(context, { handleClose: safePolygon() });
         propsList.push(hover);
     }
 

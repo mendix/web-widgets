@@ -29,7 +29,7 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "customItems");
 
         values.basicItems.forEach((item: BasicItemsPreviewType, index: number) => {
-            const changeStyleDescription = (value: string) =>
+            const changeStyleDescription = (value: string): void =>
                 changePropertyIn(
                     defaultProperties,
                     values,
