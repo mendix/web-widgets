@@ -179,7 +179,7 @@ jobs:
       - name: "Generating Github Test Summary"
         run: |
           pnpm --filter run-e2e run report:merge
-          pnpm dlx github-actions-ctrf custom ./automation/run-e2e/ctrf/merged-report.json ./automation/run-e2e/ctrf/custom-summary.hbs
+          pnpm dlx github-actions-ctrf custom ./automation/run-e2e/ctrf/merged-report.json ./automation/run-e2e/ctrf-custom-template/custom-summary.hbs
         if: always() 
       - name: "Fixing files permissions"
         if: failure()
