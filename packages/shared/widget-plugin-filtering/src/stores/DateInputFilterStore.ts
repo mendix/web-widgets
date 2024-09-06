@@ -1,6 +1,6 @@
 // import { isDate } from "date-fns/isDate";
 import { addDays } from "date-fns/addDays";
-import { ListAttributeValue } from "mendix";
+import { ListAttributeValue, DateTimeFormatter } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
@@ -77,13 +77,8 @@ export class DateInputFilterStore
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
             const formatter = attributes.at(0)?.formatter;
-            // Just pleasing TypeScript.
-            if (formatter?.type !== "datetime") {
-                console.error("InputFilterStore: encounter invalid attribute type while updating props.");
-                return;
-            }
-            this.arg1.updateProps(formatter);
-            this.arg2.updateProps(formatter);
+            this.arg1.updateProps(formatter as DateTimeFormatter);
+            this.arg2.updateProps(formatter as DateTimeFormatter);
         }
     }
 

@@ -40,11 +40,6 @@ export class StringInputFilterStore
             this._attributes = attributes;
         }
         const formatter = attributes.at(0)?.formatter;
-        // Just pleasing TypeScript.
-        if (!formatter || formatter.type === "number" || formatter.type === "datetime") {
-            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
-            return;
-        }
         this.arg1.updateProps(formatter as ListAttributeValue<string>["formatter"]);
         this.arg2.updateProps(formatter as ListAttributeValue<string>["formatter"]);
     }

@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { ListAttributeValue } from "mendix";
+import { ListAttributeValue, NumberFormatter } from "mendix";
 import { action, makeObservable, comparer } from "mobx";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
@@ -37,13 +37,8 @@ export class NumberInputFilterStore
             this._attributes = attributes;
         }
         const formatter = attributes.at(0)?.formatter;
-        // Just pleasing TypeScript.
-        if (formatter?.type !== "number") {
-            console.error("InputFilterStore: encounter invalid attribute type while updating props.");
-            return;
-        }
-        this.arg1.updateProps(formatter);
-        this.arg2.updateProps(formatter);
+        this.arg1.updateProps(formatter as NumberFormatter);
+        this.arg2.updateProps(formatter as NumberFormatter);
     }
 
     toJSON(): InputData {
