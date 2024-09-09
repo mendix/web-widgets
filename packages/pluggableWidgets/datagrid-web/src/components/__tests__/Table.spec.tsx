@@ -33,43 +33,43 @@ describe("Table", () => {
     it("renders the structure correctly", () => {
         const component = render(<Widget {...mockWidgetProps()} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with sorting", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsSortable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with resizing", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsResizable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dragging", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsDraggable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with filtering", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsFilterable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with hiding", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsHidable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with paging", () => {
         const component = render(<Widget {...mockWidgetProps()} paging />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with custom filtering", () => {
@@ -80,7 +80,7 @@ describe("Table", () => {
         props.availableColumns = columns;
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with empty placeholder", () => {
@@ -88,7 +88,7 @@ describe("Table", () => {
             <Widget {...mockWidgetProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with column alignments", () => {
@@ -105,13 +105,13 @@ describe("Table", () => {
 
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dynamic row class", () => {
         const component = render(<Widget {...mockWidgetProps()} rowClass={() => "myclass"} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly for preview when no header is provided", () => {
@@ -123,7 +123,7 @@ describe("Table", () => {
 
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header wrapper", () => {
@@ -138,7 +138,7 @@ describe("Table", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header filters and a11y", () => {
@@ -154,7 +154,7 @@ describe("Table", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     describe("with selection method checkbox", () => {
