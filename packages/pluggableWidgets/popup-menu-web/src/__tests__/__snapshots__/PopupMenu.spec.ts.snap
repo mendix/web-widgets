@@ -1,16 +1,149 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Popup menu renders popup menu 1`] = `
-<div
-  className="popupmenu mx-popup-menu"
-  onClick={[Function]}
+<ContextProvider
+  value={
+    {
+      "context": {
+        "dataRef": {
+          "current": {},
+        },
+        "elements": {
+          "domReference": null,
+          "floating": null,
+          "reference": null,
+        },
+        "events": {
+          "emit": [Function],
+          "off": [Function],
+          "on": [Function],
+        },
+        "floatingId": ":r1:",
+        "floatingStyles": {
+          "left": 0,
+          "position": "absolute",
+          "top": 0,
+        },
+        "isPositioned": false,
+        "middlewareData": {},
+        "nodeId": undefined,
+        "onOpenChange": [Function],
+        "open": false,
+        "placement": "bottom",
+        "refs": {
+          "domReference": {
+            "current": null,
+          },
+          "floating": {
+            "current": null,
+          },
+          "reference": {
+            "current": null,
+          },
+          "setFloating": [Function],
+          "setPositionReference": [Function],
+          "setReference": [Function],
+        },
+        "strategy": "absolute",
+        "update": [Function],
+        "x": 0,
+        "y": 0,
+      },
+      "descriptionId": undefined,
+      "elements": {
+        "domReference": null,
+        "floating": null,
+        "reference": null,
+      },
+      "floatingStyles": {
+        "left": 0,
+        "position": "absolute",
+        "top": 0,
+      },
+      "getFloatingProps": [Function],
+      "getItemProps": [Function],
+      "getReferenceProps": [Function],
+      "isPositioned": false,
+      "labelId": undefined,
+      "middlewareData": {},
+      "modal": undefined,
+      "open": false,
+      "placement": "bottom",
+      "refs": {
+        "domReference": {
+          "current": null,
+        },
+        "floating": {
+          "current": null,
+        },
+        "reference": {
+          "current": null,
+        },
+        "setFloating": [Function],
+        "setPositionReference": [Function],
+        "setReference": [Function],
+      },
+      "setDescriptionId": [Function],
+      "setLabelId": [Function],
+      "setOpen": [Function],
+      "strategy": "absolute",
+      "update": [Function],
+      "x": 0,
+      "y": 0,
+    }
+  }
 >
   <div
-    className="popupmenu-trigger"
+    className="popupmenu mx-popup-menu"
   >
-    <button>
-      Trigger
-    </button>
+    <ForwardRef>
+      <button>
+        Trigger
+      </button>
+    </ForwardRef>
+    <ForwardRef
+      advancedMode={false}
+      basicItems={
+        [
+          {
+            "caption": {
+              "status": "available",
+              "value": "Caption",
+            },
+            "itemType": "item",
+            "styleClass": "defaultStyle",
+          },
+          {
+            "caption": {
+              "status": "available",
+              "value": "Caption",
+            },
+            "itemType": "divider",
+            "styleClass": "defaultStyle",
+          },
+        ]
+      }
+      class="mx-popup-menu"
+      customItems={
+        [
+          {
+            "content": <div />,
+          },
+        ]
+      }
+      hoverCloseOn="onHoverLeave"
+      menuToggle={false}
+      menuTrigger={
+        <button>
+          Trigger
+        </button>
+      }
+      name="popup-menu"
+      onItemClick={[Function]}
+      position="bottom"
+      tabIndex={-1}
+      trigger="onclick"
+    />
   </div>
-</div>
+</ContextProvider>
 `;

@@ -8,7 +8,7 @@ import { ValueStatus } from "mendix";
 jest.useFakeTimers();
 
 describe("Popup menu", () => {
-    const createPopupMenu = (props: PopupMenuContainerProps): ShallowWrapper<PopupMenuContainerProps, {}> =>
+    const createPopupMenu = (props: PopupMenuContainerProps): ShallowWrapper<PopupMenuContainerProps> =>
         shallow(createElement(PopupMenu, props));
     const basicItemProps: BasicItemsType = {
         itemType: "item",
