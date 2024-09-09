@@ -25,13 +25,13 @@ describe("Filter component", () => {
     it("renders correctly", () => {
         const component = render(<FilterComponent {...commonProps} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
         const component = render(<FilterComponent {...commonProps} adjustable={false} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with aria labels", () => {
@@ -43,6 +43,6 @@ describe("Filter component", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 });
