@@ -11,9 +11,12 @@ import { PopupTrigger } from "./PopupTrigger";
 export interface PopupMenuProps extends PopupMenuContainerProps {
     preview?: boolean;
 }
+
 export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
+    const open = visibility;
+    const popup = usePopup({ open, onOpenChange: setVisibility, placement: props.position }, props.trigger);
 
     const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
         setVisibility(false);
@@ -24,14 +27,10 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         setVisibility(props.menuToggle);
     }, [props.menuToggle]);
 
-    const open = visibility;
-
-    const popup = usePopup({ open, onOpenChange: setVisibility, placement: props.position }, props.trigger);
-
     return (
         <PopupContext.Provider value={popup}>
             <div className={classNames("popupmenu", props.class)}>
-                <PopupTrigger onClick={() => setVisibility(v => !v)}>{props.menuTrigger}</PopupTrigger>
+                <PopupTrigger>{props.menuTrigger}</PopupTrigger>
                 <Menu {...props} onItemClick={handleOnClickItem} />
             </div>
         </PopupContext.Provider>
