@@ -16,13 +16,13 @@ describe("Date picker component", () => {
     it("renders correctly", () => {
         const component = render(<DatePicker adjustable expanded={false} onChange={jest.fn()} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly when is not adjustable", () => {
         const component = render(<DatePicker adjustable={false} expanded={false} onChange={jest.fn()} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with different locale and date format", () => {
@@ -36,7 +36,7 @@ describe("Date picker component", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with a11y properties", () => {
@@ -50,7 +50,7 @@ describe("Date picker component", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     test.each([
