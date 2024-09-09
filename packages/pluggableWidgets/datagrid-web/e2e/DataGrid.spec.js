@@ -102,18 +102,24 @@ test.describe("capabilities: hiding", () => {
         await page.locator(".mx-name-datagrid5 .column-selector-button").click();
         await page.locator(".column-selectors > li").first().click();
         await expect(page.locator(".mx-name-datagrid5 .column-header").first()).toHaveText("Last Name");
-        const textArea = await page.locator(".mx-name-textArea1 textarea");
+        const textArea = page.locator(".mx-name-textArea1 textarea");
+        await expect(textArea).not.toBeEmpty();
         const textAreaValue = await textArea.inputValue();
         expect(JSON.parse(textAreaValue)).toEqual({
-            schemaVersion: 1,
-            settingsHash: "1530160614",
             name: "datagrid5",
-            sortOrder: [],
-            columnOrder: ["0", "1"],
+            schemaVersion: 2,
+            settingsHash: "1530160614",
             columns: [
                 { columnId: "0", hidden: true },
                 { columnId: "1", hidden: false }
-            ]
+            ],
+            columnFilters: [
+                ["0", ["equal", null, null]],
+                ["1", ["equal", null, null]]
+            ],
+            groupFilters: [],
+            sortOrder: [],
+            columnOrder: ["0", "1"]
         });
     });
     test("hide column by default enabled", async ({ page }) => {
