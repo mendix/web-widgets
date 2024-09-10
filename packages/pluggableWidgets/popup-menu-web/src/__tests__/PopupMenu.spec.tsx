@@ -1,15 +1,16 @@
-import { shallow, ShallowWrapper } from "enzyme";
+import { render, RenderResult } from "@testing-library/react";
+import { ValueStatus } from "mendix";
 import { createElement } from "react";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { PopupMenu } from "../components/PopupMenu";
 import { dynamicValue } from "../utils/attrValue";
-import { ValueStatus } from "mendix";
+
+import "@testing-library/jest-dom";
 
 jest.useFakeTimers();
 
-describe("Popup menu", () => {
-    const createPopupMenu = (props: PopupMenuContainerProps): ShallowWrapper<PopupMenuContainerProps> =>
-        shallow(createElement(PopupMenu, props));
+describe("Popup Menu", () => {
+    const createPopupMenu = (props: PopupMenuContainerProps): RenderResult => render(<PopupMenu {...props} />);
     const basicItemProps: BasicItemsType = {
         itemType: "item",
         caption: dynamicValue("Caption"),
@@ -22,7 +23,7 @@ describe("Popup menu", () => {
         class: "mx-popup-menu",
         tabIndex: -1,
         trigger: "onclick",
-        menuToggle: false,
+        menuToggle: true,
         menuTrigger: createElement("button", null, "Trigger"),
         advancedMode: false,
         position: "bottom",
@@ -37,7 +38,7 @@ describe("Popup menu", () => {
     it("renders popup menu", () => {
         const popupMenu = createPopupMenu(defaultProps);
 
-        expect(popupMenu).toMatchSnapshot();
+        expect(popupMenu.asFragment()).toMatchSnapshot();
     });
 
     describe("with custom items", () => {
@@ -53,11 +54,11 @@ describe("Popup menu", () => {
                     status: ValueStatus.Available
                 }
             };
-            const popupMenu = createPopupMenu({
+            const { container } = createPopupMenu({
                 ...defaultProps,
                 customItems: [customItem]
             });
-            expect(popupMenu.find(".popupmenu-custom-item")).toHaveLength(0);
+            expect(container.querySelectorAll(".popupmenu-custom-item")).toHaveLength(0);
         });
     });
 });

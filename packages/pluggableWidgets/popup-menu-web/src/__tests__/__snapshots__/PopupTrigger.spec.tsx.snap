@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Popup Trigger renders popup trigger 1`] = `
+<DocumentFragment>
+  <div
+    aria-controls=":r0:"
+    aria-expanded="true"
+    aria-haspopup="dialog"
+    class="popupmenu-trigger"
+    data-state="open"
+  >
+    <button>
+      Trigger
+    </button>
+  </div>
+</DocumentFragment>
+`;

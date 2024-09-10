@@ -1,6 +1,5 @@
 import { fireEvent, render, RenderResult } from "@testing-library/react";
 import { ValueStatus } from "mendix";
-// import { shallow, ShallowWrapper } from "enzyme";
 import { createElement } from "react";
 import { BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
 import { MenuProps } from "../components/Menu";
@@ -17,7 +16,7 @@ jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: () => usePositionMock()
 }));
 
-describe("Popup menu", () => {
+describe("Menu", () => {
     const createPopupMenu = (props: MenuProps): RenderResult => render(<Menu {...props} />);
     const basicItemProps: BasicItemsType = {
         itemType: "item",
@@ -44,7 +43,7 @@ describe("Popup menu", () => {
         onItemClick: jest.fn()
     };
 
-    it("renders popup menu", () => {
+    it("renders menu", () => {
         const popupMenu = createPopupMenu(defaultProps);
         popupMenu.rerender(<Menu {...defaultProps} />);
 
@@ -64,19 +63,9 @@ describe("Popup menu", () => {
             basicItemProps.action = actionValue();
             const popupMenu = createPopupMenu(defaultProps);
             const { container } = popupMenu;
-            // const preventDefaultAction = jest.fn();
-            // const stopPropagationAction = jest.fn();
-            // const event: any = {
-            //     preventDefault: preventDefaultAction,
-            //     stopPropagation: stopPropagationAction,
-            //     target: {}
-            // };
 
             await fireEvent.click(container.querySelector(".popupmenu-basic-item")!);
-            // popupMenu.find.prop("onClick")!(event);
 
-            // expect(stopPropagationAction).toHaveBeenCalled();
-            // expect(preventDefaultAction).toHaveBeenCalled();
             expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
 
@@ -177,18 +166,9 @@ describe("Popup menu", () => {
         it("triggers action", async () => {
             const popupMenu = createPopupMenu(defaultProps);
             const { container } = popupMenu;
-            // const preventDefaultAction = jest.fn();
-            // const stopPropagationAction = jest.fn();
-            // const event: any = {
-            //     preventDefault: preventDefaultAction,
-            //     stopPropagation: stopPropagationAction,
-            //     target: {}
-            // };
-            await fireEvent.click(container.querySelector(".popupmenu-custom-item")!);
-            // popupMenu.find(".popupmenu-custom-item").prop("onClick")!(event);
 
-            // expect(stopPropagationAction).toHaveBeenCalled();
-            // expect(preventDefaultAction).toHaveBeenCalled();
+            await fireEvent.click(container.querySelector(".popupmenu-custom-item")!);
+
             expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
     });

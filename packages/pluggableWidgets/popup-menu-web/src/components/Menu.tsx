@@ -10,8 +10,8 @@ export interface MenuProps extends PopupMenuContainerProps {
 }
 
 export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElement>): ReactElement | null => {
-    const { context: floatingContext, ...context } = usePopupContext();
-    const ref = useMergeRefs([context.refs.setFloating, propRef]);
+    const { context: floatingContext, floatingStyles, getFloatingProps, modal, refs } = usePopupContext();
+    const ref = useMergeRefs([refs.setFloating, propRef]);
 
     if (!floatingContext.open) {
         return null;
@@ -20,14 +20,12 @@ export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElem
     const menuOptions = createMenuOptions(props, props.onItemClick);
 
     return (
-        <FloatingFocusManager context={floatingContext} modal={context.modal}>
+        <FloatingFocusManager context={floatingContext} modal={modal}>
             <div
                 className="widget-popupmenu-root"
-                aria-labelledby={context.labelId}
-                aria-describedby={context.descriptionId}
                 ref={ref}
-                style={{ ...context.floatingStyles, ...props.style, ...{ zIndex: 1 } }}
-                {...context.getFloatingProps(props)}
+                style={{ ...floatingStyles, ...props.style, ...{ zIndex: 1 } }}
+                {...getFloatingProps?.({ name: props.name, className: props.class, tabIndex: props.tabIndex })}
             >
                 <ul className="popupmenu-menu">{menuOptions}</ul>
             </div>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Popup menu renders popup menu 1`] = `
+exports[`Menu renders menu 1`] = `
 <DocumentFragment>
   <span
     aria-hidden="true"
@@ -12,18 +12,13 @@ exports[`Popup menu renders popup menu 1`] = `
     tabindex="0"
   />
   <div
-    basicitems="[object Object],[object Object]"
     class="mx-popup-menu"
-    customitems="[object Object]"
-    hovercloseon="onClickOutside"
+    data-floating-ui-focusable=""
     id=":r0:"
-    menutrigger="[object Object]"
     name="popup-menu"
-    position="bottom"
     role="dialog"
     style="position: absolute; left: 0px; top: 0px; z-index: 1; transform: translate(0px, 0px);"
     tabindex="0"
-    trigger="onclick"
   >
     <ul
       class="popupmenu-menu"
@@ -43,6 +38,7 @@ exports[`Popup menu renders popup menu 1`] = `
     data-floating-ui-focus-guard=""
     data-floating-ui-inert=""
     data-type="inside"
+    role="button"
     style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
     tabindex="0"
   />

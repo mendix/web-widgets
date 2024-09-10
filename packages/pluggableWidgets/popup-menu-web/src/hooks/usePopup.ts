@@ -8,83 +8,60 @@ import {
     useClick,
     useDismiss,
     useFloating,
+    UseFloatingReturn,
     useHover,
     useInteractions,
+    UseInteractionsReturn,
     useRole
 } from "@floating-ui/react";
-import { useMemo, useState } from "react";
 import { TriggerEnum } from "../../typings/PopupMenuProps";
 
 interface PopupOptions {
-    initialOpen?: boolean;
     placement?: Placement;
     modal?: boolean;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
+    trigger?: TriggerEnum;
 }
 
-export function usePopup(
-    {
-        initialOpen = false,
-        placement = "bottom",
-        modal,
-        open: controlledOpen,
-        onOpenChange: setControlledOpen
-    }: PopupOptions = {},
-    trigger: TriggerEnum
-) {
-    const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
-    const [labelId, setLabelId] = useState<string | undefined>();
-    const [descriptionId, setDescriptionId] = useState<string | undefined>();
+type FloatingReturn = Pick<UseFloatingReturn, "context" | "floatingStyles" | "refs">;
+type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getReferenceProps">;
 
-    const open = controlledOpen ?? uncontrolledOpen;
-    const setOpen = setControlledOpen ?? setUncontrolledOpen;
+export type UsePopupReturn = FloatingReturn &
+    InteractionReturn & {
+        modal?: boolean;
+        open?: boolean;
+    };
 
-    const data = useFloating({
-        placement,
-        open,
+export function usePopup({
+    placement = "bottom",
+    modal,
+    open,
+    onOpenChange: setOpen,
+    trigger
+}: PopupOptions = {}): UsePopupReturn {
+    const { context, floatingStyles, refs } = useFloating({
+        middleware: [offset(5), flip(), shift()],
         onOpenChange: setOpen,
-        whileElementsMounted: autoUpdate,
-        middleware: [
-            offset(5),
-            flip({
-                crossAxis: placement.includes("-"),
-                fallbackAxisSideDirection: "end",
-                padding: 5
-            }),
-            shift({ padding: 5 })
-        ]
+        open,
+        placement,
+        whileElementsMounted: autoUpdate
     });
 
-    const context = data.context;
     const dismiss = useDismiss(context);
     const role = useRole(context);
-    const click = useClick(context, { enabled: controlledOpen == null });
-    const hover = useHover(context, { handleClose: safePolygon() });
+    const click = useClick(context, { enabled: trigger === "onclick" });
+    const hover = useHover(context, { enabled: trigger === "onhover", handleClose: safePolygon() });
 
-    const propsList = [dismiss, role];
+    const { getFloatingProps, getReferenceProps } = useInteractions([dismiss, role, click, hover]);
 
-    if (trigger === "onclick") {
-        propsList.push(click);
-    }
-    if (trigger === "onhover") {
-        propsList.push(hover);
-    }
-
-    const interactions = useInteractions(propsList);
-
-    return useMemo(
-        () => ({
-            open,
-            setOpen,
-            ...interactions,
-            ...data,
-            modal,
-            labelId,
-            descriptionId,
-            setLabelId,
-            setDescriptionId
-        }),
-        [open, setOpen, interactions, data, modal, labelId, descriptionId]
-    );
+    return {
+        context,
+        floatingStyles,
+        getFloatingProps,
+        getReferenceProps,
+        modal,
+        open,
+        refs
+    };
 }

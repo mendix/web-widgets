@@ -16,7 +16,7 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
     const preview = !!props.preview;
     const [visibility, setVisibility] = useState(preview && props.menuToggle);
     const open = visibility;
-    const popup = usePopup({ open, onOpenChange: setVisibility, placement: props.position }, props.trigger);
+    const popup = usePopup({ open, onOpenChange: setVisibility, placement: props.position, trigger: props.trigger });
 
     const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
         setVisibility(false);

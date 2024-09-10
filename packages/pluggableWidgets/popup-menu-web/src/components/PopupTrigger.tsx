@@ -2,20 +2,18 @@ import { useMergeRefs } from "@floating-ui/react";
 import { createElement, forwardRef, PropsWithChildren, ReactElement, RefObject } from "react";
 import { usePopupContext } from "../hooks/usePopupContext";
 
-interface PopupTriggerProps extends PropsWithChildren {}
-
 export const PopupTrigger = forwardRef(
-    ({ children, ...props }: PopupTriggerProps, propRef: RefObject<HTMLDivElement>): ReactElement => {
-        const context = usePopupContext();
+    ({ children }: PropsWithChildren, propRef: RefObject<HTMLDivElement>): ReactElement => {
+        const { getReferenceProps, open, refs } = usePopupContext();
         const childrenRef = (children as any).ref;
-        const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+        const ref = useMergeRefs([refs.setReference, propRef, childrenRef]);
 
         return (
             <div
                 className={"popupmenu-trigger"}
                 ref={ref}
-                data-state={context.open ? "open" : "closed"}
-                {...context.getReferenceProps(props)}
+                data-state={open ? "open" : "closed"}
+                {...getReferenceProps?.()}
             >
                 {children}
             </div>

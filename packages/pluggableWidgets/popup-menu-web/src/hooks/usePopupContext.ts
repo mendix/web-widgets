@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { PopupContext, PopupContextType } from "../components/PopupContext";
+import { PopupContext } from "../components/PopupContext";
+import { UsePopupReturn } from "./usePopup";
 
-export const usePopupContext = (): PopupContextType => {
+export const usePopupContext = (): UsePopupReturn => {
     const context = useContext(PopupContext);
 
     if (context == null) {
