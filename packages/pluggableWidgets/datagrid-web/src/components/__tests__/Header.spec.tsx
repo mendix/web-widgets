@@ -1,8 +1,8 @@
 import { render, shallow } from "enzyme";
 import { createElement } from "react";
-import { Header, HeaderProps } from "../Header";
-import { ColumnResizer } from "../ColumnResizer";
 import { GridColumn } from "../../typings/GridColumn";
+import { ColumnResizer } from "../ColumnResizer";
+import { Header, HeaderProps } from "../Header";
 
 describe("Header", () => {
     it("renders the structure correctly", () => {

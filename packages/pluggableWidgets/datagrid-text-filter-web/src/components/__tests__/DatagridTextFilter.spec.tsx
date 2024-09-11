@@ -1,25 +1,27 @@
 import "@testing-library/jest-dom";
-import { FilterContextValue } from "@mendix/widget-plugin-filtering";
+import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
-import { requirePlugin, deletePlugin } from "@mendix/widget-plugin-external-events/plugin";
+import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 
-const commonProps = {
+const commonProps: DatagridTextFilterContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
     advanced: false,
-    delay: 1000
+    delay: 1000,
+    groupKey: "text-filter"
 };
 
 jest.useFakeTimers();
@@ -31,21 +33,35 @@ describe("Text Filter", () => {
         });
 
         describe("with defaultValue prop", () => {
-            beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    singleAttribute: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
-                } as FilterContextValue);
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withType("String")
+                                .withFormatter(
+                                    value => value,
+                                    value => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("don't sync value when defaultValue changes from undefined to string", async () => {
                 const { rerender } = render(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
-
                 expect(screen.getByRole("textbox")).toHaveValue("");
 
-                // rerender component with new `defaultValue`
-                const defaultValue = dynamicValue<string>("xyz");
-                rerender(<DatagridTextFilter {...commonProps} defaultValue={defaultValue} />);
+                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("xyz")} />);
                 expect(screen.getByRole("textbox")).toHaveValue("");
             });
 
@@ -53,12 +69,8 @@ describe("Text Filter", () => {
                 const { rerender } = render(
                     <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
                 );
-
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
-
-                // rerender component with new `defaultValue`
-                const defaultValue = dynamicValue<string>("xyz");
-                rerender(<DatagridTextFilter {...commonProps} defaultValue={defaultValue} />);
+                rerender(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("xyz")} />);
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
 
@@ -66,10 +78,7 @@ describe("Text Filter", () => {
                 const { rerender } = render(
                     <DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("abc")} />
                 );
-
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
-
-                // rerender component with new `defaultValue`
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
@@ -77,10 +86,27 @@ describe("Text Filter", () => {
 
         describe("with single attribute", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    singleAttribute: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withType("String")
+                                .withFormatter(
+                                    value => value,
+                                    value => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders correctly", () => {
@@ -104,27 +130,45 @@ describe("Text Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with multiple attributes", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("HashString")
-                            .withFilterable(true)
-                            .build()
-                    }
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .withFilterable(true)
+                                .build()
+                        },
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("HashString")
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders correctly", () => {
@@ -134,16 +178,24 @@ describe("Text Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    singleAttribute: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build()
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders error message", () => {
@@ -153,27 +205,37 @@ describe("Text Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Long")
-                            .withFilterable(true)
-                            .build()
-                    }
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("Decimal")
+                                .withFilterable(true)
+                                .build()
+                        },
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("Long")
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders error message", () => {
@@ -183,13 +245,13 @@ describe("Text Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with no context", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
 
             it("renders error message", () => {
@@ -202,10 +264,27 @@ describe("Text Filter", () => {
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                filterDispatcher: jest.fn(),
-                singleAttribute: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
-            } as FilterContextValue);
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: false,
+                filterList: [
+                    {
+                        filter: new ListAttributeValueBuilder()
+                            .withType("String")
+                            .withFormatter(
+                                value => value,
+                                () => console.log("Parsed")
+                            )
+                            .withFilterable(true)
+                            .build()
+                    }
+                ],
+                groupAttrs: [],
+                groupList: []
+            };
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
         });
 
         it("renders with a unique id", () => {
@@ -218,63 +297,96 @@ describe("Text Filter", () => {
         });
 
         afterAll(() => {
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
         });
     });
 
-    describe("events", () => {
-        let dispatch: jest.Mock;
-        let parentChannelName: string;
-        let ctx: FilterContextValue;
+    describe("with filter groups enabled", () => {
         beforeEach(() => {
-            dispatch = jest.fn();
-            parentChannelName = Math.random().toString(36).slice(-10);
-            ctx = {
-                filterDispatcher: dispatch,
-                eventsChannelName: parentChannelName,
-                singleAttribute: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: true,
+                filterList: [],
+                groupAttrs: [
+                    {
+                        key: "text-filter",
+                        attr: new ListAttributeValueBuilder()
+                            .withType("String")
+                            .withFormatter(
+                                value => value,
+                                value => ({ valid: true, value })
+                            )
+                            .withFilterable(true)
+                            .build()
+                    }
+                ],
+                groupList: [{ type: "attrs", key: "text-filter" }]
             };
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext(ctx);
-            deletePlugin();
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
         });
 
-        it("resets value on external event", async () => {
-            const plugin = requirePlugin();
-
-            expect(dispatch).toHaveBeenCalledTimes(0);
-
-            render(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("foo")} name="widget_x" />);
-
-            const input = screen.getByRole("textbox");
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(input).toHaveValue("foo");
-
-            act(() => plugin.emit("widget_x", "reset.value"));
-
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            const [{ getFilterCondition }] = dispatch.mock.lastCall;
-            expect(input).toHaveValue("");
-            expect(getFilterCondition()).toEqual(undefined);
+        it("renders correctly", () => {
+            const { asFragment } = render(<DatagridTextFilter {...commonProps} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        it("resets value on parent event", async () => {
-            const plugin = requirePlugin();
+        it("triggers attribute and onchange action on change filter value", async () => {
+            const action = actionValue();
+            const attribute = new EditableValueBuilder<string>().build();
+            render(
+                <DatagridTextFilter
+                    {...commonProps}
+                    onChange={action}
+                    valueAttribute={attribute}
+                    placeholder={dynamicValue("Placeholder")}
+                />
+            );
 
-            expect(dispatch).toHaveBeenCalledTimes(0);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.type(screen.getByPlaceholderText("Placeholder"), "B");
 
-            render(<DatagridTextFilter {...commonProps} defaultValue={dynamicValue<string>("bar")} name="widget_x" />);
+            jest.runOnlyPendingTimers();
 
-            const input = screen.getByRole("textbox");
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(input).toHaveValue("bar");
+            expect(action.execute).toHaveBeenCalled();
+            expect(attribute.setValue).toHaveBeenCalled();
+        });
 
-            act(() => plugin.emit(parentChannelName, "reset.value"));
+        describe("with wrong group key", () => {
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: true,
+                    filterList: [],
+                    groupAttrs: [
+                        {
+                            key: "different-key",
+                            attr: new ListAttributeValueBuilder()
+                                .withType("String")
+                                .withFormatter(
+                                    value => value,
+                                    value => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupList: [{ type: "attrs", key: "different-key" }]
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
+            });
 
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            const [{ getFilterCondition }] = dispatch.mock.lastCall;
-            expect(input).toHaveValue("");
-            expect(getFilterCondition()).toEqual(undefined);
+            it("renders error message", () => {
+                const { container } = render(<DatagridTextFilter {...commonProps} />);
+
+                expect(container.querySelector(".alert")?.textContent).toEqual(
+                    "Unable to get filter store. Check parent widget configuration."
+                );
+            });
         });
     });
 });

@@ -1,11 +1,11 @@
-import { createElement } from "react";
-import { Gallery } from "../../components/Gallery";
-import { listAction, listExp } from "@mendix/widget-plugin-test-utils";
-import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
+import { listAction, listExp } from "@mendix/widget-plugin-test-utils";
 import { waitFor, render } from "@testing-library/react";
-import { mockProps, mockItemHelperWithAction, setup } from "../../utils/test-utils";
+import { createElement } from "react";
+import { Gallery } from "../Gallery";
 import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
+import { mockProps, mockItemHelperWithAction, setup } from "../../utils/test-utils";
+import "./__mocks__/intersectionObserverMock";
 
 describe("Gallery", () => {
     describe("DOM Structure", () => {

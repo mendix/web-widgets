@@ -1,6 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Date Filter with single instance with multiple attributes renders correctly 1`] = `
+exports[`Date Filter with filter groups enabled renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="DateFilter6-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label="Select filter type"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <div
+      class="date-filter-container"
+      id="datepicker_0.123456789"
+    />
+    <span
+      class="sr-only"
+      id="DateFilter6-label"
+    />
+    <div
+      class="react-datepicker-wrapper"
+    >
+      <div
+        class="react-datepicker__input-container"
+      >
+        <input
+          aria-labelledby="DateFilter6-label"
+          class="form-control filter-input"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <button
+      aria-controls="datepicker_0.123456789"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label="Show calendar"
+      class="btn btn-default btn-calendar"
+    >
+      <svg
+        class="button-icon"
+        viewBox="0 0 32 32"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M27,5h-3V3h-4v2H12V3h-4v2h-3c-.55,0-1,.45-1,1V28c0,.55,.45,1,1,1H27c.55,0,1-.45,1-1V6c0-.55-.45-1-1-1ZM12,23h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,5h-4v-2h4v2Zm0-5h-4v-2h4v2Zm6,0h-4v-2h4v2Zm0-5H8v-2H24v2Z"
+          fill="currentColor"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Date Filter with single instance with double attributes renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="filter-container filter-custom-class"

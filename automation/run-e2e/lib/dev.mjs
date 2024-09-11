@@ -59,11 +59,13 @@ export async function dev() {
         console.log(c.yellow("Skip preparations"));
     }
 
-    console.log(c.cyan("Make sure app is running on port 8080"));
+    const url = process.env.URL ?? "http://127.0.0.1:8080";
+
+    console.log(c.cyan(`Make sure app is running on ${url}`));
     try {
-        await await200();
+        await await200(url);
     } catch {
-        throw new Error("Can't reach app on localhost:8080");
+        throw new Error(`Can't reach app on ${url}`);
     }
 
     console.log(c.cyan("Launch Playwright"));

@@ -1,22 +1,22 @@
+import "@testing-library/jest-dom";
+import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
-import "@testing-library/jest-dom";
-import * as testingLibrary from "@testing-library/react";
+import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { render } from "enzyme";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement, createElement } from "react";
-import { GridColumn } from "../../typings/GridColumn";
-import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
-import { Widget, WidgetProps } from "../Widget";
-import { ItemSelectionMethodEnum } from "typings/DatagridProps";
-import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
+import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
     CheckboxEventsController,
     useCheckboxEventsController
 } from "../../features/row-interaction/CheckboxEventsController";
-import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
-import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
+import { GridColumn } from "../../typings/GridColumn";
+import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
+import { Widget, WidgetProps } from "../Widget";
+import { ItemSelectionMethodEnum } from "typings/DatagridProps";
+
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -33,43 +33,43 @@ describe("Table", () => {
     it("renders the structure correctly", () => {
         const component = render(<Widget {...mockWidgetProps()} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with sorting", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsSortable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with resizing", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsResizable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dragging", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsDraggable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with filtering", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsFilterable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with hiding", () => {
         const component = render(<Widget {...mockWidgetProps()} columnsHidable />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with paging", () => {
         const component = render(<Widget {...mockWidgetProps()} paging />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with custom filtering", () => {
@@ -80,7 +80,7 @@ describe("Table", () => {
         props.availableColumns = columns;
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with empty placeholder", () => {
@@ -88,7 +88,7 @@ describe("Table", () => {
             <Widget {...mockWidgetProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with column alignments", () => {
@@ -105,13 +105,13 @@ describe("Table", () => {
 
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dynamic row class", () => {
         const component = render(<Widget {...mockWidgetProps()} rowClass={() => "myclass"} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly for preview when no header is provided", () => {
@@ -123,7 +123,7 @@ describe("Table", () => {
 
         const component = render(<Widget {...props} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header wrapper", () => {
@@ -138,7 +138,7 @@ describe("Table", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header filters and a11y", () => {
@@ -154,11 +154,10 @@ describe("Table", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     describe("with selection method checkbox", () => {
-        const { render, screen } = testingLibrary;
         let props: ReturnType<typeof mockWidgetProps>;
 
         beforeEach(() => {
@@ -254,7 +253,6 @@ describe("Table", () => {
     });
 
     it("not render header checkbox when showCheckboxColumn is false", () => {
-        const { render, screen, queryByRole } = testingLibrary;
         const props = mockWidgetProps();
         props.data = objectItems(5);
         props.paging = true;
@@ -267,7 +265,6 @@ describe("Table", () => {
 
     describe("with multi selection helper", () => {
         it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
-            const { render, screen, queryByRole, cleanup } = testingLibrary;
             const props = mockWidgetProps();
             props.data = objectItems(5);
             props.paging = true;
@@ -290,7 +287,6 @@ describe("Table", () => {
         });
 
         it("not render header checkbox if method is rowClick", () => {
-            const { render, screen, queryByRole } = testingLibrary;
             const props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
 
@@ -301,7 +297,6 @@ describe("Table", () => {
         });
 
         it("call onSelectAll when header checkbox is clicked", async () => {
-            const { render, screen } = testingLibrary;
             const props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
             props.selectActionHelper.onSelectAll = jest.fn();
@@ -312,15 +307,14 @@ describe("Table", () => {
             const checkbox = screen.getAllByRole("checkbox")[0];
 
             await userEvent.click(checkbox);
-            expect(props.selectActionHelper.onSelectAll).toBeCalledTimes(1);
+            expect(props.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(1);
 
             await userEvent.click(checkbox);
-            expect(props.selectActionHelper.onSelectAll).toBeCalledTimes(2);
+            expect(props.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(2);
         });
     });
 
     describe("with selection method rowClick", () => {
-        const { render, screen, getAllByRole } = testingLibrary;
         let props: ReturnType<typeof mockWidgetProps>;
 
         beforeEach(() => {
@@ -408,7 +402,6 @@ describe("Table", () => {
     });
 
     describe("when selecting is enabled, allow the user to select multiple rows", () => {
-        const { render, screen, getByRole, getAllByRole } = testingLibrary;
         let items: ReturnType<typeof objectItems>;
         let props: ReturnType<typeof mockWidgetProps>;
         let selection: SelectionMultiValue;
@@ -417,7 +410,9 @@ describe("Table", () => {
         function WidgetWithSelectionHelper({
             selectionMethod,
             ...props
-        }: WidgetProps<GridColumn, ObjectItem> & { selectionMethod: ItemSelectionMethodEnum }): ReactElement {
+        }: WidgetProps<GridColumn, ObjectItem> & {
+            selectionMethod: ItemSelectionMethodEnum;
+        }): ReactElement {
             const helper = useSelectionHelper(selection, ds, undefined);
             const selectHelper = useSelectActionHelper(
                 {
@@ -607,7 +602,6 @@ describe("Table", () => {
 
     describe("when has interactive element", () => {
         it("should not prevent default on keyboard input (space and Enter)", async () => {
-            const { render, screen } = testingLibrary;
             const items = objectItems(3);
 
             const props = mockWidgetProps();

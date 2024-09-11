@@ -1,61 +1,48 @@
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { SortDirection } from "@mendix/widget-plugin-sorting";
 import classNames from "classnames";
+import { createElement, CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 export interface SortOption {
     caption: string;
-    value: string;
+    value: string | null;
 }
 
-interface SortComponentProps {
+interface SortComponentProps<Dir = "asc" | "desc"> {
     className?: string;
-    defaultDirection?: SortDirection;
-    defaultOption?: SortOption;
-    emptyOptionCaption?: string;
+    placeholder?: string;
     id?: string;
     options: SortOption[];
+    value: string | null;
+    direction: Dir;
     tabIndex?: number;
     screenReaderButtonCaption?: string;
     screenReaderInputCaption?: string;
     styles?: CSSProperties;
-    updateSort?: (value: SortOption, direction: SortDirection) => void;
+    onSelect?: (option: SortOption) => void;
+    onDirectionClick?: () => void;
 }
 
 export function SortComponent(props: SortComponentProps): ReactElement {
-    const [valueInput, setValueInput] = useState(props.defaultOption?.caption ?? props.emptyOptionCaption ?? "");
-    const [selectedSort, setSelectedSort] = useState<SortOption>(
-        props.defaultOption ?? {
-            caption: props.emptyOptionCaption ?? "",
-            value: ""
-        }
-    );
+    const { onSelect } = props;
     const [show, setShow] = useState(false);
     const [dropdownWidth, setDropdownWidth] = useState(0);
-    const [direction, setDirection] = useState(props.defaultDirection ?? "asc");
-
     const componentRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLUListElement>(null);
-
     const position = usePositionObserver(componentRef.current, show);
 
-    const onClick = useCallback((option: SortOption) => {
-        setValueInput(option.caption);
-        setSelectedSort(option);
-        setShow(false);
-    }, []);
+    const onClick = useCallback(
+        (option: SortOption) => {
+            onSelect?.(option);
+            setShow(false);
+        },
+        [onSelect]
+    );
 
     useOnClickOutside([componentRef, optionsRef], () => setShow(false));
 
-    useEffect(() => {
-        if (selectedSort) {
-            props.updateSort?.(selectedSort, direction);
-        }
-    }, [direction, selectedSort]);
-
-    const showPlaceholder = !selectedSort || valueInput === props.emptyOptionCaption;
+    const selected = props.options.find(o => o.value === props.value);
 
     const optionsComponent = createPortal(
         <ul
@@ -69,7 +56,7 @@ export function SortComponent(props: SortComponentProps): ReactElement {
             {props.options.map((option, index) => (
                 <li
                     className={classNames({
-                        "filter-selected": selectedSort?.value === option.value
+                        "filter-selected": props.value === option.value
                     })}
                     key={index}
                     onClick={e => {
@@ -118,8 +105,8 @@ export function SortComponent(props: SortComponentProps): ReactElement {
         >
             <div className="dropdown-triggerer-wrapper">
                 <input
-                    value={showPlaceholder ? "" : valueInput}
-                    placeholder={showPlaceholder ? props.emptyOptionCaption : undefined}
+                    value={props.value ? selected?.caption : ""}
+                    placeholder={props.placeholder}
                     className="form-control dropdown-triggerer"
                     onClick={containerClick}
                     onKeyDown={e => {
@@ -138,14 +125,15 @@ export function SortComponent(props: SortComponentProps): ReactElement {
                     aria-expanded={show}
                     aria-controls={`${props.id}-dropdown-list`}
                     aria-label={props.screenReaderInputCaption}
+                    readOnly
                 />
                 <button
                     aria-label={props.screenReaderButtonCaption}
                     className={classNames("btn btn-default btn-sort", {
-                        "icon-asc": direction === "asc",
-                        "icon-desc": direction === "desc"
+                        "icon-asc": props.direction === "asc",
+                        "icon-desc": props.direction === "desc"
                     })}
-                    onClick={() => setDirection(prev => (prev === "asc" ? "desc" : "asc"))}
+                    onClick={props.onDirectionClick}
                 />
             </div>
             {show && optionsComponent}

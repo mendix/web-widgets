@@ -27,7 +27,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
     test.describe("using enumeration as attribute", () => {
         test("shows the expected result", async ({ page }) => {
             await page.click(".mx-name-datagrid1 .dropdown-container:first-child");
-            await page.click(".dropdown-list > li:nth-child(1)");
+            await page.click(".dropdown-list > li:nth-child(2)");
             await page.click("#DataGrid4-column0");
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -37,8 +37,8 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
         test("shows the expected result with multiple selected items", async ({ page }) => {
             await page.click(".mx-name-datagrid1 .dropdown-container:first-child");
-            await page.click(".dropdown-list > li:nth-child(1)");
             await page.click(".dropdown-list > li:nth-child(2)");
+            await page.click(".dropdown-list > li:nth-child(3)");
             await page.click("#DataGrid4-column0");
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -172,8 +172,8 @@ test.describe("with Default value", () => {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 10 of 19").nth(1);
-        await expect(pagingStatus).toHaveText("1 to 10 of 19");
+        const pagingStatus = await page.getByText("to 10 of 50").nth(1);
+        await expect(pagingStatus).toHaveText("1 to 10 of 50");
     });
 });
 

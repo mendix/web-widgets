@@ -1,26 +1,29 @@
 import "@testing-library/jest-dom";
-import { FilterContextValue } from "@mendix/widget-plugin-filtering";
+import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 
 import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
-import { deletePlugin, requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
-const commonProps = {
+import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
+
+const commonProps: DatagridNumberFilterContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
     advanced: false,
-    delay: 1000
+    delay: 1000,
+    groupKey: "number-filter"
 };
 
 jest.useFakeTimers();
@@ -32,11 +35,28 @@ describe("Number Filter", () => {
         });
 
         describe("with single attribute", () => {
-            beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    singleAttribute: new ListAttributeValueBuilder().withType("Long").withFilterable(true).build()
-                } as FilterContextValue);
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withType("Long")
+                                .withFormatter(
+                                    value => (value ? value.toString() : ""),
+                                    (value: string) => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders correctly", () => {
@@ -51,13 +71,12 @@ describe("Number Filter", () => {
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
                 await user.type(screen.getByRole("spinbutton"), "10");
 
                 jest.runOnlyPendingTimers();
 
-                expect(action.execute).toBeCalledTimes(1);
-                expect(attribute.setValue).toBeCalledWith(new Big(10));
+                expect(action.execute).toHaveBeenCalledTimes(1);
+                expect(attribute.setValue).toHaveBeenCalledWith("10");
             });
 
             describe("with defaultValue", () => {
@@ -84,27 +103,45 @@ describe("Number Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with multiple attributes", () => {
-            beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("Long")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build()
-                    }
-                } as FilterContextValue);
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("Long")
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .withFilterable(true)
+                                .build()
+                        },
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("Decimal")
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders correctly", () => {
@@ -114,16 +151,24 @@ describe("Number Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    singleAttribute: new ListAttributeValueBuilder().withType("Boolean").withFilterable(true).build()
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        { filter: new ListAttributeValueBuilder().withType("Boolean").withFilterable(true).build() }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders error message", () => {
@@ -133,27 +178,37 @@ describe("Number Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                    filterDispatcher: jest.fn(),
-                    multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("HashString")
-                            .withFilterable(true)
-                            .build()
-                    }
-                } as FilterContextValue);
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: false,
+                    filterList: [
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withSortable(true)
+                                .build()
+                        },
+                        {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("HashString")
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupAttrs: [],
+                    groupList: []
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
             });
 
             it("renders error message", () => {
@@ -163,13 +218,13 @@ describe("Number Filter", () => {
             });
 
             afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
         });
 
         describe("with no context", () => {
             beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
 
             it("renders error message", () => {
@@ -181,11 +236,28 @@ describe("Number Filter", () => {
     });
 
     describe("with multiple instances", () => {
-        beforeAll(() => {
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
-                filterDispatcher: jest.fn(),
-                singleAttribute: new ListAttributeValueBuilder().withType("Long").withFilterable(true).build()
-            } as FilterContextValue);
+        beforeEach(() => {
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: false,
+                filterList: [
+                    {
+                        filter: new ListAttributeValueBuilder()
+                            .withType("Long")
+                            .withFormatter(
+                                value => value,
+                                () => console.log("Parsed")
+                            )
+                            .withFilterable(true)
+                            .build()
+                    }
+                ],
+                groupAttrs: [],
+                groupList: []
+            };
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
         });
 
         it("renders with a unique id", () => {
@@ -198,67 +270,96 @@ describe("Number Filter", () => {
         });
 
         afterAll(() => {
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = undefined;
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
         });
     });
 
-    describe("events", () => {
-        let dispatch: jest.Mock;
-        let parentChannelName: string;
-        let ctx: FilterContextValue;
+    describe("with filter groups enabled", () => {
         beforeEach(() => {
-            dispatch = jest.fn();
-            parentChannelName = Math.random().toString(36).slice(-10);
-            ctx = {
-                filterDispatcher: dispatch,
-                eventsChannelName: parentChannelName,
-                singleAttribute: new ListAttributeValueBuilder().withType("Long").withFilterable(true).build()
+            const props: HeaderFiltersStoreProps = {
+                enableFilterGroups: true,
+                filterList: [],
+                groupAttrs: [
+                    {
+                        key: "number-filter",
+                        attr: new ListAttributeValueBuilder()
+                            .withType("Long")
+                            .withFormatter(
+                                value => (value ? value.toString() : ""),
+                                (value: string) => ({ valid: true, value })
+                            )
+                            .withFilterable(true)
+                            .build()
+                    }
+                ],
+                groupList: [{ type: "attrs", key: "number-filter" }]
             };
-            (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext(ctx);
-            deletePlugin();
+            const headerFilterStore = new HeaderFiltersStore(props, null);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                headerFilterStore.context
+            );
         });
 
-        it("resets value on external event", async () => {
-            const plugin = requirePlugin();
-
-            expect(dispatch).toHaveBeenCalledTimes(0);
-
-            render(
-                <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} name="widget_x" />
-            );
-
-            const input = screen.getByRole("spinbutton");
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(input).toHaveValue(100);
-
-            act(() => plugin.emit("widget_x", "reset.value"));
-
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            const [{ getFilterCondition }] = dispatch.mock.lastCall;
-            expect(input).toHaveValue(null);
-            expect(getFilterCondition()).toEqual(undefined);
+        it("renders correctly", () => {
+            const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        it("resets value on parent event", async () => {
-            const plugin = requirePlugin();
-
-            expect(dispatch).toHaveBeenCalledTimes(0);
-
+        it("triggers attribute and onchange action on change filter value", async () => {
+            const action = actionValue();
+            const attribute = new EditableValueBuilder<Big>().build();
             render(
-                <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} name="widget_x" />
+                <DatagridNumberFilter
+                    {...commonProps}
+                    onChange={action}
+                    valueAttribute={attribute}
+                    placeholder={dynamicValue("Placeholder")}
+                />
             );
 
-            const input = screen.getByRole("spinbutton");
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(input).toHaveValue(100);
+            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+            await user.type(screen.getByPlaceholderText("Placeholder"), "2000");
 
-            act(() => plugin.emit(parentChannelName, "reset.value"));
+            jest.runOnlyPendingTimers();
 
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            const [{ getFilterCondition }] = dispatch.mock.lastCall;
-            expect(input).toHaveValue(null);
-            expect(getFilterCondition()).toEqual(undefined);
+            expect(action.execute).toHaveBeenCalled();
+            expect(attribute.setValue).toHaveBeenCalled();
+        });
+
+        describe("with wrong group key", () => {
+            beforeEach(() => {
+                const props: HeaderFiltersStoreProps = {
+                    enableFilterGroups: true,
+                    filterList: [],
+                    groupAttrs: [
+                        {
+                            key: "different-key",
+                            attr: new ListAttributeValueBuilder()
+                                .withType("Long")
+                                .withFormatter(
+                                    value => (value ? value.toString() : ""),
+                                    (value: string) => ({ valid: true, value })
+                                )
+                                .withFilterable(true)
+                                .build()
+                        }
+                    ],
+                    groupList: [{ type: "attrs", key: "different-key" }]
+                };
+                const headerFilterStore = new HeaderFiltersStore(props, null);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                    headerFilterStore.context
+                );
+            });
+
+            it("renders error message", () => {
+                const { container } = render(<DatagridNumberFilter {...commonProps} />);
+
+                expect(container.querySelector(".alert")?.textContent).toEqual(
+                    "Unable to get filter store. Check parent widget configuration."
+                );
+            });
         });
     });
 });

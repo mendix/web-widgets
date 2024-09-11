@@ -1,5 +1,4 @@
-import { useFilterContext } from "@mendix/widget-plugin-filtering";
-import { useCreateSelectionContextValue, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
@@ -33,7 +32,6 @@ const Container = observer((props: Props): ReactElement => {
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
 
-    const { FilterContext } = useFilterContext();
     const { columnsStore, rootStore } = props;
 
     const items = props.datasource.items ?? [];
@@ -68,8 +66,7 @@ const Container = observer((props: Props): ReactElement => {
         onClickTrigger: props.onClickTrigger,
         onClick: props.onClick
     });
-    const filtersChannelName = useMemo(() => `datagrid/${generateUUID()}`, []);
-    useOnResetFiltersEvent(props.name, filtersChannelName);
+    useOnResetFiltersEvent(props.rootStore.staticInfo.name, props.rootStore.staticInfo.filtersChannelName);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
         ? columnsStore.visibleColumns.length + 1
@@ -84,8 +81,6 @@ const Container = observer((props: Props): ReactElement => {
     const cellEventsController = useCellEventsController(selectActionHelper, clickActionHelper, focusController);
 
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
-
-    const selectionContextValue = useCreateSelectionContextValue(selectionHelper);
 
     return (
         <Widget
@@ -105,37 +100,14 @@ const Container = observer((props: Props): ReactElement => {
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
                     const columnFilter = columnsStore.columnFilters[columnIndex];
-
-                    if (!columnFilter.needsFilterContext) {
-                        return renderWrapper(columnFilter.renderFilterWidgets());
-                    }
-
-                    return renderWrapper(
-                        <FilterContext.Provider
-                            value={{
-                                eventsChannelName: filtersChannelName,
-                                filterDispatcher: prev => {
-                                    rootStore.headerFiltersStore.setDirty();
-                                    columnFilter.setFilterState(prev);
-                                    return prev;
-                                },
-                                ...columnFilter.getFilterContextProps()
-                            }}
-                        >
-                            {columnFilter.renderFilterWidgets()}
-                        </FilterContext.Provider>
-                    );
+                    return renderWrapper(columnFilter.renderFilterWidgets());
                 },
-                [FilterContext, columnsStore.columnFilters, rootStore.headerFiltersStore, filtersChannelName]
+                [columnsStore.columnFilters]
             )}
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (
-                    <WidgetHeaderContext
-                        selectionContextValue={selectionContextValue}
-                        eventsChannelName={filtersChannelName}
-                        headerFilterStore={rootStore.headerFiltersStore}
-                    >
+                    <WidgetHeaderContext selectionHelper={selectionHelper} filtersStore={rootStore.headerFiltersStore}>
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>
                 )

@@ -18,6 +18,7 @@ import {
 } from "@mendix/pluggable-widgets-tools";
 
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
+import { setFilteringProps } from "./property-utils";
 
 export function getProperties(
     values: DatagridPreviewProps,
@@ -152,6 +153,8 @@ export function getProperties(
     if (values.configurationStorageType === "localStorage") {
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
     }
+
+    setFilteringProps(values, defaultProperties);
 
     return defaultProperties;
 }

@@ -2,18 +2,16 @@ import { createElement, ReactElement, useCallback, useEffect, useRef, useState, 
 import classNames from "classnames";
 import { usePositionObserver } from "./usePositionObserver.js";
 
-interface FilterSelectorProps<T extends string> {
+interface FilterSelectorProps<T> {
     ariaLabel?: string;
     id?: string;
-    defaultFilter: T;
-    onChange: (value: T, isFromUserInteraction: boolean) => void;
+    value: T;
+    onChange: (value: T) => void;
     options: Array<{ value: T; label: string }>;
 }
 
-export function FilterSelector<T extends string>(props: FilterSelectorProps<T>): ReactElement {
-    const defaultFilter = props.defaultFilter;
-    const onChange = props.onChange;
-    const [value, setValue] = useState(defaultFilter);
+export function FilterSelector<T>(props: FilterSelectorProps<T>): ReactElement {
+    const { value, onChange } = props;
     const [show, setShow] = useState(false);
     const componentRef = useRef<HTMLDivElement>(null);
     const filterSelectorsRef = useRef<HTMLUListElement>(null);
@@ -22,17 +20,11 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
 
     const onClick = useCallback(
         (value: T) => {
-            setValue(value);
-            onChange(value, true);
+            onChange(value);
             setShow(false);
         },
         [onChange]
     );
-
-    useEffect(() => {
-        setValue(defaultFilter);
-        onChange(defaultFilter, false);
-    }, [defaultFilter, onChange]);
 
     const filterSelectors = (
         <ul
@@ -69,7 +61,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                     role="menuitem"
                     tabIndex={0}
                 >
-                    <div className={classNames("filter-icon", option.value)} aria-hidden />
+                    <div className={classNames("filter-icon", option.value as string)} aria-hidden />
                     <div className="filter-label">{option.label}</div>
                 </li>
             ))}
@@ -91,7 +83,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
                     aria-expanded={show}
                     aria-haspopup
                     aria-label={props.ariaLabel}
-                    className={classNames("btn btn-default filter-selector-button button-icon", value)}
+                    className={classNames("btn btn-default filter-selector-button button-icon", value as string)}
                     onClick={containerClick}
                     onKeyDown={e => {
                         if (e.key === "Enter" || e.key === " ") {

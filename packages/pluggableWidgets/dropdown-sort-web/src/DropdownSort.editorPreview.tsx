@@ -6,8 +6,10 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 export function preview(props: DropdownSortPreviewProps): ReactElement {
     return (
         <SortComponent
+            value={null}
+            direction="asc"
             className={props.className}
-            emptyOptionCaption={props.emptyOptionCaption}
+            placeholder={props.emptyOptionCaption}
             options={[{ caption: "optionCaption", value: "option" }]}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}

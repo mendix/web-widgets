@@ -1122,6 +1122,12 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1198,6 +1204,10 @@ importers:
         version: link:../../shared/widget-plugin-test-utils
 
   packages/pluggableWidgets/dropdown-sort-web:
+    dependencies:
+      '@mendix/widget-plugin-filtering':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-filtering
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1217,9 +1227,6 @@ importers:
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-hooks
@@ -1314,6 +1321,12 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2306,6 +2319,12 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../widget-plugin-platform
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2316,6 +2335,9 @@ importers:
       '@mendix/tsconfig-web-widgets':
         specifier: workspace:*
         version: link:../tsconfig-web-widgets
+      date-fns:
+        specifier: ^3.6.0
+        version: 3.6.0
 
   packages/shared/widget-plugin-grid:
     devDependencies:
@@ -2402,6 +2424,13 @@ importers:
         version: 29.5.0
 
   packages/shared/widget-plugin-sorting:
+    dependencies:
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -11974,6 +12003,25 @@ packages:
       mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+    patched: true
+
+  /mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3)(react@18.2.0):
+    resolution: {integrity: sha512-RjwdseshK9Mg8On5tyJZHtGD+J78ZnCnRaxeQDSiciKVQDUbfZcXhmld0VMxAwvcTnPEHZySGGewm467Fcpreg==}
+    peerDependencies:
+      mobx: ^6.9.0
+      react: ^16.8.0 || ^17 || ^18 || 18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
     patched: true

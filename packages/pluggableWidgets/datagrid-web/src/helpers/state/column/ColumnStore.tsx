@@ -231,8 +231,7 @@ export class ColumnStore implements GridColumn {
             hidden: this.isHidden,
             orderWeight: this.orderWeight,
             sortDir: this.sortDir,
-            sortWeight: this.sortWeight,
-            filterSettings: undefined
+            sortWeight: this.sortWeight
         };
     }
 

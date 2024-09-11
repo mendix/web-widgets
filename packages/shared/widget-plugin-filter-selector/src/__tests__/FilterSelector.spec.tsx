@@ -24,18 +24,14 @@ jest.useFakeTimers();
 
 describe("Filter selector", () => {
     it("renders correctly", () => {
-        const component = render(
-            <FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />
-        );
+        const component = render(<FilterSelector value="contains" onChange={jest.fn()} id="test" options={options} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with filter selectors open", async () => {
         const onChange = jest.fn();
-        const component = render(
-            <FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />
-        );
+        const component = render(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
         const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         await user.click(screen.getByRole("button"));
@@ -46,32 +42,26 @@ describe("Filter selector", () => {
 
     it("renders correctly with aria-label", () => {
         const component = render(
-            <FilterSelector
-                ariaLabel="my label"
-                defaultFilter="contains"
-                onChange={jest.fn()}
-                id="test"
-                options={options}
-            />
+            <FilterSelector ariaLabel="my label" value="contains" onChange={jest.fn()} id="test" options={options} />
         );
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
-    it("renders correctly with another default filter", () => {
-        const component = render(
-            <FilterSelector defaultFilter="equal" onChange={jest.fn()} id="test" options={options} />
-        );
+    it("renders correctly when updating the value externally", () => {
+        const onChange = jest.fn();
+        const component = render(<FilterSelector value="equal" onChange={onChange} id="test" options={options} />);
+
+        expect(component.asFragment()).toMatchSnapshot();
+
+        component.rerender(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("calls onChange when type changes", async () => {
         const onChange = jest.fn();
-        render(<FilterSelector defaultFilter="contains" onChange={onChange} id="test" options={options} />);
-
-        // default filter set on mount
-        expect(onChange).toBeCalledWith("contains", false);
+        render(<FilterSelector value="contains" onChange={onChange} id="test" options={options} />);
 
         const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
@@ -84,7 +74,7 @@ describe("Filter selector", () => {
         await user.click(item0!);
         jest.runOnlyPendingTimers();
         // on user interaction filter set
-        expect(onChange).toBeCalledWith("contains", true);
+        expect(onChange).toHaveBeenCalledWith("contains");
 
         // clicking on filter second time
         await user.click(screen.getByRole("button"));
@@ -95,14 +85,14 @@ describe("Filter selector", () => {
         await user.click(item1!);
         jest.runOnlyPendingTimers();
         // on user interaction filter set
-        expect(onChange).toBeCalledWith("startsWith", true);
+        expect(onChange).toHaveBeenCalledWith("startsWith");
     });
 
     describe("focus", () => {
         beforeEach(() => (document.body.innerHTML = ""));
 
         it("changes focused element when pressing filter selector button", async () => {
-            render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
+            render(<FilterSelector value="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 
@@ -116,7 +106,7 @@ describe("Filter selector", () => {
         });
 
         it("changes focused element back to the button when pressing shift+tab in the first element", async () => {
-            render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
+            render(<FilterSelector value="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 
@@ -138,7 +128,7 @@ describe("Filter selector", () => {
 
             render(
                 <FilterSelector
-                    defaultFilter="contains"
+                    value="contains"
                     onChange={onChange}
                     id="test"
                     options={[
@@ -149,9 +139,6 @@ describe("Filter selector", () => {
             );
 
             expect(document.body).toHaveFocus();
-
-            // default filter set on mount
-            expect(onChange).toHaveBeenCalledWith("contains", false);
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
             await user.click(screen.getByRole("button"));
@@ -167,11 +154,11 @@ describe("Filter selector", () => {
             jest.runOnlyPendingTimers();
 
             // on user interaction filter set
-            expect(onChange).toHaveBeenCalledWith("contains", true);
+            expect(onChange).toHaveBeenCalledWith("contains");
         });
 
         it("changes focused element back to the button when pressing escape in any element", async () => {
-            render(<FilterSelector defaultFilter="contains" onChange={jest.fn()} id="test" options={options} />);
+            render(<FilterSelector value="contains" onChange={jest.fn()} id="test" options={options} />);
 
             expect(document.body).toHaveFocus();
 

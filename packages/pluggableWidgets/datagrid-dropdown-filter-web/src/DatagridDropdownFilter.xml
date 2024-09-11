@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.datagriddropdownfilter.DatagridDropdownFilter" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.web.datagriddropdownfilter.DatagridDropdownFilter" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
     <name>Drop-down filter</name>
     <description />
     <studioProCategory>Data controls</studioProCategory>
@@ -20,6 +20,10 @@
                     <caption>Default value</caption>
                     <description>Empty option caption will be shown by default or if configured default value matches none of the options</description>
                     <returnType type="String" />
+                </property>
+                <property key="groupKey" type="string" required="false">
+                    <caption>Group key</caption>
+                    <description />
                 </property>
                 <property key="filterOptions" type="object" isList="true" required="false">
                     <caption>Options</caption>

@@ -36,7 +36,8 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
     "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
+    "e2edev": "run-e2e dev --with-preps",
+    "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
   },
   "dependencies": {
     "@mendix/widget-plugin-component-kit": "workspace:*",
@@ -45,7 +46,9 @@
     "@mendix/widget-plugin-filtering": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
-    "classnames": "^2.3.2"
+    "classnames": "^2.3.2",
+    "mobx": "6.12.3",
+    "mobx-react-lite": "4.0.7"
   },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",

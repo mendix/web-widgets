@@ -36,7 +36,11 @@
     "verify": "rui-verify-package-format",
     "update-changelog": "rui-update-changelog-widget",
     "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
+    "e2edev": "run-e2e dev --with-preps",
+    "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
+  },
+  "dependencies": {
+    "@mendix/widget-plugin-filtering": "workspace:*"
   },
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
@@ -45,7 +49,6 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/run-e2e": "workspace:*",
     "@mendix/widget-plugin-component-kit": "workspace:*",
-    "@mendix/widget-plugin-filter-selector": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "@mendix/widget-plugin-sorting": "workspace:*",

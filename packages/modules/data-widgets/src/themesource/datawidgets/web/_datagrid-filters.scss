@@ -22,6 +22,7 @@ $dg-item-min-height: 32px;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    position: relative;
 
     .filter-input {
         border-top-left-radius: 0;

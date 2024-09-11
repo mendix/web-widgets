@@ -3,22 +3,6 @@ import { registerLocale } from "react-datepicker";
 import { MXSessionLocale } from "../../typings/global";
 
 /**
- * Change the time of a date and return an UTC date
- * @param date
- * @param hours
- * @param minutes
- * @param seconds
- */
-export function changeTimeToMidnight(date: Date): Date {
-    const newDate = new Date(date.getTime());
-    newDate.setHours(0);
-    newDate.setMinutes(0);
-    newDate.setSeconds(0);
-    newDate.setMilliseconds(0);
-    return newDate;
-}
-
-/**
  * This function takes format string and replace
  * single "d" and "M" with their "double" equivalent
  * Main purpose is to "fix" value formats accepted

@@ -1,22 +1,16 @@
-import { render } from "enzyme";
+import { render } from "@testing-library/react";
 import { createElement } from "react";
-import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 import ReactDOM from "react-dom";
+import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 
 const commonProps: FilterComponentProps = {
-    name: "DateFilter",
     adjustable: true,
-    filterAPIClient: null,
-    syncChannel: null,
     class: "",
-    tabIndex: 0,
-    defaultFilter: "equal",
-    initValues: {
-        type: "equal",
-        value: null,
-        startDate: null,
-        endDate: null
-    }
+    filterFn: "equal",
+    onChange: jest.fn(),
+    onFilterChange: jest.fn(),
+    expanded: false,
+    tabIndex: 0
 };
 
 describe("Filter component", () => {
@@ -31,13 +25,13 @@ describe("Filter component", () => {
     it("renders correctly", () => {
         const component = render(<FilterComponent {...commonProps} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
         const component = render(<FilterComponent {...commonProps} adjustable={false} />);
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with aria labels", () => {
@@ -49,6 +43,6 @@ describe("Filter component", () => {
             />
         );
 
-        expect(component).toMatchSnapshot();
+        expect(component.asFragment()).toMatchSnapshot();
     });
 });

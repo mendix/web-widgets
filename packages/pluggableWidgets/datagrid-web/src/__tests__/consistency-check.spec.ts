@@ -9,7 +9,9 @@ describe("consistency check", () => {
                 itemSelectionMethod: "rowClick",
                 onClick: {},
                 onClickTrigger: "single",
-                columns: []
+                columns: [],
+                groupList: [],
+                groupAttrs: []
             };
 
             expect(check(props as unknown as DatagridPreviewProps)).toMatchSnapshot();
@@ -21,7 +23,9 @@ describe("consistency check", () => {
                 itemSelectionMethod: "rowClick",
                 onClick: {},
                 onClickTrigger: "single",
-                columns: []
+                columns: [],
+                groupList: [],
+                groupAttrs: []
             };
 
             expect(check(props as unknown as DatagridPreviewProps)).toMatchSnapshot();
@@ -35,7 +39,9 @@ describe("consistency check", () => {
                 itemSelectionMethod: "checkbox",
                 onClick: {},
                 onClickTrigger: "single",
-                columns: []
+                columns: [],
+                groupList: [],
+                groupAttrs: []
             };
 
             expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
@@ -47,7 +53,9 @@ describe("consistency check", () => {
                 itemSelectionMethod: "checkbox",
                 onClick: {},
                 onClickTrigger: "single",
-                columns: []
+                columns: [],
+                groupList: [],
+                groupAttrs: []
             };
 
             expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
@@ -59,7 +67,9 @@ describe("consistency check", () => {
                 itemSelectionMethod: "checkbox",
                 onClick: {},
                 onClickTrigger: "double",
-                columns: []
+                columns: [],
+                groupList: [],
+                groupAttrs: []
             };
 
             expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);

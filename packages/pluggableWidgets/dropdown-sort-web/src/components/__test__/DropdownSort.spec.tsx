@@ -1,18 +1,49 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { SortInstruction, SortContextValue } from "@mendix/widget-plugin-sorting";
-import { ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import { SortAPI } from "@mendix/widget-plugin-sorting/context";
+import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
+import { ListAttributeId } from "@mendix/widget-plugin-sorting/typings";
+import { ListAttributeValueBuilder, dynamicValue } from "@mendix/widget-plugin-test-utils";
+import { fireEvent, render } from "@testing-library/react";
+import { ListValue } from "mendix";
 import { createContext, createElement } from "react";
+import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
-import { render } from "@testing-library/react";
-import { mount } from "enzyme";
-import { SortComponent } from "../SortComponent";
 
-const commonProps = {
+const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
-    name: "filter-test",
-    sortOrder: "asc" as const
+    name: "filter-test"
 };
+
+// CONTEXT
+const props: HeaderFiltersStoreProps = {
+    enableFilterGroups: true,
+    filterList: [],
+    groupAttrs: [],
+    groupList: []
+};
+const headerFilterStore = new HeaderFiltersStore(props, null);
+(window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+    headerFilterStore.context
+);
+
+const sortList: SortListType[] = [
+    {
+        attribute: new ListAttributeValueBuilder().withId("attribute1").withType("String").withSortable(true).build(),
+        caption: dynamicValue<string>("Option 1")
+    },
+    {
+        attribute: new ListAttributeValueBuilder().withId("attribute2").withType("Decimal").withSortable(true).build(),
+        caption: dynamicValue<string>("Option 2")
+    }
+];
+const sortProvider = new SortAPIProvider({
+    datasource: { sortOrder: [[sortList[0].attribute.id as ListAttributeId, "asc"]] } as ListValue,
+    sortList
+});
+(window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext<SortAPI>(sortProvider.context);
+// END CONTEXT
 
 describe("Dropdown Sort", () => {
     describe("with single instance", () => {
@@ -21,97 +52,32 @@ describe("Dropdown Sort", () => {
         });
 
         describe("with correct context", () => {
-            beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext({
-                    sortDispatcher: jest.fn(),
-                    attributes: [
-                        {
-                            attribute: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withType("String")
-                                .withSortable(true)
-                                .build(),
-                            caption: "Option 1"
-                        },
-                        {
-                            attribute: new ListAttributeValueBuilder()
-                                .withId("attribute2")
-                                .withType("Decimal")
-                                .withSortable(true)
-                                .build(),
-                            caption: "Option 2"
-                        }
-                    ]
-                } as SortContextValue);
-            });
-
             it("loads correct values from attributes", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
+                const filter = render(<DropdownSort {...commonProps} />);
+                fireEvent.click(filter.getByRole("textbox"));
 
-                expect(filter.find(SortComponent).prop("options")).toStrictEqual([
-                    {
-                        caption: "",
-                        value: ""
-                    },
-                    {
-                        caption: "Option 1",
-                        value: "attribute1"
-                    },
-                    {
-                        caption: "Option 2",
-                        value: "attribute2"
+                const items = filter.getAllByRole("menuitem");
+
+                items.forEach((item, index) => {
+                    if (index === 0) {
+                        return;
                     }
-                ]);
+                    expect(item.textContent).toBe(`Option ${index}`);
+                });
             });
 
             it("renders correctly", () => {
                 const { asFragment } = render(<DropdownSort {...commonProps} />);
-
                 expect(asFragment()).toMatchSnapshot();
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.sortable.sortContext"] = undefined;
             });
         });
 
         describe("with view state", () => {
-            beforeAll(() => {
-                (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext({
-                    sortDispatcher: jest.fn(),
-                    attributes: [
-                        {
-                            attribute: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withType("String")
-                                .withSortable(true)
-                                .build(),
-                            caption: "Option 1"
-                        },
-                        {
-                            attribute: new ListAttributeValueBuilder()
-                                .withId("attribute2")
-                                .withType("Decimal")
-                                .withSortable(true)
-                                .build(),
-                            caption: "Option 2"
-                        }
-                    ],
-                    initialSort: [["attribute2", "asc"] as SortInstruction]
-                } as SortContextValue);
-            });
-
             it("loads correct default option", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
+                const filter = render(<DropdownSort {...commonProps} />);
+                fireEvent.click(filter.getByRole("textbox"));
 
-                expect(filter.find(SortComponent).prop("defaultOption")).toStrictEqual({
-                    caption: "Option 2",
-                    value: "attribute2"
-                });
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.sortable.sortContext"] = undefined;
+                expect(filter.getByRole("textbox").getAttribute("value")).toStrictEqual("Option 1");
             });
         });
 
@@ -121,45 +87,22 @@ describe("Dropdown Sort", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DropdownSort {...commonProps} />);
-
-                expect(filter.find(Alert).text()).toBe(
-                    "The Drop-down sort widget must be placed inside the header of the Gallery widget."
-                );
+                const filter = render(<DropdownSort {...commonProps} />);
+                expect(filter.container.querySelector(".alert")?.textContent).toBe("Out of context");
             });
         });
     });
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext({
-                sortDispatcher: jest.fn(),
-                attributes: [
-                    {
-                        attribute: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withSortable(true)
-                            .build(),
-                        caption: "Option 1"
-                    },
-                    {
-                        attribute: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Decimal")
-                            .withSortable(true)
-                            .build(),
-                        caption: "Option 2"
-                    }
-                ]
-            } as SortContextValue);
+            (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext<SortAPI>(
+                sortProvider.context
+            );
         });
 
         it("renders with a unique id", () => {
             const { asFragment: fragment1 } = render(<DropdownSort {...commonProps} />);
             const { asFragment: fragment2 } = render(<DropdownSort {...commonProps} />);
-
-            console.warn(fragment1().querySelector("input")?.getAttribute("aria-controls"));
 
             expect(fragment1().querySelector("input")?.getAttribute("aria-controls")).not.toBe(
                 fragment2().querySelector("input")?.getAttribute("aria-controls")
