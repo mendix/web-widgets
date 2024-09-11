@@ -21,13 +21,14 @@ export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElem
 
     return (
         <FloatingFocusManager context={floatingContext} modal={modal}>
-            <div
-                className="widget-popupmenu-root"
-                ref={ref}
-                style={{ ...floatingStyles, ...props.style, ...{ zIndex: 1 } }}
-                {...getFloatingProps?.({ name: props.name, className: props.class, tabIndex: props.tabIndex })}
-            >
-                <ul className="popupmenu-menu">{menuOptions}</ul>
+            <div className="widget-popupmenu-root">
+                <ul
+                    ref={ref}
+                    style={{ ...floatingStyles, ...props.style }}
+                    {...getFloatingProps?.({ className: "popupmenu-menu" })}
+                >
+                    {menuOptions}
+                </ul>
             </div>
         </FloatingFocusManager>
     );

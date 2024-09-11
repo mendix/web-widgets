@@ -12,16 +12,15 @@ exports[`Menu renders menu 1`] = `
     tabindex="0"
   />
   <div
-    class="mx-popup-menu"
-    data-floating-ui-focusable=""
-    id=":r0:"
-    name="popup-menu"
-    role="dialog"
-    style="position: absolute; left: 0px; top: 0px; z-index: 1; transform: translate(0px, 0px);"
-    tabindex="0"
+    class="widget-popupmenu-root"
   >
     <ul
       class="popupmenu-menu"
+      data-floating-ui-focusable=""
+      id=":r0:"
+      role="dialog"
+      style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+      tabindex="0"
     >
       <li
         class="popupmenu-basic-item"

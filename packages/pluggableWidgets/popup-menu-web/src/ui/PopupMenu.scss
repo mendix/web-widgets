@@ -6,9 +6,9 @@
 
 ul.popupmenu-menu {
     display: flex;
-    position: relative;
     list-style-type: none;
     padding-inline-start: 0;
+    z-index: 1;
 }
 
 .table .td > .popupmenu {
