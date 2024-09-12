@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Improved integration with parent widgets.
+
+### Added
+
+-   Group key -- a new setting to associate the filter with the group (see "Filter groups" in docs for more information).
+
 ## [2.8.0] - 2024-06-19
 
 ### Fixed

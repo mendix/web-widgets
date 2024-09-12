@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Reworked and improved integration with gallery.
+
 ## [1.1.2] - 2023-10-13
 
 ### Fixed
