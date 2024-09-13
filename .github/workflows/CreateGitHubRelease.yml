@@ -9,19 +9,21 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -
+                run: echo $PWD
+            -
+                name: Checkout
+                uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+                with:
+                    fetch-depth: 1
+            -
                 name: Set up Docker Buildx
                 uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db # v6.7.0
-            # -
-            #     name: Checkout
-            #     uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-            #     with:
-            #         fetch-depth: 1
             -
                 run: | 
                   ls -la
                   echo $PWD
                   cd $HOME
-                  echo $PED
+                  echo $PWD
                   ls -la
             -
                 name: Read Mendix version
