@@ -6,10 +6,9 @@ import c from "ansi-colors";
 import sh from "shelljs";
 
 const { cat } = sh;
-const REGISTRY = "ghcr.io/mendix/web-widgets";
 
 export function getFullImageName(name, mendixVersion) {
-    return `${REGISTRY}/${name}:${mendixVersion}`;
+    return `${name}:${mendixVersion}`;
 }
 
 export async function buildImage(name, mendixVersion) {
