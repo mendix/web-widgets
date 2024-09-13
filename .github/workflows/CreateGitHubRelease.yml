@@ -8,8 +8,8 @@ jobs:
         name: Build and save images
         runs-on: ubuntu-latest
         steps:
-            -
-                run: echo $PWD
+            # -
+            #     run: echo $PWD
             -
                 name: Checkout
                 uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
@@ -18,26 +18,32 @@ jobs:
             -
                 name: Set up Docker Buildx
                 uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db # v6.7.0
-            -
-                run: | 
-                  ls -la
-                  echo $PWD
-                  cd $HOME
-                  echo $PWD
-                  ls -la
+            # -
+            #     run: | 
+            #       ls -la
+            #       echo $PWD
+            #       cd $HOME
+            #       echo $PWD
+            #       ls -la
             -
                 name: Read Mendix version
                 run: |
                     MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
                     echo "Mendix version: $MENDIX_VERSION"
                     echo "MENDIX_VERSION=$MENDIX_VERSION" >> $GITHUB_ENV
-
             -
-                name: Build and save images
-                run: echo Build mxbuild:$MENDIX_VERSION
-            # -
-            #     name: Build and save
-            #     uses: docker/build-push-action@5cd11c3a4ced054e52742c5fd54dca954e0edd85 # v3.6.1
-            #     with:
-            #         tags: mxbuild:latest
-            #         outputs: type=docker,dest=/tmp/myimage.tar
+                run: mkdir -p .docker-cache
+            -
+                name: Build 'mxbuild:${{ env.MENDIX_VERSION }}'
+                uses: docker/build-push-action@5cd11c3a4ced054e52742c5fd54dca954e0edd85 # v3.6.1
+                with:
+                    file: automation/run-e2e/docker/mxbuild.Dockerfile
+                    tags: 'mxbuild:${{ env.MENDIX_VERSION }}'
+                    outputs: type=docker,dest=.docker-cache/mxbuild_${{ env.MENDIX_VERSION }}.tar
+            -
+                id: cache-mxbuild
+                name: Cache mxbuild
+                uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+                with:
+                  path: .docker-cache/mxbuild_${{ env.MENDIX_VERSION }}.tar
+                  key: mxbuild-${{ env.MENDIX_VERSION }}
