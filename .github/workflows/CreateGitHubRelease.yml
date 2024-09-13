@@ -29,24 +29,35 @@ jobs:
                 name: Read Mendix version
                 run: |
                     MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
-                    echo "Mendix version: $MENDIX_VERSION"
-                    echo "MENDIX_VERSION=$MENDIX_VERSION" >> $GITHUB_ENV
+                    MXBUILD_PATH=.docker-cache/mxbuild_$MENDIX_VERSION.tar
+                    MXBUILD_TAG=mxbuild_$MENDIX_VERSION
+                    echo "MENDIX_VERSION=$MENDIX_VERSION" | tee -a $GITHUB_ENV
+                    echo "MXBUILD_PATH=$MXBUILD_PATH" | tee -a $GITHUB_ENV
+                    echo "MXBUILD_TAG=$MXBUILD_TAG" | tee -a $GITHUB_ENV
             -
                 run: mkdir -p .docker-cache
             -
+                uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+                id: cache
+                with:
+                  path: ${{ env.MXBUILD_PATH }}
+                  key: ${{ env.MXBUILD_TAG }}
+            -
+                # If cache-hit is false, build mxbuild image.                
                 # Check action docs for List and CVS types used in inputs.
-                name: Build mxbuild:${{ env.MENDIX_VERSION }}
+                if: steps.cache.outputs.cache-hit != 'true'
+                name: Build ${{ env.MXBUILD_TAG }}
                 uses: docker/build-push-action@5cd11c3a4ced054e52742c5fd54dca954e0edd85 # v3.6.1
                 with:
                     file: automation/run-e2e/docker/mxbuild.Dockerfile
-                    tags: mxbuild:${{ env.MENDIX_VERSION }}
-                    outputs: type=docker,dest=.docker-cache/mxbuild_${{ env.MENDIX_VERSION }}.tar
+                    tags: ${{ env.MXBUILD_TAG }}
+                    outputs: type=docker,dest=${{ env.MXBUILD_PATH }}
                     build-args: |
                         MENDIX_VERSION=${{ env.MENDIX_VERSION }}
             -
-                id: cache-mxbuild
+                id: cache-save-mxbuild
                 name: Cache mxbuild
                 uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
                 with:
-                  path: .docker-cache/mxbuild_${{ env.MENDIX_VERSION }}.tar
-                  key: mxbuild_${{ env.MENDIX_VERSION }}
+                  path: ${{ env.MXBUILD_PATH }}
+                  key: ${{ env.MXBUILD_TAG }}
