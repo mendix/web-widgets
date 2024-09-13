@@ -4,12 +4,36 @@ on:
     workflow_dispatch:
 
 jobs:
+    mxversion:
+        name: Read versions file
+        runs-on: ubuntu-latest
+        outputs:
+            mxversion: ${{ steps.readfile.outputs.latest }}
+            mxbuild_tag: ${{ steps.readfile.outputs.mxbuild_tag }}
+            mxbuild_path: ${{ steps.readfile.outputs.mxbuild_path }}
+        steps:
+            -
+                name: Checkout
+                uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+                with:
+                    fetch-depth: 1
+            -
+                id: readfile
+                run: |
+                    MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
+                    echo "mxversion=$MENDIX_VERSION" | tee -a "$GITHUB_OUTPUT"
+                    echo "mxbuild_path=.docker-cache/mxbuild_$MENDIX_VERSION.tar" | tee -a "$GITHUB_OUTPUT"
+                    echo "mxbuild_tag=mxbuild:$MENDIX_VERSION" | tee -a "$GITHUB_OUTPUT"
+
     build:
         name: Build and save images
         runs-on: ubuntu-latest
+        needs: mxversion
+        env:
+            MENDIX_VERSION: ${{needs.mxversion.outputs.mxversion}}
+            MXBUILD_PATH: ${{needs.mxversion.outputs.mxbuild_path}}
+            MXBUILD_TAG: ${{needs.mxversion.outputs.mxbuild_tag}}
         steps:
-            # -
-            #     run: echo $PWD
             -
                 name: Checkout
                 uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
@@ -25,15 +49,15 @@ jobs:
             #       cd $HOME
             #       echo $PWD
             #       ls -la
-            -
-                name: Read Mendix version
-                run: |
-                    MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
-                    MXBUILD_PATH=.docker-cache/mxbuild_$MENDIX_VERSION.tar
-                    MXBUILD_TAG=mxbuild_$MENDIX_VERSION
-                    echo "MENDIX_VERSION=$MENDIX_VERSION" | tee -a $GITHUB_ENV
-                    echo "MXBUILD_PATH=$MXBUILD_PATH" | tee -a $GITHUB_ENV
-                    echo "MXBUILD_TAG=$MXBUILD_TAG" | tee -a $GITHUB_ENV
+            # -
+            #     name: Read Mendix version
+            #     run: |
+            #         MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
+            #         MXBUILD_PATH=.docker-cache/mxbuild_$MENDIX_VERSION.tar
+            #         MXBUILD_TAG=mxbuild:$MENDIX_VERSION
+            #         echo "MENDIX_VERSION=$MENDIX_VERSION" | tee -a $GITHUB_ENV
+            #         echo "MXBUILD_PATH=$MXBUILD_PATH" | tee -a $GITHUB_ENV
+            #         echo "MXBUILD_TAG=$MXBUILD_TAG" | tee -a $GITHUB_ENV
             -
                 run: mkdir -p .docker-cache
             -
@@ -61,3 +85,25 @@ jobs:
                 with:
                   path: ${{ env.MXBUILD_PATH }}
                   key: ${{ env.MXBUILD_TAG }}
+
+    use:
+        name: Use mxbuild image in another job
+        runs-on: ubuntu-latest
+        needs: mxversion
+        env:
+            MENDIX_VERSION: ${{needs.mxversion.outputs.mxversion}}
+            MXBUILD_PATH: ${{needs.mxversion.outputs.mxbuild_path}}
+            MXBUILD_TAG: ${{needs.mxversion.outputs.mxbuild_tag}}
+        steps:
+            -
+                uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+                id: cache
+                with:
+                  path: ${{ env.MXBUILD_PATH }}
+                  key: ${{ env.MXBUILD_TAG }}
+
+            -
+                name: Load mxbuild image
+                run: |
+                    docker load --input ${{ env.MXBUILD_PATH }}
+                    docker image ls -a     
