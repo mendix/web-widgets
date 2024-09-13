@@ -1,45 +1,34 @@
-name: Create draft release
-run-name: Draft release for ${{ inputs.package }}
+name: Build mxbuild and mxruntime
 
 on:
     workflow_dispatch:
-        inputs:
-            package:
-                description: "Package name to release (name in package.json)"
-                required: true
 
 jobs:
-    create-release:
-        name: "Create widget/module release on GitHub"
+    build:
+        name: Build and save images
         runs-on: ubuntu-latest
-        env:
-            PACKAGE: ${{ github.event.inputs.package }}
-
         steps:
-            - name: Checkout
-              uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-              with:
-                  fetch-depth: 1
-            - name: Setup pnpm
-              uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
-            - name: Setup node
-              uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
-              with:
-                  node-version-file: ".nvmrc"
-                  cache: "pnpm"
-            - name: Search for package in workspace
-              run: >
-                  if [[ -z "$(pnpm ls --json --filter=$PACKAGE)" ]];
-                  then
-                    echo "::error::Package $PACKAGE not found in workspace.";
-                    exit 1;
-                  fi
-            - name: Install dependencies
-              run: pnpm install
-            - name: Create ${{ github.event.inputs.package }} widget release
-              run: pnpm run create-gh-release --filter=$PACKAGE
-              env:
-                  GH_USERNAME: ${{ secrets.GH_USERNAME }}
-                  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-                  GH_NAME: ${{ secrets.GH_NAME }}
-                  GH_PAT: ${{ secrets.GH_PAT }}
+            -
+                name: Set up Docker Buildx
+                uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db # v6.7.0
+            # -
+            #     name: Checkout
+            #     uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+            #     with:
+            #         fetch-depth: 1
+            -
+                name: Read Mendix version
+                run: |
+                    MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
+                    echo "Mendix version: $MENDIX_VERSION"
+                    echo "MENDIX_VERSION=$MENDIX_VERSION" >> $GITHUB_ENV
+
+            -
+                name: Build and save images
+                run: echo Build mxbuild:$MENDIX_VERSION
+            # -
+            #     name: Build and save
+            #     uses: docker/build-push-action@5cd11c3a4ced054e52742c5fd54dca954e0edd85 # v3.6.1
+            #     with:
+            #         tags: mxbuild:latest
+            #         outputs: type=docker,dest=/tmp/myimage.tar
