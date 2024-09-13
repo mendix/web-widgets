@@ -17,7 +17,12 @@ jobs:
             #     with:
             #         fetch-depth: 1
             -
-                run: ls -la
+                run: | 
+                  ls -la
+                  echo $PWD
+                  cd $HOME
+                  echo $PED
+                  ls -la
             -
                 name: Read Mendix version
                 run: |
