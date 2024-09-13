@@ -17,6 +17,8 @@ jobs:
             #     with:
             #         fetch-depth: 1
             -
+                run: ls -la
+            -
                 name: Read Mendix version
                 run: |
                     MENDIX_VERSION=$(cat automation/run-e2e/mendix-versions.json | jq -r '.latest')
