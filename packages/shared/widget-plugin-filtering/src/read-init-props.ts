@@ -1,4 +1,4 @@
-import { ListAttributeValue } from "mendix";
+import { ListAttributeValue, ListAttributeListValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 
 export type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
@@ -19,7 +19,10 @@ function isTypedLiteral(exp: object): exp is LiteralExpression {
  * then it pull name and value from that condition.
  * Typical use case - extract filter init props from datasource.filter property.
  */
-function getInitValueByAttr(cond: FilterCondition, attr: ListAttributeValue): InitialFilterValue | undefined {
+function getInitValueByAttr(
+    cond: FilterCondition,
+    attr: ListAttributeValue | ListAttributeListValue
+): InitialFilterValue | undefined {
     if (
         isBinary(cond) &&
         cond.arg1.type === "attribute" &&
@@ -42,7 +45,7 @@ function getInitValueByAttr(cond: FilterCondition, attr: ListAttributeValue): In
  * - that some of the filters (usually date) use "between"
  */
 export function readInitFilterValues(
-    attribute: ListAttributeValue | undefined,
+    attribute: ListAttributeValue | ListAttributeListValue | undefined,
     dataSourceFilter?: FilterCondition
 ): InitialFilterValue[] {
     if (!attribute || !dataSourceFilter) {

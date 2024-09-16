@@ -2,7 +2,14 @@ import { ReactNode } from "react";
 import { action, computed, makeObservable, observable } from "mobx";
 import { FilterCondition } from "mendix/filters";
 import { ColumnsType } from "../../../../typings/DatagridProps";
-import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
+import {
+    ListAttributeValue,
+    ListAttributeListValue,
+    ListExpressionValue,
+    ListReferenceSetValue,
+    ListReferenceValue,
+    ListValue
+} from "mendix";
 import {
     AssociationProperties,
     FilterContextValue,
@@ -28,7 +35,9 @@ export interface IColumnFilterStore {
 export class ColumnFilterStore implements IColumnFilterStore {
     private filterState: FilterState | undefined = undefined;
 
-    private _attribute?: ListAttributeValue<string | Big | boolean | Date>;
+    private _attribute?:
+        | ListAttributeValue<string | Big | boolean | Date>
+        | ListAttributeListValue<string | Big | boolean | Date>;
     private _filter?: ReactNode;
     private _filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     private _filterAssociationOptions?: ListValue;

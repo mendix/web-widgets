@@ -1,4 +1,11 @@
-import type { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
+import type {
+    ListAttributeValue,
+    ListAttributeListValue,
+    ListReferenceSetValue,
+    ListReferenceValue,
+    ListValue,
+    ObjectItem
+} from "mendix";
 import type { FilterCondition } from "mendix/filters";
 import { Context, Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import { OutOfContextError, ValueIsMissingError } from "./errors.js";
@@ -35,7 +42,7 @@ export type DispatchFilterUpdate = Dispatch<FilterState>;
 export interface FilterContextValue {
     eventsChannelName?: string;
     filterDispatcher: DispatchFilterUpdate;
-    singleAttribute?: ListAttributeValue;
+    singleAttribute?: ListAttributeValue | ListAttributeListValue;
     singleInitialFilter?: InitialFilterValue[];
     multipleAttributes?: AttributeByAttrId;
     multipleInitialFilters?: InitValuesByAttrId;

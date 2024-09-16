@@ -1,6 +1,7 @@
 import {
     DynamicValue,
     ListAttributeValue,
+    ListAttributeListValue,
     ListExpressionValue,
     ListWidgetValue,
     ObjectItem,
@@ -32,7 +33,10 @@ export class ColumnStore implements GridColumn {
     private _header?: DynamicValue<string> = undefined; // can render when unavailable
     private _columnClass?: ListExpressionValue<string> = undefined; // can render when unavailable
     private _tooltip?: ListExpressionValue<string> = undefined; // part of attribute or dynamicText
-    private _attribute?: ListAttributeValue<string | Big | boolean | Date> = undefined; // as "attribute"
+    private _attribute?:
+        | ListAttributeValue<string | boolean | Date | Big>
+        | ListAttributeListValue<string | boolean | Date | Big>
+        | undefined = undefined; // as "attribute"
     private _dynamicText?: ListExpressionValue<string> = undefined; // as "dynamicText"
     private _content?: ListWidgetValue = undefined; // as "customContent"
 
@@ -171,7 +175,7 @@ export class ColumnStore implements GridColumn {
         return true;
     }
 
-    get attrId(): ListAttributeValue["id"] | undefined {
+    get attrId(): ListAttributeValue<string | boolean | Date | Big>["id"] | undefined {
         return this._attribute?.id;
     }
 
