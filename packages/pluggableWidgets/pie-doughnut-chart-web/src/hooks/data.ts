@@ -91,6 +91,6 @@ export const usePieChartDataSeries = ({
                 onClick
             }
         ],
-        [customSeriesOptions, holeRadius, pieChartData, onClick]
+        [customSeriesOptions, holeRadius, pieChartData, onClick, seriesDataSource.items]
     );
 };
