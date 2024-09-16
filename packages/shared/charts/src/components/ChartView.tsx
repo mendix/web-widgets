@@ -29,9 +29,10 @@ export const ChartView = ({
     const handleChartClick = useCallback<NonNullable<PlotParams["onClick"]>>(
         event => {
             // As this is click handler, this event has single, "clicked" point, so we can destruct.
-            const [{ curveNumber, pointIndex, pointIndices }] = event.points;
+            const [{ curveNumber, pointIndex, pointIndices, pointNumber }] = event.points;
+            const index = pointIndex ?? pointNumber;
             const { dataSourceItems, onClick } = data[curveNumber];
-            const itemIndex = getItemIndex(pointIndex, pointIndices);
+            const itemIndex = getItemIndex(index, pointIndices);
             const item = dataSourceItems[itemIndex];
             onClick?.(item);
         },

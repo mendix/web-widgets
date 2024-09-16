@@ -87,7 +87,7 @@ export const usePieChartDataSeries = ({
                 hoverinfo: pieChartData.some(({ itemHoverText }) => itemHoverText !== undefined && itemHoverText !== "")
                     ? "text"
                     : "none",
-                dataSourceItems: [],
+                dataSourceItems: seriesDataSource.items ?? [],
                 onClick
             }
         ],
