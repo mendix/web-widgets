@@ -84,7 +84,12 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
             </div>
             <div
                 className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
-                {...getMenuProps({ "aria-label": props.screenReaderLabelCaption }, { suppressRefError: true })}
+                {...getMenuProps(
+                    {
+                        "aria-label": props.screenReaderLabelCaption || "Language selector"
+                    },
+                    { suppressRefError: true }
+                )}
             >
                 {languageList.map((item, index) => (
                     <div
