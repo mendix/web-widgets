@@ -210,8 +210,9 @@ jobs:
       # when one test fails, DO NOT cancel the other
       fail-fast: false
       matrix:
-        # run 3 copies of the current job in parallel
-        index: [0, 1, 2]
+        index: [0, 1, 2, 3]
+        include:
+          - chunks: 4
 
     steps:
       - name: Download mxtools cache
@@ -271,7 +272,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
-          --chunks 3
+          --chunks ${{ matrix.chunks }}
           --index ${{ matrix.index }}
           --event-name ${{ github.event_name }}
       - name: "Generating Github Test Summary"
