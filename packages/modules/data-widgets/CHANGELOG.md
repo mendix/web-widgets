@@ -6,9 +6,85 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.22.0] DataWidgets - 2024-09-13
+
 ### Changed
 
 -   Improved filters in data widgets.
+
+### [2.9.0] DatagridDateFilter
+
+#### Changed
+
+-   Improved integration with parent widgets.
+
+#### Added
+
+-   Group key -- a new setting to associate the filter with the group (see "Filter groups" in docs for more information).
+
+### [2.8.0] DatagridDropdownFilter
+
+#### Changed
+
+-   Improved integration with parent widgets.
+
+#### Added
+
+-   Group key -- a new setting to associate the filter with the group (see "Filter groups" in docs for more information).
+
+### [2.7.0] DatagridNumberFilter
+
+#### Changed
+
+-   Improved integration with parent widgets.
+
+#### Added
+
+-   Group key -- a new setting to associate the filter with the group (see "Filter groups" in docs for more information).
+
+### [2.7.0] DatagridTextFilter
+
+#### Changed
+
+-   Improved integration with parent widgets.
+
+#### Added
+
+-   Group key -- a new setting to associate the filter with the group (see "Filter groups" in docs for more information).
+
+### [2.22.0] Datagrid
+
+#### Changed
+
+-   Major filter improvement.
+
+#### Fixed
+
+-   Personalization and other fixes.
+
+#### Added
+
+-   The “Filter groups” is a new way of configuring header filters of the widget. This way of configuring filters has four main advantages over previous “Grid wide filtering”: 1. More than 4 filters are allowed in the header at the same time. 2. No restriction on filter type. The header can have one, two or more filters of the same data type. 3. Dropdown filters can use associations. 4. If personalization is enabled, filter state is saved along with other widget settings.
+
+### [1.2.0] DropdownSort
+
+#### Changed
+
+-   Reworked and improved integration with gallery.
+
+### [1.10.0] Gallery
+
+#### Changed
+
+-   Major filter improvement.
+
+#### Fixed
+
+-   Personalization sync and other minor fixes.
+
+#### Added
+
+-   The “Filter groups” is a new way of configuring header filters of the widget. This way of configuring filters has three main advantages over previous “Grid wide filtering”: 1. More than 4 filters are allowed in the header at the same time. 2. No restriction on filter type. The header can have one, two or more filters of the same data type. 3. Dropdown filters can use associations.
 
 ## [2.21.4] DataWidgets - 2024-08-20
 
