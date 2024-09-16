@@ -86,7 +86,7 @@ jobs:
           echo "mxbuild_path=.docker-cache/mxbuild_$MENDIX_VERSION.tar" | tee -a "$GITHUB_OUTPUT"
           echo "mxbuild_tag=mxbuild:$MENDIX_VERSION" | tee -a "$GITHUB_OUTPUT"
           echo "mxruntime_path=.docker-cache/mxruntime_$MENDIX_VERSION.tar" | tee -a "$GITHUB_OUTPUT"
-          echo "mxruntime_tag=mxruntime:$MENDIX_VERSION" | tee -a "$GITHUB_OUTPUT"        
+          echo "mxruntime_tag=mxruntime:$MENDIX_VERSION" | tee -a "$GITHUB_OUTPUT"
 
   build:
     name: Run ${{ matrix.target }} task on ${{ matrix.os }}
@@ -140,7 +140,7 @@ jobs:
   build-mxtools:
     name: Build and cache mxtools (mxbuild and mxruntime)
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - check-sha
       - mxversion
     env:
@@ -278,7 +278,7 @@ jobs:
         run: |
           pnpm --filter run-e2e run report:merge
           pnpm dlx github-actions-ctrf custom ./automation/run-e2e/ctrf/merged-report.json ./automation/run-e2e/ctrf-custom-template/custom-summary.hbs
-        if: always() 
+        if: always()
       - name: "Fixing files permissions"
         if: failure()
         run: |
