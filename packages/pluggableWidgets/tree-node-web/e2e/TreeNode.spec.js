@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -56,11 +57,17 @@ test.describe("capabilities: collapse", () => {
 });
 
 test.describe("a11y testing:", () => {
-    test.skip("checks accessibility violations", async ({ page }) => {
-        await page.installAccessibilityService();
-        await page.locator(".mx-name-treeNode1").scrollIntoViewIfNeeded();
-        const snapshot = await page.accessibility.snapshot();
+    test("checks accessibility violations", async ({ page }) => {
+        await page.goto("/");
+        await page.waitForLoadState("networkidle");
 
-        expect(snapshot.violations).toEqual([]);
+        await page.locator(".mx-name-treeNode1").waitFor();
+        const accessibilityScanResults = await new AxeBuilder({ page })
+            .include(".mx-name-treeNode1")
+            .withTags(["wcag21aa"])
+            .exclude(".mx-name-navigationTree3")
+            .analyze();
+
+        expect(accessibilityScanResults.violations).toEqual([]);
     });
 });
