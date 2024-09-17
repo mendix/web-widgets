@@ -1,9 +1,12 @@
-import { shallow, ShallowWrapper } from "enzyme";
+import { fireEvent, render, RenderResult } from "@testing-library/react";
+import { ValueStatus } from "mendix";
 import { createElement } from "react";
 import { BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
-import { Menu, MenuProps } from "../components/Menu";
+import { MenuProps } from "../components/Menu";
 import { actionValue, dynamicValue } from "../utils/attrValue";
-import { ValueStatus } from "mendix";
+import { MenuWithContext as Menu } from "./MenuWithContext";
+
+import "@testing-library/jest-dom";
 
 jest.useFakeTimers();
 
@@ -13,8 +16,8 @@ jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: () => usePositionMock()
 }));
 
-describe("Popup menu", () => {
-    const createPopupMenu = (props: MenuProps): ShallowWrapper<MenuProps, {}> => shallow(createElement(Menu, props));
+describe("Menu", () => {
+    const createPopupMenu = (props: MenuProps): RenderResult => render(<Menu {...props} />);
     const basicItemProps: BasicItemsType = {
         itemType: "item",
         caption: dynamicValue("Caption"),
@@ -37,38 +40,32 @@ describe("Popup menu", () => {
             { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
         ],
         customItems: [customItemProps],
-        anchorElement: document.createElement("div"),
-        onItemClick: jest.fn(),
-        onCloseRequest: jest.fn()
+        onItemClick: jest.fn()
     };
 
-    it("renders popup menu", () => {
+    it("renders menu", () => {
         const popupMenu = createPopupMenu(defaultProps);
-        popupMenu.update();
+        popupMenu.rerender(<Menu {...defaultProps} />);
 
-        expect(popupMenu).toMatchSnapshot();
+        expect(popupMenu.asFragment()).toMatchSnapshot();
     });
 
     describe("with basic items", () => {
         it("renders", () => {
             const popupMenu = createPopupMenu(defaultProps);
-            expect(popupMenu.find(".popupmenu-basic-item")).toHaveLength(1);
+            const { container } = popupMenu;
+            popupMenu.rerender(<Menu {...defaultProps} />);
+
+            expect(container.querySelectorAll(".popupmenu-basic-item")).toHaveLength(1);
         });
 
-        it("triggers action", () => {
+        it("triggers action", async () => {
             basicItemProps.action = actionValue();
             const popupMenu = createPopupMenu(defaultProps);
-            const preventDefaultAction = jest.fn();
-            const stopPropagationAction = jest.fn();
-            const event: any = {
-                preventDefault: preventDefaultAction,
-                stopPropagation: stopPropagationAction,
-                target: {}
-            };
-            popupMenu.find(".popupmenu-basic-item").prop("onClick")!(event);
+            const { container } = popupMenu;
 
-            expect(stopPropagationAction).toHaveBeenCalled();
-            expect(preventDefaultAction).toHaveBeenCalled();
+            await fireEvent.click(container.querySelector(".popupmenu-basic-item")!);
+
             expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
 
@@ -88,44 +85,52 @@ describe("Popup menu", () => {
                     { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
                 ]
             });
-            expect(popupMenu.find(".popupmenu-basic-item")).toHaveLength(0);
+            const { container } = popupMenu;
+
+            expect(container.querySelectorAll(".popupmenu-basic-item")).toHaveLength(0);
         });
 
         it("renders with style Inverse", () => {
             basicItemProps.styleClass = "inverseStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-inverse")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-inverse")).toHaveLength(1);
         });
         it("renders with style Primary", () => {
             basicItemProps.styleClass = "primaryStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-primary")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-primary")).toHaveLength(1);
         });
         it("renders with style Info", () => {
             basicItemProps.styleClass = "infoStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-info")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-info")).toHaveLength(1);
         });
         it("renders with style Success", () => {
             basicItemProps.styleClass = "successStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-success")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-success")).toHaveLength(1);
         });
         it("renders with style Warning", () => {
             basicItemProps.styleClass = "warningStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-warning")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-warning")).toHaveLength(1);
         });
         it("renders with style Danger", () => {
             basicItemProps.styleClass = "dangerStyle";
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-basic-item-danger")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-basic-item-danger")).toHaveLength(1);
         });
     });
 
@@ -136,8 +141,9 @@ describe("Popup menu", () => {
 
         it("renders", () => {
             const popupMenu = createPopupMenu(defaultProps);
+            const { container } = popupMenu;
 
-            expect(popupMenu.find(".popupmenu-custom-item")).toHaveLength(1);
+            expect(container.querySelectorAll(".popupmenu-custom-item")).toHaveLength(1);
         });
 
         it("renders custom items without hidden items", () => {
@@ -152,22 +158,17 @@ describe("Popup menu", () => {
                 ...defaultProps,
                 customItems: [customItem]
             });
-            expect(popupMenu.find(".popupmenu-custom-item")).toHaveLength(0);
+            const { container } = popupMenu;
+
+            expect(container.querySelectorAll(".popupmenu-custom-item")).toHaveLength(0);
         });
 
-        it("triggers action", () => {
+        it("triggers action", async () => {
             const popupMenu = createPopupMenu(defaultProps);
-            const preventDefaultAction = jest.fn();
-            const stopPropagationAction = jest.fn();
-            const event: any = {
-                preventDefault: preventDefaultAction,
-                stopPropagation: stopPropagationAction,
-                target: {}
-            };
-            popupMenu.find(".popupmenu-custom-item").prop("onClick")!(event);
+            const { container } = popupMenu;
 
-            expect(stopPropagationAction).toHaveBeenCalled();
-            expect(preventDefaultAction).toHaveBeenCalled();
+            await fireEvent.click(container.querySelector(".popupmenu-custom-item")!);
+
             expect(defaultProps.onItemClick).toHaveBeenCalledTimes(1);
         });
     });

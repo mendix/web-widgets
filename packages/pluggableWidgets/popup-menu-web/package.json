@@ -1,7 +1,7 @@
 {
   "name": "@mendix/popup-menu-web",
   "widgetName": "PopupMenu",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -30,7 +30,7 @@
     "build": "pluggable-widgets-tools build:web",
     "format": "prettier --write .",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
+    "test": "jest --projects jest.config.js",
     "release": "pluggable-widgets-tools release:web",
     "create-gh-release": "rui-create-gh-release",
     "publish-marketplace": "rui-publish-marketplace",
@@ -48,5 +48,8 @@
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
     "classnames": "^2.3.2"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.26.23"
   }
 }
