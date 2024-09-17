@@ -154,13 +154,13 @@ export class DateInputFilterStore
     }
 
     private getRangeCondition(attr: ListAttributeValue, [start, end]: [Date, Date]): [FilterCondition] | [] {
-        [start, end] = [changeTimeToMidnight(start), changeTimeToMidnight(end)];
+        [start, end] = [toUTC(start), nextDayMidnight(toUTC(end))];
         const attrExp = attribute(attr.id);
 
         return [
             and(
                 dayGreaterThanOrEqual(attrExp, literal(start)),
-                dayLessThanOrEqual(attrExp, literal(end)),
+                dayLessThan(attrExp, literal(end)),
                 this.getRangeCondMarker()
             )
         ];
@@ -251,17 +251,20 @@ function parseDateValue(value: string | null): Date | undefined {
 }
 
 /**
- * Change the time of a date and return an UTC date
+ * Compute next day midnight and return a new UTC date
+ * Example:
+ * "2024-09-30T22:12:13.000Z" => 2024-10-01T00:00:00.000Z
  * @param date
- * @param hours
- * @param minutes
- * @param seconds
  */
-function changeTimeToMidnight(date: Date): Date {
-    const newDate = new Date(date.getTime());
-    newDate.setUTCHours(0);
-    newDate.setUTCMinutes(0);
-    newDate.setUTCSeconds(0);
-    newDate.setUTCMilliseconds(0);
-    return newDate;
+function nextDayMidnight(date: Date): Date {
+    date = new Date(date.getTime());
+    date.setUTCHours(24, 0, 0, 0);
+    return date;
+}
+
+/**
+ * Function to convert locale dates to UTC.
+ */
+function toUTC(date: Date): Date {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
 }
