@@ -1,7 +1,8 @@
 {
     "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
-    "include": ["./src/**/*", "./__tests__/**/*", "__mocks__/**/*"],
+    "include": ["./src/**/*"],
     "compilerOptions": {
-        "noEmit": true
+        "outDir": "./dist",
+        "rootDir": "./src"
     }
 }

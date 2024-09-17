@@ -25,13 +25,16 @@ export function buildWidgetValue(value: ReactNode): ListWidgetValue {
     return { get: () => value } as Pick<ListWidgetValue, "get"> as ListWidgetValue;
 }
 
+export function obj(id = Math.random().toFixed(16).slice(2)): ObjectItem {
+    return {
+        id,
+        toString: () => `"obj_${id}"`
+    } as ObjectItem;
+}
+
 export function objectItems(length = 1): ObjectItem[] {
     length = Math.floor(length);
-    if (length > 0) {
-        return Array.from({ length }, () => ({ id: Math.random().toFixed(16).slice(2) } as ObjectItem));
-    }
-
-    return [];
+    return length > 0 ? Array.from({ length }, obj) : [];
 }
 
 export function list(n: number): ListValue {
@@ -45,6 +48,10 @@ export function listAttr<T extends string | boolean | Date | Big>(get: (item: Ob
     ) as unknown as (item: ObjectItem) => EditableValue<T>;
     attr.get = attrGet;
     return attr;
+}
+
+export function attrId(id: string = "{unset}"): ListAttributeValue["id"] {
+    return id as ListAttributeValue["id"];
 }
 
 export function listExp<T extends string | boolean | Date | Big>(get: (item: ObjectItem) => T): ListExpressionValue<T> {
