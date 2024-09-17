@@ -35,6 +35,7 @@
     "@mendix/eslint-config-web-widgets": "workspace:*",
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
+    "@mendix/widget-plugin-test-utils": "workspace:*",
     "@swc/core": "^1.7.26",
     "@swc/jest": "^0.2.36",
     "date-fns": "^3.6.0",
@@ -45,6 +46,7 @@
     "@mendix/widget-plugin-filter-selector": "workspace:*",
     "@mendix/widget-plugin-hooks": "workspace:*",
     "@mendix/widget-plugin-platform": "workspace:*",
+    "mendix": "^10.14.44044",
     "mobx": "6.12.3",
     "mobx-react-lite": "4.0.7"
   },
