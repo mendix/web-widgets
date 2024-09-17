@@ -1,0 +1,32 @@
+{
+    "type": "function",
+    "name": "or",
+    "args": [
+        {
+            "type": "function",
+            "name": "day:<=",
+            "arg1": {
+                "type": "attribute",
+                "attributeId": "attr_jei_5"
+            },
+            "arg2": {
+                "type": "literal",
+                "value": "1961-04-12T23:00:00.000Z",
+                "valueType": "DateTime"
+            }
+        },
+        {
+            "type": "function",
+            "name": "day:<=",
+            "arg1": {
+                "type": "attribute",
+                "attributeId": "attr_jei_6"
+            },
+            "arg2": {
+                "type": "literal",
+                "value": "1961-04-12T23:00:00.000Z",
+                "valueType": "DateTime"
+            }
+        }
+    ]
+}

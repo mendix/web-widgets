@@ -1,0 +1,32 @@
+{
+    "type": "function",
+    "name": "or",
+    "args": [
+        {
+            "type": "function",
+            "name": "=",
+            "arg1": {
+                "type": "attribute",
+                "attributeId": "attr_das_7"
+            },
+            "arg2": {
+                "type": "literal",
+                "value": "Peter",
+                "valueType": "string"
+            }
+        },
+        {
+            "type": "function",
+            "name": "=",
+            "arg1": {
+                "type": "attribute",
+                "attributeId": "attr_das_8"
+            },
+            "arg2": {
+                "type": "literal",
+                "value": "Peter",
+                "valueType": "string"
+            }
+        }
+    ]
+}
