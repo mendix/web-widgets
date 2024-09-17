@@ -1,5 +1,5 @@
-import { ListAttributeValue, DateTimeFormatter } from "mendix";
-import { FilterCondition, LiteralExpression } from "mendix/filters";
+import { DateTimeFormatter, ListAttributeValue } from "mendix";
+import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
     attribute,
@@ -14,14 +14,14 @@ import {
     notEqual,
     or
 } from "mendix/filters/builders";
-import { action, makeObservable, reaction, observable, comparer, IReactionDisposer } from "mobx";
-import { DateArgument } from "./Argument";
-import { BaseInputFilterStore } from "./BaseInputFilterStore";
+import { action, comparer, IReactionDisposer, makeObservable, observable, reaction } from "mobx";
+import { betweenToState, isAnd, isEmptyExp, isNotEmptyExp, isOr, singularToState } from "../condition-utils";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
+import { FilterFunction } from "../typings/mendix";
 import { FilterData, InputData } from "../typings/settings";
-import { isAnd, betweenToState, singularToState, isEmptyExp, isNotEmptyExp } from "../condition-utils";
-import { baseNames } from "./fn-mappers";
+import { DateArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
 type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [DateFns, Date | undefined, Date | undefined];
@@ -154,7 +154,7 @@ export class DateInputFilterStore
     }
 
     private getRangeCondition(attr: ListAttributeValue, [start, end]: [Date, Date]): [FilterCondition] | [] {
-        [start, end] = [toUTC(start), nextDayMidnight(toUTC(end))];
+        [start, end] = [toUTC(start), addUTCDay(toUTC(end))];
         const attrExp = attribute(attr.id);
 
         return [
@@ -164,6 +164,18 @@ export class DateInputFilterStore
                 this.getRangeCondMarker()
             )
         ];
+    }
+
+    private rangeExpToState(cond: AndCondition): InitState | null {
+        const val = (exp: LiteralExpression): Date | undefined =>
+            exp.valueType === "DateTime" ? exp.value : undefined;
+        const state = betweenToState(cond, (): DateFns => "between", val);
+        if (state === null) {
+            return null;
+        }
+        const [fn, start, end] = state;
+        // Restore end date received from picker
+        return [fn, start, end ? subUTCDay(end) : undefined];
     }
 
     private getRangeCondMarker(): FilterCondition {
@@ -210,25 +222,22 @@ export class DateInputFilterStore
             exp.valueType === "DateTime" ? exp.value : undefined;
 
         const read = (cond: FilterCondition): InitState | null => {
+            // If store has multiple-attrs, unpack expression
+            if (isOr(cond)) {
+                cond = cond.args[0];
+            }
             if (isEmptyExp(cond)) {
                 return ["empty", undefined, undefined];
             }
             if (isNotEmptyExp(cond)) {
                 return ["notEmpty", undefined, undefined];
             }
+            // Restore from "between" expression
             if (isAnd(cond) && this.isRangeMarker(cond.args.at(2))) {
-                return betweenToState(cond, (): DateFns => "between", val);
+                return this.rangeExpToState(cond);
             }
-            switch (cond.name) {
-                // equal
-                case "and":
-                    return singularToState(cond.args[0], (): DateFns => "equal", val);
-                // notEqual
-                case "or":
-                    return singularToState(cond.args[0], (): DateFns => "notEqual", val);
-                default:
-                    return singularToState(cond, baseNames, val);
-            }
+
+            return singularToState(cond, this.mapFn, val);
         };
 
         const initState = read(cond);
@@ -238,6 +247,25 @@ export class DateInputFilterStore
             this.isInitialized = true;
         }
     }
+
+    private mapFn = (name: FilterFunction | "between" | "empty" | "notEmpty"): DateFns => {
+        switch (name) {
+            case "day:=":
+                return "equal";
+            case "day:!=":
+                return "notEqual";
+            case "day:<":
+                return "smaller";
+            case "day:<=":
+                return "smallerEqual";
+            case "day:>":
+                return "greater";
+            case "day:>=":
+                return "greaterEqual";
+            default:
+                return "equal";
+        }
+    };
 }
 
 function parseDateValue(value: string | null): Date | undefined {
@@ -251,19 +279,27 @@ function parseDateValue(value: string | null): Date | undefined {
 }
 
 /**
- * Compute next day midnight and return a new UTC date
- * Example:
- * "2024-09-30T22:12:13.000Z" => 2024-10-01T00:00:00.000Z
+ * Adds 24 hours and return a new UTC date
  * @param date
  */
-function nextDayMidnight(date: Date): Date {
+function addUTCDay(date: Date): Date {
     date = new Date(date.getTime());
-    date.setUTCHours(24, 0, 0, 0);
+    date.setUTCHours(24);
+    return date;
+}
+/**
+ * Subtract 24 hours and return a new UTC date
+ * @param date
+ */
+
+function subUTCDay(date: Date): Date {
+    date = new Date(date.getTime());
+    date.setUTCHours(-24);
     return date;
 }
 
 /**
- * Function to convert locale dates to UTC.
+ * Function to convert locale dates to UTC
  */
 function toUTC(date: Date): Date {
     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
