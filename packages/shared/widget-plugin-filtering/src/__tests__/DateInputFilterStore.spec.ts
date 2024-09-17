@@ -110,7 +110,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'dat:>= [arg1] and day:<= [arg2]'", () => {
-            const [date1, date2] = [new Date("2024-09-17T00:00:13.000Z"), new Date("2024-09-30T11:12:13.000Z")];
+            const [date1, date2] = [new Date("2024-09-17T15:59:13.000Z"), new Date("2024-09-30T11:12:13.000Z")];
             store.filterFunction = "between";
             store.arg1.value = date1;
             store.arg2.value = date2;
@@ -119,7 +119,7 @@ describe("DateInputFilterStore", () => {
                 val(
                     and(
                         dayGreaterThanOrEqual(attribute(attr.id), literal("2024-09-17T00:00:00.000Z")),
-                        dayLessThanOrEqual(attribute(attr.id), literal("2024-09-30T00:00:00.000Z")),
+                        dayLessThan(attribute(attr.id), literal("2024-10-01T00:00:00.000Z")),
                         equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                     )
                 )
