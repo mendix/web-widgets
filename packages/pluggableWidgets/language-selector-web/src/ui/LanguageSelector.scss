@@ -41,14 +41,14 @@ $ls-brand-primary: #264ae5;
         font-size: 14px;
     }
     .popupmenu-menu {
-        background: #f8f8f8;
+        background: #fff;
         .popupmenu-basic-item {
             &.active {
                 font-weight: 600;
             }
             &.hover,
             &.highlighted {
-                background: #f2f2f2;
+                background: #f5f6f6;
             }
         }
     }
