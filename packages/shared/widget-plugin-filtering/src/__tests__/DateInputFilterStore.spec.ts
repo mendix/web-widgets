@@ -35,7 +35,7 @@ describe("DateInputFilterStore", () => {
             store = new DateInputFilterStore([attr], null);
         });
 
-        it("return undefined by default", () => {
+        it("returns undefined by default", () => {
             expect(store.condition).toBe(undefined);
         });
 
@@ -52,7 +52,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'day:= [arg1]'", () => {
-            const date1 = new Date("2024-09-17T00:00:00.000Z");
+            const date1 = new Date("2024-09-17T14:00:00.000Z");
             store.filterFunction = "equal";
             store.arg1.value = date1;
             attr.id = attrId("attr_004");
@@ -60,7 +60,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'day:!= [arg1]'", () => {
-            const date1 = new Date("2024-09-17T00:00:00.000Z");
+            const date1 = new Date("2024-09-17T15:00:00.000Z");
             store.filterFunction = "notEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_005");
@@ -76,7 +76,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'day:>= [arg1]'", () => {
-            const date1 = new Date("2024-09-17T00:00:00.000Z");
+            const date1 = new Date("2024-09-17T17:00:00.000Z");
             store.filterFunction = "greaterEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_006");
@@ -84,7 +84,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'day:< [arg1]'", () => {
-            const date1 = new Date("2024-09-17T00:00:00.000Z");
+            const date1 = new Date("2024-09-17T23:00:00.000Z");
             store.filterFunction = "smaller";
             store.arg1.value = date1;
             attr.id = attrId("attr_007");
@@ -92,7 +92,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'day:<= [arg1]'", () => {
-            const date1 = new Date("2024-09-17T00:00:00.000Z");
+            const date1 = new Date("2024-09-17T00:11:00.000Z");
             store.filterFunction = "smallerEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_008");
@@ -100,7 +100,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns 'dat:>= [arg1] and day:<= [arg2]'", () => {
-            const [date1, date2] = [new Date("2024-09-17T00:00:00.000Z"), new Date("2024-09-31T00:00:00.000Z")];
+            const [date1, date2] = [new Date("2024-09-17T00:00:13.000Z"), new Date("2024-09-30T11:12:13.000Z")];
             store.filterFunction = "between";
             store.arg1.value = date1;
             store.arg2.value = date2;
@@ -108,8 +108,9 @@ describe("DateInputFilterStore", () => {
             expect(val(store.condition)).toBe(
                 val(
                     and(
-                        dayGreaterThanOrEqual(attribute(attr.id), literal(date1)),
-                        dayLessThanOrEqual(attribute(attr.id), literal(date2))
+                        dayGreaterThanOrEqual(attribute(attr.id), literal("2024-09-17T00:00:00.000Z")),
+                        dayLessThanOrEqual(attribute(attr.id), literal("2024-09-30T00:00:00.000Z")),
+                        equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                     )
                 )
             );

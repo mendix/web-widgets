@@ -1,15 +1,15 @@
-// import { isDate } from "date-fns/isDate";
-import { addDays } from "date-fns/addDays";
 import { ListAttributeValue, DateTimeFormatter } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
     attribute,
+    dayEquals,
+    dayGreaterThan,
+    dayGreaterThanOrEqual,
+    dayLessThan,
+    dayLessThanOrEqual,
+    dayNotEqual,
     equals,
-    greaterThan,
-    greaterThanOrEqual,
-    lessThan,
-    lessThanOrEqual,
     literal,
     notEqual,
     or
@@ -117,41 +117,37 @@ export class DateInputFilterStore
             return this.isRange(values) ? this.getRangeCondition(attr, values) : [];
         }
 
-        return v1 ? this.getAttrCondition(attr, filterFn, v1) : [];
+        return this.getAttrCondition(attr, filterFn, v1);
     }
 
     private getAttrCondition(
         attr: ListAttributeValue,
         filterFn: Exclude<DateFns, "between">,
-        value: Date
+        date: Date | undefined
     ): [FilterCondition] | [] {
-        value = changeTimeToMidnight(value);
-        const attrExp = attribute(attr.id);
+        const [attrExp, value] = [attribute(attr.id), literal(date)];
+        if (filterFn === "empty") {
+            return [equals(attrExp, literal(undefined))];
+        }
+        if (filterFn === "notEmpty") {
+            return [notEqual(attrExp, literal(undefined))];
+        }
+        if (date === undefined) {
+            return [];
+        }
         switch (filterFn) {
-            case "empty":
-                return [equals(attrExp, literal(undefined))];
-            case "notEmpty":
-                return [notEqual(attrExp, literal(undefined))];
             case "greater":
-                // > Day +1 at midnight -1ms
-                return [greaterThan(attrExp, literal(new Date(addDays(value, 1).getTime() - 1)))];
+                return [dayGreaterThan(attrExp, value)];
             case "greaterEqual":
-                // >= day at midnight
-                return [greaterThanOrEqual(attrExp, literal(value))];
+                return [dayGreaterThanOrEqual(attrExp, value)];
             case "equal":
-                // >= day at midnight and < day +1 midnight
-                return [
-                    and(greaterThanOrEqual(attrExp, literal(value)), lessThan(attrExp, literal(addDays(value, 1))))
-                ];
+                return [dayEquals(attrExp, value)];
             case "notEqual":
-                // < day at midnight or >= day +1 at midnight
-                return [or(lessThan(attrExp, literal(value)), greaterThanOrEqual(attrExp, literal(addDays(value, 1))))];
+                return [dayNotEqual(attrExp, value)];
             case "smaller":
-                // < day at midnight
-                return [lessThan(attrExp, literal(value))];
+                return [dayLessThan(attrExp, value)];
             case "smallerEqual":
-                // <= day +1 at midnight -1ms
-                return [lessThanOrEqual(attrExp, literal(new Date(addDays(value, 1).getTime() - 1)))];
+                return [dayLessThanOrEqual(attrExp, value)];
             default:
                 return [];
         }
@@ -163,8 +159,8 @@ export class DateInputFilterStore
 
         return [
             and(
-                greaterThanOrEqual(attrExp, literal(start)),
-                lessThanOrEqual(attrExp, literal(new Date(addDays(end, 1).getTime() - 1))),
+                dayGreaterThanOrEqual(attrExp, literal(start)),
+                dayLessThanOrEqual(attrExp, literal(end)),
                 this.getRangeCondMarker()
             )
         ];
@@ -263,9 +259,9 @@ function parseDateValue(value: string | null): Date | undefined {
  */
 function changeTimeToMidnight(date: Date): Date {
     const newDate = new Date(date.getTime());
-    newDate.setHours(0);
-    newDate.setMinutes(0);
-    newDate.setSeconds(0);
-    newDate.setMilliseconds(0);
+    newDate.setUTCHours(0);
+    newDate.setUTCMinutes(0);
+    newDate.setUTCSeconds(0);
+    newDate.setUTCMilliseconds(0);
     return newDate;
 }
