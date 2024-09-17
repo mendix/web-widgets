@@ -1,7 +1,5 @@
-import { FilterCondition } from "mendix/filters";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
-type Func<T> = T extends { name: infer Fn } ? Fn : never;
-type FilterFunction = Func<FilterCondition>;
+import { FilterFunction } from "../typings/mendix";
 
 export function baseNames(
     fn: FilterFunction | "between" | "empty" | "notEmpty"

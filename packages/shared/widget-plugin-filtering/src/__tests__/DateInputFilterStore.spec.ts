@@ -162,7 +162,7 @@ describe("DateInputFilterStore", () => {
         it("restore state from multi-attribute exp", () => {
             store.fromViewState(withRealDates(smallerEqualExp) as unknown as FilterCondition);
             expect(store.filterFunction).toBe("smallerEqual");
-            expect(store.arg1.value).toEqual(new Date("1960-10-08T23:00:00.000Z"));
+            expect(store.arg1.value).toEqual(new Date("1961-04-12T23:00:00.000Z"));
         });
 
         it("restore state from between exp", () => {
