@@ -1,10 +1,4 @@
-const s = x => {
-    if (x instanceof Date) {
-        return x.toISOString();
-    }
-
-    return `${x}`;
-};
+const s = x => JSON.stringify(x);
 
 exports.literal = x => ({
     toString: () => `literal(${s(x)})`
@@ -15,33 +9,41 @@ exports.attribute = x => ({
 });
 
 exports.equals = (x, y) => ({
-    toString: () => `equals(${s(x)},${s(y)})`
+    toString: () => `equals(${x},${y})`
 });
 
 exports.notEqual = (x, y) => ({
-    toString: () => `notEqual(${s(x)},${s(y)})`
+    toString: () => `notEqual(${x},${y})`
 });
 
 exports.dayEquals = (x, y) => ({
-    toString: () => `dayEquals(${s(x)},${s(y)})`
+    toString: () => `dayEquals(${x},${y})`
 });
 
 exports.dayNotEqual = (x, y) => ({
-    toString: () => `dayNotEqual(${s(x)},${s(y)})`
+    toString: () => `dayNotEqual(${x},${y})`
 });
 
 exports.dayGreaterThan = (x, y) => ({
-    toString: () => `dayGreaterThan(${s(x)},${s(y)})`
+    toString: () => `dayGreaterThan(${x},${y})`
 });
 
 exports.dayGreaterThanOrEqual = (x, y) => ({
-    toString: () => `dayGreaterThanOrEqual(${s(x)},${s(y)})`
+    toString: () => `dayGreaterThanOrEqual(${x},${y})`
 });
 
 exports.dayLessThan = (x, y) => ({
-    toString: () => `dayLessThan(${s(x)},${s(y)})`
+    toString: () => `dayLessThan(${x},${y})`
 });
 
 exports.dayLessThanOrEqual = (x, y) => ({
-    toString: () => `dayLessThanOrEqual(${s(x)},${s(y)})`
+    toString: () => `dayLessThanOrEqual(${x},${y})`
+});
+
+exports.or = (...args) => ({
+    toString: () => `or(${args.map(arg => `${arg}`).join(",")})`
+});
+
+exports.and = (...args) => ({
+    toString: () => `and(${args.map(arg => `${arg}`).join(",")})`
 });

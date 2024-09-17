@@ -26,10 +26,12 @@ export function buildWidgetValue(value: ReactNode): ListWidgetValue {
 }
 
 export function obj(id = Math.random().toFixed(16).slice(2)): ObjectItem {
+    id = `obj_${id}`;
     return {
         id,
-        toString: () => `"obj_${id}"`
-    } as ObjectItem;
+        toString: () => JSON.stringify(id),
+        toJSON: () => id
+    } as unknown as ObjectItem;
 }
 
 export function objectItems(length = 1): ObjectItem[] {
