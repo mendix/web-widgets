@@ -72,7 +72,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                 {...getToggleButtonProps(
                     {
                         tabIndex: props.tabIndex,
-                        "aria-labelledby": undefined
+                        "aria-label": props.screenReaderLabelCaption || "Language selector"
                     },
                     { suppressRefError: true }
                 )}
@@ -86,7 +86,7 @@ export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => 
                 className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
                 {...getMenuProps(
                     {
-                        "aria-label": props.screenReaderLabelCaption || "Language selector"
+                        "aria-labelledby": undefined
                     },
                     { suppressRefError: true }
                 )}
