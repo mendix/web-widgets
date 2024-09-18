@@ -70,16 +70,6 @@ test.describe("datagrid-text-filter-web", () => {
 
             const accessibilityScanResults = await new AxeBuilder({ page })
                 .withTags(["wcag21aa"])
-                .disableRules([
-                    "aria-required-children",
-                    "label",
-                    "aria-roles",
-                    "button-name",
-                    "duplicate-id-active",
-                    "duplicate-id",
-                    "aria-allowed-attr",
-                    "image-alt"
-                ])
                 .exclude(".mx-name-navigationTree3")
                 .analyze();
 

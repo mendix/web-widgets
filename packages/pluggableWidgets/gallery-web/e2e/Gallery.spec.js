@@ -93,15 +93,7 @@ test.describe("gallery-web", () => {
             const accessibilityScanResults = await new AxeBuilder({ page })
                 .include(".mx-name-gallery1")
                 .withTags(["wcag21aa"])
-                .disableRules([
-                    "aria-required-children",
-                    "label",
-                    "aria-roles",
-                    "button-name",
-                    "duplicate-id-active",
-                    "duplicate-id",
-                    "aria-allowed-attr"
-                ])
+                .exclude(".mx-name-navigationTree3")
                 .analyze();
 
             expect(accessibilityScanResults.violations).toEqual([]);
