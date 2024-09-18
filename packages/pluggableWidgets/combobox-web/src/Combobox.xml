@@ -50,7 +50,7 @@
                     <caption>Selectable objects</caption>
                     <description />
                 </property>
-                <property key="optionsSourceDatabaseItemSelection" type="selection" dataSource="optionsSourceDatabaseDataSource">
+                <property key="optionsSourceDatabaseItemSelection" type="selection" dataSource="optionsSourceDatabaseDataSource" onChange="onChangeEvent">
                     <caption>Selection type</caption>
                     <description />
                     <selectionTypes>

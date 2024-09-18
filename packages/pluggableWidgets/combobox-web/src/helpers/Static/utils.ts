@@ -1,4 +1,4 @@
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { DynamicValue, EditableValue } from "mendix";
 import {
     ComboboxContainerProps,
     OptionsSourceStaticDataSourceType,
@@ -12,14 +12,12 @@ type ExtractionReturnValue = [
     DynamicValue<string> | undefined,
     boolean,
     FilterTypeEnum,
-    ActionValue | undefined,
     StaticDataSourceCustomContentTypeEnum
 ];
 
 export function extractStaticProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.staticAttribute;
     const filterType = props.filterType;
-    const onChangeEvent = props.onChangeEvent;
 
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'Database' but 'databaseAttributeString' is not defined.");
@@ -33,5 +31,5 @@ export function extractStaticProps(props: ComboboxContainerProps): ExtractionRet
     const clearable = typeof props.staticAttribute.value === "boolean" ? false : props.clearable;
     const customContentType = props.staticDataSourceCustomContentType;
 
-    return [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContentType];
+    return [attr, ds, emptyOption, clearable, filterType, customContentType];
 }

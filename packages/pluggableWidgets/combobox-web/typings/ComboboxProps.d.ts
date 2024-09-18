@@ -82,7 +82,6 @@ export interface ComboboxContainerProps {
     selectAllButton: boolean;
     selectAllButtonCaption: DynamicValue<string>;
     readOnlyStyle: ReadOnlyStyleEnum;
-    onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
