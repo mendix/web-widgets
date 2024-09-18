@@ -10,6 +10,7 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
       aria-controls="downshift-0-menu"
       aria-expanded="false"
       aria-haspopup="listbox"
+      aria-label="Language selector"
       class="popupmenu-trigger popupmenu-trigger-alignment"
       id="downshift-0-toggle-button"
       role="combobox"
@@ -28,7 +29,6 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
       </span>
     </div>
     <div
-      aria-label="Language selector"
       class="popupmenu-menu popupmenu-position-left"
       id="downshift-0-menu"
       role="listbox"
@@ -47,6 +47,7 @@ exports[`Language switcher renders the structure with language list and selected
       aria-controls="downshift-1-menu"
       aria-expanded="false"
       aria-haspopup="listbox"
+      aria-label="Language selector"
       class="popupmenu-trigger popupmenu-trigger-alignment"
       id="downshift-1-toggle-button"
       role="combobox"
@@ -67,7 +68,6 @@ exports[`Language switcher renders the structure with language list and selected
       </span>
     </div>
     <div
-      aria-label="Language selector"
       class="popupmenu-menu popupmenu-position-left"
       id="downshift-1-menu"
       role="listbox"
