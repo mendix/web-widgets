@@ -39,11 +39,17 @@ const Container = observer((props: Props): ReactElement => {
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
     useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
         if (props.refreshInterval > 0) {
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 props.datasource.reload();
             }, props.refreshInterval * 1000);
         }
+        return () => {
+            if (timer) {
+                clearTimeout(timer);
+            }
+        };
     }, [props.datasource, props.refreshInterval]);
 
     const setPage = useCallback(
