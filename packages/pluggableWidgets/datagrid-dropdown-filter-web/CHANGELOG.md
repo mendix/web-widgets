@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+-   We removed "Group key" property.
+
 ## [2.8.0] - 2024-09-13
 
 ### Changed
