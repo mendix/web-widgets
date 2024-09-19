@@ -4,13 +4,13 @@ import { PositionEnum, TriggerEnum } from "typings/LanguageSelectorProps";
 import { LanguageSwitcher, LanguageSwitcherProps } from "../LanguageSwitcher";
 
 let props: LanguageSwitcherProps = {
-    preview: false,
     currentLanguage: undefined,
     languageList: [],
     position: "left" as PositionEnum,
     onSelect: jest.fn(),
     trigger: "click" as TriggerEnum,
-    className: ""
+    className: "",
+    tabIndex: 0
 };
 const language = { _guid: "111", value: "En us" };
 

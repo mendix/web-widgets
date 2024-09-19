@@ -53,7 +53,8 @@ export default function LanguageSelector(props: LanguageSelectorContainerProps):
             languageList={languageList}
             onSelect={selectLanguage}
             trigger={props.trigger}
-            preview={false}
+            tabIndex={props.tabIndex ?? 0}
+            screenReaderLabelCaption={props.screenReaderLabelCaption?.value}
         />
     );
 }
