@@ -33,7 +33,6 @@ export class ColumnFilterStore implements IColumnFilterStore {
             condition2: computed,
             updateProps: action
         });
-        ((document as any).__dg2__cfs ??= []).push(this);
     }
 
     updateProps(props: ColumnsType): void {
