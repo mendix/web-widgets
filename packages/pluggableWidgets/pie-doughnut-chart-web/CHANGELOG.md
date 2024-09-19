@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where Pie chart on click event was not working properly, not executing the on click action.
+
 ## [3.1.2] - 2023-11-21
 
 ### Fixed
