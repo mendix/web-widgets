@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { error, value, Result } from "../result-meta";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
-import { APIError, EGRPKEY, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EKEYMISSING, EMISSINGSTORE, ESTORETYPE } from "../errors";
 import { isNumberFilter } from "../stores/store-utils";
 
 export interface Number_FilterAPIv2 {
@@ -25,7 +25,7 @@ export function useNumberFilterAPI(key: string): Result<Number_FilterAPIv2, APIE
     }
 
     if (api.provider.value.type === "key-value" && key === "") {
-        return error(EGRPKEY);
+        return error(EKEYMISSING);
     }
 
     const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
