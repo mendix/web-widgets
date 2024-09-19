@@ -18,7 +18,6 @@ import {
 } from "@mendix/pluggable-widgets-tools";
 
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
-import { setFilteringProps } from "./property-utils";
 
 export function getProperties(
     values: DatagridPreviewProps,
@@ -154,7 +153,7 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
     }
 
-    setFilteringProps(values, defaultProperties);
+    hidePropertiesIn(defaultProperties, values, ["enableFilterGroups", "groupList", "groupAttrs"]);
 
     return defaultProperties;
 }
