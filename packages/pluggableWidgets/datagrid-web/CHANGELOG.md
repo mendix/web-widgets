@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed refreshed interval timer being duplicated on pagination click.
 
+### Breaking changes
+
+-   We removed "Filter groups" properties.
+
 ## [2.22.0] - 2024-09-13
 
 ### Changed
