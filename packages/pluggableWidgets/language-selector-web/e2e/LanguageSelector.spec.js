@@ -27,6 +27,7 @@ test.describe("language-selector-web", () => {
     test("checks if Chinese language is rendered as expected", async ({ page }) => {
         await page.click(".current-language-text", { force: true });
         await page.click("text=Chinese");
+        await expect(page.getByText("欢迎")).toBeVisible();
         await expect(page).toHaveScreenshot(`languageSelectorChinese.png`);
     });
 
