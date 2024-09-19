@@ -1,41 +1,22 @@
-import { ListAttributeValue, ListExpressionValue, ListReferenceSetValue, ListReferenceValue, ListValue } from "mendix";
+import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
 import { FilterAPIv2 } from "../context";
 import { APIError } from "../errors";
-import { groupStoreFactory, GroupStoreProvider } from "../providers/GroupStoreProvider";
 import { LegacyPv } from "../providers/LegacyPv";
 import { Result, value } from "../result-meta";
 import { FiltersSettingsMap } from "../typings/settings";
-
-export type TypeEnum = "attrs" | "reference";
-
-export interface GroupListType {
-    type: TypeEnum;
-    key: string;
-    ref?: ListReferenceValue | ListReferenceSetValue;
-    refOptions?: ListValue;
-    caption?: ListExpressionValue<string>;
-}
-
-export interface GroupAttrsType {
-    key: string;
-    attr: ListAttributeValue<string | Big | boolean | Date>;
-}
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
 
 export interface HeaderFiltersStoreProps {
-    enableFilterGroups: boolean;
-    groupList: GroupListType[];
-    groupAttrs: GroupAttrsType[];
     filterList: FilterListType[];
 }
 
 export class HeaderFiltersStore {
-    private provider: Result<LegacyPv | GroupStoreProvider, APIError>;
+    private provider: Result<LegacyPv, APIError>;
     context: FilterAPIv2;
 
     constructor(props: HeaderFiltersStoreProps, dsViewState: Array<FilterCondition | undefined> | null) {
@@ -70,17 +51,13 @@ export class HeaderFiltersStore {
     createProvider(
         props: HeaderFiltersStoreProps,
         dsViewState: Array<FilterCondition | undefined> | null
-    ): Result<LegacyPv | GroupStoreProvider, APIError> {
-        if (props.enableFilterGroups) {
-            return groupStoreFactory(props, dsViewState);
-        } else {
-            return value(
-                new LegacyPv(
-                    props.filterList.map(f => f.filter),
-                    dsViewState
-                )
-            );
-        }
+    ): Result<LegacyPv, APIError> {
+        return value(
+            new LegacyPv(
+                props.filterList.map(f => f.filter),
+                dsViewState
+            )
+        );
     }
 
     setup(): (() => void) | void {
@@ -91,13 +68,5 @@ export class HeaderFiltersStore {
         return this.provider.value.setup();
     }
 
-    updateProps(props: HeaderFiltersStoreProps): void {
-        if (this.provider.hasError) {
-            return;
-        }
-        const provider = this.provider.value;
-        if (provider instanceof GroupStoreProvider) {
-            provider.updateProps(props);
-        }
-    }
+    updateProps(): void {}
 }

@@ -1,10 +1,8 @@
 enum Code {
-    EGRPINVALIDATTRS = 5,
-    EGRPSTORECREATE = 4,
     EMISSINGSTORE = 2,
     ENOCONTEXT = 1,
     ESTORETYPE = 3,
-    EGRPKEY = 6
+    EKEYMISSING = 7
 }
 
 export { Code as APIErrorCode };
@@ -32,7 +30,7 @@ export const ESTORETYPE: APIError = Object.freeze({
         "be used with correct attribute/group type."
 });
 
-export const EGRPKEY: APIError = Object.freeze({
-    code: Code.EGRPKEY,
-    message: "Filter error: property 'Group key' is required."
+export const EKEYMISSING: APIError = Object.freeze({
+    code: Code.EKEYMISSING,
+    message: "The key for filter is missing."
 });

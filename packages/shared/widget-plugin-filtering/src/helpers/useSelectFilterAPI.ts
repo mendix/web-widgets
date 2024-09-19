@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { APIError, EGRPKEY, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EKEYMISSING, EMISSINGSTORE, ESTORETYPE } from "../errors";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { Result, error, value } from "../result-meta";
 import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
@@ -24,7 +24,7 @@ export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIE
     }
 
     if (api.provider.value.type === "key-value" && key === "") {
-        return error(EGRPKEY);
+        return error(EKEYMISSING);
     }
 
     const store = getFilterStore(api.provider.value, FilterType.ENUMERATION, key);
