@@ -153,8 +153,6 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
     }
 
-    hidePropertiesIn(defaultProperties, values, ["enableFilterGroups", "groupList", "groupAttrs"]);
-
     return defaultProperties;
 }
 
