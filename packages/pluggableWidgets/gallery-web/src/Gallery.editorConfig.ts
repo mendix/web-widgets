@@ -53,8 +53,6 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "advanced");
     }
 
-    hidePropertiesIn(defaultProperties, values, ["enableFilterGroups", "groupList", "groupAttrs"]);
-
     return defaultProperties;
 }
 
