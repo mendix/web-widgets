@@ -2,6 +2,8 @@ import { ReactNode, createElement } from "react";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import "./ui/DocumentViewer.scss";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 
 export function DocumentViewer(props: DocumentViewerContainerProps): ReactNode {
     if (props.file.status === "available" && props.file.value.uri) {
