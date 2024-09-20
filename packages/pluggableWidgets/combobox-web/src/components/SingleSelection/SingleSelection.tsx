@@ -37,7 +37,8 @@ export function SingleSelection({
             if (selector.options.loadMore) {
                 selector.options.loadMore();
             }
-        }
+        },
+        datasourceFilter: selector.options.datasource?.filter
     });
 
     return (

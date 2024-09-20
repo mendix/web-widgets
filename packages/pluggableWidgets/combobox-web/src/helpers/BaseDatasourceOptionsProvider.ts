@@ -41,6 +41,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.loading;
     }
 
+    get datasource(): ListValue | undefined {
+        return this.ds;
+    }
+
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
@@ -58,7 +62,9 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
 
     loadMore(): void {
         if (this.ds && this.hasMore) {
+            console.log("limit", this.ds.limit);
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
+            console.log("limit2", this.ds.limit);
 
             if (this.lazyLoading) {
                 this.loading = true;
