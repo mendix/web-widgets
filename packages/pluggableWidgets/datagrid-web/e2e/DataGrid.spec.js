@@ -136,7 +136,8 @@ test.describe("capabilities: hiding", () => {
         await page.waitForLoadState("networkidle");
         await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toBeVisible();
         await page.locator(".mx-name-datagrid1 .column-selector-button").click();
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(3);
+        await expect(page.locator(".column-selectors input:checked")).toHaveCount(4);
+        await page.locator(".column-selectors > li").nth(3).click();
         await page.locator(".column-selectors > li").nth(2).click();
         await page.locator(".column-selectors > li").nth(1).click();
         await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);

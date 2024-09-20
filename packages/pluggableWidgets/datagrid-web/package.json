@@ -22,7 +22,7 @@
   },
   "testProject": {
     "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-web-next"
+    "branchName": "datagrid-web-referenceSet"
   },
   "packagePath": "com.mendix.widget.web",
   "scripts": {
