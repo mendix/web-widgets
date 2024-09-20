@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { actionValue, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -23,7 +23,6 @@ describe("Dropdown Filter", () => {
         describe("with single attribute", () => {
             function mockCtx(universe: string[]): void {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -36,9 +35,7 @@ describe("Dropdown Filter", () => {
                                 )
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -183,7 +180,6 @@ describe("Dropdown Filter", () => {
         describe("with multiple attributes", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -209,9 +205,7 @@ describe("Dropdown Filter", () => {
                                 )
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -246,14 +240,11 @@ describe("Dropdown Filter", () => {
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -279,7 +270,6 @@ describe("Dropdown Filter", () => {
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -295,9 +285,7 @@ describe("Dropdown Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -339,7 +327,6 @@ describe("Dropdown Filter", () => {
         describe("with invalid values", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -348,9 +335,7 @@ describe("Dropdown Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -380,7 +365,6 @@ describe("Dropdown Filter", () => {
         describe("with multiple invalid values", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -396,9 +380,7 @@ describe("Dropdown Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -433,7 +415,6 @@ describe("Dropdown Filter", () => {
     describe("with multiple instances", () => {
         beforeAll(() => {
             const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: false,
                 filterList: [
                     {
                         filter: new ListAttributeValueBuilder()
@@ -446,9 +427,7 @@ describe("Dropdown Filter", () => {
                             )
                             .build()
                     }
-                ],
-                groupAttrs: [],
-                groupList: []
+                ]
             };
             const headerFilterStore = new HeaderFiltersStore(props, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -472,113 +451,6 @@ describe("Dropdown Filter", () => {
         afterAll(() => {
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             delete (global as any)["com.mendix.widgets.web.UUID"];
-        });
-    });
-
-    describe("with filter groups enabled", () => {
-        beforeEach(() => {
-            const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: true,
-                filterList: [],
-                groupAttrs: [
-                    {
-                        key: "dropdown-filter",
-                        attr: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withUniverse(["enum_value_1", "enum_value_2"])
-                            .withType("Enum")
-                            .withFilterable(true)
-                            .withFormatter(
-                                value => value,
-                                () => console.log("Parsed")
-                            )
-                            .build()
-                    },
-                    {
-                        key: "dropdown-filter",
-                        attr: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withUniverse([true, false])
-                            .withType("Boolean")
-                            .withFilterable(true)
-                            .withFormatter(
-                                value => (value ? "Yes" : "No"),
-                                () => console.log("Parsed")
-                            )
-                            .build()
-                    }
-                ],
-                groupList: [{ type: "attrs", key: "dropdown-filter" }]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                headerFilterStore.context
-            );
-        });
-
-        it("renders correctly", () => {
-            const { asFragment } = render(
-                <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
-            );
-            expect(asFragment()).toMatchSnapshot();
-        });
-
-        it("triggers attribute and onchange action on change filter value", () => {
-            const action = actionValue();
-            render(
-                <DatagridDropdownFilter
-                    {...commonProps}
-                    auto
-                    multiSelect={false}
-                    filterOptions={[]}
-                    onChange={action}
-                    emptyOptionCaption={dynamicValue("Placeholder")}
-                />
-            );
-
-            fireEvent.click(screen.getByRole("textbox"));
-            fireEvent.click(screen.getAllByRole("menuitem")[2]);
-
-            expect(action.execute).toHaveBeenCalledTimes(1);
-        });
-
-        describe("with wrong group key", () => {
-            beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: true,
-                    filterList: [],
-                    groupAttrs: [
-                        {
-                            key: "different-key",
-                            attr: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withUniverse(["enum_value_1", "enum_value_2"])
-                                .withType("Enum")
-                                .withFilterable(true)
-                                .withFormatter(
-                                    value => value,
-                                    () => console.log("Parsed")
-                                )
-                                .build()
-                        }
-                    ],
-                    groupList: [{ type: "attrs", key: "different-key" }]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
-            });
-
-            it("renders error message", () => {
-                const { container } = render(
-                    <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
-                );
-
-                expect(container.querySelector(".alert")?.textContent).toEqual(
-                    "Unable to get filter store. Check parent widget configuration."
-                );
-            });
         });
     });
 });
