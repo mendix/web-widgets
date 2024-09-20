@@ -6,7 +6,7 @@ interface FilterSelectorProps<T extends string> {
     ariaLabel?: string;
     id?: string;
     defaultFilter: T;
-    onChange: (value: T) => void;
+    onChange: (value: T, isFromUserInteraction: boolean) => void;
     options: Array<{ value: T; label: string }>;
 }
 
@@ -23,7 +23,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
     const onClick = useCallback(
         (value: T) => {
             setValue(value);
-            onChange(value);
+            onChange(value, true);
             setShow(false);
         },
         [onChange]
@@ -31,7 +31,7 @@ export function FilterSelector<T extends string>(props: FilterSelectorProps<T>):
 
     useEffect(() => {
         setValue(defaultFilter);
-        onChange(defaultFilter);
+        onChange(defaultFilter, false);
     }, [defaultFilter, onChange]);
 
     const filterSelectors = (

@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "react-doc-viewer": "^0.1.13"
+    "react-doc-viewer": "^0.1.13",
+    "pdfjs-dist": "4.3.136"
   }
 }

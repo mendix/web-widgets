@@ -15,7 +15,7 @@ export interface BaseProps {
 export type FilterList<T> = Array<{ value: T; label: string }>;
 
 export interface InputProps<TFilterEnum> {
-    onFilterChange: (type: TFilterEnum) => void;
+    onFilterChange: (type: TFilterEnum, isFromUserInteraction: boolean) => void;
     defaultFilter: TFilterEnum;
     filters: FilterList<TFilterEnum>;
 
