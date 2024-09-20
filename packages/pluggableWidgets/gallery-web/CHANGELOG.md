@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Widget maintenance.
+
 ## [1.11.0] - 2024-09-20
 
 ### Breaking changes
