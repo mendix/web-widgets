@@ -34,6 +34,7 @@
     "@mendix/prettier-config-web-widgets": "workspace:*",
     "@mendix/tsconfig-web-widgets": "workspace:*",
     "@swc/core": "^1.7.26",
-    "@swc/jest": "^0.2.36"
+    "@swc/jest": "^0.2.36",
+    "big.js": "^6.2.2"
   }
 }

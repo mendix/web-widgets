@@ -1,55 +1,96 @@
 jest.mock("mendix/filters/builders");
-import { ListAttributeValue } from "mendix";
+import { Big } from "big.js";
 import { literal, attribute, equals, or, and } from "mendix/filters/builders";
-import { obj } from "../../src/functions";
-
-const val = (v: unknown): string => `${v}`;
+import * as builders from "mendix/filters/builders";
+import { attrId, obj } from "../../src/functions";
 
 describe("mendix/filters/builders mock", () => {
-    test("literal", () => {
-        expect(val(literal(true))).toBe("literal(true)");
-        expect(val(literal("!"))).toBe(val(literal("!")));
-        const o = obj("11111");
-        expect(val(literal(o))).toBe('literal("obj_11111")');
+    test.each([
+        [true, "boolean"],
+        [false, "boolean"],
+        ["!", "String"],
+        ["", "String"],
+        [new Big(0), "Numeric"],
+        [new Big(0.49), "Numeric"],
+        [new Big(-1), "Numeric"],
+        [new Date("2024-09-20"), "DateTime"],
+        [obj("12345"), "Reference"],
+        [[obj("12345")], "ReferenceSet"],
+        [undefined, "undefined"]
+    ])("literal(%j) returns object with value type '%s'", (value, expectedType) => {
+        const output = literal(value);
+        expect(output.type).toBe("literal");
+        expect(output.value).toBe(value);
+        expect(output.valueType).toBe(expectedType);
     });
 
     test("attribute", () => {
-        const id = `attr_xxx` as ListAttributeValue["id"];
-        expect(val(attribute(id))).toBe(`attribute("attr_xxx")`);
+        expect(attribute(attrId("attr_csj_5"))).toEqual({
+            type: "attribute",
+            attributeId: "attr_csj_5"
+        });
     });
 
-    test("equals", () => {
-        const id = `attr_99999` as ListAttributeValue["id"];
-        expect(val(equals(attribute(id), literal(undefined)))).toBe(
-            `equals(attribute("attr_99999"),literal(undefined))`
-        );
+    test.each([
+        ["equals", "="],
+        ["notEqual", "!="],
+        ["dayEquals", "day:="],
+        ["dayNotEqual", "day:!="],
+        ["dayGreaterThan", "day:>"],
+        ["dayGreaterThanOrEqual", "day:>="],
+        ["dayLessThan", "day:<"],
+        ["dayLessThanOrEqual", "day:<="]
+    ])("%s returns correct shape", (fn, name) => {
+        expect(
+            (builders[fn as keyof typeof builders] as any)(attribute(attrId("attr_foo_bar")), literal(undefined))
+        ).toEqual({
+            type: "function",
+            name,
+            arg1: {
+                type: "attribute",
+                attributeId: "attr_foo_bar"
+            },
+            arg2: {
+                type: "literal",
+                value: undefined,
+                valueType: "undefined"
+            }
+        });
     });
 
     test("or", () => {
         expect(
-            val(
-                or(
-                    equals(literal(true), literal(true)),
-                    equals(literal("!"), literal("!")),
-                    equals(literal("X"), literal(false))
-                )
+            or(
+                equals(literal(true), literal(true)),
+                equals(literal("!"), literal("!")),
+                equals(literal("X"), literal(false))
             )
-        ).toBe(
-            `or(equals(literal(true),literal(true)),equals(literal("!"),literal("!")),equals(literal("X"),literal(false)))`
-        );
+        ).toEqual({
+            type: "function",
+            name: "or",
+            args: [
+                equals(literal(true), literal(true)),
+                equals(literal("!"), literal("!")),
+                equals(literal("X"), literal(false))
+            ]
+        });
     });
 
     test("and", () => {
         expect(
-            val(
-                and(
-                    equals(literal(true), literal(true)),
-                    equals(literal("!"), literal("!")),
-                    equals(literal("X"), literal(false))
-                )
+            and(
+                equals(literal(true), literal(true)),
+                equals(literal("!"), literal("!")),
+                equals(literal("X"), literal(false))
             )
-        ).toBe(
-            `and(equals(literal(true),literal(true)),equals(literal("!"),literal("!")),equals(literal("X"),literal(false)))`
-        );
+        ).toEqual({
+            type: "function",
+            name: "and",
+            args: [
+                equals(literal(true), literal(true)),
+                equals(literal("!"), literal("!")),
+                equals(literal("X"), literal(false))
+            ]
+        });
     });
 });
