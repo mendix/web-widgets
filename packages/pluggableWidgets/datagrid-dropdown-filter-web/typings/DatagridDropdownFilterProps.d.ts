@@ -24,7 +24,6 @@ export interface DatagridDropdownFilterContainerProps {
     auto: boolean;
     advanced: boolean;
     defaultValue?: DynamicValue<string>;
-    groupKey: string;
     filterOptions: FilterOptionsType[];
     emptyOptionCaption?: DynamicValue<string>;
     multiSelect: boolean;
@@ -45,7 +44,6 @@ export interface DatagridDropdownFilterPreviewProps {
     auto: boolean;
     advanced: boolean;
     defaultValue: string;
-    groupKey: string;
     filterOptions: FilterOptionsPreviewType[];
     emptyOptionCaption: string;
     multiSelect: boolean;
