@@ -42,9 +42,7 @@ export class RootGalleryStore {
         return this.headerFiltersStore.setup();
     }
 
-    updateProps(props: GalleryContainerProps): void {
-        this.headerFiltersStore.updateProps(props);
-    }
+    updateProps(_: GalleryContainerProps): void {}
 
     private setInitParams(props: GalleryContainerProps): void {
         if (props.pagination === "buttons") {
