@@ -16,7 +16,6 @@ function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
                 //
             }}
             id={(useRef<string>().current ??= `${Math.random()}`)}
-            badge={props.groupKey ? `group: ${props.groupKey}` : undefined}
         />
     );
 }
