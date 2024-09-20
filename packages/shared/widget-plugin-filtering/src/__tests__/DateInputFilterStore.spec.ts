@@ -22,8 +22,6 @@ import btwnExp from "../__fixtures__/date-single-between.json";
 import { withRealDates } from "../test-utils";
 import { FilterCondition } from "mendix/filters";
 
-const val = (v: unknown): string => `${v}`;
-
 configure({
     enforceActions: "never"
 });
@@ -40,19 +38,19 @@ describe("DateInputFilterStore", () => {
         });
 
         it("returns undefined by default", () => {
-            expect(store.condition).toBe(undefined);
+            expect(store.condition).toEqual(undefined);
         });
 
         it("returns '= empty' exp when fn is 'empty'", () => {
             store.filterFunction = "empty";
             attr.id = attrId("attr_002");
-            expect(val(store.condition)).toBe(val(equals(attribute(attr.id), literal(undefined))));
+            expect(store.condition).toEqual(equals(attribute(attr.id), literal(undefined)));
         });
 
         it("returns '!= empty' exp when fn is 'notEmpty'", () => {
             store.filterFunction = "notEmpty";
             attr.id = attrId("attr_003");
-            expect(val(store.condition)).toBe(val(notEqual(attribute(attr.id), literal(undefined))));
+            expect(store.condition).toEqual(notEqual(attribute(attr.id), literal(undefined)));
         });
 
         it("returns 'day:= [arg1]'", () => {
@@ -60,7 +58,9 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "equal";
             store.arg1.value = date1;
             attr.id = attrId("attr_004");
-            expect(val(store.condition)).toBe(val(dayEquals(attribute(attr.id), literal("2024-09-17T14:00:00.000Z"))));
+            expect(store.condition).toEqual(
+                dayEquals(attribute(attr.id), literal(new Date("2024-09-17T14:00:00.000Z")))
+            );
         });
 
         it("returns 'day:!= [arg1]'", () => {
@@ -68,8 +68,8 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "notEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_005");
-            expect(val(store.condition)).toBe(
-                val(dayNotEqual(attribute(attr.id), literal("2024-09-17T15:00:00.000Z")))
+            expect(store.condition).toEqual(
+                dayNotEqual(attribute(attr.id), literal(new Date("2024-09-17T15:00:00.000Z")))
             );
         });
 
@@ -78,8 +78,8 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "greater";
             store.arg1.value = date1;
             attr.id = attrId("attr_006");
-            expect(val(store.condition)).toBe(
-                val(dayGreaterThan(attribute(attr.id), literal("2024-09-17T10:10:00.000Z")))
+            expect(store.condition).toEqual(
+                dayGreaterThan(attribute(attr.id), literal(new Date("2024-09-17T10:10:00.000Z")))
             );
         });
 
@@ -88,8 +88,8 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "greaterEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_006");
-            expect(val(store.condition)).toBe(
-                val(dayGreaterThanOrEqual(attribute(attr.id), literal("2024-09-17T17:02:30.000Z")))
+            expect(store.condition).toEqual(
+                dayGreaterThanOrEqual(attribute(attr.id), literal(new Date("2024-09-17T17:02:30.000Z")))
             );
         });
 
@@ -98,8 +98,8 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "smaller";
             store.arg1.value = date1;
             attr.id = attrId("attr_007");
-            expect(val(store.condition)).toBe(
-                val(dayLessThan(attribute(attr.id), literal("2024-09-17T23:59:59.000Z")))
+            expect(store.condition).toEqual(
+                dayLessThan(attribute(attr.id), literal(new Date("2024-09-17T23:59:59.000Z")))
             );
         });
 
@@ -108,8 +108,8 @@ describe("DateInputFilterStore", () => {
             store.filterFunction = "smallerEqual";
             store.arg1.value = date1;
             attr.id = attrId("attr_008");
-            expect(val(store.condition)).toBe(
-                val(dayLessThanOrEqual(attribute(attr.id), literal("2024-09-17T23:59:59.000Z")))
+            expect(store.condition).toEqual(
+                dayLessThanOrEqual(attribute(attr.id), literal(new Date("2024-09-17T23:59:59.000Z")))
             );
         });
 
@@ -119,13 +119,11 @@ describe("DateInputFilterStore", () => {
             store.arg1.value = date1;
             store.arg2.value = date2;
             attr.id = attrId("attr_009");
-            expect(val(store.condition)).toBe(
-                val(
-                    and(
-                        dayGreaterThanOrEqual(attribute(attr.id), literal("2024-09-17T00:00:00.000Z")),
-                        dayLessThan(attribute(attr.id), literal("2024-10-01T00:00:00.000Z")),
-                        equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
-                    )
+            expect(store.condition).toEqual(
+                and(
+                    dayGreaterThanOrEqual(attribute(attr.id), literal(new Date("2024-09-17T00:00:00.000Z"))),
+                    dayLessThan(attribute(attr.id), literal(new Date("2024-10-01T00:00:00.000Z"))),
+                    equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                 )
             );
         });
@@ -138,12 +136,10 @@ describe("DateInputFilterStore", () => {
             store.arg1.value = date1;
             attr1.id = attrId("attr_010");
             attr2.id = attrId("attr_011");
-            expect(val(store.condition)).toBe(
-                val(
-                    or(
-                        dayEquals(attribute(attr1.id), literal("2024-09-17T01:01:01.000Z")),
-                        dayEquals(attribute(attr2.id), literal("2024-09-17T01:01:01.000Z"))
-                    )
+            expect(store.condition).toEqual(
+                or(
+                    dayEquals(attribute(attr1.id), literal(new Date("2024-09-17T01:01:01.000Z"))),
+                    dayEquals(attribute(attr2.id), literal(new Date("2024-09-17T01:01:01.000Z")))
                 )
             );
         });
