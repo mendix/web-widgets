@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Widget maintenance.
 
+### Fixed
+
+-   Fixed issue with "empty" and "not empty" filters showing incorrect results.
+
 ## [2.10.0] - 2024-09-20
 
 ### Breaking changes
