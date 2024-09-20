@@ -18,10 +18,7 @@ const commonProps: DropdownSortContainerProps = {
 
 // CONTEXT
 const props: HeaderFiltersStoreProps = {
-    enableFilterGroups: true,
-    filterList: [],
-    groupAttrs: [],
-    groupList: []
+    filterList: []
 };
 const headerFilterStore = new HeaderFiltersStore(props, null);
 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
