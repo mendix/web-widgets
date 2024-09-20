@@ -62,9 +62,7 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
 
     loadMore(): void {
         if (this.ds && this.hasMore) {
-            console.log("limit", this.ds.limit);
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
-            console.log("limit2", this.ds.limit);
 
             if (this.lazyLoading) {
                 this.loading = true;
