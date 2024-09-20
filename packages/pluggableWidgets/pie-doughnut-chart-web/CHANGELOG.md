@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.1] - 2024-09-19
+
 ### Fixed
 
 -   We fixed an issue where Pie chart on click event was not working properly, not executing the on click action.
