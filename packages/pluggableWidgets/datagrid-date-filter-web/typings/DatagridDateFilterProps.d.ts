@@ -19,7 +19,6 @@ export interface DatagridDateFilterContainerProps {
     defaultEndDate?: DynamicValue<Date>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
-    groupKey: string;
     adjustable: boolean;
     valueAttribute?: EditableValue<Date>;
     startDateAttribute?: EditableValue<Date>;
@@ -45,7 +44,6 @@ export interface DatagridDateFilterPreviewProps {
     defaultEndDate: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
-    groupKey: string;
     adjustable: boolean;
     valueAttribute: string;
     startDateAttribute: string;

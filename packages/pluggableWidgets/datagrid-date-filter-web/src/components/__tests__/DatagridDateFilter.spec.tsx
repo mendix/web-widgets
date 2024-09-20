@@ -43,8 +43,7 @@ const commonProps: DatagridDateFilterContainerProps = {
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
-    advanced: false,
-    groupKey: "date-filter"
+    advanced: false
 };
 
 const mxObject = createMXObjectMock("en_US", "en-US");
@@ -58,12 +57,9 @@ describe("Date Filter", () => {
         describe("with single attribute", () => {
             beforeEach(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -136,7 +132,6 @@ describe("Date Filter", () => {
         describe("with double attributes", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -152,9 +147,7 @@ describe("Date Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -179,12 +172,9 @@ describe("Date Filter", () => {
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -209,7 +199,6 @@ describe("Date Filter", () => {
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
                 const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: false,
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -225,9 +214,7 @@ describe("Date Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ],
-                    groupAttrs: [],
-                    groupList: []
+                    ]
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -268,12 +255,9 @@ describe("Date Filter", () => {
     describe("with multiple instances", () => {
         beforeAll(() => {
             const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: false,
                 filterList: [
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                ],
-                groupAttrs: [],
-                groupList: []
+                ]
             };
             const headerFilterStore = new HeaderFiltersStore(props, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -300,12 +284,9 @@ describe("Date Filter", () => {
     describe("with session config", () => {
         beforeEach(() => {
             const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: false,
                 filterList: [
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                ],
-                groupAttrs: [],
-                groupList: []
+                ]
             };
             const headerFilterStore = new HeaderFiltersStore(props, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -371,79 +352,6 @@ describe("Date Filter", () => {
             });
             const header = screen.getByText(/joulukuu 2021/i).parentElement?.lastChild;
             expect(header?.textContent).toEqual("sumatiketopela");
-        });
-    });
-
-    describe("with filter groups enabled", () => {
-        beforeEach(() => {
-            const props: HeaderFiltersStoreProps = {
-                enableFilterGroups: true,
-                filterList: [],
-                groupAttrs: [
-                    {
-                        key: "date-filter",
-                        attr: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build()
-                    }
-                ],
-                groupList: [{ type: "attrs", key: "date-filter" }]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                headerFilterStore.context
-            );
-            (window as any).mx = mxObject;
-        });
-
-        it("renders correctly", () => {
-            const { asFragment } = render(<DatagridDateFilter {...commonProps} />);
-            expect(asFragment()).toMatchSnapshot();
-        });
-
-        it("triggers attribute and onchange action on change filter value", () => {
-            const action = actionValue();
-            const attribute = new EditableValueBuilder<Date>().build();
-            render(
-                <DatagridDateFilter
-                    {...commonProps}
-                    onChange={action}
-                    valueAttribute={attribute}
-                    placeholder={dynamicValue("Placeholder")}
-                />
-            );
-
-            fireEvent.input(screen.getByPlaceholderText("Placeholder"), { target: { value: "01/12/2020" } });
-
-            expect(action.execute).toHaveBeenCalledTimes(1);
-            expect(attribute.setValue).toHaveBeenCalledTimes(1);
-        });
-
-        describe("with wrong group key", () => {
-            beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    enableFilterGroups: true,
-                    filterList: [],
-                    groupAttrs: [
-                        {
-                            key: "different-key",
-                            attr: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build()
-                        }
-                    ],
-                    groupList: [{ type: "attrs", key: "different-key" }]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
-                (window as any).mx = mxObject;
-            });
-
-            it("renders error message", () => {
-                const { container } = render(<DatagridDateFilter {...commonProps} />);
-
-                expect(container.querySelector(".alert")?.textContent).toEqual(
-                    "Unable to get filter store. Check parent widget configuration."
-                );
-            });
         });
     });
 });
