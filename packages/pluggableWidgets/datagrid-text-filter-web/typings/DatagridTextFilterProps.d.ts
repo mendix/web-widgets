@@ -17,7 +17,6 @@ export interface DatagridTextFilterContainerProps {
     defaultValue?: DynamicValue<string>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
-    groupKey: string;
     adjustable: boolean;
     delay: number;
     valueAttribute?: EditableValue<string>;
@@ -39,7 +38,6 @@ export interface DatagridTextFilterPreviewProps {
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
-    groupKey: string;
     adjustable: boolean;
     delay: number | null;
     valueAttribute: string;
