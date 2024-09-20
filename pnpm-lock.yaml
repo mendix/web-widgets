@@ -75,7 +75,7 @@ importers:
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.9.1
-        version: 4.9.1(playwright-core@1.46.1)
+        version: 4.9.1(playwright-core@1.47.1)
       '@playwright/test':
         specifier: ^1.47.1
         version: 1.47.1
@@ -2476,13 +2476,13 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
-  /@axe-core/playwright@4.9.1(playwright-core@1.46.1):
+  /@axe-core/playwright@4.9.1(playwright-core@1.47.1):
     resolution: {integrity: sha512-8m4WZbZq7/aq7ZY5IG8GqV+ZdvtGn/iJdom+wBg+iv/3BAOBIfNQtIu697a41438DzEEyptXWmC3Xl5Kx/o9/g==}
     peerDependencies:
       playwright-core: '>= 1.0.0'
     dependencies:
       axe-core: 4.9.1
-      playwright-core: 1.46.1
+      playwright-core: 1.47.1
     dev: true
 
   /@babel/code-frame@7.12.11:
@@ -6241,6 +6241,26 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
+    dev: true
+
+  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4):
+    resolution: {integrity: sha512-VlJEV0fOQ7BExOsHYAGrgbEiZoi8D+Bl2+f6V2RrXerRSylnp+ZBHmPvaIa8cz0Ajx7WO7Z5RqfgYg7ED1nRhA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/scope-manager': 5.62.0
+      '@typescript-eslint/types': 5.62.0
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.1.6)
+      debug: 4.3.4
+      eslint: 7.32.0
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6):
@@ -12758,12 +12778,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
-    dev: true
-
-  /playwright-core@1.46.1:
-    resolution: {integrity: sha512-h9LqIQaAv+CYvWzsZ+h3RsrqCStkBHlgo6/TJlFst3cOTlLghBQlJwPOZKQJTKNaD3QIB7aAVQ+gfWbN3NXB7A==}
-    engines: {node: '>=18'}
-    hasBin: true
     dev: true
 
   /playwright-core@1.47.1:
