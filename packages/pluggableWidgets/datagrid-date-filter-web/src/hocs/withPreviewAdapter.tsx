@@ -21,7 +21,6 @@ export function withPreviewAdapter(Component: FilterComponent): PreviewAdapter {
                 onFilterChange={() => {}}
                 expanded={false}
                 filterFn={props.defaultFilter}
-                badge={props.groupKey ? `group: ${props.groupKey}` : undefined}
             />
         );
     };
