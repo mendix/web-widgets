@@ -17,10 +17,6 @@ import {
 import { ListAttributeValue } from "mendix";
 import { listAttr, attrId } from "@mendix/widget-plugin-test-utils";
 import { DateInputFilterStore } from "../stores/DateInputFilterStore";
-import smallerEqualExp from "../__fixtures__/date-multi-smallerEqual.json";
-import btwnExp from "../__fixtures__/date-single-between.json";
-import { withRealDates } from "../test-utils";
-import { FilterCondition } from "mendix/filters";
 
 configure({
     enforceActions: "never"
@@ -156,25 +152,43 @@ describe("DateInputFilterStore", () => {
         });
 
         it("restore state from multi-attribute exp", () => {
-            store.fromViewState(withRealDates(smallerEqualExp) as unknown as FilterCondition);
+            const exp = or(
+                dayLessThanOrEqual(attribute(attrId("attr_jei_5")), literal(new Date("1961-04-12T23:00:00.000Z"))),
+                dayLessThanOrEqual(attribute(attrId("attr_jei_6")), literal(new Date("1961-04-12T23:00:00.000Z")))
+            );
+            store.fromViewState(exp);
             expect(store.filterFunction).toBe("smallerEqual");
             expect(store.arg1.value).toEqual(new Date("1961-04-12T23:00:00.000Z"));
         });
 
         it("restore state from between exp", () => {
-            store.fromViewState(withRealDates(btwnExp) as unknown as FilterCondition);
+            const exp = and(
+                dayGreaterThanOrEqual(attribute(attrId("attr_jei_5")), literal(new Date("2024-09-01T00:00:00.000Z"))),
+                dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z")))
+            );
+            store.fromViewState(exp);
             expect(store.filterFunction).toBe("between");
             expect(store.arg1.value).toEqual(new Date("2024-09-01T00:00:00.000Z"));
             expect(store.arg2.value).toEqual(new Date("2024-09-30T00:00:00.000Z"));
         });
 
         it("restore state between from multi attrs", () => {
-            let exp = withRealDates(btwnExp) as unknown as FilterCondition;
-            exp = {
-                type: "function",
-                name: "or",
-                args: [exp, exp]
-            };
+            const exp = or(
+                and(
+                    dayGreaterThanOrEqual(
+                        attribute(attrId("attr_jei_5")),
+                        literal(new Date("2024-09-01T00:00:00.000Z"))
+                    ),
+                    dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z")))
+                ),
+                and(
+                    dayGreaterThanOrEqual(
+                        attribute(attrId("attr_jei_8")),
+                        literal(new Date("2024-09-01T00:00:00.000Z"))
+                    ),
+                    dayLessThan(attribute(attrId("attr_jei_8")), literal(new Date("2024-10-01T00:00:00.000Z")))
+                )
+            );
             store.fromViewState(exp);
             expect(store.filterFunction).toBe("between");
             expect(store.arg1.value).toEqual(new Date("2024-09-01T00:00:00.000Z"));
