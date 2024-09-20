@@ -6,7 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.23.0] DataWidgets - 2024-09-20
+
 ### Breaking changes
+
+-   We removed "Filter groups" properties.
+
+### [2.10.0] DatagridDateFilter
+
+#### Breaking changes
+
+-   We removed "Group key" property.
+
+### [2.9.0] DatagridDropdownFilter
+
+#### Breaking changes
+
+-   We removed "Group key" property.
+
+### [2.8.0] DatagridNumberFilter
+
+#### Breaking changes
+
+-   We removed "Group key" property.
+
+### [2.8.0] DatagridTextFilter
+
+#### Breaking changes
+
+-   We removed "Group key" property.
+
+### [2.23.0] Datagrid
+
+#### Fixed
+
+-   We fixed refreshed interval timer being duplicated on pagination click.
+
+#### Breaking changes
+
+-   We removed "Filter groups" properties.
+
+### [1.11.0] Gallery
+
+#### Breaking changes
 
 -   We removed "Filter groups" properties.
 
