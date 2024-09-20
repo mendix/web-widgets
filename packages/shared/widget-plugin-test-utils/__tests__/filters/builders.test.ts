@@ -1,6 +1,15 @@
 jest.mock("mendix/filters/builders");
 import { Big } from "big.js";
-import { literal, attribute, equals, or, and } from "mendix/filters/builders";
+import {
+    literal,
+    attribute,
+    equals,
+    or,
+    and,
+    dayLessThanOrEqual,
+    dayLessThan,
+    dayGreaterThanOrEqual
+} from "mendix/filters/builders";
 import * as builders from "mendix/filters/builders";
 import { attrId, obj } from "../../src/functions";
 
@@ -91,6 +100,29 @@ describe("mendix/filters/builders mock", () => {
                 equals(literal("!"), literal("!")),
                 equals(literal("X"), literal(false))
             ]
+        });
+    });
+
+    describe("nested condition", () => {
+        test("case 1", () => {
+            expect(
+                or(
+                    dayLessThanOrEqual(attribute(attrId("attr_jei_5")), literal(new Date("1961-04-12T23:00:00.000Z"))),
+                    dayLessThanOrEqual(attribute(attrId("attr_jei_6")), literal(new Date("1961-04-12T23:00:00.000Z")))
+                )
+            ).toMatchSnapshot();
+        });
+
+        test("case 2", () => {
+            expect(
+                and(
+                    dayGreaterThanOrEqual(
+                        attribute(attrId("attr_jei_5")),
+                        literal(new Date("1961-04-12T23:00:00.000Z"))
+                    ),
+                    dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("1961-04-12T23:00:00.000Z")))
+                )
+            ).toMatchSnapshot();
         });
     });
 });

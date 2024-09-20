@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mendix/filters/builders mock nested condition case 1 1`] = `
+{
+  "args": [
+    {
+      "arg1": {
+        "attributeId": "attr_jei_5",
+        "type": "attribute",
+      },
+      "arg2": {
+        "type": "literal",
+        "value": 1961-04-12T23:00:00.000Z,
+        "valueType": "DateTime",
+      },
+      "name": "day:<=",
+      "type": "function",
+    },
+    {
+      "arg1": {
+        "attributeId": "attr_jei_6",
+        "type": "attribute",
+      },
+      "arg2": {
+        "type": "literal",
+        "value": 1961-04-12T23:00:00.000Z,
+        "valueType": "DateTime",
+      },
+      "name": "day:<=",
+      "type": "function",
+    },
+  ],
+  "name": "or",
+  "type": "function",
+}
+`;
+
+exports[`mendix/filters/builders mock nested condition case 2 1`] = `
+{
+  "args": [
+    {
+      "arg1": {
+        "attributeId": "attr_jei_5",
+        "type": "attribute",
+      },
+      "arg2": {
+        "type": "literal",
+        "value": 1961-04-12T23:00:00.000Z,
+        "valueType": "DateTime",
+      },
+      "name": "day:>=",
+      "type": "function",
+    },
+    {
+      "arg1": {
+        "attributeId": "attr_jei_5",
+        "type": "attribute",
+      },
+      "arg2": {
+        "type": "literal",
+        "value": 1961-04-12T23:00:00.000Z,
+        "valueType": "DateTime",
+      },
+      "name": "day:<",
+      "type": "function",
+    },
+  ],
+  "name": "and",
+  "type": "function",
+}
+`;
