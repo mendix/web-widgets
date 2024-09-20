@@ -32,8 +32,6 @@ export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn
     }, [firstLoad, isInfinite, isOpen, setPageCallback]);
 
     useEffect(() => {
-        console.log("FILTER CHANGED");
-
         setFirstLoad(false);
     }, [datasourceFilter]);
 
