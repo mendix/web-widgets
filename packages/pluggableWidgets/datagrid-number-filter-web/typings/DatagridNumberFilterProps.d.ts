@@ -18,7 +18,6 @@ export interface DatagridNumberFilterContainerProps {
     defaultValue?: DynamicValue<Big>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
-    groupKey: string;
     adjustable: boolean;
     delay: number;
     valueAttribute?: EditableValue<Big>;
@@ -40,7 +39,6 @@ export interface DatagridNumberFilterPreviewProps {
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
-    groupKey: string;
     adjustable: boolean;
     delay: number | null;
     valueAttribute: string;

@@ -42,7 +42,6 @@ export function getProperties(
     } else {
         hidePropertyIn(defaultProperties, values, "advanced");
     }
-    hidePropertyIn(defaultProperties, values, "groupKey");
     return defaultProperties;
 }
 

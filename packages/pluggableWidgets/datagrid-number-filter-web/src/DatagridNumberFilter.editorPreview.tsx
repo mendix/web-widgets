@@ -25,7 +25,6 @@ function Preview(props: DatagridNumberFilterPreviewProps): ReactElement {
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
             type="text"
-            badge={props.groupKey ? `group: ${props.groupKey}` : undefined}
         />
     );
 }
