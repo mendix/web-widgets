@@ -21,10 +21,6 @@
                     <description>Empty option caption will be shown by default or if configured default value matches none of the options</description>
                     <returnType type="String" />
                 </property>
-                <property key="groupKey" type="string" required="false">
-                    <caption>Group key</caption>
-                    <description />
-                </property>
                 <property key="filterOptions" type="object" isList="true" required="false">
                     <caption>Options</caption>
                     <description />
