@@ -2,15 +2,11 @@ import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { createElement } from "react";
 import { Number_FilterAPIv2, useNumberFilterAPI } from "@mendix/widget-plugin-filtering/helpers/useNumberFilterAPI";
 
-interface Props {
-    groupKey: string;
-}
-
-export function withNumberFilterAPI<P extends Props>(
+export function withNumberFilterAPI<P extends object>(
     Component: (props: P & Number_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const api = useNumberFilterAPI(props.groupKey);
+        const api = useNumberFilterAPI("");
 
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
