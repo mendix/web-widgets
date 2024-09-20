@@ -1,49 +1,99 @@
-const s = x => JSON.stringify(x);
-
 exports.literal = x => ({
-    toString: () => `literal(${s(x)})`
+    type: "literal",
+    value: x,
+    valueType: (value => {
+        if (value === undefined) {
+            return "undefined";
+        }
+        switch (value.constructor.name) {
+            case "String":
+                return "String";
+            case "Number":
+            case "Big":
+                return "Numeric";
+            case "Boolean":
+                return "boolean";
+            case "Date":
+                return "DateTime";
+            case "Object":
+                return "Reference";
+            case "Array":
+                return "ReferenceSet";
+            default:
+                return "undefined";
+        }
+    })(x)
 });
 
 exports.attribute = x => ({
-    toString: () => `attribute(${s(x)})`
+    type: "attribute",
+    attributeId: x
 });
 
 exports.equals = (x, y) => ({
-    toString: () => `equals(${x},${y})`
+    type: "function",
+    name: "=",
+    arg1: x,
+    arg2: y
 });
 
 exports.notEqual = (x, y) => ({
-    toString: () => `notEqual(${x},${y})`
+    type: "function",
+    name: "!=",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayEquals = (x, y) => ({
-    toString: () => `dayEquals(${x},${y})`
+    type: "function",
+    name: "day:=",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayNotEqual = (x, y) => ({
-    toString: () => `dayNotEqual(${x},${y})`
+    type: "function",
+    name: "day:!=",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayGreaterThan = (x, y) => ({
-    toString: () => `dayGreaterThan(${x},${y})`
+    type: "function",
+    name: "day:>",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayGreaterThanOrEqual = (x, y) => ({
-    toString: () => `dayGreaterThanOrEqual(${x},${y})`
+    type: "function",
+    name: "day:>=",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayLessThan = (x, y) => ({
-    toString: () => `dayLessThan(${x},${y})`
+    type: "function",
+    name: "day:<",
+    arg1: x,
+    arg2: y
 });
 
 exports.dayLessThanOrEqual = (x, y) => ({
-    toString: () => `dayLessThanOrEqual(${x},${y})`
+    type: "function",
+    name: "day:<=",
+    arg1: x,
+    arg2: y
 });
 
 exports.or = (...args) => ({
-    toString: () => `or(${args.map(arg => `${arg}`).join(",")})`
+    type: "function",
+    name: "or",
+    args
 });
 
 exports.and = (...args) => ({
-    toString: () => `and(${args.map(arg => `${arg}`).join(",")})`
+    type: "function",
+    name: "and",
+    args
 });
