@@ -26,6 +26,13 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
         }
     }
 
+    if (!values.createFileAction) {
+        errors.push({
+            property: "createFileAction",
+            message: "Action to create new files must be configured."
+        });
+    }
+
     if (!values.maxFilesPerUpload || values.maxFilesPerUpload < 1) {
         errors.push({
             property: "maxFilesPerUpload",
