@@ -41,8 +41,8 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.loading;
     }
 
-    get datasource(): ListValue | undefined {
-        return this.ds;
+    get datasourceFilter(): ListValue["filter"] | undefined {
+        return this.ds?.filter;
     }
 
     getAll(): string[] {
