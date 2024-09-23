@@ -24,6 +24,22 @@ describe("parseAllowedFormats", () => {
             "text/*": ["html", "txt"]
         });
     });
+    test("joins extensions of duplicated mime types", () => {
+        const input: AllowedFileFormatsType[] = [
+            {
+                mimeType: "image/*",
+                extensions: ".jpg"
+            },
+            {
+                mimeType: "image/*",
+                extensions: ".png"
+            }
+        ];
+
+        expect(parseAllowedFormats(input)).toEqual({
+            "image/*": ["jpg", "png"]
+        });
+    });
     test("throws on incorrect mime format", () => {
         const input: AllowedFileFormatsType[] = [
             {
@@ -44,6 +60,6 @@ describe("parseAllowedFormats", () => {
             }
         ];
 
-        expect(() => parseAllowedFormats(input)).toThrow("Value 'txt' is not recognized. Accepted format: '.pdf'");
+        expect(() => parseAllowedFormats(input)).toThrow("Value 'abc' is not recognized. Accepted format: '.pdf'");
     });
 });

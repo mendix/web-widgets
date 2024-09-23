@@ -8,7 +8,13 @@ export function parseAllowedFormats(allowedFileFormats: AllowedFileFormatsPrevie
     return allowedFileFormats.reduce((acc, f) => {
         const [type, subType] = parseMimeType(f.mimeType.trim());
 
-        acc[`${type}/${subType}`] = parseExtensionsList(f.extensions);
+        const key = `${type}/${subType}`;
+        const exts = parseExtensionsList(f.extensions);
+        if (acc[key]) {
+            acc[key] = acc[key].concat(exts);
+        } else {
+            acc[`${type}/${subType}`] = exts;
+        }
 
         return acc;
     }, {} as MimeCheckFormat);
