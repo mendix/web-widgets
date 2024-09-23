@@ -86,7 +86,8 @@ Place your custom CSS here
             display: flex;
             margin: 0.7em 0;
             .entry-preview {
-                flex: 0 0 40px;
+                flex: 0 0;
+                margin-right: 8px;
                 .doc-file-icon {
                     background-image: url(../assets/doc-file.svg);
                     background-repeat: no-repeat;
@@ -184,7 +185,8 @@ Place your custom CSS here
                 }
 
                 .entry-details-upload-info {
-                    flex: 1;
+                    flex: 0;
+                    line-height: 15px;
                     .upload-status {
                         color: var(--grey-text);
                         font-size: 10px;
