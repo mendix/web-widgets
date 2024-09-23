@@ -164,7 +164,8 @@ describe("DateInputFilterStore", () => {
         it("restore state from between exp", () => {
             const exp = and(
                 dayGreaterThanOrEqual(attribute(attrId("attr_jei_5")), literal(new Date("2024-09-01T00:00:00.000Z"))),
-                dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z")))
+                dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z"))),
+                equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
             );
             store.fromViewState(exp);
             expect(store.filterFunction).toBe("between");
@@ -179,14 +180,16 @@ describe("DateInputFilterStore", () => {
                         attribute(attrId("attr_jei_5")),
                         literal(new Date("2024-09-01T00:00:00.000Z"))
                     ),
-                    dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z")))
+                    dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("2024-10-01T00:00:00.000Z"))),
+                    equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                 ),
                 and(
                     dayGreaterThanOrEqual(
                         attribute(attrId("attr_jei_8")),
                         literal(new Date("2024-09-01T00:00:00.000Z"))
                     ),
-                    dayLessThan(attribute(attrId("attr_jei_8")), literal(new Date("2024-10-01T00:00:00.000Z")))
+                    dayLessThan(attribute(attrId("attr_jei_8")), literal(new Date("2024-10-01T00:00:00.000Z"))),
+                    equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                 )
             );
             store.fromViewState(exp);
