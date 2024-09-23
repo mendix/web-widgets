@@ -2,7 +2,7 @@ import { ObjectItem } from "mendix";
 import { Big } from "big.js";
 
 export type MxObject = {
-    get2(name: string): string | Big;
+    get2(name: string): string | Big | boolean;
 };
 
 export function saveFile(item: ObjectItem, fileToUpload: Blob): Promise<void> {
@@ -21,8 +21,9 @@ export function removeObject(item: ObjectItem): Promise<void> {
     });
 }
 
-export function extractMxObject(objectItem: ObjectItem): MxObject {
-    return (objectItem as any)[Object.getOwnPropertySymbols(objectItem)[0]];
+export function fileHasContents(item: ObjectItem): boolean {
+    const obj = (item as any)[Object.getOwnPropertySymbols(item)[0]];
+    return !!obj.get2("HasContents");
 }
 
 export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {

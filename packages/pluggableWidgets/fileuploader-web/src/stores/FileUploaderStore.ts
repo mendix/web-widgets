@@ -3,7 +3,7 @@ import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { action, makeObservable, observable } from "mobx";
 import { MimeCheckFormat, parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileStore } from "./FileStore";
-import { extractMxObject } from "../utils/mx-data";
+import { fileHasContents } from "../utils/mx-data";
 import { FileRejection } from "react-dropzone";
 
 export class FileUploaderStore {
@@ -34,6 +34,7 @@ export class FileUploaderStore {
             updateProps: action,
             processDrop: action,
             setMessage: action,
+            processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
             errorMessage: observable
@@ -50,34 +51,36 @@ export class FileUploaderStore {
         if (!this.existingItemsLoaded) {
             if (itemsDs.status === "available" && itemsDs.items) {
                 for (const item of itemsDs.items) {
-                    this.files.push(FileStore.existingFile(item, this));
-
-                    this.lastSeenItems.add(item.id);
+                    this.processExistingFileItem(item);
                 }
 
                 this.existingItemsLoaded = true;
             }
         } else {
-            // todo: re-check that existing items are still there
-            const newItems = findNewItems(this.lastSeenItems, itemsDs.items || []);
-            if (newItems) {
-                for (const newItem of newItems) {
-                    const obj = extractMxObject(newItem);
-                    if (!obj.get2("HasContents")) {
-                        // todo resolve waiting
-                        const firstWaiting = this.currentWaiting.shift();
-                        if (firstWaiting) {
-                            firstWaiting(newItem);
-                        }
-                    } else {
-                        // adding this file as file possibly created by someone else
-                        this.files.push(FileStore.existingFile(newItem, this));
-                    }
-
-                    this.lastSeenItems.add(newItem.id);
+            for (const newItem of findNewItems(this.lastSeenItems, itemsDs.items || [])) {
+                if (!fileHasContents(newItem)) {
+                    this.processEmptyFileItem(newItem);
+                } else {
+                    // adding this file as file is not empty and created externally
+                    this.processExistingFileItem(newItem);
                 }
             }
         }
+    }
+
+    processExistingFileItem(item: ObjectItem): void {
+        this.files.push(FileStore.existingFile(item, this));
+
+        this.lastSeenItems.add(item.id);
+    }
+
+    processEmptyFileItem(item: ObjectItem): void {
+        const firstWaiting = this.currentWaiting.shift();
+        if (firstWaiting) {
+            firstWaiting(item);
+        }
+
+        this.lastSeenItems.add(item.id);
     }
 
     get canRequestFile(): boolean {
@@ -143,11 +146,6 @@ export class FileUploaderStore {
     }
 }
 
-function findNewItems(lastSeenItems: Set<ObjectItem["id"]>, currentItems: ObjectItem[]): ObjectItem[] | undefined {
-    const notSeenItems = currentItems.filter(i => !lastSeenItems.has(i.id));
-    if (!notSeenItems.length) {
-        return undefined;
-    }
-
-    return notSeenItems;
+function findNewItems(lastSeenItems: Set<ObjectItem["id"]>, currentItems: ObjectItem[]): ObjectItem[] {
+    return currentItems.filter(i => !lastSeenItems.has(i.id));
 }
