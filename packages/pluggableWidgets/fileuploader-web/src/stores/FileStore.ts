@@ -3,7 +3,7 @@ import { ObjectItem } from "mendix";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import fileSize from "filesize.js";
 import { FileUploaderStore } from "./FileUploaderStore";
-import { fetchMxObject, MxObject, saveFile } from "../utils/mx-data";
+import { fetchMxObject, MxObject, removeObject, saveFile } from "../utils/mx-data";
 
 type FileStatus = "existingFile" | "new" | "uploading" | "done" | "uploadingError" | "removedFile" | "validationError";
 
@@ -107,23 +107,20 @@ export class FileStore {
         return this.fileStatus === "existingFile" || this.fileStatus === "done";
     }
 
-    remove(): void {
-        if (!this.canRemove) {
+    async remove(): Promise<void> {
+        if (!this.canRemove || !this.objectItem) {
             return;
         }
 
-        (window as any).mx.data.remove({
-            guid: this.objectItem?.id,
-            callback: () => {
-                runInAction(() => {
-                    this.fileStatus = "removedFile";
-                    this.mxObject = undefined;
-                });
-            },
-            error(e: unknown) {
-                console.error("Could not remove object:", e);
-            }
-        });
+        try {
+            await removeObject(this.objectItem);
+            runInAction(() => {
+                this.fileStatus = "removedFile";
+                this.mxObject = undefined;
+            });
+        } catch (e: unknown) {
+            console.error("Could not remove object:", e);
+        }
     }
 
     async fetchMxObject(): Promise<void> {

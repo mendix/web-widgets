@@ -11,6 +11,16 @@ export function saveFile(item: ObjectItem, fileToUpload: Blob): Promise<void> {
     });
 }
 
+export function removeObject(item: ObjectItem): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        (window as any).mx.data.remove({
+            guid: item.id,
+            callback: resolve,
+            error: reject
+        });
+    });
+}
+
 export function extractMxObject(objectItem: ObjectItem): MxObject {
     return (objectItem as any)[Object.getOwnPropertySymbols(objectItem)[0]];
 }
