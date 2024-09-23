@@ -1,7 +1,7 @@
 import { ActionValue, ListValue, ObjectItem } from "mendix";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
-import { action, makeObservable, observable, runInAction } from "mobx";
-import { MimeCheckFormat, parseAllowedFormats } from "../utils/allowedFormatChecker";
+import { action, makeObservable, observable } from "mobx";
+import { MimeCheckFormat, parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileStore } from "./FileStore";
 import { extractMxObject } from "../utils/mx-data";
 import { FileRejection } from "react-dropzone";
@@ -33,6 +33,7 @@ export class FileUploaderStore {
         makeObservable(this, {
             updateProps: action,
             processDrop: action,
+            setMessage: action,
             files: observable,
             existingItemsLoaded: observable,
             errorMessage: observable
@@ -95,31 +96,30 @@ export class FileUploaderStore {
         });
     }
 
+    setMessage(msg?: string): void {
+        this.errorMessage = msg;
+    }
+
     async processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): Promise<void> {
         if (!this._createFileAction || !this._createFileAction.canExecute) {
-            console.warn(
+            console.error(
                 `'Action to create new files' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
             );
-            runInAction(() => {
-                this.errorMessage = "Can't upload files at this time. Please contact you system administrator.";
-            });
+            this.setMessage("Can't upload files at this time. Please contact you system administrator.");
             return;
         }
 
         if (fileRejections.length && fileRejections[0].errors[0].code === "too-many-files") {
-            runInAction(() => {
-                this.errorMessage =
-                    "Too many files added. " +
+            this.setMessage(
+                "Too many files added. " +
                     (this._maxFilesPerUpload === 1
                         ? `Only one files per upload is allowed.`
-                        : `Only ${this._maxFilesPerUpload} files per upload are allowed.`);
-            });
+                        : `Only ${this._maxFilesPerUpload} files per upload are allowed.`)
+            );
             return;
         }
 
-        runInAction(() => {
-            this.errorMessage = undefined;
-        });
+        this.setMessage();
 
         for (const file of fileRejections) {
             const newFileStore = FileStore.newFileWithError(

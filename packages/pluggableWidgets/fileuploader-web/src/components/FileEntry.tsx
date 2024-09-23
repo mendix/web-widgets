@@ -24,8 +24,8 @@ export const FileEntry = observer(({ store }: FileEntryProps): ReactElement => {
 
             <div className={"entry-details"}>
                 <div className={"entry-details-main"}>
-                    <div className={"entry-details-name"}>{store.renderTitle()}</div>
-                    <div className={"entry-details-size"}>{store.renderSize()}</div>
+                    <div className={"entry-details-name"}>{store.title}</div>
+                    <div className={"entry-details-size"}>{store.size}</div>
                     <div className={"entry-details-actions"}>
                         <button
                             className={classNames("remove-button", {

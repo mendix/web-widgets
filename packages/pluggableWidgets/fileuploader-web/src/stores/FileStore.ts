@@ -2,7 +2,6 @@ import { Big } from "big.js";
 import { ObjectItem } from "mendix";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import fileSize from "filesize.js";
-import { ReactNode } from "react";
 import { FileUploaderStore } from "./FileUploaderStore";
 import { fetchMxObject, MxObject, saveFile } from "../utils/mx-data";
 
@@ -44,34 +43,7 @@ export class FileStore {
     }
 
     validate(): boolean {
-        if (this.fileStatus !== "new" || !this.file) {
-            return false;
-        }
-
-        // const mimeType = this.file.type;
-        // const ext = this.file.name.split(".").pop()!;
-        // check allowed extensions
-        // if (!this.rootStore.isAllowedFormat(mimeType, ext)) {
-        //     runInAction(() => {
-        //         this.fileStatus = "validationError";
-        //         this.errorDescription = mimeType
-        //             ? `Files of type '${mimeType}' (.${ext}) are not allowed.`
-        //             : "Files of this type are not allowed";
-        //     });
-        //
-        //     return false;
-        // }
-        //
-        // if (!this.rootStore.isAllowedSize(this.file.size)) {
-        //     runInAction(() => {
-        //         this.fileStatus = "validationError";
-        //         this.errorDescription = `Files bigger than ${fileSize(this.rootStore._maxFileSize)} are not allowed.`;
-        //     });
-        //
-        //     return false;
-        // }
-
-        return true;
+        return !(this.fileStatus !== "new" || !this.file);
     }
 
     async upload(): Promise<void> {
@@ -106,7 +78,7 @@ export class FileStore {
         }
     }
 
-    renderTitle(): ReactNode {
+    get title(): string {
         if (this.mxObject) {
             return this.mxObject?.get2("Name").toString();
         }
@@ -114,7 +86,7 @@ export class FileStore {
         return this.file?.name ?? "...";
     }
 
-    renderSize(): ReactNode {
+    get size(): string {
         if (this.mxObject) {
             const size = (this.mxObject.get2("Size") as Big).toNumber();
             if (size === -1) {

@@ -1,5 +1,5 @@
 import { FileUploaderPreviewProps } from "../typings/FileUploaderProps";
-import { parseAllowedFormats } from "./utils/allowedFormatChecker";
+import { parseAllowedFormats } from "./utils/parseAllowedFormats";
 import { Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(
