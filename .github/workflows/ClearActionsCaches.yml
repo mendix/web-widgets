@@ -21,5 +21,7 @@ jobs:
     populate-caches:
         name: "Populate caches"
         runs-on: ubuntu-latest
+        needs:
+            - clear-github-caches
         steps:
             - uses: ./.github/workflows/CreateMxtoolsCache.yml
