@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import { createElement, Fragment, ReactElement } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { MimeCheckFormat } from "../utils/allowedFormatChecker";
+import { MimeCheckFormat } from "../utils/parseAllowedFormats";
 
 interface DropzoneProps {
     warningMessage?: string;
