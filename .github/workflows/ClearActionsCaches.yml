@@ -18,3 +18,8 @@ jobs:
                   delete --all
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    populate-caches:
+        name: "Populate caches"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: ./.github/workflows/CreateMxtoolsCache.yml
