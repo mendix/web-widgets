@@ -37,7 +37,7 @@ export const Dropzone = observer(
 
                     <input {...getInputProps()} />
                 </div>
-                <div className={classNames("dropzone-message")}>{warningMessage}</div>
+                {warningMessage && <div className={classNames("dropzone-message")}>{warningMessage}</div>}
             </Fragment>
         );
     }

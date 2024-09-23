@@ -26,6 +26,7 @@ Place your custom CSS here
         flex-direction: column;
         align-items: center;
         padding-top: 20px;
+        margin-bottom: 10px;
 
         height: 106px;
 
@@ -69,7 +70,7 @@ Place your custom CSS here
         color: #8F620B;
 
         padding-left: 18px;
-        margin: 10px 0;
+        margin-bottom: 10px;
 
         background-image: url(../assets/warning-icon.svg);
         background-repeat: no-repeat;
