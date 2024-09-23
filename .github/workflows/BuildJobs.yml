@@ -175,6 +175,8 @@ jobs:
                       ${{ env.MXRUNTIME_PATH }}
                   key: ${{needs.mxversion.outputs.mx_tools_cache_key}}
             - name: Load mxbuild & mxruntime images
+              # Skip if there is no cache
+              if: steps.cache.outputs.cache-hit == 'true'
               run: |
                   docker load --input ${{ env.MXBUILD_PATH }}
                   docker load --input ${{ env.MXRUNTIME_PATH }}
