@@ -33,7 +33,7 @@ export interface OptionsProvider<T = unknown, P = object> {
     sortOrder?: SortOrder;
 
     getAll(): string[];
-    datasource?: ListValue | undefined;
+    datasourceFilter?: ListValue["filter"] | undefined;
 
     // search related
     setSearchTerm(term: string): void;
