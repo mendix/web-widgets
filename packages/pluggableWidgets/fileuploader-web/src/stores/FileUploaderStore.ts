@@ -69,7 +69,7 @@ export class FileUploaderStore {
     }
 
     processExistingFileItem(item: ObjectItem): void {
-        this.files.push(FileStore.existingFile(item, this));
+        this.files.unshift(FileStore.existingFile(item, this));
 
         this.lastSeenItems.add(item.id);
     }

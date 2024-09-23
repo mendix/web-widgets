@@ -6,7 +6,7 @@ import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { useRootStore } from "../utils/useRootStore";
 
 import "../ui/FileUploader.css";
-import { FileEntry } from "./FileEntry";
+import { FileEntryContainer } from "./FileEntry";
 import { Dropzone } from "./Dropzone";
 import { FileRejection } from "react-dropzone";
 
@@ -32,7 +32,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
 
             <div className={"files-list"}>
                 {(rootStore.files ?? []).map(fileStore => {
-                    return <FileEntry store={fileStore} key={fileStore.key} />;
+                    return <FileEntryContainer store={fileStore} key={fileStore.key} />;
                 })}
             </div>
         </div>

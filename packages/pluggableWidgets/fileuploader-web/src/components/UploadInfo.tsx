@@ -1,12 +1,13 @@
-import { FileStore } from "../stores/FileStore";
+import { FileStatus } from "../stores/FileStore";
 import { createElement, ReactElement } from "react";
 
 type UploadInfoProps = {
-    store: FileStore;
+    status: FileStatus;
+    error?: string;
 };
 
-export function UploadInfo({ store }: UploadInfoProps): ReactElement {
-    switch (store.fileStatus) {
+export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
+    switch (status) {
         case "new":
             return <span className={"upload-status"}>Ready to upload.</span>;
         case "uploading":
@@ -16,7 +17,7 @@ export function UploadInfo({ store }: UploadInfoProps): ReactElement {
         case "uploadingError":
             return <span className={"upload-status error"}>An error occurred during uploading.</span>;
         case "validationError":
-            return <span className={"upload-status error"}>{store.errorDescription}</span>;
+            return <span className={"upload-status error"}>{error}</span>;
         case "removedFile":
             return <span className={"upload-status error"}>Removed successfully.</span>;
         case "existingFile":

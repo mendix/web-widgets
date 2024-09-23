@@ -1,11 +1,18 @@
 import { Big } from "big.js";
 import { ObjectItem } from "mendix";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import fileSize from "filesize.js";
+
 import { FileUploaderStore } from "./FileUploaderStore";
 import { fetchMxObject, MxObject, removeObject, saveFile } from "../utils/mx-data";
 
-type FileStatus = "existingFile" | "new" | "uploading" | "done" | "uploadingError" | "removedFile" | "validationError";
+export type FileStatus =
+    | "existingFile"
+    | "new"
+    | "uploading"
+    | "done"
+    | "uploadingError"
+    | "removedFile"
+    | "validationError";
 
 let fileKey = 0;
 
@@ -86,21 +93,12 @@ export class FileStore {
         return this.file?.name ?? "...";
     }
 
-    get size(): string {
+    get size(): number {
         if (this.mxObject) {
-            const size = (this.mxObject.get2("Size") as Big).toNumber();
-            if (size === -1) {
-                return "";
-            }
-            return fileSize(size);
+            return (this.mxObject.get2("Size") as Big).toNumber();
         }
 
-        const size = this.file?.size;
-        if (size !== undefined) {
-            return fileSize(size);
-        }
-
-        return "";
+        return this.file?.size ?? -1;
     }
 
     get canRemove(): boolean {
