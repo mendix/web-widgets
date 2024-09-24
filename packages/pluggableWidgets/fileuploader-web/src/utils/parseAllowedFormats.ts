@@ -39,8 +39,7 @@ function parseExtensionsList(config: string): string[] {
         .map(c => {
             if (/^\.\w+$/.test(c)) {
                 // ".ext" string
-                // remove dot
-                return c.substring(1);
+                return c;
             }
 
             throw new Error(`Value '${c}' is not recognized. Accepted format: '.pdf'`);

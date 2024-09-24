@@ -19,9 +19,9 @@ describe("parseAllowedFormats", () => {
         ];
 
         expect(parseAllowedFormats(input)).toEqual({
-            "image/jpeg": ["jpg", "jpeg"],
-            "application/pdf": ["pdf"],
-            "text/*": ["html", "txt"]
+            "image/jpeg": [".jpg", ".jpeg"],
+            "application/pdf": [".pdf"],
+            "text/*": [".html", ".txt"]
         });
     });
     test("joins extensions of duplicated mime types", () => {
@@ -37,7 +37,7 @@ describe("parseAllowedFormats", () => {
         ];
 
         expect(parseAllowedFormats(input)).toEqual({
-            "image/*": ["jpg", "png"]
+            "image/*": [".jpg", ".png"]
         });
     });
     test("throws on incorrect mime format", () => {
