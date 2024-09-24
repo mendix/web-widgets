@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
@@ -23,7 +23,7 @@ export type AlignmentEnum = "left" | "center" | "right";
 
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
-    attribute?: ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
+    attribute?: ListAttributeValue<string | Big | boolean | Date>;
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
     exportValue?: ListExpressionValue<string>;
@@ -143,7 +143,6 @@ export interface DatagridPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
     advanced: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
