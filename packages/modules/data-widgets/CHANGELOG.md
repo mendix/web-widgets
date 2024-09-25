@@ -10,49 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where filters wouldn't reset.
 
-## [2.24.0] DataWidgets - 2024-09-23
+## [2.23.1] DataWidgets - 2024-09-25
 
-### [2.10.2] DatagridDateFilter
-
-#### Changed
-
--   Widget maintenance.
-
-#### Fixed
-
--   Fixed issue with "empty" and "not empty" filters showing incorrect results.
-
-### [2.9.1] DatagridDropdownFilter
-
-#### Changed
-
--   Widget maintenance.
-
-### [2.8.1] DatagridNumberFilter
-
-#### Changed
-
--   Widget maintenance.
-
-### [2.8.1] DatagridTextFilter
-
-#### Changed
-
--   Widget maintenance.
-
-### [2.24.0] Datagrid
-
-#### Added
-
--   We have introduced support for reference set associations in the linked attribute property.
-
-### [1.2.1] DropdownSort
-
-#### Changed
-
--   Widget maintenance.
-
-### [1.12.0] Gallery
+### [2.23.1] Datagrid
 
 #### Changed
 
