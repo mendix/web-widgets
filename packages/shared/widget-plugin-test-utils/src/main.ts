@@ -1,4 +1,3 @@
-export * from "./builders/DynamicActionValueBuilder.js";
 export * from "./builders/EditableValueBuilder.js";
 export * from "./builders/ReferenceValueBuilder.js";
 export * from "./builders/ReferenceSetValueBuilder.js";
