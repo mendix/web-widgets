@@ -6,4 +6,4 @@ export * from "./builders/ListAttributeValueBuilder.js";
 export * from "./builders/ListValueBuilder.js";
 export * from "./builders/SelectionSingleValueBuilder.js";
 export * from "./builders/SelectionMultiValueBuilder.js";
-export * from "./functions.js";
+export * from "./builders/functions.js";

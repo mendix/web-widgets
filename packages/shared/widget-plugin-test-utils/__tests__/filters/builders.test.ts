@@ -11,7 +11,7 @@ import {
     dayGreaterThanOrEqual
 } from "mendix/filters/builders";
 import * as builders from "mendix/filters/builders";
-import { attrId, obj } from "../../src/functions";
+import { attrId, obj } from "../../src/builders/functions";
 
 describe("mendix/filters/builders mock", () => {
     test.each([
