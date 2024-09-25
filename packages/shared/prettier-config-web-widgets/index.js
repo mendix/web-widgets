@@ -20,12 +20,6 @@ module.exports = {
             }
         },
         {
-            files: "package.json",
-            options: {
-                tabWidth: 2
-            }
-        },
-        {
             files: "package-lock.json",
             options: {
                 tabWidth: 4,
@@ -47,7 +41,7 @@ module.exports = {
         {
             files: ["*.yaml", "*.yml"],
             options: {
-                tabWidth: 2,
+                tabWidth: 4,
                 // Disable line wrapping in .yml files
                 printWidth: 99999
             }
