@@ -1,70 +1,71 @@
 {
-  "name": "@mendix/calendar-web",
-  "widgetName": "Calendar",
-  "version": "1.0.15",
-  "description": "Display and manage calendar events",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "mxpackage": {
-    "name": "Calendar",
-    "type": "widget",
-    "mpkName": "Calendar.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "7.14.1",
-    "appNumber": 107954,
-    "appName": "Calendar"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "calendar-web"
-  },
-  "packagePath": "com.mendix.widget.custom",
-  "scripts": {
-    "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
-    "build": "echo 'TODO: Fix calendar-web build'",
-    "create-gh-release": "rui-create-gh-release",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "publish-marketplace": "rui-publish-marketplace",
-    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
-    "update-changelog": "rui-update-changelog-widget",
-    "verify": "rui-verify-package-format"
-  },
-  "config": {},
-  "devDependencies": {
-    "@babel/core": "^7.21.0",
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/date-arithmetic": "^3.1.2",
-    "@types/react-big-calendar": "0.20.20",
-    "babel-loader": "^8.3.0",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.3",
-    "fork-ts-checker-webpack-plugin": "^7.3.0",
-    "mendix-client": "^7.15.8",
-    "sass": "^1.58.3",
-    "sass-loader": "^13.2.0",
-    "style-loader": "^3.3.1",
-    "to-string-loader": "^1.2.0",
-    "ts-loader": "^9.4.2",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "classnames": "^2.3.2",
-    "date-arithmetic": "^3.1.0",
-    "loader-utils": "1.4.2",
-    "moment": "^2.30.1",
-    "react-big-calendar": "0.19.2",
-    "react-dnd": "2.6.0",
-    "react-dnd-html5-backend": "^5.0.1"
-  }
+    "name": "@mendix/calendar-web",
+    "widgetName": "Calendar",
+    "version": "1.0.15",
+    "description": "Display and manage calendar events",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "name": "Calendar",
+        "type": "widget",
+        "mpkName": "Calendar.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "7.14.1",
+        "appNumber": 107954,
+        "appName": "Calendar"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "calendar-web"
+    },
+    "packagePath": "com.mendix.widget.custom",
+    "scripts": {
+        "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+        "build": "echo 'TODO: Fix calendar-web build script'",
+        "create-gh-release": "rui-create-gh-release",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "publish-marketplace": "rui-publish-marketplace",
+        "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "release": "echo 'TODO: Fix calendar-web release script'",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "config": {},
+    "devDependencies": {
+        "@babel/core": "^7.21.0",
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "^10.7.2",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@types/date-arithmetic": "^3.1.2",
+        "@types/react-big-calendar": "0.20.20",
+        "babel-loader": "^8.3.0",
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.7.3",
+        "fork-ts-checker-webpack-plugin": "^7.3.0",
+        "mendix-client": "^7.15.8",
+        "sass": "^1.58.3",
+        "sass-loader": "^13.2.0",
+        "style-loader": "^3.3.1",
+        "to-string-loader": "^1.2.0",
+        "ts-loader": "^9.4.2",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-merge": "^5.8.0"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "date-arithmetic": "^3.1.0",
+        "loader-utils": "1.4.2",
+        "moment": "^2.30.1",
+        "react-big-calendar": "0.19.2",
+        "react-dnd": "2.6.0",
+        "react-dnd-html5-backend": "^5.0.1"
+    }
 }
