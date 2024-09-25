@@ -1,12 +1,11 @@
 import type { ObjectItem, ReferenceSetValue, Option } from "mendix";
-import type { Big } from "big.js";
 import { Status } from "../constants.js";
 
 type Writable<T> = {
     -readonly [K in keyof T]: T[K];
 };
 
-export class ReferenceSetValueBuilder<T extends string | boolean | Date | Big> {
+export class ReferenceSetValueBuilder {
     private readonly referenceSetValue: Writable<ReferenceSetValue> = {
         value: undefined,
         type: "ReferenceSet",
@@ -17,27 +16,27 @@ export class ReferenceSetValueBuilder<T extends string | boolean | Date | Big> {
         setValue: jest.fn(value => this.withValue(value))
     };
 
-    withValue(value: Option<ObjectItem[]>): ReferenceSetValueBuilder<T> {
+    withValue(value: Option<ObjectItem[]>): ReferenceSetValueBuilder {
         this.referenceSetValue.value = value;
         return this;
     }
 
-    isReadOnly(): ReferenceSetValueBuilder<T> {
+    isReadOnly(): ReferenceSetValueBuilder {
         this.referenceSetValue.readOnly = true;
         return this;
     }
 
-    isLoading(): ReferenceSetValueBuilder<T> {
+    isLoading(): ReferenceSetValueBuilder {
         this.referenceSetValue.status = Status.Loading;
         return this.isReadOnly();
     }
 
-    isUnavailable(): ReferenceSetValueBuilder<T> {
+    isUnavailable(): ReferenceSetValueBuilder {
         this.referenceSetValue.status = Status.Unavailable;
         return this.isReadOnly();
     }
 
-    withValidation(validation?: string): ReferenceSetValueBuilder<T> {
+    withValidation(validation?: string): ReferenceSetValueBuilder {
         this.referenceSetValue.validation = validation;
         return this;
     }

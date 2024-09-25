@@ -8,12 +8,16 @@ import type {
     EditableValue,
     ListAttributeValue,
     ListActionValue,
-    ActionValue
+    ActionValue,
+    ReferenceValue,
+    ReferenceSetValue
 } from "mendix";
 import { dynamicValue, actionValue } from "./builders/DynamicActionValueBuilder.js";
 import { ListValueBuilder } from "./builders/ListValueBuilder.js";
 import { ListAttributeValueBuilder } from "./builders/ListAttributeValueBuilder.js";
 import { EditableValueBuilder } from "./builders/EditableValueBuilder.js";
+import { ReferenceValueBuilder } from "./builders/ReferenceValueBuilder.js";
+import { ReferenceSetValueBuilder } from "./builders/ReferenceSetValueBuilder.js";
 
 /** @deprecated Please, uee {@link listExp} instead */
 export function buildListExpression<T extends string | boolean | Date | Big>(value: T): ListExpressionValue<T> {
@@ -25,13 +29,9 @@ export function buildWidgetValue(value: ReactNode): ListWidgetValue {
     return { get: () => value } as Pick<ListWidgetValue, "get"> as ListWidgetValue;
 }
 
-export function obj(id = Math.random().toFixed(16).slice(2)): ObjectItem {
+export function obj(id = Math.random().toFixed(16).slice(2, 6)): ObjectItem {
     id = `obj_${id}`;
-    return {
-        id,
-        toString: () => JSON.stringify(id),
-        toJSON: () => id
-    } as unknown as ObjectItem;
+    return { id } as unknown as ObjectItem;
 }
 
 export function objectItems(length = 1): ObjectItem[] {
@@ -68,4 +68,24 @@ export function listAction(customValue?: (actionFactory: typeof actionValue) => 
     return {
         get: () => (typeof customValue === "function" ? customValue(actionValue) : actionValue())
     } as unknown as ListActionValue;
+}
+
+/**
+ * Short function to mock ReferenceValue.
+ * @param factory - optional factory function which takes
+ * ReferenceValueBuilder as first argument and returns new ReferenceValue.
+ */
+export function ref(factory?: (builder: ReferenceValueBuilder) => ReferenceValue): ReferenceValue {
+    factory ??= builder => builder.build();
+    return factory(new ReferenceValueBuilder());
+}
+
+/**
+ * Short function to mock ReferenceSetValue.
+ * @param factory - optional factory function which takes
+ * ReferenceSetValueBuilder as first argument and returns new ReferenceValue.
+ */
+export function refSet(factory?: (builder: ReferenceSetValueBuilder) => ReferenceSetValue): ReferenceSetValue {
+    factory ??= builder => builder.build();
+    return factory(new ReferenceSetValueBuilder());
 }

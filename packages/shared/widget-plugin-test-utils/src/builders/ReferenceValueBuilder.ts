@@ -1,12 +1,11 @@
 import type { ObjectItem, ReferenceValue, Option } from "mendix";
-import type { Big } from "big.js";
 import { Status } from "../constants.js";
 
 type Writable<T> = {
     -readonly [K in keyof T]: T[K];
 };
 
-export class ReferenceValueBuilder<T extends string | boolean | Date | Big> {
+export class ReferenceValueBuilder {
     private readonly referenceValue: Writable<ReferenceValue> = {
         value: undefined,
         type: "Reference",
@@ -17,27 +16,27 @@ export class ReferenceValueBuilder<T extends string | boolean | Date | Big> {
         setValue: jest.fn(value => this.withValue(value))
     };
 
-    withValue(value: Option<ObjectItem>): ReferenceValueBuilder<T> {
+    withValue(value: Option<ObjectItem>): ReferenceValueBuilder {
         this.referenceValue.value = value;
         return this;
     }
 
-    isReadOnly(): ReferenceValueBuilder<T> {
+    isReadOnly(): ReferenceValueBuilder {
         this.referenceValue.readOnly = true;
         return this;
     }
 
-    isLoading(): ReferenceValueBuilder<T> {
+    isLoading(): ReferenceValueBuilder {
         this.referenceValue.status = Status.Loading;
         return this.isReadOnly();
     }
 
-    isUnavailable(): ReferenceValueBuilder<T> {
+    isUnavailable(): ReferenceValueBuilder {
         this.referenceValue.status = Status.Unavailable;
         return this.isReadOnly();
     }
 
-    withValidation(validation?: string): ReferenceValueBuilder<T> {
+    withValidation(validation?: string): ReferenceValueBuilder {
         this.referenceValue.validation = validation;
         return this;
     }
