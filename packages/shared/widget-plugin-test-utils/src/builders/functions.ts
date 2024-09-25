@@ -10,14 +10,15 @@ import type {
     ListActionValue,
     ActionValue,
     ReferenceValue,
-    ReferenceSetValue
+    ReferenceSetValue,
+    DynamicValue
 } from "mendix";
-import { dynamicValue, actionValue } from "./builders/DynamicActionValueBuilder.js";
-import { ListValueBuilder } from "./builders/ListValueBuilder.js";
-import { ListAttributeValueBuilder } from "./builders/ListAttributeValueBuilder.js";
-import { EditableValueBuilder } from "./builders/EditableValueBuilder.js";
-import { ReferenceValueBuilder } from "./builders/ReferenceValueBuilder.js";
-import { ReferenceSetValueBuilder } from "./builders/ReferenceSetValueBuilder.js";
+import { ListValueBuilder } from "./ListValueBuilder.js";
+import { ListAttributeValueBuilder } from "./ListAttributeValueBuilder.js";
+import { EditableValueBuilder } from "./EditableValueBuilder.js";
+import { ReferenceValueBuilder } from "./ReferenceValueBuilder.js";
+import { ReferenceSetValueBuilder } from "./ReferenceSetValueBuilder.js";
+import { Status } from "../constants.js";
 
 /** @deprecated Please, uee {@link listExp} instead */
 export function buildListExpression<T extends string | boolean | Date | Big>(value: T): ListExpressionValue<T> {
@@ -88,4 +89,15 @@ export function ref(factory?: (builder: ReferenceValueBuilder) => ReferenceValue
 export function refSet(factory?: (builder: ReferenceSetValueBuilder) => ReferenceSetValue): ReferenceSetValue {
     factory ??= builder => builder.build();
     return factory(new ReferenceSetValueBuilder());
+}
+
+export function dynamicValue<T>(value?: T, loading?: boolean): DynamicValue<T> {
+    if (loading) {
+        return { status: Status.Loading, value };
+    }
+    return value !== undefined ? { status: Status.Available, value } : { status: Status.Unavailable, value: undefined };
+}
+
+export function actionValue(canExecute = true, isExecuting = false): ActionValue {
+    return { canExecute, isExecuting, execute: jest.fn() };
 }

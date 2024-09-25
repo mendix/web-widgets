@@ -1,4 +1,4 @@
-import { listAttr, obj, ref, refSet } from "../src/functions";
+import { listAttr, obj, ref, refSet } from "../src/builders/functions";
 
 describe("API mock functions", () => {
     describe("listAttr", () => {
