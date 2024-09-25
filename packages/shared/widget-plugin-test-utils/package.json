@@ -36,5 +36,8 @@
     "@swc/core": "^1.7.26",
     "@swc/jest": "^0.2.36",
     "big.js": "^6.2.2"
+  },
+  "dependencies": {
+    "mendix": "^10.14.44044"
   }
 }

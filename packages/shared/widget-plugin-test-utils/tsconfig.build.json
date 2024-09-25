@@ -1,8 +1,9 @@
 {
     "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
-    "include": ["./src/**/*"],
+    "include": ["./node_modules/mendix/index.d.ts", "./src/**/*"],
     "compilerOptions": {
         "outDir": "./dist",
-        "rootDir": "./src"
+        "rootDir": "./src",
+        "types": ["jest"]
     }
 }
