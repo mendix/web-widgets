@@ -11,7 +11,7 @@ import {
     dayGreaterThanOrEqual
 } from "mendix/filters/builders";
 import * as builders from "mendix/filters/builders";
-import { attrId, obj } from "../../src/builders/functions";
+import { attrId, obj } from "../../src/main";
 
 describe("mendix/filters/builders mock", () => {
     test.each([
@@ -34,7 +34,7 @@ describe("mendix/filters/builders mock", () => {
     });
 
     test("attribute", () => {
-        expect(attribute(attrId("attr_csj_5"))).toEqual({
+        expect(attribute(attrId("csj_5"))).toEqual({
             type: "attribute",
             attributeId: "attr_csj_5"
         });
@@ -51,7 +51,7 @@ describe("mendix/filters/builders mock", () => {
         ["dayLessThanOrEqual", "day:<="]
     ])("%s returns correct shape", (fn, name) => {
         expect(
-            (builders[fn as keyof typeof builders] as any)(attribute(attrId("attr_foo_bar")), literal(undefined))
+            (builders[fn as keyof typeof builders] as any)(attribute(attrId("foo_bar")), literal(undefined))
         ).toEqual({
             type: "function",
             name,
@@ -107,8 +107,8 @@ describe("mendix/filters/builders mock", () => {
         test("case 1", () => {
             expect(
                 or(
-                    dayLessThanOrEqual(attribute(attrId("attr_jei_5")), literal(new Date("1961-04-12T23:00:00.000Z"))),
-                    dayLessThanOrEqual(attribute(attrId("attr_jei_6")), literal(new Date("1961-04-12T23:00:00.000Z")))
+                    dayLessThanOrEqual(attribute(attrId("jei_5")), literal(new Date("1961-04-12T23:00:00.000Z"))),
+                    dayLessThanOrEqual(attribute(attrId("jei_6")), literal(new Date("1961-04-12T23:00:00.000Z")))
                 )
             ).toMatchSnapshot();
         });
@@ -116,11 +116,8 @@ describe("mendix/filters/builders mock", () => {
         test("case 2", () => {
             expect(
                 and(
-                    dayGreaterThanOrEqual(
-                        attribute(attrId("attr_jei_5")),
-                        literal(new Date("1961-04-12T23:00:00.000Z"))
-                    ),
-                    dayLessThan(attribute(attrId("attr_jei_5")), literal(new Date("1961-04-12T23:00:00.000Z")))
+                    dayGreaterThanOrEqual(attribute(attrId("jei_5")), literal(new Date("1961-04-12T23:00:00.000Z"))),
+                    dayLessThan(attribute(attrId("jei_5")), literal(new Date("1961-04-12T23:00:00.000Z")))
                 )
             ).toMatchSnapshot();
         });

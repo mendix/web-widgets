@@ -1,6 +1,6 @@
-import { listAttr, obj, ref, refSet } from "../src/builders/functions";
+import { listAttr, obj, ref, refSet } from "../src/main";
 
-describe("API mock functions", () => {
+describe("mock functions", () => {
     describe("listAttr", () => {
         it("returns ListAttributeValue", () => {
             const t: Date = new Date("2024-09-01T00:00:00.000Z");
@@ -8,13 +8,6 @@ describe("API mock functions", () => {
             expect(attr.get(obj()).value!).toEqual(t);
         });
     });
-
-    describe("obj", () => {
-        it("returns plain js object with id", () => {
-            expect(obj("0")).toMatchObject({ id: "obj_0" });
-        });
-    });
-
     describe("ref", () => {
         it("returns ReferenceValue with undefined value", () => {
             const ref1 = ref();
