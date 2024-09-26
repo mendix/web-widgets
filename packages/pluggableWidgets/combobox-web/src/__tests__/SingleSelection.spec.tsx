@@ -3,7 +3,7 @@ import {
     dynamic,
     EditableValueBuilder,
     ListAttributeValueBuilder,
-    ListValueBuilder,
+    list,
     obj,
     ReferenceValueBuilder
 } from "@mendix/widget-plugin-test-utils";
@@ -34,9 +34,7 @@ describe("Combo box (Association)", () => {
             attributeAssociation: new ReferenceValueBuilder().withValue(obj("111")).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
-            optionsSourceAssociationDataSource: new ListValueBuilder()
-                .withItems([obj("111"), obj("222"), obj("333"), obj("444")])
-                .build(),
+            optionsSourceAssociationDataSource: list([obj("111"), obj("222"), obj("333"), obj("444")]),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
