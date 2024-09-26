@@ -2462,6 +2462,10 @@ importers:
         version: link:../tsconfig-web-widgets
 
   packages/shared/widget-plugin-test-utils:
+    dependencies:
+      mendix:
+        specifier: ^10.14.44044
+        version: 10.14.44044
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
