@@ -7,6 +7,15 @@ describe("prop mocking functions", () => {
             expect(prop.status).toBe("available");
             expect(prop.items).toHaveLength(4);
         });
+
+        it("returns ListValue mock with no items when n is 0", () => {
+            expect(list(0).items).toHaveLength(0);
+        });
+
+        it("returns ListValue mock with provided items", () => {
+            const arr = [obj(), obj(), obj()];
+            expect(list(arr).items).toBe(arr);
+        });
     });
 
     describe("listAction", () => {

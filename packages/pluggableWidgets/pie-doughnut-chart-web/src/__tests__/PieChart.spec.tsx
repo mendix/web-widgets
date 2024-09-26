@@ -1,11 +1,11 @@
 import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts/common";
 import {
-    buildListExpression,
-    dynamicValue,
+    list,
+    listExp,
+    dynamic,
     EditableValueBuilder,
-    ListAttributeValueBuilder,
-    ListValueBuilder
+    ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { PieChart } from "../PieChart";
@@ -31,8 +31,8 @@ describe("The PieChart widget", () => {
                 customConfigurations=""
                 customSeriesOptions=""
                 seriesSortOrder="asc"
-                seriesDataSource={ListValueBuilder().simple()}
-                seriesName={buildListExpression("name")}
+                seriesDataSource={list(2)}
+                seriesName={listExp(() => "name")}
                 seriesValueAttribute={new ListAttributeValueBuilder<Big>().build()}
                 enableThemeConfig={false}
                 showPlaygroundSlot={false}
@@ -110,13 +110,13 @@ describe("The PieChart widget", () => {
 });
 
 function setupBasicAttributes(): Partial<PieChartContainerProps> {
-    const seriesName = buildListExpression("name");
+    const seriesName = listExp(() => "name");
     seriesName.get = jest
         .fn()
-        .mockReturnValueOnce(dynamicValue("first series"))
-        .mockReturnValueOnce(dynamicValue("second series"));
+        .mockReturnValueOnce(dynamic("first series"))
+        .mockReturnValueOnce(dynamic("second series"));
 
-    const seriesDataSource = ListValueBuilder().simple();
+    const seriesDataSource = list(2);
 
     const seriesValueAttribute = new ListAttributeValueBuilder<Big>().build();
     seriesValueAttribute.get = jest
@@ -124,11 +124,8 @@ function setupBasicAttributes(): Partial<PieChartContainerProps> {
         .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(1)).build())
         .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
 
-    const seriesColorAttribute = buildListExpression("color");
-    seriesColorAttribute.get = jest
-        .fn()
-        .mockReturnValueOnce(dynamicValue("red"))
-        .mockReturnValueOnce(dynamicValue("blue"));
+    const seriesColorAttribute = listExp(() => "name");
+    seriesColorAttribute.get = jest.fn().mockReturnValueOnce(dynamic("red")).mockReturnValueOnce(dynamic("blue"));
 
     return {
         seriesColorAttribute,

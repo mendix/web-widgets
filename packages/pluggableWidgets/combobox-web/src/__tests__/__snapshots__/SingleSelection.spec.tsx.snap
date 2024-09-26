@@ -26,7 +26,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           placeholder=" "
           role="combobox"
           tabindex="0"
-          value="111"
+          value="obj_111"
         />
         <div
           class="widget-combobox-placeholder-text"
@@ -34,7 +34,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           <span
             class="widget-combobox-caption-text"
           >
-            111
+            obj_111
           </span>
         </div>
       </div>

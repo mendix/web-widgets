@@ -1,13 +1,7 @@
 import { ChartWidget } from "@mendix/shared-charts/common";
-import {
-    EditableValueBuilder,
-    ListAttributeValueBuilder,
-    ListValueBuilder,
-    dynamicValue
-} from "@mendix/widget-plugin-test-utils";
+import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { ReactWrapper, mount } from "enzyme";
-import { ListExpressionValue } from "mendix";
 import { createElement } from "react";
 import { LinesType } from "../../typings/BubbleChartProps";
 import { BubbleChart } from "../BubbleChart";
@@ -45,7 +39,10 @@ describe("The Bubble widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const bubbleChart = renderBubbleChart([{ staticMarkerColor: exp("red") }, { staticMarkerColor: undefined }]);
+        const bubbleChart = renderBubbleChart([
+            { staticMarkerColor: listExp(() => "red") },
+            { staticMarkerColor: undefined }
+        ]);
         const data = bubbleChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", "red");
@@ -91,14 +88,10 @@ function setupBasicSeries(overwriteConfig: Partial<LinesType>): LinesType {
         customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
         aggregationType: overwriteConfig.aggregationType ?? "avg",
         staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
-        staticDataSource: ListValueBuilder().simple(),
+        staticDataSource: list(2),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute,
         autosize: true,
         sizeref: 10
     };
-}
-
-function exp(value: string): ListExpressionValue<string> {
-    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

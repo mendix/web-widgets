@@ -1,15 +1,16 @@
 import {
-    buildListExpression,
-    dynamicValue,
+    listExp,
+    dynamic,
     EditableValueBuilder,
     ListAttributeValueBuilder,
     ListValueBuilder,
+    obj,
     ReferenceValueBuilder
 } from "@mendix/widget-plugin-test-utils";
 import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
-import { ObjectItem, DynamicValue, ListValue } from "mendix";
+import { ListValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
@@ -30,21 +31,18 @@ describe("Combo box (Association)", () => {
             id: "comboBox1",
             source: "context",
             optionsSourceType: "association",
-            attributeAssociation: new ReferenceValueBuilder().withValue({ id: "111" } as ObjectItem).build(),
+            attributeAssociation: new ReferenceValueBuilder().withValue(obj("111")).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
-            optionsSourceAssociationDataSource: ListValueBuilder().withItems([
-                { id: "111" },
-                { id: "222" },
-                { id: "333" },
-                { id: "444" }
-            ] as ObjectItem[]),
+            optionsSourceAssociationDataSource: new ListValueBuilder()
+                .withItems([obj("111"), obj("222"), obj("333"), obj("444")])
+                .build(),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
-            optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
+            optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
-            emptyOptionText: dynamicValue("Select an option 111"),
+            emptyOptionText: dynamic("Select an option 111"),
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
@@ -52,41 +50,36 @@ describe("Combo box (Association)", () => {
             readOnlyStyle: "bordered",
             lazyLoading: false,
             loadingType: "spinner",
-            clearButtonAriaLabel: dynamicValue("Clear selection"),
-            removeValueAriaLabel: dynamicValue("Remove value"),
-            selectAllButtonCaption: dynamicValue("Select All"),
+            clearButtonAriaLabel: dynamic("Clear selection"),
+            removeValueAriaLabel: dynamic("Remove value"),
+            selectAllButtonCaption: dynamic("Select All"),
             selectAllButton: false,
             selectionMethod: "checkbox",
-            a11ySelectedValue: dynamicValue("Selected value:"),
-            a11yOptionsAvailable: dynamicValue("Options available:"),
-            a11yInstructions: dynamicValue("a11yInstructions"),
+            a11ySelectedValue: dynamic("Selected value:"),
+            a11yOptionsAvailable: dynamic("Options available:"),
+            a11yInstructions: dynamic("a11yInstructions"),
             showFooter: false,
             databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
-            optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
+            optionsSourceDatabaseDefaultValue: dynamic("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
             staticDataSourceCustomContentType: "no",
             staticAttribute: new EditableValueBuilder<string>().build(),
             optionsSourceStaticDataSource: [
                 {
-                    staticDataSourceValue: dynamicValue("value1"),
+                    staticDataSourceValue: dynamic("value1"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamicValue("caption1")
+                    staticDataSourceCaption: dynamic("caption1")
                 },
                 {
-                    staticDataSourceValue: dynamicValue("value2"),
+                    staticDataSourceValue: dynamic("value2"),
                     staticDataSourceCustomContent: undefined,
-                    staticDataSourceCaption: dynamicValue("caption2")
+                    staticDataSourceCaption: dynamic("caption2")
                 }
             ]
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
-            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
-                return {
-                    value: `${i.id}`,
-                    status: "available"
-                } as DynamicValue<string>;
-            };
+            defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);
         }
     });
     it("renders combobox widget", () => {
@@ -115,12 +108,12 @@ describe("Combo box (Association)", () => {
         const input = await getInput(component);
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
-        const option1 = await component.findByText("222");
+        const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
-        expect(input.value).toEqual("222");
+        expect(input.value).toEqual("obj_222");
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
+        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
@@ -132,13 +125,13 @@ describe("Combo box (Association)", () => {
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
 
-        const option1 = await component.findByText("222");
+        const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
 
-        expect(input.value).toEqual("222");
+        expect(input.value).toEqual("obj_222");
         expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
-        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "222" });
+        expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
 
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
