@@ -1,4 +1,4 @@
-import { listAttr, obj, ref, refSet, list, listAction, listRef } from "../src/main";
+import { listAttr, obj, ref, refSet, list, listAction, listRef, listRefSet } from "../src/main";
 
 describe("prop mocking functions", () => {
     describe("list", () => {
@@ -102,9 +102,10 @@ describe("prop mocking functions", () => {
         it("returns ListReferenceValue mock", () => {
             const prop = listRef();
             expect(prop).toMatchObject({
+                type: "Reference",
                 filterable: true,
                 id: expect.stringMatching(/listRef_.+/),
-                get: expect.any(jest.fn.constructor)
+                get: expect.any(Function)
             });
             expect(jest.isMockFunction(prop.get)).toBe(true);
             expect(prop.get(obj())).toMatchObject({
@@ -117,6 +118,23 @@ describe("prop mocking functions", () => {
     });
 
     describe("listRefSet", () => {
-        it.todo("returns ListReferenceSetValue mock");
+        it("returns ListReferenceSetValue mock", () => {
+            const prop = listRefSet();
+            expect(prop).toMatchObject({
+                type: "ReferenceSet",
+                filterable: true,
+                id: expect.stringMatching(/listRefSet_.+/),
+                get: expect.any(Function)
+            });
+            expect(jest.isMockFunction(prop.get)).toBe(true);
+            expect(prop.get(obj())).toMatchObject({
+                status: expect.any(String),
+                value: [
+                    {
+                        id: expect.stringMatching(/obj_.+/)
+                    }
+                ]
+            });
+        });
     });
 });
