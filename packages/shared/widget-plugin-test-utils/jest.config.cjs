@@ -19,5 +19,7 @@ module.exports = {
         "big.js": "big.js",
         "(.+)\\.js": "$1"
     },
-    extensionsToTreatAsEsm: [".ts"]
+    extensionsToTreatAsEsm: [".ts"],
+    collectCoverage: !process.env.CI,
+    coverageProvider: "v8"
 };
