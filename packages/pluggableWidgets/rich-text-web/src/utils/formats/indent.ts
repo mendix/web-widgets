@@ -7,6 +7,7 @@ const indentLists = ["3em", "6em", "9em", "12em", "15em", "18em", "21em", "24em"
 
 /**
  *  overriding current quill's indent format by using inline style instead of classname
+ *  toolbar's indent button also have to be overriden using getIndentHandler
  */
 class IndentAttributor extends StyleAttributor {
     add(node: HTMLElement, value: string | number): boolean {
@@ -18,7 +19,12 @@ class IndentAttributor extends StyleAttributor {
             const modValue = value % INDENT_MAGIC_NUMBER;
             const indent = this.value(node) || 0;
             normalizedValue =
-                indent + (modValue === 1 ? INDENT_MAGIC_NUMBER : modValue === 2 ? -INDENT_MAGIC_NUMBER : value);
+                indent +
+                (modValue === 1
+                    ? INDENT_MAGIC_NUMBER
+                    : modValue === 2 || modValue === -1
+                    ? -INDENT_MAGIC_NUMBER
+                    : value);
         }
         if (normalizedValue === 0) {
             this.remove(node);
