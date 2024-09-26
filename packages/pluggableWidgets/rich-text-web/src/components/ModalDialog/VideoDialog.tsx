@@ -3,6 +3,7 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { DialogContent, DialogHeader, DialogBody, FormControl, DialogFooter } from "./DialogContent";
 import classNames from "classnames";
 import { type videoConfigType, type videoEmbedConfigType } from "../../utils/formats";
+import { getPatternMatch } from "../../utils/videoUrlPattern";
 
 export type VideoFormType = videoConfigType | videoEmbedConfigType;
 
@@ -26,7 +27,19 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
     });
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
+        if (e.target.name === "src") {
+            const pattern = getPatternMatch(e.target.value);
+            setFormState({
+                ...formState,
+                ...{
+                    src: e.target.value,
+                    width: pattern?.w || 560,
+                    height: pattern?.h || 314
+                }
+            });
+        } else {
+            setFormState({ ...formState, [e.target.name]: e.target.value });
+        }
     };
 
     return (

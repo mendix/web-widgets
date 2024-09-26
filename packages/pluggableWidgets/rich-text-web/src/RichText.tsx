@@ -69,6 +69,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                         "form-control",
                         stringAttribute.readOnly ? `widget-rich-text-readonly-${readOnlyStyle}` : ""
                     )}
+                    enableStatusBar={props.enableStatusBar && !stringAttribute.readOnly}
                 />
             )}
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>

@@ -100,4 +100,8 @@ $rte-gray-ligher: #f8f8f8;
             }
         }
     }
+
+    [aria-hidden="true"] {
+        display: none;
+    }
 }
