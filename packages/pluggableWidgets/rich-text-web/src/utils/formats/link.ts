@@ -1,5 +1,5 @@
-import Link from "quill/formats/link";
 import * as linkify from "linkifyjs";
+import Link from "quill/formats/link";
 import { linkConfigType } from "../formats";
 
 function getLink(url: string): string {

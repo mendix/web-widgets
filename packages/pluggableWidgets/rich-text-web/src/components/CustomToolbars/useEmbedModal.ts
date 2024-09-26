@@ -1,12 +1,12 @@
 import Quill from "quill";
-import { useState, MutableRefObject, Dispatch, SetStateAction } from "react";
-import { type ChildDialogProps } from "../ModalDialog/Dialog";
+import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
 import {
     viewCodeConfigType,
     type linkConfigType,
     type videoConfigType,
     type videoEmbedConfigType
 } from "../../utils/formats";
+import { type ChildDialogProps } from "../ModalDialog/Dialog";
 import { type VideoFormType } from "../ModalDialog/VideoDialog";
 
 type ModalReturnType = {

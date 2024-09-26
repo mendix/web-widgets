@@ -1,5 +1,5 @@
-import Embed from "quill/blots/embed";
 import katex from "katex";
+import Embed from "quill/blots/embed";
 
 class Formula extends Embed {
     static blotName = "formula";

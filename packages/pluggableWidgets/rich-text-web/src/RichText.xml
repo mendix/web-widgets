@@ -40,6 +40,7 @@
                         <enumerationValue key="auto">Sticky</enumerationValue>
                         <enumerationValue key="top">Top</enumerationValue>
                         <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="hide">Hide</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>

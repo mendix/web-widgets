@@ -41,6 +41,9 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (!values.onChange) {
         hidePropertyIn(defaultProperties, values, "onChangeType");
     }
+    if (values.toolbarLocation === "hide") {
+        hidePropertyIn(defaultProperties, values, "preset");
+    }
     return defaultProperties;
 }
 

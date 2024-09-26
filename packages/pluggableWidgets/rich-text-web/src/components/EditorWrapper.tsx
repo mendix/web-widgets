@@ -1,16 +1,17 @@
-import { createElement, useRef, ReactElement, useCallback, CSSProperties, useState, useEffect } from "react";
-import { RichTextContainerProps } from "typings/RichTextProps";
-import Toolbar from "./Toolbar";
 import { If } from "@mendix/widget-plugin-component-kit/If";
-import Editor from "./Editor";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import classNames from "classnames";
+import Quill, { Range } from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import "../utils/themes/mendix";
+import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { RichTextContainerProps } from "typings/RichTextProps";
 import { updateLegacyQuillFormats } from "../utils/helpers";
-import { StickySentinel } from "./StickySentinel";
-import Quill, { Range } from "quill";
-import classNames from "classnames";
+import "../utils/themes/mendix";
 import { createPreset } from "./CustomToolbars/presets";
+import Editor from "./Editor";
+import { StickySentinel } from "./StickySentinel";
+import Toolbar from "./Toolbar";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -41,7 +42,10 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
-
+    const [setAttributeValueDebounce] = useMemo(
+        () => debounce(string => stringAttribute.setValue(string), 200),
+        [stringAttribute]
+    );
     const calculateWordCount = useCallback(
         (quill: Quill | null): void => {
             if (enableStatusBar) {
@@ -63,7 +67,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         if (quillRef.current) {
             const isTransformed = updateLegacyQuillFormats(quillRef.current);
             if (isTransformed) {
-                stringAttribute.setValue(quillRef.current.getSemanticHTML());
+                setAttributeValueDebounce(quillRef.current.getSemanticHTML());
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,6 +77,8 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         if (onChange?.canExecute && onChangeType === "onDataChange") {
             onChange.execute();
         }
+        setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [onChange, onChangeType]);
 
     const onSelectionChange = useCallback(
@@ -100,7 +106,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                             onChange.execute();
                         }
                     }
-                    stringAttribute.setValue(quillRef?.current?.getSemanticHTML());
                 }
             }
         },
@@ -109,7 +114,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     );
 
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
-    const shouldHideToolbar = stringAttribute.readOnly && readOnlyStyle !== "text";
+    const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
     return (
         <div

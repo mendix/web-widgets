@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, PropsWithChildren, ReactElement, Fragment } from "react";
+import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
 
 interface PropsWithChildrenWithClass extends PropsWithChildren {
     className?: string;
