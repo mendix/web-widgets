@@ -1,10 +1,8 @@
 import type { EditableValue } from "mendix";
 import type { Big } from "big.js";
 import { Status } from "../constants.js";
+import { Writable } from "./type-utils.js";
 
-type Writable<T> = {
-    -readonly [K in keyof T]: T[K];
-};
 /* eslint-disable no-unused-vars */
 export enum FormatterType {
     Number = "number",
