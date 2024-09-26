@@ -1,5 +1,5 @@
+import { Scope, StyleAttributor } from "parchment";
 import Quill from "quill";
-import { StyleAttributor, Scope } from "parchment";
 import "./fonts.scss";
 
 export const FONT_LIST = [

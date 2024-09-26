@@ -1,10 +1,10 @@
-import { FunctionComponent } from "react";
-import { ToolbarButton, ToolbarDropdown } from "./ToolbarWrapper";
-import { RedoToolbar, UndoToolbar } from "./UndoRedo";
 import type Quill from "quill";
+import { FunctionComponent } from "react";
+import { IconLowerAlpha } from "../../assets/Icons";
 import { FONT_LIST } from "../../utils/formats/fonts";
 import { FONT_SIZE_LIST } from "../../utils/formats/fontsize";
-import { IconLowerAlpha } from "../../assets/Icons";
+import { ToolbarButton, ToolbarDropdown } from "./ToolbarWrapper";
+import { RedoToolbar, UndoToolbar } from "./UndoRedo";
 
 type DefaultComponentProps = {
     className?: string;
