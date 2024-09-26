@@ -1,5 +1,5 @@
 import ListItem from "quill/formats/list";
-
+import "./customList.scss";
 /**
  * adding custom list item, alowing extra list style
  */
