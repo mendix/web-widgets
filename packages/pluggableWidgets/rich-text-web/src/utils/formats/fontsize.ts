@@ -1,5 +1,5 @@
-import Quill from "quill";
 import { Attributor } from "parchment";
+import Quill from "quill";
 const Size = Quill.import("attributors/style/size") as Attributor;
 
 import "./fonts.scss";

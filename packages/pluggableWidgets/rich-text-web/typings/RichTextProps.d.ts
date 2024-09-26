@@ -7,7 +7,7 @@ import { ActionValue, EditableValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
-export type ToolbarLocationEnum = "auto" | "top" | "bottom";
+export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 

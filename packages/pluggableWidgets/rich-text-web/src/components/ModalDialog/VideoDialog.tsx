@@ -1,9 +1,9 @@
-import { createElement, ReactElement, useState, ChangeEvent, Fragment } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
-import { DialogContent, DialogHeader, DialogBody, FormControl, DialogFooter } from "./DialogContent";
 import classNames from "classnames";
+import { ChangeEvent, createElement, Fragment, ReactElement, useState } from "react";
 import { type videoConfigType, type videoEmbedConfigType } from "../../utils/formats";
 import { getPatternMatch } from "../../utils/videoUrlPattern";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
 export type VideoFormType = videoConfigType | videoEmbedConfigType;
 

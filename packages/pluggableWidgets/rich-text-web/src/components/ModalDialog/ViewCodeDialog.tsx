@@ -1,6 +1,6 @@
-import { createElement, ReactElement, useState, ChangeEvent } from "react";
-import { DialogContent, DialogHeader, DialogBody, FormControl, DialogFooter } from "./DialogContent";
+import { ChangeEvent, createElement, ReactElement, useState } from "react";
 import { type viewCodeConfigType } from "../../utils/formats";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
 export interface ViewCodeDialogProps {
     currentCode?: string;
