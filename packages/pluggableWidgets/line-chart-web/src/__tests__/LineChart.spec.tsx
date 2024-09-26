@@ -1,14 +1,8 @@
 import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts/common";
-import {
-    dynamicValue,
-    EditableValueBuilder,
-    ListAttributeValueBuilder,
-    ListValueBuilder
-} from "@mendix/widget-plugin-test-utils";
+import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
-import { ListExpressionValue } from "mendix";
 import { LineChart } from "../LineChart";
 import { LinesType } from "../../typings/LineChartProps";
 
@@ -59,7 +53,7 @@ describe("The LineChart widget", () => {
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const lineChart = renderLineChart([{ staticLineColor: exp("red") }, { staticLineColor: undefined }]);
+        const lineChart = renderLineChart([{ staticLineColor: listExp(() => "red") }, { staticLineColor: undefined }]);
         const data = lineChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("line.color", "red");
@@ -67,7 +61,10 @@ describe("The LineChart widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const lineChart = renderLineChart([{ staticMarkerColor: undefined }, { staticMarkerColor: exp("blue") }]);
+        const lineChart = renderLineChart([
+            { staticMarkerColor: undefined },
+            { staticMarkerColor: listExp(() => "blue") }
+        ]);
         const data = lineChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
         expect(data[0]).toHaveProperty("marker.color", undefined);
@@ -116,12 +113,8 @@ function setupBasicSeries(overwriteConfig: Partial<LinesType>): LinesType {
         lineStyle: overwriteConfig.lineStyle ?? "line",
         staticLineColor: overwriteConfig.staticLineColor ?? undefined,
         staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
-        staticDataSource: ListValueBuilder().simple(),
+        staticDataSource: list(2),
         staticXAttribute: xAttribute,
         staticYAttribute: yAttribute
     };
-}
-
-function exp(value: string): ListExpressionValue<string> {
-    return { get: () => dynamicValue(value) } as unknown as ListExpressionValue<string>;
 }

@@ -1,10 +1,9 @@
 import { createElement } from "react";
 import { ChartWidget } from "@mendix/shared-charts/common";
-import { EditableValueBuilder, ListAttributeValueBuilder, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { EditableValueBuilder, ListAttributeValueBuilder, list } from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { HeatMap } from "../HeatMap";
 import Big from "big.js";
-import { ObjectItem } from "mendix";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 
 jest.mock("react-plotly.js", () => jest.fn(() => null));
@@ -24,7 +23,7 @@ describe("The HeatMap widget", () => {
                 customLayout=""
                 customConfigurations=""
                 customSeriesOptions=""
-                seriesDataSource={ListValueBuilder().simple()}
+                seriesDataSource={list(2)}
                 seriesValueAttribute={new ListAttributeValueBuilder<Big>().build()}
                 enableThemeConfig={false}
                 scaleColors={[]}
@@ -50,7 +49,7 @@ describe("The HeatMap widget", () => {
     it("visualizes a heatmap chart properly even if there is no data", () => {
         expect(() =>
             renderHeatMap({
-                seriesDataSource: ListValueBuilder().withItems([]),
+                seriesDataSource: list(0),
                 showValues: true
             })
         ).not.toThrow();
@@ -173,9 +172,7 @@ const numberOfItems = numberOfHorizontalItems * numberOfVerticalItems;
 const allItems = new Array(numberOfItems).fill(null);
 
 function setupBasicAttributes(): Partial<HeatMapContainerProps> {
-    const seriesDataSource = ListValueBuilder().withItems(
-        allItems.map((_value, index) => ({ id: index.toString() } as ObjectItem))
-    );
+    const seriesDataSource = list(numberOfItems);
 
     const seriesValueAttribute = new ListAttributeValueBuilder<Big>().build();
     seriesValueAttribute.get = allItems.reduce<jest.Mock>(

@@ -1,6 +1,12 @@
-import { ListValue } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { ListValueBuilder } from "../builders/ListValueBuilder";
 
-export function list(n: number): ListValue {
-    return new ListValueBuilder().withSize(n).build();
+export function list(arg: number | ObjectItem[]): ListValue {
+    let builder = new ListValueBuilder();
+    if (Array.isArray(arg)) {
+        builder = builder.withItems(arg);
+    } else {
+        builder = builder.withSize(arg);
+    }
+    return builder.build();
 }

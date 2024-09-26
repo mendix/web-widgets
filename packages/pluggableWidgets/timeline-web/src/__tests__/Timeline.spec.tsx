@@ -1,18 +1,17 @@
 import { createElement } from "react";
 import { render } from "@testing-library/react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
-import { listExp, listWidget, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { listExp, listWidget, list } from "@mendix/widget-plugin-test-utils";
 import Timeline from "../Timeline";
 
 describe("Timeline", () => {
-    const listValueBuilder = ListValueBuilder();
     const defaultProps: TimelineContainerProps = {
         name: "timeline",
         class: "test",
         tabIndex: 0,
         customVisualization: false,
         groupByKey: "day",
-        data: listValueBuilder.simple(),
+        data: list(2),
         groupEvents: false,
         title: listExp(() => "title1"),
         description: listExp(() => "description"),
