@@ -1,15 +1,40 @@
-import { listAttr, obj, ref, refSet } from "../src/main";
+import { listAttr, obj, ref, refSet, list, listAction, listRef } from "../src/main";
 
-describe("mock functions", () => {
+describe("prop mocking functions", () => {
+    describe("list", () => {
+        it("returns ListValue mock with n items", () => {
+            const prop = list(4);
+            expect(prop.status).toBe("available");
+            expect(prop.items).toHaveLength(4);
+        });
+    });
+
+    describe("listAction", () => {
+        it("returns ListActionValue mock with get method", () => {
+            const prop = listAction();
+            expect(prop.get(obj()).isExecuting).toBe(false);
+            expect(jest.isMockFunction(prop.get(obj()).execute)).toBe(true);
+        });
+    });
+
     describe("listAttr", () => {
-        it("returns ListAttributeValue", () => {
+        it("returns ListAttributeValue mock", () => {
             const t: Date = new Date("2024-09-01T00:00:00.000Z");
             const attr = listAttr(() => new Date(t));
             expect(attr.get(obj()).value!).toEqual(t);
         });
     });
+
+    describe("listExp", () => {
+        it.todo("returns ListExpressionValue mock");
+    });
+
+    describe("listWidget", () => {
+        it.todo("returns ListWidgetValue mock");
+    });
+
     describe("ref", () => {
-        it("returns ReferenceValue with undefined value", () => {
+        it("returns ReferenceValue mock with undefined value", () => {
             const ref1 = ref();
             expect(ref1).toMatchObject({
                 readOnly: false,
@@ -21,6 +46,7 @@ describe("mock functions", () => {
             expect(jest.isMockFunction(ref1.setValidator)).toBe(true);
             expect(jest.isMockFunction(ref1.setValidator)).toBe(true);
         });
+
         it("take factory as first argument", () => {
             const ref1 = ref(builder => builder.withValue(obj("0")).isLoading().build());
             expect(ref1).toMatchObject({
@@ -34,7 +60,7 @@ describe("mock functions", () => {
     });
 
     describe("refSet", () => {
-        it("returns ReferenceSetValue with undefined value", () => {
+        it("returns ReferenceSetValue mock with undefined value", () => {
             const ref1 = refSet();
             expect(ref1).toMatchObject({
                 readOnly: false,
@@ -46,6 +72,7 @@ describe("mock functions", () => {
             expect(jest.isMockFunction(ref1.setValidator)).toBe(true);
             expect(jest.isMockFunction(ref1.setValidator)).toBe(true);
         });
+
         it("take factory as first argument", () => {
             const ref1 = refSet(builder =>
                 builder
@@ -61,6 +88,7 @@ describe("mock functions", () => {
                 value: [{ id: "obj_0" }]
             });
         });
+
         it("returns mock with working setValue", () => {
             const ref1 = refSet();
             ref1.setValue([obj("007")]);
@@ -68,5 +96,27 @@ describe("mock functions", () => {
             ref1.setValue([obj("939")]);
             expect(ref1.value).toEqual([obj("939")]);
         });
+    });
+
+    describe("listRef", () => {
+        it("returns ListReferenceValue mock", () => {
+            const prop = listRef();
+            expect(prop).toMatchObject({
+                filterable: true,
+                id: expect.stringMatching(/listRef_.+/),
+                get: expect.any(jest.fn.constructor)
+            });
+            expect(jest.isMockFunction(prop.get)).toBe(true);
+            expect(prop.get(obj())).toMatchObject({
+                status: expect.any(String),
+                value: {
+                    id: expect.stringMatching(/obj_.+/)
+                }
+            });
+        });
+    });
+
+    describe("listRefSet", () => {
+        it.todo("returns ListReferenceSetValue mock");
     });
 });

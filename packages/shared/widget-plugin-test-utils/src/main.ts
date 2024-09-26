@@ -9,6 +9,7 @@ export * from "./functions/list.js";
 export * from "./functions/listAction.js";
 export * from "./functions/listAttr.js";
 export * from "./functions/listExp.js";
+export * from "./functions/listRef.js";
 export * from "./functions/listWidget.js";
 export * from "./functions/ref.js";
 export * from "./functions/refSet.js";
