@@ -41,6 +41,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.loading;
     }
 
+    get datasourceFilter(): ListValue["filter"] | undefined {
+        return this.ds?.filter;
+    }
+
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
