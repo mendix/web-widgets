@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import * as RadixDialog from "@radix-ui/react-dialog";
 import { createElement, PropsWithChildren, ReactElement, Fragment } from "react";
 
 interface PropsWithChildrenWithClass extends PropsWithChildren {
@@ -10,11 +9,9 @@ export function DialogContent(props: PropsWithChildrenWithClass): ReactElement {
     const { children, className } = props;
 
     return (
-        <RadixDialog.Content
-            className={classNames("widget-rich-text-modal-body modal-dialog mx-window mx-window-active", className)}
-        >
+        <div className={classNames("widget-rich-text-modal-body modal-dialog mx-window mx-window-active", className)}>
             <div className="modal-content mx-window-content">{children}</div>
-        </RadixDialog.Content>
+        </div>
     );
 }
 
@@ -27,13 +24,13 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
 
     return (
         <Fragment>
-            <RadixDialog.Title className={classNames("widget-rich-text-modal-header modal-header", className)}>
+            <div className={classNames("widget-rich-text-modal-header modal-header", className)}>
                 <button type="button" className="close" title="close" aria-label="close" onClick={onClose}>
                     ×
                 </button>
                 <h4>{children}</h4>
-            </RadixDialog.Title>
-            <RadixDialog.Description className="hide">{children}</RadixDialog.Description>
+            </div>
+            <div className="hide">{children}</div>
         </Fragment>
     );
 }

@@ -1,24 +1,34 @@
 import Video from "quill/formats/video";
 import { videoConfigType } from "../formats";
+import { matchPattern } from "../videoUrlPattern";
+import { WidthAttribute, HeightAttribute } from "./sizing";
 
-export default class CustomVideo extends Video {
+/**
+ * custom video link handler, allowing width and height config
+ */
+class CustomVideo extends Video {
     html(): string {
         return this.domNode.outerHTML;
+    }
+
+    length(): number {
+        // asume that video has child to be able to delete embedded video
+        return 2;
     }
 
     static create(value: unknown): Element {
         if ((value as videoConfigType)?.src !== undefined) {
             const videoConfig = value as videoConfigType;
-            const node = super.create(videoConfig.src) as Element;
+            const urlPatterns = matchPattern(videoConfig.src);
+            const node = super.create(urlPatterns?.url || videoConfig.src) as HTMLElement;
 
             if (videoConfig.width && videoConfig.width > 0) {
-                node.setAttribute("width", videoConfig.width.toString());
+                WidthAttribute.add(node, videoConfig.width.toString());
             }
 
             if (videoConfig.height && videoConfig.height > 0) {
-                node.setAttribute("height", videoConfig.height.toString());
+                HeightAttribute.add(node, videoConfig.height.toString());
             }
-
             return node;
         } else {
             // @ts-expect-error type mismatch expected
@@ -26,3 +36,5 @@ export default class CustomVideo extends Video {
         }
     }
 }
+
+export default CustomVideo;

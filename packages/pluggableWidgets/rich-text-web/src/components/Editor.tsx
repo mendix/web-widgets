@@ -14,7 +14,8 @@ import Delta from "quill-delta";
 import Dialog from "./ModalDialog/Dialog";
 import "../utils/customPluginRegisters";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
-import { getIndentHandler } from "./CustomToolbars/toolbarHandlers";
+import { getIndentHandler, enterKeyKeyboardHandler } from "./CustomToolbars/toolbarHandlers";
+import MxQuill from "../utils/MxQuill";
 
 export interface EditorProps {
     defaultValue?: string;
@@ -69,6 +70,14 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const options: QuillOptions = {
                     theme,
                     modules: {
+                        keyboard: {
+                            bindings: {
+                                enter: {
+                                    key: "Enter",
+                                    handler: enterKeyKeyboardHandler
+                                }
+                            }
+                        },
                         toolbar: toolbarId
                             ? {
                                   container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
@@ -83,7 +92,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                     },
                     readOnly
                 };
-                const quill = new Quill(editorContainer, options);
+                const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
