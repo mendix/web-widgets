@@ -1,5 +1,4 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { ActionValue, EditableValue } from "mendix";
+import { EditableValue } from "mendix";
 import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
@@ -12,7 +11,6 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     validation?: string = undefined;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
-    private onChangeEvent?: ActionValue;
 
     currentId: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
@@ -47,8 +45,6 @@ export class EnumBooleanSingleSelector implements SingleSelector {
 
             return;
         }
-
-        this.onChangeEvent = props.onChangeEvent;
         this.status = attr.status;
         this.isBoolean = typeof attr.universe?.[0] === "boolean";
         this.clearable = this.isBoolean ? false : clearable;
@@ -59,6 +55,5 @@ export class EnumBooleanSingleSelector implements SingleSelector {
 
     setValue(value: string | null): void {
         this._attr?.setValue(this.options._optionToValue(value));
-        executeAction(this.onChangeEvent);
     }
 }

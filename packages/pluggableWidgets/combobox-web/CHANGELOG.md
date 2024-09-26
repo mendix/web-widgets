@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 -   We fixed an issue where the combo box values would not refresh after toggling its read-only state.
+-   We fixed an issue where the onChange event was not being triggered when selecting an item for the first time.
 
 ## [2.0.1] - 2024-08-16
 

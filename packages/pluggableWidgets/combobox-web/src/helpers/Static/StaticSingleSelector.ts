@@ -1,4 +1,4 @@
-import { ActionValue, EditableValue } from "mendix";
+import { EditableValue } from "mendix";
 import {
     ComboboxContainerProps,
     StaticDataSourceCustomContentTypeEnum,
@@ -8,7 +8,6 @@ import { SingleSelector, Status } from "../types";
 import { StaticOptionsProvider } from "./StaticOptionsProvider";
 import { StaticCaptionsProvider } from "./StaticCaptionsProvider";
 import { extractStaticProps } from "./utils";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { _valuesIsEqual } from "../utils";
 
 export class StaticSingleSelector implements SingleSelector {
@@ -24,7 +23,6 @@ export class StaticSingleSelector implements SingleSelector {
     customContentType: StaticDataSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
     protected _attr: EditableValue<string | Big | boolean | Date> | undefined;
-    private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, OptionsSourceStaticDataSourceType> = new Map();
 
     constructor() {
@@ -33,8 +31,7 @@ export class StaticSingleSelector implements SingleSelector {
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const [attr, ds, emptyOption, clearable, filterType, onChangeEvent, customContentType] =
-            extractStaticProps(props);
+        const [attr, ds, emptyOption, clearable, filterType, customContentType] = extractStaticProps(props);
         this._attr = attr;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
@@ -70,7 +67,6 @@ export class StaticSingleSelector implements SingleSelector {
         this.clearable = clearable;
         this.status = attr.status;
         this.readOnly = attr.readOnly;
-        this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.attributeType =
@@ -85,6 +81,5 @@ export class StaticSingleSelector implements SingleSelector {
         const value = this._objectsMap.get(key || "");
         this._attr?.setValue(value?.staticDataSourceValue.value);
         this.currentId = key;
-        executeAction(this.onChangeEvent);
     }
 }
