@@ -1,7 +1,7 @@
 import Video from "quill/formats/video";
 import { videoConfigType } from "../formats";
 import { matchPattern } from "../videoUrlPattern";
-import { WidthAttribute, HeightAttribute } from "./sizing";
+import { HeightAttribute, WidthAttribute } from "./sizing";
 
 /**
  * custom video link handler, allowing width and height config

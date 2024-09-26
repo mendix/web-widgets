@@ -34,7 +34,8 @@ export function preview(props: RichTextPreviewProps): ReactElement {
         setValidator: emptyFunction,
         setValue: emptyFunction,
         setTextValue: emptyFunction,
-        setFormatter: emptyFunction
+        setFormatter: emptyFunction,
+        isList: false
     } as EditableValue<string>;
 
     return (

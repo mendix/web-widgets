@@ -1,15 +1,15 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { createElement, ReactElement } from "react";
 import {
-    useFloating,
-    useDismiss,
-    useRole,
-    useClick,
-    useInteractions,
     FloatingFocusManager,
     FloatingOverlay,
-    FloatingPortal
+    FloatingPortal,
+    useClick,
+    useDismiss,
+    useFloating,
+    useInteractions,
+    useRole
 } from "@floating-ui/react";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { createElement, ReactElement } from "react";
 import "./Dialog.scss";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
