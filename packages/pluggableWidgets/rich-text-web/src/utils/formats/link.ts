@@ -14,6 +14,9 @@ function getLink(url: string): string {
     return results;
 }
 
+/**
+ * Custom Link handler, allowing extra config: target and default protocol.
+ */
 export default class CustomLink extends Link {
     format(name: string, value: unknown): void {
         if (name !== this.statics.blotName || !value) {

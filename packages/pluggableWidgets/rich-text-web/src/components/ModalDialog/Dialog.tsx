@@ -1,6 +1,15 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { createElement, ReactElement } from "react";
-import * as RadixDialog from "@radix-ui/react-dialog";
+import {
+    useFloating,
+    useDismiss,
+    useRole,
+    useClick,
+    useInteractions,
+    FloatingFocusManager,
+    FloatingOverlay,
+    FloatingPortal
+} from "@floating-ui/react";
 import "./Dialog.scss";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
@@ -31,22 +40,49 @@ export type ChildDialogProps = LinkDialogBaseProps | VideoDialogBaseProps | View
 
 export type DialogProps = BaseDialogProps & ChildDialogProps;
 
+/**
+ * Dialog components that will be shown on toolbar's button
+ */
 export default function Dialog(props: DialogProps): ReactElement {
     const { isOpen, onOpenChange, dialogType, config } = props;
+    const { refs, context } = useFloating({
+        open: isOpen,
+        onOpenChange
+    });
+
+    const click = useClick(context);
+    const dismiss = useDismiss(context, {
+        outsidePressEvent: "mousedown"
+    });
+    const role = useRole(context);
+
+    const { getFloatingProps } = useInteractions([click, dismiss, role]);
+
     return (
-        <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
-            <RadixDialog.Portal>
-                <RadixDialog.Overlay className="widget-rich-text-modal-overlay" />
-                <If condition={dialogType === "link"}>
-                    <LinkDialog {...(config as LinkDialogProps)}></LinkDialog>
-                </If>
-                <If condition={dialogType === "video"}>
-                    <VideoDialog {...(config as VideoDialogProps)}></VideoDialog>
-                </If>
-                <If condition={dialogType === "view-code"}>
-                    <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
-                </If>
-            </RadixDialog.Portal>
-        </RadixDialog.Root>
+        <FloatingPortal>
+            {isOpen && (
+                <FloatingOverlay lockScroll className="widget-rich-text-modal-overlay">
+                    <FloatingFocusManager context={context}>
+                        <div
+                            className="Dialog"
+                            ref={refs.setFloating}
+                            aria-labelledby={dialogType}
+                            aria-describedby={dialogType}
+                            {...getFloatingProps()}
+                        >
+                            <If condition={dialogType === "link"}>
+                                <LinkDialog {...(config as LinkDialogProps)}></LinkDialog>
+                            </If>
+                            <If condition={dialogType === "video"}>
+                                <VideoDialog {...(config as VideoDialogProps)}></VideoDialog>
+                            </If>
+                            <If condition={dialogType === "view-code"}>
+                                <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
+                            </If>
+                        </div>
+                    </FloatingFocusManager>
+                </FloatingOverlay>
+            )}
+        </FloatingPortal>
     );
 }
