@@ -5,7 +5,7 @@ import {
     ReferenceSetValueBuilder,
     listExp,
     obj,
-    ListValueBuilder
+    list
 } from "@mendix/widget-plugin-test-utils";
 import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
@@ -30,9 +30,7 @@ describe("Combo box (Association)", () => {
             attributeAssociation: new ReferenceSetValueBuilder().withValue([obj("111")]).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
             attributeBoolean: new EditableValueBuilder<boolean>().build(),
-            optionsSourceAssociationDataSource: new ListValueBuilder()
-                .withItems([obj("111"), obj("222"), obj("333"), obj("444")])
-                .build(),
+            optionsSourceAssociationDataSource: list([obj("111"), obj("222"), obj("333"), obj("444")]),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
