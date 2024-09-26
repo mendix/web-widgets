@@ -1,9 +1,6 @@
 import type { ObjectItem, ReferenceSetValue, Option } from "mendix";
 import { Status } from "../constants.js";
-
-type Writable<T> = {
-    -readonly [K in keyof T]: T[K];
-};
+import { Writable } from "./type-utils.js";
 
 export class ReferenceSetValueBuilder {
     private readonly referenceSetValue: Writable<ReferenceSetValue> = {
