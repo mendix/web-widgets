@@ -1,21 +1,21 @@
-import Quill, { QuillOptions, EmitterSource, Range } from "quill";
+import Quill, { EmitterSource, QuillOptions, Range } from "quill";
+import Delta from "quill-delta";
 import {
     createElement,
-    MutableRefObject,
-    forwardRef,
-    useEffect,
-    // useState,
-    useRef,
-    useLayoutEffect,
     CSSProperties,
-    Fragment
+    forwardRef,
+    Fragment,
+    MutableRefObject,
+    useEffect,
+    useLayoutEffect,
+    // useState,
+    useRef
 } from "react";
-import Delta from "quill-delta";
-import Dialog from "./ModalDialog/Dialog";
 import "../utils/customPluginRegisters";
-import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
-import { getIndentHandler, enterKeyKeyboardHandler } from "./CustomToolbars/toolbarHandlers";
 import MxQuill from "../utils/MxQuill";
+import { enterKeyKeyboardHandler, getIndentHandler } from "./CustomToolbars/toolbarHandlers";
+import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
+import Dialog from "./ModalDialog/Dialog";
 
 export interface EditorProps {
     defaultValue?: string;
@@ -48,12 +48,14 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
     // update quills content on value change.
     useEffect(() => {
-        const newContent = ref.current?.clipboard.convert({
-            html: defaultValue,
-            text: "\n"
-        });
-        if (newContent) {
-            ref.current?.setContents(newContent);
+        // if there is an update comes from external element
+        if (!ref.current?.hasFocus()) {
+            const newContent = ref.current?.clipboard.convert({
+                html: defaultValue
+            });
+            if (newContent && newContent !== ref.current?.getContents()) {
+                ref.current?.setContents(newContent);
+            }
         }
     }, [ref, defaultValue]);
 

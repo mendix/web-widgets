@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import Quill from "quill";
 import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
 import { PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
-import { toolbarContentType, TOOLBAR_MAPPING } from "./CustomToolbars/constants";
-import classNames from "classnames";
+import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
 
 export interface ToolbarProps {
     id: string;
@@ -13,10 +13,6 @@ export interface ToolbarProps {
     toolbarContent: toolbarContentType[];
 }
 
-// TODO: font size,
-// emojiO
-// fullscreen ?
-// insert code with pop up?
 const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
     const { id, preset, style, quill, toolbarContent } = props;
     const presetValue = presetToNumberConverter(preset);
