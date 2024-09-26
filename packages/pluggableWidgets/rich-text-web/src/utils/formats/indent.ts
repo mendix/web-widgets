@@ -1,5 +1,4 @@
-// import Quill from "quill";
-import { StyleAttributor, Scope } from "parchment";
+import { Scope, StyleAttributor } from "parchment";
 import "./fonts.scss";
 
 const INDENT_MAGIC_NUMBER = 3;
