@@ -5,6 +5,7 @@ import { InputStore } from "../stores/InputStore";
 import { ArgumentInterface } from "../typings/ArgumentInterface";
 import { AllFunctions } from "../typings/FilterFunctions";
 import { FilterFn, FilterV, InputFilterBaseInterface } from "../typings/InputFilterInterface";
+// import { Big } from "big.js"
 
 export type Params<F extends InputFilterBaseInterface<A, Fn>, A extends ArgumentInterface, Fn extends AllFunctions> = {
     filter: F;
@@ -41,7 +42,9 @@ export class EditableFilterController<
         makeObservable(this, {
             selectedFn: computed,
             disableInputs: computed,
-            handleFilterFnChange: action
+            handleFilterFnChange: action,
+            handleResetValue: action,
+            handleSetValue: action
         });
     }
 
@@ -94,4 +97,19 @@ export class EditableFilterController<
             disposers.forEach(dispose => dispose());
         };
     }
+
+    handleResetValue = (): void => {
+        this.filter.clear();
+    };
+
+    handleSetValue = (
+        useDefaultValue: boolean,
+        params: { operators: any; stringValue: string; numberValue: Big.Big; dateTimeValue: Date; dateTimeValue2: Date }
+    ): void => {
+        if (useDefaultValue) {
+            this.filter.reset();
+            return;
+        }
+        this.input1.setValue(params.stringValue);
+    };
 }

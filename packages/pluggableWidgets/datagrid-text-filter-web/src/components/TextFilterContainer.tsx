@@ -6,6 +6,7 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { observer } from "mobx-react-lite";
 import { createElement, useRef } from "react";
 import { DatagridTextFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
     contains: "Contains",
@@ -29,7 +30,7 @@ const filters: FilterFnList<DefaultFilterEnum> = Object.entries(filterDefs).map(
 );
 
 export interface ContainerProps extends DatagridTextFilterContainerProps {
-    parentChannelName: string | null;
+    parentChannelName: string | undefined;
     filterStore: String_InputFilterInterface;
 }
 
@@ -48,6 +49,14 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
     });
 
     useBasicSync(props, props.filterStore);
+
+    useOnResetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName,
+        listener: controller.handleResetValue
+    });
+
+    useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
 
     return (
         <InputWithFilters
