@@ -19,5 +19,7 @@ module.exports = {
         "(.+)\\.js": "$1"
     },
     extensionsToTreatAsEsm: [".ts"],
-    testEnvironment: "jsdom"
+    testEnvironment: "jsdom",
+    collectCoverage: !process.env.CI,
+    coverageProvider: "v8"
 };
