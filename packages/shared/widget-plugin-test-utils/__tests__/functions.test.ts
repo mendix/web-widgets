@@ -1,4 +1,4 @@
-import { listAttr, obj, ref, refSet, list, listAction, listRef, listRefSet } from "../src/main";
+import { listAttr, obj, ref, refSet, list, listAction, listRef, listRefSet, objArray, cases } from "../src/main";
 
 describe("prop mocking functions", () => {
     describe("list", () => {
@@ -144,6 +144,43 @@ describe("prop mocking functions", () => {
                     }
                 ]
             });
+        });
+    });
+
+    describe("cases", () => {
+        it("throw if there is no default case", () => {
+            expect(() => {
+                cases([obj(), ""]);
+            }).toThrow();
+        });
+
+        it("returns mapper that takes obj and returns value from the case", () => {
+            const item = obj();
+            const mapFn = cases([item, "item value"], [undefined, "None"]);
+            expect(mapFn(item)).toBe("item value");
+        });
+
+        it("use default case if item not found", () => {
+            const mapFn = cases([obj(), "item value"], [undefined, "None"]);
+            expect(mapFn(obj())).toBe("None");
+        });
+
+        it("can work with listAttr", () => {
+            const items = objArray(5);
+            const [a, b, c] = items;
+            const mapFn = cases([a, "Alice"], [b, "Bob"], [c, "Chuck"], [undefined, "None"]);
+            const props = {
+                datasource: list(items),
+                name: listAttr(mapFn)
+            };
+
+            expect(props.datasource.items?.map(item => props.name.get(item).value)).toEqual([
+                "Alice",
+                "Bob",
+                "Chuck",
+                "None",
+                "None"
+            ]);
         });
     });
 });
