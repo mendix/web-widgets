@@ -1,4 +1,15 @@
-import { listAttr, obj, ref, refSet, list, listAction, listRef, listRefSet, objArray, cases } from "../src/main";
+import {
+    listAttribute,
+    obj,
+    reference,
+    referenceSet,
+    list,
+    listAction,
+    listReference,
+    listReferenceSet,
+    objArray,
+    cases
+} from "../src/main";
 
 describe("prop mocking functions", () => {
     describe("list", () => {
@@ -26,15 +37,15 @@ describe("prop mocking functions", () => {
         });
     });
 
-    describe("listAttr", () => {
+    describe("listAttribute", () => {
         it("returns ListAttributeValue mock", () => {
             const t: Date = new Date("2024-09-01T00:00:00.000Z");
-            const attr = listAttr(() => new Date(t));
+            const attr = listAttribute(() => new Date(t));
             expect(attr.get(obj()).value!).toEqual(t);
         });
     });
 
-    describe("listExp", () => {
+    describe("listExpression", () => {
         it.todo("returns ListExpressionValue mock");
     });
 
@@ -44,7 +55,7 @@ describe("prop mocking functions", () => {
 
     describe("ref", () => {
         it("returns ReferenceValue mock with undefined value", () => {
-            const ref1 = ref();
+            const ref1 = reference();
             expect(ref1).toMatchObject({
                 readOnly: false,
                 status: "available",
@@ -57,7 +68,7 @@ describe("prop mocking functions", () => {
         });
 
         it("take factory as first argument", () => {
-            const ref1 = ref(builder => builder.withValue(obj("0")).isLoading().build());
+            const ref1 = reference(builder => builder.withValue(obj("0")).isLoading().build());
             expect(ref1).toMatchObject({
                 readOnly: true,
                 status: "loading",
@@ -70,7 +81,7 @@ describe("prop mocking functions", () => {
 
     describe("refSet", () => {
         it("returns ReferenceSetValue mock with undefined value", () => {
-            const ref1 = refSet();
+            const ref1 = referenceSet();
             expect(ref1).toMatchObject({
                 readOnly: false,
                 status: "available",
@@ -83,7 +94,7 @@ describe("prop mocking functions", () => {
         });
 
         it("take factory as first argument", () => {
-            const ref1 = refSet(builder =>
+            const ref1 = referenceSet(builder =>
                 builder
                     .withValue([obj("0")])
                     .isLoading()
@@ -99,7 +110,7 @@ describe("prop mocking functions", () => {
         });
 
         it("returns mock with working setValue", () => {
-            const ref1 = refSet();
+            const ref1 = referenceSet();
             ref1.setValue([obj("007")]);
             expect(ref1.value).toEqual([obj("007")]);
             ref1.setValue([obj("939")]);
@@ -107,9 +118,9 @@ describe("prop mocking functions", () => {
         });
     });
 
-    describe("listRef", () => {
+    describe("listReference", () => {
         it("returns ListReferenceValue mock", () => {
-            const prop = listRef();
+            const prop = listReference();
             expect(prop).toMatchObject({
                 type: "Reference",
                 filterable: true,
@@ -126,9 +137,9 @@ describe("prop mocking functions", () => {
         });
     });
 
-    describe("listRefSet", () => {
+    describe("listReferenceSet", () => {
         it("returns ListReferenceSetValue mock", () => {
-            const prop = listRefSet();
+            const prop = listReferenceSet();
             expect(prop).toMatchObject({
                 type: "ReferenceSet",
                 filterable: true,
@@ -171,7 +182,7 @@ describe("prop mocking functions", () => {
             const mapFn = cases([a, "Alice"], [b, "Bob"], [c, "Chuck"], [undefined, "None"]);
             const props = {
                 datasource: list(items),
-                name: listAttr(mapFn)
+                name: listAttribute(mapFn)
             };
 
             expect(props.datasource.items?.map(item => props.name.get(item).value)).toEqual([
