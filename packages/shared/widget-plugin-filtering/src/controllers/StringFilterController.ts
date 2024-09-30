@@ -1,35 +1,40 @@
-import { createRef } from "react";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, autorun, computed, makeObservable, reaction, runInAction } from "mobx";
+import { createRef } from "react";
 import { InputStore } from "../stores/InputStore";
-import { ArgumentInterface } from "../typings/ArgumentInterface";
-import { AllFunctions } from "../typings/FilterFunctions";
-import { FilterFn, FilterV, InputFilterBaseInterface } from "../typings/InputFilterInterface";
-// import { Big } from "big.js"
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue,
+    FilterFunctionString
+} from "../typings/FilterFunctions";
+import { FilterV, String_InputFilterInterface } from "../typings/InputFilterInterface";
 
-export type Params<F extends InputFilterBaseInterface<A, Fn>, A extends ArgumentInterface, Fn extends AllFunctions> = {
-    filter: F;
-    defaultFilter: FilterFn<F>;
-    defaultValue?: FilterV<F>;
+export type Params = {
+    filter: String_InputFilterInterface;
+    defaultFilter: StringFilterFunction;
+    defaultValue?: FilterV<String_InputFilterInterface>;
     changeDelay?: number;
-    disableInputs?: (fn: FilterFn<F>) => boolean;
+    disableInputs?: (fn: StringFilterFunction) => boolean;
 };
 
-export class EditableFilterController<
-    F extends InputFilterBaseInterface<A, Fn>,
-    A extends ArgumentInterface,
-    Fn extends AllFunctions
-> {
-    private filter: F;
+type StringFilterFunction =
+    | FilterFunctionString
+    | FilterFunctionGeneric
+    | FilterFunctionNonValue
+    | FilterFunctionBinary;
+
+export class StringFilterController {
+    private filter: String_InputFilterInterface;
     private readonly changeDelay;
-    private disabledFn?: (fn: Fn) => boolean;
+    private disabledFn?: (fn: StringFilterFunction) => boolean;
     input1: InputStore;
     input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
-    defaults: F["defaultState"];
+    defaults: String_InputFilterInterface["defaultState"];
     inputs: [InputStore, InputStore];
 
-    constructor(params: Params<F, A, Fn>) {
+    constructor(params: Params) {
         const { filter, changeDelay = 500 } = params;
         this.changeDelay = changeDelay;
         this.input1 = new InputStore(filter.arg1.displayValue);
@@ -48,7 +53,7 @@ export class EditableFilterController<
         });
     }
 
-    get selectedFn(): Fn {
+    get selectedFn(): StringFilterFunction {
         return this.filter.filterFunction;
     }
 
@@ -56,7 +61,7 @@ export class EditableFilterController<
         return this.disabledFn ? this.disabledFn(this.filter.filterFunction) : false;
     }
 
-    handleFilterFnChange = (fn: Fn): void => {
+    handleFilterFnChange = (fn: StringFilterFunction): void => {
         this.filter.filterFunction = fn;
         this.inputRef.current?.focus();
     };
@@ -110,6 +115,6 @@ export class EditableFilterController<
             this.filter.reset();
             return;
         }
-        this.input1.setValue(params.stringValue);
+        this.filter.arg1.value = params.stringValue;
     };
 }

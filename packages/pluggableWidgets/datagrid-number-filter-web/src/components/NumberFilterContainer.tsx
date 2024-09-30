@@ -1,11 +1,12 @@
-import { observer } from "mobx-react-lite";
-import { useEditableFilterController } from "@mendix/widget-plugin-filtering/helpers/useEditableFilterController";
-import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
+import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
+import { useNumberFilterController } from "@mendix/widget-plugin-filtering/helpers/useNumberFilterController";
+import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { observer } from "mobx-react-lite";
 import { createElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
-import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
     greater: "Greater than",
@@ -27,13 +28,13 @@ const filters: FilterFnList<DefaultFilterEnum> = Object.entries(filterDefs).map(
 
 export interface ContainerProps extends DatagridNumberFilterContainerProps {
     filterStore: Number_InputFilterInterface;
-    parentChannelName: string | null;
+    parentChannelName: string | undefined;
 }
 
 function Container(props: ContainerProps): React.ReactElement {
     const id = (useRef<string>().current ??= `NumberFilter${generateUUID()}`);
 
-    const controller = useEditableFilterController({
+    const controller = useNumberFilterController({
         filter: props.filterStore,
         changeDelay: props.delay,
         defaultFilter: props.defaultFilter,
@@ -43,6 +44,13 @@ function Container(props: ContainerProps): React.ReactElement {
 
     useBasicSync(props, props.filterStore);
 
+    useOnResetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName,
+        listener: controller.handleResetValue
+    });
+
+    useOnSetValueEvent({ widgetName: props.name, listener: controller.handleResetValue });
     return (
         <InputWithFilters
             adjustable={props.adjustable}

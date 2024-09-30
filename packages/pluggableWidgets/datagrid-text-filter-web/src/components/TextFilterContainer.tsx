@@ -1,6 +1,6 @@
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
-import { useEditableFilterController } from "@mendix/widget-plugin-filtering/helpers/useEditableFilterController";
+import { useStringFilterController } from "@mendix/widget-plugin-filtering/helpers/useStringFilterController";
 import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
@@ -40,7 +40,7 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
 ) {
     const id = (useRef<string>().current ??= `TextFilter${generateUUID()}`);
 
-    const controller = useEditableFilterController({
+    const controller = useStringFilterController({
         filter: props.filterStore,
         defaultFilter: props.defaultFilter,
         defaultValue: props.defaultValue?.value,
