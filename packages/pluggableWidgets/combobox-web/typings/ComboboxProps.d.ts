@@ -133,6 +133,7 @@ export interface ComboboxPreviewProps {
     selectAllButtonCaption: string;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
+    onChangeDatabaseEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     ariaRequired: boolean;
