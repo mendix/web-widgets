@@ -1,4 +1,5 @@
 import {
+    GUID,
     ListAttributeValue,
     ListExpressionValue,
     ListReferenceSetValue,
@@ -8,9 +9,12 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, comparer } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
+import { FilterData } from "../typings/settings";
+import { isInputData } from "./store-utils";
+import { Dispose } from "../typings/type-utils";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -19,13 +23,16 @@ export type RefFilterStoreProps = {
     refOptions: ListValue;
     caption: ListExpressionValue;
     searchAttrId?: ListAttributeId;
+    fetchOptionsLazy?: boolean;
 };
 
 export class RefFilterStore implements OptionListFilterInterface {
+    readonly disposers: Dispose[] = [];
     readonly storeType = "optionlist";
     readonly type = "refselect";
     defaultValue: string[] | undefined = undefined;
     isInitialized = false;
+    lazyMode: boolean;
 
     _selected = new Set<string>();
     _ref: ListReferenceValue | ListReferenceSetValue;
@@ -46,26 +53,32 @@ export class RefFilterStore implements OptionListFilterInterface {
         this._caption = props.caption;
         this._searchAttrId = props.searchAttrId;
         this._initCondArray = initCond ? flattenRefCond(initCond) : [];
+        this.lazyMode = props.fetchOptionsLazy ?? true;
 
-        this._refOptions.setLimit(0);
+        if (this.lazyMode) {
+            this._refOptions.setLimit(0);
+        }
 
-        makeObservable(this, {
+        makeObservable<this>(this, {
             _ref: observable.ref,
             _refOptions: observable.ref,
             _caption: observable.ref,
-            _selected: observable,
+            _selected: observable.struct,
 
             options: computed,
             hasMore: computed,
             isLoading: computed,
             replace: action,
             toggle: action,
-            updateProps: action
+            updateProps: action,
+            fromJSON: action
         });
 
         if (initCond) {
             this.fromViewState(initCond);
         }
+
+        this.disposers.push(this.setupGUIDFiltering());
     }
 
     get hasSearch(): boolean {
@@ -132,6 +145,50 @@ export class RefFilterStore implements OptionListFilterInterface {
         return this._selected.size;
     }
 
+    private setupGUIDFiltering(): Dispose {
+        // Function that takes current state and return "clean" state.
+        function filterGUIDs(state: Set<string>, items: ObjectItem[], hasMore: boolean): Set<string> {
+            if (hasMore) {
+                return state;
+            }
+            const allIds = new Set(items.map(obj => obj.id));
+            const cleanIds = [...state].filter(id => allIds.has(id as GUID));
+            return new Set(cleanIds);
+        }
+
+        type Inputs = {
+            isLoading: boolean;
+            state: Set<string>;
+            items: ObjectItem[];
+            hasMore: boolean;
+        };
+        const dispose = reaction(
+            // Function that form "inputs" - our dependencies.
+            (): Inputs => {
+                const state = this._selected;
+                const items = this._refOptions.items ?? [];
+                const hasMore = this._refOptions.hasMoreItems ?? true;
+                return { isLoading: this._refOptions.status === "loading", state, items, hasMore };
+            },
+            // Reaction effect - should depend only on "inputs".
+            (inputs: Inputs): void => {
+                if (inputs.isLoading) {
+                    return;
+                }
+                this._selected = filterGUIDs(inputs.state, inputs.items, inputs.hasMore);
+            }
+        );
+
+        return dispose;
+    }
+
+    setup(): Dispose {
+        return () => {
+            this.disposers.forEach(dispose => dispose());
+            this.disposers.length = 0;
+        };
+    }
+
     UNSAFE_setDefaults = (_: string[]): void => {
         console.warn("RefFilterStore: calling UNSAFE_setDefaults has no effect.");
     };
@@ -145,23 +202,13 @@ export class RefFilterStore implements OptionListFilterInterface {
     };
 
     updateProps(props: RefFilterStoreProps): void {
-        if (this._ref !== props.ref) {
-            this._ref = props.ref;
-        }
-        if (this._refOptions !== props.refOptions) {
-            this._refOptions = props.refOptions;
-        }
-        if (this._caption !== props.caption) {
-            this._caption = props.caption;
-        }
+        this._ref = props.ref;
+        this._refOptions = props.refOptions;
+        this._caption = props.caption;
     }
 
     replace(value: string[] | Set<string>): void {
-        const _value = new Set(value);
-        if (comparer.structural(this._selected, _value)) {
-            return;
-        }
-        this._selected = _value;
+        this._selected = new Set(value);
     }
 
     toggle(value: string): void {
@@ -189,17 +236,22 @@ export class RefFilterStore implements OptionListFilterInterface {
         this._refOptions.setFilter(search);
     }
 
-    /** Stub */
-    toJSON(): null {
-        return null;
+    toJSON(): string[] {
+        return [...this._selected];
     }
 
-    /** Stub */
-    fromJSON(_: unknown): void {
-        //
+    fromJSON(json: FilterData): void {
+        if (json === null) {
+            return;
+        }
+
+        if (isInputData(json)) {
+            return;
+        }
+
+        this.replace(json);
     }
 
-    /** Stub */
     setCustomOptions(_: unknown): void {
         //
     }
