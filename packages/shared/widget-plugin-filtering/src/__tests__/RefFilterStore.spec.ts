@@ -1,6 +1,6 @@
 import { ObjectItem } from "mendix";
-import { list, listReference, listExpression, obj, cases } from "@mendix/widget-plugin-test-utils";
-import { RefFilterStore } from "../stores/RefFilterStore";
+import { list, listReference, listExpression, obj, cases, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { RefFilterStore, RefFilterStoreProps } from "../stores/RefFilterStore";
 import { autorun, _resetGlobalState } from "mobx";
 
 describe("RefFilterStore", () => {
@@ -47,7 +47,9 @@ describe("RefFilterStore", () => {
         });
     });
 
-    describe("get condition()", () => {});
+    describe("get condition()", () => {
+        it.todo("return filter condition using equals");
+    });
 
     describe("toJSON()", () => {
         let store: RefFilterStore;
@@ -123,23 +125,51 @@ describe("RefFilterStore", () => {
             store.fromJSON(["obj_932c"]);
             expect(output[1].map(option => option.selected)).toEqual([false, false, true]);
         });
+
+        it("should not change state if json is null", () => {
+            const state = store.toJSON();
+            store.fromJSON(null);
+            expect(store.toJSON()).toEqual(state);
+        });
     });
 
     describe("with 'fetchOptionsLazy' flag", () => {
-        it.todo("should set limit to 0 on datasource");
-        it.todo("should not change limit if flag is false");
+        it("should set limit to 0 on options datasource", () => {
+            const datasource = list.loading();
+            const props = {
+                ref: listReference(),
+                refOptions: datasource,
+                caption: listExpression(() => "[string]"),
+                fetchOptionsLazy: true
+            };
+
+            new RefFilterStore(props, null);
+
+            expect(datasource.setLimit).toHaveBeenLastCalledWith(0);
+        });
+
+        it("should not change limit if flag is false", () => {
+            const datasource = list.loading();
+            const props = {
+                ref: listReference(),
+                refOptions: datasource,
+                caption: listExpression(() => "[string]"),
+                fetchOptionsLazy: false
+            };
+
+            new RefFilterStore(props, null);
+
+            expect(datasource.setLimit).not.toHaveBeenCalled();
+        });
     });
 
     describe("when datasource changed", () => {
-        it.todo("discard any unknown selected GUIDs");
-
         it("compute new options", () => {
             const a = obj("id3n");
-            const mapItem = cases([a, "Alice"], [undefined, "No caption"]);
             const props = {
                 ref: listReference(),
                 refOptions: list.loading(),
-                caption: listExpression(mapItem)
+                caption: listExpression(cases([a, "Alice"], [undefined, "No caption"]))
             };
             const store = new RefFilterStore(props, null);
             const output: any[] = [];
@@ -154,6 +184,74 @@ describe("RefFilterStore", () => {
                     value: "obj_id3n"
                 }
             ]);
+        });
+    });
+
+    describe("json data filtering", () => {
+        const savedJson = ["obj_xx", "obj_xiii", "obj_deleted", "obj_yy", "obj_unknown"];
+        let a: ObjectItem;
+        let b: ObjectItem;
+        let props: Omit<RefFilterStoreProps, "refOptions">;
+        beforeEach(() => {
+            a = obj("xx");
+            b = obj("yy");
+            props = {
+                ref: listReference(),
+                caption: listExpression(() => "[string]")
+            };
+        });
+
+        it("discard any unknown selected GUIDs on datasource change", () => {
+            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            // Restore state
+            store.fromJSON(savedJson);
+            // Check state
+            expect(store.toJSON()).toEqual(savedJson);
+            // Update datasource
+            const datasource = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
+            store.updateProps({ ...props, refOptions: datasource });
+            // Check state don't have any extra GUIDs
+            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
+        });
+
+        it("skip filtering if has just part of the list", () => {
+            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            // Restore state
+            store.fromJSON(savedJson);
+            // Check state
+            expect(store.toJSON()).toEqual(savedJson);
+            // Update with partial data
+            const datasource = new ListValueBuilder().withItems([a, b]).withHasMore(true).build();
+            store.updateProps({ ...props, refOptions: datasource });
+            // Check that state still has unknown GUIDs
+            expect(store.toJSON()).toEqual(savedJson);
+        });
+
+        it("allows to restore any state if datasource is loading", () => {
+            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            // Restore state
+            store.fromJSON(savedJson);
+            // Check state
+            expect(store.toJSON()).toEqual(savedJson);
+        });
+
+        it("when datasource is loaded, ignore any unknown ids when restored from json", () => {
+            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            // Update datasource
+            const ds = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
+            store.updateProps({ ...props, refOptions: ds });
+            // Restore state
+            store.fromJSON(savedJson);
+            // Check state don't have any extra GUIDs
+            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
+            // Trying restore unknown ids
+            store.fromJSON(["foo", "bar", "obj_xx", "obj_yy"]);
+            // Check state don't have any extra GUIDs
+            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
+            // Trying restore unknown ids
+            store.fromJSON(["foo", "bar"]);
+            // Check state
+            expect(store.toJSON()).toEqual([]);
         });
     });
 });
