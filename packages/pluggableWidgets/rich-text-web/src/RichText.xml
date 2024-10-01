@@ -107,6 +107,10 @@
                     <caption>On leave</caption>
                     <description />
                 </property>
+                <property key="onLoad" type="action" required="false">
+                    <caption>On load</caption>
+                    <description />
+                </property>
             </propertyGroup>
             <propertyGroup caption="On change behavior">
                 <property key="onChangeType" type="enumeration" defaultValue="onLeave">
