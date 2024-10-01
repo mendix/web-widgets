@@ -49,6 +49,7 @@ export function preview(props: RichTextPreviewProps): ReactElement {
             onChange={emptyAction}
             onFocus={emptyAction}
             onBlur={emptyAction}
+            onLoad={emptyAction}
             stringAttribute={stringAttribute}
             className={classNames("widget-rich-text", "form-control")}
             readOnlyStyle={props.readOnly ? props.readOnlyStyle : "text"}
