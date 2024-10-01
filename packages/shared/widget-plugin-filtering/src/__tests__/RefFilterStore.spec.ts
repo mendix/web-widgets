@@ -133,6 +133,29 @@ describe("RefFilterStore", () => {
         });
     });
 
+    describe("toggle()", () => {
+        let store: RefFilterStore;
+        beforeEach(() => {
+            store = new RefFilterStore(
+                {
+                    ref: listReference(),
+                    refOptions: list([obj("id3n"), obj("f8x3"), obj("932c")]),
+                    caption: listExpression(() => "[string]")
+                },
+                null
+            );
+        });
+
+        it("allows to select multiple options", () => {
+            const [x, y] = store.options;
+            store.toggle(x.value);
+            store.toggle(y.value);
+            expect(store.options.map(opt => opt.selected)).toEqual([true, true, false]);
+            store.toggle(x.value);
+            expect(store.options.map(opt => opt.selected)).toEqual([false, true, false]);
+        });
+    });
+
     describe("with 'fetchOptionsLazy' flag", () => {
         it("should set limit to 0 on options datasource", () => {
             const datasource = list.loading();
