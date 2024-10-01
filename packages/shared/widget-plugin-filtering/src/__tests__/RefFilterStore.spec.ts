@@ -146,13 +146,19 @@ describe("RefFilterStore", () => {
             );
         });
 
-        it("allows to select multiple options", () => {
+        it("compute new options", () => {
+            const output: Array<typeof store.options> = [];
             const [x, y] = store.options;
+
+            autorun(() => output.push(store.options));
+            expect(output[0].map(opt => opt.selected)).toEqual([false, false, false]);
+
             store.toggle(x.value);
             store.toggle(y.value);
-            expect(store.options.map(opt => opt.selected)).toEqual([true, true, false]);
+            expect(output[2].map(opt => opt.selected)).toEqual([true, true, false]);
+
             store.toggle(x.value);
-            expect(store.options.map(opt => opt.selected)).toEqual([false, true, false]);
+            expect(output[3].map(opt => opt.selected)).toEqual([false, true, false]);
         });
     });
 
