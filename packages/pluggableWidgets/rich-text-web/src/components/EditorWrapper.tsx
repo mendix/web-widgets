@@ -33,10 +33,12 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         onChangeType,
         onBlur,
         onFocus,
+        onLoad,
         readOnlyStyle,
         toolbarOptions,
         enableStatusBar
     } = props;
+    const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
     const editorValueRef = useRef<string>("");
@@ -68,6 +70,12 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             const isTransformed = updateLegacyQuillFormats(quillRef.current);
             if (isTransformed) {
                 setAttributeValueDebounce(quillRef.current.getSemanticHTML());
+            }
+            if (!isFirstLoad.current) {
+                if (onLoad && onLoad.canExecute && !onLoad.isExecuting) {
+                    onLoad.execute();
+                    isFirstLoad.current = true;
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
