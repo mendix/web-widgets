@@ -6,6 +6,7 @@ type UseLazyLoadingProps = Pick<InfiniteBodyProps, "hasMoreItems" | "isInfinite"
     isOpen: boolean;
     loadMore?: () => void;
     datasourceFilter?: ListValue["filter"];
+    readOnly?: boolean;
 };
 
 type UseLazyLoadingReturn = {
@@ -13,7 +14,7 @@ type UseLazyLoadingReturn = {
 };
 
 export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn {
-    const { hasMoreItems, isInfinite, isOpen, loadMore, datasourceFilter } = props;
+    const { hasMoreItems, isInfinite, isOpen, loadMore, datasourceFilter, readOnly } = props;
 
     const [firstLoad, setFirstLoad] = useState(false);
     const setPageCallback = useCallback(() => {
@@ -33,7 +34,7 @@ export function useLazyLoading(props: UseLazyLoadingProps): UseLazyLoadingReturn
 
     useEffect(() => {
         setFirstLoad(false);
-    }, [datasourceFilter]);
+    }, [readOnly, datasourceFilter]);
 
     return { onScroll: trackScrolling };
 }

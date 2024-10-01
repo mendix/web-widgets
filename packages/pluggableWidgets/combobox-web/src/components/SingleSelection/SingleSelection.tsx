@@ -38,7 +38,8 @@ export function SingleSelection({
                 selector.options.loadMore();
             }
         },
-        datasourceFilter: selector.options.datasourceFilter
+        datasourceFilter: selector.options.datasourceFilter,
+        readOnly: selector.readOnly
     });
 
     return (
