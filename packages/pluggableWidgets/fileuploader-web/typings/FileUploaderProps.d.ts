@@ -4,16 +4,26 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, ListValue } from "mendix";
+import { ActionValue, DynamicValue, ListValue } from "mendix";
+
+export type ConfigModeEnum = "simple" | "advanced";
+
+export type PredefinedTypeEnum = "pdfFile" | "msWordFile" | "msExcelFile" | "msPowerPointFile" | "plainTextFile" | "csvFile" | "anyTextFile" | "anyImageFile" | "anyAudioFile" | "anyVideoFile" | "zipArchiveFile";
 
 export interface AllowedFileFormatsType {
+    configMode: ConfigModeEnum;
+    predefinedType: PredefinedTypeEnum;
     mimeType: string;
     extensions: string;
+    typeFormatDescription: DynamicValue<string>;
 }
 
 export interface AllowedFileFormatsPreviewType {
+    configMode: ConfigModeEnum;
+    predefinedType: PredefinedTypeEnum;
     mimeType: string;
     extensions: string;
+    typeFormatDescription: string;
 }
 
 export interface FileUploaderContainerProps {

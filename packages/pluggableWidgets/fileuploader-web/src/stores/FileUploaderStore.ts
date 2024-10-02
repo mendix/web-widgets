@@ -1,7 +1,7 @@
 import { ActionValue, ListValue, ObjectItem } from "mendix";
-import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
-import { action, makeObservable, observable } from "mobx";
-import { MimeCheckFormat, parseAllowedFormats } from "../utils/parseAllowedFormats";
+import { AllowedFileFormatsType, FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+import { action, computed, makeObservable, observable } from "mobx";
+import { getAllowedFormatsDescription, MimeCheckFormat, parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileStore } from "./FileStore";
 import { fileHasContents } from "../utils/mx-data";
 import { FileRejection } from "react-dropzone";
@@ -20,6 +20,7 @@ export class FileUploaderStore {
     _maxFileSize = 0;
     _ds?: ListValue;
     _maxFilesPerUpload: number;
+    _allowedFileFormats: AllowedFileFormatsType[] = [];
 
     errorMessage?: string = undefined;
 
@@ -37,7 +38,9 @@ export class FileUploaderStore {
             processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
-            errorMessage: observable
+            errorMessage: observable,
+            allowedFormatsDescription: computed,
+            _allowedFileFormats: observable.ref
         });
 
         this.updateProps(props);
@@ -46,6 +49,7 @@ export class FileUploaderStore {
     updateProps(props: FileUploaderContainerProps): void {
         this._createFileAction = props.createFileAction;
         this._ds = props.associatedFiles;
+        this._allowedFileFormats = props.allowedFileFormats;
 
         const itemsDs = props.associatedFiles;
         if (!this.existingItemsLoaded) {
@@ -81,6 +85,10 @@ export class FileUploaderStore {
         }
 
         this.lastSeenItems.add(item.id);
+    }
+
+    get allowedFormatsDescription(): string {
+        return getAllowedFormatsDescription(this._allowedFileFormats);
     }
 
     get canRequestFile(): boolean {
@@ -127,7 +135,14 @@ export class FileUploaderStore {
         for (const file of fileRejections) {
             const newFileStore = FileStore.newFileWithError(
                 file.file,
-                file.errors.map(e => e.message).join(". ") + ".",
+                file.errors
+                    .map(e => {
+                        if (e.code === "file-invalid-type") {
+                            return `Invalid file format, allowed formats are ${this.allowedFormatsDescription}`;
+                        }
+                        return e.message;
+                    })
+                    .join(". ") + ".",
                 this
             );
 

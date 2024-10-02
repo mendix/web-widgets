@@ -18,13 +18,42 @@
                 <description>List of comma separated file formats. No restrictions if left empty.</description>
                 <properties>
                     <propertyGroup caption="General">
-                        <property key="mimeType" type="string">
+                        <property key="configMode" type="enumeration" defaultValue="simple">
+                            <caption>Configuration mode</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="simple">Simple</enumerationValue>
+                                <enumerationValue key="advanced">Advanced</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="predefinedType" type="enumeration" defaultValue="pdfFile">
+                            <caption>Predefined type</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="pdfFile">PDF document (.pdf)</enumerationValue>
+                                <enumerationValue key="msWordFile">Microsoft Word (.doc and .docx)</enumerationValue>
+                                <enumerationValue key="msExcelFile">Microsoft Excel (.xls and .xlsx)</enumerationValue>
+                                <enumerationValue key="msPowerPointFile">Microsoft Powerpoint (.ppt and .pptx)</enumerationValue>
+                                <enumerationValue key="plainTextFile">Plain Text (.txt)</enumerationValue>
+                                <enumerationValue key="csvFile">CSV</enumerationValue>
+                                <enumerationValue key="anyTextFile">All texts</enumerationValue>
+                                <enumerationValue key="anyImageFile">Image</enumerationValue>
+                                <enumerationValue key="anyAudioFile">Audio</enumerationValue>
+                                <enumerationValue key="anyVideoFile">Video</enumerationValue>
+                                <enumerationValue key="zipArchiveFile">Zip archive</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="mimeType" type="string" required="false">
                             <caption>Mime Type</caption>
                             <description>For example 'image/jpeg' or 'application/pdf'</description>
                         </property>
-                        <property key="extensions" type="string">
+                        <property key="extensions" type="string" required="false">
                             <caption>Extensions list</caption>
                             <description>Comma separated list of extensions. For example: '.jpg,.jpeg'.</description>
+                        </property>
+                        <property key="typeFormatDescription" type="textTemplate">
+                            <caption>Type description</caption>
+                            <description>This is shown to the end users to describe supported file types</description>
                         </property>
                     </propertyGroup>
                 </properties>
