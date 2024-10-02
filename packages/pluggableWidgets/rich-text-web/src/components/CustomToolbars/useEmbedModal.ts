@@ -51,7 +51,6 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                 dialogType: "video",
                 config: {
                     onSubmit: (value: VideoFormType) => {
-                        // const currentValue = Object.hasOwn(value, "src") && (value as VideoFormTypeGeneral).src !== undefined ? value as VideoFormTypeGeneral : value as VideoFormTypeEmbed;;
                         if (Object.hasOwn(value, "src") && (value as videoConfigType).src !== undefined) {
                             const currentValue = value as videoConfigType;
                             ref.current?.format("video", currentValue);
