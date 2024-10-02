@@ -1,5 +1,4 @@
 import {
-    GUID,
     ListAttributeValue,
     ListExpressionValue,
     ListReferenceSetValue,
@@ -9,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, reaction, comparer, when } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
 import { FilterData } from "../typings/settings";
@@ -67,6 +66,8 @@ export class RefFilterStore implements OptionListFilterInterface {
             options: computed,
             hasMore: computed,
             isLoading: computed,
+            allIds: computed.struct,
+            hasUnknownIds: computed,
             replace: action,
             toggle: action,
             updateProps: action,
@@ -144,42 +145,40 @@ export class RefFilterStore implements OptionListFilterInterface {
         return this._selected.size;
     }
 
-    private setupGUIDFiltering(): Dispose {
-        // Function that check that `state` is a subset of `allIds`
-        function hasExtraIds(state: Set<string>, allIds: Set<string>): boolean {
-            return [...state].some(id => !allIds.has(id as GUID));
+    /**
+     * Compute list of all ids.
+     * Return empty set if full list is not available.
+     */
+    get allIds(): Set<string> {
+        const hasMore = this._refOptions.hasMoreItems ?? true;
+        const isLoading = this._refOptions.status === "loading";
+
+        if (hasMore || isLoading) {
+            return new Set<string>();
         }
 
+        const items = this._refOptions.items ?? [];
+        return new Set(items.map(item => item.id));
+    }
+
+    /**
+     * Return `true` if state has unknown ids.
+     */
+    get hasUnknownIds(): boolean {
+        if (this.allIds.size > 0) {
+            return [...this._selected].some(id => !this.allIds.has(id));
+        }
+        return false;
+    }
+
+    private setupGUIDFiltering(): Dispose {
         const dispose = reaction(
-            // "data" function that compute clean state.
-            // NOTE: This reaction is recursive, make sure "data"
-            // function is pure and predictive.
-            (): Set<string> => {
-                // Inputs
-                const state = this._selected;
-                const items = this._refOptions.items ?? [];
-                const hasMore = this._refOptions.hasMoreItems ?? true;
-                const isLoading = this._refOptions.status === "loading";
-
-                if (isLoading) {
-                    return state;
-                }
-
-                if (hasMore) {
-                    return state;
-                }
-
-                const allIds = new Set(items.map(obj => obj.id));
-
-                if (hasExtraIds(state, allIds)) {
-                    return new Set([...state].filter(id => allIds.has(id as GUID)));
-                }
-
-                return state;
-            },
+            (): boolean => this.hasUnknownIds,
             // "effect" function
-            (data: Set<string>): void => {
-                this._selected = data;
+            (hasUnknownIds): void => {
+                if (hasUnknownIds) {
+                    this._selected = new Set([...this._selected].filter(id => this.allIds.has(id)));
+                }
             }
         );
         return dispose;
