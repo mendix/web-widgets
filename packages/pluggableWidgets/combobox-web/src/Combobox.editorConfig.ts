@@ -49,6 +49,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "selectionMethod",
                 "selectAllButton",
                 "selectAllButtonCaption",
+                "onChangeDatabaseEvent",
                 ...ASSOCIATION_SOURCE_CONFIG,
                 ...LAZY_LOADING_CONFIG
             ]);
@@ -59,7 +60,11 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
             }
         } else if (values.optionsSourceType === "association") {
-            hidePropertiesIn(defaultProperties, values, ["attributeEnumeration", "attributeBoolean"]);
+            hidePropertiesIn(defaultProperties, values, [
+                "attributeEnumeration",
+                "attributeBoolean",
+                "onChangeDatabaseEvent"
+            ]);
             if (values.optionsSourceAssociationCaptionType === "attribute") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
             } else {
@@ -100,6 +105,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
+            "onChangeEvent",
             ...ASSOCIATION_SOURCE_CONFIG
         ]);
         if (values.optionsSourceDatabaseDataSource === null) {

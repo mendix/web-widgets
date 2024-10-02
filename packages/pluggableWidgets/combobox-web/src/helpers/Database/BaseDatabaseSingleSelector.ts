@@ -1,5 +1,4 @@
-import { ActionValue, ListAttributeValue, ObjectItem } from "mendix";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ListAttributeValue, ObjectItem } from "mendix";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -24,7 +23,6 @@ export class BaseDatabaseSingleSelector<T extends string | Big> implements Singl
     status: Status = "unavailable";
     type = "single" as const;
     protected _objectsMap: Map<string, ObjectItem> = new Map();
-    protected onChangeEvent?: ActionValue;
     protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
     constructor() {
@@ -33,17 +31,8 @@ export class BaseDatabaseSingleSelector<T extends string | Big> implements Singl
     }
 
     updateProps(props: ComboboxContainerProps): void {
-        const {
-            captionProvider,
-            captionType,
-            clearable,
-            customContentType,
-            ds,
-            filterType,
-            lazyLoading,
-            loadingType,
-            onChangeEvent
-        } = extractDatabaseProps(props);
+        const { captionProvider, captionType, clearable, customContentType, ds, filterType, lazyLoading, loadingType } =
+            extractDatabaseProps(props);
 
         this.lazyLoader.updateProps(ds);
         this.options._updateProps({
@@ -54,7 +43,6 @@ export class BaseDatabaseSingleSelector<T extends string | Big> implements Singl
         });
 
         this.clearable = clearable;
-        this.onChangeEvent = onChangeEvent;
         this.customContentType = customContentType;
         this.lazyLoading = lazyLoading;
         this.loadingType = loadingType;
@@ -62,6 +50,5 @@ export class BaseDatabaseSingleSelector<T extends string | Big> implements Singl
 
     setValue(objectId: string | null): void {
         this.currentId = objectId;
-        executeAction(this.onChangeEvent);
     }
 }
