@@ -8,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
 import { FilterData } from "../typings/settings";
@@ -26,13 +26,13 @@ export type RefFilterStoreProps = {
 };
 
 export class RefFilterStore implements OptionListFilterInterface {
+    private _selectedDraft = new Set<string>();
     readonly disposers: Dispose[] = [];
     readonly storeType = "optionlist";
     readonly type = "refselect";
     defaultValue: string[] | undefined = undefined;
     isInitialized = false;
     lazyMode: boolean;
-    _selected = new Set<string>();
     _ref: ListReferenceValue | ListReferenceSetValue;
     _refOptions: ListValue;
     _caption: ListExpressionValue;
@@ -57,17 +57,16 @@ export class RefFilterStore implements OptionListFilterInterface {
             this._refOptions.setLimit(0);
         }
 
-        makeObservable<this>(this, {
+        makeObservable<this, "_selectedDraft" | "selected">(this, {
             _ref: observable.ref,
             _refOptions: observable.ref,
             _caption: observable.ref,
-            _selected: observable,
-
+            _selectedDraft: observable,
+            selected: computed,
             options: computed,
             hasMore: computed,
             isLoading: computed,
             allIds: computed.struct,
-            hasUnknownIds: computed,
             replace: action,
             toggle: action,
             updateProps: action,
@@ -77,8 +76,6 @@ export class RefFilterStore implements OptionListFilterInterface {
         if (initCond) {
             this.fromViewState(initCond);
         }
-
-        this.disposers.push(this.setupGUIDFiltering());
     }
 
     get hasSearch(): boolean {
@@ -98,12 +95,12 @@ export class RefFilterStore implements OptionListFilterInterface {
         return items.map(obj => ({
             caption: `${this._caption.get(obj).value}`,
             value: `${obj.id}`,
-            selected: this._selected.has(obj.id)
+            selected: this.selected.has(obj.id)
         }));
     }
 
     get condition(): FilterCondition | undefined {
-        if (this._selected.size < 1) {
+        if (this.selected.size < 1) {
             return undefined;
         }
 
@@ -132,7 +129,7 @@ export class RefFilterStore implements OptionListFilterInterface {
             return viewExp ? [viewExp] : [];
         };
 
-        const cond = [...this._selected].flatMap(exp);
+        const cond = [...this.selected].flatMap(exp);
 
         if (cond.length > 1) {
             return or(...cond);
@@ -141,8 +138,16 @@ export class RefFilterStore implements OptionListFilterInterface {
         return cond[0];
     }
 
+    private get selected(): Set<string> {
+        let selected = this._selectedDraft;
+        if (this.allIds.size > 0) {
+            selected = new Set([...selected].filter(id => this.allIds.has(id)));
+        }
+        return selected;
+    }
+
     get selectedCount(): number {
-        return this._selected.size;
+        return this.selected.size;
     }
 
     /**
@@ -159,29 +164,6 @@ export class RefFilterStore implements OptionListFilterInterface {
 
         const items = this._refOptions.items ?? [];
         return new Set(items.map(item => item.id));
-    }
-
-    /**
-     * Return `true` if state has unknown ids.
-     */
-    get hasUnknownIds(): boolean {
-        if (this.allIds.size > 0) {
-            return [...this._selected].some(id => !this.allIds.has(id));
-        }
-        return false;
-    }
-
-    private setupGUIDFiltering(): Dispose {
-        const dispose = reaction(
-            (): boolean => this.hasUnknownIds,
-            // "effect" function
-            (hasUnknownIds): void => {
-                if (hasUnknownIds) {
-                    this._selected = new Set([...this._selected].filter(id => this.allIds.has(id)));
-                }
-            }
-        );
-        return dispose;
     }
 
     setup(): Dispose {
@@ -210,12 +192,12 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     replace(value: string[] | Set<string>): void {
-        this._selected = new Set(value);
+        this._selectedDraft = new Set(value);
     }
 
     toggle(value: string): void {
-        if (this._selected.delete(value) === false) {
-            this._selected.add(value);
+        if (this._selectedDraft.delete(value) === false) {
+            this._selectedDraft.add(value);
         }
     }
 
@@ -239,7 +221,7 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     toJSON(): string[] {
-        return [...this._selected];
+        return [...this.selected];
     }
 
     fromJSON(json: FilterData): void {
