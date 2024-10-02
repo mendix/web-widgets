@@ -103,7 +103,11 @@ export class StringFilterController {
         };
     }
 
-    handleResetValue = (): void => {
+    handleResetValue = (useDefaultValue: boolean): void => {
+        if (useDefaultValue) {
+            this.filter.reset();
+            return;
+        }
         this.filter.clear();
     };
 
