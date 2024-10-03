@@ -9,7 +9,7 @@ export type MimeCheckFormat = {
 };
 
 export function parseAllowedFormats(
-    allowedFileFormats: (AllowedFileFormatsPreviewType | AllowedFileFormatsType)[]
+    allowedFileFormats: Array<AllowedFileFormatsPreviewType | AllowedFileFormatsType>
 ): MimeCheckFormat {
     return allowedFileFormats.reduce((acc, f) => {
         const [key, exts] =

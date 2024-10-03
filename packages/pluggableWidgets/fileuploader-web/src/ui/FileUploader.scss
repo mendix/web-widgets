@@ -1,17 +1,17 @@
 .widget-file-uploader {
-    --bg-color-default: #F8F8F8;
-    --border-color-default: #CED0D3;
+    --bg-color-default: #f8f8f8;
+    --border-color-default: #ced0d3;
 
-    --bg-color-active: #E6EAFF;
-    --border-color-active: #264AE5;
+    --bg-color-active: #e6eaff;
+    --border-color-active: #264ae5;
 
-    --bg-color-warning: #FBEDD2;
-    --border-color-warning: #ECA51C;
+    --bg-color-warning: #fbedd2;
+    --border-color-warning: #eca51c;
 
-    --bg-color-error: #F9D9DC;
-    --border-color-error: #E33F4E;
+    --bg-color-error: #f9d9dc;
+    --border-color-error: #e33f4e;
 
-    --grey-text: #6C7180;
+    --grey-text: #6c7180;
 }
 
 /*
@@ -44,9 +44,9 @@ Place your custom CSS here
         }
 
         &:active {
-            border: 1.5px dashed #24276C;
+            border: 1.5px dashed #24276c;
             .upload-text {
-                color: #24276C;
+                color: #24276c;
                 text-decoration: underline;
             }
         }
@@ -84,7 +84,7 @@ Place your custom CSS here
     .dropzone-message {
         font-size: 12px;
         line-height: 17px;
-        color: #8F620B;
+        color: #8f620b;
 
         padding-left: 18px;
         margin-bottom: 1em;
@@ -136,7 +136,7 @@ Place your custom CSS here
                     .entry-details-name {
                         flex: 1;
                         font-weight: 600;
-                        color: #3B4251;
+                        color: #3b4251;
                     }
 
                     .entry-details-size {
@@ -170,12 +170,11 @@ Place your custom CSS here
                 .entry-details-progress {
                     flex: 1;
                     .progress-bar {
-
                         --progress-bar-percentage: 0; /* to be overridden from inline styles */
 
                         height: 4px;
                         border-radius: 2px;
-                        background-color: #F0F1F2;
+                        background-color: #f0f1f2;
                         margin: 5px 0;
                         width: 100%;
                         overflow: hidden;
@@ -184,7 +183,7 @@ Place your custom CSS here
                             height: 4px;
                             border-radius: 2px;
                             background-color: var(--border-color-active);
-                            transition: width .5s;
+                            transition: width 0.5s;
                         }
 
                         &.active-indeterminate {
@@ -210,10 +209,10 @@ Place your custom CSS here
                         font-size: 10px;
 
                         &.success {
-                            color: #3CB33D;
+                            color: #3cb33d;
                         }
                         &.error {
-                            color: #E33F4E;
+                            color: #e33f4e;
                         }
                     }
                 }
@@ -229,7 +228,6 @@ Place your custom CSS here
         }
     }
 }
-
 
 @keyframes progress-loading {
     0% {

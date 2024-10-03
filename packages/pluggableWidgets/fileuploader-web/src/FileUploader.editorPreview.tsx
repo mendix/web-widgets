@@ -14,5 +14,5 @@ export function preview(props: FileUploaderPreviewProps): ReactElement {
 }
 
 export function getPreviewCss(): string {
-    return require("./ui/FileUploader.css");
+    return require("./ui/FileUploader.scss");
 }
