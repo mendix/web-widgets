@@ -9,6 +9,7 @@ import {
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
+import { ListValue } from "mendix";
 
 export type Status = "unavailable" | "loading" | "available";
 export type CaptionPlacement = "label" | "options";
@@ -32,6 +33,7 @@ export interface OptionsProvider<T = unknown, P = object> {
     sortOrder?: SortOrder;
 
     getAll(): string[];
+    datasourceFilter?: ListValue["filter"] | undefined;
 
     // search related
     setSearchTerm(term: string): void;
