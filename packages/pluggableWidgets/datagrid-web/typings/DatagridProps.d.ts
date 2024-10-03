@@ -143,6 +143,7 @@ export interface DatagridPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     advanced: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
