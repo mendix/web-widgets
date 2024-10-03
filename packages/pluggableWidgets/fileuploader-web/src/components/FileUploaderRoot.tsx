@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { createElement, ReactElement, useCallback } from "react";
+import { FileRejection } from "react-dropzone";
 
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { useRootStore } from "../utils/useRootStore";
-
-import "../ui/FileUploader.css";
 import { FileEntryContainer } from "./FileEntry";
 import { Dropzone } from "./Dropzone";
-import { FileRejection } from "react-dropzone";
+
+import "../ui/FileUploader.scss";
 
 export const FileUploaderRoot = observer((props: FileUploaderContainerProps): ReactElement => {
     const rootStore = useRootStore(props);

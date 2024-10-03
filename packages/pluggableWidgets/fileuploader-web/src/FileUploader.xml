@@ -53,20 +53,20 @@
                         </property>
                         <property key="typeFormatDescription" type="textTemplate">
                             <caption>Type description</caption>
-                            <description>This is shown to the end users to describe supported file types</description>
+                            <description>Shown to the end users to describe supported file types.</description>
                         </property>
                     </propertyGroup>
                 </properties>
             </property>
 
             <property key="maxFilesPerUpload" type="integer" defaultValue="10">
-                <caption>Maximum number of files per upload</caption>
-                <description>User won't be able to drag and drop more than specified number of files</description>
+                <caption>Maximum number of files</caption>
+                <description>Limit the number of file per one upload.</description>
             </property>
 
             <property key="maxFileSize" type="integer" defaultValue="25">
                 <caption>Maximum file size (MB)</caption>
-                <description>User won't be able to upload files bigger than specified</description>
+                <description>Reject files that are bigger than specified size.</description>
             </property>
         </propertyGroup>
     </properties>
