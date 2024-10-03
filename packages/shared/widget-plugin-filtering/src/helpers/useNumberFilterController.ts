@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { EditableFilterController, Params } from "../controllers/EditableFilterController";
+import { NumberFilterController, Params } from "../controllers/NumberFilterController";
 import { ArgumentInterface } from "../typings/ArgumentInterface";
 import { AllFunctions } from "../typings/FilterFunctions";
 import { FilterFn, InputFilterBaseInterface } from "../typings/InputFilterInterface";
 
-export function useEditableFilterController<
+export function useNumberFilterController<
     F extends InputFilterBaseInterface<A, Fn>,
     A extends ArgumentInterface,
     Fn extends AllFunctions = FilterFn<F>
->(params: Params<F, A, Fn>): EditableFilterController<F, A, Fn> {
-    const [ctrl] = useState(() => new EditableFilterController<F, A, Fn>(params));
+>(params: Params): NumberFilterController {
+    const [ctrl] = useState(() => new NumberFilterController(params));
 
     useEffect(() => ctrl.setup(), [ctrl]);
 

@@ -11,8 +11,7 @@ type Params = {
     parentChannelName?: string;
 };
 
-export function useOnResetValueEvent({ widgetName, parentChannelName, listener }: Params): void {
+export function useOnSetValueEvent({ widgetName, listener }: Params): void {
     const { current: cb } = useRef(listener);
-    useListenChannelEvents(widgetName, $events.reset.value, cb);
-    useListenChannelEvents(parentChannelName, $events.reset.value, cb);
+    useListenChannelEvents(widgetName, $events.set.value, cb);
 }
