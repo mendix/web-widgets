@@ -1329,6 +1329,9 @@ importers:
         specifier: ^14.2.3
         version: 14.2.9(react@18.2.0)
     devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
