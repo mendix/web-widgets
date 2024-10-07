@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We added new 'Use lazy load' property that can be used to improve the end-user experience.
+-   We have introduced the loading state in Datagrid 2, so that the loading state is displayed on every pagination, filter search, or loading.
 
 ### Fixed
 
