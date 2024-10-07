@@ -2,17 +2,18 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState, Fragment } from "react";
-import { PagingPositionEnum, PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
+import { CSSProperties, ReactElement, ReactNode, createElement, Fragment } from "react";
+import {
+    PagingPositionEnum,
+    PaginationEnum,
+    ShowPagingButtonsEnum,
+    LoadingTypeEnum
+} from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
-import { ColumnResizer } from "./ColumnResizer";
-import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
-import { Header } from "./Header";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
@@ -23,6 +24,7 @@ import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { observer } from "mobx-react-lite";
 import { RowsRenderer } from "./RowsRenderer";
+import { GridHeader } from "./GridHeader";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -62,6 +64,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
+    isLoading: boolean;
+    loadingType: LoadingTypeEnum;
+    columnsLoading: boolean;
 
     // Helpers
     cellEventsController: EventsController;
@@ -109,21 +114,13 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
 
 const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const {
-        availableColumns,
         CellComponent,
-        columnsDraggable,
-        columnsFilterable,
         columnsHidable,
-        columnsResizable,
-        columnsSortable,
         data: rows,
         emptyPlaceholderRenderer,
-        filterRenderer: filterRendererProp,
         hasMoreItems,
         headerContent,
         headerTitle,
-        headerWrapperRenderer,
-        id,
         loadMoreButtonCaption,
         numberOfItems,
         page,
@@ -138,19 +135,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     } = props;
 
     const isInfinite = !paging;
-    const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
-    const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
-
-    const renderFilterWrapper = useCallback(
-        (children: ReactNode) => (
-            <div className="filter" style={{ pointerEvents: isDragging ? "none" : undefined }}>
-                {children}
-            </div>
-        ),
-        [isDragging]
-    );
 
     const pagination = paging ? (
         <Pagination
@@ -182,51 +168,29 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 hasMoreItems={hasMoreItems}
                 setPage={setPage}
                 paginationType={paginationType}
+                isLoading={props.isLoading && props.loadingType === "spinner"}
+                pageSize={props.pageSize}
             >
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                 >
                     <GridBody style={cssGridStyles}>
-                        <div key="headers_row" className="tr" role="row">
-                            <CheckboxColumnHeader key="headers_column_select_all" />
-                            {visibleColumns.map((column, index) =>
-                                headerWrapperRenderer(
-                                    index,
-                                    <Header
-                                        key={`${column.columnId}`}
-                                        className={`align-column-${column.alignment}`}
-                                        gridId={props.id}
-                                        column={column}
-                                        draggable={columnsDraggable}
-                                        dropTarget={dragOver}
-                                        filterable={columnsFilterable}
-                                        filterWidget={filterRendererProp(renderFilterWrapper, column.columnIndex)}
-                                        hidable={columnsHidable}
-                                        isDragging={isDragging}
-                                        preview={preview}
-                                        resizable={columnsResizable && visibleColumns.at(-1) !== column}
-                                        resizer={
-                                            <ColumnResizer
-                                                onResizeStart={props.columnsCreateSizeSnapshot}
-                                                setColumnWidth={(width: number) => column.setSize(width)}
-                                            />
-                                        }
-                                        swapColumns={props.columnsSwap}
-                                        setDropTarget={setDragOver}
-                                        setIsDragging={setIsDragging}
-                                        sortable={columnsSortable}
-                                    />
-                                )
-                            )}
-                            {columnsHidable && (
-                                <ColumnSelector
-                                    key="headers_column_selector"
-                                    columns={availableColumns}
-                                    id={id}
-                                    visibleLength={visibleColumns.length}
-                                />
-                            )}
-                        </div>
+                        <GridHeader
+                            availableColumns={props.availableColumns}
+                            columns={visibleColumns}
+                            columnsCreateSizeSnapshot={props.columnsCreateSizeSnapshot}
+                            columnsDraggable={props.columnsDraggable}
+                            columnsFilterable={props.columnsFilterable}
+                            columnsHidable={props.columnsHidable}
+                            columnsResizable={props.columnsResizable}
+                            columnsSortable={props.columnsSortable}
+                            columnsSwap={props.columnsSwap}
+                            filterRenderer={props.filterRenderer}
+                            headerWrapperRenderer={props.headerWrapperRenderer}
+                            id={props.id}
+                            isLoading={props.columnsLoading}
+                            preview={props.preview}
+                        />
                         <RowsRenderer
                             preview={props.preview ?? false}
                             interactive={props.gridInteractive}

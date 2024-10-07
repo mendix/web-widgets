@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { ReactElement, ReactNode, createElement } from "react";
 import { StickySentinel } from "./StickySentinel";
 import { PaginationEnum } from "../../typings/DatagridProps";
+import { SpinnerLoader } from "./loader/SpinnerLoader";
 
 type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
 
@@ -11,9 +12,11 @@ export type WidgetContentProps = {
     children?: ReactNode;
     style?: React.CSSProperties;
     paginationType: PaginationEnum;
+    isLoading: boolean;
+    pageSize: number;
 } & Pick<InfiniteBodyProps, PickProps>;
 
-export function WidgetContent({
+const Container = ({
     children,
     className,
     hasMoreItems,
@@ -21,7 +24,7 @@ export function WidgetContent({
     style,
     setPage,
     paginationType
-}: WidgetContentProps): ReactElement {
+}: WidgetContentProps): ReactElement => {
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
         hasMoreItems,
         isInfinite,
@@ -44,4 +47,16 @@ export function WidgetContent({
             {children}
         </div>
     );
+};
+
+export function WidgetContent(props: WidgetContentProps): ReactElement {
+    if (props.isLoading) {
+        return (
+            <div className="widget-datagrid-loader-container">
+                <SpinnerLoader withMargins size="large" />
+            </div>
+        );
+    }
+
+    return <Container {...props} />;
 }
