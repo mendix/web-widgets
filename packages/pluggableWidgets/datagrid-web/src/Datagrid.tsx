@@ -1,5 +1,6 @@
 import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { ValueStatus } from "mendix";
 import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
@@ -153,6 +154,9 @@ const Container = observer((props: Props): ReactElement => {
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
+            isLoading={props.datasource.status === ValueStatus.Loading}
+            loadingType={props.loadingType}
+            columnsLoading={!columnsStore.loaded}
         />
     );
 });
