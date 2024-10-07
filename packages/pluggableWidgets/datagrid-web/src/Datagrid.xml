@@ -49,6 +49,14 @@
                     <caption>Show (un)check all toggle</caption>
                     <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
                 </property>
+                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                    <caption>Loading type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="spinner">Spinner</enumerationValue>
+                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
                 <property key="columns" type="object" isList="true">
