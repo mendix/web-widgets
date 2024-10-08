@@ -33,13 +33,14 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
 
     return (
         <div className={classNames(props.class, "widget-tooltip", `widget-tooltip-${position}`)}>
-            <div
-                className="widget-tooltip-trigger"
-                ref={refs?.setReference}
-                {...(preview ? undefined : getReferenceProps?.())}
-                {...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined)}
-            >
-                {trigger}
+            <div className="widget-tooltip-trigger">
+                <span
+                    ref={refs?.setReference}
+                    {...(preview ? undefined : getReferenceProps?.())}
+                    {...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined)}
+                >
+                    {trigger}
+                </span>
             </div>
             {showTooltip && (textMessage || htmlMessage) ? (
                 <div

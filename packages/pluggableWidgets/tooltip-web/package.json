@@ -1,57 +1,56 @@
 {
-  "name": "@mendix/tooltip-web",
-  "widgetName": "Tooltip",
-  "version": "1.4.0",
-  "description": "Shows a value inside a colored tooltip or label",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "config": {},
-  "mxpackage": {
-    "name": "Tooltip",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.Tooltip.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 119160,
-    "appName": "Tooltip"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "tooltip-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:web",
-    "build": "pluggable-widgets-tools build:web",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "jest --projects jest.config.js",
-    "release": " pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-hooks": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "classnames": "^2.3.2",
-    "react-popper": "^2.3.0"
-  }
+    "name": "@mendix/tooltip-web",
+    "widgetName": "Tooltip",
+    "version": "1.4.1",
+    "description": "Shows a value inside a colored tooltip or label",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {},
+    "mxpackage": {
+        "name": "Tooltip",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.Tooltip.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.6.0",
+        "appNumber": 119160,
+        "appName": "Tooltip"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "tooltip-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "jest --projects jest.config.js",
+        "release": " pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "^10.7.2",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*"
+    },
+    "dependencies": {
+        "@floating-ui/react": "^0.26.23",
+        "classnames": "^2.3.2"
+    }
 }

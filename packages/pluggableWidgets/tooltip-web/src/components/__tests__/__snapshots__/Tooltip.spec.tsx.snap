@@ -6,15 +6,18 @@ exports[`Tooltip render DOM structure 1`] = `
     class="widget-tooltip widget-tooltip-right"
   >
     <div
-      aria-describedby=":r0:"
       class="widget-tooltip-trigger"
     >
-      <div
-        data-testid="tooltip-trigger"
-        tabindex="0"
+      <span
+        aria-describedby=":r0:"
       >
-        Trigger
-      </div>
+        <div
+          data-testid="tooltip-trigger"
+          tabindex="0"
+        >
+          Trigger
+        </div>
+      </span>
     </div>
     <div
       class="widget-tooltip-content"
