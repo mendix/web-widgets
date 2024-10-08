@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed placement issues with tooltip when placed inside a layout container.
+-   We fixed placement issues with tooltip when placed inside a layout container by adjusting the width of the trigger's container
 
 ## [1.4.0] - 2024-08-14
 
