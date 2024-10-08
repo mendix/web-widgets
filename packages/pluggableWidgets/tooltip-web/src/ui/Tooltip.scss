@@ -58,4 +58,8 @@
     [class^="widget-tooltip-arrow"] {
         visibility: hidden;
     }
+
+    &-trigger {
+        width: fit-content;
+    }
 }
