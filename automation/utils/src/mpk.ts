@@ -9,18 +9,16 @@ async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<v
     const existingImages = (await exec(`docker image ls -q mxbuild:${version}`, { stdio: "pipe" })).stdout.trim();
     if (!existingImages) {
         console.log(`Creating new mxbuild:${version} docker image...`);
-        const dockerfilePath = join(__dirname, "../docker/mxbuild.Dockerfile");
-        const dockerfilePathMx10 = join(__dirname, "../docker/mxbuildMx10.Dockerfile");
         const versionMajor = mendixVersion.major;
-        const command =
+        const dockerfilePath =
             versionMajor < 10
-                ? `docker build -f ${dockerfilePath} ` +
-                  `--build-arg MENDIX_VERSION=${version} ` +
-                  `-t mxbuild:${version} ${process.cwd()}`
-                : `docker build -f ${dockerfilePathMx10} ` +
-                  `--build-arg MENDIX_VERSION=${version} ` +
-                  `-t mxbuild:${version} ${process.cwd()}`;
-        await exec(command);
+                ? join(__dirname, "../docker/mxbuild.Dockerfile")
+                : join(__dirname, "../docker/mxbuildMx10.Dockerfile");
+        await exec(
+            `docker build -f ${dockerfilePath} ` +
+                `--build-arg MENDIX_VERSION=${version} ` +
+                `-t mxbuild:${version} ${process.cwd()}`
+        );
     }
 }
 
