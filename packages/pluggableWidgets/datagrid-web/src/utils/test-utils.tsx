@@ -100,7 +100,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         selectionStatus: "unknown",
         setPage: jest.fn(),
         processedRows: 0,
-        rowClickable: false,
+        gridInteractive: false,
         selectActionHelper: mockSelectionProps(),
         cellEventsController: { getProps: () => Object.create({}) },
         checkboxEventsController: { getProps: () => Object.create({}) },
