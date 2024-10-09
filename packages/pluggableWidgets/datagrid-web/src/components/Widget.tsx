@@ -13,17 +13,16 @@ import { ColumnSelector } from "./ColumnSelector";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { Header } from "./Header";
-import { Row } from "./Row";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
-import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { observer } from "mobx-react-lite";
+import { RowsRenderer } from "./RowsRenderer";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -54,7 +53,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     preview?: boolean;
     processedRows: number;
     rowClass?: (item: T) => string;
-    rowClickable: boolean;
+    gridInteractive: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
     rowAction?: ListActionValue;
@@ -228,22 +227,17 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                                 />
                             )}
                         </div>
-                        <KeyNavProvider focusController={props.focusController}>
-                            {rows.map((item, rowIndex) => {
-                                return (
-                                    <Row
-                                        CellComponent={CellComponent}
-                                        className={props.rowClass?.(item)}
-                                        columns={visibleColumns}
-                                        index={rowIndex}
-                                        item={item}
-                                        key={`row_${item.id}`}
-                                        showSelectorCell={columnsHidable}
-                                        selectableWrapper={headerWrapperRenderer}
-                                    />
-                                );
-                            })}
-                        </KeyNavProvider>
+                        <RowsRenderer
+                            preview={props.preview ?? false}
+                            interactive={props.gridInteractive}
+                            Cell={CellComponent}
+                            columns={visibleColumns}
+                            columnsHidable={columnsHidable}
+                            rows={rows}
+                            selectActionHelper={selectActionHelper}
+                            focusController={props.focusController}
+                            eventsController={props.cellEventsController}
+                        />
                         {(rows.length === 0 || preview) &&
                             emptyPlaceholderRenderer &&
                             emptyPlaceholderRenderer(children => (
