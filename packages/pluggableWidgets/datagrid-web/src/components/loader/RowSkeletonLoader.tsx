@@ -1,7 +1,7 @@
 import { createElement, Fragment, ReactElement } from "react";
 import { CellElement } from "../CellElement";
 import { SkeletonLoader } from "./SkeletonLoader";
-import { useWidgetProps } from "src/helpers/useWidgetProps";
+import { useWidgetProps } from "../../helpers/useWidgetProps";
 import { SelectorCell } from "../SelectorCell";
 
 type RowSkeletonLoaderProps = {
@@ -17,7 +17,7 @@ export function RowSkeletonLoader({ columnsHidable, columnsSize, pageSize }: Row
             {Array.from({ length: pageSize }).map((_, i) => (
                 <div className="tr" role="row" key={i}>
                     {selectActionHelper.showCheckboxColumn && (
-                        <CellElement borderTop={i == 0} className="widget-datagrid-col-select" tabIndex={-1}>
+                        <CellElement borderTop={i === 0} className="widget-datagrid-col-select" tabIndex={-1}>
                             <input type="checkbox" />
                         </CellElement>
                     )}
@@ -26,7 +26,7 @@ export function RowSkeletonLoader({ columnsHidable, columnsSize, pageSize }: Row
                             <SkeletonLoader />
                         </CellElement>
                     ))}
-                    {columnsHidable && <SelectorCell key="column_selector_cell" borderTop={i == 0} tabIndex={-1} />}
+                    {columnsHidable && <SelectorCell key="column_selector_cell" borderTop={i === 0} tabIndex={-1} />}
                 </div>
             ))}
         </Fragment>
