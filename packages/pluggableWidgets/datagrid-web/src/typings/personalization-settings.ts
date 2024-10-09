@@ -23,7 +23,7 @@ export type GroupFilterSettings = Array<[key: string, data: FilterData]>;
 
 export interface GridPersonalizationStorageSettings {
     name: string;
-    schemaVersion: number;
+    schemaVersion: 2;
     settingsHash: string;
     columns: ColumnPersonalizationStorageSettings[];
     groupFilters: GroupFilterSettings;
