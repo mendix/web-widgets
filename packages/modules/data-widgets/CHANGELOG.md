@@ -6,7 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.24.1] DataWidgets - 2024-10-09
+
 ### Fixed
+
+-   We fixed an issue where filters wouldn't reset.
+
+### [2.8.2] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue where filters wouldn't reset.
+
+### [2.8.2] DatagridTextFilter
+
+#### Fixed
 
 -   We fixed an issue where filters wouldn't reset.
 
