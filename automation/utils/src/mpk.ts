@@ -13,7 +13,7 @@ async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<v
         const dockerfilePathMx10 = join(__dirname, "../docker/mxbuildMx10.Dockerfile");
         const versionMajor = mendixVersion.major;
         const command =
-            versionMajor >= 10
+            versionMajor < 10
                 ? `docker build -f ${dockerfilePath} ` +
                   `--build-arg MENDIX_VERSION=${version} ` +
                   `-t mxbuild:${version} ${process.cwd()}`
