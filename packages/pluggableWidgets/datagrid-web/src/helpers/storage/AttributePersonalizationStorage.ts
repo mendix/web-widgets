@@ -1,6 +1,5 @@
 import { EditableValue, ValueStatus } from "mendix";
 import { PersonalizationStorage } from "./PersonalizationStorage";
-import { GridPersonalizationStorageSettings } from "../../typings/personalization-settings";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
@@ -10,11 +9,10 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
     constructor(props: Pick<DatagridContainerProps, "configurationAttribute">) {
         this._storageAttr = props.configurationAttribute;
 
-        makeObservable<this, "_storageAttr">(this, {
+        makeObservable<this, "_storageAttr" | "_value">(this, {
             _storageAttr: observable.ref,
-
+            _value: computed,
             settings: computed.struct,
-
             updateProps: action
         });
     }
@@ -23,13 +21,21 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         this._storageAttr = props.configurationAttribute;
     }
 
-    get settings(): GridPersonalizationStorageSettings | undefined {
-        if (this._storageAttr && this._storageAttr.status === ValueStatus.Available && this._storageAttr.value) {
-            return JSON.parse(this._storageAttr.value) as GridPersonalizationStorageSettings;
+    get _value(): string | undefined {
+        if (this._storageAttr && this._storageAttr.status === ValueStatus.Available) {
+            return this._storageAttr.value;
         }
     }
 
-    updateSettings(newSettings: GridPersonalizationStorageSettings): void {
+    get settings(): unknown {
+        if (this._value) {
+            return JSON.parse(this._value) as unknown;
+        }
+    }
+
+    updateSettings(newSettings: any): void {
+        // Prevent saving empty string or null to the attribute
+        newSettings = newSettings === "" || newSettings === null ? undefined : newSettings;
         if (this._storageAttr && !this._storageAttr.readOnly) {
             const newSettingsJson = JSON.stringify(newSettings);
             if (this._storageAttr.value !== newSettingsJson) {
