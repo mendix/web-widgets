@@ -1,7 +1,7 @@
 {
     "name": "@mendix/combobox-web",
     "widgetName": "Combobox",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "description": "Configurable Combo box widget with suggestions and autocomplete.",
     "copyright": "© Mendix Technology BV 2024. All rights reserved.",
     "license": "Apache-2.0",
@@ -46,7 +46,7 @@
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/pluggable-widgets-tools": "^10.7.2",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
