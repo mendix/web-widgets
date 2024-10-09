@@ -88,7 +88,7 @@ export class GridPersonalizationStore {
             settings => {
                 this.storage.updateSettings(settings);
             },
-            { delay: 250 }
+            { delay: 250, equals: comparer.structural }
         );
     }
 
