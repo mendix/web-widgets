@@ -1,63 +1,63 @@
 {
-  "name": "@mendix/shared-charts",
-  "version": "2.0.0",
-  "description": "Shared components for charts",
-  "private": true,
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "type": "module",
-  "exports": {
-    ".": null,
-    "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
-    "./ui/*": "./dist/ui/*",
-    "./*": "./dist/*.js"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*"
-      ]
+    "name": "@mendix/shared-charts",
+    "version": "2.0.1",
+    "description": "Shared components for charts",
+    "private": true,
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "type": "module",
+    "exports": {
+        ".": null,
+        "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
+        "./ui/*": "./dist/ui/*",
+        "./*": "./dist/*.js"
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "./dist/*"
+            ]
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
+        "clear": "rimraf ./dist",
+        "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
+        "build:src": "tsc --project tsconfig.build.json",
+        "build:cfg": "tsc --project src/rollup/tsconfig.json",
+        "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
+        "release": "pnpm build",
+        "prepare": "turbo build",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:^",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@types/plotly.js": "^2.12.30",
+        "@types/react-plotly.js": "^2.5.0",
+        "copy-and-watch": "^0.1.6",
+        "rimraf": "^2.7.1"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "deepmerge": "^4.3.1",
+        "plotly.js": "^2.35.2",
+        "react-plotly.js": "^2.6.0"
+    },
+    "peerDependencies": {
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-replace": "^2.4.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "rollup": "^2.79.1"
     }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
-    "clear": "rimraf ./dist",
-    "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
-    "build:src": "tsc --project tsconfig.build.json",
-    "build:cfg": "tsc --project src/rollup/tsconfig.json",
-    "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
-    "release": "pnpm build",
-    "prepare": "turbo build",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
-    "test": "jest"
-  },
-  "devDependencies": {
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/tsconfig-web-widgets": "workspace:^",
-    "@mendix/widget-plugin-component-kit": "workspace:*",
-    "@mendix/widget-plugin-hooks": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@types/plotly.js": "^2.12.30",
-    "@types/react-plotly.js": "^2.5.0",
-    "copy-and-watch": "^0.1.6",
-    "rimraf": "^2.7.1"
-  },
-  "dependencies": {
-    "classnames": "^2.3.2",
-    "deepmerge": "^4.3.1"
-  },
-  "peerDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-replace": "^2.4.2",
-    "@rollup/plugin-terser": "^0.4.4",
-    "plotly.js": "^2.27.1",
-    "react-plotly.js": "^2.6.0",
-    "rollup": "^2.79.1"
-  }
 }

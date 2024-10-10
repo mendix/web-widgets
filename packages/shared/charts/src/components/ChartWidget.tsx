@@ -1,6 +1,8 @@
-import { createElement, ReactElement, useMemo, Fragment } from "react";
-import classNames from "classnames";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
+import classNames from "classnames";
+import { createElement, Fragment, ReactElement, useMemo } from "react";
+import useResizeObserver from "../hooks/useResizeObserver";
 import {
     ChartTypeEnum,
     CustomLayoutProps,
@@ -60,6 +62,16 @@ export const ChartWidget = ({
         [seriesOptions, themeFolderConfigs.series]
     );
 
+    const [callResizeObserverDebounce] = useMemo(
+        () =>
+            debounce((_target: HTMLDivElement) => {
+                window.dispatchEvent(new Event("resize"));
+            }, 100),
+        []
+    );
+
+    const ref = useResizeObserver(callResizeObserverDebounce);
+
     // Waiting for datasource.
     if (data.length === 0) {
         return <Fragment />;
@@ -69,6 +81,7 @@ export const ChartWidget = ({
         <div
             className={classNames("widget-chart", className)}
             style={getDimensions({ widthUnit, width, heightUnit, height })}
+            ref={ref}
         >
             <Chart
                 key={data.length}
