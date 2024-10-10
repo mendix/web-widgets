@@ -1,65 +1,65 @@
 {
-  "name": "@mendix/charts-web",
-  "version": "5.0.2",
-  "description": "Chart widgets collection for data visualization",
-  "license": "Apache-2.0",
-  "private": false,
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "mxpackage": {
-    "name": "Charts",
-    "type": "widget",
-    "mpkName": "Charts.mpk",
-    "dependencies": [
-      "@mendix/area-chart-web",
-      "@mendix/bar-chart-web",
-      "@mendix/bubble-chart-web",
-      "@mendix/column-chart-web",
-      "@mendix/heatmap-chart-web",
-      "@mendix/line-chart-web",
-      "@mendix/pie-doughnut-chart-web",
-      "@mendix/time-series-chart-web",
-      "@mendix/chart-playground-web"
-    ]
-  },
-  "packagePath": "com.mendix.widget.web",
-  "marketplace": {
-    "minimumMXVersion": "9.6.0.27784",
-    "appNumber": 105695,
-    "appName": "Charts"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/Charts-module",
-    "branchName": "main"
-  },
-  "scripts": {
-    "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
-    "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module",
-    "format": "prettier --write .",
-    "lint": "tsc --project scripts/tsconfig.json"
-  },
-  "dependencies": {
-    "@mendix/area-chart-web": "workspace:*",
-    "@mendix/bar-chart-web": "workspace:*",
-    "@mendix/bubble-chart-web": "workspace:*",
-    "@mendix/chart-playground-web": "workspace:*",
-    "@mendix/column-chart-web": "workspace:*",
-    "@mendix/heatmap-chart-web": "workspace:*",
-    "@mendix/line-chart-web": "workspace:*",
-    "@mendix/pie-doughnut-chart-web": "workspace:*",
-    "@mendix/time-series-chart-web": "workspace:*"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "cross-env": "^7.0.3"
-  }
+    "name": "@mendix/charts-web",
+    "version": "5.0.3",
+    "description": "Chart widgets collection for data visualization",
+    "license": "Apache-2.0",
+    "private": false,
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "name": "Charts",
+        "type": "widget",
+        "mpkName": "Charts.mpk",
+        "dependencies": [
+            "@mendix/area-chart-web",
+            "@mendix/bar-chart-web",
+            "@mendix/bubble-chart-web",
+            "@mendix/column-chart-web",
+            "@mendix/heatmap-chart-web",
+            "@mendix/line-chart-web",
+            "@mendix/pie-doughnut-chart-web",
+            "@mendix/time-series-chart-web",
+            "@mendix/chart-playground-web"
+        ]
+    },
+    "packagePath": "com.mendix.widget.web",
+    "marketplace": {
+        "minimumMXVersion": "9.6.0.27784",
+        "appNumber": 105695,
+        "appName": "Charts"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/Charts-module",
+        "branchName": "main"
+    },
+    "scripts": {
+        "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-module",
+        "format": "prettier --write .",
+        "lint": "tsc --project scripts/tsconfig.json"
+    },
+    "dependencies": {
+        "@mendix/area-chart-web": "workspace:*",
+        "@mendix/bar-chart-web": "workspace:*",
+        "@mendix/bubble-chart-web": "workspace:*",
+        "@mendix/chart-playground-web": "workspace:*",
+        "@mendix/column-chart-web": "workspace:*",
+        "@mendix/heatmap-chart-web": "workspace:*",
+        "@mendix/line-chart-web": "workspace:*",
+        "@mendix/pie-doughnut-chart-web": "workspace:*",
+        "@mendix/time-series-chart-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "cross-env": "^7.0.3"
+    }
 }
