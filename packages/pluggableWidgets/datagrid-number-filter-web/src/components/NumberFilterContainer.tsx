@@ -50,7 +50,7 @@ function Container(props: ContainerProps): React.ReactElement {
         listener: controller.handleResetValue
     });
 
-    useOnSetValueEvent({ widgetName: props.name, listener: controller.handleResetValue });
+    useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
     return (
         <InputWithFilters
             adjustable={props.adjustable}

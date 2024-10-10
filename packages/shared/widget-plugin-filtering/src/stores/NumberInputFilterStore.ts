@@ -1,32 +1,36 @@
 import { Big } from "big.js";
 import { ListAttributeValue, NumberFormatter } from "mendix";
-import { action, makeObservable, comparer } from "mobx";
-import { NumberArgument } from "./Argument";
-import { BaseInputFilterStore } from "./BaseInputFilterStore";
+import { FilterCondition } from "mendix/filters";
+import { action, comparer, makeObservable } from "mobx";
+import { inputStateFromCond } from "../condition-utils";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 import { FilterData, InputData } from "../typings/settings";
-import { FilterCondition } from "mendix/filters";
-import { inputStateFromCond } from "../condition-utils";
+import { NumberArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
+type Formatter = ListAttributeValue<Big>["formatter"];
+
 export class NumberInputFilterStore
     extends BaseInputFilterStore<NumberArgument, NumFns>
     implements Number_InputFilterInterface
 {
     readonly storeType = "input";
     readonly type = "number";
+    private formatter: Formatter;
 
     constructor(attributes: Array<ListAttributeValue<Big>>, initCond: FilterCondition | null) {
-        const { formatter } = attributes[0];
+        let { formatter } = attributes[0];
+        formatter = formatterFix(formatter);
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
             fromJSON: action,
             fromViewState: action
         });
-
+        this.formatter = formatter;
         if (initCond) {
             this.fromViewState(initCond);
         }
@@ -36,9 +40,8 @@ export class NumberInputFilterStore
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
         }
-        const formatter = attributes.at(0)?.formatter;
-        this.arg1.updateProps(formatter as NumberFormatter);
-        this.arg2.updateProps(formatter as NumberFormatter);
+        this.arg1.updateProps(this.formatter as NumberFormatter);
+        this.arg2.updateProps(this.formatter as NumberFormatter);
     }
 
     toJSON(): InputData {
@@ -84,4 +87,24 @@ export class NumberInputFilterStore
         this.setState(initState);
         this.isInitialized = true;
     }
+}
+
+function formatterFix(formatter: Formatter): Formatter {
+    // Check formatter.parse to see if it is a valid formatter.
+    if (formatter.parse("none").valid === false) {
+        return formatter;
+    }
+    // Create a new formatter that will handle the autonumber values.
+    return {
+        format: (value: Big) => {
+            return value ? value.toString() : value;
+        },
+        parse: (value: string) => {
+            try {
+                return { valid: true, value: new Big(value), type: "AutoNumber" };
+            } catch {
+                return { valid: false, type: "AutoNumber" };
+            }
+        }
+    };
 }
