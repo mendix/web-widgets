@@ -1,19 +1,17 @@
 import classNames from "classnames";
 import { ReactElement, createElement, useRef, useMemo } from "react";
-import { SelectionMethod } from "../helpers/SelectActionHelper";
+import { useHelpersContext } from "../helpers/helpers-context";
 
 type P = JSX.IntrinsicElements["div"];
 
 export interface WidgetRootProps extends P {
     className?: string;
-    selection?: boolean;
-    selectionMethod: SelectionMethod;
     exporting?: boolean;
 }
 
 export function WidgetRoot(props: WidgetRootProps): ReactElement {
+    const { className, exporting, children, ...rest } = props;
     const ref = useRef<HTMLDivElement>(null);
-    const { className, selectionMethod, selection, exporting, children, ...rest } = props;
     const style = useMemo(() => {
         const s = { ...props.style };
         if (exporting && ref.current) {
@@ -21,6 +19,9 @@ export function WidgetRoot(props: WidgetRootProps): ReactElement {
         }
         return s;
     }, [props.style, exporting]);
+    const { selectActionHelper } = useHelpersContext();
+    const selectionMethod = selectActionHelper.selectionMethod;
+    const selectionEnabled = selectActionHelper.selectionType !== "None";
 
     return (
         <div
@@ -29,9 +30,9 @@ export function WidgetRoot(props: WidgetRootProps): ReactElement {
             style={style}
             className={classNames(className, "widget-datagrid", {
                 "widget-datagrid-exporting": exporting,
-                "widget-datagrid-selectable-rows": selection,
-                "widget-datagrid-selection-method-checkbox": selection && selectionMethod === "checkbox",
-                "widget-datagrid-selection-method-click": selection && selectionMethod === "rowClick"
+                "widget-datagrid-selectable-rows": selectionEnabled,
+                "widget-datagrid-selection-method-checkbox": selectionEnabled && selectionMethod === "checkbox",
+                "widget-datagrid-selection-method-click": selectionEnabled && selectionMethod === "rowClick"
             })}
         >
             {children}
