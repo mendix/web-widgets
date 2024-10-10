@@ -6,11 +6,11 @@ import {
     useCreateSelectionContextValue
 } from "@mendix/widget-plugin-grid/selection";
 import { createElement, memo, ReactElement, ReactNode } from "react";
+import { useHelpersContext } from "../helpers/helpers-context";
 
 interface WidgetHeaderContextProps {
     children?: ReactNode;
     filtersStore: HeaderFiltersStore;
-    selectionHelper?: SelectionHelper;
 }
 
 const SelectionContext = getGlobalSelectionContext();
@@ -26,9 +26,10 @@ function SelectionStatusProvider(props: { selectionHelper?: SelectionHelper; chi
 }
 
 function HeaderContainer(props: WidgetHeaderContextProps): ReactElement {
+    const { selectionHelper } = useHelpersContext();
     return (
         <FilterAPIProvider filtersStore={props.filtersStore}>
-            <SelectionStatusProvider selectionHelper={props.selectionHelper}>{props.children}</SelectionStatusProvider>
+            <SelectionStatusProvider selectionHelper={selectionHelper}>{props.children}</SelectionStatusProvider>
         </FilterAPIProvider>
     );
 }

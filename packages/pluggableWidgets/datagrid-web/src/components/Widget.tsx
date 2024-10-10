@@ -1,11 +1,10 @@
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState, Fragment } from "react";
 import { PagingPositionEnum, PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
 import { WidgetPropsProvider } from "../helpers/useWidgetProps";
-import { CellComponent, EventsController } from "../typings/CellComponent";
+import { CellComponent } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
@@ -19,10 +18,9 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 import { ExportWidget } from "./ExportWidget";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { observer } from "mobx-react-lite";
 import { RowsRenderer } from "./RowsRenderer";
+import { useHelpersContext } from "../helpers/helpers-context";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -57,17 +55,10 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
     rowAction?: ListActionValue;
-    selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
-
-    // Helpers
-    cellEventsController: EventsController;
-    checkboxEventsController: EventsController;
-    selectActionHelper: SelectActionHelper;
-    focusController: FocusTargetController;
 
     visibleColumns: GridColumn[];
     availableColumns: GridColumn[];
@@ -77,19 +68,11 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 }
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
-    const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-
-    const selectionEnabled = selectActionHelper.selectionType !== "None";
+    const { className, exporting, numberOfItems, onExportCancel } = props;
 
     return (
         <WidgetPropsProvider value={props}>
-            <WidgetRoot
-                className={className}
-                selectionMethod={selectActionHelper.selectionMethod}
-                selection={selectionEnabled}
-                style={{}}
-                exporting={exporting}
-            >
+            <WidgetRoot className={className} style={{}} exporting={exporting}>
                 <Main {...props} data={exporting ? [] : props.data} />
                 {exporting && (
                     <ExportWidget
@@ -132,10 +115,11 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paging,
         pagingPosition,
         preview,
-        selectActionHelper,
         setPage,
         visibleColumns
     } = props;
+
+    const { selectActionHelper } = useHelpersContext();
 
     const isInfinite = !paging;
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
@@ -236,9 +220,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             rows={rows}
                             rowClass={props.rowClass}
                             selectableWrapper={props.headerWrapperRenderer}
-                            selectActionHelper={selectActionHelper}
-                            focusController={props.focusController}
-                            eventsController={props.cellEventsController}
                         />
                         {(rows.length === 0 || preview) &&
                             emptyPlaceholderRenderer &&

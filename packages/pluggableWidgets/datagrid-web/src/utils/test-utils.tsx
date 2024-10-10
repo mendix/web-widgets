@@ -11,6 +11,8 @@ import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigati
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
+import { GridHelpers } from "../typings/GridHelpers";
+import { Writable } from "@mendix/widget-plugin-test-utils/dist/builders/type-utils";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -67,6 +69,16 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
     return new ColumnStore(index, c, parentStore);
 }
 
+export function mockProvideHelpers(): Writable<GridHelpers> {
+    return {
+        focusController: new FocusTargetController(new PositionController(), new VirtualGridLayout(1, 1, 10)),
+        selectActionHelper: mockSelectionProps(),
+        cellEventsController: { getProps: () => Object.create({}) },
+        checkboxEventsController: { getProps: () => Object.create({}) },
+        selectionHelper: undefined
+    };
+}
+
 export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
     const id = "dg1";
     const columnsProp = [column("Test")];
@@ -97,16 +109,8 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         availableColumns: columns,
         columnsSwap: jest.fn(),
         columnsCreateSizeSnapshot: jest.fn(),
-        selectionStatus: "unknown",
         setPage: jest.fn(),
         processedRows: 0,
-        gridInteractive: false,
-        selectActionHelper: mockSelectionProps(),
-        cellEventsController: { getProps: () => Object.create({}) },
-        checkboxEventsController: { getProps: () => Object.create({}) },
-        focusController: new FocusTargetController(
-            new PositionController(),
-            new VirtualGridLayout(1, columns.length, 10)
-        )
+        gridInteractive: false
     };
 }
