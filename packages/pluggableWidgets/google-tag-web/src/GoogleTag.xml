@@ -59,6 +59,10 @@
                     </propertyGroup>
                 </properties>
             </property>
+            <property key="sendUserID" type="boolean" required="true" defaultValue="false">
+                <caption>Share user ID</caption>
+                <description>Expose the authenticated User ID to uniquely identify individual users in Google Analytics.</description>
+            </property>
             <!-- / Common config options -->
 
             <!-- Advanced config options -->
