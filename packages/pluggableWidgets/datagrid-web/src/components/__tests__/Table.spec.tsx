@@ -163,7 +163,7 @@ describe("Table", () => {
         beforeEach(() => {
             props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
-            props.rowClickable = true;
+            props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -320,7 +320,7 @@ describe("Table", () => {
         beforeEach(() => {
             props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
-            props.rowClickable = true;
+            props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
