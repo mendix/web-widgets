@@ -58,6 +58,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "plotly.js": "^2.27.1",
     "react-plotly.js": "^2.6.0",
-    "rollup": "^2.79.1"
+    "rollup": "^2.79.2"
   }
 }
