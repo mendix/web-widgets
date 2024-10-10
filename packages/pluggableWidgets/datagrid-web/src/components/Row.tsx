@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement, createElement } from "react";
-import { CellComponent, EventsController } from "../typings/CellComponent";
+import { useHelpersContext } from "../helpers/helpers-context";
+import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { SelectorCell } from "./SelectorCell";
 import { CheckboxCell } from "./CheckboxCell";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { SelectorCell } from "./SelectorCell";
 
 export interface RowProps<C extends GridColumn> {
     className?: string;
@@ -15,15 +15,14 @@ export interface RowProps<C extends GridColumn> {
     index: number;
     showSelectorCell?: boolean;
     selectableWrapper?: (column: number, children: React.ReactElement) => React.ReactElement;
-    selectActionHelper: SelectActionHelper;
     preview: boolean;
     totalRows: number;
-    clickable: boolean;
-    eventsController: EventsController;
+    interactive: boolean;
 }
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell, selectActionHelper, preview, totalRows, eventsController } = props;
+    const { selectActionHelper, cellEventsController } = useHelpersContext();
+    const { CellComponent: Cell, preview, totalRows } = props;
     const selected = selectActionHelper.isSelected(props.item);
     const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
     const borderTop = props.index === 0;
@@ -41,6 +40,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                     borderTop={borderTop}
                     rowIndex={props.index}
                     lastRow={props.index === totalRows - 1}
+                    interactive={props.interactive}
                 />
             )}
             {props.columns.map((column, baseIndex) => {
@@ -51,9 +51,9 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         rowIndex={props.index}
                         columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
                         item={props.item}
-                        clickable={props.clickable}
+                        clickable={props.interactive}
                         preview={preview}
-                        eventsController={eventsController}
+                        eventsController={cellEventsController}
                     />
                 );
 
@@ -63,7 +63,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 <SelectorCell
                     key="column_selector_cell"
                     borderTop={borderTop}
-                    clickable={props.clickable}
+                    clickable={props.interactive}
                     tabIndex={-1}
                 />
             )}

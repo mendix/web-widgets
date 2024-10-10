@@ -1,27 +1,16 @@
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import {
     LayoutProps,
     useFocusTargetController
 } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
-import { SelectionHelper, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { createContext, useContext, useMemo, useRef } from "react";
 import { DatagridContainerProps } from "../../typings/DatagridProps";
-import { CellEventsController, useCellEventsController } from "../features/row-interaction/CellEventsController";
-import {
-    CheckboxEventsController,
-    useCheckboxEventsController
-} from "../features/row-interaction/CheckboxEventsController";
-import { SelectActionHelper, useSelectActionHelper } from "./SelectActionHelper";
+import { useCellEventsController } from "../features/row-interaction/CellEventsController";
+import { useCheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
+import { GridHelpers } from "../typings/GridHelpers";
+import { useSelectActionHelper } from "./SelectActionHelper";
 import { IColumnGroupStore } from "./state/ColumnGroupStore";
-
-type GridHelpers = {
-    readonly cellEventsController: CellEventsController;
-    readonly checkboxEventsController: CheckboxEventsController;
-    readonly focusController: FocusTargetController;
-    readonly selectActionHelper: SelectActionHelper;
-    readonly selectionHelper: SelectionHelper | undefined;
-};
 
 const context = createContext<GridHelpers | null>(null);
 
@@ -61,13 +50,14 @@ export function useProvideGridHelpers(props: Props): GridHelpers {
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
 
     const helpers = useMemo(
-        () => ({
-            cellEventsController,
-            checkboxEventsController,
-            focusController,
-            selectActionHelper,
-            selectionHelper
-        }),
+        () =>
+            Object.freeze({
+                cellEventsController,
+                checkboxEventsController,
+                focusController,
+                selectActionHelper,
+                selectionHelper
+            }),
         [cellEventsController, checkboxEventsController, focusController, selectActionHelper, selectionHelper]
     );
 

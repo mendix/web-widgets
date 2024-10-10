@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { MultiSelectionStatus, SelectionHelper, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -13,9 +13,10 @@ import {
 } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
 import { GridColumn } from "../../typings/GridColumn";
-import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
+import { column, mockGridColumn, mockProvideHelpers, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
+import { HelpersProvider } from "../../helpers/helpers-context";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument
@@ -30,44 +31,54 @@ window.IntersectionObserver = jest.fn(() => ({
 }));
 
 describe("Table", () => {
+    function renderWidget(
+        props: WidgetProps<GridColumn, ObjectItem>,
+        helpers = mockProvideHelpers()
+    ): ReturnType<typeof render> {
+        return render(
+            <HelpersProvider value={helpers}>
+                <Widget {...props} />
+            </HelpersProvider>
+        );
+    }
     it("renders the structure correctly", () => {
-        const component = render(<Widget {...mockWidgetProps()} />);
+        const component = renderWidget(mockWidgetProps());
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with sorting", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsSortable />);
+        const component = renderWidget({ ...mockWidgetProps(), columnsSortable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with resizing", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsResizable />);
+        const component = renderWidget({ ...mockWidgetProps(), columnsResizable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dragging", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsDraggable />);
+        const component = renderWidget({ ...mockWidgetProps(), columnsDraggable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with filtering", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsFilterable />);
+        const component = renderWidget({ ...mockWidgetProps(), columnsFilterable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with hiding", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsHidable />);
+        const component = renderWidget({ ...mockWidgetProps(), columnsHidable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with paging", () => {
-        const component = render(<Widget {...mockWidgetProps()} paging />);
+        const component = renderWidget({ ...mockWidgetProps(), paging: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -78,15 +89,16 @@ describe("Table", () => {
         props.columnsFilterable = true;
         props.visibleColumns = columns;
         props.availableColumns = columns;
-        const component = render(<Widget {...props} />);
+        const component = renderWidget(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with empty placeholder", () => {
-        const component = render(
-            <Widget {...mockWidgetProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
-        );
+        const component = renderWidget({
+            ...mockWidgetProps(),
+            emptyPlaceholderRenderer: renderWrapper => renderWrapper(<div />)
+        });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -103,13 +115,13 @@ describe("Table", () => {
         props.visibleColumns = columns;
         props.availableColumns = columns;
 
-        const component = render(<Widget {...props} />);
+        const component = renderWidget(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dynamic row class", () => {
-        const component = render(<Widget {...mockWidgetProps()} rowClass={() => "myclass"} />);
+        const component = renderWidget({ ...mockWidgetProps(), rowClass: () => "myclass" });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -121,63 +133,59 @@ describe("Table", () => {
         props.visibleColumns = columns;
         props.availableColumns = columns;
 
-        const component = render(<Widget {...props} />);
+        const component = renderWidget(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header wrapper", () => {
-        const component = render(
-            <Widget
-                {...mockWidgetProps()}
-                headerWrapperRenderer={(index, header) => (
-                    <div key={`header_wrapper_${index}`} className="my-custom-header">
-                        {header}
-                    </div>
-                )}
-            />
+        const props = mockWidgetProps();
+        props.headerWrapperRenderer = (index, header) => (
+            <div key={`header_wrapper_${index}`} className="my-custom-header">
+                {header}
+            </div>
         );
+        const component = renderWidget(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header filters and a11y", () => {
-        const component = render(
-            <Widget
-                {...mockWidgetProps()}
-                headerContent={
-                    <div className="my-custom-filters">
-                        <span />
-                    </div>
-                }
-                headerTitle="filter title"
-            />
+        const props = mockWidgetProps();
+        props.headerContent = (
+            <div className="my-custom-filters">
+                <span />
+            </div>
         );
+        props.headerTitle = "filter title";
+        const component = renderWidget(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     describe("with selection method checkbox", () => {
         let props: ReturnType<typeof mockWidgetProps>;
+        let helpers: ReturnType<typeof mockProvideHelpers>;
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
+            helpers = mockProvideHelpers();
+            helpers.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
             props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
 
         it("render method class", () => {
-            const { container } = render(<Widget {...props} />);
+            const { container } = renderWidget(props, helpers);
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
         });
 
         it("render an extra column and add class to each selected row", () => {
-            props.selectActionHelper.isSelected = () => true;
+            helpers.selectActionHelper.isSelected = () => true;
 
-            const { asFragment } = render(<Widget {...props} />);
+            const { asFragment } = renderWidget(props, helpers);
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -185,40 +193,45 @@ describe("Table", () => {
         it("render correct number of checked checkboxes", () => {
             const [a, b, c, d, e, f] = (props.data = objectItems(6));
             let selection: ObjectItem[] = [];
-            props.selectActionHelper.isSelected = item => selection.includes(item);
+            helpers.selectActionHelper.isSelected = item => selection.includes(item);
 
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             const getChecked = () => screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
 
-            const { rerender } = render(<Widget {...props} />);
+            const Wrapped = (props: WidgetProps<GridColumn, ObjectItem>): JSX.Element => (
+                <HelpersProvider value={helpers}>
+                    <Widget {...props} />
+                </HelpersProvider>
+            );
+            const { rerender } = render(<Wrapped {...props} />);
 
             expect(getChecked()).toHaveLength(0);
 
             selection = [a, b, c];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(<Wrapped {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(3);
 
             selection = [c];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(<Wrapped {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(1);
 
             selection = [d, e];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(<Wrapped {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(2);
 
             selection = [f, e, d, a];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(<Wrapped {...props} data={[a, b, c, d, e, f]} />);
             expect(getChecked()).toHaveLength(4);
         });
 
         it("call onSelect when checkbox is clicked", async () => {
             const items = props.data;
             const onSelect = jest.fn();
-            props.selectActionHelper.onSelect = onSelect;
-            props.checkboxEventsController = new CheckboxEventsController(
+            helpers.selectActionHelper.onSelect = onSelect;
+            helpers.checkboxEventsController = new CheckboxEventsController(
                 item => ({
                     item,
-                    selectionMethod: props.selectActionHelper.selectionMethod,
+                    selectionMethod: helpers.selectActionHelper.selectionMethod,
                     selectionType: "Single",
                     selectionMode: "clear",
                     pageSize: props.pageSize
@@ -229,7 +242,7 @@ describe("Table", () => {
                 jest.fn()
             );
 
-            render(<Widget {...props} />);
+            renderWidget(props, helpers);
 
             const checkbox1 = screen.getAllByRole("checkbox")[0];
             const checkbox3 = screen.getAllByRole("checkbox")[2];
@@ -256,8 +269,9 @@ describe("Table", () => {
         const props = mockWidgetProps();
         props.data = objectItems(5);
         props.paging = true;
-        props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5, "clear");
-        render(<Widget {...props} />);
+        const helpers = mockProvideHelpers();
+        helpers.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5, "clear");
+        renderWidget(props, helpers);
 
         const colheader = screen.getAllByRole("columnheader")[0];
         expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -266,12 +280,17 @@ describe("Table", () => {
     describe("with multi selection helper", () => {
         it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
             const props = mockWidgetProps();
+            const helpers = mockProvideHelpers();
             props.data = objectItems(5);
             props.paging = true;
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
 
             const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                return render(<Widget {...props} selectionStatus={status} />);
+                helpers.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
+                helpers.selectionHelper = jest.mocked<SelectionHelper>({
+                    type: "Multi",
+                    selectionStatus: status
+                } as any);
+                return renderWidget(props, helpers);
             };
 
             renderWithStatus("none");
@@ -288,9 +307,10 @@ describe("Table", () => {
 
         it("not render header checkbox if method is rowClick", () => {
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
+            const helpers = mockProvideHelpers();
+            helpers.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
 
-            render(<Widget {...props} />);
+            renderWidget(props, helpers);
 
             const colheader = screen.getAllByRole("columnheader")[0];
             expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -298,43 +318,45 @@ describe("Table", () => {
 
         it("call onSelectAll when header checkbox is clicked", async () => {
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
-            props.selectActionHelper.onSelectAll = jest.fn();
-            props.selectionStatus = "none";
+            const helpers = mockProvideHelpers();
+            helpers.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
+            helpers.selectActionHelper.onSelectAll = jest.fn();
+            helpers.selectionHelper = jest.mocked<SelectionHelper>({ type: "Multi", selectionStatus: "none" } as any);
 
-            render(<Widget {...props} />);
+            renderWidget(props, helpers);
 
             const checkbox = screen.getAllByRole("checkbox")[0];
 
             await userEvent.click(checkbox);
-            expect(props.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(1);
+            expect(helpers.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(1);
 
             await userEvent.click(checkbox);
-            expect(props.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(2);
+            expect(helpers.selectActionHelper.onSelectAll).toHaveBeenCalledTimes(2);
         });
     });
 
     describe("with selection method rowClick", () => {
         let props: ReturnType<typeof mockWidgetProps>;
+        let helpers: ReturnType<typeof mockProvideHelpers>;
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
+            helpers = mockProvideHelpers();
+            helpers.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
             props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
 
         it("render method class", () => {
-            const { container } = render(<Widget {...props} />);
-
+            const { container } = renderWidget(props, helpers);
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
         });
 
         it("add class to each selected cell", () => {
-            props.selectActionHelper.isSelected = () => true;
+            helpers.selectActionHelper.isSelected = () => true;
 
-            const { asFragment } = render(<Widget {...props} />);
+            const { asFragment } = renderWidget(props, helpers);
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -345,11 +367,11 @@ describe("Table", () => {
             const columns = [column("Column A"), column("Column B")].map((col, index) => mockGridColumn(col, index));
             props.visibleColumns = columns;
             props.availableColumns = columns;
-            props.cellEventsController = new CellEventsController(
+            helpers.cellEventsController = new CellEventsController(
                 item => ({
                     item,
-                    selectionType: props.selectActionHelper.selectionType,
-                    selectionMethod: props.selectActionHelper.selectionMethod,
+                    selectionType: helpers.selectActionHelper.selectionType,
+                    selectionMethod: helpers.selectActionHelper.selectionMethod,
                     selectionMode: "clear",
                     clickTrigger: "none",
                     pageSize: props.pageSize
@@ -361,7 +383,7 @@ describe("Table", () => {
                 jest.fn()
             );
 
-            render(<Widget {...props} />);
+            renderWidget(props, helpers);
 
             const rows = screen.getAllByRole("row").slice(1);
             expect(rows).toHaveLength(3);
@@ -413,8 +435,9 @@ describe("Table", () => {
         }: WidgetProps<GridColumn, ObjectItem> & {
             selectionMethod: ItemSelectionMethodEnum;
         }): ReactElement {
-            const helper = useSelectionHelper(selection, ds, undefined);
-            const selectHelper = useSelectActionHelper(
+            const { focusController } = mockProvideHelpers();
+            const selectionHelper = useSelectionHelper(selection, ds, undefined);
+            const selectActionHelper = useSelectActionHelper(
                 {
                     itemSelection: selection,
                     itemSelectionMethod: selectionMethod,
@@ -422,24 +445,28 @@ describe("Table", () => {
                     showSelectAllToggle: false,
                     pageSize: 5
                 },
-                helper
+                selectionHelper
             );
             const cellEventsController = useCellEventsController(
-                selectHelper,
+                selectActionHelper,
                 new ClickActionHelper("single", null),
-                props.focusController
+                focusController
             );
 
-            const checkboxEventsController = useCheckboxEventsController(selectHelper, props.focusController);
+            const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
+
+            const helpers = Object.freeze({
+                cellEventsController,
+                checkboxEventsController,
+                focusController,
+                selectActionHelper,
+                selectionHelper
+            });
 
             return (
-                <Widget
-                    {...props}
-                    selectActionHelper={selectHelper}
-                    cellEventsController={cellEventsController}
-                    checkboxEventsController={checkboxEventsController}
-                    selectionStatus={helper?.type === "Multi" ? helper.selectionStatus : "unknown"}
-                />
+                <HelpersProvider value={helpers}>
+                    <Widget {...props} />
+                </HelpersProvider>
             );
         }
 
@@ -618,7 +645,7 @@ describe("Table", () => {
 
             const user = userEvent.setup();
 
-            render(<Widget {...props} data={items} />);
+            renderWidget({ ...props, data: items });
 
             const [input] = screen.getAllByRole("textbox");
             await user.click(input);
