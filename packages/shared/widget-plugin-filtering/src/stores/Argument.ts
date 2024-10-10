@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { computed, makeObservable, observable, trace } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 import { DateArgumentInterface, NumberArgumentInterface, StringArgumentInterface } from "../typings/ArgumentInterface";
 
 type Formatter<T extends Big | Date | string> = EditableValue<T>["formatter"];
@@ -26,9 +26,6 @@ export class ArgumentBase<T extends Big | Date | string> {
 
             _formatter: observable.ref
         });
-
-        trace(this, "_value");
-        trace(this, "displayValue");
     }
 
     updateProps(formatter: Formatter<T>): void {
