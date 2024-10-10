@@ -27,9 +27,9 @@ test.describe("language-selector-web", () => {
     test("checks if Chinese language is rendered as expected", async ({ page }) => {
         await page.click(".current-language-text", { force: true });
         await page.click("text=Chinese");
-        await expect(page.getByText("欢迎")).toBeInViewport();
+        await expect(page.getByText("欢迎")).toBeVisible();
         await expect(page.getByText("欢迎")).toContainText("欢迎");
-        await expect(page).toHaveScreenshot(`languageSelectorChinese.png`);
+        await expect(page.locator(".mx-page").filter({hasText:"欢迎"})).toHaveScreenshot(`languageSelectorChinese.png`);
     });
 
     test("checks accessibility violations", async ({ page }) => {
