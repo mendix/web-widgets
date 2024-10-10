@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import { GridColumn } from "./GridColumn";
 import { ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 
@@ -8,7 +8,6 @@ export interface EventsController {
 }
 
 export interface CellComponentProps<C extends GridColumn> {
-    children?: ReactNode;
     className?: string;
     column: C;
     item: ObjectItem;
