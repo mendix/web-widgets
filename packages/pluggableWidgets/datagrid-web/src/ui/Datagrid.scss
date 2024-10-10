@@ -3,10 +3,88 @@
 @use "./ExportProgress.scss";
 
 .widget-datagrid {
+    --brand-primary: #264ae5;
+    --dg-brand-primary: #264ae5;
+    --dg-skeleton-light: rgba(194, 194, 194, 0.2);
+    --dg-skeleton-dark: #d2d2d2;
+
     position: relative;
+
     .th.widget-datagrid-col-select,
     .td.widget-datagrid-col-select {
         align-items: center;
+    }
+
+    &-loader-container {
+        background-color: rgba(255, 255, 255, 1);
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-skeleton,
+    &-spinner {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+
+    &-skeleton {
+        padding: 6px var(--dropdown-outer-padding, 10px);
+
+        &-loader {
+            animation: skeleton-loading 1s linear infinite alternate;
+            background: linear-gradient(90deg, var(--dg-skeleton-light) 0%, var(--dg-skeleton-dark) 100%);
+            background-size: 300% 100%;
+            border-radius: 4px;
+            height: 16px;
+            width: 148px;
+
+            &-small {
+                margin-right: 8px;
+                width: 16px;
+            }
+        }
+    }
+
+    &-spinner {
+        justify-content: center;
+        width: 100%;
+
+        &-margin {
+            margin: 52px 0;
+        }
+
+        &-loader {
+            --widget-combobox-spinner-loader: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+            animation: rotate 1s infinite linear;
+            aspect-ratio: 1;
+            background: var(--brand-primary, --dg-brand-primary);
+            border-radius: 50%;
+            mask: var(--widget-combobox-spinner-loader);
+            mask-composite: subtract;
+
+            &-large {
+                padding: 7px;
+                height: 48px;
+                width: 48px;
+            }
+            &-medium {
+                padding: 3.5px;
+                height: 24px;
+                width: 24px;
+            }
+
+            &-small {
+                padding: 2.3px;
+                height: 16px;
+                width: 16px;
+            }
+        }
     }
 }
 
@@ -25,4 +103,16 @@
 .widget-datagrid-load-more {
     display: block !important;
     margin: 0 auto;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: right;
+    }
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(1turn);
+    }
 }
