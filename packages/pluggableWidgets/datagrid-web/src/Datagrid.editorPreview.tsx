@@ -12,6 +12,7 @@ import { ColumnPreview } from "./helpers/ColumnPreview";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import "./ui/DatagridPreview.scss";
+import { HelpersProvider } from "./helpers/helpers-context";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -80,67 +81,72 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const eventsController = { getProps: () => Object.create({}) };
 
     return (
-        <Widget
-            CellComponent={Cell}
-            className={props.class}
-            columnsDraggable={props.columnsDraggable}
-            columnsFilterable={props.columnsFilterable}
-            columnsHidable={props.columnsHidable}
-            columnsResizable={props.columnsResizable}
-            columnsSortable={props.columnsSortable}
-            visibleColumns={columns}
-            availableColumns={[]}
-            columnsSwap={noop}
-            columnsCreateSizeSnapshot={noop}
-            data={data}
-            emptyPlaceholderRenderer={useCallback(
-                (renderWrapper: (children: ReactNode) => ReactElement) => (
-                    <EmptyPlaceholder caption="Empty list message: Place widgets here">
-                        {renderWrapper(null)}
-                    </EmptyPlaceholder>
-                ),
-                [EmptyPlaceholder]
-            )}
-            exporting={false}
-            filterRenderer={useCallback(
-                (renderWrapper, columnIndex) => {
-                    const column = props.columns.at(columnIndex);
-                    return column?.filter ? (
-                        <column.filter.renderer caption="Place filter widget here">
+        <HelpersProvider
+            value={{
+                selectActionHelper,
+                selectionHelper: undefined,
+                focusController,
+                cellEventsController: eventsController,
+                checkboxEventsController: eventsController
+            }}
+        >
+            <Widget
+                CellComponent={Cell}
+                className={props.class}
+                columnsDraggable={props.columnsDraggable}
+                columnsFilterable={props.columnsFilterable}
+                columnsHidable={props.columnsHidable}
+                columnsResizable={props.columnsResizable}
+                columnsSortable={props.columnsSortable}
+                visibleColumns={columns}
+                availableColumns={[]}
+                columnsSwap={noop}
+                columnsCreateSizeSnapshot={noop}
+                data={data}
+                emptyPlaceholderRenderer={useCallback(
+                    (renderWrapper: (children: ReactNode) => ReactElement) => (
+                        <EmptyPlaceholder caption="Empty list message: Place widgets here">
                             {renderWrapper(null)}
-                        </column.filter.renderer>
-                    ) : (
-                        renderWrapper(null)
-                    );
-                },
-                [props.columns]
-            )}
-            headerContent={
-                <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                    <div />
-                </props.filtersPlaceholder.renderer>
-            }
-            hasMoreItems={false}
-            headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-            numberOfItems={props.pageSize ?? numberOfItems}
-            page={0}
-            paginationType={props.pagination}
-            pageSize={props.pageSize ?? numberOfItems}
-            showPagingButtons={props.showPagingButtons}
-            loadMoreButtonCaption={props.loadMoreButtonCaption}
-            paging={props.pagination === "buttons"}
-            pagingPosition={props.pagingPosition}
-            preview
-            processedRows={0}
-            styles={parseStyle(props.style)}
-            selectionStatus={"none"}
-            id={gridId}
-            gridInteractive={!!(props.itemSelection !== "None" || props.onClick)}
-            selectActionHelper={selectActionHelper}
-            cellEventsController={eventsController}
-            checkboxEventsController={eventsController}
-            focusController={focusController}
-        />
+                        </EmptyPlaceholder>
+                    ),
+                    [EmptyPlaceholder]
+                )}
+                exporting={false}
+                filterRenderer={useCallback(
+                    (renderWrapper, columnIndex) => {
+                        const column = props.columns.at(columnIndex);
+                        return column?.filter ? (
+                            <column.filter.renderer caption="Place filter widget here">
+                                {renderWrapper(null)}
+                            </column.filter.renderer>
+                        ) : (
+                            renderWrapper(null)
+                        );
+                    },
+                    [props.columns]
+                )}
+                headerContent={
+                    <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                        <div />
+                    </props.filtersPlaceholder.renderer>
+                }
+                hasMoreItems={false}
+                headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
+                numberOfItems={props.pageSize ?? numberOfItems}
+                page={0}
+                paginationType={props.pagination}
+                pageSize={props.pageSize ?? numberOfItems}
+                showPagingButtons={props.showPagingButtons}
+                loadMoreButtonCaption={props.loadMoreButtonCaption}
+                paging={props.pagination === "buttons"}
+                pagingPosition={props.pagingPosition}
+                preview
+                processedRows={0}
+                styles={parseStyle(props.style)}
+                id={gridId}
+                gridInteractive={!!(props.itemSelection !== "None" || props.onClick)}
+            />
+        </HelpersProvider>
     );
 }
 

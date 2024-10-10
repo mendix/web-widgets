@@ -2,23 +2,32 @@ import { createElement, ReactElement } from "react";
 import { ObjectItem } from "mendix";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { CellElement, CellElementProps } from "./CellElement";
-import { useWidgetProps } from "../helpers/useWidgetProps";
+import { useHelpersContext } from "../helpers/helpers-context";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;
     lastRow?: boolean;
     item: ObjectItem;
+    interactive: boolean;
+    selectRowLabel?: string;
 };
 
-export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellProps): ReactElement {
+export function CheckboxCell({
+    item,
+    rowIndex,
+    lastRow,
+    interactive,
+    selectRowLabel,
+    ...rest
+}: CheckboxCellProps): ReactElement {
+    const { selectActionHelper, checkboxEventsController } = useHelpersContext();
     const keyNavProps = useFocusTargetProps<HTMLInputElement>({
         columnIndex: 0,
         rowIndex
     });
 
-    const { selectActionHelper, checkboxEventsController, selectRowLabel, gridInteractive } = useWidgetProps();
     return (
-        <CellElement {...rest} clickable={gridInteractive} className="widget-datagrid-col-select" tabIndex={-1}>
+        <CellElement {...rest} clickable={interactive} className="widget-datagrid-col-select" tabIndex={-1}>
             <input
                 checked={selectActionHelper.isSelected(item)}
                 type="checkbox"

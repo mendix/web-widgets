@@ -58,7 +58,7 @@ describe("Datagrid", () => {
         });
         window.IntersectionObserver = mockIntersectionObserver;
     });
-    it("should not take more then 9s to hide 3 column", async () => {
+    it("should not take eternity to hide 3 column", async () => {
         const props: DatagridContainerProps = {
             advanced: false,
             name: "datagrid",
