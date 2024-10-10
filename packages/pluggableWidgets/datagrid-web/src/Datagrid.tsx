@@ -136,7 +136,7 @@ const Container = observer((props: Props): ReactElement => {
             pagingPosition={props.pagingPosition}
             showPagingButtons={props.showPagingButtons}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-            rowClickable={!!(props.itemSelection || props.onClick)}
+            gridInteractive={!!(props.itemSelection || props.onClick)}
             setPage={setPage}
             styles={props.style}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}

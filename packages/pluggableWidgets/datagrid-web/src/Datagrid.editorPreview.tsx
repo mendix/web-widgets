@@ -135,7 +135,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             styles={parseStyle(props.style)}
             selectionStatus={"none"}
             id={gridId}
-            rowClickable={!!(props.itemSelection !== "None" || props.onClick)}
+            gridInteractive={!!(props.itemSelection !== "None" || props.onClick)}
             selectActionHelper={selectActionHelper}
             cellEventsController={eventsController}
             checkboxEventsController={eventsController}

@@ -15,9 +15,10 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
         columnIndex: 0,
         rowIndex
     });
-    const { selectActionHelper, checkboxEventsController, selectRowLabel, rowClickable } = useWidgetProps();
+
+    const { selectActionHelper, checkboxEventsController, selectRowLabel, gridInteractive } = useWidgetProps();
     return (
-        <CellElement {...rest} clickable={rowClickable} className="widget-datagrid-col-select" tabIndex={-1}>
+        <CellElement {...rest} clickable={gridInteractive} className="widget-datagrid-col-select" tabIndex={-1}>
             <input
                 checked={selectActionHelper.isSelected(item)}
                 type="checkbox"

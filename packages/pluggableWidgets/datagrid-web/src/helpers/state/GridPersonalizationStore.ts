@@ -13,10 +13,11 @@ import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePerso
 import { ColumnId } from "../../typings/GridColumn";
 import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-
+import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
+    private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 2;
 
     private storage: PersonalizationStorage;
 
@@ -42,27 +43,8 @@ export class GridPersonalizationStore {
             this.storage = new AttributePersonalizationStorage(props);
         }
 
-        this.disposers.push(
-            reaction(
-                () => this.storage.settings,
-                settings => {
-                    if (settings !== undefined) {
-                        this.applySettings(settings);
-                    }
-                },
-                { fireImmediately: true, equals: comparer.structural }
-            )
-        );
-
-        this.disposers.push(
-            reaction(
-                () => this.settings,
-                settings => {
-                    this.storage.updateSettings(settings);
-                },
-                { delay: 250 }
-            )
-        );
+        this.disposers.push(this.setupReadReaction());
+        this.disposers.push(this.setupWriteReaction());
     }
 
     dispose(): void {
@@ -73,10 +55,78 @@ export class GridPersonalizationStore {
         this.storage.updateProps?.(props);
     }
 
+    private setupReadReaction(): IReactionDisposer {
+        return reaction<GridPersonalizationStorageSettings | null, true>(
+            () => {
+                const maybeSettings = this.storage.settings;
+                const result = this.readSettings(this.gridName, this.gridColumnsHash, maybeSettings);
+                if (result.hasError) {
+                    if (result.error instanceof InvalidSettingsError) {
+                        console.warn(this.gridName, result.error);
+                        console.warn(this.gridName, "Erase settings to prevent errors.");
+                        this.storage.updateSettings(undefined);
+                    }
+                    return null;
+                }
+                return result.value;
+            },
+            settings => {
+                if (settings == null) {
+                    return;
+                }
+                this.applySettings(settings);
+            },
+            { fireImmediately: true, equals: comparer.structural }
+        );
+    }
+
+    private setupWriteReaction(): IReactionDisposer {
+        return reaction(
+            () => this.settings,
+            settings => {
+                this.storage.updateSettings(settings);
+            },
+            { delay: 250, equals: comparer.structural }
+        );
+    }
+
     private applySettings(settings: GridPersonalizationStorageSettings): void {
-        this.columnsStore.setColumnSettings(toColumnSettings(this.gridName, this.gridColumnsHash, settings));
+        this.columnsStore.setColumnSettings(toColumnSettings(settings));
         this.columnsStore.setColumnFilterSettings(settings.columnFilters);
-        this.headerFilters.settings = new Map(settings.groupFilters);
+    }
+
+    private readSettings(
+        gridName: string,
+        gridColumnsHash: string,
+        settings: unknown
+    ): Result<GridPersonalizationStorageSettings, Error> {
+        if (settings == null) {
+            return error(new UndefinedSettingsError());
+        }
+        if (!this.isSettingsObject(settings)) {
+            return error(new InvalidSettingsError());
+        }
+        if (settings.name !== gridName || settings.settingsHash !== gridColumnsHash) {
+            return error(
+                new Error(
+                    `Widget configuration for (${gridName})[hash:${gridColumnsHash}]` +
+                        ` doesn't match provided settings (${settings.name})[hash:${settings.settingsHash}].` +
+                        " Restoring those settings might result in errors."
+                )
+            );
+        }
+        return value(settings);
+    }
+
+    private isSettingsObject(settings: unknown): settings is GridPersonalizationStorageSettings {
+        return (
+            typeof settings === "object" &&
+            settings !== null &&
+            "name" in settings &&
+            "settingsHash" in settings &&
+            "schemaVersion" in settings &&
+            settings.schemaVersion === this.schemaVersion
+        );
     }
 
     get settings(): GridPersonalizationStorageSettings {
@@ -90,16 +140,7 @@ export class GridPersonalizationStore {
     }
 }
 
-function toColumnSettings(
-    gridName: string,
-    gridColumnsHash: string,
-    settings: GridPersonalizationStorageSettings
-): ColumnPersonalizationSettings[] {
-    if (settings.name !== gridName || settings.settingsHash !== gridColumnsHash) {
-        console.warn(
-            `Widget configuration for (${gridName})[hash:${gridColumnsHash}] doesn't match provided settings (${settings.name})[hash:${settings.settingsHash}]. Restoring those settings might result in errors.`
-        );
-    }
+function toColumnSettings(settings: GridPersonalizationStorageSettings): ColumnPersonalizationSettings[] {
     return settings.columns.map(c => {
         const sortIndex = settings.sortOrder.findIndex(s => s[0] === c.columnId);
 
@@ -147,4 +188,17 @@ function toStorageFormat(
         sortOrder,
         columnOrder
     };
+}
+
+class InvalidSettingsError extends Error {
+    constructor() {
+        super("Invalid settings object");
+        this.name = "InvalidSettingsError";
+    }
+}
+class UndefinedSettingsError extends Error {
+    constructor() {
+        super("Settings is undefined");
+        this.name = "UndefinedSettingsError";
+    }
 }
