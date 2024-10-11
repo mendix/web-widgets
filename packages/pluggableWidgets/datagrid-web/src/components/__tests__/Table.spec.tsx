@@ -460,7 +460,8 @@ describe("Table", () => {
                 checkboxEventsController,
                 focusController,
                 selectActionHelper,
-                selectionHelper
+                selectionHelper,
+                preview: false
             });
 
             return (

@@ -56,7 +56,8 @@ export function useProvideGridHelpers(props: Props): GridHelpers {
                 checkboxEventsController,
                 focusController,
                 selectActionHelper,
-                selectionHelper
+                selectionHelper,
+                preview: false
             }),
         [cellEventsController, checkboxEventsController, focusController, selectActionHelper, selectionHelper]
     );

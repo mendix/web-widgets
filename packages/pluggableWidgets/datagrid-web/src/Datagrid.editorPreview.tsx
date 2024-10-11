@@ -87,7 +87,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 selectionHelper: undefined,
                 focusController,
                 cellEventsController: eventsController,
-                checkboxEventsController: eventsController
+                checkboxEventsController: eventsController,
+                preview: true
             }}
         >
             <Widget

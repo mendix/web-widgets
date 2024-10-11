@@ -75,7 +75,8 @@ export function mockProvideHelpers(): Writable<GridHelpers> {
         selectActionHelper: mockSelectionProps(),
         cellEventsController: { getProps: () => Object.create({}) },
         checkboxEventsController: { getProps: () => Object.create({}) },
-        selectionHelper: undefined
+        selectionHelper: undefined,
+        preview: false
     };
 }
 

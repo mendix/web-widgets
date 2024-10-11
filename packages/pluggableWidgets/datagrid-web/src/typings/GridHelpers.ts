@@ -9,4 +9,5 @@ export type GridHelpers = {
     readonly focusController: FocusTargetController;
     readonly selectActionHelper: SelectActionHelper;
     readonly selectionHelper: SelectionHelper | undefined;
+    readonly preview: boolean;
 };
