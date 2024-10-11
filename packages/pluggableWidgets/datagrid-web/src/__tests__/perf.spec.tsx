@@ -82,7 +82,8 @@ describe("Datagrid", () => {
             columnsDraggable: true,
             filterList: [],
             configurationStorageType: "attribute",
-            configurationAttribute: undefined
+            configurationAttribute: undefined,
+            loadingType: "spinner"
         };
         const user = userEvent.setup();
         let renderCount = 0;
