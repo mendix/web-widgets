@@ -44,18 +44,8 @@ export class ArgumentBase<T extends Big | Date | string> {
 
     get displayValue(): string {
         if (this.isValid) {
-            console.log(
-                "displayValue",
-                this._formatter?.format(this.value),
-                this.value?.toString(),
-                "outcome",
-                this._formatter?.format(this.value) || this.value?.toString() || ""
-            );
-
             return this._formatter?.format(this.value) || this.value?.toString() || "";
         } else {
-            console.log("displayValue invalid", this._lastSetTextValue);
-
             return this._lastSetTextValue;
         }
     }
@@ -63,7 +53,6 @@ export class ArgumentBase<T extends Big | Date | string> {
     set displayValue(textValue: string) {
         this._lastSetTextValue = textValue;
         const parseResult = this._formatter?.parse(this._lastSetTextValue);
-        console.log("parseResult", parseResult);
 
         this.isValid = parseResult.valid || (parseResult as any).type === "AutoNumber";
         if ((parseResult as any).valid || (this.isValid && !this.equals(this._value, (parseResult as any).value))) {
