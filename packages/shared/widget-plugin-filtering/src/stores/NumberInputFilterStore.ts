@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { ListAttributeValue, NumberFormatter } from "mendix";
+import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
 import { inputStateFromCond } from "../condition-utils";
@@ -88,7 +88,7 @@ export class NumberInputFilterStore
 
 function formatterFix(formatter: Formatter): Formatter {
     // Check formatter.parse to see if it is a valid formatter.
-    if (formatter.parse("none").valid === false) {
+    if (formatter.parse("none")?.valid === false) {
         return formatter;
     }
     // Create a new formatter that will handle the autonumber values.
