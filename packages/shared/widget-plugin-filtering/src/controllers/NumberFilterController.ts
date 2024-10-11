@@ -64,6 +64,8 @@ export class NumberFilterController {
         // This reaction writes value to filter.
         const [onInputsChange, clearDebounce] = debounce(([v1, v2]: [string, string]) => {
             runInAction(() => {
+                console.log("v1", typeof v1, "v2", typeof v2);
+
                 this.filter.arg1.displayValue = v1;
                 this.filter.arg2.displayValue = v2;
             });

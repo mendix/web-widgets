@@ -60,6 +60,8 @@ export class NumberInputFilterStore
 
         const [fn, val1, val2] = inputData;
         this.filterFunction = fn;
+        console.log("input", inputData);
+
         try {
             this.arg1.value = new Big(val1 ?? "");
         } catch {
