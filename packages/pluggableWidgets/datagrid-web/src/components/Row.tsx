@@ -21,10 +21,9 @@ export interface RowProps<C extends GridColumn> {
 }
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { selectActionHelper, cellEventsController } = useHelpersContext();
+    const { cellEventsController } = useHelpersContext();
     const { CellComponent: Cell, preview, totalRows } = props;
-    const selected = selectActionHelper.isSelected(props.item);
-    const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
+    const [showCheckbox, selected, ariaSelected] = useSelectionFlags(props.item);
     const borderTop = props.index === 0;
 
     return (
@@ -33,7 +32,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
             role="row"
             aria-selected={ariaSelected}
         >
-            {selectActionHelper.showCheckboxColumn && (
+            {showCheckbox && (
                 <CheckboxCell
                     item={props.item}
                     key="checkbox_cell"
@@ -49,7 +48,7 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         key={`row_${props.item.id}_col_${column.columnId}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
+                        columnIndex={showCheckbox ? baseIndex + 1 : baseIndex}
                         item={props.item}
                         clickable={props.interactive}
                         preview={preview}
@@ -70,3 +69,12 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
         </div>
     );
 }
+
+const useSelectionFlags = (
+    item: ObjectItem
+): [showCheckbox: boolean, selected: boolean, ariaSelected: boolean | undefined] => {
+    const { selectActionHelper } = useHelpersContext();
+    const selected = selectActionHelper.isSelected(item);
+    const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
+    return [selectActionHelper.showCheckboxColumn, selected, ariaSelected];
+};

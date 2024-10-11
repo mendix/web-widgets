@@ -1,6 +1,6 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { ObjectItem } from "mendix";
-import { createElement, memo } from "react";
+import { createElement } from "react";
 import { useHelpersContext } from "../helpers/helpers-context";
 import { CellComponent } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -18,7 +18,7 @@ interface RowsRendererProps {
 }
 
 // eslint-disable-next-line prefer-arrow-callback
-export const RowsRenderer = memo(function RowsRenderer(props: RowsRendererProps): React.ReactElement {
+export const RowsRenderer = function RowsRenderer(props: RowsRendererProps): React.ReactElement {
     return (
         <KeyNavProvider focusController={useHelpersContext().focusController}>
             {props.rows.map((item, rowIndex) => {
@@ -40,4 +40,4 @@ export const RowsRenderer = memo(function RowsRenderer(props: RowsRendererProps)
             })}
         </KeyNavProvider>
     );
-});
+};
