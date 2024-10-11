@@ -19,7 +19,6 @@ export class NumberInputFilterStore
 {
     readonly storeType = "input";
     readonly type = "number";
-    private formatter: Formatter;
 
     constructor(attributes: Array<ListAttributeValue<Big>>, initCond: FilterCondition | null) {
         let { formatter } = attributes[0];
@@ -30,7 +29,6 @@ export class NumberInputFilterStore
             fromJSON: action,
             fromViewState: action
         });
-        this.formatter = formatter;
         if (initCond) {
             this.fromViewState(initCond);
         }
@@ -40,8 +38,6 @@ export class NumberInputFilterStore
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
         }
-        this.arg1.updateProps(this.formatter as NumberFormatter);
-        this.arg2.updateProps(this.formatter as NumberFormatter);
     }
 
     toJSON(): InputData {
