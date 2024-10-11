@@ -72,7 +72,7 @@ describe("Number Filter", () => {
                 jest.runOnlyPendingTimers();
 
                 expect(action.execute).toHaveBeenCalledTimes(1);
-                expect(attribute.setValue).toHaveBeenCalledWith("10");
+                expect(attribute.setValue).toHaveBeenCalledWith(new Big("10"));
             });
 
             describe("with defaultValue", () => {
