@@ -130,6 +130,8 @@
                     <returnType assignableTo="databaseAttributeString" />
                 </property>
                 <!-- END DATABASE / STRING -->
+            </propertyGroup>
+            <propertyGroup caption="Attribute">
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
                     <caption>Entity</caption>
