@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, createElement, useCallback, useState, Fragment } from "react";
 import { PagingPositionEnum, PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
-import { WidgetPropsProvider } from "../helpers/useWidgetProps";
 import { CellComponent } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
@@ -71,22 +70,20 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
     const { className, exporting, numberOfItems, onExportCancel } = props;
 
     return (
-        <WidgetPropsProvider value={props}>
-            <WidgetRoot className={className} style={{}} exporting={exporting}>
-                <Main {...props} data={exporting ? [] : props.data} />
-                {exporting && (
-                    <ExportWidget
-                        alertLabel={props.exportDialogLabel ?? "Export progress"}
-                        cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
-                        failed={false}
-                        onCancel={onExportCancel}
-                        open={exporting}
-                        progress={props.processedRows}
-                        total={numberOfItems}
-                    />
-                )}
-            </WidgetRoot>
-        </WidgetPropsProvider>
+        <WidgetRoot className={className} style={{}} exporting={exporting}>
+            <Main {...props} data={exporting ? [] : props.data} />
+            {exporting && (
+                <ExportWidget
+                    alertLabel={props.exportDialogLabel ?? "Export progress"}
+                    cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
+                    failed={false}
+                    onCancel={onExportCancel}
+                    open={exporting}
+                    progress={props.processedRows}
+                    total={numberOfItems}
+                />
+            )}
+        </WidgetRoot>
     );
 });
 
