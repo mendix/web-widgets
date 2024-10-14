@@ -8,19 +8,7 @@ import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    const {
-        stringAttribute,
-        // id,
-        width: w,
-        height: h,
-        widthUnit,
-        heightUnit,
-        // preset,
-        // menubarMode,
-        readOnlyStyle
-        // enableStatusBar,
-        // resize
-    } = props;
+    const { stringAttribute, width: w, height: h, widthUnit, heightUnit, readOnlyStyle } = props;
 
     const { width, height } = getDimensions({
         width: w,
