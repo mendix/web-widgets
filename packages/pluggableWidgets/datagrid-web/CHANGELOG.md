@@ -20,11 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-## [2.24.0] - 2024-09-23
+## [2.23.1] - 2024-09-25
 
-### Added
+### Changed
 
--   We have introduced support for reference set associations in the linked attribute property.
+-   Widget maintenance.
 
 ## [2.23.0] - 2024-09-20
 
