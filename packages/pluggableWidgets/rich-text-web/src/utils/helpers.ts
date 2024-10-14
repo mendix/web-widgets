@@ -42,6 +42,9 @@ export function transformLegacyQuillFormats(delta: Delta): { data: Op[]; isDirty
                 d.attributes["indent-left"] = (d.attributes.indent as number) * 3;
                 delete d.attributes.indent;
             }
+
+            // although there seems no changes here, format.indent have been overriden for getSemanticHTML method
+            // thus, this will keep being here instead of inside the upper if.
             if (!isDirty) {
                 isDirty = true;
             }

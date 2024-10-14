@@ -63,7 +63,7 @@ const ListSequence = ["ordered", "lower-alpha", "lower-roman"];
 function getExpectedType(type: string | undefined, indent: number): string {
     const currentIndex = ListSequence.indexOf(type || "ordered");
     const expectedIndex = (currentIndex + indent) % 3;
-    const expectedType = ListSequence[expectedIndex];
+    const expectedType = ListSequence[expectedIndex] ?? type;
     return expectedType === "ordered" ? "decimal" : expectedType === "bullet" ? "disc" : expectedType;
 }
 
