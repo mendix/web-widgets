@@ -42,8 +42,6 @@ const Container = observer((props: Props): ReactElement => {
 
     const { isRefreshing } = useRefreshReload({ datasource: props.datasource, refreshInterval: props.refreshInterval });
 
-    console.info("DATAGRID", isRefreshing);
-
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
