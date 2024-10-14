@@ -14790,7 +14790,7 @@ snapshots:
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
       babel-jest: 29.7.0(@babel/core@7.23.2)
-      big.js: 6.2.1
+      big.js: 6.2.2
       concurrently: 6.5.1
       core-js: 3.33.2
       dotenv: 8.6.0
@@ -14815,7 +14815,7 @@ snapshots:
       jest-junit: 13.2.0
       jest-react-hooks-shallow: 1.5.1
       make-dir: 3.1.0
-      mendix: 10.7.26214
+      mendix: 10.14.44044
       metro-react-native-babel-preset: 0.74.1(@babel/core@7.23.2)
       mime: 3.0.0
       node-fetch: 2.7.0
