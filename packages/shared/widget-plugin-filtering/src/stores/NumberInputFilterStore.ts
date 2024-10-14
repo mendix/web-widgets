@@ -97,8 +97,6 @@ function formatterFix(formatter: Formatter): Formatter {
             return value ? value.toString() : value;
         },
         parse: (value: string) => {
-            console.log("value", value, typeof value);
-
             try {
                 return { valid: true, value: new Big(value), type: "AutoNumber" };
             } catch {
