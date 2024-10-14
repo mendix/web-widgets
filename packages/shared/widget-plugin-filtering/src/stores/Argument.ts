@@ -53,10 +53,9 @@ export class ArgumentBase<T extends Big | Date | string> {
     set displayValue(textValue: string) {
         this._lastSetTextValue = textValue;
         const parseResult = this._formatter?.parse(this._lastSetTextValue);
-
-        this.isValid = parseResult.valid || (parseResult as any).type === "AutoNumber";
-        if ((parseResult as any).valid || (this.isValid && !this.equals(this._value, (parseResult as any).value))) {
-            this._value = (parseResult as any).value;
+        this.isValid = parseResult.valid;
+        if (parseResult.valid && !this.equals(this._value, parseResult.value)) {
+            this._value = parseResult.value;
         }
     }
 
