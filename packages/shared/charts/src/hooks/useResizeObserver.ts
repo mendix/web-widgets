@@ -1,8 +1,23 @@
-import { useLayoutEffect, useRef, RefObject } from "react";
+import { useLayoutEffect, useRef, RefObject, useMemo, useEffect } from "react";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
 type callbackFn<T> = (target: T, entry: ResizeObserverEntry) => void;
 
-function useResizeObserver<T extends HTMLElement>(callback: callbackFn<T>): RefObject<T> {
+export function useDispatchResizeObserver<T extends HTMLElement>(): RefObject<T> {
+    const [callResizeObserverDebounce, abort] = useMemo(
+        () =>
+            debounce((_target: T) => {
+                window.dispatchEvent(new Event("resize"));
+            }, 100),
+        []
+    );
+
+    useEffect(() => abort, [abort]);
+
+    return useResizeObserver(callResizeObserverDebounce);
+}
+
+export function useResizeObserver<T extends HTMLElement>(callback: callbackFn<T>): RefObject<T> {
     const ref = useRef<T>(null);
 
     useLayoutEffect(() => {
@@ -24,5 +39,3 @@ function useResizeObserver<T extends HTMLElement>(callback: callbackFn<T>): RefO
 
     return ref;
 }
-
-export default useResizeObserver;
