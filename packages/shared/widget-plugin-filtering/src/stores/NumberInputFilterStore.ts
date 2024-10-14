@@ -98,9 +98,9 @@ function formatterFix(formatter: Formatter): Formatter {
         },
         parse: (value: string) => {
             try {
-                return { valid: true, value: new Big(value), type: "AutoNumber" };
+                return { valid: true, value: new Big(value) };
             } catch {
-                return value === "" ? { valid: true, type: "AutoNumber" } : { valid: false, type: "AutoNumber" };
+                return value === "" ? { valid: true, value: undefined } : { valid: false };
             }
         }
     };
