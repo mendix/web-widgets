@@ -1,4 +1,5 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import classNames from "classnames";
 import Quill, { Range } from "quill";
@@ -72,18 +73,16 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 setAttributeValueDebounce(quillRef.current.getSemanticHTML());
             }
             if (!isFirstLoad.current) {
-                if (onLoad && onLoad.canExecute && !onLoad.isExecuting) {
-                    onLoad.execute();
-                    isFirstLoad.current = true;
-                }
+                executeAction(onLoad);
+                isFirstLoad.current = true;
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        if (onChange?.canExecute && onChangeType === "onDataChange") {
-            onChange.execute();
+        if (onChangeType === "onDataChange") {
+            executeAction(onChange);
         }
         setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,9 +94,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 // User cursor is selecting
                 if (!isFocus) {
                     setIsFocus(true);
-                    if (onFocus?.canExecute) {
-                        onFocus.execute();
-                    }
+                    executeAction(onFocus);
 
                     editorValueRef.current = quillRef.current?.getText() || "";
                 }
@@ -105,13 +102,11 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 // Cursor not in the editor
                 if (isFocus) {
                     setIsFocus(false);
-                    if (onBlur?.canExecute) {
-                        onBlur.execute();
-                    }
+                    executeAction(onBlur);
 
-                    if (onChange?.canExecute && onChangeType === "onLeave") {
+                    if (onChangeType === "onLeave") {
                         if (editorValueRef.current !== quillRef.current?.getText()) {
-                            onChange.execute();
+                            executeAction(onChange);
                         }
                     }
                 }
