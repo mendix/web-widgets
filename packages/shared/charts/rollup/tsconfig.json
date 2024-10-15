@@ -1,12 +1,12 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
     "files": ["shared-libs-config.cts"],
-    "include": [],
     "compilerOptions": {
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "sourceMap": false,
-        "declarationMap": false,
-        "declaration": false
+        "composite": true,
+        "rootDir": ".",
+        "outDir": "../dist"
     }
 }
