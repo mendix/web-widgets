@@ -4,12 +4,14 @@ import { ChangeEvent, createElement, Fragment, ReactElement, useState } from "re
 import { type videoConfigType, type videoEmbedConfigType } from "../../utils/formats";
 import { getPatternMatch } from "../../utils/videoUrlPattern";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
+import { Range } from "quill";
 
 export type VideoFormType = videoConfigType | videoEmbedConfigType;
 
 export interface VideoDialogProps {
     onSubmit(value: VideoFormType): void;
     onClose(): void;
+    selection?: Range | null;
 }
 
 export function getValueType(value: VideoFormType): VideoFormType {
@@ -121,7 +123,11 @@ export default function VideoDialog(props: VideoDialogProps): ReactElement {
                             className={classNames({
                                 active: activeTab === "embed"
                             })}
-                            onClick={() => setActiveTab("embed")}
+                            onClick={(e: React.MouseEvent) => {
+                                setActiveTab("embed");
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}
                         >
                             <a href="#">Embed</a>
                         </li>

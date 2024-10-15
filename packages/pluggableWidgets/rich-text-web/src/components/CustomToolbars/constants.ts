@@ -224,3 +224,5 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
         children: TOOLBAR_GROUP.remove
     }
 ];
+
+export const IMG_MIME_TYPES = ["image/png", "image/jpeg"];
