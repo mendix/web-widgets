@@ -41,7 +41,8 @@ const mockColumn = (columnIndex: number): ColumnsType => {
         minWidthLimit: 100,
         size: 1,
         alignment: "left",
-        wrapText: false
+        wrapText: false,
+        fetchOptionsLazy: true
     };
 
     return column;

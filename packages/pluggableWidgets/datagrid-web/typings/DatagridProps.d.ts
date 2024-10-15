@@ -32,6 +32,7 @@ export interface ColumnsType {
     filter?: ReactNode;
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
+    fetchOptionsLazy: boolean;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
     visible: DynamicValue<boolean>;
     sortable: boolean;
@@ -75,6 +76,7 @@ export interface ColumnsPreviewType {
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
+    fetchOptionsLazy: boolean;
     filterAssociationOptionLabel: string;
     visible: string;
     sortable: boolean;

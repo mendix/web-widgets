@@ -1,6 +1,7 @@
 import { ActionValue } from "mendix";
 import { makeObservable, computed } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { Dispose } from "../typings/type-utils";
 
 type Params = {
     store: OptionListFilterInterface;
@@ -55,7 +56,9 @@ export class RefFilterController {
         return [...this.store.options];
     }
 
-    setup(): void {}
+    setup(): Dispose | void {
+        return this.store.setup?.();
+    }
 
     handleSelect = (value: string): void => {
         if (value === this.empty.value) {
