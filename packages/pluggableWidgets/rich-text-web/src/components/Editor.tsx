@@ -36,8 +36,15 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    const { showDialog, setShowDialog, dialogConfig, customLinkHandler, customVideoHandler, customViewCodeHandler } =
-        useEmbedModal(ref);
+    const {
+        showDialog,
+        setShowDialog,
+        dialogConfig,
+        customLinkHandler,
+        customVideoHandler,
+        customViewCodeHandler,
+        customImageUploadHandler
+    } = useEmbedModal(ref);
     const customIndentHandler = getIndentHandler(ref);
 
     // quill instance is not changing, thus, the function reference has to stays.
@@ -87,7 +94,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                       link: customLinkHandler,
                                       video: customVideoHandler,
                                       indent: customIndentHandler,
-                                      "view-code": customViewCodeHandler
+                                      "view-code": customViewCodeHandler,
+                                      image: customImageUploadHandler
                                   }
                               }
                             : false
@@ -101,6 +109,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 });
                 quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
                     onSelectionChangeRef.current?.(...arg);
+                });
+                quill.on("EDIT-TOOLTIP", (...arg: any[]) => {
+                    customLinkHandler(arg[0]);
                 });
             }
 

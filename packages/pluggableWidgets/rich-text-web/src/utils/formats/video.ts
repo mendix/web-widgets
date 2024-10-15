@@ -1,7 +1,8 @@
+import { Scope } from "parchment";
 import Video from "quill/formats/video";
 import { videoConfigType } from "../formats";
 import { matchPattern } from "../videoUrlPattern";
-import { HeightAttribute, WidthAttribute } from "./sizing";
+import "./video.scss";
 
 /**
  * custom video link handler, allowing width and height config
@@ -21,14 +22,6 @@ class CustomVideo extends Video {
             const videoConfig = value as videoConfigType;
             const urlPatterns = matchPattern(videoConfig.src);
             const node = super.create(urlPatterns?.url || videoConfig.src) as HTMLElement;
-
-            if (videoConfig.width && videoConfig.width > 0) {
-                WidthAttribute.add(node, videoConfig.width.toString());
-            }
-
-            if (videoConfig.height && videoConfig.height > 0) {
-                HeightAttribute.add(node, videoConfig.height.toString());
-            }
             return node;
         } else {
             // @ts-expect-error type mismatch expected
@@ -36,5 +29,7 @@ class CustomVideo extends Video {
         }
     }
 }
+
+CustomVideo.scope = Scope.INLINE_BLOT;
 
 export default CustomVideo;

@@ -8,7 +8,7 @@ import "quill/dist/quill.snow.css";
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { updateLegacyQuillFormats } from "../utils/helpers";
-import "../utils/themes/mendix";
+import "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
@@ -46,7 +46,12 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
     const [setAttributeValueDebounce] = useMemo(
-        () => debounce(string => stringAttribute.setValue(string), 200),
+        () =>
+            debounce(string => {
+                if (stringAttribute.value !== string) {
+                    stringAttribute.setValue(string);
+                }
+            }, 200),
         [stringAttribute]
     );
     const calculateWordCount = useCallback(
