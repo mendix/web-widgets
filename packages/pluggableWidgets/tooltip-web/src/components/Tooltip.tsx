@@ -1,4 +1,4 @@
-import { Placement } from "@floating-ui/react";
+import { FloatingPortal, Placement } from "@floating-ui/react";
 import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
@@ -22,7 +22,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
     const { trigger, htmlMessage, textMessage, openOn, position, preview, renderMethod } = props;
     const [showTooltip, setShowTooltip] = useState(preview ?? false);
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
-    const { refs, floatingStyles, staticSide, arrowStyles, getReferenceProps, getFloatingProps, blurFocusEvents } =
+    const { arrowStyles, blurFocusEvents, floatingStyles, getFloatingProps, getReferenceProps, refs, staticSide } =
         useFloatingUI({
             position,
             showTooltip,
@@ -36,12 +36,13 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             <div
                 className="widget-tooltip-trigger"
                 ref={refs?.setReference}
-                {...(preview ? undefined : getReferenceProps?.())}
-                {...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined)}
+                {...(preview
+                    ? undefined
+                    : getReferenceProps?.({ ...(openOn === "hoverFocus" && !preview ? blurFocusEvents : undefined) }))}
             >
                 {trigger}
             </div>
-            {showTooltip && (textMessage || htmlMessage) ? (
+            {preview ? (
                 <div
                     className="widget-tooltip-content"
                     ref={refs?.setFloating}
@@ -51,7 +52,25 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                     {renderMethod === "text" ? textMessage : htmlMessage}
                     <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
                 </div>
-            ) : null}
+            ) : (
+                <FloatingPortal>
+                    {showTooltip && (textMessage || htmlMessage) ? (
+                        <div
+                            className="widget-tooltip-content"
+                            ref={refs?.setFloating}
+                            style={floatingStyles}
+                            {...getFloatingProps?.()}
+                        >
+                            {renderMethod === "text" ? textMessage : htmlMessage}
+                            <div
+                                className={`widget-tooltip-arrow-${staticSide}`}
+                                ref={setArrowElement}
+                                style={arrowStyles}
+                            />
+                        </div>
+                    ) : null}
+                </FloatingPortal>
+            )}
         </div>
     );
 };
