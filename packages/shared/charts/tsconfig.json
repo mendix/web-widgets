@@ -1,8 +1,5 @@
 {
-    "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
-    "include": ["./src/**/*"],
-    "compilerOptions": {
-        "outDir": "./dist",
-        "rootDir": "./src"
-    }
+    "extends": "./tsconfig.build.json",
+    "exclude": [],
+    "references": [{ "path": "./rollup/tsconfig.json" }]
 }
