@@ -14,12 +14,18 @@ import "./Dialog.scss";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
+import ImageDialog, { ImageDialogProps } from "./ImageDialog";
 
 interface BaseDialogProps {
     isOpen: boolean;
     parentNode?: HTMLElement | null;
     onOpenChange?(open: boolean): void;
 }
+
+export type ImageDialogBaseProps = {
+    dialogType?: "image";
+    config?: ImageDialogProps;
+};
 
 export type ViewCodeDialogBaseProps = {
     dialogType?: "view-code";
@@ -36,7 +42,11 @@ export type VideoDialogBaseProps = {
     config?: VideoDialogProps;
 };
 
-export type ChildDialogProps = LinkDialogBaseProps | VideoDialogBaseProps | ViewCodeDialogBaseProps;
+export type ChildDialogProps =
+    | LinkDialogBaseProps
+    | VideoDialogBaseProps
+    | ViewCodeDialogBaseProps
+    | ImageDialogBaseProps;
 
 export type DialogProps = BaseDialogProps & ChildDialogProps;
 
@@ -78,6 +88,9 @@ export default function Dialog(props: DialogProps): ReactElement {
                             </If>
                             <If condition={dialogType === "view-code"}>
                                 <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
+                            </If>
+                            <If condition={dialogType === "image"}>
+                                <ImageDialog {...(config as ImageDialogProps)}></ImageDialog>
                             </If>
                         </div>
                     </FloatingFocusManager>

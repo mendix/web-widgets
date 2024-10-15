@@ -1,5 +1,5 @@
 import Quill from "quill";
-import MendixTheme from "./themes/mendix";
+import MendixTheme from "./themes/mxTheme";
 import "./formats/fonts";
 import "./formats/fontsize";
 import CustomListItem from "./formats/customList";
@@ -9,7 +9,6 @@ import { Attributor } from "parchment";
 const direction = Quill.import("attributors/style/direction") as Attributor;
 const alignment = Quill.import("attributors/style/align") as Attributor;
 import { IndentLeftStyle, IndentRightStyle } from "./formats/indent";
-import { HeightAttribute, WidthAttribute } from "./formats/sizing";
 import Formula from "./formats/formula";
 class Empty {
     doSomething(): string {
@@ -30,7 +29,5 @@ Quill.register(alignment, true);
 Quill.register(IndentLeftStyle, true);
 Quill.register(IndentRightStyle, true);
 Quill.register(Formula, true);
-Quill.register(HeightAttribute, true);
-Quill.register(WidthAttribute, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });

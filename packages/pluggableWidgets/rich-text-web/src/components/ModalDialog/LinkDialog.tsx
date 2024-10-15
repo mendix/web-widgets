@@ -5,14 +5,16 @@ import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } fr
 export interface LinkDialogProps {
     onSubmit(value: linkConfigType): void;
     onClose(): void;
+    defaultValue?: linkConfigType;
 }
 
 export default function LinkDialog(props: LinkDialogProps): ReactElement {
     const { onSubmit, onClose } = props;
     const [formState, setFormState] = useState({
-        href: "",
-        title: "",
-        target: "_blank"
+        text: props.defaultValue?.text ?? "",
+        href: props.defaultValue?.href ?? "",
+        title: props.defaultValue?.title ?? "",
+        target: props.defaultValue?.target ?? "_blank"
     });
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -23,6 +25,15 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
         <DialogContent className="link-dialog">
             <DialogHeader onClose={onClose}>Insert/Edit Link</DialogHeader>
             <DialogBody>
+                <FormControl label="Text">
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="text"
+                        onChange={onInputChange}
+                        value={formState.text}
+                    />
+                </FormControl>
                 <FormControl label="URL">
                     <input
                         type="url"
@@ -33,7 +44,13 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
                     />
                 </FormControl>
                 <FormControl label="Title">
-                    <input type="text" className="form-control" name="title" onChange={onInputChange} />
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="title"
+                        onChange={onInputChange}
+                        value={formState.title}
+                    />
                 </FormControl>
                 <FormControl label="Open link in...">
                     <select value={formState.target} name="target" onChange={onInputChange} className="form-control">
