@@ -1,3 +1,4 @@
+export type { Writable } from "./builders/type-utils.js";
 export * from "./builders/EditableValueBuilder.js";
 export * from "./builders/ReferenceValueBuilder.js";
 export * from "./builders/ReferenceSetValueBuilder.js";
