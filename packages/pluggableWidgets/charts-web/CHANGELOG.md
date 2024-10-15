@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.3] Charts - 2024-10-15
+
+### [5.0.1] AreaChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] BarChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] BubbleChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] ColumnChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] HeatMap
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] LineChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.2] PieChart
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [5.0.1] TimeSeries
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
+### [1.0.1] ChartPlayground
+
+#### Fixed
+
+-   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+
 ## [5.0.2] Charts - 2024-09-19
 
 ### [5.0.1] PieChart
