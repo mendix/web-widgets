@@ -4,7 +4,7 @@ import {
     getPlotChartDataTransforms,
     traceEqual,
     usePlotChartDataSeries
-} from "@mendix/shared-charts/common";
+} from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
