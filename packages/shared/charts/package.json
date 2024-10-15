@@ -22,7 +22,7 @@
         "dist"
     ],
     "scripts": {
-        "predev": "pnpm clear",
+        "predev": "pnpm clear & pnpm copy",
         "dev": "tsc --build --verbose --watch tsconfig.json",
         "clear": "rimraf ./dist",
         "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
