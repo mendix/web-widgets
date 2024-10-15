@@ -22,12 +22,12 @@
         "dist"
     ],
     "scripts": {
-        "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
+        "predev": "pnpm clear",
+        "dev": "tsc --build --verbose --watch tsconfig.json",
         "clear": "rimraf ./dist",
         "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
-        "build:src": "tsc --project tsconfig.build.json",
-        "build:cfg": "tsc --project src/rollup/tsconfig.json",
-        "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
+        "build": "tsc --build --verbose tsconfig.build.json",
+        "postbuild": "pnpm copy",
         "release": "pnpm build",
         "prepare": "turbo build",
         "format": "prettier --write .",
