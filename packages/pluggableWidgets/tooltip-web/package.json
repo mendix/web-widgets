@@ -50,7 +50,7 @@
         "@mendix/widget-plugin-platform": "workspace:*"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.23",
+        "@floating-ui/react": "^0.26.25",
         "classnames": "^2.3.2"
     }
 }
