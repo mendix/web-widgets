@@ -1,7 +1,8 @@
 export type linkConfigType = {
+    text?: string;
     href: string;
-    title: string;
-    target: string;
+    title?: string;
+    target?: string;
 };
 
 export type videoConfigType = {
@@ -16,4 +17,11 @@ export type videoEmbedConfigType = {
 
 export type viewCodeConfigType = {
     src: string;
+};
+
+export type imageConfigType = {
+    files: FileList | File[] | null;
+    alt?: string;
+    width?: number;
+    height?: number;
 };
