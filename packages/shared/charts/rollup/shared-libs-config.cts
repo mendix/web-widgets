@@ -3,7 +3,7 @@ import path from "node:path";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
-// import tarser from "@rollup/plugin-terser";
+import tarser from "@rollup/plugin-terser";
 const { join, format } = path;
 
 // Based on packages/pluggable-widgets-tools/configs/rollup.config.js
@@ -179,14 +179,14 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
 const isProd = (args: Args): boolean => !!args.configProduction;
 
 /** Tarser comments filter */
-// const commentsFilter = (_: unknown, comment: { value: string; type: string }): boolean => {
-//     const { type, value } = comment;
-//     if (type === "comment2") {
-//         return /@preserve|@license|@cc_on|License|license/i.test(value);
-//     }
+const commentsFilter = (_: unknown, comment: { value: string; type: string }): boolean => {
+    const { type, value } = comment;
+    if (type === "comment2") {
+        return /@preserve|@license|@cc_on|License|license/i.test(value);
+    }
 
-//     return false;
-// };
+    return false;
+};
 
 /**
  * IMPORTANT: Please use this only for common plugins.
@@ -197,10 +197,10 @@ const stdPlugins = (config: { isProd: boolean }): Plugin[] => [
     commonjs(),
     replace({
         "process.env.NODE_ENV": JSON.stringify(config.isProd ? "production" : "development")
+    }),
+    tarser({
+        format: {
+            comments: commentsFilter
+        }
     })
-    // tarser({
-    //     format: {
-    //         comments: commentsFilter
-    //     }
-    // })
 ];
