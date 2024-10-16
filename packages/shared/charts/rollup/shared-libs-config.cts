@@ -30,8 +30,8 @@ const bundles = {
     reactPlotly: {
         input: "react-plotly.js",
         file: {
-            amd: "react-plotly.mjs",
-            esm: "react-plotly.js"
+            amd: "react-plotly.js",
+            esm: "react-plotly.mjs"
         }
     },
     sharedCharts: {
