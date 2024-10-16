@@ -52,11 +52,16 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const loadingType = props.loadingType;
 
     if (attr) {
-        if (attr.value instanceof Big && valueAttribute?.type !== "Integer" && valueAttribute?.type !== "Enum") {
-            throw new Error(`Atrribute is type of Integer while Value has type ${valueAttribute?.type}`);
+        if (
+            attr.value instanceof Big &&
+            valueAttribute?.type !== "Integer" &&
+            valueAttribute?.type !== "Long" &&
+            valueAttribute?.type !== "Enum"
+        ) {
+            throw new Error(`Attribute is type of Number while Value has type ${valueAttribute?.type}`);
         }
         if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
-            throw new Error(`Atrribute is type of String while Value has type ${valueAttribute?.type}`);
+            throw new Error(`Attribute is type of String while Value has type ${valueAttribute?.type}`);
         }
     }
 
