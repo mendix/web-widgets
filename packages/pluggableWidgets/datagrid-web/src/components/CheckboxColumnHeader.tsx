@@ -1,10 +1,12 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
 import { Fragment, ReactElement, createElement } from "react";
-import { useWidgetProps } from "../helpers/useWidgetProps";
+import { useHelpersContext } from "../helpers/helpers-context";
+import { useSelectionStatus } from "../helpers/useSelectionStatus";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, selectionStatus } = useWidgetProps();
+    const { selectActionHelper } = useHelpersContext();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
+    const selectionStatus = useSelectionStatus();
 
     if (showCheckboxColumn === false) {
         return <Fragment />;
