@@ -159,7 +159,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
     };
 }
 
-function uploadImage(ref: MutableRefObject<Quill | null>, range: Range, options: imageConfigType) {
+function uploadImage(ref: MutableRefObject<Quill | null>, range: Range, options: imageConfigType): void {
     const uploads: File[] = [];
     const { files } = options;
     if (files) {

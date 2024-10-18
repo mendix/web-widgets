@@ -74,9 +74,9 @@ function convertListHTML(items: any[], lastIndent: number, types: string[]): str
     if (items.length === 0) {
         const [endTag] = getListType(types.pop());
         if (lastIndent <= 0) {
-            return `</li></${endTag}>`;
+            return `</li></${endTag}>\n`;
         }
-        return `</li></${endTag}>${convertListHTML([], lastIndent - 1, types)}`;
+        return `</li></${endTag}>\n${convertListHTML([], lastIndent - 1, types)}`;
     }
     const [{ child, offset, length, indent, type }, ...rest] = items;
     const [tag, attribute] = getListType(type);
@@ -86,7 +86,7 @@ function convertListHTML(items: any[], lastIndent: number, types: string[]): str
         types.push(type);
         if (indent === lastIndent + 1) {
             // modified by web-content: adding list-style-type to allow retaining list style when converted to html
-            return `<${tag} style="list-style-type: ${expectedType}"><li${attribute}>${convertHTML(
+            return `<${tag} style="list-style-type: ${expectedType}">\n<li${attribute}>${convertHTML(
                 child,
                 offset,
                 length
@@ -96,10 +96,10 @@ function convertListHTML(items: any[], lastIndent: number, types: string[]): str
     }
     const previousType = types[types.length - 1];
     if (indent === lastIndent && type === previousType) {
-        return `</li><li${attribute}>${convertHTML(child, offset, length)}${convertListHTML(rest, indent, types)}`;
+        return `</li>\n<li${attribute}>${convertHTML(child, offset, length)}${convertListHTML(rest, indent, types)}`;
     }
     const [endTag] = getListType(types.pop());
-    return `</li></${endTag}>${convertListHTML(items, lastIndent - 1, types)}`;
+    return `</li></${endTag}>\n${convertListHTML(items, lastIndent - 1, types)}`;
 }
 
 /**
@@ -143,7 +143,7 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
         if (start === "<table") {
             return `<table style="border: 1px solid #000;">${parts.join("")}<${end}`;
         }
-        return `${start}>${parts.join("")}<${end}`;
+        return `${start}>${parts.join("")}<${end}\n`;
     }
     return blot.domNode instanceof Element ? blot.domNode.outerHTML : "";
 }

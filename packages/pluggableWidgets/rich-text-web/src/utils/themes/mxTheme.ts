@@ -3,15 +3,23 @@ import MxTooltip from "./mxTooltip";
 import icons from "quill/ui/icons";
 import Toolbar from "quill/modules/toolbar";
 import { Context } from "quill/modules/keyboard";
+import Picker from "quill/ui/picker";
+import { Range } from "quill";
 
 /**
  * Override quill's current theme.
  */
 export default class MendixTheme extends SnowTheme {
+    fontPicker?: Picker = undefined;
     buildPickers(selects: NodeListOf<HTMLSelectElement>, icons: Record<string, string | Record<string, string>>): void {
         super.buildPickers(selects, icons);
     }
 
+    /**
+     * copied from https://github.com/slab/quill/blob/main/packages/quill/src/themes/snow.ts
+     * with modification to replace tooltip with MxTooltip
+     * @param toolbar
+     */
     extendToolbar(toolbar: Toolbar): void {
         if (toolbar.container != null) {
             toolbar.container.classList.add("ql-snow");
@@ -24,6 +32,26 @@ export default class MendixTheme extends SnowTheme {
                     toolbar.handlers.link.call(toolbar, !context.format.link);
                 });
             }
+        }
+    }
+
+    /** updating font picker selected item based on current's selection font */
+    updateFontPicker(range: Range): void {
+        const currentRange = range || { index: 0, length: 0 };
+        if (!this.fontPicker) {
+            this.fontPicker = this.pickers.find(picker => picker.container.classList.contains("ql-font"));
+        }
+
+        const format = this.quill.getFormat(currentRange.index, currentRange.length);
+        let font = format ? (format.font as string) : undefined;
+        if (!font) {
+            // default font
+            font = "helvetica";
+        }
+
+        const currentOption = this.fontPicker?.container.querySelector(`[data-value=${font}]`);
+        if (currentOption) {
+            this.fontPicker?.selectItem(currentOption as HTMLElement, false);
         }
     }
 }
