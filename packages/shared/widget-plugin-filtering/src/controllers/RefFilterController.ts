@@ -1,3 +1,4 @@
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { makeObservable, computed } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
@@ -25,6 +26,7 @@ export class RefFilterController {
             selected: false
         };
         this.onChange = params.onChange;
+        console.info("RefFilterController", params.onChange);
 
         makeObservable(this, {
             inputValue: computed
@@ -57,6 +59,10 @@ export class RefFilterController {
 
     setup(): void {}
 
+    updateProps(props: Pick<Params, "onChange">): void {
+        this.onChange = props.onChange;
+    }
+
     handleSelect = (value: string): void => {
         if (value === this.empty.value) {
             this.store.replace([]);
@@ -66,9 +72,7 @@ export class RefFilterController {
             this.store.replace([value]);
         }
 
-        if (this.onChange?.canExecute) {
-            this.onChange.execute();
-        }
+        executeAction(this.onChange);
     };
 
     handleTriggerClick = (): void => {
