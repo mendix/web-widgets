@@ -28,7 +28,7 @@ type ExtractionReturnValue = {
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
-    valueAttribute: ListAttributeValue<string | Big>;
+    valueAttribute: ListAttributeValue<string | Big> | undefined;
 };
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
@@ -65,8 +65,8 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         }
     }
 
-    if (!valueAttribute) {
-        throw new Error("'valueExpression' is not defined");
+    if (!valueAttribute && props.optionsSourceDatabaseItemSelection?.type !== "Multi") {
+        throw new Error("'valueAttribute' is not defined");
     }
 
     return {
