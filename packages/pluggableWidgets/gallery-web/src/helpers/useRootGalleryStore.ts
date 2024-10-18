@@ -19,9 +19,6 @@ export function useRootGalleryStore(props: GalleryContainerProps): RootGallerySt
     useEffect(() => {
         const disposers: IReactionDisposer[] = [];
 
-        // Apply initial filter condition
-        datasourceRef.current.setFilter(rootStore.conditions);
-
         // apply sorting
         disposers.push(
             reaction(
@@ -38,7 +35,8 @@ export function useRootGalleryStore(props: GalleryContainerProps): RootGallerySt
                 () => rootStore.conditions,
                 filter => {
                     datasourceRef.current.setFilter(filter);
-                }
+                },
+                { fireImmediately: true }
             )
         );
 
