@@ -13,6 +13,7 @@ import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
 import Toolbar from "./Toolbar";
+import MendixTheme from "../utils/themes/mxTheme";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -116,6 +117,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     }
                 }
             }
+            (quillRef.current?.theme as MendixTheme).updateFontPicker(range);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [isFocus, onFocus, onBlur, onChange, onChangeType]
