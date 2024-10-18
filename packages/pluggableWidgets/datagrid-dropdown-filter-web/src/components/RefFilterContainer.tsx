@@ -24,11 +24,13 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
             new RefFilterController({
                 store: props.filterStore,
                 multiselect: props.multiselect,
-                emptyCaption: props.emptyCaption
+                emptyCaption: props.emptyCaption,
+                onChange: props.onChange
             })
     );
 
     useEffect(() => controller.setup(), [controller]);
+    useEffect(() => controller.updateProps({ onChange: props.onChange }), [props.onChange]);
     const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
     return (
