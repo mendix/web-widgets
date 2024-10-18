@@ -16,8 +16,11 @@ module.exports = {
     },
     moduleDirectories: ["node_modules", "src"],
     moduleNameMapper: {
+        "big.js": "big.js",
         "(.+)\\.js": "$1"
     },
     extensionsToTreatAsEsm: [".ts"],
-    testEnvironment: "jsdom"
+    testEnvironment: "jsdom",
+    collectCoverage: !process.env.CI,
+    coverageProvider: "v8"
 };

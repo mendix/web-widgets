@@ -78,7 +78,8 @@ export function getProperties(
         if (!column.filterAssociation) {
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "filterAssociationOptions",
-                "filterAssociationOptionLabel"
+                "filterAssociationOptionLabel",
+                "fetchOptionsLazy"
             ]);
         }
     });
@@ -211,7 +212,8 @@ export const getPreview = (
                   minWidth: "auto",
                   minWidthLimit: 100,
                   allowEventPropagation: true,
-                  exportValue: ""
+                  exportValue: "",
+                  fetchOptionsLazy: true
               }
           ];
     const columns = rowLayout({

@@ -37,6 +37,11 @@ export class ListValueBuilder {
         return this;
     }
 
+    withHasMore(value: boolean): this {
+        this.mock.hasMoreItems = value;
+        return this;
+    }
+
     isLoading(): this {
         this.mock.status = Status.Loading;
         this.mock.items = undefined;
