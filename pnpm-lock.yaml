@@ -190,8 +190,8 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1
       plotly.js:
-        specifier: ^2.27.1
-        version: 2.27.1
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0)
       react-ace:
         specifier: ^10.1.0
         version: 10.1.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -4096,9 +4096,6 @@ packages:
   '@plotly/d3-sankey@0.7.2':
     resolution: {integrity: sha512-2jdVos1N3mMp3QW0k2q1ph7Gd6j5PY1YihBrwpkFnKqO+cqtZq3AdEYUeSGXMeLsBDQYiqTVcihYfk8vr5tqhw==}
 
-  '@plotly/d3@3.8.1':
-    resolution: {integrity: sha512-x49ThEu1FRA00kTso4Jdfyf2byaCPLBGmLjAYQz5OzaPyLUhHesX3/Nfv2OHEhynhdy2UB39DLXq6thYe2L2kg==}
-
   '@plotly/d3@3.8.2':
     resolution: {integrity: sha512-wvsNmh1GYjyJfyEBPKJLTMzgf2c2bEbSIL50lmqVUi+o1NHaLPi1Lb4v7VxXXJn043BhNyrxUrWI85Q+zmjOVA==}
 
@@ -4541,32 +4538,17 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@turf/area@6.5.0':
-    resolution: {integrity: sha512-xCZdiuojokLbQ+29qR6qoMD89hv+JAgWjLrwSEWL+3JV8IXKeNFl6XkEJz9HGkVpnXvQKJoRz4/liT+8ZZ5Jyg==}
-
   '@turf/area@7.1.0':
     resolution: {integrity: sha512-w91FEe02/mQfMPRX2pXua48scFuKJ2dSVMF2XmJ6+BJfFiCPxp95I3+Org8+ZsYv93CDNKbf0oLNEPnuQdgs2g==}
-
-  '@turf/bbox@6.5.0':
-    resolution: {integrity: sha512-RBbLaao5hXTYyyg577iuMtDB8ehxMlUqHEJiMs8jT1GHkFhr6sYre3lmLsPeYEi/ZKj5TP5tt7fkzNdJ4GIVyw==}
 
   '@turf/bbox@7.1.0':
     resolution: {integrity: sha512-PdWPz9tW86PD78vSZj2fiRaB8JhUHy6piSa/QXb83lucxPK+HTAdzlDQMTKj5okRCU8Ox/25IR2ep9T8NdopRA==}
 
-  '@turf/centroid@6.5.0':
-    resolution: {integrity: sha512-MwE1oq5E3isewPprEClbfU5pXljIK/GUOMbn22UM3IFPDJX0KeoyLNwghszkdmFp/qMGL/M13MMWvU+GNLXP/A==}
-
   '@turf/centroid@7.1.0':
     resolution: {integrity: sha512-1Y1b2l+ZB1CZ+ITjUCsGqC4/tSjwm/R4OUfDztVqyyCq/VvezkLmTNqvXTGXgfP0GXkpv68iCfxF5M7QdM5pJQ==}
 
-  '@turf/helpers@6.5.0':
-    resolution: {integrity: sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==}
-
   '@turf/helpers@7.1.0':
     resolution: {integrity: sha512-dTeILEUVeNbaEeoZUOhxH5auv7WWlOShbx7QSd4s0T4Z0/iz90z9yaVCtZOLbU89umKotwKaJQltBNO9CzVgaQ==}
-
-  '@turf/meta@6.5.0':
-    resolution: {integrity: sha512-RrArvtsV0vdsCBegoBtOalgdSOfkBrTJ07VkpiCnq/491W67hnMWmDu7e6Ztw0C3WldRYTXkg3SumfdzZxLBHA==}
 
   '@turf/meta@7.1.0':
     resolution: {integrity: sha512-ZgGpWWiKz797Fe8lfRj7HKCkGR+nSJ/5aKXMyofCvLSc2PuYJs/qyyifDPWjASQQCzseJ7AlF2Pc/XQ/3XkkuA==}
@@ -7039,9 +7021,6 @@ packages:
   gl-matrix@3.4.3:
     resolution: {integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==}
 
-  gl-text@1.3.1:
-    resolution: {integrity: sha512-/f5gcEMiZd+UTBJLTl3D+CkCB/0UFGTx3nflH8ZmyWcLkZhsZ1+Xx5YYkw2rgWAzgPeE35xCqBuHSoMKQVsR+w==}
-
   gl-text@1.4.0:
     resolution: {integrity: sha512-o47+XBqLCj1efmuNyCHt7/UEJmB9l66ql7pnobD6p+sgmBUdzfMZXIF0zD2+KRfpd99DJN+QXdvTFAGCKCVSmQ==}
 
@@ -8782,10 +8761,6 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  pbf@3.2.1:
-    resolution: {integrity: sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==}
-    hasBin: true
-
   pbf@3.3.0:
     resolution: {integrity: sha512-XDF38WCH3z5OV/OVa8GKUNtLAyneuzbCisx7QUCF8Q6Nutx0WnJrQe5O+kOtBlLfRNUws98Y58Lblp+NJG5T4Q==}
     hasBin: true
@@ -8848,17 +8823,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  plotly.js@2.27.1:
-    resolution: {integrity: sha512-XeE0zTJWTxURYrUJqzf73l8lTb+HnyRvvhHkoSIEvWf58ins4saopo9l25kCm+xHAGz8E/2EOncE4DyXsJ34kA==}
-
   plotly.js@2.35.2:
     resolution: {integrity: sha512-s0knlWzRvLQXxzf3JQ6qbm8FpwKuMjkr+6r04f8/yCEByAQ+I0jkUzY/hSGRGb+u7iljTh9hgpEiiJP90vjyeQ==}
 
   point-in-polygon@1.1.0:
     resolution: {integrity: sha512-3ojrFwjnnw8Q9242TzgXuTD+eKiutbzyslcq1ydfu82Db2y+Ogbmyrkpv0Hgj31qwT3lbS9+QAAO/pIQM35XRw==}
-
-  polybooljs@1.2.0:
-    resolution: {integrity: sha512-mKjR5nolISvF+q2BtC1fi/llpxBPTQ3wLWN8+ldzdw2Hocpc8C72ZqnamCM4Z6z+68GVVjkeM01WJegQmZ8MEQ==}
 
   polybooljs@1.2.2:
     resolution: {integrity: sha512-ziHW/02J0XuNuUtmidBc6GXE8YohYydp3DWPWXYsd7O721TjcmN+k6ezjdwkDqep+gnWnFY+yqZHvzElra2oCg==}
@@ -9565,14 +9534,8 @@ packages:
   regl-error2d@2.0.12:
     resolution: {integrity: sha512-r7BUprZoPO9AbyqM5qlJesrSRkl+hZnVKWKsVp7YhOl/3RIpi4UDGASGJY0puQ96u5fBYw/OlqV24IGcgJ0McA==}
 
-  regl-line2d@3.1.2:
-    resolution: {integrity: sha512-nmT7WWS/WxmXAQMkgaMKWXaVmwJ65KCrjbqHGOUjjqQi6shfT96YbBOvelXwO9hG7/hjvbzjtQ2UO0L3e7YaXQ==}
-
   regl-line2d@3.1.3:
     resolution: {integrity: sha512-fkgzW+tTn4QUQLpFKsUIE0sgWdCmXAM3ctXcCgoGBZTSX5FE2A0M7aynz7nrZT5baaftLrk9te54B+MEq4QcSA==}
-
-  regl-scatter2d@3.2.9:
-    resolution: {integrity: sha512-PNrXs+xaCClKpiB2b3HZ2j3qXQXhC5kcTh/Nfgx9rLO0EpEhab0BSQDqAsbdbpdf+pSHSJvbgitB7ulbGeQ+Fg==}
 
   regl-scatter2d@3.3.1:
     resolution: {integrity: sha512-seOmMIVwaCwemSYz/y4WE0dbSO9svNFSqtTh5RE57I7PjGo3tcUYKtH0MTSoshcAsreoqN8HoCtnn8wfHXXfKQ==}
@@ -15337,8 +15300,6 @@ snapshots:
       d3-collection: 1.0.7
       d3-shape: 1.3.7
 
-  '@plotly/d3@3.8.1': {}
-
   '@plotly/d3@3.8.2': {}
 
   '@plotly/mapbox-gl@1.13.4(mapbox-gl@1.10.1)':
@@ -15358,7 +15319,7 @@ snapshots:
       gl-matrix: 3.4.3
       grid-index: 1.1.0
       murmurhash-js: 1.0.0
-      pbf: 3.2.1
+      pbf: 3.3.0
       potpack: 1.0.2
       quickselect: 2.0.0
       rw: 1.3.3
@@ -16333,57 +16294,36 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@turf/area@6.5.0':
-    dependencies:
-      '@turf/helpers': 6.5.0
-      '@turf/meta': 6.5.0
-
   '@turf/area@7.1.0':
     dependencies:
       '@turf/helpers': 7.1.0
       '@turf/meta': 7.1.0
-      '@types/geojson': 7946.0.10
+      '@types/geojson': 7946.0.14
       tslib: 2.7.0
-
-  '@turf/bbox@6.5.0':
-    dependencies:
-      '@turf/helpers': 6.5.0
-      '@turf/meta': 6.5.0
 
   '@turf/bbox@7.1.0':
     dependencies:
       '@turf/helpers': 7.1.0
       '@turf/meta': 7.1.0
-      '@types/geojson': 7946.0.10
+      '@types/geojson': 7946.0.14
       tslib: 2.7.0
-
-  '@turf/centroid@6.5.0':
-    dependencies:
-      '@turf/helpers': 6.5.0
-      '@turf/meta': 6.5.0
 
   '@turf/centroid@7.1.0':
     dependencies:
       '@turf/helpers': 7.1.0
       '@turf/meta': 7.1.0
-      '@types/geojson': 7946.0.10
+      '@types/geojson': 7946.0.14
       tslib: 2.7.0
-
-  '@turf/helpers@6.5.0': {}
 
   '@turf/helpers@7.1.0':
     dependencies:
-      '@types/geojson': 7946.0.10
+      '@types/geojson': 7946.0.14
       tslib: 2.7.0
-
-  '@turf/meta@6.5.0':
-    dependencies:
-      '@turf/helpers': 6.5.0
 
   '@turf/meta@7.1.0':
     dependencies:
       '@turf/helpers': 7.1.0
-      '@types/geojson': 7946.0.10
+      '@types/geojson': 7946.0.14
 
   '@types/aria-query@5.0.3': {}
 
@@ -18327,7 +18267,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.6.3
     optionalDependencies:
-      webpack: 5.94.0
+      webpack: 5.94.0(webpack-cli@4.10.0)
 
   css-select@4.3.0:
     dependencies:
@@ -19623,26 +19563,6 @@ snapshots:
   gl-mat4@1.2.0: {}
 
   gl-matrix@3.4.3: {}
-
-  gl-text@1.3.1:
-    dependencies:
-      bit-twiddle: 1.0.2
-      color-normalize: 1.5.0
-      css-font: 1.2.0
-      detect-kerning: 2.1.2
-      es6-weak-map: 2.0.3
-      flatten-vertex-data: 1.0.2
-      font-atlas: 2.1.0
-      font-measure: 1.2.2
-      gl-util: 3.1.3
-      is-plain-obj: 1.1.0
-      object-assign: 4.1.1
-      parse-rect: 1.2.0
-      parse-unit: 1.0.1
-      pick-by-alias: 1.2.0
-      regl: 2.1.0
-      to-px: 1.0.1
-      typedarray-pool: 1.2.0
 
   gl-text@1.4.0:
     dependencies:
@@ -21347,7 +21267,7 @@ snapshots:
       grid-index: 1.1.0
       minimist: 1.2.8
       murmurhash-js: 1.0.0
-      pbf: 3.2.1
+      pbf: 3.3.0
       potpack: 1.0.2
       quickselect: 2.0.0
       rw: 1.3.3
@@ -22140,11 +22060,6 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  pbf@3.2.1:
-    dependencies:
-      ieee754: 1.2.1
-      resolve-protobuf-schema: 2.1.0
-
   pbf@3.3.0:
     dependencies:
       ieee754: 1.2.1
@@ -22187,60 +22102,6 @@ snapshots:
       playwright-core: 1.47.1
     optionalDependencies:
       fsevents: 2.3.2
-
-  plotly.js@2.27.1:
-    dependencies:
-      '@plotly/d3': 3.8.1
-      '@plotly/d3-sankey': 0.7.2
-      '@plotly/d3-sankey-circular': 0.33.1
-      '@turf/area': 6.5.0
-      '@turf/bbox': 6.5.0
-      '@turf/centroid': 6.5.0
-      canvas-fit: 1.5.0
-      color-alpha: 1.0.4
-      color-normalize: 1.5.0
-      color-parse: 1.3.8
-      color-rgba: 2.1.1
-      country-regex: 1.1.0
-      d3-force: 1.2.1
-      d3-format: 1.4.5
-      d3-geo: 1.12.1
-      d3-geo-projection: 2.9.0
-      d3-hierarchy: 1.1.9
-      d3-interpolate: 3.0.1
-      d3-time: 1.1.0
-      d3-time-format: 2.3.0
-      fast-isnumeric: 1.1.4
-      gl-mat4: 1.2.0
-      gl-text: 1.3.1
-      glslify: 7.1.1
-      has-hover: 1.0.1
-      has-passive-events: 1.0.0
-      is-mobile: 4.0.0
-      mapbox-gl: 1.10.1
-      mouse-change: 1.4.0
-      mouse-event-offset: 3.0.2
-      mouse-wheel: 1.2.0
-      native-promise-only: 0.8.1
-      parse-svg-path: 0.1.2
-      point-in-polygon: 1.1.0
-      polybooljs: 1.2.0
-      probe-image-size: 7.2.3
-      regl: '@plotly/regl@2.1.2'
-      regl-error2d: 2.0.12
-      regl-line2d: 3.1.2
-      regl-scatter2d: 3.2.9
-      regl-splom: 1.0.14
-      strongly-connected-components: 1.0.1
-      superscript-text: 1.0.0
-      svg-path-sdf: 1.1.3
-      tinycolor2: 1.6.0
-      to-px: 1.0.1
-      topojson-client: 3.1.0
-      webgl-context: 2.2.0
-      world-calendars: 1.0.3
-    transitivePeerDependencies:
-      - supports-color
 
   plotly.js@2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0):
     dependencies:
@@ -22303,8 +22164,6 @@ snapshots:
       - webpack
 
   point-in-polygon@1.1.0: {}
-
-  polybooljs@1.2.0: {}
 
   polybooljs@1.2.2: {}
 
@@ -23377,21 +23236,6 @@ snapshots:
       to-float32: 1.1.0
       update-diff: 1.1.0
 
-  regl-line2d@3.1.2:
-    dependencies:
-      array-bounds: 1.0.1
-      array-find-index: 1.0.2
-      array-normalize: 1.1.4
-      color-normalize: 1.5.0
-      earcut: 2.2.4
-      es6-weak-map: 2.0.3
-      flatten-vertex-data: 1.0.2
-      glslify: 7.1.1
-      object-assign: 4.1.1
-      parse-rect: 1.2.0
-      pick-by-alias: 1.2.0
-      to-float32: 1.1.0
-
   regl-line2d@3.1.3:
     dependencies:
       array-bounds: 1.0.1
@@ -23405,24 +23249,6 @@ snapshots:
       parse-rect: 1.2.0
       pick-by-alias: 1.2.0
       to-float32: 1.1.0
-
-  regl-scatter2d@3.2.9:
-    dependencies:
-      '@plotly/point-cluster': 3.1.9
-      array-range: 1.0.1
-      array-rearrange: 2.2.2
-      clamp: 1.0.1
-      color-id: 1.1.0
-      color-normalize: 1.5.0
-      color-rgba: 2.1.1
-      flatten-vertex-data: 1.0.2
-      glslify: 7.1.1
-      is-iexplorer: 1.0.0
-      object-assign: 4.1.1
-      parse-rect: 1.2.0
-      pick-by-alias: 1.2.0
-      to-float32: 1.1.0
-      update-diff: 1.1.0
 
   regl-scatter2d@3.3.1:
     dependencies:
@@ -24089,7 +23915,7 @@ snapshots:
 
   style-loader@4.0.0(webpack@5.94.0):
     dependencies:
-      webpack: 5.94.0
+      webpack: 5.94.0(webpack-cli@4.10.0)
 
   style-mod@4.1.2: {}
 
@@ -24675,7 +24501,7 @@ snapshots:
     dependencies:
       '@mapbox/point-geometry': 0.1.0
       '@mapbox/vector-tile': 1.3.1
-      pbf: 3.2.1
+      pbf: 3.3.0
 
   w3c-keyname@2.2.8: {}
 
@@ -24757,36 +24583,6 @@ snapshots:
       wildcard: 2.0.1
 
   webpack-sources@3.2.3: {}
-
-  webpack@5.94.0:
-    dependencies:
-      '@types/estree': 1.0.6
-      '@webassemblyjs/ast': 1.12.1
-      '@webassemblyjs/wasm-edit': 1.12.1
-      '@webassemblyjs/wasm-parser': 1.12.1
-      acorn: 8.12.1
-      acorn-import-attributes: 1.9.5(acorn@8.12.1)
-      browserslist: 4.24.0
-      chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.17.1
-      es-module-lexer: 1.5.4
-      eslint-scope: 5.1.1
-      events: 3.3.0
-      glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.11
-      json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.0
-      mime-types: 2.1.35
-      neo-async: 2.6.2
-      schema-utils: 3.3.0
-      tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(webpack@5.94.0)
-      watchpack: 2.4.2
-      webpack-sources: 3.2.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - esbuild
-      - uglify-js
 
   webpack@5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0):
     dependencies:
