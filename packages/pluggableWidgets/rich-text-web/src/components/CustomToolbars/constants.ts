@@ -149,7 +149,7 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
     header: {
         component: ToolbarDropdown,
         className: "ql-header",
-        value: ["1", "2", "3", "4", "5", "6"],
+        value: ["1", "2", "3", "4", "5", "6", "7"],
         title: "Font header"
     },
     clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" }
@@ -161,15 +161,15 @@ type ToolbarGroupType = {
 
 export const TOOLBAR_GROUP: ToolbarGroupType = {
     history: ["undo", "redo"],
-    fontStyle: ["bold", "italic", "underline", "strike", "size"],
+    fontStyle: ["bold", "italic", "underline", "strike"],
     fontScript: ["superScript", "subScript"],
-    fontColor: ["font", "color", "background"],
     list: ["orderedList", "bulletList", "lowerAlphaList", "checkList"],
     indent: ["minIndent", "plusIndent", "direction"],
-    embed: ["link", "image", "video", "formula"],
     align: ["align", "centerAlign", "rightAlign"],
-    code: ["blockquote", "code", "codeBlock", "viewCode"],
+    fontColor: ["font", "size", "color", "background"],
+    embed: ["link", "image", "video", "formula"],
     header: ["header"],
+    code: ["blockquote", "code", "codeBlock", "viewCode"],
     remove: ["clean"]
 };
 
@@ -200,14 +200,6 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
         children: TOOLBAR_GROUP.indent
     },
     {
-        presetValue: 1,
-        children: TOOLBAR_GROUP.embed
-    },
-    {
-        presetValue: 2,
-        children: TOOLBAR_GROUP.code
-    },
-    {
         presetValue: 2,
         children: TOOLBAR_GROUP.align
     },
@@ -216,8 +208,16 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
         children: TOOLBAR_GROUP.fontColor
     },
     {
+        presetValue: 1,
+        children: TOOLBAR_GROUP.embed
+    },
+    {
         presetValue: 3,
         children: TOOLBAR_GROUP.header
+    },
+    {
+        presetValue: 2,
+        children: TOOLBAR_GROUP.code
     },
     {
         presetValue: 1,

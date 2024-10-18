@@ -8,7 +8,7 @@ import "quill/dist/quill.snow.css";
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { updateLegacyQuillFormats } from "../utils/helpers";
-import "../utils/themes/mxTheme";
+import MendixTheme from "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
@@ -116,6 +116,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     }
                 }
             }
+            (quillRef.current?.theme as MendixTheme).updateFontPicker(range);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [isFocus, onFocus, onBlur, onChange, onChangeType]
