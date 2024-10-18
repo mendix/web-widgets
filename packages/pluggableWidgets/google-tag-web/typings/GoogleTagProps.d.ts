@@ -36,6 +36,7 @@ export interface GoogleTagContainerProps {
     widgetMode: WidgetModeEnum;
     targetId?: DynamicValue<string>;
     parameters: ParametersType[];
+    sendUserID: boolean;
     command: CommandEnum;
     eventName: string;
     trackPageChanges: boolean;
@@ -53,6 +54,7 @@ export interface GoogleTagPreviewProps {
     widgetMode: WidgetModeEnum;
     targetId: string;
     parameters: ParametersPreviewType[];
+    sendUserID: boolean;
     command: CommandEnum;
     eventName: string;
     trackPageChanges: boolean;
