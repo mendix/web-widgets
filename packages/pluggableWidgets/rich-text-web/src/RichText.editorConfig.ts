@@ -54,6 +54,6 @@ export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): St
     return {
         type: "Image",
         document: props.stringAttribute ? doc.replace("[No attribute selected]", `[${props.stringAttribute}]`) : doc,
-        height: 148
+        height: 150
     };
 }
