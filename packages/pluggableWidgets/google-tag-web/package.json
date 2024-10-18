@@ -1,50 +1,50 @@
 {
-  "name": "@mendix/google-tag-web",
-  "widgetName": "GoogleTag",
-  "version": "1.2.1",
-  "description": "gtag.js integration widget",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
-  "private": true,
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "config": {
-    "mendixHost": "http://localhost:8080",
-    "developmentPort": 3000
-  },
-  "mxpackage": {
-    "name": "GoogleTag",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.GoogleTag.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "8.18.0",
-    "appName": "Google Tag",
-    "appNumber": -1
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "google-tag-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:web",
-    "build": "pluggable-widgets-tools build:web",
-    "prerelease": "npm run lint",
-    "release": "pluggable-widgets-tools release:web",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*"
-  }
+    "name": "@mendix/google-tag-web",
+    "widgetName": "GoogleTag",
+    "version": "1.3.0",
+    "description": "gtag.js integration widget",
+    "copyright": "© Mendix Technology BV 2022. All rights reserved.",
+    "private": true,
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {
+        "mendixHost": "http://localhost:8080",
+        "developmentPort": 3000
+    },
+    "mxpackage": {
+        "name": "GoogleTag",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.GoogleTag.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "8.18.0",
+        "appName": "Google Tag",
+        "appNumber": -1
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "google-tag-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "prerelease": "npm run lint",
+        "release": "pluggable-widgets-tools release:web",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "^10.7.2",
+        "@mendix/prettier-config-web-widgets": "workspace:*"
+    }
 }
