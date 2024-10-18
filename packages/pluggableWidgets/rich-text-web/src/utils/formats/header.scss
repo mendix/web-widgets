@@ -1,0 +1,12 @@
+.widget-rich-text {
+    .widget-rich-text-toolbar {
+        .ql-header {
+            .ql-picker-item,
+            .ql-picker-label {
+                &:before {
+                    content: "Paragraph";
+                }
+            }
+        }
+    }
+}
