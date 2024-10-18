@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We introduced introduce a new functionality allowing to optionally share the authenticated user ID with Google Analytics. Thank you for the feature update @rborer !
+
 ### Fixed
 
 -   We removed redundant code to improve widget load time in the browser.
