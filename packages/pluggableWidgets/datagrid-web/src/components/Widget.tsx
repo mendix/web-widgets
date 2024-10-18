@@ -35,6 +35,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     data: T[];
     emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     exporting: boolean;
+    isInfiniteLoad: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
     hasMoreItems: boolean;
     headerContent?: ReactNode;
@@ -141,7 +142,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const showHeader = !!headerContent;
-    const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const showTopBar = pagingPosition === "top" || pagingPosition === "both";
 
     const renderFilterWrapper = useCallback(
         (children: ReactNode) => (
@@ -152,7 +153,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         [isDragging]
     );
 
-    const pagination = paging ? (
+    const pagination = (
         <Pagination
             canNextPage={hasMoreItems}
             canPreviousPage={page !== 0}
@@ -160,11 +161,13 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             nextPage={() => setPage && setPage(prev => prev + 1)}
             numberOfItems={numberOfItems}
             page={page}
+            paginationType={props.paginationType}
             pageSize={pageSize}
+            isInfiniteLoad={props.isInfiniteLoad}
             showPagingButtons={props.showPagingButtons}
             previousPage={() => setPage && setPage(prev => prev - 1)}
         />
-    ) : null;
+    );
 
     const cssGridStyles = gridStyle(visibleColumns, {
         selectItemColumn: selectActionHelper.showCheckboxColumn,
