@@ -62,7 +62,7 @@
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.9",
-        "@codemirror/view": "^6.28.0",
+        "@codemirror/view": "^6.34.0",
         "@floating-ui/react": "^0.26.23",
         "@uiw/codemirror-theme-github": "^4.21.25",
         "@uiw/react-codemirror": "^4.21.25",
