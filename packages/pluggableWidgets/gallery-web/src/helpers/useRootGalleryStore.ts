@@ -35,7 +35,8 @@ export function useRootGalleryStore(props: GalleryContainerProps): RootGallerySt
                 () => rootStore.conditions,
                 filter => {
                     datasourceRef.current.setFilter(filter);
-                }
+                },
+                { fireImmediately: true }
             )
         );
 
