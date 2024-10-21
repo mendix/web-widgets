@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.24.1] DataWidgets - 2024-10-14
+## [2.23.2] DataWidgets - 2024-10-14
 
 ### Fixed
 
@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where filters wouldn't reset.
 
-## [2.24.0] DataWidgets - 2024-09-23
+## [2.23.1] DataWidgets - 2024-09-25
 
 ### [2.10.2] DatagridDateFilter
 
@@ -54,11 +54,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Widget maintenance.
 
-### [2.24.0] Datagrid
+### [2.23.1] Datagrid
 
 #### Added
 
--   We have introduced support for reference set associations in the linked attribute property.
+-   Widget maintenance.
 
 ### [1.2.1] DropdownSort
 
