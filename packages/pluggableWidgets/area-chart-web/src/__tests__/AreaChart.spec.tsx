@@ -1,4 +1,4 @@
-import { ChartWidget } from "@mendix/shared-charts/common";
+import { ChartWidget } from "@mendix/shared-charts/main";
 import { list, listExp, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
