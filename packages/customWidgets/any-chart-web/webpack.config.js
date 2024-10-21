@@ -13,7 +13,7 @@ const widgetConfig = {
         filename: "com/mendix/widget/custom/[name]/[name].js",
         chunkFilename: `com/mendix/widget/custom/AnyChart/chunk[chunkhash].js`,
         libraryTarget: "umd",
-        publicPath: "/widgets/"
+        publicPath: "widgets/"
     },
     resolve: {
         extensions: [".ts", ".js"],
