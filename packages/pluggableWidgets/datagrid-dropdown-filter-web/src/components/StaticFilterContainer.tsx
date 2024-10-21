@@ -2,7 +2,7 @@ import { StaticFilterController } from "@mendix/widget-plugin-filtering/controll
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ActionValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
@@ -19,6 +19,7 @@ export interface StaticFilterContainerProps {
     styles?: CSSProperties;
     onChange?: ActionValue;
     emptyCaption?: string;
+    valueAttribute?: EditableValue<string>;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
@@ -26,6 +27,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     const [controller] = useState(() => new StaticFilterController(props));
 
     useEffect(() => controller.setup(), [controller]);
+    useEffect(() => controller.updateProps(props));
 
     return (
         <Select
