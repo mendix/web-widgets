@@ -26,7 +26,6 @@ export class RefFilterController {
             selected: false
         };
         this.onChange = params.onChange;
-        console.info("RefFilterController", params.onChange);
 
         makeObservable(this, {
             inputValue: computed

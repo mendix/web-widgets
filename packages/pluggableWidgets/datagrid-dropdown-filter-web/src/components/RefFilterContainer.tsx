@@ -30,7 +30,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
     );
 
     useEffect(() => controller.setup(), [controller]);
-    useEffect(() => controller.updateProps({ onChange: props.onChange }), [props.onChange]);
+    useEffect(() => controller.updateProps({ onChange: props.onChange }), [controller, props.onChange]);
     const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
     return (
