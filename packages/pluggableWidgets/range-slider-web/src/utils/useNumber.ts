@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Big } from "big.js";
+import Big from "big.js";
 import { EditableValue, DynamicValue } from "mendix";
 
 export function useNumber(prop: Big | EditableValue<Big> | DynamicValue<Big> | undefined): Result {
