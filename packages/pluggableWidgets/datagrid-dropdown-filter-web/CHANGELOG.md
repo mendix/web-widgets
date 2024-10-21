@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where onChange events were not being triggered on dropdown filter.
+
 ## [2.9.1] - 2024-09-23
 
 ### Changed
