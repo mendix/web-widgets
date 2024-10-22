@@ -16,7 +16,7 @@ import {
 import Big from "big.js";
 
 type ExtractionReturnValue = {
-    attr?: EditableValue<string | Big>;
+    targetAttribute?: EditableValue<string | Big>;
     captionProvider?: ListAttributeValue<string> | ListExpressionValue<string>;
     captionType: OptionsSourceDatabaseCaptionTypeEnum;
     clearable: boolean;
@@ -28,11 +28,11 @@ type ExtractionReturnValue = {
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
-    valueAttribute: ListAttributeValue<string | Big> | undefined;
+    valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
 };
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
-    const attr = props.databaseAttributeString;
+    const targetAttribute = props.databaseAttributeString;
     const filterType = props.filterType;
 
     const ds = props.optionsSourceDatabaseDataSource;
@@ -47,30 +47,38 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const clearable = props.clearable;
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceAssociationCustomContentType;
-    const valueAttribute = props.optionsSourceDatabaseValueAttribute;
+    const valueSourceAttribute = props.optionsSourceDatabaseValueAttribute;
     const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
 
-    if (attr) {
+    if (targetAttribute) {
         if (
-            attr.value instanceof Big &&
-            valueAttribute?.type !== "Integer" &&
-            valueAttribute?.type !== "Long" &&
-            valueAttribute?.type !== "Enum"
+            targetAttribute.value instanceof Big &&
+            valueSourceAttribute?.type !== "Integer" &&
+            valueSourceAttribute?.type !== "Long" &&
+            valueSourceAttribute?.type !== "Enum"
         ) {
-            throw new Error(`Attribute is type of Number while Value has type ${valueAttribute?.type}`);
+            throw new Error(
+                `Target attribute is of type Number while Value attribute is of type ${valueSourceAttribute?.type}`
+            );
         }
-        if (typeof attr.value === "string" && valueAttribute?.type !== "String" && valueAttribute?.type !== "Enum") {
-            throw new Error(`Attribute is type of String while Value has type ${valueAttribute?.type}`);
+        if (
+            typeof targetAttribute.value === "string" &&
+            valueSourceAttribute?.type !== "String" &&
+            valueSourceAttribute?.type !== "Enum"
+        ) {
+            throw new Error(
+                `Target attribute is of type String while Value attribute is of type ${valueSourceAttribute?.type}`
+            );
         }
     }
 
-    if (!valueAttribute && props.optionsSourceDatabaseItemSelection?.type !== "Multi") {
+    if (!valueSourceAttribute && props.optionsSourceDatabaseItemSelection?.type !== "Multi") {
         throw new Error("'valueAttribute' is not defined");
     }
 
     return {
-        attr,
+        targetAttribute,
         captionProvider: captionType === "attribute" ? captionAttribute : captionExpression,
         captionType,
         clearable,
@@ -82,6 +90,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         filterType,
         lazyLoading,
         loadingType,
-        valueAttribute
+        valueSourceAttribute
     };
 }
