@@ -203,6 +203,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             selectActionHelper={selectActionHelper}
                             focusController={props.focusController}
                             eventsController={props.cellEventsController}
+                            isLoading={props.isLoading}
+                            pageSize={props.pageSize}
                         />
                         {(rows.length === 0 || preview) &&
                             emptyPlaceholderRenderer &&
