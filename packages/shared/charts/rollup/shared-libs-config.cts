@@ -4,6 +4,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import tarser from "@rollup/plugin-terser";
+import copy from "rollup-plugin-copy";
 const { join, format } = path;
 
 // Based on packages/pluggable-widgets-tools/configs/rollup.config.js
@@ -20,11 +21,11 @@ interface Args {
 const bundles = {
     plotly: {
         // react-plotly.js@2.6.0 use: `import Plotly from 'plotly.js/dist/plotly';`
-        // so we use same path as input.
-        input: "plotly.js/dist/plotly",
+        // We redirect this import to min version.
+        input: "plotly.js/dist/plotly.min.js",
         file: {
-            amd: "plotly.js",
-            esm: "plotly.mjs"
+            amd: "plotly.min.js",
+            esm: "plotly.min.mjs"
         }
     },
     reactPlotly: {
@@ -127,12 +128,13 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
 
 /** react-plotly.js bundle config */
 function reactPlotly(bundle: BundleBuildConfig): RollupOptions {
+    const plotlyImport = "plotly.js/dist/plotly";
     const esmOutput: OutputOptions = {
         format: "es",
         file: format({ dir: bundle.esmDir, base: bundle.reactPlotly.file.esm }),
         paths: {
             // Replace imports of plotly.js with relative path.
-            [bundle.plotly.input]: `./${bundle.plotly.file.esm}`
+            [plotlyImport]: `./${bundle.plotly.file.esm}`
         }
     };
 
@@ -141,20 +143,30 @@ function reactPlotly(bundle: BundleBuildConfig): RollupOptions {
         file: format({ dir: bundle.amdDir, base: bundle.reactPlotly.file.amd }),
         paths: {
             // Replace imports of plotly.js with relative path.
-            [bundle.plotly.input]: `./${bundle.plotly.file.amd}`
+            [plotlyImport]: `./${bundle.plotly.file.amd}`
         }
     };
 
     return {
         input: bundle.reactPlotly.input,
         // Mark plotly as external to not include plotly.js in bundle.
-        external: [...bundle.external, bundle.plotly.input],
+        external: [...bundle.external, plotlyImport],
         plugins: stdPlugins(bundle),
         output: [esmOutput, amdOutput]
     };
 }
 
-/** plotly.js bundle config */
+/**
+ * plotly.js bundle config
+ *
+ * Main goal is to:
+ *  1. Copy plotly.min.js.
+ *  2. Convert to es module (for modern client).
+ *  3. Copy to it's own file.
+ *  4. Avoid running tarser on plotly,
+ *  otherwise our GitHub pipeline fails
+ *  because tarser consume too much memory.
+ */
 function plotly(bundle: BundleBuildConfig): RollupOptions {
     const esmOutput: OutputOptions = {
         format: "es",
@@ -169,7 +181,18 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
     return {
         input: bundle.plotly.input,
         external: [...bundle.external],
-        plugins: stdPlugins(bundle),
+        plugins: [
+            nodeResolve(),
+            commonjs(),
+            // Here we just copy the license file.
+            copy({
+                targets: [
+                    { src: "node_modules/plotly.js/dist/plotly.min.js.LICENSE.txt", dest: bundle.amdDir },
+                    { src: "node_modules/plotly.js/dist/plotly.min.js.LICENSE.txt", dest: bundle.esmDir }
+                ],
+                verbose: true
+            })
+        ],
         output: [esmOutput, amdOutput]
     };
 }
@@ -177,16 +200,6 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
 /** Utils */
 
 const isProd = (args: Args): boolean => !!args.configProduction;
-
-/** Tarser comments filter */
-const commentsFilter = (_: unknown, comment: { value: string; type: string }): boolean => {
-    const { type, value } = comment;
-    if (type === "comment2") {
-        return /@preserve|@license|@cc_on|License|license/i.test(value);
-    }
-
-    return false;
-};
 
 /**
  * IMPORTANT: Please use this only for common plugins.
@@ -198,9 +211,5 @@ const stdPlugins = (config: { isProd: boolean }): Plugin[] => [
     replace({
         "process.env.NODE_ENV": JSON.stringify(config.isProd ? "production" : "development")
     }),
-    tarser({
-        format: {
-            comments: commentsFilter
-        }
-    })
+    tarser()
 ];

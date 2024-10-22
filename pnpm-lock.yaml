@@ -495,7 +495,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -520,7 +520,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -542,6 +542,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -551,7 +554,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -576,7 +579,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -604,7 +607,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -626,6 +629,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -635,7 +641,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -663,7 +669,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -691,6 +697,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -700,7 +709,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -734,7 +743,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -795,7 +804,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -860,7 +869,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -888,6 +897,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -897,7 +909,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -931,7 +943,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -989,7 +1001,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1038,7 +1050,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1084,7 +1096,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1132,7 +1144,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1142,7 +1154,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1172,7 +1184,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
       nanoevents:
         specifier: ^9.0.0
         version: 9.0.0
@@ -1185,7 +1197,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1222,7 +1234,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1265,7 +1277,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1298,7 +1310,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1325,7 +1337,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
       react-dropzone:
         specifier: ^14.2.3
         version: 14.2.9(react@18.2.0)
@@ -1338,7 +1350,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1368,7 +1380,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1378,7 +1390,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1408,7 +1420,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1424,6 +1436,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1433,7 +1448,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1461,7 +1476,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1489,7 +1504,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1514,7 +1529,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1533,6 +1548,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1542,7 +1560,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1585,7 +1603,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1628,7 +1646,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1659,6 +1677,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1668,7 +1689,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1696,7 +1717,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1727,7 +1748,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1761,7 +1782,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1798,7 +1819,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1835,7 +1856,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1926,7 +1947,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -1963,7 +1984,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2000,7 +2021,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2028,6 +2049,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js:
+        specifier: ^2.35.2
+        version: 2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26))
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2037,7 +2061,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2065,7 +2089,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2096,7 +2120,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2124,7 +2148,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2155,7 +2179,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.15.0
-        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -2198,6 +2222,9 @@ importers:
       rollup:
         specifier: ^2.79.1
         version: 2.79.1
+      rollup-plugin-copy:
+        specifier: ^3.5.0
+        version: 3.5.0
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2770,14 +2797,12 @@ packages:
   '@babel/plugin-proposal-async-generator-functions@7.20.7':
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-class-properties@7.18.6':
     resolution: {integrity: sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -2790,42 +2815,36 @@ packages:
   '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6':
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-numeric-separator@7.18.6':
     resolution: {integrity: sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-object-rest-spread@7.20.7':
     resolution: {integrity: sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-optional-catch-binding@7.18.6':
     resolution: {integrity: sha512-Q40HEhs9DJQyaZfUjjn6vE8Cv4GmMHCYuMGIWUnlxH6400VGxOuwWsPt4FxXxJkC/5eOzgn0z21M9gMT4MOhbw==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-optional-chaining@7.21.0':
     resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-private-methods@7.18.6':
     resolution: {integrity: sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -3593,7 +3612,6 @@ packages:
   '@humanwhocodes/config-array@0.5.0':
     resolution: {integrity: sha512-FagtKFz74XrTl7y6HCzQpwDfXP0yhxe9lHLD1UZxjvZIcbyRz8zTFF/yYNfSfzU414eDwZ1SrO0Qvtyf+wFMQg==}
     engines: {node: '>=10.10.0'}
-    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3601,7 +3619,6 @@ packages:
 
   '@humanwhocodes/object-schema@1.2.1':
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
-    deprecated: Use @eslint/object-schema instead
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
@@ -4330,6 +4347,9 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/fs-extra@8.1.5':
+    resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
+
   '@types/geojson-vt@3.2.5':
     resolution: {integrity: sha512-qDO7wqtprzlpe8FfQ//ClPV9xiuoh2nkIgiouIptON9w5jvD/fA4szvP9GBlDVdJ5dldAl0kX/sy3URbWwLx0g==}
 
@@ -4338,6 +4358,9 @@ packages:
 
   '@types/geojson@7946.0.14':
     resolution: {integrity: sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==}
+
+  '@types/glob@7.2.0':
+    resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
 
   '@types/google.maps@3.55.2':
     resolution: {integrity: sha512-JcTwzkxskR8DN/nnX96Pie3gGN3WHiPpuxzuQ9z3516o1bB243d8w8DHUJ8BohuzoT1o3HUFta2ns/mkZC8KRw==}
@@ -5115,7 +5138,6 @@ packages:
   babel-eslint@10.1.0:
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
-    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
     peerDependencies:
       eslint: '>= 4.12.1'
 
@@ -6368,7 +6390,6 @@ packages:
   eslint@7.32.0:
     resolution: {integrity: sha512-VHZ8gX+EDfz+97jGcgyGCyRia/dPOd6Xh9yPv8Bl1+SoaIwD+a/vlrOmGRUyOYu7MwUhc7CxqeaDZU13S4+EpA==}
     engines: {node: ^10.12.0 || >=12.0.0}
-    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@8.57.0:
@@ -6780,6 +6801,10 @@ packages:
     resolution: {integrity: sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==}
     engines: {node: '>= 0.4'}
 
+  globby@10.0.1:
+    resolution: {integrity: sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==}
+    engines: {node: '>=8'}
+
   globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
@@ -7008,10 +7033,6 @@ packages:
 
   ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
-    engines: {node: '>= 4'}
-
-  ignore@5.3.1:
-    resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
     engines: {node: '>= 4'}
 
   ignore@5.3.2:
@@ -7244,6 +7265,10 @@ packages:
 
   is-plain-object@2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}
+    engines: {node: '>=0.10.0'}
+
+  is-plain-object@3.0.1:
+    resolution: {integrity: sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==}
     engines: {node: '>=0.10.0'}
 
   is-potential-custom-element-name@1.0.1:
@@ -9316,7 +9341,6 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
-    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rollup-plugin-clear@2.0.7:
@@ -9324,6 +9348,10 @@ packages:
 
   rollup-plugin-command@1.1.3:
     resolution: {integrity: sha512-9nIcP5mgVYWGU7x/6ufTgtqI4vl5vvsYs6fTTil91NX53EIPcim42FXmq1TPdZRFJbUM1ikrg05clahPxObL1g==}
+
+  rollup-plugin-copy@3.5.0:
+    resolution: {integrity: sha512-wI8D5dvYovRMx/YYKtUNt3Yxaw4ORC9xo6Gt9t22kveWz1enG9QrhVlagzwrxSC455xD1dHMKhIJkbsQ7d48BA==}
+    engines: {node: '>=8.3'}
 
   rollup-plugin-license@2.9.1:
     resolution: {integrity: sha512-C26f/bFXR52tzpBMllDnf5m2ETqRuyrrj3m8i3YY4imDwbXtunop+Lj1mO9mn/sZF8gKknOycN1Sm+kMGBd6RA==}
@@ -9346,7 +9374,6 @@ packages:
 
   rollup-plugin-terser@7.0.2:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: ^2.0.0
 
@@ -10445,10 +10472,6 @@ packages:
 
   wildcard@2.0.1:
     resolution: {integrity: sha512-CC1bOL87PIWSBhDcTrdeLo6eGT7mCFtrg0uIJtqJUFyK+eJnzl8A1niH56uu7KMa5XFrtiV+AQuHO3n7DsHnLQ==}
-
-  word-wrap@1.2.3:
-    resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
-    engines: {node: '>=0.10.0'}
 
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
@@ -12375,7 +12398,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.23.0
       '@babel/types': 7.23.0
-      debug: 4.3.4
+      debug: 4.3.7
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -12826,7 +12849,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  '@jest/core@29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))':
+  '@jest/core@29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))':
     dependencies:
       '@jest/console': 29.7.0
       '@jest/reporters': 29.7.0
@@ -12840,7 +12863,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest-config: 29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -13185,7 +13208,7 @@ snapshots:
       semver: 7.6.3
       shelljs: 0.8.5
       shx: 0.3.4
-      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.21.0))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4)
+      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4)
       ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)
       typescript: 5.0.4
       xml2js: 0.6.2
@@ -13260,7 +13283,7 @@ snapshots:
       identity-obj-proxy: 3.0.0
       jasmine: 3.99.0
       jasmine-core: 3.99.1
-      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       jest-environment-jsdom: 29.7.0
       jest-jasmine2: 29.7.0
       jest-junit: 13.2.0
@@ -13282,14 +13305,118 @@ snapshots:
       rollup-plugin-command: 1.1.3
       rollup-plugin-license: 2.9.1(rollup@2.79.1)
       rollup-plugin-livereload: 2.0.5
-      rollup-plugin-postcss: 4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      rollup-plugin-postcss: 4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       rollup-plugin-re: 1.0.7
       rollup-plugin-terser: 7.0.2(rollup@2.79.1)
       sass: 1.58.3
       semver: 7.6.3
       shelljs: 0.8.5
       shx: 0.3.4
-      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)))(typescript@5.0.4)
+      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)))(typescript@5.0.4)
+      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
+      typescript: 5.0.4
+      xml2js: 0.6.2
+      zip-a-folder: 0.0.12
+    transitivePeerDependencies:
+      - '@jest/types'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/babel__core'
+      - '@types/node'
+      - babel-plugin-macros
+      - bufferutil
+      - canvas
+      - encoding
+      - esbuild
+      - node-notifier
+      - react
+      - react-dom
+      - react-native
+      - supports-color
+      - tslib
+      - utf-8-validate
+
+  '@mendix/pluggable-widgets-tools@10.15.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)':
+    dependencies:
+      '@babel/core': 7.25.8
+      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.25.8)
+      '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.25.8)
+      '@babel/plugin-transform-react-jsx': 7.25.7(@babel/core@7.25.8)
+      '@babel/preset-env': 7.23.2(@babel/core@7.25.8)
+      '@babel/preset-react': 7.22.15(@babel/core@7.25.8)
+      '@cfaester/enzyme-adapter-react-18': 0.6.0(enzyme@3.11.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@prettier/plugin-xml': 1.2.0
+      '@rollup/plugin-alias': 3.1.9(rollup@2.79.1)
+      '@rollup/plugin-babel': 5.3.1(@babel/core@7.25.8)(@types/babel__core@7.20.3)(rollup@2.79.1)
+      '@rollup/plugin-commonjs': 22.0.2(rollup@2.79.1)
+      '@rollup/plugin-image': 2.1.1(rollup@2.79.1)
+      '@rollup/plugin-json': 4.1.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@rollup/plugin-typescript': 8.5.0(rollup@2.79.1)(tslib@2.7.0)(typescript@5.0.4)
+      '@rollup/plugin-url': 6.1.0(rollup@2.79.1)
+      '@rollup/pluginutils': 4.2.1
+      '@testing-library/dom': 8.20.1
+      '@testing-library/jest-dom': 5.17.0
+      '@testing-library/react': 13.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@testing-library/user-event': 14.5.1(@testing-library/dom@8.20.1)
+      '@types/react': 18.2.36
+      '@types/react-dom': 18.2.14
+      '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))
+      '@types/testing-library__jest-dom': 5.14.9
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
+      ansi-colors: 4.1.1
+      babel-eslint: 10.1.0(eslint@7.32.0)
+      babel-jest: 29.7.0(@babel/core@7.25.8)
+      big.js: 6.2.2
+      concurrently: 6.5.1
+      core-js: 3.33.2
+      dotenv: 8.6.0
+      enzyme: 3.11.0
+      enzyme-to-json: 3.6.2(enzyme@3.11.0)
+      eslint: 7.32.0
+      eslint-config-prettier: 8.10.0(eslint@7.32.0)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4)
+      eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@2.8.8)
+      eslint-plugin-promise: 4.3.1
+      eslint-plugin-react: 7.28.0(eslint@7.32.0)
+      eslint-plugin-react-hooks: 4.6.0(eslint@7.32.0)
+      fast-glob: 3.3.2
+      find-free-port: 2.0.0
+      fs-extra: 9.1.0
+      identity-obj-proxy: 3.0.0
+      jasmine: 3.99.0
+      jasmine-core: 3.99.1
+      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
+      jest-environment-jsdom: 29.7.0
+      jest-jasmine2: 29.7.0
+      jest-junit: 13.2.0
+      jest-react-hooks-shallow: 1.5.1
+      make-dir: 3.1.0
+      mendix: 10.15.46408
+      metro-react-native-babel-preset: 0.74.1(@babel/core@7.25.8)
+      mime: 3.0.0
+      node-fetch: 2.7.0
+      postcss: 8.4.47
+      postcss-import: 14.1.0(postcss@8.4.47)
+      postcss-url: 10.1.3(postcss@8.4.47)
+      prettier: 2.8.8
+      react-test-renderer: 18.2.0(react@18.2.0)
+      recursive-copy: 2.0.14
+      resolve: 1.22.8
+      rollup: 2.79.1
+      rollup-plugin-clear: 2.0.7
+      rollup-plugin-command: 1.1.3
+      rollup-plugin-license: 2.9.1(rollup@2.79.1)
+      rollup-plugin-livereload: 2.0.5
+      rollup-plugin-postcss: 4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
+      rollup-plugin-re: 1.0.7
+      rollup-plugin-terser: 7.0.2(rollup@2.79.1)
+      sass: 1.58.3
+      semver: 7.6.3
+      shelljs: 0.8.5
+      shx: 0.3.4
+      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)))(typescript@5.0.4)
       ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
       typescript: 5.0.4
       xml2js: 0.6.2
@@ -13454,6 +13581,17 @@ snapshots:
       execa: 5.1.1
       fast-glob: 3.3.2
 
+  '@react-native-community/cli-config@14.1.0':
+    dependencies:
+      '@react-native-community/cli-tools': 14.1.0
+      chalk: 4.1.2
+      cosmiconfig: 9.0.0
+      deepmerge: 4.3.1
+      fast-glob: 3.3.2
+      joi: 17.13.3
+    transitivePeerDependencies:
+      - typescript
+
   '@react-native-community/cli-config@14.1.0(typescript@5.0.4)':
     dependencies:
       '@react-native-community/cli-tools': 14.1.0
@@ -13481,6 +13619,27 @@ snapshots:
       serve-static: 1.16.2
     transitivePeerDependencies:
       - supports-color
+
+  '@react-native-community/cli-doctor@14.1.0':
+    dependencies:
+      '@react-native-community/cli-config': 14.1.0
+      '@react-native-community/cli-platform-android': 14.1.0
+      '@react-native-community/cli-platform-apple': 14.1.0
+      '@react-native-community/cli-platform-ios': 14.1.0
+      '@react-native-community/cli-tools': 14.1.0
+      chalk: 4.1.2
+      command-exists: 1.2.9
+      deepmerge: 4.3.1
+      envinfo: 7.14.0
+      execa: 5.1.1
+      node-stream-zip: 1.15.0
+      ora: 5.4.1
+      semver: 7.6.3
+      strip-ansi: 5.2.0
+      wcwidth: 1.0.1
+      yaml: 2.6.0
+    transitivePeerDependencies:
+      - typescript
 
   '@react-native-community/cli-doctor@14.1.0(typescript@5.0.4)':
     dependencies:
@@ -13578,6 +13737,30 @@ snapshots:
   '@react-native-community/cli-types@14.1.0':
     dependencies:
       joi: 17.13.3
+
+  '@react-native-community/cli@14.1.0':
+    dependencies:
+      '@react-native-community/cli-clean': 14.1.0
+      '@react-native-community/cli-config': 14.1.0
+      '@react-native-community/cli-debugger-ui': 14.1.0
+      '@react-native-community/cli-doctor': 14.1.0
+      '@react-native-community/cli-server-api': 14.1.0
+      '@react-native-community/cli-tools': 14.1.0
+      '@react-native-community/cli-types': 14.1.0
+      chalk: 4.1.2
+      commander: 9.5.0
+      deepmerge: 4.3.1
+      execa: 5.1.1
+      find-up: 5.0.0
+      fs-extra: 8.1.0
+      graceful-fs: 4.2.11
+      prompts: 2.4.2
+      semver: 7.6.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - typescript
+      - utf-8-validate
 
   '@react-native-community/cli@14.1.0(typescript@5.0.4)':
     dependencies:
@@ -13875,6 +14058,12 @@ snapshots:
       nullthrows: 1.1.1
       react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
 
+  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))':
+    dependencies:
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)
+
   '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)':
     dependencies:
       invariant: 2.2.4
@@ -13890,6 +14079,15 @@ snapshots:
       nullthrows: 1.1.1
       react: 18.2.0
       react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
+    optionalDependencies:
+      '@types/react': 18.2.36
+
+  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react: 18.2.0
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)
     optionalDependencies:
       '@types/react': 18.2.36
 
@@ -14236,6 +14434,10 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/fs-extra@8.1.5':
+    dependencies:
+      '@types/node': 20.12.12
+
   '@types/geojson-vt@3.2.5':
     dependencies:
       '@types/geojson': 7946.0.14
@@ -14243,6 +14445,11 @@ snapshots:
   '@types/geojson@7946.0.10': {}
 
   '@types/geojson@7946.0.14': {}
+
+  '@types/glob@7.2.0':
+    dependencies:
+      '@types/minimatch': 3.0.5
+      '@types/node': 20.12.12
 
   '@types/google.maps@3.55.2': {}
 
@@ -14389,6 +14596,13 @@ snapshots:
   '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
     dependencies:
       '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - react-native
+
+  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))':
+    dependencies:
+      '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))
       '@types/react': 18.2.36
     transitivePeerDependencies:
       - react-native
@@ -14572,7 +14786,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.13.2(typescript@5.1.6)
       '@typescript-eslint/utils': 6.13.2(eslint@8.57.0)(typescript@5.1.6)
-      debug: 4.3.4
+      debug: 4.3.7
       eslint: 8.57.0
       ts-api-utils: 1.0.3(typescript@5.1.6)
     optionalDependencies:
@@ -14604,7 +14818,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
-      debug: 4.3.4
+      debug: 4.3.7
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.3
@@ -14618,7 +14832,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
-      debug: 4.3.4
+      debug: 4.3.7
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.3
@@ -14632,7 +14846,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.13.2
       '@typescript-eslint/visitor-keys': 6.13.2
-      debug: 4.3.4
+      debug: 4.3.7
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.3
@@ -14924,7 +15138,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -15853,6 +16067,13 @@ snapshots:
       parse-json: 5.2.0
       path-type: 4.0.0
 
+  cosmiconfig@9.0.0:
+    dependencies:
+      env-paths: 2.2.1
+      import-fresh: 3.3.0
+      js-yaml: 4.1.0
+      parse-json: 5.2.0
+
   cosmiconfig@9.0.0(typescript@5.0.4):
     dependencies:
       env-paths: 2.2.1
@@ -15929,13 +16150,13 @@ snapshots:
       - ts-node
     optional: true
 
-  create-jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  create-jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest-config: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -16006,6 +16227,19 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.5.1
       webpack: 5.94.0(webpack-cli@4.10.0)
+
+  css-loader@7.1.2(webpack@5.94.0(@swc/core@1.7.26)):
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.47)
+      postcss: 8.4.47
+      postcss-modules-extract-imports: 3.1.0(postcss@8.4.47)
+      postcss-modules-local-by-default: 4.0.5(postcss@8.4.47)
+      postcss-modules-scope: 3.2.0(postcss@8.4.47)
+      postcss-modules-values: 4.0.0(postcss@8.4.47)
+      postcss-value-parser: 4.2.0
+      semver: 7.6.3
+    optionalDependencies:
+      webpack: 5.94.0(@swc/core@1.7.26)
 
   css-loader@7.1.2(webpack@5.94.0):
     dependencies:
@@ -17136,7 +17370,7 @@ snapshots:
 
   file-selector@0.6.0:
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.7.0
 
   filesize.js@2.0.0: {}
 
@@ -17451,12 +17685,23 @@ snapshots:
     dependencies:
       define-properties: 1.2.1
 
+  globby@10.0.1:
+    dependencies:
+      '@types/glob': 7.2.0
+      array-union: 2.1.0
+      dir-glob: 3.0.1
+      fast-glob: 3.3.2
+      glob: 7.2.3
+      ignore: 5.3.2
+      merge2: 1.4.1
+      slash: 3.0.0
+
   globby@11.1.0:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
       fast-glob: 3.3.2
-      ignore: 5.3.1
+      ignore: 5.3.2
       merge2: 1.4.1
       slash: 3.0.0
 
@@ -17671,14 +17916,14 @@ snapshots:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -17719,8 +17964,6 @@ snapshots:
   ignore@4.0.6: {}
 
   ignore@5.2.4: {}
-
-  ignore@5.3.1: {}
 
   ignore@5.3.2: {}
 
@@ -17906,6 +18149,8 @@ snapshots:
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
+
+  is-plain-object@3.0.1: {}
 
   is-potential-custom-element-name@1.0.1: {}
 
@@ -18139,16 +18384,16 @@ snapshots:
       - ts-node
     optional: true
 
-  jest-cli@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  jest-cli@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
-      '@jest/core': 29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      '@jest/core': 29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      create-jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       exit: 0.1.2
       import-local: 3.1.0
-      jest-config: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest-config: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -18220,7 +18465,7 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-config@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  jest-config@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
       '@babel/core': 7.25.8
       '@jest/test-sequencer': 29.7.0
@@ -18246,7 +18491,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 20.12.12
-      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)
+      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -18282,7 +18527,7 @@ snapshots:
       - supports-color
     optional: true
 
-  jest-config@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  jest-config@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
       '@babel/core': 7.25.8
       '@jest/test-sequencer': 29.7.0
@@ -18308,7 +18553,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 22.7.5
-      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)
+      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -18607,7 +18852,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 20.12.12
+      '@types/node': 22.7.5
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -18656,12 +18901,12 @@ snapshots:
       - ts-node
     optional: true
 
-  jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
-      '@jest/core': 29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      '@jest/core': 29.7.0(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       '@jest/types': 29.6.3
       import-local: 3.1.0
-      jest-cli: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest-cli: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -19434,14 +19679,14 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0):
+  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
     dependencies:
       mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
-      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)
 
   mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react@18.2.0):
     dependencies:
@@ -19707,7 +19952,7 @@ snapshots:
       levn: 0.3.0
       prelude-ls: 1.1.2
       type-check: 0.3.2
-      word-wrap: 1.2.3
+      word-wrap: 1.2.5
 
   optionator@0.9.4:
     dependencies:
@@ -19858,6 +20103,66 @@ snapshots:
       playwright-core: 1.47.1
     optionalDependencies:
       fsevents: 2.3.2
+
+  plotly.js@2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0(@swc/core@1.7.26)):
+    dependencies:
+      '@plotly/d3': 3.8.2
+      '@plotly/d3-sankey': 0.7.2
+      '@plotly/d3-sankey-circular': 0.33.1
+      '@plotly/mapbox-gl': 1.13.4(mapbox-gl@1.10.1)
+      '@turf/area': 7.1.0
+      '@turf/bbox': 7.1.0
+      '@turf/centroid': 7.1.0
+      base64-arraybuffer: 1.0.2
+      canvas-fit: 1.5.0
+      color-alpha: 1.0.4
+      color-normalize: 1.5.0
+      color-parse: 2.0.0
+      color-rgba: 2.1.1
+      country-regex: 1.1.0
+      css-loader: 7.1.2(webpack@5.94.0(@swc/core@1.7.26))
+      d3-force: 1.2.1
+      d3-format: 1.4.5
+      d3-geo: 1.12.1
+      d3-geo-projection: 2.9.0
+      d3-hierarchy: 1.1.9
+      d3-interpolate: 3.0.1
+      d3-time: 1.1.0
+      d3-time-format: 2.3.0
+      fast-isnumeric: 1.1.4
+      gl-mat4: 1.2.0
+      gl-text: 1.4.0
+      has-hover: 1.0.1
+      has-passive-events: 1.0.0
+      is-mobile: 4.0.0
+      maplibre-gl: 4.7.1
+      mouse-change: 1.4.0
+      mouse-event-offset: 3.0.2
+      mouse-wheel: 1.2.0
+      native-promise-only: 0.8.1
+      parse-svg-path: 0.1.2
+      point-in-polygon: 1.1.0
+      polybooljs: 1.2.2
+      probe-image-size: 7.2.3
+      regl: '@plotly/regl@2.1.2'
+      regl-error2d: 2.0.12
+      regl-line2d: 3.1.3
+      regl-scatter2d: 3.3.1
+      regl-splom: 1.0.14
+      strongly-connected-components: 1.0.1
+      style-loader: 4.0.0(webpack@5.94.0(@swc/core@1.7.26))
+      superscript-text: 1.0.0
+      svg-path-sdf: 1.1.3
+      tinycolor2: 1.6.0
+      to-px: 1.0.1
+      topojson-client: 3.1.0
+      webgl-context: 2.2.0
+      world-calendars: 1.0.3
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - mapbox-gl
+      - supports-color
+      - webpack
 
   plotly.js@2.35.2(mapbox-gl@1.10.1)(webpack@5.94.0):
     dependencies:
@@ -20027,13 +20332,13 @@ snapshots:
       postcss: 8.4.47
       ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)
 
-  postcss-load-config@3.1.4(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  postcss-load-config@3.1.4(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.2
     optionalDependencies:
       postcss: 8.4.47
-      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)
+      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
 
   postcss-merge-longhand@5.1.7(postcss@8.4.31):
     dependencies:
@@ -20115,13 +20420,9 @@ snapshots:
     dependencies:
       postcss: 8.4.21
 
-  postcss-modules-extract-imports@3.0.0(postcss@8.4.31):
+  postcss-modules-extract-imports@3.1.0(postcss@8.4.31):
     dependencies:
       postcss: 8.4.31
-
-  postcss-modules-extract-imports@3.0.0(postcss@8.4.47):
-    dependencies:
-      postcss: 8.4.47
 
   postcss-modules-extract-imports@3.1.0(postcss@8.4.47):
     dependencies:
@@ -20134,17 +20435,10 @@ snapshots:
       postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
 
-  postcss-modules-local-by-default@4.0.3(postcss@8.4.31):
+  postcss-modules-local-by-default@4.0.5(postcss@8.4.31):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.31)
       postcss: 8.4.31
-      postcss-selector-parser: 6.0.13
-      postcss-value-parser: 4.2.0
-
-  postcss-modules-local-by-default@4.0.3(postcss@8.4.47):
-    dependencies:
-      icss-utils: 5.1.0(postcss@8.4.47)
-      postcss: 8.4.47
       postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
 
@@ -20160,14 +20454,9 @@ snapshots:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.13
 
-  postcss-modules-scope@3.0.0(postcss@8.4.31):
+  postcss-modules-scope@3.2.0(postcss@8.4.31):
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.0.13
-
-  postcss-modules-scope@3.0.0(postcss@8.4.47):
-    dependencies:
-      postcss: 8.4.47
       postcss-selector-parser: 6.0.13
 
   postcss-modules-scope@3.2.0(postcss@8.4.47):
@@ -20196,9 +20485,9 @@ snapshots:
       icss-replace-symbols: 1.1.0
       lodash.camelcase: 4.3.0
       postcss: 8.4.31
-      postcss-modules-extract-imports: 3.0.0(postcss@8.4.31)
-      postcss-modules-local-by-default: 4.0.3(postcss@8.4.31)
-      postcss-modules-scope: 3.0.0(postcss@8.4.31)
+      postcss-modules-extract-imports: 3.1.0(postcss@8.4.31)
+      postcss-modules-local-by-default: 4.0.5(postcss@8.4.31)
+      postcss-modules-scope: 3.2.0(postcss@8.4.31)
       postcss-modules-values: 4.0.0(postcss@8.4.31)
       string-hash: 1.1.3
 
@@ -20208,9 +20497,9 @@ snapshots:
       icss-replace-symbols: 1.1.0
       lodash.camelcase: 4.3.0
       postcss: 8.4.47
-      postcss-modules-extract-imports: 3.0.0(postcss@8.4.47)
-      postcss-modules-local-by-default: 4.0.3(postcss@8.4.47)
-      postcss-modules-scope: 3.0.0(postcss@8.4.47)
+      postcss-modules-extract-imports: 3.1.0(postcss@8.4.47)
+      postcss-modules-local-by-default: 4.0.5(postcss@8.4.47)
+      postcss-modules-scope: 3.2.0(postcss@8.4.47)
       postcss-modules-values: 4.0.0(postcss@8.4.47)
       string-hash: 1.1.3
 
@@ -20754,6 +21043,59 @@ snapshots:
       - typescript
       - utf-8-validate
 
+  react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0):
+    dependencies:
+      '@jest/create-cache-key-function': 29.7.0
+      '@react-native-community/cli': 14.1.0
+      '@react-native-community/cli-platform-android': 14.1.0
+      '@react-native-community/cli-platform-ios': 14.1.0
+      '@react-native/assets-registry': 0.75.3
+      '@react-native/codegen': 0.75.3(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/community-cli-plugin': 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/gradle-plugin': 0.75.3
+      '@react-native/js-polyfills': 0.75.3
+      '@react-native/normalize-colors': 0.75.3
+      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+      abort-controller: 3.0.0
+      anser: 1.4.10
+      ansi-regex: 5.0.1
+      base64-js: 1.5.1
+      chalk: 4.1.2
+      commander: 9.5.0
+      event-target-shim: 5.0.1
+      flow-enums-runtime: 0.0.6
+      glob: 7.2.3
+      invariant: 2.2.4
+      jest-environment-node: 29.7.0
+      jsc-android: 250231.0.0
+      memoize-one: 5.2.1
+      metro-runtime: 0.80.12
+      metro-source-map: 0.80.12
+      mkdirp: 0.5.6
+      nullthrows: 1.1.1
+      pretty-format: 26.6.2
+      promise: 8.3.0
+      react: 18.2.0
+      react-devtools-core: 5.3.2
+      react-refresh: 0.14.2
+      regenerator-runtime: 0.13.11
+      scheduler: 0.24.0-canary-efb381bbf-20230505
+      semver: 7.6.3
+      stacktrace-parser: 0.1.10
+      whatwg-fetch: 3.6.20
+      ws: 6.2.3
+      yargs: 17.7.2
+    optionalDependencies:
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+
   react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6):
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
@@ -21178,6 +21520,14 @@ snapshots:
 
   rollup-plugin-command@1.1.3: {}
 
+  rollup-plugin-copy@3.5.0:
+    dependencies:
+      '@types/fs-extra': 8.1.5
+      colorette: 1.4.0
+      fs-extra: 8.1.0
+      globby: 10.0.1
+      is-plain-object: 3.0.1
+
   rollup-plugin-license@2.9.1(rollup@2.79.1):
     dependencies:
       commenting: 1.1.0
@@ -21236,7 +21586,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  rollup-plugin-postcss@4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)):
+  rollup-plugin-postcss@4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)):
     dependencies:
       chalk: 4.1.2
       concat-with-sourcemaps: 1.1.0
@@ -21245,7 +21595,7 @@ snapshots:
       p-queue: 6.6.2
       pify: 5.0.0
       postcss: 8.4.47
-      postcss-load-config: 3.1.4(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      postcss-load-config: 3.1.4(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       postcss-modules: 4.3.1(postcss@8.4.47)
       promise.series: 0.2.0
       resolve: 1.22.8
@@ -21737,6 +22087,10 @@ snapshots:
     dependencies:
       webpack: 5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0)
 
+  style-loader@4.0.0(webpack@5.94.0(@swc/core@1.7.26)):
+    dependencies:
+      webpack: 5.94.0(@swc/core@1.7.26)
+
   style-loader@4.0.0(webpack@5.94.0):
     dependencies:
       webpack: 5.94.0(webpack-cli@4.10.0)
@@ -21839,6 +22193,17 @@ snapshots:
   temp@0.8.4:
     dependencies:
       rimraf: 2.6.3
+
+  terser-webpack-plugin@5.3.10(@swc/core@1.7.26)(webpack@5.94.0(@swc/core@1.7.26)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.34.1
+      webpack: 5.94.0(@swc/core@1.7.26)
+    optionalDependencies:
+      '@swc/core': 1.7.26
 
   terser-webpack-plugin@5.3.10(@swc/core@1.7.26)(webpack@5.94.0):
     dependencies:
@@ -21957,7 +22322,7 @@ snapshots:
 
   ts-custom-error@3.3.1: {}
 
-  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.21.0))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4):
+  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -21974,11 +22339,11 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.25.8)
 
-  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6)))(typescript@5.0.4):
+  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)))(typescript@5.0.4):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.1.6))
+      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -22412,6 +22777,36 @@ snapshots:
 
   webpack-sources@3.2.3: {}
 
+  webpack@5.94.0(@swc/core@1.7.26):
+    dependencies:
+      '@types/estree': 1.0.6
+      '@webassemblyjs/ast': 1.12.1
+      '@webassemblyjs/wasm-edit': 1.12.1
+      '@webassemblyjs/wasm-parser': 1.12.1
+      acorn: 8.12.1
+      acorn-import-attributes: 1.9.5(acorn@8.12.1)
+      browserslist: 4.24.0
+      chrome-trace-event: 1.0.4
+      enhanced-resolve: 5.17.1
+      es-module-lexer: 1.5.4
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.10(@swc/core@1.7.26)(webpack@5.94.0(@swc/core@1.7.26))
+      watchpack: 2.4.2
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+
   webpack@5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0):
     dependencies:
       '@types/estree': 1.0.6
@@ -22583,8 +22978,6 @@ snapshots:
       isexe: 3.1.1
 
   wildcard@2.0.1: {}
-
-  word-wrap@1.2.3: {}
 
   word-wrap@1.2.5: {}
 
