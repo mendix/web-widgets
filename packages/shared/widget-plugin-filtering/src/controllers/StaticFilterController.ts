@@ -1,3 +1,4 @@
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, DynamicValue } from "mendix";
 import { makeObservable, computed, autorun, observable } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
@@ -88,8 +89,6 @@ export class StaticFilterController {
             this.store.replace([value]);
         }
 
-        if (this.onChange?.canExecute) {
-            this.onChange.execute();
-        }
+        executeAction(this.onChange);
     };
 }
