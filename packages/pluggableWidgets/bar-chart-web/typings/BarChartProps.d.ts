@@ -93,6 +93,7 @@ export interface BarChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     series: SeriesPreviewType[];
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
