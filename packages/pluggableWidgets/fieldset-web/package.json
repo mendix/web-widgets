@@ -1,52 +1,52 @@
 {
-  "name": "@mendix/fieldset-web",
-  "widgetName": "Fieldset",
-  "version": "3.2.1",
-  "description": "A container to group several controls within a web form",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "license": "Apache-2.0",
-  "config": {},
-  "mxpackage": {
-    "name": "Fieldset",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.Fieldset.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 113922,
-    "appName": "Fieldset"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "fieldset-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:web",
-    "build": "pluggable-widgets-tools build:web",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
-    "release": "pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "cross-env": "^7.0.3"
-  }
+    "name": "@mendix/fieldset-web",
+    "widgetName": "Fieldset",
+    "version": "3.2.1",
+    "description": "A container to group several controls within a web form",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "mxpackage": {
+        "name": "Fieldset",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.Fieldset.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.6.0",
+        "appNumber": 113922,
+        "appName": "Fieldset"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "fieldset-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "release": "pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "cross-env": "^7.0.3"
+    }
 }

@@ -1,62 +1,62 @@
 {
-  "name": "@mendix/carousel-web",
-  "widgetName": "Carousel",
-  "version": "2.2.1",
-  "description": "Displays images in a carousel",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "carousel-web"
-  },
-  "license": "Apache-2.0",
-  "mxpackage": {
-    "name": "Carousel",
-    "type": "widget",
-    "mpkName": "Carousel.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 47784,
-    "appName": "Carousel"
-  },
-  "packagePath": "com.mendix.widget.custom",
-  "scripts": {
-    "start": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools start:server",
-    "dev": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools start:web",
-    "build": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools build:web",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "jest --projects jest.config.js",
-    "release": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
-  },
-  "config": {},
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "cross-env": "^7.0.3",
-    "mime-types": "^2.1.35",
-    "postcss": "^8.4.21",
-    "postcss-url": "^10.1.3",
-    "shelljs": "^0.8.5"
-  },
-  "dependencies": {
-    "@types/react-test-renderer": "^18.0.7",
-    "classnames": "^2.3.2",
-    "react-test-renderer": "^18.2.0",
-    "swiper": "^9.4.1"
-  }
+    "name": "@mendix/carousel-web",
+    "widgetName": "Carousel",
+    "version": "2.2.1",
+    "description": "Displays images in a carousel",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "carousel-web"
+    },
+    "license": "Apache-2.0",
+    "mxpackage": {
+        "name": "Carousel",
+        "type": "widget",
+        "mpkName": "Carousel.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.6.0",
+        "appNumber": 47784,
+        "appName": "Carousel"
+    },
+    "packagePath": "com.mendix.widget.custom",
+    "scripts": {
+        "start": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools start:server",
+        "dev": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools start:web",
+        "build": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools build:web",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "jest --projects jest.config.js",
+        "release": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps"
+    },
+    "config": {},
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "cross-env": "^7.0.3",
+        "mime-types": "^2.1.35",
+        "postcss": "^8.4.21",
+        "postcss-url": "^10.1.3",
+        "shelljs": "^0.8.5"
+    },
+    "dependencies": {
+        "@types/react-test-renderer": "^18.0.7",
+        "classnames": "^2.3.2",
+        "react-test-renderer": "^18.2.0",
+        "swiper": "^9.4.1"
+    }
 }
