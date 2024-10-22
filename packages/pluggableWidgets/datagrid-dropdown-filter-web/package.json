@@ -1,61 +1,61 @@
 {
-  "name": "@mendix/datagrid-dropdown-filter-web",
-  "widgetName": "DatagridDropdownFilter",
-  "version": "2.9.1",
-  "description": "",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "license": "Apache-2.0",
-  "config": {},
-  "mxpackage": {
-    "name": "DatagridDropdownFilter",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.DatagridDropdownFilter.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.17.0",
-    "appName": "Drop-down Filter"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-dropdown-filter-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:ts",
-    "build": "pluggable-widgets-tools build:ts",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "jest",
-    "release": "pluggable-widgets-tools release:ts",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps",
-    "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
-  },
-  "dependencies": {
-    "@mendix/widget-plugin-external-events": "workspace:*",
-    "@mendix/widget-plugin-filter-selector": "workspace:*",
-    "@mendix/widget-plugin-filtering": "workspace:*",
-    "classnames": "^2.3.2",
-    "deep-equal": "^2.2.3"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-component-kit": "workspace:*",
-    "@mendix/widget-plugin-hooks": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@types/deep-equal": "^1.0.1"
-  }
+    "name": "@mendix/datagrid-dropdown-filter-web",
+    "widgetName": "DatagridDropdownFilter",
+    "version": "2.9.1",
+    "description": "",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "mxpackage": {
+        "name": "DatagridDropdownFilter",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.DatagridDropdownFilter.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.17.0",
+        "appName": "Drop-down Filter"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "datagrid-dropdown-filter-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:ts",
+        "build": "pluggable-widgets-tools build:ts",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "jest",
+        "release": "pluggable-widgets-tools release:ts",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
+        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force"
+    },
+    "dependencies": {
+        "@mendix/widget-plugin-external-events": "workspace:*",
+        "@mendix/widget-plugin-filter-selector": "workspace:*",
+        "@mendix/widget-plugin-filtering": "workspace:*",
+        "classnames": "^2.3.2",
+        "deep-equal": "^2.2.3"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@types/deep-equal": "^1.0.1"
+    }
 }
