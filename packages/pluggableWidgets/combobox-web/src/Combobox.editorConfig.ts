@@ -21,7 +21,9 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseDefaultValue",
     "optionsSourceDatabaseValueAttribute",
-    "optionsSourceDatabaseItemSelection"
+    "optionsSourceDatabaseItemSelection",
+    "databaseAttributeString",
+    "onChangeDatabaseEvent"
 ];
 
 const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
@@ -30,13 +32,13 @@ const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceAssociationCaptionType",
     "optionsSourceAssociationCustomContent",
     "optionsSourceAssociationCustomContentType",
-    "optionsSourceAssociationDataSource"
+    "optionsSourceAssociationDataSource",
+    "attributeAssociation"
 ];
 
 export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
-            "databaseAttributeString",
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
@@ -44,12 +46,10 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
             hidePropertiesIn(defaultProperties, values, [
-                "attributeAssociation",
                 "selectedItemsStyle",
                 "selectionMethod",
                 "selectAllButton",
                 "selectAllButtonCaption",
-                "onChangeDatabaseEvent",
                 ...ASSOCIATION_SOURCE_CONFIG,
                 ...LAZY_LOADING_CONFIG
             ]);
@@ -60,11 +60,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
             }
         } else if (values.optionsSourceType === "association") {
-            hidePropertiesIn(defaultProperties, values, [
-                "attributeEnumeration",
-                "attributeBoolean",
-                "onChangeDatabaseEvent"
-            ]);
+            hidePropertiesIn(defaultProperties, values, ["attributeEnumeration", "attributeBoolean"]);
             if (values.optionsSourceAssociationCaptionType === "attribute") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
             } else {
@@ -94,7 +90,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
     } else if (values.source === "database") {
         hidePropertiesIn(defaultProperties, values, [
-            "attributeAssociation",
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
@@ -126,16 +121,19 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
         if (values.optionsSourceDatabaseItemSelection === "Multi") {
             hidePropertiesIn(defaultProperties, values, [
+                "optionsSourceDatabaseValueAttribute",
                 "databaseAttributeString",
                 "optionsSourceDatabaseDefaultValue"
             ]);
         }
         if (values.databaseAttributeString.length === 0) {
-            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseDefaultValue"]);
+            hidePropertiesIn(defaultProperties, values, [
+                "optionsSourceDatabaseValueAttribute",
+                "optionsSourceDatabaseDefaultValue"
+            ]);
         }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
-            "attributeAssociation",
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
@@ -143,7 +141,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
-            "databaseAttributeString",
             ...ASSOCIATION_SOURCE_CONFIG,
             ...DATABASE_SOURCE_CONFIG,
             ...LAZY_LOADING_CONFIG
