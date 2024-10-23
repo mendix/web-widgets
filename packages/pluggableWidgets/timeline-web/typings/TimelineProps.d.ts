@@ -48,6 +48,7 @@ export interface TimelinePreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     data: {} | { caption: string } | { type: string } | null;
     title: string;
     description: string;

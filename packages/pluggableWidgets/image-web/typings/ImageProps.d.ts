@@ -49,6 +49,7 @@ export interface ImagePreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     datasource: DatasourceEnum;
     imageObject: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     defaultImageDynamic: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;

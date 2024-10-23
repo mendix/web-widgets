@@ -32,6 +32,7 @@ export interface LanguageSelectorPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     languageOptions: {} | { caption: string } | { type: string } | null;
     languageCaption: string;
     position: PositionEnum;

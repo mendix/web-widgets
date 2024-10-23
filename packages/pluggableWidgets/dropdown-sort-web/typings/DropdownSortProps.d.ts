@@ -25,6 +25,7 @@ export interface DropdownSortPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     emptyOptionCaption: string;
     screenReaderButtonCaption: string;
     screenReaderInputCaption: string;

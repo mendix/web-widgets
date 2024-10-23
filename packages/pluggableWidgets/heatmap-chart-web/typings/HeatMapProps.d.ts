@@ -72,6 +72,7 @@ export interface HeatMapPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesValueAttribute: string;
     horizontalAxisAttribute: string;

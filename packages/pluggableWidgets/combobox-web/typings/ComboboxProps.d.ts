@@ -97,6 +97,7 @@ export interface ComboboxContainerProps {
 
 export interface ComboboxPreviewProps {
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     source: SourceEnum;
     optionsSourceType: OptionsSourceTypeEnum;
     attributeEnumeration: string;
