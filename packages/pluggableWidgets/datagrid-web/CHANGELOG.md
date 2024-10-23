@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We have extended the Filters API to support drop-down values. If "Use lazy" is false, the drop-down filter can restore it's value from the datagrid config.
+
 ## [2.24.0] - 2024-09-23
 
 ### Added
