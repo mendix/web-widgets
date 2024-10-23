@@ -52,7 +52,7 @@ export class StaticFilterController {
     }
 
     get inputValue(): string {
-        return this.serializer.value ?? "";
+        return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
     get options(): Option[] {
