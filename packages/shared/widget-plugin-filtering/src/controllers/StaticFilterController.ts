@@ -1,6 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { makeObservable, computed, autorun, observable, reaction } from "mobx";
+import { makeObservable, computed, autorun, observable, reaction, action } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 
@@ -46,7 +46,8 @@ export class StaticFilterController {
         makeObservable(this, {
             inputValue: computed,
             _filterOptions: observable.struct,
-            customOptions: computed
+            customOptions: computed,
+            updateProps: action
         });
     }
 
