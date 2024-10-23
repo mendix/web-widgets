@@ -81,12 +81,12 @@ test.describe("with Default value", () => {
             "OpheliaYes"
         ];
 
-        const rows = await page.locator(".mx-name-dataGrid21 [role=row]");
+        const rows = page.locator(".mx-name-dataGrid21 [role=row]");
         for (let i = 0; i < rows.length; i++) {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 10 of 27").nth(1);
+        const pagingStatus = page.locator(".mx-name-dataGrid21").getByText("to 10 of 27").nth(1);
         await expect(pagingStatus).toHaveText("1 to 10 of 27");
     });
 
@@ -100,12 +100,12 @@ test.describe("with Default value", () => {
             "MitchellCyan"
         ];
 
-        const rows = await page.locator(".mx-name-dataGrid22 [role=row]");
+        const rows = page.locator(".mx-name-dataGrid22 [role=row]");
         for (let i = 0; i < rows.length; i++) {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 5 of 5").nth(1);
+        const pagingStatus = page.locator(".mx-name-dataGrid22").getByText("to 5 of 5").nth(1);
         await expect(pagingStatus).toHaveText("1 to 5 of 5");
     });
 
@@ -124,12 +124,12 @@ test.describe("with Default value", () => {
             "OpheliaYes"
         ];
 
-        const rows = await page.locator(".mx-name-dataGrid23 [role=row]");
+        const rows = page.locator(".mx-name-dataGrid23 [role=row]");
         for (let i = 0; i < rows.length; i++) {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 10 of 27").nth(1);
+        const pagingStatus = page.locator(".mx-name-dataGrid23").getByText("to 10 of 27").nth(1);
         await expect(pagingStatus).toHaveText("1 to 10 of 27");
     });
 
@@ -143,12 +143,12 @@ test.describe("with Default value", () => {
             "MitchellCyan"
         ];
 
-        const rows = await page.locator(".mx-name-dataGrid24 [role=row]");
+        const rows = page.locator(".mx-name-dataGrid24 [role=row]");
         for (let i = 0; i < rows.length; i++) {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 5 of 5").nth(1);
+        const pagingStatus = page.locator(".mx-name-dataGrid24").getByText("to 5 of 5").nth(1);
         await expect(pagingStatus).toHaveText("1 to 5 of 5");
     });
 
@@ -167,13 +167,13 @@ test.describe("with Default value", () => {
             "HesterRed"
         ];
 
-        const rows = await page.locator(".mx-name-dataGrid25 [role=row]");
+        const rows = page.locator(".mx-name-dataGrid25 [role=row]");
         for (let i = 0; i < rows.length; i++) {
             await expect(rows[i]).toHaveText(expected[i]);
         }
 
-        const pagingStatus = await page.getByText("to 10 of 50").nth(1);
-        await expect(pagingStatus).toHaveText("1 to 10 of 50");
+        const pagingStatus = page.locator(".mx-name-dataGrid25").getByText("to 10 of 19").nth(1);
+        await expect(pagingStatus).toHaveText("1 to 10 of 19");
     });
 });
 
