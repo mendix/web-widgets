@@ -50,6 +50,7 @@ export interface PieChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesName: string;
     seriesValueAttribute: string;

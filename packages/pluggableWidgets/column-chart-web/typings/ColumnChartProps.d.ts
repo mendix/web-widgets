@@ -93,6 +93,7 @@ export interface ColumnChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     series: SeriesPreviewType[];
     advancedOptions: boolean;
     showPlaygroundSlot: boolean;

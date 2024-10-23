@@ -25,6 +25,7 @@ export interface BadgeButtonPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     label: string;
     value: string;
     onClickEvent: {} | null;

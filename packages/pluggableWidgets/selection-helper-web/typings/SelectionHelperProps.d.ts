@@ -29,6 +29,7 @@ export interface SelectionHelperPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     renderStyle: RenderStyleEnum;
     checkboxCaption: string;
     customAllSelected: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

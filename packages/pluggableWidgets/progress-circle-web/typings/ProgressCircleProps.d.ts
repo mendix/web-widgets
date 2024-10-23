@@ -42,6 +42,7 @@ export interface ProgressCirclePreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     type: TypeEnum;
     staticCurrentValue: number | null;
     dynamicCurrentValue: string;

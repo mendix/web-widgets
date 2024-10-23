@@ -15,6 +15,7 @@ export interface SwitchContainerProps {
 
 export interface SwitchPreviewProps {
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     booleanAttribute: string;
     action: {} | null;
 }

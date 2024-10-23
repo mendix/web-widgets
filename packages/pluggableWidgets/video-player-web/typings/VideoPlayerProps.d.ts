@@ -44,6 +44,7 @@ export interface VideoPlayerPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     type: TypeEnum;
     urlExpression: string;
     posterExpression: string;

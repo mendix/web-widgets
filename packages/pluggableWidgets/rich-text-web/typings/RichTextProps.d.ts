@@ -116,6 +116,7 @@ export interface RichTextContainerProps {
 
 export interface RichTextPreviewProps {
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     stringAttribute: string;
     menubarMode: MenubarModeEnum;
     enableStatusBar: boolean;
