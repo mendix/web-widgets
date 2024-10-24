@@ -50,6 +50,9 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             debounce(string => {
                 if (stringAttribute.value !== string) {
                     stringAttribute.setValue(string);
+                    if (onChangeType === "onDataChange") {
+                        executeAction(onChange);
+                    }
                 }
             }, 200),
         [stringAttribute]
@@ -86,12 +89,9 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        if (onChangeType === "onDataChange") {
-            executeAction(onChange);
-        }
         setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [onChange, onChangeType]);
+    }, []);
 
     const onSelectionChange = useCallback(
         (range: Range) => {

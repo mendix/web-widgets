@@ -1,3 +1,4 @@
+@use "sass:map";
 @font-face {
     font-family: "RichTextIconFont";
     src: url("../assets/RichTextIconFont.woff2") format("woff2");
@@ -67,7 +68,7 @@ $icons: (
         &.ql-color {
             .ql-picker-label {
                 &:before {
-                    content: map-get($icons, Text-color);
+                    content: map.get($icons, Text-color);
                 }
                 svg {
                     display: none;
@@ -78,7 +79,7 @@ $icons: (
         &.ql-background {
             .ql-picker-label {
                 &:before {
-                    content: map-get($icons, Text-background);
+                    content: map.get($icons, Text-background);
                 }
                 svg {
                     display: none;
@@ -88,7 +89,7 @@ $icons: (
 
         &.ql-direction {
             &:before {
-                content: map-get($icons, Left-to-right);
+                content: map.get($icons, Left-to-right);
             }
             svg {
                 display: none;
@@ -96,7 +97,7 @@ $icons: (
 
             &.ql-active {
                 &:before {
-                    content: map-get($icons, Right-to-left);
+                    content: map.get($icons, Right-to-left);
                 }
 
                 svg {
@@ -109,10 +110,10 @@ $icons: (
             .ql-picker-label,
             .ql-picker-item {
                 &[data-value="center"]:before {
-                    content: map-get($icons, Text-align-center);
+                    content: map.get($icons, Text-align-center);
                 }
                 &[data-value="justify"]:before {
-                    content: map-get($icons, Text-align-justify);
+                    content: map.get($icons, Text-align-justify);
                 }
                 svg {
                     display: none;
