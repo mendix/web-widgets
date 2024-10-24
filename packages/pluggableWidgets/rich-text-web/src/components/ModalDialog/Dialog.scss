@@ -24,6 +24,15 @@
                 min-height: 50vh;
             }
         }
+
+        .nav-tabs {
+            li {
+                cursor: pointer;
+                a {
+                    pointer-events: none;
+                }
+            }
+        }
     }
 
     &-header {
@@ -56,14 +65,5 @@
 
     &-input {
         display: flex;
-    }
-
-    .nav-tabs {
-        li {
-            cursor: pointer;
-            a {
-                pointer-events: none;
-            }
-        }
     }
 }

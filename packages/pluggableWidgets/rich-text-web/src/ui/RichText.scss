@@ -1,4 +1,4 @@
-@import "RichTextIcons";
+@use "RichTextIcons";
 
 $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
@@ -105,5 +105,9 @@ $rte-gray-ligher: #f8f8f8;
 
     [aria-hidden="true"] {
         display: none;
+    }
+
+    .flexcontainer.flex-column {
+        overflow: visible;
     }
 }
