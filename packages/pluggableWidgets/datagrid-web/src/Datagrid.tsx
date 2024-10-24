@@ -6,7 +6,6 @@ import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import "./ui/Datagrid.scss";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
