@@ -1,4 +1,4 @@
-import { FloatingPortal, Placement } from "@floating-ui/react";
+import { Placement } from "@floating-ui/react";
 import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
@@ -42,7 +42,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
             >
                 {trigger}
             </div>
-            {preview ? (
+            {showTooltip && (textMessage || htmlMessage) ? (
                 <div
                     className="widget-tooltip-content"
                     ref={refs?.setFloating}
@@ -52,25 +52,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                     {renderMethod === "text" ? textMessage : htmlMessage}
                     <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
                 </div>
-            ) : (
-                <FloatingPortal>
-                    {showTooltip && (textMessage || htmlMessage) ? (
-                        <div
-                            className="widget-tooltip-content"
-                            ref={refs?.setFloating}
-                            style={floatingStyles}
-                            {...getFloatingProps?.()}
-                        >
-                            {renderMethod === "text" ? textMessage : htmlMessage}
-                            <div
-                                className={`widget-tooltip-arrow-${staticSide}`}
-                                ref={setArrowElement}
-                                style={arrowStyles}
-                            />
-                        </div>
-                    ) : null}
-                </FloatingPortal>
-            )}
+            ) : null}
         </div>
     );
 };
