@@ -8,13 +8,13 @@ export type FocusTargetUpdateEvent = { lastPos: PositionString; targetPos: Posit
 export type Listener = (event: FocusTargetUpdateEvent) => void;
 
 export class FocusTargetController {
-    private _listeners: Listener[];
+    private _listeners: Set<Listener>;
     private _focusTarget: PositionString;
     private _positionController: PositionController;
     private _layout: VirtualGridLayout;
 
     constructor(pos: PositionController, layout: VirtualGridLayout) {
-        this._listeners = [];
+        this._listeners = new Set();
         this._focusTarget = this._getInitPosition();
         this._positionController = pos;
         this._layout = layout;
@@ -25,11 +25,11 @@ export class FocusTargetController {
     }
 
     addListener(listener: Listener): void {
-        this._listeners.push(listener);
+        this._listeners.add(listener);
     }
 
     removeListener(listener: Listener): void {
-        this._listeners.splice(this._listeners.indexOf(listener), 1);
+        this._listeners.delete(listener);
     }
 
     updateGridLayout(layout: VirtualGridLayout): void {
