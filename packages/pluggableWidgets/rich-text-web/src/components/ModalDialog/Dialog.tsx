@@ -10,11 +10,11 @@ import {
 } from "@floating-ui/react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { createElement, ReactElement } from "react";
-import "./Dialog.scss";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
 import ImageDialog, { ImageDialogProps } from "./ImageDialog";
+import "./Dialog.scss";
 
 interface BaseDialogProps {
     isOpen: boolean;
