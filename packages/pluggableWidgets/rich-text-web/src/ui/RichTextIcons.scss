@@ -1,0 +1,124 @@
+@use "sass:map";
+@font-face {
+    font-family: "RichTextIconFont";
+    src: url("../assets/RichTextIconFont.woff2") format("woff2");
+}
+
+$icons: (
+    Undo: "\e900",
+    Redo: "\e901",
+    Text-bold: "\e902",
+    Text-italic: "\e903",
+    Text-color: "\e904",
+    Text-background: "\e905",
+    Text-align-left: "\e906",
+    Text-align-center: "\e907",
+    Text-align-right: "\e908",
+    Text-align-justify: "\e909",
+    List-bullets: "\e90a",
+    List-numbers: "\e90c",
+    Text-indent-right: "\e90d",
+    Text-indent-left: "\e90e",
+    Hyperlink: "\e90f",
+    Image: "\e910",
+    Film: "\e911",
+    Insert-edit-math: "\e912",
+    Blockquote: "\e913",
+    Left-to-right: "\e914",
+    Right-to-left: "\e915",
+    Line-height: "\e916",
+    Table: "\e917",
+    Add: "\e918",
+    Substract: "\e919",
+    Source-code: "\e91a",
+    Clear-formating: "\e91b",
+    Text-underline: "\e91c",
+    Text-strikethrough: "\e91d",
+    Text-subscript: "\e91e",
+    Text-superscript: "\e91f",
+    List-lower-alpha: "\e920",
+    Arrow-down: "\e90b",
+    List-checklist: "\e922",
+    List-roman: "\e921",
+    Inline-code: "\e923",
+    View-edit-code: "\e924",
+    Code-block: "\e925"
+);
+
+.widget-rich-text {
+    .widget-rich-text-toolbar button.icons {
+        svg {
+            display: none;
+        }
+    }
+
+    .icons {
+        font-family: "RichTextIconFont" !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        @each $name, $code in $icons {
+            &.icon-#{$name}:before {
+                content: $code;
+            }
+        }
+
+        &.ql-color {
+            .ql-picker-label {
+                &:before {
+                    content: map.get($icons, Text-color);
+                }
+                svg {
+                    display: none;
+                }
+            }
+        }
+
+        &.ql-background {
+            .ql-picker-label {
+                &:before {
+                    content: map.get($icons, Text-background);
+                }
+                svg {
+                    display: none;
+                }
+            }
+        }
+
+        &.ql-direction {
+            &:before {
+                content: map.get($icons, Left-to-right);
+            }
+            svg {
+                display: none;
+            }
+
+            &.ql-active {
+                &:before {
+                    content: map.get($icons, Right-to-left);
+                }
+
+                svg {
+                    display: none;
+                }
+            }
+        }
+
+        &.ql-align.ql-picker {
+            .ql-picker-label,
+            .ql-picker-item {
+                &[data-value="center"]:before {
+                    content: map.get($icons, Text-align-center);
+                }
+                &[data-value="justify"]:before {
+                    content: map.get($icons, Text-align-justify);
+                }
+                svg {
+                    display: none;
+                }
+            }
+        }
+    }
+}
