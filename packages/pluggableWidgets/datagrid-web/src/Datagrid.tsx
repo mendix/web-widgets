@@ -1,11 +1,11 @@
 import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ReactElement, ReactNode, createElement, useCallback, useEffect, useMemo } from "react";
+import { ValueStatus } from "mendix";
+import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import "./ui/Datagrid.scss";
 import { useShowPagination } from "./utils/useShowPagination";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
@@ -19,6 +19,7 @@ import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { ProgressStore } from "./features/data-export/ProgressStore";
+import { useRefreshReload } from "./utils/useRefreshReload";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -38,19 +39,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
-    useEffect(() => {
-        let timer: ReturnType<typeof setTimeout>;
-        if (props.refreshInterval > 0) {
-            timer = setTimeout(() => {
-                props.datasource.reload();
-            }, props.refreshInterval * 1000);
-        }
-        return () => {
-            if (timer) {
-                clearTimeout(timer);
-            }
-        };
-    }, [props.datasource, props.refreshInterval]);
+    const { isRefreshing } = useRefreshReload({ datasource: props.datasource, refreshInterval: props.refreshInterval });
 
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
@@ -153,6 +142,9 @@ const Container = observer((props: Props): ReactElement => {
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
+            isLoading={isRefreshing ? false : props.datasource.status === ValueStatus.Loading}
+            loadingType={props.loadingType}
+            columnsLoading={!columnsStore.loaded}
         />
     );
 });
