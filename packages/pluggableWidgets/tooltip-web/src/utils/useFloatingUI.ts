@@ -5,6 +5,7 @@ import {
     offset,
     Placement,
     ReferenceElement,
+    safePolygon,
     shift,
     useClick,
     useDismiss,
@@ -60,14 +61,23 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
         whileElementsMounted: autoUpdate
     });
 
-    const hover = useHover(context, { enabled: ["hover", "hoverFocus"].includes(openOn), move: false });
+    const hover = useHover(context, {
+        enabled: ["hover", "hoverFocus"].includes(openOn),
+        move: false,
+        delay: {
+            open: 25,
+            close: 0
+        },
+        restMs: 25,
+        handleClose: safePolygon()
+    });
     const focus = useFocus(context, { enabled: openOn === "hoverFocus" });
     const click = useClick(context, { toggle: showTooltip, enabled: openOn === "click" });
     const dismiss = useDismiss(context, { outsidePress: true });
     const role = useRole(context, { role: "tooltip" });
 
-    const onShow = useCallback(() => setShowTooltip(true), []);
-    const onHide = useCallback(() => setShowTooltip(false), []);
+    const onShow = useCallback(() => setShowTooltip(true), [setShowTooltip]);
+    const onHide = useCallback(() => setShowTooltip(false), [setShowTooltip]);
     const blurFocusEvents = { onFocus: onShow, onBlur: onHide };
 
     const side = placement.split("-")[0];
