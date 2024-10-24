@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts/common";
+import { ChartWidget } from "@mendix/shared-charts/main";
 import { EditableValueBuilder, ListAttributeValueBuilder, list } from "@mendix/widget-plugin-test-utils";
 import { mount, ReactWrapper } from "enzyme";
 import { HeatMap } from "../HeatMap";
