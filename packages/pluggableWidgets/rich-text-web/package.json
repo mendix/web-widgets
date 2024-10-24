@@ -61,11 +61,7 @@
         "rollup-preserve-directives": "^1.1.1"
     },
     "dependencies": {
-        "@codemirror/lang-html": "^6.4.9",
-        "@codemirror/view": "^6.34.0",
         "@floating-ui/react": "^0.26.23",
-        "@uiw/codemirror-theme-github": "^4.21.25",
-        "@uiw/react-codemirror": "^4.21.25",
         "classnames": "^2.2.6",
         "dompurify": "^2.5.0",
         "katex": "^0.16.11",
