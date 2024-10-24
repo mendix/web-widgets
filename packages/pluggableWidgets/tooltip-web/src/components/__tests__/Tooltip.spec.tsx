@@ -1,9 +1,11 @@
 import { createElement } from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { Tooltip, TooltipProps } from "../Tooltip";
 import userEvent from "@testing-library/user-event";
+
+jest.useFakeTimers();
 
 describe("Tooltip", () => {
     let defaultTooltipProps: TooltipProps;
@@ -26,91 +28,102 @@ describe("Tooltip", () => {
 
     it("render DOM structure", async () => {
         const { asFragment } = render(<Tooltip {...defaultTooltipProps} />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
 
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
 
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("opens tooltip onMouseEnter and close onMouseLeave", async () => {
         render(<Tooltip {...defaultTooltipProps} openOn="hover" />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
 
         // hover
-        await userEvent.hover(triggerElement);
+        await user.hover(triggerElement);
+        act(() => {
+            jest.advanceTimersByTime(100);
+        });
         expect(screen.queryByRole("tooltip")).toBeInTheDocument();
 
         // unhover
-        await userEvent.unhover(triggerElement);
+        await user.unhover(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // focus
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // blur
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).not.toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
     it("open tooltip onClick", async () => {
         render(<Tooltip {...defaultTooltipProps} openOn="click" />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
         // hover
-        await userEvent.hover(triggerElement);
+        await user.hover(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // unhover
-        await userEvent.unhover(triggerElement);
+        await user.unhover(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // focus
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // blur
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).not.toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // click
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeInTheDocument();
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
     it("open tooltip onFocus and close onBlur", async () => {
         render(<Tooltip {...defaultTooltipProps} openOn="hoverFocus" />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
 
         // hover
-        await userEvent.hover(triggerElement);
+        await user.hover(triggerElement);
+        act(() => {
+            jest.advanceTimersByTime(100);
+        });
         expect(screen.queryByRole("tooltip")).toBeInTheDocument();
 
         // unhover
-        await userEvent.unhover(triggerElement);
+        await user.unhover(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
 
         // focus
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeInTheDocument();
 
         // blur
-        await userEvent.keyboard("{Tab}");
+        await user.keyboard("{Tab}");
         expect(triggerElement).not.toEqual(document.activeElement);
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
     it("render text content if the tooltipString is passed", async () => {
         render(<Tooltip {...defaultTooltipProps} renderMethod="text" />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
 
         expect(screen.queryByRole("tooltip")).toHaveTextContent(defaultTooltipProps.textMessage as string);
     });
@@ -124,20 +137,22 @@ describe("Tooltip", () => {
                 textMessage={undefined}
             />
         );
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
         const triggerElement = screen.getByTestId("tooltip-trigger");
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
 
         expect(screen.queryByText("Simple Tooltip")).toBeInTheDocument();
     });
 
     it("close onOutsideClick if tooltip is visible", async () => {
         render(<Tooltip {...defaultTooltipProps} openOn="click" />);
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         const triggerElement = screen.getByTestId("tooltip-trigger");
-        await userEvent.click(triggerElement);
+        await user.click(triggerElement);
         expect(screen.queryByRole("tooltip")).toBeInTheDocument();
 
-        await userEvent.click(document.body);
+        await user.click(document.body);
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 });
