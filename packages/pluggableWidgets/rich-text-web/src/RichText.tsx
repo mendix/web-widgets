@@ -26,7 +26,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         // this fix waits for it to be fully out of incubator div, then only fully renders rich text afterwards.
         const observedIncubator = document.querySelector(`.mx-incubator.mx-offscreen`);
         const observer = new MutationObserver((_mutationList, _observer) => {
-            if (!observedIncubator?.childElementCount) {
+            if (!observedIncubator?.childElementCount || observedIncubator?.childElementCount <= 0) {
                 setIsIncubator(false);
             }
         });
@@ -46,7 +46,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
 
     return (
         <Fragment>
-            {stringAttribute.status === "loading" || stringAttribute.status !== "available" || isIncubator ? (
+            {stringAttribute.status === "loading" || isIncubator ? (
                 <div className="mx-progress"></div>
             ) : (
                 <EditorWrapper

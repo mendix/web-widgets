@@ -1,8 +1,4 @@
-import { html } from "@codemirror/lang-html";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { EditorView } from "@codemirror/view";
-import CodeMirror, { type Extension } from "@uiw/react-codemirror";
-import { createElement, ReactElement, useMemo, useState } from "react";
+import { ChangeEvent, createElement, ReactElement, useState } from "react";
 import { type viewCodeConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
@@ -18,10 +14,8 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
         src: currentCode || ""
     });
 
-    const extensions = useMemo<Extension[]>(() => [html(), EditorView.lineWrapping], []);
-
-    const onCodeChange = (value: string): void => {
-        setFormState({ ...formState, src: value });
+    const onInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+        setFormState({ ...formState, [e.target.name]: e.target.value });
     };
 
     return (
@@ -29,14 +23,12 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
             <DialogHeader onClose={onClose}>View/Edit Code</DialogHeader>
             <DialogBody>
                 <FormControl label="Source Code">
-                    <CodeMirror
+                    <textarea
+                        name="src"
                         className="form-control mx-textarea-input mx-textarea-noresize code-input"
+                        onChange={onInputChange}
                         value={formState.src}
-                        onChange={onCodeChange}
-                        theme={githubLight}
-                        extensions={extensions}
-                        maxWidth="600px"
-                    />
+                    ></textarea>
                 </FormControl>
                 <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
             </DialogBody>
