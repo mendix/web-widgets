@@ -1,0 +1,54 @@
+{
+    "name": "@mendix/any-chart-web2",
+    "widgetName": "AnyChart",
+    "version": "1.0.0",
+    "description": "",
+    "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {
+        "mendixHost": "http://localhost:8080",
+        "developmentPort": 3000
+    },
+    "mxpackage": {
+        "name": "AnyChart",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.AnyChart.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "10.16.0",
+        "appNumber": 0,
+        "appName": "AnyChart"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "any-chart-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "format": "pluggable-widgets-tools format",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "jest --projects jest.config.js",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
+        "release": "pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget"
+    },
+    "devDependencies": {
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:^*"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
+    }
+}
