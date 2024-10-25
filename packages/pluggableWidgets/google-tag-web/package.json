@@ -39,6 +39,7 @@
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",
         "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
         "publish-marketplace": "rui-publish-marketplace"
     },
     "devDependencies": {

@@ -11,7 +11,8 @@
     "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
     "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
     "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
-    "rui-verify-package-format": "bin/rui-verify-package-format.ts"
+    "rui-verify-package-format": "bin/rui-verify-package-format.ts",
+    "rui-create-translation": "bin/rui-create-translation.ts"
   },
   "scripts": {
     "start": "tsc --watch",

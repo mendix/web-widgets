@@ -34,6 +34,7 @@
         "test": "jest --projects jest.config.js",
         "release": " pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
         "publish-marketplace": "rui-publish-marketplace",
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",

@@ -36,7 +36,8 @@
         "start": "pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
-        "verify": "rui-verify-package-format"
+        "verify": "rui-verify-package-format",
+        "create-translation": "rui-create-translation"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",

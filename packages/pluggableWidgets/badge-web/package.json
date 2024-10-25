@@ -36,6 +36,7 @@
         "e2edev": "run-e2e dev --with-preps",
         "release": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
         "publish-marketplace": "rui-publish-marketplace",
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget"

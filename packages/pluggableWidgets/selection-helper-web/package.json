@@ -33,7 +33,8 @@
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
         "release": "pluggable-widgets-tools release:ts",
         "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
+        "update-changelog": "rui-update-changelog-widget",
+        "create-translation": "rui-create-translation"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
