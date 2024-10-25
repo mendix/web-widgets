@@ -89,4 +89,14 @@ export class RefFilterController {
             this.store.loadMore();
         }
     };
+
+    handleResetValue = (useDefaultValue: boolean): void => {
+        console.log("reset?");
+
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+        this.store.clear();
+    };
 }
