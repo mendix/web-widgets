@@ -37,7 +37,8 @@
         "release": "pluggable-widgets-tools release:ts",
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",
-        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
+        "create-translation": "rui-create-translation"
     },
     "dependencies": {
         "@mendix/widget-plugin-filtering": "workspace:*",
