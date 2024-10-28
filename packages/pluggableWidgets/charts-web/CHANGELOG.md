@@ -6,7 +6,63 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.1.0] Charts - 2024-10-28
+
 ### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] AreaChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] BarChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] BubbleChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] ColumnChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] HeatMap
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] LineChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners
+
+### [5.1.0] PieChart
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [5.1.0] TimeSeries
+
+#### Changed
+
+-   We changed bundling to make plotly scannable by package scanners.
+
+### [1.1.0] ChartPlayground
+
+#### Changed
 
 -   We changed bundling to make plotly scannable by package scanners.
 
