@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import Big from "big.js";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
-import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/common";
+import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 type PieChartDataSeriesHooks = Pick<

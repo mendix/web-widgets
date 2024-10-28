@@ -4,7 +4,7 @@ import {
     containerPropsEqual,
     getPlotChartDataTransforms,
     usePlotChartDataSeries
-} from "@mendix/shared-charts/common";
+} from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
