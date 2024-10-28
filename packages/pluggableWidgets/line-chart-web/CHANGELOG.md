@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.1.0] - 2024-10-28
+
 ### Changed
 
 -   We changed bundling to make plotly scannable by package scanners
