@@ -91,8 +91,6 @@ export class RefFilterController {
     };
 
     handleResetValue = (useDefaultValue: boolean): void => {
-        console.log("reset?");
-
         if (useDefaultValue) {
             this.store.reset();
             return;

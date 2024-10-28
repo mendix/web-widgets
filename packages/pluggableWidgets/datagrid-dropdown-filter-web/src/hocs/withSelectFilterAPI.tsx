@@ -13,6 +13,8 @@ export function withSelectFilterAPI<P extends object>(
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
         }
 
-        return <Component {...props} filterStore={api.value.filterStore} />;
+        return (
+            <Component {...props} filterStore={api.value.filterStore} parentChannelName={api.value.parentChannelName} />
+        );
     };
 }
