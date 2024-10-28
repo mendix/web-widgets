@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking Change
+
+-   The Rich Text widget has been updated to use Quill V2 due to a license change in TinyMCE. Unlike TinyMCE, Quill V2 does not require rendering a separate iframe, which simplifies styling and content security configurations. Users should review and adjust their widget configurations after updating.
+
 ## [3.3.1] - 2024-08-28
 
 ### Changed
