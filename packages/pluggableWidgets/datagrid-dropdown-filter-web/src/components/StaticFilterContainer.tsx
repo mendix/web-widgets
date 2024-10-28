@@ -1,4 +1,5 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -9,6 +10,8 @@ import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 
 export interface StaticFilterContainerProps {
+    parentChannelName: string | undefined;
+    name: string;
     filterStore: OptionListFilterInterface;
     filterOptions: FilterOptionsType[];
     multiselect: boolean;
@@ -28,6 +31,12 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
 
     useEffect(() => controller.setup(), [controller]);
     useEffect(() => controller.updateProps(props));
+
+    useOnResetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName,
+        listener: controller.handleResetValue
+    });
 
     return (
         <Select

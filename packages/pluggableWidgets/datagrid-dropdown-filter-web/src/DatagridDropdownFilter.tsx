@@ -13,7 +13,7 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         styles: props.style,
         onChange: props.onChange,
         valueAttribute: props.valueAttribute,
-        parentChannelName: props.parentChannelName ?? "",
+        parentChannelName: props.parentChannelName,
         name: props.name
     };
 

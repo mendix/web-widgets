@@ -109,4 +109,12 @@ export class StaticFilterController {
             this.store.replace([value]);
         }
     };
+
+    handleResetValue = (useDefaultValue: boolean): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+        this.store.clear();
+    };
 }

@@ -8,8 +8,8 @@ import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 export interface RefFilterContainerProps {
-    parentChannelName: string;
     name: string;
+    parentChannelName?: string;
     filterStore: OptionListFilterInterface;
     multiselect: boolean;
     emptyCaption?: string;
