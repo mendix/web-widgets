@@ -27,7 +27,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
       - name: Setup AWS credentials
-        uses: aws-actions/configure-aws-credentials@2cefa29f8797029f898b1baeff3e21a144128687
+        uses: aws-actions/configure-aws-credentials@d90c1f89e165507b62af677520e840bc63a7b509
         with:
           role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
