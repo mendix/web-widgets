@@ -29,7 +29,7 @@
     "@types/cross-zip": "^4.0.2",
     "@types/node-fetch": "2.6.2",
     "chalk": "^4.1.2",
-    "cross-zip": "^4.0.0",
+    "cross-zip": "^4.0.1",
     "enquirer": "^2.3.6",
     "execa": "^5.1.1",
     "fast-xml-parser": "^4.1.3",

@@ -56,7 +56,7 @@ importers:
         specifier: ^4.1.3
         version: 4.1.3
       cross-zip:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       enquirer:
         specifier: ^2.3.6
@@ -139,7 +139,7 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
       cross-zip:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       enquirer:
         specifier: ^2.3.6
