@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { createElement, ReactElement, useEffect, useState } from "react";
 import { ObjectItem, ValueStatus } from "mendix";
 import { TreeNodeContainerProps } from "../typings/TreeNodeProps";
 import { TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";
@@ -13,12 +13,21 @@ function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContai
 }
 
 export function TreeNode(props: TreeNodeContainerProps): ReactElement {
-    // TODO: Handle async states more gracefully?
-    const items =
-        props.datasource.status === ValueStatus.Available
-            ? props.datasource.items?.map(item => mapDataSourceItemToTreeNodeItem(item, props)) ?? []
-            : null;
+    const { datasource } = props;
 
+    const [treeNodeItems, setTreeNodeItems] = useState<TreeNodeItem[] | null>([]);
+
+    useEffect(() => {
+        // only get the items when datasource is actually available
+        // this is to prevent treenode resetting it's render while datasource is loading.
+        if (datasource.status === ValueStatus.Available) {
+            if (datasource.items && datasource.items.length) {
+                setTreeNodeItems(datasource.items.map(item => mapDataSourceItemToTreeNodeItem(item, props)));
+            } else {
+                setTreeNodeItems([]);
+            }
+        }
+    }, [datasource.status, datasource.items]);
     const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
     const collapsedIcon = props.collapsedIcon?.status === ValueStatus.Available ? props.collapsedIcon.value : undefined;
 
@@ -26,7 +35,7 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
         <TreeNodeComponent
             class={props.class}
             style={props.style}
-            items={items}
+            items={treeNodeItems}
             isUserDefinedLeafNode={!props.hasChildren}
             startExpanded={props.startExpanded}
             showCustomIcon={Boolean(props.expandedIcon) || Boolean(props.collapsedIcon)}
