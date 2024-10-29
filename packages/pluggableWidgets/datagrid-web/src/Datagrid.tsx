@@ -77,6 +77,18 @@ const Container = observer((props: Props): ReactElement => {
 
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
 
+    const datasourceIsLoading = useMemo((): boolean => {
+        if (exportProgress.exporting) {
+            return false;
+        }
+
+        if (isRefreshing) {
+            return false;
+        }
+
+        return props.datasource.status === ValueStatus.Loading;
+    }, [exportProgress, isRefreshing, props.datasource.status]);
+
     return (
         <Widget
             className={props.class}
@@ -142,7 +154,7 @@ const Container = observer((props: Props): ReactElement => {
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
-            isLoading={isRefreshing ? false : props.datasource.status === ValueStatus.Loading}
+            isLoading={datasourceIsLoading}
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
         />
