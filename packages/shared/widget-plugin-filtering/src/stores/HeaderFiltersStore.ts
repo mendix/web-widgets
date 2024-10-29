@@ -13,17 +13,27 @@ export interface FilterListType {
 
 export interface HeaderFiltersStoreProps {
     filterList: FilterListType[];
+    parentChannelName?: string;
+}
+
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
 }
 
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv, APIError>;
     context: FilterAPIv2;
 
-    constructor(props: HeaderFiltersStoreProps, dsViewState: Array<FilterCondition | undefined> | null) {
+    constructor(
+        props: HeaderFiltersStoreProps,
+        info: StaticInfo,
+        dsViewState: Array<FilterCondition | undefined> | null
+    ) {
         this.provider = this.createProvider(props, dsViewState);
         this.context = {
             version: 2,
-            parentChannelName: "",
+            parentChannelName: info.filtersChannelName ?? "",
             provider: this.provider
         };
         makeObservable(this, {
