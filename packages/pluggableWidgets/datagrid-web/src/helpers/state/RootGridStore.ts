@@ -25,7 +25,7 @@ export class RootGridStore {
 
         const [columnsViewState, headerViewState] = this.getDsViewState(props) ?? [null, null];
         this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState);
-        this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
+        this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
     }
