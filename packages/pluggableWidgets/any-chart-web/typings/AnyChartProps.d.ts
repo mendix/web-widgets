@@ -4,9 +4,13 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { EditableValue, ReferenceValue, ReferenceSetValue } from "mendix";
+import { EditableValue } from "mendix";
 
 export type DevModeEnum = "developer" | "advanced";
+
+export type WidthUnitEnum = "percentage" | "pixels";
+
+export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
 
 export interface AnyChartContainerProps {
     name: string;
@@ -21,13 +25,10 @@ export interface AnyChartContainerProps {
     layoutAttribute?: EditableValue<string>;
     sampleLayout: string;
     configurationOptions: string;
-    eventEntity?: ReferenceValue | ReferenceSetValue;
-    eventDataAttribute?: EditableValue<string>;
-    onClickMicroflow?: any;
-    onClickNanoflow?: any;
-    tooltipEntity?: any;
-    tooltipMicroflow?: any;
-    tooltipForm?: any;
+    widthUnit: WidthUnitEnum;
+    width: number;
+    heightUnit: HeightUnitEnum;
+    height: number;
 }
 
 export interface AnyChartPreviewProps {
@@ -48,11 +49,8 @@ export interface AnyChartPreviewProps {
     layoutAttribute: string;
     sampleLayout: string;
     configurationOptions: string;
-    eventEntity: string;
-    eventDataAttribute: string;
-    onClickMicroflow: any;
-    onClickNanoflow: any;
-    tooltipEntity: any;
-    tooltipMicroflow: any;
-    tooltipForm: any;
+    widthUnit: WidthUnitEnum;
+    width: number | null;
+    heightUnit: HeightUnitEnum;
+    height: number | null;
 }
