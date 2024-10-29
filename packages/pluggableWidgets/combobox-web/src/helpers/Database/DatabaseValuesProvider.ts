@@ -2,7 +2,7 @@ import { ObjectItem, DynamicValue, ListAttributeValue } from "mendix";
 import { ValuesProvider } from "../types";
 
 interface Props {
-    valueAttribute: ListAttributeValue<string | Big>;
+    valueAttribute: ListAttributeValue<string | Big> | undefined;
     emptyValue?: DynamicValue<string | Big>;
 }
 

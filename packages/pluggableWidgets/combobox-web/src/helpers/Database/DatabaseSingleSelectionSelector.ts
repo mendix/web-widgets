@@ -23,7 +23,7 @@ export class DatabaseSingleSelectionSelector<
         super.updateProps(props);
 
         const {
-            attr,
+            targetAttribute,
             captionProvider,
             customContent,
             customContentType,
@@ -31,25 +31,30 @@ export class DatabaseSingleSelectionSelector<
             emptyOption,
             emptyValue,
             lazyLoading,
-            valueAttribute
+            valueSourceAttribute
         } = extractDatabaseProps(props);
 
         this.lazyLoader.setLimit(
-            this.lazyLoader.getLimit(ds.limit, attr?.readOnly ?? false, attr?.status ?? ds.status, lazyLoading)
+            this.lazyLoader.getLimit(
+                ds.limit,
+                targetAttribute?.readOnly ?? false,
+                targetAttribute?.status ?? ds.status,
+                lazyLoading
+            )
         );
 
-        this._attr = attr as R;
+        this._attr = targetAttribute as R;
         this.caption.updateProps({
             emptyOptionText: emptyOption,
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,
-            attribute: valueAttribute,
-            caption: attr?.displayValue
+            attribute: valueSourceAttribute,
+            caption: targetAttribute?.displayValue
         });
 
         this.values.updateProps({
-            valueAttribute,
+            valueAttribute: valueSourceAttribute,
             emptyValue
         });
 
@@ -60,13 +65,13 @@ export class DatabaseSingleSelectionSelector<
             return;
         }
 
-        if (attr?.status === "available") {
-            if (this.lastSetValue === null || !_valuesIsEqual(this.lastSetValue, attr.value)) {
+        if (targetAttribute?.status === "available") {
+            if (this.lastSetValue === null || !_valuesIsEqual(this.lastSetValue, targetAttribute.value)) {
                 if (ds.status === "available") {
                     this.lastSetValue = this._attr.value;
-                    if (!_valuesIsEqual(this.values.getEmptyValue(), attr.value)) {
+                    if (!_valuesIsEqual(this.values.getEmptyValue(), targetAttribute.value)) {
                         const obj = this.options.getAll().find(option => {
-                            return _valuesIsEqual(attr.value, this.values.get(option));
+                            return _valuesIsEqual(targetAttribute.value, this.values.get(option));
                         });
                         if (obj) {
                             this.currentId = obj;
@@ -78,14 +83,14 @@ export class DatabaseSingleSelectionSelector<
             }
         }
 
-        this.readOnly = attr?.readOnly ?? false;
-        this.status = attr?.status ?? ds.status;
-        this.validation = attr?.validation;
+        this.readOnly = targetAttribute?.readOnly ?? false;
+        this.status = targetAttribute?.status ?? ds.status;
+        this.validation = targetAttribute?.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
 
         if (this.selection.selection === undefined) {
             const objectId = this.options.getAll().find(option => {
-                return _valuesIsEqual(attr?.value, this.values.get(option));
+                return _valuesIsEqual(targetAttribute?.value, this.values.get(option));
             });
 
             if (objectId) {
