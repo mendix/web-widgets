@@ -68,6 +68,88 @@ export function disjoin(exp: FilterCondition): Array<FilterCondition | undefined
     return exp.args.map(x => (isPlaceholder(x) ? undefined : x));
 }
 
+interface TagName {
+    readonly type: "literal";
+    readonly value: string;
+    readonly valueType: "string";
+}
+
+interface TagCond {
+    readonly type: "function";
+    readonly name: "=";
+    readonly arg1: TagName;
+    readonly arg2: TagName;
+}
+
+export function tag(name: string): TagCond {
+    return equals(literal(name), literal(name)) as TagCond;
+}
+
+export function isTag(cond: FilterCondition): cond is TagCond {
+    return (
+        cond.name === "=" &&
+        cond.arg1.type === "literal" &&
+        cond.arg2.type === "literal" &&
+        /string/i.test(cond.arg1.valueType) &&
+        /string/i.test(cond.arg2.valueType) &&
+        cond.arg1.value === cond.arg2.value
+    );
+}
+
+type ArrayMeta = readonly [len: number, indexes: number[]];
+
+function arrayTag(meta: ArrayMeta): string {
+    return JSON.stringify(meta);
+}
+
+function fromArrayTag(tag: string): ArrayMeta | undefined {
+    let len: ArrayMeta[0];
+    let indexes: ArrayMeta[1];
+    try {
+        [len, indexes] = JSON.parse(tag);
+    } catch {
+        return undefined;
+    }
+    if (typeof len !== "number" || !Array.isArray(indexes) || !indexes.every(x => typeof x === "number")) {
+        return undefined;
+    }
+    return [len, indexes];
+}
+
+function shrink<T>(array: Array<T | undefined>): [indexes: number[], items: T[]] {
+    return [array.flatMap((x, i) => (x === undefined ? [] : [i])), array.filter((x): x is T => x !== undefined)];
+}
+
+export function compactArray(input: Array<FilterCondition | undefined>): FilterCondition {
+    const [indexes, items] = shrink(input);
+    const arrayMeta = [input.length, indexes] as const;
+    const metaTag = tag(arrayTag(arrayMeta));
+    // As 'and' requires at least 2 args, we add a placeholder
+    const placeholder = tag("_");
+    return and(metaTag, placeholder, ...items);
+}
+
+export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
+    if (!isAnd(cond)) {
+        return [];
+    }
+
+    const [metaTag] = cond.args;
+    const arrayMeta = isTag(metaTag) ? fromArrayTag(metaTag.arg1.value) : undefined;
+
+    if (!arrayMeta) {
+        return [];
+    }
+
+    const [length, indexes] = arrayMeta;
+    const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
+    cond.args.slice(2).forEach((cond, i) => {
+        arr[indexes[i]] = cond;
+    });
+
+    return arr;
+}
+
 export function inputStateFromCond<Fn, V>(
     cond: FilterCondition,
     fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
