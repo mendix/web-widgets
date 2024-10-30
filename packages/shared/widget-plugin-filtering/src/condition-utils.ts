@@ -34,40 +34,6 @@ export function isNotEmptyExp(exp: FilterCondition): boolean {
     return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "!=" && exp.arg2.valueType === "undefined";
 }
 
-function placeholder(): FilterCondition {
-    return equals(literal(true), literal(true));
-}
-
-function isPlaceholder(exp: FilterCondition): boolean {
-    return (
-        exp.name === "=" &&
-        exp.arg1.type === "literal" &&
-        exp.arg2.type === "literal" &&
-        exp.arg1.value === true &&
-        exp.arg2.value === true
-    );
-}
-
-export function conjoin(exp: Array<FilterCondition | undefined>): FilterCondition {
-    switch (exp.length) {
-        case 0:
-            return and(placeholder(), placeholder());
-        case 1:
-            return and(exp.at(0) ?? placeholder(), placeholder());
-        default: {
-            return and(...exp.map(x => (x === undefined ? placeholder() : x)));
-        }
-    }
-}
-
-export function disjoin(exp: FilterCondition): Array<FilterCondition | undefined> {
-    if (exp.name !== "and") {
-        throw new Error('only "and" expression is supported');
-    }
-
-    return exp.args.map(x => (isPlaceholder(x) ? undefined : x));
-}
-
 interface TagName {
     readonly type: "literal";
     readonly value: string;
@@ -155,10 +121,6 @@ export function inputStateFromCond<Fn, V>(
     fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
     val: (exp: LiteralExpression) => V
 ): null | [Fn, V] | [Fn, V, V] {
-    if (isPlaceholder(cond)) {
-        return null;
-    }
-
     // Or - condition build for multiple attrs, get state from the first one.
     if (isOr(cond)) {
         return inputStateFromCond(cond.args[0], fn, val);
