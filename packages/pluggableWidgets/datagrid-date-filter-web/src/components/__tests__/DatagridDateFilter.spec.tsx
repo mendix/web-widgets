@@ -13,6 +13,11 @@ import DatagridDateFilter from "../../DatagridDateFilter";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
 
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
+}
+
 function createMXObjectMock(
     code: string,
     langTag: string,
@@ -46,6 +51,11 @@ const commonProps: DatagridDateFilterContainerProps = {
     advanced: false
 };
 
+const headerFilterStoreInfo: StaticInfo = {
+    name: commonProps.name,
+    filtersChannelName: ""
+};
+
 const mxObject = createMXObjectMock("en_US", "en-US");
 
 describe("Date Filter", () => {
@@ -61,7 +71,7 @@ describe("Date Filter", () => {
                         { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -149,7 +159,7 @@ describe("Date Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -176,7 +186,7 @@ describe("Date Filter", () => {
                         { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -216,7 +226,7 @@ describe("Date Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -259,7 +269,7 @@ describe("Date Filter", () => {
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                 ]
             };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
+            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                 headerFilterStore.context
             );
@@ -288,7 +298,7 @@ describe("Date Filter", () => {
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                 ]
             };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
+            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                 headerFilterStore.context
             );

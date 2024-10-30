@@ -6,12 +6,22 @@ import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
+}
+
 const commonProps = {
     class: "filter-custom-class",
     tabIndex: 0,
     name: "filter-test",
     advanced: false,
     groupKey: "dropdown-filter"
+};
+
+const headerFilterStoreInfo: StaticInfo = {
+    name: commonProps.name,
+    filtersChannelName: ""
 };
 
 describe("Dropdown Filter", () => {
@@ -37,7 +47,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -207,7 +217,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -246,7 +256,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -287,7 +297,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -337,7 +347,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -382,7 +392,7 @@ describe("Dropdown Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -429,7 +439,7 @@ describe("Dropdown Filter", () => {
                     }
                 ]
             };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
+            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                 headerFilterStore.context
             );
