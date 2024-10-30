@@ -1,5 +1,6 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
+import { and } from "mendix/filters/builders";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { SortInstruction } from "../../typings/sorting";
@@ -7,7 +8,7 @@ import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { conjoin, disjoin } from "@mendix/widget-plugin-filtering/condition-utils";
+import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
@@ -23,7 +24,7 @@ export class RootGridStore {
             filtersChannelName: `datagrid/${generateUUID()}`
         };
 
-        const [columnsViewState, headerViewState] = this.getDsViewState(props) ?? [null, null];
+        const [columnsViewState, headerViewState] = this.getDsViewState(props);
         this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState);
         this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
@@ -39,7 +40,9 @@ export class RootGridStore {
      * Otherwise computed is suspended.
      */
     get conditions(): FilterCondition {
-        return conjoin([conjoin(this.columnsStore.conditions), conjoin(this.headerFiltersStore.conditions)]);
+        const columns = this.columnsStore.conditions;
+        const header = this.headerFiltersStore.conditions;
+        return and(compactArray(columns), compactArray(header));
     }
 
     get sortInstructions(): SortInstruction[] | undefined {
@@ -67,18 +70,18 @@ export class RootGridStore {
     private getDsViewState({
         datasource
     }: DatagridContainerProps):
-        | [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>]
-        | null {
-        if (datasource.filter) {
-            try {
-                const [columns, header] = disjoin(datasource.filter);
-                return [disjoin(columns!), disjoin(header!)];
-            } catch {
-                //
-            }
+        | [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>] {
+        if (!datasource.filter) {
+            return [[], []];
         }
-
-        return null;
+        if (!isAnd(datasource.filter)) {
+            return [[], []];
+        }
+        if (datasource.filter.args.length !== 2) {
+            return [[], []];
+        }
+        const [columns, header] = datasource.filter.args;
+        return [fromCompactArray(columns), fromCompactArray(header)];
     }
 
     updateProps(props: DatagridContainerProps): void {
