@@ -1,10 +1,10 @@
-import { conjoin, disjoin } from "@mendix/widget-plugin-filtering/condition-utils";
+import { compactArray, fromCompactArray } from "@mendix/widget-plugin-filtering/condition-utils";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { SortAPIProvider } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
 import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
-import { SortAPIProvider } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
 
 type SortInstruction = ListValue["sortOrder"] extends Array<infer T> ? T : never;
 
@@ -31,7 +31,7 @@ export class RootGalleryStore {
     }
 
     get conditions(): FilterCondition {
-        return conjoin(this.headerFiltersStore.conditions);
+        return compactArray(this.headerFiltersStore.conditions);
     }
 
     get sortOrder(): SortInstruction[] {
@@ -54,15 +54,11 @@ export class RootGalleryStore {
     }
 
     // Mirror operation from "condition";
-    private getDsViewState({ datasource }: GalleryContainerProps): Array<FilterCondition | undefined> | null {
-        if (datasource.filter) {
-            try {
-                return disjoin(datasource.filter);
-            } catch {
-                //
-            }
+    private getDsViewState({ datasource }: GalleryContainerProps): Array<FilterCondition | undefined> {
+        if (!datasource.filter) {
+            return [];
         }
 
-        return null;
+        return fromCompactArray(datasource.filter);
     }
 }
