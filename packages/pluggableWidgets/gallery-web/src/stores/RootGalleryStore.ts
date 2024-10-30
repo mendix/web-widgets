@@ -26,7 +26,7 @@ export class RootGalleryStore {
         };
 
         const headerViewState = this.getDsViewState(props);
-        this.headerFiltersStore = new HeaderFiltersStore(props, headerViewState);
+        this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
         this.sortProvider = new SortAPIProvider(props);
     }
 

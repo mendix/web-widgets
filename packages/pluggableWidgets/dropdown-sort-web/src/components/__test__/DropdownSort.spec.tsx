@@ -16,11 +16,21 @@ const commonProps: DropdownSortContainerProps = {
     name: "filter-test"
 };
 
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
+}
+
+const headerFilterStoreInfo: StaticInfo = {
+    name: commonProps.name,
+    filtersChannelName: ""
+};
+
 // CONTEXT
 const props: HeaderFiltersStoreProps = {
     filterList: []
 };
-const headerFilterStore = new HeaderFiltersStore(props, null);
+const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
     headerFilterStore.context
 );

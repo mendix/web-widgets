@@ -13,6 +13,11 @@ import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
+}
+
 const commonProps: DatagridTextFilterContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
@@ -21,6 +26,11 @@ const commonProps: DatagridTextFilterContainerProps = {
     adjustable: true,
     advanced: false,
     delay: 1000
+};
+
+const headerFilterStoreInfo: StaticInfo = {
+    name: commonProps.name,
+    filtersChannelName: ""
 };
 
 jest.useFakeTimers();
@@ -47,7 +57,7 @@ describe("Text Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -96,7 +106,7 @@ describe("Text Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -155,7 +165,7 @@ describe("Text Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -179,7 +189,7 @@ describe("Text Filter", () => {
                         { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -216,7 +226,7 @@ describe("Text Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -262,7 +272,7 @@ describe("Text Filter", () => {
                     }
                 ]
             };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
+            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                 headerFilterStore.context
             );
