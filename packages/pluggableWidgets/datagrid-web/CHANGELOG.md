@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed issue with xpath when widget has many filters.
+
 ### Added
 
 -   We have introduced the loading state in Datagrid 2, so that the loading state is displayed on every pagination, filter search, or loading.
