@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We resolved an issue where the gallery filter was not being applied at first.
 
+-   We fixed an issue with grid wide filters not resetting.
+
 ## [1.12.0] - 2024-09-23
 
 ### Changed
