@@ -61,7 +61,7 @@
         "rollup-preserve-directives": "^1.1.1"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.23",
+        "@floating-ui/react": "^0.26.25",
         "classnames": "^2.2.6",
         "dompurify": "^2.5.0",
         "katex": "^0.16.11",

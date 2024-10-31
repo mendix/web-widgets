@@ -1696,8 +1696,8 @@ importers:
   packages/pluggableWidgets/popup-menu-web:
     dependencies:
       '@floating-ui/react':
-        specifier: ^0.26.23
-        version: 0.26.23(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^0.26.25
+        version: 0.26.26(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1869,7 +1869,7 @@ importers:
   packages/pluggableWidgets/rich-text-web:
     dependencies:
       '@floating-ui/react':
-        specifier: ^0.26.23
+        specifier: ^0.26.25
         version: 0.26.26(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       classnames:
         specifier: ^2.2.6
@@ -3586,12 +3586,6 @@ packages:
 
   '@floating-ui/react-dom@2.1.2':
     resolution: {integrity: sha512-06okr5cgPzMNBy+Ycse2A6udMi4bqwW/zgBF/rwjcNqWkyr82Mcg8b0vjX8OJpZFy/FKjJmw6wV7t44kK6kW7A==}
-    peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
-
-  '@floating-ui/react@0.26.23':
-    resolution: {integrity: sha512-9u3i62fV0CFF3nIegiWiRDwOs7OW/KhSUJDNx2MkQM3LbE5zQOY01sL3nelcVBXvX7Ovvo3A49I8ql+20Wg/Hw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -12730,14 +12724,6 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  '@floating-ui/react@0.26.23(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
-    dependencies:
-      '@floating-ui/react-dom': 2.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@floating-ui/utils': 0.2.7
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      tabbable: 6.2.0
-
   '@floating-ui/react@0.26.26(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@floating-ui/react-dom': 2.1.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -13243,7 +13229,7 @@ snapshots:
       semver: 7.6.3
       shelljs: 0.8.5
       shx: 0.3.4
-      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4)
+      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.21.0))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4)
       ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)
       typescript: 5.0.4
       xml2js: 0.6.2
@@ -22329,7 +22315,7 @@ snapshots:
 
   ts-custom-error@3.3.1: {}
 
-  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4):
+  ts-jest@29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.21.0))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
