@@ -1,7 +1,7 @@
 {
     "name": "@mendix/popup-menu-web",
     "widgetName": "PopupMenu",
-    "version": "3.6.2",
+    "version": "4.0.0",
     "copyright": "© Mendix Technology BV 2023. All rights reserved.",
     "license": "Apache-2.0",
     "repository": {
@@ -15,7 +15,7 @@
         "mpkName": "com.mendix.widget.web.PopupMenu.mpk"
     },
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appNumber": 115826,
         "appName": "Pop-up Menu"
     },
