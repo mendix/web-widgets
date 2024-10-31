@@ -52,7 +52,7 @@
             "jest-environment-jsdom": "^29.4.1",
             "json5@1.x": ">=1.0.2",
             "json5@0.x": ">=1.0.2",
-            "@codemirror/view": "^6.34.0",
+            "@codemirror/view": "^6.34.1",
             "@mendix/pluggable-widgets-tools>typescript@4": "5.0.4",
             "@mendix/pluggable-widgets-tools>ts-node@9": "^10.9.1",
             "rollup": "^2.79.2",
