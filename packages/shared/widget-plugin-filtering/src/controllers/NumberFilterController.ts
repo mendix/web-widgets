@@ -54,6 +54,9 @@ export class NumberFilterController {
 
     handleFilterFnChange = (fn: NumberFilterFunction): void => {
         this.filter.filterFunction = fn;
+        if (fn === "empty" || fn === "notEmpty") {
+            this.input1.setValue("");
+        }
         this.inputRef.current?.focus();
     };
 
