@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We moved the widget styling to Atlas.
+-   We moved the widget styling to Atlas core to make exclusion variables work. Please update atlas-core module to keep the styling intact.
 
 ## [3.6.1] - 2024-09-18
 
