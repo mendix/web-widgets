@@ -47,7 +47,9 @@ export class StaticFilterController {
             inputValue: computed,
             _filterOptions: observable.struct,
             customOptions: computed,
-            updateProps: action
+            updateProps: action,
+            handleResetValue: action,
+            handleSetValue: action
         });
     }
 
@@ -116,5 +118,17 @@ export class StaticFilterController {
             return;
         }
         this.store.clear();
+    };
+
+    handleSetValue = (useDefaultValue: boolean, params: { operators: any; stringValue: string }): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+        let value = this.serializer.fromStorableValue(params.stringValue) ?? [];
+        if (!this.multiselect) {
+            value = value.slice(0, 1);
+        }
+        this.store.replace(value);
     };
 }
