@@ -110,6 +110,9 @@ export class NumberFilterController {
             this.filter.reset();
             return;
         }
+        if (params.operators) {
+            this.filter.filterFunction = params.operators;
+        }
         this.filter.arg1.value = params.numberValue;
     };
 }

@@ -129,6 +129,9 @@ export class StaticFilterController {
         if (!this.multiselect) {
             value = value.slice(0, 1);
         }
+        if (params.operators) {
+            this._filterOptions = params.operators;
+        }
         this.store.replace(value);
     };
 }
