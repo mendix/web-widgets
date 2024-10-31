@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where onChange events were not being triggered on dropdown filter.
 
--   We fixed an issue with dropdown filters in some cases not resetting.
+-   We fixed an issue with dropdown filters in some cases not setting or resetting.
 
 ## [2.9.1] - 2024-09-23
 
