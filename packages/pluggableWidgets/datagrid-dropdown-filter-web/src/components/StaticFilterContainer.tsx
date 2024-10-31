@@ -1,5 +1,5 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
-import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -36,6 +36,11 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         widgetName: props.name,
         parentChannelName: props.parentChannelName,
         listener: controller.handleResetValue
+    });
+
+    useOnSetValueEvent({
+        widgetName: props.name,
+        listener: controller.handleSetValue
     });
 
     return (
