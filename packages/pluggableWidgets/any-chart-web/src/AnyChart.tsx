@@ -1,8 +1,7 @@
 import { ReactElement, createElement } from "react";
 import { AnyChartContainerProps } from "../typings/AnyChartProps";
 
-export function AnychartWeb(props: AnyChartContainerProps): ReactElement {
-    console.info("AnyChart", props);
+export default function AnyChart(props: AnyChartContainerProps): ReactElement {
     return (
         <div>
             <p>Data</p>
