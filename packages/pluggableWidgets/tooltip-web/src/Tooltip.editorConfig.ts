@@ -37,7 +37,7 @@ export function check(values: TooltipPreviewProps): Problem[] {
 
 export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-    const centerLayout = (props: TextProps | DropZoneProps) =>
+    const centerLayout = (props: TextProps | DropZoneProps): RowLayoutProps =>
         ({
             type: "RowLayout",
             columnSize: "grow",
