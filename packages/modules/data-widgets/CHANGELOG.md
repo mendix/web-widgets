@@ -6,6 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.25.0] DataWidgets - 2024-10-31
+
+### [2.10.3] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with grid wide filters not resetting.
+
+### [2.9.2] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue where onChange events were not being triggered on dropdown filter.
+
+-   We fixed an issue with dropdown filters in some cases not setting or resetting.
+
+### [2.8.3] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with grid wide filters not resetting.
+
+### [2.8.3] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with grid wide filters not resetting.
+
+### [2.25.0] Datagrid
+
+#### Changed
+
+-   We improved our drop-down filter integration - now the drop-down can store its value in the personalization config. For best results, the new 'Use lazy load' property should be set to false.
+
+#### Added
+
+-   We added new 'Use lazy load' property that can be used to improve the end-user experience.
+
+#### Fixed
+
+-   We fixed an issue with grid wide filters not resetting.
+
+### [1.12.2] Gallery
+
+#### Fixed
+
+-   We resolved an issue where the gallery filter was not being applied at first.
+
+-   We fixed an issue with grid wide filters not resetting.
+
 ## [2.23.2] DataWidgets - 2024-10-14
 
 ### Fixed
