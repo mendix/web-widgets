@@ -16,7 +16,7 @@
     "lint": "eslint --ext .js lib/ bin/"
   },
   "dependencies": {
-    "chance": "^1.1.11"
+    "chance": "^1.1.12"
   },
   "devDependencies": {
     "@mendix/prettier-config-web-widgets": "workspace:*"
