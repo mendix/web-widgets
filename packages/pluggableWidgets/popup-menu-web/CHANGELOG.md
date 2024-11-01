@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Fixed
+### Breaking changes
 
--   We moved the widget styling to Atlas core to make exclusion variables work. Please update atlas-core module to keep the styling intact.
+-   We moved the widget styling to Atlas core to make exclusion variables work. Please update atlas-core module to a minimum 3.15.0 for Studio Pro 10.6.0 and above or 3.12.5 for below to keep the styling intact.
 
 ## [3.6.1] - 2024-09-18
 
