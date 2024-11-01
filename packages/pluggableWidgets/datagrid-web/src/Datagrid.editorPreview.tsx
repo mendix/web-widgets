@@ -1,6 +1,9 @@
 /* Disable warning that hooks can be used only in components */
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import { enableStaticRendering } from "mobx-react-lite";
+enableStaticRendering(true);
+
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
