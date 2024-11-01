@@ -1,15 +1,12 @@
-import { createElement } from "react";
-import { observer } from "mobx-react-lite";
-import classNames from "classnames";
 import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
-import { InputComponentProps } from "./typings";
-import { Badge } from "../shared";
+import classNames from "classnames";
+import { observer } from "mobx-react-lite";
+import { createElement } from "react";
 import { AllFunctions } from "../../typings/FilterFunctions";
+import { Badge } from "../shared";
+import { InputComponentProps } from "./typings";
 
-// eslint-disable-next-line prefer-arrow-callback
-export const InputWithFilters = observer(function InputWithFilters<Fn extends AllFunctions>(
-    props: InputComponentProps<Fn>
-): React.ReactElement {
+export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
         inputStores: [input1]
     } = props;
@@ -41,4 +38,6 @@ export const InputWithFilters = observer(function InputWithFilters<Fn extends Al
             />
         </div>
     );
-});
+}
+// eslint-disable-next-line prefer-arrow-callback
+export const InputWithFilters = observer(InputWithFiltersComponent);

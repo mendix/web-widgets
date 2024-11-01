@@ -1,8 +1,11 @@
+import { enableStaticRendering } from "mobx-react-lite";
+enableStaticRendering(true);
+
+import { InputWithFiltersComponent } from "@mendix/widget-plugin-filtering/controls";
+import { InputStore } from "@mendix/widget-plugin-filtering/stores/InputStore";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { createElement, ReactElement, useMemo, useRef } from "react";
 import { DatagridTextFilterPreviewProps } from "../typings/DatagridTextFilterProps";
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
-import { InputStore } from "@mendix/widget-plugin-filtering/stores/InputStore";
 
 function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
     const inputStores = useMemo<[InputStore, InputStore]>(
@@ -11,7 +14,7 @@ function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
     );
 
     return (
-        <InputWithFilters
+        <InputWithFiltersComponent
             adjustable={props.adjustable}
             className={props.class}
             filterFn={props.defaultFilter}

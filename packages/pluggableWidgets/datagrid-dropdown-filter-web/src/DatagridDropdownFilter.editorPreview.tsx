@@ -1,3 +1,6 @@
+import { enableStaticRendering } from "mobx-react-lite";
+enableStaticRendering(true);
+
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
