@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.25.1] DataWidgets - 2024-11-01
+
+### [2.10.4] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.9.3] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.8.4] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.8.4] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.25.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [1.12.3] Gallery
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
 ## [2.25.0] DataWidgets - 2024-10-31
 
 ### [2.10.3] DatagridDateFilter
