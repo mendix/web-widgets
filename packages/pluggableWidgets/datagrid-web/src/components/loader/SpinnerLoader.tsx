@@ -8,7 +8,11 @@ type SpinnerLoaderProps = {
 
 export function SpinnerLoader({ size = "medium", withMargins = false }: SpinnerLoaderProps): ReactElement {
     return (
-        <div className={classNames("widget-datagrid-spinner", { "widget-datagrid-spinner-margin": withMargins })}>
+        <div
+            className={classNames("widget-datagrid-spinner", { "widget-datagrid-spinner-margin": withMargins })}
+            aria-busy
+            aria-live="polite"
+        >
             <div className={`widget-datagrid-spinner-loader widget-datagrid-spinner-loader-${size}`} />
         </div>
     );
