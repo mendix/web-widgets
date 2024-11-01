@@ -1,3 +1,6 @@
+import { enableStaticRendering } from "mobx-react-lite";
+enableStaticRendering(true);
+
 import { FilterComponent } from "./components/FilterComponent";
 import { withPreviewAdapter } from "./hocs/withPreviewAdapter";
 
