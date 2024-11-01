@@ -1,5 +1,5 @@
 import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
-import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
@@ -39,6 +39,13 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
         parentChannelName: props.parentChannelName,
         listener: controller.handleResetValue
     });
+
+    useOnSetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName,
+        listener: controller.handleSetValue
+    });
+
     const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
     return (

@@ -90,6 +90,15 @@ export class RefFilterController {
         }
     };
 
+    handleSetValue = (useDefaultValue: boolean, params: { stringValue: string }): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+
+        this.store.replace(params.stringValue.split(","));
+    };
+
     handleResetValue = (useDefaultValue: boolean): void => {
         if (useDefaultValue) {
             this.store.reset();
