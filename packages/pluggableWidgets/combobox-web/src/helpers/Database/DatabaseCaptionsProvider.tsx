@@ -9,7 +9,7 @@ interface Props {
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string> | undefined;
     customContent?: ListWidgetValue | undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    attribute: ListAttributeValue<string | Big>;
+    attribute: ListAttributeValue<string | Big> | undefined;
     caption?: string;
 }
 

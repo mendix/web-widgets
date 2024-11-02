@@ -1,7 +1,7 @@
 {
     "name": "@mendix/heatmap-chart-web",
     "widgetName": "HeatMap",
-    "version": "5.0.1",
+    "version": "5.1.0",
     "description": "Shows data in a heatmap format graph.",
     "copyright": "© Mendix Technology BV 2023. All rights reserved.",
     "license": "Apache-2.0",
@@ -41,7 +41,7 @@
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "^10.7.2",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
@@ -50,6 +50,7 @@
     "dependencies": {
         "@mendix/shared-charts": "workspace:*",
         "classnames": "^2.3.2",
-        "date-fns": "^2.30.0"
+        "date-fns": "^2.30.0",
+        "plotly.js": "^2.35.2"
     }
 }

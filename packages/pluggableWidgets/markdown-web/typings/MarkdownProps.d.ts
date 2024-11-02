@@ -14,5 +14,6 @@ export interface MarkdownContainerProps {
 
 export interface MarkdownPreviewProps {
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     stringAttribute: string;
 }

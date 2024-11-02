@@ -119,6 +119,10 @@
                                 <caption>Data source</caption>
                                 <description>The options to show in the Drop-down filter widget.</description>
                             </property>
+                            <property key="fetchOptionsLazy" type="boolean" defaultValue="true">
+                                <caption>Use lazy load</caption>
+                                <description>Lazy loading enables faster data grid loading, but with personalization enabled, value restoration will be limited.</description>
+                            </property>
                             <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
                                 <caption>Option caption</caption>
                                 <description />

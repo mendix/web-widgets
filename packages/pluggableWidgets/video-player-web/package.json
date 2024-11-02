@@ -1,57 +1,57 @@
 {
-  "name": "@mendix/video-player-web",
-  "widgetName": "VideoPlayer",
-  "version": "3.2.2",
-  "description": "Player for YouTube, Dailymotion, Vimeo and Mp4 videos",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "license": "Apache-2.0",
-  "config": {},
-  "mxpackage": {
-    "name": "VideoPlayer",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.VideoPlayer.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 110700,
-    "appName": "Video Player"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "video-player-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:web",
-    "build": "pluggable-widgets-tools build:web",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
-    "release": "pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "@types/react-resize-detector": "^5.0.0"
-  },
-  "dependencies": {
-    "@types/react-test-renderer": "^18.0.7",
-    "classnames": "^2.3.2",
-    "react-test-renderer": "^18.2.0"
-  }
+    "name": "@mendix/video-player-web",
+    "widgetName": "VideoPlayer",
+    "version": "3.2.2",
+    "description": "Player for YouTube, Dailymotion, Vimeo and Mp4 videos",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "mxpackage": {
+        "name": "VideoPlayer",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.VideoPlayer.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.6.0",
+        "appNumber": 110700,
+        "appName": "Video Player"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "video-player-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "release": "pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@types/react-resize-detector": "^5.0.0"
+    },
+    "dependencies": {
+        "@types/react-test-renderer": "^18.0.7",
+        "classnames": "^2.3.2",
+        "react-test-renderer": "^18.2.0"
+    }
 }

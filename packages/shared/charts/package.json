@@ -22,12 +22,12 @@
         "dist"
     ],
     "scripts": {
-        "dev": "pnpm clear && pnpm build && pnpm build:src --watch",
+        "predev": "pnpm clear && pnpm copy",
+        "dev": "tsc --build --verbose --watch tsconfig.json",
         "clear": "rimraf ./dist",
         "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
-        "build:src": "tsc --project tsconfig.build.json",
-        "build:cfg": "tsc --project src/rollup/tsconfig.json",
-        "build": "pnpm build:src && pnpm build:cfg && pnpm copy",
+        "build": "tsc --build --verbose tsconfig.build.json",
+        "postbuild": "pnpm copy",
         "release": "pnpm build",
         "prepare": "turbo build",
         "format": "prettier --write .",
@@ -48,16 +48,15 @@
         "rimraf": "^2.7.1"
     },
     "dependencies": {
-        "classnames": "^2.3.2",
-        "deepmerge": "^4.3.1",
-        "plotly.js": "^2.35.2",
-        "react-plotly.js": "^2.6.0"
-    },
-    "peerDependencies": {
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-replace": "^2.4.2",
         "@rollup/plugin-terser": "^0.4.4",
-        "rollup": "^2.79.1"
+        "classnames": "^2.3.2",
+        "deepmerge": "^4.3.1",
+        "plotly.js": "^2.35.2",
+        "react-plotly.js": "^2.6.0",
+        "rollup": "^2.79.1",
+        "rollup-plugin-copy": "^3.5.0"
     }
 }

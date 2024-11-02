@@ -42,6 +42,7 @@ export interface TreeNodePreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     advancedMode: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     headerType: HeaderTypeEnum;

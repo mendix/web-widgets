@@ -38,6 +38,7 @@ export interface DatagridDateFilterPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     advanced: boolean;
     defaultValue: string;
     defaultStartDate: string;

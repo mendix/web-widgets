@@ -1,63 +1,62 @@
 {
-  "name": "@mendix/datagrid-date-filter-web",
-  "widgetName": "DatagridDateFilter",
-  "version": "2.10.2",
-  "description": "",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "license": "Apache-2.0",
-  "config": {},
-  "mxpackage": {
-    "name": "DatagridDateFilter",
-    "type": "widget",
-    "mpkName": "com.mendix.widget.web.DatagridDateFilter.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.17.0",
-    "appName": "Date Filter"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "datagrid-date-filter-web"
-  },
-  "packagePath": "com.mendix.widget.web",
-  "scripts": {
-    "start": "pluggable-widgets-tools start:server",
-    "dev": "pluggable-widgets-tools start:ts",
-    "build": "pluggable-widgets-tools build:ts",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "jest",
-    "release": "pluggable-widgets-tools release:ts",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps",
-    "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
-  },
-  "dependencies": {
-    "@mendix/widget-plugin-external-events": "workspace:*",
-    "@mendix/widget-plugin-filter-selector": "workspace:*",
-    "@mendix/widget-plugin-filtering": "workspace:*",
-    "classnames": "^2.3.2",
-    "date-fns": "^3.6.0",
-    "react-datepicker": "^6.6.0",
-    "string.prototype.replaceall": "^1.0.10"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-component-kit": "workspace:*",
-    "@mendix/widget-plugin-hooks": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@types/react-datepicker": "^6.2.0"
-  }
+    "name": "@mendix/datagrid-date-filter-web",
+    "widgetName": "DatagridDateFilter",
+    "version": "2.10.3",
+    "description": "",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "mxpackage": {
+        "name": "DatagridDateFilter",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.DatagridDateFilter.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.17.0",
+        "appName": "Date Filter"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "datagrid-date-filter-web"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:ts",
+        "build": "pluggable-widgets-tools build:ts",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "jest",
+        "release": "pluggable-widgets-tools release:ts",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
+    },
+    "dependencies": {
+        "@mendix/widget-plugin-external-events": "workspace:*",
+        "@mendix/widget-plugin-filter-selector": "workspace:*",
+        "@mendix/widget-plugin-filtering": "workspace:*",
+        "classnames": "^2.3.2",
+        "date-fns": "^3.6.0",
+        "react-datepicker": "^6.6.0"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@types/react-datepicker": "^6.2.0"
+    }
 }

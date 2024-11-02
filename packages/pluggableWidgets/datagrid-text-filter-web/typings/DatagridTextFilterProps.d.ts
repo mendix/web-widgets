@@ -34,6 +34,7 @@ export interface DatagridTextFilterPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     advanced: boolean;
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;

@@ -68,6 +68,7 @@ export interface PopupMenuPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     advancedMode: boolean;
     menuTrigger: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     basicItems: BasicItemsPreviewType[];

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.0] - 2024-10-29
+
+### Added
+
+-   We added support for attribute with **Long** type.
+
+### Changed
+
+-   We make **Value** no longer required if the **Target attribute** is not set for database datasource.
+
+-   We restructure **Attribute** group configuration and rename it as **Store value**.
+
 ## [2.0.2] - 2024-10-03
 
 ### Fixed

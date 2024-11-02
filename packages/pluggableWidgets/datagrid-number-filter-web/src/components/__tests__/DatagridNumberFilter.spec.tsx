@@ -15,6 +15,11 @@ import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 
+export interface StaticInfo {
+    name: string;
+    filtersChannelName: string;
+}
+
 const commonProps: DatagridNumberFilterContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
@@ -23,6 +28,11 @@ const commonProps: DatagridNumberFilterContainerProps = {
     adjustable: true,
     advanced: false,
     delay: 1000
+};
+
+const headerFilterStoreInfo: StaticInfo = {
+    name: commonProps.name,
+    filtersChannelName: ""
 };
 
 jest.useFakeTimers();
@@ -49,7 +59,7 @@ describe("Number Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -131,7 +141,7 @@ describe("Number Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -155,7 +165,7 @@ describe("Number Filter", () => {
                         { filter: new ListAttributeValueBuilder().withType("Boolean").withFilterable(true).build() }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -192,7 +202,7 @@ describe("Number Filter", () => {
                         }
                     ]
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, null);
+                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
@@ -238,7 +248,7 @@ describe("Number Filter", () => {
                     }
                 ]
             };
-            const headerFilterStore = new HeaderFiltersStore(props, null);
+            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                 headerFilterStore.context
             );

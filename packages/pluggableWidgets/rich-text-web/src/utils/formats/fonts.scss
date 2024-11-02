@@ -1,0 +1,64 @@
+$font-andale-mono: "andale mono", monospace;
+$font-arial: arial, helvetica, sans-serif;
+$font-arial-black: "arial black", sans-serif;
+$font-book-antiqua: "book antiqua", palatino, serif;
+$font-comic-sans: "comic sans ms", sans-serif;
+$font-courier-new: "courier new", courier, monospace;
+$font-helvetica: helvetica, arial, sans-serif;
+$font-impact: impact, sans-serif;
+$font-symbol: symbol;
+$font-terminal: terminal, monaco, monospace;
+$font-times-new-roman: "times new roman", times, serif;
+$font-trebuchet: "trebuchet ms", geneva, sans-serif;
+
+$fonts: (
+    andale-mono: $font-andale-mono,
+    arial: $font-arial,
+    arial-black: $font-arial-black,
+    book-antiqua: $font-book-antiqua,
+    comic-sans: $font-comic-sans,
+    courier-new: $font-courier-new,
+    helvetica: $font-helvetica,
+    impact: $font-impact,
+    symbol: $font-symbol,
+    terminal: $font-terminal,
+    times-new-roman: $font-times-new-roman,
+    trebuchet: $font-trebuchet
+);
+
+@mixin font($font) {
+    font-family: $font;
+}
+.widget-rich-text {
+    .ql-toolbar {
+        .ql-picker {
+            &.ql-font {
+                width: 160px;
+            }
+
+            &.size.ql-size {
+                width: 60px;
+                .ql-picker-label,
+                .ql-picker-item {
+                    &::before {
+                        content: attr(data-value);
+                    }
+                }
+            }
+        }
+
+        @each $name, $font in $fonts {
+            [data-value="#{$name}"]::before {
+                @include font($font);
+            }
+        }
+    }
+
+    .ql-font {
+        @each $name, $font in $fonts {
+            &-#{$name} {
+                @include font($font);
+            }
+        }
+    }
+}

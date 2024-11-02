@@ -1,55 +1,55 @@
 {
-  "name": "@mendix/badge-button-web",
-  "widgetName": "BadgeButton",
-  "version": "3.2.1",
-  "description": "Shows a button containing a colored badge or label",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "license": "Apache-2.0",
-  "config": {},
-  "mxpackage": {
-    "name": "BadgeButton",
-    "type": "widget",
-    "mpkName": "BadgeButton.mpk"
-  },
-  "marketplace": {
-    "minimumMXVersion": "9.6.0",
-    "appNumber": 52705,
-    "appName": "Badge Button"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "badge-button-web"
-  },
-  "packagePath": "com.mendix.widget.custom",
-  "scripts": {
-    "start": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:server",
-    "dev": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:ts",
-    "build": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools build:ts",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "test": "pluggable-widgets-tools test:unit:web",
-    "release": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools release:web",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-widget",
-    "e2e": "run-e2e ci",
-    "e2edev": "run-e2e dev --with-preps"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^10.7.2",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "cross-env": "^7.0.3"
-  },
-  "dependencies": {
-    "classnames": "^2.3.2"
-  }
+    "name": "@mendix/badge-button-web",
+    "widgetName": "BadgeButton",
+    "version": "3.2.1",
+    "description": "Shows a button containing a colored badge or label",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "mxpackage": {
+        "name": "BadgeButton",
+        "type": "widget",
+        "mpkName": "BadgeButton.mpk"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.6.0",
+        "appNumber": 52705,
+        "appName": "Badge Button"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "badge-button-web"
+    },
+    "packagePath": "com.mendix.widget.custom",
+    "scripts": {
+        "start": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:server",
+        "dev": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:ts",
+        "build": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools build:ts",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "release": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools release:web",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "cross-env": "^7.0.3"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
+    }
 }

@@ -12,7 +12,9 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         tabIndex: props.tabIndex,
         styles: props.style,
         onChange: props.onChange,
-        valueAttribute: props.valueAttribute
+        valueAttribute: props.valueAttribute,
+        parentChannelName: props.parentChannelName,
+        name: props.name
     };
 
     if (props.filterStore.type === "refselect") {

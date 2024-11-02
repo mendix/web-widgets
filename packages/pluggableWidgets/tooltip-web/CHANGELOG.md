@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.2] - 2024-10-31
+
+### Fixed
+
+-   We fixed an issue where the tooltip content would flicker on hover.
+
 ## [1.4.1] - 2024-10-09
 
 ### Fixed

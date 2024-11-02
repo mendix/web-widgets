@@ -72,7 +72,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             filterType,
             lazyLoading,
             loadingType,
-            valueAttribute
+            valueSourceAttribute
         } = extractDatabaseProps(props);
 
         if (
@@ -97,7 +97,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,
-            attribute: valueAttribute,
+            attribute: valueSourceAttribute,
             caption: undefined
         });
         this.options._updateProps({

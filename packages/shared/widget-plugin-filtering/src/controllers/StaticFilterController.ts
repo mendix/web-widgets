@@ -1,6 +1,8 @@
-import { ActionValue, DynamicValue } from "mendix";
-import { makeObservable, computed, autorun, observable } from "mobx";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { makeObservable, computed, autorun, observable, reaction, action } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { OptionsSerializer } from "../stores/OptionsSerializer";
 
 interface CustomOption<T> {
     caption: T;
@@ -11,6 +13,7 @@ interface Props {
     filterStore: OptionListFilterInterface;
     multiselect: boolean;
     defaultValue?: string;
+    valueAttribute?: EditableValue<string>;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
     onChange?: ActionValue;
     emptyCaption?: string;
@@ -18,11 +21,13 @@ interface Props {
 
 export class StaticFilterController {
     private store: OptionListFilterInterface;
-    _filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    readonly empty: Option;
-    readonly defaults: string[] | undefined;
-    multiselect = false;
     private onChange?: ActionValue;
+    private savedValueAttribute?: EditableValue<string>;
+    private serializer: OptionsSerializer;
+    readonly empty: Option;
+    readonly initValue: string | undefined;
+    multiselect = false;
+    _filterOptions: Array<CustomOption<DynamicValue<string>>>;
 
     constructor(props: Props) {
         this.store = props.filterStore;
@@ -33,13 +38,18 @@ export class StaticFilterController {
             caption: props.emptyCaption ?? "",
             selected: false
         };
-        this.defaults = props.defaultValue ? [props.defaultValue] : undefined;
+        this.initValue = props.defaultValue;
         this.onChange = props.onChange;
+        this.savedValueAttribute = props.valueAttribute;
+        this.serializer = new OptionsSerializer({ store: this.store });
 
         makeObservable(this, {
             inputValue: computed,
             _filterOptions: observable.struct,
-            customOptions: computed
+            customOptions: computed,
+            updateProps: action,
+            handleResetValue: action,
+            handleSetValue: action
         });
     }
 
@@ -61,7 +71,7 @@ export class StaticFilterController {
     setup(): () => void {
         const disposers: Array<() => void> = [];
 
-        this.store.UNSAFE_setDefaults(this.defaults);
+        this.store.UNSAFE_setDefaults(this.serializer.fromStorableValue(this.initValue));
 
         disposers.push(
             autorun(() => {
@@ -71,12 +81,25 @@ export class StaticFilterController {
             })
         );
 
+        disposers.push(
+            reaction(
+                () => this.serializer.value,
+                storableValue => {
+                    if (this.savedValueAttribute) {
+                        this.savedValueAttribute.setValue(storableValue);
+                    }
+                    executeAction(this.onChange);
+                }
+            )
+        );
+
         return () => disposers.forEach(unsub => unsub());
     }
 
     updateProps(props: Props): void {
         this._filterOptions = props.filterOptions;
         this.onChange = props.onChange;
+        this.savedValueAttribute = props.valueAttribute;
     }
 
     onSelect = (value: string): void => {
@@ -87,9 +110,28 @@ export class StaticFilterController {
         } else {
             this.store.replace([value]);
         }
+    };
 
-        if (this.onChange?.canExecute) {
-            this.onChange.execute();
+    handleResetValue = (useDefaultValue: boolean): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
         }
+        this.store.clear();
+    };
+
+    handleSetValue = (useDefaultValue: boolean, params: { operators: any; stringValue: string }): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+        let value = this.serializer.fromStorableValue(params.stringValue) ?? [];
+        if (!this.multiselect) {
+            value = value.slice(0, 1);
+        }
+        if (params.operators) {
+            this._filterOptions = params.operators;
+        }
+        this.store.replace(value);
     };
 }

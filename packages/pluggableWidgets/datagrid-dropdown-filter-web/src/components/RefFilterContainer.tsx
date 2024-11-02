@@ -1,4 +1,5 @@
 import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
+import { useOnResetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
@@ -7,6 +8,8 @@ import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
 export interface RefFilterContainerProps {
+    name: string;
+    parentChannelName?: string;
     filterStore: OptionListFilterInterface;
     multiselect: boolean;
     emptyCaption?: string;
@@ -24,11 +27,18 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
             new RefFilterController({
                 store: props.filterStore,
                 multiselect: props.multiselect,
-                emptyCaption: props.emptyCaption
+                emptyCaption: props.emptyCaption,
+                onChange: props.onChange
             })
     );
 
     useEffect(() => controller.setup(), [controller]);
+    useEffect(() => controller.updateProps({ onChange: props.onChange }), [controller, props.onChange]);
+    useOnResetValueEvent({
+        widgetName: props.name,
+        parentChannelName: props.parentChannelName,
+        listener: controller.handleResetValue
+    });
     const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
     return (

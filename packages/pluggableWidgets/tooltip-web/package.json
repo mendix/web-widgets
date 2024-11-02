@@ -1,7 +1,7 @@
 {
     "name": "@mendix/tooltip-web",
     "widgetName": "Tooltip",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Shows a value inside a colored tooltip or label",
     "copyright": "© Mendix Technology BV 2023. All rights reserved.",
     "license": "Apache-2.0",
@@ -43,14 +43,14 @@
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "^10.7.2",
+        "@mendix/pluggable-widgets-tools": "10.15.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.23",
+        "@floating-ui/react": "^0.26.25",
         "classnames": "^2.3.2"
     }
 }

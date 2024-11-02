@@ -1,6 +1,8 @@
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { makeObservable, computed } from "mobx";
 import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { Dispose } from "../typings/type-utils";
 
 type Params = {
     store: OptionListFilterInterface;
@@ -55,7 +57,13 @@ export class RefFilterController {
         return [...this.store.options];
     }
 
-    setup(): void {}
+    setup(): Dispose | void {
+        return this.store.setup?.();
+    }
+
+    updateProps(props: Pick<Params, "onChange">): void {
+        this.onChange = props.onChange;
+    }
 
     handleSelect = (value: string): void => {
         if (value === this.empty.value) {
@@ -66,9 +74,7 @@ export class RefFilterController {
             this.store.replace([value]);
         }
 
-        if (this.onChange?.canExecute) {
-            this.onChange.execute();
-        }
+        executeAction(this.onChange);
     };
 
     handleTriggerClick = (): void => {
@@ -82,5 +88,13 @@ export class RefFilterController {
         if (this.store.hasMore) {
             this.store.loadMore();
         }
+    };
+
+    handleResetValue = (useDefaultValue: boolean): void => {
+        if (useDefaultValue) {
+            this.store.reset();
+            return;
+        }
+        this.store.clear();
     };
 }
