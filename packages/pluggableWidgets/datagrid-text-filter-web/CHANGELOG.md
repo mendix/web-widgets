@@ -16,6 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
 
+## [2.8.4] - 2024-11-04
+
+### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
 ## [2.8.3] - 2024-10-31
 
 ### Fixed
