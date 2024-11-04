@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We improved type mismatch filter error message.
 
+## [2.10.4] - 2024-11-04
+
+### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
 ## [2.10.3] - 2024-10-31
 
 ### Fixed
