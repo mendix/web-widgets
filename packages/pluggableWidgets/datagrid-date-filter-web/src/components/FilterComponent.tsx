@@ -1,4 +1,4 @@
-import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
+import { FilterSelector } from "@mendix/widget-plugin-filtering/controls";
 import { Badge } from "@mendix/widget-plugin-filtering/controls/shared";
 import classNames from "classnames";
 import { createElement, ReactElement } from "react";
@@ -33,7 +33,6 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption ?? "Select filter type"}
                     value={props.filterFn ?? "equal"}
-                    id={props.id}
                     onChange={props.onFilterChange}
                     options={OPTIONS}
                 />

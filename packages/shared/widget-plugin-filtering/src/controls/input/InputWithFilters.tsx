@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { observer } from "mobx-react-lite";
 import classNames from "classnames";
-import { FilterSelector } from "@mendix/widget-plugin-filter-selector/FilterSelector";
+import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
 import { Badge } from "../shared";
 import { AllFunctions } from "../../typings/FilterFunctions";
@@ -21,7 +21,6 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
-                    id={props.id}
                     value={props.filterFn}
                     onChange={props.onFilterChange}
                     options={props.filterFnList}
