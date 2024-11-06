@@ -2416,6 +2416,9 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../widget-plugin-platform
+      downshift:
+        specifier: ^9.0.8
+        version: 9.0.8(react@18.2.0)
       mendix:
         specifier: ^10.16.49747
         version: 10.16.49747
@@ -5567,6 +5570,9 @@ packages:
   compute-scroll-into-view@2.0.4:
     resolution: {integrity: sha512-y/ZA3BGnxoM/QHHQ2Uy49CLtnWPbt4tTPpEEZiEmmiWBFKjej7nEyH8Ryz54jH0MLXflUYA3Er2zUxPSJu5R+g==}
 
+  compute-scroll-into-view@3.1.0:
+    resolution: {integrity: sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==}
+
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
@@ -6088,6 +6094,11 @@ packages:
 
   downshift@7.6.2:
     resolution: {integrity: sha512-iOv+E1Hyt3JDdL9yYcOgW7nZ7GQ2Uz6YbggwXvKUSleetYhU2nXD482Rz6CzvM4lvI1At34BYruKAL4swRGxaA==}
+    peerDependencies:
+      react: ^18.0.0
+
+  downshift@9.0.8:
+    resolution: {integrity: sha512-59BWD7+hSUQIM1DeNPLirNNnZIO9qMdIK5GQ/Uo8q34gT4B78RBlb9dhzgnh0HfQTJj4T/JKYD8KoLAlMWnTsA==}
     peerDependencies:
       react: ^18.0.0
 
@@ -10110,9 +10121,6 @@ packages:
 
   tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
-
-  tslib@2.5.3:
-    resolution: {integrity: sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==}
 
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
@@ -16028,6 +16036,8 @@ snapshots:
 
   compute-scroll-into-view@2.0.4: {}
 
+  compute-scroll-into-view@3.1.0: {}
+
   concat-map@0.0.1: {}
 
   concat-stream@1.6.2:
@@ -16746,12 +16756,21 @@ snapshots:
 
   downshift@7.6.2(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.22.5
+      '@babel/runtime': 7.25.7
       compute-scroll-into-view: 2.0.4
       prop-types: 15.8.1
       react: 18.2.0
       react-is: 17.0.2
-      tslib: 2.5.3
+      tslib: 2.7.0
+
+  downshift@9.0.8(react@18.2.0):
+    dependencies:
+      '@babel/runtime': 7.25.7
+      compute-scroll-into-view: 3.1.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-is: 18.2.0
+      tslib: 2.7.0
 
   draw-svg-path@1.0.0:
     dependencies:
@@ -22556,8 +22575,6 @@ snapshots:
       '@swc/core': 1.7.26
 
   tslib@1.14.1: {}
-
-  tslib@2.5.3: {}
 
   tslib@2.7.0: {}
 
