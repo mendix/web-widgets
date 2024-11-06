@@ -91,7 +91,7 @@ test.describe("Popup-menu-web", () => {
             const button10 = await page.locator(".mx-name-actionButton10");
             await expect(button10).toBeVisible();
             await button10.click();
-            const popupPortal = await page.locator(".popupmenu-menu");
+            const popupPortal = await page.locator(".mx-name-pop_upMenu18");
             const firstItem = await popupPortal.locator(".popupmenu-basic-item");
             await firstItem.first().click();
             const modalDialog = await page.locator(".modal-dialog");
@@ -155,7 +155,7 @@ test.describe("Popup-menu-web", () => {
 
         test("shows a message when one item is clicked", async ({ page }) => {
             await page.click(".mx-name-actionButton11");
-            const popupPortal = await page.locator(".popupmenu-menu");
+            const popupPortal = await page.locator(".mx-name-pop_upMenu13");
             await expect(popupPortal).toBeVisible();
             const firstItem = await popupPortal.locator(".mx-name-text35");
             await firstItem.first().click();
