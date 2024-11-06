@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { APIError, EKEYMISSING, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { Result, error, value } from "../result-meta";
 import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
@@ -34,7 +34,7 @@ export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIE
     }
 
     if (store.storeType !== "optionlist") {
-        return error(ESTORETYPE);
+        return error(EStoreTypeMisMatch("dropdown filter", store.arg1.type));
     }
 
     return value((slctAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { error, value, Result } from "../result-meta";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
-import { APIError, EKEYMISSING, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { isNumberFilter } from "../stores/store-utils";
 
 export interface Number_FilterAPIv2 {
@@ -35,7 +35,9 @@ export function useNumberFilterAPI(key: string): Result<Number_FilterAPIv2, APIE
     }
 
     if (store.storeType === "optionlist" || !isNumberFilter(store)) {
-        return error(ESTORETYPE);
+        return error(
+            EStoreTypeMisMatch("number filter", store.storeType === "optionlist" ? "option list" : store.arg1.type)
+        );
     }
 
     return value((numAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));
