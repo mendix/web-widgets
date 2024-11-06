@@ -23,12 +23,12 @@ export const EMISSINGSTORE: APIError = Object.freeze({
     message: "Unable to get filter store. Check parent widget configuration."
 });
 
-export const ESTORETYPE: APIError = Object.freeze({
-    code: Code.ESTORETYPE,
-    message:
-        "The type of the filter and parent widget configuration is incompatible. The filter must " +
-        "be used with correct attribute/group type."
-});
+export const EStoreTypeMisMatch = (filterType: string, receivedStoreType: string): APIError => {
+    return Object.freeze({
+        code: Code.ESTORETYPE,
+        message: `The ${filterType} is not compatible with ${receivedStoreType} data type.`
+    });
+};
 
 export const EKEYMISSING: APIError = Object.freeze({
     code: Code.EKEYMISSING,

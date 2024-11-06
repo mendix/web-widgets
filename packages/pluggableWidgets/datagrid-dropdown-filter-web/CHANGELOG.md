@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where filters not able to set guid value for reference selector.
 
+### Changed
+
+-   We improved type mismatch filter error message.
+
 ## [2.9.2] - 2024-10-31
 
 ### Fixed

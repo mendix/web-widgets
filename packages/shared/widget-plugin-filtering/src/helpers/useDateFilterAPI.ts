@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { error, value, Result } from "../result-meta";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
-import { APIError, EKEYMISSING, EMISSINGSTORE, ESTORETYPE } from "../errors";
+import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { isDateFilter } from "../stores/store-utils";
 
 export interface Date_FilterAPIv2 {
@@ -35,7 +35,9 @@ export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError
     }
 
     if (store.storeType === "optionlist" || !isDateFilter(store)) {
-        return error(ESTORETYPE);
+        return error(
+            EStoreTypeMisMatch("date filter", store.storeType === "optionlist" ? "option list" : store.arg1.type)
+        );
     }
 
     return value((dateAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));

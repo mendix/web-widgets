@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We improved type mismatch filter error message.
+
 ### Fixed
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
