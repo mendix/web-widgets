@@ -14,13 +14,14 @@ import {
     UseInteractionsReturn,
     useRole
 } from "@floating-ui/react";
-import { TriggerEnum } from "../../typings/PopupMenuProps";
+import { TriggerEnum, ClippingStrategyEnum } from "../../typings/PopupMenuProps";
 
 interface PopupOptions {
     placement?: Placement;
     modal?: boolean;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
+    clippingStrategy?: ClippingStrategyEnum;
     trigger?: TriggerEnum;
 }
 
@@ -38,11 +39,13 @@ export function usePopup({
     modal,
     open,
     onOpenChange: setOpen,
-    trigger
+    trigger,
+    clippingStrategy
 }: PopupOptions = {}): UsePopupReturn {
     const { context, floatingStyles, refs } = useFloating({
         middleware: [offset(5), flip(), shift()],
         onOpenChange: setOpen,
+        strategy: clippingStrategy,
         open,
         placement,
         whileElementsMounted: autoUpdate

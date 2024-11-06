@@ -40,7 +40,8 @@ describe("Menu", () => {
             { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
         ],
         customItems: [customItemProps],
-        onItemClick: jest.fn()
+        onItemClick: jest.fn(),
+        clippingStrategy: "absolute"
     };
 
     it("renders menu", () => {
