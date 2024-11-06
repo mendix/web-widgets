@@ -109,6 +109,14 @@
                         <enumerationValue key="bottom">Bottom</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="clippingStrategy" type="enumeration" defaultValue="absolute">
+                    <caption>Clipping strategy</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="absolute">Absolute</enumerationValue>
+                        <enumerationValue key="fixed">Fixed</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Development">
                 <property key="menuToggle" type="boolean" defaultValue="false">

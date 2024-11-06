@@ -32,7 +32,8 @@ describe("Popup Menu", () => {
             basicItemProps,
             { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
         ],
-        customItems: [customItemProps]
+        customItems: [customItemProps],
+        clippingStrategy: "absolute"
     };
 
     it("renders popup menu", () => {

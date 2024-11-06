@@ -30,6 +30,8 @@ export type HoverCloseOnEnum = "onClickOutside" | "onHoverLeave";
 
 export type PositionEnum = "left" | "right" | "top" | "bottom";
 
+export type ClippingStrategyEnum = "absolute" | "fixed";
+
 export interface BasicItemsPreviewType {
     itemType: ItemTypeEnum;
     caption: string;
@@ -56,6 +58,7 @@ export interface PopupMenuContainerProps {
     trigger: TriggerEnum;
     hoverCloseOn: HoverCloseOnEnum;
     position: PositionEnum;
+    clippingStrategy: ClippingStrategyEnum;
     menuToggle: boolean;
 }
 
@@ -76,5 +79,6 @@ export interface PopupMenuPreviewProps {
     trigger: TriggerEnum;
     hoverCloseOn: HoverCloseOnEnum;
     position: PositionEnum;
+    clippingStrategy: ClippingStrategyEnum;
     menuToggle: boolean;
 }
