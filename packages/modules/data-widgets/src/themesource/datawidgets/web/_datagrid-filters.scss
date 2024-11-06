@@ -60,55 +60,23 @@ $dg-item-min-height: 32px;
                 padding-left: 4px; /* The font has spaces in the right side, so to align in the middle we need this */
             }
         }
-
-        .filter-selectors {
-            position: absolute;
-            width: max-content;
-            left: 0;
-            margin: 0 var(--spacing-small, $dg-spacing-small);
-            padding: 0;
-            background: var(--bg-color-secondary, $dg-background-color);
-            z-index: 102;
-            border-radius: 8px;
-            list-style-type: none;
-            box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
-            overflow: hidden;
-            z-index: 102;
-
-            li {
-                display: flex;
-                align-items: center;
-                font-weight: normal;
-                line-height: 32px;
-                cursor: pointer;
-
-                .filter-label {
-                    padding-right: 8px;
-                }
-
-                &.filter-selected {
-                    background-color: var(--gray-lighter, $dg-hover-color);
-                    color: var(--brand-primary, $dg-brand-primary);
-                }
-
-                &:hover,
-                &:focus {
-                    background-color: var(--gray-lighter, $dg-hover-color);
-                }
-            }
-        }
     }
 }
 
 .filter-selectors {
+    position: absolute;
+    width: max-content;
+    left: 0;
     padding: 0;
+    margin: 0;
     background: var(--bg-color-secondary, $dg-background-color);
+    z-index: 102;
     border-radius: 8px;
     list-style-type: none;
     box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
     overflow: hidden;
-    z-index: 102;
 
+    .filter-listitem,
     li {
         display: flex;
         align-items: center;
@@ -126,7 +94,7 @@ $dg-item-min-height: 32px;
         }
 
         &:hover,
-        &:focus {
+        &.filter-highlighted {
             background-color: var(--gray-lighter, $dg-hover-color);
         }
     }
