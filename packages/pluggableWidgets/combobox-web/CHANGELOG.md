@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where database optional value attribute breaks on runtime when not being set.
+
+-   We fixed an issue where custom content not shown on design preview and runtime for database datasource.
+
 ## [2.1.0] - 2024-10-29
 
 ### Added
