@@ -7,6 +7,7 @@ import { SingleSelector, SelectionBaseProps } from "./helpers/types";
 import "./ui/Combobox.scss";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
+import { DatabasePreviewSelector } from "./helpers/Database/Preview/DatabasePreviewSelector";
 
 export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const id = generateUUID().toString();
@@ -43,6 +44,9 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
     const selector: SingleSelector = useMemo(() => {
         if (props.source === "static") {
             return new StaticPreviewSelector(props);
+        }
+        if (props.source === "database") {
+            return new DatabasePreviewSelector(props);
         }
         return new AssociationPreviewSelector(props);
     }, [props]);

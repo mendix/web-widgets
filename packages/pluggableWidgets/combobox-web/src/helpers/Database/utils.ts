@@ -45,8 +45,8 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const emptyOption = props.emptyOptionText;
     const emptyValue = props.optionsSourceDatabaseDefaultValue;
     const clearable = props.clearable;
-    const customContent = props.optionsSourceAssociationCustomContent;
-    const customContentType = props.optionsSourceAssociationCustomContentType;
+    const customContent = props.optionsSourceDatabaseCustomContent;
+    const customContentType = props.optionsSourceDatabaseCustomContentType;
     const valueSourceAttribute = props.optionsSourceDatabaseValueAttribute;
     const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
     const loadingType = props.loadingType;
@@ -71,10 +71,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
                 `Target attribute is of type String while Value attribute is of type ${valueSourceAttribute?.type}`
             );
         }
-    }
-
-    if (!valueSourceAttribute && props.optionsSourceDatabaseItemSelection?.type !== "Multi") {
-        throw new Error("'valueAttribute' is not defined");
     }
 
     return {
