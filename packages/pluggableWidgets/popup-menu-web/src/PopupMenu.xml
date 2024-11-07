@@ -111,7 +111,7 @@
                 </property>
                 <property key="clippingStrategy" type="enumeration" defaultValue="absolute">
                     <caption>Clipping strategy</caption>
-                    <description />
+                    <description>'Absolute' positions the floating element relative to its nearest positioned ancestor, while 'Fixed' breaks it out of any clipping ancestor.</description>
                     <enumerationValues>
                         <enumerationValue key="absolute">Absolute</enumerationValue>
                         <enumerationValue key="fixed">Fixed</enumerationValue>
