@@ -9,7 +9,7 @@ import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
 type GridHeaderProps = {
     availableColumns: GridColumn[];
     columns: GridColumn[];
-    columnsCreateSizeSnapshot: () => void;
+    setIsResizing: (status: boolean) => void;
     columnsDraggable: boolean;
     columnsFilterable: boolean;
     columnsHidable: boolean;
@@ -26,7 +26,7 @@ type GridHeaderProps = {
 export function GridHeader({
     availableColumns,
     columns,
-    columnsCreateSizeSnapshot,
+    setIsResizing,
     columnsDraggable,
     columnsFilterable,
     columnsHidable,
@@ -76,7 +76,8 @@ export function GridHeader({
                         resizable={columnsResizable && columns.at(-1) !== column}
                         resizer={
                             <ColumnResizer
-                                onResizeStart={columnsCreateSizeSnapshot}
+                                onResizeStart={() => setIsResizing(true)}
+                                onResizeEnds={() => setIsResizing(false)}
                                 setColumnWidth={(width: number) => column.setSize(width)}
                             />
                         }

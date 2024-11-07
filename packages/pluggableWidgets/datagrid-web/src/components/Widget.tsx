@@ -78,7 +78,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     availableColumns: GridColumn[];
 
     columnsSwap: (source: ColumnId, target: [ColumnId, "after" | "before"]) => void;
-    columnsCreateSizeSnapshot: () => void;
+    setIsResizing: (status: boolean) => void;
 }
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
@@ -178,7 +178,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridHeader
                             availableColumns={props.availableColumns}
                             columns={visibleColumns}
-                            columnsCreateSizeSnapshot={props.columnsCreateSizeSnapshot}
+                            setIsResizing={props.setIsResizing}
                             columnsDraggable={props.columnsDraggable}
                             columnsFilterable={props.columnsFilterable}
                             columnsHidable={props.columnsHidable}

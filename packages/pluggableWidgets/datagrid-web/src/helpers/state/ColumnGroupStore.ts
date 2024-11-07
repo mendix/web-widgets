@@ -24,11 +24,12 @@ export interface IColumnGroupStore {
     columnFilters: ColumnFilterStore[];
 
     swapColumns(source: ColumnId, target: [ColumnId, "after" | "before"]): void;
-    createSizeSnapshot(): void;
+    setIsResizing(status: boolean): void;
 }
 
 export interface IColumnParentStore {
     isLastVisible(column: ColumnStore): boolean;
+    isResizing: boolean;
     sorting: IColumnSortingStore;
 }
 
@@ -39,6 +40,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     readonly columnFilters: ColumnFilterStore[];
 
     sorting: ColumnsSortingStore;
+    isResizing: boolean = false;
 
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
@@ -62,6 +64,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
         makeObservable<ColumnGroupStore, "_allColumns" | "_allColumnsOrdered">(this, {
             _allColumns: observable,
+            isResizing: observable,
 
             loaded: computed,
             _allColumnsOrdered: computed,
@@ -71,7 +74,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             columnSettings: computed.struct,
             filterSettings: computed({ keepAlive: true }),
             updateProps: action,
-            createSizeSnapshot: action,
+            setIsResizing: action,
             swapColumns: action,
             setColumnSettings: action
         });
@@ -102,8 +105,12 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         });
     }
 
-    createSizeSnapshot(): void {
-        this._allColumns.forEach(c => c.takeSizeSnapshot());
+    setIsResizing(status: boolean): void {
+        this.isResizing = status;
+
+        if (this.isResizing) {
+            this._allColumns.forEach(c => c.takeSizeSnapshot());
+        }
     }
 
     get loaded(): boolean {

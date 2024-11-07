@@ -92,7 +92,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             visibleColumns={columns}
             availableColumns={[]}
             columnsSwap={noop}
-            columnsCreateSizeSnapshot={noop}
+            setIsResizing={noop}
             data={data}
             emptyPlaceholderRenderer={useCallback(
                 (renderWrapper: (children: ReactNode) => ReactElement) => (
