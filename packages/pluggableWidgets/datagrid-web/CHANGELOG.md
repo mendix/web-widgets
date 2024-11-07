@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We have introduced the loading state in Datagrid 2, so that the loading state is displayed on every pagination, filter search, or loading.
 
+### Changed
+
+-   We improved resizing behaviour of the widget. It is now saving personalization settings only at the end of the resizing.
+
 ## [2.26.1] - 2024-10-31
 
 ### Changed
