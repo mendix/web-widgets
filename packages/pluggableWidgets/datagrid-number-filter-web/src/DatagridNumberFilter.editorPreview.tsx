@@ -1,6 +1,9 @@
+import { enableStaticRendering } from "mobx-react-lite";
+enableStaticRendering(true);
+
 import { createElement, ReactElement, useMemo, useRef } from "react";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
+import { InputWithFiltersComponent } from "@mendix/widget-plugin-filtering/controls";
 import { DatagridNumberFilterPreviewProps } from "../typings/DatagridNumberFilterProps";
 import { InputStore } from "@mendix/widget-plugin-filtering/stores/InputStore";
 
@@ -11,7 +14,7 @@ function Preview(props: DatagridNumberFilterPreviewProps): ReactElement {
     );
 
     return (
-        <InputWithFilters
+        <InputWithFiltersComponent
             adjustable={props.adjustable}
             className={props.class}
             filterFn={props.defaultFilter}
