@@ -7,9 +7,7 @@ import { Badge } from "../shared";
 import { AllFunctions } from "../../typings/FilterFunctions";
 
 // eslint-disable-next-line prefer-arrow-callback
-export const InputWithFilters = observer(function InputWithFilters<Fn extends AllFunctions>(
-    props: InputComponentProps<Fn>
-): React.ReactElement {
+export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
         inputStores: [input1]
     } = props;
@@ -41,4 +39,6 @@ export const InputWithFilters = observer(function InputWithFilters<Fn extends Al
             />
         </div>
     );
-});
+}
+
+export const InputWithFilters = observer(InputWithFiltersComponent);
