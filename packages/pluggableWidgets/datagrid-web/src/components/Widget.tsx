@@ -239,14 +239,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 });
 
 function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
-    const columnSizes = columns.map(c => {
-        const isLast = columns.at(-1) === c;
-        const columnResizedSize = c.size;
-        if (columnResizedSize) {
-            return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
-        }
-        return c.getCssWidth();
-    });
+    const columnSizes = columns.map(c => c.getCssWidth());
 
     const sizes: string[] = [];
 
