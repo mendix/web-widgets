@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import { createElement } from "react";
-import { useSelect } from "downshift";
+import { createElement, useMemo } from "react";
+import { useSelect, UseSelectPropGetters } from "downshift";
+import { useFloating, autoUpdate } from "@floating-ui/react-dom";
 
 interface Option {
     value: string;
@@ -14,18 +15,8 @@ interface FilterSelectorProps {
     options: Option[];
 }
 
-const itemToString = (item: Option | null): string => (item ? item.label : "");
-
 export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
-    const { isOpen, selectedItem, highlightedIndex, getToggleButtonProps, getMenuProps, getItemProps } = useSelect({
-        items: props.options,
-        itemToString,
-        initialSelectedItem: props.options.find(option => option.value === props.value),
-        onSelectedItemChange: ({ selectedItem }) => props.onChange(selectedItem.value)
-    });
-    const listboxLabel = props.ariaLabel || "Select filter type";
-    const buttonLabel = selectedItem?.label || listboxLabel;
-    const buttonProps = getToggleButtonProps({ "aria-label": buttonLabel });
+    const { open, buttonProps, listboxProps, getItemProps, selectedItem, highlightedIndex } = useController(props);
 
     return (
         <div className="filter-selector">
@@ -36,8 +27,8 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
                 >
                     &nbsp;
                 </button>
-                <ul className="filter-selectors" {...getMenuProps({ "aria-label": listboxLabel })}>
-                    {isOpen &&
+                <ul className={classNames("filter-selectors", { hidden: !open, visible: open })} {...listboxProps}>
+                    {open &&
                         props.options.map((item, index) => (
                             <li
                                 className={classNames("filter-listitem", {
@@ -56,3 +47,49 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
         </div>
     );
 }
+
+interface ViewProps {
+    open: boolean;
+    buttonProps: JSX.IntrinsicElements["button"];
+    listboxProps: JSX.IntrinsicElements["ul"];
+    getItemProps: UseSelectPropGetters<Option>["getItemProps"];
+    selectedItem: Option | null;
+    highlightedIndex: number;
+}
+
+function useController(props: FilterSelectorProps): ViewProps {
+    const selectedItem = useMemo(
+        () => props.options.find(item => item.value === props.value) ?? null,
+        [props.options, props.value]
+    );
+
+    const { isOpen, highlightedIndex, getToggleButtonProps, getMenuProps, getItemProps } = useSelect({
+        items: props.options,
+        selectedItem,
+        itemToString,
+        onSelectedItemChange: ({ selectedItem }) => props.onChange(selectedItem.value)
+    });
+
+    const { refs, floatingStyles } = useFloating({
+        open: isOpen,
+        placement: "bottom-start",
+        strategy: "fixed",
+        whileElementsMounted: autoUpdate
+    });
+
+    const listboxLabel = props.ariaLabel || "Select filter type";
+    const buttonLabel = selectedItem?.label || listboxLabel;
+    const buttonProps = getToggleButtonProps({ "aria-label": buttonLabel, ref: refs.setReference });
+    const listboxProps = getMenuProps({ "aria-label": listboxLabel, ref: refs.setFloating, style: floatingStyles });
+
+    return {
+        open: isOpen,
+        buttonProps,
+        listboxProps,
+        getItemProps,
+        selectedItem,
+        highlightedIndex
+    };
+}
+
+const itemToString = (item: Option | null): string => (item ? item.label : "");

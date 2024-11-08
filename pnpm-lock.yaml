@@ -2404,6 +2404,9 @@ importers:
 
   packages/shared/widget-plugin-filtering:
     dependencies:
+      '@floating-ui/react-dom':
+        specifier: ^2.1.2
+        version: 2.1.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../widget-plugin-external-events
@@ -2427,7 +2430,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -19782,6 +19785,14 @@ snapshots:
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
       react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)
+
+  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    optionalDependencies:
+      react-dom: 18.2.0(react@18.2.0)
 
   mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react@18.2.0):
     dependencies:

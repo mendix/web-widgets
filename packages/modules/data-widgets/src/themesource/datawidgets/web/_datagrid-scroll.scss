@@ -1,14 +1,16 @@
-.sticky-sentinel {
-    &.container-stuck {
-        & + .widget-datagrid-grid,
-        & + .table {
-            .th {
-                position: -webkit-sticky; /* Safari */
-                position: sticky;
-                z-index: 50;
-            }
-        }
-    }
+.container-stuck + .table .th {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index: 10;
+}
+
+/**
+ * Another hack for sticky header and filters.
+ * Don't use this code anywhere else, and if you can, please remove it.
+ * If we moved headers out of the grid body, please, remove this piece of guano.
+ */
+.container-stuck + .table .th:has(.filter-selectors.visible) {
+    z-index: 20;
 }
 
 .widget-datagrid-content.infinite-loading {
