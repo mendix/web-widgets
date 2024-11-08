@@ -46,7 +46,7 @@
         "@mendix/widget-plugin-filter-selector": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "mendix": "^10.15.46408",
+        "mendix": "^10.16.49747",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },

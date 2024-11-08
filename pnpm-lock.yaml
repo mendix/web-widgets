@@ -2414,8 +2414,8 @@ importers:
         specifier: workspace:*
         version: link:../widget-plugin-platform
       mendix:
-        specifier: ^10.15.46408
-        version: 10.15.46408
+        specifier: ^10.16.49747
+        version: 10.16.49747
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
@@ -2554,8 +2554,8 @@ importers:
   packages/shared/widget-plugin-test-utils:
     dependencies:
       mendix:
-        specifier: ^10.15.46408
-        version: 10.15.46408
+        specifier: ^10.16.49747
+        version: 10.16.49747
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
