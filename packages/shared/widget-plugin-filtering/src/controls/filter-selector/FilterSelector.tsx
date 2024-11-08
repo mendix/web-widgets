@@ -23,19 +23,20 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
         initialSelectedItem: props.options.find(option => option.value === props.value),
         onSelectedItemChange: ({ selectedItem }) => props.onChange(selectedItem.value)
     });
-    const ariaLabel = props.ariaLabel || "Select filter type";
-    const comboboxProps = getToggleButtonProps({ "aria-label": ariaLabel });
+    const listboxLabel = props.ariaLabel || "Select filter type";
+    const buttonLabel = selectedItem?.label || listboxLabel;
+    const buttonProps = getToggleButtonProps({ "aria-label": buttonLabel });
 
     return (
         <div className="filter-selector">
             <div className="filter-selector-content">
                 <button
                     className={classNames("btn btn-default filter-selector-button button-icon", props.value)}
-                    {...comboboxProps}
+                    {...buttonProps}
                 >
                     &nbsp;
                 </button>
-                <ul className="filter-selectors" {...getMenuProps({ "aria-labelledby": comboboxProps.id })}>
+                <ul className="filter-selectors" {...getMenuProps({ "aria-label": listboxLabel })}>
                     {isOpen &&
                         props.options.map((item, index) => (
                             <li
