@@ -20,7 +20,7 @@
     },
     "marketplace": {
         "minimumMXVersion": "10.16.0",
-        "appNumber": 0,
+        "appNumber": 1234,
         "appName": "AnyChart"
     },
     "testProject": {
