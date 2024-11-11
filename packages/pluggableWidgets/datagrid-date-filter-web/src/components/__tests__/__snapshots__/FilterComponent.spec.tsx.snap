@@ -13,14 +13,25 @@ exports[`Filter component renders correctly 1`] = `
         class="filter-selector-content"
       >
         <button
-          aria-controls="undefined-filter-selectors"
+          aria-activedescendant=""
+          aria-controls="downshift-:r0:-menu"
           aria-expanded="false"
-          aria-haspopup="true"
-          aria-label="Select filter type"
+          aria-haspopup="listbox"
+          aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
+          id="downshift-:r0:-toggle-button"
+          role="combobox"
+          tabindex="0"
         >
            
         </button>
+        <ul
+          aria-label="Select filter type"
+          class="filter-selectors hidden"
+          id="downshift-:r0:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <div
@@ -130,14 +141,25 @@ exports[`Filter component renders correctly with aria labels 1`] = `
         class="filter-selector-content"
       >
         <button
-          aria-controls="undefined-filter-selectors"
+          aria-activedescendant=""
+          aria-controls="downshift-:r3:-menu"
           aria-expanded="false"
-          aria-haspopup="true"
-          aria-label="my label"
+          aria-haspopup="listbox"
+          aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
+          id="downshift-:r3:-toggle-button"
+          role="combobox"
+          tabindex="0"
         >
            
         </button>
+        <ul
+          aria-label="my label"
+          class="filter-selectors hidden"
+          id="downshift-:r3:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <div
