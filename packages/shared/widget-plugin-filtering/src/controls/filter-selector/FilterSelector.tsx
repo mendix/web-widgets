@@ -16,7 +16,8 @@ interface FilterSelectorProps {
 }
 
 export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
-    const { open, buttonProps, listboxProps, getItemProps, selectedItem, highlightedIndex } = useController(props);
+    const { open, buttonProps, listboxProps, getItemProps, selectedItem, highlightedIndex, floatingStyles } =
+        useController(props);
 
     return (
         <div className="filter-selector">
@@ -27,7 +28,11 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
                 >
                     &nbsp;
                 </button>
-                <ul className={classNames("filter-selectors", { hidden: !open, visible: open })} {...listboxProps}>
+                <ul
+                    className={classNames("filter-selectors", { hidden: !open, visible: open })}
+                    {...listboxProps}
+                    style={floatingStyles}
+                >
                     {open &&
                         props.options.map((item, index) => (
                             <li
@@ -55,6 +60,7 @@ interface ViewProps {
     getItemProps: UseSelectPropGetters<Option>["getItemProps"];
     selectedItem: Option | null;
     highlightedIndex: number;
+    floatingStyles: React.CSSProperties;
 }
 
 function useController(props: FilterSelectorProps): ViewProps {
@@ -79,16 +85,23 @@ function useController(props: FilterSelectorProps): ViewProps {
 
     const listboxLabel = props.ariaLabel || "Select filter type";
     const buttonLabel = selectedItem?.label || listboxLabel;
-    const buttonProps = getToggleButtonProps({ "aria-label": buttonLabel, ref: refs.setReference });
-    const listboxProps = getMenuProps({ "aria-label": listboxLabel, ref: refs.setFloating, style: floatingStyles });
+    // Use memo to prevent max call depth in e2e
+    // https://github.com/carbon-design-system/carbon/pull/17002
+    // https://github.com/carbon-design-system/carbon/issues/17001
+    const buttonProps = useMemo(
+        () => getToggleButtonProps({ ref: refs.setReference }),
+        [getToggleButtonProps, refs.setReference]
+    );
+    const listboxProps = useMemo(() => getMenuProps({ ref: refs.setFloating }), [getMenuProps, refs.setFloating]);
 
     return {
         open: isOpen,
-        buttonProps,
-        listboxProps,
+        buttonProps: { ...buttonProps, "aria-label": buttonLabel },
+        listboxProps: { ...listboxProps, "aria-label": listboxLabel },
         getItemProps,
         selectedItem,
-        highlightedIndex
+        highlightedIndex,
+        floatingStyles
     };
 }
 
