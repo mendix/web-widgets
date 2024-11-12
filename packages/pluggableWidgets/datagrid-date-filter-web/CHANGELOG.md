@@ -12,6 +12,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We improved type mismatch filter error message.
 
+### Breaking changes
+
+-   We improved accessibility for the filter type select button - the select menu shows on enter, space, and arrow keys.
+
+### Added
+
+-   We improved screen reader integration.
+
 ## [2.10.3] - 2024-10-31
 
 ### Fixed
