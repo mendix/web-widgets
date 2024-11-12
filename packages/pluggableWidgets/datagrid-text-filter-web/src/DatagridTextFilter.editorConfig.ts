@@ -28,7 +28,7 @@ import {
     smallerThanIconDark,
     startsWithIcon,
     startsWithIconDark
-} from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
+} from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { DatagridTextFilterPreviewProps, DefaultFilterEnum } from "../typings/DatagridTextFilterProps";
