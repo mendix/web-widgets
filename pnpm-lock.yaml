@@ -992,9 +992,6 @@ importers:
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -1044,9 +1041,6 @@ importers:
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -1087,9 +1081,6 @@ importers:
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -1133,9 +1124,6 @@ importers:
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../../shared/widget-plugin-filter-selector
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
@@ -2410,9 +2398,6 @@ importers:
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../widget-plugin-external-events
-      '@mendix/widget-plugin-filter-selector':
-        specifier: workspace:*
-        version: link:../widget-plugin-filter-selector
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../widget-plugin-hooks
