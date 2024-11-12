@@ -16,6 +16,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
 
+### Breaking changes
+
+-   We improved accessibility for the filter type select button - the select menu shows on enter, space, and arrow keys.
+
+### Added
+
+-   We improved screen reader integration.
+
 ## [2.8.3] - 2024-10-31
 
 ### Fixed
