@@ -5,7 +5,6 @@ import { createElement, CSSProperties, ReactElement, UIEventHandler, useCallback
 import { FilterContentComponent } from "./FilterContentComponent";
 import { FormControlComponent } from "./FormControlComponent";
 import { Option } from "../../typings/OptionListFilterInterface";
-import { Badge } from "../shared";
 
 interface SelectProps {
     options: Option[];
@@ -23,7 +22,6 @@ interface SelectProps {
     onSelect: (value: string) => void;
     onTriggerClick?: () => void;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
-    badge?: string;
 }
 
 export function Select(props: SelectProps): ReactElement {
@@ -82,7 +80,6 @@ export function Select(props: SelectProps): ReactElement {
             ref={componentRef}
             style={styles}
         >
-            {props.badge ? <Badge>{props.badge}</Badge> : null}
             <FormControlComponent
                 ariaLabel={ariaLabel}
                 status={status}
