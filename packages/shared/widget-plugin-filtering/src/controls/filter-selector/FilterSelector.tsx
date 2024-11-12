@@ -89,10 +89,13 @@ function useController(props: FilterSelectorProps): ViewProps {
     // https://github.com/carbon-design-system/carbon/pull/17002
     // https://github.com/carbon-design-system/carbon/issues/17001
     const buttonProps = useMemo(
-        () => getToggleButtonProps({ ref: refs.setReference }),
+        () => getToggleButtonProps({ ref: refs.setReference, "aria-label": "none" }),
         [getToggleButtonProps, refs.setReference]
     );
-    const listboxProps = useMemo(() => getMenuProps({ ref: refs.setFloating }), [getMenuProps, refs.setFloating]);
+    const listboxProps = useMemo(
+        () => getMenuProps({ ref: refs.setFloating, "aria-label": "none" }),
+        [getMenuProps, refs.setFloating]
+    );
 
     return {
         open: isOpen,
