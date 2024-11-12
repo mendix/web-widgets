@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
-import { Badge } from "../shared";
 import { AllFunctions } from "../../typings/FilterFunctions";
 
 // eslint-disable-next-line prefer-arrow-callback
@@ -17,7 +16,6 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
             data-focusindex={props.tabIndex ?? 0}
             style={props.styles}
         >
-            {props.badge ? <Badge style={{ left: 40 }}>{props.badge}</Badge> : null}
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
