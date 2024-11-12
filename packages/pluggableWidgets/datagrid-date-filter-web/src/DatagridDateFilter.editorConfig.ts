@@ -19,7 +19,7 @@ import {
     smallerThanEqualIconDark,
     smallerThanIcon,
     smallerThanIconDark
-} from "@mendix/widget-plugin-filter-selector/editor-preview-icons";
+} from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
 import {
     ContainerProps,
     ImageProps,
