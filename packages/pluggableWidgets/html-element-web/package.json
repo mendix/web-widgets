@@ -48,6 +48,6 @@
         "@types/dompurify": "^2.4.0"
     },
     "dependencies": {
-        "dompurify": "^2.5.6"
+        "dompurify": "^2.5.7"
     }
 }
