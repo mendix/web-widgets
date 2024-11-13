@@ -68,7 +68,7 @@
         "@rollup/plugin-terser": "^0.4.4",
         "concurrently": "^6.5.1",
         "copy-and-watch": "^0.1.6",
-        "rollup": "^2.79.1",
+        "rollup": "^2.79.2",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
     }
 }
