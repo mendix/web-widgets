@@ -85,22 +85,19 @@ function useController(props: FilterSelectorProps): ViewProps {
 
     const listboxLabel = props.ariaLabel || "Select filter type";
     const buttonLabel = selectedItem?.label || listboxLabel;
-    // Use memo to prevent max call depth in e2e
-    // https://github.com/carbon-design-system/carbon/pull/17002
-    // https://github.com/carbon-design-system/carbon/issues/17001
-    const buttonProps = useMemo(
-        () => getToggleButtonProps({ ref: refs.setReference, "aria-label": "none" }),
-        [getToggleButtonProps, refs.setReference]
-    );
-    const listboxProps = useMemo(
-        () => getMenuProps({ ref: refs.setFloating, "aria-label": "none" }),
-        [getMenuProps, refs.setFloating]
-    );
+    const buttonProps = getToggleButtonProps({
+        "aria-label": buttonLabel,
+        ref: refs.setReference
+    });
+    const listboxProps = getMenuProps({
+        "aria-label": listboxLabel,
+        ref: refs.setFloating
+    });
 
     return {
         open: isOpen,
-        buttonProps: { ...buttonProps, "aria-label": buttonLabel },
-        listboxProps: { ...listboxProps, "aria-label": listboxLabel },
+        buttonProps,
+        listboxProps,
         getItemProps,
         selectedItem,
         highlightedIndex,
