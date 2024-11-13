@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.3] - 2024-11-13
+
 ### Fixed
 
 -   We fixed an issue where filters not able to set guid value for reference selector.
