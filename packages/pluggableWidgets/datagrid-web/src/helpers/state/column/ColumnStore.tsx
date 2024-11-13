@@ -28,6 +28,8 @@ export class ColumnStore implements GridColumn {
     private baseInfo: BaseColumnInfo;
     private parentStore: IColumnParentStore;
 
+    private frozenSize: number | undefined;
+
     // dynamic props from PW API
     private _visible?: DynamicValue<boolean> = undefined; // can't render when unavailable
     private _header?: DynamicValue<string> = undefined; // can render when unavailable
@@ -184,6 +186,7 @@ export class ColumnStore implements GridColumn {
 
     takeSizeSnapshot(): void {
         const size = this.headerElementRef?.clientWidth;
+        this.frozenSize = this.size;
         if (size) {
             this.setSize(size);
         }
@@ -230,7 +233,7 @@ export class ColumnStore implements GridColumn {
     get settings(): ColumnPersonalizationSettings {
         return {
             columnId: this.columnId,
-            size: this.size,
+            size: this.parentStore.isResizing ? this.frozenSize : this.size,
             hidden: this.isHidden,
             orderWeight: this.orderWeight,
             sortDir: this.sortDir,

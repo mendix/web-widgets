@@ -55,6 +55,7 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
         isLastVisible(_column: ColumnStore): boolean {
             return false;
         },
+        isResizing: false,
         sorting: {
             getDirection(_columnId: ColumnId): ["asc" | "desc", number] | undefined {
                 return undefined;
@@ -97,7 +98,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         visibleColumns: columns,
         availableColumns: columns,
         columnsSwap: jest.fn(),
-        columnsCreateSizeSnapshot: jest.fn(),
+        setIsResizing: jest.fn(),
         selectionStatus: "unknown",
         setPage: jest.fn(),
         processedRows: 0,

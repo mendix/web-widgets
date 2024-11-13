@@ -148,7 +148,7 @@ const Container = observer((props: Props): ReactElement => {
             selectRowLabel={props.selectRowLabel?.value}
             visibleColumns={columnsStore.visibleColumns}
             availableColumns={columnsStore.availableColumns}
-            columnsCreateSizeSnapshot={() => columnsStore.createSizeSnapshot()}
+            setIsResizing={(status: boolean) => columnsStore.setIsResizing(status)}
             columnsSwap={(moved, [target, placement]) => columnsStore.swapColumns(moved, [target, placement])}
             selectActionHelper={selectActionHelper}
             cellEventsController={cellEventsController}

@@ -78,7 +78,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     availableColumns: GridColumn[];
 
     columnsSwap: (source: ColumnId, target: [ColumnId, "after" | "before"]) => void;
-    columnsCreateSizeSnapshot: () => void;
+    setIsResizing: (status: boolean) => void;
 }
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
@@ -178,7 +178,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         <GridHeader
                             availableColumns={props.availableColumns}
                             columns={visibleColumns}
-                            columnsCreateSizeSnapshot={props.columnsCreateSizeSnapshot}
+                            setIsResizing={props.setIsResizing}
                             columnsDraggable={props.columnsDraggable}
                             columnsFilterable={props.columnsFilterable}
                             columnsHidable={props.columnsHidable}
@@ -239,14 +239,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 });
 
 function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
-    const columnSizes = columns.map(c => {
-        const isLast = columns.at(-1) === c;
-        const columnResizedSize = c.size;
-        if (columnResizedSize) {
-            return isLast ? "minmax(min-content, auto)" : `${columnResizedSize}px`;
-        }
-        return c.getCssWidth();
-    });
+    const columnSizes = columns.map(c => c.getCssWidth());
 
     const sizes: string[] = [];
 
