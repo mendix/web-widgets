@@ -105,6 +105,7 @@ exports[`Rich Text renders richtext widget 1`] = `
     >
       0
        word
+      s
     </div>
   </div>
 </div>
@@ -684,6 +685,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
     >
       0
        word
+      s
     </div>
   </div>
 </div>
