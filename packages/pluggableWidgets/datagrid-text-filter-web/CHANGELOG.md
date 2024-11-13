@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.5] - 2024-11-13
+
 ### Changed
 
 -   We improved type mismatch filter error message.

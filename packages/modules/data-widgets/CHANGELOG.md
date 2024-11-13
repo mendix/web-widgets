@@ -6,6 +6,70 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.0] DataWidgets - 2024-11-13
+
+### [2.10.5] DatagridDateFilter
+
+#### Changed
+
+-   We improved type mismatch filter error message.
+
+### [2.9.4] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue where filters not able to set guid value for reference selector.
+
+#### Changed
+
+-   We improved type mismatch filter error message.
+
+### [2.8.5] DatagridNumberFilter
+
+#### Changed
+
+-   We improved type mismatch filter error message.
+
+#### Fixed
+
+-   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
+
+### [2.8.5] DatagridTextFilter
+
+#### Changed
+
+-   We improved type mismatch filter error message.
+
+#### Fixed
+
+-   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
+
+### [2.27.0] Datagrid
+
+#### Fixed
+
+-   Fixed issue with xpath when widget has many filters.
+
+#### Added
+
+-   We have introduced the loading state in Datagrid 2, so that the loading state is displayed on every pagination, filter search, or loading.
+
+#### Changed
+
+-   We improved resizing behaviour of the widget. It is now saving personalization settings only at the end of the resizing.
+
+### [1.13.0] Gallery
+
+#### Fixed
+
+-   Fixed issue with xpath when widget has many filters.
+
+### [1.2.1] TreeNode
+
+#### Fixed
+
+-   We fixed an issue where Tree Nodes resetting it's collapse state while reloading data.
+
 ## [2.25.1] DataWidgets - 2024-11-04
 
 ### [2.10.4] DatagridDateFilter

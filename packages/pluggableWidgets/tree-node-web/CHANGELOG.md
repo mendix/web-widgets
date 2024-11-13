@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.1] - 2024-11-13
+
 ### Fixed
 
 -   We fixed an issue where Tree Nodes resetting it's collapse state while reloading data.
