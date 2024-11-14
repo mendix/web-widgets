@@ -21,7 +21,6 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseDefaultValue",
     "optionsSourceDatabaseValueAttribute",
-    "optionsSourceDatabaseItemSelection",
     "databaseAttributeString",
     "onChangeDatabaseEvent"
 ];
@@ -118,13 +117,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
-        }
-        if (values.optionsSourceDatabaseItemSelection === "Multi") {
-            hidePropertiesIn(defaultProperties, values, [
-                "optionsSourceDatabaseValueAttribute",
-                "databaseAttributeString",
-                "optionsSourceDatabaseDefaultValue"
-            ]);
         }
         if (values.databaseAttributeString.length === 0) {
             hidePropertiesIn(defaultProperties, values, [

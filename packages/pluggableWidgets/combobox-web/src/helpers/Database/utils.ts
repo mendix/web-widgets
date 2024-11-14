@@ -73,7 +73,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         }
     }
 
-    if (!valueSourceAttribute && props.optionsSourceDatabaseItemSelection?.type !== "Multi") {
+    if (!valueSourceAttribute) {
         throw new Error("'valueAttribute' is not defined");
     }
 

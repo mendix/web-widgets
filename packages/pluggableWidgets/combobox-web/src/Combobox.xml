@@ -30,14 +30,14 @@
                 </property>
 
                 <!-- ENUM & BOOLEAN-->
-                <property key="attributeEnumeration" type="attribute" required="true" setLabel="true">
+                <property key="attributeEnumeration" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="attributeBoolean" type="attribute" required="true" setLabel="true">
+                <property key="attributeBoolean" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -49,14 +49,6 @@
                 <property key="optionsSourceDatabaseDataSource" type="datasource" isList="true" required="false">
                     <caption>Selectable objects</caption>
                     <description />
-                </property>
-                <property key="optionsSourceDatabaseItemSelection" type="selection" dataSource="optionsSourceDatabaseDataSource" onChange="onChangeDatabaseEvent">
-                    <caption>Selection type</caption>
-                    <description />
-                    <selectionTypes>
-                        <selectionType name="Single" />
-                        <selectionType name="Multi" />
-                    </selectionTypes>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Caption">
@@ -114,7 +106,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false">
+                <property key="databaseAttributeString" type="attribute">
                     <caption>Target attribute</caption>
                     <description />
                     <attributeTypes>
@@ -124,7 +116,7 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="optionsSourceDatabaseDefaultValue" type="expression" required="false">
+                <property key="optionsSourceDatabaseDefaultValue" type="expression">
                     <caption>Default value</caption>
                     <description />
                     <returnType assignableTo="databaseAttributeString" />
@@ -133,7 +125,7 @@
             </propertyGroup>
             <propertyGroup caption="Attribute">
                 <!-- ASSOCIATION -->
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true">
                     <caption>Entity</caption>
                     <description />
                     <associationTypes>
@@ -149,7 +141,7 @@
             <!-- END OPTIONS SOURCE -->
             <!-- STATIC-->
             <propertyGroup caption="Values">
-                <property key="staticAttribute" type="attribute" required="true" setLabel="true">
+                <property key="staticAttribute" type="attribute" required="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>

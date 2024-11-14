@@ -117,7 +117,6 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.loadingType = loadingType;
         this.selectAllButton = props.selectAllButton;
         this.selectedItemsStyle = props.selectedItemsStyle;
-        this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
         this.selectionMethod = props.selectionMethod;
         this.currentId = this.selection?.selection.map(v => v.id) ?? null;
     }

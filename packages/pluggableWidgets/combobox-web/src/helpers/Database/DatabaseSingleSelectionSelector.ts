@@ -86,17 +86,6 @@ export class DatabaseSingleSelectionSelector<
         this.readOnly = targetAttribute?.readOnly ?? false;
         this.status = targetAttribute?.status ?? ds.status;
         this.validation = targetAttribute?.validation;
-        this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
-
-        if (this.selection.selection === undefined) {
-            const objectId = this.options.getAll().find(option => {
-                return _valuesIsEqual(targetAttribute?.value, this.values.get(option));
-            });
-
-            if (objectId) {
-                this.selection.setSelection(this.options._optionToValue(objectId));
-            }
-        }
     }
 
     setValue(objectId: string | null): void {

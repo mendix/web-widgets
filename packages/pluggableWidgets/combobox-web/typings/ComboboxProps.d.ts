@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue } from "mendix";
 import { Big } from "big.js";
 
 export type SourceEnum = "context" | "database" | "static";
@@ -52,7 +52,6 @@ export interface ComboboxContainerProps {
     attributeEnumeration: EditableValue<string>;
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
-    optionsSourceDatabaseItemSelection?: SelectionSingleValue | SelectionMultiValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
@@ -60,8 +59,8 @@ export interface ComboboxContainerProps {
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
-    databaseAttributeString?: EditableValue<string | Big>;
-    optionsSourceDatabaseDefaultValue?: DynamicValue<string | Big>;
+    databaseAttributeString: EditableValue<string | Big>;
+    optionsSourceDatabaseDefaultValue: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
@@ -83,6 +82,7 @@ export interface ComboboxContainerProps {
     selectAllButtonCaption: DynamicValue<string>;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
+    onChangeDatabaseEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: boolean;
@@ -103,7 +103,6 @@ export interface ComboboxPreviewProps {
     attributeEnumeration: string;
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
-    optionsSourceDatabaseItemSelection: "Single" | "Multi" | "None";
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
