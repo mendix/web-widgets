@@ -203,22 +203,7 @@ jobs:
                       turbo-cache-${{ runner.os }}-e2e-chunk-${{ matrix.index }}
             - name: Install dependencies
               run: pnpm install
-
-            - name: Store Playwright's Version
-              run: |
-                  PLAYWRIGHT_VERSION=$(pnpm info @playwright/test version)
-                  echo "Playwright's Version: $PLAYWRIGHT_VERSION"
-                  echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
-
-            - name: Cache Playwright Browsers for Playwright's Version
-              id: cache-playwright-browsers
-              uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
-              with:
-                  path: ~/.cache/ms-playwright
-                  key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
-
             - name: Install Playwright Browsers
-              if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
               run: pnpm exec playwright install --with-deps chromium
             - name: "Executing E2E tests"
               env:
