@@ -42,6 +42,7 @@ $ls-brand-primary: #264ae5;
     }
     .popupmenu-menu {
         background: #fff;
+        display: flex;
         .popupmenu-basic-item {
             &.active {
                 font-weight: 600;

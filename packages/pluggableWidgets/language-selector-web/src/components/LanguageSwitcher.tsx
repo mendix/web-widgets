@@ -1,159 +1,123 @@
+import { FloatingFocusManager } from "@floating-ui/react";
 import classNames from "classnames";
-import { createElement, ReactElement, useEffect, useRef, CSSProperties } from "react";
-import {
-    isBehindElement,
-    isBehindRandomElement,
-    isElementPartiallyOffScreen,
-    isElementVisibleByUser,
-    moveAbsoluteElementOnScreen,
-    unBlockAbsoluteElementBottom,
-    unBlockAbsoluteElementLeft,
-    unBlockAbsoluteElementRight,
-    unBlockAbsoluteElementTop
-} from "../utils/document";
+import { createElement, CSSProperties, ReactElement, useState } from "react";
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
+import { useFloatingUI } from "../hooks/useFloatingUI";
 import { LanguageItem } from "../LanguageSelector";
-import { useSelect } from "downshift";
 
 export interface LanguageSwitcherProps {
+    className: string;
     currentLanguage: LanguageItem | undefined;
     languageList: LanguageItem[];
-    position: PositionEnum;
     onSelect?: (lang: LanguageItem) => void;
-    trigger: TriggerEnum;
-    className: string;
+    position: PositionEnum;
+    screenReaderLabelCaption?: string;
     style?: CSSProperties;
     tabIndex: number;
-    screenReaderLabelCaption?: string;
+    trigger: TriggerEnum;
 }
-export const LanguageSwitcher = (props: LanguageSwitcherProps): ReactElement => {
-    const { languageList } = props;
-    const ref = useRef<HTMLDivElement>(null);
 
-    function itemToString(item: LanguageItem): string {
-        return item ? item.value : "";
-    }
-    const { isOpen, selectItem, highlightedIndex, getMenuProps, getItemProps, getToggleButtonProps } = useSelect({
-        items: languageList,
-        itemToString,
-        onSelectedItemChange(changes) {
-            if (!props.onSelect || !changes.selectedItem || changes.selectedItem === props.currentLanguage) {
-                return;
-            }
-            props.onSelect(changes.selectedItem);
-        }
+export const LanguageSwitcher = ({
+    className,
+    currentLanguage,
+    languageList,
+    onSelect,
+    position,
+    screenReaderLabelCaption,
+    style,
+    tabIndex,
+    trigger
+}: LanguageSwitcherProps): ReactElement => {
+    const [isOpen, setOpen] = useState(false);
+
+    const {
+        activeIndex,
+        context,
+        floatingStyles,
+        getFloatingProps,
+        getItemProps,
+        getReferenceProps,
+        handleSelect,
+        isTypingRef,
+        listRef,
+        refs,
+        selectedIndex
+    } = useFloatingUI({
+        currentLanguage,
+        isOpen,
+        languageList,
+        onSelect,
+        position,
+        setOpen,
+        triggerOn: trigger
     });
 
-    useEffect(() => {
-        if (props.currentLanguage === undefined) {
-            return;
-        }
-        selectItem(props.currentLanguage);
-    }, [props.currentLanguage, selectItem]);
-
-    useEffect(() => {
-        const element = ref.current?.querySelector(".popupmenu-menu") as HTMLDivElement | null;
-        if (element) {
-            element.style.display = isOpen ? "flex" : "none";
-            if (isOpen) {
-                correctPosition(element, props.position);
-            }
-        }
-    }, [props.position, isOpen]);
-
     return (
-        <div
-            ref={ref}
-            className={classNames(props.className, "widget-language-selector", "popupmenu")}
-            style={props.style}
-        >
+        <div className={classNames(className, "widget-language-selector", "popupmenu")} style={style}>
             <div
+                ref={refs?.setReference}
                 className={"popupmenu-trigger popupmenu-trigger-alignment"}
-                {...getToggleButtonProps(
-                    {
-                        tabIndex: props.tabIndex,
-                        "aria-label": props.screenReaderLabelCaption || "Language selector"
-                    },
-                    { suppressRefError: true }
-                )}
+                aria-label={screenReaderLabelCaption || "Language selector"}
+                aria-autocomplete="none"
+                aria-activedescendant={isOpen && activeIndex !== null ? "" : undefined}
+                tabIndex={tabIndex}
+                {...getReferenceProps?.()}
             >
-                <span className="current-language-text">{props.currentLanguage?.value || ""}</span>
+                <span className="current-language-text">{currentLanguage?.value || ""}</span>
                 <span className="language-arrow" aria-hidden="true">
                     <div className={`arrow-image ${isOpen ? "arrow-up" : "arrow-down"}`} />
                 </span>
             </div>
-            <div
-                className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`)}
-                {...getMenuProps(
-                    {
-                        "aria-labelledby": undefined
-                    },
-                    { suppressRefError: true }
-                )}
-            >
-                {languageList.map((item, index) => (
+            {isOpen && (
+                <FloatingFocusManager context={context!} modal={false}>
                     <div
-                        key={item._guid}
-                        className={`popupmenu-basic-item ${props.currentLanguage === item ? "active" : ""} ${
-                            highlightedIndex === index ? "highlighted" : ""
-                        }`}
-                        {...getItemProps({ item, index })}
+                        aria-activedescendant={isOpen && activeIndex !== null ? "" : undefined}
+                        className="popupmenu-menu"
+                        ref={refs?.setFloating}
+                        style={{
+                            ...floatingStyles,
+                            outline: 0,
+                            overflowY: "auto"
+                        }}
+                        {...getFloatingProps?.()}
                     >
-                        {item.value}
+                        {languageList.map((item, index) => (
+                            <div
+                                key={item._guid}
+                                ref={node => {
+                                    listRef.current[index] = node;
+                                }}
+                                role="option"
+                                tabIndex={index === activeIndex ? 0 : -1}
+                                aria-selected={index === selectedIndex && index === activeIndex}
+                                className={classNames("popupmenu-basic-item", {
+                                    active: currentLanguage === item,
+                                    highlighted: activeIndex === index
+                                })}
+                                {...getItemProps?.({
+                                    onKeyDown(event) {
+                                        console.info("onKeyDown", { event, from: "floatingProps" });
+                                        if (event.key === "Enter") {
+                                            event.preventDefault();
+                                            handleSelect(index);
+                                        }
+
+                                        if (event.key === " " && !isTypingRef.current) {
+                                            event.preventDefault();
+                                            handleSelect(index);
+                                        }
+                                    },
+                                    onClick() {
+                                        handleSelect(index);
+                                    }
+                                })}
+                            >
+                                {item.value}
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </FloatingFocusManager>
+            )}
         </div>
     );
 };
-
-function correctPosition(element: HTMLElement, position: PositionEnum): void {
-    const dynamicDocument: Document = element.ownerDocument;
-    const dynamicWindow = dynamicDocument.defaultView as Window;
-    let boundingRect: DOMRect = element.getBoundingClientRect();
-    const isOffScreen = isElementPartiallyOffScreen(dynamicWindow, boundingRect);
-    if (isOffScreen) {
-        moveAbsoluteElementOnScreen(dynamicWindow, element, boundingRect);
-    }
-
-    boundingRect = element.getBoundingClientRect();
-    const blockingElement = isBehindRandomElement(dynamicDocument, element, boundingRect, 3, "popupmenu");
-    if (blockingElement && isElementVisibleByUser(dynamicDocument, dynamicWindow, blockingElement)) {
-        unBlockAbsoluteElement(element, boundingRect, blockingElement.getBoundingClientRect(), position);
-    } else if (blockingElement) {
-        let node = blockingElement;
-        do {
-            if (isBehindElement(element, node, 3) && isElementVisibleByUser(dynamicDocument, dynamicWindow, node)) {
-                return unBlockAbsoluteElement(element, boundingRect, node.getBoundingClientRect(), position);
-            } else if (node.parentElement) {
-                node = node.parentElement as HTMLElement;
-            } else {
-                break;
-            }
-        } while (node.parentElement);
-    }
-}
-
-function unBlockAbsoluteElement(
-    element: HTMLElement,
-    boundingRect: DOMRect,
-    blockingElementRect: DOMRect,
-    position: PositionEnum
-): void {
-    switch (position) {
-        case "left":
-            unBlockAbsoluteElementLeft(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "right":
-            unBlockAbsoluteElementRight(element, boundingRect, blockingElementRect);
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-        case "top":
-            unBlockAbsoluteElementTop(element, boundingRect, blockingElementRect);
-            break;
-        case "bottom":
-            unBlockAbsoluteElementBottom(element, boundingRect, blockingElementRect);
-            break;
-    }
-}
