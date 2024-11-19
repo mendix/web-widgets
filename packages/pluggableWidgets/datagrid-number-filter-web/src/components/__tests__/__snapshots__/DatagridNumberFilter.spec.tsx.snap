@@ -1,5 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Number Filter with single instance with multiple attributes clears value when external reset all event is triggered without a default value 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value=""
+    />
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Number Filter with single instance with multiple attributes renders correctly 1`] = `
 <DocumentFragment>
   <div
@@ -41,6 +72,68 @@ exports[`Number Filter with single instance with no context renders error messag
 </DocumentFragment>
 `;
 
+exports[`Number Filter with single instance with single attribute clears value when external reset all event is triggered without a default value 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value=""
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Number Filter with single instance with single attribute clears value when reset event is triggered with a default value 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value="123"
+    />
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Number Filter with single instance with single attribute renders correctly 1`] = `
 <DocumentFragment>
   <div
@@ -67,6 +160,99 @@ exports[`Number Filter with single instance with single attribute renders correc
       class="form-control filter-input"
       type="number"
       value=""
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Number Filter with single instance with single attribute with defaultValue clears value when external reset all event is triggered 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value="123"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Number Filter with single instance with single attribute with defaultValue clears value when external reset all event is triggered with a default value 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value="123"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Number Filter with single instance with single attribute with defaultValue clears value when external reset event is triggered with a default value 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="NumberFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <input
+      class="form-control filter-input"
+      type="number"
+      value="123"
     />
   </div>
 </DocumentFragment>
