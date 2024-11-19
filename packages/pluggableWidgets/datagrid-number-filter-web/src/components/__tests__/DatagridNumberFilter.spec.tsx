@@ -1,13 +1,15 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
 import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import {
     actionValue,
+    dynamic,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 
@@ -32,7 +34,7 @@ const commonProps: DatagridNumberFilterContainerProps = {
 
 const headerFilterStoreInfo: StaticInfo = {
     name: commonProps.name,
-    filtersChannelName: ""
+    filtersChannelName: "datagrid1"
 };
 
 jest.useFakeTimers();
@@ -57,7 +59,8 @@ describe("Number Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    parentChannelName: headerFilterStoreInfo.filtersChannelName
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -85,17 +88,48 @@ describe("Number Filter", () => {
                 expect(attribute.setValue).toHaveBeenCalledWith(new Big("10"));
             });
 
+            it("clears value when external reset all event is triggered without a default value", async () => {
+                const attribute = new EditableValueBuilder<Big>().build();
+                const { asFragment, getByRole } = render(
+                    <DatagridNumberFilter {...commonProps} valueAttribute={attribute} />
+                );
+                expect(asFragment()).toMatchSnapshot();
+
+                // First set a value
+                const input = getByRole("spinbutton");
+                expect(input).toHaveValue(null);
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                await user.type(input, "42");
+
+                // Run timers for the debounced setValue
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
+
+                // Trigger reset event
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("datagrid1", "reset.value", true);
+                });
+
+                expect(input).toHaveValue(null);
+                expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
+            });
+
             describe("with defaultValue", () => {
                 it("initializes with defaultValue", () => {
                     render(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
                     expect(screen.getByRole("spinbutton")).toHaveValue(100);
                 });
+
                 it("do not sync value and defaultValue when defaultValue changes from undefined to number", () => {
                     const { rerender } = render(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
                     expect(screen.getByRole("spinbutton")).toHaveValue(null);
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
                     expect(screen.getByRole("spinbutton")).toHaveValue(null);
                 });
+
                 it("do not sync value and defaultValue when defaultValue changes from number to undefined", async () => {
                     const { rerender } = render(
                         <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />
@@ -105,6 +139,36 @@ describe("Number Filter", () => {
                     await waitFor(() => {
                         expect(screen.getByRole("spinbutton")).toHaveValue(100);
                     });
+                });
+
+                it("clears value when external reset all event is triggered", async () => {
+                    const attribute = new EditableValueBuilder<Big>().build();
+                    const value = dynamic<Big>(Big(123));
+                    const { asFragment, getByRole } = render(
+                        <DatagridNumberFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
+                    );
+                    expect(asFragment()).toMatchSnapshot();
+
+                    const input = getByRole("spinbutton");
+                    expect(input).toHaveValue(123);
+
+                    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                    // set input empty
+                    await user.clear(input);
+                    await user.type(input, "42");
+
+                    jest.runAllTimers();
+
+                    expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
+
+                    // Trigger reset event
+                    const plugin = requirePlugin();
+                    act(() => {
+                        plugin.emit("datagrid1", "reset.value", true);
+                    });
+
+                    expect(input).toHaveValue(123);
+                    expect(attribute.setValue).toHaveBeenLastCalledWith(Big(123));
                 });
             });
 
@@ -139,7 +203,8 @@ describe("Number Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    parentChannelName: headerFilterStoreInfo.filtersChannelName
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -151,6 +216,32 @@ describe("Number Filter", () => {
                 const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
 
                 expect(asFragment()).toMatchSnapshot();
+            });
+
+            it("clears value when external reset all event is triggered without a default value", async () => {
+                const attribute = new EditableValueBuilder<Big>().build();
+                const { asFragment, getByRole } = render(
+                    <DatagridNumberFilter {...commonProps} valueAttribute={attribute} />
+                );
+                expect(asFragment()).toMatchSnapshot();
+
+                const input = getByRole("spinbutton");
+                expect(input).toHaveValue(null);
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                await user.type(input, "42");
+
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
+
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("datagrid1", "reset.value", true);
+                });
+
+                expect(input).toHaveValue(null);
+                expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
             afterAll(() => {
