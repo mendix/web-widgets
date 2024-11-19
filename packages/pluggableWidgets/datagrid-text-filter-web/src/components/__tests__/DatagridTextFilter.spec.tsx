@@ -7,7 +7,8 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen } from "@testing-library/react";
+import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
+import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
@@ -30,7 +31,7 @@ const commonProps: DatagridTextFilterContainerProps = {
 
 const headerFilterStoreInfo: StaticInfo = {
     name: commonProps.name,
-    filtersChannelName: ""
+    filtersChannelName: "datagrid1"
 };
 
 jest.useFakeTimers();
@@ -55,7 +56,8 @@ describe("Text Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    parentChannelName: "datagrid1"
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
@@ -88,6 +90,36 @@ describe("Text Filter", () => {
                 rerender(<DatagridTextFilter {...commonProps} defaultValue={undefined} />);
                 expect(screen.getByRole("textbox")).toHaveValue("abc");
             });
+
+            it("clears value when external reset all event is triggered with defaultValue", async () => {
+                const attribute = new EditableValueBuilder<string>().build();
+                const value = dynamicValue<string>("a string");
+                const { asFragment, getByRole } = render(
+                    <DatagridTextFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
+                );
+                expect(asFragment()).toMatchSnapshot();
+
+                const input = getByRole("textbox");
+                expect(input).toHaveValue("a string");
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                // set input empty
+                await user.clear(input);
+                await user.type(input, "another string");
+
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith("another string");
+
+                // Trigger reset event
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("datagrid1", "reset.value", true);
+                });
+
+                expect(input).toHaveValue("a string");
+                expect(attribute.setValue).toHaveBeenLastCalledWith("a string");
+            });
         });
 
         describe("with single attribute", () => {
@@ -104,12 +136,19 @@ describe("Text Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    parentChannelName: "datagrid1"
                 };
                 const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
                     headerFilterStore.context
                 );
+            });
+
+            beforeEach(() => {
+                // Reset any shared state
+                jest.clearAllMocks();
+                jest.clearAllTimers();
             });
 
             it("renders correctly", () => {
@@ -130,6 +169,37 @@ describe("Text Filter", () => {
 
                 expect(attribute.setValue).toHaveBeenCalled();
                 expect(action.execute).toHaveBeenCalled();
+            });
+
+            it("clears value when external reset all event is triggered", async () => {
+                const attribute = new EditableValueBuilder<string>().build();
+                const { asFragment, getByRole } = render(
+                    <DatagridTextFilter {...commonProps} valueAttribute={attribute} />
+                );
+                expect(asFragment()).toMatchSnapshot();
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+                const input = getByRole("textbox");
+                await user.clear(input);
+                expect(input).toHaveValue("");
+
+                // set input empty
+                await user.clear(input);
+                await user.type(input, "a string");
+
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith("a string");
+
+                // Trigger reset event
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("datagrid1", "reset.value", false);
+                });
+
+                expect(input).toHaveValue("");
+                expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
             afterAll(() => {
