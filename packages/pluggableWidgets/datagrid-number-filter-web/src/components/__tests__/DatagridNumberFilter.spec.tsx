@@ -110,7 +110,7 @@ describe("Number Filter", () => {
                 // Trigger reset event
                 const plugin = requirePlugin();
                 act(() => {
-                    plugin.emit("datagrid1", "reset.value", true);
+                    plugin.emit("datagrid1", "reset.value", false);
                 });
 
                 expect(input).toHaveValue(null);
@@ -237,7 +237,7 @@ describe("Number Filter", () => {
 
                 const plugin = requirePlugin();
                 act(() => {
-                    plugin.emit("datagrid1", "reset.value", true);
+                    plugin.emit("datagrid1", "reset.value", false);
                 });
 
                 expect(input).toHaveValue(null);
