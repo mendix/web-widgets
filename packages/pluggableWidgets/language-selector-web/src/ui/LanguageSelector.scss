@@ -43,6 +43,7 @@ $ls-brand-primary: #264ae5;
     .popupmenu-menu {
         background: #fff;
         display: flex;
+        padding: 1px;
         .popupmenu-basic-item {
             &.active {
                 font-weight: 600;
@@ -50,6 +51,11 @@ $ls-brand-primary: #264ae5;
             &.hover,
             &.highlighted {
                 background: #f5f6f6;
+            }
+            &:focus {
+                border-radius: 8px;
+                outline: 0.5px solid var(--brand-primary, $ls-brand-primary);
+                outline-offset: 0;
             }
         }
     }
