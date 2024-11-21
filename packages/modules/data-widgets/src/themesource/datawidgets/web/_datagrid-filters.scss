@@ -88,7 +88,7 @@ $dg-item-min-height: 32px;
 
                 &.filter-selected {
                     background-color: var(--gray-lighter, $dg-hover-color);
-                    color: var(--brand-primary, $brand-primary);
+                    color: var(--brand-primary, $dg-brand-primary);
                 }
 
                 &:hover,
@@ -122,7 +122,7 @@ $dg-item-min-height: 32px;
 
         &.filter-selected {
             background-color: var(--gray-lighter, $dg-hover-color);
-            color: var(--brand-primary, $brand-primary);
+            color: var(--brand-primary, $dg-brand-primary);
         }
 
         &:hover,
@@ -153,7 +153,7 @@ $dg-item-min-height: 32px;
 
         &.filter-selected {
             background-color: var(--gray-lighter, $dg-hover-color);
-            color: var(--brand-primary, $brand-primary);
+            color: var(--brand-primary, $dg-brand-primary);
         }
 
         &:hover,
@@ -254,7 +254,7 @@ $dg-item-min-height: 32px;
 
             &.filter-selected {
                 background-color: var(--gray-lighter, $dg-hover-color);
-                color: var(--brand-primary, $brand-primary);
+                color: var(--brand-primary, $dg-brand-primary);
             }
 
             &:hover,
