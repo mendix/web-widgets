@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-#### Fixed
+### Fixed
 
--   We fixed an issue where css selector --brand-primary gets overwrite by datagrid.
+-   We fixed an issue where css selector "--brand-primary" gets overwrite by datagrid.
 
 ## [2.28.0] DataWidgets - 2024-11-13
 
