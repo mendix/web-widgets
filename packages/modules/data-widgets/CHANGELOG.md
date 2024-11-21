@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.28.1] DataWidgets - 2024-11-21
+
 ### Fixed
 
 -   We fixed an issue where css selector "--brand-primary" gets overwrite by datagrid.
+
+### [2.28.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where Export to Excel was not working in certain cases.
 
 ## [2.28.0] DataWidgets - 2024-11-13
 

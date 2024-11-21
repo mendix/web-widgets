@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.28.1] - 2024-11-21
+
 ### Fixed
 
 -   We fixed an issue where Export to Excel was not working in certain cases.
