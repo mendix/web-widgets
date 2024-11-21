@@ -86,10 +86,6 @@
                                     <attributeType name="Integer" />
                                     <attributeType name="Long" />
                                 </attributeTypes>
-                                <associationTypes>
-                                    <associationType name="Reference" />
-                                    <associationType name="ReferenceSet" />
-                                </associationTypes>
                             </property>
                             <property key="content" type="widgets" dataSource="../datasource" required="false">
                                 <caption>Custom content</caption>

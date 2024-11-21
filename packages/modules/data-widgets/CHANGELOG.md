@@ -6,19 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Fixed
+## [2.27.0] DataWidgets - 2024-11-13
 
--   We fixed an issue where css selector "--brand-primary" gets overwrite by datagrid.
-
-## [2.28.0] DataWidgets - 2024-11-13
-
-### [2.10.4] DatagridDateFilter
+### [2.10.5] DatagridDateFilter
 
 #### Changed
 
 -   We improved type mismatch filter error message.
 
-### [2.9.3] DatagridDropdownFilter
+### [2.9.4] DatagridDropdownFilter
 
 #### Fixed
 
@@ -28,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We improved type mismatch filter error message.
 
-### [2.8.4] DatagridNumberFilter
+### [2.8.5] DatagridNumberFilter
 
 #### Changed
 
@@ -38,7 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
 
-### [2.8.4] DatagridTextFilter
+### [2.8.5] DatagridTextFilter
 
 #### Changed
 
@@ -48,7 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
 
-### [2.28.0] Datagrid
+### [2.27.0] Datagrid
 
 #### Fixed
 
@@ -74,7 +70,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where Tree Nodes resetting it's collapse state while reloading data.
 
-## [2.26.0] DataWidgets - 2024-10-31
+## [2.25.1] DataWidgets - 2024-11-04
+
+### [2.10.4] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.9.3] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.8.4] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.8.4] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [2.25.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+### [1.12.3] Gallery
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+## [2.25.0] DataWidgets - 2024-10-31
 
 ### [2.10.3] DatagridDateFilter
 
@@ -102,7 +136,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-### [2.26.1] Datagrid
+### [2.25.0] Datagrid
 
 #### Changed
 
@@ -124,7 +158,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-## [2.24.1] DataWidgets - 2024-10-14
+## [2.23.2] DataWidgets - 2024-10-14
 
 ### Fixed
 
@@ -142,7 +176,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where filters wouldn't reset.
 
-## [2.24.0] DataWidgets - 2024-09-23
+## [2.23.1] DataWidgets - 2024-09-25
 
 ### [2.10.2] DatagridDateFilter
 
@@ -172,11 +206,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Widget maintenance.
 
-### [2.24.0] Datagrid
+### [2.23.1] Datagrid
 
 #### Added
 
--   We have introduced support for reference set associations in the linked attribute property.
+-   Widget maintenance.
 
 ### [1.2.1] DropdownSort
 
