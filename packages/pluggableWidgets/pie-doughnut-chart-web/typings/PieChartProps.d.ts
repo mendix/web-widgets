@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, ListValue, ListAttributeValue, ListExpressionValue, SelectionSingleValue } from "mendix";
 import { Big } from "big.js";
 
 export type SeriesSortOrderEnum = "asc" | "desc";
@@ -24,6 +24,7 @@ export interface PieChartContainerProps {
     seriesSortAttribute?: ListAttributeValue<string | boolean | Date | Big>;
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute?: ListExpressionValue<string>;
+    optionsSourceDatabaseItemSelection?: SelectionSingleValue;
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground?: ReactNode;
@@ -57,6 +58,7 @@ export interface PieChartPreviewProps {
     seriesSortAttribute: string;
     seriesSortOrder: SeriesSortOrderEnum;
     seriesColorAttribute: string;
+    optionsSourceDatabaseItemSelection: "None" | "Single";
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

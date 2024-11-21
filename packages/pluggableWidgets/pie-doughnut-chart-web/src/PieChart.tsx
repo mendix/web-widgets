@@ -38,7 +38,8 @@ export function PieChart(props: PieChartContainerProps): ReactElement | null {
         seriesSortOrder: props.seriesSortOrder,
         seriesValueAttribute: props.seriesValueAttribute,
         onClickAction: props.onClickAction,
-        tooltipHoverText: props.tooltipHoverText
+        tooltipHoverText: props.tooltipHoverText,
+        optionsSourceDatabaseItemSelection: props.optionsSourceDatabaseItemSelection
     });
 
     return (
