@@ -40,8 +40,7 @@ export const LanguageSwitcher = ({
         handleSelect,
         isTypingRef,
         listRef,
-        refs,
-        selectedIndex
+        refs
     } = useFloatingUI({
         currentLanguage,
         isOpen,
@@ -89,14 +88,12 @@ export const LanguageSwitcher = ({
                                 }}
                                 role="option"
                                 tabIndex={index === activeIndex ? 0 : -1}
-                                aria-selected={index === selectedIndex && index === activeIndex}
                                 className={classNames("popupmenu-basic-item", {
                                     active: currentLanguage === item,
                                     highlighted: activeIndex === index
                                 })}
                                 {...getItemProps?.({
                                     onKeyDown(event) {
-                                        console.info("onKeyDown", { event, from: "floatingProps" });
                                         if (event.key === "Enter") {
                                             event.preventDefault();
                                             handleSelect(index);
