@@ -85,7 +85,6 @@ exports[`Language switcher renders the structure with language list and selected
       tabindex="-1"
     >
       <div
-        aria-selected="true"
         class="popupmenu-basic-item active highlighted"
         role="option"
         tabindex="0"
