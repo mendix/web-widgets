@@ -58,6 +58,8 @@ export function SingleSelection({
                     className={classNames("widget-combobox-selected-items", {
                         "widget-combobox-custom-content": selector.customContentType === "yes"
                     })}
+                    tabIndex={1}
+                    onKeyDown={() => inputRef.current?.focus()}
                 >
                     <input
                         className={classNames("widget-combobox-input", {

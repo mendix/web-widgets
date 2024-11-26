@@ -28,6 +28,9 @@ export function useDownshiftSingleSelectProps(
             itemToString: (v: string | null) => selector.caption.get(v),
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
+                if (options.inputId) {
+                    document.getElementById(options.inputId)?.parentElement?.focus();
+                }
             },
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
@@ -65,7 +68,6 @@ export function useDownshiftSingleSelectProps(
                             inputValue:
                                 state.isOpen && selector.currentId ? selector.caption.get(selector.currentId) : ""
                         };
-
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
