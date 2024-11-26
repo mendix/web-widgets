@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where selected value sometimes shows unavailable text on lazy loaded content.
+
 ## [2.1.1] - 2024-11-15
 
 ### Fixed
