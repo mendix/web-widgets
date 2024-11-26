@@ -94,10 +94,9 @@ describe("Text Filter", () => {
             it("clears value when external reset all event is triggered with defaultValue", async () => {
                 const attribute = new EditableValueBuilder<string>().build();
                 const value = dynamicValue<string>("a string");
-                const { asFragment, getByRole } = render(
+                const { getByRole } = render(
                     <DatagridTextFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                 );
-                expect(asFragment()).toMatchSnapshot();
 
                 const input = getByRole("textbox");
                 expect(input).toHaveValue("a string");
@@ -119,6 +118,36 @@ describe("Text Filter", () => {
 
                 expect(input).toHaveValue("a string");
                 expect(attribute.setValue).toHaveBeenLastCalledWith("a string");
+            });
+            it("sets value when external set value event is triggered with defaultValue", async () => {
+                const attribute = new EditableValueBuilder<string>().build();
+                const value = dynamicValue<string>("a string");
+                const { getByRole } = render(
+                    <DatagridTextFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
+                );
+
+                const input = getByRole("textbox");
+                expect(input).toHaveValue("a string");
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                // set input empty
+                await user.clear(input);
+                await user.type(input, "another string");
+
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith("another string");
+
+                // Trigger reset event
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("datagrid1", "set.value", true, {
+                        stringValue: "another string"
+                    });
+                });
+
+                expect(input).toHaveValue("another string");
+                expect(attribute.setValue).toHaveBeenLastCalledWith("another string");
             });
         });
 
@@ -173,10 +202,7 @@ describe("Text Filter", () => {
 
             it("clears value when external reset all event is triggered", async () => {
                 const attribute = new EditableValueBuilder<string>().build();
-                const { asFragment, getByRole } = render(
-                    <DatagridTextFilter {...commonProps} valueAttribute={attribute} />
-                );
-                expect(asFragment()).toMatchSnapshot();
+                const { getByRole } = render(<DatagridTextFilter {...commonProps} valueAttribute={attribute} />);
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 

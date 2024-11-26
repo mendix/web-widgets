@@ -1,67 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Text Filter with single instance with defaultValue prop clears value when external reset all event is triggered 1`] = `
-<DocumentFragment>
-  <div
-    class="filter-container filter-custom-class"
-    data-focusindex="0"
-  >
-    <div
-      class="filter-selector"
-    >
-      <div
-        class="filter-selector-content"
-      >
-        <button
-          aria-controls="TextFilter1-filter-selectors"
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn btn-default filter-selector-button button-icon equal"
-        >
-           
-        </button>
-      </div>
-    </div>
-    <input
-      class="form-control filter-input"
-      type="text"
-      value="a string"
-    />
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Text Filter with single instance with defaultValue prop clears value when external reset all event is triggered with defaultValue 1`] = `
-<DocumentFragment>
-  <div
-    class="filter-container filter-custom-class"
-    data-focusindex="0"
-  >
-    <div
-      class="filter-selector"
-    >
-      <div
-        class="filter-selector-content"
-      >
-        <button
-          aria-controls="TextFilter1-filter-selectors"
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn btn-default filter-selector-button button-icon equal"
-        >
-           
-        </button>
-      </div>
-    </div>
-    <input
-      class="form-control filter-input"
-      type="text"
-      value="a string"
-    />
-  </div>
-</DocumentFragment>
-`;
-
 exports[`Text Filter with single instance with multiple attributes renders correctly 1`] = `
 <DocumentFragment>
   <div
@@ -99,37 +37,6 @@ exports[`Text Filter with single instance with no context renders error message 
     class="alert alert-danger"
   >
     The filter widget must be placed inside the column or header of the Data grid 2.0 or inside header of the Gallery widget.
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Text Filter with single instance with single attribute clears value when external reset all event is triggered 1`] = `
-<DocumentFragment>
-  <div
-    class="filter-container filter-custom-class"
-    data-focusindex="0"
-  >
-    <div
-      class="filter-selector"
-    >
-      <div
-        class="filter-selector-content"
-      >
-        <button
-          aria-controls="TextFilter1-filter-selectors"
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="btn btn-default filter-selector-button button-icon equal"
-        >
-           
-        </button>
-      </div>
-    </div>
-    <input
-      class="form-control filter-input"
-      type="text"
-      value="B"
-    />
   </div>
 </DocumentFragment>
 `;

@@ -237,6 +237,31 @@ describe("Number Filter", () => {
                 expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
+            it("set value when external set value event is triggered", async () => {
+                const attribute = new EditableValueBuilder<Big>().build();
+                const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
+
+                const input = getByRole("spinbutton");
+                expect(input).toHaveValue(null);
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                await user.type(input, "42");
+
+                jest.runAllTimers();
+
+                expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
+
+                const plugin = requirePlugin();
+                act(() => {
+                    plugin.emit("filter-test", "set.value", false, {
+                        numberValue: Big(100)
+                    });
+                });
+
+                expect(input).toHaveValue(100);
+                expect(attribute.setValue).toHaveBeenLastCalledWith(Big(100));
+            });
+
             afterAll(() => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
