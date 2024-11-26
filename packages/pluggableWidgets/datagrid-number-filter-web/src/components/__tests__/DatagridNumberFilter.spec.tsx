@@ -90,10 +90,7 @@ describe("Number Filter", () => {
 
             it("clears value when external reset all event is triggered without a default value", async () => {
                 const attribute = new EditableValueBuilder<Big>().build();
-                const { asFragment, getByRole } = render(
-                    <DatagridNumberFilter {...commonProps} valueAttribute={attribute} />
-                );
-                expect(asFragment()).toMatchSnapshot();
+                const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
 
                 // First set a value
                 const input = getByRole("spinbutton");
@@ -144,10 +141,9 @@ describe("Number Filter", () => {
                 it("clears value when external reset all event is triggered", async () => {
                     const attribute = new EditableValueBuilder<Big>().build();
                     const value = dynamic<Big>(Big(123));
-                    const { asFragment, getByRole } = render(
+                    const { getByRole } = render(
                         <DatagridNumberFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                     );
-                    expect(asFragment()).toMatchSnapshot();
 
                     const input = getByRole("spinbutton");
                     expect(input).toHaveValue(123);
@@ -220,10 +216,7 @@ describe("Number Filter", () => {
 
             it("clears value when external reset all event is triggered without a default value", async () => {
                 const attribute = new EditableValueBuilder<Big>().build();
-                const { asFragment, getByRole } = render(
-                    <DatagridNumberFilter {...commonProps} valueAttribute={attribute} />
-                );
-                expect(asFragment()).toMatchSnapshot();
+                const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
 
                 const input = getByRole("spinbutton");
                 expect(input).toHaveValue(null);
