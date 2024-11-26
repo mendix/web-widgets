@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, ReactElement, createElement, useRef } from "react";
+import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
@@ -42,6 +42,8 @@ export function SingleSelection({
         readOnly: selector.readOnly
     });
 
+    const selectedItemCaption = useMemo(() => selector.caption.render(selectedItem, "label"), [selectedItem]);
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -77,7 +79,7 @@ export function SingleSelection({
                         isEmpty={!selector.currentId}
                         type={selector.customContentType === "yes" ? "custom" : "text"}
                     >
-                        {selector.caption.render(selectedItem, "label")}
+                        {selectedItemCaption}
                     </InputPlaceholder>
                 </div>
                 {((!selector.readOnly && selector.clearable && selector.currentId !== null) ||
