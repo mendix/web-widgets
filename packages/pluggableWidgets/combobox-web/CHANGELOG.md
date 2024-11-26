@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue when selecting custom content on a single selection combobox. The selected item should show the custom content value.
+
 ## [2.1.1] - 2024-11-15
 
 ### Fixed
