@@ -52,11 +52,11 @@ export class StaticCaptionsProvider implements CaptionsProvider {
             return this.unavailableCaption;
         }
         const captionValue = item.staticDataSourceCaption;
-        if (!captionValue.status || captionValue.status === "unavailable" || !captionValue.value) {
+        if (!captionValue.status || captionValue.status === "unavailable") {
             return this.unavailableCaption;
         }
 
-        return captionValue.value;
+        return captionValue.value?.toString() || "";
     }
 
     getCustomContent(value: string | null): ReactNode | null {
@@ -72,7 +72,6 @@ export class StaticCaptionsProvider implements CaptionsProvider {
 
     render(index: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
         const { customContentType } = this;
-
         return customContentType === "no" ||
             (placement === "label" && customContentType === "listItem") ||
             index === null ? (
