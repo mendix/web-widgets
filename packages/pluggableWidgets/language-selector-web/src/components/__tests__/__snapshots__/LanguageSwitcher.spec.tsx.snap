@@ -7,12 +7,13 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
   >
     <div
       aria-activedescendant=""
-      aria-controls="downshift-0-menu"
-      aria-expanded="false"
+      aria-autocomplete="none"
+      aria-controls=":r0:"
+      aria-expanded="true"
       aria-haspopup="listbox"
       aria-label="Language selector"
       class="popupmenu-trigger popupmenu-trigger-alignment"
-      id="downshift-0-toggle-button"
+      data-floating-ui-inert=""
       role="combobox"
       tabindex="0"
     >
@@ -24,14 +25,19 @@ exports[`Language switcher renders the structure with empty language list 1`] = 
         class="language-arrow"
       >
         <div
-          class="arrow-image arrow-down"
+          class="arrow-image arrow-up"
         />
       </span>
     </div>
     <div
-      class="popupmenu-menu popupmenu-position-left"
-      id="downshift-0-menu"
+      aria-activedescendant=""
+      aria-orientation="vertical"
+      class="popupmenu-menu"
+      data-floating-ui-focusable=""
+      id=":r0:"
       role="listbox"
+      style="position: fixed; left: 0px; top: 0px; outline: 0; overflow-y: auto; transform: translate(0px, 0px);"
+      tabindex="0"
     />
   </div>
 </DocumentFragment>
@@ -44,12 +50,13 @@ exports[`Language switcher renders the structure with language list and selected
   >
     <div
       aria-activedescendant=""
-      aria-controls="downshift-1-menu"
-      aria-expanded="false"
+      aria-autocomplete="none"
+      aria-controls=":r2:"
+      aria-expanded="true"
       aria-haspopup="listbox"
       aria-label="Language selector"
       class="popupmenu-trigger popupmenu-trigger-alignment"
-      id="downshift-1-toggle-button"
+      data-floating-ui-inert=""
       role="combobox"
       tabindex="0"
     >
@@ -63,20 +70,24 @@ exports[`Language switcher renders the structure with language list and selected
         class="language-arrow"
       >
         <div
-          class="arrow-image arrow-down"
+          class="arrow-image arrow-up"
         />
       </span>
     </div>
     <div
-      class="popupmenu-menu popupmenu-position-left"
-      id="downshift-1-menu"
+      aria-activedescendant=""
+      aria-orientation="vertical"
+      class="popupmenu-menu"
+      data-floating-ui-focusable=""
+      id=":r2:"
       role="listbox"
+      style="position: fixed; left: 0px; top: 0px; outline: 0; overflow-y: auto; transform: translate(0px, 0px);"
+      tabindex="-1"
     >
       <div
-        aria-selected="true"
-        class="popupmenu-basic-item active "
-        id="downshift-1-item-0"
+        class="popupmenu-basic-item active highlighted"
         role="option"
+        tabindex="0"
       >
         En us
       </div>

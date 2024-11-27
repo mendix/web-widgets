@@ -1,10 +1,11 @@
 $ls-brand-primary: #264ae5;
+$ls-white: #ffffff;
 
 .navbar-brand {
     .widget-language-selector {
         .current-language-text,
         .language-arrow {
-            color: white;
+            color: var(--bg-color-secondary, $ls-white);
             .arrow-image {
                 filter: invert(1);
             }
@@ -41,7 +42,9 @@ $ls-brand-primary: #264ae5;
         font-size: 14px;
     }
     .popupmenu-menu {
-        background: #fff;
+        background: var(--bg-color-secondary, $ls-white);
+        display: flex;
+        padding: 4px;
         .popupmenu-basic-item {
             &.active {
                 font-weight: 600;
@@ -49,6 +52,11 @@ $ls-brand-primary: #264ae5;
             &.hover,
             &.highlighted {
                 background: #f5f6f6;
+            }
+            &:focus {
+                border-radius: 8px;
+                outline: 2px solid var(--brand-primary, $ls-brand-primary);
+                outline-offset: 0;
             }
         }
     }
