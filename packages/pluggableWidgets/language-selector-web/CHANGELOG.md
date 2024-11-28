@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.3] - 2024-11-28
+
 ### Fixed
 
 -   We fixed an issue where the language selector dropdown would not show properly when inside an accordion.
