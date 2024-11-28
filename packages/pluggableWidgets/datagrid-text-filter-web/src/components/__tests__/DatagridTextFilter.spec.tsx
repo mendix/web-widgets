@@ -106,7 +106,9 @@ describe("Text Filter", () => {
                 await user.clear(input);
                 await user.type(input, "another string");
 
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith("another string");
 
@@ -134,7 +136,9 @@ describe("Text Filter", () => {
                 await user.clear(input);
                 await user.type(input, "another string");
 
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith("another string");
 
@@ -194,7 +198,9 @@ describe("Text Filter", () => {
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(screen.getByRole("textbox"), "B");
 
-                jest.runOnlyPendingTimers();
+                act(() => {
+                    jest.runOnlyPendingTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenCalled();
                 expect(action.execute).toHaveBeenCalled();
@@ -214,7 +220,9 @@ describe("Text Filter", () => {
                 await user.clear(input);
                 await user.type(input, "a string");
 
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith("a string");
 
@@ -243,7 +251,7 @@ describe("Text Filter", () => {
                                 .withType("String")
                                 .withFormatter(
                                     value => value,
-                                    () => console.log("Parsed")
+                                    () => {}
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -254,7 +262,7 @@ describe("Text Filter", () => {
                                 .withType("HashString")
                                 .withFormatter(
                                     value => value,
-                                    () => console.log("Parsed")
+                                    () => {}
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -361,7 +369,7 @@ describe("Text Filter", () => {
                             .withType("String")
                             .withFormatter(
                                 value => value,
-                                () => console.log("Parsed")
+                                () => {}
                             )
                             .withFilterable(true)
                             .build()
