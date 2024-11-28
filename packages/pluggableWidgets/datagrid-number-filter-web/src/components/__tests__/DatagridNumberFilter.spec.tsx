@@ -189,7 +189,7 @@ describe("Number Filter", () => {
                                 .withType("Long")
                                 .withFormatter(
                                     value => value,
-                                    () => console.log("Parsed")
+                                    () => {}
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -200,7 +200,7 @@ describe("Number Filter", () => {
                                 .withType("Decimal")
                                 .withFormatter(
                                     value => value,
-                                    () => console.log("Parsed")
+                                    () => {}
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -360,7 +360,7 @@ describe("Number Filter", () => {
                             .withType("Long")
                             .withFormatter(
                                 value => value,
-                                () => console.log("Parsed")
+                                () => {}
                             )
                             .withFilterable(true)
                             .build()
