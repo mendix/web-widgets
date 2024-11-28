@@ -82,7 +82,9 @@ describe("Number Filter", () => {
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(screen.getByRole("spinbutton"), "10");
 
-                jest.runOnlyPendingTimers();
+                act(() => {
+                    jest.runOnlyPendingTimers();
+                });
 
                 expect(action.execute).toHaveBeenCalledTimes(1);
                 expect(attribute.setValue).toHaveBeenCalledWith(new Big("10"));
@@ -100,7 +102,9 @@ describe("Number Filter", () => {
                 await user.type(input, "42");
 
                 // Run timers for the debounced setValue
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
 
@@ -153,7 +157,9 @@ describe("Number Filter", () => {
                     await user.clear(input);
                     await user.type(input, "42");
 
-                    jest.runAllTimers();
+                    act(() => {
+                        jest.runAllTimers();
+                    });
 
                     expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
 
@@ -224,7 +230,9 @@ describe("Number Filter", () => {
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(input, "42");
 
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
 
@@ -247,7 +255,9 @@ describe("Number Filter", () => {
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(input, "42");
 
-                jest.runAllTimers();
+                act(() => {
+                    jest.runAllTimers();
+                });
 
                 expect(attribute.setValue).toHaveBeenLastCalledWith(Big(42));
 
