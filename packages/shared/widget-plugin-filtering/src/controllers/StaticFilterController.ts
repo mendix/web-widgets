@@ -1,8 +1,8 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { makeObservable, computed, autorun, observable, reaction, action } from "mobx";
-import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
+import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 
 interface CustomOption<T> {
     caption: T;
@@ -61,6 +61,10 @@ export class StaticFilterController {
         return [...this.store.options];
     }
 
+    get searchValue(): string {
+        return this.store.searchBuffer;
+    }
+
     get customOptions(): Array<CustomOption<string>> {
         return this._filterOptions.map(opt => ({
             caption: `${opt.caption?.value}`,
@@ -93,6 +97,10 @@ export class StaticFilterController {
             )
         );
 
+        if (this.store.setup) {
+            disposers.push(this.store.setup());
+        }
+
         return () => disposers.forEach(unsub => unsub());
     }
 
@@ -112,11 +120,16 @@ export class StaticFilterController {
         }
     };
 
+    onSearch = (search: string): void => {
+        this.store.setSearch(search);
+    };
+
     handleResetValue = (useDefaultValue: boolean): void => {
         if (useDefaultValue) {
             this.store.reset();
             return;
         }
+
         this.store.clear();
     };
 
