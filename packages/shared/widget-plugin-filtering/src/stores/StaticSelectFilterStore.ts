@@ -1,10 +1,10 @@
 import { ListAttributeValue } from "mendix";
-import { makeObservable, computed, observable, action, comparer } from "mobx";
-import { OptionListFilterInterface, Option, CustomOption } from "../typings/OptionListFilterInterface";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
-import { equals, literal, attribute, or } from "mendix/filters/builders";
-import { FilterData } from "../typings/settings";
+import { attribute, equals, literal, or } from "mendix/filters/builders";
+import { action, comparer, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { selectedFromCond } from "../condition-utils";
+import { CustomOption, Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { FilterData } from "../typings/settings";
 
 export class StaticSelectFilterStore implements OptionListFilterInterface {
     readonly storeType = "optionlist";
@@ -18,6 +18,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
     _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
+    _search = "";
+    _searchBuffer = "";
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
         this._attributes = attributes;
@@ -26,7 +28,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
             _attributes: observable.ref,
             _selected: observable,
             _customOptions: observable.ref,
+            _search: observable,
+            _searchBuffer: observable,
 
+            allOptions: computed,
             options: computed,
             universe: computed,
             replace: action,
@@ -34,7 +39,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
             updateProps: action,
             fromJSON: action,
             fromViewState: action,
-            setCustomOptions: action
+            setCustomOptions: action,
+            setSearch: action
         });
 
         if (initCond) {
@@ -42,7 +48,19 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         }
     }
 
-    get options(): Option[] {
+    setup(): () => void {
+        return reaction(
+            () => this._searchBuffer.trim(),
+            search =>
+                runInAction(() => {
+                    console.log(search);
+                    this._search = search;
+                }),
+            { delay: 300 }
+        );
+    }
+
+    get allOptions(): Option[] {
         if (this._customOptions.length > 0) {
             return this._customOptions.map(opt => ({ ...opt, selected: this._selected.has(opt.value) }));
         }
@@ -61,6 +79,15 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         return options;
     }
 
+    get options(): Option[] {
+        const options = this.allOptions;
+        if (!this._search) {
+            return options;
+        }
+
+        return options.filter(opt => opt.caption.toLowerCase().includes(this._search.toLowerCase()));
+    }
+
     get universe(): Set<string> {
         return new Set(this._attributes.flatMap(attr => Array.from(attr.universe ?? [], value => `${value}`)));
     }
@@ -71,6 +98,10 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
             return cond ? [cond] : [];
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
+    }
+
+    get searchBuffer(): string {
+        return this._searchBuffer;
     }
 
     UNSAFE_setDefaults = (value?: string[]): void => {
@@ -128,8 +159,8 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         console.warn("StaticSelectFilterStore: calling loadMore has no effect.");
     }
 
-    setSearch(): void {
-        console.warn("StaticSelectFilterStore: calling setSearch has no effect.");
+    setSearch(value: string | undefined | null): void {
+        this._searchBuffer = value ?? "";
     }
 
     toJSON(): string[] {
