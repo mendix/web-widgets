@@ -7,13 +7,13 @@ import {
     ObjectItem
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
-import { association, contains, empty, equals, literal, or, attribute } from "mendix/filters/builders";
+import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
+import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { FilterData } from "../typings/settings";
-import { isInputData } from "./store-utils";
 import { Dispose } from "../typings/type-utils";
+import { isInputData } from "./store-utils";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -171,6 +171,10 @@ export class RefFilterStore implements OptionListFilterInterface {
             this.disposers.forEach(dispose => dispose());
             this.disposers.length = 0;
         };
+    }
+
+    get searchBuffer(): string {
+        return "";
     }
 
     UNSAFE_setDefaults = (_: string[]): void => {
