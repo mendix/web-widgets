@@ -59,6 +59,7 @@ export function ListSearch(props: ListSearchProps): React.ReactElement {
                     margin: 0;
                     padding: 0;
                     list-style: none;
+                    background: #fff;
                 }
                 .highlighted {
                     background-color: #f0f0f0;
