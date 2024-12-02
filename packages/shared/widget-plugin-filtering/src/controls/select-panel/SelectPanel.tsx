@@ -20,18 +20,19 @@ interface SelectPanelProps {
     onSelect: (value: string | null) => void;
     searchValue: string;
     onSearch: (value: string) => void;
+    onTriggerClick?: () => void;
 }
 
 export function SelectPanel(props: SelectPanelProps): React.ReactElement {
     const placeholder = props.placeholder ?? "Select";
-    const { triggerProps, dialogProps, isOpen, context, clearProps } = useSelectPanel(props);
+    const { triggerProps, dialogProps, isOpen, context, clearProps, setIsOpen } = useSelectPanel(props);
     return (
         <Fragment>
             <SelectControl triggerProps={triggerProps} clearProps={clearProps}>
                 {props.value || placeholder}
             </SelectControl>
             {isOpen && (
-                <FloatingFocusManager context={context} modal>
+                <FloatingFocusManager context={context} modal={false}>
                     <section className="select-dialog" {...dialogProps}>
                         <div className="header">
                             <h3>Select value</h3>
@@ -42,6 +43,7 @@ export function SelectPanel(props: SelectPanelProps): React.ReactElement {
                                 options={props.options}
                                 onSelect={props.onSelect}
                                 onSearch={props.onSearch}
+                                onSearchBlur={() => setIsOpen(false)}
                             />
                         </div>
                     </section>
@@ -57,9 +59,11 @@ interface ViewProps {
     clearProps: JSX.IntrinsicElements["button"];
     context: FloatingContext;
     isOpen: boolean;
+    setIsOpen: (open: boolean) => void;
 }
 
-function useSelectPanel({ onSelect }: { onSelect: (value: string | null) => void }): ViewProps {
+function useSelectPanel(props: SelectPanelProps): ViewProps {
+    const { onSelect } = props;
     const [isOpen, setIsOpen] = useState(false);
 
     const { refs, floatingStyles, context } = useFloating({
@@ -77,7 +81,9 @@ function useSelectPanel({ onSelect }: { onSelect: (value: string | null) => void
 
     const triggerProps = {
         ref: refs.setReference,
-        ...getReferenceProps(),
+        ...getReferenceProps({
+            onClick: props.onTriggerClick
+        }),
         onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => {
             if (event.key === "Backspace" || event.key === "Delete") {
                 onSelect(null);
@@ -100,6 +106,7 @@ function useSelectPanel({ onSelect }: { onSelect: (value: string | null) => void
         triggerProps,
         context,
         isOpen,
-        clearProps
+        clearProps,
+        setIsOpen
     };
 }

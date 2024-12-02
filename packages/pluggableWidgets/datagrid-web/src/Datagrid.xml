@@ -136,6 +136,13 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
+                            <property key="filterAssociationSearchAttribute" type="attribute" dataSource="filterAssociationOptions" required="false">
+                                <caption>search attribute</caption>
+                                <description />
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                </attributeTypes>
+                            </property>
                             <property key="visible" type="expression" required="true" defaultValue="true">
                                 <caption>Visible</caption>
                                 <description />

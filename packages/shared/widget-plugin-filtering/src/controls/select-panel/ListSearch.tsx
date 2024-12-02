@@ -16,6 +16,7 @@ interface ListSearchProps {
         highlightedItem?: string;
         selectedItem?: string;
     };
+    onSearchBlur?: () => void;
 }
 
 export function ListSearch(props: ListSearchProps): React.ReactElement {
@@ -31,6 +32,7 @@ export function ListSearch(props: ListSearchProps): React.ReactElement {
     const { getInputProps, getMenuProps, getItemProps, highlightedIndex } = useCombobox({
         items: options,
         selectedItem: null,
+        defaultHighlightedIndex: 0,
         onInputValueChange: useCallback(
             ({ inputValue }: { inputValue: string }) => {
                 console.log("inputValue (ListBox)", inputValue);
@@ -71,7 +73,7 @@ export function ListSearch(props: ListSearchProps): React.ReactElement {
                 `}
             </style>
             <div className={cn(search)}>
-                <input type="text" {...getInputProps()} />
+                <input type="text" {...getInputProps({ onBlur: props.onSearchBlur })} />
             </div>
             <ul className={cn(listbox)} {...getMenuProps({ "aria-multiselectable": multiselect })}>
                 {options.map((option, index) => (
