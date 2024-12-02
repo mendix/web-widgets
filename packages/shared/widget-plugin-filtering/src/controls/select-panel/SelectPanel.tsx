@@ -1,4 +1,4 @@
-import { createElement, useState, Fragment } from "react";
+import { createElement, useState, Fragment, useCallback } from "react";
 import {
     useFloating,
     useClick,
@@ -11,30 +11,28 @@ import {
 } from "@floating-ui/react";
 import { Option } from "../../typings/OptionListFilterInterface";
 import { ListSearch } from "./ListSearch";
+import { SelectControl } from "../kit/SelectControl";
 
 interface SelectPanelProps {
     options: Option[];
     value: string;
+    placeholder?: string;
+    onSelect: (value: string | null) => void;
     searchValue: string;
-    onSelect: (value: string) => void;
     onSearch: (value: string) => void;
 }
+
 export function SelectPanel(props: SelectPanelProps): React.ReactElement {
-    const { triggerProps, dialogProps, isOpen, context } = useSelectPanel(props);
+    const placeholder = props.placeholder ?? "Select";
+    const { triggerProps, dialogProps, isOpen, context, clearProps } = useSelectPanel(props);
     return (
         <Fragment>
-            <div className="select-panel-control form-control">
-                <button {...triggerProps} className="trigger">
-                    {triggerProps.children}
-                    <span aria-hidden>&#8595;</span>
-                </button>
-                <button className="clear" aria-hidden tabIndex={-1}>
-                    x
-                </button>
-            </div>
+            <SelectControl triggerProps={triggerProps} clearProps={clearProps}>
+                {props.value || placeholder}
+            </SelectControl>
             {isOpen && (
                 <FloatingFocusManager context={context} modal>
-                    <section className="select-panel-dialog" {...dialogProps}>
+                    <section className="select-dialog" {...dialogProps}>
                         <div className="header">
                             <h3>Select value</h3>
                         </div>
@@ -56,11 +54,12 @@ export function SelectPanel(props: SelectPanelProps): React.ReactElement {
 interface ViewProps {
     triggerProps: JSX.IntrinsicElements["button"];
     dialogProps: JSX.IntrinsicElements["div"];
+    clearProps: JSX.IntrinsicElements["button"];
     context: FloatingContext;
     isOpen: boolean;
 }
 
-function useSelectPanel(props: { value: string }): ViewProps {
+function useSelectPanel({ onSelect }: { onSelect: (value: string | null) => void }): ViewProps {
     const [isOpen, setIsOpen] = useState(false);
 
     const { refs, floatingStyles, context } = useFloating({
@@ -75,10 +74,15 @@ function useSelectPanel(props: { value: string }): ViewProps {
     const dismiss = useDismiss(context);
     const role = useRole(context);
     const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
+
     const triggerProps = {
         ref: refs.setReference,
         ...getReferenceProps(),
-        children: props.value || "Select"
+        onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => {
+            if (event.key === "Backspace" || event.key === "Delete") {
+                onSelect(null);
+            }
+        }
     };
 
     const dialogProps = {
@@ -87,10 +91,15 @@ function useSelectPanel(props: { value: string }): ViewProps {
         ...getFloatingProps()
     };
 
+    const clearProps = {
+        onClick: useCallback(() => onSelect(null), [onSelect])
+    };
+
     return {
         dialogProps,
         triggerProps,
         context,
-        isOpen
+        isOpen,
+        clearProps
     };
 }

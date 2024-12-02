@@ -1,6 +1,7 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { SelectPanel } from "@mendix/widget-plugin-filtering/controls";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select-next/Select";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 // import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ActionValue, EditableValue } from "mendix";
@@ -42,6 +43,12 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         widgetName: props.name,
         listener: controller.handleSetValue
     });
+
+    const USE_SELECT = true;
+
+    if (USE_SELECT) {
+        return <Select options={controller.options} onSelect={controller.onSelect} value={controller.inputValue} />;
+    }
 
     return (
         <SelectPanel
