@@ -10,7 +10,7 @@ import {
     FloatingContext
 } from "@floating-ui/react";
 import { Option } from "../../typings/OptionListFilterInterface";
-import { ListBoxWithSearch } from "./ListBoxWithSearch";
+import { ListSearch } from "./ListSearch";
 
 interface SelectPanelProps {
     options: Option[];
@@ -39,7 +39,7 @@ export function SelectPanel(props: SelectPanelProps): React.ReactElement {
                             <h3>Select value</h3>
                         </div>
                         <div className="body">
-                            <ListBoxWithSearch
+                            <ListSearch
                                 searchValue={props.searchValue}
                                 options={props.options}
                                 onSelect={props.onSelect}
