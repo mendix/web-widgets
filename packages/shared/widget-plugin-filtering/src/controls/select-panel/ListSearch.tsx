@@ -1,9 +1,9 @@
-import { createElement, Fragment } from "react";
+import { createElement, Fragment, useCallback } from "react";
 import cn from "classnames";
 import { Option } from "../../typings/OptionListFilterInterface";
 import { useCombobox, UseComboboxState, UseComboboxStateChangeOptions } from "downshift";
 
-interface ListBoxWithSearchProps {
+interface ListSearchProps {
     options: Option[];
     onSelect: (value: string) => void;
     onSearch: (search: string) => void;
@@ -18,7 +18,7 @@ interface ListBoxWithSearchProps {
     };
 }
 
-export function ListBoxWithSearch(props: ListBoxWithSearchProps): React.ReactElement {
+export function ListSearch(props: ListSearchProps): React.ReactElement {
     const { options, classNames = {}, onSearch, onSelect, multiselect = false } = props;
     const {
         search = "search-field",
@@ -31,17 +31,20 @@ export function ListBoxWithSearch(props: ListBoxWithSearchProps): React.ReactEle
     const { getInputProps, getMenuProps, getItemProps, highlightedIndex } = useCombobox({
         items: options,
         selectedItem: null,
-        onInputValueChange: ({ inputValue }) => {
-            console.log("inputValue (ListBox)", inputValue);
-            onSearch(inputValue);
-        },
-        onSelectedItemChange: ({ selectedItem }) => {
-            if (!selectedItem) {
-                return;
-            }
-            console.log("selectedItem (ListBox)", selectedItem);
-            onSelect(selectedItem.value);
-        },
+        onInputValueChange: useCallback(
+            ({ inputValue }: { inputValue: string }) => {
+                console.log("inputValue (ListBox)", inputValue);
+                onSearch(inputValue);
+            },
+            [onSearch]
+        ),
+        onSelectedItemChange: useCallback(
+            ({ selectedItem }: { selectedItem: Option }) => {
+                console.log("selectedItem (ListBox)", selectedItem);
+                onSelect(selectedItem.value);
+            },
+            [onSelect]
+        ),
         stateReducer,
         isOpen: true,
         itemToString,
