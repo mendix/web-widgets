@@ -15,7 +15,7 @@ export interface OptionListFilterInterface {
     options: Option[];
     isLoading: boolean;
     hasMore: boolean;
-    hasSearch: boolean;
+    canSearch: boolean;
     selectedCount?: number;
     searchBuffer: string;
     replace(value: string[]): void;
