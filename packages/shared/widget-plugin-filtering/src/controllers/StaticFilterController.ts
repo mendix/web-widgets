@@ -110,9 +110,10 @@ export class StaticFilterController {
         this.savedValueAttribute = props.valueAttribute;
     }
 
-    onSelect = (value: string): void => {
-        if (value === this.empty.value) {
+    onSelect = (value: string | null): void => {
+        if (value === this.empty.value || value === null) {
             this.store.replace([]);
+            this.store.setSearch("");
         } else if (this.multiselect) {
             this.store.toggle(value);
         } else {
