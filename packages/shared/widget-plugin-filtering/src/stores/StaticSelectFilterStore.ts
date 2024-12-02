@@ -11,7 +11,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
     readonly type = "select";
     readonly isLoading = false;
     readonly hasMore = false;
-    readonly hasSearch = false;
+    readonly canSearch = false;
     defaultValue: string[] | undefined = undefined;
     isInitialized = false;
 
@@ -53,7 +53,6 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
             () => this._searchBuffer.trim(),
             search =>
                 runInAction(() => {
-                    console.log(search);
                     this._search = search;
                 }),
             { delay: 300 }

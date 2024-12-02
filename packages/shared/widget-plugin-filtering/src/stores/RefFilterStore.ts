@@ -8,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
 import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { FilterData } from "../typings/settings";
@@ -44,6 +44,8 @@ export class RefFilterStore implements OptionListFilterInterface {
      */
     readonly _initCond: FilterCondition | undefined;
     readonly _initCondArray: Array<EqualsCondition | ContainsCondition>;
+    _search = "";
+    _searchBuffer = "";
 
     constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
         this._ref = props.ref;
@@ -62,15 +64,22 @@ export class RefFilterStore implements OptionListFilterInterface {
             _refOptions: observable.ref,
             _caption: observable.ref,
             _selectedDraft: observable,
+            _search: observable,
+            _searchBuffer: observable,
+
             selected: computed,
             options: computed,
+            allOptions: computed,
             hasMore: computed,
+            canSearch: computed,
+            canSearchInPlace: computed,
             isLoading: computed,
             allIds: computed.struct,
             replace: action,
             toggle: action,
             updateProps: action,
-            fromJSON: action
+            fromJSON: action,
+            setSearch: action
         });
 
         if (initCond) {
@@ -78,8 +87,12 @@ export class RefFilterStore implements OptionListFilterInterface {
         }
     }
 
-    get hasSearch(): boolean {
+    get canSearch(): boolean {
         return this._searchAttrId !== undefined;
+    }
+
+    get canSearchInPlace(): boolean {
+        return this.canSearch && !this.hasMore;
     }
 
     get hasMore(): boolean {
@@ -91,6 +104,20 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     get options(): Option[] {
+        const options = this.allOptions;
+
+        if (!this._search) {
+            return options;
+        }
+
+        if (this.canSearchInPlace) {
+            return options.filter(opt => opt.caption.toLowerCase().includes(this._search.toLowerCase()));
+        }
+
+        return options;
+    }
+
+    get allOptions(): Option[] {
         const items = this._refOptions.items ?? [];
         return items.map(obj => ({
             caption: `${this._caption.get(obj).value}`,
@@ -167,6 +194,33 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     setup(): Dispose {
+        this.disposers.push(
+            reaction(
+                () => this._searchBuffer.trim(),
+                search =>
+                    runInAction(() => {
+                        this._search = search;
+                    }),
+                { delay: 300 }
+            )
+        );
+
+        this.disposers.push(
+            reaction(
+                () => this._search,
+                term => {
+                    if (!this._searchAttrId || this.canSearchInPlace) {
+                        return;
+                    }
+                    const search =
+                        typeof term === "string" && term !== ""
+                            ? contains(attribute(this._searchAttrId), literal(term))
+                            : undefined;
+                    this._refOptions.setFilter(search);
+                }
+            )
+        );
+
         return () => {
             this.disposers.forEach(dispose => dispose());
             this.disposers.length = 0;
@@ -174,7 +228,7 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     get searchBuffer(): string {
-        return "";
+        return this._searchBuffer;
     }
 
     UNSAFE_setDefaults = (_: string[]): void => {
@@ -213,15 +267,8 @@ export class RefFilterStore implements OptionListFilterInterface {
         this._refOptions.setLimit(this._refOptions.limit + 30);
     }
 
-    setSearch(term: string | undefined): void {
-        if (!this._searchAttrId) {
-            return;
-        }
-        const search =
-            typeof term === "string" && term !== ""
-                ? contains(attribute(this._searchAttrId), literal(term))
-                : undefined;
-        this._refOptions.setFilter(search);
+    setSearch(value: string | undefined | null): void {
+        this._searchBuffer = value ?? "";
     }
 
     toJSON(): string[] {

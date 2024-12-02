@@ -60,6 +60,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
             refOptions: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
             caption: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel")),
+            searchAttrId: props.filterAssociationSearchAttribute?.id,
             fetchOptionsLazy: props.fetchOptionsLazy
         };
     }
