@@ -34,7 +34,10 @@ test.describe("with single target", () => {
 
     test("updates target attributes using a NF", async ({ page }) => {
         await page.locator(".mx-name-radioButtons2 input").first().click();
+        await page.locator(".mx-name-radioButtons2 input").first().click();
         await page.locator(".mx-name-radioButtons1 input").first().click();
+        await page.locator(".mx-name-radioButtons1 input").first().click();
+        await page.locator(".mx-name-actionButton1").click();
         await page.locator(".mx-name-actionButton1").click();
         await expect(await page.locator(".mx-name-text3").getAttribute("expressionValue")).toBe("NF changes");
     });
@@ -59,7 +62,9 @@ test.describe("with single target", () => {
     test.describe("with multiple targets", () => {
         test("sets attributes when condition is true", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
+            await page.click(".mx-name-actionButton2");
             await page.waitForLoadState("networkidle");
+            await page.click(".mx-name-radioButtons2 input:first-child");
             await page.click(".mx-name-radioButtons2 input:first-child");
             await expect(page.locator(".mx-name-text3")).toHaveAttribute("trueCondition", "true");
             await expect(page.locator(".mx-name-text4")).toHaveAttribute("trueCondition", "true");
@@ -69,6 +74,7 @@ test.describe("with single target", () => {
             await page.click(".mx-name-actionButton2");
             await page.waitForLoadState("networkidle");
             await page.click(".mx-name-radioButtons2 input:first-child");
+            await page.click(".mx-name-radioButtons2 input:first-child");
             await expect(page.locator(".mx-name-text3")).not.toHaveAttribute("a11yhelper", "a11yhelper");
             await expect(page.locator(".mx-name-text4")).not.toHaveAttribute("a11yhelper", "a11yhelper");
         });
@@ -77,7 +83,9 @@ test.describe("with single target", () => {
             await page.click(".mx-name-actionButton2");
             await page.waitForLoadState("networkidle");
             await page.click(".mx-name-radioButtons2 input:first-child");
+            await page.click(".mx-name-radioButtons2 input:first-child");
             await page.locator(".mx-name-textBox1 input").fill("test", { force: true });
+            await page.click(".mx-name-radioButtons1 input:first-child");
             await page.click(".mx-name-radioButtons1 input:first-child");
             await expect(page.locator(".mx-name-text3")).toHaveAttribute("expressionValue", "test");
             await expect(page.locator(".mx-name-text4")).toHaveAttribute("expressionValue", "test");
@@ -85,9 +93,13 @@ test.describe("with single target", () => {
 
         test("updates target attributes using a NF", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
+            await page.click(".mx-name-actionButton2");
             await page.waitForLoadState("networkidle");
             await page.click(".mx-name-radioButtons2 input:first-child");
+            await page.click(".mx-name-radioButtons2 input:first-child");
             await page.click(".mx-name-radioButtons1 input:first-child");
+            await page.click(".mx-name-radioButtons1 input:first-child");
+            await page.click(".mx-name-actionButton1");
             await page.click(".mx-name-actionButton1");
             await expect(page.locator(".mx-name-text3")).toHaveAttribute("expressionValue", "NF changes");
             await expect(page.locator(".mx-name-text4")).toHaveAttribute("expressionValue", "NF changes");
@@ -110,12 +122,17 @@ test.describe("with single target", () => {
             page
         }) => {
             await page.click(".mx-name-actionButton2");
+            await page.click(".mx-name-actionButton2");
             await page.waitForLoadState("networkidle");
             await page.click(".mx-name-radioButtons2 input:first-child");
+            await page.click(".mx-name-radioButtons2 input:first-child");
+            await page.click(".mx-name-radioButtons1 input:first-child");
             await page.click(".mx-name-radioButtons1 input:first-child");
             await expect(page.locator(".mx-name-text3")).toHaveAttribute("a11yhelper", /a11yhelper/);
             await expect(page.locator(".mx-name-text4")).toHaveAttribute("a11yhelper", /a11yhelper/);
             await page.click(".mx-name-radioButtons1 input");
+            await page.click(".mx-name-radioButtons1 input");
+            await page.click(".mx-name-radioButtons1 input:first-child");
             await page.click(".mx-name-radioButtons1 input:first-child");
             await expect(page.locator(".mx-name-text3")).toHaveAttribute("a11yhelper", /a11yhelper/);
             await expect(page.locator(".mx-name-text4")).toHaveAttribute("a11yhelper", /a11yhelper/);
