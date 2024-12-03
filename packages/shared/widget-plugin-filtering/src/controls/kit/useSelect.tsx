@@ -1,23 +1,24 @@
+import { autoUpdate, useFloating } from "@floating-ui/react-dom";
 import { UseSelectPropGetters, useSelect as useDownshiftSelect } from "downshift";
-import { useFloating, autoUpdate } from "@floating-ui/react-dom";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 interface Option {
     value: string;
-    label: string;
+    caption: string;
 }
 
 interface useSelectProps {
     ariaLabel?: string;
-    value: string;
-    onChange: (value: string) => void;
+    onSelect: (value: string | null) => void;
     options: Option[];
+    value: string;
 }
 
 interface ViewProps {
     open: boolean;
-    buttonProps: JSX.IntrinsicElements["button"];
+    triggerProps: JSX.IntrinsicElements["button"];
     listboxProps: JSX.IntrinsicElements["ul"];
+    clearProps: JSX.IntrinsicElements["button"];
     getItemProps: UseSelectPropGetters<Option>["getItemProps"];
     selectedItem: Option | null;
     highlightedIndex: number;
@@ -25,6 +26,7 @@ interface ViewProps {
 }
 
 export function useSelect(props: useSelectProps): ViewProps {
+    const { onSelect } = props;
     const selectedItem = useMemo(
         () => props.options.find(item => item.value === props.value) ?? null,
         [props.options, props.value]
@@ -34,7 +36,7 @@ export function useSelect(props: useSelectProps): ViewProps {
         items: props.options,
         selectedItem,
         itemToString,
-        onSelectedItemChange: ({ selectedItem }) => props.onChange(selectedItem.value)
+        onSelectedItemChange: ({ selectedItem }) => props.onSelect(selectedItem.value)
     });
 
     const { refs, floatingStyles } = useFloating({
@@ -45,19 +47,31 @@ export function useSelect(props: useSelectProps): ViewProps {
     });
 
     const listboxLabel = props.ariaLabel || "Select filter type";
-    const buttonLabel = selectedItem?.label || listboxLabel;
+    const buttonLabel = selectedItem?.caption || listboxLabel;
+
     const buttonProps = getToggleButtonProps({
         "aria-label": buttonLabel,
-        ref: refs.setReference
+        ref: refs.setReference,
+        onKeyDown: event => {
+            if (event.key === "Backspace" || event.key === "Delete") {
+                onSelect(null);
+            }
+        }
     });
+
     const listboxProps = getMenuProps({
         "aria-label": listboxLabel,
         ref: refs.setFloating
     });
 
+    const clearProps = {
+        onClick: useCallback(() => onSelect(null), [onSelect])
+    };
+
     return {
         open: isOpen,
-        buttonProps,
+        triggerProps: buttonProps,
+        clearProps,
         listboxProps,
         getItemProps,
         selectedItem,
@@ -66,4 +80,4 @@ export function useSelect(props: useSelectProps): ViewProps {
     };
 }
 
-const itemToString = (item: Option | null): string => (item ? item.label : "");
+const itemToString = (item: Option | null): string => (item ? item.caption : "");

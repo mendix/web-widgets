@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { createElement } from "react";
-import { useSelect } from "./useSelect";
+import { createElement, useMemo } from "react";
+import { useSelect } from "../kit/useSelect";
 
 interface Option {
     value: string;
@@ -10,13 +10,24 @@ interface Option {
 interface FilterSelectorProps {
     ariaLabel?: string;
     value: string;
-    onChange: (value: string) => void;
+    onSelect: (value: string) => void;
     options: Option[];
 }
 
 export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
-    const { open, buttonProps, listboxProps, getItemProps, selectedItem, highlightedIndex, floatingStyles } =
-        useSelect(props);
+    const options = useMemo(
+        () => props.options.map(option => ({ value: option.value, caption: option.label })),
+        [props.options]
+    );
+    const {
+        open,
+        triggerProps: buttonProps,
+        listboxProps,
+        getItemProps,
+        selectedItem,
+        highlightedIndex,
+        floatingStyles
+    } = useSelect({ ...props, options });
 
     return (
         <div className="filter-selector">
@@ -33,7 +44,7 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
                     style={floatingStyles}
                 >
                     {open &&
-                        props.options.map((item, index) => (
+                        options.map((item, index) => (
                             <li
                                 className={classNames("filter-listitem", {
                                     "filter-selected": selectedItem?.value === item.value,
@@ -43,7 +54,7 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
                                 {...getItemProps({ item, index })}
                             >
                                 <div className={classNames("filter-icon", item.value)} aria-hidden />
-                                <div className="filter-label">{item.label}</div>
+                                <div className="filter-label">{item.caption}</div>
                             </li>
                         ))}
                 </ul>

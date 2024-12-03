@@ -42,6 +42,7 @@
         "jest-environment-jsdom": "^29.4.1"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.26.27",
         "@floating-ui/react-dom": "^2.1.2",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",

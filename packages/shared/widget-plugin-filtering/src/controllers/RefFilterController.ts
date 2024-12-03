@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
-import { makeObservable, computed } from "mobx";
-import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { computed, makeObservable } from "mobx";
+import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 import { Dispose } from "../typings/type-utils";
 
 type Params = {
@@ -29,7 +29,8 @@ export class RefFilterController {
         this.onChange = params.onChange;
 
         makeObservable(this, {
-            inputValue: computed
+            inputValue: computed,
+            searchValue: computed
         });
     }
 
@@ -51,6 +52,10 @@ export class RefFilterController {
 
         // We have all captions.
         return captions.join(",");
+    }
+
+    get searchValue(): string {
+        return this.store.searchBuffer;
     }
 
     get options(): Option[] {
@@ -75,6 +80,10 @@ export class RefFilterController {
         }
 
         executeAction(this.onChange);
+    };
+
+    handleSearch = (search: string): void => {
+        this.store.setSearch(search);
     };
 
     handleTriggerClick = (): void => {
