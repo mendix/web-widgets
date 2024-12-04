@@ -16,6 +16,7 @@ import { createContext, createElement } from "react";
 import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
+import { resetIdCounter } from "downshift";
 
 export interface StaticInfo {
     name: string;
@@ -38,6 +39,15 @@ const headerFilterStoreInfo: StaticInfo = {
 };
 
 jest.useFakeTimers();
+
+beforeEach(() => {
+    jest.spyOn(console, "warn").mockImplementation(() => {
+        // noop
+    });
+    resetIdCounter();
+});
+
+afterEach(() => (console.warn as jest.Mock).mockRestore());
 
 describe("Number Filter", () => {
     describe("with single instance", () => {
@@ -189,7 +199,9 @@ describe("Number Filter", () => {
                                 .withType("Long")
                                 .withFormatter(
                                     value => value,
-                                    () => {}
+                                    () => {
+                                        // noop
+                                    }
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -200,7 +212,9 @@ describe("Number Filter", () => {
                                 .withType("Decimal")
                                 .withFormatter(
                                     value => value,
-                                    () => {}
+                                    () => {
+                                        // noop
+                                    }
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -360,7 +374,9 @@ describe("Number Filter", () => {
                             .withType("Long")
                             .withFormatter(
                                 value => value,
-                                () => {}
+                                () => {
+                                    // noop
+                                }
                             )
                             .withFilterable(true)
                             .build()

@@ -13,6 +13,7 @@ import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
+import { resetIdCounter } from "downshift";
 
 export interface StaticInfo {
     name: string;
@@ -35,6 +36,15 @@ const headerFilterStoreInfo: StaticInfo = {
 };
 
 jest.useFakeTimers();
+
+beforeEach(() => {
+    jest.spyOn(console, "warn").mockImplementation(() => {
+        // noop
+    });
+    resetIdCounter();
+});
+
+afterEach(() => (console.warn as jest.Mock).mockRestore());
 
 describe("Text Filter", () => {
     describe("with single instance", () => {
@@ -251,7 +261,9 @@ describe("Text Filter", () => {
                                 .withType("String")
                                 .withFormatter(
                                     value => value,
-                                    () => {}
+                                    () => {
+                                        //
+                                    }
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -262,7 +274,9 @@ describe("Text Filter", () => {
                                 .withType("HashString")
                                 .withFormatter(
                                     value => value,
-                                    () => {}
+                                    () => {
+                                        //
+                                    }
                                 )
                                 .withFilterable(true)
                                 .build()
@@ -369,7 +383,9 @@ describe("Text Filter", () => {
                             .withType("String")
                             .withFormatter(
                                 value => value,
-                                () => {}
+                                () => {
+                                    //
+                                }
                             )
                             .withFilterable(true)
                             .build()
