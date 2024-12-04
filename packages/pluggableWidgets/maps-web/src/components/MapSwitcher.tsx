@@ -1,9 +1,9 @@
 import { createElement, ReactElement } from "react";
 import { GoogleMapContainer, GoogleMapsProps } from "./GoogleMap";
-import { LeafletMap, LeafletProps } from "./LeafletMap";
+import { MapLibreComponent, MapLibreProps } from "./MapLibreComponent";
 
-interface SwitcherProps extends GoogleMapsProps, LeafletProps {}
+interface SwitcherProps extends GoogleMapsProps, MapLibreProps {}
 
 export const MapSwitcher = (props: SwitcherProps): ReactElement => {
-    return props.mapProvider === "googleMaps" ? <GoogleMapContainer {...props} /> : <LeafletMap {...props} />;
+    return props.mapProvider === "googleMaps" ? <GoogleMapContainer {...props} /> : <MapLibreComponent {...props} />;
 };

@@ -51,15 +51,14 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@types/deep-equal": "^1.0.1",
-        "@types/leaflet": "^1.9.3",
-        "@types/react-leaflet": "^2.8.3",
+        "@types/maplibre-gl": "^1.14.0",
         "cross-env": "^7.0.3"
     },
     "dependencies": {
         "@vis.gl/react-google-maps": "^0.8.3",
         "classnames": "^2.3.2",
         "deep-equal": "^2.2.3",
-        "leaflet": "^1.9.4",
-        "react-leaflet": "^4.2.1"
+        "maplibre-gl": "^3.6.2",
+        "react-map-gl": "^7.1.6"
     }
 }
