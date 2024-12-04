@@ -1,8 +1,8 @@
-import { ListValue, ObjectItem } from "mendix";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
+import Big from "big.js";
+import { ListValue, ObjectItem, ValueStatus } from "mendix";
 import { Emitter, Unsubscribe, createNanoEvents } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
-import Big from "big.js";
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 
 type RowData = Array<string | number | boolean>;
 
@@ -51,10 +51,12 @@ export class DSExportRequest {
     private columns: ColumnsType[];
     private offset = 0;
     private loaded = 0;
-    private limit = 100;
+    private limit = 10;
     private totalCount: number | undefined = undefined;
     private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
+    private getters: Array<{ get: (item: unknown) => { status: ValueStatus } }> = [];
+    private readTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
     constructor(params: RequestParams) {
         const { ds, columns, withHeaders = false, limit = 0 } = params;
@@ -63,6 +65,7 @@ export class DSExportRequest {
         this.datasource = ds;
         this.totalCount = ds.totalCount;
         this.columns = columns;
+        this.getters = this.getGetters(columns);
         this.shouldSendHeaders = withHeaders;
     }
 
@@ -135,13 +138,14 @@ export class DSExportRequest {
                 this.sendHeaders();
                 this.shouldSendHeaders = false;
             }
-            this.read();
+            setTimeout(() => this.read(), 0);
         }
     };
 
     onpropertieschange = (columns: ColumnsType[]): void => {
         if (this._status === "reading") {
             this.columns = columns;
+            this.getters = this.getGetters(columns);
             this.read();
         }
     };
@@ -160,28 +164,40 @@ export class DSExportRequest {
     private read(): void {
         this._status = "reading";
         const { items = [] } = this.datasource;
-        const isReady = items.every(item => {
-            return this.columns.every(column => {
-                let status: string | undefined;
-                if (column.showContentAs === "attribute") {
-                    status = column.attribute?.get(item).status;
-                } else if (column.showContentAs === "dynamicText") {
-                    status = column.dynamicText?.get(item).status;
-                } else if (column.exportValue) {
-                    status = column.exportValue.get(item).status;
-                } else {
-                    status = "available";
-                }
-                return status !== "loading";
-            });
-        });
+        let isReady = true;
+        let rowIndex = 0;
+        const len = items.length;
+        const chunkSize = 100;
 
+        clearTimeout(this.readTimeoutId);
+
+        const processChunk = (): void => {
+            const end = Math.min(rowIndex + chunkSize, len);
+
+            for (; rowIndex < end; rowIndex++) {
+                for (const prop of this.getters) {
+                    isReady &&= prop.get(items[rowIndex]).status !== "loading";
+                }
+            }
+
+            if (rowIndex < len) {
+                this.readTimeoutId = setTimeout(processChunk);
+            } else {
+                this.finalizeRead(isReady, items);
+                this.readTimeoutId = undefined;
+            }
+        };
+
+        clearTimeout(this.readTimeoutId);
+        this.readTimeoutId = setTimeout(processChunk);
+    }
+
+    private finalizeRead(isReady: boolean, items: ObjectItem[]): void {
         if (!isReady) {
             return;
         }
 
         const chunk = readChunk(items, this.columns);
-
         this.sendChunk(chunk);
 
         if (this.datasource.hasMoreItems) {
@@ -213,6 +229,19 @@ export class DSExportRequest {
 
     private dispose(): void {
         this.emitter.events = {};
+    }
+
+    private getGetters(columns: ColumnsType[]): Array<{ get: (item: unknown) => { status: ValueStatus } }> {
+        return columns.map(col => {
+            let prop =
+                col.showContentAs === "attribute"
+                    ? col.attribute
+                    : col.showContentAs === "dynamicText"
+                    ? col.dynamicText
+                    : col.exportValue;
+            prop ??= { get: () => ({ status: ValueStatus.Available, value: "n/a" }) };
+            return prop;
+        });
     }
 }
 
