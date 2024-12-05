@@ -71,7 +71,7 @@ export const usePieChartDataSeries = ({
         tooltipHoverText
     ]);
 
-    const onClick = useMemo(() => (onClickAction ? () => executeAction(onClickAction) : undefined), [onClickAction]);
+    const onClick = onClickAction ? (item: ObjectItem) => executeAction(onClickAction?.get(item)) : undefined;
 
     return useMemo<ChartWidgetProps["data"]>(
         () => [
