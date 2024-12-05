@@ -111,7 +111,7 @@ function sortDatasourceItems(
     items: ObjectItem[],
     seriesSortOrder: "asc" | "desc",
     seriesSortAttribute: PieChartContainerProps["seriesSortAttribute"]
-) {
+): ObjectItem[] {
     const sortedItems = [...items].sort((firstItem, secondItem) => {
         const first = seriesSortAttribute?.get(firstItem).value;
         const second = seriesSortAttribute?.get(secondItem).value;

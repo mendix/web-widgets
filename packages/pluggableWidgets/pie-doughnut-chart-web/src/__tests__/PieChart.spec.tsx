@@ -82,6 +82,10 @@ describe("The PieChart widget", () => {
             seriesSortAttribute.get = jest
                 .fn()
                 .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
                 .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build());
 
             const pieChart = renderPieChart({ seriesSortAttribute });
@@ -96,6 +100,10 @@ describe("The PieChart widget", () => {
             const seriesSortAttribute = new ListAttributeValueBuilder().build();
             seriesSortAttribute.get = jest
                 .fn()
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+                .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
                 .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
                 .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build());
 
@@ -127,10 +135,21 @@ function setupBasicAttributes(): Partial<PieChartContainerProps> {
     const seriesColorAttribute = listExp(() => "name");
     seriesColorAttribute.get = jest.fn().mockReturnValueOnce(dynamic("red")).mockReturnValueOnce(dynamic("blue"));
 
+    const seriesSortAttribute = new ListAttributeValueBuilder().build();
+    seriesSortAttribute.get = jest
+        .fn()
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build())
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(15)).build())
+        .mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(20)).build());
+
     return {
         seriesColorAttribute,
         seriesDataSource,
         seriesName,
-        seriesValueAttribute
+        seriesValueAttribute,
+        seriesSortAttribute
     };
 }
