@@ -90,9 +90,8 @@ export class DatabaseSingleSelectionSelector<
 
         if (this.selection.selection === undefined) {
             const objectId = this.options.getAll().find(option => {
-                return _valuesIsEqual(targetAttribute?.value, this.values.get(option));
+                return targetAttribute && _valuesIsEqual(targetAttribute?.value, this.values.get(option));
             });
-
             if (objectId) {
                 this.selection.setSelection(this.options._optionToValue(objectId));
             }
