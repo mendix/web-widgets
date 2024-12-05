@@ -1,7 +1,7 @@
 {
     "name": "@mendix/pie-doughnut-chart-web",
     "widgetName": "PieChart",
-    "version": "5.1.0",
+    "version": "5.1.1",
     "description": "Shows data in a pie format graph.",
     "copyright": "© Mendix Technology BV 2023. All rights reserved.",
     "license": "Apache-2.0",
