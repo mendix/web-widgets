@@ -136,6 +136,19 @@ $cb-skeleton-dark: #d2d2d2;
                 background-color: transparent;
             }
         }
+
+        .widget-combobox-input {
+            opacity: 0;
+        }
+
+        &-active {
+            .widget-combobox-input {
+                opacity: 1;
+            }
+            .widget-combobox-placeholder-custom {
+                opacity: 0;
+            }
+        }
     }
 
     &-input {
@@ -237,6 +250,14 @@ $cb-skeleton-dark: #d2d2d2;
         flex-grow: 1;
         flex-direction: column;
 
+        .widget-combobox-placeholder-custom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
         .widget-combobox-input {
             &:not(:focus),
             &:placeholder-shown {
@@ -246,9 +267,9 @@ $cb-skeleton-dark: #d2d2d2;
                 right: 0;
                 bottom: 0;
             }
-            &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
-                display: none;
-            }
+            // &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
+            //     opacity: 0;
+            // }
         }
     }
 
