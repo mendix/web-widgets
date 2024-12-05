@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where onchange event on database source triggered directly onload.
+
 ## [2.1.1] - 2024-11-15
 
 ### Fixed
