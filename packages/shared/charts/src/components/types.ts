@@ -5,6 +5,7 @@ declare module "plotly.js" {
     interface PlotDatum {
         /** This array appears on only when aggregation is used */
         pointIndices?: number[];
+        pointNumbers?: number[];
     }
 }
 export type ExtraTraceProps = {
