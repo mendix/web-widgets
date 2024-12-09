@@ -1,4 +1,4 @@
-import { ValueStatus } from "mendix";
+import { ObjectItem, ValueStatus } from "mendix";
 import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import Big from "big.js";
@@ -71,7 +71,7 @@ export const usePieChartDataSeries = ({
         tooltipHoverText
     ]);
 
-    const onClick = useMemo(() => (onClickAction ? () => executeAction(onClickAction) : undefined), [onClickAction]);
+    const onClick = onClickAction ? (item: ObjectItem) => executeAction(onClickAction?.get(item)) : undefined;
 
     return useMemo<ChartWidgetProps["data"]>(
         () => [
@@ -87,10 +87,40 @@ export const usePieChartDataSeries = ({
                 hoverinfo: pieChartData.some(({ itemHoverText }) => itemHoverText !== undefined && itemHoverText !== "")
                     ? "text"
                     : "none",
-                dataSourceItems: seriesDataSource.items ?? [],
+                dataSourceItems: sortDatasourceItems(
+                    seriesDataSource.items ?? [],
+                    seriesSortOrder,
+                    seriesSortAttribute
+                ),
                 onClick
             }
         ],
-        [customSeriesOptions, holeRadius, pieChartData, onClick, seriesDataSource.items]
+        [
+            customSeriesOptions,
+            holeRadius,
+            pieChartData,
+            onClick,
+            seriesDataSource.items,
+            seriesSortAttribute,
+            seriesSortOrder
+        ]
     );
 };
+
+function sortDatasourceItems(
+    items: ObjectItem[],
+    seriesSortOrder: "asc" | "desc",
+    seriesSortAttribute: PieChartContainerProps["seriesSortAttribute"]
+): ObjectItem[] {
+    const sortedItems = [...items].sort((firstItem, secondItem) => {
+        const first = seriesSortAttribute?.get(firstItem).value;
+        const second = seriesSortAttribute?.get(secondItem).value;
+        return compareAttrValuesAsc(first, second);
+    });
+
+    if (seriesSortOrder === "desc") {
+        sortedItems.reverse();
+    }
+
+    return sortedItems;
+}

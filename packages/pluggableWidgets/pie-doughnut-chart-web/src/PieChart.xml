@@ -117,7 +117,7 @@
         </propertyGroup>
         <propertyGroup caption="Events">
             <propertyGroup caption="Events">
-                <property key="onClickAction" type="action" required="false">
+                <property key="onClickAction" type="action" required="false" dataSource="seriesDataSource">
                     <caption>On click action</caption>
                     <description />
                 </property>
