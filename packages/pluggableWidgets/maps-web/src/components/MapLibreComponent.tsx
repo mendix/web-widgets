@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useEffect, useState, useCallback, useRef } from "react";
+import { createElement, ReactElement, useEffect, useState, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import classNames from "classnames";

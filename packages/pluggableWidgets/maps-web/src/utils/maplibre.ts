@@ -49,7 +49,7 @@ export function getMapStyle(mapProvider: MapProviderEnum, token?: string): any {
             if (!token) {
                 throw new Error("HERE Maps credentials are required");
             }
-            const [appId, appCode] = token.includes(",") ? token.split(",") : [token, ""];
+            const [appId, _appCode] = token.includes(",") ? token.split(",") : [token, ""];
             const baseUrl = "https://2.base.maps.ls.hereapi.com/maptile/2.1";
             return createStyle(
                 getCommonRasterSource(
