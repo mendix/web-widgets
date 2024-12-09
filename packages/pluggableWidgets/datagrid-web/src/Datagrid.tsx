@@ -91,7 +91,7 @@ const Container = observer((props: Props): ReactElement => {
         }
 
         return props.datasource.status === ValueStatus.Loading;
-    }, [exportProgress, isRefreshing, props.datasource.status]);
+    }, [exportProgress, isRefreshing, props.datasource.status, props.datasource.hasMoreItems]);
 
     return (
         <Widget
