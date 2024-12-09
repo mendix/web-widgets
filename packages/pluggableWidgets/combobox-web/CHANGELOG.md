@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.2] - 2024-12-09
+
 ### Fixed
 
 -   We fixed an issue where onchange event on database source triggered directly onload.
+
 -   We fixed an issue where selected value sometimes shows unavailable text on lazy loaded content.
 
 ## [2.1.1] - 2024-11-15
