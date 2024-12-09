@@ -86,6 +86,10 @@ const Container = observer((props: Props): ReactElement => {
             return false;
         }
 
+        if (!props.datasource.hasMoreItems) {
+            return false;
+        }
+
         return props.datasource.status === ValueStatus.Loading;
     }, [exportProgress, isRefreshing, props.datasource.status]);
 
