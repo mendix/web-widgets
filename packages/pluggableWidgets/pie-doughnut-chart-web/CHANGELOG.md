@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We allow pie chart to exposed the selection.
+
 ## [5.1.0] - 2024-10-28
 
 ### Changed
