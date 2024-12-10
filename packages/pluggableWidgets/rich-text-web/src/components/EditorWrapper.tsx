@@ -91,7 +91,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const onTextChange = useCallback(() => {
         setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [quillRef.current, stringAttribute]);
 
     const onSelectionChange = useCallback(
         (range: Range) => {
