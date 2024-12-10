@@ -14,7 +14,7 @@ describe("parseAllowedFormats", () => {
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamicValue("test2"),
                 predefinedType: "pdfFile",
                 mimeType: "application/pdf",
                 extensions: ".pdf"
@@ -28,19 +28,29 @@ describe("parseAllowedFormats", () => {
             },
             {
                 configMode: "advanced",
-                typeFormatDescription: dynamicValue("test"),
+                typeFormatDescription: dynamicValue("test2"),
                 predefinedType: "pdfFile",
                 mimeType: "",
                 extensions: ".html,.txt"
             }
         ];
 
-        expect(parseAllowedFormats(input)).toEqual({
-            "image/jpeg": [".jpg", ".jpeg"],
-            "application/pdf": [".pdf"],
-            "dummy/mime": [".html", ".txt"],
-            "text/*": []
-        });
+        expect(parseAllowedFormats(input)).toEqual([
+            {
+                description: "test",
+                entries: [
+                    ["image/jpeg", [".jpg", ".jpeg"]],
+                    ["text/*", []]
+                ]
+            },
+            {
+                description: "test2",
+                entries: [
+                    ["application/pdf", [".pdf"]],
+                    ["dummy/mime", [".html", ".txt"]]
+                ]
+            }
+        ]);
     });
     test("joins extensions of duplicated mime types", () => {
         const input: AllowedFileFormatsType[] = [
@@ -60,9 +70,15 @@ describe("parseAllowedFormats", () => {
             }
         ];
 
-        expect(parseAllowedFormats(input)).toEqual({
-            "image/*": [".jpg", ".png"]
-        });
+        expect(parseAllowedFormats(input)).toEqual([
+            {
+                description: "test",
+                entries: [
+                    ["image/*", [".jpg"]],
+                    ["image/*", [".png"]]
+                ]
+            }
+        ]);
     });
     test("throws on incorrect mime format", () => {
         const input: AllowedFileFormatsType[] = [

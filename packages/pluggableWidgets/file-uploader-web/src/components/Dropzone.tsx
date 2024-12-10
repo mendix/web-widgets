@@ -3,6 +3,8 @@ import classNames from "classnames";
 import { createElement, Fragment, ReactElement } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { MimeCheckFormat } from "../utils/parseAllowedFormats";
+import { TranslationsStore } from "../stores/TranslationsStore";
+import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 interface DropzoneProps {
     warningMessage?: string;
@@ -21,7 +23,8 @@ export const Dropzone = observer(
             accept: acceptFileTypes
         });
 
-        const [type, msg] = getMessage(isDragAccept, isDragReject);
+        const translations = useTranslationsStore();
+        const [type, msg] = getMessage(translations, isDragAccept, isDragReject);
 
         return (
             <Fragment>
@@ -45,13 +48,17 @@ export const Dropzone = observer(
 
 type MessageType = "active" | "warning" | "idle";
 
-function getMessage(isDragAccept: boolean, isDragReject: boolean): [MessageType, string] {
+function getMessage(
+    translations: TranslationsStore,
+    isDragAccept: boolean,
+    isDragReject: boolean
+): [MessageType, string] {
     if (isDragAccept) {
-        return ["active", "Looks good! Drop files here!"];
+        return ["active", translations.get("dropzoneAcceptedMessage")];
     }
     if (isDragReject) {
-        return ["warning", "Some files will be rejected."];
+        return ["warning", translations.get("dropzoneRejectedMessage")];
     }
 
-    return ["idle", "Drag and drop files here"];
+    return ["idle", translations.get("dropzoneIdleMessage")];
 }

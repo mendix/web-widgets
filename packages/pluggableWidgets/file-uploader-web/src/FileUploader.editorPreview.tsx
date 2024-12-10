@@ -7,7 +7,7 @@ export function preview(props: FileUploaderPreviewProps): ReactElement {
         <div className={classNames(props.class, "widget-file-uploader")}>
             <div className={classNames("dropzone")}>
                 <div className={"file-icon"} />
-                <p className={"upload-text"}>Drag and drop files here!</p>
+                <p className={"upload-text"}>{props.dropzoneIdleMessage}</p>
             </div>
         </div>
     );

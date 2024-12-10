@@ -102,118 +102,130 @@ Place your custom CSS here
 
         .file-entry {
             display: flex;
+            flex-direction: column;
             margin-bottom: 1em;
-            .entry-preview {
-                flex: 0 0;
-                margin-right: 8px;
-                .doc-file-icon {
-                    background-image: url(../assets/doc-file.svg);
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    height: 24px;
-                    width: 24px;
-                }
-                .img-file-icon {
-                    background-image: url(../assets/img-file.svg);
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    height: 24px;
-                    width: 24px;
-                }
-            }
+
+            border: 1px solid var(--border-color-default);
+            border-radius: 4px;
+            padding: 10px;
 
             .entry-details {
                 flex: 1;
 
                 display: flex;
-                flex-direction: column;
+
+                .entry-details-preview {
+                    flex: 0 0;
+                    flex-basis: 36px;
+                    height: 36px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    margin-right: 8px;
+
+                    &.preview-icon {
+                        border-radius: 4px;
+                        border: 1px solid var(--bg-color-active);
+                        background-color: var(--bg-color-active);
+                    }
+
+                    .image-preview {
+                        border-radius: 4px;
+                        object-fit: cover;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
 
                 .entry-details-main {
                     flex: 1;
                     display: flex;
                     font-size: 11px;
+                    flex-direction: column;
 
-                    .entry-details-name {
+                    .entry-details-main-name {
                         flex: 1;
                         font-weight: 600;
                         color: #3b4251;
                     }
 
-                    .entry-details-size {
+                    .entry-details-main-size {
                         flex: 1;
                         font-weight: 400;
                         color: var(--grey-text);
                     }
+                }
 
-                    .entry-details-actions {
-                        flex: 0;
-                        align-self: center;
-                        min-width: 24px;
-                        height: 18px;
+                .entry-details-actions {
+                    flex: 0;
+                    align-self: center;
+                    min-width: 24px;
+                    height: 24px;
 
-                        .remove-button {
-                            width: 100%;
-                            background-image: url(../assets/cross-icon.svg);
-                            background-repeat: no-repeat;
-                            background-position: center;
-                            text-decoration: none;
-                            border-color: transparent;
-                            background-color: transparent;
+                    .remove-button {
+                        width: 100%;
+                        background-image: url(../assets/remove-icon.svg);
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        text-decoration: none;
+                        border-color: transparent;
+                        background-color: transparent;
 
-                            &.disabled {
-                                display: none;
-                            }
+                        &.disabled {
+                            display: none;
                         }
                     }
                 }
+            }
 
-                .entry-details-progress {
-                    flex: 1;
-                    .progress-bar {
-                        --progress-bar-percentage: 0; /* to be overridden from inline styles */
+            .entry-progress {
+                flex: 1;
+                .progress-bar {
+                    --progress-bar-percentage: 0; /* to be overridden from inline styles */
 
+                    height: 4px;
+                    border-radius: 2px;
+                    background-color: #f0f1f2;
+                    margin: 5px 0;
+                    width: 100%;
+                    overflow: hidden;
+
+                    .progress-bar-indicator {
                         height: 4px;
                         border-radius: 2px;
-                        background-color: #f0f1f2;
-                        margin: 5px 0;
-                        width: 100%;
-                        overflow: hidden;
+                        background-color: var(--border-color-active);
+                        transition: width 0.5s;
+                    }
 
+                    &.active-indeterminate {
                         .progress-bar-indicator {
-                            height: 4px;
-                            border-radius: 2px;
-                            background-color: var(--border-color-active);
-                            transition: width 0.5s;
+                            width: 20%;
+                            animation: progress-loading 2s infinite ease;
                         }
+                    }
 
-                        &.active-indeterminate {
-                            .progress-bar-indicator {
-                                width: 20%;
-                                animation: progress-loading 2s infinite ease;
-                            }
-                        }
-
-                        &.active {
-                            .progress-bar-indicator {
-                                width: var(--progress-bar-percentage);
-                            }
+                    &.active {
+                        .progress-bar-indicator {
+                            width: var(--progress-bar-percentage);
                         }
                     }
                 }
+            }
 
-                .entry-details-upload-info {
-                    flex: 0;
-                    line-height: 15px;
-                    .upload-status {
-                        color: var(--grey-text);
-                        font-size: 10px;
+            .entry-upload-info {
+                flex: 0;
+                line-height: 15px;
+                .upload-status {
+                    color: var(--grey-text);
+                    font-size: 10px;
 
-                        &.success {
-                            color: #3cb33d;
-                        }
-                        &.error {
-                            color: #e33f4e;
-                        }
+                    &.success {
+                        color: #3cb33d;
+                    }
+                    &.error {
+                        color: #e33f4e;
                     }
                 }
             }

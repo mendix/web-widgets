@@ -1,9 +1,10 @@
 import { Big } from "big.js";
 import { ObjectItem } from "mendix";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import mimeTypes from "mime-types";
 
 import { FileUploaderStore } from "./FileUploaderStore";
-import { fetchMxObject, MxObject, removeObject, saveFile } from "../utils/mx-data";
+import { fetchImageThumbnail, fetchMxObject, isImageObject, MxObject, removeObject, saveFile } from "../utils/mx-data";
 
 export type FileStatus =
     | "existingFile"
@@ -23,10 +24,11 @@ function getFileKey(): number {
 export class FileStore {
     fileStatus: FileStatus;
 
-    file?: File = undefined;
-    objectItem?: ObjectItem = undefined;
-    mxObject?: MxObject = undefined;
-    rootStore: FileUploaderStore;
+    _file?: File = undefined;
+    _objectItem?: ObjectItem = undefined;
+    _mxObject?: MxObject = undefined;
+    _thumbnailUrl?: string = undefined;
+    _rootStore: FileUploaderStore;
 
     key: number;
 
@@ -34,23 +36,25 @@ export class FileStore {
 
     constructor(type: FileStatus, rootStore: FileUploaderStore, file?: File, objectItem?: ObjectItem) {
         this.key = getFileKey();
-        this.file = file;
-        this.objectItem = objectItem;
-        this.rootStore = rootStore;
+        this._file = file;
+        this._objectItem = objectItem;
+        this._rootStore = rootStore;
         this.fileStatus = type;
 
         makeObservable(this, {
             fileStatus: observable,
-            mxObject: observable,
+            _mxObject: observable,
             errorDescription: observable,
+            _thumbnailUrl: observable,
             canRemove: computed,
+            imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action
         });
     }
 
     validate(): boolean {
-        return !(this.fileStatus !== "new" || !this.file);
+        return !(this.fileStatus !== "new" || !this._file);
     }
 
     async upload(): Promise<void> {
@@ -65,9 +69,9 @@ export class FileStore {
 
         try {
             // request object item
-            this.objectItem = await this.rootStore.requestFileObject();
-            if (this.objectItem) {
-                await saveFile(this.objectItem, this.file!);
+            this._objectItem = await this._rootStore.requestFileObject();
+            if (this._objectItem) {
+                await saveFile(this._objectItem, this._file!);
                 await this.fetchMxObject();
 
                 runInAction(() => {
@@ -86,19 +90,23 @@ export class FileStore {
     }
 
     get title(): string {
-        if (this.mxObject) {
-            return this.mxObject?.get2("Name").toString();
+        if (this._mxObject) {
+            return this._mxObject?.get2("Name").toString();
         }
 
-        return this.file?.name ?? "...";
+        return this._file?.name ?? "...";
     }
 
     get size(): number {
-        if (this.mxObject) {
-            return (this.mxObject.get2("Size") as Big).toNumber();
+        if (this._mxObject) {
+            return (this._mxObject.get2("Size") as Big).toNumber();
         }
 
-        return this.file?.size ?? -1;
+        return this._file?.size ?? -1;
+    }
+
+    get mimeType(): string {
+        return mimeTypes.lookup(this.title) || "application/octet-stream";
     }
 
     get canRemove(): boolean {
@@ -106,15 +114,16 @@ export class FileStore {
     }
 
     async remove(): Promise<void> {
-        if (!this.canRemove || !this.objectItem) {
+        if (!this.canRemove || !this._objectItem) {
             return;
         }
 
         try {
-            await removeObject(this.objectItem);
+            await removeObject(this._objectItem);
             runInAction(() => {
                 this.fileStatus = "removedFile";
-                this.mxObject = undefined;
+                this._mxObject = undefined;
+                this.updateThumbnailUrl();
             });
         } catch (e: unknown) {
             console.error("Could not remove object:", e);
@@ -122,12 +131,42 @@ export class FileStore {
     }
 
     async fetchMxObject(): Promise<void> {
-        if (this.objectItem) {
-            const obj = await fetchMxObject(this.objectItem!);
+        if (this._objectItem) {
+            const obj = await fetchMxObject(this._objectItem!);
             runInAction(() => {
-                this.mxObject = obj;
+                this._mxObject = obj;
+                this.updateThumbnailUrl();
             });
         }
+    }
+
+    async updateThumbnailUrl(): Promise<void> {
+        if (this._rootStore._uploadMode !== "images") {
+            return;
+        }
+
+        this._thumbnailUrl = undefined;
+        if (this._mxObject && isImageObject(this._mxObject)) {
+            const url = await fetchImageThumbnail(this._mxObject);
+            runInAction(() => {
+                this._thumbnailUrl = url;
+            });
+        }
+    }
+
+    get imagePreviewUrl(): string | undefined {
+        if (this._rootStore._uploadMode !== "images") {
+            return;
+        }
+
+        if (this._thumbnailUrl) {
+            return this._thumbnailUrl;
+        }
+        if (this._file && this.mimeType.startsWith("image/")) {
+            return URL.createObjectURL(this._file!);
+        }
+
+        return undefined;
     }
 
     static existingFile(objectItem: ObjectItem, rootStore: FileUploaderStore): FileStore {

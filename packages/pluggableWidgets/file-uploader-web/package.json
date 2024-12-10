@@ -1,5 +1,5 @@
 {
-    "name": "@mendix/fileuploader-web",
+    "name": "@mendix/file-uploader-web",
     "widgetName": "FileUploader",
     "version": "1.0.0",
     "description": "",
@@ -43,6 +43,7 @@
     "dependencies": {
         "classnames": "^2.2.6",
         "filesize.js": "^2.0.0",
+        "mime-types": "^2.1.35",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",
         "react-dropzone": "^14.2.3"
@@ -52,7 +53,11 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "10.16.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/big.js": "^6.2.2"
+        "@rollup/plugin-json": "^6.1.0",
+        "@types/big.js": "^6.2.2",
+        "@types/mime-types": "^2.1.4",
+        "cross-env": "^7.0.3"
     }
 }

@@ -4,6 +4,7 @@ import { createElement, ReactElement, useCallback } from "react";
 import { FileRejection } from "react-dropzone";
 
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+import { prepareAcceptForDropzone } from "../utils/prepareAcceptForDropzone";
 import { useRootStore } from "../utils/useRootStore";
 import { FileEntryContainer } from "./FileEntry";
 import { Dropzone } from "./Dropzone";
@@ -26,7 +27,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                 onDrop={onDrop}
                 warningMessage={rootStore.errorMessage}
                 maxSize={rootStore._maxFileSize}
-                acceptFileTypes={rootStore.acceptedFileTypes}
+                acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
                 maxFilesPerUpload={rootStore._maxFilesPerUpload}
             />
 

@@ -2,6 +2,9 @@ import { ObjectItem } from "mendix";
 import { Big } from "big.js";
 
 export type MxObject = {
+    getGuid(): string;
+    getEntity(): string;
+    get(name: string): string | Big | boolean;
     get2(name: string): string | Big | boolean;
 };
 
@@ -33,5 +36,16 @@ export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
             callback: resolve,
             error: reject
         });
+    });
+}
+
+export function isImageObject(mxObject: MxObject): boolean {
+    return (window as any).mx.meta.getEntity(mxObject.getEntity()).isA("System.Image");
+}
+
+export function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
+    const docUrl = (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), true);
+    return new Promise<string>((resolve, reject) => {
+        (window as any).mx.data.getImageUrl(docUrl, resolve, reject);
     });
 }
