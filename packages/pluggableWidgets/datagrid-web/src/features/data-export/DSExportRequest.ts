@@ -56,7 +56,7 @@ export class DSExportRequest {
     private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
     private getters: Array<{ get: (item: unknown) => { status: ValueStatus } }> = [];
-    private readTimeoutId: ReturnType<typeof setTimeout> | undefined;
+    private readController: AbortController | undefined;
 
     constructor(params: RequestParams) {
         const { ds, columns, withHeaders = false, limit = 0 } = params;
@@ -125,6 +125,7 @@ export class DSExportRequest {
 
     abort = (): void => {
         this._status = "aborted";
+        this.readController?.abort();
         this.emitAbort();
         this.emitLoadEnd();
         this.dispose();
@@ -138,7 +139,7 @@ export class DSExportRequest {
                 this.sendHeaders();
                 this.shouldSendHeaders = false;
             }
-            setTimeout(() => this.read(), 0);
+            this.read();
         }
     };
 
@@ -161,42 +162,46 @@ export class DSExportRequest {
         this.emitHeaders(headers);
     }
 
-    private read(): void {
+    private async read(): Promise<void> {
         this._status = "reading";
+
+        if (this.readController) {
+            this.readController.abort();
+            this.readController = undefined;
+        }
+
         const { items = [] } = this.datasource;
-        let isReady = true;
-        let rowIndex = 0;
+        const scheduler = createScheduler();
+        const controller = new AbortController();
+        this.readController = controller;
+
+        const batchSize = 100;
         const len = items.length;
-        const chunkSize = 100;
+        let isReady = true;
+        let index = 0;
 
-        clearTimeout(this.readTimeoutId);
+        while (index < len && !controller.signal.aborted) {
+            const end = Math.min(index + batchSize, len);
 
-        const processChunk = (): void => {
-            const end = Math.min(rowIndex + chunkSize, len);
-
-            for (; rowIndex < end; rowIndex++) {
+            for (; index < end; index++) {
                 for (const prop of this.getters) {
-                    isReady &&= prop.get(items[rowIndex]).status !== "loading";
+                    isReady &&= prop.get(items[index]).status !== "loading";
                 }
             }
 
-            if (rowIndex < len) {
-                this.readTimeoutId = setTimeout(processChunk);
-            } else {
-                this.finalizeRead(isReady, items);
-                this.readTimeoutId = undefined;
-            }
-        };
+            await scheduler.yield();
+        }
 
-        clearTimeout(this.readTimeoutId);
-        this.readTimeoutId = setTimeout(processChunk);
-    }
+        this.readController = undefined;
 
-    private finalizeRead(isReady: boolean, items: ObjectItem[]): void {
-        if (!isReady) {
+        if (!isReady || controller.signal.aborted) {
             return;
         }
 
+        this.finalizeRead(items);
+    }
+
+    private finalizeRead(items: ObjectItem[]): void {
         const chunk = readChunk(items, this.columns);
         this.sendChunk(chunk);
 
@@ -299,4 +304,27 @@ function createRowReader(columns: ColumnsType[]): RowReader {
 
 function readChunk(data: ObjectItem[], columns: ColumnsType[]): RowData[] {
     return data.map(createRowReader(columns));
+}
+
+declare global {
+    interface Window {
+        scheduler: {
+            yield(): Promise<void>;
+        };
+    }
+}
+
+function createScheduler(): { yield(): Promise<void> } {
+    if ("scheduler" in window) {
+        return {
+            async yield() {
+                return window.scheduler.yield();
+            }
+        };
+    }
+    return {
+        async yield() {
+            return new Promise<void>(res => setTimeout(res));
+        }
+    };
 }
