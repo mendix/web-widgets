@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We've stopped showing the loading indicator when all data were already loaded. The loading indicator was incorrectly displayed during client refresh operations involving a microflow.
+
 ## [2.28.1] - 2024-11-21
 
 ### Fixed
