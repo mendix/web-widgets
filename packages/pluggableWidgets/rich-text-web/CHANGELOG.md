@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where the attribute not refreshed when the widget is not reloaded.
+
 ## [4.0.0] - 2024-10-29
 
 ### Breaking changes
