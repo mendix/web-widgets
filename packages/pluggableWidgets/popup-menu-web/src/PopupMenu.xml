@@ -12,7 +12,7 @@
                     <caption>Enable advanced options</caption>
                     <description />
                 </property>
-                <property key="menuTrigger" type="widgets" required="false">
+                <property key="menuTrigger" type="widgets" required="true">
                     <caption>The area to open or close the menu.</caption>
                     <description>Responsible for toggling the Pop-up menu.</description>
                 </property>

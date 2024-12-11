@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+-   The "area to open or close the menu" is now required.
+
 ## [4.0.0] - 2024-11-13
 
 ### Breaking changes
