@@ -6,29 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.1.3] - 2024-12-11
-
 ### Fixed
 
 -   We fixed an issue where placeholder failed to shown on database source.
-
-## [2.1.2] - 2024-12-09
-
-### Fixed
 
 -   We fixed an issue where onchange event on database source triggered directly onload.
 
 -   We fixed an issue where selected value sometimes shows unavailable text on lazy loaded content.
 
-## [2.1.1] - 2024-11-15
-
-### Fixed
-
 -   We fixed an issue where database optional value attribute breaks on runtime when not being set.
 
 -   We fixed an issue where custom content not shown on design preview and runtime for database datasource.
 
-## [2.1.0] - 2024-10-29
+-   We fixed an issue where the onChange event was not being triggered when selecting an item for the first time.
+
+-   We fixed an issue where the combo box values would not refresh after toggling its read-only state.
+
+-   We fixed an issue with the toolbar visibility when a combobox menu overlays it.
+
+-   We fixed a11y issue where aria-required not applied in the widget.
 
 ### Added
 
@@ -39,32 +35,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 -   We make **Value** no longer required if the **Target attribute** is not set for database datasource.
 
 -   We restructure **Attribute** group configuration and rename it as **Store value**.
-
-## [2.0.2] - 2024-10-03
-
-### Fixed
-
--   We fixed an issue where the onChange event was not being triggered when selecting an item for the first time.
-
--   We fixed an issue where the combo box values would not refresh after toggling its read-only state.
-
-## [2.0.1] - 2024-08-16
-
-### Fixed
-
--   We fixed an issue with the toolbar visibility when a combobox menu overlays it.
-
-## [2.0.0] - 2024-08-09
-
-### Added
-
--   We added the ability to auto label combobox, based on the set attributes.
-
--   We implement the selection API for combobox that use database datasource, which allows the widget selection to be listened into.
-
-### Fixed
-
--   We fixed a11y issue where aria-required not applied in the widget.
 
 ## [1.6.3] - 2024-08-07
 
