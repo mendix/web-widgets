@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking changes
 
--   The "area to open or close the menu" field is now required.
+-   "The area to open or close the menu" field is now required.
 
 ## [4.0.0] - 2024-11-13
 
