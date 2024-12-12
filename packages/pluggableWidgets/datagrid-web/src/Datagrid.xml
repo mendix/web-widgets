@@ -336,6 +336,14 @@
                     <caption>On change</caption>
                     <description />
                 </property>
+                <property key="storeFilterValues" type="boolean" defaultValue="true">
+                    <caption>Store filter values</caption>
+                    <description />
+                </property>
+                <property key="storeOperatorValues" type="boolean" defaultValue="true">
+                    <caption>Store operator values</caption>
+                    <description />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Grid wide filtering">
