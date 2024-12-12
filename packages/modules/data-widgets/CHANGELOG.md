@@ -6,33 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.28.2] DataWidgets - 2024-12-12
-
-### [2.28.2] Datagrid
-
-#### Fixed
+### Fixed
 
 -   We've stopped showing the loading indicator when all data were already loaded. The loading indicator was incorrectly displayed during client refresh operations involving a microflow.
 
-## [2.28.1] DataWidgets - 2024-11-21
+## [2.27.1] DataWidgets - 2024-11-21
 
 ### Fixed
 
 -   We fixed an issue where css selector "--brand-primary" gets overwrite by datagrid.
 
-### [2.28.1] Datagrid
+### [2.27.1] Datagrid
 
 #### Fixed
 
 -   We fixed an issue where Export to Excel was not working in certain cases.
 
-## [2.28.0] DataWidgets - 2024-11-13
+## [2.27.0] DataWidgets - 2024-11-13
 
 ### [2.10.4] DatagridDateFilter
 
 #### Changed
 
 -   We improved type mismatch filter error message.
+
+## [2.25.1] DataWidgets - 2024-11-04
+
+### [2.10.4] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
 
 ### [2.9.3] DatagridDropdownFilter
 
@@ -90,7 +94,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue where Tree Nodes resetting it's collapse state while reloading data.
 
-## [2.26.0] DataWidgets - 2024-10-31
+## [2.25.0] DataWidgets - 2024-10-31
 
 ### [2.10.3] DatagridDateFilter
 
@@ -118,7 +122,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-### [2.26.1] Datagrid
+### [2.25.0] Datagrid
 
 #### Changed
 
@@ -140,7 +144,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-## [2.24.1] DataWidgets - 2024-10-14
+## [2.23.2] DataWidgets - 2024-10-14
 
 ### Fixed
 
@@ -157,8 +161,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 #### Fixed
 
 -   We fixed an issue where filters wouldn't reset.
-
-## [2.24.0] DataWidgets - 2024-09-23
 
 ### [2.10.2] DatagridDateFilter
 
@@ -188,11 +190,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Widget maintenance.
 
-### [2.24.0] Datagrid
+### [2.23.1] Datagrid
 
 #### Added
 
--   We have introduced support for reference set associations in the linked attribute property.
+-   Widget maintenance.
 
 ### [1.2.1] DropdownSort
 
