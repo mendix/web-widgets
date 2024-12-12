@@ -16,13 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We've stopped showing the loading indicator when all data were already loaded. The loading indicator was incorrectly displayed during client refresh operations involving a microflow.
 
-## [2.28.1] - 2024-11-21
+## [2.27.1] - 2024-11-21
 
 ### Fixed
 
 -   We fixed an issue where Export to Excel was not working in certain cases.
 
-## [2.28.0] - 2024-11-13
+## [2.27.0] - 2024-11-13
 
 ### Fixed
 
@@ -36,7 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We improved resizing behaviour of the widget. It is now saving personalization settings only at the end of the resizing.
 
-## [2.26.1] - 2024-10-31
+## [2.25.1] - 2024-11-04
+
+### Fixed
+
+-   We fixed an issue with the widget failing to render in Design mode.
+
+## [2.25.0] - 2024-10-31
 
 ### Changed
 
@@ -50,11 +56,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed an issue with grid wide filters not resetting.
 
-## [2.24.0] - 2024-09-23
+## [2.23.1] - 2024-09-25
 
-### Added
+### Changed
 
--   We have introduced support for reference set associations in the linked attribute property.
+-   Widget maintenance.
 
 ## [2.23.0] - 2024-09-20
 
