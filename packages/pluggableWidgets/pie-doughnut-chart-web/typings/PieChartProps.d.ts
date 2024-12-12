@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ListValue, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 import { Big } from "big.js";
 
 export type SeriesSortOrderEnum = "asc" | "desc";
@@ -34,7 +34,7 @@ export interface PieChartContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
-    onClickAction?: ActionValue;
+    onClickAction?: ListActionValue;
     enableThemeConfig: boolean;
     customLayout: string;
     customConfigurations: string;
