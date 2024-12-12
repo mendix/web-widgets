@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.2] DataWidgets - 2024-12-12
+
 ### Fixed
 
 -   We've stopped showing the loading indicator when all data were already loaded. The loading indicator was incorrectly displayed during client refresh operations involving a microflow.
